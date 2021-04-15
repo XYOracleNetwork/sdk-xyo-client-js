@@ -1,0 +1,84 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["node_modules/", "dist/"],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "sort-keys-fix",
+    "typescript-sort-keys",
+    "json",
+    "workspaces",
+    "import",
+    "simple-import-sort",
+    "no-secrets"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:json/recommended",
+    "plugin:prettier/recommended",
+    "plugin:workspaces/recommended"
+  ],
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    }
+  },
+  "rules": {
+    "no-secrets/no-secrets": ["off"],
+    "workspaces/require-dependency": ["off"],
+    "prettier/prettier": "warn",
+    "semi": ["warn", "never"],
+    "@typescript-eslint/semi": ["warn", "never"],
+
+    "no-tabs": ["error"],
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "none",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        }
+      }
+    ],
+    "require-await": "error",
+    "sort-keys": ["warn", "asc", { "caseSensitive": true, "natural": false, "minKeys": 2 }],
+    "typescript-sort-keys/interface": "warn",
+    "typescript-sort-keys/string-enum": "warn",
+    "sort-keys-fix/sort-keys-fix": "warn",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "quotes": [2, "single", "avoid-escape"],
+    "max-statements": ["error", 32],
+    "max-depth": ["error", 6],
+    "complexity": ["error", 20],
+    "max-lines": ["error", { "max": 512, "skipBlankLines": true }],
+    "max-nested-callbacks": ["error", 6],
+    "import/no-named-as-default": ["off"],
+    "import/no-self-import": ["warn"],
+    "import/no-absolute-path": ["warn"],
+    "import/no-internal-modules": [ "warn", {
+      "allow": [
+
+      ]
+    } ],
+    "import/no-restricted-paths": ["warn"],
+    "import/namespace": ["warn"],
+    "import/no-cycle": ["warn"],
+    "import/no-useless-path-segments": ["warn"],
+    "simple-import-sort/imports": ["warn"],
+    "simple-import-sort/exports": ["warn"],
+    "workspaces/no-relative-imports": ["off"],
+    "workspaces/no-absolute-imports": ["off"]
+  }
+}

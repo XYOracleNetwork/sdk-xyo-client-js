@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/sdk-xyo-js",
+  "name": "@xyo-network/sdk-xyo-client-js",
   "homepage": "https://xyo.network",
   "bugs": {
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues",

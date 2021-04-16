@@ -1,11 +1,17 @@
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection } from 'mongodb'
 
-import { XyoBoundWitnessJson } from '../models'
+import { WithXyoArchivistMeta, XyoBoundWitnessJson } from '../models'
 
-class MongoSdk<T> extends BaseMongoSdk<XyoBoundWitnessJson<T>> {
-  public async insert(item: XyoBoundWitnessJson<T>) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessJson<T>>) => {
+class MongoSdk<T> extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>> {
+  private _archive: string
+  constructor(config: BaseMongoSdkConfig, archive: string) {
+    super(config)
+    this._archive = archive
+  }
+
+  public async insert(item: WithXyoArchivistMeta<XyoBoundWitnessJson<T>>) {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>>) => {
       const result = await collection.insertOne(item)
       if (result.result.ok) {
         return result.insertedId
@@ -16,7 +22,7 @@ class MongoSdk<T> extends BaseMongoSdk<XyoBoundWitnessJson<T>> {
   }
 
   public async insertMany(items: XyoBoundWitnessJson<T>[]) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessJson<T>>) => {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>>) => {
       const result = await collection.insertMany(items)
       if (result.result.ok) {
         return result.insertedIds

@@ -2,7 +2,7 @@
 //They all start with an underscore since they are never included in the hash
 
 interface XyoArchivistMetaJson {
-  _id?: string
+  _archive?: string
   _ip?: string
   _timestamp?: number
 }

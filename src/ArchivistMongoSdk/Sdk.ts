@@ -14,6 +14,17 @@ class MongoSdk<T> extends BaseMongoSdk<XyoBoundWitnessJson<T>> {
       }
     })
   }
+
+  public async insertMany(items: XyoBoundWitnessJson<T>[]) {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitnessJson<T>>) => {
+      const result = await collection.insertMany(items)
+      if (result.result.ok) {
+        return result.insertedIds
+      } else {
+        throw Error('Insert Failed')
+      }
+    })
+  }
 }
 
 export default MongoSdk

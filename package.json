@@ -13,7 +13,7 @@
   },
   "license": "LGPL-3.0",
   "private": false,
-  "version": "2.0.6",
+  "version": "2.0.7",
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"

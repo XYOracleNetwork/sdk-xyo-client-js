@@ -24,6 +24,9 @@
   "sideEffects": false,
   "dependencies": {
     "@xyo-network/sdk-xyo-js": "^2.0.9",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.0.5",
+    "axios": "0.21.1",
+    "mongodb": "^3.6.6",
     "sha.js": "^2.4.11"
   },
   "scripts": {
@@ -35,12 +38,13 @@
     "test": "env TS_NODE_PROJECT=\"tsconfig.test.json\" mocha -r ts-node/register 'src/**/*.spec.ts'",
     "clean": "rm -f *.tsbuildinfo && rm -r -f ./dist",
     "reinstall": "rm -r -f ./node_modules && rm -f ./yarn.lock && rm -f ./yarn-error.log && yarn install && yarn outdated",
-    "tsprune": "yarn ts-prune"
+    "tsprune": "yarn ts-prune",
+    "deps": "yarn depcheck"
   },
   "devDependencies": {
     "@types/chai": "^4.2.16",
     "@types/mocha": "^8.2.2",
-    "@types/node": "^14.14.41",
+    "@types/mongodb": "^3.6.12",
     "@types/sha.js": "^2.4.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
@@ -48,7 +52,6 @@
     "depcheck": "^1.4.0",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-json": "^2.1.2",
     "eslint-plugin-no-secrets": "^0.8.9",

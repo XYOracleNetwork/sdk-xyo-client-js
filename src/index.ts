@@ -1,6 +1,3 @@
-import XyoArchivistApi from './ArchivistApi'
-import XyoEntryBuilder from './EntryBuilder'
-
+export * from './ArchivistApi'
+export * from './BoundWitnessBuilder'
 export * from './models'
-
-export { XyoArchivistApi, XyoEntryBuilder }

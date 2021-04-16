@@ -15,16 +15,15 @@
   "private": false,
   "version": "2.0.10",
   "exports": {
-    ".": {
-      "main": "./dist/index.cjs.js",
-      "module": "./dist/index.esm.js",
-      "types": "./dist/index.d.js"
-    }
+    ".": {}
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.js",
   "sideEffects": false,
   "dependencies": {
     "@xyo-network/sdk-xyo-js": "^2.0.9",

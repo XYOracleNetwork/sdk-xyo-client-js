@@ -1,4 +1,4 @@
-[![logo]](https://xyo.network)
+[![logo][]](https://xyo.network)
 
 # sdk-xyo-client-js
 

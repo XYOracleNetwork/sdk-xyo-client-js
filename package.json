@@ -13,17 +13,14 @@
   },
   "license": "LGPL-3.0",
   "private": false,
-  "version": "2.0.8",
-  "exports": {
-    "./*": "./dist/*/*"
-  },
+  "version": "2.0.14",
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.esm.js",
-  "types": "./dist/index.d.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.js",
   "sideEffects": false,
   "dependencies": {
     "@xyo-network/sdk-xyo-js": "^2.0.9",
@@ -33,8 +30,7 @@
     "sha.js": "^2.4.11"
   },
   "scripts": {
-    "build": "yarn build:ci",
-    "build:ci": "yarn lint && rollup -c rollup.config.ts",
+    "build": "yarn lint && rollup -c rollup.config.ts",
     "deploy": "yarn version --patch && yarn publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "fix": "eslint --ext .js,.jsx,.ts,.tsx ./src --fix",

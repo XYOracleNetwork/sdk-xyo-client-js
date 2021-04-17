@@ -7,7 +7,7 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
-    "target": "ES6",
+    "target": "ESNext",
     "lib": ["DOM", "ESNext"],
     "esModuleInterop": true,
     "alwaysStrict": true,

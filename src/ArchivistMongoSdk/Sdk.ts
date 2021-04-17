@@ -12,7 +12,7 @@ class MongoSdk<T> extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson<
 
   public async insert(item: WithXyoArchivistMeta<XyoBoundWitnessJson<T>>) {
     return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>>) => {
-      const result = await collection.insertOne(item)
+      const result = await collection.insertOne({ _archive: this._archive, ...item })
       if (result.result.ok) {
         return result.insertedId
       } else {
@@ -23,7 +23,11 @@ class MongoSdk<T> extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson<
 
   public async insertMany(items: XyoBoundWitnessJson<T>[]) {
     return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>>) => {
-      const result = await collection.insertMany(items)
+      const result = await collection.insertMany(
+        items.map((item) => {
+          return { _archive: this._archive, ...item }
+        })
+      )
       if (result.result.ok) {
         return result.insertedIds
       } else {

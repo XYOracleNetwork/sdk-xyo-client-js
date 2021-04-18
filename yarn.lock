@@ -404,20 +404,20 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.11.tgz#20d22dd0da7d358bb21c17f9bde8628152642c77"
   integrity sha512-b+zB8A2so8eCE0JsxjL24J7vdGl8rzPQ09hZNhystm+KqSbKcAej1A+Hbva1rCMmTTqA+hFnUSDc5kouEo0JzA==
 
-"@xyo-network/sdk-xyo-js@^2.0.7", "@xyo-network/sdk-xyo-js@^2.0.9":
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.0.9.tgz#96901d5f59960a1b75d7d1d8e41cea6fc7251f4e"
-  integrity sha512-1eikAKxPufZNcTy98dJZhtmHXWrKNKH3y7IiFcZ0M/syiqO2NPlHypc1PxFdB30AAucGU8RHkXJoi1b4+gynPA==
+"@xyo-network/sdk-xyo-js@^2.0.11":
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.0.11.tgz#626929efe5673d1e827d9a196b5f653bf78c3424"
+  integrity sha512-iNesslhI85UR4GSLLSHaNcZP3P5StXfuHdEe/2m/jyJMMI0IEbxyXEJksKTu2+nJ3ME6pG+T5cLII3fWXKy5tw==
   dependencies:
     axios "^0.21.1"
     rollbar "^2.21.1"
 
-"@xyo-network/sdk-xyo-mongo-js@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.0.5.tgz#007f16be4ead746091249d0b03b5bd7cb3bc1f66"
-  integrity sha512-A1UXa7/75ZOmUNfa3uvwaApP70RXSv7LwRmlzmy+k0cmvencte41V67InUkMbXZXh7TWinagQOQK5IFCSqryjQ==
+"@xyo-network/sdk-xyo-mongo-js@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.0.7.tgz#54ae6fafbbebaad6c33178dc3a0a3b9a24aefcc5"
+  integrity sha512-I4/ont3Z1z5vDWmvnTUOqhulHSzCw0Kpbhk1Ch1YZ+hizp1WcbLwXmF036MFuXAV0riW4O9dwwpJF3XD9RjNbg==
   dependencies:
-    "@xyo-network/sdk-xyo-js" "^2.0.7"
+    "@xyo-network/sdk-xyo-js" "^2.0.11"
     async-mutex "^0.3.1"
     mongodb "^3.6.5"
 
@@ -701,7 +701,7 @@ check-error@^1.0.2:
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
   integrity sha1-V00xLt2Iu13YkS6Sht1sCu1KrII=
 
-chokidar@3.5.1, "chokidar@>=2.0.0 <4.0.0":
+chokidar@3.5.1, "chokidar@>=3.0.0 <4.0.0":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.1.tgz#ee9ce7bbebd2b79f49f304799d5468e31e14e68a"
   integrity sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==
@@ -2139,9 +2139,9 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
 object-inspect@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.9.0.tgz#c90521d74e1127b67266ded3394ad6116986533a"
-  integrity sha512-i3Bp9iTqwhaLZBxGkRfo5ZbE07BQRT7MGu8+nNgwW9ItGp1TzCTw2DLEoWwjClxBjOFI/hWljTAmYGCEwmtnOw==
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.10.2.tgz#b6385a3e2b7cae0b5eafcf90cddf85d128767f30"
+  integrity sha512-gz58rdPpadwztRrPjZE9DZLOABUpTGdcANUgOwBFO1C+HZZhePoP83M65WGDmbpwFYJSWqavbl4SgDn4k8RYTA==
 
 object-keys@^1.0.12, object-keys@^1.1.1:
   version "1.1.1"
@@ -2639,11 +2639,11 @@ saslprep@^1.0.0:
     sparse-bitfield "^3.0.3"
 
 sass@^1.29.0:
-  version "1.32.8"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.32.8.tgz#f16a9abd8dc530add8834e506878a2808c037bdc"
-  integrity sha512-Sl6mIeGpzjIUZqvKnKETfMf0iDAswD9TNlv13A7aAF3XZlRPMq4VvJWBC2N2DXbp94MQVdNSFG6LfF/iOXrPHQ==
+  version "1.32.10"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.32.10.tgz#d40da4e20031b450359ee1c7e69bc8cc89569241"
+  integrity sha512-Nx0pcWoonAkn7CRp0aE/hket1UP97GiR1IFw3kcjV3pnenhWgZEWUf0ZcfPOV2fK52fnOcK3JdC/YYZ9E47DTQ==
   dependencies:
-    chokidar ">=2.0.0 <4.0.0"
+    chokidar ">=3.0.0 <4.0.0"
 
 scss-parser@^1.0.4:
   version "1.0.4"

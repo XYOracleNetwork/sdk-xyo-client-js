@@ -23,8 +23,8 @@
   "types": "dist/index.d.js",
   "sideEffects": false,
   "dependencies": {
-    "@xyo-network/sdk-xyo-js": "^2.0.12",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.0.8",
+    "@xyo-network/sdk-xyo-js": "^2.0.13",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.0.9",
     "axios": "0.21.1",
     "mongodb": "^3.6.6",
     "sha.js": "^2.4.11"

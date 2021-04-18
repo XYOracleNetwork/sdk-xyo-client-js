@@ -1,6 +1,6 @@
 .github
 src
-tsconfig.json
+tsconfig*.json
 rollup.config.ts
 .eslintrc
 .prettierrc

@@ -8,7 +8,6 @@
     "sort-keys-fix",
     "typescript-sort-keys",
     "json",
-    "workspaces",
     "import",
     "simple-import-sort",
     "no-secrets"
@@ -20,8 +19,7 @@
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
     "plugin:json/recommended",
-    "plugin:prettier/recommended",
-    "plugin:workspaces/recommended"
+    "plugin:prettier/recommended"
   ],
   "settings": {
     "import/parsers": {

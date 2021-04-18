@@ -21,12 +21,5 @@ export default {
       sourcemap: true,
     },
   ],
-  plugins: [
-    commonjs({
-      include: 'node_modules/**',
-    }),
-    resolve({ preferBuiltins: true }),
-    json(),
-    typescript({ tsconfig: './tsconfig.json' }),
-  ],
+  plugins: [commonjs(), resolve({ preferBuiltins: true }), json(), typescript({ tsconfig: './tsconfig.json' })],
 }

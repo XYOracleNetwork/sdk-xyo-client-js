@@ -1,31 +1,11 @@
 {
+  "extends": "./tsconfig.esnext.json",
   "compilerOptions": {
-    "module": "commonjs",
     "outDir": "dist",
     "rootDir": "src",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "allowSyntheticDefaultImports": true,
-    "downlevelIteration": true,
-    "target": "ES6",
     "lib": ["DOM", "ESNext"],
-    "esModuleInterop": true,
-    "alwaysStrict": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "skipLibCheck": true
+    "module": "CommonJS"
   },
-  "include": [".src/**/*.spec.ts"],
-  "exclude": [
-    "./node_modules",
-    "./dist"
-  ]
+  "include": ["src/**/*.spec.ts"],
+  "exclude": ["src/**/*.ts"]
 }

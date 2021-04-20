@@ -23,8 +23,8 @@
   "types": "dist/index.d.js",
   "sideEffects": false,
   "dependencies": {
-    "@xyo-network/sdk-xyo-js": "^2.0.14",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.0.11",
+    "@xyo-network/sdk-xyo-js": "^2.0.19",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.0.13",
     "axios": "0.21.1",
     "mongodb": "^3.6.6",
     "sha.js": "^2.4.11"
@@ -35,24 +35,17 @@
     "deploy": "yarn version --patch && yarn publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "fix": "eslint --ext .js,.jsx,.ts,.tsx ./src --fix",
-    "test": "env TS_NODE_PROJECT=\"tsconfig.test.json\" mocha -r ts-node/register 'src/**/*.spec.ts'",
+    "test": "jest",
     "clean": "rm -f *.tsbuildinfo && rm -r -f ./dist",
     "reinstall": "rm -r -f ./node_modules && rm -f ./yarn.lock && rm -f ./yarn-error.log && yarn install && yarn outdated",
     "tsprune": "yarn ts-prune",
-    "deps": "yarn depcheck --ignores \"vue, @types/chai, chai, ts-node\""
+    "deps": "yarn depcheck --ignores \"vue, ts-node\""
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^18.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^11.2.1",
-    "@rollup/plugin-typescript": "^8.2.1",
-    "@types/chai": "^4.2.16",
-    "@types/mocha": "^8.2.2",
     "@types/mongodb": "^3.6.12",
     "@types/sha.js": "^2.4.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
-    "chai": "^4.3.4",
     "depcheck": "^1.4.0",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.1.0",
@@ -63,13 +56,25 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-sort-keys-fix": "^1.1.1",
     "eslint-plugin-typescript-sort-keys": "^1.6.0",
-    "mocha": "^8.3.2",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "rollup": "^2.42.4",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
     "ts-prune": "^0.9.0",
-    "tslib": "^2.2.0",
     "typescript": "~4.2.2",
     "vue": "^3.0.11"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
   }
 }

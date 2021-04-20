@@ -13,7 +13,7 @@
   },
   "license": "LGPL-3.0",
   "private": false,
-  "version": "2.0.19",
+  "version": "2.0.20",
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
@@ -23,8 +23,8 @@
   "types": "dist/index.d.js",
   "sideEffects": false,
   "dependencies": {
-    "@xyo-network/sdk-xyo-js": "^2.0.19",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.0.13",
+    "@xyo-network/sdk-xyo-js": "^2.0.21",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.0.14",
     "axios": "0.21.1",
     "mongodb": "^3.6.6",
     "sha.js": "^2.4.11"
@@ -39,7 +39,7 @@
     "clean": "rm -f *.tsbuildinfo && rm -r -f ./dist",
     "reinstall": "rm -r -f ./node_modules && rm -f ./yarn.lock && rm -f ./yarn-error.log && yarn install && yarn outdated",
     "tsprune": "yarn ts-prune",
-    "deps": "yarn depcheck --ignores \"vue, ts-node\""
+    "deps": "yarn depcheck --ignores \"vue, ts-node, @types/jest\""
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",

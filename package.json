@@ -13,7 +13,7 @@
   },
   "license": "LGPL-3.0",
   "private": false,
-  "version": "2.0.18",
+  "version": "2.0.19",
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
@@ -42,6 +42,7 @@
     "deps": "yarn depcheck --ignores \"vue, ts-node\""
   },
   "devDependencies": {
+    "@types/jest": "^26.0.22",
     "@types/mongodb": "^3.6.12",
     "@types/sha.js": "^2.4.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",

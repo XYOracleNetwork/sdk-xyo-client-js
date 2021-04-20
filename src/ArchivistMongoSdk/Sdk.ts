@@ -11,8 +11,9 @@ class MongoSdk<T> extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson<
   }
 
   public async insert(item: WithXyoArchivistMeta<XyoBoundWitnessJson<T>>) {
+    const _timestamp = Date.now()
     return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>>) => {
-      const result = await collection.insertOne({ _archive: this._archive, ...item })
+      const result = await collection.insertOne({ _archive: this._archive, _timestamp, ...item })
       if (result.result.ok) {
         return result.insertedCount
       } else {
@@ -22,10 +23,11 @@ class MongoSdk<T> extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson<
   }
 
   public async insertMany(items: XyoBoundWitnessJson<T>[]) {
+    const _timestamp = Date.now()
     return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>>) => {
       const result = await collection.insertMany(
         items.map((item) => {
-          return { _archive: this._archive, ...item }
+          return { _archive: this._archive, _timestamp, ...item }
         })
       )
       if (result.result.ok) {

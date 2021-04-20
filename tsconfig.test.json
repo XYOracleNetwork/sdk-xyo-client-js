@@ -1,9 +1,9 @@
 {
-  "extends": "./tsconfig.esnext.json",
+  "extends": "./tsconfig.es6.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "lib": ["DOM", "ESNext"],
+    "lib": ["DOM", "es6"],
     "module": "CommonJS"
   },
   "include": ["src/**/*.spec.ts"],

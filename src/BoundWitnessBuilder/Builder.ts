@@ -4,8 +4,8 @@ import shajs from 'sha.js'
 import { XyoBoundWitnessJson } from '../models'
 
 class Builder<T> {
-  private _addresses?: string[] = []
-  private _hashes?: (string | null)[] = []
+  private _addresses: string[] = []
+  private _hashes: (string | null)[] = []
 
   public witness(address: string, previousHash: string | null) {
     this._addresses?.push(address)
@@ -13,13 +13,16 @@ class Builder<T> {
     return this
   }
 
-  public build(payload: T): XyoBoundWitnessJson<T> {
-    const hashableFields: XyoBoundWitnessJson<T> = {
+  public hashableFields(payload: T): XyoBoundWitnessJson<T> {
+    return {
       addresses: assertEx(this._addresses, 'Missing addresses'),
       hashes: assertEx(this._hashes, 'Missing addresses'),
       payload,
     }
+  }
 
+  public build(payload: T): XyoBoundWitnessJson<T> {
+    const hashableFields = this.hashableFields(payload)
     return { ...hashableFields, _hash: Builder.hash(hashableFields) }
   }
 
@@ -31,7 +34,9 @@ class Builder<T> {
     Object.keys(obj)
       .sort()
       .forEach((key) => {
-        if (typeof obj[key] === 'object') {
+        if (Array.isArray(obj[key])) {
+          result[key] = obj[key]
+        } else if (typeof obj[key] === 'object') {
           result[key] = Builder.sortObject(obj[key])
         } else {
           result[key] = obj[key]
@@ -40,9 +45,13 @@ class Builder<T> {
     return result as T
   }
 
-  static hash<T>(obj: T) {
+  static stringify<T>(obj: T) {
     const sortedEntry = this.sortObject<T>(obj)
-    const stringObject = JSON.stringify(sortedEntry)
+    return JSON.stringify(sortedEntry)
+  }
+
+  static hash<T>(obj: T) {
+    const stringObject = Builder.stringify<T>(obj)
     return shajs('sha256').update(stringObject).digest('hex')
   }
 }

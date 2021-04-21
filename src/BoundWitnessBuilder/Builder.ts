@@ -3,27 +3,40 @@ import shajs from 'sha.js'
 
 import { XyoBoundWitnessJson } from '../models'
 
-class Builder<T> {
+class Builder {
   private _addresses: string[] = []
-  private _hashes: (string | null)[] = []
+  private _previous_hashes: (string | null)[] = []
+  private _payloads: Record<string, any>[] = []
+
+  private get _payload_hashes(): string[] {
+    return this._payloads.map((payload) => {
+      return Builder.hash(payload)
+    })
+  }
 
   public witness(address: string, previousHash: string | null) {
     this._addresses?.push(address)
-    this._hashes?.push(previousHash)
+    this._previous_hashes?.push(previousHash)
     return this
   }
 
-  public hashableFields(payload: T): XyoBoundWitnessJson<T> {
+  public payload(payload: Record<string, any>) {
+    this._payloads.push(assertEx(Builder.sortObject(payload)))
+    return this
+  }
+
+  public hashableFields(): XyoBoundWitnessJson {
     return {
       addresses: assertEx(this._addresses, 'Missing addresses'),
-      hashes: assertEx(this._hashes, 'Missing addresses'),
-      payload,
+      payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
+      previous_hashes: assertEx(this._previous_hashes, 'Missing previous_hashes'),
     }
   }
 
-  public build(payload: T): XyoBoundWitnessJson<T> {
-    const hashableFields = this.hashableFields(payload)
-    return { ...hashableFields, _hash: Builder.hash(hashableFields) }
+  public build(): XyoBoundWitnessJson {
+    const hashableFields = this.hashableFields()
+    const _hash = Builder.hash(hashableFields)
+    return { ...hashableFields, _client: 'js', _hash }
   }
 
   static sortObject<T extends Record<string, any>>(obj: T) {
@@ -45,14 +58,15 @@ class Builder<T> {
     return result as T
   }
 
-  static stringify<T>(obj: T) {
+  static stringify<T extends Record<string, any>>(obj: T) {
     const sortedEntry = this.sortObject<T>(obj)
     return JSON.stringify(sortedEntry)
   }
 
-  static hash<T>(obj: T) {
+  static hash<T extends Record<string, any>>(obj: T) {
     const stringObject = Builder.stringify<T>(obj)
-    return shajs('sha256').update(stringObject).digest('hex')
+    const hash = shajs('sha256').update(stringObject).digest('hex')
+    return hash
   }
 }
 

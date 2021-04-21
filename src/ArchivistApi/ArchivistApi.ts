@@ -17,7 +17,7 @@ class XyoArchivistApi {
     return this.authenticated ? { Authorization: this.config.token } : {}
   }
 
-  public async postBoundWitnesses<T>(entries: XyoBoundWitnessJson<T>[]) {
+  public async postBoundWitnesses(entries: XyoBoundWitnessJson[]) {
     return (
       await axios.post<number>(`${this.config.apiDomain}/archive/${this.config.archive}/bw`, entries, {
         headers: this.headers,
@@ -25,7 +25,7 @@ class XyoArchivistApi {
     ).data
   }
 
-  public async postBoundWitness<T>(entry: XyoBoundWitnessJson<T>) {
+  public async postBoundWitness(entry: XyoBoundWitnessJson) {
     return (
       await axios.post<number>(`${this.config.apiDomain}/archive/${this.config.archive}/bw`, entry, {
         headers: this.headers,

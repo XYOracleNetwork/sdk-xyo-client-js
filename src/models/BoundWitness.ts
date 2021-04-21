@@ -9,18 +9,20 @@
 //note: we always use SHA256 hash
 
 interface XyoBoundWitnessMetaJson {
+  _client?: string
   _hash?: string
+  _payloads?: Record<string, any>[]
   _signatures?: string[]
 }
 
-interface XyoBoundWitnessBodyJson<T> {
+interface XyoBoundWitnessBodyJson {
   addresses: string[]
-  hashes: (string | null)[]
-  payload: T
+  payload_hashes: string[]
+  previous_hashes: (string | null)[]
 }
 
-type WithXyoBoundWitnessMeta<L extends XyoBoundWitnessBodyJson<unknown>> = L & XyoBoundWitnessMetaJson
+type WithXyoBoundWitnessMeta<T extends XyoBoundWitnessBodyJson> = T & XyoBoundWitnessMetaJson
 
-type XyoBoundWitnessJson<T> = WithXyoBoundWitnessMeta<XyoBoundWitnessBodyJson<T>>
+type XyoBoundWitnessJson = WithXyoBoundWitnessMeta<XyoBoundWitnessBodyJson>
 
 export type { WithXyoBoundWitnessMeta, XyoBoundWitnessBodyJson, XyoBoundWitnessJson, XyoBoundWitnessMetaJson }

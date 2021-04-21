@@ -43,7 +43,7 @@ Made with 🔥and ❄️ by [XYO](https://xyo.network)
 [bch-link]: https://bettercodehub.com/results/XYOracleNetwork/sdk-xyo-client-js
 
 [codacy-badge]: https://app.codacy.com/project/badge/Grade/a002cfe8318b423eb879c3e2d2a863b9
-[codacy-link]: https://www.codacy.com/gh/XYOracleNetwork/sdk-xyo-client-js/dashboard?utm_source=github.com&utm_medium=referral&utm_content=XYOracleNetwork/sdk-xyo-react-js&utm_campaign=Badge_Grade
+[codacy-link]: https://www.codacy.com/gh/XYOracleNetwork/sdk-xyo-client-js/dashboard?utm_source=github.com&utm_medium=referral&utm_content=XYOracleNetwork/sdk-xyo-client-js&utm_campaign=Badge_Grade
 
 [codeclimate-badge]: https://api.codeclimate.com/v1/badges/0e76349c9541f3866948/maintainability
 [codeclimate-link]: https://codeclimate.com/github/XYOracleNetwork/sdk-xyo-client-js/maintainability

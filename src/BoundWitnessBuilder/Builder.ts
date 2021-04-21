@@ -6,6 +6,7 @@ import { XyoBoundWitnessJson } from '../models'
 class Builder {
   private _addresses: string[] = []
   private _previous_hashes: (string | null)[] = []
+  private _payload_schemas: string[] = []
   private _payloads: Record<string, any>[] = []
 
   private get _payload_hashes(): string[] {
@@ -20,7 +21,8 @@ class Builder {
     return this
   }
 
-  public payload(payload: Record<string, any>) {
+  public payload(schema: string, payload: Record<string, any>) {
+    this._payload_schemas.push(schema)
     this._payloads.push(assertEx(Builder.sortObject(payload)))
     return this
   }
@@ -29,6 +31,7 @@ class Builder {
     return {
       addresses: assertEx(this._addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
+      payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
       previous_hashes: assertEx(this._previous_hashes, 'Missing previous_hashes'),
     }
   }

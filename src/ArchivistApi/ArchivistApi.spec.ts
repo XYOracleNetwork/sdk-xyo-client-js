@@ -1,23 +1,22 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 import { XyoBoundWitnessBuilder } from '../BoundWitnessBuilder'
-import { XyoPayloadMeta } from '../models'
 import ArchivistApi from './ArchivistApi'
 import ArchivistApiConfig from './ArchivistApiConfig'
 
-interface TestPayload extends XyoPayloadMeta {
+interface TestPayload {
   numberField: number
   objectField: {
     numberValue: number
     stringValue: string
   }
   stringField: string
+  timestamp: number
 }
 
 test('checking happy path', async () => {
   const payload: TestPayload = {
-    _schema: 'network.xyo.test',
-    _timestamp: 1618603439107,
+    timestamp: 1618603439107,
     numberField: 1,
     objectField: {
       numberValue: 2,
@@ -36,7 +35,7 @@ test('checking happy path', async () => {
   builder = builder.witness('1234567890', null)
   expect(builder).toBeDefined()
 
-  builder = builder.payload(payload)
+  builder = builder.payload('network.xyo.test', payload)
   expect(builder).toBeDefined()
 
   const json = builder.build()

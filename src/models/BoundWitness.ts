@@ -18,6 +18,7 @@ interface XyoBoundWitnessMetaJson {
 interface XyoBoundWitnessBodyJson {
   addresses: string[]
   payload_hashes: string[]
+  payload_schemas: string[]
   previous_hashes: (string | null)[]
 }
 

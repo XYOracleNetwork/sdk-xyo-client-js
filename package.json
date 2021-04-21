@@ -23,14 +23,14 @@
   "types": "dist/index.d.js",
   "sideEffects": false,
   "dependencies": {
-    "@xyo-network/sdk-xyo-js": "^2.0.21",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.0.14",
+    "@xyo-network/sdk-xyo-js": "^2.0.22",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.0.15",
     "axios": "0.21.1",
     "mongodb": "^3.6.6",
     "sha.js": "^2.4.11"
   },
   "scripts": {
-    "build": "yarn deps && yarn lint && yarn compile",
+    "build": "yarn lint && yarn compile && yarn deps",
     "compile": "rollup -c rollup.config.ts",
     "deploy": "yarn version --patch && yarn publish --access public",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",

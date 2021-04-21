@@ -15,11 +15,7 @@ interface TestPayload extends XyoPayloadMeta {
 }
 
 test('checking happy path', async () => {
-  let builder = new XyoBoundWitnessBuilder<TestPayload>()
-  expect(builder).toBeDefined()
-  builder = builder.witness('1234567890', null)
-  expect(builder).toBeDefined()
-  const payload = {
+  const payload: TestPayload = {
     _schema: 'network.xyo.test',
     _timestamp: 1618603439107,
     numberField: 1,
@@ -35,16 +31,22 @@ test('checking happy path', async () => {
     apiDomain: 'http://localhost:3030/dev',
   }
 
-  const json = builder.build(payload)
+  let builder = new XyoBoundWitnessBuilder()
+  expect(builder).toBeDefined()
+  builder = builder.witness('1234567890', null)
+  expect(builder).toBeDefined()
+
+  builder = builder.payload(payload)
+  expect(builder).toBeDefined()
+
+  const json = builder.build()
   expect(json).toBeDefined()
 
   const api = ArchivistApi.get(config)
   expect(api).toBeDefined()
   expect(api.authenticated).toEqual(false)
   const postBoundWitnessResult = await api.postBoundWitness(json)
-  console.log(`r1: ${JSON.stringify(postBoundWitnessResult)}`)
   expect(postBoundWitnessResult).toEqual(1)
   const postBoundWitnessesResult = await api.postBoundWitnesses([json, json])
-  console.log(`r2: ${JSON.stringify(postBoundWitnessesResult)}`)
   expect(postBoundWitnessesResult).toEqual(2)
 })

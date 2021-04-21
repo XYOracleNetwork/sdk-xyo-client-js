@@ -3,16 +3,16 @@ import { Collection } from 'mongodb'
 
 import { WithXyoArchivistMeta, XyoBoundWitnessJson } from '../models'
 
-class MongoSdk<T> extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>> {
+class MongoSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson>> {
   private _archive: string
   constructor(config: BaseMongoSdkConfig, archive: string) {
     super(config)
     this._archive = archive
   }
 
-  public async insert(item: WithXyoArchivistMeta<XyoBoundWitnessJson<T>>) {
+  public async insert(item: WithXyoArchivistMeta<XyoBoundWitnessJson>) {
     const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>>) => {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
       const result = await collection.insertOne({ _archive: this._archive, _timestamp, ...item })
       if (result.result.ok) {
         return result.insertedCount
@@ -22,9 +22,9 @@ class MongoSdk<T> extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson<
     })
   }
 
-  public async insertMany(items: XyoBoundWitnessJson<T>[]) {
+  public async insertMany(items: XyoBoundWitnessJson[]) {
     const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson<T>>>) => {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
       const result = await collection.insertMany(
         items.map((item) => {
           return { _archive: this._archive, _timestamp, ...item }

@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.es6.json",
   "compilerOptions": {
-    "outDir": ".",
+    "outDir": "dist",
     "rootDir": "src"
   },
   "include": ["src/**/*.ts"],

@@ -5215,14 +5215,14 @@ ts-node@^9.1.1:
     yn "3.1.1"
 
 ts-prune@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/ts-prune/-/ts-prune-0.9.0.tgz#ca37bdb85a2441a8571a60721cbc65e32e156280"
-  integrity sha512-+9xCkIS9EUTzQAl4NnqcU5gs9Q7cllafs9qjZ6GHSvWm8T/W5daJpDCsXGz+pUZmK25n/vEqUikN5CctAoGXbg==
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/ts-prune/-/ts-prune-0.9.1.tgz#de04c5ce73ae0168ec839af1c2df2a82e427e0b7"
+  integrity sha512-il5MySNdu29wYasV3xAOIFTzkoblutUyt9giKxs1p6bA3csrDbPFQHBG0jnSvYBuQUYHZ82Ge37/FyMv0VqDUw==
   dependencies:
     commander "^6.2.1"
     cosmiconfig "^7.0.0"
     json5 "^2.1.3"
-    lodash "^4.17.20"
+    lodash "^4.17.21"
     "true-myth" "^4.1.0"
     ts-morph "^7.3.0"
 

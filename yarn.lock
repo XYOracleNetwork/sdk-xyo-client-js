@@ -880,9 +880,9 @@
   integrity sha512-b+zB8A2so8eCE0JsxjL24J7vdGl8rzPQ09hZNhystm+KqSbKcAej1A+Hbva1rCMmTTqA+hFnUSDc5kouEo0JzA==
 
 "@xyo-network/sdk-xyo-js@^2.0.22":
-  version "2.0.22"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.0.22.tgz#a17f19b22ef1a04930aea4d5e357f50de17fc1a6"
-  integrity sha512-bx/w7hLW2tfKoQubr1u1ZN/PP76RijjP6uc9gFpyvm0GVX5gUUPW0vdRR/F1YlltapZQyyexBlz0U8xoojAGOw==
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.1.1.tgz#b176981bf582823a10f657e8f4fda3bd51e33573"
+  integrity sha512-iHpXDB7An9MrId6iUiF74WVSKartHtcElS4UV+zLMYG5NYyLFC3rWhh7rqj7qIhiQt2w7eLEGeBdAU6pZVPrZA==
   dependencies:
     axios "^0.21.1"
     rollbar "^2.21.1"

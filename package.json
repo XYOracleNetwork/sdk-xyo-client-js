@@ -13,7 +13,7 @@
   },
   "license": "LGPL-3.0",
   "private": false,
-  "version": "2.0.28",
+  "version": "2.0.29",
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
@@ -30,8 +30,8 @@
     "@xyo-network/sdk-xyo-mongo-js": "^2.0.15",
     "axios": "0.21.1",
     "mongodb": "^3.6.6",
-    "sha.js": "^2.4.11",
-    "noble-ed25519": "^1.2.1"
+    "noble-ed25519": "^1.2.1",
+    "sha.js": "^2.4.11"
   },
   "scripts": {
     "build": "yarn lint && yarn compile && yarn deps",

@@ -1,18 +1,10 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
+import { XyoAddress } from '../Address'
+import { TestPayload } from '../Test'
 import Builder from './Builder'
 
-interface TestPayload {
-  numberField: number
-  objectField: {
-    numberValue: number
-    stringValue: string
-  }
-  stringField: string
-  timestamp: number
-}
-
-test('checking happy path', () => {
+test('checking happy path', async () => {
   const payload1: TestPayload = {
     timestamp: 1618603439107,
     numberField: 1,
@@ -32,11 +24,13 @@ test('checking happy path', () => {
     stringField: 'there',
   }
 
-  const knownHash = 'd684819b68a8e2f5b5ecf6292cef1e4b9ef4a6dc6a3606a6b19c4d92f48eba54'
+  const knownHash = '3fa861ec1f11e3401f2811b65b60dfe409af27e900e2fb6727b46cba477670cb'
+
+  const address = await XyoAddress.fromPhrase('test')
 
   let builder1 = new Builder()
   expect(builder1).toBeDefined()
-  builder1 = builder1.witness('1234567890', null)
+  builder1 = builder1.witness(address, null)
   expect(builder1).toBeDefined()
 
   builder1 = builder1.payload('network.xyo.test', payload1)
@@ -47,7 +41,7 @@ test('checking happy path', () => {
 
   let builder2 = new Builder()
   expect(builder2).toBeDefined()
-  builder2 = builder2.witness('1234567890', null)
+  builder2 = builder2.witness(address, null)
   expect(builder2).toBeDefined()
 
   builder2 = builder2.payload('network.xyo.test', payload2)

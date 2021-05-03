@@ -26,11 +26,7 @@ class XyoArchivistApi {
   }
 
   public async postBoundWitness(entry: XyoBoundWitnessJson) {
-    return (
-      await axios.post<number>(`${this.config.apiDomain}/archive/${this.config.archive}/bw`, entry, {
-        headers: this.headers,
-      })
-    ).data
+    return await this.postBoundWitnesses([entry])
   }
 
   static get(config: XyoArchivistApiConfig) {

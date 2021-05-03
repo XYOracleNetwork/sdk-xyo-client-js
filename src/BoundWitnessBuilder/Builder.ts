@@ -1,10 +1,11 @@
 import { assertEx } from '@xyo-network/sdk-xyo-js'
 import shajs from 'sha.js'
 
+import { XyoAddress } from '../Address'
 import { XyoBoundWitnessJson } from '../models'
 
 class Builder {
-  private _addresses: string[] = []
+  private _addresses: XyoAddress[] = []
   private _previous_hashes: (string | null)[] = []
   private _payload_schemas: string[] = []
   private _payloads: Record<string, any>[] = []
@@ -15,7 +16,7 @@ class Builder {
     })
   }
 
-  public witness(address: string, previousHash: string | null) {
+  public witness(address: XyoAddress, previousHash: string | null) {
     this._addresses?.push(address)
     this._previous_hashes?.push(previousHash)
     return this
@@ -28,8 +29,9 @@ class Builder {
   }
 
   public hashableFields(): XyoBoundWitnessJson {
+    const addresses = this._addresses.map((address) => address.publicKey)
     return {
-      addresses: assertEx(this._addresses, 'Missing addresses'),
+      addresses: assertEx(addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
       previous_hashes: assertEx(this._previous_hashes, 'Missing previous_hashes'),
@@ -68,8 +70,7 @@ class Builder {
 
   static hash<T extends Record<string, any>>(obj: T) {
     const stringObject = Builder.stringify<T>(obj)
-    const hash = shajs('sha256').update(stringObject).digest('hex')
-    return hash
+    return shajs('sha256').update(stringObject).digest('hex')
   }
 }
 

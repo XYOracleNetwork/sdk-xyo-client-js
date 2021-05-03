@@ -1,18 +1,10 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
+import { XyoAddress } from '../Address'
 import { XyoBoundWitnessBuilder } from '../BoundWitnessBuilder'
+import { TestPayload } from '../Test'
 import ArchivistApi from './ArchivistApi'
 import ArchivistApiConfig from './ArchivistApiConfig'
-
-interface TestPayload {
-  numberField: number
-  objectField: {
-    numberValue: number
-    stringValue: string
-  }
-  stringField: string
-  timestamp: number
-}
 
 test('checking happy path', async () => {
   const payload: TestPayload = {
@@ -30,9 +22,11 @@ test('checking happy path', async () => {
     apiDomain: 'http://localhost:3030/dev',
   }
 
+  const address = await XyoAddress.random()
+
   let builder = new XyoBoundWitnessBuilder()
   expect(builder).toBeDefined()
-  builder = builder.witness('1234567890', null)
+  builder = builder.witness(address, null)
   expect(builder).toBeDefined()
 
   builder = builder.payload('network.xyo.test', payload)

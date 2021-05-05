@@ -1,19 +1,17 @@
 import typescript from 'rollup-plugin-typescript2'
 
-import pkg from './package.json'
-
 export default {
   input: './src/index.ts',
   output: [
     {
       exports: 'auto',
-      file: pkg.main,
+      file: './dist/index.cjs.js',
       format: 'cjs',
       sourcemap: true,
     },
     {
       exports: 'auto',
-      file: pkg.module,
+      file: './dist/index.esm.js',
       format: 'es',
       sourcemap: true,
     },

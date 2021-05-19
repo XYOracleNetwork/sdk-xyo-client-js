@@ -26,12 +26,12 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@xyo-network/sdk-xyo-js": "^2.1.6",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.0.16",
-    "axios": "0.21.1",
-    "mongodb": "^3.6.6",
-    "noble-ed25519": "^1.2.1",
-    "sha.js": "^2.4.11"
+    "@xyo-network/sdk-xyo-js": "~2.1.8",
+    "@xyo-network/sdk-xyo-mongo-js": "~2.0.21",
+    "axios": "~0.21.1",
+    "mongodb": "~3.6.6",
+    "noble-ed25519": "~1.2.1",
+    "sha.js": "~2.4.11"
   },
   "scripts": {
     "build": "rm -r -f dist && yarn deps && yarn lint && yarn compile && yarn copy-src",

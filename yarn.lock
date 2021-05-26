@@ -900,21 +900,21 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.11.tgz#20d22dd0da7d358bb21c17f9bde8628152642c77"
   integrity sha512-b+zB8A2so8eCE0JsxjL24J7vdGl8rzPQ09hZNhystm+KqSbKcAej1A+Hbva1rCMmTTqA+hFnUSDc5kouEo0JzA==
 
-"@xyo-network/sdk-xyo-js@^2.1.10", "@xyo-network/sdk-xyo-js@^2.1.12":
-  version "2.1.12"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.1.12.tgz#c421d5dc0741424a96c449e627e54735f91a5822"
-  integrity sha512-uKdhtInfLgZ3yAUxErs05PCJgiYOxq0kxeyWyriIrCiyQQ15TSLj8nQDTg4LgmlpitOZIgeNLHX3ZCO7F8I3uQ==
+"@xyo-network/sdk-xyo-js@^2.1.12", "@xyo-network/sdk-xyo-js@^2.1.13":
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.1.13.tgz#e9d1cf9b64ae9c1ef0db76796f7a709cf3a37141"
+  integrity sha512-0U+RvCbMBLMuEud0sDpIHR5UNaeo5K6SgCYLr0jdxEC6grnTdGBL2JLi+FQ1oTykf0KXl52FpVhiVSS7QWUHcA==
   dependencies:
     axios "^0.21.1"
   optionalDependencies:
     rollbar "^2.21.1"
 
 "@xyo-network/sdk-xyo-mongo-js@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.4.tgz#0e470182c414fba2cabc4377e6c45987f486be69"
-  integrity sha512-M/y+MvzWydYWahQ3KmmN0QCF4SPcsaIZLzsF6cuhjrg1idpAdbry7shaqanofYsrJ21OXDrs2YF+PNEWOoYRtg==
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.6.tgz#3770934c63ea03d9d8f70b33936c32dd2a48bf4d"
+  integrity sha512-YxFimzrz2nlWFyMztnpOU4lQQtXSX5ZOJPZ9qXimJ8/tGUPnm3UA5jxhBfexwr8jvDJC/4ZKwDlZh3svggYfUg==
   dependencies:
-    "@xyo-network/sdk-xyo-js" "^2.1.10"
+    "@xyo-network/sdk-xyo-js" "^2.1.13"
     async-mutex "^0.3.1"
     mongodb "^4.0.0-beta.4"
 

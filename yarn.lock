@@ -901,9 +901,9 @@
   integrity sha512-b+zB8A2so8eCE0JsxjL24J7vdGl8rzPQ09hZNhystm+KqSbKcAej1A+Hbva1rCMmTTqA+hFnUSDc5kouEo0JzA==
 
 "@xyo-network/sdk-xyo-js@^2.1.10", "@xyo-network/sdk-xyo-js@^2.1.12":
-  version "2.1.12"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.1.12.tgz#c421d5dc0741424a96c449e627e54735f91a5822"
-  integrity sha512-uKdhtInfLgZ3yAUxErs05PCJgiYOxq0kxeyWyriIrCiyQQ15TSLj8nQDTg4LgmlpitOZIgeNLHX3ZCO7F8I3uQ==
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.1.13.tgz#e9d1cf9b64ae9c1ef0db76796f7a709cf3a37141"
+  integrity sha512-0U+RvCbMBLMuEud0sDpIHR5UNaeo5K6SgCYLr0jdxEC6grnTdGBL2JLi+FQ1oTykf0KXl52FpVhiVSS7QWUHcA==
   dependencies:
     axios "^0.21.1"
   optionalDependencies:

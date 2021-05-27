@@ -2,20 +2,20 @@ import typescript from '@rollup/plugin-typescript'
 
 export default [
   {
-    external: ['axios', '@xyo-network/sdk-xyo-js', '@xyo-network/sdk-xyo-mongo-js', 'sha.js'],
-    input: './src/index.ts',
+    external: ['axios', 'tslib', '@xyo-network/sdk-xyo-js', '@xyo-network/sdk-xyo-mongo-js', 'sha.js'],
+    input: 'src/index.ts',
     output: [
       {
-        file: './dist/index.cjs',
+        file: 'dist/index.cjs',
         format: 'cjs',
         sourcemap: true,
       },
       {
-        file: './dist/index.js',
+        file: 'dist/index.js',
         format: 'es',
         sourcemap: true,
       },
     ],
-    plugins: [typescript()],
+    plugins: [typescript({ tsconfig: './tsconfig.json' })],
   },
 ]

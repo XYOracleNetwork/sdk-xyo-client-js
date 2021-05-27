@@ -19,6 +19,5 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "skipLibCheck": true
-  },
-  "include": ["src/**/*.ts"]
+  }
 }

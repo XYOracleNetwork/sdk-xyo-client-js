@@ -3,7 +3,7 @@ import { Collection } from 'mongodb'
 
 import { WithXyoArchivistMeta, XyoBoundWitnessJson } from '../models'
 
-class MongoSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson>> {
+class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson>> {
   private _archive: string
   constructor(config: BaseMongoSdkConfig, archive: string) {
     super(config)
@@ -39,4 +39,4 @@ class MongoSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson>> {
   }
 }
 
-export default MongoSdk
+export default BoundWitnessSdk

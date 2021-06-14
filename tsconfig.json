@@ -1,7 +1,8 @@
 {
-  "extends": "./tsconfig.es6.json",
+  "extends": "./tsconfig.es2020.json",
   "compilerOptions": {
-    "outDir": "."
+    "outDir": "./dist",
+    "rootDir": "src"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.spec.ts"]

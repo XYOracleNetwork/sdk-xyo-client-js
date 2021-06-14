@@ -21,42 +21,39 @@
   "main": "./index.cjs",
   "module": "./index.js",
   "types": "./index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./index.js",
-      "require": "./index.cjs"
-    }
-  },
   "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@xyo-network/sdk-xyo-js": "^2.1.15",
+    "@xyo-network/sdk-xyo-js": "^2.1.20",
     "@xyo-network/sdk-xyo-mongo-js": "^2.1.9",
     "axios": "^0.21.1",
     "mongodb": "^4.0.0-beta.5",
     "noble-ed25519": "^1.2.1",
     "sha.js": "^2.4.11",
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.0"
   },
   "scripts": {
     "build": "rm -r -f dist && yarn deps && yarn lint && yarn compile && yarn copy-src",
-    "copy-src": "cp package.json ./dist",
-    "compile": "rollup -c rollup.config.ts",
-    "deploy": "yarn version --patch && yarn build && yarn publish ./dist --access public",
+    "copy-src": "mkdir -p dist && cp package.json dist && cp README.md dist && cp LICENSE dist && cp -R src/* dist",
+    "compile": "tsc && rollup -c rollup.config.ts",
+    "deploy": "yarn version --patch && yarn build && yarn publish ./dist",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "fix": "eslint --ext .js,.jsx,.ts,.tsx ./src --fix",
     "test": "yarn build && yarn jest ./src",
     "clean": "rm -f *.tsbuildinfo && rm -r -f ./dist",
     "reinstall": "rm -r -f ./node_modules && rm -f ./yarn.lock && rm -f ./yarn-error.log && yarn install && yarn outdated",
     "tsprune": "yarn ts-prune",
-    "deps": "yarn depcheck --ignores \"vue, ts-node, tslib, @types/node, @types/jest\""
+    "deps": "yarn depcheck"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.2",
     "@types/sha.js": "^2.4.0",
-    "@typescript-eslint/eslint-plugin": "^4.26.1",
-    "@typescript-eslint/parser": "^4.26.1",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
     "depcheck": "^1.4.0",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.1.0",
@@ -69,7 +66,7 @@
     "eslint-plugin-typescript-sort-keys": "^1.6.0",
     "jest": "^27.0.4",
     "prettier": "^2.3.1",
-    "rollup": "^2.51.0",
+    "rollup": "^2.51.2",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
     "ts-prune": "^0.9.0",

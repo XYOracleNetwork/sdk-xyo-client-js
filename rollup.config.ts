@@ -10,12 +10,7 @@ export default [
         format: 'cjs',
         sourcemap: true,
       },
-      {
-        file: 'dist/index.js',
-        format: 'es',
-        sourcemap: true,
-      },
     ],
-    plugins: [typescript({ tsconfig: './tsconfig.json' })],
+    plugins: [typescript({ tsconfig: './tsconfig.cjs.json' })],
   },
 ]

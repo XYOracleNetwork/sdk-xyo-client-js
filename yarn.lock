@@ -3380,9 +3380,9 @@ natural-compare@^1.4.0:
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
 noble-ed25519@^1.2.1:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/noble-ed25519/-/noble-ed25519-1.2.3.tgz#0526486d75a25fb0ec4711c86cdb24858fca0eca"
-  integrity sha512-xc634JPGTXSEniGfyFJ3o5fTkty/tz+nIXGhpuhmbSUKcy8I2xoVFycQ9F8zlNsnz/a4QVcyHWTbQWsDGpzPVg==
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/noble-ed25519/-/noble-ed25519-1.2.4.tgz#49bf25d5cc2db03d6e2c83004e84de1a770917df"
+  integrity sha512-IwV+j1xDYIF0ouiUhqH4Ot5jTLCWNbQZTUlCvYDQT4LRiGVwoK8FvkLlCeOlvMv3nXxLixSf05Kfi2nugtiBAQ==
 
 node-int64@^0.4.0:
   version "0.4.0"

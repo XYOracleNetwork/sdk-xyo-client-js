@@ -8,6 +8,8 @@
 
 //note: we always use SHA256 hash
 
+import type { JSONSchemaType } from 'ajv'
+
 interface XyoBoundWitnessMetaJson {
   _client?: string
   _hash?: string
@@ -25,5 +27,49 @@ interface XyoBoundWitnessBodyJson {
 type WithXyoBoundWitnessMeta<T extends XyoBoundWitnessBodyJson> = T & XyoBoundWitnessMetaJson
 
 type XyoBoundWitnessJson = WithXyoBoundWitnessMeta<XyoBoundWitnessBodyJson>
+
+const XyoBoundWitnessMetaSchema: JSONSchemaType<XyoBoundWitnessMetaJson> = {
+  $id: 'https://network.xyo/schemas/boundwitness/meta',
+  additionalProperties: false,
+  properties: {
+    _client: { nullable: true, type: 'string' },
+    _hash: { nullable: true, type: 'string' },
+    _payloads: { items: { type: 'object' }, nullable: true, type: 'array' },
+    _signatures: { items: { type: 'string' }, nullable: true, type: 'array' },
+  },
+  type: 'object',
+}
+
+const XyoBoundWitnessBodySchema: JSONSchemaType<XyoBoundWitnessBodyJson> = {
+  $id: 'https://network.xyo/schemas/boundwitness/body',
+  additionalProperties: false,
+  properties: {
+    addresses: { items: { type: 'string' }, type: 'array' },
+    payload_hashes: { items: { type: 'string' }, type: 'array' },
+    payload_schemas: { items: { type: 'string' }, type: 'array' },
+    previous_hashes: { items: { type: 'string' }, type: 'array' },
+  },
+  required: ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes'],
+  type: 'object',
+}
+
+const XyoBoundWitnessSchema: JSONSchemaType<XyoBoundWitnessJson> = {
+  $id: 'https://network.xyo/schemas/boundwitness',
+  additionalProperties: false,
+  properties: {
+    _client: { nullable: true, type: 'string' },
+    _hash: { nullable: true, type: 'string' },
+    _payloads: { items: { type: 'object' }, nullable: true, type: 'array' },
+    _signatures: { items: { type: 'string' }, nullable: true, type: 'array' },
+    addresses: { items: { type: 'string' }, type: 'array' },
+    payload_hashes: { items: { type: 'string' }, type: 'array' },
+    payload_schemas: { items: { type: 'string' }, type: 'array' },
+    previous_hashes: { items: { type: 'string' }, type: 'array' },
+  },
+  required: ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes'],
+  type: 'object',
+}
+
+export { XyoBoundWitnessBodySchema, XyoBoundWitnessMetaSchema, XyoBoundWitnessSchema }
 
 export type { WithXyoBoundWitnessMeta, XyoBoundWitnessBodyJson, XyoBoundWitnessJson, XyoBoundWitnessMetaJson }

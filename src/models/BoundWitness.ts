@@ -29,7 +29,7 @@ type WithXyoBoundWitnessMeta<T extends XyoBoundWitnessBodyJson> = T & XyoBoundWi
 type XyoBoundWitnessJson = WithXyoBoundWitnessMeta<XyoBoundWitnessBodyJson>
 
 const XyoBoundWitnessMetaSchema: JSONSchemaType<XyoBoundWitnessMetaJson> = {
-  $id: 'https://network.xyo/schemas/boundwitness/meta',
+  $id: 'https://schemas.xyo.network/2.0/boundwitness/meta',
   additionalProperties: false,
   properties: {
     _client: { nullable: true, type: 'string' },
@@ -41,7 +41,7 @@ const XyoBoundWitnessMetaSchema: JSONSchemaType<XyoBoundWitnessMetaJson> = {
 }
 
 const XyoBoundWitnessBodySchema: JSONSchemaType<XyoBoundWitnessBodyJson> = {
-  $id: 'https://network.xyo/schemas/boundwitness/body',
+  $id: 'https://schemas.xyo.network/2.0/boundwitness/body',
   additionalProperties: false,
   properties: {
     addresses: { items: { type: 'string' }, type: 'array' },
@@ -54,7 +54,7 @@ const XyoBoundWitnessBodySchema: JSONSchemaType<XyoBoundWitnessBodyJson> = {
 }
 
 const XyoBoundWitnessSchema: JSONSchemaType<XyoBoundWitnessJson> = {
-  $id: 'https://network.xyo/schemas/boundwitness',
+  $id: 'https://schemas.xyo.network/2.0/boundwitness',
   additionalProperties: false,
   properties: {
     _client: { nullable: true, type: 'string' },

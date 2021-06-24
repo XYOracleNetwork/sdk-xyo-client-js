@@ -38,8 +38,18 @@ test('checking happy path', async () => {
   const api = ArchivistApi.get(config)
   expect(api).toBeDefined()
   expect(api.authenticated).toEqual(false)
-  const postBoundWitnessResult = await api.postBoundWitness(json)
-  expect(postBoundWitnessResult).toEqual(1)
-  const postBoundWitnessesResult = await api.postBoundWitnesses([json, json])
-  expect(postBoundWitnessesResult).toEqual(2)
+  try {
+    const postBoundWitnessResult = await api.postBoundWitness(json)
+    expect(postBoundWitnessResult).toEqual(1)
+  } catch (ex) {
+    console.log(JSON.stringify(ex.response?.data, null, 2))
+    throw ex
+  }
+  try {
+    const postBoundWitnessesResult = await api.postBoundWitnesses([json, json])
+    expect(postBoundWitnessesResult).toEqual(2)
+  } catch (ex) {
+    console.log(JSON.stringify(ex.response?.data, null, 2))
+    throw ex
+  }
 }, 40000)

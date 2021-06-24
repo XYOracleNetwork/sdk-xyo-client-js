@@ -22,7 +22,7 @@ test('checking happy path', async () => {
     apiDomain: 'http://localhost:3030/dev',
   }
 
-  const address = await XyoAddress.random()
+  const address = XyoAddress.random()
 
   let builder = new XyoBoundWitnessBuilder()
   expect(builder).toBeDefined()

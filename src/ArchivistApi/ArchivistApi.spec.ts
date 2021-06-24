@@ -42,4 +42,4 @@ test('checking happy path', async () => {
   expect(postBoundWitnessResult).toEqual(1)
   const postBoundWitnessesResult = await api.postBoundWitnesses([json, json])
   expect(postBoundWitnessesResult).toEqual(2)
-})
+}, 40000)

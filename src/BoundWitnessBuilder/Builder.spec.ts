@@ -24,7 +24,7 @@ test('checking happy path', () => {
     stringField: 'there',
   }
 
-  const knownHash = '4e441db6a77f2b6967e3d8fe2ef80e0dfe18b9ed1c8fc7cd62cea92045d9d8ae'
+  const knownHash = '543fbf10ed1b3b167448e02771c1f8cc1a5eeac035a0b91209d716865cced551'
 
   const address = XyoAddress.fromPhrase('test')
 

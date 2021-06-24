@@ -17,7 +17,7 @@ class Address {
   }
 
   public get publicKey() {
-    return this._key.getPublic().encode('hex', true)
+    return this._key.getPublic().encode('hex', true).slice(2)
   }
 
   static fromPhrase(phrase: string) {

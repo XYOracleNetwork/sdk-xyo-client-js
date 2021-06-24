@@ -4,7 +4,7 @@ import { XyoAddress } from '../Address'
 import { TestPayload } from '../Test'
 import Builder from './Builder'
 
-test('checking happy path', async () => {
+test('checking happy path', () => {
   const payload1: TestPayload = {
     timestamp: 1618603439107,
     numberField: 1,
@@ -24,9 +24,9 @@ test('checking happy path', async () => {
     stringField: 'there',
   }
 
-  const knownHash = '3fa861ec1f11e3401f2811b65b60dfe409af27e900e2fb6727b46cba477670cb'
+  const knownHash = '543fbf10ed1b3b167448e02771c1f8cc1a5eeac035a0b91209d716865cced551'
 
-  const address = await XyoAddress.fromPhrase('test')
+  const address = XyoAddress.fromPhrase('test')
 
   let builder1 = new Builder()
   expect(builder1).toBeDefined()

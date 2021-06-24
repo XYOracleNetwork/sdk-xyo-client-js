@@ -22,7 +22,7 @@ test('checking happy path', async () => {
     apiDomain: 'http://localhost:3030/dev',
   }
 
-  const address = await XyoAddress.random()
+  const address = XyoAddress.random()
 
   let builder = new XyoBoundWitnessBuilder()
   expect(builder).toBeDefined()
@@ -42,4 +42,4 @@ test('checking happy path', async () => {
   expect(postBoundWitnessResult).toEqual(1)
   const postBoundWitnessesResult = await api.postBoundWitnesses([json, json])
   expect(postBoundWitnessesResult).toEqual(2)
-})
+}, 40000)

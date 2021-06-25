@@ -40,14 +40,14 @@ test('checking happy path', async () => {
   expect(api.authenticated).toEqual(false)
   try {
     const postBoundWitnessResult = await api.postBoundWitness(json)
-    expect(postBoundWitnessResult).toEqual(1)
+    expect(postBoundWitnessResult.boundWitnesses).toEqual(1)
   } catch (ex) {
     console.log(JSON.stringify(ex.response?.data, null, 2))
     throw ex
   }
   try {
     const postBoundWitnessesResult = await api.postBoundWitnesses([json, json])
-    expect(postBoundWitnessesResult).toEqual(2)
+    expect(postBoundWitnessesResult.boundWitnesses).toEqual(2)
   } catch (ex) {
     console.log(JSON.stringify(ex.response?.data, null, 2))
     throw ex

@@ -1,10 +1,10 @@
 interface TestPayload {
-  numberField: number
-  objectField: {
-    numberValue: number
-    stringValue: string
+  number_field: number
+  object_field: {
+    number_value: number
+    string_value: string
   }
-  stringField: string
+  string_field: string
   timestamp: number
 }
 

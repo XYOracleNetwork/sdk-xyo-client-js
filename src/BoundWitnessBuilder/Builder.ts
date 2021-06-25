@@ -70,6 +70,8 @@ class Builder {
 
   static hash<T extends Record<string, any>>(obj: T) {
     const stringObject = Builder.stringify<T>(obj)
+    console.log(`stringObjectLen: ${stringObject.length}`)
+    console.log(`stringObject: ${stringObject}`)
     return shajs('sha256').update(stringObject).digest('hex')
   }
 }

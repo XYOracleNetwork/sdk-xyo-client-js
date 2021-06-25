@@ -9,12 +9,12 @@ import ArchivistApiConfig from './ArchivistApiConfig'
 test('checking happy path', async () => {
   const payload: TestPayload = {
     timestamp: 1618603439107,
-    numberField: 1,
-    objectField: {
-      numberValue: 2,
-      stringValue: 'yo',
+    number_field: 1,
+    object_field: {
+      number_value: 2,
+      string_value: 'yo',
     },
-    stringField: 'there',
+    string_field: 'there',
   }
 
   const config: ArchivistApiConfig = {

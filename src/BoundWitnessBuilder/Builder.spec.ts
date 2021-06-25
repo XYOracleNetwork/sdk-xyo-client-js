@@ -6,25 +6,29 @@ import Builder from './Builder'
 
 test('checking happy path', () => {
   const payload1: TestPayload = {
-    timestamp: 1618603439107,
-    numberField: 1,
-    objectField: {
-      numberValue: 2,
-      stringValue: 'yo',
+    number_field: 1,
+    object_field: {
+      number_value: 2,
+      string_value: 'yo',
     },
-    stringField: 'there',
+    string_field: 'there',
+    timestamp: 1618603439107,
   }
   const payload2: TestPayload = {
-    numberField: 1,
+    number_field: 1,
     timestamp: 1618603439107,
-    objectField: {
-      stringValue: 'yo',
-      numberValue: 2,
+    object_field: {
+      string_value: 'yo',
+      number_value: 2,
     },
-    stringField: 'there',
+    string_field: 'there',
   }
 
-  const knownHash = '543fbf10ed1b3b167448e02771c1f8cc1a5eeac035a0b91209d716865cced551'
+  const payload1Hash = Builder.hash(payload1)
+
+  expect(payload1Hash).toEqual('13898b1fc7ef16c6eb8917b4bdd1aabbc1981069f035c51d4166a171273bfe3d')
+
+  const knownHash = 'af0ba507a43ce9cde64afd7bca25b901745b8aa8aa99cac1d53f732638bf967d'
 
   const address = XyoAddress.fromPhrase('test')
 

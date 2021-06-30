@@ -8,7 +8,7 @@ class Builder {
   private _addresses: XyoAddress[] = []
   private _previous_hashes: (string | null)[] = []
   private _payload_schemas: string[] = []
-  private _payloads: Record<string, any>[] = []
+  private _payloads: Record<string, unknown>[] = []
 
   private get _payload_hashes(): string[] {
     return this._payloads.map((payload) => {
@@ -22,7 +22,7 @@ class Builder {
     return this
   }
 
-  public payload(schema: string, payload: Record<string, any>) {
+  public payload(schema: string, payload: Record<string, unknown>) {
     this._payload_schemas.push(schema)
     this._payloads.push(assertEx(Builder.sortObject(payload)))
     return this
@@ -39,23 +39,23 @@ class Builder {
   }
 
   public build(): XyoBoundWitnessJson {
-    const hashableFields = this.hashableFields()
+    const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = Builder.hash(hashableFields)
-    return { ...hashableFields, _client: 'js', _hash }
+    return { ...hashableFields, _client: 'js', _hash } as XyoBoundWitnessJson
   }
 
-  static sortObject<T extends Record<string, any>>(obj: T) {
+  static sortObject<T extends Record<string, unknown>>(obj: T) {
     if (obj === null) {
       return null
     }
-    const result: Record<string, any> = {} as Record<string, any>
+    const result: Record<string, unknown> = {} as Record<string, unknown>
     Object.keys(obj)
       .sort()
       .forEach((key) => {
         if (Array.isArray(obj[key])) {
           result[key] = obj[key]
         } else if (typeof obj[key] === 'object') {
-          result[key] = Builder.sortObject(obj[key])
+          result[key] = Builder.sortObject(obj[key] as Record<string, unknown>)
         } else {
           result[key] = obj[key]
         }
@@ -63,12 +63,12 @@ class Builder {
     return result as T
   }
 
-  static stringify<T extends Record<string, any>>(obj: T) {
+  static stringify<T extends Record<string, unknown>>(obj: T) {
     const sortedEntry = this.sortObject<T>(obj)
     return JSON.stringify(sortedEntry)
   }
 
-  static hash<T extends Record<string, any>>(obj: T) {
+  static hash<T extends Record<string, unknown>>(obj: T) {
     const stringObject = Builder.stringify<T>(obj)
     return shajs('sha256').update(stringObject).digest('hex')
   }

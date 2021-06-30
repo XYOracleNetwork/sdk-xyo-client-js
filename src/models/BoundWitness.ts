@@ -13,7 +13,7 @@ import type { JSONSchemaType } from 'ajv'
 interface XyoBoundWitnessMetaJson {
   _client?: string
   _hash?: string
-  _payloads?: Record<string, any>[]
+  _payloads?: Record<string, unknown>[]
   _signatures?: string[]
 }
 

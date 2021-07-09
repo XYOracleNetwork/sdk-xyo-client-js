@@ -51,7 +51,7 @@
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/elliptic": "^6.4.12",
     "@types/jest": "^26.0.23",
-    "@types/node": "^15.12.2",
+    "@types/node": "^16.3.0",
     "@types/sha.js": "^2.4.0",
     "@xylabs/eslint-config": "^2.0.3",
     "@xyo-network/sdk-xyo-mongo-js": "^2.1.9",

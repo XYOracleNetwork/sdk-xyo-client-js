@@ -3402,9 +3402,9 @@ mongodb-connection-string-url@^1.0.0:
     whatwg-url "^8.4.0"
 
 mongodb@^4.0.0-beta.6:
-  version "4.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.0.0-beta.6.tgz#87a9fd4c87da26c0a6f2f29b5b676d6862911a4b"
-  integrity sha512-gV6IbnGWgHBiDgAaWCNSMymP6jIMk/zvCjUETPcFa1sUgar2XUpUXpCOdV1G7R7VrRBtpNRStbHIVx5MkbPFCA==
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.0.0.tgz#e97b1a98be44cac2e1832b35c21dbef695c0bab3"
+  integrity sha512-ZsqdUyeSeuP2rfWvHpihvQ3MRDXuzsKHmhr1/vtM37JWj6M4yZvIXYFp8OJ85dYI6FvB9KQ1x0Cy6DQinrjUwA==
   dependencies:
     bson "^4.4.0"
     denque "^1.5.0"

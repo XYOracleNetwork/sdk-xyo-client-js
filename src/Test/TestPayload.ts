@@ -1,4 +1,4 @@
-interface TestPayload {
+interface TestPayload extends Record<string, unknown> {
   number_field: number
   object_field: {
     number_value: number

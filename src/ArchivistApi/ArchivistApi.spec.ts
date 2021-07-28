@@ -1,5 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable sort-keys */
 import { XyoAddress } from '../Address'
 import { XyoBoundWitnessBuilder } from '../BoundWitnessBuilder'
 import { TestPayload } from '../Test'
@@ -8,18 +6,18 @@ import ArchivistApiConfig from './ArchivistApiConfig'
 
 test('checking happy path', async () => {
   const payload: TestPayload = {
-    timestamp: 1618603439107,
     number_field: 1,
     object_field: {
       number_value: 2,
       string_value: 'yo',
     },
     string_field: 'there',
+    timestamp: 1618603439107,
   }
 
   const config: ArchivistApiConfig = {
+    apiDomain: 'https://beta.archivist.xyo.network',
     archive: 'test',
-    apiDomain: 'http://localhost:3030/dev',
   }
 
   const address = XyoAddress.random()

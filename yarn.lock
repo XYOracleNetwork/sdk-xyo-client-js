@@ -969,14 +969,13 @@
     rollbar "^2.24.0"
 
 "@xyo-network/sdk-xyo-mongo-js@^2.1.9":
-  version "2.1.13"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.13.tgz#86f79131cc5a5392a5614e610ec51e1c80950420"
-  integrity sha512-LjBRxgj1VJ7YVNugfPs8MAK0tRGB8FswIZ3cNUqecI2FBKXTmqHR+kmZZ+ivyT5yP/RV61SkOCmMlTY6Itjhtg==
+  version "2.1.15"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.15.tgz#64eb6e1e2cbe83c78bb2ae33438314cc337999ae"
+  integrity sha512-U0/QA8C7wKI2uOYfOUtMlu7RtIocGhKXDZsbf0OdbdL1VmJ1XA5AuWsA+D3gn5YFuh6xYrkWsxt0nwybrjSqZQ==
   dependencies:
     "@xyo-network/sdk-xyo-js" "^2.1.15"
     async-mutex "^0.3.1"
-    axios "^0.21.1"
-    mongodb "^4.0.0-beta.6"
+    mongodb "^4.0.1"
     tslib "^2.2.0"
 
 abab@^2.0.3, abab@^2.0.5:
@@ -3394,21 +3393,21 @@ mkdirp@1.x, mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-mongodb-connection-string-url@^1.0.0:
+mongodb-connection-string-url@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-1.0.1.tgz#1509b44570851f5331f9ca7052b723789d63f8dc"
   integrity sha512-sXi8w9nwbMrErWbOK+8nofHz531rboasDbYAMS+sQ+W+2YnHN980RlMr+t5SDL6uKEU/kw/wG6jcjCTLiJltoA==
   dependencies:
     whatwg-url "^8.4.0"
 
-mongodb@^4.0.0-beta.6:
-  version "4.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.0.0-beta.6.tgz#87a9fd4c87da26c0a6f2f29b5b676d6862911a4b"
-  integrity sha512-gV6IbnGWgHBiDgAaWCNSMymP6jIMk/zvCjUETPcFa1sUgar2XUpUXpCOdV1G7R7VrRBtpNRStbHIVx5MkbPFCA==
+mongodb@^4.0.0-beta.6, mongodb@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.0.1.tgz#e7fa8de3448492097b3c67a0d980c4816907aa83"
+  integrity sha512-Ll2YCciRgbFN2jdfSqW1vhxvAcnqu+5ZlrTZNaEg+hZqKREg4xiUV56ZAtTjC02skfoTirHY5jQwtg7mBxqfug==
   dependencies:
     bson "^4.4.0"
     denque "^1.5.0"
-    mongodb-connection-string-url "^1.0.0"
+    mongodb-connection-string-url "^1.0.1"
   optionalDependencies:
     saslprep "^1.0.0"
 

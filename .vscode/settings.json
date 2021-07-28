@@ -1,8 +1,42 @@
 {
   "files.exclude": {
-    ".git": true,
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
     "**/.DS_Store": true,
-    "node_modules": true,
-    "dist": false
+    "**/node_modules": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/.webpack": true,
+    "**/.serverless": true,
+    "**/.rollup.cache": true
+  },
+  "editor.formatOnSave": true,
+  "editor.quickSuggestions": true,
+  "editor.tabSize": 2,
+  "editor.suggestSelection": "first",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "files.autoSave": "onFocusChange",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
 }

@@ -10,6 +10,12 @@ class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJ
     this._archive = archive
   }
 
+  public async findByHash(hash: string) {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
+      return await collection.findOne({ _hash: hash })
+    })
+  }
+
   public async insert(item: WithXyoArchivistMeta<XyoBoundWitnessJson>) {
     const _timestamp = Date.now()
     return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {

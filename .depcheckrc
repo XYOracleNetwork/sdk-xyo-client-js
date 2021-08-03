@@ -1,6 +1,7 @@
 ignores: [
   "@types/jest",
   "@types/node",
+  "npm-package-json-lint-config-default",
   "ts-node",
   "vue"
 ]

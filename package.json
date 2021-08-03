@@ -18,14 +18,14 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
-  "main": "./index.cjs",
-  "module": "./index.js",
-  "types": "./index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@xyo-network/sdk-xyo-js": "^2.1.23",
     "@xyo-network/sdk-xyo-mongo-js": "^2.1.9",
     "axios": "^0.21.1",
@@ -35,16 +35,18 @@
     "tslib": "^2.3.0"
   },
   "scripts": {
-    "build": "rm -r -f dist && yarn deps && yarn lint && yarn compile && yarn copy-src",
-    "copy-src": "cp package.json dist && cp README.md dist && cp LICENSE dist && cp -R src/* dist",
-    "compile": "tsc && rollup -c rollup.config.ts",
-    "deploy": "yarn version --patch && yarn build && yarn publish ./dist",
+    "build": "rm -r -f dist && yarn deps && yarn lint && yarn lint-pkg && yarn compile",
+    "compile": "tsc -p tsconfig.build.json && rollup -c rollup.config.ts",
+    "deploy": "yarn version --patch && yarn build && yarn publish",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
+    "lint-pkg": "npmPkgJsonLint .",
     "fix": "eslint --ext .js,.jsx,.ts,.tsx ./src --fix",
     "test": "yarn build && yarn jest ./src",
     "clean": "rm -f *.tsbuildinfo && rm -r -f ./dist",
     "reinstall": "rm -r -f ./node_modules && rm -f ./yarn.lock && rm -f ./yarn-error.log && yarn install && yarn outdated",
     "tsprune": "yarn ts-prune",
+    "up": "yarn ncu",
+    "updo": "yarn ncu -u && yarn install",
     "deps": "yarn depcheck"
   },
   "devDependencies": {
@@ -54,20 +56,17 @@
     "@types/node": "^16",
     "@types/sha.js": "^2.4.0",
     "@xylabs/eslint-config": "^2.0.3",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.1.9",
     "ajv": "^8.6.0",
-    "axios": "^0.21.1",
     "depcheck": "^1.4.0",
-    "elliptic": "^6.5.4",
     "eslint": "^7.29.0",
     "jest": "^27.0.4",
-    "mongodb": "^4.0.1",
+    "npm-check-updates": "^11.8.3",
+    "npm-package-json-lint": "^5.2.2",
+    "npm-package-json-lint-config-default": "^3.0.0",
     "rollup": "^2.52.1",
-    "sha.js": "^2.4.11",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
     "ts-prune": "^0.9.0",
-    "tslib": "^2.3.0",
     "typescript": "^4.3.4",
     "vue": "^3.1.5"
   },

@@ -1,6 +1,6 @@
-.github
-src
-tsconfig*.json
+.*
+tsconfig*
 rollup.config.ts
-.eslintrc
-.prettierrc
+jest.config.js
+rollup.config.ts
+yarn.lock

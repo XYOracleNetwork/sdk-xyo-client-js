@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@xyo-network/sdk-xyo-js": "^2.1.35",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.1.16",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.1.17",
     "axios": "^0.21.1",
     "elliptic": "^6.5.4",
     "mongodb": "^4.1.0",

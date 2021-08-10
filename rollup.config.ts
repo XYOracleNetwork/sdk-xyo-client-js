@@ -6,6 +6,7 @@ export default [
     input: 'src/index.ts',
     output: [
       {
+        exports: 'auto',
         file: 'dist/index.cjs',
         format: 'cjs',
         sourcemap: true,

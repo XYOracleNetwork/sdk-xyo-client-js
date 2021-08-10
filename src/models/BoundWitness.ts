@@ -13,8 +13,12 @@ import type { JSONSchemaType } from 'ajv'
 interface XyoBoundWitnessMetaJson {
   _client?: string
   _hash?: string
+  _archive?: string
   _payloads?: Record<string, unknown>[]
   _signatures?: string[]
+  _timestamp?: number
+  _source_ip?: string
+  _user_agent?: string
 }
 
 interface XyoBoundWitnessBodyJson {
@@ -32,10 +36,14 @@ const XyoBoundWitnessMetaSchema: JSONSchemaType<XyoBoundWitnessMetaJson> = {
   $id: 'https://schemas.xyo.network/2.0/boundwitness/meta',
   additionalProperties: false,
   properties: {
+    _archive: { nullable: true, type: 'string' },
     _client: { nullable: true, type: 'string' },
     _hash: { nullable: true, type: 'string' },
     _payloads: { items: { type: 'object' }, nullable: true, type: 'array' },
     _signatures: { items: { type: 'string' }, nullable: true, type: 'array' },
+    _source_ip: { nullable: true, type: 'string' },
+    _timestamp: { nullable: true, type: 'number' },
+    _user_agent: { nullable: true, type: 'string' },
   },
   type: 'object',
 }
@@ -57,10 +65,14 @@ const XyoBoundWitnessSchema: JSONSchemaType<XyoBoundWitnessJson> = {
   $id: 'https://schemas.xyo.network/2.0/boundwitness',
   additionalProperties: false,
   properties: {
+    _archive: { nullable: true, type: 'string' },
     _client: { nullable: true, type: 'string' },
     _hash: { nullable: true, type: 'string' },
     _payloads: { items: { type: 'object' }, nullable: true, type: 'array' },
     _signatures: { items: { type: 'string' }, nullable: true, type: 'array' },
+    _source_ip: { nullable: true, type: 'string' },
+    _timestamp: { nullable: true, type: 'number' },
+    _user_agent: { nullable: true, type: 'string' },
     addresses: { items: { type: 'string' }, type: 'array' },
     payload_hashes: { items: { type: 'string' }, type: 'array' },
     payload_schemas: { items: { type: 'string' }, type: 'array' },

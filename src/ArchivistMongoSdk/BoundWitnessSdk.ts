@@ -2,9 +2,9 @@ import { assertEx } from '@xyo-network/sdk-xyo-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection } from 'mongodb'
 
-import { WithXyoArchivistMeta, XyoBoundWitness } from '../models'
+import { XyoBoundWitness } from '../models'
 
-class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitness>> {
+class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
   private _archive: string
   constructor(config: BaseMongoSdkConfig, archive: string) {
     super(config)
@@ -12,21 +12,21 @@ class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitness>
   }
 
   public async findByHash(hash: string) {
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
       return await collection.findOne({ _hash: hash })
     })
   }
 
   public async sample(size: number) {
     assertEx(size <= 10, `size must be <= 10 [${size}]`)
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
       return await collection.aggregate([{ $sample: { size } }]).toArray()
     })
   }
 
-  public async insert(item: WithXyoArchivistMeta<XyoBoundWitness>) {
+  public async insert(item: XyoBoundWitness) {
     const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
       const result = await collection.insertOne({ _archive: this._archive, _timestamp, ...item })
       if (result.acknowledged) {
         return result.insertedId
@@ -38,7 +38,7 @@ class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitness>
 
   public async insertMany(items: XyoBoundWitness[]) {
     const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
       const result = await collection.insertMany(
         items.map((item) => {
           return { _archive: this._archive, _timestamp, ...item }

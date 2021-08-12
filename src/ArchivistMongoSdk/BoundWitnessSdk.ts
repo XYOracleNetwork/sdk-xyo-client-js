@@ -13,7 +13,7 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
 
   public async findByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection.findOne({ _hash: hash })
+      return await collection.find({ _hash: hash }).toArray()
     })
   }
 

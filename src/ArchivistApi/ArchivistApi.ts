@@ -35,7 +35,7 @@ class XyoArchivistApi {
 
   public async getBoundWitnessByHash(hash: string) {
     return (
-      await axios.get<XyoBoundWitness>(`${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}`, {
+      await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}`, {
         headers: this.headers,
       })
     ).data

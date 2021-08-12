@@ -18,7 +18,7 @@ class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitness>
   }
 
   public async sample(size: number) {
-    assertEx(size <= 0, 'size must be <= 10')
+    assertEx(size <= 10, `size must be <= 10 [${size}]`)
     return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
       return await collection.aggregate([{ $sample: { size } }]).toArray()
     })

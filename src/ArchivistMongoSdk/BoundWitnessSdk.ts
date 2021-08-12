@@ -2,9 +2,9 @@ import { assertEx } from '@xyo-network/sdk-xyo-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection } from 'mongodb'
 
-import { WithXyoArchivistMeta, XyoBoundWitnessJson } from '../models'
+import { WithXyoArchivistMeta, XyoBoundWitness } from '../models'
 
-class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJson>> {
+class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitness>> {
   private _archive: string
   constructor(config: BaseMongoSdkConfig, archive: string) {
     super(config)
@@ -12,21 +12,21 @@ class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJ
   }
 
   public async findByHash(hash: string) {
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
       return await collection.findOne({ _hash: hash })
     })
   }
 
-  public async getRandom(size: number) {
+  public async sample(size: number) {
     assertEx(size <= 0, 'size must be <= 10')
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
       return await collection.aggregate([{ $sample: { size } }]).toArray()
     })
   }
 
-  public async insert(item: WithXyoArchivistMeta<XyoBoundWitnessJson>) {
+  public async insert(item: WithXyoArchivistMeta<XyoBoundWitness>) {
     const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
       const result = await collection.insertOne({ _archive: this._archive, _timestamp, ...item })
       if (result.acknowledged) {
         return result.insertedId
@@ -36,9 +36,9 @@ class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJ
     })
   }
 
-  public async insertMany(items: XyoBoundWitnessJson[]) {
+  public async insertMany(items: XyoBoundWitness[]) {
     const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitness>>) => {
       const result = await collection.insertMany(
         items.map((item) => {
           return { _archive: this._archive, _timestamp, ...item }

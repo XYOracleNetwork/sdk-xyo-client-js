@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { XyoBoundWitnessJson } from '../models'
+import { XyoBoundWitness } from '../models'
 import XyoArchivistApiConfig from './ArchivistApiConfig'
 
 class XyoArchivistApi {
@@ -17,7 +17,7 @@ class XyoArchivistApi {
     return this.authenticated ? { Authorization: this.config.token } : {}
   }
 
-  public async postBoundWitnesses(boundWitnesses: XyoBoundWitnessJson[]) {
+  public async postBoundWitnesses(boundWitnesses: XyoBoundWitness[]) {
     return (
       await axios.post<{ boundWitnesses?: number; payloads?: number }>(
         `${this.config.apiDomain}/archive/${this.config.archive}/bw`,
@@ -29,13 +29,21 @@ class XyoArchivistApi {
     ).data
   }
 
-  public async postBoundWitness(entry: XyoBoundWitnessJson) {
+  public async postBoundWitness(entry: XyoBoundWitness) {
     return await this.postBoundWitnesses([entry])
   }
 
   public async getBoundWitnessByHash(hash: string) {
     return (
-      await axios.get<XyoBoundWitnessJson>(`${this.config.apiDomain}/archive/${this.config.archive}/bw/${hash}`, {
+      await axios.get<XyoBoundWitness>(`${this.config.apiDomain}/archive/${this.config.archive}/bw/${hash}`, {
+        headers: this.headers,
+      })
+    ).data
+  }
+
+  public async getBoundWitnessSample(size: number) {
+    return (
+      await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/bw/sample/${size}`, {
         headers: this.headers,
       })
     ).data

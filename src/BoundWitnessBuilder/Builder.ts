@@ -2,7 +2,7 @@ import { assertEx } from '@xyo-network/sdk-xyo-js'
 import shajs from 'sha.js'
 
 import { XyoAddress } from '../Address'
-import { XyoBoundWitnessJson } from '../models'
+import { XyoBoundWitness } from '../models'
 
 class Builder {
   private _addresses: XyoAddress[] = []
@@ -28,7 +28,7 @@ class Builder {
     return this
   }
 
-  public hashableFields(): XyoBoundWitnessJson {
+  public hashableFields(): XyoBoundWitness {
     const addresses = this._addresses.map((address) => address.publicKey)
     return {
       addresses: assertEx(addresses, 'Missing addresses'),
@@ -38,10 +38,10 @@ class Builder {
     }
   }
 
-  public build(): XyoBoundWitnessJson {
+  public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = Builder.hash(hashableFields)
-    return { ...hashableFields, _client: 'js', _hash } as XyoBoundWitnessJson
+    return { ...hashableFields, _client: 'js', _hash } as XyoBoundWitness
   }
 
   static sortObject<T extends Record<string, unknown>>(obj: T) {

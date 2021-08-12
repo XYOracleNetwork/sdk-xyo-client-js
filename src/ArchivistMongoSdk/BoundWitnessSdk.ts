@@ -1,3 +1,4 @@
+import { assertEx } from '@xyo-network/sdk-xyo-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection } from 'mongodb'
 
@@ -13,6 +14,13 @@ class BoundWitnessSdk extends BaseMongoSdk<WithXyoArchivistMeta<XyoBoundWitnessJ
   public async findByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
       return await collection.findOne({ _hash: hash })
+    })
+  }
+
+  public async getRandom(size: number) {
+    assertEx(size <= 0, 'size must be <= 10')
+    return await this.useCollection(async (collection: Collection<WithXyoArchivistMeta<XyoBoundWitnessJson>>) => {
+      return await collection.aggregate([{ $sample: { size } }]).toArray()
     })
   }
 

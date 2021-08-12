@@ -20,7 +20,7 @@ class XyoArchivistApi {
   public async postBoundWitnesses(boundWitnesses: XyoBoundWitness[]) {
     return (
       await axios.post<{ boundWitnesses?: number; payloads?: number }>(
-        `${this.config.apiDomain}/archive/${this.config.archive}/bw`,
+        `${this.config.apiDomain}/archive/${this.config.archive}/block`,
         { boundWitnesses },
         {
           headers: this.headers,
@@ -35,7 +35,7 @@ class XyoArchivistApi {
 
   public async getBoundWitnessByHash(hash: string) {
     return (
-      await axios.get<XyoBoundWitness>(`${this.config.apiDomain}/archive/${this.config.archive}/bw/${hash}`, {
+      await axios.get<XyoBoundWitness>(`${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}`, {
         headers: this.headers,
       })
     ).data
@@ -43,9 +43,12 @@ class XyoArchivistApi {
 
   public async getBoundWitnessSample(size: number) {
     return (
-      await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/bw/sample/${size}`, {
-        headers: this.headers,
-      })
+      await axios.get<XyoBoundWitness[]>(
+        `${this.config.apiDomain}/archive/${this.config.archive}/block/sample/${size}`,
+        {
+          headers: this.headers,
+        }
+      )
     ).data
   }
 

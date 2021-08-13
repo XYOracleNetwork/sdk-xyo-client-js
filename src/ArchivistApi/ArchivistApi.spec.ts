@@ -1,5 +1,5 @@
 import { XyoAddress } from '../Address'
-import { XyoBoundWitnessBuilder } from '../BoundWitnessBuilder'
+import { XyoBoundWitnessBuilder } from '../BoundWitness'
 import { TestPayload } from '../Test'
 import ArchivistApi from './ArchivistApi'
 import ArchivistApiConfig from './ArchivistApiConfig'

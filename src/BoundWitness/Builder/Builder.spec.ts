@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
-import { XyoAddress } from '../Address'
-import { TestPayload } from '../Test'
+import { XyoAddress } from '../../Address'
+import { TestPayload } from '../../Test'
 import Builder from './Builder'
 
 test('checking happy path', () => {

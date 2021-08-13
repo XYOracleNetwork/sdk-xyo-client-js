@@ -27,10 +27,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@xyo-network/sdk-xyo-js": "^2.1.35",
+    "@xyo-network/sdk-xyo-js": "^2.1.36",
     "@xyo-network/sdk-xyo-mongo-js": "^2.1.17",
     "axios": "^0.21.1",
     "elliptic": "^6.5.4",
+    "is-ip": "^3.1.0",
+    "lodash": "^4.17.21",
     "mongodb": "^4.1.0",
     "sha.js": "^2.4.11",
     "tslib": "^2.3.1"
@@ -43,6 +45,8 @@
     "lint-pkg": "npmPkgJsonLint .",
     "fix": "eslint --ext .js,.jsx,.ts,.tsx ./src --fix",
     "test": "yarn build && yarn jest ./src",
+    "test:bw": "yarn build && yarn jest ./src/BoundWitness",
+    "test:api": "yarn build && yarn jest ./src/ArchivistApi",
     "clean": "rm -f *.tsbuildinfo && rm -r -f ./dist",
     "reinstall": "rm -r -f ./node_modules && rm -f ./yarn.lock && rm -f ./yarn-error.log && yarn install && yarn outdated",
     "tsprune": "yarn ts-prune",
@@ -53,7 +57,8 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/elliptic": "^6.4.13",
-    "@types/jest": "^27.0.0",
+    "@types/jest": "^27.0.1",
+    "@types/lodash": "^4.14.172",
     "@types/node": "^16",
     "@types/sha.js": "^2.4.0",
     "@xylabs/eslint-config": "^2.0.16",

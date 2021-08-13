@@ -1,8 +1,8 @@
 import { assertEx } from '@xyo-network/sdk-xyo-js'
 import shajs from 'sha.js'
 
-import { XyoAddress } from '../Address'
-import { XyoBoundWitness } from '../models'
+import { XyoAddress } from '../../Address'
+import { XyoBoundWitness } from '../../models'
 
 class Builder {
   private _addresses: XyoAddress[] = []

@@ -13,7 +13,7 @@
   },
   "license": "LGPL-3.0",
   "private": false,
-  "version": "2.1.37",
+  "version": "2.1.38",
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
@@ -60,6 +60,7 @@
     "ajv": "^8.6.2",
     "depcheck": "^1.4.2",
     "eslint": "^7.32.0",
+    "eslint-plugin-tsdoc": "^0.2.14",
     "jest": "^27.0.6",
     "npm-check-updates": "^11.8.3",
     "npm-package-json-lint": "^5.2.2",

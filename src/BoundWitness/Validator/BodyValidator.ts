@@ -13,14 +13,14 @@ class BodyValidator {
     const errors: Error[] = []
     const { addresses } = this.body
     const uniqAddresses = uniq(addresses)
-    if (addresses.length !== uniqAddresses.length) errors.push(Error('addresses must be unique'))
+    if (addresses.length !== uniqAddresses.length) errors.push(new Error('addresses must be unique'))
     return errors
   }
 
   public addresses() {
     const errors: Error[] = []
     const { addresses } = this.body
-    if (addresses.length === 0) errors.push(Error('addresses missing [at least one address required]'))
+    if (addresses.length === 0) errors.push(new Error('addresses missing [at least one address required]'))
     errors.push(...this.addressesUniqueness())
     return errors
   }
@@ -29,9 +29,9 @@ class BodyValidator {
     const errors: Error[] = []
     const { addresses } = this.body
     const array = this.body[fieldName] as unknown[]
-    if (array == undefined) errors.push(Error(`${fieldName} missing`))
+    if (array == undefined) errors.push(new Error(`${fieldName} missing`))
     else if (array.length !== addresses.length)
-      errors.push(Error(`${fieldName}/addresses count mismatch [${array.length} !== ${addresses.length}]`))
+      errors.push(new Error(`${fieldName}/addresses count mismatch [${array.length} !== ${addresses.length}]`))
     return errors
   }
 

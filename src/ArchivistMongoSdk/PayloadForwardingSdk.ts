@@ -13,7 +13,7 @@ class PayloadForwardingSdk extends BaseMongoSdk<MongoDocument> {
       if (result.acknowledged) {
         return result.insertedId
       } else {
-        throw Error('Insert Failed')
+        throw new Error('Insert Failed')
       }
     })
   }
@@ -29,7 +29,7 @@ class PayloadForwardingSdk extends BaseMongoSdk<MongoDocument> {
       if (result.acknowledged) {
         return result.insertedCount
       } else {
-        throw Error('Insert Failed')
+        throw new Error('Insert Failed')
       }
     })
   }

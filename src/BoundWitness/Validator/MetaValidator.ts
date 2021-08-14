@@ -24,7 +24,7 @@ class MetaValidator {
 
     const bodyHash = XyoBoundWitnessBuilder.hash(body)
     if (bodyHash !== this.bw._hash)
-      errors.push(Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.bw._hash}]`))
+      errors.push(new Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.bw._hash}]`))
     return errors
   }
 
@@ -41,24 +41,24 @@ class MetaValidator {
   public timestamp() {
     const errors: Error[] = []
     const { _timestamp } = this.bw
-    if (_timestamp === undefined) errors.push(Error('Missing _timestamp'))
-    else if (_timestamp < MIN_ALLOWED_TIMESTAMP) errors.push(Error('_timestamp is before year 2021'))
-    else if (_timestamp > MAX_ALLOWED_TIMESTAMP) errors.push(Error('_timestamp is after year 2100'))
+    if (_timestamp === undefined) errors.push(new Error('Missing _timestamp'))
+    else if (_timestamp < MIN_ALLOWED_TIMESTAMP) errors.push(new Error('_timestamp is before year 2021'))
+    else if (_timestamp > MAX_ALLOWED_TIMESTAMP) errors.push(new Error('_timestamp is after year 2100'))
     return errors
   }
 
   public sourceIp() {
     const errors: Error[] = []
     const { _source_ip } = this.bw
-    if (!_source_ip) errors.push(Error('_source_ip missing'))
-    else if (!isIp(_source_ip)) errors.push(Error(`_source_ip invalid format [${_source_ip}]`))
+    if (!_source_ip) errors.push(new Error('_source_ip missing'))
+    else if (!isIp(_source_ip)) errors.push(new Error(`_source_ip invalid format [${_source_ip}]`))
     return errors
   }
 
   public userAgent() {
     const errors: Error[] = []
     const { _user_agent } = this.bw
-    if (!_user_agent) errors.push(Error('_user_agent missing'))
+    if (!_user_agent) errors.push(new Error('_user_agent missing'))
     return errors
   }
 

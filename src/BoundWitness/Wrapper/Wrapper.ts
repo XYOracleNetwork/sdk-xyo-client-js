@@ -1,7 +1,7 @@
 import { XyoBoundWitness } from '../../models'
 import { XyoBoundWitnessValidator } from '../Validator'
 
-class XyoBoundWitnessWrapper {
+class Wrapper {
   public readonly bw: XyoBoundWitness
   constructor(bw: XyoBoundWitness) {
     this.bw = bw
@@ -9,9 +9,9 @@ class XyoBoundWitnessWrapper {
 
   private _validator?: XyoBoundWitnessValidator
   get validator() {
-    this._validator = this._validator || new XyoBoundWitnessValidator(this.bw)
+    this._validator = this._validator ?? new XyoBoundWitnessValidator(this.bw)
     return this._validator
   }
 }
 
-export default XyoBoundWitnessWrapper
+export default Wrapper

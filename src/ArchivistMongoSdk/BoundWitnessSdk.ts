@@ -31,7 +31,7 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
       if (result.acknowledged) {
         return result.insertedId
       } else {
-        throw Error('Insert Failed')
+        throw new Error('Insert Failed')
       }
     })
   }
@@ -47,7 +47,7 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
       if (result.acknowledged) {
         return result.insertedCount
       } else {
-        throw Error('Insert Failed')
+        throw new Error('Insert Failed')
       }
     })
   }

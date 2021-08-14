@@ -1,6 +1,7 @@
 import uniq from 'lodash/uniq'
 
 import { WithStringIndex, XyoBoundWitnessBody } from '../../models'
+import SchemaValidator from '../../SchemaValidator'
 
 class BodyValidator {
   private body: WithStringIndex<XyoBoundWitnessBody>
@@ -64,6 +65,12 @@ class BodyValidator {
 
   public payloadHashes() {
     const errors: Error[] = []
+    const schemaValidators = this.body.payload_schemas.map((schema) => {
+      return new SchemaValidator(schema)
+    })
+    schemaValidators.forEach((validator) => {
+      errors.push(...validator.all())
+    })
     return errors
   }
 

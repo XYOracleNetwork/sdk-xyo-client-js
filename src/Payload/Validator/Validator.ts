@@ -1,5 +1,5 @@
 import { XyoPayload } from '../../models'
-import SchemaValidator from './SchemaValidator'
+import SchemaValidator from '../../SchemaValidator'
 
 class Validator {
   private payload: XyoPayload

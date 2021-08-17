@@ -3,3 +3,4 @@ dist
 .DS_Store
 *.log
 .rollup.cache
+.nyc_output

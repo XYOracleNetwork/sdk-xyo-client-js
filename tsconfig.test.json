@@ -7,5 +7,5 @@
     "module": "CommonJS"
   },
   "include": ["src/**/*.spec.ts"],
-  "exclude": ["src/**/*.ts"]
+  "exclude": ["src/**/*.ts", "node_modules"]
 }

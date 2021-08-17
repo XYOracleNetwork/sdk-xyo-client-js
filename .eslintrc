@@ -3,14 +3,6 @@
   "extends": [
     "@xylabs"
   ],
-  "plugins": [
-    "eslint-plugin-tsdoc"
-  ],
-  "settings": {
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
-    }
-  },
   "rules": {
     "import/no-internal-modules": [
       "warn", {
@@ -18,7 +10,6 @@
           "lodash/*"
         ]
       }
-    ],
-    "tsdoc/syntax": "warn"
+    ]
   }
 }

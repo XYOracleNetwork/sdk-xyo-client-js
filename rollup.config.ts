@@ -11,6 +11,7 @@ export default [
       'lodash/pick',
       'lodash/uniq',
       'is-ip',
+      'ajv',
     ],
     input: 'src/index.ts',
     output: [

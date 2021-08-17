@@ -3,9 +3,11 @@ import XyoBoundWitnessBodyValidator from './BodyValidator'
 import XyoBoundWitnessMetaValidator from './MetaValidator'
 
 class Validator {
+  private bw: XyoBoundWitness
   public body: XyoBoundWitnessBodyValidator
   public meta: XyoBoundWitnessMetaValidator
   constructor(bw: XyoBoundWitness) {
+    this.bw = bw
     this.body = new XyoBoundWitnessBodyValidator(bw)
     this.meta = new XyoBoundWitnessMetaValidator(bw)
   }

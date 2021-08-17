@@ -1,8 +1,6 @@
-import type { JSONSchemaType } from 'ajv'
-
-import XyoBoundWitnessBody from './XyoBoundWitnessBody'
-
-const XyoBoundWitnessBodySchema: JSONSchemaType<XyoBoundWitnessBody> = {
+//Should type as JSONSchemaType<XyoBoundWitnessBody> once ajv/eslint issue is fixed
+//https://github.com/microsoft/TypeScript/issues/44851
+const XyoBoundWitnessBodySchema = {
   $id: 'https://schemas.xyo.network/2.0/boundwitness/body',
   additionalProperties: false,
   properties: {

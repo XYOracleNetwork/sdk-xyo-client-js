@@ -1,8 +1,7 @@
-import type { JSONSchemaType } from 'ajv'
+//Should type as JSONSchemaType<XyoBoundWitnessMeta> once ajv/eslint issue is fixed
+//https://github.com/microsoft/TypeScript/issues/44851
 
-import XyoBoundWitnessMeta from './XyoBoundWitnessMeta'
-
-const XyoBoundWitnessMetaSchema: JSONSchemaType<XyoBoundWitnessMeta> = {
+const XyoBoundWitnessMetaSchema = {
   $id: 'https://schemas.xyo.network/2.0/boundwitness/meta',
   additionalProperties: false,
   properties: {

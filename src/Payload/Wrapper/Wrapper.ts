@@ -1,7 +1,7 @@
 import { XyoPayload } from '../../models'
 import { XyoPayloadValidator } from '../Validator'
 
-class XyoBoundWitnessWrapper {
+class XyoPayloadWrapper {
   public readonly payload: XyoPayload
   constructor(payload: XyoPayload) {
     this.payload = payload
@@ -14,4 +14,4 @@ class XyoBoundWitnessWrapper {
   }
 }
 
-export default XyoBoundWitnessWrapper
+export default XyoPayloadWrapper

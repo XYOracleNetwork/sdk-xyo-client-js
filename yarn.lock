@@ -1619,7 +1619,7 @@ chalk@^2.0.0:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.1:
+chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.1, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -4610,13 +4610,13 @@ npm-package-json-lint-config-default@^3.0.0:
   integrity sha512-1eOHUSg4Pg1lDp75NJ/pTnYU3/vn7WIL+3MG5KWtrUEFtIuBX/yLGABTFZ4+sP73bQYu/Nla07icJjezQP6SnA==
 
 npm-package-json-lint@^5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/npm-package-json-lint/-/npm-package-json-lint-5.2.2.tgz#5d24d77112423a90ef7423f11e538a0ed363bb52"
-  integrity sha512-rs+mTLK31dRHzOrPcA33VoVgPxib0WecKGKOm6XkE186/FqiZGmGgkNLpxx1baUORkSmU1ETyi7aQXlZUzqZIA==
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/npm-package-json-lint/-/npm-package-json-lint-5.2.3.tgz#87049bf2089337c275cb0650f2341bf286706dd5"
+  integrity sha512-rSgc4eVhtfwrU7AWwovqFWy8OEkgQL99vD3vWJmqtU9gxxJxKzi6Wqgo3gF7lhrBpyVcnlKxy/L2JCsvjWruDA==
   dependencies:
     ajv "^6.12.6"
     ajv-errors "^1.0.1"
-    chalk "^4.1.1"
+    chalk "^4.1.2"
     cosmiconfig "^6.0.0"
     debug "^4.3.2"
     globby "^11.0.4"

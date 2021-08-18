@@ -35,7 +35,8 @@
     "lodash": "^4.17.21",
     "mongodb": "^4.1.0",
     "sha.js": "^2.4.11",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "ua-parser-js": "^0.7.28"
   },
   "scripts": {
     "build": "rm -r -f dist && yarn deps && yarn lint && yarn lint-pkg && yarn compile",
@@ -63,6 +64,7 @@
     "@types/lodash": "^4.14.172",
     "@types/node": "^16",
     "@types/sha.js": "^2.4.0",
+    "@types/ua-parser-js": "^0.7.36",
     "@xylabs/eslint-config": "^2.0.16",
     "depcheck": "^1.4.2",
     "eslint": "^7.32.0",

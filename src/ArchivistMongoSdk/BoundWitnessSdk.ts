@@ -11,6 +11,12 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
     this._archive = archive
   }
 
+  public async findRecent(limit = 20) {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
+      return await collection.find().sort({ _timestamp: -1 }).limit(limit).toArray()
+    })
+  }
+
   public async findByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
       return await collection.find({ _hash: hash }).toArray()

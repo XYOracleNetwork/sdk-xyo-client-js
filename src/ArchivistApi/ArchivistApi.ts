@@ -1,3 +1,4 @@
+import { assertEx } from '@xyo-network/sdk-xyo-js'
 import axios from 'axios'
 
 import { XyoBoundWitness } from '../models'
@@ -38,6 +39,19 @@ class XyoArchivistApi {
       await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}`, {
         headers: this.headers,
       })
+    ).data
+  }
+
+  public async getBoundWitnessMostRecent(limit = 20) {
+    assertEx(limit > 0, 'min limit = 1')
+    assertEx(limit <= 100, 'max size = 100')
+    return (
+      await axios.get<XyoBoundWitness[]>(
+        `${this.config.apiDomain}/archive/${this.config.archive}/block/recent/${limit}`,
+        {
+          headers: this.headers,
+        }
+      )
     ).data
   }
 

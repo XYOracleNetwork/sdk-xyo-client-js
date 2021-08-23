@@ -1028,9 +1028,9 @@
     rollbar "^2.24.0"
 
 "@xyo-network/sdk-xyo-mongo-js@^2.1.17":
-  version "2.1.17"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.17.tgz#35e6e373f22cad1702e621c2d71391436b79fd1a"
-  integrity sha512-j2fQ4SzbOMPuxrDnrXatoX0psXLG2joDLo1Tepwoj6WQwGM0doNJPCLwVF5xhosds6c+VEs1FuZ+HbuZRXHBqA==
+  version "2.1.18"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.18.tgz#732636173a954c27f2e9c16c3113fa23d338651a"
+  integrity sha512-ee5ZzZnS+2JGOUiaoDgmMMuoa52grzJpML7MQszoggkLSr4F8qo6RRIixJsw7/XSCraxjkMoZ91HrJezAYY2CA==
   dependencies:
     "@xyo-network/sdk-xyo-js" "^2.1.35"
     async-mutex "^0.3.1"

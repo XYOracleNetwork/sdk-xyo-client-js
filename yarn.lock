@@ -1005,17 +1005,17 @@
     typescript "^4.3.4"
 
 "@xylabs/ts-scripts@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.4.tgz#28fb3ce3c79d3fa510436840203482a91d0503f8"
-  integrity sha512-dyCAOJd24vsWU3FPH3mZX8DFvWMgvhH4f0J80iy+98cuqPq+IigRsp5D7s7Q76SPKVorj47g0XW8hN2w25WG0w==
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.5.tgz#0f1b59fa3fba7b349d7228ab0b12e15b24ebc9d1"
+  integrity sha512-x0JPf5PDXSKOAyt4fvwpPzkUcBIVbZ0KZu1XHXW/NMuP7MuL3l+wD3pJTbyGelW3XvuY0y9qImJSQP+j/0YVNA==
   dependencies:
     "@rollup/plugin-typescript" "^8.2.5"
     "@xylabs/eslint-config" "^2.0.16"
     depcheck "^1.4.2"
     eslint "^7.32.0"
     npm-check-updates "^11.8.3"
-    rollup "^2.56.2"
-    ts-prune "^0.9.3"
+    rollup "^2.56.3"
+    ts-prune "^0.10.0"
     tslib "^2.3.1"
     typescript "^4.3.5"
 
@@ -5451,10 +5451,10 @@ rollbar@^2.24.0:
   optionalDependencies:
     decache "^3.0.5"
 
-rollup@^2.56.2:
-  version "2.56.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.56.2.tgz#a045ff3f6af53ee009b5f5016ca3da0329e5470f"
-  integrity sha512-s8H00ZsRi29M2/lGdm1u8DJpJ9ML8SUOpVVBd33XNeEeL3NVaTiUcSBHzBdF3eAyR0l7VSpsuoVUGrRHq7aPwQ==
+rollup@^2.56.2, rollup@^2.56.3:
+  version "2.56.3"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.56.3.tgz#b63edadd9851b0d618a6d0e6af8201955a77aeff"
+  integrity sha512-Au92NuznFklgQCUcV96iXlxUbHuB1vQMaH76DHl5M11TotjOHwqk9CwcrT78+Tnv4FN9uTBxq6p4EJoYkpyekg==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -6063,10 +6063,10 @@ ts-node@^10.2.1:
     make-error "^1.1.1"
     yn "3.1.1"
 
-ts-prune@^0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/ts-prune/-/ts-prune-0.9.3.tgz#b157705bb68af51e83ed368dd179d8034e19b22e"
-  integrity sha512-Q96xbl4MD/Tx3aB07l+jN1CUMNPsVIdXZFQhx6eFVl2fJQWMBs9cRnLi5hZdR4nur+0a+FLIlBdLbnb/jH5uHg==
+ts-prune@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/ts-prune/-/ts-prune-0.10.0.tgz#f5900a74b1c04412e381cb03bf96a0c75b145935"
+  integrity sha512-Jalmn8is0mtQKCoFtnq0Vtuxlf+QpfdAwmbyTyx/8jN3s2TcFNxzrIHua9bx4uaZ4k9FBr7+l1xSNTT+tV65UQ==
   dependencies:
     commander "^6.2.1"
     cosmiconfig "^7.0.0"

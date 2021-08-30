@@ -1,5 +1,7 @@
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection, Document as MongoDocument } from 'mongodb'
+import { Collection, Document as MongoDocument, ObjectId } from 'mongodb'
+
+import { XyoPayloadWrapper } from '../Payload'
 
 class PayloadSdk extends BaseMongoSdk<MongoDocument> {
   constructor(config: BaseMongoSdkConfig) {
@@ -8,8 +10,9 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
 
   public async insert(item: MongoDocument) {
     const _timestamp = Date.now()
+    const wrapper = new XyoPayloadWrapper(item)
     return await this.useCollection(async (collection: Collection<MongoDocument>) => {
-      const result = await collection.insertOne({ _timestamp, ...item })
+      const result = await collection.insertOne({ ...item, _id: new ObjectId(wrapper.sortedHash()), _timestamp })
       if (result.acknowledged) {
         return result.insertedId
       } else {
@@ -23,7 +26,8 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
     return await this.useCollection(async (collection: Collection<MongoDocument>) => {
       const result = await collection.insertMany(
         items.map((item) => {
-          return { _timestamp, ...item }
+          const wrapper = new XyoPayloadWrapper(item)
+          return { ...item, _id: new ObjectId(wrapper.sortedHash()), _timestamp }
         })
       )
       if (result.acknowledged) {

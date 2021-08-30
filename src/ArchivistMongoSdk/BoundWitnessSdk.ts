@@ -1,7 +1,8 @@
 import { assertEx } from '@xyo-network/sdk-xyo-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 
+import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
 
 class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
@@ -32,8 +33,14 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
 
   public async insert(item: XyoBoundWitness) {
     const _timestamp = Date.now()
+    const wrapper = new XyoBoundWitnessWrapper(item)
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      const result = await collection.insertOne({ _archive: this._archive, _timestamp, ...item })
+      const result = await collection.insertOne({
+        ...item,
+        _archive: this._archive,
+        _id: new ObjectId(wrapper.sortedHash()),
+        _timestamp,
+      })
       if (result.acknowledged) {
         return result.insertedId
       } else {
@@ -47,7 +54,13 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
       const result = await collection.insertMany(
         items.map((item) => {
-          return { _archive: this._archive, _timestamp, ...item }
+          const wrapper = new XyoBoundWitnessWrapper(item)
+          return {
+            ...item,
+            _archive: this._archive,
+            _id: new ObjectId(wrapper.sortedHash()),
+            _timestamp,
+          }
         })
       )
       if (result.acknowledged) {

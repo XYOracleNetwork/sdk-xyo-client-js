@@ -18,14 +18,20 @@ const scrubbedFields = [
   'previous_hashes',
 ]
 
+const hashFields = ['addresses', 'payload_schemas', 'previous_hashes']
+
 class Wrapper {
   public readonly bw: XyoBoundWitness
   constructor(bw: XyoBoundWitness) {
     this.bw = bw
   }
 
-  get scrubbed() {
+  get scrubbedFields() {
     return pick(this.bw, scrubbedFields)
+  }
+
+  get hashFields() {
+    return pick(this.bw, hashFields)
   }
 
   private _validator?: XyoBoundWitnessValidator
@@ -41,11 +47,11 @@ class Wrapper {
   }
 
   public sortedStringify() {
-    return sortedStringify(this.bw)
+    return sortedStringify(this.hashFields)
   }
 
   public sortedHash() {
-    return sortedHash(this.bw)
+    return sortedHash(this.hashFields)
   }
 }
 

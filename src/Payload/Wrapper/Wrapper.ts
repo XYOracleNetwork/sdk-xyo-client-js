@@ -1,9 +1,11 @@
 import { XyoPayload } from '../../models'
+import sortedHash from '../../sortedHash'
+import sortedStringify from '../../sortedStringify'
 import { XyoPayloadValidator } from '../Validator'
 
-class XyoPayloadWrapper {
-  public readonly payload: XyoPayload
-  constructor(payload: XyoPayload) {
+class XyoPayloadWrapper<T extends XyoPayload> {
+  public readonly payload: T
+  constructor(payload: T) {
     this.payload = payload
   }
 
@@ -11,6 +13,14 @@ class XyoPayloadWrapper {
   get validator() {
     this._validator = this._validator ?? new XyoPayloadValidator(this.payload)
     return this._validator
+  }
+
+  public sortedStringify() {
+    return sortedStringify(this.payload)
+  }
+
+  public hash() {
+    return sortedHash(this.payload)
   }
 }
 

@@ -2,6 +2,8 @@ import pick from 'lodash/pick'
 import { UAParser } from 'ua-parser-js'
 
 import { XyoBoundWitness } from '../../models'
+import sortedHash from '../../sortedHash'
+import sortedStringify from '../../sortedStringify'
 import { XyoBoundWitnessValidator } from '../Validator'
 
 const scrubbedFields = [
@@ -36,6 +38,14 @@ class Wrapper {
   get userAgent() {
     this._userAgent = this._userAgent ?? new UAParser(this.bw._user_agent)
     return this._userAgent
+  }
+
+  public sortedStringify() {
+    return sortedStringify(this.bw)
+  }
+
+  public hash() {
+    return sortedHash(this.bw)
   }
 }
 

@@ -1,4 +1,5 @@
 interface XyoBoundWitnessMeta {
+  [index: string]: unknown
   _client?: string
   _hash?: string
   _archive?: string

@@ -8,7 +8,7 @@ class Validator {
   public meta: XyoBoundWitnessMetaValidator
   constructor(bw: XyoBoundWitness) {
     this.bw = bw
-    this.body = new XyoBoundWitnessBodyValidator(bw)
+    this.body = new XyoBoundWitnessBodyValidator(bw, bw._payloads)
     this.meta = new XyoBoundWitnessMetaValidator(bw)
   }
 

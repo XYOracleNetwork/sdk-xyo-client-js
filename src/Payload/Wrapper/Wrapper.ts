@@ -1,11 +1,17 @@
-import pick from 'lodash/pick'
-
 import { XyoPayload } from '../../models'
 import sortedHash from '../../sortedHash'
 import sortedStringify from '../../sortedStringify'
 import { XyoPayloadValidator } from '../Validator'
 
-const hashFields = ['addresses', 'payload_schemas', 'previous_hashes']
+const removeUnderscoreFields = (obj: Record<string, unknown>) => {
+  const fields: Record<string, unknown> = {}
+  Object.keys(obj).forEach((key) => {
+    if (!key.startsWith('_')) {
+      fields[key] = obj[key]
+    }
+  })
+  return fields
+}
 
 class XyoPayloadWrapper<T extends XyoPayload> {
   public readonly payload: T
@@ -20,7 +26,7 @@ class XyoPayloadWrapper<T extends XyoPayload> {
   }
 
   get hashFields() {
-    return pick(this.payload, hashFields)
+    return removeUnderscoreFields(this.payload)
   }
 
   public sortedStringify() {

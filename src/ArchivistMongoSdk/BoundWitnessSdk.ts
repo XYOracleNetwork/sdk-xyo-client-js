@@ -1,6 +1,6 @@
 import { assertEx } from '@xyo-network/sdk-xyo-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection, ObjectId } from 'mongodb'
+import { Collection } from 'mongodb'
 
 import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
@@ -38,7 +38,7 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
       const result = await collection.insertOne({
         ...item,
         _archive: this._archive,
-        _id: new ObjectId(wrapper.sortedHash()),
+        _hash: wrapper.sortedHash(),
         _timestamp,
       })
       if (result.acknowledged) {
@@ -58,7 +58,7 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
           return {
             ...item,
             _archive: this._archive,
-            _id: new ObjectId(wrapper.sortedHash()),
+            _hash: wrapper.sortedHash(),
             _timestamp,
           }
         })

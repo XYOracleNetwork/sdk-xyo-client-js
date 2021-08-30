@@ -1,12 +1,15 @@
 import uniq from 'lodash/uniq'
 
-import { WithStringIndex, XyoBoundWitnessBody } from '../../models'
+import { WithStringIndex, XyoBoundWitnessBody, XyoPayload } from '../../models'
+import { XyoPayloadWrapper } from '../../Payload'
 import SchemaValidator from '../../SchemaValidator'
 
 class BodyValidator {
   private body: WithStringIndex<XyoBoundWitnessBody>
-  constructor(body: XyoBoundWitnessBody) {
+  private payloads?: XyoPayload[]
+  constructor(body: XyoBoundWitnessBody, payloads?: XyoPayload[]) {
     this.body = body as WithStringIndex<XyoBoundWitnessBody>
+    this.payloads = payloads
   }
 
   public addressesUniqueness() {
@@ -65,17 +68,26 @@ class BodyValidator {
 
   public payloadHashes() {
     const errors: Error[] = []
-    const schemaValidators = this.body.payload_schemas.map((schema) => {
-      return new SchemaValidator(schema)
-    })
-    schemaValidators.forEach((validator) => {
-      errors.push(...validator.all())
+    const passedHashes = this.body.payload_hashes
+    this.payloads?.forEach((payload, index) => {
+      const wrapper = new XyoPayloadWrapper(payload)
+      const calcHash = wrapper.sortedHash()
+      const passedHash = passedHashes[index]
+      if (calcHash !== passedHash) {
+        errors.push(new Error(`hash mismatch [${calcHash} !== ${passedHash}]`))
+      }
     })
     return errors
   }
 
   public payloadSchemas() {
     const errors: Error[] = []
+    const schemaValidators = this.body.payload_schemas.map((schema) => {
+      return new SchemaValidator(schema)
+    })
+    schemaValidators.forEach((validator) => {
+      errors.push(...validator.all())
+    })
     return errors
   }
 

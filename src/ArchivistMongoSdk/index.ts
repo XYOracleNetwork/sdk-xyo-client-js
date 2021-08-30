@@ -1,4 +1,4 @@
 import XyoArchivistBoundWitnessMongoSdk from './BoundWitnessSdk'
-import XyoArchivistPayloadForwardingMongoSdk from './PayloadForwardingSdk'
+import XyoArchivistPayloadMongoSdk from './PayloadSdk'
 
-export { XyoArchivistBoundWitnessMongoSdk, XyoArchivistPayloadForwardingMongoSdk }
+export { XyoArchivistBoundWitnessMongoSdk, XyoArchivistPayloadMongoSdk }

@@ -1,7 +1,7 @@
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, Document as MongoDocument } from 'mongodb'
 
-class PayloadForwardingSdk extends BaseMongoSdk<MongoDocument> {
+class PayloadSdk extends BaseMongoSdk<MongoDocument> {
   constructor(config: BaseMongoSdkConfig) {
     super(config)
   }
@@ -35,4 +35,4 @@ class PayloadForwardingSdk extends BaseMongoSdk<MongoDocument> {
   }
 }
 
-export default PayloadForwardingSdk
+export default PayloadSdk

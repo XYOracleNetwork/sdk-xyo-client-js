@@ -44,7 +44,7 @@ class Wrapper {
     return sortedStringify(this.bw)
   }
 
-  public hash() {
+  public sortedHash() {
     return sortedHash(this.bw)
   }
 }

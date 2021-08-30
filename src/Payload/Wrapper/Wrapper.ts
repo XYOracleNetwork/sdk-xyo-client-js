@@ -19,7 +19,7 @@ class XyoPayloadWrapper<T extends XyoPayload> {
     return sortedStringify(this.payload)
   }
 
-  public hash() {
+  public sortedHash() {
     return sortedHash(this.payload)
   }
 }

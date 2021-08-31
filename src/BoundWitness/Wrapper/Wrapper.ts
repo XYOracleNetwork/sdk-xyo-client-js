@@ -16,9 +16,10 @@ const scrubbedFields = [
   'addresses',
   'payload_schemas',
   'previous_hashes',
+  'payload_hashes',
 ]
 
-const hashFields = ['addresses', 'payload_schemas', 'previous_hashes']
+const hashFields = ['addresses', 'payload_schemas', 'previous_hashes', 'payload_hashes']
 
 class Wrapper {
   public readonly bw: XyoBoundWitness

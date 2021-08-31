@@ -1049,9 +1049,9 @@
     typescript "^4.4.2"
 
 "@xyo-network/sdk-xyo-js@^2.1.35", "@xyo-network/sdk-xyo-js@^2.1.40":
-  version "2.1.43"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.1.43.tgz#2af3b80ba7af0c9e93dc83068b07d7df71c5a674"
-  integrity sha512-EYoXOBnTX8Vny8G/YcwemwgzWRtt9OrmgNCwBK6XTjUddJCTPq5HZCzU5G80dloBYGoD1a3RFfyIMyK/8SoyVA==
+  version "2.1.44"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-js/-/sdk-xyo-js-2.1.44.tgz#62c1f0462ef2426041cf5106b5eb41bfc2fedbd4"
+  integrity sha512-Tc3t+wPKpGE5VmthPhPoZoXsNKNOA7f2YSmQTroxLahVNvWkZW4OAy4QSaqVxmw5ngHG48bdjowT6mSNmYFJKg==
   dependencies:
     axios "^0.21.1"
     rollbar "^2.24.0"

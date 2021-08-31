@@ -50,8 +50,9 @@ class MetaValidator {
   public sourceIp() {
     const errors: Error[] = []
     const { _source_ip } = this.bw
-    if (!_source_ip) errors.push(new Error('_source_ip missing'))
-    else if (!isIp(_source_ip)) errors.push(new Error(`_source_ip invalid format [${_source_ip}]`))
+    if (_source_ip) {
+      if (!isIp(_source_ip)) errors.push(new Error(`_source_ip invalid format [${_source_ip}]`))
+    }
     return errors
   }
 

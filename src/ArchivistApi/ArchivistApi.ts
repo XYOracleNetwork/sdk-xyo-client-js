@@ -67,12 +67,9 @@ class XyoArchivistApi {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max size = 100')
     return (
-      await axios.get<XyoBoundWitness[]>(
-        `${this.config.apiDomain}/archive/${this.config.archive}/payloads/recent/${limit}`,
-        {
-          headers: this.headers,
-        }
-      )
+      await axios.get<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/recent/${limit}`, {
+        headers: this.headers,
+      })
     ).data
   }
 
@@ -84,6 +81,14 @@ class XyoArchivistApi {
           headers: this.headers,
         }
       )
+    ).data
+  }
+
+  public async getPayloadSample(size: number) {
+    return (
+      await axios.get<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/sample/${size}`, {
+        headers: this.headers,
+      })
     ).data
   }
 

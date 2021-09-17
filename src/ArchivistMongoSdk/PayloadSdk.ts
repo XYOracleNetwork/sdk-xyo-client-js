@@ -1,6 +1,7 @@
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, Document as MongoDocument } from 'mongodb'
 
+import { XyoPayload } from '..'
 import { XyoPayloadWrapper } from '../Payload'
 
 class PayloadSdk extends BaseMongoSdk<MongoDocument> {
@@ -18,6 +19,12 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
       } else {
         throw new Error('Insert Failed')
       }
+    })
+  }
+
+  public async findByHash(hash: string) {
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+      return await collection.find({ _hash: hash }).toArray()
     })
   }
 

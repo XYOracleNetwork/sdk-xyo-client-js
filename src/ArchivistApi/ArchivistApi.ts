@@ -1,7 +1,7 @@
 import { assertEx } from '@xyo-network/sdk-xyo-js'
 import axios from 'axios'
 
-import { XyoBoundWitness } from '../models'
+import { XyoBoundWitness, XyoPayload } from '../models'
 import XyoArchivistApiConfig from './ArchivistApiConfig'
 
 class XyoArchivistApi {
@@ -37,6 +37,14 @@ class XyoArchivistApi {
   public async getBoundWitnessByHash(hash: string) {
     return (
       await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}`, {
+        headers: this.headers,
+      })
+    ).data
+  }
+
+  public async getPayloadByHash(hash: string) {
+    return (
+      await axios.get<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}`, {
         headers: this.headers,
       })
     ).data

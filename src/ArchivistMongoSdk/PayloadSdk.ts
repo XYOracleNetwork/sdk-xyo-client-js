@@ -1,3 +1,4 @@
+import { assertEx } from '@xyo-network/sdk-xyo-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, Document as MongoDocument } from 'mongodb'
 
@@ -25,6 +26,19 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
   public async findByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
       return await collection.find({ _hash: hash }).toArray()
+    })
+  }
+
+  public async findRecent(limit = 20) {
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+      return await collection.find().sort({ _timestamp: -1 }).limit(limit).toArray()
+    })
+  }
+
+  public async sample(size: number) {
+    assertEx(size <= 10, `size must be <= 10 [${size}]`)
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+      return await collection.aggregate([{ $sample: { size } }]).toArray()
     })
   }
 

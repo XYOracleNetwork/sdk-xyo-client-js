@@ -1,4 +1,7 @@
-interface XyoPayload extends Record<string, unknown> {
+type PayloadObject = Record<string, unknown>
+
+interface XyoPayload extends PayloadObject {
+  _hash?: string
   schema?: string
 }
 

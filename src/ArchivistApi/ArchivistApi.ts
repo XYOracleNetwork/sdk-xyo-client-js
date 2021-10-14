@@ -14,8 +14,8 @@ class XyoArchivistApi {
     return !!this.config.token
   }
 
-  public get headers() {
-    return this.authenticated ? { Authorization: this.config.token } : {}
+  public get headers(): Record<string, string> {
+    return this.authenticated ? { Authorization: this.config.token ?? '' } : {}
   }
 
   public async postBoundWitnesses(boundWitnesses: XyoBoundWitness[]) {

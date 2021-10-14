@@ -30,11 +30,11 @@ class XyoPayloadWrapper<T extends XyoPayload> {
   }
 
   public sortedStringify() {
-    return sortedStringify(this.payload)
+    return sortedStringify(this.hashFields)
   }
 
   public sortedHash() {
-    return sortedHash(this.payload)
+    return sortedHash(this.hashFields)
   }
 }
 

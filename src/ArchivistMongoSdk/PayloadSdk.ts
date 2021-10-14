@@ -6,15 +6,22 @@ import { XyoPayload } from '..'
 import { XyoPayloadWrapper } from '../Payload'
 
 class PayloadSdk extends BaseMongoSdk<MongoDocument> {
-  constructor(config: BaseMongoSdkConfig) {
+  private _archive: string
+  constructor(config: BaseMongoSdkConfig, archive: string) {
     super(config)
+    this._archive = archive
   }
 
   public async insert(item: MongoDocument) {
     const _timestamp = Date.now()
     const wrapper = new XyoPayloadWrapper(item)
     return await this.useCollection(async (collection: Collection<MongoDocument>) => {
-      const result = await collection.insertOne({ ...item, _hash: wrapper.sortedHash(), _timestamp })
+      const result = await collection.insertOne({
+        ...item,
+        _archive: this._archive,
+        _hash: wrapper.sortedHash(),
+        _timestamp,
+      })
       if (result.acknowledged) {
         return result.insertedId
       } else {

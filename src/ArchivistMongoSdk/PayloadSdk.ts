@@ -32,20 +32,20 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
 
   public async findByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection.find({ _hash: hash }).toArray()
+      return await collection.find({ _archive: this._archive, _hash: hash }).toArray()
     })
   }
 
   public async findRecent(limit = 20) {
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection.find().sort({ _timestamp: -1 }).limit(limit).toArray()
+      return await collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).toArray()
     })
   }
 
   public async sample(size: number) {
     assertEx(size <= 10, `size must be <= 10 [${size}]`)
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection.aggregate([{ $sample: { size } }]).toArray()
+      return await collection.aggregate([{ $match: { _archive: this._archive } }, { $sample: { size } }]).toArray()
     })
   }
 

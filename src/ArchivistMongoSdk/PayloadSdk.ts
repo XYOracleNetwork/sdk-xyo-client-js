@@ -38,7 +38,11 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
 
   public async findRecent(limit = 20) {
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).toArray()
+      return await collection
+        .find({ _archive: this._archive })
+        .sort({ _archive: -1, _timestamp: -1 })
+        .limit(limit)
+        .toArray()
     })
   }
 

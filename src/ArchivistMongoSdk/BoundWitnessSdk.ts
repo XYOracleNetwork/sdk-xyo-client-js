@@ -14,7 +14,11 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
 
   public async findRecent(limit = 20) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection.find({ archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).toArray()
+      return await collection
+        .find({ archive: this._archive })
+        .sort({ _archive: -1, _timestamp: -1 })
+        .limit(limit)
+        .toArray()
     })
   }
 

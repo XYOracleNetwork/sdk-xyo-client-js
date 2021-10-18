@@ -2,7 +2,7 @@ import { assertEx } from '@xyo-network/sdk-xyo-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, Document as MongoDocument } from 'mongodb'
 
-import { XyoPayload } from '..'
+import { XyoPayload } from '../models'
 import { XyoPayloadWrapper } from '../Payload'
 
 class PayloadSdk extends BaseMongoSdk<MongoDocument> {

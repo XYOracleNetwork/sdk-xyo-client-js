@@ -1018,13 +1018,14 @@
     prettier "^2.4.1"
 
 "@xylabs/ts-scripts@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.12.tgz#6edb36461ac7b863e9e3d3edc1470aaffac851be"
-  integrity sha512-8Q2prI7YHqn638Se2tXU9C5TExY2qIOSflGuOcN8+9GX1eAuMK1tBl/wqG2RbstmTeK8YgR9jgc1E1Jo8ggUow==
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.15.tgz#4ed74ba4d876c222cc04456cec0c8caf2ce12a87"
+  integrity sha512-C+72ITntMWR/eD1+CYAO8vPy1m5WzBDHOiNH2zGQfN6+rJcft2SKwWrxqM/+h0+akLD2H2kYWMsNOxYfFRkTUA==
   dependencies:
     "@rollup/plugin-typescript" "^8.3.0"
     "@xylabs/eslint-config" "^2.0.22"
     depcheck "^1.4.2"
+    eslint-plugin-sonarjs "^0.10.0"
     npm-check-updates "^11.8.5"
     npm-package-json-lint "^5.4.0"
     npm-package-json-lint-config-default "^3.0.0"
@@ -2251,6 +2252,11 @@ eslint-plugin-simple-import-sort@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-7.0.0.tgz#a1dad262f46d2184a90095a60c66fef74727f0f8"
   integrity sha512-U3vEDB5zhYPNfxT5TYR7u01dboFZp+HNpnGhkDB2g/2E4wZ/g1Q9Ton8UwCLfRV9yAKyYqDh62oHOamvkFxsvw==
+
+eslint-plugin-sonarjs@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-sonarjs/-/eslint-plugin-sonarjs-0.10.0.tgz#2b520c6d0dbdecbea98cd82f5cb84fc5c3d2b954"
+  integrity sha512-FBRIBmWQh2UAfuLSnuYEfmle33jIup9hfkR0X8pkfjeCKNpHUG8qyZI63ahs3aw8CJrv47QJ9ccdK3ZxKH016A==
 
 eslint-plugin-sort-keys-fix@^1.1.2:
   version "1.1.2"

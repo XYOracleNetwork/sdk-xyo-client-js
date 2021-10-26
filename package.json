@@ -29,7 +29,7 @@
   "dependencies": {
     "@xyo-network/sdk-xyo-js": "^2.1.47",
     "@xyo-network/sdk-xyo-mongo-js": "^2.1.18",
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "elliptic": "^6.5.4",
     "is-ip": "^3.1.0",
     "lodash": "^4.17.21",

@@ -12,6 +12,12 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
     this._archive = archive
   }
 
+  public async fetchCount() {
+    return await this.useCollection(async (collection: Collection<MongoDocument>) => {
+      return await collection.countDocuments()
+    })
+  }
+
   public async insert(item: MongoDocument) {
     const _timestamp = Date.now()
     const wrapper = new XyoPayloadWrapper(item)

@@ -34,7 +34,7 @@ class XyoArchivistApi {
     return await this.postBoundWitnesses([entry])
   }
 
-  public async getBoundWitnessCount() {
+  public async getBoundWitnessStats() {
     return (
       await axios.get<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/block/count`, {
         headers: this.headers,
@@ -50,7 +50,7 @@ class XyoArchivistApi {
     ).data
   }
 
-  public async getPayloadCount() {
+  public async getPayloadStats() {
     return (
       await axios.get<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/count`, {
         headers: this.headers,

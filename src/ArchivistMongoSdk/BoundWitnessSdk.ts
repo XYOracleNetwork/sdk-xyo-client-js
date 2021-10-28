@@ -14,7 +14,7 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
 
   public async fetchCount() {
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection.countDocuments()
+      return await collection.estimatedDocumentCount()
     })
   }
 

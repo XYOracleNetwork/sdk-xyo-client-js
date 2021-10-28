@@ -14,7 +14,7 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
 
   public async fetchCount() {
     return await this.useCollection(async (collection: Collection<MongoDocument>) => {
-      return await collection.countDocuments()
+      return await collection.estimatedDocumentCount()
     })
   }
 

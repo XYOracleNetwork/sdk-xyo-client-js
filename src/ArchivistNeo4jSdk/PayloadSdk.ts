@@ -21,9 +21,7 @@ class PayloadSdk {
   public async fetchCount() {
     const session = this._driver?.session()
     try {
-      return (await session?.run('MATCH (u:Payload) WITH u, COUNT(u) as count RETURN u.id, count'))?.records[0].get(
-        'count'
-      ) as number
+      return (await session?.run('MATCH (n:Payload) RETURN COUNT(n) as count'))?.records[0].get('count') as number
     } finally {
       session?.close()
     }
@@ -36,7 +34,7 @@ class PayloadSdk {
     try {
       return (
         await session?.run(
-          `CREATE u:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN u`
+          `CREATE n:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN n`
         )
       )?.records.map((record) => record.toObject() as XyoPayload)
     } finally {
@@ -47,7 +45,7 @@ class PayloadSdk {
   public async findByHash(hash: string) {
     const session = this._driver?.session()
     try {
-      return (await session?.run(`MATCH (u:Payload) ${hash} RETURN u`))?.records.map(
+      return (await session?.run(`MATCH (n:Payload) ${hash} RETURN n`))?.records.map(
         (record) => record.toObject() as XyoPayload
       )
     } finally {
@@ -82,7 +80,7 @@ class PayloadSdk {
         results = results.concat(
           (
             await session?.run(
-              `CREATE u:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN u`
+              `CREATE n:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN n`
             )
           )?.records.map((record) => record.toObject() as XyoPayload) ?? []
         )

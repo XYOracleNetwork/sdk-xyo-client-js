@@ -1,5 +1,6 @@
 export * from './ArchivistApi'
 export * from './ArchivistMongoSdk'
+export * from './ArchivistNeo4jSdk'
 export * from './BoundWitness'
 export * from './models'
 export * from './Payload'

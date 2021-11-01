@@ -41,7 +41,7 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
 
   public async findByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection.find({ _hash: hash, archive: this._archive }).maxTimeMS(this._maxTime).toArray()
+      return await collection.find({ _archive: this._archive, _hash: hash }).maxTimeMS(this._maxTime).toArray()
     })
   }
 

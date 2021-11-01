@@ -1049,10 +1049,10 @@
     axios "^0"
     rollbar "^2.24.0"
 
-"@xyo-network/sdk-xyo-mongo-js@^2.1.19":
-  version "2.1.19"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.19.tgz#499b45f283362827c6334f6c9fd9597c38796a55"
-  integrity sha512-SQRBFfk4wkbbM3wO5hfVEhGp7eY8D9POrCI8RopdymcfSBTDdIKb1txe1RSNWdbXQVTvga1xFlV1DcVZr3bS/A==
+"@xyo-network/sdk-xyo-mongo-js@^2.1.21":
+  version "2.1.21"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.21.tgz#4e836a04d8d91d368a55af770c303774074b7b08"
+  integrity sha512-TZdq7cVBjo0IhMNL5vf7I1wBDk8HVzZ9iwQfo2+B3sirxgNcsbTHSjpbIzDsEOquYJysFAJkFJoINCeFLcPE0w==
   dependencies:
     "@xyo-network/sdk-xyo-js" "^2.1.47"
     async-mutex "^0.3.2"

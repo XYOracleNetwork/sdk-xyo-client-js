@@ -44,6 +44,22 @@ class PayloadSdk extends BaseMongoSdk<XyoPayload> {
     })
   }
 
+  public async findByHashes(hashes: string[]) {
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+      const promises = hashes.map((hash) => {
+        return collection.find({ _archive: this._archive, _hash: hash }).maxTimeMS(this._maxTime).toArray()
+      })
+      const results = await Promise.allSettled(promises)
+      const finalResult: XyoPayload[] = []
+      results.forEach((result) => {
+        if (result.status === 'fulfilled') {
+          finalResult.push(...result.value)
+        }
+      })
+      return finalResult
+    })
+  }
+
   public async findRecentQuery(limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     return await this.useCollection((collection: Collection<XyoPayload>) => {

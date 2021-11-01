@@ -1,21 +1,11 @@
 import { XyoPayload } from '../../models'
-import sortedHash from '../../sortedHash'
-import sortedStringify from '../../sortedStringify'
 import { XyoPayloadValidator } from '../Validator'
+import XyoHasher from '../XyoHasher'
 
-const removeUnderscoreFields = (obj: Record<string, unknown>) => {
-  const fields: Record<string, unknown> = {}
-  Object.keys(obj).forEach((key) => {
-    if (!key.startsWith('_')) {
-      fields[key] = obj[key]
-    }
-  })
-  return fields
-}
-
-class XyoPayloadWrapper<T extends XyoPayload> {
+class XyoPayloadWrapper<T extends XyoPayload> extends XyoHasher<T> {
   public readonly payload: T
   constructor(payload: T) {
+    super(payload)
     this.payload = payload
   }
 
@@ -23,18 +13,6 @@ class XyoPayloadWrapper<T extends XyoPayload> {
   get validator() {
     this._validator = this._validator ?? new XyoPayloadValidator(this.payload)
     return this._validator
-  }
-
-  get hashFields() {
-    return removeUnderscoreFields(this.payload)
-  }
-
-  public sortedStringify() {
-    return sortedStringify(this.hashFields)
-  }
-
-  public sortedHash() {
-    return sortedHash(this.hashFields)
   }
 }
 

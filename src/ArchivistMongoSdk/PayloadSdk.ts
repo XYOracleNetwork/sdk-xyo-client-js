@@ -1,11 +1,11 @@
 import { assertEx } from '@xyo-network/sdk-xyo-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection, Document as MongoDocument } from 'mongodb'
+import { Collection } from 'mongodb'
 
 import { XyoPayload } from '../models'
 import { XyoPayloadWrapper } from '../Payload'
 
-class PayloadSdk extends BaseMongoSdk<MongoDocument> {
+class PayloadSdk extends BaseMongoSdk<XyoPayload> {
   private _archive: string
   constructor(config: BaseMongoSdkConfig, archive: string) {
     super(config)
@@ -13,15 +13,15 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
   }
 
   public async fetchCount() {
-    return await this.useCollection(async (collection: Collection<MongoDocument>) => {
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
       return await collection.estimatedDocumentCount()
     })
   }
 
-  public async insert(item: MongoDocument) {
+  public async insert(item: XyoPayload) {
     const _timestamp = Date.now()
     const wrapper = new XyoPayloadWrapper(item)
-    return await this.useCollection(async (collection: Collection<MongoDocument>) => {
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
       const result = await collection.insertOne({
         ...item,
         _archive: this._archive,
@@ -59,9 +59,9 @@ class PayloadSdk extends BaseMongoSdk<MongoDocument> {
     })
   }
 
-  public async insertMany(items: MongoDocument[]) {
+  public async insertMany(items: XyoPayload[]) {
     const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<MongoDocument>) => {
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
       const result = await collection.insertMany(
         items.map((item) => {
           const wrapper = new XyoPayloadWrapper(item)

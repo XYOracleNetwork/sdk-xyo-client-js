@@ -1,9 +1,11 @@
+import { XyoPayloadBody } from '../../Payload'
+
 interface XyoBoundWitnessMeta {
-  [index: string]: unknown
+  [key: string]: unknown
   _client?: string
   _hash?: string
   _archive?: string
-  _payloads?: Record<string, unknown>[]
+  _payloads?: XyoPayloadBody[]
   _signatures?: string[]
   _timestamp?: number
   _source_ip?: string

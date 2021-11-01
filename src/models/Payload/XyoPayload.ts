@@ -1,7 +1,6 @@
-type PayloadObject = Record<string, unknown>
+import XyoPayloadBody from './Body'
+import WithXyoPayloadMeta from './WithXyoPayloadMeta'
 
-interface XyoPayload extends PayloadObject {
-  schema?: string
-}
+type XyoPayload = WithXyoPayloadMeta<XyoPayloadBody>
 
 export default XyoPayload

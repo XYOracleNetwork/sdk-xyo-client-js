@@ -1,11 +1,12 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 import { XyoAddress } from '../../Address'
-import { TestPayload } from '../../Test'
+import { XyoPayload } from '../../models'
 import Builder from './Builder'
 
 test('checking happy path', () => {
-  const payload1: TestPayload = {
+  const payload1: XyoPayload = {
+    schema: 'network.xyo.test',
     number_field: 1,
     object_field: {
       number_value: 2,
@@ -14,7 +15,8 @@ test('checking happy path', () => {
     string_field: 'there',
     timestamp: 1618603439107,
   }
-  const payload2: TestPayload = {
+  const payload2: XyoPayload = {
+    schema: 'network.xyo.test',
     number_field: 1,
     timestamp: 1618603439107,
     object_field: {
@@ -26,9 +28,9 @@ test('checking happy path', () => {
 
   const payload1Hash = Builder.hash(payload1)
 
-  expect(payload1Hash).toEqual('13898b1fc7ef16c6eb8917b4bdd1aabbc1981069f035c51d4166a171273bfe3d')
+  expect(payload1Hash).toEqual('c915c56dd93b5e0db509d1a63ca540cfb211e11f03039b05e19712267bb8b6db')
 
-  const knownHash = 'af0ba507a43ce9cde64afd7bca25b901745b8aa8aa99cac1d53f732638bf967d'
+  const knownHash = '98e1a3a3483ae211e702ee9952f9cae335e571ab7c1de708edb97eacdd960ba1'
 
   const address = XyoAddress.fromPhrase('test')
 

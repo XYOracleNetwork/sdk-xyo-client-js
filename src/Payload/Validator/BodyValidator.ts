@@ -17,6 +17,8 @@ class BodyValidator {
     const errors: Error[] = []
     if (this.body.schema === undefined) {
       errors.push(new Error('schema missing'))
+    } else {
+      errors.push(...this.schemaValidator.all())
     }
     return errors
   }

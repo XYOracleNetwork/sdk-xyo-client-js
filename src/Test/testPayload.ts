@@ -2,7 +2,8 @@ import { XyoPayload } from '../models'
 
 const testPayload: XyoPayload = {
   _archive: 'test',
-  _hash: 'b867e9340c3f5d8c8b29854bd06d6b6b59c984a452451f159c7ef42c3349be47',
+  _hash: '20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c',
+  _timestamp: 1609459255555,
   numberField: 1,
   objectField: {
     numberField: 1,

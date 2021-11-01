@@ -13,6 +13,7 @@ export default [
       'is-ip',
       'mongodb',
       'ua-parser-js',
+      'neo4j-driver',
     ],
     input: 'src/index.ts',
     output: [

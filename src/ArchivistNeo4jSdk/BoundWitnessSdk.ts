@@ -4,8 +4,9 @@ import { Driver } from 'neo4j-driver-core'
 
 import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
+import { neo4jEntries2String, obj2Neo4jEntries } from './neo4jutils'
 
-class PayloadSdk {
+class BoundWitnessSdk {
   private _archive: string
   private _driver?: Driver
   constructor(url: string, un: string, pw: string, archive: string) {
@@ -21,9 +22,7 @@ class PayloadSdk {
   public async fetchCount() {
     const session = this._driver?.session()
     try {
-      return (await session?.run('MATCH (u:Block) WITH u, COUNT(u) as count RETURN u.id, count'))?.records[0].get(
-        'count'
-      ) as number
+      return ((await session?.run('MATCH (n:Block) RETURN COUNT(n) as count'))?.records[0].get('count')).low
     } finally {
       session?.close()
     }
@@ -33,10 +32,13 @@ class PayloadSdk {
     const _timestamp = Date.now()
     const wrapper = new XyoBoundWitnessWrapper(item)
     const session = this._driver?.session()
+    const paramsString = neo4jEntries2String(obj2Neo4jEntries({ ...item, _timestamp, hash: wrapper.sortedHash() }))
     try {
       return (
         await session?.run(
-          `CREATE u:Block ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN u`
+          `
+          CREATE (n:Block ${paramsString}) RETURN n.hash
+          `
         )
       )?.records.map((record) => record.toObject() as XyoBoundWitness)
     } finally {
@@ -82,7 +84,7 @@ class PayloadSdk {
         results = results.concat(
           (
             await session?.run(
-              `CREATE u:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN u`
+              `CREATE u:Block ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN u`
             )
           )?.records.map((record) => record.toObject() as XyoBoundWitness) ?? []
         )
@@ -94,4 +96,4 @@ class PayloadSdk {
   }
 }
 
-export default PayloadSdk
+export default BoundWitnessSdk

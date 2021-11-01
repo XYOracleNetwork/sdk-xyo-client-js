@@ -4,3 +4,4 @@ dist
 *.log
 .rollup.cache
 .nyc_output
+.env

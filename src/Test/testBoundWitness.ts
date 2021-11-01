@@ -1,6 +1,8 @@
-const testBoundWitness = {
-  _archive: 'coin-app',
-  _client: 'swift',
+import { XyoBoundWitness } from '../models'
+
+const testBoundWitness: XyoBoundWitness = {
+  _archive: 'test',
+  _client: 'js',
   _hash: 'b867e9340c3f5d8c8b29854bd06d6b6b59c984a452451f159c7ef42c3349be47',
   _id: '6111f25cfd5e3f7645f06bc6',
   _signatures: [

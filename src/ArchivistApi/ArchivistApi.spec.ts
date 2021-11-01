@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios'
+
 import { XyoAddress } from '../Address'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'
 import { TestPayload } from '../Test'
@@ -40,14 +42,16 @@ test('checking happy path', async () => {
     const postBoundWitnessResult = await api.postBoundWitness(json)
     expect(postBoundWitnessResult.boundWitnesses).toEqual(1)
   } catch (ex) {
-    console.log(JSON.stringify(ex.response?.data, null, 2))
+    const error = ex as AxiosError
+    console.log(JSON.stringify(error.response?.data, null, 2))
     throw ex
   }
   try {
     const postBoundWitnessesResult = await api.postBoundWitnesses([json, json])
     expect(postBoundWitnessesResult.boundWitnesses).toEqual(2)
   } catch (ex) {
-    console.log(JSON.stringify(ex.response?.data, null, 2))
+    const error = ex as AxiosError
+    console.log(JSON.stringify(error.response?.data, null, 2))
     throw ex
   }
 }, 40000)

@@ -1,5 +1,5 @@
 import { XyoPayload } from '../../models'
-import XyoHasher from '../XyoHasher'
+import XyoHasher from '../../XyoHasher'
 
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000
@@ -8,11 +8,6 @@ class MetaValidator {
   private payload: XyoPayload
   constructor(payload: XyoPayload) {
     this.payload = payload
-  }
-
-  public client() {
-    const errors: Error[] = []
-    return errors
   }
 
   public hash() {
@@ -36,7 +31,7 @@ class MetaValidator {
 
   public all() {
     const errors: Error[] = []
-    errors.push(...this.client(), ...this.hash(), ...this.timestamp())
+    errors.push(...this.hash(), ...this.timestamp())
     return errors
   }
 }

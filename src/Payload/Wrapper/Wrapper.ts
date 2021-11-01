@@ -1,6 +1,6 @@
 import { XyoPayload } from '../../models'
+import XyoHasher from '../../XyoHasher'
 import { XyoPayloadValidator } from '../Validator'
-import XyoHasher from '../XyoHasher'
 
 class XyoPayloadWrapper<T extends XyoPayload> extends XyoHasher<T> {
   public readonly payload: T

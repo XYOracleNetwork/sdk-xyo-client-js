@@ -2,8 +2,7 @@ import pick from 'lodash/pick'
 import { UAParser } from 'ua-parser-js'
 
 import { XyoBoundWitness } from '../../models'
-import sortedHash from '../../sortedHash'
-import sortedStringify from '../../sortedStringify'
+import XyoHasher from '../../XyoHasher'
 import { XyoBoundWitnessValidator } from '../Validator'
 
 const scrubbedFields = [
@@ -19,20 +18,15 @@ const scrubbedFields = [
   'payload_hashes',
 ]
 
-const hashFields = ['addresses', 'payload_schemas', 'previous_hashes', 'payload_hashes']
-
-class Wrapper {
-  public readonly bw: XyoBoundWitness
-  constructor(bw: XyoBoundWitness) {
+class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends XyoHasher<T> {
+  public readonly bw: T
+  constructor(bw: T) {
+    super(bw)
     this.bw = bw
   }
 
   get scrubbedFields() {
     return pick(this.bw, scrubbedFields)
-  }
-
-  get hashFields() {
-    return pick(this.bw, hashFields)
   }
 
   private _validator?: XyoBoundWitnessValidator
@@ -46,14 +40,6 @@ class Wrapper {
     this._userAgent = this._userAgent ?? new UAParser(this.bw._user_agent)
     return this._userAgent
   }
-
-  public sortedStringify() {
-    return sortedStringify(this.hashFields)
-  }
-
-  public sortedHash() {
-    return sortedHash(this.hashFields)
-  }
 }
 
-export default Wrapper
+export default XyoBoundWitnessWrapper

@@ -45,16 +45,6 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
     })
   }
 
-  public async sample(size: number) {
-    assertEx(size <= 10, `size must be <= 10 [${size}]`)
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection
-        .aggregate([{ $match: { _archive: this._archive } }, { $sample: { size } }])
-        .maxTimeMS(this._maxTime)
-        .toArray()
-    })
-  }
-
   public async insert(item: XyoBoundWitness) {
     const _timestamp = Date.now()
     const wrapper = new XyoBoundWitnessWrapper(item)

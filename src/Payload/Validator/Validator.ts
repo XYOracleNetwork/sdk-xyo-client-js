@@ -1,27 +1,20 @@
 import { XyoPayload } from '../../models'
-import SchemaValidator from '../../SchemaValidator'
+import BodyValidator from './BodyValidator'
+import MetaValidator from './MetaValidator'
 
 class Validator {
   private payload: XyoPayload
+  public body: BodyValidator
+  public meta: MetaValidator
   constructor(payload: XyoPayload) {
     this.payload = payload
-  }
-
-  private _schemaValidator?: SchemaValidator
-  get schemaValidator() {
-    this._schemaValidator = this._schemaValidator ?? new SchemaValidator(this.payload.schema ?? '')
-    return this._schemaValidator
-  }
-
-  public async allDynamic() {
-    const errors: Error[] = []
-    errors.push(...(await this.schemaValidator.allDynamic()))
-    return errors
+    this.body = new BodyValidator(payload)
+    this.meta = new MetaValidator(payload)
   }
 
   public all() {
     const errors: Error[] = []
-    errors.push(...this.schemaValidator.all())
+    errors.push(...this.meta.all(), ...this.body.all())
     return errors
   }
 }

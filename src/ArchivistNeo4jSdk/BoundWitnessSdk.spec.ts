@@ -1,15 +1,19 @@
+import { assertEx } from '@xyo-network/sdk-xyo-js'
+import dotenv from 'dotenv'
+
 import { testBoundWitness } from '../Test'
 import BoundWitnessSdk from './BoundWitnessSdk'
 
 test('checking happy path', async () => {
+  dotenv.config()
   const sdk = new BoundWitnessSdk(
-    'neo4j+s://8a4b1e82.databases.neo4j.io',
-    'neo4j',
-    'TaoxEqelMH1N9Wv2_VSaghFV9mDCX0X-GH7N7H6qEU0',
+    assertEx(process.env.NEO4J_URL, 'Missing NEO4J_URL'),
+    assertEx(process.env.NEO4J_USERNAME, 'Missing NEO4J_USERNAME'),
+    assertEx(process.env.NEO4J_PASSWORD, 'Missing NEO4J_PASSWORD'),
     'test'
   )
-  const count = await sdk.fetchCount()
-  expect(count).toEqual(0)
   const bw = await sdk.insert(testBoundWitness)
   expect(bw).toBeDefined()
+  const count = await sdk.fetchCount()
+  expect(count).toBeGreaterThan(0)
 }, 40000)

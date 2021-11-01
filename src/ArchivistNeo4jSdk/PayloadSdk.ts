@@ -4,6 +4,7 @@ import { Driver } from 'neo4j-driver-core'
 
 import { XyoPayload } from '../models'
 import { XyoPayloadWrapper } from '../Payload'
+import { neo4jEntries2String, obj2Neo4jEntries } from './neo4jutils'
 
 class PayloadSdk {
   private _archive: string
@@ -21,7 +22,7 @@ class PayloadSdk {
   public async fetchCount() {
     const session = this._driver?.session()
     try {
-      return (await session?.run('MATCH (n:Payload) RETURN COUNT(n) as count'))?.records[0].get('count') as number
+      return ((await session?.run('MATCH (n:Payload) RETURN COUNT(n) as count'))?.records[0].get('count')).low
     } finally {
       session?.close()
     }
@@ -31,10 +32,13 @@ class PayloadSdk {
     const _timestamp = Date.now()
     const wrapper = new XyoPayloadWrapper(item)
     const session = this._driver?.session()
+    const paramsString = neo4jEntries2String(obj2Neo4jEntries({ ...item, _timestamp, hash: wrapper.sortedHash() }))
     try {
       return (
         await session?.run(
-          `CREATE n:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN n`
+          `
+          CREATE (n:Payload ${paramsString}) RETURN n.hash
+          `
         )
       )?.records.map((record) => record.toObject() as XyoPayload)
     } finally {
@@ -45,7 +49,7 @@ class PayloadSdk {
   public async findByHash(hash: string) {
     const session = this._driver?.session()
     try {
-      return (await session?.run(`MATCH (n:Payload) ${hash} RETURN n`))?.records.map(
+      return (await session?.run(`MATCH (u:Payload) ${hash} RETURN u`))?.records.map(
         (record) => record.toObject() as XyoPayload
       )
     } finally {
@@ -80,7 +84,7 @@ class PayloadSdk {
         results = results.concat(
           (
             await session?.run(
-              `CREATE n:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN n`
+              `CREATE u:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN u`
             )
           )?.records.map((record) => record.toObject() as XyoPayload) ?? []
         )

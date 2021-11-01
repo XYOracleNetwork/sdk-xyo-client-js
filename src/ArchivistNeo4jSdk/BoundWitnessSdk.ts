@@ -4,6 +4,7 @@ import { Driver } from 'neo4j-driver-core'
 
 import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
+import { neo4jEntries2String, obj2Neo4jEntries } from './neo4jutils'
 
 class BoundWitnessSdk {
   private _archive: string
@@ -31,17 +32,12 @@ class BoundWitnessSdk {
     const _timestamp = Date.now()
     const wrapper = new XyoBoundWitnessWrapper(item)
     const session = this._driver?.session()
-    const params: Record<string, unknown> = { ...item, _timestamp, hash: wrapper.sortedHash() }
-    const paramsString = Object.entries(params)
-      .map(([key, value]) => {
-        return `${key}: '${value}'`
-      })
-      .join(', ')
+    const paramsString = neo4jEntries2String(obj2Neo4jEntries({ ...item, _timestamp, hash: wrapper.sortedHash() }))
     try {
       return (
         await session?.run(
           `
-          CREATE (n:Block {${paramsString}}) RETURN n.hash
+          CREATE (n:Block ${paramsString}) RETURN n.hash
           `
         )
       )?.records.map((record) => record.toObject() as XyoBoundWitness)
@@ -88,7 +84,7 @@ class BoundWitnessSdk {
         results = results.concat(
           (
             await session?.run(
-              `CREATE u:Payload ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN u`
+              `CREATE u:Block ${JSON.stringify({ ...item, _timestamp, hash: wrapper.sortedHash() })} RETURN u`
             )
           )?.records.map((record) => record.toObject() as XyoBoundWitness) ?? []
         )

@@ -1,5 +1,4 @@
 import testBoundWitness from './testBoundWitness'
-import TestPayload from './TestPayload'
+import testPayload from './testPayload2'
 
-export { testBoundWitness }
-export type { TestPayload }
+export { testBoundWitness, testPayload }

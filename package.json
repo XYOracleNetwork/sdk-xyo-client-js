@@ -57,6 +57,7 @@
     "@types/ua-parser-js": "^0.7.36",
     "@xylabs/eslint-config": "^2.0.24",
     "@xylabs/ts-scripts": "^1.0.15",
+    "dotenv": "^10.0.0",
     "jest": "^27.3.1",
     "npm-package-json-lint": "^5.4.1",
     "npm-package-json-lint-config-default": "^3.0.0",

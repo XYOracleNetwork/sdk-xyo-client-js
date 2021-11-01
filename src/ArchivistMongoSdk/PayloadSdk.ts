@@ -63,16 +63,6 @@ class PayloadSdk extends BaseMongoSdk<XyoPayload> {
     return (await this.findRecentQuery(limit)).explain()
   }
 
-  public async sample(size: number) {
-    assertEx(size <= 10, `size must be <= 10 [${size}]`)
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection
-        .aggregate([{ $match: { _archive: this._archive } }, { $sample: { size } }])
-        .maxTimeMS(this._maxTime)
-        .toArray()
-    })
-  }
-
   public async insertMany(items: XyoPayload[]) {
     const _timestamp = Date.now()
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {

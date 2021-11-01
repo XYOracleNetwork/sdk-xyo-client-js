@@ -7,9 +7,11 @@ import { XyoPayloadWrapper } from '../Payload'
 
 class PayloadSdk extends BaseMongoSdk<XyoPayload> {
   private _archive: string
-  constructor(config: BaseMongoSdkConfig, archive: string) {
+  private _maxTime: number
+  constructor(config: BaseMongoSdkConfig, archive: string, maxTime = 2000) {
     super(config)
     this._archive = archive
+    this._maxTime = maxTime
   }
 
   public async fetchCount() {
@@ -38,24 +40,36 @@ class PayloadSdk extends BaseMongoSdk<XyoPayload> {
 
   public async findByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection.find({ _archive: this._archive, _hash: hash }).toArray()
+      return await collection.find({ _archive: this._archive, _hash: hash }).maxTimeMS(this._maxTime).toArray()
+    })
+  }
+
+  public async findRecentQuery(limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoPayload>) => {
+      return collection
+        .find({ _archive: this._archive })
+        .sort({ _archive: -1, _timestamp: -1 })
+        .limit(limit)
+        .maxTimeMS(this._maxTime)
     })
   }
 
   public async findRecent(limit = 20) {
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection
-        .find({ _archive: this._archive })
-        .sort({ _archive: -1, _timestamp: -1 })
-        .limit(limit)
-        .toArray()
-    })
+    return (await this.findRecentQuery(limit)).toArray()
+  }
+
+  public async findRecentPlan(limit = 20) {
+    return (await this.findRecentQuery(limit)).explain()
   }
 
   public async sample(size: number) {
     assertEx(size <= 10, `size must be <= 10 [${size}]`)
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection.aggregate([{ $match: { _archive: this._archive } }, { $sample: { size } }]).toArray()
+      return await collection
+        .aggregate([{ $match: { _archive: this._archive } }, { $sample: { size } }])
+        .maxTimeMS(this._maxTime)
+        .toArray()
     })
   }
 

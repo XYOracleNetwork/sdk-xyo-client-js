@@ -8,6 +8,7 @@ const testPayload: XyoPayload = {
     numberField: 1,
     stringField: 'stringValue',
   },
+  schema: 'network.xyo.test',
   stringField: 'stringValue',
 }
 

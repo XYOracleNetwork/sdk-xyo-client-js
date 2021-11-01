@@ -1,5 +1,5 @@
 interface XyoBoundWitnessBody {
-  [index: string]: unknown
+  [key: string]: unknown
   addresses: string[]
   payload_hashes: string[]
   payload_schemas: string[]

@@ -1,4 +1,4 @@
 import testBoundWitness from './testBoundWitness'
-import testPayload from './testPayload2'
+import testPayload from './testPayload'
 
 export { testBoundWitness, testPayload }

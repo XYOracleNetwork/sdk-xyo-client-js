@@ -44,6 +44,18 @@ class PayloadSdk extends BaseMongoSdk<XyoPayload> {
     })
   }
 
+  public async updateByHash(hash: string, payload: XyoPayload) {
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+      return await collection.updateMany({ _archive: this._archive, _hash: hash }, payload)
+    })
+  }
+
+  public async deleteByHash(hash: string) {
+    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+      return await collection.deleteMany({ _archive: this._archive, _hash: hash })
+    })
+  }
+
   public async findByHashes(hashes: string[]) {
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
       const promises = hashes.map((hash) => {

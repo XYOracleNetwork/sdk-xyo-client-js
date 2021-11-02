@@ -93,7 +93,7 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
 
   public async updateByHash(hash: string, bw: XyoBoundWitness) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection.updateMany({ _archive: this._archive, _hash: hash }, bw)
+      return await collection.updateMany({ _archive: this._archive, _hash: hash }, { $set: bw })
     })
   }
 

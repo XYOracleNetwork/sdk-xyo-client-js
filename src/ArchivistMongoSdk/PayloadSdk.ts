@@ -46,7 +46,7 @@ class PayloadSdk extends BaseMongoSdk<XyoPayload> {
 
   public async updateByHash(hash: string, payload: XyoPayload) {
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection.updateMany({ _archive: this._archive, _hash: hash }, payload)
+      return await collection.updateMany({ _archive: this._archive, _hash: hash }, { $set: payload })
     })
   }
 

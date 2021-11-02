@@ -77,6 +77,17 @@ class XyoArchivistApi {
     ).data
   }
 
+  public async repairPayloadByHash(hash: string) {
+    return (
+      await axios.get<XyoPayload[]>(
+        `${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}/repair`,
+        {
+          headers: this.headers,
+        }
+      )
+    ).data
+  }
+
   public async getBoundWitnessMostRecent(limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max size = 100')

@@ -2,17 +2,18 @@ import { AxiosError } from 'axios'
 
 import { XyoAddress } from '../Address'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'
-import { TestPayload } from '../Test'
+import { XyoPayload } from '../models'
 import ArchivistApi from './ArchivistApi'
 import ArchivistApiConfig from './ArchivistApiConfig'
 
 test('checking happy path', async () => {
-  const payload: TestPayload = {
+  const payload: XyoPayload = {
     number_field: 1,
     object_field: {
       number_value: 2,
       string_value: 'yo',
     },
+    schema: 'network.xyo.test',
     string_field: 'there',
     timestamp: 1618603439107,
   }

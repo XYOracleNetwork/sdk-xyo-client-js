@@ -50,6 +50,17 @@ class XyoArchivistApi {
     ).data
   }
 
+  public async getBoundWitnessPayloadsByHash(hash: string) {
+    return (
+      await axios.get<XyoPayload[]>(
+        `${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}/payloads`,
+        {
+          headers: this.headers,
+        }
+      )
+    ).data
+  }
+
   public async getPayloadStats() {
     return (
       await axios.get<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/stats`, {

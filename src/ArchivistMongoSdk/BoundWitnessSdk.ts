@@ -20,28 +20,86 @@ class BoundWitnessSdk extends BaseMongoSdk<XyoBoundWitness> {
     })
   }
 
-  private async findRecentQuery(limit: number) {
+  private async findRecentQuery(limit: number, client?: string) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
       return collection
-        .find({ _archive: this._archive })
-        .sort({ _archive: -1, _timestamp: -1 })
+        .find(client ? { _archive: this._archive, _client: client } : { _archive: this._archive })
+        .sort(client ? { _archive: -1, _client: -1, _timestamp: -1 } : { _archive: -1, _timestamp: -1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
   }
 
-  public async findRecent(limit = 20) {
-    return (await this.findRecentQuery(limit)).toArray()
+  public async findRecent(limit = 20, client?: string) {
+    return (await this.findRecentQuery(limit, client)).toArray()
   }
 
-  public async findRecentPlan(limit = 20) {
-    return (await this.findRecentQuery(limit)).explain()
+  public async findRecentPlan(limit = 20, client?: string) {
+    return (await this.findRecentQuery(limit, client)).explain()
+  }
+
+  private async findAfterQuery(timestamp: number, limit: number, client?: string) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
+      return collection
+        .find(
+          client
+            ? { _archive: this._archive, _client: client, _timestamp: { $gt: timestamp } }
+            : { _archive: this._archive, _timestamp: { $gt: timestamp } }
+        )
+        .sort(client ? { _archive: -1, _client: -1, _timestamp: -1 } : { _archive: -1, _timestamp: -1 })
+        .limit(limit)
+        .maxTimeMS(this._maxTime)
+    })
+  }
+
+  public async findAfter(timestamp: number, limit = 20, client?: string) {
+    return (await this.findAfterQuery(timestamp, limit, client)).toArray()
+  }
+
+  public async findAfterPlan(timestamp: number, limit = 20, client?: string) {
+    return (await this.findAfterQuery(timestamp, limit, client)).explain()
+  }
+
+  private async findBeforeQuery(timestamp: number, limit: number, client?: string) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
+      return collection
+        .find(
+          client
+            ? { _archive: this._archive, _client: client, _timestamp: { $lt: timestamp } }
+            : { _archive: this._archive, _timestamp: { $lt: timestamp } }
+        )
+        .sort(client ? { _archive: 1, _client: 1, _timestamp: 1 } : { _archive: 1, _timestamp: 1 })
+        .limit(limit)
+        .maxTimeMS(this._maxTime)
+    })
+  }
+
+  public async findBefore(timestamp: number, limit = 20, client?: string) {
+    return (await this.findBeforeQuery(timestamp, limit, client)).toArray()
+  }
+
+  public async findBeforePlan(timestamp: number, limit = 20, client?: string) {
+    return (await this.findBeforeQuery(timestamp, limit, client)).explain()
   }
 
   public async findByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
       return await collection.find({ _archive: this._archive, _hash: hash }).maxTimeMS(this._maxTime).toArray()
+    })
+  }
+
+  public async updateByHash(hash: string, bw: XyoBoundWitness) {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
+      return await collection.updateMany({ _archive: this._archive, _hash: hash }, bw)
+    })
+  }
+
+  public async deleteByHash(hash: string) {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
+      return await collection.deleteMany({ _archive: this._archive, _hash: hash })
     })
   }
 

@@ -4349,9 +4349,9 @@ neo4j-driver-bolt-connection@^4.3.4:
     text-encoding-utf-8 "^1.0.2"
 
 neo4j-driver-core@^4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/neo4j-driver-core/-/neo4j-driver-core-4.3.4.tgz#b445a4fbf94dce8441075099bd6ac3133c1cf5ee"
-  integrity sha512-3tn3j6IRUNlpXeehZ9Xv7dLTZPB4a7APaoJ+xhQyMmYQO3ujDM4RFHc0pZcG+GokmaltT5pUCIPTDYx6ODdhcA==
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/neo4j-driver-core/-/neo4j-driver-core-4.3.5.tgz#cda48d95aebf477106c2d60ec9f82f45b8118a91"
+  integrity sha512-K7qAc73ewjKc2iwe764Bq+Rm/IkDhEbo3D57EOTu5pXuZS+EOUU5avKIIncfniop9Xcle/hODx6dtiyasUPvOw==
 
 neo4j-driver@^4.3.4:
   version "4.3.4"

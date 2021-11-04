@@ -1480,10 +1480,10 @@ bser@2.1.1:
   dependencies:
     node-int64 "^0.4.0"
 
-bson@^4.5.2:
-  version "4.5.3"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-4.5.3.tgz#de3783b357a407d935510beb1fbb285fef43bb06"
-  integrity sha512-qVX7LX79Mtj7B3NPLzCfBiCP6RAsjiV8N63DjlaVVpZW+PFoDTxQ4SeDbSpcqgE6mXksM5CAwZnXxxxn/XwC0g==
+bson@^4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-4.5.4.tgz#5f74f1e11f743ea8aec30b5e24bfddae82846873"
+  integrity sha512-wIt0bPACnx8Ju9r6IsS2wVtGDHBr9Dxb+U29A1YED2pu8XOhS8aKjOnLZ8sxyXkPwanoK7iWWVhS1+coxde6xA==
   dependencies:
     buffer "^5.6.0"
 
@@ -4280,7 +4280,7 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-mongodb-connection-string-url@^2.0.0:
+mongodb-connection-string-url@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-2.1.0.tgz#9c522c11c37f571fecddcb267ac4a76ef432aeb7"
   integrity sha512-Qf9Zw7KGiRljWvMrrUFDdVqo46KIEiDuCzvEN97rh/PcKzk2bd6n9KuzEwBwW9xo5glwx69y1mI6s+jFUD/aIQ==
@@ -4289,13 +4289,13 @@ mongodb-connection-string-url@^2.0.0:
     whatwg-url "^9.1.0"
 
 mongodb@^4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.1.3.tgz#8bf24d782ba3f3833201f4e60b0307d87980ba71"
-  integrity sha512-lHvTqODBiSpuqjpCj48DOyYWS6Iq6ElJNUiH9HWdQtONyOfjgsKzJULipWduMGsSzaNO4nFi/kmlMFCLvjox/Q==
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.1.4.tgz#ba8062c7c67e7a22db5a059dbac1e3044b48453b"
+  integrity sha512-Cv/sk8on/tpvvqbEvR1h03mdyNdyvvO+WhtFlL4jrZ+DSsN/oSQHVqmJQI/sBCqqbOArFcYCAYDfyzqFwV4GSQ==
   dependencies:
-    bson "^4.5.2"
+    bson "^4.5.4"
     denque "^2.0.1"
-    mongodb-connection-string-url "^2.0.0"
+    mongodb-connection-string-url "^2.1.0"
   optionalDependencies:
     saslprep "^1.0.3"
 

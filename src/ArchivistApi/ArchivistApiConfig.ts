@@ -1,4 +1,4 @@
-import { ApiConfig } from '@xyo-network/sdk-xyo-js'
+import { ApiConfig } from '@xylabs/sdk-js'
 
 interface XyoArchivistApiConfig extends ApiConfig {
   archive: string

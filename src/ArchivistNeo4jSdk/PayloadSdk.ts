@@ -1,4 +1,4 @@
-import { assertEx } from '@xyo-network/sdk-xyo-js'
+import { assertEx } from '@xylabs/sdk-js'
 import neo4j from 'neo4j-driver'
 import { Driver } from 'neo4j-driver-core'
 
@@ -21,10 +21,12 @@ class PayloadSdk {
 
   public async fetchCount() {
     const session = this._driver?.session()
-    try {
-      return ((await session?.run('MATCH (n:Payload) RETURN COUNT(n) as count'))?.records[0].get('count')).low
-    } finally {
-      session?.close()
+    if (session) {
+      try {
+        return (await session.run('MATCH (n:Payload) RETURN COUNT(n) as count')).records[0].get('count').low
+      } finally {
+        session?.close()
+      }
     }
   }
 

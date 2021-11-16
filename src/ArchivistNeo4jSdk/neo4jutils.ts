@@ -1,4 +1,4 @@
-import { assertEx } from '@xyo-network/sdk-xyo-js'
+import { assertEx } from '@xylabs/sdk-js'
 
 const obj2Neo4jEntries = (obj: Record<string, unknown>, prefix?: string): [key: string, value: unknown][] => {
   assertEx(obj !== undefined, 'Object is undefined')

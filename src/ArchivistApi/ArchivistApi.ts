@@ -1,4 +1,4 @@
-import { assertEx } from '@xyo-network/sdk-xyo-js'
+import { assertEx } from '@xylabs/sdk-js'
 import axios from 'axios'
 
 import { XyoBoundWitness, XyoPayload } from '../models'

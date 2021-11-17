@@ -35,4 +35,4 @@ const testBoundWitness: XyoBoundWitness = {
   previous_hashes: [null, null, null, null],
 }
 
-export default testBoundWitness
+export { testBoundWitness }

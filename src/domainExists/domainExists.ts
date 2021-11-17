@@ -1,5 +1,5 @@
-import DnsReturnCode from './DnsReturnCode'
-import googleDnsOverHttps from './googleDnsOverHttps'
+import { DnsReturnCode } from './DnsReturnCode'
+import { googleDnsOverHttps } from './googleDnsOverHttps'
 
 /**
  * Checks if a domain exists (resolves using DNS)
@@ -11,4 +11,4 @@ const domainExists = async (domain: string) => {
   return dnsResult.Status === DnsReturnCode.NoError
 }
 
-export default domainExists
+export { domainExists }

@@ -1,3 +1,1 @@
-import XyoBoundWitnessWrapper from './Wrapper'
-
-export { XyoBoundWitnessWrapper }
+export * from './Wrapper'

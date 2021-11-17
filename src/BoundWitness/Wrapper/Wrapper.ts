@@ -2,7 +2,7 @@ import pick from 'lodash/pick'
 import { UAParser } from 'ua-parser-js'
 
 import { XyoBoundWitness } from '../../models'
-import XyoHasher from '../../XyoHasher'
+import { XyoHasher } from '../../XyoHasher'
 import { XyoBoundWitnessValidator } from '../Validator'
 
 const scrubbedFields = [
@@ -42,4 +42,4 @@ class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends XyoHasher<T> {
   }
 }
 
-export default XyoBoundWitnessWrapper
+export { XyoBoundWitnessWrapper }

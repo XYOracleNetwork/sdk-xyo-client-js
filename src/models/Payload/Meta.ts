@@ -6,4 +6,4 @@ interface XyoPayloadMeta {
   _archive?: string
 }
 
-export default XyoPayloadMeta
+export type { XyoPayloadMeta }

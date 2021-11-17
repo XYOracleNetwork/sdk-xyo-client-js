@@ -1,15 +1,15 @@
 import { XyoPayload } from '../../models'
-import BodyValidator from './BodyValidator'
-import MetaValidator from './MetaValidator'
+import { XyoPayloadBodyValidator } from './BodyValidator'
+import { XyoPayloadMetaValidator } from './MetaValidator'
 
-class Validator {
+class XyoPayloadValidator {
   private payload: XyoPayload
-  public body: BodyValidator
-  public meta: MetaValidator
+  public body: XyoPayloadBodyValidator
+  public meta: XyoPayloadMetaValidator
   constructor(payload: XyoPayload) {
     this.payload = payload
-    this.body = new BodyValidator(payload)
-    this.meta = new MetaValidator(payload)
+    this.body = new XyoPayloadBodyValidator(payload)
+    this.meta = new XyoPayloadMetaValidator(payload)
   }
 
   public all() {
@@ -19,4 +19,4 @@ class Validator {
   }
 }
 
-export default Validator
+export { XyoPayloadValidator }

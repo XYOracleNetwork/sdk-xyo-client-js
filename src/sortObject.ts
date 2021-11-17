@@ -17,4 +17,4 @@ const sortObject = <T extends Record<string, unknown>>(obj: T) => {
   return result as T
 }
 
-export default sortObject
+export { sortObject }

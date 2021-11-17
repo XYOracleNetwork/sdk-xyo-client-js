@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import axios from 'axios'
 
 import { XyoBoundWitness, XyoPayload } from '../models'
-import XyoArchivistApiConfig from './ArchivistApiConfig'
+import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 
 class XyoArchivistApi {
   private config: XyoArchivistApiConfig
@@ -20,7 +20,7 @@ class XyoArchivistApi {
 
   public async postBoundWitnesses(boundWitnesses: XyoBoundWitness[]) {
     return (
-      await axios.post<{ boundWitnesses?: number; payloads?: number }>(
+      await axios['post']<{ boundWitnesses?: number; payloads?: number }>(
         `${this.config.apiDomain}/archive/${this.config.archive}/block`,
         { boundWitnesses },
         {
@@ -63,7 +63,7 @@ class XyoArchivistApi {
 
   public async getPayloadStats() {
     return (
-      await axios.get<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/stats`, {
+      await axios['get']<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/stats`, {
         headers: this.headers,
       })
     ).data
@@ -71,7 +71,7 @@ class XyoArchivistApi {
 
   public async getPayloadByHash(hash: string) {
     return (
-      await axios.get<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}`, {
+      await axios['get']<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}`, {
         headers: this.headers,
       })
     ).data
@@ -79,7 +79,7 @@ class XyoArchivistApi {
 
   public async repairPayloadByHash(hash: string) {
     return (
-      await axios.get<XyoPayload[]>(
+      await axios['get']<XyoPayload[]>(
         `${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}/repair`,
         {
           headers: this.headers,
@@ -92,7 +92,7 @@ class XyoArchivistApi {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max size = 100')
     return (
-      await axios.get<XyoBoundWitness[]>(
+      await axios['get']<XyoBoundWitness[]>(
         `${this.config.apiDomain}/archive/${this.config.archive}/block/recent/${limit}`,
         {
           headers: this.headers,
@@ -105,15 +105,18 @@ class XyoArchivistApi {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max size = 100')
     return (
-      await axios.get<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/recent/${limit}`, {
-        headers: this.headers,
-      })
+      await axios['get']<XyoPayload[]>(
+        `${this.config.apiDomain}/archive/${this.config.archive}/payload/recent/${limit}`,
+        {
+          headers: this.headers,
+        }
+      )
     ).data
   }
 
   public async getBoundWitnessSample(size: number) {
     return (
-      await axios.get<XyoBoundWitness[]>(
+      await axios['get']<XyoBoundWitness[]>(
         `${this.config.apiDomain}/archive/${this.config.archive}/block/sample/${size}`,
         {
           headers: this.headers,
@@ -135,4 +138,4 @@ class XyoArchivistApi {
   }
 }
 
-export default XyoArchivistApi
+export { XyoArchivistApi }

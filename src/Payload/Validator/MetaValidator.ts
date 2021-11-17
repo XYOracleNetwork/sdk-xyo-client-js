@@ -1,10 +1,10 @@
 import { XyoPayload } from '../../models'
-import XyoHasher from '../../XyoHasher'
+import { XyoHasher } from '../../XyoHasher'
 
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000
 
-class MetaValidator {
+class XyoPayloadMetaValidator {
   private payload: XyoPayload
   constructor(payload: XyoPayload) {
     this.payload = payload
@@ -36,4 +36,4 @@ class MetaValidator {
   }
 }
 
-export default MetaValidator
+export { XyoPayloadMetaValidator }

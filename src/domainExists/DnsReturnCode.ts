@@ -11,4 +11,4 @@ enum DnsReturnCode {
   NotInZone = 9,
 }
 
-export default DnsReturnCode
+export { DnsReturnCode }

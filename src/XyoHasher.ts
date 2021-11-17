@@ -1,5 +1,5 @@
-import sortedHash from './sortedHash'
-import sortedStringify from './sortedStringify'
+import { sortedHash } from './sortedHash'
+import { sortedStringify } from './sortedStringify'
 
 const removeUnderscoreFields = (obj: Record<string, unknown>) => {
   const fields: Record<string, unknown> = {}
@@ -30,4 +30,4 @@ class XyoHasher<T extends Record<string, unknown>> {
   }
 }
 
-export default XyoHasher
+export { XyoHasher }

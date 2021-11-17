@@ -2,14 +2,14 @@ import { assertEx } from '@xylabs/sdk-js'
 import { ec } from 'elliptic'
 import shajs from 'sha.js'
 
-class Address {
+class XyoAddress {
   private _key: ec.KeyPair
 
   static ecContext = new ec('p256')
 
   private constructor(privateKey: Uint8Array) {
     assertEx(privateKey.length == 32, `Bad private key length [${privateKey.length}]`)
-    this._key = Address.ecContext.keyFromPrivate(privateKey)
+    this._key = XyoAddress.ecContext.keyFromPrivate(privateKey)
   }
 
   public get privateKey() {
@@ -22,18 +22,18 @@ class Address {
 
   static fromPhrase(phrase: string) {
     const privateKey = shajs('sha256').update(phrase).digest('hex')
-    return Address.fromPrivateKey(privateKey)
+    return XyoAddress.fromPrivateKey(privateKey)
   }
 
   static fromPrivateKey(key: string) {
     const privateKey = Uint8Array.from(Buffer.from(key, 'hex'))
-    return new Address(privateKey)
+    return new XyoAddress(privateKey)
   }
 
   static random() {
-    const key = Address.ecContext.genKeyPair()
-    return Address.fromPrivateKey(key.getPrivate().toBuffer().toString('hex'))
+    const key = XyoAddress.ecContext.genKeyPair()
+    return XyoAddress.fromPrivateKey(key.getPrivate().toBuffer().toString('hex'))
   }
 }
 
-export default Address
+export { XyoAddress }

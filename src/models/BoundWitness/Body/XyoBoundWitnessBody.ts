@@ -6,4 +6,4 @@ interface XyoBoundWitnessBody {
   previous_hashes: (string | null)[]
 }
 
-export default XyoBoundWitnessBody
+export type { XyoBoundWitnessBody }

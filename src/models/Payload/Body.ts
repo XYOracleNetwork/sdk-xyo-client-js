@@ -3,4 +3,4 @@ interface XyoPayloadBody {
   schema: string
 }
 
-export default XyoPayloadBody
+export type { XyoPayloadBody }

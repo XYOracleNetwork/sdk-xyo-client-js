@@ -17,4 +17,4 @@ const XyoBoundWitnessMetaSchema = {
   type: 'object',
 }
 
-export default XyoBoundWitnessMetaSchema
+export { XyoBoundWitnessMetaSchema }

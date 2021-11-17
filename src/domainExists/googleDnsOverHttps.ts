@@ -63,4 +63,4 @@ const googleDnsOverHttps = async (name: string) => {
   return (await axios.get<GoogleDnsResult>(`https://dns.google/resolve?name=${name}`)).data
 }
 
-export default googleDnsOverHttps
+export { googleDnsOverHttps }

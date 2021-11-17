@@ -1,5 +1,5 @@
 import { XyoPayload } from '../../models'
-import XyoHasher from '../../XyoHasher'
+import { XyoHasher } from '../../XyoHasher'
 import { XyoPayloadValidator } from '../Validator'
 
 class XyoPayloadWrapper<T extends XyoPayload> extends XyoHasher<T> {
@@ -16,4 +16,4 @@ class XyoPayloadWrapper<T extends XyoPayload> extends XyoHasher<T> {
   }
 }
 
-export default XyoPayloadWrapper
+export { XyoPayloadWrapper }

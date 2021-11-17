@@ -13,4 +13,4 @@ const testPayload: XyoPayload = {
   stringField: 'stringValue',
 }
 
-export default testPayload
+export { testPayload }

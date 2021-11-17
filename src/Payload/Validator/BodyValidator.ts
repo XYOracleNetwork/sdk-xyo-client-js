@@ -1,7 +1,7 @@
 import { WithStringIndex, XyoPayloadBody } from '../../models'
-import SchemaValidator from '../../SchemaValidator'
+import { SchemaValidator } from '../../SchemaValidator'
 
-class BodyValidator {
+class XyoPayloadBodyValidator {
   private body: WithStringIndex<XyoPayloadBody>
   constructor(body: XyoPayloadBody) {
     this.body = body as WithStringIndex<XyoPayloadBody>
@@ -30,4 +30,4 @@ class BodyValidator {
   }
 }
 
-export default BodyValidator
+export { XyoPayloadBodyValidator }

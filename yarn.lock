@@ -10,9 +10,9 @@
     "@babel/highlight" "^7.16.0"
 
 "@babel/compat-data@^7.16.0":
-  version "7.16.0"
-  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.16.0.tgz#ea269d7f78deb3a7826c39a4048eecda541ebdaa"
-  integrity sha512-DGjt2QZse5SGd9nfOSqO4WLJ8NN/oHkijbXbPrxuoJO3oIPJL3TciZs9FX+cOHNiY9E9l0opL8g7BmLe3T+9ew==
+  version "7.16.4"
+  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.16.4.tgz#081d6bbc336ec5c2435c6346b2ae1fb98b5ac68e"
+  integrity sha512-1o/jo7D+kC9ZjHX5v+EHrdjl3PhxMrLSOTGsOdHJ+KL8HCaEK6ehrVL2RS6oHDZp+L7xLirLrPmQtEng769J/Q==
 
 "@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.7.2", "@babel/core@^7.7.5":
   version "7.16.0"
@@ -170,9 +170,9 @@
     js-tokens "^4.0.0"
 
 "@babel/parser@^7.1.0", "@babel/parser@^7.12.5", "@babel/parser@^7.14.7", "@babel/parser@^7.15.0", "@babel/parser@^7.16.0", "@babel/parser@^7.16.3", "@babel/parser@^7.7.2":
-  version "7.16.3"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.16.3.tgz#271bafcb811080905a119222edbc17909c82261d"
-  integrity sha512-dcNwU1O4sx57ClvLBVFbEgx0UZWfd0JQX5X6fxFRCLHelFBGXFfSz6Y0FAq2PEwUqlqLkdVjVr4VASEOuUnLJw==
+  version "7.16.4"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.16.4.tgz#d5f92f57cf2c74ffe9b37981c0e72fee7311372e"
+  integrity sha512-6V0qdPUaiVHH3RtZeLIsc+6pDhbYzHR8ogA8w+f+Wc77DuXto19g2QUwveINoS34Uw+W8/hQDGJCx+i4n7xcng==
 
 "@babel/plugin-syntax-async-generators@^7.8.4":
   version "7.8.4"
@@ -1003,10 +1003,10 @@
     eslint-plugin-simple-import-sort "^7.0.0"
     eslint-plugin-sort-keys-fix "^1.1.2"
 
-"@xylabs/sdk-js@^2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.4.tgz#bc1bdb6b0095e38dd47047c2d07549f8f08c2ae9"
-  integrity sha512-NoZLxhrfemxFQok75bcSsI/0ckP3OOC2SEA66ozCqnkyvloeZbkwqtacp9ov7u694474rZ5Dbq7SaAoPSDqqYw==
+"@xylabs/sdk-js@^2.3.5":
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.6.tgz#0b8106902dc5ffab384577866d9ed6c92179f848"
+  integrity sha512-FYMUrSEIq783wXP0HzdLIhFUdykxImqKCrvmMKgk/xuQLmXaozHYPUZBoG7RUBCR+QFQvCz7cut3XV3Jb5kCMg==
   optionalDependencies:
     rollbar "^2.24.0"
 
@@ -5619,7 +5619,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^4:
+typescript@^4.4.4:
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.4.tgz#2cd01a1a1f160704d3101fd5a58ff0f9fcb8030c"
   integrity sha512-DqGhF5IKoBl8WNf8C1gu8q0xZSInh9j1kJJMqT3a94w1JzVaBU4EXOSMrz9yDqMT0xt3selp83fuFMQ0uzv6qA==

@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
-import XyoAddress from './Address'
+import { XyoAddress } from './Address'
 
 //test vectors: https://tools.ietf.org/html/rfc8032
 

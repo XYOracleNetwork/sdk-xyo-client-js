@@ -1,4 +1,4 @@
-import dumpErrors from '../../dumpErrors'
+import { dumpErrors } from '../../dumpErrors'
 import { XyoPayload } from '../../models'
 import Validator from './Validator'
 

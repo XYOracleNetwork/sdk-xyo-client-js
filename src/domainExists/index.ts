@@ -1,3 +1,1 @@
-import domainExists from './domainExists'
-
-export default domainExists
+export * from './domainExists'

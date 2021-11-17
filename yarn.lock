@@ -1004,9 +1004,9 @@
     eslint-plugin-sort-keys-fix "^1.1.2"
 
 "@xylabs/sdk-js@^2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.4.tgz#bc1bdb6b0095e38dd47047c2d07549f8f08c2ae9"
-  integrity sha512-NoZLxhrfemxFQok75bcSsI/0ckP3OOC2SEA66ozCqnkyvloeZbkwqtacp9ov7u694474rZ5Dbq7SaAoPSDqqYw==
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.6.tgz#0b8106902dc5ffab384577866d9ed6c92179f848"
+  integrity sha512-FYMUrSEIq783wXP0HzdLIhFUdykxImqKCrvmMKgk/xuQLmXaozHYPUZBoG7RUBCR+QFQvCz7cut3XV3Jb5kCMg==
   optionalDependencies:
     rollbar "^2.24.0"
 

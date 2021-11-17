@@ -13,7 +13,7 @@
   },
   "license": "LGPL-3.0",
   "private": false,
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "repository": {
     "type": "git",
@@ -36,8 +36,8 @@
     "ua-parser-js": "^1.0.2"
   },
   "peerDependencies": {
-    "@xyo-network/sdk-xyo-mongo-js": "^2",
     "@xylabs/sdk-js": "^2",
+    "@xyo-network/sdk-xyo-mongo-js": "^2",
     "axios": "^0",
     "lodash": "^4",
     "mongodb": "^4"
@@ -57,8 +57,8 @@
     "@types/node": "^16",
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",
-    "@xylabs/sdk-js": "^2.3.5",
     "@xylabs/eslint-config": "^2.0.33",
+    "@xylabs/sdk-js": "^2.3.5",
     "@xylabs/ts-scripts": "^1.0.17",
     "@xyo-network/sdk-xyo-mongo-js": "^2.1.21",
     "axios": "^0.24.0",

@@ -1,3 +1,1 @@
-import XyoBoundWitnessBuilder from './Builder'
-
-export { XyoBoundWitnessBuilder }
+export * from './Builder'

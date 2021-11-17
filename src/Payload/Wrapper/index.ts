@@ -1,3 +1,1 @@
-import XyoPayloadWrapper from './Wrapper'
-
-export { XyoPayloadWrapper }
+export * from './Wrapper'

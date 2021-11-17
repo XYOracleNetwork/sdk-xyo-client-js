@@ -1,4 +1,4 @@
-import WithStringIndex from './WithStringIndex'
+import { WithStringIndex } from './WithStringIndex'
 
 export * from './BoundWitness'
 export * from './Payload'

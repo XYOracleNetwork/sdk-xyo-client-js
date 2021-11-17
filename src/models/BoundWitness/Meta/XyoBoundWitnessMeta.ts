@@ -12,4 +12,4 @@ interface XyoBoundWitnessMeta {
   _user_agent?: string
 }
 
-export default XyoBoundWitnessMeta
+export type { XyoBoundWitnessMeta }

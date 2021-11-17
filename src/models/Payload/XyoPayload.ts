@@ -1,6 +1,6 @@
-import XyoPayloadBody from './Body'
-import WithXyoPayloadMeta from './WithXyoPayloadMeta'
+import { XyoPayloadBody } from './Body'
+import { WithXyoPayloadMeta } from './WithXyoPayloadMeta'
 
 type XyoPayload = WithXyoPayloadMeta<XyoPayloadBody>
 
-export default XyoPayload
+export type { XyoPayload }

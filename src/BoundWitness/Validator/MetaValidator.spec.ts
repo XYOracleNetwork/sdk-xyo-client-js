@@ -1,6 +1,6 @@
-import dumpErrors from '../../dumpErrors'
+import { dumpErrors } from '../../dumpErrors'
 import { testBoundWitness } from '../../Test'
-import MetaValidator from './MetaValidator'
+import { MetaValidator } from './MetaValidator'
 
 test('all', () => {
   const validator = new MetaValidator(testBoundWitness)

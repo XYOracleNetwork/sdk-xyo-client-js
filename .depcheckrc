@@ -1,7 +1,10 @@
 ignores: [
   "@types/jest",
   "@types/node",
+  "@xylabs/ts-scripts",
   "npm-package-json-lint-config-default",
+  "ts-jest",
   "ts-node",
+  "typescript",
   "vue"
 ]

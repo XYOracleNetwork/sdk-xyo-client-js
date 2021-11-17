@@ -1,11 +1,10 @@
 {
-  "extends": "./tsconfig.es6.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "lib": ["DOM", "es6"],
-    "module": "CommonJS"
+    "lib": ["es2021"],
+    "target": "es2021"
   },
   "include": ["src/**/*.spec.ts"],
-  "exclude": ["src/**/*.ts", "node_modules"]
+  "exclude": ["src/**/*.ts"]
 }

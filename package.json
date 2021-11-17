@@ -14,6 +14,7 @@
   "license": "LGPL-3.0",
   "private": false,
   "version": "2.2.1",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
@@ -27,24 +28,26 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.3.4",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.1.21",
-    "axios": "^0.24.0",
     "elliptic": "^6.5.4",
     "is-ip": "^3.1.0",
-    "lodash": "^4.17.21",
-    "mongodb": "^4.1.4",
     "neo4j-driver": "^4.4.0",
     "neo4j-driver-core": "^4.4.0",
     "sha.js": "^2.4.11",
     "ua-parser-js": "^1.0.2"
   },
+  "peerDependencies": {
+    "@xyo-network/sdk-xyo-mongo-js": "^2",
+    "@xylabs/sdk-js": "^2",
+    "axios": "^0",
+    "lodash": "^4",
+    "mongodb": "^4"
+  },
   "scripts": {
     "lint-pkg": "npmPkgJsonLint .",
-    "test": "yarn build && yarn jest ./src",
-    "test:bw": "yarn build && yarn jest ./src/BoundWitness",
-    "test:payload": "yarn build && yarn jest ./src/Payload",
-    "test:api": "yarn build && yarn jest ./src/ArchivistApi"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./src",
+    "test:bw": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./src/BoundWitness",
+    "test:payload": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./src/Payload",
+    "test:api": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./src/ArchivistApi"
   },
   "devDependencies": {
     "@types/bn.js": "^5.1.0",
@@ -54,17 +57,22 @@
     "@types/node": "^16",
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",
+    "@xylabs/sdk-js": "^2.3.5",
     "@xylabs/eslint-config": "^2.0.33",
     "@xylabs/ts-scripts": "^1.0.17",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.1.21",
+    "axios": "^0.24.0",
     "bn.js": "^5.2.0",
     "dotenv": "^10.0.0",
     "eslint": "^8.2.0",
     "jest": "^27.3.1",
+    "lodash": "^4.17.21",
+    "mongodb": "^4.1.4",
     "npm-package-json-lint": "^5.4.2",
     "npm-package-json-lint-config-default": "^3.0.0",
     "prettier": "^2.4.1",
     "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0",
-    "typescript": "^4"
+    "typescript": "^4.4.4"
   }
 }

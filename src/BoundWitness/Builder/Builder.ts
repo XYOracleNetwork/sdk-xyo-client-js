@@ -3,9 +3,9 @@ import shajs from 'sha.js'
 
 import { XyoAddress } from '../../Address'
 import { XyoBoundWitness } from '../../models'
-import sortObject from '../../sortObject'
+import { sortObject } from '../../sortObject'
 
-class Builder {
+class XyoBoundWitnessBuilder {
   private _addresses: XyoAddress[] = []
   private _previous_hashes: (string | null)[] = []
   private _payload_schemas: string[] = []
@@ -13,7 +13,7 @@ class Builder {
 
   private get _payload_hashes(): string[] {
     return this._payloads.map((payload) => {
-      return Builder.hash(payload)
+      return XyoBoundWitnessBuilder.hash(payload)
     })
   }
 
@@ -41,7 +41,7 @@ class Builder {
 
   public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
-    const _hash = Builder.hash(hashableFields)
+    const _hash = XyoBoundWitnessBuilder.hash(hashableFields)
     return { ...hashableFields, _client: 'js', _hash } as XyoBoundWitness
   }
 
@@ -51,9 +51,9 @@ class Builder {
   }
 
   static hash<T extends Record<string, unknown>>(obj: T) {
-    const stringObject = Builder.sortedStringify<T>(obj)
+    const stringObject = XyoBoundWitnessBuilder.sortedStringify<T>(obj)
     return shajs('sha256').update(stringObject).digest('hex')
   }
 }
 
-export default Builder
+export { XyoBoundWitnessBuilder }

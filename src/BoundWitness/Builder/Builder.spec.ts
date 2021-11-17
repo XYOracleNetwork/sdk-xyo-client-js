@@ -2,7 +2,7 @@
 /* eslint-disable sort-keys */
 import { XyoAddress } from '../../Address'
 import { XyoPayload } from '../../models'
-import Builder from './Builder'
+import { XyoBoundWitnessBuilder } from './Builder'
 
 test('checking happy path', () => {
   const payload1: XyoPayload = {
@@ -26,7 +26,7 @@ test('checking happy path', () => {
     string_field: 'there',
   }
 
-  const payload1Hash = Builder.hash(payload1)
+  const payload1Hash = XyoBoundWitnessBuilder.hash(payload1)
 
   expect(payload1Hash).toEqual('c915c56dd93b5e0db509d1a63ca540cfb211e11f03039b05e19712267bb8b6db')
 
@@ -34,7 +34,7 @@ test('checking happy path', () => {
 
   const address = XyoAddress.fromPhrase('test')
 
-  let builder1 = new Builder()
+  let builder1 = new XyoBoundWitnessBuilder()
   expect(builder1).toBeDefined()
   builder1 = builder1.witness(address, null)
   expect(builder1).toBeDefined()
@@ -45,7 +45,7 @@ test('checking happy path', () => {
   expect(json1).toBeDefined()
   expect(json1._hash).toEqual(knownHash)
 
-  let builder2 = new Builder()
+  let builder2 = new XyoBoundWitnessBuilder()
   expect(builder2).toBeDefined()
   builder2 = builder2.witness(address, null)
   expect(builder2).toBeDefined()

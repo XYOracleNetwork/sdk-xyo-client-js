@@ -4,4 +4,4 @@ interface XyoArchivistApiConfig extends ApiConfig {
   archive: string
 }
 
-export default XyoArchivistApiConfig
+export type { XyoArchivistApiConfig }

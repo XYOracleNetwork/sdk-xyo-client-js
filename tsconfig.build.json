@@ -1,8 +1,10 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "lib": ["ESNext"],
     "rootDir": "src"
   },
+  "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.spec.ts"]
 }

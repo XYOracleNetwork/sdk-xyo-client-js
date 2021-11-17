@@ -3,8 +3,8 @@ import { AxiosError } from 'axios'
 import { XyoAddress } from '../Address'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'
 import { XyoPayload } from '../models'
-import ArchivistApi from './ArchivistApi'
-import ArchivistApiConfig from './ArchivistApiConfig'
+import { XyoArchivistApi } from './ArchivistApi'
+import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 
 test('checking happy path', async () => {
   const payload: XyoPayload = {
@@ -18,7 +18,7 @@ test('checking happy path', async () => {
     timestamp: 1618603439107,
   }
 
-  const config: ArchivistApiConfig = {
+  const config: XyoArchivistApiConfig = {
     apiDomain: 'https://beta.archivist.xyo.network',
     archive: 'test',
   }
@@ -36,7 +36,7 @@ test('checking happy path', async () => {
   const json = builder.build()
   expect(json).toBeDefined()
 
-  const api = ArchivistApi.get(config)
+  const api = XyoArchivistApi.get(config)
   expect(api).toBeDefined()
   expect(api.authenticated).toEqual(false)
   try {

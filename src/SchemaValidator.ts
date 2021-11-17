@@ -1,4 +1,4 @@
-import domainExists from './domainExists'
+import { domainExists } from './domainExists'
 
 /**
  * Validates a XYO schema structure and existance
@@ -121,4 +121,4 @@ class SchemaValidator {
   }
 }
 
-export default SchemaValidator
+export { SchemaValidator }

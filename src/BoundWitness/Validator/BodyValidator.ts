@@ -2,9 +2,9 @@ import uniq from 'lodash/uniq'
 
 import { WithStringIndex, XyoBoundWitnessBody, XyoPayload } from '../../models'
 import { XyoPayloadWrapper } from '../../Payload'
-import SchemaValidator from '../../SchemaValidator'
+import { SchemaValidator } from '../../SchemaValidator'
 
-class BodyValidator {
+class XyoBoundWItnessBodyValidator {
   private body: WithStringIndex<XyoBoundWitnessBody>
   private payloads?: XyoPayload[]
   constructor(body: XyoBoundWitnessBody, payloads?: XyoPayload[]) {
@@ -82,7 +82,7 @@ class BodyValidator {
 
   public payloadSchemas() {
     const errors: Error[] = []
-    const schemaValidators = this.body.payload_schemas.map((schema) => {
+    const schemaValidators: SchemaValidator[] = this.body.payload_schemas.map((schema: string) => {
       return new SchemaValidator(schema)
     })
     schemaValidators.forEach((validator) => {
@@ -109,4 +109,4 @@ class BodyValidator {
   }
 }
 
-export default BodyValidator
+export { XyoBoundWItnessBodyValidator }

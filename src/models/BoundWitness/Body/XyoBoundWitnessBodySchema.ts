@@ -13,4 +13,4 @@ const XyoBoundWitnessBodySchema = {
   type: 'object',
 }
 
-export default XyoBoundWitnessBodySchema
+export { XyoBoundWitnessBodySchema }

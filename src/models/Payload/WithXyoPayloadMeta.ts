@@ -1,6 +1,6 @@
-import XyoPayloadBody from './Body'
-import XyoPayloadMeta from './Meta'
+import { XyoPayloadBody } from './Body'
+import { XyoPayloadMeta } from './Meta'
 
 type WithXyoPayloadMeta<T extends XyoPayloadBody> = T & XyoPayloadMeta
 
-export default WithXyoPayloadMeta
+export type { WithXyoPayloadMeta }

@@ -1,15 +1,15 @@
 import { XyoBoundWitness } from '../../models'
-import BodyValidator from './BodyValidator'
-import MetaValidator from './MetaValidator'
+import { XyoBoundWItnessBodyValidator } from './BodyValidator'
+import { XyoBoundWItnessMetaValidator } from './MetaValidator'
 
-class Validator {
+class XyoBoundWitnessValidator {
   private bw: XyoBoundWitness
-  public body: BodyValidator
-  public meta: MetaValidator
+  public body: XyoBoundWItnessBodyValidator
+  public meta: XyoBoundWItnessMetaValidator
   constructor(bw: XyoBoundWitness) {
     this.bw = bw
-    this.body = new BodyValidator(bw, bw._payloads)
-    this.meta = new MetaValidator(bw)
+    this.body = new XyoBoundWItnessBodyValidator(bw, bw._payloads)
+    this.meta = new XyoBoundWItnessMetaValidator(bw)
   }
 
   public all() {
@@ -19,4 +19,4 @@ class Validator {
   }
 }
 
-export default Validator
+export { XyoBoundWitnessValidator }

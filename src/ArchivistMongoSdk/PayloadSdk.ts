@@ -5,7 +5,7 @@ import { Collection } from 'mongodb'
 import { XyoPayload } from '../models'
 import { XyoPayloadWrapper } from '../Payload'
 
-class PayloadSdk extends BaseMongoSdk<XyoPayload> {
+class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   private _archive: string
   private _maxTime: number
   constructor(config: BaseMongoSdkConfig, archive: string, maxTime = 2000) {
@@ -109,4 +109,4 @@ class PayloadSdk extends BaseMongoSdk<XyoPayload> {
   }
 }
 
-export default PayloadSdk
+export { XyoArchivistPayloadMongoSdk }

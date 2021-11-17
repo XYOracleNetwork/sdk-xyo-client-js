@@ -1,6 +1,6 @@
-import dumpErrors from '../../dumpErrors'
+import { dumpErrors } from '../../dumpErrors'
 import { testPayload } from '../../Test'
-import BodyValidator from './BodyValidator'
+import { BodyValidator } from './BodyValidator'
 
 test('all', () => {
   const validator = new BodyValidator(testPayload)

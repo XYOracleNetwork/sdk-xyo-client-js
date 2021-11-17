@@ -7,7 +7,7 @@ import { XyoBoundWitnessBuilder } from '../Builder'
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000
 
-class MetaValidator {
+class XyoBoundWItnessMetaValidator {
   private bw: XyoBoundWitness
   constructor(bw: XyoBoundWitness) {
     this.bw = bw
@@ -78,4 +78,4 @@ class MetaValidator {
   }
 }
 
-export default MetaValidator
+export { XyoBoundWItnessMetaValidator }

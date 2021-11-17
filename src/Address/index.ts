@@ -1,3 +1,1 @@
-import XyoAddress from './Address'
-
-export { XyoAddress }
+export * from './Address'

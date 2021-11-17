@@ -4,4 +4,4 @@ const dumpErrors = (errors: Error[]) => {
   })
 }
 
-export default dumpErrors
+export { dumpErrors }

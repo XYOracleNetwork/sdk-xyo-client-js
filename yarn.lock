@@ -1443,6 +1443,14 @@ buffer@^5.6.0:
     base64-js "^1.3.1"
     ieee754 "^1.1.13"
 
+buffer@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-6.0.3.tgz#2ace578459cc8fbe2a70aaa8f52ee63b6a74c6c6"
+  integrity sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==
+  dependencies:
+    base64-js "^1.3.1"
+    ieee754 "^1.2.1"
+
 builtins@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/builtins/-/builtins-1.0.3.tgz#cb94faeb61c8696451db36534e1422f94f0aee88"
@@ -2821,7 +2829,7 @@ iconv-lite@^0.6.2:
   dependencies:
     safer-buffer ">= 2.1.2 < 3.0.0"
 
-ieee754@^1.1.13:
+ieee754@^1.1.13, ieee754@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
@@ -4161,27 +4169,28 @@ negotiator@^0.6.2:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
-neo4j-driver-bolt-connection@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/neo4j-driver-bolt-connection/-/neo4j-driver-bolt-connection-4.4.0.tgz#19bc93977f31b43ad6710750b674365d35b63003"
-  integrity sha512-hhoilDz4uoEYumoSapIL1PCC7KeMRJOdOBR75R1Mu1srC6LZGH37d4OAFG1OD7KzbJCti4NuRzNWsHnwwSzxHg==
+neo4j-driver-bolt-connection@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/neo4j-driver-bolt-connection/-/neo4j-driver-bolt-connection-4.4.1.tgz#6369929b1e0cdaffd541f2e36ed2a13a2a7579b2"
+  integrity sha512-wdD2ejTW6VIolwZp8aAcT1a4w45ab8TIoFjQBXgXKKRNTfq5iEc95x0diLqyUJa5vtHh/+IdesX5o5dv9JsZew==
   dependencies:
-    neo4j-driver-core "^4.4.0"
-    text-encoding-utf-8 "^1.0.2"
+    buffer "^6.0.3"
+    neo4j-driver-core "^4.4.1"
+    string_decoder "^1.3.0"
 
-neo4j-driver-core@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/neo4j-driver-core/-/neo4j-driver-core-4.4.0.tgz#b9d3a6ca53f2aa8705b387e3e0660742e7c57efa"
-  integrity sha512-Ft4g1jJXXnnXemdCMETUG/e6iY7yfGwH0n0aaUVkgr8yovEXTBEz98rFct4nso3zyqPVKVN8FeCYDA37vmT8Jw==
+neo4j-driver-core@^4.4.0, neo4j-driver-core@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/neo4j-driver-core/-/neo4j-driver-core-4.4.1.tgz#3fa20f3107012282bbe7d13b12b7b244f890bf7a"
+  integrity sha512-iG89B+joj0a6fo8U3WRg9AiyLUfyU/R9s4J2o5ug3uMtfGEfwQ6jzLUkiwElkEeF14OaqIj7iXCBU4cFIU/6Gw==
 
 neo4j-driver@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/neo4j-driver/-/neo4j-driver-4.4.0.tgz#f3b39818d14140aedf39abfdb44961abea39bc73"
-  integrity sha512-6im3OYhwyG87O0nV/7HATo/vlOQaqGqnAsrYJ4Sw0czHgv/qJJ7qMheFGTXHqNoQsn376DBKda+ikFKTfnadDA==
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/neo4j-driver/-/neo4j-driver-4.4.1.tgz#1d00b10f0ef88ced57a3bb7cc5f0a6d1973e6ff6"
+  integrity sha512-iVBRu3frH5+gs0pGVRrsv7T+SRQBSIq25GI55e6a6Z4JR7k6Dvirvs0zgAF1woxs3fWqbe88qMDbuG4OQvJF2g==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    neo4j-driver-bolt-connection "^4.4.0"
-    neo4j-driver-core "^4.4.0"
+    neo4j-driver-bolt-connection "^4.4.1"
+    neo4j-driver-core "^4.4.1"
     rxjs "^6.6.3"
 
 node-gyp@^8.2.0:
@@ -5013,7 +5022,7 @@ rxjs@^6.6.3:
   dependencies:
     tslib "^1.9.0"
 
-safe-buffer@^5.0.1:
+safe-buffer@^5.0.1, safe-buffer@~5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
@@ -5298,6 +5307,13 @@ string.prototype.trimstart@^1.0.4:
     call-bind "^1.0.2"
     define-properties "^1.1.3"
 
+string_decoder@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.3.0.tgz#42f114594a46cf1a8e30b0a84f56c78c3edac21e"
+  integrity sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==
+  dependencies:
+    safe-buffer "~5.2.0"
+
 string_decoder@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8"
@@ -5413,11 +5429,6 @@ test-exclude@^6.0.0:
     "@istanbuljs/schema" "^0.1.2"
     glob "^7.1.4"
     minimatch "^3.0.4"
-
-text-encoding-utf-8@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/text-encoding-utf-8/-/text-encoding-utf-8-1.0.2.tgz#585b62197b0ae437e3c7b5d0af27ac1021e10d13"
-  integrity sha512-8bw4MY9WjdsD2aMtO0OzOCY3pXGYNx2d2FfHRVUKkiCPDWjKuOlhLVASS+pD7VkLTVjW268LYJHwsnPFlBpbAg==
 
 text-table@^0.2.0:
   version "0.2.0"

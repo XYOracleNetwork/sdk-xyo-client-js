@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "./tsconfig.json",
   "compilerOptions": {
     "lib": ["es2021"],
     "target": "es2021"
   },
-  "include": ["src/**/*.spec.ts"],
-  "exclude": ["src/**/*.ts"]
+  "exclude": ["src/**/*.ts"],
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*.spec.ts"]
 }

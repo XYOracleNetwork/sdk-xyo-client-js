@@ -10,7 +10,9 @@
 [![codeclimate-badge][]][codeclimate-link]
 [![snyk-badge][]][snyk-link]
 
-> The XYO Foundation provides this source code available in our efforts to advance the understanding of the XYO Procotol and its possible uses. We continue to maintain this software in the interest of developer education. Usage of this source code is not intended for production.
+> The XYO Foundation provides this source code available in our efforts to advance the understanding of the XYO Procotol and its possible uses.
+> We continue to maintain this software in the interest of developer education.
+> Usage of this source code is not intended for production.
 
 ## Table of Contents
 
@@ -22,33 +24,33 @@
 
 ## Description
 
-Primary SDK for using the XYO Protocol 2.0 from TypeScript/JavaScript.  Designed to work in both browser based and Node JS based solutions.
+> Primary SDK for using the XYO Protocol 2.0 from TypeScript/JavaScript.  Designed to work in both browser based and Node JS based solutions.
 
 ## Install
 
 Using npm:
 
-```
-$ npm i --save @xyo-network/sdk-xyo-client-js
+```sh
+npm i --save @xyo-network/sdk-xyo-client-js
 ```
 
 Using yarn:
 
-```
-$ yarn add @xyo-network/sdk-xyo-client-js
+```sh
+yarn add @xyo-network/sdk-xyo-client-js
 ```
 
 ## Maintainers
 
-- [Arie Trouw](https://github.com/arietrouw) (https://arietrouw.com)
+-   [Arie Trouw](https://github.com/arietrouw) [arietrouw.com](https://arietrouw.com)
 
 ## License
 
-See the [LICENSE](LICENSE) file for license details
+> See the [LICENSE](LICENSE) file for license details
 
 ## Credits
 
-Made with 🔥and ❄️ by [XYO](https://xyo.network)
+[Made with 🔥 and ❄️ by XYO](https://xyo.network)
 
 [logo]: https://cdn.xy.company/img/brand/XYO_full_colored.png
 

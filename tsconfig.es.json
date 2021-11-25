@@ -1,25 +1,25 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
     "declaration": true,
     "declarationMap": true,
-    "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
-    "target": "es6",
-    "alwaysStrict": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
     "esModuleInterop": true,
-    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
+    "importHelpers": true,
+    "isolatedModules": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "importHelpers": true
-  },
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es6"
+  }
 }

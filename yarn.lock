@@ -1012,9 +1012,9 @@
   integrity sha512-qWVav014mpjEtbWbEgl0q9pEyrrIySKum8UVYjwhC6njrKzknLZPvfuYdQyVbApsqr94tf/3dP4pCuZmmjdCWQ==
 
 "@xylabs/eslint-config@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.1.4.tgz#5b2f9ff4435003217874328982089cc2687ff029"
-  integrity sha512-o7pphEE0SIjdoNoaUMGEFbBIH/i0dcVAhjr0hCoV3eC4jyx8Pf6PSGtK6BsaPd289jq/tYMT1yi5dCm19fbKIQ==
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.1.5.tgz#85c74ceac44c8fa9f5823bf2a8d6da873c013851"
+  integrity sha512-HwXfkaqG1dxiS9BWXwat0sYzezbfhq8iVrEMkrU7qy2lTvi4FWPTOFnv9WjYyupM0tLWdoFX08LdjP/7u3DEGg==
   dependencies:
     "@delagen/eslint-plugin-deprecation" "^1.3.0"
     "@typescript-eslint/eslint-plugin" "^5.3.0"

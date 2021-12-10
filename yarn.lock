@@ -1030,9 +1030,9 @@
     remark-preset-lint-markdown-style-guide "^5.1.1"
 
 "@xylabs/sdk-js@^2.3.9":
-  version "2.3.9"
-  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.9.tgz#3b6cbc453126854c7fb2b8f7630e90ba1cd5eea7"
-  integrity sha512-UtrMNLaPB9n9ZXn+4UQYMrASz/MAR7lPVVwnUspwSSMZPLpeQ1SWEDNKGINLlGXXw3/NpmkyfjsdPnIBQwPM0A==
+  version "2.3.18"
+  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.18.tgz#30844870af7c7a915e388af4fea3bc4e71430b72"
+  integrity sha512-pLTZaw2xCvRoJNnGJL8q7W6HSqSXD/FsM5iy/DkcA8FDGrET0eydwuIRu5+nfaqfXdUJJl/4mdVCDaITpcu3Kg==
   optionalDependencies:
     rollbar "^2.24.0"
 

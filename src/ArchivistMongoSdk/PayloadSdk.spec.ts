@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 
-import PayloadSdk from './PayloadSdk'
+import { XyoArchivistPayloadMongoSdk } from './PayloadSdk'
 
 const getMongoSdk = (archive: string) => {
   dotenv.config()
-  return new PayloadSdk(
+  return new XyoArchivistPayloadMongoSdk(
     {
       collection: 'payloads',
       dbDomain: assertEx(process.env.MONGO_DOMAIN, 'Missing Mongo Domain'),

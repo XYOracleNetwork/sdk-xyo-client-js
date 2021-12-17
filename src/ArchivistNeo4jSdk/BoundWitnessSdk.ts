@@ -6,7 +6,7 @@ import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
 import { neo4jEntries2String, obj2Neo4jEntries } from './neo4jutils'
 
-class XyoArchivistBoundWitnessNeo4jSdk {
+export class XyoArchivistBoundWitnessNeo4jSdk {
   private _archive: string
   private _driver?: Driver
   constructor(url: string, un: string, pw: string, archive: string) {
@@ -97,5 +97,3 @@ class XyoArchivistBoundWitnessNeo4jSdk {
     }
   }
 }
-
-export { XyoArchivistBoundWitnessNeo4jSdk }

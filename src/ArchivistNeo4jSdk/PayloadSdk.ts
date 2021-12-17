@@ -6,7 +6,7 @@ import { XyoPayload } from '../models'
 import { XyoPayloadWrapper } from '../Payload'
 import { neo4jEntries2String, obj2Neo4jEntries } from './neo4jutils'
 
-class XyoArchivistPayloadNeo4jSdk {
+export class XyoArchivistPayloadNeo4jSdk {
   private _archive: string
   private _driver?: Driver
   constructor(url: string, un: string, pw: string, archive: string) {
@@ -97,5 +97,3 @@ class XyoArchivistPayloadNeo4jSdk {
     }
   }
 }
-
-export { XyoArchivistPayloadNeo4jSdk }

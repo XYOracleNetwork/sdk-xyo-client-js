@@ -2,11 +2,11 @@ import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 
 import { testBoundWitness } from '../Test'
-import BoundWitnessSdk from './BoundWitnessSdk'
+import { XyoArchivistBoundWitnessNeo4jSdk } from './BoundWitnessSdk'
 
 test('checking happy path', async () => {
   dotenv.config()
-  const sdk = new BoundWitnessSdk(
+  const sdk = new XyoArchivistBoundWitnessNeo4jSdk(
     assertEx(process.env.NEO4J_URL, 'Missing NEO4J_URL'),
     assertEx(process.env.NEO4J_USERNAME, 'Missing NEO4J_USERNAME'),
     assertEx(process.env.NEO4J_PASSWORD, 'Missing NEO4J_PASSWORD'),

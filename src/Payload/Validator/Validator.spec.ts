@@ -1,6 +1,6 @@
 import { dumpErrors } from '../../dumpErrors'
 import { XyoPayload } from '../../models'
-import Validator from './Validator'
+import { XyoPayloadValidator } from './Validator'
 
 const testPayloadNoSchmea: XyoPayload = {
   _hash: '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a',
@@ -28,35 +28,35 @@ const testPayloadValid: XyoPayload = {
 }
 
 test('all [missing schema]', () => {
-  const validator = new Validator(testPayloadNoSchmea)
+  const validator = new XyoPayloadValidator(testPayloadNoSchmea)
   const errors = validator.all()
   dumpErrors(errors)
   expect(errors.length).toBe(1)
 })
 
 test('all [mixed case]', () => {
-  const validator = new Validator(testPayloadMixedCase)
+  const validator = new XyoPayloadValidator(testPayloadMixedCase)
   const errors = validator.all()
   dumpErrors(errors)
   expect(errors.length).toBe(1)
 })
 
 test('all [too few levels]', () => {
-  const validator = new Validator(testPayloadTooFewLevels)
+  const validator = new XyoPayloadValidator(testPayloadTooFewLevels)
   const errors = validator.all()
   dumpErrors(errors)
   expect(errors.length).toBe(1)
 })
 
 test('all [does not exist]', () => {
-  const validator = new Validator(testPayloadDoesNotExist)
+  const validator = new XyoPayloadValidator(testPayloadDoesNotExist)
   const errors = validator.all()
   dumpErrors(errors)
   expect(errors.length).toBe(0)
 })
 
 test('all [valid]', () => {
-  const validator = new Validator(testPayloadValid)
+  const validator = new XyoPayloadValidator(testPayloadValid)
 
   let errors: Error[] = []
   errors = validator.all()

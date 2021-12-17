@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 
-import BoundWitnessSdk from './BoundWitnessSdk'
+import { XyoArchivistBoundWitnessMongoSdk } from './BoundWitnessSdk'
 
 const getMongoSdk = (archive: string) => {
   dotenv.config()
-  return new BoundWitnessSdk(
+  return new XyoArchivistBoundWitnessMongoSdk(
     {
       collection: 'bound_witnesses',
       dbDomain: assertEx(process.env.MONGO_DOMAIN, 'Missing Mongo Domain'),

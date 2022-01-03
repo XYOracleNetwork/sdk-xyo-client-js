@@ -1,3 +1,4 @@
+/*
 import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 
@@ -17,3 +18,4 @@ test('checking happy path', async () => {
   const count = await sdk.fetchCount()
   expect(count).toBeGreaterThan(0)
 }, 40000)
+*/

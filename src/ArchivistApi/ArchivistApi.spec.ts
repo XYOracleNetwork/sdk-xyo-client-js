@@ -19,7 +19,8 @@ test('checking happy path', async () => {
   }
 
   const config: XyoArchivistApiConfig = {
-    apiDomain: 'https://beta.archivist.xyo.network',
+    apiDomain: 'https://api.archivist.xyo.network',
+    //apiDomain: 'http://localhost:80',
     archive: 'test',
   }
 

@@ -1,8 +1,8 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "."
+    "outDir": "./dist"
   },
-  "extends": "./tsconfig.es.json"
+  "exclude": ["src/**/*.spec.ts"],
+  "extends": "@xylabs/tsconfig",
+  "include": ["src"]
 }

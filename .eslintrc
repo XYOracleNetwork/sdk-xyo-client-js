@@ -3,6 +3,7 @@
   "extends": [
     "@xylabs"
   ],
+  "ignorePatterns": ["node_modules", "build", "dist", "bin", "package.json", "rollup.config.js"],
   "rules": {
     "import/no-default-export": "warn",
     "import/no-internal-modules": [

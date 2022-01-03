@@ -20,5 +20,5 @@ const getMongoSdk = (archive: string) => {
 test('all', async () => {
   const sdk = getMongoSdk('test')
   const plan = await sdk.findRecentPlan(100)
-  console.log(`Plan: ${JSON.stringify(plan, null, 2)}`)
+  console.log(`Plan: ${JSON.stringify(plan.queryPlanner.winningPlan, null, 2)}`)
 })

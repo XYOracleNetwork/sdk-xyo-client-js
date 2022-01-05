@@ -14,7 +14,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.16.4.tgz#081d6bbc336ec5c2435c6346b2ae1fb98b5ac68e"
   integrity sha512-1o/jo7D+kC9ZjHX5v+EHrdjl3PhxMrLSOTGsOdHJ+KL8HCaEK6ehrVL2RS6oHDZp+L7xLirLrPmQtEng769J/Q==
 
-"@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
+"@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.16.7", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.7.tgz#db990f931f6d40cb9b87a0dc7d2adc749f1dcbcf"
   integrity sha512-aeLaqcqThRNZYmbMqtulsetOQZ/5gbR/dWruUCJcpas4Qoyy+QeagfDsPdMrqwsPRDNxJvBlRiZxxX7THO7qtA==
@@ -1704,9 +1704,9 @@
   integrity sha512-dfT9GKKFulqnWGqlWLXGt5i7ZegGhbczMP4TFng0JcpPQNzXKFwWBxhulnfhfByM2njXkoRC5JbyMeXUY1a/XA==
 
 "@xyo-network/sdk-xyo-mongo-js@^2.1.24":
-  version "2.1.24"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.1.24.tgz#ad6860ad3d277d64ceca02c10d9e6b81d42d7b75"
-  integrity sha512-xOdfYJ8YGztI8gCYgNhwAHQR9NMiRrZ3oDogEzKXbmXt4vEU381ycyWbJznRXyrLFSUFgKpXfD/opTyX52vCEA==
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.2.1.tgz#056c0d14094a665c54e702d3577f0a8517626dce"
+  integrity sha512-3Mn5f13VXl3Qdce1aDUdgKw1/u8bmUggA5li7zr0z6jT7Tqiv/WjJ309bmY/0lm+ZKnCgZuh58B+X3wXer/2HQ==
   dependencies:
     "@xylabs/sdk-js" "^2.3.19"
     async-mutex "^0.3.2"
@@ -2771,9 +2771,9 @@ duplexer3@^0.1.4:
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
 
 electron-to-chromium@^1.4.17:
-  version "1.4.35"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.35.tgz#69aabb73d7030733e71c1e970ec16f5ceefbaea4"
-  integrity sha512-wzTOMh6HGFWeALMI3bif0mzgRrVGyP1BdFRx7IvWukFrSC5QVQELENuy+Fm2dCrAdQH9T3nuqr07n94nPDFBWA==
+  version "1.4.36"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.36.tgz#446c6184dbe5baeb5eae9a875490831e4bc5319a"
+  integrity sha512-MbLlbF39vKrXWlFEFpCgDHwdlz4O3LmHM5W4tiLRHjSmEUXjJjz8sZkMgWgvYxlZw3N1iDTmCEtOkkESb5TMCg==
 
 elliptic@^6.5.4:
   version "6.5.4"

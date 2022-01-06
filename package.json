@@ -48,6 +48,7 @@
     "npm-package-json-lint": "^5.4.2",
     "npm-package-json-lint-config-default": "^3.0.0",
     "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
     "rollbar": "^2.24.0",
     "rollup": "^2.63.0",
     "ts-jest": "^27.1.2",
@@ -88,7 +89,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
-    "compile": "rm -r -f dist && yarn compile-rollup && yarn compile-tsc",
+    "compile": "rimraf dist && yarn compile-rollup && yarn compile-tsc",
     "compile-rollup": "rollup -c",
     "compile-tsc": "tsc -p tsconfig.json",
     "lint-pkg": "npmPkgJsonLint .",

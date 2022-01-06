@@ -32,7 +32,7 @@
     "@types/node": "^17",
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",
-    "@xylabs/eslint-config": "^2.1.9",
+    "@xylabs/eslint-config": "^2.2.6",
     "@xylabs/sdk-js": "^2.3.21",
     "@xylabs/ts-scripts": "^1.0.24",
     "@xylabs/tsconfig": "^1.0.6",

@@ -28,6 +28,7 @@ const payload2: XyoPayload = {
 const payloads = [payload1, payload2]
 const payloadHash = 'c915c56dd93b5e0db509d1a63ca540cfb211e11f03039b05e19712267bb8b6db'
 const jsonHash = '98e1a3a3483ae211e702ee9952f9cae335e571ab7c1de708edb97eacdd960ba1'
+const address = XyoAddress.fromPhrase('test')
 
 describe('XyoBoundWitnessBuilder', () => {
   describe('hash', () => {
@@ -37,17 +38,44 @@ describe('XyoBoundWitnessBuilder', () => {
     })
   })
   describe('build', () => {
-    it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', (payload) => {
-      let builder = new XyoBoundWitnessBuilder()
-      expect(builder).toBeDefined()
-      builder = builder.witness(XyoAddress.fromPhrase('test'), null)
-      expect(builder).toBeDefined()
+    describe('_hash', () => {
+      it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', (payload) => {
+        let builder = new XyoBoundWitnessBuilder()
+        expect(builder).toBeDefined()
+        builder = builder.witness(address, null)
+        expect(builder).toBeDefined()
+        builder = builder.payload(schema, payload)
+        expect(builder).toBeDefined()
 
-      builder = builder.payload(schema, payload)
-      expect(builder).toBeDefined()
-      const json1 = builder.build()
-      expect(json1).toBeDefined()
-      expect(json1._hash).toEqual(jsonHash)
+        const actual = builder.build()
+
+        expect(actual).toBeDefined()
+        expect(actual._hash).toEqual(jsonHash)
+      })
+    })
+    describe('with inlinePayloads true', () => {
+      it('contains the _payloads field', () => {
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true })
+          .witness(address, null)
+          .payload(schema, payload1)
+
+        const actual = builder.build()
+
+        expect(actual).toBeDefined()
+        expect(actual._payloads).toBeDefined()
+      })
+    })
+    describe('with inlinePayloads false', () => {
+      it('omits the _payloads field', () => {
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false })
+          .witness(address, null)
+          .payload(schema, payload1)
+
+        const actual = builder.build()
+
+        expect(actual).toBeDefined()
+        expect(actual._payloads).toBeUndefined()
+      })
     })
   })
 })

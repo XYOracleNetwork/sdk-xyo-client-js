@@ -6,13 +6,14 @@ import { XyoBoundWitness, XyoPayload } from '../models'
 import { XyoArchivistApi } from './ArchivistApi'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 
+const schema = 'network.xyo.test'
 const payload: XyoPayload = {
   number_field: 1,
   object_field: {
     number_value: 2,
     string_value: 'yo',
   },
-  schema: 'network.xyo.test',
+  schema,
   string_field: 'there',
   timestamp: 1618603439107,
 }
@@ -21,6 +22,8 @@ const config: XyoArchivistApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://api.archivist.xyo.network',
   archive: 'test',
 }
+
+const timeout = 20000
 
 describe('XyoArchivistApi', () => {
   describe('get', () => {
@@ -36,41 +39,57 @@ describe('XyoArchivistApi', () => {
     })
   })
   describe('postBoundWitness', () => {
-    it('posts a single bound witness', async () => {
-      const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true })
-        .witness(XyoAddress.random(), null)
-        .payload('network.xyo.test', payload)
-      const api = XyoArchivistApi.get(config)
-      const boundWitness: XyoBoundWitness = builder.build()
+    it.each([true, false])(
+      'posts a single bound witness',
+      async (inlinePayloads) => {
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads })
+          .witness(XyoAddress.random(), null)
+          .payload(schema, payload)
+        const api = XyoArchivistApi.get(config)
+        const boundWitness: XyoBoundWitness = builder.build()
 
-      try {
-        const postBoundWitnessResult = await api.postBoundWitness(boundWitness)
-        expect(postBoundWitnessResult.boundWitnesses).toEqual(1)
-        expect(postBoundWitnessResult.payloads).toEqual(1)
-      } catch (ex) {
-        const error = ex as AxiosError
-        console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
-      }
-    }, 40000)
+        try {
+          const response = await api.postBoundWitness(boundWitness)
+          expect(response.boundWitnesses).toEqual(1)
+          if (inlinePayloads) {
+            expect(response.payloads).toEqual(1)
+          } else {
+            expect(response.payloads).toEqual(0)
+          }
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
   })
   describe('postBoundWitnesses', () => {
-    it('posts multiple bound witnesses', async () => {
-      const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true })
-        .witness(XyoAddress.random(), null)
-        .payload('network.xyo.test', payload)
-      const api = XyoArchivistApi.get(config)
-      const json = builder.build()
-      const boundWitnesses: XyoBoundWitness[] = [json, json]
-      try {
-        const postBoundWitnessesResult = await api.postBoundWitnesses(boundWitnesses)
-        expect(postBoundWitnessesResult.boundWitnesses).toEqual(2)
-        expect(postBoundWitnessesResult.payloads).toEqual(2)
-      } catch (ex) {
-        const error = ex as AxiosError
-        console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
-      }
-    }, 40000)
+    it.each([true, false])(
+      'posts multiple bound witnesses',
+      async (inlinePayloads) => {
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads })
+          .witness(XyoAddress.random(), null)
+          .payload(schema, payload)
+        const api = XyoArchivistApi.get(config)
+        const json = builder.build()
+        const boundWitnesses: XyoBoundWitness[] = [json, json]
+        try {
+          const response = await api.postBoundWitnesses(boundWitnesses)
+          expect(response.boundWitnesses).toEqual(2)
+          if (inlinePayloads) {
+            expect(response.payloads).toEqual(2)
+          } else {
+            expect(response.payloads).toEqual(0)
+          }
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
   })
 })

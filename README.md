@@ -10,17 +10,19 @@
 [![codeclimate-badge][]][codeclimate-link]
 [![snyk-badge][]][snyk-link]
 
-> The XYO Foundation provides this source code available in our efforts to advance the understanding of the XYO Procotol and its possible uses.
+> The XYO Foundation provides this source code available in our efforts to advance the understanding of the XYO Protocol and its possible uses.
 > We continue to maintain this software in the interest of developer education.
 > Usage of this source code is not intended for production.
 
 ## Table of Contents
 
--   [Title](#sdk-xyo-client-js)
--   [Description](#description)
--   [Maintainers](#maintainers)
--   [License](#license)
--   [Credits](#credits)
+- [sdk-xyo-client-js](#sdk-xyo-client-js)
+  - [Table of Contents](#table-of-contents)
+  - [Description](#description)
+  - [Install](#install)
+  - [Maintainers](#maintainers)
+  - [License](#license)
+  - [Credits](#credits)
 
 ## Description
 

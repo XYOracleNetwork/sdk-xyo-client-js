@@ -15,14 +15,13 @@
 > Usage of this source code is not intended for production.
 
 ## Table of Contents
-
-- [sdk-xyo-client-js](#sdk-xyo-client-js)
-  - [Table of Contents](#table-of-contents)
-  - [Description](#description)
-  - [Install](#install)
-  - [Maintainers](#maintainers)
-  - [License](#license)
-  - [Credits](#credits)
+-   [Title](#sdk-xyo-client-js)
+-   [Table of Contents](#table-of-contents)
+-   [Description](#description)
+-   [Install](#install)
+-   [Maintainers](#maintainers)
+-   [License](#license)
+-   [Credits](#credits)
 
 ## Description
 

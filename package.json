@@ -10,8 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/sdk-js": "^2.3.25",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.2.2",
+    "axios": "^0.24.0",
     "elliptic": "^6.5.4",
     "is-ip": "^4.0.0",
+    "lodash": "^4.17.21",
+    "mongodb": "^4.3.0",
     "neo4j-driver": "^4.4.1",
     "neo4j-driver-core": "^4.4.1",
     "sha.js": "^2.4.11",
@@ -33,18 +38,14 @@
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",
     "@xylabs/eslint-config": "^2.2.6",
-    "@xylabs/sdk-js": "^2.3.21",
+    "@xylabs/rollup-config": "^1.0.5",
     "@xylabs/ts-scripts": "^1.0.24",
     "@xylabs/tsconfig": "^1.0.6",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.1.24",
-    "axios": "^0.24.0",
     "babel-jest": "^27.4.6",
     "bn.js": "^5.2.0",
     "dotenv": "^10.0.0",
     "eslint": "^8.6.0",
     "jest": "^27.4.7",
-    "lodash": "^4.17.21",
-    "mongodb": "^4.2.2",
     "npm-package-json-lint": "^5.4.2",
     "npm-package-json-lint-config-default": "^3.0.0",
     "prettier": "^2.5.1",
@@ -72,13 +73,6 @@
   "main": "dist/node/index.js",
   "module": "dist/index.js",
   "name": "@xyo-network/sdk-xyo-client-js",
-  "peerDependencies": {
-    "@xylabs/sdk-js": "^2",
-    "@xyo-network/sdk-xyo-mongo-js": "^2",
-    "axios": "^0",
-    "lodash": "^4",
-    "mongodb": "^4"
-  },
   "private": false,
   "publishConfig": {
     "access": "public"

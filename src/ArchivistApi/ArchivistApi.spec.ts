@@ -2,28 +2,16 @@ import { AxiosError } from 'axios'
 
 import { XyoAddress } from '../Address'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'
-import { XyoBoundWitness, XyoPayload } from '../models'
+import { XyoBoundWitness } from '../models'
+import { testPayload, testSchema } from '../Test'
 import { XyoArchivistApi } from './ArchivistApi'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 
-const schema = 'network.xyo.test'
-const payload: XyoPayload = {
-  number_field: 1,
-  object_field: {
-    number_value: 2,
-    string_value: 'yo',
-  },
-  schema,
-  string_field: 'there',
-  timestamp: 1618603439107,
-}
-
+const timeout = 20000
 const config: XyoArchivistApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://api.archivist.xyo.network',
   archive: 'test',
 }
-
-const timeout = 20000
 
 describe('XyoArchivistApi', () => {
   describe('get', () => {
@@ -44,7 +32,7 @@ describe('XyoArchivistApi', () => {
       async (inlinePayloads) => {
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads })
           .witness(XyoAddress.random(), null)
-          .payload(schema, payload)
+          .payload(testSchema, testPayload)
         const api = XyoArchivistApi.get(config)
         const boundWitness: XyoBoundWitness = builder.build()
 
@@ -71,7 +59,7 @@ describe('XyoArchivistApi', () => {
       async (inlinePayloads) => {
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads })
           .witness(XyoAddress.random(), null)
-          .payload(schema, payload)
+          .payload(testSchema, testPayload)
         const api = XyoArchivistApi.get(config)
         const json = builder.build()
         const boundWitnesses: XyoBoundWitness[] = [json, json]

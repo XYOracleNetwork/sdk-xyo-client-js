@@ -5,7 +5,7 @@ import { Collection } from 'mongodb'
 import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
 
-class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitness> {
+export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitness> {
   private _archive: string
   private _maxTime: number
   constructor(config: BaseMongoSdkConfig, archive: string, maxTime = 2000) {
@@ -143,5 +143,3 @@ class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitness> {
     })
   }
 }
-
-export { XyoArchivistBoundWitnessMongoSdk }

@@ -4,7 +4,7 @@ import { WithStringIndex, XyoBoundWitnessBody, XyoPayload } from '../../models'
 import { XyoPayloadWrapper } from '../../Payload'
 import { SchemaValidator } from '../../SchemaValidator'
 
-class XyoBoundWItnessBodyValidator {
+class XyoBoundWitnessBodyValidator {
   private body: WithStringIndex<XyoBoundWitnessBody>
   private payloads?: XyoPayload[]
   constructor(body: XyoBoundWitnessBody, payloads?: XyoPayload[]) {
@@ -109,4 +109,4 @@ class XyoBoundWItnessBodyValidator {
   }
 }
 
-export { XyoBoundWItnessBodyValidator }
+export { XyoBoundWitnessBodyValidator }

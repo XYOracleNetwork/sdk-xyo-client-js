@@ -1,4 +1,4 @@
-import isIp from 'is-ip'
+import { isIP } from 'is-ip'
 import pick from 'lodash/pick'
 
 import { XyoBoundWitness } from '../../models'
@@ -7,7 +7,7 @@ import { XyoBoundWitnessBuilder } from '../Builder'
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000
 
-class XyoBoundWItnessMetaValidator {
+export class XyoBoundWitnessMetaValidator {
   private bw: XyoBoundWitness
   constructor(bw: XyoBoundWitness) {
     this.bw = bw
@@ -50,7 +50,7 @@ class XyoBoundWItnessMetaValidator {
   public sourceIp() {
     const errors: Error[] = []
     const { _source_ip } = this.bw
-    if (_source_ip && !isIp(_source_ip)) {
+    if (_source_ip && !isIP(_source_ip)) {
       errors.push(new Error(`_source_ip invalid format [${_source_ip}]`))
     }
     return errors
@@ -77,5 +77,3 @@ class XyoBoundWItnessMetaValidator {
     return errors
   }
 }
-
-export { XyoBoundWItnessMetaValidator }

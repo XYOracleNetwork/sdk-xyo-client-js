@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 
-import PayloadSdk from './PayloadSdk'
+import { XyoArchivistPayloadMongoSdk } from './PayloadSdk'
 
 const getMongoSdk = (archive: string) => {
   dotenv.config()
-  return new PayloadSdk(
+  return new XyoArchivistPayloadMongoSdk(
     {
       collection: 'payloads',
       dbDomain: assertEx(process.env.MONGO_DOMAIN, 'Missing Mongo Domain'),
@@ -20,5 +20,5 @@ const getMongoSdk = (archive: string) => {
 test('all', async () => {
   const sdk = getMongoSdk('test')
   const plan = await sdk.findRecentPlan(100)
-  console.log(`Plan: ${JSON.stringify(plan, null, 2)}`)
+  console.log(`Plan: ${JSON.stringify(plan.queryPlanner.winningPlan, null, 2)}`)
 })

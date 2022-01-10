@@ -1,5 +1,6 @@
 import { XyoPayload } from '../models'
 
+const testSchema = 'network.xyo.test'
 const testPayload: XyoPayload = {
   _archive: 'test',
   _hash: '20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c',
@@ -9,8 +10,8 @@ const testPayload: XyoPayload = {
     numberField: 1,
     stringField: 'stringValue',
   },
-  schema: 'network.xyo.test',
+  schema: testSchema,
   stringField: 'stringValue',
 }
 
-export { testPayload }
+export { testPayload, testSchema }

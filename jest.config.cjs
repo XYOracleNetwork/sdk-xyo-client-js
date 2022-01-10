@@ -10,6 +10,7 @@ const generateJestConfig = ({ esModules }) => {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     preset: 'ts-jest/presets/default-esm',
+    setupFiles: ['dotenv/config'],
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
     transform: {
       [`(${esModuleslist}).+\\.js$`]: 'babel-jest',

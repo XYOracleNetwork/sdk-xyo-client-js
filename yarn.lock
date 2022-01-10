@@ -1745,9 +1745,11 @@
     ts-prune "^0.10"
 
 "@xylabs/tsconfig@^1.0.6":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@xylabs/tsconfig/-/tsconfig-1.0.8.tgz#880c1beed67322484588efd786984029807fb849"
-  integrity sha512-I8rsMzDwhlp22Aur5pOw6MwFlps+yww3792lr1bxHF6I0jHU5kO+00rGFil0mrKAMFGYH56RwA0IJzNfxws3XA==
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@xylabs/tsconfig/-/tsconfig-1.0.9.tgz#0afef919f8f9765796e56ba3e21b3772236a648a"
+  integrity sha512-WNUfdlFb4f1YCVWdHUsfgeliH7SagrasO0eWMsaa9vIQw4l+ubBDTUuVrMmVu8hEQiGq5y5uHo//BcVaAWccFQ==
+  dependencies:
+    tslib "^2.3.1"
 
 "@xyo-network/sdk-xyo-mongo-js@^2.2.2":
   version "2.2.2"

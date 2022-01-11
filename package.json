@@ -96,7 +96,6 @@
     "test:neo4j": "jest ./src/ArchivistNeo4jSdk"
   },
   "sideEffects": false,
-  "type": "module",
   "types": "dist/index.d.ts",
   "version": "2.2.4"
 }

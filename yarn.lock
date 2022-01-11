@@ -1730,9 +1730,9 @@
     ts-prune "^0.10"
 
 "@xylabs/sdk-js@^2.3.24", "@xylabs/sdk-js@^2.3.25":
-  version "2.3.25"
-  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.25.tgz#c00f43ed5db74fa1e8a32ca634975dbccc76f3d6"
-  integrity sha512-hM/Y5c4gF9oZmo+UymEq5b0AO5Tqc+foptftTV7vQlm5mM5Ufm/dYAVrkyu7V3d+bd7lj0K49QQykkOENPIG4Q==
+  version "2.3.27"
+  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.27.tgz#c23c85403c2be10f851a1af6ffe6bc7cdecef247"
+  integrity sha512-2zLif3eTRC4+F78btu051kQidXlJfItaPwKMQ9YveLozH+cYpURxjZK0a+T/7Nk2EXSC3kdZlRzbhwJL97WpcQ==
 
 "@xylabs/ts-scripts@^1.0.24":
   version "1.0.24"
@@ -1755,9 +1755,9 @@
     tslib "^2.3.1"
 
 "@xyo-network/sdk-xyo-mongo-js@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.2.2.tgz#a50df424317e2906384736455164bad4b546f752"
-  integrity sha512-3ZfG8CRPrZdgdswjZ1KTW9vkbcRtXFDx9VlfR2ZJPXt3s/cW5Yw40WOJ6HLynTO57wWpbPaWMqVq1ML3xiwoVA==
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.2.3.tgz#d62d7c3edf7f2fae6a778f79777f5dd13861217a"
+  integrity sha512-HcbLC2TkrGqh1B+RiKJMQNQQL+4izAN6UeEZOGKVfbhAc9JOeIx4/UyRs+ouOmTtOi5bGDwhGVfDFuTY3Qlbtw==
   dependencies:
     "@xylabs/sdk-js" "^2.3.24"
     async-mutex "^0.3.2"

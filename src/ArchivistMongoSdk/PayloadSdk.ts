@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 
 import { XyoPayload } from '../models'
 import { XyoPayloadWrapper } from '../Payload'
@@ -20,7 +20,7 @@ class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     })
   }
 
-  public async insert(item: XyoPayload) {
+  public async insert(item: XyoPayload): Promise<ObjectId> {
     const _timestamp = Date.now()
     const wrapper = new XyoPayloadWrapper(item)
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {

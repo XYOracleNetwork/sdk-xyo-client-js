@@ -1712,22 +1712,16 @@
     remark-preset-lint-markdown-style-guide "^5.1.2"
 
 "@xylabs/rollup-config@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@xylabs/rollup-config/-/rollup-config-1.0.5.tgz#59c60a8fd679119f79cb37cc89778dadaeaf0db3"
-  integrity sha512-lTct7aMqZoJgbPV5IDGDDySTIZuPSUU++wp7KtNTBlrwpYmz4fiaI3yDVetPaZLrcmdyW8o4C+GD5KffTdgsFw==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@xylabs/rollup-config/-/rollup-config-1.1.1.tgz#06cf68a0aeaab655ab500737984e7f8f2beea295"
+  integrity sha512-SxEWcRjSblMWpqyfZERc4hT+CYGCocFI1nGJlzU9bekmkmO3JPvjZaO6Ud0fL5hdH22o8cOCeEp8RgMNIPqXIQ==
   dependencies:
     "@rollup/plugin-image" "^2.1.1"
     "@rollup/plugin-json" "^4.1.0"
     "@rollup/plugin-replace" "^3.0.1"
     "@rollup/plugin-strip" "^2.1.0"
     "@rollup/plugin-typescript" "^8.3.0"
-    depcheck "^1.4.2"
-    eslint-plugin-sonarjs "^0.10.0"
-    npm-check-updates "^12"
-    npm-package-json-lint "^5.4.2"
-    npm-package-json-lint-config-default "^3.0.0"
     rollup "^2.63.0"
-    ts-prune "^0.10"
 
 "@xylabs/sdk-js@^2.3.24", "@xylabs/sdk-js@^2.3.25":
   version "2.3.27"

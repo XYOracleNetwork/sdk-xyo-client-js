@@ -1730,9 +1730,14 @@
     ts-prune "^0.10"
 
 "@xylabs/sdk-js@^2.3.24", "@xylabs/sdk-js@^2.3.25":
-  version "2.3.27"
-  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.27.tgz#c23c85403c2be10f851a1af6ffe6bc7cdecef247"
-  integrity sha512-2zLif3eTRC4+F78btu051kQidXlJfItaPwKMQ9YveLozH+cYpURxjZK0a+T/7Nk2EXSC3kdZlRzbhwJL97WpcQ==
+  version "2.3.28"
+  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.28.tgz#5f6ca26a1ba4f5e98c87a163d4883078111715fd"
+  integrity sha512-wmN9JjosiflrLv8z+uPBpGh2Uv7NFpR9Va4rij7+zMsywX2gRA3CP+zn8lxDXg1MSP+Duk3rA4+5cECBEObz0A==
+  dependencies:
+    "@types/bn.js" "^5.1.0"
+    axios "^0.24.0"
+    bn.js "^5.2.0"
+    rollbar "^2.24.0"
 
 "@xylabs/ts-scripts@^1.0.24":
   version "1.0.24"

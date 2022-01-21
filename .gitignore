@@ -5,3 +5,4 @@ dist
 .rollup.cache
 .nyc_output
 .env
+*.tgz

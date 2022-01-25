@@ -1,14 +1,14 @@
 import axios from 'axios'
 
-import { AuthApiConfig } from './AuthApiConfig'
+import { XyoAuthApiConfig } from './AuthApiConfig'
 
-class AuthApi {
-  private config: AuthApiConfig = {
+class XyoAuthApi {
+  private config: XyoAuthApiConfig = {
     apiDomain: 'http://localhost:8080',
     authPrefix: 'user',
   }
 
-  private constructor(config?: AuthApiConfig) {
+  private constructor(config?: XyoAuthApiConfig) {
     Object.assign(this.config, config)
   }
 
@@ -38,9 +38,9 @@ class AuthApi {
     return `${this.config.apiDomain}/${this.config.authPrefix}${route}`
   }
 
-  static get(config?: AuthApiConfig) {
-    return new AuthApi(config)
+  static get(config?: XyoAuthApiConfig) {
+    return new XyoAuthApi(config)
   }
 }
 
-export { AuthApi }
+export { XyoAuthApi }

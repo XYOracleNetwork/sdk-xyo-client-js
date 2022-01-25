@@ -1,12 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers'
 
-import { MetaMaskAuthConfig } from './MetaMaskAuthConfig'
+import { XyoMetaMaskAuthConfig } from './MetaMaskAuthConfig'
 
-class MetaMaskConnector {
-  private config: MetaMaskAuthConfig
+class XyoMetaMaskConnector {
+  private config: XyoMetaMaskAuthConfig
   private ethereum = window.ethereum
 
-  constructor(config: MetaMaskAuthConfig) {
+  constructor(config: XyoMetaMaskAuthConfig) {
     this.config = config
   }
 
@@ -51,9 +51,9 @@ class MetaMaskConnector {
     await this.config.AuthApiService.walletVerify(this.currentAccount, message, signature)
   }
 
-  static get(config: MetaMaskAuthConfig) {
-    return new MetaMaskConnector(config)
+  static get(config: XyoMetaMaskAuthConfig) {
+    return new XyoMetaMaskConnector(config)
   }
 }
 
-export { MetaMaskConnector }
+export { XyoMetaMaskConnector }

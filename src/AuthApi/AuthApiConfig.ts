@@ -1,5 +1,5 @@
 import { ApiConfig } from '@xylabs/sdk-js'
 
-export interface AuthApiConfig extends ApiConfig {
+export interface XyoAuthApiConfig extends ApiConfig {
   authPrefix?: string
 }

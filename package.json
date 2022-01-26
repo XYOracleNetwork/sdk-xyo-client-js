@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@ethersproject/providers": "^5",
     "@xylabs/sdk-js": "^2.3.25",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.2",
-    "@ethersproject/providers": "^5",
     "axios": "^0",
     "elliptic": "^6.5.4",
     "is-ip": "^4.0.0",
@@ -98,5 +98,5 @@
   },
   "sideEffects": false,
   "types": "dist/index.d.ts",
-  "version": "2.4.4"
+  "version": "2.5.1"
 }

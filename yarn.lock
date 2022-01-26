@@ -1941,9 +1941,14 @@
     ts-prune "^0.10"
 
 "@xylabs/sdk-js@^2.3.24", "@xylabs/sdk-js@^2.3.25":
-  version "2.3.27"
-  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.27.tgz#c23c85403c2be10f851a1af6ffe6bc7cdecef247"
-  integrity sha512-2zLif3eTRC4+F78btu051kQidXlJfItaPwKMQ9YveLozH+cYpURxjZK0a+T/7Nk2EXSC3kdZlRzbhwJL97WpcQ==
+  version "2.3.29"
+  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.29.tgz#a73159b869a90261c9bb68f666e6a077a8035d75"
+  integrity sha512-En8xlceLUe4NBZruP6S1qH1hkC8Cn1M2Mw7PBHNTid5vBytEU0FtCcfaqZ8ri18+ZBCgoMlLRIHH8NaWyn3aHw==
+  dependencies:
+    "@types/bn.js" "^5.1.0"
+    axios "^0.25.0"
+    bn.js "^5.2.0"
+    rollbar "^2.24.0"
 
 "@xylabs/ts-scripts@^1.0.24":
   version "1.0.24"
@@ -2204,7 +2209,7 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
 
-axios@^0:
+axios@^0, axios@^0.25.0:
   version "0.25.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.25.0.tgz#349cfbb31331a9b4453190791760a8d35b093e0a"
   integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==

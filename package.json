@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@ethersproject/providers": "^5",
     "@xylabs/sdk-js": "^2.3.25",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.2",
     "axios": "^0",
@@ -43,7 +44,7 @@
     "@xylabs/tsconfig": "^1.0.6",
     "babel-jest": "^27.4.6",
     "bn.js": "^5.2.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^14.3.2",
     "eslint": "^8.6.0",
     "jest": "^27.4.7",
     "npm-package-json-lint": "^5.4.2",
@@ -97,5 +98,5 @@
   },
   "sideEffects": false,
   "types": "dist/index.d.ts",
-  "version": "2.4.4"
+  "version": "2.5.1"
 }

@@ -6,8 +6,36 @@ on:
       - beta
 
 jobs:
-  deploy:
+  build-ubuntu:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: install
+        run: yarn install
+      - name: build
+        run: yarn build
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: install
+        run: yarn install
+      - name: build
+        run: yarn build
+  build-macos:
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
         with:

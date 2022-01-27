@@ -2,14 +2,21 @@ import { assertEx } from '@xylabs/sdk-js'
 import shajs from 'sha.js'
 
 import { XyoAddress } from '../../Address'
-import { XyoBoundWitness } from '../../models'
+import { XyoBoundWitness, XyoPayloadBody } from '../../models'
 import { sortObject } from '../../sortObject'
+
+interface IXyoBoundWitnessBuilderConfig {
+  /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
+  readonly inlinePayloads: boolean
+}
 
 class XyoBoundWitnessBuilder {
   private _addresses: XyoAddress[] = []
   private _previous_hashes: (string | null)[] = []
   private _payload_schemas: string[] = []
   private _payloads: Record<string, unknown>[] = []
+
+  constructor(public readonly config: IXyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {}
 
   private get _payload_hashes(): string[] {
     return this._payloads.map((payload) => {
@@ -42,7 +49,16 @@ class XyoBoundWitnessBuilder {
   public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = XyoBoundWitnessBuilder.hash(hashableFields)
-    return { ...hashableFields, _client: 'js', _hash } as XyoBoundWitness
+    const ret = { ...hashableFields, _client: 'js', _hash } as XyoBoundWitness
+    if (this.config.inlinePayloads) {
+      ret._payloads = this._payloads.map<XyoPayloadBody>((payload, index) => {
+        return {
+          schema: this._payload_schemas[index],
+          ...payload,
+        }
+      })
+    }
+    return ret
   }
 
   static sortedStringify<T extends Record<string, unknown>>(obj: T) {
@@ -56,4 +72,4 @@ class XyoBoundWitnessBuilder {
   }
 }
 
-export { XyoBoundWitnessBuilder }
+export { IXyoBoundWitnessBuilderConfig, XyoBoundWitnessBuilder }

@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@ethersproject/providers": "^5",
     "@xylabs/sdk-js": "^2.3.25",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.2",
     "axios": "^0",
@@ -89,7 +90,6 @@
     "test:neo4j": "jest ./src/ArchivistNeo4jSdk"
   },
   "sideEffects": false,
-  "type": "module",
   "types": "dist/index.d.ts",
-  "version": "2.2.4"
+  "version": "2.5.1"
 }

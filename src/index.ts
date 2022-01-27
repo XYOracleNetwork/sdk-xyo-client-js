@@ -1,5 +1,7 @@
 export * from './ArchivistApi'
 export * from './ArchivistMongoSdk'
+export * from './AuthApi'
 export * from './BoundWitness'
+export * from './MetaMaskAuth'
 export * from './models'
 export * from './Payload'

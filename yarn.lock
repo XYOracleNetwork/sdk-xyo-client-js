@@ -14,7 +14,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.16.8.tgz#31560f9f29fdf1868de8cb55049538a1b9732a60"
   integrity sha512-m7OkX0IdKLKPpBlJtF561YJal5y/jyI5fNfWbPxh2D/nbzzGI4qRyrD8xO2jB24u7l+5I2a43scCG2IrfjC50Q==
 
-"@babel/core@^7", "@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.16.7", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
+"@babel/core@^7", "@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.16.12", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
   version "7.16.12"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.12.tgz#5edc53c1b71e54881315923ae2aedea2522bb784"
   integrity sha512-dK5PtG1uiN2ikk++5OzSYsitZKny4wOCD0nrO4TqnW4BVBTQ2NGS3NgilvT/TEyxTST7LNyWV/T4tXDoD3fOgg==
@@ -792,7 +792,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.16.7"
     "@babel/helper-plugin-utils" "^7.16.7"
 
-"@babel/preset-env@^7.16.7":
+"@babel/preset-env@^7.16.11":
   version "7.16.11"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.16.11.tgz#5dd88fd885fae36f88fd7c8342475c9f0abe2982"
   integrity sha512-qcmWG8R7ZW6WBRPZK//y+E3Cli151B20W1Rv7ln27vuPaXU/8TKms6jFdiJtF7UDTxcrb7mZd88tAeK9LjdT8g==
@@ -1906,7 +1906,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.29.tgz#07dac7051117236431d2f737d16932aa38bbb925"
   integrity sha512-BjNpU8OK6Z0LVzGUppEk0CMYm/hKDnZfYdjSmPOs0N+TR1cLKJAkDwW8ASZUvaaSLEi6d3hVM7jnWnX+6yWnHw==
 
-"@xylabs/eslint-config@^2.2.11", "@xylabs/eslint-config@^2.2.6":
+"@xylabs/eslint-config@^2.2.11", "@xylabs/eslint-config@^2.2.13":
   version "2.2.13"
   resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.2.13.tgz#8999a95ba381753b61aea7382103737acac8c4cf"
   integrity sha512-N3zDEKwoHG0u3dUzKC+jNdMkyD17e9Yrskh+JSVosK7X7b5r71r9HpxxKNh/mAP0bu2TdDPDmtNFV4sEBN34Lw==
@@ -1929,7 +1929,7 @@
     prettier "^2"
     remark-preset-lint-markdown-style-guide "^5"
 
-"@xylabs/rollup-config@^1.0.5":
+"@xylabs/rollup-config@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@xylabs/rollup-config/-/rollup-config-1.1.1.tgz#06cf68a0aeaab655ab500737984e7f8f2beea295"
   integrity sha512-SxEWcRjSblMWpqyfZERc4hT+CYGCocFI1nGJlzU9bekmkmO3JPvjZaO6Ud0fL5hdH22o8cOCeEp8RgMNIPqXIQ==
@@ -1941,7 +1941,7 @@
     "@rollup/plugin-typescript" "^8.3.0"
     rollup "^2.63.0"
 
-"@xylabs/sdk-js@^2.3.24", "@xylabs/sdk-js@^2.3.25":
+"@xylabs/sdk-js@^2.3.24", "@xylabs/sdk-js@^2.3.29":
   version "2.3.29"
   resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.29.tgz#a73159b869a90261c9bb68f666e6a077a8035d75"
   integrity sha512-En8xlceLUe4NBZruP6S1qH1hkC8Cn1M2Mw7PBHNTid5vBytEU0FtCcfaqZ8ri18+ZBCgoMlLRIHH8NaWyn3aHw==
@@ -1951,7 +1951,7 @@
     bn.js "^5.2.0"
     rollbar "^2.24.0"
 
-"@xylabs/ts-scripts@^1.0.24":
+"@xylabs/ts-scripts@^1.0.32":
   version "1.0.32"
   resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.32.tgz#51591a1741a30b2a5a6087afd9bac05e0c8fbb91"
   integrity sha512-AqDsZ+o9cZZF3HmdsDdgthVzrrO2fXe46RUMFmj3jULdHVPI5TGxE6REHYgcH4m8OtJxncg+WjM9WllSVKcsuw==
@@ -1966,14 +1966,14 @@
     rimraf "^3.0.2"
     ts-prune "^0.10"
 
-"@xylabs/tsconfig@^1.0.6":
+"@xylabs/tsconfig@^1.0.9":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@xylabs/tsconfig/-/tsconfig-1.0.9.tgz#0afef919f8f9765796e56ba3e21b3772236a648a"
   integrity sha512-WNUfdlFb4f1YCVWdHUsfgeliH7SagrasO0eWMsaa9vIQw4l+ubBDTUuVrMmVu8hEQiGq5y5uHo//BcVaAWccFQ==
   dependencies:
     tslib "^2.3.1"
 
-"@xyo-network/sdk-xyo-mongo-js@^2.2.2":
+"@xyo-network/sdk-xyo-mongo-js@^2.2.3":
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@xyo-network/sdk-xyo-mongo-js/-/sdk-xyo-mongo-js-2.2.3.tgz#d62d7c3edf7f2fae6a778f79777f5dd13861217a"
   integrity sha512-HcbLC2TkrGqh1B+RiKJMQNQQL+4izAN6UeEZOGKVfbhAc9JOeIx4/UyRs+ouOmTtOi5bGDwhGVfDFuTY3Qlbtw==
@@ -5497,7 +5497,7 @@ mongodb-connection-string-url@^2.4.1:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb@^4.3.0:
+mongodb@^4.3.0, mongodb@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.3.1.tgz#e346f76e421ec6f47ddea5c8f5140e6181aaeb94"
   integrity sha512-sNa8APSIk+r4x31ZwctKjuPSaeKuvUeNb/fu/3B6dRM02HpEgig7hTHM8A/PJQTlxuC/KFWlDlQjhsk/S43tBg==
@@ -8191,7 +8191,7 @@ trough@^2.0.0:
   resolved "https://registry.yarnpkg.com/true-myth/-/true-myth-4.1.1.tgz#ff4ac9d5130276e34aa338757e2416ec19248ba2"
   integrity sha512-rqy30BSpxPznbbTcAcci90oZ1YR4DqvKcNXNerG5gQBU2v4jk0cygheiul5J6ExIMrgDVuanv/MkGfqZbKrNNg==
 
-ts-jest@^27.1.2:
+ts-jest@^27.1.3:
   version "27.1.3"
   resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-27.1.3.tgz#1f723e7e74027c4da92c0ffbd73287e8af2b2957"
   integrity sha512-6Nlura7s6uM9BVUAoqLH7JHyMXjz8gluryjpPXxr3IxZdAXnU6FhjvVLHFtfd1vsE1p8zD1OJfskkc0jhTSnkA==
@@ -8321,7 +8321,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^4.5.4:
+typescript@^4.5.5:
   version "4.5.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
   integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==

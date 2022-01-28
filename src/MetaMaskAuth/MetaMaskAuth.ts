@@ -48,7 +48,7 @@ class XyoMetaMaskConnector {
     await signer.getAddress()
     const signature = await signer.signMessage(message)
 
-    await this.config.AuthApiService.walletVerify(this.currentAccount, message, signature)
+    return this.config.AuthApiService.walletVerify(this.currentAccount, message, signature)
   }
 
   static get(config: XyoMetaMaskAuthConfig) {

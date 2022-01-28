@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5",
-    "@xylabs/sdk-js": "^2.3.29",
+    "@xylabs/sdk-js": "^2.3.30",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.3",
     "axios": "^0",
     "elliptic": "^6.5.4",
@@ -35,8 +35,8 @@
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",
     "@xylabs/eslint-config": "^2.2.13",
-    "@xylabs/rollup-config": "^1.1.1",
-    "@xylabs/ts-scripts": "^1.0.32",
+    "@xylabs/rollup-config": "^1.1.4",
+    "@xylabs/ts-scripts": "^1.0.33",
     "@xylabs/tsconfig": "^1.0.9",
     "babel-jest": "^27.4.6",
     "bn.js": "^5.2.0",
@@ -91,5 +91,5 @@
   },
   "sideEffects": false,
   "types": "dist/index.d.ts",
-  "version": "2.5.4"
+  "version": "2.5.5"
 }

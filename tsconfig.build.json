@@ -3,5 +3,7 @@
     "outDir": "./dist",
     "typeRoots": ["./node_modules/@types"]
   },
-  "extends": "@xylabs/tsconfig"
+  "exclude": ["src/**/*.spec.ts"],
+  "extends": "@xylabs/tsconfig",
+  "include": ["src"]
 }

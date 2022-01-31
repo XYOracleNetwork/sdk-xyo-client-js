@@ -1,8 +1,6 @@
-import { XyoAddress } from './Address'
 import { XyoPayload } from './models'
 
 export interface XyoWitnessConfig<T> {
-  address: XyoAddress
   observer: (previousHash?: string) => T
 }
 

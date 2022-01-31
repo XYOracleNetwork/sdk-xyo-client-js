@@ -93,5 +93,5 @@
   },
   "sideEffects": false,
   "types": "dist/index.d.ts",
-  "version": "2.5.6"
+  "version": "2.5.8"
 }

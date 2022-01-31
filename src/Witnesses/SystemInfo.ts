@@ -2,7 +2,7 @@ import { Parser } from 'bowser'
 
 import { XyoPayload } from '../models'
 import { XyoWitness } from '../XyoWitness'
-import { getBowserJson } from './BrowserSystemInfo'
+import { getBowserJson } from './getBowserJson'
 
 export interface XyoSystemInfoPayload extends XyoPayload {
   bowser?: Parser.ParsedResult

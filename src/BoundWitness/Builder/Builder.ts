@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import shajs from 'sha.js'
 
 import { XyoAddress } from '../../Address'
-import { XyoBoundWitness, XyoPayloadBody } from '../../models'
+import { XyoBoundWitness, XyoPayload, XyoPayloadBody } from '../../models'
 import { sortObject } from '../../sortObject'
 
 interface IXyoBoundWitnessBuilderConfig {
@@ -13,8 +13,9 @@ interface IXyoBoundWitnessBuilderConfig {
 class XyoBoundWitnessBuilder {
   private _addresses: XyoAddress[] = []
   private _previous_hashes: (string | null)[] = []
+  private _previous_hash?: string
   private _payload_schemas: string[] = []
-  private _payloads: Record<string, unknown>[] = []
+  private _payloads: XyoPayload[] = []
 
   constructor(public readonly config: IXyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {}
 
@@ -30,9 +31,21 @@ class XyoBoundWitnessBuilder {
     return this
   }
 
-  public payload(schema: string, payload: Record<string, unknown>) {
-    this._payload_schemas.push(schema)
+  public payloads(payloads: XyoPayload[]) {
+    payloads.forEach((payload) => {
+      this.payload(payload)
+    })
+    return this
+  }
+
+  public payload(payload: XyoPayload) {
+    this._payload_schemas.push(payload.schema)
     this._payloads.push(assertEx(sortObject(payload)))
+    return this
+  }
+
+  public previousHash(hash?: string) {
+    this._previous_hash = hash
     return this
   }
 
@@ -42,6 +55,7 @@ class XyoBoundWitnessBuilder {
       addresses: assertEx(addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
+      previous_hash: this._previous_hash,
       previous_hashes: assertEx(this._previous_hashes, 'Missing previous_hashes'),
     }
   }
@@ -53,8 +67,8 @@ class XyoBoundWitnessBuilder {
     if (this.config.inlinePayloads) {
       ret._payloads = this._payloads.map<XyoPayloadBody>((payload, index) => {
         return {
-          schema: this._payload_schemas[index],
           ...payload,
+          schema: this._payload_schemas[index],
         }
       })
     }

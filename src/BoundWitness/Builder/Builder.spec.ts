@@ -44,7 +44,7 @@ describe('XyoBoundWitnessBuilder', () => {
         expect(builder).toBeDefined()
         builder = builder.witness(address, null)
         expect(builder).toBeDefined()
-        builder = builder.payload(schema, payload)
+        builder = builder.payload(payload)
         expect(builder).toBeDefined()
 
         const actual = builder.build()
@@ -57,7 +57,7 @@ describe('XyoBoundWitnessBuilder', () => {
       it('contains the _payloads field', () => {
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true })
           .witness(address, null)
-          .payload(schema, payload1)
+          .payload(payload1)
 
         const actual = builder.build()
 
@@ -69,7 +69,7 @@ describe('XyoBoundWitnessBuilder', () => {
       it('omits the _payloads field', () => {
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false })
           .witness(address, null)
-          .payload(schema, payload1)
+          .payload(payload1)
 
         const actual = builder.build()
 

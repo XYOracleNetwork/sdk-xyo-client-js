@@ -32,7 +32,7 @@ describe('XyoArchivistApi', () => {
       async (inlinePayloads) => {
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads })
           .witness(XyoAddress.random(), null)
-          .payload(testSchema, testPayload)
+          .payload(testPayload)
         const api = XyoArchivistApi.get(config)
         const boundWitness: XyoBoundWitness = builder.build()
 
@@ -59,7 +59,7 @@ describe('XyoArchivistApi', () => {
       async (inlinePayloads) => {
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads })
           .witness(XyoAddress.random(), null)
-          .payload(testSchema, testPayload)
+          .payload(testPayload)
         const api = XyoArchivistApi.get(config)
         const json = builder.build()
         const boundWitnesses: XyoBoundWitness[] = [json, json]

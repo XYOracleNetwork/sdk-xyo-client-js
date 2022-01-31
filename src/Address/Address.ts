@@ -5,7 +5,7 @@ import shajs from 'sha.js'
 class XyoAddress {
   private _key: ec.KeyPair
 
-  static ecContext = new ec('p256')
+  static ecContext = new ec('secp256k1')
 
   private constructor(privateKey: Uint8Array) {
     assertEx(privateKey.length == 32, `Bad private key length [${privateKey.length}]`)

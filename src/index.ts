@@ -1,3 +1,4 @@
+export * from './Address'
 export * from './ArchivistApi'
 export * from './ArchivistMongoSdk'
 export * from './AuthApi'

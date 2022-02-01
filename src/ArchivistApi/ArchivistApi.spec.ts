@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import { XyoAddress } from '../Address'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
-import { testPayload, testSchema } from '../Test'
+import { testPayload } from '../Test'
 import { XyoArchivistApi } from './ArchivistApi'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 
@@ -11,6 +11,14 @@ const timeout = 20000
 const config: XyoArchivistApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://api.archivist.xyo.network',
   archive: 'test',
+  token: process.env.TOKEN || undefined,
+}
+
+const describeSkipIfNoToken = config.token ? describe : describe.skip
+
+const getRandomArchiveName = (): string => {
+  const randomString = (Math.random() + 1).toString(36).substring(7)
+  return `test-archive-${randomString}`
 }
 
 describe('XyoArchivistApi', () => {
@@ -19,13 +27,86 @@ describe('XyoArchivistApi', () => {
       const api = XyoArchivistApi.get(config)
       expect(api).toBeDefined()
     })
+    describe('with token', () => {
+      it('is authenticated', () => {
+        const testConfig: XyoArchivistApiConfig = { ...config, token: 'foo' }
+        const api = XyoArchivistApi.get(testConfig)
+        expect(api.authenticated).toEqual(true)
+      })
+    })
     describe('with no token', () => {
       it('is not authenticated', () => {
-        const api = XyoArchivistApi.get(config)
+        const testConfig: XyoArchivistApiConfig = { ...config, token: undefined }
+        const api = XyoArchivistApi.get(testConfig)
         expect(api.authenticated).toEqual(false)
       })
     })
   })
+
+  describeSkipIfNoToken('getArchives', function () {
+    let archive = ''
+    beforeEach(async () => {
+      archive = getRandomArchiveName()
+      const api = XyoArchivistApi.get(config)
+      await api.putArchive(archive)
+    })
+    it(
+      'gets an array of archives owned',
+      async () => {
+        const api = XyoArchivistApi.get(config)
+        try {
+          await api.putArchive(archive)
+          const archives = await api.getArchives()
+          expect(Array.isArray(archives)).toBe(true)
+          expect(archives).toContain(archive)
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+  })
+
+  describeSkipIfNoToken('putArchive', function () {
+    let archive = ''
+    beforeEach(() => {
+      archive = getRandomArchiveName()
+    })
+    it(
+      'returns the archive owned',
+      async () => {
+        const api = XyoArchivistApi.get(config)
+        try {
+          const response = await api.putArchive(archive)
+          expect(response.archive).toEqual(archive)
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+    it(
+      'adds the archive to the list of archives owned by the user',
+      async () => {
+        const api = XyoArchivistApi.get(config)
+        try {
+          await api.putArchive(archive)
+          const archives = await api.getArchives()
+          expect(archives).toContain(archive)
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+  })
+
   describe('postBoundWitness', () => {
     it.each([true, false])(
       'posts a single bound witness',

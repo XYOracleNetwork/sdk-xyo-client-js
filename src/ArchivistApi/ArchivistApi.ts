@@ -28,13 +28,9 @@ class XyoArchivistApi {
 
   public async putArchive(archive: string) {
     return (
-      await axios['put']<{ archive: string; owner: string }>(
-        `${this.config.apiDomain}/archive/${archive}`,
-        {},
-        {
-          headers: this.headers,
-        }
-      )
+      await axios['put']<{ archive: string; owner: string }>(`${this.config.apiDomain}/archive/${archive}`, null, {
+        headers: this.headers,
+      })
     ).data
   }
 

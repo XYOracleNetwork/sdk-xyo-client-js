@@ -14,6 +14,13 @@ const config: XyoArchivistApiConfig = {
   token: process.env.TOKEN || undefined,
 }
 
+const describeSkipIfNoToken = config.token ? describe : describe.skip
+
+const getRandomArchiveName = (): string => {
+  const randomString = (Math.random() + 1).toString(36).substring(7)
+  return `test-archive-${randomString}`
+}
+
 describe('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns a new XyoArchivistApi', () => {
@@ -35,19 +42,61 @@ describe('XyoArchivistApi', () => {
       })
     })
   })
-  describe('getArchives', () => {
-    const archive = 'test'
+
+  describeSkipIfNoToken('getArchives', function () {
+    let archive = ''
     beforeEach(async () => {
+      archive = getRandomArchiveName()
       const api = XyoArchivistApi.get(config)
       await api.putArchive(archive)
     })
     it(
-      'gets an array of archives',
+      'gets an array of archives owned',
       async () => {
         const api = XyoArchivistApi.get(config)
         try {
+          await api.putArchive(archive)
           const archives = await api.getArchives()
-          expect(archives).toEqual([archive])
+          expect(Array.isArray(archives)).toBe(true)
+          expect(archives).toContain(archive)
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+  })
+
+  describeSkipIfNoToken('putArchive', function () {
+    let archive = ''
+    beforeEach(() => {
+      archive = getRandomArchiveName()
+    })
+    it(
+      'returns the archive owned',
+      async () => {
+        const api = XyoArchivistApi.get(config)
+        try {
+          const response = await api.putArchive(archive)
+          expect(response.archive).toEqual(archive)
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+    it(
+      'adds the archive to the list of archives owned by the user',
+      async () => {
+        const api = XyoArchivistApi.get(config)
+        try {
+          await api.putArchive(archive)
+          const archives = await api.getArchives()
+          expect(archives).toContain(archive)
         } catch (ex) {
           const error = ex as AxiosError
           console.log(JSON.stringify(error.response?.data, null, 2))

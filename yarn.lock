@@ -1925,7 +1925,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.29.tgz#07dac7051117236431d2f737d16932aa38bbb925"
   integrity sha512-BjNpU8OK6Z0LVzGUppEk0CMYm/hKDnZfYdjSmPOs0N+TR1cLKJAkDwW8ASZUvaaSLEi6d3hVM7jnWnX+6yWnHw==
 
-"@xylabs/eslint-config@^2.2.13", "@xylabs/eslint-config@^2.2.14":
+"@xylabs/eslint-config@^2.2.14":
   version "2.2.14"
   resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.2.14.tgz#e1403c80d9277ec05393e224d6a2adfbdc061cb0"
   integrity sha512-86tM8QFGSwEQxbNEqZ64ToVUq21uk3HeiYy/06brRjZA5xNmgldJwD8HfjQ8fYmVLijfwgC2+nTVQR59d7sI3Q==
@@ -1972,11 +1972,11 @@
     rollbar "^2.24.0"
 
 "@xylabs/ts-scripts@^1.0.33":
-  version "1.0.33"
-  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.33.tgz#b873b96b282fa291a57e549d5315c5fe9642e553"
-  integrity sha512-pp06d4B+MyAfdmYpmKk6K1G4uJXcXLzzZRR8KtGodAKmUtajB8dRbH4k7+IhKUopM3xKS8VJ+T48kLNykFTBgA==
+  version "1.0.36"
+  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.36.tgz#bea1c7ebd6971f832390537903a8918b49780f71"
+  integrity sha512-aYXqw9UHVvBHuuwxhp88/t2U/xPQxD+Unuxbo+aEFi1SuI2ojMuKwd05o17l3LL549cYPFQJdc2uZQNPVIdWmA==
   dependencies:
-    "@xylabs/eslint-config" "^2.2.13"
+    "@xylabs/eslint-config" "^2.2.14"
     depcheck "^1.4.3"
     eslint-plugin-sonarjs "^0.11.0"
     node-cmd "^5.0.0"

@@ -1962,9 +1962,9 @@
     rollup "^2.66.1"
 
 "@xylabs/sdk-js@^2.3.24", "@xylabs/sdk-js@^2.3.31":
-  version "2.3.31"
-  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.31.tgz#b99f978a9903c158ef13cec0c6cd7b49df76c160"
-  integrity sha512-7Ke0UTKL/az0brfPpDlkD2SwRc7kXHr3Lo+h9Yt9BJxjgT3QOnzdHr+KFUwo6mRS+5dTZOC6w/S3wr7RfmGRpQ==
+  version "2.3.32"
+  resolved "https://registry.yarnpkg.com/@xylabs/sdk-js/-/sdk-js-2.3.32.tgz#36901ada4d302102b2bd9bb01ab6ab19d29d67e8"
+  integrity sha512-eYePEqS49Gi3jG1Lm0ycMPHPRWKR7cUeb0oNRE/uBr42Ac8raRhk/VOQ/AfoBHjh4ws463u+43GLmZuNlJToXg==
   dependencies:
     "@types/bn.js" "^5.1.0"
     axios "^0.25.0"

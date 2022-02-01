@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import { XyoAddress } from '../Address'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
-import { testPayload, testSchema } from '../Test'
+import { testPayload } from '../Test'
 import { XyoArchivistApi } from './ArchivistApi'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 
@@ -11,6 +11,7 @@ const timeout = 20000
 const config: XyoArchivistApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://api.archivist.xyo.network',
   archive: 'test',
+  token: process.env.TOKEN || undefined,
 }
 
 describe('XyoArchivistApi', () => {
@@ -19,13 +20,44 @@ describe('XyoArchivistApi', () => {
       const api = XyoArchivistApi.get(config)
       expect(api).toBeDefined()
     })
+    describe('with token', () => {
+      it('is authenticated', () => {
+        const testConfig: XyoArchivistApiConfig = { ...config, token: 'foo' }
+        const api = XyoArchivistApi.get(testConfig)
+        expect(api.authenticated).toEqual(true)
+      })
+    })
     describe('with no token', () => {
       it('is not authenticated', () => {
-        const api = XyoArchivistApi.get(config)
+        const testConfig: XyoArchivistApiConfig = { ...config, token: undefined }
+        const api = XyoArchivistApi.get(testConfig)
         expect(api.authenticated).toEqual(false)
       })
     })
   })
+  describe('getArchives', () => {
+    const archive = 'test'
+    beforeEach(async () => {
+      const api = XyoArchivistApi.get(config)
+      await api.putArchive(archive)
+    })
+    it(
+      'gets an array of archives',
+      async () => {
+        const api = XyoArchivistApi.get(config)
+        try {
+          const archives = await api.getArchives()
+          expect(archives).toEqual([archive])
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+  })
+
   describe('postBoundWitness', () => {
     it.each([true, false])(
       'posts a single bound witness',

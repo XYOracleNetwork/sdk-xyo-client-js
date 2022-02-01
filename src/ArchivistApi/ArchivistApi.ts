@@ -20,7 +20,7 @@ class XyoArchivistApi {
 
   public async getArchives() {
     return (
-      await axios.get<{ count: number }>(`${this.config.apiDomain}/archive`, {
+      await axios.get<Array<string>>(`${this.config.apiDomain}/archive`, {
         headers: this.headers,
       })
     ).data
@@ -28,7 +28,7 @@ class XyoArchivistApi {
 
   public async putArchive(archive: string) {
     return (
-      await axios['put']<{ boundWitnesses: number; payloads: number }>(
+      await axios['put']<{ archive: string; owner: string }>(
         `${this.config.apiDomain}/archive/${archive}`,
         {},
         {

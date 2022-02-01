@@ -55,9 +55,7 @@ describe('XyoBoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads true', () => {
       it('contains the _payloads field', () => {
-        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true })
-          .witness(address, null)
-          .payload(payload1)
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true }).witness(address, null).payload(payload1)
 
         const actual = builder.build()
 
@@ -67,9 +65,7 @@ describe('XyoBoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads false', () => {
       it('omits the _payloads field', () => {
-        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false })
-          .witness(address, null)
-          .payload(payload1)
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false }).witness(address, null).payload(payload1)
 
         const actual = builder.build()
 

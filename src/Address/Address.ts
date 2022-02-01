@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { Buffer } from 'buffer'
 import { ec } from 'elliptic'
 import shajs from 'sha.js'
 

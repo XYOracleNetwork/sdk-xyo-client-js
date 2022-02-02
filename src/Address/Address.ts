@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { Buffer } from 'buffer'
 import { ec } from 'elliptic'
+import keccak256 from 'keccak256'
 import shajs from 'sha.js'
 
 class XyoAddress {
@@ -18,7 +19,13 @@ class XyoAddress {
   }
 
   public get publicKey() {
-    return this._key.getPublic().encode('hex', true).slice(2)
+    return this._key.getPublic('hex').slice(2)
+  }
+
+  public get address() {
+    const publicKeyArray = this._key.getPublic('array')
+    publicKeyArray.shift()
+    return keccak256(Buffer.from(publicKeyArray)).subarray(12).toString('hex')
   }
 
   static fromPhrase(phrase: string) {

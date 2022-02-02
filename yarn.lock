@@ -1950,9 +1950,9 @@
     remark-preset-lint-markdown-style-guide "^5"
 
 "@xylabs/rollup-config@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@xylabs/rollup-config/-/rollup-config-1.1.4.tgz#a955181c1f12e81b1f48538cd7b5e8c171c33aff"
-  integrity sha512-xO16SVXHRHvliZZXIfTnR7eXuTIeJsgSOoZpLGt6quUknWpjU9EOWDiW0ern3kAYI4vcC49k24KdAIVZ+MXflg==
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@xylabs/rollup-config/-/rollup-config-1.1.5.tgz#9ecb2eecb67b91f3318c712271e22964fcf2f13a"
+  integrity sha512-KkoDqjKysMIY10bCpuyfc6XnzGbjtfkT97GTtS3ogt4CkIxR5oET9excCgON8Q9mcUni9Fy8kjxgokrxSuUR9A==
   dependencies:
     "@rollup/plugin-image" "^2.1.1"
     "@rollup/plugin-json" "^4.1.0"

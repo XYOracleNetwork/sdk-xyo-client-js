@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import { XyoArchivistBoundWitnessMongoSdk } from './BoundWitnessSdk'
 
 const getMongoSdk = (archive: string) => {
+  // eslint-disable-next-line import/no-named-as-default-member
   dotenv.config()
   return new XyoArchivistBoundWitnessMongoSdk(
     {

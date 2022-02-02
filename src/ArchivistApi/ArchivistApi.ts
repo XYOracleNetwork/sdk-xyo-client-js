@@ -18,6 +18,22 @@ class XyoArchivistApi {
     return this.authenticated ? { Authorization: this.config.token ?? '' } : {}
   }
 
+  public async getArchives() {
+    return (
+      await axios.get<Array<string>>(`${this.config.apiDomain}/archive`, {
+        headers: this.headers,
+      })
+    ).data
+  }
+
+  public async putArchive(archive: string) {
+    return (
+      await axios['put']<{ archive: string; owner: string }>(`${this.config.apiDomain}/archive/${archive}`, null, {
+        headers: this.headers,
+      })
+    ).data
+  }
+
   public async postBoundWitnesses(boundWitnesses: XyoBoundWitness[]) {
     return (
       await axios['post']<{ boundWitnesses: number; payloads: number }>(

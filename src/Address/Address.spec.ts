@@ -3,25 +3,32 @@
 import { XyoAddress } from './Address'
 
 //test vectors: https://tools.ietf.org/html/rfc8032
+//test tool: https://asecuritysite.com/encryption/ethadd
 
-const testVectorPrivateKey = '9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60'
-const testVectorPublicKey = '667fef5f7578a801037ed144092dcf7c7c44e3bf3e09cfc8a67fcf70fcd8123a'
+const testVectorPrivateKey = '7f71bc5644f8f521f7e9b73f7a391e82c05432f8a9d36c44d6b1edbf1d8db62f'
+const testVectorPublicKey = 'ed6f3b86542f45aab88ec48ab1366b462bd993fec83e234054afd8f2311fba774800fdb40c04918463b463a6044b83413a604550bfba8f8911beb65475d6528e'
+const testVectorAddress = '5e7a847447e7fec41011ae7d32d768f86605ba03'
 
 const testPrivateKey = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
-const testPublicKey = 'be9a880a7f5334a8e50bd701bd38c6def25369c7084b5be4d5b1022886835212'
+const testPublicKey = '5f81956d5826bad7d30daed2b5c8c98e72046c1ec8323da336445476183fb7ca54ba511b8b782bc5085962412e8b9879496e3b60bebee7c36987d1d5848b9a50'
+const testAddress = '2a260a110bc7b03f19c40a0bd04ff2c5dcb57594'
 
 test('Address from Phrase', () => {
   const address = XyoAddress.fromPhrase('test')
   expect(address.privateKey).toHaveLength(64)
-  expect(address.publicKey).toHaveLength(64)
+  expect(address.publicKey).toHaveLength(128)
+  expect(address.address).toHaveLength(40)
   expect(address.privateKey).toEqual(testPrivateKey)
   expect(address.publicKey).toEqual(testPublicKey)
+  expect(address.address).toEqual(testAddress)
 })
 
 test('Address from Key', () => {
   const address = XyoAddress.fromPrivateKey(testVectorPrivateKey)
   expect(address.privateKey).toHaveLength(64)
-  expect(address.publicKey).toHaveLength(64)
+  expect(address.publicKey).toHaveLength(128)
+  expect(address.address).toHaveLength(40)
   expect(address.privateKey).toEqual(testVectorPrivateKey)
   expect(address.publicKey).toEqual(testVectorPublicKey)
+  expect(address.address).toEqual(testVectorAddress)
 })

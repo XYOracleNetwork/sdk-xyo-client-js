@@ -1,6 +1,6 @@
 {
   "root": true,
-  "ignorePatterns": ["package.json", "src/**/*.spec.*", "rollup.config.js"],
+  "ignorePatterns": ["package.json", "rollup.config.js"],
   "extends": [
     "@xylabs"
   ],

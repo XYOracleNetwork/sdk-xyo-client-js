@@ -43,7 +43,7 @@
     "@xylabs/tsconfig": "^1.0.10",
     "babel-jest": "^27.4.6",
     "bn.js": "^5.2.0",
-    "dotenv": "^15",
+    "dotenv": "^16",
     "eslint": "^8",
     "jest": "^27.4.7",
     "npm-package-json-lint": "^5.4.2",

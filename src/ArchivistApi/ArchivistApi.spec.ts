@@ -107,6 +107,48 @@ describe('XyoArchivistApi', () => {
     )
   })
 
+  describeSkipIfNoToken('getArchiveKeys', function () {
+    it(
+      'Returns the keys for the archive',
+      async () => {
+        try {
+          const archive = getRandomArchiveName()
+          const api = XyoArchivistApi.get({ ...config, archive })
+          await api.putArchive(archive)
+          const key = await api.postArchiveKey()
+          const response = await api.getArchiveKeys()
+          expect(response.length).toEqual(1)
+          expect(response[0]).toEqual(key)
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+  })
+
+  describeSkipIfNoToken('postArchiveKey', function () {
+    it(
+      'Creates an archive key',
+      async () => {
+        try {
+          const archive = getRandomArchiveName()
+          const api = XyoArchivistApi.get({ ...config, archive })
+          await api.putArchive(archive)
+          const response = await api.postArchiveKey()
+          expect(response.key).toBeTruthy()
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+  })
+
   describe('postBoundWitness', () => {
     it.each([true, false])(
       'posts a single bound witness',

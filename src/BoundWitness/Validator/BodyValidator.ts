@@ -28,41 +28,28 @@ class XyoBoundWitnessBodyValidator {
     return errors
   }
 
-  private validateArrayLength(fieldName: string) {
+  private validateArrayLength(fieldName: string, compareArrayName: string) {
     const errors: Error[] = []
-    const { addresses } = this.body
+    const compareArray = this.body['compareArrayName'] as []
+    if (!Array.isArray(compareArray)) {
+      errors.push(new Error(`${compareArrayName} missing`))
+    }
     const array = this.body[fieldName] as unknown[]
     if (array == undefined) errors.push(new Error(`${fieldName} missing`))
-    else if (array.length !== addresses.length)
-      errors.push(new Error(`${fieldName}/addresses count mismatch [${array.length} !== ${addresses.length}]`))
+    else if (array.length !== compareArray.length)
+      errors.push(new Error(`${fieldName}/addresses count mismatch [${array.length} !== ${compareArray.length}]`))
     return errors
   }
 
   public validatePayloadHashesLength() {
     const errors: Error[] = []
-    errors.push(...this.validateArrayLength('payload_hashes'))
-    return errors
-  }
-
-  public validatePayloadSchemasLength() {
-    const errors: Error[] = []
-    errors.push(...this.validateArrayLength('payload_schemas'))
-    return errors
-  }
-
-  public validatePreviousHashesLength() {
-    const errors: Error[] = []
-    errors.push(...this.validateArrayLength('previous_hashes'))
+    errors.push(...this.validateArrayLength('payload_hashes', 'payload_schemas'))
     return errors
   }
 
   public validateArrayLengths() {
     const errors: Error[] = []
-    errors.push(
-      ...this.validatePayloadSchemasLength(),
-      ...this.validatePayloadHashesLength(),
-      ...this.validatePreviousHashesLength()
-    )
+    errors.push(...this.validatePayloadHashesLength())
     return errors
   }
 

@@ -34,6 +34,31 @@ class XyoArchivistApi {
     ).data
   }
 
+  public async getArchiveKeys() {
+    return (
+      await axios.get<
+        {
+          created: string
+          key: string
+        }[]
+      >(`${this.config.apiDomain}/archive/${this.config.archive}/settings/keys`, {
+        headers: this.headers,
+      })
+    ).data
+  }
+
+  public async postArchiveKey() {
+    return (
+      await axios['post']<{ created: string; key: string }>(
+        `${this.config.apiDomain}/archive/${this.config.archive}/settings/keys`,
+        null,
+        {
+          headers: this.headers,
+        }
+      )
+    ).data
+  }
+
   public async postBoundWitnesses(boundWitnesses: XyoBoundWitness[]) {
     return (
       await axios['post']<{ boundWitnesses: number; payloads: number }>(

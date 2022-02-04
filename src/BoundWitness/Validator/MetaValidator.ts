@@ -65,15 +65,13 @@ export class XyoBoundWitnessMetaValidator {
 
   public all() {
     const errors: Error[] = []
-    errors.push(
-      ...this.client(),
-      ...this.hash(),
-      ...this.payloads(),
-      ...this.signatures(),
-      ...this.timestamp(),
-      ...this.sourceIp(),
-      ...this.userAgent()
-    )
+    errors.push(...this.client(), ...this.hash(), ...this.payloads(), ...this.signatures())
+    return errors
+  }
+
+  public meta() {
+    const errors: Error[] = []
+    errors.push(...this.timestamp(), ...this.sourceIp(), ...this.userAgent())
     return errors
   }
 }

@@ -31,13 +31,21 @@ class XyoBoundWitnessBodyValidator {
   private validateArrayLength(fieldName: string, compareArrayName: string) {
     const errors: Error[] = []
     const compareArray = this.body['compareArrayName'] as []
-    if (!Array.isArray(compareArray)) {
+    if (compareArray === undefined) {
       errors.push(new Error(`${compareArrayName} missing`))
+    } else if (!Array.isArray(compareArray)) {
+      errors.push(new Error(`${compareArrayName} is not an array`))
+    } else {
+      const array = this.body[fieldName] as unknown[]
+      if (array === undefined) {
+        errors.push(new Error(`${fieldName} missing`))
+      } else if (!Array.isArray(array)) {
+        errors.push(new Error(`${fieldName} is not an array`))
+      } else if (array.length !== compareArray.length)
+        errors.push(
+          new Error(`${fieldName}/${compareArrayName} count mismatch [${array.length} !== ${compareArray.length}]`)
+        )
     }
-    const array = this.body[fieldName] as unknown[]
-    if (array == undefined) errors.push(new Error(`${fieldName} missing`))
-    else if (array.length !== compareArray.length)
-      errors.push(new Error(`${fieldName}/addresses count mismatch [${array.length} !== ${compareArray.length}]`))
     return errors
   }
 

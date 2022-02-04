@@ -30,7 +30,7 @@ class XyoBoundWitnessBodyValidator {
 
   private validateArrayLength(fieldName: string, compareArrayName: string) {
     const errors: Error[] = []
-    const compareArray = this.body['compareArrayName'] as []
+    const compareArray = this.body[compareArrayName] as []
     if (compareArray === undefined) {
       errors.push(new Error(`${compareArrayName} missing`))
     } else if (!Array.isArray(compareArray)) {

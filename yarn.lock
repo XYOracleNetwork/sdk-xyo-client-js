@@ -1926,9 +1926,9 @@
   integrity sha512-BjNpU8OK6Z0LVzGUppEk0CMYm/hKDnZfYdjSmPOs0N+TR1cLKJAkDwW8ASZUvaaSLEi6d3hVM7jnWnX+6yWnHw==
 
 "@xylabs/eslint-config@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.3.2.tgz#211a1aebbb1ed7c3395b0f6477c5af9bcff4bef5"
-  integrity sha512-EZrAD3x3eSI5PyMVnr3GRrCav6sktxAfrhpcHdQ6rQvDb8urIOnsZ6pFkh3ajFIryptIL/rKhZpRXigplU6UaA==
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.3.4.tgz#e27a6e43c2cd9b83a175910d9de3e55289f6da68"
+  integrity sha512-aUiGycfY/8xpN6c6lnLLeaJ+iPHBJQaTT34QjauGQt2OUFG6pVBvHLI+cvEfRlb7hzU1jXtQb/1n0R+uo85qfw==
   dependencies:
     "@babel/core" "^7"
     "@babel/eslint-parser" "^7"

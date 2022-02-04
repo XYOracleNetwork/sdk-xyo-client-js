@@ -1925,10 +1925,10 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.29.tgz#07dac7051117236431d2f737d16932aa38bbb925"
   integrity sha512-BjNpU8OK6Z0LVzGUppEk0CMYm/hKDnZfYdjSmPOs0N+TR1cLKJAkDwW8ASZUvaaSLEi6d3hVM7jnWnX+6yWnHw==
 
-"@xylabs/eslint-config@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.3.2.tgz#211a1aebbb1ed7c3395b0f6477c5af9bcff4bef5"
-  integrity sha512-EZrAD3x3eSI5PyMVnr3GRrCav6sktxAfrhpcHdQ6rQvDb8urIOnsZ6pFkh3ajFIryptIL/rKhZpRXigplU6UaA==
+"@xylabs/eslint-config@^2.3.2", "@xylabs/eslint-config@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.3.4.tgz#e27a6e43c2cd9b83a175910d9de3e55289f6da68"
+  integrity sha512-aUiGycfY/8xpN6c6lnLLeaJ+iPHBJQaTT34QjauGQt2OUFG6pVBvHLI+cvEfRlb7hzU1jXtQb/1n0R+uo85qfw==
   dependencies:
     "@babel/core" "^7"
     "@babel/eslint-parser" "^7"
@@ -1972,11 +1972,11 @@
     rollbar "^2.24.0"
 
 "@xylabs/ts-scripts@^1.0.39":
-  version "1.0.39"
-  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.39.tgz#ef2a0cc5fdfa0523e210bcedf7f1ccfbbdb9e771"
-  integrity sha512-7FbmlC74rV1VkcBc9uU4RPBfChMk047QRJFi3j0+kzvtYReep/JzU0cbgmDXC48WqJCxpFUp6tsvwga8FUp6Pg==
+  version "1.0.40"
+  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.40.tgz#789e8c0bc1fae32d016e26ec9b8f39a34cc269e2"
+  integrity sha512-BzhF3pRD5RUwxXyg1tRs9JBE44VfY4m6sFpfvAsVEe84OVN/Gz9w49sntphdTPmQ1oXfcGup31Kw3saW0/KyIg==
   dependencies:
-    "@xylabs/eslint-config" "^2.3.2"
+    "@xylabs/eslint-config" "^2.3.4"
     copyfiles "^2"
     depcheck "^1.4.3"
     eslint-plugin-sonarjs "^0.11.0"

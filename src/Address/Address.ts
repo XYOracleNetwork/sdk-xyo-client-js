@@ -1,11 +1,15 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { Buffer } from 'buffer'
-import { ec } from 'elliptic'
+import EC from 'elliptic'
 import keccak256 from 'keccak256'
 import shajs from 'sha.js'
 
+// we do this to allow node to import elliptic.   It cant handle {ec}
+// eslint-disable-next-line import/no-named-as-default-member
+const ec = EC.ec
+
 class XyoAddress {
-  private _key: ec.KeyPair
+  private _key: EC.ec.KeyPair
 
   static ecContext = new ec('secp256k1')
 

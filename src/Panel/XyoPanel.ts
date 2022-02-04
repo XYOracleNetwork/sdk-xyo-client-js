@@ -49,7 +49,7 @@ export class XyoPanel {
           return witness.observe()
         })
       )
-      .previousHash(this.config.previousHash)
+      .witness(this.config.address, null)
       .build()
     this.config.previousHash = newBoundWitness._hash
     this.addToHistory(newBoundWitness)

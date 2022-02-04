@@ -13,7 +13,6 @@ interface IXyoBoundWitnessBuilderConfig {
 class XyoBoundWitnessBuilder {
   private _addresses: XyoAddress[] = []
   private _previous_hashes: (string | null)[] = []
-  private _previous_hash?: string
   private _payload_schemas: string[] = []
   private _payloads: XyoPayload[] = []
 
@@ -44,18 +43,12 @@ class XyoBoundWitnessBuilder {
     return this
   }
 
-  public previousHash(hash?: string) {
-    this._previous_hash = hash
-    return this
-  }
-
   public hashableFields(): XyoBoundWitness {
     const addresses = this._addresses.map((address) => address.publicKey)
     return {
       addresses: assertEx(addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
-      previous_hash: this._previous_hash,
       previous_hashes: assertEx(this._previous_hashes, 'Missing previous_hashes'),
     }
   }

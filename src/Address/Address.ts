@@ -18,7 +18,7 @@ export class XyoAddress {
 
   static ecContext = new ec('secp256k1')
 
-  constructor({ privateKey, phrase }: XyoAddressConfig) {
+  constructor({ privateKey, phrase }: XyoAddressConfig = {}) {
     const privateKeyToUse =
       privateKey ?? (phrase ? Buffer.from(shajs('sha256').update(phrase).digest('hex'), 'hex') : undefined)
     if (privateKeyToUse) {

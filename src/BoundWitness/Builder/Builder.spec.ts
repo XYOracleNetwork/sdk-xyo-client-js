@@ -4,7 +4,7 @@ import { XyoAddress } from '../../Address'
 import { XyoPayload } from '../../models'
 import { XyoBoundWitnessBuilder } from './Builder'
 
-const schema = 'network.xyo.test'
+const schema = 'network.xyo.temp'
 const payload1: XyoPayload = {
   number_field: 1,
   object_field: {

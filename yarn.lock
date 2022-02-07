@@ -22,7 +22,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.17.0.tgz#86850b8597ea6962089770952075dcaabb8dba34"
   integrity sha512-392byTlpGWXMv4FbyWw3sAZ/FrW/DrwqLGXpy0mbyNe9Taqv1mg9yON5/o0cnr8XYCkFTZbC1eV+c+LAROgrng==
 
-"@babel/core@^7", "@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.17.0", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
+"@babel/core@^7", "@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.16.12", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
   version "7.17.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.17.0.tgz#16b8772b0a567f215839f689c5ded6bb20e864d5"
   integrity sha512-x/5Ea+RO5MvF9ize5DeVICJoVrNv0Mi2RnIABrZEKYvPEpldXwauPkgvYA17cKa6WpU3LoYvYbuEMFtSNFsarA==
@@ -1742,9 +1742,9 @@
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
 
 "@types/node@*", "@types/node@^17":
-  version "17.0.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.14.tgz#33b9b94f789a8fedd30a68efdbca4dbb06b61f20"
-  integrity sha512-SbjLmERksKOGzWzPNuW7fJM7fk3YXVTFiZWB/Hs99gwhk+/dnrQRPBQjPW9aO+fi1tAffi9PrwFvsmOKmDTyng==
+  version "17.0.15"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.15.tgz#97779282c09c09577120a2162e71d8380003590a"
+  integrity sha512-zWt4SDDv1S9WRBNxLFxFRHxdD9tvH8f5/kg5/IaLFdnSNXsDY4eL3Q3XXN+VxUnWIhyVFDwcsmAprvwXoM/ClA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -1946,10 +1946,10 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.29.tgz#07dac7051117236431d2f737d16932aa38bbb925"
   integrity sha512-BjNpU8OK6Z0LVzGUppEk0CMYm/hKDnZfYdjSmPOs0N+TR1cLKJAkDwW8ASZUvaaSLEi6d3hVM7jnWnX+6yWnHw==
 
-"@xylabs/eslint-config@^2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.3.4.tgz#e27a6e43c2cd9b83a175910d9de3e55289f6da68"
-  integrity sha512-aUiGycfY/8xpN6c6lnLLeaJ+iPHBJQaTT34QjauGQt2OUFG6pVBvHLI+cvEfRlb7hzU1jXtQb/1n0R+uo85qfw==
+"@xylabs/eslint-config@^2.3.13", "@xylabs/eslint-config@^2.3.2":
+  version "2.3.13"
+  resolved "https://registry.yarnpkg.com/@xylabs/eslint-config/-/eslint-config-2.3.13.tgz#853c75d334b75ef71fc5777ce5a27c461f4ce8cd"
+  integrity sha512-NYEegbawMROAhVvQiGCTUEgqDwkBd1yxWVFPbdSpmmWfc/7iZgZgAk7/CfoHvs5unaVcXZLRkx4xFRGNqwLxcA==
   dependencies:
     "@babel/core" "^7"
     "@babel/eslint-parser" "^7"
@@ -1968,6 +1968,7 @@
     eslint-plugin-sort-keys-fix "^1"
     markdown-eslint-parser "^1.2.1"
     prettier "^2"
+    remark-lint-maximum-line-length "^3.1.2"
     remark-preset-lint-markdown-style-guide "^5"
 
 "@xylabs/rollup-config@^1.1.5":
@@ -1992,12 +1993,12 @@
     bn.js "^5.2.0"
     rollbar "^2.24.0"
 
-"@xylabs/ts-scripts@^1.0.40":
-  version "1.0.40"
-  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.40.tgz#789e8c0bc1fae32d016e26ec9b8f39a34cc269e2"
-  integrity sha512-BzhF3pRD5RUwxXyg1tRs9JBE44VfY4m6sFpfvAsVEe84OVN/Gz9w49sntphdTPmQ1oXfcGup31Kw3saW0/KyIg==
+"@xylabs/ts-scripts@^1.0.39":
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/@xylabs/ts-scripts/-/ts-scripts-1.0.41.tgz#02ef5e0cc0b0ffec03c99af34cc0eb8f2a0f6b8c"
+  integrity sha512-E0OJWcdyi/fg8Dr+AnJRd2fWRKQp7RPQKVASpyY9r9SY8KVmqc1U42qxrjH+Tjjo9gP50m01r7qwGvkFYBoKTg==
   dependencies:
-    "@xylabs/eslint-config" "^2.3.4"
+    "@xylabs/eslint-config" "^2.3.13"
     copyfiles "^2"
     depcheck "^1.4.3"
     eslint-plugin-sonarjs "^0.11.0"
@@ -2008,7 +2009,7 @@
     rimraf "^3.0.2"
     ts-prune "^0.10"
 
-"@xylabs/tsconfig@^1.0.11":
+"@xylabs/tsconfig@^1.0.10":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@xylabs/tsconfig/-/tsconfig-1.0.11.tgz#e6e2f61b85fda7046b8c7762aa1af0bc9108fbfe"
   integrity sha512-gbETdsiftwwxYRQXz5VNV2GmmdDXZmN3qS8z6Zm2w9VopewTKS9Q+hMD4K9d2TJSYLgwCAwKXYCnQNtDh4FsDQ==
@@ -3117,10 +3118,10 @@ dot-prop@^5.2.0:
   dependencies:
     is-obj "^2.0.0"
 
-dotenv@^16:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.0.tgz#c619001253be89ebb638d027b609c75c26e47411"
-  integrity sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==
+dotenv@^15:
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-15.0.1.tgz#bf96a46782923e17a64b5edb35eb50d2292efd65"
+  integrity sha512-4OnbwRfzR+xQThp7uq1xpUS9fmgZ//njexOtPjPSbK3yHGrSHSJnaJRsXderSSm2elfvVj+Y5awDC0I8Oy8rkA==
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -7143,7 +7144,7 @@ remark-lint-maximum-line-length@^1.0.0:
     unist-util-position "^3.0.0"
     unist-util-visit "^1.4.0"
 
-remark-lint-maximum-line-length@^3.0.0:
+remark-lint-maximum-line-length@^3.0.0, remark-lint-maximum-line-length@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/remark-lint-maximum-line-length/-/remark-lint-maximum-line-length-3.1.2.tgz#4c5c499279c80938878194d4e52102525b7a9e1b"
   integrity sha512-KwddpVmNifTHNXwTQQgVufuUvv0hhu9kJVvmpNdEvfEc7tc3wBkaavyi3kKsUB8WwMhGtZuXVWy6OdPC1axzhw==

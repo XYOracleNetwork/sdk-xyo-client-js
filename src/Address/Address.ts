@@ -8,14 +8,25 @@ import shajs from 'sha.js'
 // eslint-disable-next-line import/no-named-as-default-member
 const ec = EC.ec
 
-class XyoAddress {
+export interface XyoAddressConfig {
+  privateKey?: Uint8Array
+  phrase?: string
+}
+
+export class XyoAddress {
   private _key: EC.ec.KeyPair
 
   static ecContext = new ec('secp256k1')
 
-  private constructor(privateKey: Uint8Array) {
-    assertEx(privateKey.length == 32, `Bad private key length [${privateKey.length}]`)
-    this._key = XyoAddress.ecContext.keyFromPrivate(privateKey)
+  constructor({ privateKey, phrase }: XyoAddressConfig) {
+    const privateKeyToUse =
+      privateKey ?? (phrase ? Buffer.from(shajs('sha256').update(phrase).digest('hex'), 'hex') : undefined)
+    if (privateKeyToUse) {
+      assertEx(privateKeyToUse.length == 32, `Bad private key length [${privateKeyToUse.length}]`)
+      this._key = XyoAddress.ecContext.keyFromPrivate(privateKeyToUse)
+    } else {
+      this._key = XyoAddress.ecContext.genKeyPair()
+    }
   }
 
   public get privateKey() {
@@ -39,7 +50,7 @@ class XyoAddress {
 
   static fromPrivateKey(key: string) {
     const privateKey = Uint8Array.from(Buffer.from(key, 'hex'))
-    return new XyoAddress(privateKey)
+    return new XyoAddress({ privateKey })
   }
 
   static random() {
@@ -47,5 +58,3 @@ class XyoAddress {
     return XyoAddress.fromPrivateKey(key.getPrivate().toBuffer().toString('hex'))
   }
 }
-
-export { XyoAddress }

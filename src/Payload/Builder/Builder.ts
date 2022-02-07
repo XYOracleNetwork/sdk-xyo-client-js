@@ -30,7 +30,8 @@ export class XyoPayloadBuilder {
   public build(): XyoPayload {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = XyoPayloadBuilder.hash(hashableFields)
-    return { ...hashableFields, _client: 'js', _hash, schema: this._schema } as XyoPayload
+    const _timestamp = Date.now()
+    return { ...hashableFields, _client: 'js', _hash, _timestamp, schema: this._schema } as XyoPayload
   }
 
   static sortedStringify<T extends Record<string, unknown>>(obj: T) {

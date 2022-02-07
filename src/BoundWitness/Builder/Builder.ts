@@ -56,7 +56,8 @@ class XyoBoundWitnessBuilder {
   public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = XyoBoundWitnessBuilder.hash(hashableFields)
-    const ret = { ...hashableFields, _client: 'js', _hash } as XyoBoundWitness
+    const _timestamp = Date.now()
+    const ret = { ...hashableFields, _client: 'js', _hash, _timestamp } as XyoBoundWitness
     if (this.config.inlinePayloads) {
       ret._payloads = this._payloads.map<XyoPayloadBody>((payload, index) => {
         return {

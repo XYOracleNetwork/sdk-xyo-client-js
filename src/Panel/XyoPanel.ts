@@ -52,10 +52,11 @@ export class XyoPanel {
       .witness(this.config.address, null)
       .build()
     this.config.previousHash = newBoundWitness._hash
-    this.addToHistory(newBoundWitness)
-    this.config.onReport?.(newBoundWitness)
     await Promise.allSettled(
       this.config.archivists.map((archivist) => {
+        const boundWitnessWithArchive = { ...newBoundWitness, _archive: archivist.archive }
+        this.addToHistory(boundWitnessWithArchive)
+        this.config.onReport?.(boundWitnessWithArchive)
         return archivist.postBoundWitness(newBoundWitness)
       })
     )

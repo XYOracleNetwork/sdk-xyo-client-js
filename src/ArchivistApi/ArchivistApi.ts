@@ -10,6 +10,10 @@ class XyoArchivistApi {
     this.config = config
   }
 
+  public get archive() {
+    return this.config.archive
+  }
+
   public get authenticated() {
     return !!this.config.token
   }

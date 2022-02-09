@@ -93,7 +93,7 @@
     "test:mongo": "jest ./src/ArchivistMongoSdk",
     "test:neo4j": "jest ./src/ArchivistNeo4jSdk"
   },
-  "sideEffects": false,
+  "sideEffects": true,
   "types": "dist/index.d.ts",
   "version": "2.7.17",
   "packageManager": "yarn@3.1.1"

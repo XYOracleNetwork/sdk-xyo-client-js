@@ -4,6 +4,17 @@ import EC from 'elliptic'
 import keccak256 from 'keccak256'
 import shajs from 'sha.js'
 
+//make sure we have a global Buffer object if in browser
+const bufferPolyfill = () => {
+  if (window) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const global = window as any
+    if (global.Buffer === undefined) {
+      global.Buffer = Buffer
+    }
+  }
+}
+
 // we do this to allow node to import elliptic.   It cant handle {ec}
 // eslint-disable-next-line import/no-named-as-default-member
 const ec = EC.ec
@@ -28,6 +39,7 @@ export class XyoAddress {
   static ecContext = new ec('secp256k1')
 
   constructor({ publicKey, privateKey, phrase }: XyoAddressConfig = {}) {
+    bufferPolyfill()
     const privateKeyToUse = privateKey
       ? toUint8Array(privateKey)
       : phrase

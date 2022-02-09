@@ -9,8 +9,17 @@ import shajs from 'sha.js'
 const ec = EC.ec
 
 export interface XyoAddressConfig {
-  privateKey?: Uint8Array
+  privateKey?: Uint8Array | string
+  publicKey?: Uint8Array | string
   phrase?: string
+}
+
+const toUint8Array = (value: string | Uint8Array) => {
+  if (typeof value === 'string') {
+    return Uint8Array.from(Buffer.from(value, 'hex'))
+  } else {
+    return value
+  }
 }
 
 export class XyoAddress {
@@ -18,12 +27,17 @@ export class XyoAddress {
 
   static ecContext = new ec('secp256k1')
 
-  constructor({ privateKey, phrase }: XyoAddressConfig = {}) {
-    const privateKeyToUse =
-      privateKey ?? (phrase ? Buffer.from(shajs('sha256').update(phrase).digest('hex'), 'hex') : undefined)
+  constructor({ publicKey, privateKey, phrase }: XyoAddressConfig = {}) {
+    const privateKeyToUse = privateKey
+      ? toUint8Array(privateKey)
+      : phrase
+      ? toUint8Array(shajs('sha256').update(phrase).digest('hex'))
+      : undefined
     if (privateKeyToUse) {
       assertEx(privateKeyToUse.length == 32, `Bad private key length [${privateKeyToUse.length}]`)
       this._key = XyoAddress.ecContext.keyFromPrivate(privateKeyToUse)
+    } else if (publicKey) {
+      this._key = XyoAddress.ecContext.keyFromPublic(publicKey)
     } else {
       this._key = XyoAddress.ecContext.genKeyPair()
     }
@@ -43,18 +57,32 @@ export class XyoAddress {
     return keccak256(Buffer.from(publicKeyArray)).subarray(12).toString('hex')
   }
 
+  public sign(hash: Uint8Array | string) {
+    return Uint8Array.from(this._key.sign(toUint8Array(hash), 'string').toDER())
+  }
+
   static fromPhrase(phrase: string) {
     const privateKey = shajs('sha256').update(phrase).digest('hex')
     return XyoAddress.fromPrivateKey(privateKey)
   }
 
-  static fromPrivateKey(key: string) {
-    const privateKey = Uint8Array.from(Buffer.from(key, 'hex'))
+  static fromPrivateKey(key: Uint8Array | string) {
+    const privateKey = toUint8Array(key)
     return new XyoAddress({ privateKey })
+  }
+
+  static fromPublicKey(key: Uint8Array | string) {
+    const publicKey = toUint8Array(key)
+    return new XyoAddress({ publicKey })
   }
 
   static random() {
     const key = XyoAddress.ecContext.genKeyPair()
     return XyoAddress.fromPrivateKey(key.getPrivate().toBuffer().toString('hex'))
+  }
+
+  static verifyAddress(msg: Uint8Array | string, signature: Uint8Array | string, address: Uint8Array | string) {
+    const publicKey = this.ecContext.recoverPubKey(toUint8Array(msg), toUint8Array(signature), 1)
+    return new XyoAddress({ publicKey }).address === Buffer.from(toUint8Array(address)).toString('hex')
   }
 }

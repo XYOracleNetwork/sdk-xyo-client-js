@@ -26,8 +26,8 @@ const payload2: XyoPayload = {
   number_field: 1,
 }
 const payloads = [payload1, payload2]
-const payloadHash = 'c915c56dd93b5e0db509d1a63ca540cfb211e11f03039b05e19712267bb8b6db'
-const jsonHash = '88a797ae29e94c495ea78187fcc0a2973df645e5f6134b59454e893a424fd10f'
+const payloadHash = '3c817871cbf24708703e907dbc344b1b2aefcc3603d14d59c3a35a5c446410d1'
+const jsonHash = 'bad9ba4b463ff7aed670b44d5f4884af46abda25e29f0f90272ce82b18ed5e59'
 const address = XyoAddress.fromPhrase('test')
 
 describe('XyoBoundWitnessBuilder', () => {
@@ -51,6 +51,11 @@ describe('XyoBoundWitnessBuilder', () => {
 
         expect(actual).toBeDefined()
         expect(actual._hash).toEqual(jsonHash)
+
+        if (actual._hash && actual._signatures) {
+          const verify = XyoAddress.verifyAddress(actual._hash, actual._signatures[0], actual.addresses[0])
+          expect(verify).toBe(true)
+        }
       })
     })
     describe('with inlinePayloads true', () => {

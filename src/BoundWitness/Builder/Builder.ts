@@ -44,7 +44,7 @@ class XyoBoundWitnessBuilder {
   }
 
   public hashableFields(): XyoBoundWitness {
-    const addresses = this._addresses.map((address) => address.publicKey)
+    const addresses = this._addresses.map((address) => address.address)
     return {
       addresses: assertEx(addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
@@ -56,8 +56,11 @@ class XyoBoundWitnessBuilder {
   public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = XyoBoundWitnessBuilder.hash(hashableFields)
+    const _signatures = this._addresses.map((address) =>
+      Buffer.from(address.sign(Buffer.from(_hash, 'hex'))).toString('hex')
+    )
     const _timestamp = Date.now()
-    const ret = { ...hashableFields, _client: 'js', _hash, _timestamp } as XyoBoundWitness
+    const ret = { ...hashableFields, _client: 'js', _hash, _signatures, _timestamp } as XyoBoundWitness
     if (this.config.inlinePayloads) {
       ret._payloads = this._payloads.map<XyoPayloadBody>((payload, index) => {
         return {

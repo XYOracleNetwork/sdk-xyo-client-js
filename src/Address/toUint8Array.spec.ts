@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer'
+
 import { toUint8Array } from './toUint8Array'
 
 describe('toUint8Array', () => {

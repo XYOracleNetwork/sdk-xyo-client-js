@@ -8,13 +8,11 @@ import { toUint8Array } from './toUint8Array'
 
 //make sure we have a global Buffer object if in browser
 const bufferPolyfill = () => {
-  if (Buffer === undefined) {
-    if (window !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const global = window as any
-      if (global.Buffer === undefined) {
-        global.Buffer = Buffer
-      }
+  if (window !== undefined) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const global = window as any
+    if (global.Buffer === undefined) {
+      global.Buffer = Buffer
     }
   }
 }

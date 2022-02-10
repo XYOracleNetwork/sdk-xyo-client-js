@@ -21,6 +21,8 @@ test('all [simple panel send]', async () => {
   const witnesses = [new XyoSystemInfoWitness()]
 
   const panel = new XyoPanel({ address: XyoAddress.fromPhrase('test'), archivists, witnesses })
-  await panel.report()
-  expect(1).toBe(1)
+  const report1 = await panel.report()
+  expect(report1._hash).toBe('ae22e6abff4ee3b1cd44df8121bb1a783c46159529c040558b21eca8c3eb61ac')
+  const report2 = await panel.report()
+  expect(report2._hash !== report1._hash).toBe(true)
 })

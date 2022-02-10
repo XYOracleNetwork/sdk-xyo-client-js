@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 import { XyoAddress } from './Address'
+import { toUint8Array } from './toUint8Array'
 
 //test vectors: https://tools.ietf.org/html/rfc8032
 //test tool: https://asecuritysite.com/encryption/ethadd
@@ -33,4 +34,37 @@ test('Address from Key', () => {
   expect(address.privateKey).toEqual(testVectorPrivateKey)
   expect(address.publicKey).toEqual(testVectorPublicKey)
   expect(address.address).toEqual(testVectorAddress)
+})
+
+test('Sign-fromPrivateKey', () => {
+  const address = XyoAddress.fromPrivateKey(testVectorPrivateKey)
+  const signature = address.sign('x')
+  const valid = XyoAddress.verifyAddress('x', signature, address.address)
+  expect(valid).toBeTruthy()
+})
+
+test('Sign-fromPhrase', () => {
+  const address = XyoAddress.fromPhrase('test')
+  const signature = address.sign('x')
+  const valid = XyoAddress.verifyAddress('x', signature, address.address)
+  expect(valid).toBeTruthy()
+})
+
+test('Sign-random', () => {
+  const address = XyoAddress.random()
+  const signature = address.sign('x')
+  const valid = XyoAddress.verifyAddress('x', signature, address.address)
+  expect(valid).toBeTruthy()
+})
+
+test('Sign-random-string', () => {
+  const address = XyoAddress.random()
+  const signature = address.sign('x')
+  const signaturePrime = toUint8Array(signature)
+  expect(signature.length).toBe(signaturePrime.length)
+  for (let i = 0; i < signature.length; i++) {
+    expect(signature[i]).toBe(signaturePrime[i])
+  }
+  const valid = XyoAddress.verifyAddress('x', signature, address.address)
+  expect(valid).toBeTruthy()
 })

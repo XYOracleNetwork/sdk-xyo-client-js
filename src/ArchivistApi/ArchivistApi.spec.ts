@@ -153,9 +153,7 @@ describe('XyoArchivistApi', () => {
     it.each([true, false])(
       'posts a single bound witness',
       async (inlinePayloads) => {
-        const builder = new XyoBoundWitnessBuilder({ inlinePayloads })
-          .witness(XyoAddress.random(), null)
-          .payload(testPayload)
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
         const api = XyoArchivistApi.get(config)
         const boundWitness: XyoBoundWitness = builder.build()
 
@@ -180,9 +178,7 @@ describe('XyoArchivistApi', () => {
     it.each([true, false])(
       'posts multiple bound witnesses',
       async (inlinePayloads) => {
-        const builder = new XyoBoundWitnessBuilder({ inlinePayloads })
-          .witness(XyoAddress.random(), null)
-          .payload(testPayload)
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
         const api = XyoArchivistApi.get(config)
         const json = builder.build()
         const boundWitnesses: XyoBoundWitness[] = [json, json]

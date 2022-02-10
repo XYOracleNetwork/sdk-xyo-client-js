@@ -27,8 +27,6 @@ const payload2: XyoPayload = {
 }
 const payloads = [payload1, payload2]
 const payloadHash = '3c817871cbf24708703e907dbc344b1b2aefcc3603d14d59c3a35a5c446410d1'
-const jsonHash = 'bad9ba4b463ff7aed670b44d5f4884af46abda25e29f0f90272ce82b18ed5e59'
-const address = XyoAddress.fromPhrase('test')
 
 describe('XyoBoundWitnessBuilder', () => {
   describe('hash', () => {
@@ -40,9 +38,10 @@ describe('XyoBoundWitnessBuilder', () => {
   describe('build', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', (payload) => {
+        const address = XyoAddress.fromPhrase('test1')
         let builder = new XyoBoundWitnessBuilder()
         expect(builder).toBeDefined()
-        builder = builder.witness(address, null)
+        builder = builder.witness(address)
         expect(builder).toBeDefined()
         builder = builder.payload(payload)
         expect(builder).toBeDefined()
@@ -50,9 +49,11 @@ describe('XyoBoundWitnessBuilder', () => {
         const actual = builder.build()
 
         expect(actual).toBeDefined()
-        expect(actual._hash).toEqual(jsonHash)
+        expect(actual._hash).toEqual('3530fb43d95d827bdd17be4673f9a4b87ea4a54eadf851319504f706c8ee7f4b')
 
         if (actual._hash && actual._signatures) {
+          console.log(`Hash: ${actual._hash}`)
+          console.log(`Signatures: ${actual._signatures[0]}`)
           const verify = XyoAddress.verifyAddress(actual._hash, actual._signatures[0], actual.addresses[0])
           expect(verify).toBe(true)
         }
@@ -60,7 +61,8 @@ describe('XyoBoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads true', () => {
       it('contains the _payloads field', () => {
-        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true }).witness(address, null).payload(payload1)
+        const address = XyoAddress.fromPhrase('test2')
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
 
         const actual = builder.build()
 
@@ -70,7 +72,8 @@ describe('XyoBoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads false', () => {
       it('omits the _payloads field', () => {
-        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false }).witness(address, null).payload(payload1)
+        const address = XyoAddress.fromPhrase('test3')
+        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
 
         const actual = builder.build()
 

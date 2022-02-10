@@ -1,25 +1,10 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx, bufferPolyfill } from '@xylabs/sdk-js'
 import { Buffer } from 'buffer'
 import EC from 'elliptic'
 import keccak256 from 'keccak256'
 import shajs from 'sha.js'
 
 import { toUint8Array } from './toUint8Array'
-
-//make sure we have a global Buffer object if in browser
-const bufferPolyfill = () => {
-  if (window !== undefined) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const global = window as any
-    if (global.Buffer === undefined) {
-      global.Buffer = Buffer
-    }
-  }
-}
-
-// we do this to allow node to import elliptic.   It cant handle {ec}
-// eslint-disable-next-line import/no-named-as-default-member
-const ec = EC.ec
 
 export interface XyoAddressConfig {
   privateKey?: Uint8Array | string
@@ -31,7 +16,9 @@ export class XyoAddress {
   private _key: EC.ec.KeyPair
   private _previousHash?: Uint8Array
 
-  static ecContext = new ec('secp256k1')
+  // we do this to allow node to import without problem
+  // eslint-disable-next-line import/no-named-as-default-member
+  static ecContext = new EC.ec('secp256k1')
 
   constructor({ publicKey, privateKey, phrase }: XyoAddressConfig = {}) {
     bufferPolyfill()

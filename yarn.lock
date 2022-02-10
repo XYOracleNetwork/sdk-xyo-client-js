@@ -2336,14 +2336,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 17.0.16
-  resolution: "@types/node@npm:17.0.16"
-  checksum: 2d452a9e0ee7ec83d447d66dd2baf4dd05ef2fbcda39b06f73d86b36d5150d86c43a733d534d77467e7782104756944d42a35ed4b64113bda341b8334ee4d01d
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^17.0.17":
+"@types/node@npm:*, @types/node@npm:^17.0.17":
   version: 17.0.17
   resolution: "@types/node@npm:17.0.17"
   checksum: 8ddba2829acdf1684fbd8fd248ec13f033efb70ecd1085677b547c40ef8e936a006b95eac3bdc28c47939c62526f3f027afeb4a930e30e4394923bbae4626476
@@ -2673,21 +2666,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-js@npm:^2.3.24, @xylabs/sdk-js@npm:^2.4.1":
-  version: 2.4.1
-  resolution: "@xylabs/sdk-js@npm:2.4.1"
-  peerDependencies:
-    axios: ^0
-    bn.js: ^5
-    rollbar: ^2
-  peerDependenciesMeta:
-    axios:
-      optional: true
-    bn.js:
-      optional: true
-    rollbar:
-      optional: true
-  checksum: 613ffa272aef76301e40e1565f7afe5dfcbcdee4c4abd81a489735251c4323dca5f7d3fe145f2acbb233fecc741aea57a58a1a1fa8aa04bc216083e37d675ea8
+"@xylabs/sdk-js@npm:^2.3.24, @xylabs/sdk-js@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "@xylabs/sdk-js@npm:2.4.2"
+  dependencies:
+    axios: ^0.25.0
+    bn.js: ^5.2.0
+    buffer: ^6.0.3
+    rollbar: ^2.24.0
+  checksum: ea74baada91286eb97d0cb90d7b4af3d61780ff06eb16c43f18e3397af5dbae4a319206d64df82217fc41141d12839288bf8d3488eedb87c830555da0b15eab6
   languageName: node
   linkType: hard
 
@@ -2767,7 +2754,7 @@ __metadata:
     "@types/ua-parser-js": ^0.7.36
     "@xylabs/eslint-config": ^2.3.14
     "@xylabs/rollup-config": ^1.1.7
-    "@xylabs/sdk-js": ^2.4.1
+    "@xylabs/sdk-js": ^2.4.2
     "@xylabs/ts-scripts": ^1.0.43
     "@xylabs/tsconfig": ^1.0.12
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.3
@@ -10496,21 +10483,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.67.1":
-  version: 2.67.1
-  resolution: "rollup@npm:2.67.1"
-  dependencies:
-    fsevents: ~2.3.2
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: 4320927ae9d42abf0a72ccdfd14303f7b6d6908ec94be953900a41bd4c0bbba3131887c3925dec65361a3e394cb572a4fa8e1f1be4db587a775068ad71d42acd
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^2.67.2":
+"rollup@npm:^2.67.1, rollup@npm:^2.67.2":
   version: 2.67.2
   resolution: "rollup@npm:2.67.2"
   dependencies:

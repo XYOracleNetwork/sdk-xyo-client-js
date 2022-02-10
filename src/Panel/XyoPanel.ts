@@ -8,7 +8,6 @@ export interface XyoPanelConfig {
   address: XyoAddress
   archivists: XyoArchivistApi[]
   witnesses: XyoWitness<XyoPayload>[]
-  previousHash?: string
   historyDepth?: number
   onReport?: (boundWitness: XyoBoundWitness) => void
   onHistoryRemove?: (removedBoundWitnesses: XyoBoundWitness[]) => void
@@ -49,9 +48,8 @@ export class XyoPanel {
           return witness.observe()
         })
       )
-      .witness(this.config.address, null)
+      .witness(this.config.address)
       .build()
-    this.config.previousHash = newBoundWitness._hash
     await Promise.allSettled(
       this.config.archivists.map((archivist) => {
         const boundWitnessWithArchive = { ...newBoundWitness, _archive: archivist.archive }
@@ -60,5 +58,6 @@ export class XyoPanel {
         return archivist.postBoundWitness(newBoundWitness)
       })
     )
+    return newBoundWitness
   }
 }

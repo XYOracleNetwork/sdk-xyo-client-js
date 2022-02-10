@@ -12,7 +12,6 @@ interface IXyoBoundWitnessBuilderConfig {
 
 class XyoBoundWitnessBuilder {
   private _addresses: XyoAddress[] = []
-  private _previous_hashes: (string | null)[] = []
   private _payload_schemas: string[] = []
   private _payloads: XyoPayload[] = []
 
@@ -24,9 +23,8 @@ class XyoBoundWitnessBuilder {
     })
   }
 
-  public witness(address: XyoAddress, previousHash: string | null) {
+  public witness(address: XyoAddress) {
     this._addresses?.push(address)
-    this._previous_hashes?.push(previousHash)
     return this
   }
 
@@ -45,17 +43,19 @@ class XyoBoundWitnessBuilder {
 
   public hashableFields(): XyoBoundWitness {
     const addresses = this._addresses.map((address) => address.address)
+    const previous_hashes = this._addresses.map((address) => address.previousHashString ?? null)
     return {
       addresses: assertEx(addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
-      previous_hashes: assertEx(this._previous_hashes, 'Missing previous_hashes'),
+      previous_hashes,
     }
   }
 
   public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = XyoBoundWitnessBuilder.hash(hashableFields)
+
     const _signatures = this._addresses.map((address) =>
       Buffer.from(address.sign(Buffer.from(_hash, 'hex'))).toString('hex')
     )

@@ -4,13 +4,17 @@ import EC from 'elliptic'
 import keccak256 from 'keccak256'
 import shajs from 'sha.js'
 
+import { toUint8Array } from './toUint8Array'
+
 //make sure we have a global Buffer object if in browser
 const bufferPolyfill = () => {
-  if (window) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const global = window as any
-    if (global.Buffer === undefined) {
-      global.Buffer = Buffer
+  if (Buffer === undefined) {
+    if (window !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const global = window as any
+      if (global.Buffer === undefined) {
+        global.Buffer = Buffer
+      }
     }
   }
 }
@@ -25,16 +29,9 @@ export interface XyoAddressConfig {
   phrase?: string
 }
 
-const toUint8Array = (value: string | Uint8Array) => {
-  if (typeof value === 'string') {
-    return Uint8Array.from(Buffer.from(value, 'hex'))
-  } else {
-    return value
-  }
-}
-
 export class XyoAddress {
   private _key: EC.ec.KeyPair
+  private _previousHash?: Uint8Array
 
   static ecContext = new ec('secp256k1')
 
@@ -69,8 +66,19 @@ export class XyoAddress {
     return keccak256(Buffer.from(publicKeyArray)).subarray(12).toString('hex')
   }
 
+  public get previousHash() {
+    return this._previousHash
+  }
+
+  public get previousHashString() {
+    return this.previousHash ? Buffer.from(toUint8Array(this.previousHash)).toString('hex') : undefined
+  }
+
   public sign(hash: Uint8Array | string) {
-    return Uint8Array.from(this._key.sign(toUint8Array(hash), 'string').toDER())
+    const arrayHash = toUint8Array(hash)
+    this._previousHash = arrayHash
+    const signature = this._key.sign(arrayHash)
+    return toUint8Array(signature.toDER('hex'))
   }
 
   static fromPhrase(phrase: string) {
@@ -93,8 +101,20 @@ export class XyoAddress {
     return XyoAddress.fromPrivateKey(key.getPrivate().toBuffer().toString('hex'))
   }
 
+  //there has to be a better way to do this other than trying all four numbers
+  //maybe we can get the number from the address more easily
   static verifyAddress(msg: Uint8Array | string, signature: Uint8Array | string, address: Uint8Array | string) {
-    const publicKey = this.ecContext.recoverPubKey(toUint8Array(msg), toUint8Array(signature), 1)
-    return new XyoAddress({ publicKey }).address === Buffer.from(toUint8Array(address)).toString('hex')
+    let valid = false
+    for (let i = 0; i < 4; i++) {
+      try {
+        const publicKey = this.ecContext.recoverPubKey(toUint8Array(msg), toUint8Array(signature), i)
+        const recoveredAddress = new XyoAddress({ publicKey }).address
+        const expectedAddress = Buffer.from(toUint8Array(address)).toString('hex')
+        valid = valid || recoveredAddress === expectedAddress
+      } catch (ex) {
+        null
+      }
+    }
+    return valid
   }
 }

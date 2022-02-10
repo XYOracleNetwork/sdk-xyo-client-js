@@ -1,4 +1,5 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx, bufferPolyfill } from '@xylabs/sdk-js'
+import { Buffer } from 'buffer'
 import shajs from 'sha.js'
 
 import { XyoAddress } from '../../Address'
@@ -15,7 +16,9 @@ class XyoBoundWitnessBuilder {
   private _payload_schemas: string[] = []
   private _payloads: XyoPayload[] = []
 
-  constructor(public readonly config: IXyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {}
+  constructor(public readonly config: IXyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {
+    bufferPolyfill()
+  }
 
   private get _payload_hashes(): string[] {
     return this._payloads.map((payload) => {

@@ -82,7 +82,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
-    "deploy": "yarn version patch -i && yarn npm publish",
+    "deploy": "yarn cycle && yarn build && yarn version patch -i && yarn npm publish",
     "lint-pkg": "npmPkgJsonLint .",
     "test": "jest ./src",
     "test:api": "jest ./src/ArchivistApi",

@@ -9,12 +9,13 @@ import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 
 const timeout = 20000
 const config: XyoArchivistApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'https://api.archivist.xyo.network',
+  apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
+  apiKey: process.env.API_KEY || undefined,
   archive: 'test',
-  token: process.env.TOKEN || undefined,
+  jwtToken: process.env.JWT_TOKEN || undefined,
 }
 
-const describeSkipIfNoToken = config.token ? describe : describe.skip
+const describeSkipIfNoToken = config.jwtToken || config.apiKey ? describe : describe.skip
 
 const getRandomArchiveName = (): string => {
   const randomString = (Math.random() + 1).toString(36).substring(7)
@@ -27,28 +28,12 @@ describe('XyoArchivistApi', () => {
       const api = XyoArchivistApi.get(config)
       expect(api).toBeDefined()
     })
-    describe('with token', () => {
-      it('is authenticated', () => {
-        const testConfig: XyoArchivistApiConfig = { ...config, token: 'foo' }
-        const api = XyoArchivistApi.get(testConfig)
-        expect(api.authenticated).toEqual(true)
-      })
-    })
-    describe('with no token', () => {
-      it('is not authenticated', () => {
-        const testConfig: XyoArchivistApiConfig = { ...config, token: undefined }
-        const api = XyoArchivistApi.get(testConfig)
-        expect(api.authenticated).toEqual(false)
-      })
-    })
   })
 
   describeSkipIfNoToken('getArchives', function () {
     let archive = ''
-    beforeEach(async () => {
+    beforeEach(() => {
       archive = getRandomArchiveName()
-      const api = XyoArchivistApi.get(config)
-      await api.putArchive(archive)
     })
     it(
       'gets an array of archives owned',

@@ -6,9 +6,6 @@ import { XyoAuthApiConfig } from './AuthApiConfig'
 const timeout = 20000
 const config: XyoAuthApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
-  apiKey: process.env.API_KEY || undefined,
-  jwtToken: process.env.JWT_TOKEN || undefined,
-  token: process.env.TOKEN || undefined,
 }
 
 const describeSkipIfNoToken = config.token ? describe : describe.skip

@@ -12,6 +12,7 @@ export interface XyoPanelConfig {
   onReport?: (boundWitness: XyoBoundWitness) => void
   onHistoryRemove?: (removedBoundWitnesses: XyoBoundWitness[]) => void
   onHistoryAdd?: (addedBoundWitnesses: XyoBoundWitness[]) => void
+  inlinePayloads?: boolean
 }
 
 export class XyoPanel {
@@ -42,7 +43,7 @@ export class XyoPanel {
 
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []) {
     const allWitnesses: XyoWitness<XyoPayload>[] = Object.assign([], adhocWitnesses, this.config.witnesses)
-    const newBoundWitness = new XyoBoundWitnessBuilder()
+    const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads })
       .payloads(
         allWitnesses.map((witness) => {
           return witness.observe()

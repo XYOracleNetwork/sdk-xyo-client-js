@@ -6,17 +6,17 @@ import { XyoAddress } from '../../Address'
 import { XyoBoundWitness, XyoPayload, XyoPayloadBody } from '../../models'
 import { sortObject } from '../../sortObject'
 
-interface IXyoBoundWitnessBuilderConfig {
+export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
-  readonly inlinePayloads: boolean
+  readonly inlinePayloads?: boolean
 }
 
-class XyoBoundWitnessBuilder {
+export class XyoBoundWitnessBuilder {
   private _addresses: XyoAddress[] = []
   private _payload_schemas: string[] = []
   private _payloads: XyoPayload[] = []
 
-  constructor(public readonly config: IXyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {
+  constructor(public readonly config: XyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {
     bufferPolyfill()
   }
 
@@ -85,5 +85,3 @@ class XyoBoundWitnessBuilder {
     return shajs('sha256').update(stringObject).digest('hex')
   }
 }
-
-export { IXyoBoundWitnessBuilderConfig, XyoBoundWitnessBuilder }

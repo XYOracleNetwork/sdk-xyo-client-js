@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
 import { getArchivistApiResponseTransformer } from '../ArchivistApi'
 import { XyoAuthApiConfig } from './AuthApiConfig'
@@ -13,8 +13,14 @@ class XyoAuthApi {
     Object.assign(this.config, config)
   }
 
+  private get axiosRequestConfig(): AxiosRequestConfig {
+    return {
+      transformResponse: getArchivistApiResponseTransformer(),
+    }
+  }
+
   login(credentials: { email: string; password: string }) {
-    return axios.post(this.apiRoute('/login'), credentials, { transformResponse: getArchivistApiResponseTransformer() })
+    return axios.post(this.apiRoute('/login'), credentials, this.axiosRequestConfig)
   }
 
   walletChallenge(address: string) {
@@ -23,7 +29,7 @@ class XyoAuthApi {
       {
         address,
       },
-      { transformResponse: getArchivistApiResponseTransformer() }
+      this.axiosRequestConfig
     )
   }
 
@@ -35,12 +41,12 @@ class XyoAuthApi {
         message,
         signature,
       },
-      { transformResponse: getArchivistApiResponseTransformer() }
+      this.axiosRequestConfig
     )
   }
 
   get profile() {
-    return axios.get(this.apiRoute('/profile'), { transformResponse: getArchivistApiResponseTransformer() })
+    return axios.get(this.apiRoute('/profile'), this.axiosRequestConfig)
   }
 
   private apiRoute(route: string) {

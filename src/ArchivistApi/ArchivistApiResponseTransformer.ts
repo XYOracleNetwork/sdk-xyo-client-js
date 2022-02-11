@@ -5,14 +5,9 @@ export const archivistApiResponseTransformer: AxiosResponseTransformer = (data, 
 }
 
 export const getArchivistApiResponseTransformer = (): AxiosResponseTransformer[] => {
-  const transforms: AxiosResponseTransformer[] = []
-  if (axios.defaults.transformResponse) {
-    if (Array.isArray(axios.defaults.transformResponse)) {
-      transforms.push(...axios.defaults.transformResponse)
-    } else {
-      transforms.push(axios.defaults.transformResponse)
-    }
-  }
-  transforms.push(archivistApiResponseTransformer)
-  return transforms
+  // If there's any existing response transforms preserve them and
+  // append our response transform, otherwise just return ours
+  return axios.defaults.transformResponse
+    ? ([] as AxiosResponseTransformer[]).concat(axios.defaults.transformResponse, archivistApiResponseTransformer)
+    : [archivistApiResponseTransformer]
 }

@@ -15,8 +15,21 @@ class XyoAuthApi {
 
   private get axiosRequestConfig(): AxiosRequestConfig {
     return {
+      headers: this.headers,
       transformResponse: getArchivistApiResponseTransformer(),
     }
+  }
+
+  public get authenticated() {
+    return !!this.config.jwtToken
+  }
+
+  public get headers(): Record<string, string> {
+    const headers: Record<string, string> = {}
+    if (this.config.jwtToken) {
+      headers.Authorization = `Bearer ${this.config.jwtToken}`
+    }
+    return headers
   }
 
   login(credentials: { email: string; password: string }) {

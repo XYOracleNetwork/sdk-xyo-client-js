@@ -1,24 +1,14 @@
 import { assertEx } from '@xylabs/sdk-js'
-import axios, { AxiosResponseTransformer } from 'axios'
+import axios from 'axios'
 
 import { XyoBoundWitness, XyoPayload } from '../models'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
-
-const archivistApiResponseTransformer: AxiosResponseTransformer = (data, _headers) => {
-  return data.data
-}
+import { getArchivistApiResponseTransformer } from './ArchivistApiResponseTransformer'
 
 class XyoArchivistApi {
   private config: XyoArchivistApiConfig
   private constructor(config: XyoArchivistApiConfig) {
     this.config = config
-  }
-
-  private get transformResponse(): AxiosResponseTransformer[] {
-    const defaultResponseTransformer = axios.defaults.transformResponse
-    return defaultResponseTransformer
-      ? [archivistApiResponseTransformer].concat(defaultResponseTransformer)
-      : [archivistApiResponseTransformer]
   }
 
   public get archive() {
@@ -47,7 +37,7 @@ class XyoArchivistApi {
     return (
       await axios.get<Array<string>>(`${this.config.apiDomain}/archive`, {
         headers: this.headers,
-        transformResponse: this.transformResponse,
+        transformResponse: getArchivistApiResponseTransformer(),
       })
     ).data
   }
@@ -56,7 +46,7 @@ class XyoArchivistApi {
     return (
       await axios['put']<{ archive: string; owner: string }>(`${this.config.apiDomain}/archive/${archive}`, null, {
         headers: this.headers,
-        transformResponse: this.transformResponse,
+        transformResponse: getArchivistApiResponseTransformer(),
       })
     ).data
   }
@@ -70,7 +60,7 @@ class XyoArchivistApi {
         }[]
       >(`${this.config.apiDomain}/archive/${this.config.archive}/settings/keys`, {
         headers: this.headers,
-        transformResponse: this.transformResponse,
+        transformResponse: getArchivistApiResponseTransformer(),
       })
     ).data
   }
@@ -82,7 +72,7 @@ class XyoArchivistApi {
         null,
         {
           headers: this.headers,
-          transformResponse: this.transformResponse,
+          transformResponse: getArchivistApiResponseTransformer(),
         }
       )
     ).data
@@ -95,7 +85,7 @@ class XyoArchivistApi {
         { boundWitnesses },
         {
           headers: this.headers,
-          transformResponse: this.transformResponse,
+          transformResponse: getArchivistApiResponseTransformer(),
         }
       )
     ).data
@@ -109,7 +99,7 @@ class XyoArchivistApi {
     return (
       await axios.get<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/block/stats`, {
         headers: this.headers,
-        transformResponse: this.transformResponse,
+        transformResponse: getArchivistApiResponseTransformer(),
       })
     ).data
   }
@@ -118,7 +108,7 @@ class XyoArchivistApi {
     return (
       await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}`, {
         headers: this.headers,
-        transformResponse: this.transformResponse,
+        transformResponse: getArchivistApiResponseTransformer(),
       })
     ).data
   }
@@ -129,7 +119,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}/payloads`,
         {
           headers: this.headers,
-          transformResponse: this.transformResponse,
+          transformResponse: getArchivistApiResponseTransformer(),
         }
       )
     ).data
@@ -139,7 +129,7 @@ class XyoArchivistApi {
     return (
       await axios['get']<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/stats`, {
         headers: this.headers,
-        transformResponse: this.transformResponse,
+        transformResponse: getArchivistApiResponseTransformer(),
       })
     ).data
   }
@@ -148,7 +138,7 @@ class XyoArchivistApi {
     return (
       await axios['get']<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}`, {
         headers: this.headers,
-        transformResponse: this.transformResponse,
+        transformResponse: getArchivistApiResponseTransformer(),
       })
     ).data
   }
@@ -159,7 +149,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}/repair`,
         {
           headers: this.headers,
-          transformResponse: this.transformResponse,
+          transformResponse: getArchivistApiResponseTransformer(),
         }
       )
     ).data
@@ -173,7 +163,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/block/recent/${limit}`,
         {
           headers: this.headers,
-          transformResponse: this.transformResponse,
+          transformResponse: getArchivistApiResponseTransformer(),
         }
       )
     ).data
@@ -187,7 +177,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/payload/recent/${limit}`,
         {
           headers: this.headers,
-          transformResponse: this.transformResponse,
+          transformResponse: getArchivistApiResponseTransformer(),
         }
       )
     ).data
@@ -199,7 +189,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/block/sample/${size}`,
         {
           headers: this.headers,
-          transformResponse: this.transformResponse,
+          transformResponse: getArchivistApiResponseTransformer(),
         }
       )
     ).data
@@ -209,7 +199,7 @@ class XyoArchivistApi {
     return (
       await axios.get<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/sample/${size}`, {
         headers: this.headers,
-        transformResponse: this.transformResponse,
+        transformResponse: getArchivistApiResponseTransformer(),
       })
     ).data
   }

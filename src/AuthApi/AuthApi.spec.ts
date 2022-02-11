@@ -28,8 +28,8 @@ describe('XyoAuthApi', () => {
         const api = XyoAuthApi.get(config)
         try {
           const response = await api.walletChallenge('0xfEf40940e776A3686Cb29eC712d60859EA9f99F7')
-          expect(response.data).toBeDefined()
-          expect(typeof response.data).toBe('string')
+          expect(response.data?.state).toBeDefined()
+          expect(typeof response.data.state).toBe('string')
         } catch (ex) {
           const error = ex as AxiosError
           console.log(JSON.stringify(error.response?.data, null, 2))

@@ -4,10 +4,19 @@ export const archivistApiResponseTransformer: AxiosResponseTransformer = (data, 
   return data.data
 }
 
-export const getArchivistApiResponseTransformer = (): AxiosResponseTransformer[] => {
+/**
+ * Gets the response transformers for the Archivist API. Done as a method instead of a property
+ * to allow detection of dynamically added response transformers.
+ * @param axiosInstance The axios instance (defaults to the global instance if none provided)
+ * @returns the response transformers for the Archivist API
+ */
+export const getArchivistApiResponseTransformer = (axiosInstance = axios): AxiosResponseTransformer[] => {
   // If there's any existing response transforms preserve them and
   // append our response transform, otherwise just return ours
-  return axios.defaults.transformResponse
-    ? ([] as AxiosResponseTransformer[]).concat(axios.defaults.transformResponse, archivistApiResponseTransformer)
+  return axiosInstance.defaults.transformResponse
+    ? ([] as AxiosResponseTransformer[]).concat(
+        axiosInstance.defaults.transformResponse,
+        archivistApiResponseTransformer
+      )
     : [archivistApiResponseTransformer]
 }

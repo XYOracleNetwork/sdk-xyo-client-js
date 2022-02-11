@@ -4,7 +4,7 @@ import axios, { AxiosResponseTransformer } from 'axios'
 import { XyoBoundWitness, XyoPayload } from '../models'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 
-const transform: AxiosResponseTransformer = (data, _headers) => {
+const archivistApiResponseTransformer: AxiosResponseTransformer = (data, _headers) => {
   return data.data
 }
 
@@ -15,16 +15,10 @@ class XyoArchivistApi {
   }
 
   private get transformResponse(): AxiosResponseTransformer[] {
-    const transforms: AxiosResponseTransformer[] = []
-    if (axios.defaults.transformResponse) {
-      if (Array.isArray(axios.defaults.transformResponse)) {
-        transforms.push(...axios.defaults.transformResponse)
-      } else {
-        transforms.push(axios.defaults.transformResponse)
-      }
-    }
-    transforms.push(transform)
-    return transforms
+    const defaultResponseTransformer = axios.defaults.transformResponse
+    return defaultResponseTransformer
+      ? [archivistApiResponseTransformer].concat(defaultResponseTransformer)
+      : [archivistApiResponseTransformer]
   }
 
   public get archive() {

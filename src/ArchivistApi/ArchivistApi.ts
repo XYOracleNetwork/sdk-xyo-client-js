@@ -23,14 +23,11 @@ class XyoArchivistApi {
   }
 
   public get authenticated() {
-    return !!this.config.apiKey || !!this.config.jwtToken || !!this.config.token
+    return !!this.config.apiKey || !!this.config.jwtToken
   }
 
   public get headers(): Record<string, string> {
     const headers: Record<string, string> = {}
-    if (this.config.token) {
-      headers.Authorization = this.config.token
-    }
     if (this.config.jwtToken) {
       headers.Authorization = `Bearer ${this.config.jwtToken}`
     }

@@ -1,8 +1,12 @@
 import { assertEx } from '@xylabs/sdk-js'
-import axios from 'axios'
+import axios, { AxiosResponseTransformer } from 'axios'
 
 import { XyoBoundWitness, XyoPayload } from '../models'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
+
+const transform: AxiosResponseTransformer = (data, _headers) => {
+  return data.data
+}
 
 class XyoArchivistApi {
   private config: XyoArchivistApiConfig
@@ -10,22 +14,46 @@ class XyoArchivistApi {
     this.config = config
   }
 
+  private get transformResponse(): AxiosResponseTransformer[] {
+    const transforms: AxiosResponseTransformer[] = []
+    if (axios.defaults.transformResponse) {
+      if (Array.isArray(axios.defaults.transformResponse)) {
+        transforms.push(...axios.defaults.transformResponse)
+      } else {
+        transforms.push(axios.defaults.transformResponse)
+      }
+    }
+    transforms.push(transform)
+    return transforms
+  }
+
   public get archive() {
     return this.config.archive
   }
 
   public get authenticated() {
-    return !!this.config.token
+    return !!this.config.apiKey || !!this.config.jwtToken || !!this.config.token
   }
 
   public get headers(): Record<string, string> {
-    return this.authenticated ? { Authorization: this.config.token ?? '' } : {}
+    const headers: Record<string, string> = {}
+    if (this.config.token) {
+      headers.Authorization = this.config.token
+    }
+    if (this.config.jwtToken) {
+      headers.Authorization = `Bearer ${this.config.jwtToken}`
+    }
+    if (this.config.apiKey) {
+      headers['x-api-key'] = this.config.apiKey
+    }
+    return headers
   }
 
   public async getArchives() {
     return (
       await axios.get<Array<string>>(`${this.config.apiDomain}/archive`, {
         headers: this.headers,
+        transformResponse: this.transformResponse,
       })
     ).data
   }
@@ -34,6 +62,7 @@ class XyoArchivistApi {
     return (
       await axios['put']<{ archive: string; owner: string }>(`${this.config.apiDomain}/archive/${archive}`, null, {
         headers: this.headers,
+        transformResponse: this.transformResponse,
       })
     ).data
   }
@@ -47,6 +76,7 @@ class XyoArchivistApi {
         }[]
       >(`${this.config.apiDomain}/archive/${this.config.archive}/settings/keys`, {
         headers: this.headers,
+        transformResponse: this.transformResponse,
       })
     ).data
   }
@@ -58,6 +88,7 @@ class XyoArchivistApi {
         null,
         {
           headers: this.headers,
+          transformResponse: this.transformResponse,
         }
       )
     ).data
@@ -70,6 +101,7 @@ class XyoArchivistApi {
         { boundWitnesses },
         {
           headers: this.headers,
+          transformResponse: this.transformResponse,
         }
       )
     ).data
@@ -83,6 +115,7 @@ class XyoArchivistApi {
     return (
       await axios.get<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/block/stats`, {
         headers: this.headers,
+        transformResponse: this.transformResponse,
       })
     ).data
   }
@@ -91,6 +124,7 @@ class XyoArchivistApi {
     return (
       await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}`, {
         headers: this.headers,
+        transformResponse: this.transformResponse,
       })
     ).data
   }
@@ -101,6 +135,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}/payloads`,
         {
           headers: this.headers,
+          transformResponse: this.transformResponse,
         }
       )
     ).data
@@ -110,6 +145,7 @@ class XyoArchivistApi {
     return (
       await axios['get']<{ count: number }>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/stats`, {
         headers: this.headers,
+        transformResponse: this.transformResponse,
       })
     ).data
   }
@@ -118,6 +154,7 @@ class XyoArchivistApi {
     return (
       await axios['get']<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}`, {
         headers: this.headers,
+        transformResponse: this.transformResponse,
       })
     ).data
   }
@@ -128,6 +165,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/payload/hash/${hash}/repair`,
         {
           headers: this.headers,
+          transformResponse: this.transformResponse,
         }
       )
     ).data
@@ -141,6 +179,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/block/recent/${limit}`,
         {
           headers: this.headers,
+          transformResponse: this.transformResponse,
         }
       )
     ).data
@@ -154,6 +193,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/payload/recent/${limit}`,
         {
           headers: this.headers,
+          transformResponse: this.transformResponse,
         }
       )
     ).data
@@ -165,6 +205,7 @@ class XyoArchivistApi {
         `${this.config.apiDomain}/archive/${this.config.archive}/block/sample/${size}`,
         {
           headers: this.headers,
+          transformResponse: this.transformResponse,
         }
       )
     ).data
@@ -174,6 +215,7 @@ class XyoArchivistApi {
     return (
       await axios.get<XyoPayload[]>(`${this.config.apiDomain}/archive/${this.config.archive}/payload/sample/${size}`, {
         headers: this.headers,
+        transformResponse: this.transformResponse,
       })
     ).data
   }

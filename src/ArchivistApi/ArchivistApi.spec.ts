@@ -10,7 +10,9 @@ import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 const timeout = 20000
 const config: XyoArchivistApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://api.archivist.xyo.network',
+  apiKey: process.env.API_KEY || undefined,
   archive: 'test',
+  jwtToken: process.env.JWT_TOKEN || undefined,
   token: process.env.TOKEN || undefined,
 }
 
@@ -45,10 +47,8 @@ describe('XyoArchivistApi', () => {
 
   describeSkipIfNoToken('getArchives', function () {
     let archive = ''
-    beforeEach(async () => {
+    beforeEach(() => {
       archive = getRandomArchiveName()
-      const api = XyoArchivistApi.get(config)
-      await api.putArchive(archive)
     })
     it(
       'gets an array of archives owned',

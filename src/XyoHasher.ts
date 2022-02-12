@@ -11,7 +11,7 @@ const removeUnderscoreFields = (obj: Record<string, unknown>) => {
   return fields
 }
 
-class XyoHasher<T extends Record<string, unknown>> {
+export class XyoHasher<T extends Record<string, unknown>> {
   public readonly obj: T
   constructor(obj: T) {
     this.obj = obj
@@ -29,5 +29,3 @@ class XyoHasher<T extends Record<string, unknown>> {
     return sortedHash(this.hashFields)
   }
 }
-
-export { XyoHasher }

@@ -1,10 +1,3 @@
-export * from './Address'
-export * from './ArchivistApi'
-export * from './AuthApi'
-export * from './BoundWitness'
-export * from './MetaMaskAuth'
-export * from './models'
-export * from './Panel'
-export * from './Payload'
-export * from './XyoHasher'
-export * from './XyoWitness'
+//in theory. this file never gets imported, but it generates the types
+export * from './shared'
+export * from './Witnesses'

@@ -13,7 +13,7 @@
     "@ethersproject/providers": "^5.5.3",
     "@xylabs/sdk-js": "^2.4.2",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.3",
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "bowser": "^2.11.0",
     "buffer": "^6.0.3",
     "elliptic": "^6.5.4",

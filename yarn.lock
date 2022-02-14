@@ -2757,7 +2757,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.4.2
     "@xylabs/ts-scripts": ^1.0.43
     "@xylabs/tsconfig": ^1.0.12
-    "@xyo-network/sdk-xyo-mongo-js": ^2.2.5
+    "@xyo-network/sdk-xyo-mongo-js": ^2.2.6
     axios: ^0.26.0
     babel-jest: ^27.5.1
     bn.js: ^5.2.0
@@ -2789,14 +2789,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sdk-xyo-mongo-js@npm:^2.2.5":
-  version: 2.2.5
-  resolution: "@xyo-network/sdk-xyo-mongo-js@npm:2.2.5"
+"@xyo-network/sdk-xyo-mongo-js@npm:^2.2.6":
+  version: 2.2.6
+  resolution: "@xyo-network/sdk-xyo-mongo-js@npm:2.2.6"
   dependencies:
     "@xylabs/sdk-js": ^2.4.2
     async-mutex: ^0.3.2
     mongodb: ^4.3.1
-  checksum: 33336a4a7d3a798c17479721cf55b0caa69db21e355e68d01ce7a5cfd77fe93e5ac5714e0961066ab18b359c527443982a88b01c264b7000c23b220ea350fd6a
+  checksum: ea2a63a15b86fc8959fbd822b4c72317885d2614fed5dd03ebfc646c954657438c1f7901fcd2cb1ee22b187b94318b63e6f89defe39288f45d347c6cbf3ffb8d
   languageName: node
   linkType: hard
 

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection, ObjectId } from 'mongodb'
+import { Collection } from 'mongodb'
 
 import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
@@ -103,7 +103,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     })
   }
 
-  public async insert(item: XyoBoundWitness): Promise<ObjectId> {
+  public async insert(item: XyoBoundWitness) {
     const _timestamp = Date.now()
     const wrapper = new XyoBoundWitnessWrapper(item)
     return await super.insertOne({

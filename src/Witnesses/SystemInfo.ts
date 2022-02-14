@@ -41,6 +41,6 @@ export class XyoSystemInfoWitness extends XyoWitness<XyoSystemInfoPayload, XyoSy
         wifiInterfaces: '*',
       }
     )
-    return super.observe({ browser, node })
+    return await super.observe({ browser, node })
   }
 }

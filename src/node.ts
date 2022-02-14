@@ -1,3 +1,3 @@
 export * from './ArchivistMongoSdk'
-export * from './index'
+export * from './shared'
 export * from './WitnessesNode'

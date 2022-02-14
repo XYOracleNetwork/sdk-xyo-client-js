@@ -1,14 +1,13 @@
 import { get } from 'systeminformation'
 
 import { XyoWitness, XyoWitnessConfig } from '../XyoWitness'
-import { observeBowser } from './observeBowser'
 import { XyoSystemInfoPayload } from './XyoSystemInfoPayload'
 
-export interface XyoSystemInfoWitnessNodeConfig extends XyoWitnessConfig<XyoSystemInfoPayload> {
+export interface XyoSystemInfoWitnessConfig extends XyoWitnessConfig<XyoSystemInfoPayload> {
   nodeValues?: Record<string, string>
 }
 
-export class XyoSystemInfoWitnessNode extends XyoWitness<XyoSystemInfoPayload, XyoSystemInfoWitnessNodeConfig> {
+export class XyoSystemInfoWitness extends XyoWitness<XyoSystemInfoPayload, XyoSystemInfoWitnessConfig> {
   constructor() {
     super({
       create: () => {
@@ -17,7 +16,6 @@ export class XyoSystemInfoWitnessNode extends XyoWitness<XyoSystemInfoPayload, X
     })
   }
   override async observe(): Promise<XyoSystemInfoPayload> {
-    const browser = observeBowser()
     const node = await get(
       this.config.nodeValues ?? {
         audio: '*',
@@ -35,6 +33,6 @@ export class XyoSystemInfoWitnessNode extends XyoWitness<XyoSystemInfoPayload, X
         wifiInterfaces: '*',
       }
     )
-    return await super.observe({ browser, node })
+    return await super.observe({ node })
   }
 }

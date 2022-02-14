@@ -1,8 +1,8 @@
-import { XyoSystemInfoWitness } from './SystemInfo'
+import { XyoSystemInfoWitnessNode } from './SystemInfoNode'
 
 describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {
-    const witness = new XyoSystemInfoWitness()
+    const witness = new XyoSystemInfoWitnessNode()
     const observation = await witness.observe()
     expect(observation.schema).toBe('network.xyo.system.info')
   })

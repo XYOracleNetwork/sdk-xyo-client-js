@@ -2,11 +2,11 @@
  * @jest-environment jsdom
  */
 
-import { XyoSystemInfoWitness } from './SystemInfo'
+import { XyoSystemInfoWitnessBrowser } from './SystemInfoBrowser'
 
 describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {
-    const witness = new XyoSystemInfoWitness()
+    const witness = new XyoSystemInfoWitnessBrowser()
     const observation = await witness.observe()
     expect(observation.schema).toBe('network.xyo.system.info')
   })

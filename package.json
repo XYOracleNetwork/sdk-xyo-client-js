@@ -24,6 +24,7 @@
     "neo4j-driver": "^4.4.2",
     "neo4j-driver-core": "^4.4.2",
     "sha.js": "^2.4.11",
+    "systeminformation": "^5.11.3",
     "ua-parser-js": "^1.0.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -87,6 +88,7 @@
     "test": "jest ./src",
     "test:api": "jest ./src/ArchivistApi",
     "test:bw": "jest ./src/BoundWitness",
+    "test:witnesses": "jest ./src/Witnesses",
     "test:payload": "jest ./src/Payload",
     "test:panel": "jest ./src/Panel",
     "test:address": "jest ./src/Address",
@@ -95,6 +97,6 @@
   },
   "sideEffects": true,
   "types": "dist/index.d.ts",
-  "version": "2.8.3",
+  "version": "2.9.0",
   "packageManager": "yarn@3.1.1"
 }

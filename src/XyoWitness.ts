@@ -1,19 +1,26 @@
-import { XyoPayload } from './models'
+import merge from 'lodash/merge'
 
-export interface XyoWitnessConfig<T> {
-  observer: (previousHash?: string) => T
+import { XyoPayload } from './models'
+import { XyoHasher } from './XyoHasher'
+
+export interface XyoWitnessConfig<T extends XyoPayload> {
+  create: () => T
+  observer?: (previousHash?: string) => T
 }
 
-export class XyoWitness<T extends XyoPayload> {
-  public config: XyoWitnessConfig<T>
+export class XyoWitness<T extends XyoPayload, C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>> {
+  public config: C
   public previousHash?: string
-  constructor(config: XyoWitnessConfig<T>) {
+  constructor(config: C) {
     this.config = config
   }
 
-  public observe() {
-    const payload = this.config.observer(this.previousHash)
-    this.previousHash = payload._hash
-    return payload
+  public observe(payload?: Partial<T>): Promise<T> | T {
+    const target = this.config.create()
+    merge(target, { ...this.config.observer?.(this.previousHash), ...payload })
+    const hasher = new XyoHasher(target)
+    target._hash = hasher.sortedHash()
+    this.previousHash = target._hash
+    return target
   }
 }

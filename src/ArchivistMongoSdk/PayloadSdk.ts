@@ -23,18 +23,11 @@ class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   public async insert(item: XyoPayload): Promise<ObjectId> {
     const _timestamp = Date.now()
     const wrapper = new XyoPayloadWrapper(item)
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      const result = await collection.insertOne({
-        ...item,
-        _archive: this._archive,
-        _hash: wrapper.sortedHash(),
-        _timestamp,
-      })
-      if (result.acknowledged) {
-        return result.insertedId
-      } else {
-        throw new Error('Insert Failed')
-      }
+    return await super.insertOne({
+      ...item,
+      _archive: this._archive,
+      _hash: wrapper.sortedHash(),
+      _timestamp,
     })
   }
 
@@ -91,21 +84,13 @@ class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     return (await this.findRecentQuery(limit)).explain()
   }
 
-  public async insertMany(items: XyoPayload[]) {
+  public override async insertMany(items: XyoPayload[]) {
     const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      const result = await collection.insertMany(
-        items.map((item) => {
-          const wrapper = new XyoPayloadWrapper(item)
-          return { ...item, _hash: wrapper.sortedHash(), _timestamp }
-        })
-      )
-      if (result.acknowledged) {
-        return result.insertedCount
-      } else {
-        throw new Error('Insert Failed')
-      }
+    const itemsToInsert = items.map((item) => {
+      const wrapper = new XyoPayloadWrapper(item)
+      return { ...item, _hash: wrapper.sortedHash(), _timestamp }
     })
+    return await super.insertMany(itemsToInsert)
   }
 }
 

@@ -106,40 +106,25 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
   public async insert(item: XyoBoundWitness): Promise<ObjectId> {
     const _timestamp = Date.now()
     const wrapper = new XyoBoundWitnessWrapper(item)
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      const result = await collection.insertOne({
+    return await super.insertOne({
+      ...item,
+      _archive: this._archive,
+      _hash: wrapper.sortedHash(),
+      _timestamp,
+    })
+  }
+
+  public override async insertMany(items: XyoBoundWitness[]) {
+    const _timestamp = Date.now()
+    const itemsToInsert = items.map((item) => {
+      const wrapper = new XyoBoundWitnessWrapper(item)
+      return {
         ...item,
         _archive: this._archive,
         _hash: wrapper.sortedHash(),
         _timestamp,
-      })
-      if (result.acknowledged) {
-        return result.insertedId
-      } else {
-        throw new Error('Insert Failed')
       }
     })
-  }
-
-  public async insertMany(items: XyoBoundWitness[]) {
-    const _timestamp = Date.now()
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      const result = await collection.insertMany(
-        items.map((item) => {
-          const wrapper = new XyoBoundWitnessWrapper(item)
-          return {
-            ...item,
-            _archive: this._archive,
-            _hash: wrapper.sortedHash(),
-            _timestamp,
-          }
-        })
-      )
-      if (result.acknowledged) {
-        return result.insertedCount
-      } else {
-        throw new Error('Insert Failed')
-      }
-    })
+    return await super.insertMany(itemsToInsert)
   }
 }

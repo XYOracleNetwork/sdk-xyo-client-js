@@ -1,20 +1,14 @@
-import { Parser } from 'bowser'
 import { get } from 'systeminformation'
 
-import { XyoPayload } from '../models'
 import { XyoWitness, XyoWitnessConfig } from '../XyoWitness'
 import { observeBowser } from './observeBowser'
+import { XyoSystemInfoPayload } from './XyoSystemInfoPayload'
 
-export interface XyoSystemInfoPayload extends XyoPayload {
-  bowser?: Parser.ParsedResult
-  systeminformation?: Record<string, unknown>
-}
-
-export interface XyoSystemInfoWitnessConfig extends XyoWitnessConfig<XyoSystemInfoPayload> {
+export interface XyoSystemInfoWitnessNodeConfig extends XyoWitnessConfig<XyoSystemInfoPayload> {
   nodeValues?: Record<string, string>
 }
 
-export class XyoSystemInfoWitness extends XyoWitness<XyoSystemInfoPayload, XyoSystemInfoWitnessConfig> {
+export class XyoSystemInfoWitnessNode extends XyoWitness<XyoSystemInfoPayload, XyoSystemInfoWitnessNodeConfig> {
   constructor() {
     super({
       create: () => {

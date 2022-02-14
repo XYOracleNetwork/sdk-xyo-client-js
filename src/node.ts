@@ -1,3 +1,4 @@
 export * from './ArchivistMongoSdk'
 export * from './index'
-export { XyoSystemInfoWitnessNode as XyoSystemInfoWitness, XyoSystemInfoWitnessNodeConfig } from './Witnesses'
+import { XyoSystemInfoWitnessNode as XyoSystemInfoWitness, XyoSystemInfoWitnessNodeConfig } from './Witnesses'
+export { XyoSystemInfoWitness, XyoSystemInfoWitnessNodeConfig }

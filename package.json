@@ -66,6 +66,7 @@
         "import": "./dist/node-esm/index.js",
         "require": "./dist/node/index.js"
       },
+      "browser": "./dist/browser.js",
       "default": "./dist/index.js"
     },
     "./package.json": "./package.json"

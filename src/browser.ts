@@ -1,2 +1,3 @@
 export * from './index'
-export { XyoSystemInfoWitnessBrowser as XyoSystemInfoWitness } from './Witnesses'
+import { XyoSystemInfoWitnessBrowser as XyoSystemInfoWitness } from './Witnesses'
+export { XyoSystemInfoWitness }

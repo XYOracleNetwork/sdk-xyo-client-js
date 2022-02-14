@@ -2780,6 +2780,7 @@ __metadata:
     rollbar: ^2.24.0
     rollup: ^2.67.2
     sha.js: ^2.4.11
+    systeminformation: ^5.11.3
     ts-jest: ^27.1.3
     ts-node: ^10.5.0
     tslib: ^2.3.1
@@ -11116,6 +11117,16 @@ __metadata:
   version: 3.2.4
   resolution: "symbol-tree@npm:3.2.4"
   checksum: 6e8fc7e1486b8b54bea91199d9535bb72f10842e40c79e882fc94fb7b14b89866adf2fd79efa5ebb5b658bc07fb459ccce5ac0e99ef3d72f474e74aaf284029d
+  languageName: node
+  linkType: hard
+
+"systeminformation@npm:^5.11.3":
+  version: 5.11.3
+  resolution: "systeminformation@npm:5.11.3"
+  bin:
+    systeminformation: lib/cli.js
+  checksum: 9d27028dd43b233173519ee03a228df6d2cdbf2c8723ad54b60553092c528e1b9756cd88973d69968afa48b664e7c68a35d3cc8b5cc22af51a823f0712b54dbf
+  conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
 

@@ -45,9 +45,11 @@ export class XyoPanel {
     const allWitnesses: XyoWitness<XyoPayload>[] = Object.assign([], adhocWitnesses, this.config.witnesses)
     const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads })
       .payloads(
-        allWitnesses.map((witness) => {
-          return witness.observe()
-        })
+        await Promise.all(
+          allWitnesses.map((witness) => {
+            return witness.observe()
+          })
+        )
       )
       .witness(this.config.address)
       .build()

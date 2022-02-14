@@ -2,7 +2,7 @@ import { XyoWitness } from '../XyoWitness'
 import { observeBowser } from './observeBowser'
 import { XyoSystemInfoPayload } from './XyoSystemInfoPayload'
 
-export class XyoSystemInfoWitnessBrowser extends XyoWitness<XyoSystemInfoPayload> {
+export class XyoSystemInfoWitness extends XyoWitness<XyoSystemInfoPayload> {
   constructor() {
     super({
       create: () => {

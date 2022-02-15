@@ -3,9 +3,19 @@ import { sortedStringify } from './sortedStringify'
 
 const removeUnderscoreFields = (obj: Record<string, unknown>) => {
   const fields: Record<string, unknown> = {}
-  Object.keys(obj).forEach((key) => {
+  Object.entries(obj).forEach(([key, value]) => {
     if (!key.startsWith('_')) {
-      fields[key] = obj[key]
+      fields[key] = value
+    }
+  })
+  return fields
+}
+
+const removeEmptyFields = (obj: Record<string, unknown>) => {
+  const fields: Record<string, unknown> = {}
+  Object.entries(obj).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      fields[key] = value
     }
   })
   return fields
@@ -18,7 +28,7 @@ export class XyoHasher<T extends Record<string, unknown>> {
   }
 
   get hashFields() {
-    return removeUnderscoreFields(this.obj)
+    return removeEmptyFields(removeUnderscoreFields(this.obj))
   }
 
   public sortedStringify() {

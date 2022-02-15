@@ -4,9 +4,9 @@ import isObject from 'lodash/isObject'
 import mapValues from 'lodash/mapValues'
 import omitBy from 'lodash/omitBy'
 import pickBy from 'lodash/pickBy'
+import shajs from 'sha.js'
 
-import { sortedHash, sortedHashArray } from './sortedHash'
-import { sortedStringify } from './sortedStringify'
+import { sortObject } from './sortObject'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const hasLeadingUnderscore = (_: any, key: any) => key.startsWith('_')
@@ -42,14 +42,16 @@ export class XyoHasher<T extends Record<string, unknown>> {
   }
 
   public sortedStringify() {
-    return sortedStringify(this.hashFields)
+    const sortedEntry = sortObject(this.hashFields)
+    return JSON.stringify(sortedEntry)
   }
 
   public sortedHash() {
-    return sortedHash(this.hashFields)
+    return this.sortedHashData().toString('hex')
   }
 
-  public sortedHashArray() {
-    return sortedHashArray(this.hashFields)
+  private sortedHashData() {
+    const stringObject = this.sortedStringify()
+    return shajs('sha256').update(stringObject).digest()
   }
 }

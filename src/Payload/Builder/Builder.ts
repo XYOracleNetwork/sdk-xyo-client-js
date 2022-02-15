@@ -1,8 +1,5 @@
-import shajs from 'sha.js'
-
 import { XyoPayload } from '../../models'
-import { sortedStringify } from '../../sortedStringify'
-import { removeEmptyFields, removeUnderscoreFields } from '../../XyoHasher'
+import { removeEmptyFields, removeUnderscoreFields, XyoHasher } from '../../XyoHasher'
 
 export interface XyoPayloadBuilderOptions {
   schema: string
@@ -32,13 +29,8 @@ export class XyoPayloadBuilder<T extends XyoPayload> {
 
   public build(): T {
     const hashableFields = this.hashableFields()
-    const _hash = XyoPayloadBuilder.hash(hashableFields)
+    const _hash = new XyoHasher(hashableFields).sortedHash()
     const _timestamp = Date.now()
     return { ...hashableFields, _client: 'js', _hash, _timestamp, schema: this._schema }
-  }
-
-  static hash<T extends Record<string, unknown>>(obj: T) {
-    const stringObject = sortedStringify<T>(obj)
-    return shajs('sha256').update(stringObject).digest('hex')
   }
 }

@@ -1,24 +1,18 @@
-import { sortedHash } from './sortedHash'
+import isNil from 'lodash/isNil'
+import omitBy from 'lodash/omitBy'
+
+import { sortedHash, sortedHashArray } from './sortedHash'
 import { sortedStringify } from './sortedStringify'
 
-export const removeUnderscoreFields = (obj: Record<string, unknown>) => {
-  const fields: Record<string, unknown> = {}
-  Object.entries(obj).forEach(([key, value]) => {
-    if (!key.startsWith('_')) {
-      fields[key] = value
-    }
-  })
-  return fields
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const checkLeadingUnderscore = (_: any, key: any) => key.startsWith('_')
+
+export const removeUnderscoreFields = <T>(obj: T) => {
+  return omitBy(obj, checkLeadingUnderscore)
 }
 
-export const removeEmptyFields = (obj: Record<string, unknown>) => {
-  const fields: Record<string, unknown> = {}
-  Object.entries(obj).forEach(([key, value]) => {
-    if (value !== undefined && value !== null) {
-      fields[key] = value
-    }
-  })
-  return fields
+export const removeEmptyFields = <T>(obj: T) => {
+  return omitBy(obj, isNil)
 }
 
 export class XyoHasher<T extends Record<string, unknown>> {
@@ -37,5 +31,9 @@ export class XyoHasher<T extends Record<string, unknown>> {
 
   public sortedHash() {
     return sortedHash(this.hashFields)
+  }
+
+  public sortedHashArray() {
+    return sortedHashArray(this.hashFields)
   }
 }

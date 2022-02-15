@@ -50,7 +50,7 @@ describe('XyoBoundWitnessBuilder', () => {
         const actual = builder.build()
 
         expect(actual).toBeDefined()
-        expect(actual._hash).toEqual('3530fb43d95d827bdd17be4673f9a4b87ea4a54eadf851319504f706c8ee7f4b')
+        expect(actual._hash).toEqual('84dd878c1507c0dcb7194e3a9024eeab17d66453078f580cb171aeb0fe46b4c3')
 
         if (actual._hash && actual._signatures) {
           console.log(`Hash: ${actual._hash}`)

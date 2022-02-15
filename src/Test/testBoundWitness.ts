@@ -3,7 +3,7 @@ import { XyoBoundWitness } from '../models'
 const testBoundWitness: XyoBoundWitness = {
   _archive: 'test',
   _client: 'js',
-  _hash: 'b867e9340c3f5d8c8b29854bd06d6b6b59c984a452451f159c7ef42c3349be47',
+  _hash: 'bdec11a360115deb2610f1628c8ca94b3d73823920a74eb232e319450a485648',
   _id: '6111f25cfd5e3f7645f06bc6',
   _signatures: [
     '628461a744840f7e4cfcd0f50a7e0baee4482c14ee3d858923eda52e64f568dc5b6ffc0f07f12b30b7a3ed6d1be3b4f7f398333931787bef1b32c49005bece7f',

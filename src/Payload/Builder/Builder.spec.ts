@@ -2,7 +2,7 @@ import { XyoPayloadBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'
 
-const payloadHash = '45036006c2b015eb4be70171d560f3b05ca094e887bec7fc5efb6ad477e019e8'
+const payloadHash = '9b4e701c5a0dd06d270237fd0794eea7cd8713f80e8e35159ef19511a1aeaa69'
 
 describe('XyoBoundWitnessBuilder', () => {
   test('build', () => {

@@ -8,7 +8,7 @@ export interface XyoWitnessConfig<T extends XyoPayload> {
   observer?: (previousHash?: string) => T
 }
 
-export class XyoWitness<T extends XyoPayload, C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>> {
+export class XyoWitness<T extends XyoPayload = XyoPayload, C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>> {
   public config: C
   public previousHash?: string
   constructor(config: C) {

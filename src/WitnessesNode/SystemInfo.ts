@@ -9,11 +9,7 @@ export interface XyoSystemInfoWitnessConfig extends XyoWitnessConfig<XyoSystemIn
 
 export class XyoSystemInfoWitness extends XyoWitness<XyoSystemInfoPayload, XyoSystemInfoWitnessConfig> {
   constructor() {
-    super({
-      create: () => {
-        return { schema: 'network.xyo.system.info' }
-      },
-    })
+    super({ schema: 'network.xyo.system.info' })
   }
   override async observe(): Promise<XyoSystemInfoPayload> {
     const node = await get(

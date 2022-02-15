@@ -1,7 +1,7 @@
 import { sortedHash } from './sortedHash'
 import { sortedStringify } from './sortedStringify'
 
-const removeUnderscoreFields = (obj: Record<string, unknown>) => {
+export const removeUnderscoreFields = (obj: Record<string, unknown>) => {
   const fields: Record<string, unknown> = {}
   Object.entries(obj).forEach(([key, value]) => {
     if (!key.startsWith('_')) {
@@ -11,7 +11,7 @@ const removeUnderscoreFields = (obj: Record<string, unknown>) => {
   return fields
 }
 
-const removeEmptyFields = (obj: Record<string, unknown>) => {
+export const removeEmptyFields = (obj: Record<string, unknown>) => {
   const fields: Record<string, unknown> = {}
   Object.entries(obj).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {

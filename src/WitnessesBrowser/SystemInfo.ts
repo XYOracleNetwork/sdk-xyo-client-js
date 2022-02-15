@@ -4,11 +4,7 @@ import { XyoSystemInfoPayload } from './XyoSystemInfoPayload'
 
 export class XyoSystemInfoWitness extends XyoWitness<XyoSystemInfoPayload> {
   constructor() {
-    super({
-      create: () => {
-        return { schema: 'network.xyo.system.info' }
-      },
-    })
+    super({ schema: 'network.xyo.system.info' })
   }
   override async observe(): Promise<XyoSystemInfoPayload> {
     const browser = observeBowser()

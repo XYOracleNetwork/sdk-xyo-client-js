@@ -1,10 +1,10 @@
 import { assertEx, bufferPolyfill } from '@xylabs/sdk-js'
 import { Buffer } from 'buffer'
-import shajs from 'sha.js'
 
 import { XyoAddress } from '../../Address'
 import { XyoBoundWitness, XyoPayload, XyoPayloadBody } from '../../models'
 import { sortObject } from '../../sortObject'
+import { XyoHasher } from '../../XyoHasher'
 
 export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
@@ -22,7 +22,7 @@ export class XyoBoundWitnessBuilder {
 
   private get _payload_hashes(): string[] {
     return this._payloads.map((payload) => {
-      return XyoBoundWitnessBuilder.hash(payload)
+      return new XyoHasher(payload).sortedHash()
     })
   }
 
@@ -57,7 +57,7 @@ export class XyoBoundWitnessBuilder {
 
   public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
-    const _hash = XyoBoundWitnessBuilder.hash(hashableFields)
+    const _hash = new XyoHasher(hashableFields).sortedHash()
 
     const _signatures = this._addresses.map((address) =>
       Buffer.from(address.sign(Buffer.from(_hash, 'hex'))).toString('hex')
@@ -73,15 +73,5 @@ export class XyoBoundWitnessBuilder {
       })
     }
     return ret
-  }
-
-  static sortedStringify<T extends Record<string, unknown>>(obj: T) {
-    const sortedEntry = sortObject<T>(obj)
-    return JSON.stringify(sortedEntry)
-  }
-
-  static hash<T extends Record<string, unknown>>(obj: T) {
-    const stringObject = XyoBoundWitnessBuilder.sortedStringify<T>(obj)
-    return shajs('sha256').update(stringObject).digest('hex')
   }
 }

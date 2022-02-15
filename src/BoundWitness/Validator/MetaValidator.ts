@@ -2,7 +2,7 @@ import { isIP } from 'is-ip'
 import pick from 'lodash/pick'
 
 import { XyoBoundWitness } from '../../models'
-import { XyoBoundWitnessBuilder } from '../Builder'
+import { XyoHasher } from '../../XyoHasher'
 
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000
@@ -22,7 +22,7 @@ export class XyoBoundWitnessMetaValidator {
     const errors: Error[] = []
     const body = pick(this.bw, ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes'])
 
-    const bodyHash = XyoBoundWitnessBuilder.hash(body)
+    const bodyHash = new XyoHasher(body).sortedHash()
     if (bodyHash !== this.bw._hash)
       errors.push(new Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.bw._hash}]`))
     return errors

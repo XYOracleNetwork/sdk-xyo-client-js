@@ -98,6 +98,6 @@
   },
   "sideEffects": true,
   "types": "dist/index.d.ts",
-  "version": "2.9.9",
+  "version": "2.9.10",
   "packageManager": "yarn@3.1.1"
 }

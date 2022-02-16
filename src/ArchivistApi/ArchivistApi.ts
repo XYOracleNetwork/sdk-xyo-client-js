@@ -7,7 +7,7 @@ import { getArchivistApiResponseTransformer } from './ArchivistApiResponseTransf
 
 class XyoArchivistApi {
   private config: XyoArchivistApiConfig
-  private constructor(config: XyoArchivistApiConfig) {
+  constructor(config: XyoArchivistApiConfig) {
     this.config = config
   }
 
@@ -180,6 +180,9 @@ class XyoArchivistApi {
     ).data
   }
 
+  /**
+   * @deprecated use constructor instead
+   * */
   static get(config: XyoArchivistApiConfig) {
     return new XyoArchivistApi(config)
   }

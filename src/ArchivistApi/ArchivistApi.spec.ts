@@ -25,7 +25,7 @@ const getRandomArchiveName = (): string => {
 describe('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns a new XyoArchivistApi', () => {
-      const api = XyoArchivistApi.get(config)
+      const api = new XyoArchivistApi(config)
       expect(api).toBeDefined()
     })
   })
@@ -38,7 +38,7 @@ describe('XyoArchivistApi', () => {
     it(
       'gets an array of archives owned',
       async () => {
-        const api = XyoArchivistApi.get(config)
+        const api = new XyoArchivistApi(config)
         try {
           await api.putArchive(archive)
           const archives = await api.getArchives()
@@ -62,7 +62,7 @@ describe('XyoArchivistApi', () => {
     it(
       'returns the archive owned',
       async () => {
-        const api = XyoArchivistApi.get(config)
+        const api = new XyoArchivistApi(config)
         try {
           const response = await api.putArchive(archive)
           expect(response.archive).toEqual(archive)
@@ -77,7 +77,7 @@ describe('XyoArchivistApi', () => {
     it(
       'adds the archive to the list of archives owned by the user',
       async () => {
-        const api = XyoArchivistApi.get(config)
+        const api = new XyoArchivistApi(config)
         try {
           await api.putArchive(archive)
           const archives = await api.getArchives()
@@ -98,7 +98,7 @@ describe('XyoArchivistApi', () => {
       async () => {
         try {
           const archive = getRandomArchiveName()
-          const api = XyoArchivistApi.get({ ...config, archive })
+          const api = new XyoArchivistApi({ ...config, archive })
           await api.putArchive(archive)
           const key = await api.postArchiveKey()
           const response = await api.getArchiveKeys()
@@ -120,7 +120,7 @@ describe('XyoArchivistApi', () => {
       async () => {
         try {
           const archive = getRandomArchiveName()
-          const api = XyoArchivistApi.get({ ...config, archive })
+          const api = new XyoArchivistApi({ ...config, archive })
           await api.putArchive(archive)
           const response = await api.postArchiveKey()
           expect(response.key).toBeTruthy()
@@ -139,7 +139,7 @@ describe('XyoArchivistApi', () => {
       'posts a single bound witness',
       async (inlinePayloads) => {
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
-        const api = XyoArchivistApi.get(config)
+        const api = new XyoArchivistApi(config)
         const boundWitness: XyoBoundWitness = builder.build()
 
         try {
@@ -164,7 +164,7 @@ describe('XyoArchivistApi', () => {
       'posts multiple bound witnesses',
       async (inlinePayloads) => {
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
-        const api = XyoArchivistApi.get(config)
+        const api = new XyoArchivistApi(config)
         const json = builder.build()
         const boundWitnesses: XyoBoundWitness[] = [json, json]
         try {

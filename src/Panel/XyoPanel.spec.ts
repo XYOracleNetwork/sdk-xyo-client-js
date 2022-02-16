@@ -16,7 +16,7 @@ test('all [simple panel send]', async () => {
   ]
 
   const archivists = archivistConfigs.map((config) => {
-    return XyoArchivistApi.get(config)
+    return new XyoArchivistApi(config)
   })
   const witnesses = [new XyoSystemInfoWitness()]
 

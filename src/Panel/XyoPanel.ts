@@ -9,9 +9,14 @@ export interface XyoPanelConfig {
   archivists: XyoArchivistApi[]
   witnesses: XyoWitness<XyoPayload>[]
   historyDepth?: number
-  onReport?: (boundWitness: XyoBoundWitness) => void
+  onReportStart?: () => void
+  onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
   onHistoryRemove?: (removedBoundWitnesses: XyoBoundWitness[]) => void
   onHistoryAdd?: (addedBoundWitnesses: XyoBoundWitness[]) => void
+  onArchivistSendStart?: (archivist: XyoArchivistApi) => void
+  onArchivistSendEnd?: (archivist: XyoArchivistApi, error?: Error) => void
+  onWitnessReportStart?: (witness: XyoWitness) => void
+  onWitnessReportEnd?: (witness: XyoWitness, error?: Error) => void
   inlinePayloads?: boolean
 }
 
@@ -41,26 +46,61 @@ export class XyoPanel {
     this.config.onHistoryAdd?.([boundWitness])
   }
 
-  public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []) {
-    const allWitnesses: XyoWitness<XyoPayload>[] = Object.assign([], adhocWitnesses, this.config.witnesses)
-    const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads })
-      .payloads(
-        await Promise.all(
-          allWitnesses.map((witness) => {
-            return witness.observe()
-          })
-        )
-      )
-      .witness(this.config.address)
-      .build()
-    await Promise.allSettled(
+  private async sendToArchivists(
+    boundWitness: XyoBoundWitness,
+    onError?: (archivist: XyoArchivistApi, error: Error) => void
+  ) {
+    const result = await Promise.allSettled(
       this.config.archivists.map((archivist) => {
-        const boundWitnessWithArchive = { ...newBoundWitness, _archive: archivist.archive }
-        this.addToHistory(boundWitnessWithArchive)
-        this.config.onReport?.(boundWitnessWithArchive)
-        return archivist.postBoundWitness(newBoundWitness)
+        this.config.onArchivistSendStart?.(archivist)
+        let error: Error | undefined = undefined
+        try {
+          const boundWitnessWithArchive = { ...boundWitness, _archive: archivist.archive }
+          this.addToHistory(boundWitnessWithArchive)
+          return archivist.postBoundWitness(boundWitness)
+        } catch (ex) {
+          error = ex as Error
+          onError?.(archivist, error)
+        }
+        this.config.onArchivistSendEnd?.(archivist, error)
       })
     )
+    return result
+  }
+
+  private async generatePayloads(witnesses: XyoWitness[], onError?: (witness: XyoWitness, error: Error) => void) {
+    const payloads = await Promise.all(
+      witnesses.map(async (witness) => {
+        this.config.onWitnessReportStart?.(witness)
+        const startTime = Date.now()
+        let result: XyoPayload | undefined = undefined
+        let error: Error | undefined = undefined
+        try {
+          result = await witness.observe()
+        } catch (ex) {
+          error = ex as Error
+          onError?.(witness, error)
+        }
+        if (result) {
+          result._observeDuration = Date.now() - startTime
+        }
+        this.config.onWitnessReportEnd?.(witness, error)
+        return result ?? null
+      })
+    )
+    return payloads
+  }
+
+  public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []) {
+    const errors: Error[] = []
+    this.config.onReportStart?.()
+    const allWitnesses: XyoWitness<XyoPayload>[] = Object.assign([], adhocWitnesses, this.config.witnesses)
+    const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads })
+      .payloads(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
+      .witness(this.config.address)
+      .build()
+    await this.sendToArchivists(newBoundWitness, (_, error) => errors.push(error))
+    this.config.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
     return newBoundWitness
   }
 }

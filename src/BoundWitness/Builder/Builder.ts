@@ -30,16 +30,20 @@ export class XyoBoundWitnessBuilder {
     return this
   }
 
-  public payloads(payloads: XyoPayload[]) {
+  public payloads(payloads: (XyoPayload | null)[]) {
     payloads.forEach((payload) => {
-      this.payload(payload)
+      if (payload !== null) {
+        this.payload(payload)
+      }
     })
     return this
   }
 
-  public payload(payload: XyoPayload) {
-    this._payload_schemas.push(payload.schema)
-    this._payloads.push(assertEx(sortFields(payload)))
+  public payload(payload?: XyoPayload) {
+    if (payload) {
+      this._payload_schemas.push(payload.schema)
+      this._payloads.push(assertEx(sortFields(payload)))
+    }
     return this
   }
 

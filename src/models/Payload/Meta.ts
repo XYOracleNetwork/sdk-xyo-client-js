@@ -4,6 +4,7 @@ interface XyoPayloadMeta {
   _client?: string
   _reportedHash?: string
   _timestamp?: number
+  _observeDuration?: number
   _archive?: string
 }
 

@@ -38,7 +38,7 @@
     "@types/node": "^17.0.18",
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",
-    "@xylabs/eslint-config": "^2.3.15",
+    "@xylabs/eslint-config": "^2.3.16",
     "@xylabs/rollup-config": "^1.1.7",
     "@xylabs/ts-scripts": "^1.0.43",
     "@xylabs/tsconfig": "^1.0.12",

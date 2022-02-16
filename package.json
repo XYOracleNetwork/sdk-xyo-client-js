@@ -29,7 +29,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.17.2",
+    "@babel/core": "^7.17.4",
     "@babel/preset-env": "^7.16.11",
     "@types/bn.js": "^5.1.0",
     "@types/elliptic": "^6.4.14",

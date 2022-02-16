@@ -6,7 +6,7 @@ import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 import { getArchivistApiResponseTransformer } from './ArchivistApiResponseTransformer'
 
 class XyoArchivistApi {
-  private config: XyoArchivistApiConfig
+  public config: XyoArchivistApiConfig
   constructor(config: XyoArchivistApiConfig) {
     this.config = config
   }

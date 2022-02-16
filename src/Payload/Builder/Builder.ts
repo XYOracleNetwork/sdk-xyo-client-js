@@ -1,5 +1,5 @@
+import { removeEmptyFields, removeUnderscoreFields, XyoHasher } from '../../Hasher'
 import { XyoPayload } from '../../models'
-import { removeEmptyFields, removeUnderscoreFields, XyoHasher } from '../../XyoHasher'
 
 export interface XyoPayloadBuilderOptions {
   schema: string
@@ -15,7 +15,7 @@ export class XyoPayloadBuilder<T extends XyoPayload> {
 
   public fields(fields?: Partial<T>) {
     if (fields) {
-      this._fields = { ...this._fields, ...fields }
+      this._fields = { ...this._fields, ...removeEmptyFields(fields) }
     }
     return this
   }

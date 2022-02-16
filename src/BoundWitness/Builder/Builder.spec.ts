@@ -1,8 +1,8 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 import { XyoAddress } from '../../Address'
+import { XyoHasher } from '../../Hasher'
 import { XyoPayload } from '../../models'
-import { XyoHasher } from '../../XyoHasher'
 import { XyoBoundWitnessBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'

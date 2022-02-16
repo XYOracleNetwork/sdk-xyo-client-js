@@ -1,8 +1,8 @@
 import pick from 'lodash/pick'
 import { UAParser } from 'ua-parser-js'
 
+import { XyoHasher } from '../../Hasher'
 import { XyoBoundWitness } from '../../models'
-import { XyoHasher } from '../../XyoHasher'
 import { XyoBoundWitnessValidator } from '../Validator'
 
 const scrubbedFields = [

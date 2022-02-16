@@ -2,9 +2,8 @@ import { assertEx, bufferPolyfill } from '@xylabs/sdk-js'
 import { Buffer } from 'buffer'
 
 import { XyoAddress } from '../../Address'
+import { sortFields, XyoHasher } from '../../Hasher'
 import { XyoBoundWitness, XyoPayload, XyoPayloadBody } from '../../models'
-import { sortObject } from '../../sortObject'
-import { XyoHasher } from '../../XyoHasher'
 
 export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
@@ -40,7 +39,7 @@ export class XyoBoundWitnessBuilder {
 
   public payload(payload: XyoPayload) {
     this._payload_schemas.push(payload.schema)
-    this._payloads.push(assertEx(sortObject(payload)))
+    this._payloads.push(assertEx(sortFields(payload)))
     return this
   }
 

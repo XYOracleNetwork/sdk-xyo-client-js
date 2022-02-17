@@ -86,7 +86,7 @@
   "scripts": {
     "deploy": "yarn cycle && yarn build && yarn version patch -i && yarn npm publish",
     "lint-pkg": "npmPkgJsonLint .",
-    "test": "jest ./src",
+    "test": "jest --silent ./src",
     "test:api": "jest ./src/ArchivistApi",
     "test:bw": "jest ./src/BoundWitness",
     "test:witnesses": "jest ./src/Witnesses",

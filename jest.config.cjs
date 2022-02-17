@@ -12,6 +12,7 @@ const generateJestConfig = ({ esModules }) => {
     preset: 'ts-jest/presets/default-esm',
     setupFiles: ['dotenv/config'],
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
+    testTimeout: 10000,
     transform: {
       [`(${esModuleslist}).+\\.js$`]: 'babel-jest',
       '^.+\\.tsx?$': 'ts-jest',

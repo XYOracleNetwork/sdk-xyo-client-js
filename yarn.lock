@@ -30,9 +30,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.17.2, @babel/core@npm:^7.17.4, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
-  version: 7.17.4
-  resolution: "@babel/core@npm:7.17.4"
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.17.4, @babel/core@npm:^7.17.5, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
+  version: 7.17.5
+  resolution: "@babel/core@npm:7.17.5"
   dependencies:
     "@ampproject/remapping": ^2.1.0
     "@babel/code-frame": ^7.16.7
@@ -49,7 +49,7 @@ __metadata:
     gensync: ^1.0.0-beta.2
     json5: ^2.1.2
     semver: ^6.3.0
-  checksum: d367259b188fde69493fea407a1c134d6bb7a0d859cbe2c0f0d1f2464143bdee0fdfd3c8d45a2cdabdf321b95dd392cbc4f55e2d0c41a842a581d37fee4cef64
+  checksum: c5e7dddb4feaacb91175d22a6edc8e93804242328a82b80732c6e84a0647bc0a9c9d5b05f3ce13138b8e59bf7aba4ff9f7b7446302f141f243ba51df02c318a5
   languageName: node
   linkType: hard
 
@@ -2634,34 +2634,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^2.3.14":
-  version: 2.3.15
-  resolution: "@xylabs/eslint-config@npm:2.3.15"
-  dependencies:
-    "@babel/core": ^7.17.2
-    "@babel/eslint-parser": ^7.17.0
-    "@rushstack/eslint-patch": ^1.1.0
-    "@typescript-eslint/eslint-plugin": ^5.12.0
-    "@typescript-eslint/parser": ^5.12.0
-    eslint: ^8.9.0
-    eslint-config-prettier: ^8.3.0
-    eslint-import-resolver-typescript: ^2.5.0
-    eslint-plugin-import: ^2.25.4
-    eslint-plugin-json-es: ^1.5.4
-    eslint-plugin-md: ^1.0.19
-    eslint-plugin-no-secrets: ^0.8.9
-    eslint-plugin-prettier: ^4.0.0
-    eslint-plugin-simple-import-sort: ^7.0.0
-    eslint-plugin-sort-keys-fix: ^1.1.2
-    markdown-eslint-parser: ^1.2.1
-    prettier: ^2.5.1
-    remark-lint-maximum-line-length: ^3.1.2
-    remark-preset-lint-markdown-style-guide: ^5.1.2
-  checksum: 0d3235e342e9f3dc4643d14a3a094eac6fc985b8d3f80f7439fbeea2943c6a0759774443c71f75f69066dfab4a19cbc41a78b4134a92576332e9da67da3775ae
-  languageName: node
-  linkType: hard
-
-"@xylabs/eslint-config@npm:^2.3.16":
+"@xylabs/eslint-config@npm:^2.3.14, @xylabs/eslint-config@npm:^2.3.16":
   version: 2.3.16
   resolution: "@xylabs/eslint-config@npm:2.3.16"
   dependencies:
@@ -2781,7 +2754,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-xyo-client-js@workspace:."
   dependencies:
-    "@babel/core": ^7.17.4
+    "@babel/core": ^7.17.5
     "@babel/preset-env": ^7.16.11
     "@ethersproject/providers": ^5.5.3
     "@types/bn.js": ^5.1.0

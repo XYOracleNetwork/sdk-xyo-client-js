@@ -2769,7 +2769,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.4.2
     "@xylabs/ts-scripts": ^1.0.43
     "@xylabs/tsconfig": ^1.0.12
-    "@xyo-network/sdk-xyo-mongo-js": ^2.2.6
+    "@xyo-network/sdk-xyo-mongo-js": ^2.2.7
     axios: ^0.26.0
     babel-jest: ^27.5.1
     bn.js: ^5.2.0
@@ -2801,14 +2801,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sdk-xyo-mongo-js@npm:^2.2.6":
-  version: 2.2.6
-  resolution: "@xyo-network/sdk-xyo-mongo-js@npm:2.2.6"
+"@xyo-network/sdk-xyo-mongo-js@npm:^2.2.7":
+  version: 2.2.7
+  resolution: "@xyo-network/sdk-xyo-mongo-js@npm:2.2.7"
   dependencies:
     "@xylabs/sdk-js": ^2.4.2
     async-mutex: ^0.3.2
-    mongodb: ^4.3.1
-  checksum: ea2a63a15b86fc8959fbd822b4c72317885d2614fed5dd03ebfc646c954657438c1f7901fcd2cb1ee22b187b94318b63e6f89defe39288f45d347c6cbf3ffb8d
+    mongodb: ^4.4.0
+  checksum: fc445735799efdf0a06f2a69af5eeb295e347070150565cb950f3734117eccc39e1167657e6fd370f67d1bc258eb96b7804386750aad63ad54bffe0c0b60d12f
   languageName: node
   linkType: hard
 
@@ -7831,22 +7831,6 @@ __metadata:
     "@types/whatwg-url": ^8.2.1
     whatwg-url: ^11.0.0
   checksum: aed2718840c79f8d6be35309e308bf4466a009256da6b02e6212abeef39ae27bf6101273580696e246e51ee4f7471e2d938c44e8f8a5194982092f692b37c571
-  languageName: node
-  linkType: hard
-
-"mongodb@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "mongodb@npm:4.3.1"
-  dependencies:
-    bson: ^4.6.1
-    denque: ^2.0.1
-    mongodb-connection-string-url: ^2.4.1
-    saslprep: ^1.0.3
-    socks: ^2.6.1
-  dependenciesMeta:
-    saslprep:
-      optional: true
-  checksum: 5684b5481bfbf73e4628b8bad7018cd4436fdb23b9548fb38dece3e079b1716fe870d41070a505d13ae4d86c107315afaf34891ba2b64925eb4fa4cd5bb70300
   languageName: node
   linkType: hard
 

@@ -2783,7 +2783,7 @@ __metadata:
     jest: ^27.5.1
     keccak256: ^1.0.6
     lodash: ^4.17.21
-    mongodb: ^4.3.1
+    mongodb: ^4.4.0
     neo4j-driver: ^4.4.2
     neo4j-driver-core: ^4.4.2
     npm-package-json-lint: ^5.4.2
@@ -7847,6 +7847,22 @@ __metadata:
     saslprep:
       optional: true
   checksum: 5684b5481bfbf73e4628b8bad7018cd4436fdb23b9548fb38dece3e079b1716fe870d41070a505d13ae4d86c107315afaf34891ba2b64925eb4fa4cd5bb70300
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "mongodb@npm:4.4.0"
+  dependencies:
+    bson: ^4.6.1
+    denque: ^2.0.1
+    mongodb-connection-string-url: ^2.4.1
+    saslprep: ^1.0.3
+    socks: ^2.6.1
+  dependenciesMeta:
+    saslprep:
+      optional: true
+  checksum: e485927d1def94f28564bdcb98d82144914bf23854e8bd15437fcef0d9a36f36997f7e97e0aad730ebf299c6a919430669198e02b5e2f4410f74a4002409b182
   languageName: node
   linkType: hard
 

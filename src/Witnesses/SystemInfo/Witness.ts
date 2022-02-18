@@ -1,12 +1,20 @@
-import { XyoWitness } from '../../XyoWitness'
+import { assertEx } from '@xylabs/sdk-js'
+
+import { XyoWitness, XyoWitnessConfig } from '../../XyoWitness'
 import { XyoSystemInfoPayload } from './Payload'
 
-//this is the type neutral (browser vs node) version of the class
-export class XyoSystemInfoWitness extends XyoWitness<XyoSystemInfoPayload> {
-  constructor() {
-    super({ schema: 'network.xyo.system.info' })
+export class XyoSystemInfoWitness<
+  T extends XyoSystemInfoPayload = XyoSystemInfoPayload,
+  C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>
+> extends XyoWitness<T, C> {
+  constructor(config: C = { schema: XyoSystemInfoWitness.schema } as C, baseSchema = XyoSystemInfoWitness.schema) {
+    assertEx(config.schema.startsWith(baseSchema), 'Invalid schema')
+    super(config)
   }
-  override async observe(): Promise<XyoSystemInfoPayload> {
-    return await super.observe({})
+
+  override async observe(fields?: Partial<T>): Promise<T> {
+    return await super.observe(fields)
   }
+
+  public static schema = 'network.xyo.system.info'
 }

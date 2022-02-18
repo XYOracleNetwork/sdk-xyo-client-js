@@ -4,7 +4,7 @@
 
 import { XyoAddress } from '../Address'
 import { XyoArchivistApi, XyoArchivistApiConfig } from '../ArchivistApi'
-import { XyoSystemInfoWitness } from '../WitnessesBrowser'
+import { XyoSystemInfoWitness } from '../Witnesses'
 import { XyoPanel } from './XyoPanel'
 
 test('all [simple panel send]', async () => {

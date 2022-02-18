@@ -1,5 +1,5 @@
-import { XyoWitness } from '../XyoWitness'
-import { XyoSystemInfoPayload } from './XyoSystemInfoPayload'
+import { XyoWitness } from '../../XyoWitness'
+import { XyoSystemInfoPayload } from './Payload'
 
 //this is the type neutral (browser vs node) version of the class
 export class XyoSystemInfoWitness extends XyoWitness<XyoSystemInfoPayload> {

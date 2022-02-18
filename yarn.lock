@@ -2403,6 +2403,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^8.3.4":
+  version: 8.3.4
+  resolution: "@types/uuid@npm:8.3.4"
+  checksum: 6f11f3ff70f30210edaa8071422d405e9c1d4e53abbe50fdce365150d3c698fe7bbff65c1e71ae080cbfb8fded860dbb5e174da96fdbbdfcaa3fb3daa474d20f
+  languageName: node
+  linkType: hard
+
 "@types/webidl-conversions@npm:*":
   version: 6.1.1
   resolution: "@types/webidl-conversions@npm:6.1.1"
@@ -2765,6 +2772,7 @@ __metadata:
     "@types/node": ^17.0.18
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
+    "@types/uuid": ^8.3.4
     "@xylabs/eslint-config": ^2.3.17
     "@xylabs/rollup-config": ^1.1.7
     "@xylabs/sdk-js": ^2.4.2
@@ -2791,7 +2799,7 @@ __metadata:
     npm-package-json-lint-config-default: ^3.0.0
     rimraf: ^3.0.2
     rollbar: ^2.24.0
-    rollup: ^2.67.2
+    rollup: ^2.67.3
     sha.js: ^2.4.11
     systeminformation: ^5.11.3
     ts-jest: ^27.1.3
@@ -2799,6 +2807,7 @@ __metadata:
     tslib: ^2.3.1
     typescript: ^4.5.5
     ua-parser-js: ^1.0.2
+    uuid: ^8.3.2
   languageName: unknown
   linkType: soft
 
@@ -10520,9 +10529,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.67.1, rollup@npm:^2.67.2":
-  version: 2.67.2
-  resolution: "rollup@npm:2.67.2"
+"rollup@npm:^2.67.1, rollup@npm:^2.67.3":
+  version: 2.67.3
+  resolution: "rollup@npm:2.67.3"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -10530,7 +10539,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 9aca5251ba4b441064183cde2394b91567259002d68086bdd3906db66d55dd148ab27e57c51eb53830d7b9b813c2d4e834b7735d65e2a869780bc639d4a20c38
+  checksum: c4013a2ceef6918375fd07a6548e05d0f3df1db9f0a0281aebe6e993a45c0e667c5a06f53b55c0ffaf72f72266c1879bc181b13199aace97d93f0fc47691d4a9
   languageName: node
   linkType: hard
 
@@ -11941,6 +11950,15 @@ __metadata:
   bin:
     uuid: ./bin/uuid
   checksum: 3e18e3bf6fcf92f379c55a816c0d4b2e85c1a15bd67a5c9798a40bac91810673d0e6209a4cc3c334966ec105e861953da49e8cd4e7db05a45c03f6b6a3b6a64b
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^8.3.2":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
   languageName: node
   linkType: hard
 

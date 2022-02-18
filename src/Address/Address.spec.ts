@@ -58,10 +58,10 @@ test('Sign-random', () => {
 })
 
 test('Constructor', () => {
-  const address = new XyoAddress()
-  const signature = address.sign('x')
-  const valid = XyoAddress.verifyAddress('x', signature, address.address)
-  expect(valid).toBeTruthy()
+  const address1 = new XyoAddress()
+  const address2 = new XyoAddress({ privateKey: address1.privateKey })
+  expect(address1.publicKey).toBe(address2.publicKey)
+  expect(address1.address).toBe(address2.address)
 })
 
 test('Sign-random-string', () => {

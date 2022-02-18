@@ -38,7 +38,7 @@ export class XyoAddress {
   }
 
   public get privateKey() {
-    return this._key.getPrivate().toBuffer().toString('hex')
+    return this._key.getPrivate().toString('hex')
   }
 
   public get publicKey() {

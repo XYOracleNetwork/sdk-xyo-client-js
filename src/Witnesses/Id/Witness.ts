@@ -8,7 +8,7 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
 
   constructor(salt = uuid()) {
     super({
-      schema: 'network.xyo.id',
+      schema: XyoIdWitness.schema,
     })
     this.salt = salt
   }
@@ -18,4 +18,6 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
       salt: this.salt,
     })
   }
+
+  public static schema = 'network.xyo.id'
 }

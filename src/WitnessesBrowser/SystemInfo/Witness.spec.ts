@@ -8,6 +8,6 @@ describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {
     const witness = new XyoSystemInfoBrowserWitness()
     const observation = await witness.observe()
-    expect(observation.schema).toBe('network.xyo.system.info')
+    expect(observation.schema).toBe('network.xyo.system.info.browser')
   })
 })

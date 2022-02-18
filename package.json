@@ -43,7 +43,7 @@
     "@types/uuid": "^8.3.4",
     "@xylabs/eslint-config": "^2.3.17",
     "@xylabs/rollup-config": "^1.1.7",
-    "@xylabs/ts-scripts": "^1.0.43",
+    "@xylabs/ts-scripts": "^1.0.44",
     "@xylabs/tsconfig": "^1.0.12",
     "babel-jest": "^27.5.1",
     "copyfiles": "^2.4.1",
@@ -68,7 +68,10 @@
         "import": "./dist/node-esm/index.js",
         "require": "./dist/node/index.js"
       },
-      "browser": "./dist/browser.js",
+      "browser": {
+        "import": "./dist/browser.js",
+        "require": "./dist/cjs5/index.js"
+      },
       "default": "./dist/index.js"
     },
     "./package.json": "./package.json"

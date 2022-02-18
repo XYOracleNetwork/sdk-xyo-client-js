@@ -30,7 +30,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.17.4, @babel/core@npm:^7.17.5, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.17.5, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
   version: 7.17.5
   resolution: "@babel/core@npm:7.17.5"
   dependencies:
@@ -2634,11 +2634,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^2.3.14, @xylabs/eslint-config@npm:^2.3.16":
-  version: 2.3.16
-  resolution: "@xylabs/eslint-config@npm:2.3.16"
+"@xylabs/eslint-config@npm:^2.3.14, @xylabs/eslint-config@npm:^2.3.17":
+  version: 2.3.17
+  resolution: "@xylabs/eslint-config@npm:2.3.17"
   dependencies:
-    "@babel/core": ^7.17.4
+    "@babel/core": ^7.17.5
     "@babel/eslint-parser": ^7.17.0
     "@rushstack/eslint-patch": ^1.1.0
     "@typescript-eslint/eslint-plugin": ^5.12.0
@@ -2658,7 +2658,8 @@ __metadata:
     prettier: ^2.5.1
     remark-lint-maximum-line-length: ^3.1.2
     remark-preset-lint-markdown-style-guide: ^5.1.2
-  checksum: 47274e9d60f5a1319b93751ce6d0b97da4573e879bea098e8b04c2dc1d2448773080989e8496f2c2fa323fae62222e0c2b3af83ebc7404f271b77aa48b193412
+    typescript: ^4.5.5
+  checksum: b5323408f09e2a825a497315550224c504806b685189b1ee65c8c2ca9aa736a35adceab7573099df9500279bae30f3c0903a03aa00c2256552b10571ce2d5169
   languageName: node
   linkType: hard
 
@@ -2764,7 +2765,7 @@ __metadata:
     "@types/node": ^17.0.18
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
-    "@xylabs/eslint-config": ^2.3.16
+    "@xylabs/eslint-config": ^2.3.17
     "@xylabs/rollup-config": ^1.1.7
     "@xylabs/sdk-js": ^2.4.2
     "@xylabs/ts-scripts": ^1.0.43

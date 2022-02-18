@@ -57,6 +57,13 @@ test('Sign-random', () => {
   expect(valid).toBeTruthy()
 })
 
+test('Constructor', () => {
+  const address = new XyoAddress()
+  const signature = address.sign('x')
+  const valid = XyoAddress.verifyAddress('x', signature, address.address)
+  expect(valid).toBeTruthy()
+})
+
 test('Sign-random-string', () => {
   const address = XyoAddress.random()
   const signature = address.sign('x')

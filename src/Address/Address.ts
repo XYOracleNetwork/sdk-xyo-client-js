@@ -1,4 +1,5 @@
 import { assertEx, bufferPolyfill } from '@xylabs/sdk-js'
+import BigNumber from 'bn.js'
 import { Buffer } from 'buffer'
 import EC from 'elliptic'
 import keccak256 from 'keccak256'
@@ -38,7 +39,7 @@ export class XyoAddress {
   }
 
   public get privateKey() {
-    return this._key.getPrivate().toString('hex')
+    return new BigNumber(this._key.getPrivate()).toString('hex')
   }
 
   public get publicKey() {

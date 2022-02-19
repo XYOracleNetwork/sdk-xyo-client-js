@@ -96,7 +96,7 @@
   "scripts": {
     "deploy": "yarn deploy3",
     "lint-pkg": "npmPkgJsonLint .",
-    "build": "yarn gen:docs && yarn xylabs-build",
+    "build": "yarn xylabs-build && yarn gen:docs",
     "gen:docs": "typedoc ./src/index.ts --json ./dist/docs.json --tsconfig ./tsconfig.build.json",
     "test": "jest ./src",
     "test:api": "jest ./src/ArchivistApi",

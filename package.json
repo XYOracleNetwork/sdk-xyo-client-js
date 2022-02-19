@@ -76,7 +76,7 @@
       },
       "default": "./dist/index.js"
     },
-    "./docs": {
+    "./dist/docs.json": {
       "default": "./dist/docs.json"
     },
     "./package.json": "./package.json"

@@ -58,9 +58,11 @@
     "ts-jest": "^27.1.3",
     "ts-node": "^10.5.0",
     "tslib": "^2.3.1",
+    "typedoc": "^0.22.11",
     "typescript": "^4.5.5"
   },
   "esm5": "dist/esm5/index.js",
+  "docs": "dist/docs.json",
   "exports": {
     ".": {
       "esm5": "./dist/esm5/index.js",
@@ -73,6 +75,9 @@
         "require": "./dist/cjs5/index.js"
       },
       "default": "./dist/index.js"
+    },
+    "./docs": {
+      "default": "./dist/docs.json"
     },
     "./package.json": "./package.json"
   },
@@ -91,6 +96,8 @@
   "scripts": {
     "deploy": "yarn deploy3",
     "lint-pkg": "npmPkgJsonLint .",
+    "build": "yarn gen:docs && yarn xylabs-build",
+    "gen:docs": "typedoc ./src/index.ts --json ./dist/docs.json --tsconfig ./tsconfig.build.json",
     "test": "jest ./src",
     "test:api": "jest ./src/ArchivistApi",
     "test:bw": "jest ./src/BoundWitness",

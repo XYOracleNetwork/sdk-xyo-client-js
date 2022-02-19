@@ -2,9 +2,9 @@ import { assertEx } from '@xylabs/sdk-js'
 import axios, { AxiosRequestConfig } from 'axios'
 
 import { XyoBoundWitness, XyoPayload } from '../models'
-import { ArchiveKeyResponse, ArchiveResponse, PutArchiveRequest } from '../types'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 import { getArchivistApiResponseTransformer } from './ArchivistApiResponseTransformer'
+import { ArchiveKeyResponse, ArchiveResponse, PutArchiveRequest } from './models'
 
 class XyoArchivistApi {
   public config: XyoArchivistApiConfig

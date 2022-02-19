@@ -7,6 +7,7 @@ export interface XyoPayloadBuilderOptions {
 
 export class XyoPayloadBuilder<T extends XyoPayload> {
   private _fields: Partial<T> = {}
+  private _previousHash?: string
   private _schema: string
 
   constructor({ schema }: XyoPayloadBuilderOptions) {
@@ -20,9 +21,14 @@ export class XyoPayloadBuilder<T extends XyoPayload> {
     return this
   }
 
+  public previousHash(hash?: string) {
+    this._previousHash = hash
+    return this
+  }
+
   public hashableFields() {
     return {
-      ...removeEmptyFields(removeUnderscoreFields(this._fields)),
+      ...removeEmptyFields(removeUnderscoreFields({ ...this._fields, previousHash: this._previousHash })),
       schema: this._schema,
     } as T
   }

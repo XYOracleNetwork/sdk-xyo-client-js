@@ -2337,10 +2337,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.18":
-  version: 17.0.18
-  resolution: "@types/node@npm:17.0.18"
-  checksum: 6c4edfc2b3ba2342a9c3d56e934c5245948ab752f4dc04bd6790b9603e6ebc53bc4f5befc3662e207f7dba2ddd17ccf657f915e319ea7cdd4f77b851079d1611
+"@types/node@npm:*, @types/node@npm:^17.0.19":
+  version: 17.0.19
+  resolution: "@types/node@npm:17.0.19"
+  checksum: 6bbd35bfc23dd50d1aefd4ae49c31f7fd632be209dba67c0322bb4fe8b555f4bb6e894018963146ad7758ae596857d5cbecc2d46ddf90a54f6a4424811cf4351
   languageName: node
   linkType: hard
 
@@ -2778,7 +2778,7 @@ __metadata:
     "@types/elliptic": ^6.4.14
     "@types/jest": ^27.4.0
     "@types/lodash": ^4.14.178
-    "@types/node": ^17.0.18
+    "@types/node": ^17.0.19
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
     "@types/uuid": ^8.3.4
@@ -2810,11 +2810,11 @@ __metadata:
     rollbar: ^2.24.0
     rollup: ^2.67.3
     sha.js: ^2.4.11
-    systeminformation: ^5.11.3
+    systeminformation: ^5.11.4
     ts-jest: ^27.1.3
     ts-node: ^10.5.0
     tslib: ^2.3.1
-    typedoc: ^0.22.11
+    typedoc: ^0.22.12
     typescript: ^4.5.5
     ua-parser-js: ^1.0.2
     uuid: ^8.3.2
@@ -11261,12 +11261,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.11.3":
-  version: 5.11.3
-  resolution: "systeminformation@npm:5.11.3"
+"systeminformation@npm:^5.11.4":
+  version: 5.11.4
+  resolution: "systeminformation@npm:5.11.4"
   bin:
     systeminformation: lib/cli.js
-  checksum: 9d27028dd43b233173519ee03a228df6d2cdbf2c8723ad54b60553092c528e1b9756cd88973d69968afa48b664e7c68a35d3cc8b5cc22af51a823f0712b54dbf
+  checksum: fcb71b933c6d77072f2ad86b7688f0fa6feb975829eeddd1fc877e0e99dff0ff50cc11c978b97b1662c9d935a3b19c6e01a110d7e6481d7232fd6e2c23fcf10c
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -11669,9 +11669,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.22.11":
-  version: 0.22.11
-  resolution: "typedoc@npm:0.22.11"
+"typedoc@npm:^0.22.12":
+  version: 0.22.12
+  resolution: "typedoc@npm:0.22.12"
   dependencies:
     glob: ^7.2.0
     lunr: ^2.3.9
@@ -11682,7 +11682,7 @@ __metadata:
     typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x
   bin:
     typedoc: bin/typedoc
-  checksum: 7d29f4b771d3eadc612d0b35509ee88c153d7310b7adb57faf0740132765613d6ceceb94877148d674cfc8242ca3c2e22e3ae2060768b2d96842bf14659d1b1c
+  checksum: 8e04851fed6ba125dad226df121386b66a4b79035ea2650cc1f311cc8b903d89bc2e82e5641327e647b68af4fb12e06305287f5e8abe25d3790e9ad8753ab5ed
   languageName: node
   linkType: hard
 

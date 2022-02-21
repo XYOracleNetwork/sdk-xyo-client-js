@@ -1,3 +1,6 @@
+import { assertEx } from '@xylabs/sdk-js'
+import { assert } from 'console'
+
 import { XyoAddress } from '../Address'
 import { XyoArchivistApi } from '../ArchivistApi'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'
@@ -24,6 +27,10 @@ export class XyoPanel {
   public config: XyoPanelConfig
   public history: XyoBoundWitness[] = []
   constructor(config: XyoPanelConfig) {
+    assertEx(config.witnesses.length > 0, 'At least one witness is required')
+    config.witnesses.map((witenss) => {
+      assertEx(witenss, 'Null/undefined witnesses are not allowed')
+    })
     this.config = config
   }
 

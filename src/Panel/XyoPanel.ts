@@ -1,5 +1,3 @@
-import { assertEx } from '@xylabs/sdk-js'
-
 import { XyoAddress } from '../Address'
 import { XyoArchivistApi } from '../ArchivistApi'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'

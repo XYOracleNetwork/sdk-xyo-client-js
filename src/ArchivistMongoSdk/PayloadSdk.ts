@@ -122,7 +122,12 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     const _timestamp = Date.now()
     const itemsToInsert = items.map((item) => {
       const wrapper = new XyoPayloadWrapper(item)
-      return { ...item, _hash: wrapper.sortedHash(), _timestamp }
+      return {
+        ...item,
+        _archive: this._archive,
+        _hash: wrapper.sortedHash(),
+        _timestamp,
+      }
     })
     return await super.insertMany(itemsToInsert)
   }

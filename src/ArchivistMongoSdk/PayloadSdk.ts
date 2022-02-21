@@ -5,7 +5,7 @@ import { Collection, ExplainVerbosity } from 'mongodb'
 import { XyoPayload } from '../models'
 import { XyoPayloadWrapper } from '../Payload'
 
-class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
+export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   private _archive: string
   private _maxTime: number
   constructor(config: BaseMongoSdkConfig, archive: string, maxTime = 2000) {
@@ -20,15 +20,57 @@ class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     })
   }
 
-  public async insert(item: XyoPayload) {
-    const _timestamp = Date.now()
-    const wrapper = new XyoPayloadWrapper(item)
-    return await super.insertOne({
-      ...item,
-      _archive: this._archive,
-      _hash: wrapper.sortedHash(),
-      _timestamp,
+  public async findRecentQuery(limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoPayload>) => {
+      return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
     })
+  }
+
+  public async findRecent(limit = 20) {
+    return (await this.findRecentQuery(limit)).toArray()
+  }
+
+  public async findRecentPlan(limit = 20) {
+    return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
+  }
+
+  private async findAfterQuery(timestamp: number, limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoPayload>) => {
+      return collection
+        .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
+        .sort({ _timestamp: -1 })
+        .limit(limit)
+        .maxTimeMS(this._maxTime)
+    })
+  }
+
+  public async findAfter(timestamp: number, limit = 20) {
+    return (await this.findAfterQuery(timestamp, limit)).toArray()
+  }
+
+  public async findAfterPlan(timestamp: number, limit = 20) {
+    return (await this.findAfterQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
+  }
+
+  private async findBeforeQuery(timestamp: number, limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoPayload>) => {
+      return collection
+        .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
+        .sort({ _timestamp: -1 })
+        .limit(limit)
+        .maxTimeMS(this._maxTime)
+    })
+  }
+
+  public async findBefore(timestamp: number, limit = 20) {
+    return (await this.findBeforeQuery(timestamp, limit)).toArray()
+  }
+
+  public async findBeforePlan(timestamp: number, limit = 20) {
+    return (await this.findBeforeQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
   public async findByHash(hash: string) {
@@ -65,19 +107,15 @@ class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     })
   }
 
-  public async findRecentQuery(limit: number) {
-    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoPayload>) => {
-      return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
+  public async insert(item: XyoPayload) {
+    const _timestamp = Date.now()
+    const wrapper = new XyoPayloadWrapper(item)
+    return await super.insertOne({
+      ...item,
+      _archive: this._archive,
+      _hash: wrapper.sortedHash(),
+      _timestamp,
     })
-  }
-
-  public async findRecent(limit = 20) {
-    return (await this.findRecentQuery(limit)).toArray()
-  }
-
-  public async findRecentPlan(limit = 20) {
-    return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
   public override async insertMany(items: XyoPayload[]) {
@@ -89,5 +127,3 @@ class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     return await super.insertMany(itemsToInsert)
   }
 }
-
-export { XyoArchivistPayloadMongoSdk }

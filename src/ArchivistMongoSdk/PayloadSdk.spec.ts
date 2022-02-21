@@ -19,7 +19,7 @@ const getMongoSdk = (archive: string) => {
   )
 }
 
-describe.skip('XyoArchivistPayloadMongoSdk', () => {
+describe('XyoArchivistPayloadMongoSdk', () => {
   describe('findAfter', () => {
     it('uses an index to perform the query', async () => {
       if (process.env.MONGO_CONNECTION_STRING) {

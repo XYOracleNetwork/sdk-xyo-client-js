@@ -19,10 +19,16 @@ const getMongoSdk = (archive: string) => {
   )
 }
 
-test('all', async () => {
-  if (process.env.MONGO_CONNECTION_STRING) {
-    const sdk = getMongoSdk('test')
-    const plan = await sdk.findRecentPlan(100)
-    console.log(`Plan: ${JSON.stringify(plan.queryPlanner.winningPlan, null, 2)}`)
-  }
+describe('XyoArchivistBoundWitnessMongoSdk', () => {
+  describe('findRecent', () => {
+    it('uses an index to perform the query', async () => {
+      if (process.env.MONGO_CONNECTION_STRING) {
+        const sdk = getMongoSdk('test')
+        const limit = 100
+        const plan = await sdk.findRecentPlan(limit)
+        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+        // expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.keysExamined).toBe(limit)
+      }
+    })
+  })
 })

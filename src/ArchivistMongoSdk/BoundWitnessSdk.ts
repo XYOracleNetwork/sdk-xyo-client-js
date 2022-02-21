@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection } from 'mongodb'
+import { Collection, ExplainVerbosity } from 'mongodb'
 
 import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
@@ -36,7 +36,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
   }
 
   public async findRecentPlan(limit = 20, client?: string) {
-    return (await this.findRecentQuery(limit, client)).explain()
+    return (await this.findRecentQuery(limit, client)).explain(ExplainVerbosity.allPlansExecution)
   }
 
   private async findAfterQuery(timestamp: number, limit: number, client?: string) {
@@ -59,7 +59,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
   }
 
   public async findAfterPlan(timestamp: number, limit = 20, client?: string) {
-    return (await this.findAfterQuery(timestamp, limit, client)).explain()
+    return (await this.findAfterQuery(timestamp, limit, client)).explain(ExplainVerbosity.allPlansExecution)
   }
 
   private async findBeforeQuery(timestamp: number, limit: number, client?: string) {
@@ -82,7 +82,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
   }
 
   public async findBeforePlan(timestamp: number, limit = 20, client?: string) {
-    return (await this.findBeforeQuery(timestamp, limit, client)).explain()
+    return (await this.findBeforeQuery(timestamp, limit, client)).explain(ExplainVerbosity.allPlansExecution)
   }
 
   public async findByHash(hash: string) {

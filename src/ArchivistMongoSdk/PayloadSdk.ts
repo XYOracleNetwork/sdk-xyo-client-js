@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection } from 'mongodb'
+import { Collection, ExplainVerbosity } from 'mongodb'
 
 import { XyoPayload } from '../models'
 import { XyoPayloadWrapper } from '../Payload'
@@ -77,7 +77,7 @@ class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   }
 
   public async findRecentPlan(limit = 20) {
-    return (await this.findRecentQuery(limit)).explain()
+    return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
   public override async insertMany(items: XyoPayload[]) {

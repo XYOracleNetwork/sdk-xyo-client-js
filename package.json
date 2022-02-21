@@ -111,6 +111,6 @@
   },
   "sideEffects": true,
   "types": "dist/index.d.ts",
-  "version": "2.10.15",
+  "version": "2.10.16",
   "packageManager": "yarn@3.1.1"
 }

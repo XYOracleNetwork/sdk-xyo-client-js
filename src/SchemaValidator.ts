@@ -3,7 +3,7 @@ import { domainExists } from './domainExists'
 /**
  * Validates a XYO schema structure and existance
  */
-class SchemaValidator {
+export class XyoSchemaValidator {
   public schema: string
   constructor(schema: string) {
     this.schema = schema
@@ -121,4 +121,5 @@ class SchemaValidator {
   }
 }
 
-export { SchemaValidator }
+/** @deprectated use XyoSchemaValidator instead */
+export class SchemaValidator extends XyoSchemaValidator {}

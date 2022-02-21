@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { assert } from 'console'
 
 import { XyoAddress } from '../Address'
 import { XyoArchivistApi } from '../ArchivistApi'

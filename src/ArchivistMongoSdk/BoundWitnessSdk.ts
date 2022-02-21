@@ -20,69 +20,57 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     })
   }
 
-  private async findRecentQuery(limit: number, client?: string) {
+  private async findRecentQuery(limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
+      return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
+    })
+  }
+
+  public async findRecent(limit = 20) {
+    return (await this.findRecentQuery(limit)).toArray()
+  }
+
+  public async findRecentPlan(limit = 20) {
+    return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
+  }
+
+  private async findAfterQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
       return collection
-        .find(client ? { _archive: this._archive, _client: client } : { _archive: this._archive })
+        .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
         .sort({ _timestamp: -1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
   }
 
-  public async findRecent(limit = 20, client?: string) {
-    return (await this.findRecentQuery(limit, client)).toArray()
+  public async findAfter(timestamp: number, limit = 20) {
+    return (await this.findAfterQuery(timestamp, limit)).toArray()
   }
 
-  public async findRecentPlan(limit = 20, client?: string) {
-    return (await this.findRecentQuery(limit, client)).explain(ExplainVerbosity.allPlansExecution)
+  public async findAfterPlan(timestamp: number, limit = 20) {
+    return (await this.findAfterQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  private async findAfterQuery(timestamp: number, limit: number, client?: string) {
+  private async findBeforeQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
       return collection
-        .find(
-          client
-            ? { _archive: this._archive, _client: client, _timestamp: { $gt: timestamp } }
-            : { _archive: this._archive, _timestamp: { $gt: timestamp } }
-        )
+        .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
         .sort({ _timestamp: -1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
   }
 
-  public async findAfter(timestamp: number, limit = 20, client?: string) {
-    return (await this.findAfterQuery(timestamp, limit, client)).toArray()
+  public async findBefore(timestamp: number, limit = 20) {
+    return (await this.findBeforeQuery(timestamp, limit)).toArray()
   }
 
-  public async findAfterPlan(timestamp: number, limit = 20, client?: string) {
-    return (await this.findAfterQuery(timestamp, limit, client)).explain(ExplainVerbosity.allPlansExecution)
-  }
-
-  private async findBeforeQuery(timestamp: number, limit: number, client?: string) {
-    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
-      return collection
-        .find(
-          client
-            ? { _archive: this._archive, _client: client, _timestamp: { $lt: timestamp } }
-            : { _archive: this._archive, _timestamp: { $lt: timestamp } }
-        )
-        .sort({ _timestamp: -1 })
-        .limit(limit)
-        .maxTimeMS(this._maxTime)
-    })
-  }
-
-  public async findBefore(timestamp: number, limit = 20, client?: string) {
-    return (await this.findBeforeQuery(timestamp, limit, client)).toArray()
-  }
-
-  public async findBeforePlan(timestamp: number, limit = 20, client?: string) {
-    return (await this.findBeforeQuery(timestamp, limit, client)).explain(ExplainVerbosity.allPlansExecution)
+  public async findBeforePlan(timestamp: number, limit = 20) {
+    return (await this.findBeforeQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
   public async findByHash(hash: string) {

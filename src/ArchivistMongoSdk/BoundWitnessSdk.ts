@@ -25,7 +25,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
       return collection
         .find(client ? { _archive: this._archive, _client: client } : { _archive: this._archive })
-        .sort(client ? { _archive: -1, _client: -1, _timestamp: -1 } : { _archive: -1, _timestamp: -1 })
+        .sort({ _timestamp: -1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
@@ -48,7 +48,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
             ? { _archive: this._archive, _client: client, _timestamp: { $gt: timestamp } }
             : { _archive: this._archive, _timestamp: { $gt: timestamp } }
         )
-        .sort(client ? { _archive: -1, _client: -1, _timestamp: -1 } : { _archive: -1, _timestamp: -1 })
+        .sort({ _timestamp: -1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
@@ -71,7 +71,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
             ? { _archive: this._archive, _client: client, _timestamp: { $lt: timestamp } }
             : { _archive: this._archive, _timestamp: { $lt: timestamp } }
         )
-        .sort(client ? { _archive: 1, _client: 1, _timestamp: 1 } : { _archive: 1, _timestamp: 1 })
+        .sort({ _timestamp: -1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })

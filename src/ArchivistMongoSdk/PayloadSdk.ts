@@ -68,11 +68,7 @@ class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   public async findRecentQuery(limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     return await this.useCollection((collection: Collection<XyoPayload>) => {
-      return collection
-        .find({ _archive: this._archive })
-        .sort({ _archive: -1, _timestamp: -1 })
-        .limit(limit)
-        .maxTimeMS(this._maxTime)
+      return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
     })
   }
 

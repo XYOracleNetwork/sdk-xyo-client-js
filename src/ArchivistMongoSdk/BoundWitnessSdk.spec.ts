@@ -20,6 +20,32 @@ const getMongoSdk = (archive: string) => {
 }
 
 describe('XyoArchivistBoundWitnessMongoSdk', () => {
+  describe('findAfter', () => {
+    it('uses an index to perform the query', async () => {
+      if (process.env.MONGO_CONNECTION_STRING) {
+        const sdk = getMongoSdk('test')
+        const limit = 100
+        const plan = await sdk.findAfterPlan(limit)
+        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
+      }
+    })
+  })
+  describe('findBefore', () => {
+    it('uses an index to perform the query', async () => {
+      if (process.env.MONGO_CONNECTION_STRING) {
+        const sdk = getMongoSdk('test')
+        const limit = 100
+        const plan = await sdk.findBeforePlan(limit)
+        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
+      }
+    })
+  })
   describe('findRecent', () => {
     it('uses an index to perform the query', async () => {
       if (process.env.MONGO_CONNECTION_STRING) {
@@ -27,7 +53,9 @@ describe('XyoArchivistBoundWitnessMongoSdk', () => {
         const limit = 100
         const plan = await sdk.findRecentPlan(limit)
         expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
-        // expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.keysExamined).toBe(limit)
+        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
       }
     })
   })

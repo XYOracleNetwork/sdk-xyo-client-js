@@ -19,10 +19,46 @@ const getMongoSdk = (archive: string) => {
   )
 }
 
-test('all', async () => {
-  if (process.env.MONGO_CONNECTION_STRING) {
-    const sdk = getMongoSdk('test')
-    const plan = await sdk.findRecentPlan(100)
-    console.log(`Plan: ${JSON.stringify(plan.queryPlanner.winningPlan, null, 2)}`)
-  }
+describe.skip('XyoArchivistPayloadMongoSdk', () => {
+  /*
+  describe('findAfter', () => {
+    it('uses an index to perform the query', async () => {
+      if (process.env.MONGO_CONNECTION_STRING) {
+        const sdk = getMongoSdk('test')
+        const limit = 100
+        const plan = await sdk.findAfterPlan(limit)
+        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
+      }
+    })
+  })
+  describe('findBefore', () => {
+    it('uses an index to perform the query', async () => {
+      if (process.env.MONGO_CONNECTION_STRING) {
+        const sdk = getMongoSdk('test')
+        const limit = 100
+        const plan = await sdk.findBeforePlan(limit)
+        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
+      }
+    })
+  })
+  */
+  describe('findRecent', () => {
+    it('uses an index to perform the query', async () => {
+      if (process.env.MONGO_CONNECTION_STRING) {
+        const sdk = getMongoSdk('test')
+        const limit = 100
+        const plan = await sdk.findRecentPlan(limit)
+        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
+      }
+    })
+  })
 })

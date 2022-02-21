@@ -1,8 +1,8 @@
-import { isIP } from 'is-ip'
 import pick from 'lodash/pick'
 
 import { XyoHasher } from '../../Hasher'
 import { XyoBoundWitness } from '../../models'
+import { isIP } from './is-ip'
 
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000

@@ -1,7 +1,7 @@
 import { domainExists } from './domainExists'
 
 /**
- * Validates a XYO schema structure and existance
+ * Validates a XYO schema structure and existence
  */
 class SchemaValidator {
   public schema: string

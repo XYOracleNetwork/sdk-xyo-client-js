@@ -6,6 +6,7 @@ export interface ArchiveConfig extends ApiConfig {
 export interface LocationDivinerQuery {
   startTime?: string
   stopTime?: string
+  schema?: string
   // TODO: Bounding rectangle, etc.
 }
 export interface LocationDivinerQueryRequest {

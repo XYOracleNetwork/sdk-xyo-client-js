@@ -73,10 +73,45 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     return (await this.findBeforeQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  public async findByHash(hash: string) {
+  private async findByHashQuery(hash: string, timestamp?: number) {
+    const predicate = timestamp
+      ? { _archive: this._archive, _hash: hash, _timestamp: timestamp }
+      : { _archive: this._archive, _hash: hash }
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
-      return await collection.find({ _archive: this._archive, _hash: hash }).maxTimeMS(this._maxTime).toArray()
+      return await collection.find(predicate).maxTimeMS(this._maxTime)
     })
+  }
+
+  public async findByHash(hash: string, timestamp?: number) {
+    return (await this.findByHashQuery(hash, timestamp)).toArray()
+  }
+
+  public async findByHashPlan(hash: string, timestamp?: number) {
+    return (await this.findByHashQuery(hash, timestamp)).explain(ExplainVerbosity.allPlansExecution)
+  }
+
+  public async findAfterHash(hash: string, timestamp?: number, limit = 20) {
+    if (timestamp) return await this.findAfter(timestamp, limit)
+    const payloads = await this.findByHash(hash)
+    if (!payloads) return null
+    // If there's multiple occurrences, take the last to prevent
+    // never fully iterating the chain
+    const payload = payloads.pop()
+    const payloadTimestamp = payload?._timestamp || 0
+    assertEx(payloadTimestamp, 'Payload is missing a timestamp')
+    return await this.findAfter(payloadTimestamp, limit)
+  }
+
+  public async findBeforeHash(hash: string, timestamp?: number, limit = 20) {
+    if (timestamp) return await this.findBefore(timestamp, limit)
+    const payloads = await this.findByHash(hash)
+    if (!payloads) return null
+    // If there's multiple occurrences, take the first to prevent
+    // never fully iterating the chain
+    const payload = payloads.shift()
+    const payloadTimestamp = payload?._timestamp || 0
+    assertEx(payloadTimestamp, 'Payload is missing a timestamp')
+    return await this.findAfter(payloadTimestamp, limit)
   }
 
   public async updateByHash(hash: string, payload: XyoPayload) {

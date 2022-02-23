@@ -50,6 +50,7 @@
     "eslint": "^8.9.0",
     "jest": "^27.5.1",
     "jest-sorted": "^1.0.14",
+    "license-checker": "^25.0.1",
     "npm-package-json-lint": "^5.4.2",
     "npm-package-json-lint-config-default": "^3.0.0",
     "rimraf": "^3.0.2",
@@ -107,7 +108,8 @@
     "test:panel": "jest ./src/Panel",
     "test:address": "jest ./src/Address",
     "test:mongo": "jest ./src/ArchivistMongoSdk",
-    "test:neo4j": "jest ./src/ArchivistNeo4jSdk"
+    "test:neo4j": "jest ./src/ArchivistNeo4jSdk",
+    "license": "yarn license-checker --exclude \"MIT, ISC, Apache-2.0, BSD, BSD-2-Clause, CC-BY-4.0, Unlicense, CC-BY-3.0, CC0-1.0\""
   },
   "sideEffects": true,
   "types": "dist/index.d.ts",

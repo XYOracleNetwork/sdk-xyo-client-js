@@ -40,7 +40,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     return await this.useCollection((collection: Collection<XyoPayload>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
-        .sort({ _timestamp: -1 })
+        .sort({ _timestamp: 1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
@@ -88,30 +88,6 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
 
   public async findByHashPlan(hash: string, timestamp?: number) {
     return (await this.findByHashQuery(hash, timestamp)).explain(ExplainVerbosity.allPlansExecution)
-  }
-
-  public async findAfterHash(hash: string, limit = 20, timestamp?: number) {
-    if (timestamp) return await this.findAfter(timestamp, limit)
-    const payloads = await this.findByHash(hash)
-    if (!payloads) return null
-    // If there's multiple occurrences, take the last to prevent
-    // never fully iterating the chain
-    const payload = payloads.pop()
-    const payloadTimestamp = payload?._timestamp || 0
-    assertEx(payloadTimestamp, 'Payload is missing a timestamp')
-    return await this.findAfter(payloadTimestamp, limit)
-  }
-
-  public async findBeforeHash(hash: string, limit = 20, timestamp?: number) {
-    if (timestamp) return await this.findBefore(timestamp, limit)
-    const payloads = await this.findByHash(hash)
-    if (!payloads) return null
-    // If there's multiple occurrences, take the first to prevent
-    // never fully iterating the chain
-    const payload = payloads.shift()
-    const payloadTimestamp = payload?._timestamp || 0
-    assertEx(payloadTimestamp, 'Payload is missing a timestamp')
-    return await this.findAfter(payloadTimestamp, limit)
   }
 
   public async updateByHash(hash: string, payload: XyoPayload) {

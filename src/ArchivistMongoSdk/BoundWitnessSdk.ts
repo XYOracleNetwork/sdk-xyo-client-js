@@ -40,7 +40,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
-        .sort({ _timestamp: -1 })
+        .sort({ _timestamp: 1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
@@ -88,30 +88,6 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
 
   public async findByHashPlan(hash: string, timestamp?: number) {
     return (await this.findByHashQuery(hash, timestamp)).explain(ExplainVerbosity.allPlansExecution)
-  }
-
-  public async findAfterHash(hash: string, limit = 20, timestamp?: number) {
-    if (timestamp) return await this.findAfter(timestamp, limit)
-    const blocks = await this.findByHash(hash)
-    if (!blocks) return null
-    // If there's multiple occurrences, take the last to prevent
-    // never fully iterating the chain
-    const block = blocks.pop()
-    const blockTimestamp = block?._timestamp || 0
-    assertEx(blockTimestamp, 'Block is missing a timestamp')
-    return await this.findAfter(blockTimestamp, limit)
-  }
-
-  public async findBeforeHash(hash: string, limit = 20, timestamp?: number) {
-    if (timestamp) return await this.findBefore(timestamp, limit)
-    const blocks = await this.findByHash(hash)
-    if (!blocks) return null
-    // If there's multiple occurrences, take the first to prevent
-    // never fully iterating the chain
-    const block = blocks.shift()
-    const blockTimestamp = block?._timestamp || 0
-    assertEx(blockTimestamp, 'Block is missing a timestamp')
-    return await this.findAfter(blockTimestamp, limit)
   }
 
   public async updateByHash(hash: string, bw: XyoBoundWitness) {

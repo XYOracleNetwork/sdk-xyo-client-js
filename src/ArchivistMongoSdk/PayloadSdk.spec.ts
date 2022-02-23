@@ -38,9 +38,27 @@ describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
   const sdk = getMongoSdk('test')
   const payloads = getPayloads(numPayloads)
   beforeAll(async () => {
-    await sdk.insertMany(payloads)
+    await payloads.map(async (p) => await sdk.insert(p))
   })
   describe('findAfter', () => {
+    let payload: XyoPayload | undefined
+    let hash = ''
+    let timestamp = 0
+    beforeAll(async () => {
+      hash = payloads[0]?._hash || ''
+      expect(hash).toBeTruthy()
+      payload = (await sdk.findByHash(hash))[0]
+      expect(payload).toBeDefined()
+      timestamp = payload?._timestamp || 0
+      expect(timestamp).toBeTruthy()
+    })
+    it('finds all records after the specified timestamp', async () => {
+      const actual = await sdk.findAfter(0, limit)
+      expect(actual.length).toBe(limit)
+      expect(actual).toBeSortedBy('_timestamp', { descending: false })
+      const hashes = actual?.map?.((bw) => bw._hash)
+      expect(hashes).not.toContain(hash)
+    })
     it('uses an index to perform the query', async () => {
       const plan = await sdk.findAfterPlan(0, limit)
       expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
@@ -50,6 +68,24 @@ describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
     })
   })
   describe('findBefore', () => {
+    let payload: XyoPayload | undefined
+    let hash = ''
+    let timestamp = 0
+    beforeAll(async () => {
+      hash = payloads[payloads.length - 1]?._hash || ''
+      expect(hash).toBeTruthy()
+      payload = (await sdk.findByHash(hash))[0]
+      expect(payload).toBeDefined()
+      timestamp = payload?._timestamp || 0
+      expect(timestamp).toBeTruthy()
+    })
+    it('finds all records before the specified timestamp', async () => {
+      const actual = await sdk.findBefore(timestamp, limit)
+      expect(actual.length).toBe(limit)
+      expect(actual).toBeSortedBy('_timestamp', { descending: true })
+      const hashes = actual?.map?.((bw) => bw._hash)
+      expect(hashes).not.toContain(hash)
+    })
     it('uses an index to perform the query', async () => {
       const plan = await sdk.findBeforePlan(Date.now(), limit)
       expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
@@ -92,56 +128,6 @@ describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
       expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
       expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
       expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
-    })
-  })
-  describe('findAfterHash', () => {
-    let payload: XyoPayload | undefined
-    let hash = ''
-    let timestamp = 0
-    beforeAll(async () => {
-      hash = payloads[0]?._hash || ''
-      expect(hash).toBeTruthy()
-      payload = (await sdk.findByHash(hash))[0]
-      expect(payload).toBeDefined()
-      timestamp = payload?._timestamp || 0
-      expect(timestamp).toBeTruthy()
-    })
-    it('Finds all records after the specified hash', async () => {
-      const actual = await sdk.findAfterHash(hash, limit)
-      expect(actual).toBeSortedBy('_timestamp', { descending: true })
-      const hashes = actual?.map?.((bw) => bw._hash)
-      expect(hashes).not.toContain(hash)
-    })
-    it('Finds all records after the specified hash/timestamp', async () => {
-      const actual = await sdk.findAfterHash(hash, limit, timestamp)
-      expect(actual).toBeSortedBy('_timestamp', { descending: true })
-      const hashes = actual?.map?.((bw) => bw._hash)
-      expect(hashes).not.toContain(hash)
-    })
-  })
-  describe('findBeforeHash', () => {
-    let payload: XyoPayload | undefined
-    let hash = ''
-    let timestamp = 0
-    beforeAll(async () => {
-      hash = payloads[payloads.length - 1]?._hash || ''
-      expect(hash).toBeTruthy()
-      payload = (await sdk.findByHash(hash))[0]
-      expect(payload).toBeDefined()
-      timestamp = payload?._timestamp || 0
-      expect(timestamp).toBeTruthy()
-    })
-    it('Finds all records before the specified hash', async () => {
-      const actual = await sdk.findBeforeHash(hash, limit)
-      expect(actual).toBeSortedBy('_timestamp', { descending: true })
-      const hashes = actual?.map?.((bw) => bw._hash)
-      expect(hashes).not.toContain(hash)
-    })
-    it('Finds all records before the specified hash/timestamp', async () => {
-      const actual = await sdk.findBeforeHash(hash, limit, timestamp)
-      expect(actual).toBeSortedBy('_timestamp', { descending: true })
-      const hashes = actual?.map?.((bw) => bw._hash)
-      expect(hashes).not.toContain(hash)
     })
   })
 })

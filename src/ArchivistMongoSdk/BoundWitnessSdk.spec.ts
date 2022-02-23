@@ -82,13 +82,31 @@ describe('XyoArchivistBoundWitnessMongoSdk', () => {
         const numBoundWitnesses = 5
         const boundWitnesses = getBoundWitnesses(numBoundWitnesses)
         await sdk.insertMany(boundWitnesses)
-        const first = boundWitnesses.shift()
+        const first = (await sdk.findByHash(boundWitnesses.shift()?._hash || '')).pop()
         expect(first).toBeDefined()
         const hash = first?._hash || ''
         expect(hash).toBeTruthy()
         const timestamp = first?._timestamp || 0
         expect(timestamp).toBeTruthy()
         const actual = await sdk.findAfterHash(hash)
+        expect(actual).toBeSortedBy('_timestamp', { descending: true })
+        const hashes = actual?.map?.((bw) => bw._hash)
+        expect(hashes).not.toContain(hash)
+      }
+    })
+    it('Finds all records after the specified hash/timestamp', async () => {
+      if (process.env.MONGO_CONNECTION_STRING) {
+        const sdk = getMongoSdk('test')
+        const numBoundWitnesses = 5
+        const boundWitnesses = getBoundWitnesses(numBoundWitnesses)
+        await sdk.insertMany(boundWitnesses)
+        const first = (await sdk.findByHash(boundWitnesses.shift()?._hash || '')).pop()
+        expect(first).toBeDefined()
+        const hash = first?._hash || ''
+        expect(hash).toBeTruthy()
+        const timestamp = first?._timestamp || 0
+        expect(timestamp).toBeTruthy()
+        const actual = await sdk.findAfterHash(hash, timestamp)
         expect(actual).toBeSortedBy('_timestamp', { descending: true })
         const hashes = actual?.map?.((bw) => bw._hash)
         expect(hashes).not.toContain(hash)
@@ -102,13 +120,31 @@ describe('XyoArchivistBoundWitnessMongoSdk', () => {
         const numBoundWitnesses = 5
         const boundWitnesses = getBoundWitnesses(numBoundWitnesses)
         await sdk.insertMany(boundWitnesses)
-        const last = boundWitnesses.pop()
+        const last = (await sdk.findByHash(boundWitnesses.pop()?._hash || '')).pop()
         expect(last).toBeDefined()
         const hash = last?._hash || ''
         expect(hash).toBeTruthy()
         const timestamp = last?._timestamp || 0
         expect(timestamp).toBeTruthy()
         const actual = await sdk.findBeforeHash(hash)
+        expect(actual).toBeSortedBy('_timestamp', { descending: true })
+        const hashes = actual?.map?.((bw) => bw._hash)
+        expect(hashes).not.toContain(hash)
+      }
+    })
+    it('Finds all records before the specified hash/timestamp', async () => {
+      if (process.env.MONGO_CONNECTION_STRING) {
+        const sdk = getMongoSdk('test')
+        const numBoundWitnesses = 5
+        const boundWitnesses = getBoundWitnesses(numBoundWitnesses)
+        await sdk.insertMany(boundWitnesses)
+        const last = (await sdk.findByHash(boundWitnesses.pop()?._hash || '')).pop()
+        expect(last).toBeDefined()
+        const hash = last?._hash || ''
+        expect(hash).toBeTruthy()
+        const timestamp = last?._timestamp || 0
+        expect(timestamp).toBeTruthy()
+        const actual = await sdk.findBeforeHash(hash, timestamp)
         expect(actual).toBeSortedBy('_timestamp', { descending: true })
         const hashes = actual?.map?.((bw) => bw._hash)
         expect(hashes).not.toContain(hash)

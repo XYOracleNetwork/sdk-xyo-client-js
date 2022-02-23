@@ -2798,6 +2798,7 @@ __metadata:
     elliptic: ^6.5.4
     eslint: ^8.9.0
     jest: ^27.5.1
+    jest-sorted: ^1.0.14
     keccak256: ^1.0.6
     lodash: ^4.17.21
     mongodb: ^4.4.0
@@ -6638,6 +6639,13 @@ __metadata:
     pretty-format: ^27.5.1
     semver: ^7.3.2
   checksum: a5cfadf0d21cd76063925d1434bc076443ed6d87847d0e248f0b245f11db3d98ff13e45cc03b15404027dabecd712d925f47b6eae4f64986f688640a7d362514
+  languageName: node
+  linkType: hard
+
+"jest-sorted@npm:^1.0.14":
+  version: 1.0.14
+  resolution: "jest-sorted@npm:1.0.14"
+  checksum: 288d9161378436317060a47c0ea7f65126bd7dd5deebe0a110c363269ce64ffbf25ce6b5432b4d821c1aab9b021f98ebc5f3d4a55168876f1a012d47867e7ca0
   languageName: node
   linkType: hard
 

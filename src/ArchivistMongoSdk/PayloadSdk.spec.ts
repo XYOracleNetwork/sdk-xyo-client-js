@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 import { v4 } from 'uuid'
 
+import { XyoPayload } from '../models'
 import { XyoPayloadBuilder } from '../Payload'
 import { XyoArchivistPayloadMongoSdk } from './PayloadSdk'
 
@@ -29,120 +30,118 @@ const getPayloads = (number = 5) => {
   })
 }
 
-describe('XyoArchivistPayloadMongoSdk', () => {
+const describeSkipIfNoDB = process.env.MONGO_CONNECTION_STRING ? describe : describe.skip
+
+describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
+  const numPayloads = 20
+  const limit = 10
+  const sdk = getMongoSdk('test')
+  const payloads = getPayloads(numPayloads)
+  beforeAll(async () => {
+    await sdk.insertMany(payloads)
+  })
   describe('findAfter', () => {
     it('uses an index to perform the query', async () => {
-      if (process.env.MONGO_CONNECTION_STRING) {
-        const sdk = getMongoSdk('test')
-        const limit = 100
-        const plan = await sdk.findAfterPlan(limit)
-        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
-        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
-        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
-        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
-      }
+      const plan = await sdk.findAfterPlan(0, limit)
+      expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+      expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
     })
   })
   describe('findBefore', () => {
     it('uses an index to perform the query', async () => {
-      if (process.env.MONGO_CONNECTION_STRING) {
-        const sdk = getMongoSdk('test')
-        const limit = 100
-        const plan = await sdk.findBeforePlan(limit)
-        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
-        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
-        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
-        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
-      }
+      const plan = await sdk.findBeforePlan(Date.now(), limit)
+      expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+      expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
     })
   })
   describe('findRecent', () => {
     it('uses an index to perform the query', async () => {
-      if (process.env.MONGO_CONNECTION_STRING) {
-        const sdk = getMongoSdk('test')
-        const limit = 100
-        const plan = await sdk.findRecentPlan(limit)
-        expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
-        expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
-        expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
-        expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
-      }
+      const plan = await sdk.findRecentPlan(limit)
+      expect(plan?.queryPlanner?.winningPlan?.inputStage?.inputStage?.stage).toBe('IXSCAN')
+      expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
+    })
+  })
+  describe('findByHash', () => {
+    let payload: XyoPayload | undefined
+    let hash = ''
+    let timestamp = 0
+    beforeAll(async () => {
+      hash = payloads[Math.floor(Math.random() * payloads.length)]?._hash || ''
+      expect(hash).toBeTruthy()
+      payload = (await sdk.findByHash(hash))[0]
+      expect(payload).toBeDefined()
+      timestamp = payload?._timestamp || 0
+      expect(timestamp).toBeTruthy()
+    })
+    it('uses an index to perform the query by hash', async () => {
+      const plan = await sdk.findByHashPlan(hash)
+      expect(plan?.queryPlanner?.winningPlan?.inputStage?.stage).toBe('IXSCAN')
+      expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
+    })
+    it('uses an index to perform the query by hash/timestamp', async () => {
+      const plan = await sdk.findByHashPlan(hash, timestamp)
+      expect(plan?.queryPlanner?.winningPlan?.inputStage?.stage).toBe('IXSCAN')
+      expect(plan?.executionStats?.nReturned).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalDocsExamined).toBeLessThanOrEqual(limit)
+      expect(plan?.executionStats?.totalKeysExamined).toBeLessThanOrEqual(limit)
     })
   })
   describe('findAfterHash', () => {
+    let payload: XyoPayload | undefined
+    let hash = ''
+    let timestamp = 0
+    beforeAll(async () => {
+      hash = payloads[0]?._hash || ''
+      expect(hash).toBeTruthy()
+      payload = (await sdk.findByHash(hash))[0]
+      expect(payload).toBeDefined()
+      timestamp = payload?._timestamp || 0
+      expect(timestamp).toBeTruthy()
+    })
     it('Finds all records after the specified hash', async () => {
-      if (process.env.MONGO_CONNECTION_STRING) {
-        const sdk = getMongoSdk('test')
-        const numPayloads = 5
-        const payloads = getPayloads(numPayloads)
-        await sdk.insertMany(payloads)
-        const first = (await sdk.findByHash(payloads.shift()?._hash || '')).pop()
-        expect(first).toBeDefined()
-        const hash = first?._hash || ''
-        expect(hash).toBeTruthy()
-        const timestamp = first?._timestamp || 0
-        expect(timestamp).toBeTruthy()
-        const actual = await sdk.findAfterHash(hash)
-        expect(actual).toBeSortedBy('_timestamp', { descending: true })
-        const hashes = actual?.map?.((bw) => bw._hash)
-        expect(hashes).not.toContain(hash)
-      }
+      const actual = await sdk.findAfterHash(hash, limit)
+      expect(actual).toBeSortedBy('_timestamp', { descending: true })
+      const hashes = actual?.map?.((bw) => bw._hash)
+      expect(hashes).not.toContain(hash)
     })
     it('Finds all records after the specified hash/timestamp', async () => {
-      if (process.env.MONGO_CONNECTION_STRING) {
-        const sdk = getMongoSdk('test')
-        const numPayloads = 5
-        const payloads = getPayloads(numPayloads)
-        await sdk.insertMany(payloads)
-        const first = (await sdk.findByHash(payloads.shift()?._hash || '')).pop()
-        expect(first).toBeDefined()
-        const hash = first?._hash || ''
-        expect(hash).toBeTruthy()
-        const timestamp = first?._timestamp || 0
-        expect(timestamp).toBeTruthy()
-        const actual = await sdk.findAfterHash(hash, timestamp)
-        expect(actual).toBeSortedBy('_timestamp', { descending: true })
-        const hashes = actual?.map?.((bw) => bw._hash)
-        expect(hashes).not.toContain(hash)
-      }
+      const actual = await sdk.findAfterHash(hash, limit, timestamp)
+      expect(actual).toBeSortedBy('_timestamp', { descending: true })
+      const hashes = actual?.map?.((bw) => bw._hash)
+      expect(hashes).not.toContain(hash)
     })
   })
   describe('findBeforeHash', () => {
+    let payload: XyoPayload | undefined
+    let hash = ''
+    let timestamp = 0
+    beforeAll(async () => {
+      hash = payloads[payloads.length - 1]?._hash || ''
+      expect(hash).toBeTruthy()
+      payload = (await sdk.findByHash(hash))[0]
+      expect(payload).toBeDefined()
+      timestamp = payload?._timestamp || 0
+      expect(timestamp).toBeTruthy()
+    })
     it('Finds all records before the specified hash', async () => {
-      if (process.env.MONGO_CONNECTION_STRING) {
-        const sdk = getMongoSdk('test')
-        const numPayloads = 5
-        const payloads = getPayloads(numPayloads)
-        await sdk.insertMany(payloads)
-        const last = (await sdk.findByHash(payloads.pop()?._hash || '')).pop()
-        expect(last).toBeDefined()
-        const hash = last?._hash || ''
-        expect(hash).toBeTruthy()
-        const timestamp = last?._timestamp || 0
-        expect(timestamp).toBeTruthy()
-        const actual = await sdk.findBeforeHash(hash)
-        expect(actual).toBeSortedBy('_timestamp', { descending: true })
-        const hashes = actual?.map?.((bw) => bw._hash)
-        expect(hashes).not.toContain(hash)
-      }
+      const actual = await sdk.findBeforeHash(hash, limit)
+      expect(actual).toBeSortedBy('_timestamp', { descending: true })
+      const hashes = actual?.map?.((bw) => bw._hash)
+      expect(hashes).not.toContain(hash)
     })
     it('Finds all records before the specified hash/timestamp', async () => {
-      if (process.env.MONGO_CONNECTION_STRING) {
-        const sdk = getMongoSdk('test')
-        const numPayloads = 5
-        const payloads = getPayloads(numPayloads)
-        await sdk.insertMany(payloads)
-        const last = (await sdk.findByHash(payloads.pop()?._hash || '')).pop()
-        expect(last).toBeDefined()
-        const hash = last?._hash || ''
-        expect(hash).toBeTruthy()
-        const timestamp = last?._timestamp || 0
-        expect(timestamp).toBeTruthy()
-        const actual = await sdk.findBeforeHash(hash, timestamp)
-        expect(actual).toBeSortedBy('_timestamp', { descending: true })
-        const hashes = actual?.map?.((bw) => bw._hash)
-        expect(hashes).not.toContain(hash)
-      }
+      const actual = await sdk.findBeforeHash(hash, limit, timestamp)
+      expect(actual).toBeSortedBy('_timestamp', { descending: true })
+      const hashes = actual?.map?.((bw) => bw._hash)
+      expect(hashes).not.toContain(hash)
     })
   })
 })

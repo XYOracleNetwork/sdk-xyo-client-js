@@ -90,7 +90,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     return (await this.findByHashQuery(hash, timestamp)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  public async findAfterHash(hash: string, timestamp?: number, limit = 20) {
+  public async findAfterHash(hash: string, limit = 20, timestamp?: number) {
     if (timestamp) return await this.findAfter(timestamp, limit)
     const payloads = await this.findByHash(hash)
     if (!payloads) return null
@@ -102,7 +102,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     return await this.findAfter(payloadTimestamp, limit)
   }
 
-  public async findBeforeHash(hash: string, timestamp?: number, limit = 20) {
+  public async findBeforeHash(hash: string, limit = 20, timestamp?: number) {
     if (timestamp) return await this.findBefore(timestamp, limit)
     const payloads = await this.findByHash(hash)
     if (!payloads) return null

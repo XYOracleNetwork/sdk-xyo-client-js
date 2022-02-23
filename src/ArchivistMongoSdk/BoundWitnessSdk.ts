@@ -90,24 +90,6 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return (await this.findByHashQuery(hash, timestamp)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  public async findByHashBefore(hash: string, timestamp: number) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection
-        .find({ _archive: this._archive, _hash: hash, _timestamp: { $lt: timestamp } })
-        .maxTimeMS(this._maxTime)
-        .toArray()
-    })
-  }
-
-  public async findByHashAfter(hash: string, timestamp: number) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection
-        .find({ _archive: this._archive, _hash: hash, _timestamp: { $gt: timestamp } })
-        .maxTimeMS(this._maxTime)
-        .toArray()
-    })
-  }
-
   public async findAfterHash(hash: string, timestamp?: number, limit = 20) {
     if (timestamp) return await this.findAfter(timestamp, limit)
     const blocks = await this.findByHash(hash)

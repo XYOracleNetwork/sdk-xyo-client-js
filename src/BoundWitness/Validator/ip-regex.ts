@@ -103,4 +103,5 @@ ipRegex.v4 = (options?: Options): RegExp =>
 ipRegex.v6 = (options?: Options): RegExp =>
   options && options.exact ? v6exact : new RegExp(`${boundry(options)}${v6}${boundry(options)}`, 'g')
 
+// eslint-disable-next-line import/no-default-export
 export default ipRegex

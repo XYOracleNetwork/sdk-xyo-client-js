@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-import ipRegex from './ip-regex'
+import { ipRegex } from './ip-regex'
 
 /**
 Check if `string` is IPv6 or IPv4.

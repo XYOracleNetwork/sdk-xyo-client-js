@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection } from 'mongodb'
+import { Collection, ExplainVerbosity } from 'mongodb'
 
 import { XyoBoundWitnessWrapper } from '../BoundWitness'
 import { XyoBoundWitness } from '../models'
@@ -20,75 +20,98 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     })
   }
 
-  private async findRecentQuery(limit: number, client?: string) {
+  private async findRecentQuery(limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
+      return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
+    })
+  }
+
+  public async findRecent(limit = 20) {
+    return (await this.findRecentQuery(limit)).toArray()
+  }
+
+  public async findRecentPlan(limit = 20) {
+    return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
+  }
+
+  private async findAfterQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
       return collection
-        .find(client ? { _archive: this._archive, _client: client } : { _archive: this._archive })
-        .sort(client ? { _archive: -1, _client: -1, _timestamp: -1 } : { _archive: -1, _timestamp: -1 })
+        .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
+        .sort({ _timestamp: -1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
   }
 
-  public async findRecent(limit = 20, client?: string) {
-    return (await this.findRecentQuery(limit, client)).toArray()
+  public async findAfter(timestamp: number, limit = 20) {
+    return (await this.findAfterQuery(timestamp, limit)).toArray()
   }
 
-  public async findRecentPlan(limit = 20, client?: string) {
-    return (await this.findRecentQuery(limit, client)).explain()
+  public async findAfterPlan(timestamp: number, limit = 20) {
+    return (await this.findAfterQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  private async findAfterQuery(timestamp: number, limit: number, client?: string) {
+  private async findBeforeQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
       return collection
-        .find(
-          client
-            ? { _archive: this._archive, _client: client, _timestamp: { $gt: timestamp } }
-            : { _archive: this._archive, _timestamp: { $gt: timestamp } }
-        )
-        .sort(client ? { _archive: -1, _client: -1, _timestamp: -1 } : { _archive: -1, _timestamp: -1 })
+        .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
+        .sort({ _timestamp: -1 })
         .limit(limit)
         .maxTimeMS(this._maxTime)
     })
   }
 
-  public async findAfter(timestamp: number, limit = 20, client?: string) {
-    return (await this.findAfterQuery(timestamp, limit, client)).toArray()
+  public async findBefore(timestamp: number, limit = 20) {
+    return (await this.findBeforeQuery(timestamp, limit)).toArray()
   }
 
-  public async findAfterPlan(timestamp: number, limit = 20, client?: string) {
-    return (await this.findAfterQuery(timestamp, limit, client)).explain()
+  public async findBeforePlan(timestamp: number, limit = 20) {
+    return (await this.findBeforeQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  private async findBeforeQuery(timestamp: number, limit: number, client?: string) {
-    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
-      return collection
-        .find(
-          client
-            ? { _archive: this._archive, _client: client, _timestamp: { $lt: timestamp } }
-            : { _archive: this._archive, _timestamp: { $lt: timestamp } }
-        )
-        .sort(client ? { _archive: 1, _client: 1, _timestamp: 1 } : { _archive: 1, _timestamp: 1 })
-        .limit(limit)
-        .maxTimeMS(this._maxTime)
-    })
-  }
-
-  public async findBefore(timestamp: number, limit = 20, client?: string) {
-    return (await this.findBeforeQuery(timestamp, limit, client)).toArray()
-  }
-
-  public async findBeforePlan(timestamp: number, limit = 20, client?: string) {
-    return (await this.findBeforeQuery(timestamp, limit, client)).explain()
-  }
-
-  public async findByHash(hash: string) {
+  private async findByHashQuery(hash: string, timestamp?: number) {
+    const predicate = timestamp
+      ? { _archive: this._archive, _hash: hash, _timestamp: timestamp }
+      : { _archive: this._archive, _hash: hash }
     return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
-      return await collection.find({ _archive: this._archive, _hash: hash }).maxTimeMS(this._maxTime).toArray()
+      return await collection.find(predicate).maxTimeMS(this._maxTime)
     })
+  }
+
+  public async findByHash(hash: string, timestamp?: number) {
+    return (await this.findByHashQuery(hash, timestamp)).toArray()
+  }
+
+  public async findByHashPlan(hash: string, timestamp?: number) {
+    return (await this.findByHashQuery(hash, timestamp)).explain(ExplainVerbosity.allPlansExecution)
+  }
+
+  public async findAfterHash(hash: string, limit = 20, timestamp?: number) {
+    if (timestamp) return await this.findAfter(timestamp, limit)
+    const blocks = await this.findByHash(hash)
+    if (!blocks) return null
+    // If there's multiple occurrences, take the last to prevent
+    // never fully iterating the chain
+    const block = blocks.pop()
+    const blockTimestamp = block?._timestamp || 0
+    assertEx(blockTimestamp, 'Block is missing a timestamp')
+    return await this.findAfter(blockTimestamp, limit)
+  }
+
+  public async findBeforeHash(hash: string, limit = 20, timestamp?: number) {
+    if (timestamp) return await this.findBefore(timestamp, limit)
+    const blocks = await this.findByHash(hash)
+    if (!blocks) return null
+    // If there's multiple occurrences, take the first to prevent
+    // never fully iterating the chain
+    const block = blocks.shift()
+    const blockTimestamp = block?._timestamp || 0
+    assertEx(blockTimestamp, 'Block is missing a timestamp')
+    return await this.findAfter(blockTimestamp, limit)
   }
 
   public async updateByHash(hash: string, bw: XyoBoundWitness) {

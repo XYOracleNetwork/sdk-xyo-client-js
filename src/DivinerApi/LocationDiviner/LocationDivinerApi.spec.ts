@@ -20,7 +20,7 @@ const getLocationQuery = () => {
   }
 }
 
-describe('XyoLocationDivinerApi', () => {
+describe.skip('XyoLocationDivinerApi', () => {
   describe('constructor', () => {
     it('returns a new XyoLocationDivinerApi', () => {
       const api = new XyoLocationDivinerApi(config)

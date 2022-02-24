@@ -100,6 +100,7 @@
     "gen:docs": "typedoc ./src/index.ts --json ./dist/docs.json --tsconfig ./tsconfig.build.json",
     "test": "jest ./src",
     "test:api": "jest ./src/ArchivistApi",
+    "test:diviner": "jest ./src/DivinerApi",
     "test:bw": "jest ./src/BoundWitness",
     "test:witnesses": "jest ./src/Witnesses",
     "test:payload": "jest ./src/Payload",

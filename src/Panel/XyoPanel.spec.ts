@@ -1,17 +1,13 @@
-/**
- * @jest-environment jsdom
- */
-
 import { XyoAddress } from '../Address'
 import { XyoArchivistApi, XyoArchivistApiConfig } from '../ArchivistApi'
-import { XyoSystemInfoWitness } from '../Witnesses'
-import { XyoPanel } from './XyoPanel'
+import { XyoAdhocWitness, XyoSystemInfoWitness } from '../Witnesses'
+import { XyoPanel, XyoPanelConfig } from './XyoPanel'
 
 test('all [simple panel send]', async () => {
   const archivistConfigs: XyoArchivistApiConfig[] = [
     {
-      apiDomain: process.env.API_DOMAIN || 'https://api.archivist.xyo.network',
-      archive: 'test',
+      apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
+      archive: 'temp',
     },
   ]
 
@@ -20,8 +16,24 @@ test('all [simple panel send]', async () => {
   })
   const witnesses = [new XyoSystemInfoWitness()]
 
-  const panel = new XyoPanel({ address: XyoAddress.fromPhrase('test'), archivists, witnesses })
-  const report1 = await panel.report()
+  const config: XyoPanelConfig = { address: new XyoAddress(), archivists, witnesses }
+
+  const panel = new XyoPanel(config)
+  const adhocWitness = new XyoAdhocWitness({
+    schema: 'network.xyo.test.array',
+    testArray: [1, 2, 3],
+    testBoolean: true,
+    testNull: null,
+    testNullObject: { t: null, x: undefined },
+    testNumber: 5,
+    testObject: { t: 1 },
+    testSomeNullObject: { s: 1, t: null, x: undefined },
+    testString: 'hi',
+    testUndefined: undefined,
+  })
+  const payload = await adhocWitness.observe()
+  console.log(JSON.stringify(payload, null, 2))
+  const report1 = await panel.report([adhocWitness])
   const report2 = await panel.report()
   expect(report2._hash !== report1._hash).toBe(true)
 })

@@ -1,20 +1,17 @@
-import { ApiConfig } from '@xylabs/sdk-js'
+import { XyoArchivistApiConfig } from '../../ArchivistApi'
 
-export interface ArchiveConfig extends ApiConfig {
-  archive: string
-}
 export interface LocationDivinerQuery {
   startTime?: string
   stopTime?: string
-  schema?: string
+  schema: string
   // TODO: Bounding rectangle, etc.
 }
-export interface LocationDivinerQueryRequest {
-  sourceArchive: ArchiveConfig
-  resultArchive: ArchiveConfig
+export interface LocationDivinerQueryCreationRequest {
+  sourceArchive: XyoArchivistApiConfig
+  resultArchive: XyoArchivistApiConfig
   query: LocationDivinerQuery
 }
-export interface LocationDivinerQueryResult extends LocationDivinerQueryRequest {
+export interface LocationDivinerQueryCreationResponse extends LocationDivinerQueryCreationRequest {
   status: 'pending' | 'error' | 'completed'
   hash: string
 }

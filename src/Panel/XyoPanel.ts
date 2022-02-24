@@ -58,8 +58,8 @@ export class XyoPanel {
           let postResult: { boundWitnesses: number; payloads: number } = { boundWitnesses: 0, payloads: 0 }
           try {
             const boundWitnessWithArchive = { ...boundWitness, _archive: archivist.archive }
-            this.addToHistory(boundWitnessWithArchive)
             postResult = await archivist.postBoundWitness(boundWitness)
+            this.addToHistory(boundWitnessWithArchive)
           } catch (ex) {
             error = ex as Error
             onError?.(archivist, error)

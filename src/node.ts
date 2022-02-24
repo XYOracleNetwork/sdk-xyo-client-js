@@ -1,5 +1,4 @@
 export * from './ArchivistMongoSdk'
-export * from './DivinerApi'
 export * from './shared'
 export * from './Witnesses'
 export * from './WitnessesNode'

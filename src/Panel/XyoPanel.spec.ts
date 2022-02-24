@@ -31,9 +31,9 @@ test('all [simple panel send]', async () => {
     testString: 'hi',
     testUndefined: undefined,
   })
-  const payload = await adhocWitness.observe()
-  console.log(JSON.stringify(payload, null, 2))
+
   const report1 = await panel.report([adhocWitness])
   const report2 = await panel.report()
+
   expect(report2._hash !== report1._hash).toBe(true)
 })

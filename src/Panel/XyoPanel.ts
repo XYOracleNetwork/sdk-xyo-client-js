@@ -98,8 +98,10 @@ export class XyoPanel {
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []) {
     const errors: Error[] = []
     this.config.onReportStart?.()
-    const allWitnesses: XyoWitness<XyoPayload>[] = Object.assign([], adhocWitnesses, this.config.witnesses)
-    const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads })
+    const allWitnesses: XyoWitness<XyoPayload>[] = []
+    allWitnesses.push(...adhocWitnesses)
+    allWitnesses.push(...this.config.witnesses)
+    const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads ?? true })
       .payloads(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
       .witness(this.config.address)
       .build()

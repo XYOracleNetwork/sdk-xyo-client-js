@@ -116,7 +116,7 @@ class XyoArchivistApi {
     ).data
   }
 
-  public async getBoundWitnessesAfter(timestamp: string, limit = 20) {
+  public async getBoundWitnessesAfter(timestamp: number, limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
     const params = { order: 'asc', timestamp }

@@ -104,6 +104,30 @@ class XyoArchivistApi {
     ).data
   }
 
+  public async getBoundWitnessBefore(timestamp: number, limit = 20) {
+    assertEx(limit > 0, 'min limit = 1')
+    assertEx(limit <= 100, 'max limit = 100')
+    const params = { order: 'desc', timestamp }
+    return (
+      await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block`, {
+        ...this.axiosRequestConfig,
+        params,
+      })
+    ).data
+  }
+
+  public async getBoundWitnessAfter(timestamp: string, limit = 20) {
+    assertEx(limit > 0, 'min limit = 1')
+    assertEx(limit <= 100, 'max limit = 100')
+    const params = { order: 'asc', timestamp }
+    return (
+      await axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block`, {
+        ...this.axiosRequestConfig,
+        params,
+      })
+    ).data
+  }
+
   public async getBoundWitnessPayloadsByHash(hash: string) {
     return (
       await axios.get<XyoPayload[]>(
@@ -142,7 +166,7 @@ class XyoArchivistApi {
 
   public async getBoundWitnessMostRecent(limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
-    assertEx(limit <= 100, 'max size = 100')
+    assertEx(limit <= 100, 'max limit = 100')
     return (
       await axios.get<XyoBoundWitness[]>(
         `${this.config.apiDomain}/archive/${this.config.archive}/block/recent/${limit}`,
@@ -153,7 +177,7 @@ class XyoArchivistApi {
 
   public async getPayloadsMostRecent(limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
-    assertEx(limit <= 100, 'max size = 100')
+    assertEx(limit <= 100, 'max limit = 100')
     return (
       await axios.get<XyoPayload[]>(
         `${this.config.apiDomain}/archive/${this.config.archive}/payload/recent/${limit}`,

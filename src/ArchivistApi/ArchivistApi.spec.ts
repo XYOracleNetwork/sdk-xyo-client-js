@@ -21,6 +21,12 @@ const getRandomArchiveName = (): string => {
   return `test-archive-${randomString}`
 }
 
+const getNewArchive = async (api: XyoArchivistApi) => {
+  const archive = getRandomArchiveName()
+  const response = await api.putArchive(archive)
+  return response.archive
+}
+
 describe('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns a new XyoArchivistApi', () => {
@@ -156,6 +162,48 @@ describe('XyoArchivistApi', () => {
         } else {
           expect(response.payloads).toEqual(0)
         }
+      } catch (ex) {
+        const error = ex as AxiosError
+        console.log(JSON.stringify(error.response?.data, null, 2))
+        throw ex
+      }
+    })
+  })
+  describe('getBoundWitnessesBefore', function () {
+    it('returns bound witnesses from before the timestamp', async () => {
+      let api = new XyoArchivistApi(config)
+      try {
+        const archive = await getNewArchive(api)
+        api = new XyoArchivistApi({ ...config, archive })
+        const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
+        await api.postBoundWitness(boundWitness)
+        const timestamp = Date.now() + 10000
+        const response = await api.getBoundWitnessesBefore(timestamp)
+        expect(response.length).toBe(1)
+        const actual = response[0]
+        expect(actual._timestamp).toBeTruthy()
+        expect(actual._timestamp).toBeLessThan(timestamp)
+      } catch (ex) {
+        const error = ex as AxiosError
+        console.log(JSON.stringify(error.response?.data, null, 2))
+        throw ex
+      }
+    })
+  })
+  describe('getBoundWitnessesAfter', function () {
+    it('returns bound witnesses from before the timestamp', async () => {
+      let api = new XyoArchivistApi(config)
+      try {
+        const archive = await getNewArchive(api)
+        api = new XyoArchivistApi({ ...config, archive })
+        const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
+        await api.postBoundWitness(boundWitness)
+        const timestamp = Date.now() - 10000
+        const response = await api.getBoundWitnessesAfter(timestamp)
+        expect(response.length).toBe(1)
+        const actual = response[0]
+        expect(actual._timestamp).toBeTruthy()
+        expect(actual._timestamp).toBeGreaterThan(timestamp)
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))

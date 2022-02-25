@@ -6,5 +6,5 @@ test('all', () => {
   const validator = new XyoBoundWitnessBodyValidator(testBoundWitness)
   const errors = validator.all()
   dumpErrors(errors)
-  expect(errors.length).toBe(3)
+  expect(errors.length).toBe(0)
 })

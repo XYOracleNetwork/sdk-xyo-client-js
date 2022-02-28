@@ -40,7 +40,7 @@ const describeSkipIfNoDB = process.env.MONGO_CONNECTION_STRING ? describe : desc
 describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
   const numBoundWitnesses = 20
   const limit = 10
-  const sdk = getMongoSdk('test')
+  const sdk = getMongoSdk('temp')
   const boundWitnesses = getBoundWitnesses(numBoundWitnesses)
   beforeAll(async () => {
     await sdk.insertMany(boundWitnesses)

@@ -10,7 +10,7 @@ import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 const config: XyoArchivistApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
   apiKey: process.env.API_KEY || undefined,
-  archive: 'test',
+  archive: 'temp',
   jwtToken: process.env.JWT_TOKEN || undefined,
 }
 

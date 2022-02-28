@@ -66,7 +66,7 @@ yarn add @xyo-network/sdk-xyo-client-js
 [npm-badge]: https://img.shields.io/npm/v/@xyo-network/sdk-xyo-client-js.svg
 [npm-link]: https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js
 
-[bch-badge]: https://bettercodehub.com/edge/badge/XYOracleNetwork/sdk-xyo-client-js?branch=master
+[bch-badge]: https://bettercodehub.com/edge/badge/XYOracleNetwork/sdk-xyo-client-js?branch=main
 [bch-link]: https://bettercodehub.com/results/XYOracleNetwork/sdk-xyo-client-js
 
 [codacy-badge]: https://app.codacy.com/project/badge/Grade/ba1f344ae34e4bfe999331cf4e27b9f5

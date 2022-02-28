@@ -43,7 +43,9 @@ yarn add @xyo-network/sdk-xyo-client-js
 
 ## Maintainers
 
--   [Arie Trouw](https://github.com/arietrouw) [arietrouw.com](https://arietrouw.com)
+-   [Arie Trouw](https://github.com/arietrouw) [(arietrouw.com)](https://arietrouw.com)
+-   [Matt Jones](https://github.com/jonesmac)
+-   [Joel Carter](https://github.com/JoelBCarter)
 
 ## License
 

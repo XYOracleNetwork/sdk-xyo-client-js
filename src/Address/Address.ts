@@ -39,7 +39,7 @@ export class XyoAddress {
   }
 
   public get privateKey() {
-    return new BigNumber(this._key.getPrivate()).toString('hex')
+    return new BigNumber(this._key.getPrivate()).toString('hex').padStart(64, '0')
   }
 
   public get publicKey() {
@@ -49,7 +49,7 @@ export class XyoAddress {
   public get address() {
     const publicKeyArray = this._key.getPublic('array')
     publicKeyArray.shift()
-    return keccak256(Buffer.from(publicKeyArray)).subarray(12).toString('hex')
+    return keccak256(Buffer.from(publicKeyArray)).subarray(12).toString('hex').padStart(40, '0')
   }
 
   public get previousHash() {

@@ -2,7 +2,7 @@ import { XyoPayloadBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'
 
-const payloadHash = '05f5cb7bef7b49efdacf464d478cafb148f0bd6c1ad874fdb239561c247ea262'
+const payloadHash = '57b78b1b7df3ac0369654642e879cdf2f3c95f9c5949bcb34ea3cb8309c538b4'
 
 const ADDITIONAL_FIELD_COUNT = 4
 

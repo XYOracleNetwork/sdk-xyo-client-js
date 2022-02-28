@@ -27,7 +27,7 @@ const getNewArchive = async (api: XyoArchivistApi) => {
   return response.archive
 }
 
-describe('XyoArchivistApi', () => {
+describeSkipIfNoToken('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns a new XyoArchivistApi', () => {
       const api = new XyoArchivistApi(config)
@@ -35,7 +35,7 @@ describe('XyoArchivistApi', () => {
     })
   })
 
-  describeSkipIfNoToken('getArchives', function () {
+  describe('getArchives', function () {
     let archive = ''
     beforeEach(() => {
       archive = getRandomArchiveName()
@@ -56,7 +56,7 @@ describe('XyoArchivistApi', () => {
     })
   })
 
-  describeSkipIfNoToken('getArchive', function () {
+  describe('getArchive', function () {
     let archive = ''
     beforeEach(() => {
       archive = getRandomArchiveName()
@@ -75,7 +75,7 @@ describe('XyoArchivistApi', () => {
     })
   })
 
-  describeSkipIfNoToken('putArchive', function () {
+  describe('putArchive', function () {
     let archive = ''
     beforeEach(() => {
       archive = getRandomArchiveName()
@@ -93,7 +93,7 @@ describe('XyoArchivistApi', () => {
     })
   })
 
-  describeSkipIfNoToken('getArchiveKeys', function () {
+  describe('getArchiveKeys', function () {
     it('Returns the keys for the archive', async () => {
       try {
         const archive = getRandomArchiveName()
@@ -111,7 +111,7 @@ describe('XyoArchivistApi', () => {
     })
   })
 
-  describeSkipIfNoToken('postArchiveKey', function () {
+  describe('postArchiveKey', function () {
     it('Creates an archive key', async () => {
       try {
         const archive = getRandomArchiveName()

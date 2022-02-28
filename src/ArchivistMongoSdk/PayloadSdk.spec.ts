@@ -35,9 +35,11 @@ const describeSkipIfNoDB = process.env.MONGO_CONNECTION_STRING ? describe : desc
 describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
   const numPayloads = 20
   const limit = 10
-  const sdk = getMongoSdk('test')
-  const payloads = getPayloads(numPayloads)
+  let sdk: XyoArchivistPayloadMongoSdk
+  let payloads: XyoPayload[] = []
   beforeAll(async () => {
+    sdk = getMongoSdk('test')
+    payloads = getPayloads(numPayloads)
     await payloads.map(async (p) => await sdk.insert(p))
   })
   describe('findAfter', () => {

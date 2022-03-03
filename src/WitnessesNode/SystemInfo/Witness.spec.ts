@@ -5,5 +5,5 @@ describe('XyoSystemInfoWitness', () => {
     const witness = new XyoSystemInfoNodeWitness()
     const observation = await witness.observe()
     expect(observation.schema).toBe('network.xyo.system.info.node')
-  })
+  }, 60000)
 })

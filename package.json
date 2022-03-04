@@ -106,6 +106,7 @@
     "test:witnesses": "jest ./src/Witnesses",
     "test:payload": "jest ./src/Payload",
     "test:hasher": "jest ./src/Hasher",
+    "test:huri": "jest ./src/Huri",
     "test:panel": "jest ./src/Panel",
     "test:address": "jest ./src/Address",
     "test:mongo": "jest ./src/ArchivistMongoSdk",

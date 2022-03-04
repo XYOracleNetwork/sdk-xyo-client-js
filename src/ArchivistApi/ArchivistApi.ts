@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import axios, { AxiosRequestConfig } from 'axios'
 
+import { Huri } from '../Huri'
 import { XyoBoundWitness, XyoPayload } from '../models'
 import { XyoArchivistApiConfig } from './ArchivistApiConfig'
 import { getArchivistApiResponseTransformer } from './ArchivistApiResponseTransformer'
@@ -202,6 +203,11 @@ class XyoArchivistApi {
         this.axiosRequestConfig
       )
     ).data
+  }
+
+  public async fetch(huri: Huri | string) {
+    const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
+    return (await axios.get<XyoPayload | XyoBoundWitness[]>(huriObj.href, this.axiosRequestConfig)).data
   }
 
   /**

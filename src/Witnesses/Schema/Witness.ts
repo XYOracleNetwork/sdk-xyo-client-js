@@ -2,12 +2,10 @@ import { XyoWitness } from '../../XyoWitness'
 import { XyoSchemaPayload } from './Payload'
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload> {
-  public name: string
-  constructor(name: string) {
+  constructor() {
     super({
       schema: XyoSchemaWitness.schema,
     })
-    this.name = name
   }
 
   override async observe(fields: { definition: Record<string, unknown> }): Promise<XyoSchemaPayload> {

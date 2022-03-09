@@ -27,6 +27,20 @@ const getNewArchive = async (api: XyoArchivistApi) => {
   return response.archive
 }
 
+describe('getDomain', function () {
+  it('gets the domain config', async () => {
+    const api = new XyoArchivistApi(config)
+    try {
+      const response = await api.getDomainConfig('network.xyo')
+      expect(response.schema?.length).toBeGreaterThanOrEqual(2)
+    } catch (ex) {
+      const error = ex as AxiosError
+      console.log(JSON.stringify(error.response?.data, null, 2))
+      throw ex
+    }
+  })
+})
+
 describeSkipIfNoToken('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns a new XyoArchivistApi', () => {

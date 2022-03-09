@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 
-import { XyoBoundWitness } from '../../../models'
+import { XyoBoundWitness, XyoPayload } from '../../../models'
 import { XyoArchivistApiBase } from '../../Base'
 
 export class XyoArchivistArchiveBlockApi extends XyoArchivistApiBase {
@@ -28,6 +28,15 @@ export class XyoArchivistArchiveBlockApi extends XyoArchivistApiBase {
     return (
       await this.axios.get<XyoBoundWitness[]>(
         `${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}`,
+        this.axiosRequestConfig
+      )
+    ).data
+  }
+
+  public async getPayloadsByHash(hash: string) {
+    return (
+      await this.axios.get<XyoPayload[]>(
+        `${this.config.apiDomain}/archive/${this.config.archive}/block/hash/${hash}/payloads`,
         this.axiosRequestConfig
       )
     ).data

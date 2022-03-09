@@ -76,7 +76,7 @@ class XyoArchivistApi extends XyoArchivistApiBase {
 
   /** @deprecated use archive.block.getPayloadsByHash */
   public async getBoundWitnessPayloadsByHash(hash: string) {
-    return await this.archive.block.getByHash(hash)
+    return await this.archive.block.getPayloadsByHash(hash)
   }
 
   /** @deprecated use archive.block.getMostRecent */

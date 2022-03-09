@@ -1,14 +1,14 @@
 export interface ArchiveResponse {
-  archive: string
   user: string
   accessControl: boolean
+  archive: string
 }
 
 export interface PutArchiveRequest {
   accessControl: boolean
 }
 
-export type ArchiveKeyResponse = {
+export interface ArchiveKeyResponse {
   created: string
   key: string
 }

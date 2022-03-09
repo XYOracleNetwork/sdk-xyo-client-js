@@ -12,7 +12,7 @@ export class XyoDomainConfigWrapper {
   }
   public async discover(reverseDomainName: string) {
     const parts = reverseDomainName.split('.')
-    for (let i = 2; i < parts.length; i++) {
+    for (let i = 2; i <= parts.length; i++) {
       const domain = reverse(parts.filter((part, index) => index < i)).join('.')
       try {
         this.config = (await axios.get<XyoDomainConfig>(`https://${domain}/xyo-config.json`)).data

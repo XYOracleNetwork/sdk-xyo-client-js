@@ -1,4 +1,4 @@
-import { XyoAuthApi } from '../AuthApi'
+import { XyoAuthApi } from '../Api'
 
 export interface XyoMetaMaskAuthConfig {
   AuthApiService: XyoAuthApi

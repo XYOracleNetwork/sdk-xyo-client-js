@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
-import { getArchivistApiResponseTransformer } from '../ArchivistApi'
+import { getArchivistApiResponseTransformer } from '../Archivist'
 import { XyoAuthApiConfig } from './AuthApiConfig'
 
 class XyoAuthApi {

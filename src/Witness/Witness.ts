@@ -1,5 +1,5 @@
-import { XyoPayload } from './models'
-import { XyoPayloadBuilder } from './Payload'
+import { XyoPayload } from '../models'
+import { XyoPayloadBuilder } from '../Payload'
 
 export interface XyoWitnessConfig<T extends XyoPayload> {
   schema: string

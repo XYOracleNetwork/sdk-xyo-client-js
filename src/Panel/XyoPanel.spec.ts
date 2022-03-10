@@ -1,5 +1,5 @@
 import { XyoAddress } from '../Address'
-import { XyoArchivistApi, XyoArchivistApiConfig } from '../ArchivistApi'
+import { XyoArchivistApi, XyoArchivistApiConfig } from '../Api'
 import { XyoAdhocWitness, XyoSystemInfoWitness } from '../Witnesses'
 import { XyoPanel, XyoPanelConfig } from './XyoPanel'
 

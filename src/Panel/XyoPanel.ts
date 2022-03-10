@@ -1,8 +1,8 @@
 import { XyoAddress } from '../Address'
-import { XyoArchivistApi } from '../ArchivistApi'
+import { XyoArchivistApi } from '../Api'
 import { XyoBoundWitnessBuilder } from '../BoundWitness'
 import { XyoBoundWitness, XyoPayload } from '../models'
-import { XyoWitness } from '../XyoWitness'
+import { XyoWitness } from '../Witness'
 
 export interface XyoPanelConfig {
   address: XyoAddress

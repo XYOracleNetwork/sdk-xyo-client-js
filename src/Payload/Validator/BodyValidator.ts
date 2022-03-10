@@ -1,5 +1,5 @@
 import { WithStringIndex, XyoPayloadBody } from '../../models'
-import { SchemaValidator } from '../../SchemaValidator'
+import { SchemaValidator } from '../../SchemaNameValidator'
 
 class XyoPayloadBodyValidator {
   private body: WithStringIndex<XyoPayloadBody>

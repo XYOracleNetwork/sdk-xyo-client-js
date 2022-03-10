@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 
-import { XyoWitness, XyoWitnessConfig } from '../../XyoWitness'
+import { XyoWitness, XyoWitnessConfig } from '../../Witness'
 import { XyoSystemInfoPayload } from './Payload'
 
 export class XyoSystemInfoWitness<

@@ -1,4 +1,4 @@
-import { XyoDomainConfig } from '../../DomainConfig'
+import { XyoDomainConfig } from '../../../DomainConfig'
 import { XyoArchivistApiBase } from '../Base'
 
 export class XyoArchivistDomainApi extends XyoArchivistApiBase {

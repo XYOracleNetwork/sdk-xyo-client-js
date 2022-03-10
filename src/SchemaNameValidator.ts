@@ -1,9 +1,9 @@
-import { domainExists } from './domainExists'
+import { domainExists } from './internal'
 
 /**
  * Validates a XYO schema structure and existence
  */
-export class XyoSchemaValidator {
+export class XyoSchemaNameValidator {
   public schema: string
   constructor(schema: string) {
     this.schema = schema
@@ -121,5 +121,8 @@ export class XyoSchemaValidator {
   }
 }
 
-/** @deprectated use XyoSchemaValidator instead */
-export class SchemaValidator extends XyoSchemaValidator {}
+/** @deprectated use XyoSchemaNameValidator instead */
+export class SchemaValidator extends XyoSchemaNameValidator {}
+
+/** @deprectated use XyoSchemaNameValidator instead */
+export class XyoSchemaValidator extends XyoSchemaNameValidator {}

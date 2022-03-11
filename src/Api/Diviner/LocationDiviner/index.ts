@@ -1,3 +1,3 @@
 export * from './LocationDivinerApi'
-export * from './LocationQuery'
 export * from './models'
+export * from './Queries'

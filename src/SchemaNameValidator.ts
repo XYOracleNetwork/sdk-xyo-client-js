@@ -101,9 +101,8 @@ export class XyoSchemaNameValidator {
 
   public async allDynamic() {
     const errors: Error[] = []
-    if (this.schema.length === 0) errors.push(new Error('schema missing'))
-    else if (!(await this.rootDomainExists()))
-      errors.push(new Error(`schema root domain must exist [${this.rootDomain}]`))
+    if (this.schema.length === 0) errors.push(Error('schema missing'))
+    else if (!(await this.rootDomainExists())) errors.push(Error(`schema root domain must exist [${this.rootDomain}]`))
     return errors
   }
 
@@ -114,9 +113,9 @@ export class XyoSchemaNameValidator {
 
   public all() {
     const errors: Error[] = []
-    if (this.schema.length === 0) errors.push(new Error('schema missing'))
-    else if (this.levels < 3) errors.push(new Error(`schema levels < 3 [${this.levels}, ${this.schema}]`))
-    else if (!this.isLowercase) errors.push(new Error(`schema not lowercase [${this.schema}]`))
+    if (this.schema.length === 0) errors.push(Error('schema missing'))
+    else if (this.levels < 3) errors.push(Error(`schema levels < 3 [${this.levels}, ${this.schema}]`))
+    else if (!this.isLowercase) errors.push(Error(`schema not lowercase [${this.schema}]`))
     return errors
   }
 }

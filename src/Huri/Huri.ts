@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/sdk-js'
 import axios from 'axios'
 
 import { XyoPayload } from '../models'
@@ -26,28 +27,17 @@ export class Huri {
   constructor(huri: string, fetchFunction?: HuriFetchFunction) {
     this.fetchFunction = fetchFunction ?? Huri.apiFetch
     this.originaHref = huri
-    const protocolSplit = huri.split('://')
-    this.protocol = protocolSplit.length >= 2 ? protocolSplit[0] : 'http'
-    const split = protocolSplit[protocolSplit.length - 1].split('/')
+    const protocolSplit = huri.split(':/')
+    this.protocol = protocolSplit.length >= 2 ? protocolSplit.shift() : 'http'
 
-    //if no protocol and leading '/', remove it
-    if (protocolSplit.length === 1) {
-      if (split[0].length === 0) {
-        split.shift()
-      }
-    }
+    const pathSplit = assertEx(protocolSplit.shift()?.split('/'), 'No hash specified')
 
-    switch (split.length) {
-      case 2:
-        this.archivist = split[0]
-        this.hash = split[1]
-        break
-      case 1:
-        this.hash = split[0]
-        break
-      default:
-        throw Error('Invalid huri')
-    }
+    //remove leading '/' if needed
+    pathSplit[0].length === 0 ? pathSplit.shift() : null
+
+    this.hash = assertEx(pathSplit.pop(), 'No hash specified')
+    this.archivist = pathSplit.pop() ?? 'api.archivist.xyo.network'
+    assertEx(pathSplit.length === 0, 'Too many path parts')
   }
 
   /*

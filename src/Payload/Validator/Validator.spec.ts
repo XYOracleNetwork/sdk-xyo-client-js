@@ -30,21 +30,18 @@ const testPayloadValid: XyoPayload = {
 test('all [missing schema]', () => {
   const validator = new XyoPayloadValidator(testPayloadNoSchema)
   const errors = validator.all()
-  dumpErrors(errors)
   expect(errors.length).toBe(1)
 })
 
 test('all [mixed case]', () => {
   const validator = new XyoPayloadValidator(testPayloadMixedCase)
   const errors = validator.all()
-  dumpErrors(errors)
   expect(errors.length).toBe(1)
 })
 
 test('all [too few levels]', () => {
   const validator = new XyoPayloadValidator(testPayloadTooFewLevels)
   const errors = validator.all()
-  dumpErrors(errors)
   expect(errors.length).toBe(1)
 })
 

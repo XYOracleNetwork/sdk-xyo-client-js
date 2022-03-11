@@ -50,15 +50,10 @@ describe('XyoBoundWitnessBuilder', () => {
 
         const actual = builder.build()
 
-        const wrapper = new XyoBoundWitnessWrapper(actual)
-        console.log(wrapper.sortedStringify())
-
         expect(actual).toBeDefined()
         expect(actual._hash).toEqual('3530fb43d95d827bdd17be4673f9a4b87ea4a54eadf851319504f706c8ee7f4b')
 
         if (actual._hash && actual._signatures) {
-          console.log(`Hash: ${actual._hash}`)
-          console.log(`Signatures: ${actual._signatures[0]}`)
           const verify = XyoAddress.verifyAddress(actual._hash, actual._signatures[0], actual.addresses[0])
           expect(verify).toBe(true)
         }

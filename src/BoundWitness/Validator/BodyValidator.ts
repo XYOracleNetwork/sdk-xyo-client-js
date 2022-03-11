@@ -3,6 +3,7 @@ import uniq from 'lodash/uniq'
 import { WithStringIndex, XyoBoundWitnessBody, XyoPayload } from '../../models'
 import { XyoPayloadWrapper } from '../../Payload'
 import { SchemaValidator } from '../../SchemaNameValidator'
+import { validateType } from '../../typeOf'
 
 class XyoBoundWitnessBodyValidator {
   private body: WithStringIndex<XyoBoundWitnessBody>
@@ -30,23 +31,17 @@ class XyoBoundWitnessBodyValidator {
 
   private validateArrayLength(fieldName: string, compareArrayName: string) {
     const errors: Error[] = []
-    const compareArray = this.body[compareArrayName] as []
-    if (compareArray === undefined) {
-      errors.push(new Error(`${compareArrayName} missing`))
-    } else if (!Array.isArray(compareArray)) {
-      errors.push(new Error(`${compareArrayName} is not an array`))
-    } else {
-      const array = this.body[fieldName] as unknown[]
-      if (array === undefined) {
-        errors.push(new Error(`${fieldName} missing`))
-      } else if (!Array.isArray(array)) {
-        errors.push(new Error(`${fieldName} is not an array`))
-      } else if (array.length !== compareArray.length)
-        errors.push(
-          new Error(`${fieldName}/${compareArrayName} count mismatch [${array.length} !== ${compareArray.length}]`)
-        )
+
+    const [array, arrayErrors] = validateType('array', this.body[fieldName] as [], true)
+    const [compareArray, compareArrayErrors] = validateType('array', this.body[compareArrayName] as [], true)
+
+    if (array?.length !== compareArray?.length) {
+      errors.push(
+        new Error(`${fieldName}/${compareArrayName} count mismatch [${array?.length} !== ${compareArray?.length}]`)
+      )
     }
-    return errors
+
+    return [...arrayErrors, ...compareArrayErrors, ...errors]
   }
 
   public validatePayloadHashesLength() {

@@ -16,7 +16,7 @@ class XyoPayloadBodyValidator {
   public schemaName() {
     const errors: Error[] = []
     if (this.body.schema === undefined) {
-      errors.push(new Error('schema missing'))
+      errors.push(Error('schema missing'))
     } else {
       errors.push(...this.schemaValidator.all())
     }
@@ -26,7 +26,7 @@ class XyoPayloadBodyValidator {
   public schema() {
     const errors: Error[] = []
     if (this.body.schema === undefined) {
-      errors.push(new Error('schema missing'))
+      errors.push(Error('schema missing'))
     } else {
       errors.push(...this.schemaValidator.all())
     }

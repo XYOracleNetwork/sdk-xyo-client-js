@@ -1,4 +1,10 @@
+import axios from 'axios'
+
+import { XyoPayload } from '../models'
+
 export type XyoObjectCategory = 'block' | 'payload'
+
+export type HuriFetchFunction = (huri: Huri) => Promise<XyoPayload | undefined>
 
 /* 
   Valid Huri:
@@ -15,8 +21,10 @@ export class Huri {
   public protocol?: string
   public archivist?: string
   public hash: string
+  private fetchFunction: HuriFetchFunction
 
-  constructor(huri: string) {
+  constructor(huri: string, fetchFunction?: HuriFetchFunction) {
+    this.fetchFunction = fetchFunction ?? Huri.apiFetch
     this.originaHref = huri
     const protocolSplit = huri.split('://')
     this.protocol = protocolSplit.length >= 2 ? protocolSplit[0] : 'http'
@@ -60,5 +68,13 @@ export class Huri {
 
   public toString() {
     return this.href
+  }
+
+  public async fetch() {
+    return await this.fetchFunction(this)
+  }
+
+  static async apiFetch(huri: Huri): Promise<XyoPayload | undefined> {
+    return (await axios.get<XyoPayload>(huri.href)).data
   }
 }

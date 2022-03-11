@@ -1,4 +1,4 @@
-import { XyoArchivistApiConfig } from '../../ArchivistApi'
+import { XyoArchivistApiConfig } from '../../Archivist'
 
 export interface LocationDivinerQuery {
   startTime?: string

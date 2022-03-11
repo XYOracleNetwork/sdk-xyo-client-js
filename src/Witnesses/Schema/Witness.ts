@@ -1,6 +1,6 @@
 import merge from 'lodash/merge'
 
-import { XyoWitness } from '../../XyoWitness'
+import { XyoWitness } from '../../Witness'
 import { XyoSchemaPayload } from './Payload'
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload> {

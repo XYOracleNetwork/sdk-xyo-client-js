@@ -1,5 +1,5 @@
 import { WithStringIndex, XyoPayloadBody } from '../../models'
-import { SchemaValidator } from '../../SchemaValidator'
+import { SchemaValidator } from '../../SchemaNameValidator'
 
 class XyoPayloadBodyValidator {
   private body: WithStringIndex<XyoPayloadBody>
@@ -11,6 +11,16 @@ class XyoPayloadBodyValidator {
   get schemaValidator() {
     this._schemaValidator = this._schemaValidator ?? new SchemaValidator(this.body.schema ?? '')
     return this._schemaValidator
+  }
+
+  public schemaName() {
+    const errors: Error[] = []
+    if (this.body.schema === undefined) {
+      errors.push(new Error('schema missing'))
+    } else {
+      errors.push(...this.schemaValidator.all())
+    }
+    return errors
   }
 
   public schema() {
@@ -25,7 +35,7 @@ class XyoPayloadBodyValidator {
 
   public all() {
     const errors: Error[] = []
-    errors.push(...this.schema())
+    errors.push(...this.schemaName())
     return errors
   }
 }

@@ -1,4 +1,4 @@
 export * from './removeEmptyFields'
-export * from './removeUnderscoreFields'
+export * from './removeFields'
 export * from './sortFields'
 export * from './XyoHasher'

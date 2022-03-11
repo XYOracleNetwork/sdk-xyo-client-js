@@ -1,5 +1,5 @@
-import { Huri } from '../Huri'
-import { XyoBoundWitness, XyoPayload } from '../models'
+import { Huri } from '../../Huri'
+import { XyoBoundWitness, XyoPayload } from '../../models'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistApiBase } from './Base'
 import { XyoArchivistApiConfig } from './Config'

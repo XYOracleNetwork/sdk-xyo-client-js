@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 
-import { XyoPayload } from '../../../models'
+import { XyoPayload } from '../../../../models'
 import { XyoArchivistApiBase } from '../../Base'
 
 export class XyoArchivistArchivePayloadApi extends XyoArchivistApiBase {

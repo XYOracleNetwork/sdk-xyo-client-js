@@ -5,21 +5,11 @@ import { LocationTimeRangeQuery } from './LocationTimeRangeQuery'
 
 export type LocationQuery = LocationTimeRangeQuery | LocationHeatmapQuery
 
-// export abstract class AbstractLocationQueryCreationRequest {
-//   public abstract schema: LocationQuerySchema
-//   public abstract query: LocationQuery
-// }
-
-// export interface LocationQueryCreationRequest extends AbstractLocationQueryCreationRequest {
-//   sourceArchive: XyoArchivistApiConfig
-//   resultArchive: XyoArchivistApiConfig
-// }
-
-export interface LocationQueryCreationRequest {
+export interface LocationQueryCreationRequest<T extends LocationQuery = LocationQuery> {
   sourceArchive: XyoArchivistApiConfig
   resultArchive: XyoArchivistApiConfig
   schema: LocationQuerySchema
-  query: LocationQuery
+  query: T
 }
 
 export interface LocationQueryCreationResponse extends LocationQueryCreationRequest {

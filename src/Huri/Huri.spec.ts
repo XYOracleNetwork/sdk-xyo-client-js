@@ -20,20 +20,41 @@ const invalid = [
 ]
 
 describe('Huri', () => {
-  valid.map((item) => {
-    test(`valid [${item}]`, () => {
-      try {
-        const huri = new Huri(item)
-        expect(huri.hash).toBe(hash)
-      } catch (ex) {
-        console.error(`Valid Huri failed: [${item}]`)
-        console.error(ex)
-      }
+  describe('Valid Items', () => {
+    valid.map((item) => {
+      test(`valid [${item}]`, () => {
+        try {
+          const huri = new Huri(item)
+          expect(huri.hash).toBe(hash)
+        } catch (ex) {
+          console.error(`Valid Huri failed: [${item}]`)
+          console.error(ex)
+        }
+      })
     })
   })
-  invalid.map((item) => {
-    test(`invalid [${item}]`, () => {
-      expect(() => new Huri(item)).toThrowError()
+  describe('Invalid Items', () => {
+    invalid.map((item) => {
+      test(`invalid [${item}]`, () => {
+        expect(() => new Huri(item)).toThrowError()
+      })
+    })
+  })
+  describe.skip('Api Fetch', () => {
+    it('Valid Huri', async () => {
+      const huri = new Huri(
+        'https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057'
+      )
+      const result = await huri.fetch()
+      console.log(`HH: ${JSON.stringify(result, null, 2)}`)
+      expect(result?.schema).toBe('18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
+    })
+    it('Invalid Huri', async () => {
+      const huri = new Huri(
+        'https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653bad'
+      )
+      const result = await huri.fetch()
+      expect(result).toBeUndefined()
     })
   })
 })

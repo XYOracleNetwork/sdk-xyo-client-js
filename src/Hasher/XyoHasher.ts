@@ -1,7 +1,7 @@
 import shajs from 'sha.js'
 
 import { removeEmptyFields } from './removeEmptyFields'
-import { removeUnderscoreFields } from './removeUnderscoreFields'
+import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
 
 export class XyoHasher<T extends Record<string, unknown>> {
@@ -11,7 +11,7 @@ export class XyoHasher<T extends Record<string, unknown>> {
   }
 
   get hashFields() {
-    return removeEmptyFields(removeUnderscoreFields(this.obj))
+    return removeEmptyFields(deepOmitUnderscoreFields(this.obj))
   }
 
   public sortedStringify() {

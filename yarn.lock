@@ -2307,6 +2307,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lru-cache@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@types/lru-cache@npm:7.4.0"
+  checksum: 7c577ccdedf284c9c09f2b628057f39b6005b196cd60d5778c97de0cac9da73cc6dbf2c980cca6dd1a40c353ad7ab9d1ec35cc7abe4933400f6ff1f57b7cf3fd
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^3.0.0":
   version: 3.0.10
   resolution: "@types/mdast@npm:3.0.10"
@@ -2839,6 +2846,7 @@ __metadata:
     "@types/elliptic": ^6.4.14
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.179
+    "@types/lru-cache": ^7.4.0
     "@types/node": ^17.0.21
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
@@ -2863,6 +2871,7 @@ __metadata:
     keccak256: ^1.0.6
     license-checker: ^25.0.1
     lodash: ^4.17.21
+    lru-cache: ^7.4.4
     mongodb: ^4.4.1
     neo4j-driver: ^4.4.3
     neo4j-driver-core: ^4.4.3
@@ -7258,6 +7267,13 @@ __metadata:
   version: 7.3.1
   resolution: "lru-cache@npm:7.3.1"
   checksum: 34bb50c015ffc29fd83545e912f28cea6e03fbf41c497fa220c4f131b990f9ddf95babac98745b416cbc6c0d835254d61668d09b8a4ecb476934546afc9e51bd
+  languageName: node
+  linkType: hard
+
+"lru-cache@npm:^7.4.4":
+  version: 7.4.4
+  resolution: "lru-cache@npm:7.4.4"
+  checksum: c042ac73b48c1eddd22cc061eb41c4738c2eb71818ba503f625df4b3199d789281d7a2da18a017095a1304b5808f9d91fff7a77d69e3fefecef2b460460ed6d6
   languageName: node
   linkType: hard
 

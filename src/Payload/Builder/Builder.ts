@@ -1,4 +1,4 @@
-import { removeEmptyFields, removeUnderscoreFields, XyoHasher } from '../../Hasher'
+import { deepOmitUnderscoreFields, removeEmptyFields, XyoHasher } from '../../Hasher'
 import { XyoPayload } from '../../models'
 
 export interface XyoPayloadBuilderOptions {
@@ -28,7 +28,7 @@ export class XyoPayloadBuilder<T extends XyoPayload> {
 
   public hashableFields() {
     return {
-      ...removeEmptyFields(removeUnderscoreFields({ ...this._fields, previousHash: this._previousHash })),
+      ...removeEmptyFields(deepOmitUnderscoreFields({ ...this._fields, previousHash: this._previousHash })),
       schema: this._schema,
     } as T
   }

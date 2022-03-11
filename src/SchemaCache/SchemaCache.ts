@@ -1,26 +1,25 @@
 import LRU from 'lru-cache'
 
 import { XyoDomainConfigWrapper } from '../DomainConfig'
-import { Huri } from '../Huri'
+import { Huri, HuriFetchFunction } from '../Huri'
 import { XyoPayload } from '../models'
-
-export type FindByHashFunction = (hash: Huri) => Promise<XyoPayload | undefined>
 
 export class SchemaCache {
   private cache = new LRU<string, XyoPayload | null>({ max: 500, ttl: 1000 * 60 * 5 })
+  private fetchFunction?: HuriFetchFunction
 
-  private constructor() {
-    return
+  private constructor(fetchFunction?: HuriFetchFunction) {
+    this.fetchFunction = fetchFunction
   }
 
-  public async get(schema: string, findByHash: FindByHashFunction) {
+  public async get(schema: string) {
     if (this.cache.get(schema) === undefined) {
       const config = new XyoDomainConfigWrapper()
 
       const schemaHuri = (await config.discover(schema))?.schema?.[schema]
       if (schemaHuri) {
-        const huri = new Huri(schemaHuri)
-        const payload = (await findByHash(huri)) as XyoPayload
+        const huri = new Huri(schemaHuri, this.fetchFunction)
+        const payload = await huri.fetch()
         this.cache.set(schema, payload ?? null)
       }
     }

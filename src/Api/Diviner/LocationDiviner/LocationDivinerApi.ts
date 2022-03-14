@@ -7,6 +7,7 @@ import {
   LocationHeatmapQueryCreationRequest,
   LocationQueryCreationResponse,
   LocationTimeRangeQueryCreationRequest,
+  SupportedLocationQueryCreationRequest,
 } from './Queries'
 
 class XyoLocationDivinerApi {
@@ -25,6 +26,16 @@ class XyoLocationDivinerApi {
     return (
       await axios.get<GetLocationQueryResponse>(
         `${this.config.apiDomain}/location/query/${hash}`,
+        this.axiosRequestConfig
+      )
+    ).data
+  }
+
+  public async postLocationQuery(request: SupportedLocationQueryCreationRequest) {
+    return (
+      await axios.post<LocationQueryCreationResponse>(
+        `${this.config.apiDomain}/location/query`,
+        { ...request },
         this.axiosRequestConfig
       )
     ).data

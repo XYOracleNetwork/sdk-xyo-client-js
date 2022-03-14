@@ -1,7 +1,7 @@
 import { WithXyoPayloadMeta, XyoPayloadBody } from '../../../../models'
 
+export const locationWitnessPayloadSchema: LocationWitnessPayloadSchema = 'network.xyo.location'
 export type LocationWitnessPayloadSchema = 'network.xyo.location'
-export const locationWitnessPayloadSchema = 'network.xyo.location'
 
 export interface Coordinates {
   accuracy: number | null

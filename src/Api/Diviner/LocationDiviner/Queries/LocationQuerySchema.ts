@@ -8,6 +8,6 @@ const locationQuerySchemas: Record<LocationQuerySchema, true> = {
   'network.xyo.location.range.query': true,
 }
 
-export const isSupportedLocationQuerySchema = (schema: string): boolean => {
+export const isSupportedLocationQuerySchema = (schema: string): schema is LocationQuerySchema => {
   return locationQuerySchemas[schema as LocationQuerySchema] || false
 }

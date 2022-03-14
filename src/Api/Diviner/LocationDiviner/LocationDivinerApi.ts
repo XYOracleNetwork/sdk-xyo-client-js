@@ -3,7 +3,11 @@ import axios, { AxiosRequestConfig } from 'axios'
 
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer'
 import { GetLocationQueryResponse } from './models'
-import { LocationQueryCreationRequest, LocationQueryCreationResponse } from './Queries'
+import {
+  LocationHeatmapQueryCreationRequest,
+  LocationQueryCreationResponse,
+  LocationTimeRangeQueryCreationRequest,
+} from './Queries'
 
 class XyoLocationDivinerApi {
   public config: ApiConfig
@@ -26,7 +30,17 @@ class XyoLocationDivinerApi {
     ).data
   }
 
-  public async postLocationQuery(request: LocationQueryCreationRequest) {
+  public async postLocationTimeRangeQuery(request: LocationTimeRangeQueryCreationRequest) {
+    return (
+      await axios.post<LocationQueryCreationResponse>(
+        `${this.config.apiDomain}/location/query`,
+        { ...request },
+        this.axiosRequestConfig
+      )
+    ).data
+  }
+
+  public async postLocationHeatmapQuery(request: LocationHeatmapQueryCreationRequest) {
     return (
       await axios.post<LocationQueryCreationResponse>(
         `${this.config.apiDomain}/location/query`,

@@ -1,3 +1,5 @@
 export * from './LocationHeatmapQuery'
-export * from './LocationQuery'
+export * from './LocationQueryCreationRequest'
+export * from './LocationQueryCreationResponse'
+export * from './LocationQuerySchema'
 export * from './LocationTimeRangeQuery'

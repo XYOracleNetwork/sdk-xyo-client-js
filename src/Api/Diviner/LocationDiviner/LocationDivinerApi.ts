@@ -3,12 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer'
 import { GetLocationQueryResponse } from './models'
-import {
-  LocationHeatmapQueryCreationRequest,
-  LocationQueryCreationResponse,
-  LocationTimeRangeQueryCreationRequest,
-  SupportedLocationQueryCreationRequest,
-} from './Queries'
+import { LocationQueryCreationResponse, SupportedLocationQueryCreationRequest } from './Queries'
 
 class XyoLocationDivinerApi {
   public config: ApiConfig

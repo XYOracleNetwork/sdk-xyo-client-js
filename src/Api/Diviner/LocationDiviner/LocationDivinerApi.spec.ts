@@ -50,8 +50,22 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
       expect(api).toBeDefined()
     })
   })
-  describe('postLocationHeatmapQuery', () => {
+  describe('postLocationQuery', () => {
     it('posts a location query', async () => {
+      const api = new XyoLocationDivinerApi(config)
+      try {
+        const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
+        const response = await api.getLocationQuery(locationQuery.hash)
+        expect(response.queryHash).toBe(locationQuery.hash)
+      } catch (ex) {
+        const error = ex as AxiosError
+        console.log(JSON.stringify(error.response?.data, null, 2))
+        throw ex
+      }
+    })
+  })
+  describe('postLocationHeatmapQuery', () => {
+    it('posts a location heatmap query', async () => {
       const api = new XyoLocationDivinerApi(config)
       try {
         const locationQuery = await api.postLocationHeatmapQuery(getLocationHeatmapQueryCreationRequest())
@@ -65,7 +79,7 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
     })
   })
   describe('postLocationTimeRangeQuery', () => {
-    it('posts a location query', async () => {
+    it('posts a location time range query', async () => {
       const api = new XyoLocationDivinerApi(config)
       try {
         const locationQuery = await api.postLocationTimeRangeQuery(getLocationTimeRangeQueryCreationRequest())

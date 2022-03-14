@@ -40,26 +40,6 @@ class XyoLocationDivinerApi {
       )
     ).data
   }
-
-  public async postLocationTimeRangeQuery(request: LocationTimeRangeQueryCreationRequest) {
-    return (
-      await axios.post<LocationQueryCreationResponse>(
-        `${this.config.apiDomain}/location/query`,
-        { ...request },
-        this.axiosRequestConfig
-      )
-    ).data
-  }
-
-  public async postLocationHeatmapQuery(request: LocationHeatmapQueryCreationRequest) {
-    return (
-      await axios.post<LocationQueryCreationResponse>(
-        `${this.config.apiDomain}/location/query`,
-        { ...request },
-        this.axiosRequestConfig
-      )
-    ).data
-  }
 }
 
 export { XyoLocationDivinerApi }

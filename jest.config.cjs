@@ -22,4 +22,4 @@ const generateJestConfig = ({ esModules }) => {
   }
 }
 
-module.exports = generateJestConfig({ esModules: ['is-ip', 'ip-regex'] })
+module.exports = generateJestConfig({ esModules: ['is-ip', 'ip-regex', 'lodash-es'] })

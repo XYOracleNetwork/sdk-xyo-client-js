@@ -30,6 +30,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
+      - name: windows-defender
+        run: powershell -Command Add-MpPreference -ExclusionPath "."
       - name: install
         run: yarn install
       - name: build

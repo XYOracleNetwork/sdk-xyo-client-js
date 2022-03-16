@@ -108,6 +108,7 @@
     "test:api:diviner": "jest ./src/api/Diviner",
     "test:bw": "jest ./src/BoundWitness",
     "test:witnesses": "jest ./src/Witnesses",
+    "test:witnesses:node": "jest ./src/WitnessesNode",
     "test:payload": "jest ./src/Payload",
     "test:hasher": "jest ./src/Hasher",
     "test:huri": "jest ./src/Huri",

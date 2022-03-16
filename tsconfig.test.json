@@ -2,7 +2,8 @@
   "compilerOptions": {
     "outDir": "dist",
     "typeRoots": ["./node_modules/@types"],
-    "types": ["jest", "node", "@types/jest", "jest-sorted"]
+    "types": ["jest", "node", "@types/jest", "jest-sorted"],
+    "module": "esnext"
   },
   "extends": "@xylabs/tsconfig",
   "include": ["**/*.spec.ts"]

@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
 
+import { typeOf } from '../../lib'
 import { XyoAuthApi } from './AuthApi'
 import { XyoAuthApiConfig } from './AuthApiConfig'
 
@@ -27,7 +28,7 @@ describe('XyoAuthApi', () => {
         try {
           const response = await api.walletChallenge('0xfEf40940e776A3686Cb29eC712d60859EA9f99F7')
           expect(response.data?.state).toBeDefined()
-          expect(typeof response.data.state).toBe('string')
+          expect(typeOf(response.data.state)).toBe('string')
         } catch (ex) {
           const error = ex as AxiosError
           console.log(JSON.stringify(error.response?.data, null, 2))

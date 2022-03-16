@@ -1,8 +1,8 @@
 import { merge } from 'lodash-es'
 import { get } from 'systeminformation'
 
-import { XyoWitnessConfig } from '../../Witness'
-import { XyoSystemInfoWitness } from '../../Witnesses'
+import { XyoWitnessConfig } from '../../../Witness'
+import { XyoSystemInfoWitness } from '../../../Witnesses'
 import { XyoSystemInfoNodePayload } from './Payload'
 
 export interface XyoSystemInfoNodeWitnessConfig<T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload>

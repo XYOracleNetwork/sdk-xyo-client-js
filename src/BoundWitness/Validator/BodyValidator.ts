@@ -1,9 +1,9 @@
 import uniq from 'lodash/uniq'
 
+import { validateType } from '../../lib'
 import { WithStringIndex, XyoBoundWitnessBody, XyoPayload } from '../../models'
 import { XyoPayloadWrapper } from '../../Payload'
 import { SchemaValidator } from '../../SchemaNameValidator'
-import { validateType } from '../../typeOf'
 
 class XyoBoundWitnessBodyValidator {
   private body: WithStringIndex<XyoBoundWitnessBody>

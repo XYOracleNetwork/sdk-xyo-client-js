@@ -1,4 +1,4 @@
-import { domainExists } from './internal'
+import { domainExists } from './lib'
 
 /**
  * Validates a XYO schema structure and existence

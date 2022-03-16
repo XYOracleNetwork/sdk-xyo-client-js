@@ -32,7 +32,6 @@ describe('getDomain', function () {
     const api = new XyoArchivistApi(config)
     try {
       const response = await api.domain.get('network.xyo')
-      console.log(`config: ${JSON.stringify(response, null, 2)}`)
       expect(Object.keys(response.schema ?? {}).length).toBeGreaterThanOrEqual(2)
     } catch (ex) {
       const error = ex as AxiosError

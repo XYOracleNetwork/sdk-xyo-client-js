@@ -1,7 +1,23 @@
+import { assertEx } from '@xylabs/sdk-js'
+
 import { XyoAddress } from '../../Address'
 import { XyoBoundWitness } from '../../models'
 import { XyoBoundWitnessBodyValidator } from './BodyValidator'
 import { XyoBoundWitnessMetaValidator } from './MetaValidator'
+
+const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array length mismatch') => {
+  return a.length != b.length ? [Error(`${message} []`)] : []
+}
+
+const validateSignature = (hash: string, address: string, signature?: string) => {
+  if (!signature) {
+    return [Error(`Missing signature [${address}]`)]
+  }
+  if (!XyoAddress.verifyAddress(hash, signature, address)) {
+    return [Error(`Invalid signature [${address}]`)]
+  }
+  return []
+}
 
 class XyoBoundWitnessValidator {
   private bw: XyoBoundWitness
@@ -14,27 +30,14 @@ class XyoBoundWitnessValidator {
   }
 
   public signatures() {
-    const errors: Error[] = []
-    if (this.bw._signatures?.length !== this.bw.addresses.length) {
-      errors.push(
-        new Error(`Length mismatch: address/_signature [${(this.bw.addresses.length, this.bw._signatures?.length)}]`)
-      )
-    } else if (this.bw._hash) {
-      for (let i = 1; i < this.bw.addresses.length; i++) {
-        const signature = this.bw._signatures?.[i]
-        const address = this.bw.addresses[i]
-        console.log(`${i}sig: ${signature}`)
-        console.log(`${i}add: ${address}`)
-        if (signature) {
-          if (!XyoAddress.verifyAddress(this.bw._hash, signature, address)) {
-            new Error(`Invalid signature [${i}]`)
-          }
-        } else {
-          new Error(`Missing signature [${i}]`)
-        }
-      }
-    }
-    return errors
+    const hash = assertEx(this.bw._hash, 'Missing _hash')
+    return [
+      ...validateArraysSameLength(this.bw._signatures ?? [], this.bw.addresses, 'Length mismatch: address/_signature'),
+      ...this.bw.addresses.reduce<Error[]>((errors, address, index) => {
+        errors.push(...validateSignature(hash, address, this.bw._signatures?.[index]))
+        return errors
+      }, []),
+    ]
   }
 
   public all() {

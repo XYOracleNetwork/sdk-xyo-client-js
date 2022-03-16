@@ -1,8 +1,11 @@
+import { typeOf } from '../lib'
+
 export const removeEmptyFields = (obj: Record<string, unknown>) => {
-  if (Array.isArray(obj)) return obj
+  if (obj === null || Array.isArray(obj)) return obj
+
   const newObject: Record<string, unknown> = {}
   Object.entries(obj).forEach(([key, value]) => {
-    if (!Array.isArray(value) && typeof value === 'object' && value !== null) {
+    if (typeOf(value) === 'object') {
       newObject[key] = removeEmptyFields(value as Record<string, unknown>)
     } else if (value !== undefined) {
       newObject[key] = value

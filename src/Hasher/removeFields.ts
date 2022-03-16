@@ -1,10 +1,6 @@
 // eslint-disable-next-line no-restricted-imports
 import { ValueKeyIteratee } from 'lodash'
-import assign from 'lodash/assign'
-import isObject from 'lodash/isObject'
-import mapValues from 'lodash/mapValues'
-import omitBy from 'lodash/omitBy'
-import pickBy from 'lodash/pickBy'
+import { assign, isObject, mapValues, omitBy, pickBy } from 'lodash-es'
 
 export const deepBy = <T>(obj: T, predicate: ValueKeyIteratee<T>, func: typeof omitBy | typeof pickBy) => {
   if (Array.isArray(obj)) {

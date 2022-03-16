@@ -2300,7 +2300,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.180":
+"@types/lodash-es@npm:^4.17.6":
+  version: 4.17.6
+  resolution: "@types/lodash-es@npm:4.17.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 9bd239dd525086e278821949ce12fbdd4f100a060fed9323fc7ad5661113e1641f28a7ebab617230ed3474680d8f4de705c1928b48252bb684be6ec9eed715db
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
   version: 4.14.180
   resolution: "@types/lodash@npm:4.14.180"
   checksum: fc42ae3473695cac6e91553f832fef8eb51a31c1c0381cafa81b00dc3efe18e279786bdda77caf0b90a8340ba2ba7aa46ae6541d69870565f775d04c89128bc1
@@ -2845,7 +2854,7 @@ __metadata:
     "@types/bn.js": ^5.1.0
     "@types/elliptic": ^6.4.14
     "@types/jest": ^27.4.1
-    "@types/lodash": ^4.14.180
+    "@types/lodash-es": ^4.17.6
     "@types/lru-cache": ^7.4.0
     "@types/node": ^17.0.21
     "@types/sha.js": ^2.4.0
@@ -2870,7 +2879,7 @@ __metadata:
     jest-sorted: ^1.0.14
     keccak256: ^1.0.6
     license-checker: ^25.0.1
-    lodash: ^4.17.21
+    lodash-es: ^4.17.21
     lru-cache: ^7.5.1
     mongodb: ^4.4.1
     neo4j-driver: ^4.4.3
@@ -7174,6 +7183,13 @@ __metadata:
   dependencies:
     p-locate: ^5.0.0
   checksum: 72eb661788a0368c099a184c59d2fee760b3831c9c1c33955e8a19ae4a21b4116e53fa736dc086cdeb9fce9f7cc508f2f92d2d3aae516f133e16a2bb59a39f5a
+  languageName: node
+  linkType: hard
+
+"lodash-es@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
   languageName: node
   linkType: hard
 

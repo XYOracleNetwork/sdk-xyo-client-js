@@ -1,4 +1,4 @@
-import merge from 'lodash/merge'
+import { merge } from 'lodash-es'
 
 import { XyoWitness } from '../../Witness'
 import { XyoSchemaPayload } from './Payload'

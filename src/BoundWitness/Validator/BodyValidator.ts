@@ -1,4 +1,4 @@
-import uniq from 'lodash/uniq'
+import { uniq } from 'lodash-es'
 
 import { validateType } from '../../lib'
 import { WithStringIndex, XyoBoundWitnessBody, XyoPayload } from '../../models'

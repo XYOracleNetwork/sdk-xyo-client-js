@@ -2,8 +2,8 @@ import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 import { v4 } from 'uuid'
 
-import { XyoPayload } from '../models'
-import { XyoPayloadBuilder } from '../Payload'
+import { XyoPayload } from '../../models'
+import { XyoPayloadBuilder } from '../../Payload'
 import { XyoArchivistPayloadMongoSdk } from './PayloadSdk'
 
 const schema = 'network.xyo.temp'

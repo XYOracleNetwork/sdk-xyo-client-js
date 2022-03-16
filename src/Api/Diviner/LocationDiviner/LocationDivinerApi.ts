@@ -2,8 +2,8 @@ import { ApiConfig } from '@xylabs/sdk-js'
 import axios, { AxiosRequestConfig } from 'axios'
 
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer'
-import { LocationDivinerQueryCreationRequest, LocationDivinerQueryCreationResponse } from './LocationQuery'
 import { GetLocationQueryResponse } from './models'
+import { LocationQueryCreationResponse, SupportedLocationQueryCreationRequest } from './Queries'
 
 class XyoLocationDivinerApi {
   public config: ApiConfig
@@ -26,9 +26,9 @@ class XyoLocationDivinerApi {
     ).data
   }
 
-  public async postLocationQuery(request: LocationDivinerQueryCreationRequest) {
+  public async postLocationQuery(request: SupportedLocationQueryCreationRequest) {
     return (
-      await axios.post<LocationDivinerQueryCreationResponse>(
+      await axios.post<LocationQueryCreationResponse>(
         `${this.config.apiDomain}/location/query`,
         { ...request },
         this.axiosRequestConfig

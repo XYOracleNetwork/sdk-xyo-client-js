@@ -2,8 +2,8 @@ import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity } from 'mongodb'
 
-import { XyoBoundWitnessWrapper } from '../BoundWitness'
-import { XyoBoundWitness } from '../models'
+import { XyoBoundWitnessWrapper } from '../../BoundWitness'
+import { XyoBoundWitness } from '../../models'
 
 export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitness> {
   private _archive: string

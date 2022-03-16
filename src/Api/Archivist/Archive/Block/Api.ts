@@ -42,10 +42,9 @@ export class XyoArchivistArchiveBlockApi extends XyoArchivistApiBase {
     ).data
   }
 
-  public async getBefore(timestamp: number, limit = 20) {
+  private async get(params: { order: 'desc' | 'asc'; timestamp: number }, limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
-    const params = { order: 'desc', timestamp }
     return (
       await this.axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block`, {
         ...this.axiosRequestConfig,
@@ -54,16 +53,12 @@ export class XyoArchivistArchiveBlockApi extends XyoArchivistApiBase {
     ).data
   }
 
+  public async getBefore(timestamp: number, limit = 20) {
+    return await this.get({ order: 'desc', timestamp }, limit)
+  }
+
   public async getAfter(timestamp: number, limit = 20) {
-    assertEx(limit > 0, 'min limit = 1')
-    assertEx(limit <= 100, 'max limit = 100')
-    const params = { order: 'asc', timestamp }
-    return (
-      await this.axios.get<XyoBoundWitness[]>(`${this.config.apiDomain}/archive/${this.config.archive}/block`, {
-        ...this.axiosRequestConfig,
-        params,
-      })
-    ).data
+    return await this.get({ order: 'asc', timestamp }, limit)
   }
 
   public async getMostRecent(limit = 20) {

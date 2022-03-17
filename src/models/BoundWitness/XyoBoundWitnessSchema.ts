@@ -1,18 +1,13 @@
 //Should type as JSONSchemaType<XyoBoundWitness> once ajv/eslint issue is fixed
 //https://github.com/microsoft/TypeScript/issues/44851
 
+import { XyoBoundWitnessMetaSchemaProperties } from './Meta'
+
 const XyoBoundWitnessSchema = {
   $id: 'https://schemas.xyo.network/2.0/boundwitness',
   additionalProperties: false,
   properties: {
-    _archive: { nullable: true, type: 'string' },
-    _client: { nullable: true, type: 'string' },
-    _hash: { nullable: true, type: 'string' },
-    _payloads: { items: { type: 'object' }, nullable: true, type: 'array' },
-    _signatures: { items: { type: 'string' }, nullable: true, type: 'array' },
-    _source_ip: { nullable: true, type: 'string' },
-    _timestamp: { nullable: true, type: 'number' },
-    _user_agent: { nullable: true, type: 'string' },
+    ...XyoBoundWitnessMetaSchemaProperties,
     addresses: { items: { type: 'string' }, type: 'array' },
     payload_hashes: { items: { type: 'string' }, type: 'array' },
     payload_schemas: { items: { type: 'string' }, type: 'array' },

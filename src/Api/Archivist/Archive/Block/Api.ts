@@ -18,6 +18,6 @@ export class XyoArchivistArchiveBlockApi extends XyoArchivistArchivePayloadApi<X
   }
 
   public async getPayloadsByHash(hash: string) {
-    return await this.getPath<XyoPayload[]>(`/hash/${hash}/payloads`)
+    return await this.getPath<XyoPayload[]>(`hash/${hash}/payloads`)
   }
 }

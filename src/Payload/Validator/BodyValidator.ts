@@ -23,16 +23,6 @@ class XyoPayloadBodyValidator {
     return errors
   }
 
-  public schema() {
-    const errors: Error[] = []
-    if (this.body.schema === undefined) {
-      errors.push(Error('schema missing'))
-    } else {
-      errors.push(...this.schemaValidator.all())
-    }
-    return errors
-  }
-
   public all() {
     const errors: Error[] = []
     errors.push(...this.schemaName())

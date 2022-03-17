@@ -1476,9 +1476,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/providers@npm:^5.6.0":
-  version: 5.6.0
-  resolution: "@ethersproject/providers@npm:5.6.0"
+"@ethersproject/providers@npm:^5.6.1":
+  version: 5.6.1
+  resolution: "@ethersproject/providers@npm:5.6.1"
   dependencies:
     "@ethersproject/abstract-provider": ^5.6.0
     "@ethersproject/abstract-signer": ^5.6.0
@@ -1499,7 +1499,7 @@ __metadata:
     "@ethersproject/web": ^5.6.0
     bech32: 1.1.4
     ws: 7.4.6
-  checksum: 2f3020edd130da84c4544ba8d14a804ec18fe75b4abb452e307bbb9bb0fa93c16394e3c42b0072ca1e49a8d27ec83538844c734cd3318d4511eedfd938bba328
+  checksum: c6d6ab73064ee4a7793d4cb599e2b0ff7d61b510c2ffece249a95c60043e07ef40c7c55f097569141a7f50fd82f7bb3956d44e1715997ec91da25216a5ce51b6
   languageName: node
   linkType: hard
 
@@ -2316,10 +2316,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lru-cache@npm:^7.4.0":
-  version: 7.4.0
-  resolution: "@types/lru-cache@npm:7.4.0"
-  checksum: 7c577ccdedf284c9c09f2b628057f39b6005b196cd60d5778c97de0cac9da73cc6dbf2c980cca6dd1a40c353ad7ab9d1ec35cc7abe4933400f6ff1f57b7cf3fd
+"@types/lru-cache@npm:^7.5.0":
+  version: 7.5.0
+  resolution: "@types/lru-cache@npm:7.5.0"
+  checksum: d6f9337ee898ac070bdd6f36615bc2d9e328907f7f486420d1a43e159b947a03670af6418702ae87ff2dceab73e3de0f64016daca02386932daeb9396ad20b3c
   languageName: node
   linkType: hard
 
@@ -2850,12 +2850,12 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.7
     "@babel/preset-env": ^7.16.11
-    "@ethersproject/providers": ^5.6.0
+    "@ethersproject/providers": ^5.6.1
     "@types/bn.js": ^5.1.0
     "@types/elliptic": ^6.4.14
     "@types/jest": ^27.4.1
     "@types/lodash-es": ^4.17.6
-    "@types/lru-cache": ^7.4.0
+    "@types/lru-cache": ^7.5.0
     "@types/node": ^17.0.21
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
@@ -2880,14 +2880,14 @@ __metadata:
     keccak256: ^1.0.6
     license-checker: ^25.0.1
     lodash-es: ^4.17.21
-    lru-cache: ^7.5.1
+    lru-cache: ^7.6.0
     mongodb: ^4.4.1
-    neo4j-driver: ^4.4.3
-    neo4j-driver-core: ^4.4.3
+    neo4j-driver: ^4.4.4
+    neo4j-driver-core: ^4.4.4
     npm-package-json-lint: ^6.0.3
     npm-package-json-lint-config-default: ^5.0.0
     rimraf: ^3.0.2
-    rollbar: ^2.24.0
+    rollbar: ^2.24.1
     rollup: ^2.70.1
     sha.js: ^2.4.11
     systeminformation: ^5.11.8
@@ -7279,10 +7279,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^7.3.1, lru-cache@npm:^7.4.1, lru-cache@npm:^7.5.1":
-  version: 7.5.1
-  resolution: "lru-cache@npm:7.5.1"
-  checksum: f6980281c6ae4e58254d68b2d7878d7abb21c366a7ee527687f4a27bcbf7576f923517285d2fbd4b6a45b5eebdc66b4c565b55a8b49d5dc1babd65a912c26367
+"lru-cache@npm:^7.3.1, lru-cache@npm:^7.4.1, lru-cache@npm:^7.6.0":
+  version: 7.6.0
+  resolution: "lru-cache@npm:7.6.0"
+  checksum: bfc0bf531cb6030faabf9ae374d5f2a05ce147035a9d0d1fb44afc6e8106205c8a0ea37d6dcf652829e895bb0df26a485d8cc2f10caf259d045549df87be737c
   languageName: node
   linkType: hard
 
@@ -8127,33 +8127,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"neo4j-driver-bolt-connection@npm:^4.4.3":
-  version: 4.4.3
-  resolution: "neo4j-driver-bolt-connection@npm:4.4.3"
+"neo4j-driver-bolt-connection@npm:^4.4.4":
+  version: 4.4.4
+  resolution: "neo4j-driver-bolt-connection@npm:4.4.4"
   dependencies:
     buffer: ^6.0.3
-    neo4j-driver-core: ^4.4.3
+    neo4j-driver-core: ^4.4.4
     string_decoder: ^1.3.0
-  checksum: 6ef6e15d796d00b2d1f1ba68d429b6908b58c8e81a259bf74f39283bd753954e38327dd6550596e9f38f25776f366b4baeb0b903377c48776f5a346322d61213
+  checksum: 218cb67282f53343b44c0d79c68570a380495be6a7b7f713179ee4726155eaa2458bb7b832fd061792b368005c8cd0144e53cdf74a76df6a332435141086e8f3
   languageName: node
   linkType: hard
 
-"neo4j-driver-core@npm:^4.4.3":
-  version: 4.4.3
-  resolution: "neo4j-driver-core@npm:4.4.3"
-  checksum: 954cc3f94a8662c90f6025e60955b60cd5ed1840897568394893ec80ed9fd8e7ecc6cf30a7cb39dfa3c61c60589ccad486897d5fdd1716da08e69dafb4df8e5b
+"neo4j-driver-core@npm:^4.4.4":
+  version: 4.4.4
+  resolution: "neo4j-driver-core@npm:4.4.4"
+  checksum: 9db41ecd830d810918ea73c2065a046388a18997551d1a1087a57bff038f05e49cd8205bbd74e4feaf62d18fbc86a44ad72c7f0bf8ed106b179bf53b59c2f07f
   languageName: node
   linkType: hard
 
-"neo4j-driver@npm:^4.4.3":
-  version: 4.4.3
-  resolution: "neo4j-driver@npm:4.4.3"
+"neo4j-driver@npm:^4.4.4":
+  version: 4.4.4
+  resolution: "neo4j-driver@npm:4.4.4"
   dependencies:
     "@babel/runtime": ^7.5.5
-    neo4j-driver-bolt-connection: ^4.4.3
-    neo4j-driver-core: ^4.4.3
+    neo4j-driver-bolt-connection: ^4.4.4
+    neo4j-driver-core: ^4.4.4
     rxjs: ^6.6.3
-  checksum: 933167fe0726fefec58ebf92542779cba93f7d46755a41f854e5e581c2cdcf32373437f6c10910d2082e2b75380915e21661dcf99de03b814c6dbc4157cd5b61
+  checksum: 11b7607feb5434c6941d05652f00646ba06c87841e8a5d090d51ac491a5904f3e4dcad49cf0e6057e17dc509a5785468a18d3f57f0e7ec95e8a34fa77a10c424
   languageName: node
   linkType: hard
 
@@ -10832,9 +10832,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollbar@npm:^2.24.0":
-  version: 2.24.0
-  resolution: "rollbar@npm:2.24.0"
+"rollbar@npm:^2.24.0, rollbar@npm:^2.24.1":
+  version: 2.24.1
+  resolution: "rollbar@npm:2.24.1"
   dependencies:
     async: ~1.2.1
     console-polyfill: 0.3.0
@@ -10848,7 +10848,7 @@ __metadata:
   dependenciesMeta:
     decache:
       optional: true
-  checksum: 81af2a10f4e601a483dde58a35194eab09ddc70f764e2768933fa70f07b10f323458fb7c4227f2949b8d5c261e7528daf506c34b94fe614b98e659cb3b6ee95b
+  checksum: 1c960baa4f6e11f5fbc3fbba22c112ce494887a3a68e3d1d945d9215d7a8ee36c62199c139050275e3e6177b2fe2b3bd9cf9c14bb656ec7865882167cd3b8018
   languageName: node
   linkType: hard
 

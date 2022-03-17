@@ -13,15 +13,15 @@ export class XyoArchivistArchivePayloadApi<T = XyoPayload> extends XyoArchivistA
   }
 
   public async getStats() {
-    return await this.getPath<{ count: number }>('/stats')
+    return await this.getPath<{ count: number }>('stats')
   }
 
   public async getByHash(hash: string) {
-    return await this.getPath<T[]>(`/hash/${hash}`)
+    return await this.getPath<T[]>(`hash/${hash}`)
   }
 
   public async repairByHash(hash: string) {
-    return await this.getPath<T[]>(`/hash/${hash}/repair`)
+    return await this.getPath<T[]>(`hash/${hash}/repair`)
   }
 
   private async get(params: { order: 'desc' | 'asc'; timestamp: number }, limit = 20) {
@@ -41,10 +41,10 @@ export class XyoArchivistArchivePayloadApi<T = XyoPayload> extends XyoArchivistA
   public async getMostRecent(limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
-    return await this.getPath<T[]>(`/recent/${limit}`)
+    return await this.getPath<T[]>(`recent/${limit}`)
   }
 
   public async getSample(size: number) {
-    return await this.getPath<T[]>(`/sample/${size}`)
+    return await this.getPath<T[]>(`sample/${size}`)
   }
 }

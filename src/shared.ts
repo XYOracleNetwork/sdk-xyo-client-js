@@ -10,4 +10,11 @@ export * from './Payload'
 export * from './SchemaCache'
 export * from './SchemaNameValidator'
 export * from './Witness'
-export { XyoAdhocWitness, XyoIdPayload, XyoIdWitness, XyoSchemaPayload, XyoSchemaWitness } from './Witnesses'
+export {
+  XyoAdhocWitness,
+  XyoIdPayload,
+  XyoIdWitness,
+  XyoSchemaPayload,
+  XyoSchemaWitness,
+  XyoSystemInfoPayload,
+} from './Witnesses'

@@ -4,7 +4,7 @@
     "name": "XYO Development Team",
     "url": "https://xyo.network"
   },
-  "browser": "dist/browser.js",
+  "browser": "dist/browserIndex.js",
   "bugs": {
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"

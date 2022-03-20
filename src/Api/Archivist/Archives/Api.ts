@@ -1,9 +1,10 @@
 import { XyoArchivistApiBase } from '../Base'
+import { ArchiveResponse } from '../models'
 import { XyoArchivistArchiveApi } from './Archive'
 
 export class XyoArchivistArchivesApi extends XyoArchivistApiBase {
-  public async list() {
-    return await this.getEndpoint<{ archive: string }[]>()
+  public async get() {
+    return await this.getEndpoint<ArchiveResponse[]>()
   }
 
   public select(archive = 'temp') {

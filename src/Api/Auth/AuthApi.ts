@@ -1,6 +1,5 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponseTransformer } from 'axios'
 
-import { getArchivistApiResponseTransformer } from '../Archivist'
 import { XyoAuthApiConfig } from './AuthApiConfig'
 
 class XyoAuthApi {
@@ -72,3 +71,6 @@ class XyoAuthApi {
 }
 
 export { XyoAuthApi }
+function getArchivistApiResponseTransformer(): AxiosResponseTransformer | AxiosResponseTransformer[] | undefined {
+  throw new Error('Function not implemented.')
+}

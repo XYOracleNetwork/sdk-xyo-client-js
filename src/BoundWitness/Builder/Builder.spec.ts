@@ -50,7 +50,7 @@ describe('XyoBoundWitnessBuilder', () => {
         const actual = builder.build()
 
         expect(actual).toBeDefined()
-        expect(actual._hash).toEqual('3530fb43d95d827bdd17be4673f9a4b87ea4a54eadf851319504f706c8ee7f4b')
+        expect(actual._hash).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')
 
         if (actual._hash && actual._signatures) {
           const verify = XyoAddress.verifyAddress(actual._hash, actual._signatures[0], actual.addresses[0])

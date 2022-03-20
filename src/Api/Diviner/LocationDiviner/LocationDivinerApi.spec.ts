@@ -17,8 +17,7 @@ const config: ApiConfig = {
 
 const getArchiveConfig = (): XyoArchivistApiConfig => {
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
-  const archive = process.env.ARCHIVE || 'temp'
-  return { apiDomain, archive }
+  return { apiDomain }
 }
 
 const getDefaultStartStopTime = () => {

@@ -1,25 +1,44 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import { Axios, AxiosResponse } from 'axios'
 
 import { XyoArchivistApiConfig } from './Config'
-import { getArchivistApiResponseTransformer } from './responseTransformer'
+import { archivistApiResponseTransformer } from './responseTransformer'
 
-export class XyoArchivistApiBase {
-  public config: XyoArchivistApiConfig
-  constructor(config: XyoArchivistApiConfig) {
+export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistApiConfig> {
+  public config: C
+  public axios: Axios
+
+  constructor(config: C) {
     this.config = config
+    this.axios = new Axios({
+      headers: {
+        ...this.headers,
+        'Content-Encoding': 'gzip',
+      },
+      transformResponse: archivistApiResponseTransformer,
+    })
   }
 
-  protected get axios() {
-    return this.config.axios ?? axios
+  protected get root() {
+    return this.config.root ?? '/'
   }
 
-  protected get axiosRequestConfig(): AxiosRequestConfig {
-    return (
-      this.config.axiosRequestConfig ?? {
-        headers: this.headers,
-        transformResponse: getArchivistApiResponseTransformer(),
-      }
-    )
+  private resolveRoot() {
+    return `${this.config.apiDomain}${this.root}`
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected async getEndpoint<T = any, D = any>(endPoint = '') {
+    return (await this.axios.get<T, AxiosResponse<T>, D>(`${this.resolveRoot()}${endPoint}`)).data
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected async postEndpoint<T = any, D = any>(endPoint = '', data?: D) {
+    return (await this.axios.post<T, AxiosResponse<T>, D>(`${this.resolveRoot()}${endPoint}`, data)).data
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected async putEndpoint<T = any, D = any>(endPoint = '', data?: D) {
+    return (await this.axios.put<T, AxiosResponse<T>, D>(`${this.resolveRoot()}${endPoint}`, data)).data
   }
 
   protected get headers(): Record<string, string> {
@@ -35,9 +54,5 @@ export class XyoArchivistApiBase {
 
   public get authenticated() {
     return !!this.config.apiKey || !!this.config.jwtToken
-  }
-
-  public get archiveName() {
-    return this.config.archive
   }
 }

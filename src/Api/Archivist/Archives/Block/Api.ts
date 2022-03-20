@@ -6,7 +6,7 @@ import { XyoArchivistArchivePayloadApi } from '../Payload'
 export class XyoArchivistArchiveBlockApi<
   C extends WithArchive<XyoArchivistApiConfig> = WithArchive<XyoArchivistApiConfig>,
   T extends XyoBoundWitness = XyoBoundWitness
-> extends XyoArchivistArchivePayloadApi<C> {
+> extends XyoArchivistArchivePayloadApi<C, T> {
   constructor(config: C) {
     super(config)
   }

@@ -7,8 +7,10 @@ export interface LocationQueryCreationRequest<
   TSchema extends LocationQuerySchema = LocationQuerySchema,
   TQuery extends Record<string, unknown> = Record<string, unknown>
 > {
-  sourceArchive: XyoArchivistApiConfig
-  resultArchive: XyoArchivistApiConfig
+  sourceArchivist: XyoArchivistApiConfig
+  sourceArchive: string
+  resultArchivist: XyoArchivistApiConfig
+  resultArchive: string
   schema: TSchema
   query: TQuery
 }

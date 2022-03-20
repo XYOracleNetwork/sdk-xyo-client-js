@@ -60,7 +60,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       const api = new XyoArchivistApi(config)
       try {
         await api.archives.select(archive).put()
-        const archives = await api.archives.list()
+        const archives = await api.archives.get()
         expect(Array.isArray(archives)).toBe(true)
         const archiveNames = archives.map((x) => x.archive)
         expect(archiveNames).toContain(archive)

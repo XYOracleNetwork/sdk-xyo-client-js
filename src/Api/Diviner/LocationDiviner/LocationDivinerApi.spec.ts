@@ -28,16 +28,30 @@ const getDefaultStartStopTime = () => {
 
 const getLocationTimeRangeQueryCreationRequest = (): LocationTimeRangeQueryCreationRequest => {
   const query = { schema: locationWitnessPayloadSchema, ...getDefaultStartStopTime() }
-  const sourceArchive = { ...getArchiveConfig() }
-  const resultArchive = { ...getArchiveConfig() }
-  return { query, resultArchive, schema: locationTimeRangeQuerySchema, sourceArchive }
+  const sourceArchivist = { ...getArchiveConfig() }
+  const resultArchivist = { ...getArchiveConfig() }
+  return {
+    query,
+    resultArchive: 'temp',
+    resultArchivist,
+    schema: locationTimeRangeQuerySchema,
+    sourceArchive: 'temp',
+    sourceArchivist,
+  }
 }
 
 const getLocationHeatmapQueryCreationRequest = (): LocationHeatmapQueryCreationRequest => {
   const query = { schema: locationWitnessPayloadSchema, ...getDefaultStartStopTime() }
-  const sourceArchive = { ...getArchiveConfig() }
-  const resultArchive = { ...getArchiveConfig() }
-  return { query, resultArchive, schema: locationHeatmapQuerySchema, sourceArchive }
+  const sourceArchivist = { ...getArchiveConfig() }
+  const resultArchivist = { ...getArchiveConfig() }
+  return {
+    query,
+    resultArchive: 'temp',
+    resultArchivist,
+    schema: locationHeatmapQuerySchema,
+    sourceArchive: 'temp',
+    sourceArchivist,
+  }
 }
 
 const describeSkipIfNoDiviner = process.env.LOCATION_API_DOMAIN ? describe : describe.skip

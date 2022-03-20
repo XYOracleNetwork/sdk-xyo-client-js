@@ -7,7 +7,6 @@ test('all [simple panel send]', async () => {
   const archivistConfigs: XyoArchivistApiConfig[] = [
     {
       apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
-      archive: 'temp',
     },
   ]
 

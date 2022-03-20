@@ -55,6 +55,7 @@ export class XyoBoundWitnessBuilder {
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
       previous_hashes,
+      schema: 'network.xyo.boundwitness',
     }
   }
 

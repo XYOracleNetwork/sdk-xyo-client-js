@@ -8,7 +8,7 @@ export interface PutArchiveRequest {
   accessControl: boolean
 }
 
-export interface ArchiveKeyResponse {
+export interface ArchiveKey {
   created: string
   key: string
 }

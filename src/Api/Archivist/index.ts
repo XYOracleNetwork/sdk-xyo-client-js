@@ -1,5 +1,5 @@
 export * from './Api'
-export * from './Archive'
+export * from './Archives'
 export * from './Config'
 export * from './Domain'
 export * from './models'

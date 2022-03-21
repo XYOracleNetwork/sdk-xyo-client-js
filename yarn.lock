@@ -2344,15 +2344,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-gzip@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@types/node-gzip@npm:1.1.0"
-  dependencies:
-    "@types/node": "*"
-  checksum: f5dea1b31a0b9a9ab28ed5ba8ba95e22cbc679bafc3db7d5baff83b00a334c5c074f318b1e0b37cd73d3f44241ea94a6d234c5bbcba09ed7ad8bfd059636543e
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:*, @types/node@npm:^17.0.21":
   version: 17.0.21
   resolution: "@types/node@npm:17.0.21"
@@ -2364,6 +2355,13 @@ __metadata:
   version: 2.4.1
   resolution: "@types/normalize-package-data@npm:2.4.1"
   checksum: e87bccbf11f95035c89a132b52b79ce69a1e3652fe55962363063c9c0dae0fe2477ebc585e03a9652adc6f381d24ba5589cc5e51849df4ced3d3e004a7d40ed5
+  languageName: node
+  linkType: hard
+
+"@types/pako@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@types/pako@npm:1.0.3"
+  checksum: a0fcada8fe162b191b43b68036772bf6344fc047426a7187100f9570ef73c9b953fef2098ade84e709a280790e7e92043ed8f83675dfd042fa605ffc78c7e400
   languageName: node
   linkType: hard
 
@@ -2857,7 +2855,7 @@ __metadata:
     "@types/lodash": ^4.14.180
     "@types/lru-cache": ^7.5.0
     "@types/node": ^17.0.21
-    "@types/node-gzip": ^1.1.0
+    "@types/pako": ^1.0.3
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
     "@types/uuid": ^8.3.4
@@ -2885,9 +2883,9 @@ __metadata:
     mongodb: ^4.4.1
     neo4j-driver: ^4.4.4
     neo4j-driver-core: ^4.4.4
-    node-gzip: ^1.1.2
     npm-package-json-lint: ^6.3.0
     npm-package-json-lint-config-default: ^5.0.0
+    pako: ^2.0.4
     rimraf: ^3.0.2
     rollbar: ^2.24.1
     rollup: ^2.70.1
@@ -8226,13 +8224,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gzip@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "node-gzip@npm:1.1.2"
-  checksum: 5cefff1ff68fa3279dec3c7e92b0ff93ab4763cfb585985d25d937cf781a42eb78975c7555abf49f2325b45a8cdf19b48bed50eeab23f3630018869572def46b
-  languageName: node
-  linkType: hard
-
 "node-int64@npm:^0.4.0":
   version: 0.4.0
   resolution: "node-int64@npm:0.4.0"
@@ -8739,6 +8730,13 @@ __metadata:
   bin:
     pacote: lib/bin.js
   checksum: d77427d3d3f6ff822fbd06247400cffcb084c07e2da907a8e8f7982d9239fe9c179aef192156a715ba9b397481e41f8a39bbb1123d0d9bfbb68e4eeb2f07e743
+  languageName: node
+  linkType: hard
+
+"pako@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "pako@npm:2.0.4"
+  checksum: 82b9b0b99dd830c9103856a6dbd10f0cb2c8c32b9768184727ea381a99666de9a47a069d2e6efe6acf09336f363956b50835c196ef9311b34b7274d420eb0d88
   languageName: node
   linkType: hard
 

@@ -1,5 +1,5 @@
 import { Axios, AxiosResponse } from 'axios'
-import { gzip } from 'node-gzip'
+import { gzip } from 'pako'
 
 import { XyoArchivistApiConfig } from './Config'
 import { XyoApiEnvelope } from './models'
@@ -14,11 +14,12 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
       headers: {
         ...this.headers,
         Accept: 'application/json, text/plain, *.*',
+        'Content-Encoding': 'gzip',
         'Content-Type': 'application/json',
       },
       transformRequest: (data) => {
         console.log(`XForm-Req: ${JSON.stringify(data)}`)
-        return JSON.stringify(data)
+        return data ? gzip(JSON.stringify(data)).buffer : undefined
       },
       transformResponse: (data) => {
         try {

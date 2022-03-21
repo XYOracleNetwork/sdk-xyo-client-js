@@ -23,7 +23,7 @@ const getRandomArchiveName = (): string => {
 const getNewArchive = async (api: XyoArchivistApi) => {
   const archive = getRandomArchiveName()
   const response = await api.archives.select(archive).put()
-  return response.archive
+  return response?.archive
 }
 
 /*
@@ -62,7 +62,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         await api.archives.select(archive).put()
         const archives = await api.archives.get()
         expect(Array.isArray(archives)).toBe(true)
-        const archiveNames = archives.map((x) => x.archive)
+        const archiveNames = archives?.map((x) => x.archive)
         expect(archiveNames).toContain(archive)
       } catch (ex) {
         const error = ex as AxiosError
@@ -100,7 +100,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       const api = new XyoArchivistApi(config)
       try {
         const response = await api.archives.select(archive).put()
-        expect(response.archive).toEqual(archive)
+        expect(response?.archive).toEqual(archive)
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))
@@ -118,8 +118,8 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         await archiveApi.put()
         const key = await archiveApi.settings.keys.post()
         const response = await archiveApi.settings.keys.get()
-        expect(response.length).toEqual(1)
-        expect(response[0]).toEqual(key)
+        expect(response?.length).toEqual(1)
+        expect(response?.[0]).toEqual(key)
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))
@@ -136,7 +136,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         const archiveApi = api.archives.select(archive)
         await archiveApi.put()
         const response = await archiveApi.settings.keys.post()
-        expect(response.key).toBeTruthy()
+        expect(response?.key).toBeTruthy()
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))
@@ -153,11 +153,11 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
 
       try {
         const response = await api.archives.select().block.post(boundWitness)
-        expect(response.boundWitnesses).toEqual(1)
+        expect(response?.boundWitnesses).toEqual(1)
         if (inlinePayloads) {
-          expect(response.payloads).toEqual(1)
+          expect(response?.payloads).toEqual(1)
         } else {
-          expect(response.payloads).toEqual(0)
+          expect(response?.payloads).toEqual(0)
         }
       } catch (ex) {
         const error = ex as AxiosError
@@ -174,11 +174,11 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       const boundWitnesses: XyoBoundWitness[] = [json, json]
       try {
         const response = await api.archives.select().block.post(boundWitnesses)
-        expect(response.boundWitnesses).toEqual(2)
+        expect(response?.boundWitnesses).toEqual(2)
         if (inlinePayloads) {
-          expect(response.payloads).toEqual(2)
+          expect(response?.payloads).toEqual(2)
         } else {
-          expect(response.payloads).toEqual(0)
+          expect(response?.payloads).toEqual(0)
         }
       } catch (ex) {
         const error = ex as AxiosError
@@ -196,10 +196,10 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         await api.archives.select().block.post(boundWitness)
         const timestamp = Date.now() + 10000
         const response = await api.archives.select('temp').block.getBefore(timestamp)
-        expect(response.length).toBe(1)
-        const actual = response[0]
-        expect(actual._timestamp).toBeTruthy()
-        expect(actual._timestamp).toBeLessThan(timestamp)
+        expect(response?.length).toBe(1)
+        const actual = response?.[0]
+        expect(actual?._timestamp).toBeTruthy()
+        expect(actual?._timestamp).toBeLessThan(timestamp)
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))
@@ -217,10 +217,10 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         await api.archives.select(archive).block.post(boundWitness)
         const timestamp = Date.now() - 10000
         const response = await api.archives.select(archive).block.getAfter(timestamp)
-        expect(response.length).toBe(1)
-        const actual = response[0]
-        expect(actual._timestamp).toBeTruthy()
-        expect(actual._timestamp).toBeGreaterThan(timestamp)
+        expect(response?.length).toBe(1)
+        const actual = response?.[0]
+        expect(actual?._timestamp).toBeTruthy()
+        expect(actual?._timestamp).toBeGreaterThan(timestamp)
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))

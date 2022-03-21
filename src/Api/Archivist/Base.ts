@@ -18,12 +18,10 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
         'Content-Type': 'application/json',
       },
       transformRequest: (data) => {
-        console.log(`XForm-Req: ${JSON.stringify(data)}`)
         return data ? gzip(JSON.stringify(data)).buffer : undefined
       },
       transformResponse: (data) => {
         try {
-          console.log(`XForm-Res: [${typeof data}] ${data}`)
           return JSON.parse(data)
         } catch (ex) {
           return {}

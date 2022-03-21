@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { reverse } from 'lodash-es'
+import reverse from 'lodash/reverse'
 
 export interface XyoDomainConfig {
   schema?: Record<string, string>

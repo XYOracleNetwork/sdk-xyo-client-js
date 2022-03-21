@@ -1,4 +1,4 @@
-import { pick } from 'lodash-es'
+import pick from 'lodash/pick'
 
 import { XyoHasher } from '../../Hasher'
 import { XyoBoundWitness } from '../../models'

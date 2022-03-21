@@ -1,7 +1,6 @@
 import { Axios, AxiosResponse } from 'axios'
 
 import { XyoArchivistApiConfig } from './Config'
-import { archivistApiResponseTransformer } from './responseTransformer'
 
 export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistApiConfig> {
   public config: C
@@ -14,7 +13,6 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
         ...this.headers,
         'Content-Encoding': 'gzip',
       },
-      transformResponse: archivistApiResponseTransformer,
     })
   }
 

@@ -14,6 +14,8 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
         ...this.headers,
         'Content-Encoding': 'gzip',
       },
+      responseType: 'json',
+      transformResponse: (data) => JSON.parse(data),
     })
   }
 

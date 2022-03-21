@@ -2344,6 +2344,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node-gzip@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@types/node-gzip@npm:1.1.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: f5dea1b31a0b9a9ab28ed5ba8ba95e22cbc679bafc3db7d5baff83b00a334c5c074f318b1e0b37cd73d3f44241ea94a6d234c5bbcba09ed7ad8bfd059636543e
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:^17.0.21":
   version: 17.0.21
   resolution: "@types/node@npm:17.0.21"
@@ -2848,6 +2857,7 @@ __metadata:
     "@types/lodash": ^4.14.180
     "@types/lru-cache": ^7.5.0
     "@types/node": ^17.0.21
+    "@types/node-gzip": ^1.1.0
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
     "@types/uuid": ^8.3.4
@@ -2875,6 +2885,7 @@ __metadata:
     mongodb: ^4.4.1
     neo4j-driver: ^4.4.4
     neo4j-driver-core: ^4.4.4
+    node-gzip: ^1.1.2
     npm-package-json-lint: ^6.3.0
     npm-package-json-lint-config-default: ^5.0.0
     rimraf: ^3.0.2
@@ -8212,6 +8223,13 @@ __metadata:
   bin:
     node-gyp: bin/node-gyp.js
   checksum: 341710b5da39d3660e6a886b37e210d33f8282047405c2e62c277bcc744c7552c5b8b972ebc3a7d5c2813794e60cc48c3ebd142c46d6e0321db4db6c92dd0355
+  languageName: node
+  linkType: hard
+
+"node-gzip@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "node-gzip@npm:1.1.2"
+  checksum: 5cefff1ff68fa3279dec3c7e92b0ff93ab4763cfb585985d25d937cf781a42eb78975c7555abf49f2325b45a8cdf19b48bed50eeab23f3630018869572def46b
   languageName: node
   linkType: hard
 

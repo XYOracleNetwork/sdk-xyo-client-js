@@ -56,7 +56,7 @@ export class XyoPanel {
         return (async () => {
           this.config.onArchivistSendStart?.(archivist)
           let error: Error | undefined = undefined
-          let postResult: { boundWitnesses: number; payloads: number } = { boundWitnesses: 0, payloads: 0 }
+          let postResult: { boundWitnesses: number; payloads: number } | undefined = { boundWitnesses: 0, payloads: 0 }
           try {
             const boundWitnessWithArchive = { ...boundWitness, _archive: this.config.archive }
             postResult = await archivist.archives.select().block.post(boundWitness)

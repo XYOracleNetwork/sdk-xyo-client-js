@@ -40,13 +40,42 @@ describe('getDomain', function () {
   })
 })
 
-describe('getBoundWitnessesStats', function () {
-  it('returns stats for boundwitness', async () => {
-    let api = new XyoArchivistApi(config)
+describe('postBoundWitness', () => {
+  it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
+    const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
+    const api = new XyoArchivistApi(config)
+    const boundWitness: XyoBoundWitness = builder.build()
+
     try {
-      api = new XyoArchivistApi({ ...config })
-      const stats = await api.archives.select().block.getStats()
-      expect(stats?.count).toBeGreaterThan(0)
+      const response = await api.archives.select().block.post(boundWitness)
+      expect(response?.boundWitnesses).toEqual(1)
+      if (inlinePayloads) {
+        expect(response?.payloads).toEqual(1)
+      } else {
+        expect(response?.payloads).toEqual(0)
+      }
+    } catch (ex) {
+      const error = ex as AxiosError
+      console.log(JSON.stringify(error.response?.data, null, 2))
+      throw ex
+    }
+  })
+})
+
+describe('postBoundWitnesses', () => {
+  it.each([true, false])('posts multiple bound witnesses', async (inlinePayloads) => {
+    const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
+    const api = new XyoArchivistApi(config)
+    const json = builder.build()
+    const boundWitnesses: XyoBoundWitness[] = [json, json]
+    try {
+      const response = await api.archives.select().block.post(boundWitnesses)
+      expect(response?.boundWitnesses).toEqual(2)
+      if (inlinePayloads) {
+        expect(response?.payloads).toEqual(2)
+      } else {
+        expect(response?.payloads).toEqual(0)
+      }
     } catch (ex) {
       const error = ex as AxiosError
       console.log(JSON.stringify(error.response?.data, null, 2))
@@ -157,48 +186,21 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     })
   })
 
-  describe('postBoundWitness', () => {
-    it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
-      const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
-      const api = new XyoArchivistApi(config)
-      const boundWitness: XyoBoundWitness = builder.build()
+  describe('getBoundWitnessesStats', function () {
+    it('returns stats for boundwitness', async () => {
+      let api = new XyoArchivistApi(config)
+      try {
+        api = new XyoArchivistApi({ ...config })
+        const stats = await api.archives.select().block.getStats()
+        expect(stats?.count).toBeGreaterThan(0)
+      } catch (ex) {
+        const error = ex as AxiosError
+        console.log(JSON.stringify(error.response?.data, null, 2))
+        throw ex
+      }
+    })
+  })
 
-      try {
-        const response = await api.archives.select().block.post(boundWitness)
-        expect(response?.boundWitnesses).toEqual(1)
-        if (inlinePayloads) {
-          expect(response?.payloads).toEqual(1)
-        } else {
-          expect(response?.payloads).toEqual(0)
-        }
-      } catch (ex) {
-        const error = ex as AxiosError
-        console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
-      }
-    })
-  })
-  describe('postBoundWitnesses', () => {
-    it.each([true, false])('posts multiple bound witnesses', async (inlinePayloads) => {
-      const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
-      const api = new XyoArchivistApi(config)
-      const json = builder.build()
-      const boundWitnesses: XyoBoundWitness[] = [json, json]
-      try {
-        const response = await api.archives.select().block.post(boundWitnesses)
-        expect(response?.boundWitnesses).toEqual(2)
-        if (inlinePayloads) {
-          expect(response?.payloads).toEqual(2)
-        } else {
-          expect(response?.payloads).toEqual(0)
-        }
-      } catch (ex) {
-        const error = ex as AxiosError
-        console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
-      }
-    })
-  })
   describe('getBoundWitnessesBefore', function () {
     it('returns bound witnesses from before the timestamp', async () => {
       let api = new XyoArchivistApi(config)
@@ -219,6 +221,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       }
     })
   })
+
   describe('getBoundWitnessesAfter', function () {
     it('returns bound witnesses from before the timestamp', async () => {
       let api = new XyoArchivistApi(config)

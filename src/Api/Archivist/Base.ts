@@ -1,6 +1,7 @@
 import { Axios, AxiosResponse } from 'axios'
 
 import { XyoArchivistApiConfig } from './Config'
+import { XyoApiEnvelope } from './models'
 
 export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistApiConfig> {
   public config: C
@@ -26,17 +27,29 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected async getEndpoint<T = any, D = any>(endPoint = '') {
-    return (await this.axios.get<T, AxiosResponse<T>, D>(`${this.resolveRoot()}${endPoint}`)).data
+    return (
+      await this.axios.get<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(`${this.resolveRoot()}${endPoint}`)
+    ).data.data
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected async postEndpoint<T = any, D = any>(endPoint = '', data?: D) {
-    return (await this.axios.post<T, AxiosResponse<T>, D>(`${this.resolveRoot()}${endPoint}`, data)).data
+    return (
+      await this.axios.post<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+        `${this.resolveRoot()}${endPoint}`,
+        data
+      )
+    ).data.data
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected async putEndpoint<T = any, D = any>(endPoint = '', data?: D) {
-    return (await this.axios.put<T, AxiosResponse<T>, D>(`${this.resolveRoot()}${endPoint}`, data)).data
+    return (
+      await this.axios.put<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+        `${this.resolveRoot()}${endPoint}`,
+        data
+      )
+    ).data.data
   }
 
   protected get headers(): Record<string, string> {

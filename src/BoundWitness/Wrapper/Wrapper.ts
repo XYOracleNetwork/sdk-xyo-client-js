@@ -1,4 +1,4 @@
-import { pick } from 'lodash-es'
+import pick from 'lodash/pick'
 import { UAParser } from 'ua-parser-js'
 
 import { XyoHasher } from '../../Hasher'

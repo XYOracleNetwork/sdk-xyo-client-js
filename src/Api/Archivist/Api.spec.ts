@@ -26,14 +26,12 @@ const getNewArchive = async (api: XyoArchivistApi) => {
   return response?.archive
 }
 
-/*
 describe('getDomain', function () {
   it('gets the domain config', async () => {
     const api = new XyoArchivistApi(config)
     try {
       const response = await api.domain.get('network.xyo')
-      console.log(`R: ${JSON.stringify(response, null, 2)}`)
-      expect(Object.keys(response.schema ?? {}).length).toBeGreaterThanOrEqual(2)
+      expect(Object.keys(response?.schema ?? {}).length).toBeGreaterThanOrEqual(2)
     } catch (ex) {
       const error = ex as AxiosError
       console.log(JSON.stringify(error.response?.data, null, 2))
@@ -41,7 +39,21 @@ describe('getDomain', function () {
     }
   })
 })
-*/
+
+describe('getBoundWitnessesStats', function () {
+  it('returns stats for boundwitness', async () => {
+    let api = new XyoArchivistApi(config)
+    try {
+      api = new XyoArchivistApi({ ...config })
+      const stats = await api.archives.select().block.getStats()
+      expect(stats?.count).toBeGreaterThan(0)
+    } catch (ex) {
+      const error = ex as AxiosError
+      console.log(JSON.stringify(error.response?.data, null, 2))
+      throw ex
+    }
+  })
+})
 
 describeSkipIfNoToken('XyoArchivistApi', () => {
   describe('get', () => {

@@ -14,7 +14,7 @@ export class XyoAuthApi extends XyoApiBase {
   }
 
   public async login(credentials: { email: string; password: string }) {
-    return await this.postEndpoint('login/', {
+    return await this.postEndpoint<{ token: string }>('login/', {
       credentials,
     })
   }

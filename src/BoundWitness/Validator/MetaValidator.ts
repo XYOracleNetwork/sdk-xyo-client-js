@@ -1,5 +1,3 @@
-import pick from 'lodash/pick'
-
 import { XyoHasher } from '../../Hasher'
 import { XyoBoundWitness } from '../../models'
 import { isIP } from './is-ip'
@@ -20,9 +18,8 @@ export class XyoBoundWitnessMetaValidator {
 
   public hash() {
     const errors: Error[] = []
-    const body = pick(this.bw, ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes'])
 
-    const bodyHash = new XyoHasher(body).sortedHash()
+    const bodyHash = new XyoHasher(this.bw).sortedHash()
     if (bodyHash !== this.bw._hash)
       errors.push(new Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.bw._hash}]`))
     return errors

@@ -1,7 +1,7 @@
 import { XyoDomainConfig } from '../../../DomainConfig'
-import { XyoArchivistApiBase } from '../Base'
+import { XyoApiBase } from '../../Base'
 
-export class XyoArchivistDomainApi extends XyoArchivistApiBase {
+export class XyoArchivistDomainApi extends XyoApiBase {
   public async get(domain: string) {
     return await this.getEndpoint<XyoDomainConfig>(domain)
   }

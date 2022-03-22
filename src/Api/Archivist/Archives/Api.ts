@@ -1,8 +1,8 @@
-import { XyoArchivistApiBase } from '../Base'
+import { XyoApiBase } from '../../Base'
+import { XyoArchivistArchiveApi } from '../Archive'
 import { ArchiveResponse } from '../models'
-import { XyoArchivistArchiveApi } from './Archive'
 
-export class XyoArchivistArchivesApi extends XyoArchivistApiBase {
+export class XyoArchivistArchivesApi extends XyoApiBase {
   public async get() {
     return await this.getEndpoint<ArchiveResponse[]>()
   }

@@ -43,7 +43,7 @@ class XyoMetaMaskConnector {
 
     const challengeResponse = await this.config.AuthApiService.walletChallenge(this.currentAccount)
 
-    const message = challengeResponse.data.state
+    const message = challengeResponse.state
     const signer = provider.getSigner()
     await signer.getAddress()
     const signature = await signer.signMessage(message)

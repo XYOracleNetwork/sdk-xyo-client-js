@@ -1,10 +1,10 @@
 import { Axios, AxiosResponse } from 'axios'
 import { gzip } from 'pako'
 
-import { XyoArchivistApiConfig } from './Config'
-import { XyoApiEnvelope } from './models'
+import { XyoApiConfig } from './Config'
+import { XyoApiEnvelope } from './Envelope'
 
-export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistApiConfig> {
+export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
   public config: C
   public axios: Axios
 
@@ -46,7 +46,7 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
     const result = await this.axios.get<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
       `${this.resolveRoot()}${endPoint}`
     )
-    return XyoArchivistApiBase.resolveResult<T>(result)
+    return XyoApiBase.resolveResult<T>(result)
   }
 
   protected async getEndpoint<T = unknown, D = unknown>(endPoint = '') {
@@ -58,7 +58,7 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
       `${this.resolveRoot()}${endPoint}`,
       data
     )
-    return XyoArchivistApiBase.resolveResult<T>(result)
+    return XyoApiBase.resolveResult<T>(result)
   }
 
   protected async postEndpoint<T = unknown, D = unknown>(endPoint = '', data?: D) {
@@ -70,7 +70,7 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
       `${this.resolveRoot()}${endPoint}`,
       data
     )
-    return XyoArchivistApiBase.resolveResult<T>(result)
+    return XyoApiBase.resolveResult<T>(result)
   }
 
   protected async putEndpoint<T = unknown, D = unknown>(endPoint = '', data?: D) {

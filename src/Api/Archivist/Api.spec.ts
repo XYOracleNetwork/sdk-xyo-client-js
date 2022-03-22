@@ -4,10 +4,10 @@ import { XyoAddress } from '../../Address'
 import { XyoBoundWitnessBuilder } from '../../BoundWitness'
 import { XyoBoundWitness } from '../../models'
 import { testPayload } from '../../Test'
+import { XyoApiConfig } from '../Config'
 import { XyoArchivistApi } from './Api'
-import { XyoArchivistApiConfig } from './Config'
 
-const config: XyoArchivistApiConfig = {
+const config: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
   apiKey: process.env.API_KEY || undefined,
   jwtToken: process.env.JWT_TOKEN || undefined,

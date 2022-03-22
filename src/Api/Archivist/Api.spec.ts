@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios'
+import { config } from 'dotenv'
 
 import { XyoAddress } from '../../Address'
 import { XyoBoundWitnessBuilder } from '../../BoundWitness'
@@ -7,13 +8,15 @@ import { testPayload } from '../../Test'
 import { XyoApiConfig } from '../Config'
 import { XyoArchivistApi } from './Api'
 
-const config: XyoApiConfig = {
+config()
+
+const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
   apiKey: process.env.API_KEY || undefined,
   jwtToken: process.env.JWT_TOKEN || undefined,
 }
 
-const describeSkipIfNoToken = config.jwtToken || config.apiKey ? describe : describe.skip
+const describeSkipIfNoToken = configData.jwtToken || configData.apiKey ? describe : describe.skip
 
 const getRandomArchiveName = (): string => {
   const randomString = (Math.random() + 1).toString(36).substring(7)
@@ -28,7 +31,7 @@ const getNewArchive = async (api: XyoArchivistApi) => {
 
 describe('getDomain', function () {
   it('gets the domain config', async () => {
-    const api = new XyoArchivistApi(config)
+    const api = new XyoArchivistApi(configData)
     try {
       const response = await api.domain.get('network.xyo')
       expect(Object.keys(response?.schema ?? {}).length).toBeGreaterThanOrEqual(2)
@@ -43,7 +46,7 @@ describe('getDomain', function () {
 describe('postBoundWitness', () => {
   it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
     const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
-    const api = new XyoArchivistApi(config)
+    const api = new XyoArchivistApi(configData)
     const boundWitness: XyoBoundWitness = builder.build()
 
     try {
@@ -65,7 +68,7 @@ describe('postBoundWitness', () => {
 describe('postBoundWitnesses', () => {
   it.each([true, false])('posts multiple bound witnesses', async (inlinePayloads) => {
     const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
-    const api = new XyoArchivistApi(config)
+    const api = new XyoArchivistApi(configData)
     const json = builder.build()
     const boundWitnesses: XyoBoundWitness[] = [json, json]
     try {
@@ -87,7 +90,7 @@ describe('postBoundWitnesses', () => {
 describeSkipIfNoToken('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns a new XyoArchivistApi', () => {
-      const api = new XyoArchivistApi(config)
+      const api = new XyoArchivistApi(configData)
       expect(api).toBeDefined()
     })
   })
@@ -98,7 +101,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       archive = getRandomArchiveName()
     })
     it('gets an array of archives owned', async () => {
-      const api = new XyoArchivistApi(config)
+      const api = new XyoArchivistApi(configData)
       try {
         await api.archives.select(archive).put()
         const archives = await api.archives.get()
@@ -119,7 +122,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       archive = getRandomArchiveName()
     })
     it('gets the archive', async () => {
-      const api = new XyoArchivistApi(config)
+      const api = new XyoArchivistApi(configData)
       try {
         await api.archives.select(archive).get()
         const response = await api.archives.select(archive).get()
@@ -138,7 +141,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       archive = getRandomArchiveName()
     })
     it('returns the archive owned', async () => {
-      const api = new XyoArchivistApi(config)
+      const api = new XyoArchivistApi(configData)
       try {
         const response = await api.archives.select(archive).put()
         expect(response?.archive).toEqual(archive)
@@ -154,7 +157,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     it('Returns the keys for the archive', async () => {
       try {
         const archive = getRandomArchiveName()
-        const api = new XyoArchivistApi({ ...config })
+        const api = new XyoArchivistApi({ ...configData })
         const archiveApi = api.archives.select(archive)
         await archiveApi.put()
         const key = await archiveApi.settings.keys.post()
@@ -173,7 +176,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     it('Creates an archive key', async () => {
       try {
         const archive = getRandomArchiveName()
-        const api = new XyoArchivistApi({ ...config })
+        const api = new XyoArchivistApi({ ...configData })
         const archiveApi = api.archives.select(archive)
         await archiveApi.put()
         const response = await archiveApi.settings.keys.post()
@@ -188,9 +191,9 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
 
   describe('getBoundWitnessesStats', function () {
     it('returns stats for boundwitness', async () => {
-      let api = new XyoArchivistApi(config)
+      let api = new XyoArchivistApi(configData)
       try {
-        api = new XyoArchivistApi({ ...config })
+        api = new XyoArchivistApi({ ...configData })
         const stats = await api.archives.select().block.getStats()
         expect(stats?.count).toBeGreaterThan(0)
       } catch (ex) {
@@ -203,9 +206,9 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
 
   describe('getBoundWitnessesBefore', function () {
     it('returns bound witnesses from before the timestamp', async () => {
-      let api = new XyoArchivistApi(config)
+      let api = new XyoArchivistApi(configData)
       try {
-        api = new XyoArchivistApi({ ...config })
+        api = new XyoArchivistApi({ ...configData })
         const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
         await api.archives.select().block.post(boundWitness)
         const timestamp = Date.now() + 10000
@@ -224,10 +227,10 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
 
   describe('getBoundWitnessesAfter', function () {
     it('returns bound witnesses from before the timestamp', async () => {
-      let api = new XyoArchivistApi(config)
+      let api = new XyoArchivistApi(configData)
       try {
         const archive = await getNewArchive(api)
-        api = new XyoArchivistApi({ ...config })
+        api = new XyoArchivistApi({ ...configData })
         const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
         await api.archives.select(archive).block.post(boundWitness)
         const timestamp = Date.now() - 10000

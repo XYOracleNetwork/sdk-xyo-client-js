@@ -1,7 +1,7 @@
 import { ApiConfig } from '@xylabs/sdk-js'
 import { AxiosError } from 'axios'
 
-import { XyoArchivistApiConfig } from '../../Archivist'
+import { XyoApiConfig } from '../../Config'
 import { XyoLocationDivinerApi } from './LocationDivinerApi'
 import {
   LocationHeatmapQueryCreationRequest,
@@ -15,7 +15,7 @@ const config: ApiConfig = {
   apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082',
 }
 
-const getArchiveConfig = (): XyoArchivistApiConfig => {
+const getArchiveConfig = (): XyoApiConfig => {
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   return { apiDomain }
 }

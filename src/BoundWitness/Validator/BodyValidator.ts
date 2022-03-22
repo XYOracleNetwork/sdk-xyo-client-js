@@ -1,8 +1,8 @@
 import uniq from 'lodash/uniq'
 
+import { XyoHasher } from '../../Hasher'
 import { validateType } from '../../lib'
 import { WithStringIndex, XyoBoundWitnessBody, XyoPayload } from '../../models'
-import { XyoPayloadWrapper } from '../../Payload'
 import { SchemaValidator } from '../../SchemaNameValidator'
 
 class XyoBoundWitnessBodyValidator {
@@ -60,8 +60,7 @@ class XyoBoundWitnessBodyValidator {
     const errors: Error[] = []
     const passedHashes = this.body.payload_hashes
     this.payloads?.forEach((payload, index) => {
-      const wrapper = new XyoPayloadWrapper(payload)
-      const calcHash = wrapper.sortedHash()
+      const calcHash = new XyoHasher(payload).sortedHash()
       const passedHash = passedHashes[index]
       if (calcHash !== passedHash) {
         errors.push(new Error(`hash mismatch [${calcHash} !== ${passedHash}]`))

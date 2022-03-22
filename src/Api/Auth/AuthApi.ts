@@ -1,24 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosResponseTransformer } from 'axios'
+import { XyoApiBase } from '../Base'
 
-import { XyoAuthApiConfig } from './AuthApiConfig'
-
-class XyoAuthApi {
-  private config: XyoAuthApiConfig = {
-    apiDomain: 'http://localhost:8080',
-    authPrefix: 'user',
-  }
-
-  private constructor(config?: XyoAuthApiConfig) {
-    Object.assign(this.config, config)
-  }
-
-  private get axiosRequestConfig(): AxiosRequestConfig {
-    return {
-      headers: this.headers,
-      transformResponse: getArchivistApiResponseTransformer(),
-    }
-  }
-
+export class XyoAuthApi extends XyoApiBase {
   public get authenticated() {
     return !!this.config.jwtToken
   }
@@ -31,46 +13,27 @@ class XyoAuthApi {
     return headers
   }
 
-  login(credentials: { email: string; password: string }) {
-    return axios.post(this.apiRoute('/login'), credentials, this.axiosRequestConfig)
+  public async login(credentials: { email: string; password: string }) {
+    return await this.postEndpoint('login/', {
+      credentials,
+    })
   }
 
-  walletChallenge(address: string) {
-    return axios.post<{ state: string }>(
-      this.apiRoute('/wallet/challenge/'),
-      {
-        address,
-      },
-      this.axiosRequestConfig
-    )
+  public async walletChallenge(address: string) {
+    return await this.postEndpoint<{ state: string }>('wallet/challenge/', {
+      address,
+    })
   }
 
-  walletVerify(address: string, message: string, signature: string) {
-    return axios.post<{ token: string }>(
-      this.apiRoute('/wallet/verify/'),
-      {
-        address,
-        message,
-        signature,
-      },
-      this.axiosRequestConfig
-    )
+  async walletVerify(address: string, message: string, signature: string) {
+    return await this.postEndpoint<{ token: string }>('wallet/verify/', {
+      address,
+      message,
+      signature,
+    })
   }
 
-  get profile() {
-    return axios.get(this.apiRoute('/profile'), this.axiosRequestConfig)
+  public async profile() {
+    return await this.getEndpoint<unknown[]>('profile/')
   }
-
-  private apiRoute(route: string) {
-    return `${this.config.apiDomain}/${this.config.authPrefix}${route}`
-  }
-
-  static get(config?: XyoAuthApiConfig) {
-    return new XyoAuthApi(config)
-  }
-}
-
-export { XyoAuthApi }
-function getArchivistApiResponseTransformer(): AxiosResponseTransformer | AxiosResponseTransformer[] | undefined {
-  throw new Error('Function not implemented.')
 }

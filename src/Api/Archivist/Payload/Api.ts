@@ -1,14 +1,14 @@
 import { assertEx } from '@xylabs/sdk-js'
 
-import { XyoPayload } from '../../../../models'
-import { WithArchive } from '../../../WithArchive'
-import { XyoArchivistApiBase } from '../../Base'
-import { XyoArchivistApiConfig } from '../../Config'
+import { XyoPayload } from '../../../models'
+import { XyoApiBase } from '../../Base'
+import { XyoApiConfig } from '../../Config'
+import { WithArchive } from '../../WithArchive'
 
 export class XyoArchivistArchivePayloadApi<
-  C extends WithArchive<XyoArchivistApiConfig> = WithArchive<XyoArchivistApiConfig>,
+  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
   T extends XyoPayload = XyoPayload
-> extends XyoArchivistApiBase<C> {
+> extends XyoApiBase<C> {
   public async getStats() {
     return await this.getEndpoint<{ count: number }>('stats')
   }

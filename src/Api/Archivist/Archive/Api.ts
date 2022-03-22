@@ -1,10 +1,10 @@
-import { XyoArchivistApiBase } from '../../Base'
-import { ArchiveResponse, PutArchiveRequest } from '../../models'
+import { XyoApiBase } from '../../Base'
 import { XyoArchivistArchiveBlockApi } from '../Block'
+import { ArchiveResponse, PutArchiveRequest } from '../models'
 import { XyoArchivistArchivePayloadApi } from '../Payload'
 import { XyoArchivistArchiveSettingsApi } from '../Settings'
 
-export class XyoArchivistArchiveApi extends XyoArchivistApiBase {
+export class XyoArchivistArchiveApi extends XyoApiBase {
   private _block?: XyoArchivistArchiveBlockApi
   public get block(): XyoArchivistArchiveBlockApi {
     this._block =

@@ -38,31 +38,43 @@ export class XyoArchivistApiBase<C extends XyoArchivistApiConfig = XyoArchivistA
     return `${this.config.apiDomain}${this.root}`
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected async getEndpoint<T = any, D = any>(endPoint = '') {
-    return (
-      await this.axios.get<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(`${this.resolveRoot()}${endPoint}`)
-    ).data.data
+  private static resolveResult<T>(result: AxiosResponse<XyoApiEnvelope<T>>) {
+    return [result.data?.data, result.data, result] as [T, XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>]
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected async postEndpoint<T = any, D = any>(endPoint = '', data?: D) {
-    return (
-      await this.axios.post<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
-        `${this.resolveRoot()}${endPoint}`,
-        data
-      )
-    ).data.data
+  protected async getEndpointFull<T = unknown, D = unknown>(endPoint = '') {
+    const result = await this.axios.get<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+      `${this.resolveRoot()}${endPoint}`
+    )
+    return XyoArchivistApiBase.resolveResult<T>(result)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected async putEndpoint<T = any, D = any>(endPoint = '', data?: D) {
-    return (
-      await this.axios.put<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
-        `${this.resolveRoot()}${endPoint}`,
-        data
-      )
-    ).data.data
+  protected async getEndpoint<T = unknown, D = unknown>(endPoint = '') {
+    return (await this.getEndpointFull<T, D>(endPoint))[0]
+  }
+
+  protected async postEndpointFull<T = unknown, D = unknown>(endPoint = '', data?: D) {
+    const result = await this.axios.post<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+      `${this.resolveRoot()}${endPoint}`,
+      data
+    )
+    return XyoArchivistApiBase.resolveResult<T>(result)
+  }
+
+  protected async postEndpoint<T = unknown, D = unknown>(endPoint = '', data?: D) {
+    return (await this.postEndpointFull<T, D>(endPoint, data))[0]
+  }
+
+  protected async putEndpointFull<T = unknown, D = unknown>(endPoint = '', data?: D) {
+    const result = await this.axios.put<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+      `${this.resolveRoot()}${endPoint}`,
+      data
+    )
+    return XyoArchivistApiBase.resolveResult<T>(result)
+  }
+
+  protected async putEndpoint<T = unknown, D = unknown>(endPoint = '', data?: D) {
+    return (await this.putEndpointFull<T, D>(endPoint, data))[0]
   }
 
   protected get headers(): Record<string, string> {

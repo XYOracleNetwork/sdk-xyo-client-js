@@ -107,6 +107,7 @@
     "test:api:auth": "jest ./src/api/Auth",
     "test:api:diviner": "jest ./src/api/Diviner",
     "test:bw": "jest ./src/BoundWitness",
+    "test:bw:validator": "jest ./src/BoundWitness/Validator",
     "test:witnesses": "jest ./src/Witnesses",
     "test:witnesses:node": "jest ./src/WitnessesNode",
     "test:payload": "jest ./src/Payload",

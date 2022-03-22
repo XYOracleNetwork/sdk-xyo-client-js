@@ -1,10 +1,10 @@
-import { XyoBoundWitness, XyoPayload } from '../../../../models'
-import { WithArchive } from '../../../WithArchive'
-import { XyoArchivistApiConfig } from '../../Config'
+import { XyoBoundWitness, XyoPayload } from '../../../models'
+import { XyoApiConfig } from '../../Config'
+import { WithArchive } from '../../WithArchive'
 import { XyoArchivistArchivePayloadApi } from '../Payload'
 
 export class XyoArchivistArchiveBlockApi<
-  C extends WithArchive<XyoArchivistApiConfig> = WithArchive<XyoArchivistApiConfig>,
+  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
   T extends XyoBoundWitness = XyoBoundWitness
 > extends XyoArchivistArchivePayloadApi<C, T> {
   constructor(config: C) {

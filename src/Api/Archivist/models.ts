@@ -12,7 +12,3 @@ export interface ArchiveKey {
   created: string
   key: string
 }
-
-export interface XyoApiEnvelope<T> {
-  data?: T
-}

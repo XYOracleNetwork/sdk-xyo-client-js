@@ -3,15 +3,30 @@ import { XyoBoundWitness } from '../models'
 const testBoundWitness: XyoBoundWitness = {
   _archive: 'temp',
   _client: 'js',
-  _hash: '8edaa9b8abf634493fbafc289deb42926873b6b9b6ed2d3701d750ebf867c877',
-  _signatures: [
-    '304502205d35409ea2b26796eaf96b2a7f72997e433900d32b44838dc3df892f6ea34b74022100eae5303befcc20dc271df72b752005224330659913fde8e4c95af5639772e737',
+  _hash: '8c9e3921db15dcba269dcd483604b164c7986875d559425efaf3ca78d036a6e8',
+  _payloads: [
+    {
+      _archive: 'temp',
+      _hash: '20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c',
+      _id: '621d2d9c99aa8f6be9b7d37b',
+      _timestamp: 1646079388450,
+      numberField: 1,
+      objectField: {
+        numberField: 1,
+        stringField: 'stringValue',
+      },
+      schema: 'network.xyo.test',
+      stringField: 'stringValue',
+    },
   ],
-  _timestamp: 1645817103319,
-  addresses: ['141289ba330b9cb1f1fe5d5356b6e90108ea37e6'],
-  payload_hashes: ['8034c40b9c4c95d801a7fe2d714ef4d0770ced5169fa143357b0dbe31e3c8af9'],
-  payload_schemas: ['network.xyo.system.info'],
-  previous_hashes: ['b6d48d61e03a9580758cd352bc3659c39d7913cfc4d8a3a61f40c494486276ec'],
+  _signatures: [
+    '3046022100cea039d6a5c85a8a04340ce22e2dd6662231c171e6f2d1f165e9b6fdcd13bab4022100d98e344c2be1d7b3053b6c758d9b36561c82fa075e3ea11885de65724489c58e',
+  ],
+  _timestamp: 1647975841211,
+  addresses: ['1e8d8402b8375f8f757623342ce399de56be9983'],
+  payload_hashes: ['20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c'],
+  payload_schemas: ['network.xyo.test'],
+  previous_hashes: [null],
   schema: 'network.xyo.boundwitness',
 }
 

@@ -1,4 +1,7 @@
 export * from './Archivist'
 export * from './Auth'
+export * from './Base'
+export * from './Config'
 export * from './Diviner'
+export * from './Envelope'
 export * from './WithArchive'

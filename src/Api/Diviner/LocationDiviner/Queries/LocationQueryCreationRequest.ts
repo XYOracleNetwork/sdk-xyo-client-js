@@ -1,4 +1,4 @@
-import { XyoArchivistApiConfig } from '../../../Archivist'
+import { XyoApiConfig } from '../../../Config'
 import { LocationHeatmapQuery, LocationHeatmapQuerySchema } from './LocationHeatmapQuery'
 import { LocationQuerySchema } from './LocationQuerySchema'
 import { LocationTimeRangeQuery, LocationTimeRangeQuerySchema } from './LocationTimeRangeQuery'
@@ -7,9 +7,9 @@ export interface LocationQueryCreationRequest<
   TSchema extends LocationQuerySchema = LocationQuerySchema,
   TQuery extends Record<string, unknown> = Record<string, unknown>
 > {
-  sourceArchivist: XyoArchivistApiConfig
+  sourceArchivist: XyoApiConfig
   sourceArchive: string
-  resultArchivist: XyoArchivistApiConfig
+  resultArchivist: XyoApiConfig
   resultArchive: string
   schema: TSchema
   query: TQuery

@@ -5,6 +5,14 @@ import { XyoApiBase } from '../../Base'
 import { XyoApiConfig } from '../../Config'
 import { WithArchive } from '../../WithArchive'
 
+const objToQuery = (obj: Record<string, string | number>) => {
+  return `?${Object.entries(obj)
+    .map(([key, value]) => {
+      return `${key}=${value}`
+    })
+    .join('&')}`
+}
+
 export class XyoArchivistArchivePayloadApi<
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
   T extends XyoPayload = XyoPayload
@@ -21,18 +29,19 @@ export class XyoArchivistArchivePayloadApi<
     return await this.getEndpoint<T[]>(`hash/${hash}/repair`)
   }
 
-  private async get(params: { order: 'desc' | 'asc'; timestamp: number }, limit = 20) {
+  private async get({ order, timestamp, limit = 20 }: { order: 'desc' | 'asc'; timestamp: number; limit?: number }) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
-    return await this.getEndpoint<T[]>('')
+
+    return await this.getEndpoint<T[]>(objToQuery({ limit, order, timestamp }))
   }
 
   public async getBefore(timestamp: number, limit = 20) {
-    return await this.get({ order: 'desc', timestamp }, limit)
+    return await this.get({ limit, order: 'desc', timestamp })
   }
 
   public async getAfter(timestamp: number, limit = 20) {
-    return await this.get({ order: 'asc', timestamp }, limit)
+    return await this.get({ limit, order: 'asc', timestamp })
   }
 
   public async getMostRecent(limit = 20) {

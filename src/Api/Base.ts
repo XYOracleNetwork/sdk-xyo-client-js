@@ -5,7 +5,7 @@ import { XyoApiConfig } from './Config'
 import { XyoApiEnvelope } from './Envelope'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
-  protected config: C
+  public readonly config: C
   protected axios: Axios
 
   constructor(config: C) {

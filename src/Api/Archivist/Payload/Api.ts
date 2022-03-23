@@ -3,15 +3,8 @@ import { assertEx } from '@xylabs/sdk-js'
 import { XyoPayload } from '../../../models'
 import { XyoApiBase } from '../../Base'
 import { XyoApiConfig } from '../../Config'
+import { objToQuery } from '../../objToQuery'
 import { WithArchive } from '../../WithArchive'
-
-const objToQuery = (obj: Record<string, string | number>) => {
-  return `?${Object.entries(obj)
-    .map(([key, value]) => {
-      return `${key}=${value}`
-    })
-    .join('&')}`
-}
 
 export class XyoArchivistArchivePayloadApi<
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
@@ -47,10 +40,10 @@ export class XyoArchivistArchivePayloadApi<
   public async getMostRecent(limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
-    return await this.getEndpoint<T[]>(`recent/${limit}`)
+    return await this.getEndpoint<T[]>(`recent${objToQuery({ limit })}`)
   }
 
-  public async getSample(size: number) {
-    return await this.getEndpoint<T[]>(`sample/${size}`)
+  public async getSample(size = 10) {
+    return await this.getEndpoint<T[]>(`sample${objToQuery({ size })}`)
   }
 }

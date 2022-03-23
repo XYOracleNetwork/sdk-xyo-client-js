@@ -1,12 +1,12 @@
-import { Axios, AxiosResponse } from 'axios'
+import { Axios, AxiosError, AxiosResponse } from 'axios'
 import { gzip } from 'pako'
 
 import { XyoApiConfig } from './Config'
 import { XyoApiEnvelope } from './Envelope'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
-  public config: C
-  public axios: Axios
+  protected config: C
+  protected axios: Axios
 
   constructor(config: C) {
     this.config = config
@@ -30,6 +30,14 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     })
   }
 
+  protected reportError(error: AxiosError) {
+    this.config.onError?.(error)
+  }
+
+  protected reportFailure(response: AxiosResponse) {
+    this.config.onFailure?.(response)
+  }
+
   protected get root() {
     return this.config.root ?? '/'
   }
@@ -38,43 +46,68 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     return `${this.config.apiDomain}${this.root}`
   }
 
-  private static resolveResult<T>(result: AxiosResponse<XyoApiEnvelope<T>>) {
-    return [result.data?.data, result.data, result] as [T, XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>]
+  private static resolveResponse<T>(result?: AxiosResponse<XyoApiEnvelope<T>>) {
+    return [result?.data?.data, result?.data, result] as [T, XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>]
+  }
+
+  protected async monitorResponse<T>(closure: () => Promise<AxiosResponse<XyoApiEnvelope<T>>>) {
+    try {
+      const response = await closure()
+
+      if (response.status >= 300) {
+        this.reportFailure(response)
+      }
+
+      return response
+    } catch (ex) {
+      const error = ex as AxiosError
+      if (error.isAxiosError) {
+        this.reportError(error)
+      } else {
+        throw ex
+      }
+    }
   }
 
   protected async getEndpointFull<T = unknown, D = unknown>(endPoint = '') {
-    const result = await this.axios.get<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
-      `${this.resolveRoot()}${endPoint}`
-    )
-    return XyoApiBase.resolveResult<T>(result)
+    const response = await this.monitorResponse<T>(async () => {
+      return await this.axios.get<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+        `${this.resolveRoot()}${endPoint}`
+      )
+    })
+    return XyoApiBase.resolveResponse(response)
   }
 
   protected async getEndpoint<T = unknown, D = unknown>(endPoint = '') {
-    return (await this.getEndpointFull<T, D>(endPoint))[0]
+    return (await this.getEndpointFull<T, D>(endPoint))?.[0]
   }
 
   protected async postEndpointFull<T = unknown, D = unknown>(endPoint = '', data?: D) {
-    const result = await this.axios.post<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
-      `${this.resolveRoot()}${endPoint}`,
-      data
-    )
-    return XyoApiBase.resolveResult<T>(result)
+    const response = await this.monitorResponse<T>(async () => {
+      return await this.axios.post<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+        `${this.resolveRoot()}${endPoint}`,
+        data
+      )
+    })
+    return XyoApiBase.resolveResponse(response)
   }
 
   protected async postEndpoint<T = unknown, D = unknown>(endPoint = '', data?: D) {
-    return (await this.postEndpointFull<T, D>(endPoint, data))[0]
+    return (await this.postEndpointFull<T, D>(endPoint, data))?.[0]
   }
 
   protected async putEndpointFull<T = unknown, D = unknown>(endPoint = '', data?: D) {
-    const result = await this.axios.put<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
-      `${this.resolveRoot()}${endPoint}`,
-      data
-    )
-    return XyoApiBase.resolveResult<T>(result)
+    const response = await this.monitorResponse<T>(async () => {
+      return await this.axios.put<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+        `${this.resolveRoot()}${endPoint}`,
+        data
+      )
+    })
+    return XyoApiBase.resolveResponse(response)
   }
 
   protected async putEndpoint<T = unknown, D = unknown>(endPoint = '', data?: D) {
-    return (await this.putEndpointFull<T, D>(endPoint, data))[0]
+    return (await this.putEndpointFull<T, D>(endPoint, data))?.[0]
   }
 
   protected get headers(): Record<string, string> {

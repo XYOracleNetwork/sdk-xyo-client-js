@@ -14,6 +14,8 @@ const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
   apiKey: process.env.API_KEY || undefined,
   jwtToken: process.env.JWT_TOKEN || undefined,
+  onError: (error) => console.log(`Error: ${JSON.stringify(error)}`),
+  onFailure: (error) => console.log(`Failure: ${JSON.stringify(error)}`),
 }
 
 const describeSkipIfNoToken = configData.jwtToken || configData.apiKey ? describe : describe.skip

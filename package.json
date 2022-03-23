@@ -85,7 +85,7 @@
     "./package.json": "./package.json"
   },
   "homepage": "https://xyo.network",
-  "license": "LGPL-3.0",
+  "license": "LGPL-3.0-only",
   "main": "dist/bundle/node/index.js",
   "module": "dist/index.js",
   "name": "@xyo-network/sdk-xyo-client-js",

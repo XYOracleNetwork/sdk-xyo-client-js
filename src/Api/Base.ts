@@ -40,6 +40,10 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     this.config.onFailure?.(response)
   }
 
+  protected reportSuccess(response: XyoApiResponse) {
+    this.config.onSuccess?.(response)
+  }
+
   protected get root() {
     return this.config.root ?? '/'
   }
@@ -53,17 +57,22 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
   }
 
   protected async monitorResponse<T>(closure: () => Promise<XyoApiResponse<XyoApiEnvelope<T>>>) {
+    //we use this to prevent accidental catching on exceptions in callbacks
+    let trapAxiosException = true
     try {
       const response = await closure()
+      trapAxiosException = false
 
-      if (response.status >= 300) {
+      if (response.status < 300) {
+        this.reportSuccess(response)
+      } else if (response.status >= 300) {
         this.reportFailure(response)
       }
 
       return response
     } catch (ex) {
       const error = ex as XyoApiError
-      if (error.isAxiosError) {
+      if (trapAxiosException && error.isAxiosError) {
         this.reportError(error)
       } else {
         throw ex

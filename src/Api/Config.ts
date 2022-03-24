@@ -1,11 +1,14 @@
 import { ApiConfig } from '@xylabs/sdk-js'
-import { AxiosError, AxiosResponse } from 'axios'
+
+import { XyoApiError } from './Error'
+import { XyoApiResponse } from './Response'
 
 interface XyoApiConfig extends ApiConfig {
   authPrefix?: string
   root?: string
-  onError?: (error: AxiosError) => void
-  onFailure?: (response: AxiosResponse) => void
+  onError?: (error: XyoApiError) => void
+  onFailure?: (response: XyoApiResponse) => void
+  onSuccess?: (response: XyoApiResponse) => void
 }
 
 export type { XyoApiConfig }

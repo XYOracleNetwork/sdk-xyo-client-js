@@ -1,8 +1,10 @@
-import { Axios, AxiosError, AxiosResponse } from 'axios'
+import { Axios } from 'axios'
 import { gzip } from 'pako'
 
 import { XyoApiConfig } from './Config'
 import { XyoApiEnvelope } from './Envelope'
+import { XyoApiError } from './Error'
+import { XyoApiResponse } from './Response'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
   public readonly config: C
@@ -24,17 +26,17 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
         try {
           return JSON.parse(data)
         } catch (ex) {
-          return {}
+          return null
         }
       },
     })
   }
 
-  protected reportError(error: AxiosError) {
+  protected reportError(error: XyoApiError) {
     this.config.onError?.(error)
   }
 
-  protected reportFailure(response: AxiosResponse) {
+  protected reportFailure(response: XyoApiResponse) {
     this.config.onFailure?.(response)
   }
 
@@ -46,11 +48,11 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     return `${this.config.apiDomain}${this.root}`
   }
 
-  private static resolveResponse<T>(result?: AxiosResponse<XyoApiEnvelope<T>>) {
-    return [result?.data?.data, result?.data, result] as [T, XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>]
+  private static resolveResponse<T>(result?: XyoApiResponse<XyoApiEnvelope<T>>) {
+    return [result?.data?.data, result?.data, result] as [T, XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>]
   }
 
-  protected async monitorResponse<T>(closure: () => Promise<AxiosResponse<XyoApiEnvelope<T>>>) {
+  protected async monitorResponse<T>(closure: () => Promise<XyoApiResponse<XyoApiEnvelope<T>>>) {
     try {
       const response = await closure()
 
@@ -60,7 +62,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
 
       return response
     } catch (ex) {
-      const error = ex as AxiosError
+      const error = ex as XyoApiError
       if (error.isAxiosError) {
         this.reportError(error)
       } else {
@@ -71,7 +73,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
 
   protected async getEndpointFull<T = unknown, D = unknown>(endPoint = '') {
     const response = await this.monitorResponse<T>(async () => {
-      return await this.axios.get<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+      return await this.axios.get<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>, D>(
         `${this.resolveRoot()}${endPoint}`
       )
     })
@@ -84,7 +86,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
 
   protected async postEndpointFull<T = unknown, D = unknown>(endPoint = '', data?: D) {
     const response = await this.monitorResponse<T>(async () => {
-      return await this.axios.post<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+      return await this.axios.post<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>, D>(
         `${this.resolveRoot()}${endPoint}`,
         data
       )
@@ -98,7 +100,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
 
   protected async putEndpointFull<T = unknown, D = unknown>(endPoint = '', data?: D) {
     const response = await this.monitorResponse<T>(async () => {
-      return await this.axios.put<XyoApiEnvelope<T>, AxiosResponse<XyoApiEnvelope<T>>, D>(
+      return await this.axios.put<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>, D>(
         `${this.resolveRoot()}${endPoint}`,
         data
       )

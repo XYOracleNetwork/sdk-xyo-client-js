@@ -1,3 +1,4 @@
+import { XyoDomainConfig } from '../../DomainConfig'
 import { Huri } from '../../Huri'
 import { XyoPayload } from '../../models'
 import { XyoAuthApi } from '../Auth'
@@ -5,7 +6,6 @@ import { XyoApiBase, XyoApiResponseTuple, XyoApiResponseType } from '../Base'
 import { XyoApiSimple } from '../Simple'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
-import { XyoArchivistDomainApi } from './Domain'
 
 export class XyoArchivistApi extends XyoApiBase {
   private _archives?: XyoArchivistArchivesApi
@@ -19,15 +19,11 @@ export class XyoArchivistApi extends XyoApiBase {
     return this._archives
   }
 
-  private _domain?: XyoArchivistDomainApi
-  public get domain(): XyoArchivistDomainApi {
-    this._domain =
-      this._domain ??
-      new XyoArchivistDomainApi({
-        ...this.config,
-        root: `${this.root}domain/`,
-      })
-    return this._domain
+  public domain(domain: string): XyoApiSimple<XyoDomainConfig> {
+    return new XyoApiSimple<XyoDomainConfig>({
+      ...this.config,
+      root: `${this.root}domain/${domain}/`,
+    })
   }
 
   private _user?: XyoAuthApi

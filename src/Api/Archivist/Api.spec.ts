@@ -14,8 +14,9 @@ const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
   apiKey: process.env.API_KEY || undefined,
   jwtToken: process.env.JWT_TOKEN || undefined,
-  onError: (error) => console.log(`Error: ${JSON.stringify(error)}`),
-  onFailure: (error) => console.log(`Failure: ${JSON.stringify(error)}`),
+  onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
+  onFailure: (response) =>
+    console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
 }
 
 const describeSkipIfNoToken = configData.jwtToken || configData.apiKey ? describe : describe.skip
@@ -27,7 +28,7 @@ const getRandomArchiveName = (): string => {
 
 const getNewArchive = async (api: XyoArchivistApi) => {
   const archive = getRandomArchiveName()
-  const response = await api.archives.select(archive).put()
+  const response = await api.archives.archive(archive).put()
   return response?.archive
 }
 
@@ -51,13 +52,20 @@ describe('postBoundWitness', () => {
     const api = new XyoArchivistApi(configData)
     const boundWitness: XyoBoundWitness = builder.build()
 
+    //TODO: We are casting the result here since the server has not yet been updated to return the actual saved data
+
     try {
-      const response = await api.archives.select().block.post(boundWitness)
-      expect(response?.boundWitnesses).toEqual(1)
+      const response = await api.archives.archive().block.post([boundWitness])
+
+      const typedResponse = response as unknown as {
+        boundWitnesses: number
+        payloads: number
+      }
+      expect(typedResponse?.boundWitnesses).toEqual(1)
       if (inlinePayloads) {
-        expect(response?.payloads).toEqual(1)
+        expect(typedResponse?.payloads).toEqual(1)
       } else {
-        expect(response?.payloads).toEqual(0)
+        expect(typedResponse?.payloads).toEqual(0)
       }
     } catch (ex) {
       const error = ex as AxiosError
@@ -73,17 +81,24 @@ describe('postBoundWitnesses', () => {
     const api = new XyoArchivistApi(configData)
     const json = builder.build()
     const boundWitnesses: XyoBoundWitness[] = [json, json]
+
+    //TODO: We are casting the result here since the server has not yet been updated to return the actual saved data
+
     try {
-      const response = await api.archives.select().block.post(boundWitnesses)
-      expect(response?.boundWitnesses).toEqual(2)
+      const response = await api.archives.archive().block.post(boundWitnesses)
+      const typedResponse = response as unknown as {
+        boundWitnesses: number
+        payloads: number
+      }
+      expect(typedResponse?.boundWitnesses).toEqual(2)
       if (inlinePayloads) {
-        expect(response?.payloads).toEqual(2)
+        expect(typedResponse?.payloads).toEqual(2)
       } else {
-        expect(response?.payloads).toEqual(0)
+        expect(typedResponse?.payloads).toEqual(0)
       }
     } catch (ex) {
       const error = ex as AxiosError
-      console.log(JSON.stringify(error.response?.data, null, 2))
+      console.log(JSON.stringify(error, null, 2))
       throw ex
     }
   })
@@ -105,7 +120,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     it('gets an array of archives owned', async () => {
       const api = new XyoArchivistApi(configData)
       try {
-        await api.archives.select(archive).put()
+        await api.archives.archive(archive).put()
         const archives = await api.archives.get()
         expect(Array.isArray(archives)).toBe(true)
         const archiveNames = archives?.map((x) => x.archive)
@@ -126,8 +141,8 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     it('gets the archive', async () => {
       const api = new XyoArchivistApi(configData)
       try {
-        await api.archives.select(archive).get()
-        const response = await api.archives.select(archive).get()
+        await api.archives.archive(archive).get()
+        const response = await api.archives.archive(archive).get()
         expect(response?.archive).toBe(archive)
       } catch (ex) {
         const error = ex as AxiosError
@@ -145,7 +160,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     it('returns the archive owned', async () => {
       const api = new XyoArchivistApi(configData)
       try {
-        const response = await api.archives.select(archive).put()
+        const response = await api.archives.archive(archive).put()
         expect(response?.archive).toEqual(archive)
       } catch (ex) {
         const error = ex as AxiosError
@@ -160,7 +175,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       try {
         const archive = getRandomArchiveName()
         const api = new XyoArchivistApi({ ...configData })
-        const archiveApi = api.archives.select(archive)
+        const archiveApi = api.archives.archive(archive)
         await archiveApi.put()
         const key = await archiveApi.settings.keys.post()
         const response = await archiveApi.settings.keys.get()
@@ -179,10 +194,10 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       try {
         const archive = getRandomArchiveName()
         const api = new XyoArchivistApi({ ...configData })
-        const archiveApi = api.archives.select(archive)
+        const archiveApi = api.archives.archive(archive)
         await archiveApi.put()
         const response = await archiveApi.settings.keys.post()
-        expect(response?.key).toBeTruthy()
+        expect(response?.keys.length).toBe(1)
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))
@@ -191,12 +206,12 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     })
   })
 
-  describe('getBoundWitnessesStats', function () {
+  describe('findBoundWitnessesStats', function () {
     it('returns stats for boundwitness', async () => {
       let api = new XyoArchivistApi(configData)
       try {
         api = new XyoArchivistApi({ ...configData })
-        const stats = await api.archives.select().block.getStats()
+        const stats = await api.archives.archive().block.stats.get()
         expect(stats?.count).toBeGreaterThan(0)
       } catch (ex) {
         const error = ex as AxiosError
@@ -206,15 +221,15 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     })
   })
 
-  describe('getBoundWitnessesBefore', function () {
+  describe('findBoundWitnessesBefore', function () {
     it('returns bound witnesses from before the timestamp', async () => {
       let api = new XyoArchivistApi(configData)
       try {
         api = new XyoArchivistApi({ ...configData })
         const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
-        await api.archives.select().block.post(boundWitness)
+        await api.archives.archive().block.post([boundWitness])
         const timestamp = Date.now() + 10000
-        const response = await api.archives.select('temp').block.getBefore(timestamp)
+        const response = await api.archives.archive('temp').block.findBefore(timestamp)
         expect(response?.length).toBe(1)
         const actual = response?.[0]
         expect(actual?._timestamp).toBeTruthy()
@@ -227,16 +242,16 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     })
   })
 
-  describe('getBoundWitnessesAfter', function () {
+  describe('findBoundWitnessesAfter', function () {
     it('returns bound witnesses from before the timestamp', async () => {
       let api = new XyoArchivistApi(configData)
       try {
         const archive = await getNewArchive(api)
         api = new XyoArchivistApi({ ...configData })
         const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
-        await api.archives.select(archive).block.post(boundWitness)
+        await api.archives.archive(archive).block.post([boundWitness])
         const timestamp = Date.now() - 10000
-        const response = await api.archives.select(archive).block.getAfter(timestamp)
+        const response = await api.archives.archive(archive).block.findAfter(timestamp)
         expect(response?.length).toBe(1)
         const actual = response?.[0]
         expect(actual?._timestamp).toBeTruthy()

@@ -1,16 +1,17 @@
-import { XyoApiBase } from '../../Base'
+import { XyoApiSimple } from '../../Simple'
 import { XyoArchivistArchiveApi } from '../Archive'
-import { ArchiveResponse } from '../models'
+import { XyoArchive } from '../models'
 
-export class XyoArchivistArchivesApi extends XyoApiBase {
-  public async get() {
-    return await this.getEndpoint<ArchiveResponse[]>()
-  }
-
-  public select(archive = 'temp') {
+export class XyoArchivistArchivesApi extends XyoApiSimple<XyoArchive[]> {
+  public archive(archive = 'temp') {
     return new XyoArchivistArchiveApi({
       ...this.config,
       root: `${this.root}${archive}/`,
     })
+  }
+
+  /** @deprecated: use archive(string) instead */
+  public select(archive = 'temp') {
+    return this.archive(archive)
   }
 }

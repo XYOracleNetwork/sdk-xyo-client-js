@@ -1,14 +1,10 @@
-export interface ArchiveResponse {
-  user: string
-  accessControl: boolean
-  archive: string
-}
-
-export interface PutArchiveRequest {
-  accessControl: boolean
-}
-
-export interface ArchiveKey {
+export interface XyoArchiveKey {
   created: string
   key: string
+}
+
+export interface XyoArchive {
+  archive: string
+  user?: string
+  accessControl?: boolean
 }

@@ -1,7 +1,9 @@
 import { Huri } from '../../Huri'
 import { XyoPayload } from '../../models'
 import { XyoAuthApi } from '../Auth'
-import { XyoApiBase } from '../Base'
+import { XyoApiBase, XyoApiResponseTuple, XyoApiResponseType } from '../Base'
+import { XyoApiSimple } from '../Simple'
+import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
 import { XyoArchivistDomainApi } from './Domain'
 
@@ -39,8 +41,38 @@ export class XyoArchivistApi extends XyoApiBase {
     return this._user
   }
 
-  public async get(huri: Huri | string) {
+  public archive(archive = 'temp') {
+    return new XyoArchivistArchiveApi({
+      ...this.config,
+      root: `${this.root}archive/${archive}/`,
+    })
+  }
+
+  public huri(huri: Huri | string): XyoApiSimple<XyoPayload> {
     const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
-    return await this.getEndpoint<XyoPayload>(huriObj.href)
+    return new XyoApiSimple<XyoPayload>({
+      ...this.config,
+      root: `${this.root}${huriObj.href}/`,
+    })
+  }
+
+  /** @deprecated use huri(huri) instead */
+  public async get(huri: Huri | string): Promise<XyoPayload>
+  /** @deprecated use huri(huri) instead */
+  public async get(huri: Huri | string, responseType?: 'body'): Promise<XyoPayload>
+  /** @deprecated use huri(huri) instead */
+  public async get(huri: Huri | string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<XyoPayload>>
+  /** @deprecated use huri(huri) instead */
+  public async get(
+    huri: Huri | string,
+    responseType?: XyoApiResponseType
+  ): Promise<XyoPayload | XyoApiResponseTuple<XyoPayload>> {
+    const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
+    switch (responseType) {
+      case 'tuple':
+        return await this.getEndpoint(huriObj.href, 'tuple')
+      default:
+        return await this.getEndpoint(huriObj.href, 'body')
+    }
   }
 }

@@ -15,7 +15,8 @@ const configData: XyoApiConfig = {
   apiKey: process.env.API_KEY || undefined,
   jwtToken: process.env.JWT_TOKEN || undefined,
   onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) => console.error(`Failure: ${response.statusText} [${response.status}]`),
+  onFailure: (response) =>
+    console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
 }
 
 const describeSkipIfNoToken = configData.jwtToken || configData.apiKey ? describe : describe.skip
@@ -54,7 +55,8 @@ describe('postBoundWitness', () => {
     //TODO: We are casting the result here since the server has not yet been updated to return the actual saved data
 
     try {
-      const response = await api.archives.archive().block.post(boundWitness)
+      const response = await api.archives.archive().block.post([boundWitness])
+
       const typedResponse = response as unknown as {
         boundWitnesses: number
         payloads: number
@@ -96,7 +98,7 @@ describe('postBoundWitnesses', () => {
       }
     } catch (ex) {
       const error = ex as AxiosError
-      console.log(JSON.stringify(error.response?.data, null, 2))
+      console.log(JSON.stringify(error, null, 2))
       throw ex
     }
   })
@@ -225,7 +227,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       try {
         api = new XyoArchivistApi({ ...configData })
         const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
-        await api.archives.archive().block.post(boundWitness)
+        await api.archives.archive().block.post([boundWitness])
         const timestamp = Date.now() + 10000
         const response = await api.archives.archive('temp').block.findBefore(timestamp)
         expect(response?.length).toBe(1)
@@ -247,7 +249,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         const archive = await getNewArchive(api)
         api = new XyoArchivistApi({ ...configData })
         const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
-        await api.archives.archive(archive).block.post(boundWitness)
+        await api.archives.archive(archive).block.post([boundWitness])
         const timestamp = Date.now() - 10000
         const response = await api.archives.archive(archive).block.findAfter(timestamp)
         expect(response?.length).toBe(1)

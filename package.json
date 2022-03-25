@@ -60,11 +60,11 @@
     "rimraf": "^3.0.2",
     "rollbar": "^2.24.1",
     "rollup": "^2.70.1",
-    "ts-jest": "^27.1.3",
+    "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "tslib": "^2.3.1",
     "typedoc": "^0.22.13",
-    "typescript": "^4.6.2"
+    "typescript": "^4.6.3"
   },
   "docs": "dist/docs.json",
   "exports": {
@@ -122,6 +122,6 @@
   },
   "sideEffects": true,
   "types": "dist/index.d.ts",
-  "version": "2.14.25",
+  "version": "2.14.26",
   "packageManager": "yarn@3.1.1"
 }

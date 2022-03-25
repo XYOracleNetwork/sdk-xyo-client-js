@@ -53,21 +53,22 @@ export class XyoPanel {
   ) {
     const result = await Promise.allSettled(
       this.config.archivists.map((archivist) => {
-        return (async () => {
+        return async () => {
           this.config.onArchivistSendStart?.(archivist)
           let error: Error | undefined = undefined
-          let postResult: { boundWitnesses: number; payloads: number } | undefined = { boundWitnesses: 0, payloads: 0 }
+          let postResult: XyoBoundWitness[] | undefined = undefined
           try {
             const boundWitnessWithArchive = { ...boundWitness, _archive: this.config.archive }
-            postResult = await archivist.archives.select().block.post(boundWitness)
+            postResult = await archivist.archives.archive().block.post(boundWitness)
             this.addToHistory(boundWitnessWithArchive)
           } catch (ex) {
             error = ex as Error
             onError?.(archivist, error)
+            throw ex
           }
           this.config.onArchivistSendEnd?.(archivist, error)
           return postResult
-        })()
+        }
       })
     )
     return result
@@ -106,6 +107,7 @@ export class XyoPanel {
       .payloads(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
       .witness(this.config.address)
       .build()
+
     await this.sendToArchivists(newBoundWitness, (_, error) => errors.push(error))
     this.config.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
     return newBoundWitness

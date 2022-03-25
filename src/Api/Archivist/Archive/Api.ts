@@ -1,10 +1,10 @@
-import { XyoApiBase } from '../../Base'
+import { XyoApiSimple } from '../../Simple'
 import { XyoArchivistArchiveBlockApi } from '../Block'
-import { ArchiveResponse, PutArchiveRequest } from '../models'
+import { XyoArchive } from '../models'
 import { XyoArchivistArchivePayloadApi } from '../Payload'
 import { XyoArchivistArchiveSettingsApi } from '../Settings'
 
-export class XyoArchivistArchiveApi extends XyoApiBase {
+export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
   private _block?: XyoArchivistArchiveBlockApi
   public get block(): XyoArchivistArchiveBlockApi {
     this._block =
@@ -36,13 +36,5 @@ export class XyoArchivistArchiveApi extends XyoApiBase {
         root: `${this.root}settings/`,
       })
     return this._settings
-  }
-
-  public async get() {
-    return await this.getEndpoint<{ archive: string }>()
-  }
-
-  public async put(data: PutArchiveRequest = { accessControl: false }) {
-    return await this.putEndpoint<ArchiveResponse>('', data)
   }
 }

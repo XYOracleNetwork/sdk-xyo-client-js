@@ -80,7 +80,12 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     } catch (ex) {
       const error = ex as XyoApiError
       if (trapAxiosException && error.isAxiosError) {
-        this.reportError(error)
+        if (error.response) {
+          this.reportFailure(error.response)
+          return error.response as XyoApiResponse<XyoApiEnvelope<T>>
+        } else {
+          this.reportError(error)
+        }
       } else {
         throw ex
       }

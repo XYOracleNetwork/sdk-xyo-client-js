@@ -19,6 +19,17 @@ export class XyoArchivistApi extends XyoApiBase {
     return this._archives
   }
 
+  private _stats?: XyoApiSimple
+  public get stats(): XyoApiSimple {
+    this._stats =
+      this._stats ??
+      new XyoApiSimple({
+        ...this.config,
+        root: `${this.root}stats/`,
+      })
+    return this._stats
+  }
+
   public domain(domain: string): XyoApiSimple<XyoDomainConfig> {
     return new XyoApiSimple<XyoDomainConfig>({
       ...this.config,

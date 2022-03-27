@@ -17,6 +17,8 @@ const configData: XyoApiConfig = {
   onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
   onFailure: (response) =>
     console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
+  onSuccess: (response) =>
+    console.error(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
 }
 
 const describeSkipIfNoToken = configData.jwtToken || configData.apiKey ? describe : describe.skip

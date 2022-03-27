@@ -1,7 +1,8 @@
+import { XyoPayload } from '../models'
 import { XyoApiBase, XyoApiResponseTuple, XyoApiResponseType } from './Base'
 import { XyoApiConfig } from './Config'
 
-export class XyoApiSimple<T, D = T, C extends XyoApiConfig = XyoApiConfig> extends XyoApiBase<C> {
+export class XyoApiSimple<T = XyoPayload, D = T, C extends XyoApiConfig = XyoApiConfig> extends XyoApiBase<C> {
   public async get(): Promise<T>
   public async get(responseType?: 'body'): Promise<T>
   public async get(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>

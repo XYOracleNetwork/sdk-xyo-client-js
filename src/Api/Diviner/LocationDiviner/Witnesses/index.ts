@@ -1,1 +1,2 @@
-export * from './LocationWitnessPayload'
+export * from './CurrentLocationWitness'
+export * from './LocationWitness'

@@ -1,5 +1,6 @@
 import { XyoApiConfig } from '../../../Config'
 import { LocationHeatmapQuery, LocationHeatmapQuerySchema } from './LocationHeatmapQuery'
+import { LocationQuadkeyHeatmapQuery, LocationQuadkeyHeatmapQuerySchema } from './LocationQuadkeyHeatmapQuery'
 import { LocationQuerySchema } from './LocationQuerySchema'
 import { LocationTimeRangeQuery, LocationTimeRangeQuerySchema } from './LocationTimeRangeQuery'
 
@@ -24,6 +25,12 @@ export type LocationHeatmapQueryCreationRequest = LocationQueryCreationRequest<
   LocationHeatmapQuery
 >
 
+export type LocationQuadkeyHeatmapQueryCreationRequest = LocationQueryCreationRequest<
+  LocationQuadkeyHeatmapQuerySchema,
+  LocationQuadkeyHeatmapQuery
+>
+
 export type SupportedLocationQueryCreationRequest =
   | LocationTimeRangeQueryCreationRequest
   | LocationHeatmapQueryCreationRequest
+  | LocationQuadkeyHeatmapQueryCreationRequest

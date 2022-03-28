@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-import { XyoWitness } from '../../Witness'
+import { XyoWitness } from '../../core'
 import { XyoIdPayload } from './Payload'
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload> {

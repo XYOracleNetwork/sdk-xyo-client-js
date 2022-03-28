@@ -1,6 +1,4 @@
-import { XyoDomainConfig } from '../../DomainConfig'
-import { Huri } from '../../Huri'
-import { XyoPayload } from '../../models'
+import { Huri, XyoDomainConfig, XyoPayload } from '../../core'
 import { XyoAuthApi } from '../Auth'
 import { XyoApiBase, XyoApiResponseTuple, XyoApiResponseType } from '../Base'
 import { XyoApiSimple } from '../Simple'

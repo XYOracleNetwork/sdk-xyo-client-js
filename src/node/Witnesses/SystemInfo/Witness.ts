@@ -1,7 +1,7 @@
 import merge from 'lodash/merge'
 import { get } from 'systeminformation'
 
-import { XyoWitnessConfig } from '../../../Witness'
+import { XyoWitnessConfig } from '../../../core'
 import { XyoSystemInfoWitness } from '../../../Witnesses'
 import { XyoSystemInfoNodePayload } from './Payload'
 

@@ -2,8 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity } from 'mongodb'
 
-import { XyoPayload } from '../../models'
-import { XyoPayloadWrapper } from '../../Payload'
+import { XyoPayload, XyoPayloadWrapper } from '../../core'
 
 export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   private _archive: string

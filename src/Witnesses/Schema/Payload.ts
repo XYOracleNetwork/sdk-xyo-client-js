@@ -1,4 +1,4 @@
-import { XyoPayload } from '../../models'
+import { XyoPayload } from '../../core'
 
 export interface XyoSchemaPayload extends XyoPayload {
   name: string

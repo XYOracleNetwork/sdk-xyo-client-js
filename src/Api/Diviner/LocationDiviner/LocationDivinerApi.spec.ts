@@ -1,7 +1,7 @@
 import { ApiConfig } from '@xylabs/sdk-js'
 import { AxiosError } from 'axios'
 
-import { XyoApiConfig } from '../../Config'
+import { XyoApiConfig } from '../../models'
 import { XyoLocationDivinerApi } from './LocationDivinerApi'
 import {
   LocationHeatmapQueryCreationRequest,

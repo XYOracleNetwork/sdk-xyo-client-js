@@ -1,4 +1,5 @@
 export * from './LocationHeatmapQuery'
+export * from './LocationQuadkeyHeatmapQuery'
 export * from './LocationQueryCreationRequest'
 export * from './LocationQueryCreationResponse'
 export * from './LocationQuerySchema'

@@ -1,5 +1,4 @@
-import { XyoPayload } from '../../models'
-import { XyoWitness } from '../../Witness'
+import { XyoPayload, XyoWitness } from '../../core'
 
 export class XyoAdhocWitness extends XyoWitness<XyoPayload> {
   public payload: XyoPayload

@@ -1,10 +1,7 @@
 import { Axios } from 'axios'
 import { gzip } from 'pako'
 
-import { XyoApiConfig } from './Config'
-import { XyoApiEnvelope } from './Envelope'
-import { XyoApiError } from './Error'
-import { XyoApiResponse } from './Response'
+import { XyoApiConfig, XyoApiEnvelope, XyoApiError, XyoApiResponse } from './models'
 
 export type XyoApiResponseTuple<T> = [T, XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>]
 export type XyoApiResponseType = 'body' | 'tuple'

@@ -1,4 +1,4 @@
-import { XyoPayload } from '../models'
+import { XyoPayload } from '../core'
 
 const testSchema = 'network.xyo.test'
 const testPayload: XyoPayload = {

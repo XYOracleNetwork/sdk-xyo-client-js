@@ -33,3 +33,4 @@ export type LocationQuadkeyHeatmapQueryCreationRequest = LocationQueryCreationRe
 export type SupportedLocationQueryCreationRequest =
   | LocationTimeRangeQueryCreationRequest
   | LocationHeatmapQueryCreationRequest
+  | LocationQuadkeyHeatmapQueryCreationRequest

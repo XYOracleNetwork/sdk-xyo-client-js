@@ -2774,9 +2774,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts@npm:^1.0.49":
-  version: 1.0.49
-  resolution: "@xylabs/ts-scripts@npm:1.0.49"
+"@xylabs/ts-scripts@npm:^1.0.50":
+  version: 1.0.50
+  resolution: "@xylabs/ts-scripts@npm:1.0.50"
   dependencies:
     "@xylabs/eslint-config": ^2.3.19
     copyfiles: ^2.4.1
@@ -2834,7 +2834,7 @@ __metadata:
     xylabs-up3: bin/up3.js
     xylabs-updo: bin/updo.js
     xylabs-updo3: bin/updo3.js
-  checksum: 40c2e20be39bf3e86113cf53998630694f8c2c8eef0c29d94077d79af3748b3e4998f6f8a56006b1abafa08c35452e4ace0428b8f8c66d11e9e1c07dfeb93d20
+  checksum: f23aba0686af5fa49d8429d5ef934f723ea0afcbbc6cb12ae9ab86556531b046b4c23d56f7adb18ef126eef1f95daa1f588229f4d5785ce350677a12a61cdaf7
   languageName: node
   linkType: hard
 
@@ -2867,7 +2867,7 @@ __metadata:
     "@xylabs/eslint-config": ^2.3.19
     "@xylabs/rollup-config": ^1.1.10
     "@xylabs/sdk-js": ^2.4.3
-    "@xylabs/ts-scripts": ^1.0.49
+    "@xylabs/ts-scripts": ^1.0.50
     "@xylabs/tsconfig": ^1.0.12
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.7
     axios: ^0.26.1

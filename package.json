@@ -46,7 +46,7 @@
     "@types/uuid": "^8.3.4",
     "@xylabs/eslint-config": "^2.3.19",
     "@xylabs/rollup-config": "^1.1.10",
-    "@xylabs/ts-scripts": "^1.0.49",
+    "@xylabs/ts-scripts": "^1.0.50",
     "@xylabs/tsconfig": "^1.0.12",
     "babel-jest": "^27.5.1",
     "copyfiles": "^2.4.1",

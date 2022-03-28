@@ -1,4 +1,4 @@
-import { XyoApiConfig } from '../../../Config'
+import { XyoApiConfig } from '../../../models'
 import { LocationHeatmapQuery, LocationHeatmapQuerySchema } from './LocationHeatmapQuery'
 import { LocationQuadkeyHeatmapQuery, LocationQuadkeyHeatmapQuerySchema } from './LocationQuadkeyHeatmapQuery'
 import { LocationQuerySchema } from './LocationQuerySchema'

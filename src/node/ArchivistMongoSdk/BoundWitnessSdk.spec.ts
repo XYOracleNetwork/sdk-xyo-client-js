@@ -2,10 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 import { v4 } from 'uuid'
 
-import { XyoAddress } from '../../Address'
-import { XyoBoundWitnessBuilder } from '../../BoundWitness'
-import { XyoBoundWitness } from '../../models'
-import { XyoPayloadBuilder } from '../../Payload'
+import { XyoAddress, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayloadBuilder } from '../../core'
 import { XyoArchivistBoundWitnessMongoSdk } from './BoundWitnessSdk'
 
 const schema = 'network.xyo.temp'

@@ -1,11 +1,9 @@
 import { AxiosError } from 'axios'
 import { config } from 'dotenv'
 
-import { XyoAddress } from '../../Address'
-import { XyoBoundWitnessBuilder } from '../../BoundWitness'
-import { XyoBoundWitness } from '../../models'
+import { XyoAddress, XyoBoundWitness, XyoBoundWitnessBuilder } from '../../core'
 import { testPayload } from '../../Test'
-import { XyoApiConfig } from '../Config'
+import { XyoApiConfig } from '../models'
 import { XyoArchivistApi } from './Api'
 
 config()
@@ -15,10 +13,8 @@ const configData: XyoApiConfig = {
   apiKey: process.env.API_KEY || undefined,
   jwtToken: process.env.JWT_TOKEN || undefined,
   onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) =>
-    console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
-  onSuccess: (response) =>
-    console.error(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
+  onFailure: (response) => response, //console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
+  onSuccess: (response) => response, //console.log(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
 }
 
 const describeSkipIfNoToken = configData.jwtToken || configData.apiKey ? describe : describe.skip

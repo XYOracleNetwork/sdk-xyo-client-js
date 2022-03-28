@@ -1,6 +1,6 @@
+import { XyoArchive } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { XyoArchivistArchiveApi } from '../Archive'
-import { XyoArchive } from '../models'
 
 export class XyoArchivistArchivesApi extends XyoApiSimple<XyoArchive[]> {
   public archive(archive = 'temp') {

@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 
 import { typeOf } from '../../lib'
-import { XyoApiConfig } from '../Config'
+import { XyoApiConfig } from '../models'
 import { XyoAuthApi } from './AuthApi'
 
 const timeout = 20000

@@ -1,4 +1,4 @@
-import { XyoBoundWitness } from '../models'
+import { XyoBoundWitness } from '../core'
 
 const testBoundWitness: XyoBoundWitness = {
   _archive: 'temp',

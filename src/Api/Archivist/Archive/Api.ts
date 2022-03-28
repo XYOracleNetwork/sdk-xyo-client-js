@@ -1,6 +1,6 @@
+import { XyoArchive } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { XyoArchivistArchiveBlockApi } from '../Block'
-import { XyoArchive } from '../models'
 import { XyoArchivistArchivePayloadApi } from '../Payload'
 import { XyoArchivistArchiveSettingsApi } from '../Settings'
 

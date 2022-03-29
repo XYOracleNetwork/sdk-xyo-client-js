@@ -1,4 +1,4 @@
-import { dumpErrors } from '../../../dumpErrors'
+import { dumpErrors } from '../../../lib'
 import { testPayload } from '../../../Test'
 import { XyoPayloadBodyValidator } from './BodyValidator'
 

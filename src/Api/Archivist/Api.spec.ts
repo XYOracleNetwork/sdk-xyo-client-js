@@ -55,16 +55,7 @@ describe('postBoundWitness', () => {
     try {
       const response = await api.archives.archive().block.post([boundWitness])
 
-      const typedResponse = response as unknown as {
-        boundWitnesses: number
-        payloads: number
-      }
-      expect(typedResponse?.boundWitnesses).toEqual(1)
-      if (inlinePayloads) {
-        expect(typedResponse?.payloads).toEqual(1)
-      } else {
-        expect(typedResponse?.payloads).toEqual(0)
-      }
+      expect(response.length).toEqual(1)
     } catch (ex) {
       const error = ex as AxiosError
       console.log(JSON.stringify(error.response?.data, null, 2))
@@ -84,16 +75,7 @@ describe('postBoundWitnesses', () => {
 
     try {
       const response = await api.archives.archive().block.post(boundWitnesses)
-      const typedResponse = response as unknown as {
-        boundWitnesses: number
-        payloads: number
-      }
-      expect(typedResponse?.boundWitnesses).toEqual(2)
-      if (inlinePayloads) {
-        expect(typedResponse?.payloads).toEqual(2)
-      } else {
-        expect(typedResponse?.payloads).toEqual(0)
-      }
+      expect(response?.length).toEqual(2)
     } catch (ex) {
       const error = ex as AxiosError
       console.log(JSON.stringify(error, null, 2))

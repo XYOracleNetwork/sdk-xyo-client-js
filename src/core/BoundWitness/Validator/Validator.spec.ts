@@ -1,4 +1,4 @@
-import { dumpErrors } from '../../../dumpErrors'
+import { dumpErrors } from '../../../lib'
 import { testBoundWitness } from '../../../Test'
 import { XyoBoundWitnessValidator } from './Validator'
 

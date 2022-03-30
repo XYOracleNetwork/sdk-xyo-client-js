@@ -2,7 +2,7 @@ import { XyoArchive } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { XyoArchivistArchiveBlockApi } from '../Block'
 import { XyoArchivistArchivePayloadApi } from '../Payload'
-import { XyoArchivistArchiveSettingsApi } from '../Settings'
+import { XyoArchivistArchiveSettingsApi } from './Settings'
 
 export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
   private _block?: XyoArchivistArchiveBlockApi

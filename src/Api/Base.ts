@@ -149,6 +149,22 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
   }
 
+  protected async deleteEndpoint<T = unknown>(endPoint: string): Promise<T>
+  protected async deleteEndpoint<T = unknown>(endPoint: string, responseType?: 'body'): Promise<T>
+  protected async deleteEndpoint<T = unknown>(endPoint: string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  protected async deleteEndpoint<T = unknown>(
+    endPoint = '',
+    responseType?: XyoApiResponseType
+  ): Promise<T | XyoApiResponseTuple<T>> {
+    const response = await this.monitorResponse<T>(async () => {
+      return await this.axios.delete<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>>(
+        `${this.resolveRoot()}${endPoint}${this.query}`
+      )
+    })
+    const resolvedResponse = XyoApiBase.resolveResponse(response)
+    return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
+  }
+
   protected get headers(): Record<string, string> {
     const headers: Record<string, string> = {}
     if (this.config.jwtToken) {

@@ -2300,10 +2300,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.180":
-  version: 4.14.180
-  resolution: "@types/lodash@npm:4.14.180"
-  checksum: fc42ae3473695cac6e91553f832fef8eb51a31c1c0381cafa81b00dc3efe18e279786bdda77caf0b90a8340ba2ba7aa46ae6541d69870565f775d04c89128bc1
+"@types/lodash@npm:^4.14.181":
+  version: 4.14.181
+  resolution: "@types/lodash@npm:4.14.181"
+  checksum: 0d1863d8383fd2f8bb42e9e3fc1d6255bb88ff034d6df848941063698944313dae944fc1270315613e3d303fae7c7a9a86085ad3235ed6204c56c4b0b3699aa9
   languageName: node
   linkType: hard
 
@@ -2774,9 +2774,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts@npm:^1.0.50":
-  version: 1.0.50
-  resolution: "@xylabs/ts-scripts@npm:1.0.50"
+"@xylabs/ts-scripts@npm:^1.0.52":
+  version: 1.0.52
+  resolution: "@xylabs/ts-scripts@npm:1.0.52"
   dependencies:
     "@xylabs/eslint-config": ^2.3.19
     copyfiles: ^2.4.1
@@ -2834,7 +2834,7 @@ __metadata:
     xylabs-up3: bin/up3.js
     xylabs-updo: bin/updo.js
     xylabs-updo3: bin/updo3.js
-  checksum: f23aba0686af5fa49d8429d5ef934f723ea0afcbbc6cb12ae9ab86556531b046b4c23d56f7adb18ef126eef1f95daa1f588229f4d5785ce350677a12a61cdaf7
+  checksum: 232b7ee0a30060a6f69ec484d82cd7134195c2d75e515df52623594b37256994623fbfcb7a50690aab462fef0b765c89678026f30ae56a58e724da951d417489
   languageName: node
   linkType: hard
 
@@ -2857,7 +2857,7 @@ __metadata:
     "@types/bn.js": ^5.1.0
     "@types/elliptic": ^6.4.14
     "@types/jest": ^27.4.1
-    "@types/lodash": ^4.14.180
+    "@types/lodash": ^4.14.181
     "@types/lru-cache": ^7.6.1
     "@types/node": ^17.0.23
     "@types/pako": ^1.0.3
@@ -2867,7 +2867,7 @@ __metadata:
     "@xylabs/eslint-config": ^2.3.19
     "@xylabs/rollup-config": ^1.1.10
     "@xylabs/sdk-js": ^2.4.3
-    "@xylabs/ts-scripts": ^1.0.50
+    "@xylabs/ts-scripts": ^1.0.52
     "@xylabs/tsconfig": ^1.0.12
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.7
     axios: ^0.26.1
@@ -2884,7 +2884,7 @@ __metadata:
     keccak256: ^1.0.6
     license-checker: ^25.0.1
     lodash: ^4.17.21
-    lru-cache: ^7.7.1
+    lru-cache: ^7.7.2
     mongodb: ^4.4.1
     neo4j-driver: ^4.4.5
     neo4j-driver-core: ^4.4.5
@@ -7275,10 +7275,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^7.3.1, lru-cache@npm:^7.4.1, lru-cache@npm:^7.7.1":
-  version: 7.7.1
-  resolution: "lru-cache@npm:7.7.1"
-  checksum: f362c5a2cfa8ad6fe557ec43dc1b7a9695cce84a5652a43ff813609f782f5da576631e7dfad41878bf19a7a69438f38375178635ee80de269aa314280ca2f59e
+"lru-cache@npm:^7.3.1, lru-cache@npm:^7.4.1, lru-cache@npm:^7.7.2":
+  version: 7.7.2
+  resolution: "lru-cache@npm:7.7.2"
+  checksum: 1aaad83fcffeeed2e08d5b47862e22abe9a2aa065d4e333a0e1944f4125f11acc7a950374ab53a68e61c6188b300f8b4bc59a5f4798d0ca3c9a67b33ea185433
   languageName: node
   linkType: hard
 

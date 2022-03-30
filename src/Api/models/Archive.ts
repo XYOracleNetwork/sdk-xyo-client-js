@@ -1,6 +1,6 @@
 import { XyoArchivePath } from './ArchivePath'
 
-export type AccessLevel = 'public' | 'private'
+export type AccessLevel = 'public' | 'private' | 'none'
 export type AccessType = 'read' | 'remove' | 'create' | 'list'
 export type ExpirationWindow = 'create' | 'read'
 

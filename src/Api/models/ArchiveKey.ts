@@ -1,4 +1,5 @@
 export interface XyoArchiveKey {
-  created: string
+  archive: string
+  created?: number
   key: string
 }

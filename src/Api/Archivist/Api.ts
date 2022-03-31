@@ -1,6 +1,12 @@
 import { Huri, XyoDomainConfig, XyoPayload } from '../../core'
 import { XyoAuthApi } from '../Auth'
-import { XyoApiBase, XyoApiResponseTuple, XyoApiResponseType } from '../Base'
+import {
+  XyoApiBase,
+  XyoApiResponseBody,
+  XyoApiResponseTuple,
+  XyoApiResponseTupleOrBody,
+  XyoApiResponseType,
+} from '../Base'
 import { XyoApiSimple } from '../Simple'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
@@ -62,16 +68,16 @@ export class XyoArchivistApi extends XyoApiBase {
   }
 
   /** @deprecated use huri(huri) instead */
-  public async get(huri: Huri | string): Promise<XyoPayload>
+  public async get(huri: Huri | string): Promise<XyoApiResponseBody<XyoPayload>>
   /** @deprecated use huri(huri) instead */
-  public async get(huri: Huri | string, responseType?: 'body'): Promise<XyoPayload>
+  public async get(huri: Huri | string, responseType?: 'body'): Promise<XyoApiResponseBody<XyoPayload>>
   /** @deprecated use huri(huri) instead */
   public async get(huri: Huri | string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<XyoPayload>>
   /** @deprecated use huri(huri) instead */
   public async get(
     huri: Huri | string,
     responseType?: XyoApiResponseType
-  ): Promise<XyoPayload | XyoApiResponseTuple<XyoPayload>> {
+  ): Promise<XyoApiResponseTupleOrBody<XyoPayload>> {
     const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
     switch (responseType) {
       case 'tuple':

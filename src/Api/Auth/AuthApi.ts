@@ -1,4 +1,10 @@
-import { XyoApiBase, XyoApiResponseTuple, XyoApiResponseType } from '../Base'
+import {
+  XyoApiBase,
+  XyoApiResponseBody,
+  XyoApiResponseTuple,
+  XyoApiResponseTupleOrBody,
+  XyoApiResponseType,
+} from '../Base'
 
 export interface WalletChallengeResponse {
   state: string
@@ -23,8 +29,11 @@ export class XyoAuthApi extends XyoApiBase {
     })
   }
 
-  public async walletChallenge(address: string): Promise<WalletChallengeResponse>
-  public async walletChallenge(address: string, responseType?: 'body'): Promise<WalletChallengeResponse>
+  public async walletChallenge(address: string): Promise<XyoApiResponseBody<WalletChallengeResponse>>
+  public async walletChallenge(
+    address: string,
+    responseType?: 'body'
+  ): Promise<XyoApiResponseBody<WalletChallengeResponse>>
   public async walletChallenge(
     address: string,
     responseType?: 'tuple'
@@ -32,7 +41,7 @@ export class XyoAuthApi extends XyoApiBase {
   public async walletChallenge(
     address: string,
     responseType?: XyoApiResponseType
-  ): Promise<WalletChallengeResponse | XyoApiResponseTuple<WalletChallengeResponse>> {
+  ): Promise<XyoApiResponseTupleOrBody<WalletChallengeResponse>> {
     switch (responseType) {
       case 'tuple':
         return await this.postEndpoint<WalletChallengeResponse>(

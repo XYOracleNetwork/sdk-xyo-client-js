@@ -3,7 +3,16 @@ import { gzip } from 'pako'
 
 import { XyoApiConfig, XyoApiEnvelope, XyoApiError, XyoApiResponse } from './models'
 
-export type XyoApiResponseTuple<T> = [T, XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>]
+export type XyoApiResponseBody<T> = T | undefined
+
+export type XyoApiResponseTuple<T> = [
+  T | undefined,
+  XyoApiEnvelope<T | undefined>,
+  XyoApiResponse<XyoApiEnvelope<T | undefined>>
+]
+
+export type XyoApiResponseTupleOrBody<T> = XyoApiResponseTuple<T> | XyoApiResponseBody<T>
+
 export type XyoApiResponseType = 'body' | 'tuple'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
@@ -95,13 +104,13 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     }
   }
 
-  protected async getEndpoint<T = unknown>(endPoint: string): Promise<T>
-  protected async getEndpoint<T = unknown>(endPoint: string, responseType?: 'body'): Promise<T>
+  protected async getEndpoint<T = unknown>(endPoint: string): Promise<XyoApiResponseBody<T>>
+  protected async getEndpoint<T = unknown>(endPoint: string, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
   protected async getEndpoint<T = unknown>(endPoint: string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
   protected async getEndpoint<T = unknown>(
     endPoint = '',
     responseType?: XyoApiResponseType
-  ): Promise<T | XyoApiResponseTuple<T>> {
+  ): Promise<XyoApiResponseTupleOrBody<T>> {
     const response = await this.monitorResponse<T>(async () => {
       return await this.axios.get<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>>(
         `${this.resolveRoot()}${endPoint}${this.query}`
@@ -111,8 +120,12 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
   }
 
-  protected async postEndpoint<T = unknown, D = unknown>(endPoint: string, data: D): Promise<T>
-  protected async postEndpoint<T = unknown, D = unknown>(endPoint: string, data: D, responseType?: 'body'): Promise<T>
+  protected async postEndpoint<T = unknown, D = unknown>(endPoint: string, data: D): Promise<XyoApiResponseBody<T>>
+  protected async postEndpoint<T = unknown, D = unknown>(
+    endPoint: string,
+    data: D,
+    responseType?: 'body'
+  ): Promise<XyoApiResponseBody<T>>
   protected async postEndpoint<T = unknown, D = unknown>(
     endPoint: string,
     data: D,
@@ -122,7 +135,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     endPoint: string,
     data: D,
     responseType?: XyoApiResponseType
-  ): Promise<T | XyoApiResponseTuple<T>> {
+  ): Promise<XyoApiResponseTupleOrBody<T>> {
     const response = await this.monitorResponse<T>(async () => {
       return await this.axios.post<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>, D>, D>(
         `${this.resolveRoot()}${endPoint}${this.query}`,
@@ -133,8 +146,12 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
   }
 
-  protected async putEndpoint<T = unknown, D = unknown>(endPoint: string, data: D): Promise<T>
-  protected async putEndpoint<T = unknown, D = unknown>(endPoint: string, data: D, responseType?: 'body'): Promise<T>
+  protected async putEndpoint<T = unknown, D = unknown>(endPoint: string, data: D): Promise<XyoApiResponseBody<T>>
+  protected async putEndpoint<T = unknown, D = unknown>(
+    endPoint: string,
+    data: D,
+    responseType?: 'body'
+  ): Promise<XyoApiResponseBody<T>>
   protected async putEndpoint<T = unknown, D = unknown>(
     endPoint: string,
     data: D,
@@ -144,7 +161,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     endPoint: string,
     data: D,
     responseType?: XyoApiResponseType
-  ): Promise<T | XyoApiResponseTuple<T>> {
+  ): Promise<XyoApiResponseTupleOrBody<T>> {
     const response = await this.monitorResponse<T>(async () => {
       return await this.axios.put<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>, D>, D>(
         `${this.resolveRoot()}${endPoint}${this.query}`,
@@ -155,13 +172,13 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
   }
 
-  protected async deleteEndpoint<T = unknown>(endPoint: string): Promise<T>
-  protected async deleteEndpoint<T = unknown>(endPoint: string, responseType?: 'body'): Promise<T>
+  protected async deleteEndpoint<T = unknown>(endPoint: string): Promise<XyoApiResponseBody<T>>
+  protected async deleteEndpoint<T = unknown>(endPoint: string, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
   protected async deleteEndpoint<T = unknown>(endPoint: string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
   protected async deleteEndpoint<T = unknown>(
     endPoint = '',
     responseType?: XyoApiResponseType
-  ): Promise<T | XyoApiResponseTuple<T>> {
+  ): Promise<XyoApiResponseTupleOrBody<T>> {
     const response = await this.monitorResponse<T>(async () => {
       return await this.axios.delete<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>>(
         `${this.resolveRoot()}${endPoint}${this.query}`

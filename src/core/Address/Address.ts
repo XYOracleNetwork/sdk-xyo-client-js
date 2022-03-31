@@ -84,7 +84,7 @@ export class XyoAddress {
 
   static random() {
     const key = XyoAddress.ecContext.genKeyPair()
-    return XyoAddress.fromPrivateKey(key.getPrivate().toBuffer().toString('hex').padStart(32, '0'))
+    return XyoAddress.fromPrivateKey(key.getPrivate().toBuffer().toString('hex').padStart(64, '0'))
   }
 
   //there has to be a better way to do this other than trying all four numbers

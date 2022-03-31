@@ -23,14 +23,14 @@ export class XyoUserApi extends XyoApiBase {
     return headers
   }
 
-  public login() {
+  public get login() {
     return new XyoApiSimple<XyoUserLogin>({
       ...this.config,
       root: `${this.root}login/`,
     })
   }
 
-  public profile() {
+  public get profile() {
     return new XyoApiSimple({
       ...this.config,
       root: `${this.root}profile/`,

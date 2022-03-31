@@ -3,14 +3,14 @@ import reverse from 'lodash/reverse'
 
 export interface XyoDomainConfig {
   /** @field Domain associated with this config [in/out] */
-  domain: string
+  domain?: string
   /** @field Schemas associated with this domain [out] */
   schema?: Record<string, string>
 }
 
 export class XyoDomainConfigWrapper {
   public config: XyoDomainConfig
-  constructor(config: XyoDomainConfig) {
+  constructor(config: XyoDomainConfig = {}) {
     this.config = config
   }
   public async discover(reverseDomainName: string) {

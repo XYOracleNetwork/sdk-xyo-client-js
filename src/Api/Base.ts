@@ -16,11 +16,17 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
       headers: {
         ...this.headers,
         Accept: 'application/json, text/plain, *.*',
-        'Content-Encoding': 'gzip',
         'Content-Type': 'application/json',
       },
-      transformRequest: (data) => {
-        return data ? gzip(JSON.stringify(data)).buffer : undefined
+      transformRequest: (data, headers) => {
+        const json = JSON.stringify(data)
+        if (headers && data) {
+          if (json.length > (this.config.compressionThreshold ?? 1024)) {
+            headers['Content-Encoding'] = 'gzip'
+            return gzip(JSON.stringify(data)).buffer
+          }
+        }
+        return JSON.stringify(data)
       },
       transformResponse: (data) => {
         try {

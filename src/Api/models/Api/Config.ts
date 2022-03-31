@@ -18,6 +18,9 @@ interface XyoApiConfig extends ApiConfig {
 
   /** @description Callback that notifies on every server success (status < 300) */
   onSuccess?: (response: XyoApiResponse) => void
+
+  /** @description Threshold for Content-Size to cause automatic gzip of request body [default = 1024] */
+  compressionThreshold?: number
 }
 
 export type { XyoApiConfig }

@@ -1,15 +1,11 @@
 import { Huri, XyoDomainConfig, XyoPayload } from '../../core'
-import { XyoAuthApi } from '../Auth'
-import {
-  XyoApiBase,
-  XyoApiResponseBody,
-  XyoApiResponseTuple,
-  XyoApiResponseTupleOrBody,
-  XyoApiResponseType,
-} from '../Base'
+import { XyoApiBase } from '../Base'
+import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'
 import { XyoApiSimple } from '../Simple'
+import { XyoUserApi } from '../User'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
+import { XyoWalletApi } from './Wallet'
 
 export class XyoArchivistApi extends XyoApiBase {
   private _archives?: XyoArchivistArchivesApi
@@ -41,11 +37,11 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
-  private _user?: XyoAuthApi
-  public get user(): XyoAuthApi {
+  private _user?: XyoUserApi
+  public get user(): XyoUserApi {
     this._user =
       this._user ??
-      new XyoAuthApi({
+      new XyoUserApi({
         ...this.config,
         root: `${this.root}user/`,
       })
@@ -56,6 +52,13 @@ export class XyoArchivistApi extends XyoApiBase {
     return new XyoArchivistArchiveApi({
       ...this.config,
       root: `${this.root}archive/${archive}/`,
+    })
+  }
+
+  public wallet(address: string) {
+    return new XyoWalletApi({
+      ...this.config,
+      root: `${this.root}wallet/${address}/`,
     })
   }
 

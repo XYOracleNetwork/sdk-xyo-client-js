@@ -1,9 +1,8 @@
-import { AxiosError } from 'axios'
 import { config } from 'dotenv'
 
 import { XyoAddress, XyoBoundWitness, XyoBoundWitnessBuilder } from '../../core'
 import { testPayload } from '../../Test'
-import { XyoApiConfig } from '../models'
+import { XyoApiConfig, XyoApiError } from '../models'
 import { XyoArchivistApi } from './Api'
 
 config()
@@ -26,7 +25,7 @@ const getRandomArchiveName = (): string => {
 
 const getNewArchive = async (api: XyoArchivistApi) => {
   const archive = getRandomArchiveName()
-  const response = await api.archives.archive(archive).put()
+  const response = (await api.archives.archive(archive).put())?.pop()
   return response?.archive
 }
 
@@ -34,10 +33,10 @@ describe('getDomain', function () {
   it('gets the domain config', async () => {
     const api = new XyoArchivistApi(configData)
     try {
-      const response = await api.domain('network.xyo').get()
+      const response = (await api.domain('network.xyo').get())?.pop()
       expect(Object.keys(response?.schema ?? {}).length).toBeGreaterThanOrEqual(2)
     } catch (ex) {
-      const error = ex as AxiosError
+      const error = ex as XyoApiError
       console.log(JSON.stringify(error.response?.data, null, 2))
       throw ex
     }
@@ -55,9 +54,9 @@ describe('postBoundWitness', () => {
     try {
       const response = await api.archives.archive().block.post([boundWitness])
 
-      expect(response.length).toEqual(1)
+      expect(response?.length).toEqual(1)
     } catch (ex) {
-      const error = ex as AxiosError
+      const error = ex as XyoApiError
       console.log(JSON.stringify(error.response?.data, null, 2))
       throw ex
     }
@@ -77,7 +76,7 @@ describe('postBoundWitnesses', () => {
       const response = await api.archives.archive().block.post(boundWitnesses)
       expect(response?.length).toEqual(2)
     } catch (ex) {
-      const error = ex as AxiosError
+      const error = ex as XyoApiError
       console.log(JSON.stringify(error, null, 2))
       throw ex
     }
@@ -106,7 +105,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         const archiveNames = archives?.map((x) => x.archive)
         expect(archiveNames).toContain(archive)
       } catch (ex) {
-        const error = ex as AxiosError
+        const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
         throw ex
       }
@@ -122,10 +121,10 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       const api = new XyoArchivistApi(configData)
       try {
         await api.archives.archive(archive).get()
-        const response = await api.archives.archive(archive).get()
+        const response = (await api.archives.archive(archive).get())?.pop()
         expect(response?.archive).toBe(archive)
       } catch (ex) {
-        const error = ex as AxiosError
+        const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
         throw ex
       }
@@ -140,10 +139,10 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     it('returns the archive owned', async () => {
       const api = new XyoArchivistApi(configData)
       try {
-        const response = await api.archives.archive(archive).put()
+        const response = (await api.archives.archive(archive).put())?.pop()
         expect(response?.archive).toEqual(archive)
       } catch (ex) {
-        const error = ex as AxiosError
+        const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
         throw ex
       }
@@ -157,12 +156,12 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         const api = new XyoArchivistApi({ ...configData })
         const archiveApi = api.archives.archive(archive)
         await archiveApi.put()
-        const key = await archiveApi.settings.keys.post()
-        const response = await archiveApi.settings.keys.get()
+        const key = await archiveApi.settings.key.post()
+        const response = await archiveApi.settings.key.get()
         expect(response?.length).toEqual(1)
         expect(response?.[0]).toEqual(key)
       } catch (ex) {
-        const error = ex as AxiosError
+        const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
         throw ex
       }
@@ -176,10 +175,10 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         const api = new XyoArchivistApi({ ...configData })
         const archiveApi = api.archives.archive(archive)
         await archiveApi.put()
-        const response = await archiveApi.settings.keys.post()
+        const response = await archiveApi.settings.key.post()
         expect(response?.keys.length).toBe(1)
       } catch (ex) {
-        const error = ex as AxiosError
+        const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
         throw ex
       }
@@ -191,10 +190,10 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       let api = new XyoArchivistApi(configData)
       try {
         api = new XyoArchivistApi({ ...configData })
-        const stats = await api.archives.archive().block.stats.get()
+        const stats = (await api.archives.archive().block.stats.get())?.pop()
         expect(stats?.count).toBeGreaterThan(0)
       } catch (ex) {
-        const error = ex as AxiosError
+        const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
         throw ex
       }
@@ -215,7 +214,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         expect(actual?._timestamp).toBeTruthy()
         expect(actual?._timestamp).toBeLessThan(timestamp)
       } catch (ex) {
-        const error = ex as AxiosError
+        const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
         throw ex
       }
@@ -237,7 +236,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         expect(actual?._timestamp).toBeTruthy()
         expect(actual?._timestamp).toBeGreaterThan(timestamp)
       } catch (ex) {
-        const error = ex as AxiosError
+        const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
         throw ex
       }

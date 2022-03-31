@@ -48,26 +48,25 @@ export class XyoPanel {
     boundWitness: XyoBoundWitness,
     onError?: (archivist: XyoArchivistApi, error: Error) => void
   ) {
-    const result = await Promise.allSettled(
-      this.config.archivists.map((archivist) => {
-        return async () => {
-          this.config.onArchivistSendStart?.(archivist)
-          let error: Error | undefined = undefined
-          let postResult: XyoBoundWitness[] | undefined = undefined
-          try {
-            postResult = await archivist.archives.archive().block.post([boundWitness])
-            postResult?.forEach((value) => this.addToHistory(value))
-          } catch (ex) {
-            error = ex as Error
-            onError?.(archivist, error)
-            throw ex
-          }
-          this.config.onArchivistSendEnd?.(archivist, error)
-          return postResult
+    const promises = this.config.archivists.map((archivist) => {
+      const promiseResult = async () => {
+        this.config.onArchivistSendStart?.(archivist)
+        let error: Error | undefined = undefined
+        let postResult: XyoBoundWitness[] | undefined = undefined
+        try {
+          postResult = await archivist.archives.archive().block.post([boundWitness])
+          postResult?.forEach((value) => this.addToHistory(value))
+        } catch (ex) {
+          error = ex as Error
+          onError?.(archivist, error)
+          throw ex
         }
-      })
-    )
-    return result
+        this.config.onArchivistSendEnd?.(archivist, error)
+        return postResult
+      }
+      return promiseResult()
+    })
+    return await Promise.allSettled(promises)
   }
 
   private async generatePayloads(witnesses: XyoWitness[], onError?: (witness: XyoWitness, error: Error) => void) {

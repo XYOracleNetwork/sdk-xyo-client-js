@@ -21,6 +21,12 @@ interface XyoApiConfig extends ApiConfig {
 
   /** @description Threshold for Content-Size to cause automatic gzip of request body [default = 1024] */
   compressionThreshold?: number
+
+  /** @description Throw on failures */
+  throwFailure?: boolean
+
+  /** @description Throw on error */
+  throwError?: boolean
 }
 
 export type { XyoApiConfig }

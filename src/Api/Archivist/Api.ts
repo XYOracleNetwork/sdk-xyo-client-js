@@ -1,9 +1,11 @@
 import { Huri, XyoDomainConfig, XyoPayload } from '../../core'
-import { XyoAuthApi } from '../Auth'
-import { XyoApiBase, XyoApiResponseTuple, XyoApiResponseType } from '../Base'
+import { XyoApiBase } from '../Base'
+import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'
 import { XyoApiSimple } from '../Simple'
+import { XyoUserApi } from '../User'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
+import { XyoWalletApi } from './Wallet'
 
 export class XyoArchivistApi extends XyoApiBase {
   private _archives?: XyoArchivistArchivesApi
@@ -35,11 +37,11 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
-  private _user?: XyoAuthApi
-  public get user(): XyoAuthApi {
+  private _user?: XyoUserApi
+  public get user(): XyoUserApi {
     this._user =
       this._user ??
-      new XyoAuthApi({
+      new XyoUserApi({
         ...this.config,
         root: `${this.root}user/`,
       })
@@ -53,6 +55,13 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
+  public wallet(address: string) {
+    return new XyoWalletApi({
+      ...this.config,
+      root: `${this.root}wallet/${address}/`,
+    })
+  }
+
   public huri(huri: Huri | string): XyoApiSimple<XyoPayload> {
     const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
     return new XyoApiSimple<XyoPayload>({
@@ -62,16 +71,16 @@ export class XyoArchivistApi extends XyoApiBase {
   }
 
   /** @deprecated use huri(huri) instead */
-  public async get(huri: Huri | string): Promise<XyoPayload>
+  public async get(huri: Huri | string): Promise<XyoApiResponseBody<XyoPayload>>
   /** @deprecated use huri(huri) instead */
-  public async get(huri: Huri | string, responseType?: 'body'): Promise<XyoPayload>
+  public async get(huri: Huri | string, responseType?: 'body'): Promise<XyoApiResponseBody<XyoPayload>>
   /** @deprecated use huri(huri) instead */
   public async get(huri: Huri | string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<XyoPayload>>
   /** @deprecated use huri(huri) instead */
   public async get(
     huri: Huri | string,
     responseType?: XyoApiResponseType
-  ): Promise<XyoPayload | XyoApiResponseTuple<XyoPayload>> {
+  ): Promise<XyoApiResponseTupleOrBody<XyoPayload>> {
     const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
     switch (responseType) {
       case 'tuple':

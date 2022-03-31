@@ -41,15 +41,17 @@ class XyoMetaMaskConnector {
     const provider = new Web3Provider(this.ethereum, 'any')
     await provider.send('eth_requestAccounts', [])
 
-    const challengeResponse = await this.config.AuthApiService.walletChallenge(this.currentAccount)
+    const challengeResponse = (await this.config.api.wallet(this.currentAccount).challenge.post())?.pop()
 
-    const message = challengeResponse.state
-    const signer = provider.getSigner()
-    await signer.getAddress()
-    const signature = await signer.signMessage(message)
+    const message = challengeResponse?.state
+    if (message) {
+      const signer = provider.getSigner()
+      await signer.getAddress()
+      const signature = await signer.signMessage(message)
 
-    const challenge = await this.config.AuthApiService.walletVerify(this.currentAccount, message, signature)
-    return challenge
+      const challenge = await this.config.api.wallet(this.currentAccount).verify.post([{ message, signature }])
+      return challenge
+    }
   }
 
   static get(config: XyoMetaMaskAuthConfig) {

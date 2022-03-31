@@ -19,7 +19,7 @@ export interface XyoPayloadStats {
 export class XyoArchivistArchivePayloadApi<
   T extends XyoPayload = XyoPayload,
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>
-> extends XyoApiSimple<T[], T | T[], C> {
+> extends XyoApiSimple<T, T | T, C> {
   private _stats?: XyoApiSimple<XyoPayloadStats>
   public get stats(): XyoApiSimple<XyoPayloadStats> {
     this._stats =
@@ -44,18 +44,18 @@ export class XyoArchivistArchivePayloadApi<
   }
 
   public async getByHash(hash: string) {
-    return await this.getEndpoint<T[]>(`hash/${hash}`)
+    return await this.getEndpoint<T>(`hash/${hash}`)
   }
 
   public async repairByHash(hash: string) {
-    return await this.getEndpoint<T[]>(`hash/${hash}/repair`)
+    return await this.getEndpoint<T>(`hash/${hash}/repair`)
   }
 
   public async find({ order, timestamp, limit = 20 }: XyoPayloadFindFilter) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
 
-    return await this.getEndpoint<T[]>(objToQuery({ limit, order, timestamp }))
+    return await this.getEndpoint<T>(objToQuery({ limit, order, timestamp }))
   }
 
   public async findBefore(timestamp: number, limit = 20) {
@@ -79,7 +79,7 @@ export class XyoArchivistArchivePayloadApi<
   public async findMostRecent(limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
-    return await this.getEndpoint<T[]>(`recent${objToQuery({ limit })}`)
+    return await this.getEndpoint<T>(`recent${objToQuery({ limit })}`)
   }
 
   /** @deprecated use findMostRecent */
@@ -88,7 +88,7 @@ export class XyoArchivistArchivePayloadApi<
   }
 
   public async findSample(size = 10) {
-    return await this.getEndpoint<T[]>(`sample${objToQuery({ size })}`)
+    return await this.getEndpoint<T>(`sample${objToQuery({ size })}`)
   }
 
   /** @deprecated use findSample */

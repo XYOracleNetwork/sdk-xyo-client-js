@@ -1,4 +1,17 @@
 import { AxiosResponse } from 'axios'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type XyoApiResponse<T = any, D = any> = AxiosResponse<T, D>
+import { XyoApiEnvelope } from './Envelope'
+
+export type XyoApiResponse<T = unknown, D = unknown> = AxiosResponse<T, D>
+
+export type XyoApiResponseBody<T> = T[] | undefined
+
+export type XyoApiResponseTuple<T> = [
+  T[] | undefined,
+  XyoApiEnvelope<T[] | undefined>,
+  XyoApiResponse<XyoApiEnvelope<T[] | undefined>>
+]
+
+export type XyoApiResponseTupleOrBody<T> = XyoApiResponseTuple<T> | XyoApiResponseBody<T>
+
+export type XyoApiResponseType = 'body' | 'tuple'

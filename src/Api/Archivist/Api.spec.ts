@@ -25,7 +25,7 @@ const getRandomArchiveName = (): string => {
 
 const getNewArchive = async (api: XyoArchivistApi) => {
   const archive = getRandomArchiveName()
-  const response = (await api.archives.archive(archive).put())?.pop()
+  const response = await api.archives.archive(archive).put()
   return response?.archive
 }
 
@@ -121,7 +121,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       const api = new XyoArchivistApi(configData)
       try {
         await api.archives.archive(archive).get()
-        const response = (await api.archives.archive(archive).get())?.pop()
+        const response = await api.archives.archive(archive).get()
         expect(response?.archive).toBe(archive)
       } catch (ex) {
         const error = ex as XyoApiError
@@ -139,7 +139,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
     it('returns the archive owned', async () => {
       const api = new XyoArchivistApi(configData)
       try {
-        const response = (await api.archives.archive(archive).put())?.pop()
+        const response = await api.archives.archive(archive).put()
         expect(response?.archive).toEqual(archive)
       } catch (ex) {
         const error = ex as XyoApiError
@@ -190,7 +190,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       let api = new XyoArchivistApi(configData)
       try {
         api = new XyoArchivistApi({ ...configData })
-        const stats = (await api.archives.archive().block.stats.get())?.pop()
+        const stats = await api.archives.archive().block.stats.get()
         expect(stats?.count).toBeGreaterThan(0)
       } catch (ex) {
         const error = ex as XyoApiError

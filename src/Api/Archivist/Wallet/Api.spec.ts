@@ -48,7 +48,7 @@ describe('XyoAuthApi', () => {
         const api = new XyoArchivistApi(config)
         try {
           const address = XyoAddress.random()
-          const challenge = (await api.wallet(address.address).challenge.post(undefined))?.pop()
+          const challenge = (await api.wallet(address.address).challenge.post(undefined))
           const message = assertEx(challenge?.state)
           const [data, envelope, response] = await api
             .wallet(`0x${address.address}`)

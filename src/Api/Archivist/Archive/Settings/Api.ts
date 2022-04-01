@@ -1,5 +1,5 @@
 import { XyoApiBase } from '../../../Base'
-import { XyoArchivistArchiveSettingsKeyApi } from './Keys'
+import { XyoArchivistArchiveSettingsKeyApi } from './Key'
 
 export class XyoArchivistArchiveSettingsApi extends XyoApiBase {
   private _key?: XyoArchivistArchiveSettingsKeyApi

@@ -1,9 +1,6 @@
-import { assertEx } from '@xylabs/sdk-js'
-import { AxiosError } from 'axios'
-
 import { XyoAddress } from '../../../core'
 import { typeOf } from '../../../lib'
-import { XyoApiConfig } from '../../models'
+import { XyoApiConfig, XyoApiError } from '../../models'
 import { XyoArchivistApi } from '../Api'
 import { XyoWalletApi } from './Api'
 
@@ -13,7 +10,7 @@ const config: XyoApiConfig = {
   jwtToken: process.env.JWT_TOKEN || undefined,
 }
 
-const describeSkipIfNoToken = config.jwtToken ? describe : describe.skip
+//const describeSkipIfNoToken = config.jwtToken ? describe : describe.skip
 
 describe('XyoAuthApi', () => {
   describe('get', () => {
@@ -33,11 +30,9 @@ describe('XyoAuthApi', () => {
           const [data, envelope, response] = await api.wallet(address.address).challenge.post(undefined, 'tuple')
           expect(response.status).toBe(200)
           expect(envelope.error).toBeUndefined()
-          expect(data?.length).toBe(1)
-          const dataItem = data?.pop()
-          expect(typeOf(dataItem?.state)).toBe('string')
+          expect(typeOf(data?.state)).toBe('string')
         } catch (ex) {
-          const error = ex as AxiosError
+          const error = ex as XyoApiError
           console.log(JSON.stringify(error.response?.data, null, 2))
           throw ex
         }

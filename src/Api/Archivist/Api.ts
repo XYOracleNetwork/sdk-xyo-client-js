@@ -19,19 +19,19 @@ export class XyoArchivistApi extends XyoApiBase {
     return this._archives
   }
 
-  private _stats?: XyoApiSimple
-  public get stats(): XyoApiSimple {
+  private _stats?: XyoApiSimple<unknown[]>
+  public get stats() {
     this._stats =
       this._stats ??
-      new XyoApiSimple({
+      new XyoApiSimple<unknown[]>({
         ...this.config,
         root: `${this.root}stats/`,
       })
     return this._stats
   }
 
-  public domain(domain: string): XyoApiSimple<XyoDomainConfig> {
-    return new XyoApiSimple<XyoDomainConfig>({
+  public domain(domain: string) {
+    return new XyoApiSimple<XyoDomainConfig[]>({
       ...this.config,
       root: `${this.root}domain/${domain}/`,
     })
@@ -62,7 +62,7 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
-  public huri(huri: Huri | string): XyoApiSimple<XyoPayload> {
+  public huri(huri: Huri | string) {
     const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
     return new XyoApiSimple<XyoPayload>({
       ...this.config,

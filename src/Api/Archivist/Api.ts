@@ -31,7 +31,7 @@ export class XyoArchivistApi extends XyoApiBase {
   }
 
   public domain(domain: string) {
-    return new XyoApiSimple<XyoDomainConfig[]>({
+    return new XyoApiSimple<XyoDomainConfig>({
       ...this.config,
       root: `${this.root}domain/${domain}/`,
     })

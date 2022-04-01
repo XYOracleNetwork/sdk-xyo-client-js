@@ -104,6 +104,7 @@
     "test": "jest ./src",
     "test:api": "jest ./src/api",
     "test:api:archivist": "jest ./src/api/Archivist",
+    "test:api:archivist:wallet": "jest ./src/api/Archivist/Wallet",
     "test:api:auth": "jest ./src/api/Auth",
     "test:api:diviner": "jest ./src/api/Diviner",
     "test:bw": "jest ./src/BoundWitness",

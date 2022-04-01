@@ -1,5 +1,7 @@
+import { assertEx } from '@xylabs/sdk-js'
 import { AxiosError } from 'axios'
 
+import { XyoAddress } from '../../../core'
 import { typeOf } from '../../../lib'
 import { XyoApiConfig } from '../../models'
 import { XyoArchivistApi } from '../Api'
@@ -21,15 +23,19 @@ describe('XyoAuthApi', () => {
     })
   })
 
-  describeSkipIfNoToken('challenge', function () {
+  describe('challenge', function () {
     it(
-      'returns a nonce',
+      'success',
       async () => {
         const api = new XyoArchivistApi(config)
         try {
-          const response = (await api.wallet('0xfEf40940e776A3686Cb29eC712d60859EA9f99F7').challenge.post())?.pop()
-          expect(response?.state).toBeDefined()
-          expect(typeOf(response?.state)).toBe('string')
+          const address = XyoAddress.random()
+          const [data, envelope, response] = await api.wallet(address.address).challenge.post(undefined, 'tuple')
+          expect(response.status).toBe(200)
+          expect(envelope.error).toBeUndefined()
+          expect(data?.length).toBe(1)
+          const dataItem = data?.pop()
+          expect(typeOf(dataItem?.state)).toBe('string')
         } catch (ex) {
           const error = ex as AxiosError
           console.log(JSON.stringify(error.response?.data, null, 2))
@@ -39,4 +45,32 @@ describe('XyoAuthApi', () => {
       timeout
     )
   })
+
+  /*describe('verify', function () {
+    it(
+      'success',
+      async () => {
+        const api = new XyoArchivistApi(config)
+        try {
+          const address = XyoAddress.random()
+          const challenge = (await api.wallet(address.address).challenge.post(undefined))?.pop()
+          const message = assertEx(challenge?.state)
+          const [data, envelope, response] = await api
+            .wallet(`0x${address.address}`)
+            .verify.post(
+              [{ message: assertEx(challenge?.state), signature: `0x${address.signKeccakMessage(message)}` }],
+              'tuple'
+            )
+          expect(response.status).toBe(200)
+          expect(envelope.error).toBeUndefined()
+          expect(data?.length).toBe(1)
+        } catch (ex) {
+          const error = ex as AxiosError
+          console.log(JSON.stringify(error.response?.data, null, 2))
+          throw ex
+        }
+      },
+      timeout
+    )
+  })*/
 })

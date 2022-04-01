@@ -49,16 +49,18 @@ export class XyoArchivistApi extends XyoApiBase {
   }
 
   public archive(archive = 'temp') {
+    const pureArchive = archive.toLowerCase()
     return new XyoArchivistArchiveApi({
       ...this.config,
-      root: `${this.root}archive/${archive}/`,
+      root: `${this.root}archive/${pureArchive}/`,
     })
   }
 
   public wallet(address: string) {
+    const pureAddress = (address.startsWith('0x') ? address.substring(2) : address).toLowerCase()
     return new XyoWalletApi({
       ...this.config,
-      root: `${this.root}wallet/${address}/`,
+      root: `${this.root}wallet/${pureAddress}/`,
     })
   }
 

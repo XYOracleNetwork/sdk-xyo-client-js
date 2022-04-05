@@ -8,8 +8,8 @@ export class XyoArchivistArchiveBlockApi<
   T extends XyoBoundWitness = XyoBoundWitness,
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>
 > extends XyoArchivistArchivePayloadApi<T, C> {
-  public payloads(hash: string): XyoApiSimple<XyoPayload[]> {
-    return new XyoApiSimple<XyoPayload[]>({
+  public payloads(hash: string): XyoApiSimple<XyoPayload[][]> {
+    return new XyoApiSimple<XyoPayload[][]>({
       ...this.config,
       root: `${this.root}hash/${hash}/payloads/`,
     })

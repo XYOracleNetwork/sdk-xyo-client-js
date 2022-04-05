@@ -31,8 +31,8 @@ export class XyoArchivistArchivePayloadApi<
     return this._stats
   }
 
-  public hash(hash: string): XyoApiSimple<XyoPayload> {
-    return new XyoApiSimple<XyoPayload>({
+  public hash(hash: string): XyoApiSimple<XyoPayload[]> {
+    return new XyoApiSimple<XyoPayload[]>({
       ...this.config,
       root: `${this.root}hash/${hash}/`,
     })

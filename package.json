@@ -32,7 +32,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.17.8",
+    "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@types/bn.js": "^5.1.0",
     "@types/elliptic": "^6.4.14",
@@ -45,7 +45,7 @@
     "@types/ua-parser-js": "^0.7.36",
     "@types/uuid": "^8.3.4",
     "@xylabs/eslint-config": "^2.3.19",
-    "@xylabs/rollup-config": "^1.1.14",
+    "@xylabs/rollup-config": "^1.1.15",
     "@xylabs/ts-scripts": "^1.0.52",
     "@xylabs/tsconfig": "^1.0.12",
     "babel-jest": "^27.5.1",
@@ -123,6 +123,6 @@
   },
   "sideEffects": true,
   "types": "dist/index.d.ts",
-  "version": "2.15.10",
+  "version": "2.16.0",
   "packageManager": "yarn@3.1.1"
 }

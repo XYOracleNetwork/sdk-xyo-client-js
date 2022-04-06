@@ -1,4 +1,4 @@
-import { XyoApiReportable } from '../../Reportable'
+import { XyoApiReportable } from './Reportable'
 
 interface XyoApiConfig extends XyoApiReportable {
   apiDomain: string

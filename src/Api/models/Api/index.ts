@@ -1,5 +1,6 @@
 export * from './Config'
 export * from './Envelope'
 export * from './Error'
+export * from './Reportable'
 export * from './Response'
 export * from './Warning'

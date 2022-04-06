@@ -11,8 +11,9 @@ import {
   XyoApiResponseTupleOrBody,
   XyoApiResponseType,
 } from './models'
+import { XyoApiReportable } from './Reportable'
 
-export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
+export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApiReportable {
   public readonly config: C
   protected axios: Axios
 
@@ -44,16 +45,19 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
     })
   }
 
-  protected reportError(error: XyoApiError) {
-    this.config.onError?.(error)
+  onError(error: XyoApiError, depth = 0) {
+    this.config.reportableParent?.onError?.(error, depth + 1)
+    this.config.onError?.(error, depth)
   }
 
-  protected reportFailure(response: XyoApiResponse) {
-    this.config.onFailure?.(response)
+  onFailure(response: XyoApiResponse, depth = 0) {
+    this.config.reportableParent?.onFailure?.(response, depth + 1)
+    this.config.onFailure?.(response, depth)
   }
 
-  protected reportSuccess(response: XyoApiResponse) {
-    this.config.onSuccess?.(response)
+  onSuccess(response: XyoApiResponse, depth = 0) {
+    this.config.reportableParent?.onSuccess?.(response, depth + 1)
+    this.config.onSuccess?.(response, depth)
   }
 
   protected get root() {
@@ -80,9 +84,9 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
       trapAxiosException = false
 
       if (response.status < 300) {
-        this.reportSuccess(response)
+        this.onSuccess(response)
       } else if (response.status >= 300) {
-        this.reportFailure(response)
+        this.onFailure(response)
       }
 
       return response
@@ -90,13 +94,13 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> {
       const error = ex as XyoApiError
       if (trapAxiosException && error.isAxiosError) {
         if (error.response) {
-          this.reportFailure(error.response)
+          this.onFailure(error.response)
           if (this.config.throwFailure) {
             throw error
           }
           return error.response as XyoApiResponse<XyoApiEnvelope<T>>
         } else {
-          this.reportError(error)
+          this.onError(error)
           if (this.config.throwError) {
             throw error
           }

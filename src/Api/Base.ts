@@ -5,13 +5,13 @@ import {
   XyoApiConfig,
   XyoApiEnvelope,
   XyoApiError,
+  XyoApiReportable,
   XyoApiResponse,
   XyoApiResponseBody,
   XyoApiResponseTuple,
   XyoApiResponseTupleOrBody,
   XyoApiResponseType,
 } from './models'
-import { XyoApiReportable } from './Reportable'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApiReportable {
   public readonly config: C

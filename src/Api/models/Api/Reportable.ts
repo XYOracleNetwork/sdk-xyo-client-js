@@ -1,4 +1,5 @@
-import { XyoApiError, XyoApiResponse } from './models'
+import { XyoApiError } from './Error'
+import { XyoApiResponse } from './Response'
 
 export interface XyoApiReportable {
   onError(error: XyoApiError, depth: number): void

@@ -1,2 +1,2 @@
-export * from './MetaMaskAuth'
+export * from './wallets'
 export * from './Witnesses'

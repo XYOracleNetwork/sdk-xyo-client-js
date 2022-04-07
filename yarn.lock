@@ -2918,7 +2918,7 @@ __metadata:
     keccak256: ^1.0.6
     license-checker: ^25.0.1
     lodash: ^4.17.21
-    lru-cache: ^7.7.3
+    lru-cache: ^7.8.0
     mongodb: ^4.5.0
     neo4j-driver: ^4.4.5
     neo4j-driver-core: ^4.4.5
@@ -2933,7 +2933,7 @@ __metadata:
     ts-jest: ^27.1.4
     ts-node: ^10.7.0
     tslib: ^2.3.1
-    typedoc: ^0.22.13
+    typedoc: ^0.22.14
     typescript: ^4.6.3
     ua-parser-js: ^1.0.2
     uuid: ^8.3.2
@@ -7337,10 +7337,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^7.3.1, lru-cache@npm:^7.4.1, lru-cache@npm:^7.7.3":
-  version: 7.7.3
-  resolution: "lru-cache@npm:7.7.3"
-  checksum: 1789743a68a8db052564a9dd020f04ba0712327a43e08babc94f05e1c56ef75a03514cf4acab75ae90e3d5d16ae02c7bf0f34754968dc5b8c2c3bc2d92c21745
+"lru-cache@npm:^7.3.1, lru-cache@npm:^7.4.1, lru-cache@npm:^7.8.0":
+  version: 7.8.0
+  resolution: "lru-cache@npm:7.8.0"
+  checksum: 7cc046276b668e7b59c10f7f25049d89315cd22fb5205c0eb476583ba29b8542955189452dc8655a771e1a91f6056ddcb29daf4ac35197f77b3ce9a0041d54c9
   languageName: node
   linkType: hard
 
@@ -12032,9 +12032,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.22.13":
-  version: 0.22.13
-  resolution: "typedoc@npm:0.22.13"
+"typedoc@npm:^0.22.14":
+  version: 0.22.14
+  resolution: "typedoc@npm:0.22.14"
   dependencies:
     glob: ^7.2.0
     lunr: ^2.3.9
@@ -12045,7 +12045,7 @@ __metadata:
     typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x || 4.6.x
   bin:
     typedoc: bin/typedoc
-  checksum: e453114fbbb5e3e366bcfde40fc3f7d76a038dbc3953e6cc9c9dd8f9747048ed77c2d082671e91537fb26bb11f7fc5846f9568262adf0087b328b3f96a47a85a
+  checksum: 7375eeb4a5873408b0b4cda4ebbf52bbded4afa444b9caeee3a572f39f491e0563fed40322c83ac24c027a340691cde0cf9e24fdbed2c151a3977fdcbee13ff4
   languageName: node
   linkType: hard
 

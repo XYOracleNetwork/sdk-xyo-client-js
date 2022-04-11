@@ -14,9 +14,7 @@ export class XyoSchemaCache {
 
   public async get(schema: string) {
     if (this.cache.get(schema) === undefined) {
-      const config = new XyoDomainConfigWrapper()
-
-      const schemaHuri = (await config.discover(schema))?.schema?.[schema]
+      const schemaHuri = (await XyoDomainConfigWrapper.discover(schema))?.schema?.[schema]
       if (schemaHuri) {
         const huri = new Huri(schemaHuri, this.fetchFunction)
         const payload = await huri.fetch()

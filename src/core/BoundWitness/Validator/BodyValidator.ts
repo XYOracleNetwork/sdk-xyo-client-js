@@ -26,7 +26,7 @@ class XyoBoundWitnessBodyValidator {
   public addresses() {
     const errors: Error[] = []
     const { addresses } = this.body
-    if (addresses.length === 0) errors.push(new Error('addresses missing [at least one address required]'))
+    if (!addresses?.length) errors.push(new Error('addresses missing [at least one address required]'))
     errors.push(...this.addressesUniqueness())
     return errors
   }

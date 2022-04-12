@@ -19,7 +19,7 @@ class XyoBoundWitnessBodyValidator {
     const errors: Error[] = []
     const { addresses } = this.body
     const uniqAddresses = uniq(addresses)
-    if (addresses.length !== uniqAddresses.length) errors.push(new Error('addresses must be unique'))
+    if (addresses?.length !== uniqAddresses?.length) errors.push(new Error('addresses must be unique'))
     return errors
   }
 

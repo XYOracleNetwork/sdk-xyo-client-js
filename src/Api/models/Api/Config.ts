@@ -1,9 +1,16 @@
 import { XyoApiReportable } from './Reportable'
 
 interface XyoApiConfig extends XyoApiReportable {
+  /** @description The domain where the api is located */
   apiDomain: string
+
+  /** @deprecated use the jwtToken instead*/
   userid?: string
+
+  /** @description The jwtToken of the currently logged in user */
   jwtToken?: string
+
+  /** @description The apiKey used for authentication */
   apiKey?: string
 
   /** @description The location in the API tree where this API object is mounted */

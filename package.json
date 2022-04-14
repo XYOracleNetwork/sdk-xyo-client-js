@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.6.2",
+    "@ethersproject/providers": "^5.6.4",
     "@xylabs/sdk-js": "^2.4.5",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.7",
     "axios": "^0.26.1",
@@ -39,7 +39,7 @@
     "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.181",
     "@types/lru-cache": "^7.6.1",
-    "@types/node": "^17.0.23",
+    "@types/node": "^17.0.24",
     "@types/pako": "^1.0.3",
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",
@@ -116,13 +116,13 @@
     "test:hasher": "jest ./src/Hasher",
     "test:huri": "jest ./src/Huri",
     "test:panel": "jest ./src/Panel",
-    "test:address": "jest ./src/Address",
+    "test:address": "jest ./src/core/Address",
     "test:mongo": "jest ./src/ArchivistMongoSdk",
     "test:neo4j": "jest ./src/ArchivistNeo4jSdk",
     "license": "yarn license-checker --exclude \"MIT, ISC, Apache-2.0, BSD, BSD-2-Clause, CC-BY-4.0, Unlicense, CC-BY-3.0, CC0-1.0\""
   },
   "sideEffects": true,
   "types": "dist/index.d.ts",
-  "version": "2.16.4",
+  "version": "2.17.1",
   "packageManager": "yarn@3.1.1"
 }

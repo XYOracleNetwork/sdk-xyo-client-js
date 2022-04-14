@@ -13,10 +13,10 @@ const scrubbedFields = [
   '_timestamp',
   '_user_agent',
   'addresses',
-  'schema',
   'payload_schemas',
   'previous_hashes',
   'payload_hashes',
+  'schema',
 ]
 
 class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends XyoHasher<T> {

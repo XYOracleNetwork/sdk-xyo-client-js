@@ -7,6 +7,7 @@ interface XyoBoundWitnessBody extends XyoPayloadBody {
   payload_hashes: string[]
   payload_schemas: string[]
   previous_hashes: (string | null)[]
+  schema: string
 }
 
 export type { XyoBoundWitnessBody }

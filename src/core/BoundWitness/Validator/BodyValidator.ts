@@ -87,6 +87,15 @@ class XyoBoundWitnessBodyValidator {
     return errors
   }
 
+  public schmea() {
+    const errors: Error[] = []
+    const expectedSchema = 'network.xyo.boundwitness'
+    if (this.body.schema !== expectedSchema) {
+      errors.push(new Error(`invalid schema [${expectedSchema} !== ${this.body.schema}]`))
+    }
+    return errors
+  }
+
   public all() {
     const errors: Error[] = []
     errors.push(
@@ -94,7 +103,8 @@ class XyoBoundWitnessBodyValidator {
       ...this.validateArrayLengths(),
       ...this.payloadHashes(),
       ...this.payloadSchemas(),
-      ...this.previousHashes()
+      ...this.previousHashes(),
+      ...this.schmea()
     )
     return errors
   }

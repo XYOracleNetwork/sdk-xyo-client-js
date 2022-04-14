@@ -1466,9 +1466,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/providers@npm:^5.6.2":
-  version: 5.6.2
-  resolution: "@ethersproject/providers@npm:5.6.2"
+"@ethersproject/providers@npm:^5.6.4":
+  version: 5.6.4
+  resolution: "@ethersproject/providers@npm:5.6.4"
   dependencies:
     "@ethersproject/abstract-provider": ^5.6.0
     "@ethersproject/abstract-signer": ^5.6.0
@@ -1489,7 +1489,7 @@ __metadata:
     "@ethersproject/web": ^5.6.0
     bech32: 1.1.4
     ws: 7.4.6
-  checksum: 30409755c227eab65a94ec3d7834560af5d0c7a2359855e597c0ecdfd312e851324ab8d47d0afcf60efa7a008b75c23be1a1a9d219872f99aa165283139f543a
+  checksum: 75ec09bbff5c7b8b9372fd7e35b11da1262ae5b16601beb27a028e3ac9332502765540fd9a07971b843aafb54a145e0a7c6a2f28ed97a5707be83d144a97e0f7
   languageName: node
   linkType: hard
 
@@ -2396,10 +2396,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.23":
-  version: 17.0.23
-  resolution: "@types/node@npm:17.0.23"
-  checksum: a3517554737cbb042e76c30d0e5482192ac4d9bea0eeb086e2622d9cabf460a0eb52a696b99fcd18e7fcc93c96db6cc7ae507f6608f256ef0b5c1d8c87a5a470
+"@types/node@npm:*, @types/node@npm:^17.0.24":
+  version: 17.0.24
+  resolution: "@types/node@npm:17.0.24"
+  checksum: 9e7c4f863601b2430b4c2429a89935f22eba692956f5013c90a4c7fb0e1401ed8add8c4307453c5d6b8b985384500f8c3f644427ab88632640cc396159af479a
   languageName: node
   linkType: hard
 
@@ -2916,13 +2916,13 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.9
     "@babel/preset-env": ^7.16.11
-    "@ethersproject/providers": ^5.6.2
+    "@ethersproject/providers": ^5.6.4
     "@types/bn.js": ^5.1.0
     "@types/elliptic": ^6.4.14
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.181
     "@types/lru-cache": ^7.6.1
-    "@types/node": ^17.0.23
+    "@types/node": ^17.0.24
     "@types/pako": ^1.0.3
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36

@@ -66,7 +66,7 @@ export class XyoAddress {
     const arrayHash = toUint8Array(hash)
     this._previousHash = arrayHash
     const signature = this._key.sign(arrayHash)
-    return toUint8Array(signature.toDER('hex'))
+    return toUint8Array(signature.r.toString(16) + signature.s.toString(16))
   }
 
   /*
@@ -110,9 +110,13 @@ export class XyoAddress {
   //maybe we can get the number from the address more easily
   static verifyAddress(msg: Uint8Array | string, signature: Uint8Array | string, address: Uint8Array | string) {
     let valid = false
+    const sigArray = toUint8Array(signature)
+    const r = sigArray.slice(0, 32)
+    const s = sigArray.slice(32, 64)
+
     for (let i = 0; i < 4; i++) {
       try {
-        const publicKey = this.ecContext.recoverPubKey(toUint8Array(msg), toUint8Array(signature), i)
+        const publicKey = this.ecContext.recoverPubKey(toUint8Array(msg), { r, s }, i)
         const recoveredAddress = new XyoAddress({ publicKey }).address
         const expectedAddress = Buffer.from(toUint8Array(address)).toString('hex')
         valid = valid || recoveredAddress === expectedAddress

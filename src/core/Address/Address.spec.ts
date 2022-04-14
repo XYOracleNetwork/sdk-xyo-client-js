@@ -12,6 +12,8 @@ const testVectorPublicKey =
   'ed6f3b86542f45aab88ec48ab1366b462bd993fec83e234054afd8f2311fba774800fdb40c04918463b463a6044b83413a604550bfba8f8911beb65475d6528e'
 const testVectorAddress = '5e7a847447e7fec41011ae7d32d768f86605ba03'
 const testVectorHash = '4b688df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a'
+const testVectorSignature =
+  'b61dad551e910e2793b4f9f880125b5799086510ce102fad0222c1b093c60a6bc755ca10a9068079ac8d9617416a7cd41077093061c1e9bcb2f81812086ae603'
 
 const testPrivateKey = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
 const testPublicKey =
@@ -64,10 +66,10 @@ test('Sign-fromPhrase', () => {
 test('Sign-testVectors', () => {
   const address = XyoAddress.fromPrivateKey(testVectorPrivateKey)
   const signature = Buffer.from(address.sign(toUint8Array(testVectorHash))).toString('hex')
-  const expectedSignature =
-    'b61dad551e910e2793b4f9f880125b5799086510ce102fad0222c1b093c60a6bc755ca10a9068079ac8d9617416a7cd41077093061c1e9bcb2f81812086ae603'
+  const expectedSignature = testVectorSignature
 
   expect(signature).toBe(expectedSignature)
+  expect(signature.length).toBe(128)
   const valid = XyoAddress.verifyAddress(testVectorHash, signature, address.address)
   expect(valid).toBeTruthy()
 })

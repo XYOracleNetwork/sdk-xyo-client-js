@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.6.2",
+    "@ethersproject/providers": "^5.6.4",
     "@xylabs/sdk-js": "^2.4.5",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.7",
     "axios": "^0.26.1",
@@ -39,7 +39,7 @@
     "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.181",
     "@types/lru-cache": "^7.6.1",
-    "@types/node": "^17.0.23",
+    "@types/node": "^17.0.24",
     "@types/pako": "^1.0.3",
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",

@@ -12,8 +12,9 @@ const XyoBoundWitnessSchema = {
     payload_hashes: { items: { type: 'string' }, type: 'array' },
     payload_schemas: { items: { type: 'string' }, type: 'array' },
     previous_hashes: { items: { nullable: true, type: 'string' }, type: 'array' },
+    schema: { type: 'string' },
   },
-  required: ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes'],
+  required: ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes', 'schema'],
   type: 'object',
 }
 

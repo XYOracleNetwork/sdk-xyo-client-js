@@ -1,8 +1,12 @@
+import { assertEx } from '@xylabs/sdk-js'
+
 import { XyoArchivistApi } from '../Api'
-import { XyoAddress, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoWitness } from '../core'
+import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoWallet, XyoWitness } from '../core'
 
 export interface XyoPanelConfig {
-  address: XyoAddress
+  /** @deprecated us wallet instead */
+  address?: XyoWallet
+  wallet: XyoWallet
   archivists: XyoArchivistApi[]
   archive?: string
   witnesses: XyoWitness<XyoPayload>[]
@@ -21,8 +25,14 @@ export interface XyoPanelConfig {
 export class XyoPanel {
   public config: XyoPanelConfig
   public history: XyoBoundWitness[] = []
-  constructor(config: XyoPanelConfig) {
-    this.config = config
+  constructor({ archivists, witnesses, ...config }: Partial<XyoPanelConfig>) {
+    this.config = {
+      ...config,
+      archivists: archivists ?? [],
+      // eslint-disable-next-line deprecation/deprecation
+      wallet: assertEx(config.wallet ?? config.address, 'wallet or address is required'),
+      witnesses: witnesses ?? [],
+    }
   }
 
   public get historyDepth() {
@@ -100,7 +110,7 @@ export class XyoPanel {
     allWitnesses.push(...this.config.witnesses)
     const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads ?? true })
       .payloads(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
-      .witness(this.config.address)
+      .witness(this.config.wallet)
       .build()
 
     await this.sendToArchivists(newBoundWitness, (_, error) => errors.push(error))

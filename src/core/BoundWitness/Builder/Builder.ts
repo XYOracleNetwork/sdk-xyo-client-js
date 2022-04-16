@@ -1,9 +1,9 @@
 import { assertEx, bufferPolyfill } from '@xylabs/sdk-js'
 import { Buffer } from 'buffer'
 
-import { XyoAddress } from '../../Address'
 import { sortFields, XyoHasher } from '../../Hasher'
 import { XyoPayload, XyoPayloadBody } from '../../Payload'
+import { XyoWallet } from '../../Wallet'
 import { XyoBoundWitness } from '../models'
 
 export interface XyoBoundWitnessBuilderConfig {
@@ -12,7 +12,7 @@ export interface XyoBoundWitnessBuilderConfig {
 }
 
 export class XyoBoundWitnessBuilder {
-  private _addresses: XyoAddress[] = []
+  private _wallets: XyoWallet[] = []
   private _payload_schemas: string[] = []
   private _payloads: XyoPayload[] = []
 
@@ -26,8 +26,8 @@ export class XyoBoundWitnessBuilder {
     })
   }
 
-  public witness(address: XyoAddress) {
-    this._addresses?.push(address)
+  public witness(wallet: XyoWallet) {
+    this._wallets?.push(wallet)
     return this
   }
 
@@ -49,8 +49,8 @@ export class XyoBoundWitnessBuilder {
   }
 
   public hashableFields(): XyoBoundWitness {
-    const addresses = this._addresses.map((address) => address.address)
-    const previous_hashes = this._addresses.map((address) => address.previousHashString ?? null)
+    const addresses = this._wallets.map((wallet) => wallet.addressValue.hex)
+    const previous_hashes = this._wallets.map((wallet) => wallet.previousHash?.hex ?? null)
     return {
       addresses: assertEx(addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
@@ -64,9 +64,7 @@ export class XyoBoundWitnessBuilder {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = new XyoHasher(hashableFields).sortedHash()
 
-    const _signatures = this._addresses.map((address) =>
-      Buffer.from(address.sign(Buffer.from(_hash, 'hex'))).toString('hex')
-    )
+    const _signatures = this._wallets.map((wallet) => Buffer.from(wallet.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
     const _timestamp = Date.now()
     const ret = { ...hashableFields, _client: 'js', _hash, _signatures, _timestamp } as XyoBoundWitness
     if (this.config.inlinePayloads) {

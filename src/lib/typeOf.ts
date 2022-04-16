@@ -15,10 +15,15 @@ export const typeOf = <T>(item: T): TypeOfTypes => {
   return Array.isArray(item) ? 'array' : typeof item
 }
 
-export const ifTypeOf = <T, R>(typeName: TypeOfTypes, value: T, trueFunc: (value: T) => R) => {
+export const ifTypeOf = <T, R>(
+  typeName: TypeOfTypes,
+  value: unknown,
+  trueFunc: (value: T) => R,
+  isFunc?: (value: T) => boolean
+) => {
   switch (typeOf(value)) {
     case typeName:
-      return trueFunc(value)
+      return !isFunc || isFunc(value as T) ? trueFunc(value as T) : undefined
   }
 }
 

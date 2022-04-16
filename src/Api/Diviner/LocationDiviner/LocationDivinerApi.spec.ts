@@ -3,12 +3,7 @@ import { AxiosError } from 'axios'
 
 import { XyoApiConfig } from '../../models'
 import { XyoLocationDivinerApi } from './LocationDivinerApi'
-import {
-  LocationHeatmapQueryCreationRequest,
-  locationHeatmapQuerySchema,
-  LocationTimeRangeQueryCreationRequest,
-  locationTimeRangeQuerySchema,
-} from './Queries'
+import { LocationHeatmapQueryCreationRequest, locationHeatmapQuerySchema, LocationTimeRangeQueryCreationRequest, locationTimeRangeQuerySchema } from './Queries'
 import { locationWitnessPayloadSchema } from './Witnesses'
 
 const config: ApiConfig = {

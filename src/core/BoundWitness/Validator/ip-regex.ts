@@ -30,8 +30,7 @@ export interface Options {
 
 const word = '[a-fA-F\\d:]'
 
-const boundry = (options?: Options) =>
-  options && options.includeBoundaries ? `(?:(?<=\\s|^)(?=${word})|(?<=${word})(?=\\s|$))` : ''
+const boundry = (options?: Options) => (options && options.includeBoundaries ? `(?:(?<=\\s|^)(?=${word})|(?<=${word})(?=\\s|$))` : '')
 
 const v4 = '(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}'
 
@@ -81,15 +80,12 @@ const v6exact = new RegExp(`^${v6}$`)
  * ```
  */
 const ipRegex = (options?: Options): RegExp =>
-  options && options.exact
-    ? v46Exact
-    : new RegExp(`(?:${boundry(options)}${v4}${boundry(options)})|(?:${boundry(options)}${v6}${boundry(options)})`, 'g')
+  options && options.exact ? v46Exact : new RegExp(`(?:${boundry(options)}${v4}${boundry(options)})|(?:${boundry(options)}${v6}${boundry(options)})`, 'g')
 
 /**
  * @returns A regex for matching IPv4.
  */
-ipRegex.v4 = (options?: Options): RegExp =>
-  options && options.exact ? v4exact : new RegExp(`${boundry(options)}${v4}${boundry(options)}`, 'g')
+ipRegex.v4 = (options?: Options): RegExp => (options && options.exact ? v4exact : new RegExp(`${boundry(options)}${v4}${boundry(options)}`, 'g'))
 
 /**
  * @returns A regex for matching IPv6.
@@ -100,7 +96,6 @@ ipRegex.v4 = (options?: Options): RegExp =>
  * //=> true
  * ```
  */
-ipRegex.v6 = (options?: Options): RegExp =>
-  options && options.exact ? v6exact : new RegExp(`${boundry(options)}${v6}${boundry(options)}`, 'g')
+ipRegex.v6 = (options?: Options): RegExp => (options && options.exact ? v6exact : new RegExp(`${boundry(options)}${v6}${boundry(options)}`, 'g'))
 
 export { ipRegex }

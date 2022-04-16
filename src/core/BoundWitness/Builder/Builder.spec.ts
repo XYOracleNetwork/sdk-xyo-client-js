@@ -1,8 +1,8 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
-import { XyoAddress } from '../../Address'
 import { XyoHasher } from '../../Hasher'
 import { XyoPayload } from '../../Payload'
+import { XyoAddressValue, XyoWallet } from '../../Wallet'
 import { XyoBoundWitnessBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'
@@ -39,7 +39,7 @@ describe('XyoBoundWitnessBuilder', () => {
   describe('build', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', (payload) => {
-        const address = XyoAddress.fromPhrase('test1')
+        const address = XyoWallet.fromPhrase('test1')
         let builder = new XyoBoundWitnessBuilder()
         expect(builder).toBeDefined()
         builder = builder.witness(address)
@@ -53,14 +53,16 @@ describe('XyoBoundWitnessBuilder', () => {
         expect(actual._hash).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')
 
         if (actual._hash && actual._signatures) {
-          const verify = XyoAddress.verifyAddress(actual._hash, actual._signatures[0], actual.addresses[0])
+          const addr = new XyoAddressValue(actual.addresses[0])
+          expect(addr.hex).toBe(actual.addresses[0])
+          const verify = new XyoAddressValue(actual.addresses[0]).verify(actual._hash, actual._signatures[0])
           expect(verify).toBe(true)
         }
       })
     })
     describe('with inlinePayloads true', () => {
       it('contains the _payloads field', () => {
-        const address = XyoAddress.fromPhrase('test2')
+        const address = XyoWallet.fromPhrase('test2')
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
 
         const actual = builder.build()
@@ -71,7 +73,7 @@ describe('XyoBoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads false', () => {
       it('omits the _payloads field', () => {
-        const address = XyoAddress.fromPhrase('test3')
+        const address = XyoWallet.fromPhrase('test3')
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
 
         const actual = builder.build()

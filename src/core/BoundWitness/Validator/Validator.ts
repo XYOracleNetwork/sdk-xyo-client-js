@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 
-import { XyoAddress } from '../../Address'
+import { XyoAddressValue } from '../../Wallet'
 import { XyoBoundWitness } from '../models'
 import { XyoBoundWitnessBodyValidator } from './BodyValidator'
 import { XyoBoundWitnessMetaValidator } from './MetaValidator'
@@ -13,8 +13,8 @@ const validateSignature = (hash: string, address: string, signature?: string) =>
   if (!signature) {
     return [Error(`Missing signature [${address}]`)]
   }
-  if (!XyoAddress.verifyAddress(hash, signature, address)) {
-    return [Error(`Invalid signature [${address}]`)]
+  if (!new XyoAddressValue(address).verify(hash, signature)) {
+    return [Error(`Invalid signature [${address}] [${signature}]`)]
   }
   return []
 }

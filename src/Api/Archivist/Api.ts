@@ -1,4 +1,4 @@
-import { Huri, XyoDomainConfig, XyoPayload } from '../../core'
+import { Huri, XyoAddressValue, XyoDomainConfig, XyoPayload } from '../../core'
 import { XyoApiBase } from '../Base'
 import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'
 import { XyoApiSimple } from '../Simple'
@@ -56,11 +56,10 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
-  public wallet(address: string) {
-    const pureAddress = (address.startsWith('0x') ? address.substring(2) : address).toLowerCase()
+  public wallet(address: string | XyoAddressValue) {
     return new XyoWalletApi({
       ...this.config,
-      root: `${this.root}wallet/${pureAddress}/`,
+      root: `${this.root}wallet/${new XyoAddressValue(address).hex}/`,
     })
   }
 
@@ -79,10 +78,7 @@ export class XyoArchivistApi extends XyoApiBase {
   /** @deprecated use huri(huri) instead */
   public async get(huri: Huri | string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<XyoPayload>>
   /** @deprecated use huri(huri) instead */
-  public async get(
-    huri: Huri | string,
-    responseType?: XyoApiResponseType
-  ): Promise<XyoApiResponseTupleOrBody<XyoPayload>> {
+  public async get(huri: Huri | string, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<XyoPayload>> {
     const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
     switch (responseType) {
       case 'tuple':

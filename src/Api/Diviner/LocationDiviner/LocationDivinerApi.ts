@@ -18,22 +18,11 @@ class XyoLocationDivinerApi {
   }
 
   public async getLocationQuery(hash: string) {
-    return (
-      await axios.get<GetLocationQueryResponse>(
-        `${this.config.apiDomain}/location/query/${hash}`,
-        this.axiosRequestConfig
-      )
-    ).data
+    return (await axios.get<GetLocationQueryResponse>(`${this.config.apiDomain}/location/query/${hash}`, this.axiosRequestConfig)).data
   }
 
   public async postLocationQuery(request: SupportedLocationQueryCreationRequest) {
-    return (
-      await axios.post<LocationQueryCreationResponse>(
-        `${this.config.apiDomain}/location/query`,
-        { ...request },
-        this.axiosRequestConfig
-      )
-    ).data
+    return (await axios.post<LocationQueryCreationResponse>(`${this.config.apiDomain}/location/query`, { ...request }, this.axiosRequestConfig)).data
   }
 }
 

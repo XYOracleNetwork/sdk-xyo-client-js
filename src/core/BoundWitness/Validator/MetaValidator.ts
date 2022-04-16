@@ -22,14 +22,7 @@ export class XyoBoundWitnessMetaValidator {
     const hasher = new XyoHasher(this.bw)
 
     const bodyHash = hasher.sortedHash()
-    if (bodyHash !== this.bw._hash)
-      errors.push(
-        new Error(
-          `Body hash mismatch: [calculated: ${bodyHash}] [found: ${
-            this.bw._hash
-          }] [sortedStringify: ${hasher.sortedStringify()}]`
-        )
-      )
+    if (bodyHash !== this.bw._hash) errors.push(new Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.bw._hash}] [sortedStringify: ${hasher.sortedStringify()}]`))
     return errors
   }
 

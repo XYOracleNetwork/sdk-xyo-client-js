@@ -2,11 +2,11 @@ import { assertEx } from '@xylabs/sdk-js'
 import dotenv from 'dotenv'
 import { v4 } from 'uuid'
 
-import { XyoAddress, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayloadBuilder } from '../../core'
+import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayloadBuilder, XyoWallet } from '../../core'
 import { XyoArchivistBoundWitnessMongoSdk } from './BoundWitnessSdk'
 
 const schema = 'network.xyo.temp'
-const address = XyoAddress.fromPhrase('test')
+const address = XyoWallet.fromPhrase('test')
 
 const getMongoSdk = (archive: string) => {
   // eslint-disable-next-line import/no-named-as-default-member

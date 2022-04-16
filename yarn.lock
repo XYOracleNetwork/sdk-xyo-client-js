@@ -2090,10 +2090,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rushstack/eslint-patch@npm:^1.1.1":
-  version: 1.1.2
-  resolution: "@rushstack/eslint-patch@npm:1.1.2"
-  checksum: 81cf671853fde5f696f4b79ba169484ace61831183784b3849764dca9f58b4e9d4d937064fc08d1053d0dccf9f214b80a5f6fafad985037ca9b049dc8d961732
+"@rushstack/eslint-patch@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@rushstack/eslint-patch@npm:1.1.3"
+  checksum: 53752d1e34e45a91b30a016b837c33054fcbd0a295c0312b0812dab78289ea680d7c0c3f19c1f885f49764d416727747133765ff5bfce31a9c4cc93c7a56ebe1
   languageName: node
   linkType: hard
 
@@ -2431,6 +2431,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/randombytes@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@types/randombytes@npm:2.0.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: 630328f00322b795b69c1a25601f74d1a10192868c762e4028ce6c4851e6604c89c0a62681f9d6b6526812036180f5cbcd80104da69b758c5c91030a58fa82c0
+  languageName: node
+  linkType: hard
+
 "@types/resolve@npm:1.17.1":
   version: 1.17.1
   resolution: "@types/resolve@npm:1.17.1"
@@ -2519,7 +2528,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.18.0":
+"@typescript-eslint/eslint-plugin@npm:^5.19.0":
   version: 5.19.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.19.0"
   dependencies:
@@ -2553,7 +2562,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.18.0":
+"@typescript-eslint/parser@npm:^5.19.0":
   version: 5.19.0
   resolution: "@typescript-eslint/parser@npm:5.19.0"
   dependencies:
@@ -2778,16 +2787,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^2.3.20":
-  version: 2.3.20
-  resolution: "@xylabs/eslint-config@npm:2.3.20"
+"@xylabs/eslint-config@npm:^2.3.20, @xylabs/eslint-config@npm:^2.3.22":
+  version: 2.3.22
+  resolution: "@xylabs/eslint-config@npm:2.3.22"
   dependencies:
     "@babel/core": ^7.17.9
     "@babel/eslint-parser": ^7.17.0
-    "@rushstack/eslint-patch": ^1.1.1
-    "@typescript-eslint/eslint-plugin": ^5.18.0
-    "@typescript-eslint/parser": ^5.18.0
-    eslint: ^8.12.0
+    "@rushstack/eslint-patch": ^1.1.3
+    "@typescript-eslint/eslint-plugin": ^5.19.0
+    "@typescript-eslint/parser": ^5.19.0
+    eslint: ^8.13.0
     eslint-config-prettier: ^8.5.0
     eslint-import-resolver-typescript: ^2.7.1
     eslint-plugin-deprecation: ^1.3.2
@@ -2803,7 +2812,7 @@ __metadata:
     remark-lint-maximum-line-length: ^3.1.2
     remark-preset-lint-markdown-style-guide: ^5.1.2
     typescript: ^4.6.3
-  checksum: 88f23c3b673bda295cf325dda1c85a38f6a9f3468bf4bec81363b7bcd1557822290050822127b70538fddd8cbb557a55c4ddbc6a88a07f5e05feb0502cfd854d
+  checksum: 02473589591fb6f0b04ccb24b8d455ffa59413167fccc5444bb1a43b842a1c48981818217cda7ab9950c2152ab2eb50b37d80a2e6ef8241e6bd02e739ea0fc42
   languageName: node
   linkType: hard
 
@@ -2924,10 +2933,11 @@ __metadata:
     "@types/lru-cache": ^7.6.1
     "@types/node": ^17.0.24
     "@types/pako": ^1.0.3
+    "@types/randombytes": ^2.0.0
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
     "@types/uuid": ^8.3.4
-    "@xylabs/eslint-config": ^2.3.20
+    "@xylabs/eslint-config": ^2.3.22
     "@xylabs/rollup-config": ^1.1.15
     "@xylabs/sdk-js": ^2.4.5
     "@xylabs/ts-scripts": ^1.0.53
@@ -2954,9 +2964,10 @@ __metadata:
     npm-package-json-lint: ^6.3.0
     npm-package-json-lint-config-default: ^5.0.0
     pako: ^2.0.4
+    randombytes: ^2.1.0
     rimraf: ^3.0.2
-    rollbar: ^2.24.1
-    rollup: ^2.70.1
+    rollbar: ^2.25.0
+    rollup: ^2.70.2
     sha.js: ^2.4.11
     systeminformation: ^5.11.9
     ts-jest: ^27.1.4
@@ -3285,10 +3296,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:~1.2.1":
-  version: 1.2.1
-  resolution: "async@npm:1.2.1"
-  checksum: dd2d00bede64574660ba114d6431b587d3fbb7760c147f97993ec5232be991cf39126a78beb2dfc9c29607312163c3523fedd797c90bcbf312ae1f70926f182c
+"async@npm:~3.2.3":
+  version: 3.2.3
+  resolution: "async@npm:3.2.3"
+  checksum: c4bee57ab2249af3dc83ca3ef9acfa8e822c0d5e5aa41bae3eaf7f673648343cd64ecd7d26091ffd357f3f044428b17b5f00098494b6cf8b6b3e9681f0636ca1
   languageName: node
   linkType: hard
 
@@ -9236,6 +9247,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"randombytes@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "randombytes@npm:2.1.0"
+  dependencies:
+    safe-buffer: ^5.1.0
+  checksum: d779499376bd4cbb435ef3ab9a957006c8682f343f14089ed5f27764e4645114196e75b7f6abf1cbd84fd247c0cb0651698444df8c9bf30e62120fbbc52269d6
+  languageName: node
+  linkType: hard
+
 "rc-config-loader@npm:^4.1.0":
   version: 4.1.0
   resolution: "rc-config-loader@npm:4.1.0"
@@ -10992,11 +11012,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollbar@npm:^2.24.1":
-  version: 2.24.1
-  resolution: "rollbar@npm:2.24.1"
+"rollbar@npm:^2.24.1, rollbar@npm:^2.25.0":
+  version: 2.25.0
+  resolution: "rollbar@npm:2.25.0"
   dependencies:
-    async: ~1.2.1
+    async: ~3.2.3
     console-polyfill: 0.3.0
     decache: ^3.0.5
     error-stack-parser: ^2.0.4
@@ -11004,17 +11024,16 @@ __metadata:
     lru-cache: ~2.2.1
     request-ip: ~2.0.1
     source-map: ^0.5.7
-    uuid: 3.0.x
   dependenciesMeta:
     decache:
       optional: true
-  checksum: 1c960baa4f6e11f5fbc3fbba22c112ce494887a3a68e3d1d945d9215d7a8ee36c62199c139050275e3e6177b2fe2b3bd9cf9c14bb656ec7865882167cd3b8018
+  checksum: 2d2a6724d864ce17f61c23a89d8f8bf7424e49b0b82e89536843d967806ae3c30c5fc1ac42b0bca5c75595b431d057230a8c73143e6136ab813571a8cbff3913
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.70.1":
-  version: 2.70.1
-  resolution: "rollup@npm:2.70.1"
+"rollup@npm:^2.70.1, rollup@npm:^2.70.2":
+  version: 2.70.2
+  resolution: "rollup@npm:2.70.2"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -11022,7 +11041,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 06c62933e6e81a1c8c684d7d576e507081aabdb63cc0c91bca86b7348b66df03b77827068e4990b8b6c738bd3ef66dcc8c7ed7e0ea40b736068e7618f693133e
+  checksum: eb04eb9b87b30517308cb41018d57a23976f42b269c3229e4124746d3136a77aa16ba8b891a3fa571931dd72419eea40642a334835fe4f33161fea30d0b803f7
   languageName: node
   linkType: hard
 
@@ -11060,7 +11079,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safe-buffer@npm:^5.0.1, safe-buffer@npm:~5.2.0":
+"safe-buffer@npm:^5.0.1, safe-buffer@npm:^5.1.0, safe-buffer@npm:~5.2.0":
   version: 5.2.1
   resolution: "safe-buffer@npm:5.2.1"
   checksum: b99c4b41fdd67a6aaf280fcd05e9ffb0813654894223afb78a31f14a19ad220bba8aba1cb14eddce1fcfb037155fe6de4e861784eb434f7d11ed58d1e70dd491
@@ -12518,15 +12537,6 @@ __metadata:
   version: 1.0.3
   resolution: "util-extend@npm:1.0.3"
   checksum: da57f399b331f40fe2cea5409b1f4939231433db9b52dac5593e4390a98b7b0d1318a0daefbcc48123fffe5026ef49f418b3e4df7a4cd7649a2583e559c608a5
-  languageName: node
-  linkType: hard
-
-"uuid@npm:3.0.x":
-  version: 3.0.1
-  resolution: "uuid@npm:3.0.1"
-  bin:
-    uuid: ./bin/uuid
-  checksum: 3e18e3bf6fcf92f379c55a816c0d4b2e85c1a15bd67a5c9798a40bac91810673d0e6209a4cc3c334966ec105e861953da49e8cd4e7db05a45c03f6b6a3b6a64b
   languageName: node
   linkType: hard
 

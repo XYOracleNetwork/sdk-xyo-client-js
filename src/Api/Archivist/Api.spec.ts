@@ -1,6 +1,6 @@
 import { config } from 'dotenv'
 
-import { XyoAddress, XyoBoundWitness, XyoBoundWitnessBuilder } from '../../core'
+import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoWallet } from '../../core'
 import { testPayload } from '../../Test'
 import { XyoApiConfig, XyoApiError } from '../models'
 import { XyoArchivistApi } from './Api'
@@ -45,7 +45,7 @@ describe('getDomain', function () {
 
 describe('postBoundWitness', () => {
   it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
-    const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
+    const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoWallet.random()).payload(testPayload)
     const api = new XyoArchivistApi(configData)
     const boundWitness: XyoBoundWitness = builder.build()
 
@@ -65,7 +65,7 @@ describe('postBoundWitness', () => {
 
 describe('postBoundWitnesses', () => {
   it.each([true, false])('posts multiple bound witnesses', async (inlinePayloads) => {
-    const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAddress.random()).payload(testPayload)
+    const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoWallet.random()).payload(testPayload)
     const api = new XyoArchivistApi(configData)
     const json = builder.build()
     const boundWitnesses: XyoBoundWitness[] = [json, json]
@@ -205,7 +205,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       let api = new XyoArchivistApi(configData)
       try {
         api = new XyoArchivistApi({ ...configData })
-        const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
+        const boundWitness = new XyoBoundWitnessBuilder().witness(XyoWallet.random()).build()
         await api.archives.archive().block.post([boundWitness])
         const timestamp = Date.now() + 10000
         const response = await api.archives.archive('temp').block.findBefore(timestamp)
@@ -227,7 +227,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
       try {
         const archive = await getNewArchive(api)
         api = new XyoArchivistApi({ ...configData })
-        const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAddress.random()).build()
+        const boundWitness = new XyoBoundWitnessBuilder().witness(XyoWallet.random()).build()
         await api.archives.archive(archive).block.post([boundWitness])
         const timestamp = Date.now() - 10000
         const response = await api.archives.archive(archive).block.findAfter(timestamp)

@@ -1,8 +1,8 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 
-import { XyoAddress } from './Address'
-import { toUint8Array } from './toUint8Array'
+import { toUint8Array } from './Key'
+import { XyoWallet } from './Wallet'
 
 //test vectors: https://tools.ietf.org/html/rfc8032
 //test tool: https://asecuritysite.com/encryption/ethadd
@@ -30,65 +30,65 @@ const testAddress = '2a260a110bc7b03f19c40a0bd04ff2c5dcb57594'
 }*/
 
 test('Address from Phrase', () => {
-  const address = XyoAddress.fromPhrase('test')
-  expect(address.privateKey).toHaveLength(64)
-  expect(address.publicKey).toHaveLength(128)
-  expect(address.address).toHaveLength(40)
-  expect(address.privateKey).toEqual(testPrivateKey)
-  expect(address.publicKey).toEqual(testPublicKey)
-  expect(address.address).toEqual(testAddress)
+  const wallet = XyoWallet.fromPhrase('test')
+  expect(wallet.private).toHaveLength(32)
+  expect(wallet.public).toHaveLength(64)
+  expect(wallet.addressValue).toHaveLength(20)
+  expect(wallet.private.hex).toEqual(testPrivateKey)
+  expect(wallet.public.hex).toEqual(testPublicKey)
+  expect(wallet.addressValue.hex).toEqual(testAddress)
 })
 
 test('Address from Key', () => {
-  const address = XyoAddress.fromPrivateKey(testVectorPrivateKey)
-  expect(address.privateKey).toHaveLength(64)
-  expect(address.publicKey).toHaveLength(128)
-  expect(address.address).toHaveLength(40)
-  expect(address.privateKey).toEqual(testVectorPrivateKey)
-  expect(address.publicKey).toEqual(testVectorPublicKey)
-  expect(address.address).toEqual(testVectorAddress)
+  const wallet = XyoWallet.fromPrivateKey(testVectorPrivateKey)
+  expect(wallet.private).toHaveLength(32)
+  expect(wallet.public).toHaveLength(64)
+  expect(wallet.addressValue).toHaveLength(20)
+  expect(wallet.private.hex).toEqual(testVectorPrivateKey)
+  expect(wallet.public.hex).toEqual(testVectorPublicKey)
+  expect(wallet.addressValue.hex).toEqual(testVectorAddress)
 })
 
 test('Sign-fromPrivateKey', () => {
-  const address = XyoAddress.fromPrivateKey(testVectorPrivateKey)
-  const signature = address.sign('x')
-  const valid = XyoAddress.verifyAddress('x', signature, address.address)
+  const wallet = XyoWallet.fromPrivateKey(testVectorPrivateKey)
+  const signature = wallet.sign('x')
+  const valid = wallet.verify('x', signature)
   expect(valid).toBeTruthy()
 })
 
 test('Sign-fromPhrase', () => {
-  const address = XyoAddress.fromPhrase('test')
-  const signature = address.sign('x')
-  const valid = XyoAddress.verifyAddress('x', signature, address.address)
+  const wallet = XyoWallet.fromPhrase('test')
+  const signature = wallet.sign('x')
+  const valid = wallet.verify('x', signature)
   expect(valid).toBeTruthy()
 })
 
 test('Sign-testVectors', () => {
-  const address = XyoAddress.fromPrivateKey(testVectorPrivateKey)
-  const signature = Buffer.from(address.sign(toUint8Array(testVectorHash))).toString('hex')
+  const wallet = XyoWallet.fromPrivateKey(testVectorPrivateKey)
+  const signature = Buffer.from(wallet.sign(toUint8Array(testVectorHash))).toString('hex')
   const expectedSignature = testVectorSignature
 
-  expect(signature).toBe(expectedSignature)
-  expect(signature.length).toBe(128)
-  const valid = XyoAddress.verifyAddress(testVectorHash, signature, address.address)
+  expect(signature).toEqual(expectedSignature)
+  expect(signature.length).toEqual(128)
+  const valid = wallet.verify(testVectorHash, signature)
   expect(valid).toBeTruthy()
 })
 
 test('Constructor', () => {
-  const address1 = new XyoAddress()
-  const address2 = new XyoAddress({ privateKey: address1.privateKey })
-  expect(address1.publicKey).toBe(address2.publicKey)
-  expect(address1.address).toBe(address2.address)
+  const wallet1 = new XyoWallet()
+  const wallet2 = new XyoWallet({ privateKey: wallet1.private })
+  expect(wallet1.public.hex).toEqual(wallet2.public.hex)
+  expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
 })
 
 test('Sign-random-string', () => {
-  const address = XyoAddress.random()
-  const signature = address.sign('x')
+  const wallet = XyoWallet.random()
+  const signature = wallet.sign('x')
   const signaturePrime = toUint8Array(signature)
   expect(signature.length).toBe(signaturePrime.length)
   for (let i = 0; i < signature.length; i++) {
     expect(signature[i]).toBe(signaturePrime[i])
   }
-  const valid = XyoAddress.verifyAddress('x', signature, address.address)
+  const valid = wallet.verify('x', signature)
   expect(valid).toBeTruthy()
 })

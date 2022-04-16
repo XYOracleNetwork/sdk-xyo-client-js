@@ -1,11 +1,9 @@
 import { LocationWitnessPayloadSchema } from '../../Witnesses'
 
 export type LocationQuadkeyHeatmapQuerySchema = 'network.xyo.location.heatmap.quadkey.query'
-export const locationQuadkeyHeatmapQuerySchema: LocationQuadkeyHeatmapQuerySchema =
-  'network.xyo.location.heatmap.quadkey.query'
+export const locationQuadkeyHeatmapQuerySchema: LocationQuadkeyHeatmapQuerySchema = 'network.xyo.location.heatmap.quadkey.query'
 export type LocationQuadkeyHeatmapAnswerSchema = 'network.xyo.location.heatmap.quadkey.answer'
-export const locationQuadkeyHeatmapAnswerSchema: LocationQuadkeyHeatmapAnswerSchema =
-  'network.xyo.location.heatmap.quadkey.answer'
+export const locationQuadkeyHeatmapAnswerSchema: LocationQuadkeyHeatmapAnswerSchema = 'network.xyo.location.heatmap.quadkey.answer'
 export type LocationQuadkeyHeatmapQuery = {
   startTime?: string
   stopTime?: string

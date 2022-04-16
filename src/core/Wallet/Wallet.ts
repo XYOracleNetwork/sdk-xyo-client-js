@@ -14,11 +14,7 @@ export class XyoWallet extends XyoKeyPair {
   private _previousHash?: XyoData
 
   constructor({ privateKey, phrase }: XyoAddressConfig = {}) {
-    const privateKeyToUse = privateKey
-      ? toUint8Array(privateKey)
-      : phrase
-      ? toUint8Array(shajs('sha256').update(phrase).digest('hex'))
-      : undefined
+    const privateKeyToUse = privateKey ? toUint8Array(privateKey) : phrase ? toUint8Array(shajs('sha256').update(phrase).digest('hex')) : undefined
     super(privateKeyToUse)
   }
 

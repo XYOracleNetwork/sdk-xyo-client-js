@@ -38,9 +38,7 @@ class XyoBoundWitnessBodyValidator {
     const [compareArray, compareArrayErrors] = validateType('array', this.body[compareArrayName] as [], true)
 
     if (array?.length !== compareArray?.length) {
-      errors.push(
-        new Error(`${fieldName}/${compareArrayName} count mismatch [${array?.length} !== ${compareArray?.length}]`)
-      )
+      errors.push(new Error(`${fieldName}/${compareArrayName} count mismatch [${array?.length} !== ${compareArray?.length}]`))
     }
 
     return [...arrayErrors, ...compareArrayErrors, ...errors]
@@ -98,14 +96,7 @@ class XyoBoundWitnessBodyValidator {
 
   public all() {
     const errors: Error[] = []
-    errors.push(
-      ...this.addresses(),
-      ...this.validateArrayLengths(),
-      ...this.payloadHashes(),
-      ...this.payloadSchemas(),
-      ...this.previousHashes(),
-      ...this.schmea()
-    )
+    errors.push(...this.addresses(), ...this.validateArrayLengths(), ...this.payloadHashes(), ...this.payloadSchemas(), ...this.previousHashes(), ...this.schmea())
     return errors
   }
 }

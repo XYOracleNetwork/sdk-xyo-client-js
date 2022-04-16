@@ -54,10 +54,7 @@ export class XyoPanel {
     this.config.onHistoryAdd?.([boundWitness])
   }
 
-  private async sendToArchivists(
-    boundWitness: XyoBoundWitness,
-    onError?: (archivist: XyoArchivistApi, error: Error) => void
-  ) {
+  private async sendToArchivists(boundWitness: XyoBoundWitness, onError?: (archivist: XyoArchivistApi, error: Error) => void) {
     const promises = this.config.archivists.map((archivist) => {
       const promiseResult = async () => {
         this.config.onArchivistSendStart?.(archivist)

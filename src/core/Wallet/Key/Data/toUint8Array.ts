@@ -32,12 +32,7 @@ export const toUint8Array = (value: XyoDataLike, padLength?: number): Uint8Array
     ifTypeOf<string, Uint8Array>('string', value as string, stringToUint8Array) ??
     ifTypeOf<BigNumber, Uint8Array | undefined>('object', value as BigNumber, bigNumberToUint8Array, BigNumber.isBN) ??
     ifTypeOf<Buffer, Uint8Array | undefined>('object', value as Buffer, bufferToUint8Array, Buffer.isBuffer) ??
-    ifTypeOf<XyoAbstractData, Uint8Array | undefined>(
-      'object',
-      value as Buffer,
-      xyoDataToUint8Array,
-      XyoAbstractData.isXyoData
-    ) ??
+    ifTypeOf<XyoAbstractData, Uint8Array | undefined>('object', value as Buffer, xyoDataToUint8Array, XyoAbstractData.isXyoData) ??
     (value as Uint8Array)
 
   if (padLength !== undefined) {

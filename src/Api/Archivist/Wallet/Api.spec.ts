@@ -27,9 +27,7 @@ describe('XyoAuthApi', () => {
         const api = new XyoArchivistApi(config)
         try {
           const wallet = XyoWallet.random()
-          const [data, envelope, response] = await api
-            .wallet(wallet.addressValue.hex)
-            .challenge.post(undefined, 'tuple')
+          const [data, envelope, response] = await api.wallet(wallet.addressValue.hex).challenge.post(undefined, 'tuple')
           expect(response.status).toBe(200)
           expect(envelope.error).toBeUndefined()
           expect(typeOf(data?.state)).toBe('string')

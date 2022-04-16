@@ -5,19 +5,7 @@ import { XyoHasher } from '../../Hasher'
 import { XyoBoundWitness } from '../models'
 import { XyoBoundWitnessValidator } from '../Validator'
 
-const scrubbedFields = [
-  '_archive',
-  '_client',
-  '_hash',
-  '_signatures',
-  '_timestamp',
-  '_user_agent',
-  'addresses',
-  'payload_schemas',
-  'previous_hashes',
-  'payload_hashes',
-  'schema',
-]
+const scrubbedFields = ['_archive', '_client', '_hash', '_signatures', '_timestamp', '_user_agent', 'addresses', 'payload_schemas', 'previous_hashes', 'payload_hashes', 'schema']
 
 class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends XyoHasher<T> {
   public readonly bw: T

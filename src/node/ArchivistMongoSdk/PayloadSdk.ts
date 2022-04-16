@@ -73,9 +73,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   }
 
   private async findByHashQuery(hash: string, timestamp?: number) {
-    const predicate = timestamp
-      ? { _archive: this._archive, _hash: hash, _timestamp: timestamp }
-      : { _archive: this._archive, _hash: hash }
+    const predicate = timestamp ? { _archive: this._archive, _hash: hash, _timestamp: timestamp } : { _archive: this._archive, _hash: hash }
     return await this.useCollection(async (collection: Collection<XyoPayload>) => {
       return await collection.find(predicate).maxTimeMS(this._maxTime)
     })

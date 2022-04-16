@@ -16,10 +16,7 @@ export interface XyoPayloadStats {
   count: number
 }
 
-export class XyoArchivistArchivePayloadApi<
-  T extends XyoPayload = XyoPayload,
-  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>
-> extends XyoApiSimple<T[], T[], C> {
+export class XyoArchivistArchivePayloadApi<T extends XyoPayload = XyoPayload, C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>> extends XyoApiSimple<T[], T[], C> {
   private _stats?: XyoApiSimple<XyoPayloadStats>
   public get stats(): XyoApiSimple<XyoPayloadStats> {
     this._stats =

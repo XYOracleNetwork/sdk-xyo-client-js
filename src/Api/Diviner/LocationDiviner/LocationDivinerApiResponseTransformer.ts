@@ -14,9 +14,6 @@ export const getLocationDivinerApiResponseTransformer = (axiosInstance = axios):
   // If there's any existing response transforms preserve them and
   // append our response transform, otherwise just return ours
   return axiosInstance.defaults.transformResponse
-    ? ([] as AxiosResponseTransformer[]).concat(
-        axiosInstance.defaults.transformResponse,
-        locationDivinerApiResponseTransformer
-      )
+    ? ([] as AxiosResponseTransformer[]).concat(axiosInstance.defaults.transformResponse, locationDivinerApiResponseTransformer)
     : [locationDivinerApiResponseTransformer]
 }

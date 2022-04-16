@@ -78,10 +78,7 @@ export class XyoArchivistApi extends XyoApiBase {
   /** @deprecated use huri(huri) instead */
   public async get(huri: Huri | string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<XyoPayload>>
   /** @deprecated use huri(huri) instead */
-  public async get(
-    huri: Huri | string,
-    responseType?: XyoApiResponseType
-  ): Promise<XyoApiResponseTupleOrBody<XyoPayload>> {
+  public async get(huri: Huri | string, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<XyoPayload>> {
     const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
     switch (responseType) {
       case 'tuple':

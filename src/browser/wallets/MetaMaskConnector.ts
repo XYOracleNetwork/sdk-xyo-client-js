@@ -58,9 +58,7 @@ class XyoMetaMaskConnector {
   }
 
   private logProviderMissing() {
-    console.warn(
-      'Cannot call this method because there is no web3 provider connected.  Please confirm that metamask is installed'
-    )
+    console.warn('Cannot call this method because there is no web3 provider connected.  Please confirm that metamask is installed')
   }
 }
 

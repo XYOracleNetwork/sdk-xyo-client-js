@@ -42,16 +42,12 @@ describe('Huri', () => {
   })
   describe('Api Fetch', () => {
     it('Valid Huri', async () => {
-      const huri = new Huri(
-        'https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057'
-      )
+      const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
       const result = await huri.fetch()
       expect(result?.schema).toBe('network.xyo.schema')
     })
     it('Invalid Huri', async () => {
-      const huri = new Huri(
-        'https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653bad'
-      )
+      const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653bad')
       await expect(huri.fetch()).rejects.toThrow()
     })
   })

@@ -1,12 +1,6 @@
 import { XyoPayload } from '../core'
 import { XyoApiBase } from './Base'
-import {
-  XyoApiConfig,
-  XyoApiResponseBody,
-  XyoApiResponseTuple,
-  XyoApiResponseTupleOrBody,
-  XyoApiResponseType,
-} from './models'
+import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from './models'
 
 export class XyoApiSimple<T = XyoPayload, D = T, C extends XyoApiConfig = XyoApiConfig> extends XyoApiBase<C> {
   public async get(): Promise<XyoApiResponseBody<T>>

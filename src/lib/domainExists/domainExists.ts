@@ -1,5 +1,5 @@
 import { DnsReturnCode } from './DnsReturnCode'
-import { googleDnsOverHttps } from './googleDnsOverHttps'
+import { domainResolve } from './domainResolve'
 
 /**
  * Checks if a domain exists (resolves using DNS)
@@ -8,8 +8,8 @@ import { googleDnsOverHttps } from './googleDnsOverHttps'
  */
 const domainExists = async (domain?: string) => {
   if (domain === undefined) return false
-  const dnsResult = await googleDnsOverHttps(domain)
-  return dnsResult.Status === DnsReturnCode.NoError
+  const dnsResult = await domainResolve(domain)
+  return dnsResult?.Status === DnsReturnCode.NoError
 }
 
 export { domainExists }

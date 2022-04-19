@@ -1,8 +1,7 @@
 import axios from 'axios'
 import reverse from 'lodash/reverse'
 
-import { domainResolve } from '../../lib'
-import { DnsRecordType } from '../../lib/domainExists/DnsRecordType'
+import { DnsRecordType, domainResolve } from '../../lib'
 import { Huri } from '../Huri'
 import { XyoPayload } from '../Payload'
 import { XyoDomainConfig } from './DomainConfig'

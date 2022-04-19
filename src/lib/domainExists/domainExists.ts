@@ -6,7 +6,8 @@ import { googleDnsOverHttps } from './googleDnsOverHttps'
  * @param domain - string
  * @returns boolean
  */
-const domainExists = async (domain: string) => {
+const domainExists = async (domain?: string) => {
+  if (domain === undefined) return false
   const dnsResult = await googleDnsOverHttps(domain)
   return dnsResult.Status === DnsReturnCode.NoError
 }

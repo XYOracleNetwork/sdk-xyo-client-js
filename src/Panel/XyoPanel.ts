@@ -1,12 +1,14 @@
 import { assertEx } from '@xylabs/sdk-js'
 
 import { XyoArchivistApi } from '../Api'
-import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoWallet, XyoWitness } from '../core'
+import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoWitness } from '../core'
 
 export interface XyoPanelConfig {
-  /** @deprecated us wallet instead */
-  address?: XyoWallet
-  wallet: XyoWallet
+  /** @deprecated use account instead */
+  address?: XyoAccount
+  /** @deprecated use account instead */
+  wallet?: XyoAccount
+  account: XyoAccount
   archivists: XyoArchivistApi[]
   archive?: string
   witnesses: XyoWitness<XyoPayload>[]
@@ -28,9 +30,10 @@ export class XyoPanel {
   constructor({ archivists, witnesses, ...config }: Partial<XyoPanelConfig>) {
     this.config = {
       ...config,
-      archivists: archivists ?? [],
       // eslint-disable-next-line deprecation/deprecation
-      wallet: assertEx(config.wallet ?? config.address, 'wallet or address is required'),
+      account: assertEx(config.account ?? config.wallet ?? config.address, 'account is required'),
+
+      archivists: archivists ?? [],
       witnesses: witnesses ?? [],
     }
   }
@@ -107,7 +110,7 @@ export class XyoPanel {
     allWitnesses.push(...this.config.witnesses)
     const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads ?? true })
       .payloads(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
-      .witness(this.config.wallet)
+      .witness(this.config.account)
       .build()
 
     await this.sendToArchivists(newBoundWitness, (_, error) => errors.push(error))

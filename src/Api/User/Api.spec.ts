@@ -25,7 +25,7 @@ describe('XyoAuthApi', () => {
       async () => {
         const api = new XyoArchivistApi(config)
         try {
-          const response = await api.wallet('0xfEf40940e776A3686Cb29eC712d60859EA9f99F7').challenge.post()
+          const response = await api.account('0xfEf40940e776A3686Cb29eC712d60859EA9f99F7').challenge.post()
           expect(response?.state).toBeDefined()
           expect(typeOf(response?.state)).toBe('string')
         } catch (ex) {

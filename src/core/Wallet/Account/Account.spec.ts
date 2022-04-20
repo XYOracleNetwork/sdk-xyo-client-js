@@ -1,8 +1,8 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 
+import { XyoAccount } from './Account'
 import { toUint8Array } from './Key'
-import { XyoWallet } from './Wallet'
 
 //test vectors: https://tools.ietf.org/html/rfc8032
 //test tool: https://asecuritysite.com/encryption/ethadd
@@ -27,7 +27,7 @@ const testAddress = '2a260a110bc7b03f19c40a0bd04ff2c5dcb57594'
 }*/
 
 test('Address from Phrase', () => {
-  const wallet = XyoWallet.fromPhrase('test')
+  const wallet = XyoAccount.fromPhrase('test')
   expect(wallet.private).toHaveLength(32)
   expect(wallet.public).toHaveLength(64)
   expect(wallet.addressValue).toHaveLength(20)
@@ -37,7 +37,7 @@ test('Address from Phrase', () => {
 })
 
 test('Address from Key', () => {
-  const wallet = XyoWallet.fromPrivateKey(testVectorPrivateKey)
+  const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
   expect(wallet.private).toHaveLength(32)
   expect(wallet.public).toHaveLength(64)
   expect(wallet.addressValue).toHaveLength(20)
@@ -47,21 +47,21 @@ test('Address from Key', () => {
 })
 
 test('Sign-fromPrivateKey', () => {
-  const wallet = XyoWallet.fromPrivateKey(testVectorPrivateKey)
+  const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
   const signature = wallet.sign('x')
   const valid = wallet.verify('x', signature)
   expect(valid).toBeTruthy()
 })
 
 test('Sign-fromPhrase', () => {
-  const wallet = XyoWallet.fromPhrase('test')
+  const wallet = XyoAccount.fromPhrase('test')
   const signature = wallet.sign('x')
   const valid = wallet.verify('x', signature)
   expect(valid).toBeTruthy()
 })
 
 test('Sign-testVectors', () => {
-  const wallet = XyoWallet.fromPrivateKey(testVectorPrivateKey)
+  const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
   const signature = Buffer.from(wallet.sign(toUint8Array(testVectorHash))).toString('hex')
   const expectedSignature = testVectorSignature
 
@@ -72,14 +72,14 @@ test('Sign-testVectors', () => {
 })
 
 test('Constructor', () => {
-  const wallet1 = new XyoWallet()
-  const wallet2 = new XyoWallet({ privateKey: wallet1.private })
+  const wallet1 = new XyoAccount()
+  const wallet2 = new XyoAccount({ privateKey: wallet1.private })
   expect(wallet1.public.hex).toEqual(wallet2.public.hex)
   expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
 })
 
 test('Sign-random-string', () => {
-  const wallet = XyoWallet.random()
+  const wallet = XyoAccount.random()
   const signature = wallet.sign('x')
   const signaturePrime = toUint8Array(signature)
   expect(signature.length).toBe(signaturePrime.length)

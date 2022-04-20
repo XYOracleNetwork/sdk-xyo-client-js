@@ -1,8 +1,8 @@
-import { XyoWallet } from '../../../core'
+import { XyoAccount } from '../../../core'
 import { typeOf } from '../../../lib'
 import { XyoApiConfig, XyoApiError } from '../../models'
 import { XyoArchivistApi } from '../Api'
-import { XyoWalletApi } from './Api'
+import { XyoAccountApi } from './Api'
 
 const timeout = 20000
 const config: XyoApiConfig = {
@@ -15,7 +15,7 @@ const config: XyoApiConfig = {
 describe('XyoAuthApi', () => {
   describe('get', () => {
     it('returns a new XyoWalletApi', () => {
-      const api = new XyoWalletApi(config)
+      const api = new XyoAccountApi(config)
       expect(api).toBeDefined()
     })
   })
@@ -26,8 +26,8 @@ describe('XyoAuthApi', () => {
       async () => {
         const api = new XyoArchivistApi(config)
         try {
-          const wallet = XyoWallet.random()
-          const [data, envelope, response] = await api.wallet(wallet.addressValue.hex).challenge.post(undefined, 'tuple')
+          const account = XyoAccount.random()
+          const [data, envelope, response] = await api.account(account.addressValue.hex).challenge.post(undefined, 'tuple')
           expect(response.status).toBe(200)
           expect(envelope.error).toBeUndefined()
           expect(typeOf(data?.state)).toBe('string')

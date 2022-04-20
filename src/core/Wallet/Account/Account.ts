@@ -4,16 +4,16 @@ import { toUint8Array, XyoData, XyoDataLike, XyoKeyPair, XyoPublicKey } from './
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
-export interface XyoAddressConfig {
+export interface XyoAccountConfig {
   privateKey?: XyoDataLike
   phrase?: string
 }
 
-export class XyoWallet extends XyoKeyPair {
+export class XyoAccount extends XyoKeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 
-  constructor({ privateKey, phrase }: XyoAddressConfig = {}) {
+  constructor({ privateKey, phrase }: XyoAccountConfig = {}) {
     const privateKeyToUse = privateKey ? toUint8Array(privateKey) : phrase ? toUint8Array(shajs('sha256').update(phrase).digest('hex')) : undefined
     super(privateKeyToUse)
   }
@@ -52,42 +52,45 @@ export class XyoWallet extends XyoKeyPair {
 
   static fromPhrase(phrase: string) {
     const privateKey = shajs('sha256').update(phrase).digest('hex')
-    return XyoWallet.fromPrivateKey(privateKey)
+    return XyoAccount.fromPrivateKey(privateKey)
   }
 
   static fromPrivateKey(key: Uint8Array | string) {
     const privateKey = toUint8Array(key)
-    return new XyoWallet({ privateKey })
+    return new XyoAccount({ privateKey })
   }
 
   static random() {
-    return new XyoWallet()
+    return new XyoAccount()
   }
 
   static isXyoWallet(value: unknown) {
-    return (value as XyoWallet)._isXyoWallet
+    return (value as XyoAccount)._isXyoWallet
   }
 }
 
 /** @deprecated use XyoWallet instead */
-export class XyoAddress extends XyoWallet {
+export class XyoAddress extends XyoAccount {
   public get previousHashString() {
     return this.previousHash?.hex
   }
 
   static fromPhrase(phrase: string) {
-    return XyoWallet.fromPhrase(phrase)
+    return XyoAccount.fromPhrase(phrase)
   }
 
   static fromPrivateKey(key: Uint8Array | string) {
-    return XyoWallet.fromPrivateKey(key)
+    return XyoAccount.fromPrivateKey(key)
   }
 
   static random() {
-    return XyoWallet.random()
+    return XyoAccount.random()
   }
 
   static verifyAddress(msg: Uint8Array | string, signature: Uint8Array | string, address: XyoDataLike) {
     return new XyoPublicKey(address).verify(msg, signature)
   }
 }
+
+/** @deprecated use XyoAccount instead */
+export class XyoWallet extends XyoAccount {}

@@ -1,3 +1,3 @@
-export * from './domainExists'
+export * from './dns'
 export * from './dumpErrors'
 export * from './typeOf'

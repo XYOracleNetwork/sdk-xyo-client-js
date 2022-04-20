@@ -1,7 +1,7 @@
 import { assertEx, BigNumber, bufferPolyfill } from '@xylabs/sdk-js'
 import { Buffer } from 'buffer'
 
-import { ifTypeOf } from '../../../../lib'
+import { ifTypeOf } from '../../../../../lib'
 import { XyoAbstractData } from './AbstractData'
 import { XyoDataLike } from './XyoDataLike'
 

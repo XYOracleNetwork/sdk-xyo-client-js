@@ -1,5 +1,5 @@
 import { XyoApiConfig, XyoArchivistApi } from '../Api'
-import { XyoWallet } from '../core'
+import { XyoAccount } from '../core'
 import { XyoAdhocWitness, XyoIdWitness, XyoSystemInfoWitness } from '../Witnesses'
 import { XyoPanel, XyoPanelConfig } from './XyoPanel'
 
@@ -16,7 +16,7 @@ describe('XyoPanel', () => {
     })
     const witnesses = [new XyoSystemInfoWitness(), new XyoIdWitness()]
 
-    const config: XyoPanelConfig = { archivists, wallet: new XyoWallet(), witnesses }
+    const config: XyoPanelConfig = { account: new XyoAccount(), archivists, witnesses }
 
     const panel = new XyoPanel(config)
     const adhocWitness = new XyoAdhocWitness({

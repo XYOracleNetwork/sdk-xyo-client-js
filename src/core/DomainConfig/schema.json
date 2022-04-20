@@ -2,6 +2,22 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "definitions": {
+    "alias": {
+      "additionalProperties": false,
+      "properties": {
+        "huri": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "huri"
+      ],
+      "type": "object"
+    },
     "network": {
       "additionalProperties": false,
       "properties": {
@@ -64,8 +80,8 @@
       "nullable": false,
       "type": "array"
     },
-    "definitions": {
-      "description": "List of HURIs to schemas that are officially defined by this domain",
+    "aliases": {
+      "description": "List of HURIs to that are officially defined by this domain",
       "items": {
         "type": "string"
       },

@@ -3,31 +3,37 @@ import reverse from 'lodash/reverse'
 
 import { DnsRecordType, domainResolve } from '../../lib'
 import { Huri } from '../Huri'
-import { XyoPayload } from '../Payload'
+import { XyoPayload, XyoPayloadWrapper } from '../Payload'
 import { XyoDomainConfig } from './DomainConfig'
 
-export class XyoDomainConfigWrapper {
-  public config: XyoDomainConfig
-  constructor(config: XyoDomainConfig) {
-    this.config = config
+export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
+  public aliases?: XyoPayload[] | null
+
+  private getNetwork(slug?: string) {
+    return slug ? this.payload.networks?.find((value) => value.slug === slug) : this.payload.networks?.[0]
   }
 
-  public definitions: XyoPayload[] | undefined
+  private findArchivistUri(networkSlug?: string) {
+    return this.getNetwork(networkSlug)?.nodes.find((value) => value.type === 'archivist')?.uri
+  }
+
+  public async fetchAliases(networkSlug?: string) {
+    //set it to null to signify fetch ran
+    this.aliases = null
+
+    const archivistUri = this.findArchivistUri(networkSlug)
+    if (this.payload.aliases) {
+      const payloads: (XyoPayload | undefined)[] = await Promise.all(
+        this.payload.aliases?.map((alias) => {
+          return new Huri(alias.huri, { archivistUri }).fetch()
+        })
+      )
+      this.aliases = payloads.filter((payload) => payload !== undefined) as XyoPayload[]
+    }
+  }
 
   public async fetch(networkSlug?: string) {
-    const network = networkSlug ? this.config.networks?.find((value) => value.slug === networkSlug) : this.config.networks?.[0]
-    if (network) {
-      const archivistUri = network.nodes.find((value) => value.type === 'archivist')?.uri
-      if (archivistUri && this.config.definitions) {
-        const payloads = await Promise.all(
-          this.config.definitions.map((value) => {
-            const huri = new Huri(value)
-            return huri.fetch()
-          })
-        )
-        this.definitions = payloads as XyoPayload[]
-      }
-    }
+    await this.fetchAliases(networkSlug)
   }
 
   private static async discoverRootFile(domain: string) {

@@ -4,8 +4,8 @@ import { domainExists } from './lib'
  * Validates a XYO schema structure and existence
  */
 export class XyoSchemaNameValidator {
-  public schema: string
-  constructor(schema: string) {
+  public schema?: string
+  constructor(schema?: string) {
     this.schema = schema
   }
 
@@ -17,7 +17,7 @@ export class XyoSchemaNameValidator {
    * @returns string[]
    */
   get parts() {
-    this._parts = this._parts ?? this.schema.split('.')
+    this._parts = this._parts ?? this.schema?.split('.')
     return this._parts
   }
 
@@ -26,8 +26,8 @@ export class XyoSchemaNameValidator {
    *
    * @returns number
    */
-  get levels(): number {
-    return this.parts.length
+  get levels(): number | undefined {
+    return this.parts?.length
   }
 
   /**
@@ -36,7 +36,7 @@ export class XyoSchemaNameValidator {
    * @returns boolean
    */
   get isLowercase(): boolean {
-    return this.schema === this.schema.toLowerCase()
+    return this.schema === this.schema?.toLowerCase()
   }
 
   /**
@@ -46,9 +46,9 @@ export class XyoSchemaNameValidator {
    * @param level - Zero based level to check
    * @returns string
    */
-  private domainLevel(level: number): string {
+  private domainLevel(level: number): string | undefined {
     return this.parts
-      .slice(0, level + 1)
+      ?.slice(0, level + 1)
       .reverse()
       .join('.')
   }
@@ -62,7 +62,7 @@ export class XyoSchemaNameValidator {
    *
    * @returns string
    */
-  get rootDomain(): string {
+  get rootDomain(): string | undefined {
     this._rootDomain = this._rootDomain ?? this.domainLevel(1)
     return this._rootDomain
   }
@@ -83,14 +83,17 @@ export class XyoSchemaNameValidator {
    * @returns number (0 if none exist)
    */
   public async domainExistanceDepth() {
-    let level = 0
-    while (level < this.levels) {
-      if (!(await domainExists(this.domainLevel(level)))) {
-        break
+    const levels = this.levels
+    if (levels) {
+      let level = 0
+      while (level < levels) {
+        if (!(await domainExists(this.domainLevel(level)))) {
+          break
+        }
+        level += 1
       }
-      level += 1
+      return level
     }
-    return level
   }
 
   /**
@@ -101,7 +104,7 @@ export class XyoSchemaNameValidator {
 
   public async allDynamic() {
     const errors: Error[] = []
-    if (this.schema.length === 0) errors.push(Error('schema missing'))
+    if ((this.schema?.length ?? 0) === 0) errors.push(Error('schema missing'))
     else if (!(await this.rootDomainExists())) errors.push(Error(`schema root domain must exist [${this.rootDomain}]`))
     return errors
   }
@@ -113,8 +116,8 @@ export class XyoSchemaNameValidator {
 
   public all() {
     const errors: Error[] = []
-    if (this.schema.length === 0) errors.push(Error('schema missing'))
-    else if (this.levels < 3) errors.push(Error(`schema levels < 3 [${this.levels}, ${this.schema}]`))
+    if ((this.schema?.length ?? 0) === 0) errors.push(Error('schema missing'))
+    else if ((this.levels ?? 0) < 3) errors.push(Error(`schema levels < 3 [${this.levels}, ${this.schema}]`))
     else if (!this.isLowercase) errors.push(Error(`schema not lowercase [${this.schema}]`))
     return errors
   }

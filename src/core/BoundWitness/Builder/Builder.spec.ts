@@ -2,7 +2,7 @@
 /* eslint-disable sort-keys */
 import { XyoHasher } from '../../Hasher'
 import { XyoPayload } from '../../Payload'
-import { XyoAddressValue, XyoWallet } from '../../Wallet'
+import { XyoAccount, XyoAddressValue } from '../../Wallet'
 import { XyoBoundWitnessBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'
@@ -39,7 +39,7 @@ describe('XyoBoundWitnessBuilder', () => {
   describe('build', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', (payload) => {
-        const address = XyoWallet.fromPhrase('test1')
+        const address = XyoAccount.fromPhrase('test1')
         let builder = new XyoBoundWitnessBuilder()
         expect(builder).toBeDefined()
         builder = builder.witness(address)
@@ -62,7 +62,7 @@ describe('XyoBoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads true', () => {
       it('contains the _payloads field', () => {
-        const address = XyoWallet.fromPhrase('test2')
+        const address = XyoAccount.fromPhrase('test2')
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
 
         const actual = builder.build()
@@ -73,7 +73,7 @@ describe('XyoBoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads false', () => {
       it('omits the _payloads field', () => {
-        const address = XyoWallet.fromPhrase('test3')
+        const address = XyoAccount.fromPhrase('test3')
         const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
 
         const actual = builder.build()

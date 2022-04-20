@@ -3,7 +3,7 @@ import { Buffer } from 'buffer'
 
 import { sortFields, XyoHasher } from '../../Hasher'
 import { XyoPayload, XyoPayloadBody } from '../../Payload'
-import { XyoWallet } from '../../Wallet'
+import { XyoAccount } from '../../Wallet'
 import { XyoBoundWitness } from '../models'
 
 export interface XyoBoundWitnessBuilderConfig {
@@ -12,7 +12,7 @@ export interface XyoBoundWitnessBuilderConfig {
 }
 
 export class XyoBoundWitnessBuilder {
-  private _wallets: XyoWallet[] = []
+  private _accounts: XyoAccount[] = []
   private _payload_schemas: string[] = []
   private _payloads: XyoPayload[] = []
 
@@ -26,8 +26,8 @@ export class XyoBoundWitnessBuilder {
     })
   }
 
-  public witness(wallet: XyoWallet) {
-    this._wallets?.push(wallet)
+  public witness(account: XyoAccount) {
+    this._accounts?.push(account)
     return this
   }
 
@@ -49,8 +49,8 @@ export class XyoBoundWitnessBuilder {
   }
 
   public hashableFields(): XyoBoundWitness {
-    const addresses = this._wallets.map((wallet) => wallet.addressValue.hex)
-    const previous_hashes = this._wallets.map((wallet) => wallet.previousHash?.hex ?? null)
+    const addresses = this._accounts.map((account) => account.addressValue.hex)
+    const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
     return {
       addresses: assertEx(addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
@@ -64,7 +64,7 @@ export class XyoBoundWitnessBuilder {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = new XyoHasher(hashableFields).sortedHash()
 
-    const _signatures = this._wallets.map((wallet) => Buffer.from(wallet.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
+    const _signatures = this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
     const _timestamp = Date.now()
     const ret = { ...hashableFields, _client: 'js', _hash, _signatures, _timestamp } as XyoBoundWitness
     if (this.config.inlinePayloads) {

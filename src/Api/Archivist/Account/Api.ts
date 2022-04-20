@@ -1,12 +1,12 @@
 import { XyoApiBase } from '../../Base'
 import { XyoApiSimple } from '../../Simple'
 
-export interface XyoWalletChallenge {
+export interface XyoAccountChallenge {
   /** @field Server spacific state identifier [out] */
   state?: string
 }
 
-export interface XyoWalletVerify {
+export interface XyoAccountVerify {
   /** @field Message that was signed [in] */
   message: string
   /** @field Signature [in] */
@@ -15,16 +15,16 @@ export interface XyoWalletVerify {
   token?: string
 }
 
-export class XyoWalletApi extends XyoApiBase {
+export class XyoAccountApi extends XyoApiBase {
   public get challenge() {
-    return new XyoApiSimple<XyoWalletChallenge>({
+    return new XyoApiSimple<XyoAccountChallenge>({
       ...this.config,
       root: `${this.root}challenge/`,
     })
   }
 
   public get verify() {
-    return new XyoApiSimple<XyoWalletVerify>({
+    return new XyoApiSimple<XyoAccountVerify>({
       ...this.config,
       root: `${this.root}verify/`,
     })

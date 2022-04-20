@@ -17,18 +17,20 @@ export type HuriFetchFunction = (huri: Huri) => Promise<XyoPayload | undefined>
     archivist: api.archivist.xyo.network
 */
 
+export interface HuriOptions {
+  archivistUri?: string
+}
+
 export class Huri {
   public originaHref: string
   public protocol?: string
   public archivist?: string
   public hash: string
-  private fetchFunction: HuriFetchFunction
 
-  constructor(huri: string, fetchFunction?: HuriFetchFunction) {
-    this.fetchFunction = fetchFunction ?? Huri.apiFetch
+  constructor(huri: string, { archivistUri }: HuriOptions = {}) {
     this.originaHref = huri
     const protocolSplit = huri.split(':/')
-    this.protocol = protocolSplit.length >= 2 ? protocolSplit.shift() : 'http'
+    this.protocol = protocolSplit.length >= 2 ? protocolSplit.shift() : 'https'
 
     const pathSplit = assertEx(protocolSplit.shift()?.split('/'), 'No hash specified')
 
@@ -36,7 +38,7 @@ export class Huri {
     pathSplit[0].length === 0 ? pathSplit.shift() : null
 
     this.hash = assertEx(pathSplit.pop(), 'No hash specified')
-    this.archivist = pathSplit.pop() ?? 'api.archivist.xyo.network'
+    this.archivist = pathSplit.pop() ?? archivistUri ?? 'api.archivist.xyo.network'
     assertEx(pathSplit.length === 0, 'Too many path parts')
   }
 
@@ -61,10 +63,11 @@ export class Huri {
   }
 
   public async fetch() {
-    return await this.fetchFunction(this)
+    return await Huri.fetch(this)
   }
 
-  static async apiFetch(huri: Huri): Promise<XyoPayload | undefined> {
+  static async fetch(huri: Huri): Promise<XyoPayload | undefined> {
+    console.log(`fetching: ${huri.href}`)
     return (await axios.get<XyoPayload>(huri.href)).data
   }
 }

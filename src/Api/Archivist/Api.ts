@@ -3,9 +3,9 @@ import { XyoApiBase } from '../Base'
 import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'
 import { XyoApiSimple } from '../Simple'
 import { XyoUserApi } from '../User'
+import { XyoAccountApi } from './Account'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
-import { XyoWalletApi } from './Wallet'
 
 export class XyoArchivistApi extends XyoApiBase {
   private _archives?: XyoArchivistArchivesApi
@@ -56,8 +56,16 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
+  /** @deprecated use account instead */
   public wallet(address: string | XyoAddressValue) {
-    return new XyoWalletApi({
+    return new XyoAccountApi({
+      ...this.config,
+      root: `${this.root}wallet/${new XyoAddressValue(address).hex}/`,
+    })
+  }
+
+  public account(address: string | XyoAddressValue) {
+    return new XyoAccountApi({
       ...this.config,
       root: `${this.root}wallet/${new XyoAddressValue(address).hex}/`,
     })

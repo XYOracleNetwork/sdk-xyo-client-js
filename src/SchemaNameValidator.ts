@@ -83,17 +83,15 @@ export class XyoSchemaNameValidator {
    * @returns number (0 if none exist)
    */
   public async domainExistanceDepth() {
-    const levels = this.levels
-    if (levels) {
-      let level = 0
-      while (level < levels) {
-        if (!(await domainExists(this.domainLevel(level)))) {
-          break
-        }
-        level += 1
+    const levels = this.levels ?? 0
+    let level = 0
+    while (level < levels) {
+      if (!(await domainExists(this.domainLevel(level)))) {
+        break
       }
-      return level
+      level += 1
     }
+    return level
   }
 
   /**

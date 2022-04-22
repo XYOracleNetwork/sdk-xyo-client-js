@@ -35,22 +35,7 @@ export class Huri {
     this.protocol = protocol ?? 'https'
 
     const path = assertEx(Huri.parsePath(huri), 'Missing path')
-    const pathParts = path.split('/')
-
-    //if the protocal was found, then there is not allowed to be a leading /
-    assertEx(!(protocol !== undefined && pathParts[0].length === 0), 'Invalid protocol seperator')
-
-    //remove leading '/' if needed
-    pathParts[0].length === 0 ? pathParts.shift() : null
-
-    //hash is assumed to be the last part
-    this.hash = assertEx(pathParts.pop(), 'No hash specified')
-
-    //archivist is assumed to be the first part
-    this.archivist = pathParts.shift() ?? 'api.archivist.xyo.network'
-
-    //the archive is whatever is left
-    this.archive = pathParts.pop()
+    this.hash = this.parsePath(path, protocol !== undefined)
 
     //if archivistUri sent, overwrite protocol and archivist
     if (archivistUri) {
@@ -59,9 +44,34 @@ export class Huri {
       this.archivist = archivistUriParts[1]
     }
 
+    this.validateParse()
+  }
+
+  private parsePath(path: string, hasProtocol: boolean) {
+    const pathParts = path.split('/')
+
+    //if the protocal was found, then there is not allowed to be a leading /
+    assertEx(!(hasProtocol && pathParts[0].length === 0), 'Invalid protocol seperator')
+
+    //remove leading '/' if needed
+    pathParts[0].length === 0 ? pathParts.shift() : null
+
+    //hash is assumed to be the last part
+    const hash = assertEx(pathParts.pop(), 'No hash specified')
+
+    //archivist is assumed to be the first part
+    this.archivist = pathParts.shift() ?? 'api.archivist.xyo.network'
+
+    //the archive is whatever is left
+    this.archive = pathParts.pop()
+
     //after we pull off all the path parts, there should be nothing left
     assertEx(pathParts.length === 0, 'Too many path parts')
 
+    return hash
+  }
+
+  private validateParse() {
     //the archivist should not be zero length
     assertEx(this.archivist?.length !== 0, 'Invalid archivist length')
 

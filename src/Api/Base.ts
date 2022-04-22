@@ -1,4 +1,4 @@
-import { Axios } from 'axios'
+import { Axios, AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import { gzip } from 'pako'
 
 import {
@@ -19,12 +19,20 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
 
   constructor(config: C) {
     this.config = config
-    this.axios = new Axios({
-      headers: {
-        ...this.headers,
-        Accept: 'application/json, text/plain, *.*',
-        'Content-Type': 'application/json',
-      },
+    this.axios = new Axios(this.axiosConfig())
+  }
+
+  private axiosHeaders(): AxiosRequestHeaders {
+    return {
+      ...this.headers,
+      Accept: 'application/json, text/plain, *.*',
+      'Content-Type': 'application/json',
+    }
+  }
+
+  private axiosConfig(): AxiosRequestConfig {
+    return {
+      headers: this.axiosHeaders(),
       transformRequest: (data, headers) => {
         const json = JSON.stringify(data)
         if (headers && data) {
@@ -42,7 +50,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
           return null
         }
       },
-    })
+    }
   }
 
   onError(error: XyoApiError, depth = 0) {
@@ -83,30 +91,22 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
       const response = await closure()
       trapAxiosException = false
 
-      if (response.status < 300) {
-        this.onSuccess(response)
-      } else if (response.status >= 300) {
-        this.onFailure(response)
-      }
+      response.status < 300 ? this.onSuccess(response) : this.onFailure(response)
 
       return response
     } catch (ex) {
       const error = ex as XyoApiError
-      if (trapAxiosException && error.isAxiosError) {
-        if (error.response) {
-          this.onFailure(error.response)
-          if (this.config.throwFailure) {
-            throw error
-          }
-          return error.response as XyoApiResponse<XyoApiEnvelope<T>>
-        } else {
-          this.onError(error)
-          if (this.config.throwError) {
-            throw error
-          }
-        }
-      } else {
+
+      if (!error.isXyoError) {
         throw ex
+      }
+
+      if (trapAxiosException) {
+        error.response ? this.onFailure(error.response) : this.onError(error)
+        if (this.config.throwFailure) {
+          throw error
+        }
+        return error.response as XyoApiResponse<XyoApiEnvelope<T>>
       }
     }
   }
@@ -118,8 +118,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
     const response = await this.monitorResponse<T>(async () => {
       return await this.axios.get<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>>(`${this.resolveRoot()}${endPoint}${this.query}`)
     })
-    const resolvedResponse = XyoApiBase.resolveResponse(response)
-    return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
+    return XyoApiBase.shapeResponse<T>(response, responseType)
   }
 
   protected async postEndpoint<T = unknown, D = unknown>(endPoint?: string, data?: D): Promise<XyoApiResponseBody<T>>
@@ -129,8 +128,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
     const response = await this.monitorResponse<T>(async () => {
       return await this.axios.post<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>, D>, D>(`${this.resolveRoot()}${endPoint}${this.query}`, data)
     })
-    const resolvedResponse = XyoApiBase.resolveResponse(response)
-    return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
+    return XyoApiBase.shapeResponse<T>(response, responseType)
   }
 
   protected async putEndpoint<T = unknown, D = unknown>(endPoint?: string, data?: D): Promise<XyoApiResponseBody<T>>
@@ -140,8 +138,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
     const response = await this.monitorResponse<T>(async () => {
       return await this.axios.put<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>, D>, D>(`${this.resolveRoot()}${endPoint}${this.query}`, data)
     })
-    const resolvedResponse = XyoApiBase.resolveResponse(response)
-    return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
+    return XyoApiBase.shapeResponse<T>(response, responseType)
   }
 
   protected async deleteEndpoint<T = unknown>(endPoint?: string): Promise<XyoApiResponseBody<T>>
@@ -151,6 +148,10 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
     const response = await this.monitorResponse<T>(async () => {
       return await this.axios.delete<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>>>(`${this.resolveRoot()}${endPoint}${this.query}`)
     })
+    return XyoApiBase.shapeResponse<T>(response, responseType)
+  }
+
+  private static shapeResponse<T = unknown>(response: XyoApiResponse<XyoApiEnvelope<T>> | undefined, responseType?: XyoApiResponseType) {
     const resolvedResponse = XyoApiBase.resolveResponse(response)
     return responseType === 'tuple' ? resolvedResponse : resolvedResponse[0]
   }

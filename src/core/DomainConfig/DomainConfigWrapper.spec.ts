@@ -9,6 +9,6 @@ describe('DomainConfigWrapper', () => {
   })
   test('InValid', async () => {
     const wrapper = await XyoDomainConfigWrapper.discover('blahblah.blahblah.blahblah')
-    expect(wrapper?.payload.schema).toBe(undefined)
+    expect(wrapper).toBe(undefined)
   })
 })

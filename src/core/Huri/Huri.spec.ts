@@ -4,6 +4,7 @@ const hash = 'fb3606d71dcdd49a0aacc9d234e412684d577803c8a9ed9399a9d3776cc88e24'
 
 const valid = [
   `https://${hash}`,
+  `https://api.archivist.xyo.network/temp/${hash}`,
   `https://api.archivist.xyo.network/${hash}`,
   `http://api.archivist.xyo.network/${hash}`,
   `/api.archivist.xyo.network/${hash}`,
@@ -12,12 +13,14 @@ const valid = [
   `${hash}`,
 ]
 
-const invalid = [
-  `https://api.archivist.xyo.network/block/${hash}`,
-  `https:///api.archivist.xyo.network/${hash}`,
-  `https://api.archivist.xyo.network//${hash}`,
-  `api.archivist.xyo.network/block/${hash}`,
+const validWithTempArchive = [
+  `https://api.archivist.xyo.network/temp/${hash}`,
+  `https://api.archivist.xyo.network/temp/${hash}`,
+  `http://api.archivist.xyo.network/temp/${hash}`,
+  `/api.archivist.xyo.network/temp/${hash}`,
 ]
+
+const invalid = [`https:///api.archivist.xyo.network/${hash}`, `https://api.archivist.xyo.network//${hash}`]
 
 describe('Huri', () => {
   describe('Valid Items', () => {
@@ -28,6 +31,20 @@ describe('Huri', () => {
           expect(huri.hash).toBe(hash)
         } catch (ex) {
           console.error(`Valid Huri failed: [${item}]`)
+          console.error(ex)
+        }
+      })
+    })
+  })
+  describe('Valid Items w/archive', () => {
+    validWithTempArchive.map((item) => {
+      test(`valid w/archive [${item}]`, () => {
+        try {
+          const huri = new Huri(item)
+          expect(huri.hash).toBe(hash)
+          expect(huri.archive).toBe('temp')
+        } catch (ex) {
+          console.error(`Valid Huri w/archive failed: [${item}]`)
           console.error(ex)
         }
       })

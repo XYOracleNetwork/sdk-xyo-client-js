@@ -10,7 +10,7 @@ export type HuriFetchFunction = (huri: Huri) => Promise<XyoPayload | undefined>
 /* 
   Valid Huri:
 
-  [<protocol>://][archivist-host]/<hash>
+  [<protocol>://][<archivist>/[<archive>/]]<hash>
 
   defaults:
     protocol: https
@@ -25,21 +25,51 @@ export class Huri {
   public originaHref: string
   public protocol?: string
   public archivist?: string
+  public archive?: string
   public hash: string
 
   constructor(huri: string, { archivistUri }: HuriOptions = {}) {
     this.originaHref = huri
-    const protocolSplit = huri.split(':/')
-    this.protocol = protocolSplit.length >= 2 ? protocolSplit.shift() : 'https'
 
-    const pathSplit = assertEx(protocolSplit.shift()?.split('/'), 'No hash specified')
+    const protocol = Huri.parseProtocol(huri)
+    this.protocol = protocol ?? 'https'
+
+    const path = assertEx(Huri.parsePath(huri), 'Missing path')
+    const pathParts = path.split('/')
+
+    //if the protocal was found, then there is not allowed to be a leading /
+    assertEx(!(protocol !== undefined && pathParts[0].length === 0), 'Invalid protocol seperator')
 
     //remove leading '/' if needed
-    pathSplit[0].length === 0 ? pathSplit.shift() : null
+    pathParts[0].length === 0 ? pathParts.shift() : null
 
-    this.hash = assertEx(pathSplit.pop(), 'No hash specified')
-    this.archivist = pathSplit.pop() ?? archivistUri ?? 'api.archivist.xyo.network'
-    assertEx(pathSplit.length === 0, 'Too many path parts')
+    //hash is assumed to be the last part
+    this.hash = assertEx(pathParts.pop(), 'No hash specified')
+
+    //archivist is assumed to be the first part
+    this.archivist = pathParts.shift() ?? 'api.archivist.xyo.network'
+
+    //the archive is whatever is left
+    this.archive = pathParts.pop()
+
+    //if archivistUri sent, overwrite protocol and archivist
+    if (archivistUri) {
+      const archivistUriParts = archivistUri.split('://')
+      this.protocol = archivistUriParts[0]
+      this.archivist = archivistUriParts[1]
+    }
+
+    //after we pull off all the path parts, there should be nothing left
+    assertEx(pathParts.length === 0, 'Too many path parts')
+
+    //the archivist should not be zero length
+    assertEx(this.archivist?.length !== 0, 'Invalid archivist length')
+
+    //the archivist should not be zero length (can be undefined)
+    assertEx(this.archive?.length !== 0, 'Invalid archive length')
+
+    //the archive should not be set if the archivist is not set
+    assertEx(!(this.archive && !this.archivist), 'If specifying archive, archivist is also required')
   }
 
   /*
@@ -50,6 +80,9 @@ export class Huri {
     const parts: string[] = []
     if (this.protocol) {
       parts.push(`${this.protocol}:/`)
+    }
+    if (this.archive) {
+      parts.push(`${this.archive}`)
     }
     if (this.archivist) {
       parts.push(`${this.archivist}`)
@@ -67,7 +100,29 @@ export class Huri {
   }
 
   static async fetch(huri: Huri): Promise<XyoPayload | undefined> {
-    console.log(`fetching: ${huri.href}`)
     return (await axios.get<XyoPayload>(huri.href)).data
+  }
+
+  private static parseProtocol(huri: string) {
+    const protocolSplit = huri.split('//')
+    assertEx(protocolSplit.length <= 2, `Invalid second protocol [${protocolSplit[2]}]`)
+    const rawProtocol = protocolSplit.length === 2 ? protocolSplit.shift() : undefined
+    if (rawProtocol) {
+      const protocolParts = rawProtocol?.split(':')
+      assertEx(protocolParts.length === 2, `Invalid protocol format [${rawProtocol}]`)
+      assertEx(protocolParts[1].length === 0, `Invalid protocol format (post :) [${rawProtocol}]`)
+      return protocolParts.shift()
+    }
+  }
+
+  private static parsePath(huri: string) {
+    const protocolSplit = huri.split('//')
+    assertEx(protocolSplit.length <= 2, `Invalid format [${huri}]`)
+    if (protocolSplit.length === 1) {
+      return huri
+    }
+    if (protocolSplit.length === 2) {
+      return protocolSplit[1]
+    }
   }
 }

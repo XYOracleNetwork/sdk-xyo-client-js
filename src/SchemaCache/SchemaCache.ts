@@ -9,9 +9,11 @@ const getSchemaNameFromSchema = (schema: JSONSchema4) => {
   if (schema.properties) {
     const pattern = schema.properties.schema.pattern
     if (pattern?.startsWith('/^') && pattern?.endsWith('$/')) {
+      console.log(`getSchemaNameFromSchema: ${pattern.substring(2, pattern.length - 2)}`)
       return pattern.substring(2, pattern.length - 2)
     }
   }
+  console.log('getSchemaNameFromSchema: undefined')
 }
 
 export class XyoSchemaCache {
@@ -30,7 +32,7 @@ export class XyoSchemaCache {
             const schema = alias as XyoSchemaPayload
             //only store them if they match the schema root
             if (schema.definition) {
-              const ajv = new Ajv()
+              const ajv = new Ajv({ strict: false })
               //check if it is a valid schema def
               ajv.compile(schema.definition)
               const schemaName = getSchemaNameFromSchema(schema.definition)

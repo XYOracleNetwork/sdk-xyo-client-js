@@ -5,8 +5,6 @@ import { XyoAbstractData } from './AbstractData'
 import { XyoDataLike } from './XyoDataLike'
 
 const stringToUint8Array = (value: string) => {
-  console.log(`stringToUint8Array: ${value}`)
-  console.log(`stringToUint8Array-slice: ${value.slice(2)}`)
   return bufferToUint8Array(Buffer.from(value.startsWith('0x') ? value.slice(2) : value, 'hex'))
 }
 

@@ -1,5 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
-import { Buffer } from 'buffer'
+import { assertEx, Buffer } from '@xylabs/sdk-js'
 
 import { sortFields, XyoHasher } from '../../Hasher'
 import { XyoPayload, XyoPayloadBody } from '../../Payload'

@@ -1,4 +1,4 @@
-import { Huri, XyoAddressValue, XyoDomainConfig, XyoPayload } from '../../core'
+import { Huri, XyoAddressValue, XyoDataLike, XyoDomainConfig, XyoPayload } from '../../core'
 import { XyoApiBase } from '../Base'
 import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'
 import { XyoApiSimple } from '../Simple'
@@ -57,11 +57,11 @@ export class XyoArchivistApi extends XyoApiBase {
   }
 
   /** @deprecated use account instead */
-  public wallet(address: string | XyoAddressValue) {
+  public wallet(address: XyoDataLike) {
     return this.account(address)
   }
 
-  public account(address: string | XyoAddressValue) {
+  public account(address: XyoDataLike) {
     return new XyoAccountApi({
       ...this.config,
       root: `${this.root}wallet/${new XyoAddressValue(address).hex}/`,

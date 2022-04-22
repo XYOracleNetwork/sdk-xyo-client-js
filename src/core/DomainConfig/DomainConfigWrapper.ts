@@ -25,6 +25,7 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
     if (this.payload.aliases) {
       const payloads: (XyoPayload | undefined)[] = await Promise.all(
         this.payload.aliases?.map((alias) => {
+          console.log(`Loading Alias: ${alias.huri}`)
           return new Huri(alias.huri, { archivistUri }).fetch()
         })
       )

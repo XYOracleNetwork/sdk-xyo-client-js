@@ -58,10 +58,7 @@ export class XyoArchivistApi extends XyoApiBase {
 
   /** @deprecated use account instead */
   public wallet(address: string | XyoAddressValue) {
-    return new XyoAccountApi({
-      ...this.config,
-      root: `${this.root}wallet/${new XyoAddressValue(address).hex}/`,
-    })
+    return this.account(address)
   }
 
   public account(address: string | XyoAddressValue) {

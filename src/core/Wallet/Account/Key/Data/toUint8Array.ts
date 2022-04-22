@@ -1,4 +1,4 @@
-import { assertEx, BigNumber, bufferPolyfill } from '@xylabs/sdk-js'
+import { assertEx, BigNumber } from '@xylabs/sdk-js'
 import { Buffer } from 'buffer'
 
 import { ifTypeOf } from '../../../../../lib'
@@ -26,8 +26,6 @@ export const toUint8ArrayOptional = (value?: XyoDataLike, padLength?: number): U
 }
 
 export const toUint8Array = (value: XyoDataLike, padLength?: number): Uint8Array => {
-  bufferPolyfill()
-
   let result: Uint8Array | undefined =
     ifTypeOf<string, Uint8Array>('string', value as string, stringToUint8Array) ??
     ifTypeOf<BigNumber, Uint8Array | undefined>('object', value as BigNumber, bigNumberToUint8Array, BigNumber.isBN) ??

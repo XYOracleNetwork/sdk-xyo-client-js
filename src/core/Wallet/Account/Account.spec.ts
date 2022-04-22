@@ -48,15 +48,15 @@ test('Address from Key', () => {
 
 test('Sign-fromPrivateKey', () => {
   const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
-  const signature = wallet.sign('x')
-  const valid = wallet.verify('x', signature)
+  const signature = wallet.sign('1234567890abcdef')
+  const valid = wallet.verify('1234567890abcdef', signature)
   expect(valid).toBeTruthy()
 })
 
 test('Sign-fromPhrase', () => {
   const wallet = XyoAccount.fromPhrase('test')
-  const signature = wallet.sign('x')
-  const valid = wallet.verify('x', signature)
+  const signature = wallet.sign('1234567890abcdef')
+  const valid = wallet.verify('1234567890abcdef', signature)
   expect(valid).toBeTruthy()
 })
 
@@ -73,19 +73,19 @@ test('Sign-testVectors', () => {
 
 test('Constructor', () => {
   const wallet1 = new XyoAccount()
-  const wallet2 = new XyoAccount({ privateKey: wallet1.private })
+  const wallet2 = new XyoAccount({ privateKey: wallet1.private.bytes })
   expect(wallet1.public.hex).toEqual(wallet2.public.hex)
   expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
 })
 
 test('Sign-random-string', () => {
   const wallet = XyoAccount.random()
-  const signature = wallet.sign('x')
+  const signature = wallet.sign('1234567890abcdef')
   const signaturePrime = toUint8Array(signature)
   expect(signature.length).toBe(signaturePrime.length)
   for (let i = 0; i < signature.length; i++) {
     expect(signature[i]).toBe(signaturePrime[i])
   }
-  const valid = wallet.verify('x', signature)
+  const valid = wallet.verify('1234567890abcdef', signature)
   expect(valid).toBeTruthy()
 })

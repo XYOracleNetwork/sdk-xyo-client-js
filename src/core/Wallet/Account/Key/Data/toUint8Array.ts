@@ -1,16 +1,17 @@
-import { assertEx, BigNumber } from '@xylabs/sdk-js'
-import { Buffer } from 'buffer'
+import { assertEx, BigNumber, Buffer } from '@xylabs/sdk-js'
 
 import { ifTypeOf } from '../../../../../lib'
 import { XyoAbstractData } from './AbstractData'
 import { XyoDataLike } from './XyoDataLike'
 
 const stringToUint8Array = (value: string) => {
-  return bufferToUint8Array(Buffer.from(value.startsWith('0x') ? value.substring(2) : value, 'hex'))
+  console.log(`stringToUint8Array: ${value}`)
+  console.log(`stringToUint8Array-slice: ${value.slice(2)}`)
+  return bufferToUint8Array(Buffer.from(value.startsWith('0x') ? value.slice(2) : value, 'hex'))
 }
 
 const bigNumberToUint8Array = (value: BigNumber) => {
-  return bufferToUint8Array(value.toBuffer())
+  return bufferToUint8Array(Buffer.from(value.toBuffer()))
 }
 
 const bufferToUint8Array = (value: Buffer) => {

@@ -1,5 +1,4 @@
-import { BigNumber } from '@xylabs/sdk-js'
-import { Buffer } from 'buffer'
+import { BigNumber, Buffer } from '@xylabs/sdk-js'
 
 export abstract class XyoAbstractData {
   private _isXyoData = true

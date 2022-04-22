@@ -8,7 +8,7 @@ export class XyoPublicKey extends XyoEllipticKey {
     super(64, bytes)
   }
   public get address() {
-    return new XyoAddressValue(this.keccak256.subarray(12).toString('hex').padStart(40, '0'))
+    return new XyoAddressValue(this.keccak256.slice(12).toString('hex').padStart(40, '0'))
   }
 
   public verify(msg: Uint8Array | string, signature: Uint8Array | string) {

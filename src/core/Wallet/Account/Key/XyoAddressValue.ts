@@ -1,22 +1,19 @@
-import { Buffer } from 'buffer'
-import keccak256 from 'keccak256'
-
-import { toUint8Array, XyoDataLike } from './Data'
+import { toUint8Array, XyoData, XyoDataLike } from './Data'
 import { XyoEllipticKey } from './XyoEllipticKey'
 
 export class XyoAddressValue extends XyoEllipticKey {
   private _isXyoAddress = true
-  constructor(bytes: XyoDataLike) {
-    super(20, XyoAddressValue.addressFromAddressOrPublicKey(bytes))
+  constructor(address: XyoDataLike) {
+    super(20, XyoAddressValue.addressFromAddressOrPublicKey(address))
   }
 
   public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
-    return XyoAddressValue.verify(msg, signature, this)
+    return XyoAddressValue.verify(msg, signature, this.bytes)
   }
 
   //there has to be a better way to do this other than trying all four numbers
   //maybe we can get the number from the address more easily
-  public static verify(msg: Uint8Array | string, signature: Uint8Array | string, address: string | XyoAddressValue) {
+  public static verify(msg: Uint8Array | string, signature: Uint8Array | string, address: XyoDataLike) {
     let valid = false
     const sigArray = toUint8Array(signature)
     const r = sigArray.slice(0, 32)
@@ -40,10 +37,7 @@ export class XyoAddressValue extends XyoEllipticKey {
   }
 
   public static addressFromPublicKey(key: XyoDataLike) {
-    return keccak256(Buffer.from(toUint8Array(key)))
-      .subarray(12)
-      .toString('hex')
-      .padStart(40, '0')
+    return new XyoData(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
   }
 
   public static addressFromAddressOrPublicKey(bytes: XyoDataLike) {

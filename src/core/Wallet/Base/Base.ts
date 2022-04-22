@@ -14,9 +14,9 @@ export class XyoWalletBase {
 
   public getAccount(index: number) {
     const counter = index
-    let hash = shajs('sha256').update(this._phrase).digest()
+    let hash = shajs('sha256').update(this._phrase).digest().toString('hex')
     while (counter) {
-      hash = shajs('sha256').update(hash).digest()
+      hash = shajs('sha256').update(hash).digest().toString('hex')
     }
     return new XyoAccount({ privateKey: hash })
   }

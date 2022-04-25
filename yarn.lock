@@ -2238,7 +2238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7.0.0":
+"@types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14":
   version: 7.1.19
   resolution: "@types/babel__core@npm:7.1.19"
   dependencies:
@@ -2248,19 +2248,6 @@ __metadata:
     "@types/babel__template": "*"
     "@types/babel__traverse": "*"
   checksum: 8c9fa87a1c2224cbec251683a58bebb0d74c497118034166aaa0491a4e2627998a6621fc71f8a60ffd27d9c0c52097defedf7637adc6618d0331c15adb302338
-  languageName: node
-  linkType: hard
-
-"@types/babel__core@npm:^7.1.14":
-  version: 7.1.18
-  resolution: "@types/babel__core@npm:7.1.18"
-  dependencies:
-    "@babel/parser": ^7.1.0
-    "@babel/types": ^7.0.0
-    "@types/babel__generator": "*"
-    "@types/babel__template": "*"
-    "@types/babel__traverse": "*"
-  checksum: 2e5b5d7c84f347d3789575486e58b0df5c91613abc3d27e716274aba3048518e07e1f068250ba829e2ed58532ccc88da595ce95ba2688e7bbcd7c25a3c6627ed
   languageName: node
   linkType: hard
 
@@ -2283,16 +2270,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__traverse@npm:*, @types/babel__traverse@npm:^7.0.6":
-  version: 7.14.2
-  resolution: "@types/babel__traverse@npm:7.14.2"
-  dependencies:
-    "@babel/types": ^7.3.0
-  checksum: a797ea09c72307569e3ee08aa3900ca744ce3091114084f2dc59b67a45ee7d01df7865252790dbfa787a7915ce892cdc820c9b920f3683292765fc656b08dc63
-  languageName: node
-  linkType: hard
-
-"@types/babel__traverse@npm:^7.0.4":
+"@types/babel__traverse@npm:*, @types/babel__traverse@npm:^7.0.4, @types/babel__traverse@npm:^7.0.6":
   version: 7.17.0
   resolution: "@types/babel__traverse@npm:7.17.0"
   dependencies:
@@ -2918,15 +2896,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-js@npm:^2.4.11, @xylabs/sdk-js@npm:^2.4.2":
-  version: 2.4.11
-  resolution: "@xylabs/sdk-js@npm:2.4.11"
+"@xylabs/sdk-js@npm:^2.4.12, @xylabs/sdk-js@npm:^2.4.2":
+  version: 2.4.12
+  resolution: "@xylabs/sdk-js@npm:2.4.12"
   dependencies:
     axios: ^0.26.1
     bn.js: ^5.2.0
     buffer: ^6.0.3
     rollbar: ^2.25.0
-  checksum: d1bd9075c98d4c10641de40d1a611744ff538b781e85ae7a77e182a1854f1384ecc4241434839082fdaa6eb429c541634f250c26d951c07c477abdd223657f1d
+  checksum: 957e427ca13d73ba195230aa57e8a8317d6226f9de6287b0cc53b38b7a236b8735204588a5d1d88231e95770685828b5f5acc49af9383918e53cf2b4376d06a8
   languageName: node
   linkType: hard
 
@@ -3024,7 +3002,7 @@ __metadata:
     "@types/uuid": ^8.3.4
     "@xylabs/eslint-config": ^2.3.22
     "@xylabs/rollup-config": ^1.1.15
-    "@xylabs/sdk-js": ^2.4.11
+    "@xylabs/sdk-js": ^2.4.12
     "@xylabs/ts-scripts": ^1.0.53
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.7
@@ -3037,7 +3015,7 @@ __metadata:
     dotenv: ^16.0.0
     elliptic: ^6.5.4
     eslint: ^8.14.0
-    jest: ^27
+    jest: ^27.5.1
     jest-sorted: ^1.0.14
     keccak256: ^1.0.6
     license-checker: ^25.0.1
@@ -3055,7 +3033,7 @@ __metadata:
     rollup: ^2.70.2
     sha.js: ^2.4.11
     systeminformation: ^5.11.14
-    ts-jest: ^27
+    ts-jest: ^27.1.4
     ts-node: ^10.7.0
     tslib: ^2.4.0
     typedoc: ^0.22.15
@@ -7158,7 +7136,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:^27":
+"jest@npm:^27.5.1":
   version: 27.5.1
   resolution: "jest@npm:27.5.1"
   dependencies:
@@ -12135,7 +12113,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^27":
+"ts-jest@npm:^27.1.4":
   version: 27.1.4
   resolution: "ts-jest@npm:27.1.4"
   dependencies:

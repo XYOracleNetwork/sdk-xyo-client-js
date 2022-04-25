@@ -17,6 +17,7 @@ const getSchemaNameFromSchema = (schema: JSONSchema4) => {
 }
 
 export class XyoSchemaCache {
+  public proxy = 'https://api.archivist.xyo.network/domain'
   private cache = new LRU<string, XyoPayload | null>({ max: 500, ttl: 1000 * 60 * 5 })
 
   private cacheSchemaIfValid(schema: XyoSchemaPayload) {
@@ -43,7 +44,7 @@ export class XyoSchemaCache {
   //Note: there is a race condition in here if two threads (or promises) start a get at the same time, they will both do the discovery
   public async get(schema: string) {
     const loadSchema = async (schema: string) => {
-      const domain = await XyoDomainConfigWrapper.discover(schema)
+      const domain = await XyoDomainConfigWrapper.discover(schema, this.proxy)
       await domain?.fetch()
       this.cacheSchemas(domain?.aliases)
 

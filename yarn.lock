@@ -2896,15 +2896,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-js@npm:^2.4.12, @xylabs/sdk-js@npm:^2.4.2":
-  version: 2.4.12
-  resolution: "@xylabs/sdk-js@npm:2.4.12"
+"@xylabs/sdk-js@npm:^2.4.2, @xylabs/sdk-js@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "@xylabs/sdk-js@npm:2.5.2"
   dependencies:
     axios: ^0.26.1
     bn.js: ^5.2.0
     buffer: ^6.0.3
     rollbar: ^2.25.0
-  checksum: 957e427ca13d73ba195230aa57e8a8317d6226f9de6287b0cc53b38b7a236b8735204588a5d1d88231e95770685828b5f5acc49af9383918e53cf2b4376d06a8
+  checksum: 1362b0eab9df75e88b8a6bab5ed0d97da21bf4441478b084cc6dc3fa7b4f7c066d1d1adfcf34ca059e736a54ee45ab16a1738fe8e09357c4b75324e345228077
   languageName: node
   linkType: hard
 
@@ -3002,7 +3002,7 @@ __metadata:
     "@types/uuid": ^8.3.4
     "@xylabs/eslint-config": ^2.3.22
     "@xylabs/rollup-config": ^1.1.15
-    "@xylabs/sdk-js": ^2.4.12
+    "@xylabs/sdk-js": ^2.5.2
     "@xylabs/ts-scripts": ^1.0.53
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.7

@@ -4,14 +4,13 @@
     "name": "XYO Development Team",
     "url": "https://xyo.network"
   },
-  "browser": "dist/browserIndex.js",
   "bugs": {
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
     "@ethersproject/providers": "^5.6.4",
-    "@xylabs/sdk-js": "^2.4.12",
+    "@xylabs/sdk-js": "^2.5.2",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.7",
     "ajv": "^8.11.0",
     "axios": "^0.26.1",
@@ -69,6 +68,7 @@
     "typedoc": "^0.22.15",
     "typescript": "^4.6.3"
   },
+  "browser": "dist/browserIndex.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
@@ -87,10 +87,10 @@
     },
     "./package.json": "./package.json"
   },
-  "homepage": "https://xyo.network",
-  "license": "LGPL-3.0-only",
   "main": "dist/bundle/node/index.js",
   "module": "dist/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
   "name": "@xyo-network/sdk-xyo-client-js",
   "publishConfig": {
     "access": "public"

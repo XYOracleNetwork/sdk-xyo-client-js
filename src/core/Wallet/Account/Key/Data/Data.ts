@@ -1,4 +1,4 @@
-import { assertEx, BigNumber, Buffer } from '@xylabs/sdk-js'
+import { assertEx, BigNumber, Buffer, bufferPolyfill } from '@xylabs/sdk-js'
 import keccak256 from 'keccak256'
 
 import { XyoAbstractData } from './AbstractData'
@@ -38,6 +38,7 @@ export class XyoData extends XyoAbstractData {
   }
 
   public get keccak256() {
+    bufferPolyfill()
     this.checkLength()
     return Buffer.from(keccak256(`0x${this.buffer.toString('hex')}`))
   }

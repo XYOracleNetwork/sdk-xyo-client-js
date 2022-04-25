@@ -1,3 +1,3 @@
 export const isBrowser = () => {
-  return process === undefined
+  return typeof process === 'undefined'
 }

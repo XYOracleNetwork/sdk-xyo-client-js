@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import reverse from 'lodash/reverse'
 
-import { DnsRecordType, domainResolve } from '../../lib'
+import { DnsRecordType, domainResolve, isBrowser } from '../../lib'
 import { Huri } from '../Huri'
 import { XyoPayload, XyoPayloadWrapper } from '../Payload'
 import { XyoDomainConfig } from './DomainConfig'
@@ -37,13 +37,27 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
     await this.fetchAliases(networkSlug)
   }
 
-  private static async discoverRootFile(domain: string) {
+  private static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
+    try {
+      const config = (await axios.get<XyoDomainConfig>(`${proxy}${domain.split('.').reverse().join('.')}`)).data
+      return new XyoDomainConfigWrapper(config)
+    } catch (ex) {
+      const error = ex as AxiosError
+      console.log(`XyoDomainConfig root file not found using proxy [${domain}] [${error.code}]`)
+    }
+  }
+
+  private static async discoverRootFileDirect(domain: string) {
     try {
       const config = (await axios.get<XyoDomainConfig>(`https://${domain}/xyo-config.json`)).data
       return new XyoDomainConfigWrapper(config)
     } catch (ex) {
       console.log(`XyoDomainConfig root file not found [${domain}]`)
     }
+  }
+
+  private static async discoverRootFile(domain: string, proxy?: string) {
+    return isBrowser() ? await this.discoverRootFileWithProxy(domain, proxy) : await this.discoverRootFileDirect(domain)
   }
 
   private static async discoverDNSEntry(domain: string) {
@@ -61,11 +75,11 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
     }
   }
 
-  public static async discover(reverseDomainName: string) {
+  public static async discover(reverseDomainName: string, proxy?: string) {
     const parts = reverseDomainName.split('.')
     for (let i = 2; i <= parts.length; i++) {
       const domainToCheck = reverse(parts.filter((_, index) => index < i)).join('.')
-      return (await this.discoverDNSEntry(domainToCheck)) ?? (await this.discoverRootFile(domainToCheck))
+      return (await this.discoverDNSEntry(domainToCheck)) ?? (await this.discoverRootFile(domainToCheck, proxy))
     }
   }
 }

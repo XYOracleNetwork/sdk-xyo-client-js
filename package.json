@@ -118,7 +118,7 @@
     "test:payload": "jest ./src/Payload",
     "test:hasher": "jest ./src/Hasher",
     "test:huri": "jest ./src/core/Huri",
-    "test:core:domainconfig": "jest ./src/core/DomainConfig",
+    "test:domainconfig": "jest ./src/domain",
     "test:schemacache": "jest ./src/SchemaCache",
     "test:panel": "jest ./src/Panel",
     "test:wallet": "jest ./src/core/Wallet",
@@ -128,6 +128,6 @@
   },
   "sideEffects": true,
   "types": "dist/index.d.ts",
-  "version": "2.19.11",
+  "version": "2.19.12",
   "packageManager": "yarn@3.1.1"
 }

@@ -1,5 +1,6 @@
 export * from './Api'
 export * from './core'
+export * from './domain'
 export * from './Panel'
 export * from './SchemaCache'
 export * from './SchemaNameValidator'

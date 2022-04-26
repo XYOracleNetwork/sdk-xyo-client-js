@@ -1,4 +1,4 @@
-import { XyoPayload } from '../Payload'
+import { XyoPayload } from '../core'
 
 export type XyoNodeType = 'archivist' | 'diviner' | 'bridge' | 'sentinel'
 

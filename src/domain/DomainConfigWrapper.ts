@@ -25,7 +25,6 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
     if (this.payload.aliases) {
       const payloads: (XyoPayload | undefined)[] = await Promise.all(
         this.payload.aliases?.map((alias) => {
-          console.log(`Loading Alias: ${alias.huri}`)
           return new Huri(alias.huri, { archivistUri }).fetch()
         })
       )
@@ -35,18 +34,15 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
 
   public async fetch(networkSlug?: string) {
     await this.fetchAliases(networkSlug)
-    console.log(`After: ${JSON.stringify(this, null, 2)}`)
   }
 
   public static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
     try {
-      console.log(`discoverRootFileWithProxy: ${domain}, ${proxy}`)
       const requestUrl = `${proxy}/${domain.split('.').reverse().join('.')}`
-      console.log(`requestUrl: ${requestUrl}`)
-      const config = await axios.get<XyoApiEnvelope<XyoDomainConfig>>(requestUrl)
-      console.log(`CONFIG: ${JSON.stringify(config, null, 2)}`)
-      return new XyoDomainConfigWrapper(config.data.data)
+      const config = (await axios.get<XyoApiEnvelope<XyoDomainConfig>>(requestUrl)).data.data
+      return new XyoDomainConfigWrapper(config)
     } catch (ex) {
+      console.log(ex)
       const error = ex as AxiosError
       console.log(`XyoDomainConfig root file not found using proxy [${domain}] [${error.code}]`)
     }

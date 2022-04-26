@@ -1,10 +1,9 @@
 import axios, { AxiosError } from 'axios'
 import reverse from 'lodash/reverse'
 
-import { XyoApiEnvelope } from '../../Api'
-import { DnsRecordType, domainResolve, isBrowser } from '../../lib'
-import { Huri } from '../Huri'
-import { XyoPayload, XyoPayloadWrapper } from '../Payload'
+import { XyoApiEnvelope } from '../Api'
+import { Huri, XyoPayload, XyoPayloadWrapper } from '../core'
+import { DnsRecordType, domainResolve, isBrowser } from '../lib'
 import { XyoDomainConfig } from './DomainConfig'
 
 export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {

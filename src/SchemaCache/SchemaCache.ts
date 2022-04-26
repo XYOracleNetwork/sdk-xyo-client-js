@@ -2,7 +2,8 @@ import Ajv from 'ajv'
 import { JSONSchema4 } from 'json-schema'
 import LRU from 'lru-cache'
 
-import { XyoDomainConfigWrapper, XyoPayload } from '../core'
+import { XyoPayload } from '../core'
+import { XyoDomainConfigWrapper } from '../domain'
 import { XyoSchemaPayload } from '../Witnesses'
 
 const getSchemaNameFromSchema = (schema: JSONSchema4) => {

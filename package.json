@@ -118,7 +118,7 @@
     "test:payload": "jest ./src/Payload",
     "test:hasher": "jest ./src/Hasher",
     "test:huri": "jest ./src/core/Huri",
-    "test:core:domainconfig": "jest ./src/core/DomainConfig",
+    "test:domainconfig": "jest ./src/domain",
     "test:schemacache": "jest ./src/SchemaCache",
     "test:panel": "jest ./src/Panel",
     "test:wallet": "jest ./src/core/Wallet",

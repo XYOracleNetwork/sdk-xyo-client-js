@@ -2,7 +2,7 @@ import Ajv from 'ajv'
 import { JSONSchema4 } from 'json-schema'
 import LRU from 'lru-cache'
 
-import { XyoPayload } from '../core'
+import { XyoFetchedPayload } from '../core'
 import { XyoDomainConfigWrapper } from '../domain'
 import { XyoSchemaPayload } from '../Witnesses'
 
@@ -17,28 +17,30 @@ const getSchemaNameFromSchema = (schema: JSONSchema4) => {
   console.log('getSchemaNameFromSchema: undefined')
 }
 
+export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
+
 export class XyoSchemaCache {
   public proxy = 'https://api.archivist.xyo.network/domain'
-  private cache = new LRU<string, XyoPayload | null>({ max: 500, ttl: 1000 * 60 * 5 })
+  private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
 
-  private cacheSchemaIfValid(schema: XyoSchemaPayload) {
+  private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
     //only store them if they match the schema root
-    if (schema.definition) {
+    if (entry.payload.definition) {
       const ajv = new Ajv({ strict: false })
       //check if it is a valid schema def
-      ajv.compile(schema.definition)
-      const schemaName = getSchemaNameFromSchema(schema.definition)
+      ajv.compile(entry.payload.definition)
+      const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
-        this.cache.set(schemaName, schema)
+        this.cache.set(schemaName, entry)
       }
     }
   }
 
-  private cacheSchemas(aliases?: XyoPayload[] | null) {
-    aliases
-      ?.filter((alias) => alias.schema === 'network.xyo.schema')
-      .forEach((alias) => {
-        this.cacheSchemaIfValid(alias as XyoSchemaPayload)
+  private cacheSchemas(aliasEntries?: XyoFetchedPayload[] | null) {
+    aliasEntries
+      ?.filter((entry) => entry.payload.schema === 'network.xyo.schema')
+      .forEach((entry) => {
+        this.cacheSchemaIfValid(entry as XyoSchemaCacheEntry)
       })
   }
 

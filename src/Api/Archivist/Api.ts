@@ -1,4 +1,4 @@
-import { Huri, XyoAddressValue, XyoDataLike, XyoDomainConfig, XyoPayload } from '../../core'
+import { Huri, XyoAddressValue, XyoDataLike, XyoPayload } from '../../core'
 import { XyoApiBase } from '../Base'
 import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'
 import { XyoApiSimple } from '../Simple'
@@ -28,13 +28,6 @@ export class XyoArchivistApi extends XyoApiBase {
         root: `${this.root}stats/`,
       })
     return this._stats
-  }
-
-  public domain(domain: string) {
-    return new XyoApiSimple<XyoDomainConfig>({
-      ...this.config,
-      root: `${this.root}domain/${domain}/`,
-    })
   }
 
   private _user?: XyoUserApi

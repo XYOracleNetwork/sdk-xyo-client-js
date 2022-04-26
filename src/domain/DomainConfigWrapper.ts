@@ -2,12 +2,12 @@ import axios, { AxiosError } from 'axios'
 import reverse from 'lodash/reverse'
 
 import { XyoApiEnvelope } from '../Api'
-import { Huri, XyoPayload, XyoPayloadWrapper } from '../core'
+import { Huri, HuriOptions, XyoFetchedPayload, XyoPayloadWrapper } from '../core'
 import { DnsRecordType, domainResolve, isBrowser } from '../lib'
-import { XyoDomainConfig } from './DomainConfig'
+import { XyoAlias, XyoDomainConfig } from './DomainConfig'
 
 export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
-  public aliases?: XyoPayload[] | null
+  public aliases?: XyoFetchedPayload[] | null
 
   private getNetwork(slug?: string) {
     return slug ? this.payload.networks?.find((value) => value.slug === slug) : this.payload.networks?.[0]
@@ -17,18 +17,25 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
     return this.getNetwork(networkSlug)?.nodes.find((value) => value.type === 'archivist')?.uri
   }
 
+  private async fetchAlias(alias: XyoAlias, huriOptions?: HuriOptions): Promise<XyoFetchedPayload | null> {
+    const huri = new Huri(alias.huri, huriOptions)
+    const payload = await huri.fetch()
+    return payload ? { huri, payload: payload } : null
+  }
+
   public async fetchAliases(networkSlug?: string) {
     //set it to null to signify fetch ran
     this.aliases = null
 
     const archivistUri = this.findArchivistUri(networkSlug)
     if (this.payload.aliases) {
-      const payloads: (XyoPayload | undefined)[] = await Promise.all(
+      const fetchedAliases = await Promise.all(
         this.payload.aliases?.map((alias) => {
-          return new Huri(alias.huri, { archivistUri }).fetch()
+          return this.fetchAlias(alias, { archivistUri })
         })
       )
-      this.aliases = payloads.filter((payload) => payload !== undefined) as XyoPayload[]
+      //cast to XyoFetchedPayload[] after we filter out any null/undefined entries
+      this.aliases = fetchedAliases.filter((alias) => alias) as XyoFetchedPayload[]
     }
   }
 

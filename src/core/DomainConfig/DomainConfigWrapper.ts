@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import reverse from 'lodash/reverse'
 
+import { XyoApiEnvelope } from '../../Api'
 import { DnsRecordType, domainResolve, isBrowser } from '../../lib'
 import { Huri } from '../Huri'
 import { XyoPayload, XyoPayloadWrapper } from '../Payload'
@@ -35,19 +36,24 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
 
   public async fetch(networkSlug?: string) {
     await this.fetchAliases(networkSlug)
+    console.log(`After: ${JSON.stringify(this, null, 2)}`)
   }
 
-  private static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
+  public static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
     try {
-      const config = (await axios.get<XyoDomainConfig>(`${proxy}${domain.split('.').reverse().join('.')}`)).data
-      return new XyoDomainConfigWrapper(config)
+      console.log(`discoverRootFileWithProxy: ${domain}, ${proxy}`)
+      const requestUrl = `${proxy}/${domain.split('.').reverse().join('.')}`
+      console.log(`requestUrl: ${requestUrl}`)
+      const config = await axios.get<XyoApiEnvelope<XyoDomainConfig>>(requestUrl)
+      console.log(`CONFIG: ${JSON.stringify(config, null, 2)}`)
+      return new XyoDomainConfigWrapper(config.data.data)
     } catch (ex) {
       const error = ex as AxiosError
       console.log(`XyoDomainConfig root file not found using proxy [${domain}] [${error.code}]`)
     }
   }
 
-  private static async discoverRootFileDirect(domain: string) {
+  public static async discoverRootFileDirect(domain: string) {
     try {
       const config = (await axios.get<XyoDomainConfig>(`https://${domain}/xyo-config.json`)).data
       return new XyoDomainConfigWrapper(config)
@@ -56,11 +62,11 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
     }
   }
 
-  private static async discoverRootFile(domain: string, proxy?: string) {
+  public static async discoverRootFile(domain: string, proxy?: string) {
     return isBrowser() ? await this.discoverRootFileWithProxy(domain, proxy) : await this.discoverRootFileDirect(domain)
   }
 
-  private static async discoverDNSEntry(domain: string) {
+  public static async discoverDNSEntry(domain: string) {
     try {
       const hash = (await domainResolve(`_xyo.${domain}`, DnsRecordType.TXT))?.Answer?.[0]?.data
       if (hash) {

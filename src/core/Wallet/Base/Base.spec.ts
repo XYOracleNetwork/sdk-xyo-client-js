@@ -6,5 +6,5 @@ test('all', () => {
 
   expect(account).toBeDefined()
   expect(account.addressValue.length).toBe(20)
-  expect(account.public.address.hex).toBe('4185bb3c2f439fd36b40fcfd9114626d6c16c426')
+  expect(account.public.address.hex).toBe('8ce36d609316943d9825501eb88b1af1fe4586a0')
 })

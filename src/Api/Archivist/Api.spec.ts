@@ -29,20 +29,6 @@ const getNewArchive = async (api: XyoArchivistApi) => {
   return response?.archive
 }
 
-describe('getDomain', function () {
-  it('gets the domain config', async () => {
-    const api = new XyoArchivistApi(configData)
-    try {
-      const response = await api.domain('network.xyo').get()
-      expect(Object.keys(response?.schema ?? {}).length).toBeGreaterThanOrEqual(2)
-    } catch (ex) {
-      const error = ex as XyoApiError
-      console.log(JSON.stringify(error.response?.data, null, 2))
-      throw ex
-    }
-  })
-})
-
 describe('postBoundWitness', () => {
   it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
     const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAccount.random()).payload(testPayload)

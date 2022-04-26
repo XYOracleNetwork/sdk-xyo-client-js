@@ -21,6 +21,11 @@ export interface HuriOptions {
   archivistUri?: string
 }
 
+export interface XyoFetchedPayload<T extends XyoPayload = XyoPayload> {
+  payload: T
+  huri?: Huri
+}
+
 export class Huri {
   public originaHref: string
   public protocol?: string

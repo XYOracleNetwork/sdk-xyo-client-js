@@ -27,14 +27,14 @@ export interface XyoFetchedPayload<T extends XyoPayload = XyoPayload> {
 }
 
 export class Huri {
-  public originaHref: string
+  public originalHref: string
   public protocol?: string
   public archivist?: string
   public archive?: string
   public hash: string
 
   constructor(huri: string, { archivistUri }: HuriOptions = {}) {
-    this.originaHref = huri
+    this.originalHref = huri
 
     const protocol = Huri.parseProtocol(huri)
     this.protocol = protocol ?? 'https'

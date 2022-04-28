@@ -7,6 +7,8 @@ export interface XyoNodeConfig {
   slug: string
   name: string
   uri: string
+  web?: string
+  docs?: string
 }
 
 export interface XyoNetworkConfig {

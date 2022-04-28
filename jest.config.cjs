@@ -16,10 +16,10 @@ const generateJestConfig = ({ esModules }) => {
     testTimeout: 20000,
     transform: {
       [`(${esModuleslist}).+\\.js$`]: 'babel-jest',
-      '^.+\\.tsx?$': 'ts-jest',
+      '^.+\\.tsx?$': 'ts-jest/legacy',
     },
     transformIgnorePatterns: [`./node_modules/(?!${esModuleslist})`],
   }
 }
 
-module.exports = generateJestConfig({ esModules: ['is-ip', 'ip-regex', 'lodash-es'] })
+module.exports = generateJestConfig({ esModules: ['is-ip', 'ip-regex', 'lodash-es', 'uuid'] })

@@ -64,7 +64,7 @@ export class XyoPanel {
         let error: Error | undefined = undefined
         let postResult: XyoBoundWitness[] | undefined = undefined
         try {
-          postResult = await archivist.archives.archive().block.post([boundWitness])
+          postResult = await archivist.archives.archive(this.config.archive).block.post([boundWitness])
           postResult?.forEach((value) => this.addToHistory({ _archive: this.config.archive, ...value }))
         } catch (ex) {
           error = ex as Error

@@ -1,21 +1,5 @@
 import { XyoPayload } from '../core'
-
-export type XyoNodeType = 'archivist' | 'diviner' | 'bridge' | 'sentinel'
-
-export interface XyoNodeConfig {
-  type: XyoNodeType
-  slug: string
-  name: string
-  uri: string
-  web?: string
-  docs?: string
-}
-
-export interface XyoNetworkConfig {
-  slug: string
-  name: string
-  nodes: XyoNodeConfig[]
-}
+import { XyoNetworkConfig } from '../network'
 
 export interface XyoAlias {
   /** @field cononical name (ex. network.xyo.example) */

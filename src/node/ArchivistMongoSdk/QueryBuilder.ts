@@ -22,8 +22,8 @@ export abstract class XyoQueryBuilder<T extends XyoBoundWitness | XyoPayload> ex
   protected get sort(): { _timestamp: SortDirection } {
     return this._searchDirection === 'desc' ? { _timestamp: -1 } : { _timestamp: 1 }
   }
-  protected get timestampFilter() {
-    return this._searchDirection === 'desc' ? { _timestamp: -1 } : { _timestamp: 1 }
+  protected get filterTimestamp() {
+    return this._searchDirection === 'desc' ? { $lte: this._from } : { $gte: this._from }
   }
 
   public build(): Promise<FindCursor<WithId<T>>> {

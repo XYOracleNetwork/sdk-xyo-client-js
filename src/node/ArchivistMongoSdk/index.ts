@@ -1,4 +1,5 @@
 export * from './BoundWitnessQueryBuilder'
 export * from './BoundWitnessSdk'
+export * from './PayloadQueryBuilder'
 export * from './PayloadSdk'
 export * from './QueryBuilder'

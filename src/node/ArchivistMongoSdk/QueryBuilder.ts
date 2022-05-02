@@ -1,24 +1,36 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { FindCursor, WithId } from 'mongodb'
+import { Collection, Filter, FindCursor, SortDirection, WithId } from 'mongodb'
 
 import { XyoBoundWitness, XyoPayload } from '../../core'
 
-// TODO: Make generic and support XyoBoundWitness | XyoPayload
 export abstract class XyoQueryBuilder<T extends XyoBoundWitness | XyoPayload> extends BaseMongoSdk<T> {
   protected _archive = 'temp'
-  protected _maxTime: number
-  protected _searchDirection: 'asc' | 'desc' = 'desc'
-  protected _schema = ''
-  protected _limit = 10
   protected _from: number = Date.now()
+  protected _limit = 10
+  protected _maxTime: number
+  protected _schema = ''
+  protected _searchDirection: 'asc' | 'desc' = 'desc'
 
   constructor(config: BaseMongoSdkConfig, maxTime = 2000) {
     super(config)
     this._maxTime = maxTime
   }
 
-  public abstract build(): Promise<FindCursor<WithId<T>>>
+  protected abstract get filter(): Filter<T>
+
+  protected get sort(): { _timestamp: SortDirection } {
+    return this._searchDirection === 'desc' ? { _timestamp: -1 } : { _timestamp: 1 }
+  }
+  protected get timestampFilter() {
+    return this._searchDirection === 'desc' ? { _timestamp: -1 } : { _timestamp: 1 }
+  }
+
+  public build(): Promise<FindCursor<WithId<T>>> {
+    return this.useCollection((collection: Collection<T>) => {
+      return collection.find(this.filter).sort(this.sort).limit(this._limit).maxTimeMS(this._maxTime)
+    })
+  }
 
   public get archive(): string {
     return this._archive

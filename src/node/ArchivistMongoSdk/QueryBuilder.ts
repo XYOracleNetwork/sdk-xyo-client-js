@@ -33,32 +33,32 @@ export abstract class XyoQueryBuilder<T extends XyoBoundWitness | XyoPayload> ex
     })
   }
 
-  public after(v: number): this {
-    this._from = v
+  public after(timestamp: number): this {
+    this._from = timestamp
     this._searchDirection = 'asc'
     return this
   }
 
-  public archive(v: string): this {
-    this._archive = v
+  public archive(archive: string): this {
+    this._archive = archive
     return this
   }
 
-  public before(v: number): this {
-    this._from = v
+  public before(timestamp: number): this {
+    this._from = timestamp
     this._searchDirection = 'desc'
     return this
   }
 
-  public limit(v: number): this {
-    const int = parseInt(`${v}`) || 0
+  public limit(limit: number): this {
+    const int = parseInt(`${limit}`) || 0
     assertEx(int > 0 && int <= 100, 'limit must be between 1 and 100')
-    this._limit = v
+    this._limit = limit
     return this
   }
 
-  public schema(v: string): this {
-    this._schema = v
+  public schema(schema: string): this {
+    this._schema = schema
     return this
   }
 }

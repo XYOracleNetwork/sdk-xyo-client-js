@@ -22,6 +22,7 @@ export abstract class XyoQueryBuilder<T extends XyoBoundWitness | XyoPayload> ex
   protected get sort(): { _timestamp: SortDirection } {
     return this._searchDirection === 'desc' ? { _timestamp: -1 } : { _timestamp: 1 }
   }
+
   protected get filterTimestamp() {
     return this._searchDirection === 'desc' ? { $lte: this._from } : { $gte: this._from }
   }
@@ -32,39 +33,32 @@ export abstract class XyoQueryBuilder<T extends XyoBoundWitness | XyoPayload> ex
     })
   }
 
-  public get archive(): string {
-    return this._archive
-  }
-  public set archive(v: string) {
-    this._archive = v
-  }
-
-  public get schema(): string {
-    return this._schema
-  }
-  public set schema(v: string) {
-    this._schema = v
-  }
-
-  public set after(v: number) {
+  public after(v: number): this {
     this._from = v
     this._searchDirection = 'asc'
+    return this
   }
-  public set before(v: number) {
+
+  public archive(v: string): this {
+    this._archive = v
+    return this
+  }
+
+  public before(v: number): this {
     this._from = v
     this._searchDirection = 'desc'
+    return this
   }
 
-  public get from() {
-    return this._from
-  }
-
-  public get limit(): number {
-    return this._limit
-  }
-  public set limit(v: number) {
+  public limit(v: number): this {
     const int = parseInt(`${v}`) || 0
     assertEx(int > 0 && int <= 100, 'limit must be between 1 and 100')
     this._limit = v
+    return this
+  }
+
+  public schema(v: string): this {
+    this._schema = v
+    return this
   }
 }

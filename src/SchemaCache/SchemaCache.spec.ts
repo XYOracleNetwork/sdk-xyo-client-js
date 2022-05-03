@@ -7,12 +7,13 @@ describe('DomainConfigWrapper', () => {
     expect(fetchedPayload?.payload.schema).toBe('network.xyo.schema')
   })
 
-  test('Set Proxy', () => {
+  test('Set Proxy', async () => {
     const cache = XyoSchemaCache.instance
-    // Update once `/domain` endpoint is deployed to beta environment
-    // and verify proxy can actually resolve requests
     const proxy = 'http://foo.com'
     cache.proxy = proxy
     expect(cache?.proxy).toBe(proxy)
+
+    const fetchedPayload = await cache.get('network.xyo.schema')
+    expect(fetchedPayload?.payload.schema).toBe('network.xyo.schema')
   })
 })

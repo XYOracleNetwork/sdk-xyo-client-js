@@ -66,7 +66,7 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
   }
 
   public static async discoverRootFile(domain: string, proxy?: string) {
-    return isBrowser() ? await this.discoverRootFileWithProxy(domain, proxy) : await this.discoverRootFileDirect(domain)
+    return isBrowser() || proxy ? await this.discoverRootFileWithProxy(domain, proxy) : await this.discoverRootFileDirect(domain)
   }
 
   public static async discoverDNSEntry(domain: string) {

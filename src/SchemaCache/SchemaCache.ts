@@ -23,6 +23,8 @@ export class XyoSchemaCache {
   public proxy = 'https://api.archivist.xyo.network/domain'
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
 
+  public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
+
   private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
     //only store them if they match the schema root
     if (entry.payload.definition) {
@@ -32,6 +34,7 @@ export class XyoSchemaCache {
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
         this.cache.set(schemaName, entry)
+        this.onSchemaCached?.(schemaName, entry)
       }
     }
   }

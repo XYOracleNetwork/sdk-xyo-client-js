@@ -1,3 +1,6 @@
+import { delay } from '@xylabs/sdk-js'
+
+import { XyoPayload } from '../Payload'
 import { Huri } from './Huri'
 
 const hash = 'fb3606d71dcdd49a0aacc9d234e412684d577803c8a9ed9399a9d3776cc88e24'
@@ -66,6 +69,25 @@ describe('Huri', () => {
     it('Invalid Huri', async () => {
       const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653bad')
       await expect(huri.fetch()).rejects.toThrow()
+    })
+  })
+  describe('Fetch Override', () => {
+    invalid.map((item) => {
+      test(`invalid [${item}]`, async () => {
+        const oldFetch = Huri.fetch
+        Huri.fetch = async (huri: Huri) => {
+          await delay(0)
+          const payload: XyoPayload = {
+            schema: huri.hash,
+          }
+          console.log(`Payload: ${JSON.stringify(payload, null, 2)}`)
+          return payload
+        }
+        const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
+        const result = await huri.fetch()
+        Huri.fetch = oldFetch
+        expect(result?.schema).toBe('18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
+      })
     })
   })
 })

@@ -4,16 +4,17 @@ import reverse from 'lodash/reverse'
 import { XyoApiEnvelope } from '../Api'
 import { Huri, HuriOptions, XyoFetchedPayload, XyoPayloadWrapper } from '../core'
 import { DnsRecordType, domainResolve, isBrowser } from '../lib'
+import { XyoNetworkConfig } from '../network'
 import { XyoAlias, XyoDomainConfig } from './DomainConfig'
 
 export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
   public aliases?: XyoFetchedPayload[] | null
 
-  private getNetwork(slug?: string) {
+  private getNetwork(slug?: string): XyoNetworkConfig | undefined {
     return slug ? this.payload.networks?.find((value) => value.slug === slug) : this.payload.networks?.[0]
   }
 
-  private findArchivistUri(networkSlug?: string) {
+  private findArchivistUri(networkSlug?: string): string | undefined {
     return this.getNetwork(networkSlug)?.nodes.find((value) => value.type === 'archivist')?.uri
   }
 

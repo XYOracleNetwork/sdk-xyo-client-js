@@ -79,24 +79,30 @@ export class XyoPanel {
     return await Promise.allSettled(promises)
   }
 
+  private async generatePayload(witness: XyoWitness, onError?: (witness: XyoWitness, error: Error) => void): Promise<[XyoPayload | null, Error?]> {
+    this.config.onWitnessReportStart?.(witness)
+    const startTime = Date.now()
+    let error: Error | undefined = undefined
+    try {
+      const result = await witness.observe()
+      if (result) {
+        result._observeDuration = Date.now() - startTime
+      }
+      return [result]
+    } catch (ex) {
+      error = ex as Error
+      onError?.(witness, error)
+      return [null, error]
+    }
+  }
+
   private async generatePayloads(witnesses: XyoWitness[], onError?: (witness: XyoWitness, error: Error) => void) {
     const payloads = await Promise.all(
       witnesses.map(async (witness) => {
         this.config.onWitnessReportStart?.(witness)
-        const startTime = Date.now()
-        let result: XyoPayload | undefined = undefined
-        let error: Error | undefined = undefined
-        try {
-          result = await witness.observe()
-        } catch (ex) {
-          error = ex as Error
-          onError?.(witness, error)
-        }
-        if (result) {
-          result._observeDuration = Date.now() - startTime
-        }
+        const [payload, error] = await this.generatePayload(witness, onError)
         this.config.onWitnessReportEnd?.(witness, error)
-        return result ?? null
+        return payload
       })
     )
     return payloads
@@ -105,9 +111,7 @@ export class XyoPanel {
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []) {
     const errors: Error[] = []
     this.config.onReportStart?.()
-    const allWitnesses: XyoWitness<XyoPayload>[] = []
-    allWitnesses.push(...adhocWitnesses)
-    allWitnesses.push(...this.config.witnesses)
+    const allWitnesses: XyoWitness<XyoPayload>[] = [...adhocWitnesses, ...this.config.witnesses]
     const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads ?? true })
       .payloads(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
       .witness(this.config.account)

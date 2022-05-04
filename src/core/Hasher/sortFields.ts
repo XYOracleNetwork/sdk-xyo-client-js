@@ -1,3 +1,15 @@
+import { typeOf } from '../../lib'
+
+//if an object, subsort
+const subSort = (value: unknown) => {
+  switch (typeOf(value)) {
+    case 'object':
+      return sortFields(value as Record<string, unknown>)
+    default:
+      return value
+  }
+}
+
 export const sortFields = <T extends Record<string, unknown>>(obj: T) => {
   if (obj === null) {
     return null
@@ -6,13 +18,7 @@ export const sortFields = <T extends Record<string, unknown>>(obj: T) => {
   Object.keys(obj)
     .sort()
     .forEach((key) => {
-      if (Array.isArray(obj[key])) {
-        result[key] = obj[key]
-      } else if (typeof obj[key] === 'object') {
-        result[key] = sortFields(obj[key] as Record<string, unknown>)
-      } else {
-        result[key] = obj[key]
-      }
+      result[key] = subSort(obj[key])
     })
   return result as T
 }

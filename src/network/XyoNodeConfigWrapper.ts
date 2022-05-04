@@ -12,7 +12,7 @@ export class XyoNodeConfigWrapper {
   }
 
   static known(slug: string) {
-    const config = assertEx(knownArchivists.find((config) => config.slug === slug) ?? knownDiviners.find((config) => config.slug === slug), 'Unknown node')
+    const config = assertEx(knownArchivists().find((config) => config.slug === slug) ?? knownDiviners().find((config) => config.slug === slug), 'Unknown node')
     return new XyoNodeConfigWrapper(config)
   }
 }

@@ -5,6 +5,24 @@ import { XyoWitnessConfig } from '../../../core'
 import { XyoSystemInfoWitness } from '../../../Witnesses'
 import { XyoSystemInfoNodePayload } from './Payload'
 
+const defaultSystemInfoConfig = () => {
+  return {
+    audio: '*',
+    battery: '*',
+    bluetooth: '*',
+    cpu: '*',
+    diskLayout: '*',
+    graphics: '*',
+    mem: '*',
+    networkInterfaces: '*',
+    osInfo: '*',
+    printer: '*',
+    system: '*',
+    usb: '*',
+    wifiInterfaces: '*',
+  }
+}
+
 export interface XyoSystemInfoNodeWitnessConfig<T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload> extends XyoWitnessConfig<T> {
   nodeValues?: Record<string, string>
 }
@@ -17,23 +35,7 @@ export class XyoSystemInfoNodeWitness<
     super(config, baseSchema)
   }
   override async observe(fields?: Partial<T>) {
-    const node = await get(
-      this.config.nodeValues ?? {
-        audio: '*',
-        battery: '*',
-        bluetooth: '*',
-        cpu: '*',
-        diskLayout: '*',
-        graphics: '*',
-        mem: '*',
-        networkInterfaces: '*',
-        osInfo: '*',
-        printer: '*',
-        system: '*',
-        usb: '*',
-        wifiInterfaces: '*',
-      }
-    )
+    const node = await get(this.config.nodeValues ?? defaultSystemInfoConfig())
     return await super.observe(merge({ node }, fields))
   }
 

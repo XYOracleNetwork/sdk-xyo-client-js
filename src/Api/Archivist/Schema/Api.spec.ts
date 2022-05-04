@@ -8,7 +8,7 @@ const config: XyoApiConfig = {
 describe('XyoArchivistSchemaApi', () => {
   it('calculates the correct path', () => {
     const api = new XyoArchivistApi(config)
-    const path = api.schemas.schema('foo.bar.baz').config.root
+    const path = api.schema('foo.bar.baz').config.root
     expect(path).toBe('/schema/foo.bar.baz/')
   })
 })

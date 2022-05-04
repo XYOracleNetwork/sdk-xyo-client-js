@@ -13,11 +13,4 @@ describe('XyoArchivistSchemasApi', () => {
       expect(path).toBe('/schema/')
     })
   })
-  describe('recent', () => {
-    it('calculates the correct path', () => {
-      const api = new XyoArchivistApi(config)
-      const path = api.schemas.recent.config.root
-      expect(path).toBe('/schema/recent/')
-    })
-  })
 })

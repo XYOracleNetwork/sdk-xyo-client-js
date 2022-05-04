@@ -6,9 +6,18 @@ const config: XyoApiConfig = {
 }
 
 describe('XyoArchivistSchemasApi', () => {
-  it('calculates the correct path', () => {
-    const api = new XyoArchivistApi(config)
-    const path = api.schemas.config.root
-    expect(path).toBe('/schema/')
+  describe('schema', () => {
+    it('calculates the correct path', () => {
+      const api = new XyoArchivistApi(config)
+      const path = api.archive('foo').schemas.config.root
+      expect(path).toBe('/archive/foo/schema/')
+    })
+  })
+  describe('recent', () => {
+    it('calculates the correct path', () => {
+      const api = new XyoArchivistApi(config)
+      const path = api.archive('foo').schemas.recent.config.root
+      expect(path).toBe('/archive/foo/schema/recent/')
+    })
   })
 })

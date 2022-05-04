@@ -1,19 +1,28 @@
 import { XyoSchemaCache } from './SchemaCache'
 
-describe('DomainConfigWrapper', () => {
+const proxy = 'https://beta.api.archivist.xyo.network/domain'
+
+describe('XyoSchemaCache', () => {
+  beforeEach(() => {
+    XyoSchemaCache.instance.proxy = proxy
+  })
+
   test('Valid', async () => {
     const cache = XyoSchemaCache.instance
     const fetchedPayload = await cache.get('network.xyo.schema')
     expect(fetchedPayload?.payload.schema).toBe('network.xyo.schema')
   })
 
-  test('Set Proxy', async () => {
+  test('Not In Cache', async () => {
     const cache = XyoSchemaCache.instance
-    const proxy = 'http://foo.com'
-    cache.proxy = proxy
-    expect(cache?.proxy).toBe(proxy)
+    const fetchedPayload = await cache.get('foo.domain.com')
+    expect(fetchedPayload).toBeNull()
+  })
 
-    const fetchedPayload = await cache.get('network.xyo.schema')
-    expect(fetchedPayload?.payload.schema).toBe('network.xyo.schema')
+  test('Set Proxy', () => {
+    const cache = XyoSchemaCache.instance
+    const testProxy = 'http://foo.com'
+    cache.proxy = testProxy
+    expect(cache?.proxy).toBe(testProxy)
   })
 })

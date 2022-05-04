@@ -2,6 +2,7 @@ import { XyoArchive } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { XyoArchivistArchiveBlockApi } from '../Block'
 import { XyoArchivistArchivePayloadApi } from '../Payload'
+import { XyoArchivistArchiveSchemaApi } from './Schema'
 import { XyoArchivistArchiveSettingsApi } from './Settings'
 
 export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
@@ -36,5 +37,16 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
         root: `${this.root}settings/`,
       })
     return this._settings
+  }
+
+  private _schema?: XyoArchivistArchiveSchemaApi
+  public get schema(): XyoArchivistArchiveSchemaApi {
+    this._schema =
+      this._schema ??
+      new XyoArchivistArchiveSchemaApi({
+        ...this.config,
+        root: `${this.root}schema/`,
+      })
+    return this._schema
   }
 }

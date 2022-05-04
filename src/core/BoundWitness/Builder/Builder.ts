@@ -57,20 +57,26 @@ export class XyoBoundWitnessBuilder {
     }
   }
 
+  private signatures(_hash: string) {
+    return this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
+  }
+
+  private inlinePayloads() {
+    return this._payloads.map<XyoPayloadBody>((payload, index) => {
+      return {
+        ...payload,
+        schema: this._payload_schemas[index],
+      }
+    })
+  }
+
   public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = new XyoHasher(hashableFields).sortedHash()
 
-    const _signatures = this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
-    const _timestamp = Date.now()
-    const ret = { ...hashableFields, _client: 'js', _hash, _signatures, _timestamp } as XyoBoundWitness
+    const ret = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() } as XyoBoundWitness
     if (this.config.inlinePayloads) {
-      ret._payloads = this._payloads.map<XyoPayloadBody>((payload, index) => {
-        return {
-          ...payload,
-          schema: this._payload_schemas[index],
-        }
-      })
+      ret._payloads = this.inlinePayloads()
     }
     return ret
   }

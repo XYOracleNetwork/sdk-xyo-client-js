@@ -33,7 +33,7 @@ export class XyoNetworkConfigWrapper {
 
   static known(slug: string) {
     const config = assertEx(
-      knownNetworks.find((config) => config.slug === slug),
+      knownNetworks().find((config) => config.slug === slug),
       'Unknown network'
     )
     return new XyoNetworkConfigWrapper(config)

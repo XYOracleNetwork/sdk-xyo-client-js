@@ -32,13 +32,10 @@ export const toUint8Array = (value: XyoDataLike, padLength?: number): Uint8Array
     ifTypeOf<XyoAbstractData, Uint8Array | undefined>('object', value as Buffer, xyoDataToUint8Array, XyoAbstractData.isXyoData) ??
     (value as Uint8Array)
 
-  if (padLength !== undefined) {
-    if (result.length < padLength) {
-      result = new Uint8Array([...new Uint8Array(padLength - result.length), ...result])
-    }
+  if (padLength && result.length < padLength) {
+    result = new Uint8Array([...new Uint8Array(padLength - result.length), ...result])
+    assertEx(result?.length <= padLength, 'Resulting length is greater than padLength')
   }
-
-  assertEx(padLength === undefined || result?.length <= padLength, 'Resulting length is greater than padLength')
 
   return result
 }

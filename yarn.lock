@@ -3040,6 +3040,7 @@ __metadata:
     dotenv: ^16.0.0
     elliptic: ^6.5.4
     eslint: ^8.14.0
+    is-ip: ^4.0.0
     jest: ^28.0.3
     jest-environment-jsdom: ^28.0.2
     jest-sorted: ^1.0.14
@@ -6153,6 +6154,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ip-regex@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "ip-regex@npm:5.0.0"
+  checksum: 4098b2df89c015f1484a5946e733ec126af8c1828719d90e09f04af23ce487e1a852670e4d3f51b0dc6dfbaf7d8bfab23fd7893ca60e69833da99b7b1ee3623b
+  languageName: node
+  linkType: hard
+
 "ip@npm:^1.1.5":
   version: 1.1.5
   resolution: "ip@npm:1.1.5"
@@ -6334,6 +6342,15 @@ __metadata:
     global-dirs: ^3.0.0
     is-path-inside: ^3.0.2
   checksum: 3359840d5982d22e9b350034237b2cda2a12bac1b48a721912e1ab8e0631dd07d45a2797a120b7b87552759a65ba03e819f1bd63f2d7ab8657ec0b44ee0bf399
+  languageName: node
+  linkType: hard
+
+"is-ip@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "is-ip@npm:4.0.0"
+  dependencies:
+    ip-regex: ^5.0.0
+  checksum: 6bbf3b83b18b02e6cf6b26d16c0d2de38bf5b2f5597de2b902894a83764ae6879f9acd1baec653b47b18a67a975c0cade779f3485e96a6b2cd09a26407d82991
   languageName: node
   linkType: hard
 

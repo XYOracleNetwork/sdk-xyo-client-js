@@ -82,7 +82,6 @@ export class XyoPanel {
   private async generatePayload(witness: XyoWitness, onError?: (witness: XyoWitness, error: Error) => void): Promise<[XyoPayload | null, Error?]> {
     this.config.onWitnessReportStart?.(witness)
     const startTime = Date.now()
-    let error: Error | undefined = undefined
     try {
       const result = await witness.observe()
       if (result) {
@@ -90,7 +89,7 @@ export class XyoPanel {
       }
       return [result]
     } catch (ex) {
-      error = ex as Error
+      const error = ex as Error
       onError?.(witness, error)
       return [null, error]
     }

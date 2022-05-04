@@ -84,6 +84,20 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
     return [result?.data?.data, result?.data, result] as XyoApiResponseTuple<T>
   }
 
+  protected handleMonitorResponseError<T>(error: XyoApiError, trapAxiosException: boolean) {
+    if (!error.isXyoError) {
+      throw error
+    }
+
+    if (trapAxiosException) {
+      error.response ? this.onFailure(error.response) : this.onError(error)
+      if (this.config.throwFailure) {
+        throw error
+      }
+      return error.response as XyoApiResponse<XyoApiEnvelope<T>>
+    }
+  }
+
   protected async monitorResponse<T>(closure: () => Promise<XyoApiResponse<XyoApiEnvelope<T>>>) {
     //we use this to prevent accidental catching on exceptions in callbacks
     let trapAxiosException = true
@@ -95,19 +109,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
 
       return response
     } catch (ex) {
-      const error = ex as XyoApiError
-
-      if (!error.isXyoError) {
-        throw ex
-      }
-
-      if (trapAxiosException) {
-        error.response ? this.onFailure(error.response) : this.onError(error)
-        if (this.config.throwFailure) {
-          throw error
-        }
-        return error.response as XyoApiResponse<XyoApiEnvelope<T>>
-      }
+      this.handleMonitorResponseError(ex as XyoApiError, trapAxiosException)
     }
   }
 

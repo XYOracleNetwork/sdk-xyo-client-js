@@ -2,7 +2,7 @@ import { XyoApiBase } from '../../Base'
 import { XyoApiSimple } from '../../Simple'
 
 export interface XyoAccountChallenge {
-  /** @field Server spacific state identifier [out] */
+  /** @field Server specific state identifier [out] */
   state?: string
 }
 

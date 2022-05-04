@@ -1,5 +1,5 @@
 component_depth: 2
 
 exclude:
-  - "**/*.spec.*"
-  - "**/words.ts"
+  - ".*/*.spec.*"
+  - ".*/words.ts"

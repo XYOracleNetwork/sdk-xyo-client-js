@@ -2924,9 +2924,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts@npm:^1.0.64":
-  version: 1.0.64
-  resolution: "@xylabs/ts-scripts@npm:1.0.64"
+"@xylabs/ts-scripts@npm:^1.0.65":
+  version: 1.0.65
+  resolution: "@xylabs/ts-scripts@npm:1.0.65"
   dependencies:
     "@types/jest": ^27.4.1
     "@xylabs/eslint-config": ^2.3.22
@@ -2993,7 +2993,7 @@ __metadata:
     xylabs-up3: bin/up3.js
     xylabs-updo: bin/updo.js
     xylabs-updo3: bin/updo3.js
-  checksum: 8de1facaed2a57a427c30b3c4920b160a17dde5774f30a18e31ca6a82b78c692a00425d87f8537340d1fcecf07d023014d0787e31d79faa000cc0d6cdb5e4c22
+  checksum: 334bcbdbb8366a1b4cb006165369897256faed8dd9f12c2be3eac17970a5900c56e023d2c5a892c13b0d6215419104d18840db9e4575cf67a994eaea250019eb
   languageName: node
   linkType: hard
 
@@ -3028,7 +3028,7 @@ __metadata:
     "@xylabs/eslint-config": ^2.3.22
     "@xylabs/rollup-config": ^1.1.17
     "@xylabs/sdk-js": ^2.5.5
-    "@xylabs/ts-scripts": ^1.0.64
+    "@xylabs/ts-scripts": ^1.0.65
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.7
     ajv: ^8.11.0
@@ -3056,7 +3056,7 @@ __metadata:
     randombytes: ^2.1.0
     rimraf: ^3.0.2
     rollbar: ^2.25.0
-    rollup: ^2.71.1
+    rollup: ^2.72.0
     sha.js: ^2.4.11
     systeminformation: ^5.11.14
     ts-jest: ^28.0.1
@@ -11171,9 +11171,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.70.2, rollup@npm:^2.71.1":
-  version: 2.71.1
-  resolution: "rollup@npm:2.71.1"
+"rollup@npm:^2.70.2, rollup@npm:^2.71.1, rollup@npm:^2.72.0":
+  version: 2.72.0
+  resolution: "rollup@npm:2.72.0"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -11181,7 +11181,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: fe2b2fda7bf53c86e970f3b026b784c00e2237089b802755b3e43725db88f5d1869c1f81f8c5257e9b68b0fd1840dcbd3897d2f19768cce97a37c70e1a563dce
+  checksum: d4c213d4250a0455e0ee40664db3339a9e3ca5affa09c348019b4895e7100cdbedeba881a239a7a80c407b4055dca4e97d10a740d99c09b17651efbfedd61a4b
   languageName: node
   linkType: hard
 

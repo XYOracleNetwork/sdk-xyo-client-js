@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/cjs",
+    "typeRoots": ["./node_modules/@types"],
+    "module": "CommonJS",
+    "target": "ES6"
+  },
+  "exclude": ["src/**/*.spec.ts"],
+  "extends": "@xylabs/tsconfig",
+  "include": ["src"]
+}

@@ -45,7 +45,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     })
   }
 
-  private async findSorted(timestamp: number, limit: number, order: 'asc' | 'desc', schema?: string) {
+  public async findSorted(timestamp: number, limit: number, order: 'asc' | 'desc', schema?: string) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     const query: Record<string, unknown> = { _archive: this._archive, _timestamp: { $gt: timestamp } }
     if (schema) {

@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/esm",
-    "typeRoots": ["./node_modules/@types"],
     "module": "ESNext",
-    "target": "ES2021"
+    "outDir": "./dist/esm",
+    "target": "ES2021",
+    "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["src/**/*.spec.ts"],
   "extends": "@xylabs/tsconfig",

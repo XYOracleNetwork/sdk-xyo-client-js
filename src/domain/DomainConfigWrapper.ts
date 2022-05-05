@@ -30,8 +30,10 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
 
     const archivistUri = this.findArchivistUri(networkSlug)
     if (this.payload.aliases) {
+      console.log(`typeof this.payload.aliases = ${typeof this.payload.aliases}`)
+      console.log(`JSON: ${JSON.stringify(this.payload.aliases, null, 2)}`)
       const fetchedAliases = await Promise.all(
-        this.payload.aliases?.map((alias) => {
+        Object.entries(this.payload.aliases ?? {}).map(([, alias]) => {
           return this.fetchAlias(alias, { archivistUri })
         })
       )
@@ -50,7 +52,6 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
       const config = (await axios.get<XyoApiEnvelope<XyoDomainConfig>>(requestUrl)).data.data
       return new XyoDomainConfigWrapper(config)
     } catch (ex) {
-      console.log(ex)
       const error = ex as AxiosError
       console.log(`XyoDomainConfig root file not found using proxy [${domain}] [${error.code}]`)
     }

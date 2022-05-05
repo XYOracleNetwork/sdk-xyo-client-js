@@ -1,8 +1,11 @@
 import { XyoPayload } from '../core'
 import { XyoApiBase } from './Base'
 import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from './models'
+import { objToQuery } from './objToQuery'
 
-export class XyoApiSimple<T = XyoPayload, D = T, C extends XyoApiConfig = XyoApiConfig> extends XyoApiBase<C> {
+export type XyoApiSimpleQuery = Record<string, unknown>
+
+export class XyoApiSimple<T = XyoPayload, D = T, Q extends XyoApiSimpleQuery = Record<string, never>, C extends XyoApiConfig = XyoApiConfig> extends XyoApiBase<C> {
   public async get(): Promise<XyoApiResponseBody<T>>
   public async get(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
   public async get(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
@@ -12,6 +15,18 @@ export class XyoApiSimple<T = XyoPayload, D = T, C extends XyoApiConfig = XyoApi
         return await this.getEndpoint(undefined, 'tuple')
       default:
         return await this.getEndpoint(undefined)
+    }
+  }
+
+  public async find(query?: Q): Promise<XyoApiResponseBody<T>>
+  public async find(query?: Q, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
+  public async find(query?: Q, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  public async find(query = {}, responseType = 'tuple'): Promise<XyoApiResponseTupleOrBody<T>> {
+    switch (responseType) {
+      case 'tuple':
+        return await this.getEndpoint(objToQuery(query), 'tuple')
+      default:
+        return await this.getEndpoint(objToQuery(query))
     }
   }
 

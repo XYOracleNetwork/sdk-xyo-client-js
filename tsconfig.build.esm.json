@@ -6,6 +6,6 @@
     "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["src/**/*.spec.ts"],
-  "extends": "@xylabs/tsconfig",
+  "extends": "./tsconfig.json",
   "include": ["src"]
 }

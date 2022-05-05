@@ -7,16 +7,23 @@ import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
 
 export interface XyoPayloadFindFilter {
-  order: 'desc' | 'asc'
-  timestamp: number
+  [key: string]: unknown
+  order?: 'desc' | 'asc'
+  timestamp?: number
   limit?: number
+  schema?: string
 }
 
 export interface XyoPayloadStats {
   count: number
 }
 
-export class XyoArchivistArchivePayloadApi<T extends XyoPayload = XyoPayload, C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>> extends XyoApiSimple<T[], T[], C> {
+export class XyoArchivistPayloadApi<T extends XyoPayload = XyoPayload, C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>> extends XyoApiSimple<
+  T[],
+  T[],
+  XyoPayloadFindFilter,
+  C
+> {
   private _stats?: XyoApiSimple<XyoPayloadStats>
   public get stats(): XyoApiSimple<XyoPayloadStats> {
     this._stats =
@@ -35,61 +42,54 @@ export class XyoArchivistArchivePayloadApi<T extends XyoPayload = XyoPayload, C 
     })
   }
 
+  public async repair(hash: string) {
+    return await this.getEndpoint<T[]>(`hash/${hash}/repair`)
+  }
+
   /** @deprecated use stats instead */
   public async getStats() {
     return await this.getEndpoint<XyoPayloadStats>('stats')
   }
 
+  /** @deprecated use hash */
   public async getByHash(hash: string) {
     return await this.getEndpoint<T[]>(`hash/${hash}`)
   }
 
+  /** @deprecated use repair */
   public async repairByHash(hash: string) {
-    return await this.getEndpoint<T[]>(`hash/${hash}/repair`)
+    return await this.repair(hash)
   }
 
-  public async find({ order, timestamp, limit = 20 }: XyoPayloadFindFilter) {
-    assertEx(limit > 0, 'min limit = 1')
-    assertEx(limit <= 100, 'max limit = 100')
-
-    return await this.getEndpoint<T[]>(objToQuery({ limit, order, timestamp }))
-  }
-
+  /** @deprecated use find */
   public async findBefore(timestamp: number, limit = 20) {
     return await this.find({ limit, order: 'desc', timestamp })
   }
 
   /** @deprecated use findBefore */
   public async getBefore(timestamp: number, limit = 20) {
-    return await this.findBefore(timestamp, limit)
+    return await this.find({ limit, order: 'desc', timestamp })
   }
 
+  /** @deprecated use find */
   public async findAfter(timestamp: number, limit = 20) {
     return await this.find({ limit, order: 'asc', timestamp })
   }
 
-  /** @deprecated use findAfter */
+  /** @deprecated use find */
   public async getAfter(timestamp: number, limit = 20) {
-    return await this.findAfter(timestamp, limit)
+    return await this.find({ limit, order: 'asc', timestamp })
   }
 
+  /** @deprecated use find */
   public async findMostRecent(limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
-    return await this.getEndpoint<T[]>(`recent${objToQuery({ limit })}`)
+    return await this.find({ limit, order: 'desc', timestamp: 999999999999 })
   }
 
-  /** @deprecated use findMostRecent */
+  /** @deprecated use find */
   public async getMostRecent(limit = 20) {
-    return await this.findMostRecent(limit)
-  }
-
-  public async findSample(size = 10) {
-    return await this.getEndpoint<T[]>(`sample${objToQuery({ size })}`)
-  }
-
-  /** @deprecated use findSample */
-  public async getSample(size = 10) {
-    return await this.findSample(size)
+    return await this.find({ limit, order: 'desc', timestamp: 999999999999 })
   }
 }

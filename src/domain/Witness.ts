@@ -16,12 +16,12 @@ export class XyoDomainConfigWitness extends XyoWitness<XyoDomainConfig> {
   }
 
   public static template: XyoDomainConfig = {
-    aliases: [
-      {
+    aliases: {
+      'com.example.id': {
         huri: '',
         name: '',
       },
-    ],
+    },
     networks: [
       {
         name: '',

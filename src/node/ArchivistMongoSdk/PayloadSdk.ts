@@ -45,6 +45,21 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     })
   }
 
+  private async findSorted(timestamp: number, limit: number, order: 'asc' | 'desc', schema?: string) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    const query: Record<string, unknown> = { _archive: this._archive, _timestamp: { $gt: timestamp } }
+    if (schema) {
+      query.schema = schema
+    }
+    return await this.useCollection((collection: Collection<XyoPayload>) => {
+      return collection
+        .find(query)
+        .sort({ _timestamp: order === 'asc' ? 1 : -1 })
+        .limit(limit)
+        .maxTimeMS(this._maxTime)
+    })
+  }
+
   public async findAfter(timestamp: number, limit = 20) {
     return (await this.findAfterQuery(timestamp, limit)).toArray()
   }

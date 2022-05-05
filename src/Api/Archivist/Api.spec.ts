@@ -69,6 +69,29 @@ describe('postBoundWitnesses', () => {
   })
 })
 
+describe('findPayload', function () {
+  it('recent', async () => {
+    let api = new XyoArchivistApi(configData)
+    try {
+      const archive = await getNewArchive(api)
+      api = new XyoArchivistApi({ ...configData })
+      const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
+      await api.archives.archive(archive).block.post([boundWitness])
+      const timestamp = Date.now() - 10000
+      const response = await api.archives.archive(archive).payload.find({ order: 'desc', timestamp: 99999999999 }, 'body')
+      console.log(`R: ${JSON.stringify(response, null, 2)}`)
+      expect(response?.length).toBe(1)
+      const actual = response?.[0]
+      expect(actual?._timestamp).toBeTruthy()
+      expect(actual?._timestamp).toBeGreaterThan(timestamp)
+    } catch (ex) {
+      const error = ex as XyoApiError
+      console.log(JSON.stringify(error.response?.data, null, 2))
+      throw ex
+    }
+  })
+})
+
 describeSkipIfNoToken('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns a new XyoArchivistApi', () => {

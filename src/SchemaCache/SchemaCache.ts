@@ -9,9 +9,9 @@ import { XyoSchemaPayload } from '../Witnesses'
 const getSchemaNameFromSchema = (schema: JSONSchema4) => {
   if (schema.properties) {
     const pattern = schema.properties.schema.pattern
-    if (pattern?.startsWith('/^') && pattern?.endsWith('$/')) {
-      console.log(`getSchemaNameFromSchema: ${pattern.substring(2, pattern.length - 2)}`)
-      return pattern.substring(2, pattern.length - 2)
+    if (pattern?.startsWith('^') && pattern?.endsWith('$')) {
+      console.log(`getSchemaNameFromSchema: ${pattern.substring(1, pattern.length - 1)}`)
+      return pattern.substring(1, pattern.length - 1)
     }
   }
   console.log('getSchemaNameFromSchema: undefined')

@@ -217,6 +217,7 @@ describeSkipIfNoToken('XyoArchivistApi', () => {
         const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
         await api.archives.archive().block.post([boundWitness])
         const timestamp = Date.now() + 10000
+        // eslint-disable-next-line deprecation/deprecation
         const response = await api.archives.archive('temp').block.findBefore(timestamp)
         expect(response?.length).toBe(1)
         const actual = response?.[0]

@@ -1,7 +1,7 @@
 import { XyoArchive } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { XyoArchivistArchiveBlockApi } from '../Block'
-import { XyoArchivistArchivePayloadApi } from '../Payload'
+import { XyoArchivistPayloadApi } from '../Payload'
 import { XyoArchivistArchiveSchemaApi } from './Schema'
 import { XyoArchivistArchiveSchemasApi } from './Schemas'
 import { XyoArchivistArchiveSettingsApi } from './Settings'
@@ -18,11 +18,11 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
     return this._block
   }
 
-  private _payload?: XyoArchivistArchivePayloadApi
-  public get payload(): XyoArchivistArchivePayloadApi {
+  private _payload?: XyoArchivistPayloadApi
+  public get payload(): XyoArchivistPayloadApi {
     this._payload =
       this._payload ??
-      new XyoArchivistArchivePayloadApi({
+      new XyoArchivistPayloadApi({
         ...this.config,
         root: `${this.root}payload/`,
       })

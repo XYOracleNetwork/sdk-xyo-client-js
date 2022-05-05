@@ -11,7 +11,7 @@ export interface XyoAlias {
 export interface XyoDomainConfig extends XyoPayload {
   schema: 'network.xyo.domain'
   /** @field Values associated with this domain [out] */
-  aliases?: XyoAlias[]
+  aliases?: Record<string, XyoAlias>
   /** @field Additional config files [huri] [out] */
   additional?: string[]
   /** @field Known networks [out] */

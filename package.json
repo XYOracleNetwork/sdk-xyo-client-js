@@ -128,7 +128,7 @@
     "license": "yarn license-checker --exclude \"MIT, ISC, Apache-2.0, BSD, BSD-2-Clause, CC-BY-4.0, Unlicense, CC-BY-3.0, CC0-1.0\""
   },
   "sideEffects": true,
-  "types": "dist/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "version": "2.20.1",
   "packageManager": "yarn@3.1.1"
 }

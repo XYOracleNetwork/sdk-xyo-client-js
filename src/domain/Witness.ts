@@ -1,5 +1,5 @@
-import { XyoWitness } from '../../core'
-import { XyoDomainConfig } from '../../domain'
+import { XyoWitness } from '../core'
+import { XyoDomainConfig } from './DomainConfig'
 
 export class XyoDomainConfigWitness extends XyoWitness<XyoDomainConfig> {
   public static schema: XyoDomainConfig['schema'] = 'network.xyo.domain'

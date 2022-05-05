@@ -1,12 +1,13 @@
-import { XyoSchemaCacheEntry } from '../../../../SchemaCache'
+import { XyoFetchedPayload } from '../../../../core'
+import { XyoSchemaPayload } from '../../../../Witnesses'
 import { XyoApiSimple } from '../../../Simple'
 
-export class XyoArchivistArchiveSchemasApi extends XyoApiSimple<XyoSchemaCacheEntry[]> {
-  private _recent?: XyoApiSimple<XyoSchemaCacheEntry[]>
-  public get recent(): XyoApiSimple<XyoSchemaCacheEntry[]> {
+export class XyoArchivistArchiveSchemasApi extends XyoApiSimple<XyoFetchedPayload<XyoSchemaPayload>[]> {
+  private _recent?: XyoApiSimple<XyoFetchedPayload<XyoSchemaPayload>[]>
+  public get recent(): XyoApiSimple<XyoFetchedPayload<XyoSchemaPayload>[]> {
     this._recent =
       this._recent ??
-      new XyoApiSimple<XyoSchemaCacheEntry[]>({
+      new XyoApiSimple<XyoFetchedPayload<XyoSchemaPayload>[]>({
         ...this.config,
         root: `${this.root}recent/`,
       })

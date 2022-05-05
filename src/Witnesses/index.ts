@@ -1,4 +1,5 @@
 export * from './Adhoc'
+export * from './DomainConfig'
 export * from './Id'
 export * from './Schema'
 export * from './SystemInfo'

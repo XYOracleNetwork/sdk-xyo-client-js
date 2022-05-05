@@ -10,8 +10,6 @@ export interface XyoAlias {
 
 export interface XyoDomainConfig extends XyoPayload {
   schema: 'network.xyo.domain'
-  /** @field Domain associated with this config [in/out] */
-  domain: string
   /** @field Values associated with this domain [out] */
   aliases?: XyoAlias[]
   /** @field Additional config files [huri] [out] */

@@ -54,6 +54,7 @@
     "copyfiles": "^2.4.1",
     "dotenv": "^16.0.0",
     "eslint": "^8.14.0",
+    "ethers": "^5.6.5",
     "jest": "^28.0.3",
     "jest-environment-jsdom": "^28.0.2",
     "jest-sorted": "^1.0.14",

@@ -21,7 +21,7 @@ export class XyoApiSimple<T = XyoPayload, D = T, Q extends XyoApiSimpleQuery = R
   public async find(query?: Q): Promise<XyoApiResponseBody<T>>
   public async find(query?: Q, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
   public async find(query?: Q, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  public async find(query = {}, responseType = 'tuple'): Promise<XyoApiResponseTupleOrBody<T>> {
+  public async find(query = {}, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.getEndpoint(objToQuery(query), 'tuple')

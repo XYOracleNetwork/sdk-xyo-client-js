@@ -4,6 +4,7 @@ import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder } from '../../core'
 import { testPayload } from '../../Test'
 import { XyoApiConfig, XyoApiError } from '../models'
 import { XyoArchivistApi } from './Api'
+import { getNewArchive, getRandomArchiveName } from './ApiUtil.spec'
 
 config()
 
@@ -18,25 +19,11 @@ const configData: XyoApiConfig = {
 
 const describeSkipIfNoToken = configData.jwtToken || configData.apiKey ? describe : describe.skip
 
-const getRandomArchiveName = (): string => {
-  const randomString = (Math.random() + 1).toString(36).substring(7)
-  return `test-archive-${randomString}`
-}
-
-const getNewArchive = async (api: XyoArchivistApi) => {
-  const archive = getRandomArchiveName()
-  const response = await api.archives.archive(archive).put()
-  return response?.archive
-}
-
 describe('postBoundWitness', () => {
   it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
     const builder = new XyoBoundWitnessBuilder({ inlinePayloads }).witness(XyoAccount.random()).payload(testPayload)
     const api = new XyoArchivistApi(configData)
     const boundWitness: XyoBoundWitness = builder.build()
-
-    //TODO: We are casting the result here since the server has not yet been updated to return the actual saved data
-
     try {
       const response = await api.archives.archive().block.post([boundWitness])
 
@@ -64,28 +51,6 @@ describe('postBoundWitnesses', () => {
     } catch (ex) {
       const error = ex as XyoApiError
       console.log(JSON.stringify(error, null, 2))
-      throw ex
-    }
-  })
-})
-
-describe('findPayload', function () {
-  it('recent', async () => {
-    let api = new XyoArchivistApi(configData)
-    try {
-      const archive = await getNewArchive(api)
-      api = new XyoArchivistApi({ ...configData })
-      const timestamp = Date.now() - 10000
-      const response = await api.archives.archive(archive).payload.find({ order: 'desc', timestamp: 99999999999 }, 'tuple')
-      console.log(`1: ${JSON.stringify(response?.[1])}`)
-      console.log(`2: ${JSON.stringify(response?.[1])}`)
-      expect(response?.length).toBe(1)
-      const actual = response?.[0]?.[0]
-      expect(actual?._timestamp).toBeTruthy()
-      expect(actual?._timestamp).toBeGreaterThan(timestamp)
-    } catch (ex) {
-      const error = ex as XyoApiError
-      console.log(JSON.stringify(error.response?.data, null, 2))
       throw ex
     }
   })

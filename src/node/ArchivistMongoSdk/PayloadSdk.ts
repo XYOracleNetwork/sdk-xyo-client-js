@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { Collection, ExplainVerbosity } from 'mongodb'
+import { Collection, ExplainVerbosity, Filter, SortDirection } from 'mongodb'
 
 import { XyoPayload, XyoPayloadWrapper } from '../../core'
 
@@ -47,16 +47,14 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
 
   private async findSortedQuery(timestamp: number, limit: number, order: 'asc' | 'desc', schema?: string) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    const query: Record<string, unknown> = { _archive: this._archive, _timestamp: { $gt: timestamp } }
+    const _queryTimestamp = order === 'desc' ? { $lte: timestamp } : { $gte: timestamp }
+    const query: Filter<XyoPayload> = { _archive: this._archive, _timestamp: _queryTimestamp }
     if (schema) {
       query.schema = schema
     }
+    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     return await this.useCollection((collection: Collection<XyoPayload>) => {
-      return collection
-        .find(query)
-        .sort({ _timestamp: order === 'asc' ? 1 : -1 })
-        .limit(limit)
-        .maxTimeMS(this._maxTime)
+      return collection.find(query).sort(sort).limit(limit).maxTimeMS(this._maxTime)
     })
   }
 

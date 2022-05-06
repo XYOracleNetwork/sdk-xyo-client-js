@@ -107,6 +107,7 @@
     "gen:docs": "typedoc ./src/index.ts --json ./dist/docs.json --tsconfig ./tsconfig.json",
     "test": "jest ./src",
     "test:api": "jest ./src/api",
+    "test:api2": "jest ./src/Api/Archivist/Api2.spec.ts",
     "test:api:archivist": "jest ./src/api/Archivist",
     "test:api:archivist:wallet": "jest ./src/api/Archivist/Wallet",
     "test:api:auth": "jest ./src/api/Auth",

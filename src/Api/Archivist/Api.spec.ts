@@ -75,13 +75,12 @@ describe('findPayload', function () {
     try {
       const archive = await getNewArchive(api)
       api = new XyoArchivistApi({ ...configData })
-      const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
-      await api.archives.archive(archive).block.post([boundWitness])
       const timestamp = Date.now() - 10000
-      const response = await api.archives.archive(archive).payload.find({ order: 'desc', timestamp: 99999999999 }, 'body')
-      console.log(`R: ${JSON.stringify(response, null, 2)}`)
+      const response = await api.archives.archive(archive).payload.find({ order: 'desc', timestamp: 99999999999 }, 'tuple')
+      console.log(`1: ${JSON.stringify(response?.[1])}`)
+      console.log(`2: ${JSON.stringify(response?.[1])}`)
       expect(response?.length).toBe(1)
-      const actual = response?.[0]
+      const actual = response?.[0]?.[0]
       expect(actual?._timestamp).toBeTruthy()
       expect(actual?._timestamp).toBeGreaterThan(timestamp)
     } catch (ex) {

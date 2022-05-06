@@ -1,20 +1,17 @@
-import Ajv from 'ajv'
-import { JSONSchema4 } from 'json-schema'
+import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'
 
 import { XyoFetchedPayload } from '../core'
 import { XyoDomainConfigWrapper } from '../domain'
 import { XyoSchemaPayload } from '../Witnesses'
 
-const getSchemaNameFromSchema = (schema: JSONSchema4) => {
-  if (schema.properties) {
-    const pattern = schema.properties.schema.pattern
-    if (pattern?.startsWith('^') && pattern?.endsWith('$')) {
-      console.log(`getSchemaNameFromSchema: ${pattern.substring(1, pattern.length - 1)}`)
-      return pattern.substring(1, pattern.length - 1)
-    }
+const getSchemaNameFromSchema = (schema: SchemaObject) => {
+  if (schema.$id) {
+    const id = schema.$id
+    console.log(`getSchemaNameFromSchema: ${id}`)
+    return id
   }
-  console.log('getSchemaNameFromSchema: undefined')
+  console.log('getSchemaNameFromSchema: undefined', JSON.stringify(schema))
 }
 
 export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>

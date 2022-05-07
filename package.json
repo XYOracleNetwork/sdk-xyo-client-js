@@ -53,7 +53,7 @@
     "babel-jest": "^28.1.0",
     "copyfiles": "^2.4.1",
     "dotenv": "^16.0.0",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "ethers": "^5.6.5",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
@@ -131,6 +131,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.20.9",
+  "version": "2.20.10",
   "packageManager": "yarn@3.1.1"
 }

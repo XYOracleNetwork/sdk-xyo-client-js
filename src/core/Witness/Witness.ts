@@ -1,3 +1,4 @@
+import { Templates } from '../lib'
 import { XyoPayload, XyoPayloadBuilder } from '../Payload'
 
 export interface XyoWitnessConfig<T extends XyoPayload = XyoPayload> {
@@ -11,7 +12,6 @@ export class XyoWitness<T extends XyoPayload = XyoPayload, C extends XyoWitnessC
   constructor(config: C) {
     this.config = config
   }
-  public static template?: XyoPayload
 
   public async observe(fields?: Partial<T>) {
     return new XyoPayloadBuilder<T>({ schema: this.config.schema })
@@ -19,5 +19,9 @@ export class XyoWitness<T extends XyoPayload = XyoPayload, C extends XyoWitnessC
       .fields(await this.config.observer?.())
       .fields(fields)
       .build()
+  }
+
+  public static generateTemplate(schema: string) {
+    return Templates[schema]
   }
 }

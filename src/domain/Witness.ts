@@ -1,13 +1,14 @@
 import { XyoWitness } from '../core'
 import { XyoDomainConfig } from './DomainConfig'
+import { domainConfigTemplate } from './Template'
 
 export class XyoDomainConfigWitness extends XyoWitness<XyoDomainConfig> {
-  public static schema: XyoDomainConfig['schema'] = 'network.xyo.domain'
   public static demarc = '_xyo'
 
   constructor() {
     super({
-      schema: XyoDomainConfigWitness.schema,
+      schema: 'network.xyo.domain',
+      template: domainConfigTemplate,
     })
   }
 

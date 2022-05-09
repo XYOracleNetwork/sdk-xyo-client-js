@@ -1,16 +1,21 @@
-import { Templates } from '../lib'
 import { XyoPayload, XyoPayloadBuilder } from '../Payload'
 
 export interface XyoWitnessConfig<T extends XyoPayload = XyoPayload> {
   schema: string
+  template?: XyoPayload
   observer?: () => Promise<T> | T
 }
 
 export class XyoWitness<T extends XyoPayload = XyoPayload, C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>> {
   public config: C
   public previousHash?: string
+  public schema: string
+  public template?: XyoPayload
+
   constructor(config: C) {
     this.config = config
+    this.schema = config.schema
+    this.template = config.template
   }
 
   public async observe(fields?: Partial<T>) {
@@ -19,9 +24,5 @@ export class XyoWitness<T extends XyoPayload = XyoPayload, C extends XyoWitnessC
       .fields(await this.config.observer?.())
       .fields(fields)
       .build()
-  }
-
-  public static generateTemplate(schema: string) {
-    return Templates[schema]
   }
 }

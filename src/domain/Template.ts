@@ -1,6 +1,6 @@
-import { XyoDomainConfig } from '../../../domain'
+import { XyoDomainConfig } from './DomainConfig'
 
-export const domainConfig: XyoDomainConfig = {
+export const domainConfigTemplate: XyoDomainConfig = {
   aliases: {
     'com.example.id': {
       huri: '',

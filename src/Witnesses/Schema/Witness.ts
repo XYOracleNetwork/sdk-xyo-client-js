@@ -2,24 +2,17 @@ import merge from 'lodash/merge'
 
 import { XyoWitness } from '../../core'
 import { XyoSchemaPayload } from './Payload'
+import { schemaTemplate } from './Template'
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload> {
   constructor() {
     super({
-      schema: XyoSchemaWitness.schema,
+      schema: 'network.xyo.schema',
+      template: schemaTemplate,
     })
   }
 
   override async observe(fields: { definition: Record<string, unknown> }): Promise<XyoSchemaPayload> {
-    return await super.observe(merge({}, XyoSchemaWitness.template, fields))
-  }
-
-  public static schema = 'network.xyo.schema'
-
-  public static template = {
-    definition: {
-      $schema: 'http://json-schema.org/draft-07/schema#',
-    },
-    schema: this.schema,
+    return await super.observe(merge({}, schemaTemplate, fields))
   }
 }

@@ -3205,10 +3205,10 @@ __metadata:
     randombytes: ^2.1.0
     rimraf: ^3.0.2
     rollbar: ^2.25.0
-    rollup: ^2.72.0
+    rollup: ^2.72.1
     sha.js: ^2.4.11
     systeminformation: ^5.11.14
-    ts-jest: ^28.0.1
+    ts-jest: ^28.0.2
     ts-node: ^10.7.0
     tslib: ^2.4.0
     typedoc: ^0.22.15
@@ -11365,9 +11365,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.70.2, rollup@npm:^2.71.1, rollup@npm:^2.72.0":
-  version: 2.72.0
-  resolution: "rollup@npm:2.72.0"
+"rollup@npm:^2.70.2, rollup@npm:^2.71.1, rollup@npm:^2.72.1":
+  version: 2.72.1
+  resolution: "rollup@npm:2.72.1"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -11375,7 +11375,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: d4c213d4250a0455e0ee40664db3339a9e3ca5affa09c348019b4895e7100cdbedeba881a239a7a80c407b4055dca4e97d10a740d99c09b17651efbfedd61a4b
+  checksum: 3dca122129f560acc3c54dd5bd5f9470dd562d74f61c652c57b6a4355a963c0828640382ebff544f1b0e71387733a51fb963d6f761ae1f05a84f5923bbde883c
   languageName: node
   linkType: hard
 
@@ -12270,9 +12270,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.0-next.1, ts-jest@npm:^28.0.1":
-  version: 28.0.1
-  resolution: "ts-jest@npm:28.0.1"
+"ts-jest@npm:^28.0.0-next.1, ts-jest@npm:^28.0.2":
+  version: 28.0.2
+  resolution: "ts-jest@npm:28.0.2"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -12299,7 +12299,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: d6827b5eb9838b63c694a49a6d85020f62e6eed1e8aae935fdb3fabdccc0ed7207b41c812c0de793a8e5ba1b7818cddfc4d51dc29ed6054f3a08cafbedbef26e
+  checksum: bb244015f947cf9a77c892691a8131116a86f4f1cc7a1ff045cd72f78c16485c07ac582b31117f8d722a0ebb9d51c27468c28e2f8eec8bbae6e2a09ee41066f2
   languageName: node
   linkType: hard
 

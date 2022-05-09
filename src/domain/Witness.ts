@@ -19,7 +19,6 @@ export class XyoDomainConfigWitness extends XyoWitness<XyoDomainConfig> {
     aliases: {
       'com.example.id': {
         huri: '',
-        name: '',
       },
     },
     networks: [

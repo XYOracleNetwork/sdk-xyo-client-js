@@ -11,6 +11,7 @@ export class XyoWitness<T extends XyoPayload = XyoPayload, C extends XyoWitnessC
   constructor(config: C) {
     this.config = config
   }
+  public static template?: XyoPayload
 
   public async observe(fields?: Partial<T>) {
     return new XyoPayloadBuilder<T>({ schema: this.config.schema })

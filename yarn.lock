@@ -2614,10 +2614,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.27, @types/node@npm:^17.0.31":
-  version: 17.0.31
-  resolution: "@types/node@npm:17.0.31"
-  checksum: 704618350f8420d5c47db0f7778398e821b7724369946f5c441a7e6b9343295553936400eb8309f0b07d5e39c240988ab3456b983712ca86265dabc9aee4ad3d
+"@types/node@npm:*, @types/node@npm:^17.0.27, @types/node@npm:^17.0.32":
+  version: 17.0.32
+  resolution: "@types/node@npm:17.0.32"
+  checksum: afb05704b42032566b3da8b2d80a68883cd3b888472d1b8b4dd6c84f8fad371454f083d4e28bd30c10589187296119d92aba255638b30067afe062b5922388a5
   languageName: node
   linkType: hard
 
@@ -2949,6 +2949,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@uniswap/v3-core@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@uniswap/v3-core@npm:1.0.1"
+  checksum: 4bfd8b218391a3d9efde44e0f984cfec3bc25889cd4d1386766828521006e71b210a3583ee32b52f3c81d384af9e8c39f471f2229e9af4d50da6801446ecb3e4
+  languageName: node
+  linkType: hard
+
 "@vue/compiler-core@npm:3.2.30":
   version: 3.2.30
   resolution: "@vue/compiler-core@npm:3.2.30"
@@ -3185,7 +3192,7 @@ __metadata:
     "@types/json-schema": ^7.0.11
     "@types/lodash": ^4.14.182
     "@types/lru-cache": ^7.6.1
-    "@types/node": ^17.0.31
+    "@types/node": ^17.0.32
     "@types/pako": ^1.0.3
     "@types/randombytes": ^2.0.0
     "@types/sha.js": ^2.4.0
@@ -3198,13 +3205,14 @@ __metadata:
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/ethers-wrappers": ^2.6.17
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.7
+    "@xyo-network/sdk-xyo-typechain": ^1.0.3
     ajv: ^8.11.0
     axios: ^0.27.2
     babel-jest: ^28.1.0
     bn.js: ^5.2.0
     bowser: ^2.11.0
     copyfiles: ^2.4.1
-    dotenv: ^16.0.0
+    dotenv: ^16.0.1
     elliptic: ^6.5.4
     eslint: ^8.15.0
     ethers: ^5.6.5
@@ -3255,6 +3263,17 @@ __metadata:
     "@openzeppelin/contracts": ^4.6.0
     ethers: ^5.6.5
   checksum: 8167f3cfa1fe96f8b8fb603ef925584dc209a9d2b4be4216e62b8b2318c907f7079959ad39860bbe5681d461f09bcc376276f6092a60e2e92b1016c1078fb160
+  languageName: node
+  linkType: hard
+
+"@xyo-network/sdk-xyo-typechain@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@xyo-network/sdk-xyo-typechain@npm:1.0.3"
+  dependencies:
+    "@openzeppelin/contracts": ^4.6.0
+    "@uniswap/v3-core": ^1.0.1
+    ethers: ^5.6.5
+  checksum: 9192d56ee630d435003f256c7dcae0aa48b7da26471c4cb60657399b5b9f77ba3a23bc1f27b46ec7bce0eb58f676265383ff14c03bcbdb828bb88fdc0b9edb2a
   languageName: node
   linkType: hard
 
@@ -4831,10 +4850,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.0":
-  version: 16.0.0
-  resolution: "dotenv@npm:16.0.0"
-  checksum: 664cebb51f0a9a1d1b930f51f0271e72e26d62feaecc9dc03df39453dd494b4e724809ca480fb3ec3213382b1ed3f791aaeb83569a137f9329ce58efd4853dbf
+"dotenv@npm:^16.0.1":
+  version: 16.0.1
+  resolution: "dotenv@npm:16.0.1"
+  checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
   languageName: node
   linkType: hard
 

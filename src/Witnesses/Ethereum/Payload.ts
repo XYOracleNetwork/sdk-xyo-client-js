@@ -1,20 +1,34 @@
 import { XyoPayload } from '../../core'
 
-export interface EthereumAccount {
-  address?: string
-  balance?: string
+type EthereumType = string | number | boolean
+
+export interface XyoEthereumQueryPayload extends XyoPayload {
+  network: number
 }
 
 export interface XyoEthereumPayload extends XyoPayload {
-  timestamp?: number
-  network?: number
-  blockNumber?: number
+  timestamp: number
+  network: number
+  blockNumber: number
 }
 
-export interface XyoEthereumAccountPayload extends XyoEthereumPayload {
-  account?: EthereumAccount
+export interface XyoEthereumAccountBalanceQueryPayload extends XyoEthereumPayload {
+  address: string
 }
 
-export interface XyoEthereumErc20AccountPayload extends XyoEthereumAccountPayload {
-  contract?: string
+export interface XyoEthereumAccountBalancePayload extends XyoEthereumPayload {
+  balance?: string
+}
+
+export interface XyoEthereumContractQueryPayload extends XyoEthereumQueryPayload {
+  contract: string
+}
+
+export interface XyoEthereumContractMethodCallQueryPayload extends XyoEthereumQueryPayload {
+  method: string
+  params?: EthereumType[]
+}
+
+export interface XyoEthereumContractMethodCallPayload extends XyoEthereumPayload {
+  result?: EthereumType
 }

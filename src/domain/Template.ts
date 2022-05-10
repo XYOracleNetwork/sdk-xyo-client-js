@@ -1,6 +1,6 @@
 import { XyoDomainConfig } from './DomainConfig'
 
-export const domainConfigTemplate: XyoDomainConfig = {
+export const domainConfigTemplate = (): XyoDomainConfig => ({
   aliases: {
     'com.example.id': {
       huri: '',
@@ -21,4 +21,4 @@ export const domainConfigTemplate: XyoDomainConfig = {
     },
   ],
   schema: 'network.xyo.domain',
-}
+})

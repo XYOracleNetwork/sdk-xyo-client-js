@@ -6,6 +6,8 @@ import { XyoSystemInfoWitness } from '../../../Witnesses'
 import { XyoSystemInfoNodePayload } from './Payload'
 import { defaultSystemInfoConfig, systemInfoNodeWitnessTemplate } from './Template'
 
+const template = systemInfoNodeWitnessTemplate()
+
 export interface XyoSystemInfoNodeWitnessConfig<T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload> extends XyoWitnessConfig<T> {
   nodeValues?: Record<string, string>
 }
@@ -14,9 +16,9 @@ export class XyoSystemInfoNodeWitness<
   T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload,
   C extends XyoSystemInfoNodeWitnessConfig<T> = XyoSystemInfoNodeWitnessConfig<T>
 > extends XyoSystemInfoWitness<T, C> {
-  constructor(config: C = { schema: 'network.xyo.system.info.node' } as C) {
+  constructor(config: C = { schema: template.schema } as C) {
     super({
-      ...{ template: systemInfoNodeWitnessTemplate() },
+      ...template,
       ...config,
     })
   }

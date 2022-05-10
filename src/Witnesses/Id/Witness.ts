@@ -4,13 +4,15 @@ import { XyoWitness } from '../../core'
 import { XyoIdPayload } from './Payload'
 import { idTemplate } from './Template'
 
+const template = idTemplate()
+
 export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
   private salt: string
 
   constructor(salt = uuid()) {
     super({
-      schema: 'network.xyo.id',
-      template: idTemplate,
+      schema: template.schema,
+      template,
     })
     this.salt = salt
   }

@@ -5,6 +5,7 @@ export class XyoAdhocWitness extends XyoWitness<XyoPayload> {
   constructor(payload: XyoPayload) {
     super({
       schema: payload.schema,
+      template: { schema: '' },
     })
     this.payload = payload
   }

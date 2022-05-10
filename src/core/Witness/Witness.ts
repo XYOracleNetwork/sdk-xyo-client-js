@@ -1,6 +1,6 @@
 import { XyoPayload, XyoPayloadBuilder } from '../Payload'
 
-export interface XyoWitnessConfig<T extends XyoPayload> {
+export interface XyoWitnessConfig<T extends XyoPayload = XyoPayload> {
   schema: string
   observer?: () => Promise<T> | T
 }

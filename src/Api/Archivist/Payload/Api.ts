@@ -24,7 +24,7 @@ export class XyoArchivistPayloadApi<T extends XyoPayload = XyoPayload, C extends
   XyoPayloadFindFilter,
   C
 > {
-  public get schema(): XyoApiSimple<string[]> {
+  public get schema(): XyoArchivistArchivePayloadSchemaApi {
     return new XyoArchivistArchivePayloadSchemaApi({
       ...this.config,
       root: `${this.root}schema/`,

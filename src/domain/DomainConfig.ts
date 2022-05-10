@@ -3,7 +3,7 @@ import { XyoNetworkConfig } from '../network'
 
 export interface XyoAlias {
   /** @field cononical name (ex. network.xyo.example) */
-  name: string
+  name?: string
   /** @field huri to the aliased payload */
   huri: string
 }

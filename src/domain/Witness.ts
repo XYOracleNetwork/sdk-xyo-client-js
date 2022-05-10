@@ -1,41 +1,26 @@
 import { XyoWitness } from '../core'
 import { XyoDomainConfig } from './DomainConfig'
+import { domainConfigTemplate } from './Template'
+
+const template = domainConfigTemplate()
 
 export class XyoDomainConfigWitness extends XyoWitness<XyoDomainConfig> {
-  public static schema: XyoDomainConfig['schema'] = 'network.xyo.domain'
-  public static demarkKey = '_xyo'
+  public static demarc = '_xyo'
 
   constructor() {
     super({
-      schema: XyoDomainConfigWitness.schema,
+      schema: template.schema,
+      template,
     })
   }
 
-  public static generateDemark(domain: string) {
-    return `${XyoDomainConfigWitness.demarkKey}.${domain}`
+  public static generateDemarc(domain: string) {
+    return `${XyoDomainConfigWitness.demarc}.${domain}`
   }
 
-  public static template: XyoDomainConfig = {
-    aliases: {
-      'com.example.id': {
-        huri: '',
-        name: '',
-      },
-    },
-    networks: [
-      {
-        name: '',
-        nodes: [
-          {
-            name: '',
-            slug: '',
-            type: 'archivist',
-            uri: '',
-          },
-        ],
-        slug: '',
-      },
-    ],
-    schema: this.schema,
+  /** @deprecate use generateDemarc instead */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public static generateDemark(domain: string) {
+    return
   }
 }

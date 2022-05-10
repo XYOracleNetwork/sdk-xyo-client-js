@@ -1,6 +1,10 @@
 import { XyoPayload } from '../../core'
 
 export interface XyoSchemaPayload extends XyoPayload {
-  name: string
-  definition: Record<string, unknown>
+  /** @deprecated use definition.$id instead */
+  name?: string
+  definition: {
+    $id?: string
+    [key: string]: unknown
+  }
 }

@@ -1,4 +1,5 @@
 import { Wallet } from 'ethers'
+import { v4 } from 'uuid'
 
 import { XyoAccount } from '../../core'
 import { XyoArchivistApi } from './Api'
@@ -28,4 +29,9 @@ export const getNewArchive = async (api: XyoArchivistApi) => {
   const archive = response?.archive
   expect(archive).toBeTruthy()
   return archive || ''
+}
+
+export const testSchemaPrefix = 'network.xyo.schema.test.'
+export const getSchemaName = (): string => {
+  return `${testSchemaPrefix}${v4()}`
 }

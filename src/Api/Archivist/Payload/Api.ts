@@ -4,6 +4,7 @@ import { XyoPayload } from '../../../core'
 import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
+import { XyoArchivistArchivePayloadSchemaApi } from './Schema'
 
 export interface XyoPayloadFindFilter {
   [key: string]: unknown
@@ -23,6 +24,13 @@ export class XyoArchivistPayloadApi<T extends XyoPayload = XyoPayload, C extends
   XyoPayloadFindFilter,
   C
 > {
+  public get schema(): XyoArchivistArchivePayloadSchemaApi {
+    return new XyoArchivistArchivePayloadSchemaApi({
+      ...this.config,
+      root: `${this.root}schema/`,
+    })
+  }
+
   private _stats?: XyoApiSimple<XyoPayloadStats>
   public get stats(): XyoApiSimple<XyoPayloadStats> {
     this._stats =

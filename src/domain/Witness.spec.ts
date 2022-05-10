@@ -4,7 +4,7 @@ describe('XyoDomainConfigWitness', () => {
   test('valid-instantiation', () => {
     const witness = new XyoDomainConfigWitness()
     expect(witness).toBeTruthy()
-    expect(XyoDomainConfigWitness.schema).toBe('network.xyo.domain')
+    expect(witness.schema).toBe('network.xyo.domain')
     expect(XyoDomainConfigWitness.demarc).toBe('_xyo')
   })
 

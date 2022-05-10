@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { assertEx, EthAddress } from '@xylabs/sdk-js'
-import { XyoErc20Wrapper } from '@xyo-network/sdk-xyoworld-js'
+import { XyoErc20Wrapper } from '@xyo-network/ethers-wrappers'
 
 import { XyoWitness } from '../../core'
 import { XyoEthereumAccountPayload, XyoEthereumErc20AccountPayload, XyoEthereumPayload } from './Payload'

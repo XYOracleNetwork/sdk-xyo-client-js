@@ -7,11 +7,8 @@ import { XyoSchemaPayload } from '../Witnesses'
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {
-    const id = schema.$id
-    console.log(`getSchemaNameFromSchema: ${id}`)
-    return id
+    return schema.$id
   }
-  console.log('getSchemaNameFromSchema: undefined', JSON.stringify(schema))
 }
 
 export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>

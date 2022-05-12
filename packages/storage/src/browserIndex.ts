@@ -1,1 +1,1 @@
-export * from './node'
+export class XyoArchivistPayloadMongoSdk {}

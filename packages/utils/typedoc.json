@@ -1,0 +1,12 @@
+{
+  "intentionallyNotExported": [
+    "XyoFetchedPayload",
+    "XyoSchemaPayload",
+    "XyoBoundWitness",
+    "XyoAccount",
+    "XyoArchivistApi",
+    "XyoWitness",
+    "XyoPayload",
+    "XyoWitnessConfig"
+  ]
+}

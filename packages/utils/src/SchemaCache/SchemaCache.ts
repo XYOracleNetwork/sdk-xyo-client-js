@@ -1,9 +1,7 @@
-import { XyoFetchedPayload } from '@xyo-network/core'
+import { XyoFetchedPayload, XyoSchemaPayload } from '@xyo-network/core'
+import { XyoDomainConfigWrapper } from '@xyo-network/domain'
 import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'
-
-import { XyoDomainConfigWrapper } from '../domain'
-import { XyoSchemaPayload } from '../Witnesses'
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {

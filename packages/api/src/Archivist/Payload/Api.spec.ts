@@ -1,6 +1,6 @@
+import { XyoAccount, XyoBoundWitnessBuilder } from '@xyo-network/core'
 import { config } from 'dotenv'
 
-import { XyoAccount, XyoBoundWitnessBuilder } from '../../../core'
 import { XyoApiConfig, XyoApiError } from '../../models'
 import { XyoArchivistApi } from '../Api'
 import { getNewArchive } from '../ApiUtil.spec'

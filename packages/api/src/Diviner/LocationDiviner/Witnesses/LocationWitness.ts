@@ -1,4 +1,4 @@
-import { WithXyoPayloadMeta, XyoPayloadBody } from '../../../../core'
+import { WithXyoPayloadMeta, XyoPayloadBody } from '@xyo-network/core'
 
 export const locationWitnessPayloadSchema: LocationWitnessPayloadSchema = 'network.xyo.location'
 export type LocationWitnessPayloadSchema = 'network.xyo.location'

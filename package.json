@@ -14,8 +14,11 @@
   "dependencies": {
     "@xyo-network/api": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/domain": "workspace:^",
+    "@xyo-network/network": "workspace:^",
     "@xyo-network/storage": "workspace:^",
-    "@xyo-network/utils": "workspace:^"
+    "@xyo-network/utils": "workspace:^",
+    "@xyo-network/witnesses": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
@@ -89,8 +92,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
-    "build-all": "yarn workspaces foreach -pt run build && yarn workspaces foreach version patch --deferred",
-    "build": "yarn clean && tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.esm.json && yarn version patch --deferred",
+    "build-all": "yarn workspaces foreach -ptR run build",
+    "build": "yarn clean && tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.esm.json",
     "deploy3": "yarn deploy-patch",
     "deploy-major": "yarn workspaces foreach version major --deferred && yarn deploy-common",
     "deploy-minor": "yarn workspaces foreach version minor --deferred && yarn deploy-common",
@@ -98,8 +101,9 @@
     "deploy-common": "yarn cycle && yarn workspaces foreach run build && yarn version apply --all && yarn workspaces foreach npm publish",
     "cycle": "yarn workspaces foreach run cycle",
     "lint-all": "yarn workspaces foreach run lint",
+    "clean-all": "yarn workspaces foreach run clean",
     "fix": "yarn workspaces foreach run fix",
-    "test": "yarn workspaces foreach run test",
+    "test": "yarn jest .",
     "deps": "yarn workspaces foreach run deps",
     "license": "yarn license-checker --exclude \"MIT, ISC, Apache-2.0, BSD, BSD-2-Clause, CC-BY-4.0, Unlicense, CC-BY-3.0, CC0-1.0\""
   },

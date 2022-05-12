@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { XyoPayload } from '@xyo-network/core'
 
-import { XyoPayload } from '../../../core'
 import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'

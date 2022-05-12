@@ -1,4 +1,5 @@
-import { XyoBoundWitness, XyoPayload } from '../../../core'
+import { XyoBoundWitness, XyoPayload } from '@xyo-network/core'
+
 import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'

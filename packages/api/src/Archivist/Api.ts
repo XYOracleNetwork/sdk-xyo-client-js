@@ -7,7 +7,6 @@ import { XyoUserApi } from '../User'
 import { XyoAccountApi } from './Account'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
-import { XyoArchivistSchemaApi } from './Schema'
 
 export class XyoArchivistApi extends XyoApiBase {
   private _archives?: XyoArchivistArchivesApi
@@ -48,13 +47,6 @@ export class XyoArchivistApi extends XyoApiBase {
     return new XyoArchivistArchiveApi({
       ...this.config,
       root: `${this.root}archive/${pureArchive}/`,
-    })
-  }
-
-  public schema(schema: string) {
-    return new XyoArchivistSchemaApi({
-      ...this.config,
-      root: `${this.root}schema/${schema}/`,
     })
   }
 

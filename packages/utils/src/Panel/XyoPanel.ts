@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoWitness } from '@xyo-network/core'
-
-import { XyoArchivistApi } from '../Api'
 
 export interface XyoPanelConfig {
   /** @deprecated use account instead */

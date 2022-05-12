@@ -1,4 +1,5 @@
-import { typeOf } from '../../lib'
+import { typeOf } from '@xyo-network/core'
+
 import { XyoArchivistApi } from '../Archivist'
 import { XyoApiConfig, XyoApiError } from '../models'
 import { XyoUserApi } from './Api'

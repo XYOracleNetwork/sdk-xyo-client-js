@@ -1,8 +1,8 @@
 import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/core'
 import { config } from 'dotenv'
 
-import { testPayload } from '../../Test'
 import { XyoApiConfig, XyoApiError } from '../models'
+import { testPayload } from '../Test'
 import { XyoArchivistApi } from './Api'
 import { getNewArchive, getRandomArchiveName } from './ApiUtil.spec'
 

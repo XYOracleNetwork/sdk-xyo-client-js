@@ -1,5 +1,5 @@
 import { WithStringIndex } from '../../models'
-import { SchemaValidator } from '../../SchemaNameValidator'
+import { XyoSchemaNameValidator } from '../../SchemaNameValidator'
 import { XyoPayloadBody } from '../models'
 
 class XyoPayloadBodyValidator {
@@ -8,9 +8,9 @@ class XyoPayloadBodyValidator {
     this.body = body as WithStringIndex<XyoPayloadBody>
   }
 
-  private _schemaValidator?: SchemaValidator
+  private _schemaValidator?: XyoSchemaNameValidator
   get schemaValidator() {
-    this._schemaValidator = this._schemaValidator ?? new SchemaValidator(this.body.schema ?? '')
+    this._schemaValidator = this._schemaValidator ?? new XyoSchemaNameValidator(this.body.schema ?? '')
     return this._schemaValidator
   }
 

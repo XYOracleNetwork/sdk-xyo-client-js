@@ -11,10 +11,13 @@
   "dependencies": {
     "@ethersproject/providers": "^5.6.5",
     "@xylabs/sdk-js": "^2.5.5",
+    "@xyo-network/api": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/domain": "workspace:^",
     "@xyo-network/ethers-wrappers": "^2.6.17",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.7",
     "@xyo-network/sdk-xyo-typechain": "^1.0.3",
+    "@xyo-network/witnesses": "workspace:^",
     "ajv": "^8.11.0",
     "axios": "^0.27.2",
     "bn.js": "^5.2.0",
@@ -107,9 +110,8 @@
   "scripts": {
     "deploy": "yarn deploy3",
     "lint-pkg": "npmPkgJsonLint .",
-    "build": "yarn clean && tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.esm.json && yarn gen:docs && yarn version patch --deferred",
+    "build": "yarn clean && tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.esm.json && yarn gen:docs",
     "gen:docs": "typedoc ./src/index.ts --json ./dist/docs.json --tsconfig ./tsconfig.json",
-    "test": "jest ./src",
     "license": "yarn license-checker --exclude \"MIT, ISC, Apache-2.0, BSD, BSD-2-Clause, CC-BY-4.0, Unlicense, CC-BY-3.0, CC0-1.0\""
   },
   "sideEffects": true,

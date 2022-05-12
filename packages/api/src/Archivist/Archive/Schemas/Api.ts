@@ -1,4 +1,5 @@
-import { XyoSchemaPayload } from '../../../../Witnesses'
+import { XyoSchemaPayload } from '@xyo-network/core'
+
 import { XyoApiSimple } from '../../../Simple'
 
 export class XyoArchivistArchiveSchemasApi extends XyoApiSimple<XyoSchemaPayload[]> {

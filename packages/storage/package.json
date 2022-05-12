@@ -8,14 +8,30 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "dependencies": {
-    "@xyo-network/api": "workspace:^",
+    "@ethersproject/providers": "^5.6.5",
+    "@xylabs/sdk-js": "^2.5.5",
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/storage": "workspace:^",
-    "@xyo-network/utils": "workspace:^"
+    "@xyo-network/ethers-wrappers": "^2.6.17",
+    "@xyo-network/sdk-xyo-mongo-js": "^2.2.7",
+    "@xyo-network/sdk-xyo-typechain": "^1.0.3",
+    "ajv": "^8.11.0",
+    "axios": "^0.27.2",
+    "bn.js": "^5.2.0",
+    "bowser": "^2.11.0",
+    "elliptic": "^6.5.4",
+    "keccak256": "^1.0.6",
+    "lodash": "^4.17.21",
+    "lru-cache": "^7.9.0",
+    "mongodb": "^4.5.0",
+    "neo4j-driver": "^4.4.5",
+    "neo4j-driver-core": "^4.4.5",
+    "pako": "^2.0.4",
+    "randombytes": "^2.1.0",
+    "sha.js": "^2.4.11",
+    "systeminformation": "^5.11.14",
+    "ua-parser-js": "^1.0.2",
+    "uuid": "^8.3.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
@@ -80,7 +96,7 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/sdk-xyo-client-js",
+  "name": "@xyo-network/storage",
   "publishConfig": {
     "access": "public"
   },
@@ -89,22 +105,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
-    "build-all": "yarn workspaces foreach -pt run build && yarn workspaces foreach version patch --deferred",
-    "build": "yarn clean && tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.esm.json && yarn version patch --deferred",
-    "deploy3": "yarn deploy-patch",
-    "deploy-major": "yarn workspaces foreach version major --deferred && yarn deploy-common",
-    "deploy-minor": "yarn workspaces foreach version minor --deferred && yarn deploy-common",
-    "deploy-patch": "yarn workspaces foreach version patch --deferred && yarn deploy-common",
-    "deploy-common": "yarn cycle && yarn workspaces foreach run build && yarn version apply --all && yarn workspaces foreach npm publish",
-    "cycle": "yarn workspaces foreach run cycle",
-    "lint": "yarn workspaces foreach run lint",
-    "fix": "yarn workspaces foreach run fix",
-    "test": "yarn workspaces foreach run test",
-    "deps": "yarn workspaces foreach run deps",
+    "deploy": "yarn deploy3",
+    "lint-pkg": "npmPkgJsonLint .",
+    "build": "yarn clean && tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.esm.json && yarn gen:docs && yarn version patch --deferred",
+    "gen:docs": "typedoc ./src/index.ts --json ./dist/docs.json --tsconfig ./tsconfig.json",
+    "test": "jest ./src",
     "license": "yarn license-checker --exclude \"MIT, ISC, Apache-2.0, BSD, BSD-2-Clause, CC-BY-4.0, Unlicense, CC-BY-3.0, CC0-1.0\""
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
   "version": "2.20.14",
-  "packageManager": "yarn@3.2.0"
+  "packageManager": "yarn@3.1.1"
 }

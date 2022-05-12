@@ -97,7 +97,7 @@
     "deploy-patch": "yarn workspaces foreach version patch --deferred && yarn deploy-common",
     "deploy-common": "yarn cycle && yarn workspaces foreach run build && yarn version apply --all && yarn workspaces foreach npm publish",
     "cycle": "yarn workspaces foreach run cycle",
-    "lint": "yarn workspaces foreach run lint",
+    "lint-all": "yarn workspaces foreach run lint",
     "fix": "yarn workspaces foreach run fix",
     "test": "yarn workspaces foreach run test",
     "deps": "yarn workspaces foreach run deps",

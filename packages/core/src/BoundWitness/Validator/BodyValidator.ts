@@ -4,7 +4,7 @@ import { XyoHasher } from '../../Hasher'
 import { validateType } from '../../lib'
 import { WithStringIndex } from '../../models'
 import { XyoPayload } from '../../Payload'
-import { SchemaValidator } from '../../SchemaNameValidator'
+import { XyoSchemaNameValidator } from '../../SchemaNameValidator'
 import { XyoBoundWitnessBody } from '../models'
 
 class XyoBoundWitnessBodyValidator {
@@ -71,8 +71,8 @@ class XyoBoundWitnessBodyValidator {
 
   public payloadSchemas() {
     const errors: Error[] = []
-    const schemaValidators: SchemaValidator[] = this.body.payload_schemas.map((schema: string) => {
-      return new SchemaValidator(schema)
+    const schemaValidators: XyoSchemaNameValidator[] = this.body.payload_schemas.map((schema: string) => {
+      return new XyoSchemaNameValidator(schema)
     })
     schemaValidators.forEach((validator) => {
       errors.push(...validator.all())

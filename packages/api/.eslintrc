@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "ignorePatterns": ["package.json"],
+  "extends": [
+    "@xylabs"
+  ],
+  "parserOptions": {
+    "project": "tsconfig.json"
+  },
+  "rules": {
+    "import/no-nodejs-modules": ["warn"],
+    "import/no-internal-modules": [
+      "warn", {
+        "allow": [
+
+        ]
+      }
+    ]
+  }
+}

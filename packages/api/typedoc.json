@@ -1,0 +1,10 @@
+{
+  "intentionallyNotExported": [
+    "WithXyoPayloadMeta",
+    "XyoPayload",
+    "XyoBoundWitness",
+    "XyoDataLike",
+    "Huri",
+    "XyoSchemaPayload"
+  ]
+}

@@ -1,5 +1,6 @@
-//has all the code in it, so must be tree shakable project using it
-export * from './browser'
-export * from './node'
-export * from './shared'
-export { XyoSystemInfoWitness } from './Witnesses'
+export * from '@xyo-network/api'
+export * from '@xyo-network/core'
+export * from '@xyo-network/domain'
+export * from '@xyo-network/storage'
+export * from '@xyo-network/utils'
+export * from '@xyo-network/witnesses'

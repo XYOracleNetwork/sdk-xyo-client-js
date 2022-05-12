@@ -1,0 +1,9 @@
+{
+  "intentionallyNotExported": [
+    "XyoPayload",
+    "HuriOptions",
+    "XyoWitnessConfig",
+    "XyoFetchedPayload",
+    "XyoNetworkConfig"
+  ]
+}

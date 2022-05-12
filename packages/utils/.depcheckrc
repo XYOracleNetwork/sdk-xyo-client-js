@@ -1,18 +1,3 @@
 ignores: [
-  "@types/jest",
-  "@types/mocha",
-  "@xylabs/ts-scripts",
-  "@xylabs/eslint-config",
-  "@xylabs/tsconfig",
-  "babel-jest",
-  "copyfiles",
-  "depcheck",
-  "eslint",
-  "rimraf",
-  "rollup",
-  "typedoc",
-  "npm-package-json-lint-config-default",
-  "ts-jest",
-  "tslib",
-  "typescript"
+  "@xylabs/tsconfig"
 ]

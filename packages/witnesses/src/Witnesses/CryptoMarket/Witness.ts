@@ -35,7 +35,9 @@ export class XyoCryptoMarketWitness extends XyoWitness<XyoCryptoMarketPayload> {
   }
 
   override async observe(): Promise<XyoCryptoMarketPayload> {
-    const result = await axios.get<CoinGeckoSimplePrice[]>(`https://api.coingecko.com/api/v3/simple/price?ids=${this.coins.join(',')}&vs_currencies=${this.currencies.join(',')}`)
+    const result = await axios.get<CoinGeckoSimplePrice[]>(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${this.coins.map(({ name }) => name).join(',')}&vs_currencies=${this.currencies.map(({ symbol }) => symbol).join(',')}`
+    )
     return await super.observe({ assets: result.data, timestamp: Date.now() })
   }
 

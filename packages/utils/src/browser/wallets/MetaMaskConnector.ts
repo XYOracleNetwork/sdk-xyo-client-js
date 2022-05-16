@@ -1,7 +1,8 @@
 import { Web3Provider } from '@ethersproject/providers'
+import { MetaMaskInpageProvider } from '@metamask/providers'
 
 class XyoMetaMaskConnector {
-  private ethereum = window.ethereum
+  private ethereum = window.ethereum as MetaMaskInpageProvider
   private provider: Web3Provider | undefined
   private account = ''
 
@@ -9,8 +10,9 @@ class XyoMetaMaskConnector {
     if (provider) {
       this.provider = provider
     } else if (this.ethereum) {
-      this.provider = new Web3Provider(this.ethereum)
+      this.provider = new Web3Provider(window.ethereum)
     }
+    this.provider?.on
   }
 
   get currentAccount() {

@@ -29,8 +29,6 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
 
     const archivistUri = this.findArchivistUri(networkSlug)
     if (this.payload.aliases) {
-      console.log(`typeof this.payload.aliases = ${typeof this.payload.aliases}`)
-      console.log(`JSON: ${JSON.stringify(this.payload.aliases, null, 2)}`)
       const fetchedAliases = await Promise.all(
         Object.entries(this.payload.aliases ?? {}).map(([, alias]) => {
           return this.fetchAlias(alias, { archivistUri })

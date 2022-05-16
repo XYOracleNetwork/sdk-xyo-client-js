@@ -6,7 +6,7 @@
     "XyoAccount",
     "XyoArchivistApi",
     "XyoWitness",
-    "XyoPayload",
+    "XyoPayloadFull",
     "XyoWitnessConfig"
   ]
 }

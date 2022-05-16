@@ -1,6 +1,6 @@
 {
   "intentionallyNotExported": [
-    "XyoPayload",
+    "XyoPayloadFull",
     "XyoBoundWitness"
   ]
 }

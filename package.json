@@ -22,8 +22,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.17.10",
+    "@babel/core": "^7.17.12",
+    "@babel/preset-env": "^7.17.12",
     "@xylabs/eslint-config": "^2.3.22",
     "@xylabs/rollup-config": "^1.1.17",
     "@xylabs/ts-scripts": "^1.0.66",
@@ -74,7 +74,6 @@
     "deploy-patch": "yarn workspaces foreach version patch --deferred && yarn deploy-common",
     "deploy-common": "yarn cycle && yarn workspaces foreach run build && yarn version apply --all && yarn workspaces foreach npm publish",
     "cycle": "yarn workspaces foreach run cycle",
-    "lint-all": "yarn workspaces foreach run lint",
     "clean-all": "yarn workspaces foreach run clean",
     "deps-all": "yarn workspaces foreach run deps",
     "fix": "yarn workspaces foreach run fix",

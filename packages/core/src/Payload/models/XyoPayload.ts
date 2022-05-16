@@ -1,6 +1,6 @@
 import { XyoPayloadBody } from './Body'
 import { WithXyoPayloadMeta } from './WithXyoPayloadMeta'
 
-type XyoPayload = WithXyoPayloadMeta<XyoPayloadBody>
+export type XyoPayloadFull = WithXyoPayloadMeta<XyoPayloadBody>
 
-export type { XyoPayload }
+export type XyoPayload<T = XyoPayloadFull> = T extends XyoPayloadFull ? T : XyoPayloadFull & T

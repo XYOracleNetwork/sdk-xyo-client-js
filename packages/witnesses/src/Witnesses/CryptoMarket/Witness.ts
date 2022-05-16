@@ -3,12 +3,8 @@ import axios from 'axios'
 
 import { XyoCryptoMarketPayload } from './Payload'
 
-interface CoinGeckoSimplePrice {
-  usd?: number
-  eur?: number
-  btc?: number
-  eth?: number
-}
+type CoinGeckoSimplePrice = Record<string, number>
+type CoinGeckoSimplePrices = Record<string, CoinGeckoSimplePrice>
 
 interface Coin {
   name?: string
@@ -35,10 +31,23 @@ export class XyoCryptoMarketWitness extends XyoWitness<XyoCryptoMarketPayload> {
   }
 
   override async observe(): Promise<XyoCryptoMarketPayload> {
-    const result = await axios.get<CoinGeckoSimplePrice[]>(
+    const result = await axios.get<CoinGeckoSimplePrices>(
       `https://api.coingecko.com/api/v3/simple/price?ids=${this.coins.map(({ name }) => name).join(',')}&vs_currencies=${this.currencies.map(({ symbol }) => symbol).join(',')}`
     )
-    return await super.observe({ assets: result.data, timestamp: Date.now() })
+    return await super.observe({
+      assets: Object.entries(result.data)
+        .map(([coin, value]) => {
+          return Object.entries(value).map(([currency, value]) => {
+            return {
+              coin,
+              currency,
+              value,
+            }
+          })
+        })
+        .flat(),
+      timestamp: Date.now(),
+    })
   }
 
   public static schema = 'network.xyo.crypto.market'

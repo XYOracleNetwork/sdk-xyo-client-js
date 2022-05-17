@@ -2,7 +2,7 @@ import { XyoWitnessConfig } from '@xyo-network/core'
 import merge from 'lodash/merge'
 import { get } from 'systeminformation'
 
-import { XyoSystemInfoWitness } from '../../../Witnesses'
+import { XyoSystemInfoWitness } from '../shared'
 import { XyoSystemInfoNodePayload } from './Payload'
 import { defaultSystemInfoConfig, systemInfoNodeWitnessTemplate } from './Template'
 

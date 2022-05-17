@@ -3192,6 +3192,7 @@ __metadata:
     "@xyo-network/domain": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/storage": "workspace:^"
+    "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/utils": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     jest: ^28.1.0
@@ -3235,6 +3236,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/systeminfo-witness@workspace:^, @xyo-network/systeminfo-witness@workspace:packages/systeminfo-witness":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/systeminfo-witness@workspace:packages/systeminfo-witness"
+  dependencies:
+    "@babel/core": ^7.17.12
+    "@babel/preset-env": ^7.17.12
+    "@ethersproject/providers": ^5.6.6
+    "@types/lodash": ^4.14.182
+    "@types/uuid": ^8.3.4
+    "@xylabs/eslint-config": ^2.3.22
+    "@xylabs/ts-scripts": ^1.0.66
+    "@xylabs/tsconfig": ^1.0.13
+    "@xyo-network/core": "workspace:^"
+    axios: ^0.27.2
+    bowser: ^2.11.0
+    license-checker: ^25.0.1
+    lodash: ^4.17.21
+    systeminformation: ^5.11.15
+    tslib: ^2.4.0
+    typescript: ^4.6.4
+    uuid: ^8.3.2
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/utils@workspace:^, @xyo-network/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@xyo-network/utils@workspace:packages/utils"
@@ -3251,6 +3276,7 @@ __metadata:
     "@xyo-network/api": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/domain": "workspace:^"
+    "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     ajv: ^8.11.0
     license-checker: ^25.0.1

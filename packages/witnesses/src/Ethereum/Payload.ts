@@ -1,6 +1,6 @@
 import { XyoPayload } from '@xyo-network/core'
 
-type EthereumType = string | number | boolean
+export type EthereumType = string | number | boolean
 
 export interface XyoEthereumQueryPayload extends XyoPayload {
   network: number

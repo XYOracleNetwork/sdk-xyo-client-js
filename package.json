@@ -17,6 +17,7 @@
     "@xyo-network/domain": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/storage": "workspace:^",
+    "@xyo-network/systeminfo-witness": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"
   },

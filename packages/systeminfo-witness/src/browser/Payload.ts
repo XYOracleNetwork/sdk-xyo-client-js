@@ -1,6 +1,6 @@
 import { Parser } from 'bowser'
 
-import { XyoSystemInfoPayload } from '../../../Witnesses'
+import { XyoSystemInfoPayload } from '../shared'
 
 export interface XyoSystemInfoBrowserPayload extends XyoSystemInfoPayload {
   bowser?: Parser.ParsedResult

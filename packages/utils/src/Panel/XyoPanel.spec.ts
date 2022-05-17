@@ -1,6 +1,7 @@
 import { XyoApiConfig, XyoArchivistApi } from '@xyo-network/api'
 import { XyoAccount } from '@xyo-network/core'
-import { XyoAdhocWitness, XyoIdWitness, XyoSystemInfoWitness } from '@xyo-network/witnesses'
+import { XyoSystemInfoWitness } from '@xyo-network/systeminfo-witness'
+import { XyoAdhocWitness, XyoIdWitness } from '@xyo-network/witnesses'
 
 import { XyoPanel, XyoPanelConfig } from './XyoPanel'
 

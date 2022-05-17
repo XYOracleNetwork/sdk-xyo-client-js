@@ -1,6 +1,6 @@
 import merge from 'lodash/merge'
 
-import { XyoSystemInfoWitness } from '../../../Witnesses'
+import { XyoSystemInfoWitness } from '../shared'
 import { observeBowser } from './observeBowser'
 import { XyoSystemInfoBrowserPayload } from './Payload'
 import { SystemInfoBrowserWitnessTemplate } from './Template'

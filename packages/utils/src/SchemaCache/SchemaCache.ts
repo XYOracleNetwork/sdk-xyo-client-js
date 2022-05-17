@@ -12,17 +12,17 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
 export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
 
 export class XyoSchemaCache {
-  public proxy = 'https://api.archivist.xyo.network/domain'
+  private ajv = new Ajv({ strict: false })
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
+  public proxy = 'https://api.archivist.xyo.network/domain'
 
   public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
 
   private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
     //only store them if they match the schema root
     if (entry.payload.definition) {
-      const ajv = new Ajv({ strict: false })
       //check if it is a valid schema def
-      ajv.compile(entry.payload.definition)
+      this.ajv.compile(entry.payload.definition)
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
         this.cache.set(schemaName, entry)

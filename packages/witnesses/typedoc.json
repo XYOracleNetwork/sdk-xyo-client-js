@@ -2,6 +2,8 @@
   "intentionallyNotExported": [
     "XyoPayloadFull",
     "XyoWitnessConfig",
-    "XyoSchemaPayload"
+    "XyoSchemaPayload",
+    "Coin",
+    "Currency"
   ]
 }

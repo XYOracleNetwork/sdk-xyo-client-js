@@ -17,8 +17,18 @@ interface Currency {
 }
 
 const coinGeckoCoinToAssetMap: Record<string, AssetSymbol> = {
+  'binance-usd': 'busd',
   bitcoin: 'btc',
+  bnb: 'bnb',
+  cardano: 'ada',
+  dogecoin: 'doge',
   ethereum: 'eth',
+  polkadot: 'dot',
+  solana: 'sol',
+  tether: 'usdt',
+  'usd-coin': 'usdc',
+  'wrapped-bitcoin': 'wbtc',
+  xrp: 'xrp',
   'xyo-network': 'xyo',
 }
 
@@ -26,7 +36,21 @@ export class XyoCryptoMarketWitness extends XyoWitness<XyoCryptoMarketPayload> {
   private coins: Coin[]
   private currencies: Currency[]
   constructor(
-    coins: Coin[] = [{ name: 'bitcoin' }, { name: 'ethereum' }, { name: 'xyo-network' }],
+    coins: Coin[] = [
+      { name: 'bitcoin' },
+      { name: 'binance-usd' },
+      { name: 'bnb' },
+      { name: 'cardano' },
+      { name: 'dogecoin' },
+      { name: 'ethereum' },
+      { name: 'polkadot' },
+      { name: 'solana' },
+      { name: 'tether' },
+      { name: 'usd-coin' },
+      { name: 'wrapped-bitcoin' },
+      { name: 'xrp' },
+      { name: 'xyo-network' },
+    ],
     currencies: Currency[] = [{ symbol: 'usd' }, { symbol: 'eur' }, { symbol: 'btc' }, { symbol: 'eth' }]
   ) {
     super({

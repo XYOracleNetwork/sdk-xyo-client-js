@@ -1,4 +1,6 @@
 export {
+  AssetSymbol,
+  PartialRecord,
   XyoAdhocWitness,
   XyoCryptoMarketAssets,
   XyoCryptoMarketPayload,

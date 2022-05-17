@@ -1,6 +1,6 @@
 export {
   XyoAdhocWitness,
-  XyoCryptoMarketAsset,
+  XyoCryptoMarketAssets,
   XyoCryptoMarketPayload,
   XyoCryptoMarketWitness,
   XyoIdPayload,

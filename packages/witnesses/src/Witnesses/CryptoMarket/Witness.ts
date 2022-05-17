@@ -1,9 +1,9 @@
 import { XyoWitness } from '@xyo-network/core'
 import axios from 'axios'
 
-import { XyoCryptoMarketPayload } from './Payload'
+import { AssetSymbol, PartialRecord, XyoCryptoMarketAssets, XyoCryptoMarketPayload } from './Payload'
 
-type CoinGeckoSimplePrice = Record<string, number>
+type CoinGeckoSimplePrice = PartialRecord<AssetSymbol, number>
 type CoinGeckoSimplePrices = Record<string, CoinGeckoSimplePrice>
 
 interface Coin {
@@ -13,7 +13,13 @@ interface Coin {
 
 interface Currency {
   name?: string
-  symbol?: string
+  symbol?: AssetSymbol
+}
+
+const coinGeckoCoinToAssetMap: Record<string, AssetSymbol> = {
+  bitcoin: 'btc',
+  ethereum: 'eth',
+  'xyo-network': 'xyo',
 }
 
 export class XyoCryptoMarketWitness extends XyoWitness<XyoCryptoMarketPayload> {
@@ -31,21 +37,20 @@ export class XyoCryptoMarketWitness extends XyoWitness<XyoCryptoMarketPayload> {
   }
 
   override async observe(): Promise<XyoCryptoMarketPayload> {
-    const result = await axios.get<CoinGeckoSimplePrices>(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${this.coins.map(({ name }) => name).join(',')}&vs_currencies=${this.currencies.map(({ symbol }) => symbol).join(',')}`
-    )
+    const coinGeckoSimplePrices = (
+      await axios.get<CoinGeckoSimplePrices>(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${this.coins.map(({ name }) => name).join(',')}&vs_currencies=${this.currencies.map(({ symbol }) => symbol).join(',')}`
+      )
+    ).data
+
+    const assets: XyoCryptoMarketAssets = {}
+
+    Object.entries(coinGeckoSimplePrices).forEach(([key, value]) => {
+      assets[coinGeckoCoinToAssetMap[key]] = value
+    })
+
     return await super.observe({
-      assets: Object.entries(result.data)
-        .map(([coin, value]) => {
-          return Object.entries(value).map(([currency, value]) => {
-            return {
-              coin,
-              currency,
-              value,
-            }
-          })
-        })
-        .flat(),
+      assets,
       timestamp: Date.now(),
     })
   }

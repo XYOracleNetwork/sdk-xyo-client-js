@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/sdk-js'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
 import { XyoDomainConfig } from '@xyo-network/domain'
 
@@ -47,20 +48,15 @@ describe('XyoSchemaCache', () => {
         const cache = XyoSchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
-        const payloads = [
+        const payloads: XyoPayload[] = [
           new XyoPayloadBuilder({ schema }).fields({ a: 'a' }).build(),
           new XyoPayloadBuilder({ schema }).fields({ b: 'b' }).build(),
           new XyoPayloadBuilder({ schema }).fields({ c: 'c' }).build(),
         ]
-        const validator = cache.validators[schema]
-        expect(validator).toBeTruthy()
-        if (validator) {
-          // Strongly typing variable to ensure TypeScript inferred type from validator matches
-          const valid: XyoPayload[] = payloads.filter(validator)
-          expect(valid).toBeTruthy()
-          expect(Array.isArray(valid)).toBeTruthy()
-          expect(valid.length).toBe(payloads.length)
-        }
+        const validator = assertEx(cache.validators[schema])
+        // Strongly typing variable to ensure TypeScript inferred type from validator matches
+        const valid: XyoPayload[] = payloads.filter(validator)
+        expect(valid.length).toBe(payloads.length)
       })
       test('XyoDomainConfig', async () => {
         const schema = 'network.xyo.domain'
@@ -68,16 +64,11 @@ describe('XyoSchemaCache', () => {
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
         // const payloads = [new XyoPayloadBuilder({ schema }).fields(exampleDomainConfig).build()]
-        const payloads = [exampleDomainConfig]
-        const validator = cache.validators[schema]
-        expect(validator).toBeTruthy()
-        if (validator) {
-          // Strongly typing variable to ensure TypeScript inferred type from validator matches
-          const valid: XyoDomainConfig[] = payloads.filter(validator)
-          expect(valid).toBeTruthy()
-          expect(Array.isArray(valid)).toBeTruthy()
-          expect(valid.length).toBe(payloads.length)
-        }
+        const payloads: XyoPayload[] = [exampleDomainConfig]
+        const validator = assertEx(cache.validators[schema])
+        // Strongly typing variable to ensure TypeScript inferred type from validator matches
+        const valid: XyoDomainConfig[] = payloads.filter(validator)
+        expect(valid.length).toBe(payloads.length)
       })
     })
   })

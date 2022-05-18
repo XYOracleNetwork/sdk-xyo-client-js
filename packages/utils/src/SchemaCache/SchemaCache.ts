@@ -3,6 +3,8 @@ import { XyoDomainConfigWrapper } from '@xyo-network/domain'
 import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'
 
+import { XyoSchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
+
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {
     return schema.$id
@@ -11,21 +13,23 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
 
 export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
 
-export class XyoSchemaCache {
+export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
   private ajv = new Ajv({ strict: false })
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
-  public proxy = 'https://api.archivist.xyo.network/domain'
+  private schemaToTypeMap: T = {} as T
 
+  public proxy = 'https://api.archivist.xyo.network/domain'
   public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
 
   private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
     //only store them if they match the schema root
     if (entry.payload.definition) {
       //check if it is a valid schema def
-      this.ajv.compile(entry.payload.definition)
+      const validator = this.ajv.compile(entry.payload.definition)
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
         this.cache.set(schemaName, entry)
+        this.schemaToTypeMap[schemaName as keyof T] = validator as unknown as T[keyof T]
         this.onSchemaCached?.(schemaName, entry)
       }
     }
@@ -37,6 +41,10 @@ export class XyoSchemaCache {
       .forEach((entry) => {
         this.cacheSchemaIfValid(entry as XyoSchemaCacheEntry)
       })
+  }
+
+  public validator(schema: keyof T) {
+    return this.schemaToTypeMap[schema]
   }
 
   //Note: there is a race condition in here if two threads (or promises) start a get at the same time, they will both do the discovery

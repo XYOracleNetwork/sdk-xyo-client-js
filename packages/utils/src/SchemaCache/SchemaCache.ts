@@ -15,10 +15,10 @@ export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
 
 export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
-  private _validatorMap: T = {} as T
+  private _validators: T = {} as T
 
-  public get validatorMap(): T {
-    return this._validatorMap
+  public get validators(): T {
+    return this._validators
   }
 
   public proxy = 'https://api.archivist.xyo.network/domain'
@@ -34,7 +34,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
       if (schemaName) {
         this.cache.set(schemaName, entry)
         const key = schemaName as keyof T
-        this._validatorMap[key] = validator as unknown as T[keyof T]
+        this._validators[key] = validator as unknown as T[keyof T]
         this.onSchemaCached?.(schemaName, entry)
       }
     }

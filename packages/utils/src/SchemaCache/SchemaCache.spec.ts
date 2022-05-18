@@ -52,7 +52,7 @@ describe('XyoSchemaCache', () => {
           new XyoPayloadBuilder({ schema }).fields({ b: 'b' }).build(),
           new XyoPayloadBuilder({ schema }).fields({ c: 'c' }).build(),
         ]
-        const validator = cache.validatorMap[schema]
+        const validator = cache.validators[schema]
         expect(validator).toBeTruthy()
         if (validator) {
           // Strongly typing variable to ensure TypeScript inferred type from validator matches
@@ -69,7 +69,7 @@ describe('XyoSchemaCache', () => {
         expect(fetchedPayload).toBeTruthy()
         // const payloads = [new XyoPayloadBuilder({ schema }).fields(exampleDomainConfig).build()]
         const payloads = [exampleDomainConfig]
-        const validator = cache.validatorMap[schema]
+        const validator = cache.validators[schema]
         expect(validator).toBeTruthy()
         if (validator) {
           // Strongly typing variable to ensure TypeScript inferred type from validator matches

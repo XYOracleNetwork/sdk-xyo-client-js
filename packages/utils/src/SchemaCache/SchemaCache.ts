@@ -13,10 +13,15 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
 
 export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
 
+type PropType<TObj, TProp extends keyof TObj> = TObj[TProp]
+
 export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
-  private ajv = new Ajv({ strict: false })
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
-  private validators: T = {} as T
+  private _validatorMap: XyoSchemaNameToValidatorMap = {} as XyoSchemaNameToValidatorMap
+
+  public get validatorMap(): XyoSchemaNameToValidatorMap {
+    return this._validatorMap
+  }
 
   public proxy = 'https://api.archivist.xyo.network/domain'
   public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
@@ -24,12 +29,14 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
     //only store them if they match the schema root
     if (entry.payload.definition) {
+      const ajv = new Ajv({ strict: false })
       //check if it is a valid schema def
-      const validator = this.ajv.compile(entry.payload.definition)
+      const validator = ajv.compile<PropType<XyoSchemaNameToValidatorMap, never>>(entry.payload.definition)
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
         this.cache.set(schemaName, entry)
-        this.validators[schemaName as keyof T] = validator as unknown as T[keyof T]
+        const key = schemaName as keyof XyoSchemaNameToValidatorMap
+        this._validatorMap[key] = validator
         this.onSchemaCached?.(schemaName, entry)
       }
     }
@@ -41,10 +48,6 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
       .forEach((entry) => {
         this.cacheSchemaIfValid(entry as XyoSchemaCacheEntry)
       })
-  }
-
-  public validator(schema: keyof T) {
-    return this.validators[schema]
   }
 
   //Note: there is a race condition in here if two threads (or promises) start a get at the same time, they will both do the discovery

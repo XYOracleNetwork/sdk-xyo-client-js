@@ -41,38 +41,44 @@ describe('XyoSchemaCache', () => {
   })
 
   describe('validator', () => {
-    test('provides strongly typed validator for known schema type (XyoPayload)', async () => {
-      const schema = 'network.xyo.payload'
-      const cache = XyoSchemaCache.instance
-      const fetchedPayload = await cache.get(schema)
-      expect(fetchedPayload).toBeTruthy()
-      const payloads = [
-        new XyoPayloadBuilder({ schema }).fields({ a: 'a' }).build(),
-        new XyoPayloadBuilder({ schema }).fields({ b: 'b' }).build(),
-        new XyoPayloadBuilder({ schema }).fields({ c: 'c' }).build(),
-      ]
-      const validator = cache.validatorMap[schema]
-      expect(validator).toBeTruthy()
-      // Strongly typing variable to ensure TypeScript inferred type from validator matches
-      const valid: XyoPayload[] = payloads.filter(validator)
-      expect(valid).toBeTruthy()
-      expect(Array.isArray(valid)).toBeTruthy()
-      expect(valid.length).toBe(payloads.length)
-    })
-    test('provides strongly typed validator for known schema type (XyoDomainConfig)', async () => {
-      const schema = 'network.xyo.domain'
-      const cache = XyoSchemaCache.instance
-      const fetchedPayload = await cache.get(schema)
-      expect(fetchedPayload).toBeTruthy()
-      // const payloads = [new XyoPayloadBuilder({ schema }).fields(exampleDomainConfig).build()]
-      const payloads = [exampleDomainConfig]
-      const validator = cache.validatorMap[schema]
-      expect(validator).toBeTruthy()
-      // Strongly typing variable to ensure TypeScript inferred type from validator matches
-      const valid: XyoDomainConfig[] = payloads.filter(validator)
-      expect(valid).toBeTruthy()
-      expect(Array.isArray(valid)).toBeTruthy()
-      expect(valid.length).toBe(payloads.length)
+    describe('provides strongly typed validator for known schema type', () => {
+      test('XyoPayload', async () => {
+        const schema = 'network.xyo.payload'
+        const cache = XyoSchemaCache.instance
+        const fetchedPayload = await cache.get(schema)
+        expect(fetchedPayload).toBeTruthy()
+        const payloads = [
+          new XyoPayloadBuilder({ schema }).fields({ a: 'a' }).build(),
+          new XyoPayloadBuilder({ schema }).fields({ b: 'b' }).build(),
+          new XyoPayloadBuilder({ schema }).fields({ c: 'c' }).build(),
+        ]
+        const validator = cache.validatorMap[schema]
+        expect(validator).toBeTruthy()
+        if (validator) {
+          // Strongly typing variable to ensure TypeScript inferred type from validator matches
+          const valid: XyoPayload[] = payloads.filter(validator)
+          expect(valid).toBeTruthy()
+          expect(Array.isArray(valid)).toBeTruthy()
+          expect(valid.length).toBe(payloads.length)
+        }
+      })
+      test('XyoDomainConfig', async () => {
+        const schema = 'network.xyo.domain'
+        const cache = XyoSchemaCache.instance
+        const fetchedPayload = await cache.get(schema)
+        expect(fetchedPayload).toBeTruthy()
+        // const payloads = [new XyoPayloadBuilder({ schema }).fields(exampleDomainConfig).build()]
+        const payloads = [exampleDomainConfig]
+        const validator = cache.validatorMap[schema]
+        expect(validator).toBeTruthy()
+        if (validator) {
+          // Strongly typing variable to ensure TypeScript inferred type from validator matches
+          const valid: XyoDomainConfig[] = payloads.filter(validator)
+          expect(valid).toBeTruthy()
+          expect(Array.isArray(valid)).toBeTruthy()
+          expect(valid.length).toBe(payloads.length)
+        }
+      })
     })
   })
 

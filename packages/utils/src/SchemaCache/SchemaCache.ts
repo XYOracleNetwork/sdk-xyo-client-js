@@ -16,7 +16,7 @@ export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
 export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
   private ajv = new Ajv({ strict: false })
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
-  private schemaToTypeMap: T = {} as T
+  private validators: T = {} as T
 
   public proxy = 'https://api.archivist.xyo.network/domain'
   public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
@@ -29,7 +29,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
         this.cache.set(schemaName, entry)
-        this.schemaToTypeMap[schemaName as keyof T] = validator as unknown as T[keyof T]
+        this.validators[schemaName as keyof T] = validator as unknown as T[keyof T]
         this.onSchemaCached?.(schemaName, entry)
       }
     }
@@ -44,7 +44,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   }
 
   public validator(schema: keyof T) {
-    return this.schemaToTypeMap[schema]
+    return this.validators[schema]
   }
 
   //Note: there is a race condition in here if two threads (or promises) start a get at the same time, they will both do the discovery

@@ -1,7 +1,7 @@
 import { XyoPayload, XyoSchemaPayload } from '@xyo-network/core'
 import { XyoDomainConfig } from '@xyo-network/domain'
 
-export type PayloadValidator<T extends XyoPayload = XyoPayload> = (x: XyoPayload) => x is T
+export type PayloadValidator<T extends XyoPayload = XyoPayload> = ((x: XyoPayload) => x is T) | undefined
 
 export interface XyoSchemaNameToValidatorMap {
   'network.xyo.domain': PayloadValidator<XyoDomainConfig>

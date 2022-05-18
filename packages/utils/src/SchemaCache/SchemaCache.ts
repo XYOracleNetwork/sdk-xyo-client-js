@@ -13,13 +13,11 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
 
 export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
 
-type PropType<TObj, TProp extends keyof TObj> = TObj[TProp]
-
 export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
-  private _validatorMap: XyoSchemaNameToValidatorMap = {} as XyoSchemaNameToValidatorMap
+  private _validatorMap: T = {} as T
 
-  public get validatorMap(): XyoSchemaNameToValidatorMap {
+  public get validatorMap(): T {
     return this._validatorMap
   }
 
@@ -31,12 +29,12 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
     if (entry.payload.definition) {
       const ajv = new Ajv({ strict: false })
       //check if it is a valid schema def
-      const validator = ajv.compile<PropType<XyoSchemaNameToValidatorMap, never>>(entry.payload.definition)
+      const validator = ajv.compile(entry.payload.definition)
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
         this.cache.set(schemaName, entry)
-        const key = schemaName as keyof XyoSchemaNameToValidatorMap
-        this._validatorMap[key] = validator
+        const key = schemaName as keyof T
+        this._validatorMap[key] = validator as unknown as T[keyof T]
         this.onSchemaCached?.(schemaName, entry)
       }
     }

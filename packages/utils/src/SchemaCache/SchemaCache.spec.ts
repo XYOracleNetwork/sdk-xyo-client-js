@@ -63,8 +63,7 @@ describe('XyoSchemaCache', () => {
         const cache = XyoSchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
-        // const payloads = [new XyoPayloadBuilder({ schema }).fields(exampleDomainConfig).build()]
-        const payloads: XyoPayload[] = [exampleDomainConfig]
+        const payloads = [new XyoPayloadBuilder({ schema }).fields(exampleDomainConfig).build()]
         const validator = assertEx(cache.validators[schema])
         // Strongly typing variable to ensure TypeScript inferred type from validator matches
         const valid: XyoDomainConfig[] = payloads.filter(validator)

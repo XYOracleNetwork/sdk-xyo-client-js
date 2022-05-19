@@ -17,6 +17,11 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
   private _validators: T = {} as T
 
+  /**
+   * A map of cached schema (by name) to payload validators for the schema. A schema
+   * must be cached via `get('schema.name')` before it's validator can be used as
+   * they are compiled dynamically at runtime upon retrieval.
+   */
   public get validators(): T {
     return this._validators
   }

@@ -19,8 +19,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.17.12",
-    "@babel/preset-env": "^7.17.12",
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
     "@types/lodash": "^4.14.182",
     "@types/uuid": "^8.3.4",
     "@xylabs/eslint-config": "^2.3.22",

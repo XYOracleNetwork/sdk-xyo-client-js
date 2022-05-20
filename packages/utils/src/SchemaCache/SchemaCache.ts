@@ -1,5 +1,5 @@
 import { XyoFetchedPayload, XyoSchemaPayload } from '@xyo-network/core'
-import { XyoDomainConfigWrapper } from '@xyo-network/domain'
+import { XyoDomainPayloadWrapper } from '@xyo-network/domain'
 import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'
 
@@ -56,7 +56,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   //Note: there is a race condition in here if two threads (or promises) start a get at the same time, they will both do the discovery
   public async get(schema: string) {
     const loadSchema = async (schema: string) => {
-      const domain = await XyoDomainConfigWrapper.discover(schema, this.proxy)
+      const domain = await XyoDomainPayloadWrapper.discover(schema, this.proxy)
       await domain?.fetch()
       this.cacheSchemas(domain?.aliases)
 

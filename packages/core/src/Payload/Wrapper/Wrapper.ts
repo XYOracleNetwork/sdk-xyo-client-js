@@ -1,11 +1,15 @@
-import { deepOmitUnderscoreFields, deepPickUnderscoreFields, XyoHasher } from '../../Hasher'
+import { deepOmitUnderscoreFields, deepPickUnderscoreFields, XyoAbstractHasher } from '../../Hasher'
 import { XyoPayload } from '../models'
 
-class XyoPayloadWrapper<T extends XyoPayload> extends XyoHasher<T> {
-  public readonly payload: T
+export class XyoPayloadWrapper<T extends XyoPayload> extends XyoAbstractHasher<T> {
+  public payload: T
   constructor(payload: T) {
-    super(payload)
+    super()
     this.payload = payload
+  }
+
+  protected get obj() {
+    return this.payload
   }
 
   public get body() {
@@ -16,5 +20,3 @@ class XyoPayloadWrapper<T extends XyoPayload> extends XyoHasher<T> {
     return deepPickUnderscoreFields(this.payload)
   }
 }
-
-export { XyoPayloadWrapper }

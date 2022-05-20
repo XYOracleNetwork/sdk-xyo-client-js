@@ -4,6 +4,6 @@
     "HuriOptions",
     "XyoWitnessConfig",
     "XyoFetchedPayload",
-    "XyoNetworkConfig"
+    "XyoNetworkPayload"
   ]
 }

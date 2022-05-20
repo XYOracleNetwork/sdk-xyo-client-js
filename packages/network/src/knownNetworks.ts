@@ -1,35 +1,36 @@
-import { XyoNetworkConfig } from './XyoNetworkConfig'
-import { XyoNodeConfig } from './XyoNodeConfig'
-import { XyoNodeConfigWrapper } from './XyoNodeConfigWrapper'
+import { XyoNetworkPayloadSchema } from './schema'
+import { XyoNetworkNodePayload } from './XyoNetworkNodePayload'
+import { XyoNetworkNodePayloadWrapper } from './XyoNetworkNodePayloadWrapper'
+import { XyoNetworkPayload } from './XyoNetworkPayload'
 
-const kerplunk = (): XyoNetworkConfig => {
+const kerplunk = (): XyoNetworkPayload => {
   return {
     name: 'Kerplunk',
-    nodes: [XyoNodeConfigWrapper.known('kerplunk-archivist-xyo-network')?.config, XyoNodeConfigWrapper.known('beta-location-diviner-xyo-network')?.config].filter(
+    nodes: [XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network')?.payload, XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network')?.payload].filter(
       (item) => item
-    ) as XyoNodeConfig[],
-    slug: 'kerplunk',
+    ) as XyoNetworkNodePayload[],
+    schema: XyoNetworkPayloadSchema,
   }
 }
 
-const main = (): XyoNetworkConfig => {
+const main = (): XyoNetworkPayload => {
   return {
     name: 'Main',
-    nodes: [XyoNodeConfigWrapper.known('main-archivist-xyo-network')?.config, XyoNodeConfigWrapper.known('location-diviner-xyo-network')?.config].filter(
+    nodes: [XyoNetworkNodePayloadWrapper.known('main-archivist-xyo-network')?.payload, XyoNetworkNodePayloadWrapper.known('location-diviner-xyo-network')?.payload].filter(
       (item) => item
-    ) as XyoNodeConfig[],
-    slug: 'main',
+    ) as XyoNetworkNodePayload[],
+    schema: XyoNetworkPayloadSchema,
   }
 }
 
-const local = (): XyoNetworkConfig => {
+const local = (): XyoNetworkPayload => {
   return {
     name: 'Local',
-    nodes: [XyoNodeConfigWrapper.known('kerplunk-archivist-xyo-network')?.config, XyoNodeConfigWrapper.known('beta-location-diviner-xyo-network')?.config].filter(
+    nodes: [XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network')?.payload, XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network')?.payload].filter(
       (item) => item
-    ) as XyoNodeConfig[],
-    slug: 'local',
+    ) as XyoNetworkNodePayload[],
+    schema: XyoNetworkPayloadSchema,
   }
 }
 
-export const knownNetworks = (): XyoNetworkConfig[] => [kerplunk(), main(), local()]
+export const knownNetworks = (): XyoNetworkPayload[] => [kerplunk(), main(), local()]

@@ -4,12 +4,11 @@ import { v4 as uuid } from 'uuid'
 import { XyoIdPayload } from './Payload'
 import { idTemplate } from './Template'
 
-const template = idTemplate()
-
 export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
   private salt: string
 
   constructor(salt = uuid()) {
+    const template = idTemplate()
     super({
       schema: template.schema,
       template,

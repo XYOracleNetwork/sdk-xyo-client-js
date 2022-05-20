@@ -1,30 +1,13 @@
-import shajs from 'sha.js'
+import { XyoAbstractHasher } from './XyoAbstractHasher'
 
-import { removeEmptyFields } from './removeEmptyFields'
-import { deepOmitUnderscoreFields } from './removeFields'
-import { sortFields } from './sortFields'
-
-export class XyoHasher<T extends Record<string, unknown>> {
-  public readonly obj: T
+export class XyoHasher<T extends Record<string, unknown>> extends XyoAbstractHasher<T> {
+  private readonly memoryObj: T
   constructor(obj: T) {
-    this.obj = obj
+    super()
+    this.memoryObj = obj
   }
 
-  get hashFields() {
-    return removeEmptyFields(deepOmitUnderscoreFields(this.obj))
-  }
-
-  public sortedStringify() {
-    const sortedEntry = sortFields(this.hashFields)
-    return JSON.stringify(sortedEntry)
-  }
-
-  public sortedHash() {
-    return this.sortedHashData().toString('hex')
-  }
-
-  private sortedHashData() {
-    const stringObject = this.sortedStringify()
-    return shajs('sha256').update(stringObject).digest()
+  protected get obj() {
+    return this.memoryObj
   }
 }

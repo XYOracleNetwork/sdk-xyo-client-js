@@ -1,12 +1,13 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
-import { XyoDomainConfig } from '@xyo-network/domain'
+import { XyoDomainPayload } from '@xyo-network/domain'
+import { XyoNetworkNodePayloadSchema, XyoNetworkPayloadSchema } from '@xyo-network/network'
 
 import { XyoSchemaCache } from './SchemaCache'
 
 const proxy = 'https://beta.api.archivist.xyo.network/domain'
 
-const exampleDomainConfig: XyoDomainConfig = {
+const exampleDomainConfig: XyoDomainPayload = {
   aliases: {
     'network.xyo.schema': {
       huri: '548476cc8388e97c7a724c77ffc89b8b858b66ee009750797405d264c570b260',
@@ -18,13 +19,14 @@ const exampleDomainConfig: XyoDomainConfig = {
       nodes: [
         {
           name: 'XYO Archivist',
+          schema: XyoNetworkNodePayloadSchema,
           slug: 'xyo',
           type: 'archivist',
           uri: 'https://api.archivist.xyo.network',
           web: 'https://archivist.xyo.network',
         },
       ],
-      slug: 'main',
+      schema: XyoNetworkPayloadSchema,
     },
   ],
   schema: 'network.xyo.domain',
@@ -66,7 +68,7 @@ describe('XyoSchemaCache', () => {
         const payloads = [new XyoPayloadBuilder({ schema }).fields(exampleDomainConfig).build()]
         const validator = assertEx(cache.validators[schema])
         // Strongly typing variable to ensure TypeScript inferred type from validator matches
-        const valid: XyoDomainConfig[] = payloads.filter(validator)
+        const valid: XyoDomainPayload[] = payloads.filter(validator)
         expect(valid.length).toBe(payloads.length)
       })
     })

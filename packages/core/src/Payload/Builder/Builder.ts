@@ -35,7 +35,7 @@ export class XyoPayloadBuilder<T extends XyoPayload> {
 
   public build(): T {
     const hashableFields = this.hashableFields()
-    const _hash = new XyoHasher(hashableFields).sortedHash()
+    const _hash = new XyoHasher(hashableFields).hash
     const _timestamp = Date.now()
     return { ...hashableFields, _client: 'js', _hash, _timestamp, schema: this._schema }
   }

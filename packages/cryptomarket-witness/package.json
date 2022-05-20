@@ -1,0 +1,75 @@
+{
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@ethersproject/providers": "^5.6.6",
+    "@xyo-network/core": "workspace:^",
+    "axios": "^0.27.2",
+    "bowser": "^2.11.0",
+    "lodash": "^4.17.21",
+    "systeminformation": "^5.11.15",
+    "uuid": "^8.3.2"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "devDependencies": {
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
+    "@types/lodash": "^4.14.182",
+    "@types/uuid": "^8.3.4",
+    "@xylabs/eslint-config": "^2.3.22",
+    "@xylabs/ts-scripts": "^1.0.66",
+    "@xylabs/tsconfig": "^1.0.13",
+    "license-checker": "^25.0.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4"
+  },
+  "browser": "dist/esm/index.js",
+  "docs": "dist/docs.json",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
+  "name": "@xyo-network/cryptomarket-witness",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "scripts": {
+    "deploy": "yarn deploy3",
+    "lint-pkg": "npmPkgJsonLint .",
+    "build": "yarn clean && tsc -p tsconfig.build.cjs.json && tsc -p tsconfig.build.esm.json && yarn gen:docs",
+    "gen:docs": "typedoc ./src/index.ts --json ./dist/docs.json --tsconfig ./tsconfig.json",
+    "license": "yarn license-checker --exclude \"MIT, ISC, Apache-2.0, BSD, BSD-2-Clause, CC-BY-4.0, Unlicense, CC-BY-3.0, CC0-1.0\""
+  },
+  "sideEffects": true,
+  "types": "dist/esm/index.d.ts",
+  "version": "2.20.30",
+  "packageManager": "yarn@3.1.1"
+}

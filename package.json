@@ -14,8 +14,12 @@
   "dependencies": {
     "@xyo-network/api": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/cryptomarket-witness": "workspace:^",
     "@xyo-network/domain": "workspace:^",
+    "@xyo-network/ethereum-witness": "workspace:^",
     "@xyo-network/network": "workspace:^",
+    "@xyo-network/panel": "workspace:^",
+    "@xyo-network/schema-witness": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/systeminfo-witness": "workspace:^",
     "@xyo-network/utils": "workspace:^",
@@ -23,8 +27,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.17.12",
-    "@babel/preset-env": "^7.17.12",
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
     "@xylabs/eslint-config": "^2.3.22",
     "@xylabs/rollup-config": "^1.1.17",
     "@xylabs/ts-scripts": "^1.0.66",

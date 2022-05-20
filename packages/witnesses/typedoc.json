@@ -2,6 +2,7 @@
   "intentionallyNotExported": [
     "XyoPayloadFull",
     "XyoWitnessConfig",
-    "XyoSchemaPayload"
+    "XyoSchemaPayload",
+    "XyoQueryPayload"
   ]
 }

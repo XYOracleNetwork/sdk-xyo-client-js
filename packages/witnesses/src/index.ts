@@ -1,6 +1,3 @@
 export * from './Adhoc'
-export * from './CryptoMarket'
-export * from './Ethereum'
 export * from './Id'
 export * from './Location'
-export * from './Schema'

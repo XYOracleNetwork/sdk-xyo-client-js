@@ -2,11 +2,8 @@
   "intentionallyNotExported": [
     "XyoFetchedPayload",
     "XyoSchemaPayload",
-    "XyoBoundWitness",
-    "XyoAccount",
-    "XyoArchivistApi",
-    "XyoWitness",
     "XyoPayloadFull",
-    "XyoWitnessConfig"
+    "XyoDomainConfig",
+    "XyoPayload"
   ]
 }

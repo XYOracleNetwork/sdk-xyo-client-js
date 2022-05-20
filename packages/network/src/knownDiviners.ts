@@ -1,23 +1,24 @@
-import { XyoNodeConfig } from './XyoNodeConfig'
+import { XyoNetworkNodePayloadSchema } from './schema'
+import { XyoNetworkNodePayload } from './XyoNetworkNodePayload'
 
-const beta = (): XyoNodeConfig => {
+const beta = (): XyoNetworkNodePayload => {
   return {
     name: 'XYO Location (beta)',
-    slug: 'beta-location-diviner-xyo-network',
+    schema: XyoNetworkNodePayloadSchema,
     type: 'diviner',
     uri: 'https://beta.api.location.diviner.xyo.network',
     web: 'https://beta.explore.xyo.network',
   }
 }
 
-const main = (): XyoNodeConfig => {
+const main = (): XyoNetworkNodePayload => {
   return {
     name: 'XYO Location',
-    slug: 'location-diviner-xyo-network',
+    schema: XyoNetworkNodePayloadSchema,
     type: 'diviner',
     uri: 'https://api.location.diviner.xyo.network',
     web: 'https://explore.xyo.network',
   }
 }
 
-export const knownDiviners = (): XyoNodeConfig[] => [beta(), main()]
+export const knownDiviners = (): XyoNetworkNodePayload[] => [beta(), main()]

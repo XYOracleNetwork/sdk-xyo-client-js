@@ -19,7 +19,7 @@ export class XyoBoundWitnessBuilder {
 
   private get _payload_hashes(): string[] {
     return this._payloads.map((payload) => {
-      return new XyoHasher(payload).sortedHash()
+      return new XyoHasher(payload).hash
     })
   }
 
@@ -72,7 +72,7 @@ export class XyoBoundWitnessBuilder {
 
   public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
-    const _hash = new XyoHasher(hashableFields).sortedHash()
+    const _hash = new XyoHasher(hashableFields).hash
 
     const ret = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() } as XyoBoundWitness
     if (this.config.inlinePayloads) {

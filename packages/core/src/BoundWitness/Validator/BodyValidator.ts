@@ -60,7 +60,7 @@ class XyoBoundWitnessBodyValidator {
     const errors: Error[] = []
     const passedHashes = this.body.payload_hashes
     this.payloads?.forEach((payload, index) => {
-      const calcHash = new XyoHasher(payload).sortedHash()
+      const calcHash = new XyoHasher(payload).hash
       const passedHash = passedHashes[index]
       if (calcHash !== passedHash) {
         errors.push(new Error(`hash mismatch [${calcHash} !== ${passedHash}]`))

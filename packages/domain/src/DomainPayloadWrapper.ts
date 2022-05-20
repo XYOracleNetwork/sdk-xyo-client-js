@@ -1,20 +1,20 @@
 import { XyoApiEnvelope } from '@xyo-network/api'
 import { DnsRecordType, domainResolve, Huri, HuriOptions, isBrowser, XyoFetchedPayload, XyoPayloadWrapper } from '@xyo-network/core'
-import { XyoNetworkConfig } from '@xyo-network/network'
+import { XyoNetworkPayload, XyoNetworkPayloadWrapper } from '@xyo-network/network'
 import axios, { AxiosError } from 'axios'
 import reverse from 'lodash/reverse'
 
-import { XyoAlias, XyoDomainConfig } from './DomainConfig'
+import { XyoAlias, XyoDomainPayload } from './DomainPayload'
 
-export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
+export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPayload> extends XyoPayloadWrapper<T> {
   public aliases?: XyoFetchedPayload[] | null
 
-  private getNetwork(slug?: string): XyoNetworkConfig | undefined {
-    return slug ? this.payload.networks?.find((value) => value.slug === slug) : this.payload.networks?.[0]
+  private getNetwork(hash?: string): XyoNetworkPayload | undefined {
+    return hash ? this.payload.networks?.find((value) => new XyoNetworkPayloadWrapper(value).hash === hash) : this.payload.networks?.[0]
   }
 
-  private findArchivistUri(networkSlug?: string): string | undefined {
-    return this.getNetwork(networkSlug)?.nodes.find((value) => value.type === 'archivist')?.uri
+  private findArchivistUri(hash?: string): string | undefined {
+    return this.getNetwork(hash)?.nodes?.find((payload) => (payload.type === 'archivist' ? payload : undefined))?.uri
   }
 
   private async fetchAlias(alias: XyoAlias, huriOptions?: HuriOptions): Promise<XyoFetchedPayload | null> {
@@ -46,8 +46,8 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
   public static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
     try {
       const requestUrl = `${proxy}/${domain.split('.').reverse().join('.')}`
-      const config = (await axios.get<XyoApiEnvelope<XyoDomainConfig>>(requestUrl)).data.data
-      return new XyoDomainConfigWrapper(config)
+      const config = (await axios.get<XyoApiEnvelope<XyoDomainPayload>>(requestUrl)).data.data
+      return new XyoDomainPayloadWrapper(config)
     } catch (ex) {
       const error = ex as AxiosError
       console.log(`XyoDomainConfig root file not found using proxy [${domain}] [${error.code}]`)
@@ -56,8 +56,8 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
 
   public static async discoverRootFileDirect(domain: string) {
     try {
-      const config = (await axios.get<XyoDomainConfig>(`https://${domain}/xyo-config.json`)).data
-      return new XyoDomainConfigWrapper(config)
+      const config = (await axios.get<XyoDomainPayload>(`https://${domain}/xyo-config.json`)).data
+      return new XyoDomainPayloadWrapper(config)
     } catch (ex) {
       console.log(`XyoDomainConfig root file not found [${domain}]`)
     }
@@ -72,9 +72,9 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
       const hash = (await domainResolve(`_xyo.${domain}`, DnsRecordType.TXT))?.Answer?.[0]?.data
       if (hash) {
         const huri = new Huri(hash)
-        const payload = (await huri.fetch()) as XyoDomainConfig
+        const payload = (await huri.fetch()) as XyoDomainPayload
         if (payload) {
-          return new XyoDomainConfigWrapper(payload)
+          return new XyoDomainPayloadWrapper(payload)
         }
       }
     } catch (ex) {
@@ -90,3 +90,6 @@ export class XyoDomainConfigWrapper extends XyoPayloadWrapper<XyoDomainConfig> {
     }
   }
 }
+
+/** @deprecated use XyoDomainPayloadWrapper instead */
+export type XyoDomainConfigWrapper = XyoDomainPayloadWrapper

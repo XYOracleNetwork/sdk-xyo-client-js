@@ -32,7 +32,7 @@ const payloadHash = '3c817871cbf24708703e907dbc344b1b2aefcc3603d14d59c3a35a5c446
 describe('XyoBoundWitnessBuilder', () => {
   describe('hash', () => {
     it.each(payloads)('consistently hashes equivalent payload independent of the order of the keys', (payload) => {
-      const hash = new XyoHasher(payload).sortedHash()
+      const hash = new XyoHasher(payload).hash
       expect(hash).toEqual(payloadHash)
     })
   })

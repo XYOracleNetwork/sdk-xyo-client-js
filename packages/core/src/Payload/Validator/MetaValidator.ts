@@ -14,7 +14,7 @@ class XyoPayloadMetaValidator {
     const errors: Error[] = []
     const wrapper = new XyoHasher(this.payload)
 
-    const bodyHash = wrapper.sortedHash()
+    const bodyHash = wrapper.hash
     if (bodyHash !== this.payload._hash) errors.push(new Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.payload._hash}]`))
     return errors
   }

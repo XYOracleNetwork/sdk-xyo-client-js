@@ -3127,7 +3127,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/core@^2.20.31, @xyo-network/core@workspace:^, @xyo-network/core@workspace:packages/core":
+"@xyo-network/core@^2.20.32, @xyo-network/core@workspace:^, @xyo-network/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/core"
   dependencies:
@@ -3222,7 +3222,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/network@^2.20.31, @xyo-network/network@workspace:^, @xyo-network/network@workspace:packages/network":
+"@xyo-network/network@^2.20.32, @xyo-network/network@workspace:^, @xyo-network/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/network"
   dependencies:
@@ -3232,7 +3232,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.5.5
     "@xylabs/ts-scripts": ^1.0.66
     "@xylabs/tsconfig": ^1.0.13
-    "@xyo-network/core": ^2.20.31
+    "@xyo-network/core": ^2.20.32
     license-checker: ^25.0.1
     tslib: ^2.4.0
     typescript: ^4.6.4
@@ -3392,7 +3392,7 @@ __metadata:
     "@xyo-network/api": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/domain": "workspace:^"
-    "@xyo-network/network": ^2.20.31
+    "@xyo-network/network": ^2.20.32
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     ajv: ^8.11.0

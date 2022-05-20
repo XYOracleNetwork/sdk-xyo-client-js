@@ -10,6 +10,7 @@ const kerplunk = (): XyoNetworkPayload => {
       (item) => item
     ) as XyoNetworkNodePayload[],
     schema: XyoNetworkPayloadSchema,
+    slug: 'kerplunk',
   }
 }
 
@@ -20,6 +21,7 @@ const main = (): XyoNetworkPayload => {
       (item) => item
     ) as XyoNetworkNodePayload[],
     schema: XyoNetworkPayloadSchema,
+    slug: 'main',
   }
 }
 
@@ -30,6 +32,7 @@ const local = (): XyoNetworkPayload => {
       (item) => item
     ) as XyoNetworkNodePayload[],
     schema: XyoNetworkPayloadSchema,
+    slug: 'local',
   }
 }
 

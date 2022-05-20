@@ -13,11 +13,13 @@ export const domainConfigTemplate = (): XyoDomainPayload => ({
         {
           name: '',
           schema: 'network.xyo.node',
+          slug: '',
           type: 'archivist',
           uri: '',
         },
       ],
       schema: 'network.xyo.network',
+      slug: '',
     },
   ],
   schema: 'network.xyo.domain',

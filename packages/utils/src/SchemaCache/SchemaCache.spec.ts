@@ -27,6 +27,7 @@ const exampleDomainConfig: XyoDomainPayload = {
         },
       ],
       schema: XyoNetworkPayloadSchema,
+      slug: 'main',
     },
   ],
   schema: 'network.xyo.domain',

@@ -28,6 +28,7 @@
     "@xylabs/eslint-config": "^2.3.22",
     "@xylabs/ts-scripts": "^1.0.66",
     "@xylabs/tsconfig": "^1.0.13",
+    "@xyo-network/network": "^2.20.31",
     "license-checker": "^25.0.1",
     "tslib": "^2.4.0",
     "typescript": "^4.6.4"

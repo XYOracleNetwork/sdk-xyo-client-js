@@ -7,4 +7,5 @@ export interface XyoSchemaPayload extends XyoPayload {
     $id?: string
     [key: string]: unknown
   }
+  extends?: string
 }

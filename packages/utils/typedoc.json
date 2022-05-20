@@ -3,7 +3,7 @@
     "XyoFetchedPayload",
     "XyoSchemaPayload",
     "XyoPayloadFull",
-    "XyoDomainConfig",
+    "XyoDomainPayload",
     "XyoPayload"
   ]
 }

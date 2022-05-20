@@ -137,7 +137,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
     return await super.insertOne({
       ...item,
       _archive: this._archive,
-      _hash: wrapper.sortedHash(),
+      _hash: wrapper.hash,
       _timestamp,
     })
   }
@@ -149,7 +149,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
       return {
         ...item,
         _archive: this._archive,
-        _hash: wrapper.sortedHash(),
+        _hash: wrapper.hash,
         _timestamp,
       }
     })

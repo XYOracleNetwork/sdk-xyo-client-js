@@ -1,3 +1,3 @@
-export * from './DomainConfig'
-export * from './DomainConfigWrapper'
+export * from './DomainPayload'
+export * from './DomainPayloadWrapper'
 export * from './Witness'

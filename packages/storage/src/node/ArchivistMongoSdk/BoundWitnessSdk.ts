@@ -104,7 +104,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return await super.insertOne({
       ...item,
       _archive: this._archive,
-      _hash: wrapper.sortedHash(),
+      _hash: wrapper.hash,
       _timestamp,
     })
   }
@@ -116,7 +116,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
       return {
         ...item,
         _archive: this._archive,
-        _hash: wrapper.sortedHash(),
+        _hash: wrapper.hash,
         _timestamp,
       }
     })

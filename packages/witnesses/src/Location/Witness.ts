@@ -3,11 +3,10 @@ import { XyoWitness } from '@xyo-network/core'
 import { XyoLocationPayload } from './Payload'
 import { locationTemplate } from './Template'
 
-const template = locationTemplate()
-
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
   private geoLocation: Geolocation
   constructor() {
+    const template = locationTemplate()
     super({
       schema: template.schema,
       template,
@@ -28,7 +27,7 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
     })
   }
 
-  override async observe(): Promise<XyoLocationPayload> {
+  override async observe() {
     const location = await this.getCurrentPosition()
     return await super.observe({
       currentLocation: {

@@ -1,6 +1,6 @@
-import { XyoDomainConfig } from './DomainConfig'
+import { XyoDomainPayload } from './DomainPayload'
 
-export const domainConfigTemplate = (): XyoDomainConfig => ({
+export const domainConfigTemplate = (): XyoDomainPayload => ({
   aliases: {
     'com.example.id': {
       huri: '',
@@ -12,12 +12,12 @@ export const domainConfigTemplate = (): XyoDomainConfig => ({
       nodes: [
         {
           name: '',
-          slug: '',
+          schema: 'network.xyo.node',
           type: 'archivist',
           uri: '',
         },
       ],
-      slug: '',
+      schema: 'network.xyo.network',
     },
   ],
   schema: 'network.xyo.domain',

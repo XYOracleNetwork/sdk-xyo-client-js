@@ -3,6 +3,8 @@ import { XyoDomainConfigWrapper } from '@xyo-network/domain'
 import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'
 
+import { XyoSchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
+
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {
     return schema.$id
@@ -11,10 +13,20 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
 
 export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
 
-export class XyoSchemaCache {
-  public proxy = 'https://api.archivist.xyo.network/domain'
+export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
+  private _validators: T = {} as T
 
+  /**
+   * A map of cached schema (by name) to payload validators for the schema. A schema
+   * must be cached via `get('schema.name')` before it's validator can be used as
+   * they are compiled dynamically at runtime upon retrieval.
+   */
+  public get validators(): T {
+    return this._validators
+  }
+
+  public proxy = 'https://api.archivist.xyo.network/domain'
   public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
 
   private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
@@ -22,10 +34,12 @@ export class XyoSchemaCache {
     if (entry.payload.definition) {
       const ajv = new Ajv({ strict: false })
       //check if it is a valid schema def
-      ajv.compile(entry.payload.definition)
+      const validator = ajv.compile(entry.payload.definition)
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
         this.cache.set(schemaName, entry)
+        const key = schemaName as keyof T
+        this._validators[key] = validator as unknown as T[keyof T]
         this.onSchemaCached?.(schemaName, entry)
       }
     }

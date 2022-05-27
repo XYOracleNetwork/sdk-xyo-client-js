@@ -46,6 +46,10 @@ export class XyoPanelRunner {
     }
   }
 
+  public find(schema: string) {
+    return Object.entries(this.automations).find(([key]) => key === schema)
+  }
+
   public stop() {
     if (this.timeoutId) {
       clearInterval(this.timeoutId)

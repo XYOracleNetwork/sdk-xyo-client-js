@@ -1,0 +1,43 @@
+import { XyoPayloadWrapper } from '@xyo-network/core'
+
+import { XyoPanelIntervalAutomationPayload } from './Automation'
+
+export class XyoPanelIntervalAutomationWrapper<T extends XyoPanelIntervalAutomationPayload = XyoPanelIntervalAutomationPayload> extends XyoPayloadWrapper<T> {
+  protected get frequencyMillis() {
+    if (this.payload.frequency === undefined) return Infinity
+    switch (this.payload.frequencyUnits ?? 'hour') {
+      case 'minute':
+        return this.payload.frequency * 60 * 1000
+      case 'hour':
+        return this.payload.frequency * 60 * 60 * 1000
+      case 'day':
+        return this.payload.frequency * 24 * 60 * 60 * 1000
+    }
+  }
+
+  protected get remaining() {
+    //if remaining is not defined, we assume Infinity
+    return this.payload.remaining ?? Infinity
+  }
+
+  protected consumeRemaining(count = 1) {
+    this.payload.remaining = this.remaining - count
+
+    if (this.payload.remaining <= 0) {
+      this.payload.start = Infinity
+    }
+  }
+
+  protected checkEnd() {
+    if (this.payload.start > (this.payload.end ?? Infinity)) {
+      this.payload.start = Infinity
+    }
+  }
+
+  public next() {
+    this.payload.start = this.payload.start + this.frequencyMillis
+    this.consumeRemaining()
+    this.checkEnd()
+    return this
+  }
+}

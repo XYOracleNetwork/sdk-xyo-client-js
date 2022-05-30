@@ -14,7 +14,7 @@
     "axios": "^0.27.2",
     "bowser": "^2.11.0",
     "lodash": "^4.17.21",
-    "systeminformation": "^5.11.15",
+    "systeminformation": "^5.11.16",
     "uuid": "^8.3.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

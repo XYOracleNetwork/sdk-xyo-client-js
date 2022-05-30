@@ -2625,10 +2625,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.27, @types/node@npm:^17.0.35":
-  version: 17.0.35
-  resolution: "@types/node@npm:17.0.35"
-  checksum: 7a24946ae7fd20267ed92466384f594e448bfb151081158d565cc635d406ecb29ea8fb85fcd2a1f71efccf26fb5bd3c6f509bde56077eb8b832b847a6664bc62
+"@types/node@npm:*, @types/node@npm:^17.0.27, @types/node@npm:^17.0.36":
+  version: 17.0.36
+  resolution: "@types/node@npm:17.0.36"
+  checksum: 11055fde0a1e1421113849b5e32c7022911efc0be670729947bf0162970e79962d804b1eb8a9afb291380cac97cf0e684511415d586ae5fe1560322c940fe188
   languageName: node
   linkType: hard
 
@@ -3134,7 +3134,7 @@ __metadata:
     "@babel/preset-env": ^7.18.2
     "@types/elliptic": ^6.4.14
     "@types/lodash": ^4.14.182
-    "@types/node": ^17.0.35
+    "@types/node": ^17.0.36
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
     "@xylabs/eslint-config": ^2.3.22
@@ -3169,7 +3169,7 @@ __metadata:
     bowser: ^2.11.0
     license-checker: ^25.0.1
     lodash: ^4.17.21
-    systeminformation: ^5.11.15
+    systeminformation: ^5.11.16
     tslib: ^2.4.0
     typescript: ^4.7.2
     uuid: ^8.3.2
@@ -3214,7 +3214,7 @@ __metadata:
     bowser: ^2.11.0
     license-checker: ^25.0.1
     lodash: ^4.17.21
-    systeminformation: ^5.11.15
+    systeminformation: ^5.11.16
     tslib: ^2.4.0
     typescript: ^4.7.2
     uuid: ^8.3.2
@@ -3281,7 +3281,7 @@ __metadata:
     bowser: ^2.11.0
     license-checker: ^25.0.1
     lodash: ^4.17.21
-    systeminformation: ^5.11.15
+    systeminformation: ^5.11.16
     tslib: ^2.4.0
     typescript: ^4.7.2
     uuid: ^8.3.2
@@ -3367,7 +3367,7 @@ __metadata:
     bowser: ^2.11.0
     license-checker: ^25.0.1
     lodash: ^4.17.21
-    systeminformation: ^5.11.15
+    systeminformation: ^5.11.16
     tslib: ^2.4.0
     typescript: ^4.7.2
     uuid: ^8.3.2
@@ -3418,7 +3418,7 @@ __metadata:
     bowser: ^2.11.0
     license-checker: ^25.0.1
     lodash: ^4.17.21
-    systeminformation: ^5.11.15
+    systeminformation: ^5.11.16
     tslib: ^2.4.0
     typescript: ^4.7.2
     uuid: ^8.3.2
@@ -12229,12 +12229,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.11.15":
-  version: 5.11.15
-  resolution: "systeminformation@npm:5.11.15"
+"systeminformation@npm:^5.11.16":
+  version: 5.11.16
+  resolution: "systeminformation@npm:5.11.16"
   bin:
     systeminformation: lib/cli.js
-  checksum: 29bfd93cd6b733a2730a40daba415ecccb030b1dd965f872d0d0b272a935d31ab35c092ad273ce174f10f123899de03d95295336e5f9c68df0eb4a93b8eaed21
+  checksum: 4e4fb4c9c86c658c7e07a7661ac85a102bfb0a134f76cc5c5e7daf7ba13f9b43895d4ce4d80e55275a3395d254d20a84c53f036f1baececf5b94028ec93242c4
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

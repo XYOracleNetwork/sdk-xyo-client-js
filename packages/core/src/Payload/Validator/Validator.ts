@@ -14,7 +14,7 @@ class XyoPayloadValidator<T extends XyoPayload = XyoPayload> {
 
   public all() {
     const errors: Error[] = []
-    errors.push(...this.meta.all(), ...this.body.all())
+    errors.push(...this.body.all())
     return errors
   }
 }

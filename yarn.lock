@@ -2646,7 +2646,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.27, @types/node@npm:^17.0.38":
+"@types/node@npm:*, @types/node@npm:^17.0.38":
   version: 17.0.38
   resolution: "@types/node@npm:17.0.38"
   checksum: 9db1c39d603850ced665ab60b8f8ebce674ff9d762dfff0f776d520e71e4d73fdcd4c7f69213b804d878cf3e726911b09cae4ee66e35ae2724538de9f4838681
@@ -3131,16 +3131,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-js@npm:^2.4.2, @xylabs/sdk-js@npm:^2.5.5":
-  version: 2.5.5
-  resolution: "@xylabs/sdk-js@npm:2.5.5"
+"@xylabs/sdk-js@npm:^2.4.2, @xylabs/sdk-js@npm:^2.5.7":
+  version: 2.5.7
+  resolution: "@xylabs/sdk-js@npm:2.5.7"
   dependencies:
-    "@types/node": ^17.0.27
-    axios: ^0.26.1
-    bn.js: ^5.2.0
+    "@types/node": ^17.0.38
+    axios: ^0.27.2
+    bn.js: ^5.2.1
     buffer: ^6.0.3
     rollbar: ^2.25.0
-  checksum: c67665cf79f77602a953040476e344c96f3052e8973134df7deb66dc8b7d993e59b4135ac2e2d6235d96d9a19ed64ae5d160c921cfe9b642dd672b66d4139b3c
+  checksum: f75d7d17262b5454684c22d0d590a2e6bfe6294218e2d6d48b828b9d9b2bbf1858163945f831215dc29ee645b898dd860f21f4896b0b0a6a98d8036a0a80fb6c
   languageName: node
   linkType: hard
 
@@ -3235,7 +3235,7 @@ __metadata:
     "@types/pako": ^2.0.0
     "@types/uuid": ^8.3.4
     "@xylabs/eslint-config": ^2.3.22
-    "@xylabs/sdk-js": ^2.5.5
+    "@xylabs/sdk-js": ^2.5.7
     "@xylabs/ts-scripts": ^1.0.66
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/core": "workspace:^"
@@ -3262,7 +3262,7 @@ __metadata:
     "@types/sha.js": ^2.4.0
     "@types/ua-parser-js": ^0.7.36
     "@xylabs/eslint-config": ^2.3.22
-    "@xylabs/sdk-js": ^2.5.5
+    "@xylabs/sdk-js": ^2.5.7
     "@xylabs/ts-scripts": ^1.0.66
     axios: ^0.27.2
     elliptic: ^6.5.4
@@ -3289,7 +3289,7 @@ __metadata:
     "@uniswap/sdk-core": ^3.0.1
     "@uniswap/v3-sdk": ^3.8.2
     "@xylabs/eslint-config": ^2.3.22
-    "@xylabs/sdk-js": ^2.5.5
+    "@xylabs/sdk-js": ^2.5.7
     "@xylabs/ts-scripts": ^1.0.66
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/core": "workspace:^"
@@ -3357,7 +3357,7 @@ __metadata:
     "@babel/core": ^7.18.2
     "@babel/preset-env": ^7.18.2
     "@xylabs/eslint-config": ^2.3.22
-    "@xylabs/sdk-js": ^2.5.5
+    "@xylabs/sdk-js": ^2.5.7
     "@xylabs/ts-scripts": ^1.0.66
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/core": ^2.20.38
@@ -3377,7 +3377,7 @@ __metadata:
     "@metamask/providers": ^8.1.1
     "@types/lru-cache": ^7.10.10
     "@xylabs/eslint-config": ^2.3.22
-    "@xylabs/sdk-js": ^2.5.5
+    "@xylabs/sdk-js": ^2.5.7
     "@xylabs/ts-scripts": ^1.0.66
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/api": "workspace:^"
@@ -3441,7 +3441,7 @@ __metadata:
     jest: ^28.1.0
     jest-environment-jsdom: ^28.1.0
     license-checker: ^25.0.1
-    typedoc: ^0.22.16
+    typedoc: ^0.22.17
     typescript: ^4.7.2
   languageName: unknown
   linkType: soft
@@ -3476,7 +3476,7 @@ __metadata:
     "@babel/preset-env": ^7.18.2
     "@types/uuid": ^8.3.4
     "@xylabs/eslint-config": ^2.3.22
-    "@xylabs/sdk-js": ^2.5.5
+    "@xylabs/sdk-js": ^2.5.7
     "@xylabs/ts-scripts": ^1.0.66
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/core": "workspace:^"
@@ -3524,7 +3524,7 @@ __metadata:
     "@metamask/providers": ^8.1.1
     "@types/lru-cache": ^7.10.10
     "@xylabs/eslint-config": ^2.3.22
-    "@xylabs/sdk-js": ^2.5.5
+    "@xylabs/sdk-js": ^2.5.7
     "@xylabs/ts-scripts": ^1.0.66
     "@xylabs/tsconfig": ^1.0.13
     "@xyo-network/api": "workspace:^"
@@ -3887,15 +3887,6 @@ __metadata:
   version: 0.4.0
   resolution: "asynckit@npm:0.4.0"
   checksum: 7b78c451df768adba04e2d02e63e2d0bf3b07adcd6e42b4cf665cb7ce899bedd344c69a1dcbce355b5f972d597b25aaa1c1742b52cffd9caccb22f348114f6be
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "axios@npm:0.26.1"
-  dependencies:
-    follow-redirects: ^1.14.8
-  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
   languageName: node
   linkType: hard
 
@@ -6054,7 +6045,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.8, follow-redirects@npm:^1.14.9":
+"follow-redirects@npm:^1.14.9":
   version: 1.15.0
   resolution: "follow-redirects@npm:1.15.0"
   peerDependenciesMeta:
@@ -12810,9 +12801,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.22.16":
-  version: 0.22.16
-  resolution: "typedoc@npm:0.22.16"
+"typedoc@npm:^0.22.17":
+  version: 0.22.17
+  resolution: "typedoc@npm:0.22.17"
   dependencies:
     glob: ^8.0.3
     lunr: ^2.3.9
@@ -12823,7 +12814,7 @@ __metadata:
     typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x || 4.6.x || 4.7.x
   bin:
     typedoc: bin/typedoc
-  checksum: f19530bfa60149ab5fe1d90d42b45721d92f169281f051fc508515f26281edb22d4e62072dd83bb12b12f8c59b6b25ca2ccc8752a34232e2f4069bf13258595d
+  checksum: 3a2f492477989855fa43afc0ebfb84dca819436ec5c868ca175cb02485c6347c04dbb2d11669a8be04fc6860a8f3d29d124300b5718ba17174622ace29a0276a
   languageName: node
   linkType: hard
 

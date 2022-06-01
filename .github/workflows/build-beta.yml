@@ -19,7 +19,7 @@ jobs:
       - name: install
         run: yarn install
       - name: build
-        run: yarn build-all
+        run: yarn build
   build-windows:
     runs-on: windows-latest
     steps:
@@ -35,7 +35,7 @@ jobs:
       - name: install
         run: yarn install
       - name: build
-        run: yarn build-all
+        run: yarn build
   build-macos:
     runs-on: macos-latest
     steps:
@@ -49,4 +49,4 @@ jobs:
       - name: install
         run: yarn install
       - name: build
-        run: yarn build-all
+        run: yarn build

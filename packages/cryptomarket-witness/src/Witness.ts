@@ -1,13 +1,12 @@
 import { XyoWitness } from '@xyo-network/core'
 
-import { defaultCoins, defaultCurrencies } from './defaults'
 import { XyoCryptoMarketPayload } from './Payload'
-import { pricesFromCoinGecko } from './pricesFromCoinGecko'
+import { defaultCoins, defaultCurrencies } from './Sources'
 import { XyoCryptoAsset } from './XyoCryptoAsset'
 
 export class XyoCryptoMarketWitness extends XyoWitness<XyoCryptoMarketPayload> {
-  private coins: XyoCryptoAsset[]
-  private currencies: XyoCryptoAsset[]
+  protected coins: XyoCryptoAsset[]
+  protected currencies: XyoCryptoAsset[]
   constructor(coins: XyoCryptoAsset[] = defaultCoins, currencies: XyoCryptoAsset[] = defaultCurrencies) {
     super({
       schema: XyoCryptoMarketWitness.schema,
@@ -16,11 +15,9 @@ export class XyoCryptoMarketWitness extends XyoWitness<XyoCryptoMarketPayload> {
     this.currencies = currencies
   }
 
-  override async observe(): Promise<XyoCryptoMarketPayload> {
-    const assets = await pricesFromCoinGecko(this.coins, this.currencies)
-
+  override async observe(fields?: Partial<XyoCryptoMarketPayload>): Promise<XyoCryptoMarketPayload> {
     return await super.observe({
-      assets,
+      ...fields,
       timestamp: Date.now(),
     })
   }

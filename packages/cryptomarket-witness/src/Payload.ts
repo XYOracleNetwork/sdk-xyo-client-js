@@ -8,5 +8,6 @@ export interface XyoCryptoMarketQueryPayload extends XyoQueryPayload {
 
 export interface XyoCryptoMarketPayload extends XyoPayload {
   timestamp: number
+  source: 'coingecko' | 'uniswap3'
   assets: XyoCryptoAssets
 }

@@ -1,4 +1,4 @@
-import { XyoCryptoAsset } from './XyoCryptoAsset'
+import { XyoCryptoAsset } from '../../XyoCryptoAsset'
 
 export const defaultCoins: XyoCryptoAsset[] = [
   { name: 'bitcoin' },

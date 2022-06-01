@@ -1,6 +1,6 @@
 export * from './AssetSymbol'
 export * from './PartialRecord'
 export * from './Payload'
-export * from './Witness'
+export * from './Sources'
 export * from './XyoCryptoAsset'
 export * from './XyoCryptoAssets'

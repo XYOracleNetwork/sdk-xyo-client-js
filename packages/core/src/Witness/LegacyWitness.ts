@@ -16,8 +16,12 @@ export class XyoLegacyWitness<T extends XyoPayload = XyoPayload, C extends XyoWi
     this.config = config
   }
 
+  override get targetSchema() {
+    return this.config?.schema ?? 'network.xyo.payload'
+  }
+
   public async observe(fields?: Partial<T>) {
-    return new XyoPayloadBuilder<T>({ schema: this.config?.schema ?? 'network.xyo.payload' })
+    return new XyoPayloadBuilder<T>({ schema: this.targetSchema })
       .previousHash(this.previousHash)
       .fields(await this.config?.observer?.())
       .fields(fields)

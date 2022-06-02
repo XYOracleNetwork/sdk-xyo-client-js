@@ -2,11 +2,13 @@ import { delay } from '@xylabs/sdk-js'
 
 import { XyoPayload, XyoPayloadBuilder } from '../Payload'
 import { XyoQueryPayload } from '../Query'
+import { XyoWitness } from './Witness'
 
-export class XyoQueryWitness<Q extends XyoQueryPayload, T extends XyoPayload> {
+export class XyoQueryWitness<Q extends XyoQueryPayload, T extends XyoPayload> extends XyoWitness {
   public query: Q
 
   constructor(query: Q) {
+    super()
     this.query = query
   }
 

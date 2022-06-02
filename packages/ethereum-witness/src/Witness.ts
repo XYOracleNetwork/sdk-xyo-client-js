@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/providers'
-import { XyoQueryPayload, XyoWitness } from '@xyo-network/core'
+import { XyoLegacyWitness, XyoQueryPayload } from '@xyo-network/core'
 
-export class XyoEthereumWitness<Q extends XyoQueryPayload = XyoQueryPayload, T extends XyoQueryPayload = XyoQueryPayload> extends XyoWitness<T> {
+export class XyoEthereumWitness<Q extends XyoQueryPayload = XyoQueryPayload, T extends XyoQueryPayload = XyoQueryPayload> extends XyoLegacyWitness<T> {
   protected query: Q
   protected provider: Provider
   constructor({ provider, query, schema = XyoEthereumWitness.schema }: { provider: Provider; query: Q; schema: string }) {

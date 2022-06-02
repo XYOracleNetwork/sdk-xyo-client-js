@@ -1,11 +1,11 @@
-import { XyoWitness } from '@xyo-network/core'
+import { XyoLegacyWitness } from '@xyo-network/core'
 
 import { XyoDomainPayload } from './DomainPayload'
 import { domainConfigTemplate } from './Template'
 
 const template = domainConfigTemplate()
 
-export class XyoDomainConfigWitness extends XyoWitness<XyoDomainPayload> {
+export class XyoDomainConfigWitness extends XyoLegacyWitness<XyoDomainPayload> {
   public static demarc = '_xyo'
 
   constructor() {

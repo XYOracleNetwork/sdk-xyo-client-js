@@ -1,9 +1,9 @@
-import { XyoWitness } from '@xyo-network/core'
+import { XyoLegacyWitness } from '@xyo-network/core'
 
 import { XyoLocationPayload } from './Payload'
 import { locationTemplate } from './Template'
 
-export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
+export class XyoLocationWitness extends XyoLegacyWitness<XyoLocationPayload> {
   private geoLocation: Geolocation
   constructor() {
     const template = locationTemplate()

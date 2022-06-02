@@ -1,4 +1,4 @@
-import { AssetSymbol } from '../../AssetSymbol'
+import { AssetSymbol } from './AssetSymbol'
 
 export const coinGeckoCoinToAssetMap: Record<string, AssetSymbol> = {
   'binance-usd': 'busd',

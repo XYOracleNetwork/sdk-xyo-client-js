@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-import { AssetSymbol } from '../../AssetSymbol'
-import { PartialRecord } from '../../PartialRecord'
-import { XyoCryptoAsset } from '../../XyoCryptoAsset'
-import { XyoCryptoAssets } from '../../XyoCryptoAssets'
+import { PartialRecord } from '../PartialRecord'
+import { AssetSymbol } from './AssetSymbol'
 import { coinGeckoCoinToAssetMap } from './coinGeckoCoinToAssetMap'
+import { XyoCryptoAsset } from './XyoCryptoAsset'
+import { XyoCryptoAssets } from './XyoCryptoAssets'
 
 type CoinGeckoSimplePrice = PartialRecord<AssetSymbol, number>
 type CoinGeckoSimplePrices = Record<string, CoinGeckoSimplePrice>

@@ -66,8 +66,16 @@ describe('node', () => {
   })
   describe('without archive', () => {
     it('calculates the correct path', () => {
+      const archive = 'foo'
       const api = new XyoArchivistApi(configData)
-      const path = api.node('foo').config.root
+      const path = api.node(archive).config.root
+      expect(path).toBe(`/${archive}/`)
+    })
+    it('posts to the root', () => {
+      const api = new XyoArchivistApi(configData)
+      const p: XyoPayload<{ foo: string }> = new XyoPayloadBuilder<XyoPayload<{ foo: string }>>({ schema: 'foo' }).fields({ foo: 'bar' }).build()
+      const bw: XyoBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payload(p).build()
+      const path = api.node('foo').post(bw)
       expect(path).toBe('/foo/')
     })
   })

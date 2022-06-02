@@ -70,6 +70,13 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
+  public node<T extends XyoPayload, D = T>(archive?: string) {
+    return new XyoApiSimple<T, D>({
+      ...this.config,
+      root: archive ? `${this.root}${archive}/` : this.root,
+    })
+  }
+
   /** @deprecated use huri(huri) instead */
   public async get(huri: Huri | string): Promise<XyoApiResponseBody<XyoPayload>>
   /** @deprecated use huri(huri) instead */

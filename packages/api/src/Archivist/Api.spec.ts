@@ -1,4 +1,4 @@
-import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/core'
+import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
 import { config } from 'dotenv'
 
 import { XyoApiConfig, XyoApiError } from '../models'
@@ -53,6 +53,23 @@ describe('postBoundWitnesses', () => {
       console.log(JSON.stringify(error, null, 2))
       throw ex
     }
+  })
+})
+
+describe('node', () => {
+  describe('with archive', () => {
+    it('calculates the correct path', () => {
+      const api = new XyoArchivistApi(configData)
+      const path = api.node().config.root
+      expect(path).toBe('/')
+    })
+  })
+  describe('without archive', () => {
+    it('calculates the correct path', () => {
+      const api = new XyoArchivistApi(configData)
+      const path = api.node('foo').config.root
+      expect(path).toBe('/foo/')
+    })
   })
 })
 

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
+import { PartialRecord } from '../PartialRecord'
 import { AssetSymbol } from './AssetSymbol'
 import { coinGeckoCoinToAssetMap } from './coinGeckoCoinToAssetMap'
-import { PartialRecord } from './PartialRecord'
 import { XyoCryptoAsset } from './XyoCryptoAsset'
 import { XyoCryptoAssets } from './XyoCryptoAssets'
 

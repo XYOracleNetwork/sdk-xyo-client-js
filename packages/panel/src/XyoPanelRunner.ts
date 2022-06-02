@@ -39,15 +39,15 @@ export class XyoPanelRunner {
       if (delay < 0) {
         //automation is due, just do it
         await this.trigger(automation)
+      } else {
+        this.timeoutId = setTimeout(
+          async () => {
+            this.timeoutId = undefined
+            await this.start()
+          },
+          delay > 0 ? delay : 0
+        )
       }
-      //always set timeout since even if triggered, prevent stack increase
-      this.timeoutId = setTimeout(
-        async () => {
-          this.timeoutId = undefined
-          await this.start()
-        },
-        delay > 0 ? delay : 0
-      )
     }
   }
 

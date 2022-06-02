@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.5.5",
+    "@xylabs/sdk-js": "^2.5.7",
     "axios": "^0.27.2",
     "elliptic": "^6.5.4",
     "keccak256": "^1.0.6",
@@ -23,7 +23,7 @@
     "@babel/preset-env": "^7.18.2",
     "@types/elliptic": "^6.4.14",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^17.0.36",
+    "@types/node": "^17.0.38",
     "@types/sha.js": "^2.4.0",
     "@types/ua-parser-js": "^0.7.36",
     "@xylabs/eslint-config": "^2.3.22",

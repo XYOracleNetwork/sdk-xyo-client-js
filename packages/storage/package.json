@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.5.5",
+    "@xylabs/sdk-js": "^2.5.7",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.7",
     "mongodb": "^4.6.0",

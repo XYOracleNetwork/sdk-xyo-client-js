@@ -1,9 +1,9 @@
-import { XyoWitness } from '@xyo-network/core'
+import { XyoLegacyWitness } from '@xyo-network/core'
 
 import { XyoNonFungibleTokenMetaPayload } from './MetaPayload'
 import { nonFungibleTokenMetaTemplate } from './Template'
 
-export class XyoNonFungibleTokenMetaWitness extends XyoWitness<XyoNonFungibleTokenMetaPayload> {
+export class XyoNonFungibleTokenMetaWitness extends XyoLegacyWitness<XyoNonFungibleTokenMetaPayload> {
   constructor() {
     const template = nonFungibleTokenMetaTemplate()
     super({

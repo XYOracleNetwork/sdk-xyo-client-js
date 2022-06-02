@@ -1,6 +1,6 @@
-import { XyoPayload, XyoWitness } from '@xyo-network/core'
+import { XyoLegacyWitness, XyoPayload } from '@xyo-network/core'
 
-export class XyoAdhocWitness extends XyoWitness<XyoPayload> {
+export class XyoAdhocWitness extends XyoLegacyWitness<XyoPayload> {
   public payload: XyoPayload
   constructor(payload: XyoPayload) {
     super({

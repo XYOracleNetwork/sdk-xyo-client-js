@@ -23,7 +23,7 @@ export class XyoSystemInfoNodeWitness<
     })
   }
   override async observe(fields?: Partial<T>) {
-    const node = await get(this.config.nodeValues ?? defaultSystemInfoConfig())
+    const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
     return await super.observe(merge({ node }, fields))
   }
 }

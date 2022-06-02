@@ -1,10 +1,10 @@
-import { XyoWitness } from '@xyo-network/core'
+import { XyoLegacyWitness } from '@xyo-network/core'
 import { v4 as uuid } from 'uuid'
 
 import { XyoIdPayload } from './Payload'
 import { idTemplate } from './Template'
 
-export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
+export class XyoIdWitness extends XyoLegacyWitness<XyoIdPayload> {
   private salt: string
 
   constructor(salt = uuid()) {

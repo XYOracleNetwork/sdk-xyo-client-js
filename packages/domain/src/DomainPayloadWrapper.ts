@@ -6,8 +6,12 @@ import reverse from 'lodash/reverse'
 
 import { XyoAlias, XyoDomainPayload } from './DomainPayload'
 
+export interface XyoFetchedAlias extends XyoFetchedPayload {
+  alias: XyoAlias
+}
+
 export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPayload> extends XyoPayloadWrapper<T> {
-  public aliases?: XyoFetchedPayload[] | null
+  public aliases?: XyoFetchedAlias[] | null
 
   private getNetwork(hash?: string): XyoNetworkPayload | undefined {
     return hash ? this.payload.networks?.find((value) => new XyoNetworkPayloadWrapper(value).hash === hash) : this.payload.networks?.[0]
@@ -17,10 +21,10 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     return this.getNetwork(hash)?.nodes?.find((payload) => (payload.type === 'archivist' ? payload : undefined))?.uri
   }
 
-  private async fetchAlias(alias: XyoAlias, huriOptions?: HuriOptions): Promise<XyoFetchedPayload | null> {
+  private async fetchAlias(alias: XyoAlias, huriOptions?: HuriOptions): Promise<XyoFetchedAlias | null> {
     const huri = new Huri(alias.huri, huriOptions)
     const payload = await huri.fetch()
-    return payload ? { huri, payload: payload } : null
+    return payload ? { alias, huri, payload: payload } : null
   }
 
   public async fetchAliases(networkSlug?: string) {
@@ -35,7 +39,7 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
         })
       )
       //cast to XyoFetchedPayload[] after we filter out any null/undefined entries
-      this.aliases = fetchedAliases.filter((alias) => alias) as XyoFetchedPayload[]
+      this.aliases = fetchedAliases.filter((alias) => alias) as XyoFetchedAlias[]
     }
   }
 

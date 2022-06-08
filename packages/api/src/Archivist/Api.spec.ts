@@ -1,5 +1,7 @@
+import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
 import { config } from 'dotenv'
+import { v4 } from 'uuid'
 
 import { XyoApiConfig, XyoApiError } from '../models'
 import { testPayload } from '../Test'
@@ -57,26 +59,31 @@ describe('postBoundWitnesses', () => {
 })
 
 describe('node', () => {
-  describe('with archive', () => {
+  describe('without archive', () => {
     it('calculates the correct path', () => {
       const api = new XyoArchivistApi(configData)
       const path = api.node().config.root
       expect(path).toBe('/')
     })
   })
-  describe('without archive', () => {
+  describe('with archive', () => {
+    const archive = 'foo'
     it('calculates the correct path', () => {
-      const archive = 'foo'
       const api = new XyoArchivistApi(configData)
       const path = api.node(archive).config.root
       expect(path).toBe(`/${archive}/`)
     })
-    it('posts to the root', () => {
+    it('posts to the root', async () => {
+      const schema = 'network.xyo.debug'
       const api = new XyoArchivistApi(configData)
-      const p: XyoPayload<{ foo: string }> = new XyoPayloadBuilder<XyoPayload<{ foo: string }>>({ schema: 'foo' }).fields({ foo: 'bar' }).build()
+      const p: XyoPayload<{ foo: string }> = new XyoPayloadBuilder<XyoPayload<{ foo: string }>>({ schema }).fields({ nonce: v4() }).build()
       const bw: XyoBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payload(p).build()
-      const path = api.node('foo').post(bw)
-      expect(path).toBe('/foo/')
+      const response = await api.node(archive).post(bw)
+      expect(response).toBeTruthy()
+      expect(Array.isArray(response)).toBeTruthy()
+      const id = response?.[0]?.[0]
+      expect(id).toBeDefined()
+      expect(typeof id).toBe('string')
     })
   })
 })

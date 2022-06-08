@@ -75,7 +75,7 @@ export class XyoArchivistApi extends XyoApiBase {
    * @param archive Optional, the archive to issue the requests against
    * @returns Confirmation for the request, as a BoundWitness, from the network Node
    */
-  public node<TResponse extends XyoBoundWitness, TData extends XyoBoundWitness = TResponse>(archive?: string) {
+  public node<TResponse extends string[][], TData extends XyoBoundWitness | XyoBoundWitness[] = XyoBoundWitness | XyoBoundWitness[]>(archive?: string) {
     return new XyoApiSimple<TResponse, TData>({
       ...this.config,
       root: archive ? `${this.root}${archive}/` : this.root,

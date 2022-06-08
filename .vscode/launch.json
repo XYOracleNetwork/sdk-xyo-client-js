@@ -21,7 +21,6 @@
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "port": 9229,
       "cwd": "${workspaceFolder}",
       "envFile": "${workspaceFolder}/.env",
       "preLaunchTask": "build"
@@ -46,7 +45,6 @@
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "port": 9229,
       "cwd": "${workspaceFolder}",
       "envFile": "${workspaceFolder}/.env"
     }

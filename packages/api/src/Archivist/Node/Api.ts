@@ -11,7 +11,7 @@ export class XyoArchivistNodeApi<
   public queryResult(id: string): XyoApiSimple<XyoPayload> {
     return new XyoApiSimple<XyoPayload>({
       ...this.config,
-      root: `${this.root}query/${id}/`,
+      root: `/query/${id}/`,
     })
   }
 }

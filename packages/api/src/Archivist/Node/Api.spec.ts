@@ -28,7 +28,7 @@ describe('XyoArchivistSchemaApi', () => {
     describe('without archive supplied', () => {
       it('calculates the correct path', () => {
         const api = new XyoArchivistApi(config)
-        const path = api.node().queryResult(id).config.root
+        const path = api.node().result(id).config.root
         expect(path).toBe(`/query/${id}/`)
       })
     })
@@ -36,7 +36,7 @@ describe('XyoArchivistSchemaApi', () => {
       const archive = 'foo'
       it('calculates the correct path', () => {
         const api = new XyoArchivistApi(config)
-        const path = api.node(archive).queryResult(id).config.root
+        const path = api.node(archive).result(id).config.root
         expect(path).toBe(`/query/${id}/`)
       })
     })

@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
 import { config } from 'dotenv'
 import { v4 } from 'uuid'

@@ -7,6 +7,7 @@ import { XyoUserApi } from '../User'
 import { XyoAccountApi } from './Account'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
+import { XyoArchivistNodeApi } from './Node'
 
 export class XyoArchivistApi extends XyoApiBase {
   private _archives?: XyoArchivistArchivesApi
@@ -75,8 +76,8 @@ export class XyoArchivistApi extends XyoApiBase {
    * @param archive Optional, the archive to issue the requests against
    * @returns Confirmation for the request, as a BoundWitness, from the network Node
    */
-  public node<TResponse extends string[][], TData extends XyoBoundWitness | XyoBoundWitness[] = XyoBoundWitness | XyoBoundWitness[]>(archive?: string) {
-    return new XyoApiSimple<TResponse, TData>({
+  public node<TData extends XyoBoundWitness | XyoBoundWitness[] = XyoBoundWitness | XyoBoundWitness[]>(archive?: string) {
+    return new XyoArchivistNodeApi<TData>({
       ...this.config,
       root: archive ? `${this.root}${archive}/` : this.root,
     })

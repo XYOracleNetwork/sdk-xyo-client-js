@@ -28,6 +28,8 @@ export class XyoArchivistNodeApi<
   public async perform(data: D) {
     const ids = await this.post(data)
     // TODO: Polling interval for long running, etc.
-    return ids?.length ? Promise.all(ids?.map((bw) => Promise.all(bw.map((p) => this.result(p).get())))) : []
+    const results = ids?.length ? Promise.all(ids?.map((bw) => Promise.all(bw.map((p) => this.result(p).get('tuple'))))) : []
+    // TODO: Unpack results
+    return []
   }
 }

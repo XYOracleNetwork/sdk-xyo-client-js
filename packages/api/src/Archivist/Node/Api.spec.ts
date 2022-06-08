@@ -51,8 +51,12 @@ describe('XyoArchivistNodeApi', () => {
       it('returns the query result', async () => {
         const api = new XyoArchivistApi(config)
         await delay(1000)
-        const result = await api.node().result(id).get()
-        expect(result).toBeDefined()
+        const [err, res, resFull] = await api.node().result(id).get('tuple')
+        expect(err).toBeUndefined()
+        expect(res).toBeDefined()
+        // TODO: Validate response properties
+        expect(resFull).toBeDefined()
+        expect(resFull.status).toBe(200)
       })
     })
     describe('without archive supplied', () => {

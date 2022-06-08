@@ -1,13 +1,13 @@
 import { XyoBoundWitness, XyoPayload } from '@xyo-network/core'
 
 import { XyoApiConfig } from '../../models'
-import { XyoApiSimple } from '../../Simple'
+import { XyoApiSimple, XyoApiSimpleQuery } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
 
 export class XyoArchivistNodeApi<
-  T extends XyoBoundWitness | XyoBoundWitness[] = XyoBoundWitness | XyoBoundWitness[],
+  D extends XyoBoundWitness | XyoBoundWitness[] = XyoBoundWitness | XyoBoundWitness[],
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>
-> extends XyoApiSimple<T, C> {
+> extends XyoApiSimple<string[][], D, XyoApiSimpleQuery, C> {
   public queryResult(id: string): XyoApiSimple<XyoPayload> {
     return new XyoApiSimple<XyoPayload>({
       ...this.config,

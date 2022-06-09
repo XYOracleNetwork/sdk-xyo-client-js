@@ -1,5 +1,5 @@
 import { assertEx, delay } from '@xylabs/sdk-js'
-import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayloadBuilder } from '@xyo-network/core'
+import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
 import { v4 } from 'uuid'
 
 import { XyoApiConfig } from '../../models'
@@ -43,20 +43,19 @@ describe('XyoArchivistNodeApi', () => {
     })
   })
   describe('queryResult', () => {
-    let id: string
-    beforeEach(async () => {
-      id = await issueQuery()
-    })
-    describe('without valid query id', () => {
+    let id = '123456789'
+    describe('with valid query id', () => {
+      beforeEach(async () => {
+        id = await issueQuery()
+      })
       it('returns the query result', async () => {
         const api = new XyoArchivistApi(config)
         await delay(1000)
-        const [err, res, resFull] = await api.node().result(id).get('tuple')
-        expect(err).toBeUndefined()
-        expect(res).toBeDefined()
-        // TODO: Validate response properties
-        expect(resFull).toBeDefined()
-        expect(resFull.status).toBe(200)
+        const [_, payload, response] = await api.node().result(id).get('tuple')
+        expect(_).toBeUndefined()
+        expect(payload).toBeDefined()
+        expect((payload as unknown as XyoPayload).schema).toBe(schema)
+        expect(response.status).toBe(200)
       })
     })
     describe('without archive supplied', () => {

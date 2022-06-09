@@ -32,11 +32,11 @@
     "@xylabs/eslint-config": "^2.3.22",
     "@xylabs/ts-scripts": "^1.0.66",
     "@xylabs/tsconfig": "^1.0.13",
-    "jest": "^28.1.0",
-    "jest-environment-jsdom": "^28.1.0",
+    "jest": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.1",
     "license-checker": "^25.0.1",
     "typedoc": "^0.22.17",
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.3"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

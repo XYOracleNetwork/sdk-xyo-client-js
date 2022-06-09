@@ -31,7 +31,7 @@
     "@xyo-network/network": "^2.20.43",
     "license-checker": "^25.0.1",
     "tslib": "^2.4.0",
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.3"
   },
   "browser": "dist/esm/browserIndex.js",
   "docs": "dist/docs.json",

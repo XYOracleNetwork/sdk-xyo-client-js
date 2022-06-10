@@ -2063,9 +2063,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/providers@npm:^8.1.1":
-  version: 8.1.1
-  resolution: "@metamask/providers@npm:8.1.1"
+"@metamask/providers@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@metamask/providers@npm:9.0.0"
   dependencies:
     "@metamask/object-multiplex": ^1.1.0
     "@metamask/safe-event-emitter": ^2.0.0
@@ -2079,7 +2079,7 @@ __metadata:
     json-rpc-middleware-stream: ^3.0.0
     pump: ^3.0.0
     webextension-polyfill-ts: ^0.25.0
-  checksum: 69172c084fa8cfc78777dfed228c38ec8bce81f84c40ece1aa6521c571bee5e0f431f7b1df9028e9d23ef5fa7694f34777b3ee4585cbe6674372e1880dc5c1b1
+  checksum: c005742d0757b10bec9da66f077e364794ae306b5371155aa98f29fce2ba534c7d95637359a2caffca7c22abc3270ad69344fe1b6c9065aed50866d795c27336
   languageName: node
   linkType: hard
 
@@ -2989,9 +2989,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/v3-sdk@npm:^3.8.2":
-  version: 3.8.2
-  resolution: "@uniswap/v3-sdk@npm:3.8.2"
+"@uniswap/v3-sdk@npm:^3.8.3":
+  version: 3.8.3
+  resolution: "@uniswap/v3-sdk@npm:3.8.3"
   dependencies:
     "@ethersproject/abi": ^5.0.12
     "@ethersproject/solidity": ^5.0.9
@@ -3000,7 +3000,7 @@ __metadata:
     "@uniswap/v3-staker": 1.0.0
     tiny-invariant: ^1.1.0
     tiny-warning: ^1.0.3
-  checksum: 402c9fe682578cf2bf615bc0a87f8e4b92114139333cd53837f83173ee6255fe1687edaabbc0560d8cb1a63ffaccf4f4c7d9079a2a55bf5f8cd7001627fd2e11
+  checksum: 69c79fe60557f598d27ecd93ec2449db546c02b96ddd129b092f60e302999356d5087a16f4c5d6303802752df19a1c4277532ab50b62533d6ca85c34307ce844
   languageName: node
   linkType: hard
 
@@ -3288,7 +3288,7 @@ __metadata:
     "@types/uuid": ^8.3.4
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.0.1
-    "@uniswap/v3-sdk": ^3.8.2
+    "@uniswap/v3-sdk": ^3.8.3
     "@xylabs/eslint-config": ^2.3.22
     "@xylabs/sdk-js": ^2.5.7
     "@xylabs/ts-scripts": ^1.0.66
@@ -3375,7 +3375,7 @@ __metadata:
     "@babel/core": ^7.18.2
     "@babel/preset-env": ^7.18.2
     "@ethersproject/providers": ^5.6.8
-    "@metamask/providers": ^8.1.1
+    "@metamask/providers": ^9.0.0
     "@types/lru-cache": ^7.10.10
     "@xylabs/eslint-config": ^2.3.22
     "@xylabs/sdk-js": ^2.5.7
@@ -3522,7 +3522,7 @@ __metadata:
     "@babel/core": ^7.18.2
     "@babel/preset-env": ^7.18.2
     "@ethersproject/providers": ^5.6.8
-    "@metamask/providers": ^8.1.1
+    "@metamask/providers": ^9.0.0
     "@types/lru-cache": ^7.10.10
     "@xylabs/eslint-config": ^2.3.22
     "@xylabs/sdk-js": ^2.5.7

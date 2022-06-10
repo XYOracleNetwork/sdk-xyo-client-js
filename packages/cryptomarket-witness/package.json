@@ -12,7 +12,7 @@
     "@ethersproject/providers": "^5.6.8",
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.0.1",
-    "@uniswap/v3-sdk": "^3.8.2",
+    "@uniswap/v3-sdk": "^3.8.3",
     "@xylabs/sdk-js": "^2.5.7",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/sdk-xyo-typechain": "^1.0.4",

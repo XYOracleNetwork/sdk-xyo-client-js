@@ -85,12 +85,20 @@ describe('XyoArchivistNodeApi', () => {
     })
   })
   describe('perform', () => {
+    it('creates and issues the query and returns the result', async () => {
+      const api = new XyoArchivistApi(config)
+      const response = await api.node().perform({ nonce: v4() }, schema)
+      expect(response).toBeDefined()
+      expect((response as unknown as XyoPayload).schema).toBe(schema)
+    })
+  })
+  describe('performTransaction', () => {
     describe('with a single BoundWitness', () => {
       describe('with a single Payload', () => {
         it('issues the query and returns the result', async () => {
           const api = new XyoArchivistApi(config)
           const query = [getQuery()]
-          const response = await api.node().perform(query)
+          const response = await api.node().performTransaction(query)
           expect(response).toBeDefined()
           expect(Array.isArray(response)).toBeTruthy()
           expect(validateAllResponseSchemas(response)).toBeTruthy()
@@ -100,7 +108,7 @@ describe('XyoArchivistNodeApi', () => {
         it('issues the query and returns the result', async () => {
           const api = new XyoArchivistApi(config)
           const query = [getQuery(2)]
-          const response = await api.node().perform(query)
+          const response = await api.node().performTransaction(query)
           expect(response).toBeDefined()
           expect(Array.isArray(response)).toBeTruthy()
           expect(validateAllResponseSchemas(response)).toBeTruthy()
@@ -112,7 +120,7 @@ describe('XyoArchivistNodeApi', () => {
         it('issues the query and returns the result', async () => {
           const api = new XyoArchivistApi(config)
           const query = [getQuery(), getQuery()]
-          const response = await api.node().perform(query)
+          const response = await api.node().performTransaction(query)
           expect(response).toBeDefined()
           expect(Array.isArray(response)).toBeTruthy()
           expect(validateAllResponseSchemas(response)).toBeTruthy()
@@ -122,7 +130,7 @@ describe('XyoArchivistNodeApi', () => {
         it('issues the query and returns the result', async () => {
           const api = new XyoArchivistApi(config)
           const query = [getQuery(2), getQuery(2)]
-          const response = await api.node().perform(query)
+          const response = await api.node().performTransaction(query)
           expect(response).toBeDefined()
           expect(Array.isArray(response)).toBeTruthy()
           expect(validateAllResponseSchemas(response)).toBeTruthy()

@@ -1,5 +1,5 @@
 import { assertEx, delay } from '@xylabs/sdk-js'
-import { XyoBoundWitness, XyoPayload } from '@xyo-network/core'
+import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
 
 import { XyoApiConfig, XyoApiResponseTuple } from '../../models'
 import { XyoApiSimple, XyoApiSimpleQuery } from '../../Simple'
@@ -36,11 +36,11 @@ export class XyoArchivistNodeApi<
   /**
    * Issue the supplied queries and wait (non-blocking) for the results
    * @param data The queries to issue
-   * @param timeout
-   * @param retryInterval
+   * @param timeout The max time to wait for the query results
+   * @param retryInterval The interval to poll for query results
    * @returns The results for the issued queries
    */
-  public async perform(data: D, timeout = 5000, retryInterval = 100) {
+  public async performTransaction(data: D, timeout = 5000, retryInterval = 100) {
     assertEx(timeout > 0, 'timeout must be positive')
     assertEx(retryInterval > 0, 'retryInterval must be positive')
     assertEx(timeout > retryInterval, 'timeout must be greater than retryInterval')
@@ -57,5 +57,19 @@ export class XyoArchivistNodeApi<
     }
     // Unpack results
     return results.map((b) => b.map((p) => p[1]))
+  }
+
+  /**
+   * Issue the supplied query and wait (non-blocking) for the result
+   * @param data The query to issue
+   * @param timeout The max time to wait for the query results
+   * @param retryInterval The interval to poll for query results
+   * @returns The result for the issued query
+   */
+  public async perform<T>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
+    const payload = new XyoPayloadBuilder({ schema }).fields(data).build()
+    const query = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build() as D
+    const result = await this.performTransaction(query, timeout, retryInterval)
+    return result?.[0]?.[0]
   }
 }

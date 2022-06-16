@@ -14,12 +14,12 @@
     "axios": "^0.27.2",
     "bowser": "^2.11.0",
     "lodash": "^4.17.21",
-    "systeminformation": "^5.11.16",
+    "systeminformation": "^5.11.20",
     "uuid": "^8.3.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.18.2",
+    "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "@types/lodash": "^4.14.182",
     "@types/uuid": "^8.3.4",

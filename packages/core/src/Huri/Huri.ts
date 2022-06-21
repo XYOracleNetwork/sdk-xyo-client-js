@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import axios from 'axios'
 
 import { XyoPayload } from '../Payload'
+import { XyoAddressValue, XyoDataLike } from '../Wallet'
 
 export type XyoObjectCategory = 'block' | 'payload'
 
@@ -33,13 +34,16 @@ export class Huri {
   public archive?: string
   public hash: string
 
-  constructor(huri: string, { archivistUri }: HuriOptions = {}) {
-    this.originalHref = huri
+  private isHuri = true
 
-    const protocol = Huri.parseProtocol(huri)
+  constructor(huri: XyoDataLike | Huri, { archivistUri }: HuriOptions = {}) {
+    const huriString = Huri.isHuri(huri)?.href ?? typeof huri === 'string' ? (huri as string) : new XyoAddressValue(huri as XyoDataLike).hex
+    this.originalHref = huriString
+
+    const protocol = Huri.parseProtocol(huriString)
     this.protocol = protocol ?? 'https'
 
-    const path = assertEx(Huri.parsePath(huri), 'Missing path')
+    const path = assertEx(Huri.parsePath(huriString), 'Missing path')
     this.hash = this.parsePath(path, protocol !== undefined)
 
     //if archivistUri sent, overwrite protocol and archivist
@@ -139,5 +143,12 @@ export class Huri {
     if (protocolSplit.length === 2) {
       return protocolSplit[1]
     }
+  }
+
+  public static isHuri(value: unknown) {
+    if (typeof value === 'object') {
+      return (value as Huri).isHuri ? (value as Huri) : undefined
+    }
+    return undefined
   }
 }

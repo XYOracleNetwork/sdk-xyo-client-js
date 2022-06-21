@@ -4,7 +4,7 @@ import { Token } from '@uniswap/sdk-core'
 import { Pool } from '@uniswap/v3-sdk'
 import { assertEx } from '@xylabs/sdk-js'
 import { IERC20Metadata__factory, IUniswapV3Pool__factory } from '@xyo-network/sdk-xyo-typechain'
-import { BigNumber } from 'ethers'
+import { BigNumber } from '@ethersproject/bignumber'
 
 import { XyoUniswapCryptoPair } from './CryptoPair'
 

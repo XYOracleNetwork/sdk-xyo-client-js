@@ -1,7 +1,6 @@
-import { XyoPayload } from '@xyo-network/core'
+import { XyoPayload, XyoQueryPayload } from '@xyo-network/core'
 
 export interface XyoExternalAddress extends XyoPayload {
-  schema: 'network.xyo.external.address'
   chain: {
     platform: 'ethereum'
     network: string
@@ -9,20 +8,31 @@ export interface XyoExternalAddress extends XyoPayload {
   address: string
 }
 
-export interface XyoNonFungibleTokenPayload extends XyoPayload {
-  schema: 'network.xyo.nft'
+export type XyoNonFungibleTokenPayload = XyoPayload
+
+export type XyoContractTermPayload = XyoPayload
+
+export interface XyoOwnerContractTermPayload extends XyoContractTermPayload {
+  owner?: string
+  read?: string | string[]
+  write?: string | string[]
 }
 
-export interface XyoContractTermPayload extends XyoPayload {
-  schema: 'network.xyo.contract.term'
+export interface XyoContractPayload extends XyoPayload {
+  terms?: string[]
 }
 
-export interface XyoNonFungibleTokenMinterPayload extends XyoPayload {
+export interface XyoNonFungibleTokenMintPayload extends XyoContractPayload {
   schema: 'network.xyo.nft.minter'
   name: string
   symbol: string
-  /** @field owner address of the minter - can add/remove address allowed to mint or transfer ownership */
-  owner: string
   /** @field array of XyoContractTermPayload hashes */
   terms?: string[]
+  minters?: string[]
+}
+
+export interface XyoNonFungibleTokenMintQueryPayload extends XyoQueryPayload {
+  schema: 'network.xyo.nft.minter.query'
+  mint: string
+  mintToken?: XyoNonFungibleTokenPayload
 }

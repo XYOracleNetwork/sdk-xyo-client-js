@@ -9,26 +9,16 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.6.8",
     "@xyo-network/core": "workspace:^",
-    "axios": "^0.27.2",
     "bowser": "^2.11.0",
     "lodash": "^4.17.21",
-    "systeminformation": "^5.11.20",
-    "uuid": "^8.3.2"
+    "systeminformation": "^5.11.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.18.5",
-    "@babel/preset-env": "^7.18.2",
-    "@types/lodash": "^4.14.182",
-    "@types/uuid": "^8.3.4",
-    "@xylabs/eslint-config": "^2.3.22",
-    "@xylabs/ts-scripts": "^1.0.66",
     "@xylabs/tsconfig": "^1.0.13",
     "license-checker": "^25.0.1",
-    "tslib": "^2.4.0",
-    "typescript": "^4.7.3"
+    "tslib": "^2.4.0"
   },
   "browser": "dist/esm/browserIndex.js",
   "docs": "dist/docs.json",

@@ -1,5 +1,7 @@
 ignores: [
   "@xylabs/tsconfig",
   "jest-environment-jsdom",
-  "typedoc"
+  "typedoc",
+  "@babel/core",
+  "@babel/preset-env"
 ]

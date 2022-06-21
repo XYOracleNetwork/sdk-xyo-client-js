@@ -1,5 +1,5 @@
-import { XyoAccount } from '@xyo-network/core'
 import { Wallet } from '@ethersproject/wallet'
+import { XyoAccount } from '@xyo-network/core'
 import { v4 } from 'uuid'
 
 import { XyoArchivistApi } from './Api'

@@ -7,6 +7,12 @@ import { getNewArchive } from '../ApiUtil.spec'
 
 config()
 
+const getTimestampMinutesFromNow = (minutes = 0) => {
+  const t = new Date()
+  t.setMinutes(t.getMinutes() + minutes)
+  return +t
+}
+
 const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
   onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
@@ -20,13 +26,15 @@ describe('XyoArchivistPayloadApi', () => {
     let archive = ''
     beforeEach(async () => {
       archive = await getNewArchive(api)
+      expect(archive).toBeTruthy()
     })
     describe('when order is ascending', () => {
       it('returns payloads greater than or equal to timestamp', async () => {
         try {
-          const timestamp = Date.now()
+          const timestamp = getTimestampMinutesFromNow(-1)
           const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
-          await api.archive(archive).block.post([boundWitness])
+          const blockResult = await api.archive(archive).block.post([boundWitness])
+          expect(blockResult?.length).toBe(1)
           const response = await api.archive(archive).block.find({ order: 'asc', timestamp })
           expect(response?.length).toBe(1)
           const actual = response?.[0]
@@ -43,8 +51,9 @@ describe('XyoArchivistPayloadApi', () => {
       it('returns payloads less than or equal to timestamp', async () => {
         try {
           const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
-          await api.archive(archive).block.post([boundWitness])
-          const timestamp = Date.now()
+          const blockResult = await api.archive(archive).block.post([boundWitness])
+          expect(blockResult?.length).toBe(1)
+          const timestamp = getTimestampMinutesFromNow(1)
           const response = await api.archive(archive).block.find({ order: 'desc', timestamp })
           expect(response?.length).toBe(1)
           const actual = response?.[0]

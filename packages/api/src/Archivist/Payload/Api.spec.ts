@@ -3,15 +3,9 @@ import { config } from 'dotenv'
 
 import { XyoApiConfig, XyoApiError } from '../../models'
 import { XyoArchivistApi } from '../Api'
-import { getNewArchive } from '../ApiUtil.spec'
+import { getNewArchive, getTimestampMinutesFromNow } from '../ApiUtil.spec'
 
 config()
-
-const getTimestampMinutesFromNow = (minutes = 0) => {
-  const t = new Date()
-  t.setMinutes(t.getMinutes() + minutes)
-  return +t
-}
 
 const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',

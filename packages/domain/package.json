@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "@xylabs/ts-scripts": "^1.0.66",
-    "@xylabs/tsconfig": "^1.0.13",
+    "@xylabs/tsconfig": "^1.0.14",
     "tslib": "^2.4.0"
   },
   "browser": "dist/esm/index.js",

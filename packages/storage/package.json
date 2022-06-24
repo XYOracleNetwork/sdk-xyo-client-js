@@ -18,7 +18,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/uuid": "^8.3.4",
-    "@xylabs/tsconfig": "^1.0.13",
+    "@xylabs/tsconfig": "^1.0.14",
     "dotenv": "^16.0.1",
     "tslib": "^2.4.0"
   },

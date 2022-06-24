@@ -29,9 +29,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
-    "@xylabs/eslint-config": "^2.3.22",
+    "@xylabs/eslint-config": "^2.3.30",
     "@xylabs/ts-scripts": "^1.0.66",
-    "@xylabs/tsconfig": "^1.0.13",
+    "@xylabs/tsconfig": "^1.0.14",
     "eslint": "^8.18.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",

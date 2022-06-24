@@ -1,5 +1,5 @@
+import { Wallet } from '@ethersproject/wallet'
 import { XyoAccount } from '@xyo-network/core'
-import { Wallet } from 'ethers'
 import { v4 } from 'uuid'
 
 import { XyoArchivistApi } from './Api'
@@ -34,4 +34,10 @@ export const getNewArchive = async (api: XyoArchivistApi) => {
 export const testSchemaPrefix = 'network.xyo.schema.test.'
 export const getSchemaName = (): string => {
   return `${testSchemaPrefix}${v4()}`
+}
+
+export const getTimestampMinutesFromNow = (minutes = 0) => {
+  const t = new Date()
+  t.setMinutes(t.getMinutes() + minutes)
+  return +t
 }

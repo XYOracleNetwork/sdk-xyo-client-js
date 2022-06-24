@@ -1,11 +1,11 @@
-import { XyoLegacyWitness, XyoSchemaPayload } from '@xyo-network/core'
+import { XyoSchemaPayload, XyoSimpleWitness } from '@xyo-network/core'
 import merge from 'lodash/merge'
 
 import { schemaTemplate } from './Template'
 
 const template = schemaTemplate()
 
-export class XyoSchemaWitness extends XyoLegacyWitness<XyoSchemaPayload> {
+export class XyoSchemaWitness extends XyoSimpleWitness<XyoSchemaPayload> {
   constructor() {
     super({
       schema: template.schema,

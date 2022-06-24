@@ -1,4 +1,4 @@
-import { XyoWitnessConfig } from '@xyo-network/core'
+import { XyoSimpleWitnessConfig } from '@xyo-network/core'
 import merge from 'lodash/merge'
 import { get } from 'systeminformation'
 
@@ -8,7 +8,7 @@ import { defaultSystemInfoConfig, systemInfoNodeWitnessTemplate } from './Templa
 
 const template = systemInfoNodeWitnessTemplate()
 
-export interface XyoSystemInfoNodeWitnessConfig<T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload> extends XyoWitnessConfig<T> {
+export interface XyoSystemInfoNodeWitnessConfig<T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload> extends XyoSimpleWitnessConfig<T> {
   nodeValues?: Record<string, string>
 }
 

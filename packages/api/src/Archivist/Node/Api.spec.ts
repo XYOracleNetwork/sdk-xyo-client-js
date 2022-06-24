@@ -58,7 +58,7 @@ describe('XyoArchivistNodeApi', () => {
       beforeEach(async () => {
         id = await issueQuery()
       })
-      it('returns the query result', async () => {
+      it.skip('returns the query result', async () => {
         const api = new XyoArchivistApi(config)
         await delay(1000)
         const [_, payload, response] = await api.node().result(id).get('tuple')
@@ -84,7 +84,7 @@ describe('XyoArchivistNodeApi', () => {
       })
     })
   })
-  describe('perform', () => {
+  describe.skip('perform', () => {
     it('creates and issues the query and returns the result', async () => {
       const api = new XyoArchivistApi(config)
       const response = await api.node().perform({ nonce: v4() }, schema)
@@ -92,7 +92,7 @@ describe('XyoArchivistNodeApi', () => {
       expect((response as unknown as XyoPayload).schema).toBe(schema)
     })
   })
-  describe('performTransaction', () => {
+  describe.skip('performTransaction', () => {
     describe('with a single BoundWitness', () => {
       describe('with a single Payload', () => {
         it('issues the query and returns the result', async () => {

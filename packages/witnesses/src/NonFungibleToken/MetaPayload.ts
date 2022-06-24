@@ -35,5 +35,5 @@ export interface OpenSeaMeta extends XyoPayload, Erc721Meta {
 
 export interface XyoNonFungibleTokenMetaPayload extends XyoPayload, Erc721Meta, OpenSeaMeta {
   /** @field The token that this meta data applies to */
-  token: string
+  address: string
 }

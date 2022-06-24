@@ -3,7 +3,7 @@ import { config } from 'dotenv'
 
 import { XyoApiConfig, XyoApiError } from '../../models'
 import { XyoArchivistApi } from '../Api'
-import { getNewArchive } from '../ApiUtil.spec'
+import { getNewArchive, getTimestampMinutesFromNow } from '../ApiUtil.spec'
 
 config()
 
@@ -20,13 +20,15 @@ describe('XyoArchivistPayloadApi', () => {
     let archive = ''
     beforeEach(async () => {
       archive = await getNewArchive(api)
+      expect(archive).toBeTruthy()
     })
     describe('when order is ascending', () => {
       it('returns payloads greater than or equal to timestamp', async () => {
         try {
-          const timestamp = Date.now()
+          const timestamp = getTimestampMinutesFromNow(-1)
           const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
-          await api.archive(archive).block.post([boundWitness])
+          const blockResult = await api.archive(archive).block.post([boundWitness])
+          expect(blockResult?.length).toBe(1)
           const response = await api.archive(archive).block.find({ order: 'asc', timestamp })
           expect(response?.length).toBe(1)
           const actual = response?.[0]
@@ -43,8 +45,9 @@ describe('XyoArchivistPayloadApi', () => {
       it('returns payloads less than or equal to timestamp', async () => {
         try {
           const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
-          await api.archive(archive).block.post([boundWitness])
-          const timestamp = Date.now()
+          const blockResult = await api.archive(archive).block.post([boundWitness])
+          expect(blockResult?.length).toBe(1)
+          const timestamp = getTimestampMinutesFromNow(1)
           const response = await api.archive(archive).block.find({ order: 'desc', timestamp })
           expect(response?.length).toBe(1)
           const actual = response?.[0]

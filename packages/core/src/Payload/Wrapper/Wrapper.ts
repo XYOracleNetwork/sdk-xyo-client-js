@@ -1,4 +1,6 @@
 import { deepOmitUnderscoreFields, deepPickUnderscoreFields, XyoAbstractHasher } from '../../Hasher'
+import { Huri } from '../../Huri'
+import { XyoDataLike } from '../../Wallet'
 import { XyoPayload } from '../models'
 
 export class XyoPayloadWrapper<T extends XyoPayload> extends XyoAbstractHasher<T> {
@@ -18,5 +20,12 @@ export class XyoPayloadWrapper<T extends XyoPayload> extends XyoAbstractHasher<T
 
   public get meta() {
     return deepPickUnderscoreFields(this.payload)
+  }
+
+  public static async load(address: XyoDataLike | Huri) {
+    const payload = await new Huri(address).fetch()
+    if (payload) {
+      return new XyoPayloadWrapper(payload)
+    }
   }
 }

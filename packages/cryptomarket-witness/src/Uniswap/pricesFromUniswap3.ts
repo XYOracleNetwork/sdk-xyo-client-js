@@ -10,21 +10,23 @@ import { XyoUniswapCryptoPair } from './CryptoPair'
 
 export type UniswapV3Slot0Fields = [BigNumber, number, number, number, number, number, boolean]
 
-export const uniswapPoolContracts = (provider: Provider) => [
-  /*xyo/weth*/ new UniSwap3Pair('0xE331DE28cd81B768C19A366b0e4e4675c45eC2dA', provider),
-  /*xyo/usdt*/ new UniSwap3Pair('0xd0AF1981f52146a6939385451dAeA0726e13a484', provider),
-  /*xyo/dai*/ new UniSwap3Pair('0x9D7e5647CE3c7C2d835F2F5e82C8fDb36B0BB0fe', provider),
-  /*wbtc/xyo*/ new UniSwap3Pair('0x0cF7494c9dE661467403aBeE8454b3BBf0179a84', provider),
-  /*link/xyo*/ new UniSwap3Pair('0x4693456599a8a4975862A0E720C5de7E1D09A1e4', provider),
-  /*wbtc/weth*/ new UniSwap3Pair('0xCBCdF9626bC03E24f779434178A73a0B4bad62eD', provider),
-  /*dai/usdc*/ new UniSwap3Pair('0x5777d92f208679DB4b9778590Fa3CAB3aC9e2168', provider),
-  /*usdc/weth*/ new UniSwap3Pair('0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8', provider),
-  /*usdc/weth*/ new UniSwap3Pair('0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640', provider),
-  /*dai/usdc*/ new UniSwap3Pair('0x6c6Bc977E13Df9b0de53b251522280BB72383700', provider),
-  /*frax/usdc*/ new UniSwap3Pair('0xc63B0708E2F7e69CB8A1df0e1389A98C35A76D52', provider),
-  /*wbtc/usdc*/ new UniSwap3Pair('0x99ac8cA7087fA4A2A1FB6357269965A2014ABc35', provider),
-  /*usdc/usdt*/ new UniSwap3Pair('0x3416cF6C708Da44DB2624D63ea0AAef7113527C6', provider),
+export const UniswapPoolContracts = [
+  /*xyo/weth*/ '0xE331DE28cd81B768C19A366b0e4e4675c45eC2dA',
+  /*xyo/usdt*/ '0xd0AF1981f52146a6939385451dAeA0726e13a484',
+  /*xyo/dai*/ '0x9D7e5647CE3c7C2d835F2F5e82C8fDb36B0BB0fe',
+  /*wbtc/xyo*/ '0x0cF7494c9dE661467403aBeE8454b3BBf0179a84',
+  /*link/xyo*/ '0x4693456599a8a4975862A0E720C5de7E1D09A1e4',
+  /*wbtc/weth*/ '0xCBCdF9626bC03E24f779434178A73a0B4bad62eD',
+  /*dai/usdc*/ '0x5777d92f208679DB4b9778590Fa3CAB3aC9e2168',
+  /*usdc/weth*/ '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8',
+  /*usdc/weth*/ '0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640',
+  /*dai/usdc*/ '0x6c6Bc977E13Df9b0de53b251522280BB72383700',
+  /*frax/usdc*/ '0xc63B0708E2F7e69CB8A1df0e1389A98C35A76D52',
+  /*wbtc/usdc*/ '0x99ac8cA7087fA4A2A1FB6357269965A2014ABc35',
+  /*usdc/usdt*/ '0x3416cF6C708Da44DB2624D63ea0AAef7113527C6',
 ]
+
+export const createUniswapPoolContracts = (provider: Provider, contracts: string[]) => contracts.map((contract) => new UniSwap3Pair(contract, provider))
 export class Uniswap3PoolSlot0Wrapper {
   protected values: UniswapV3Slot0Fields
   constructor(values: UniswapV3Slot0Fields) {

@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/providers'
 import { XyoQueryWitness } from '@xyo-network/core'
 
 import { XyoCryptoMarketUniswapPayload, XyoCryptoMarketUniswapQueryPayload } from './Payload'
-import { pricesFromUniswap3, UniSwap3Pair, uniswapPoolContracts } from './pricesFromUniswap3'
+import { createUniswapPoolContracts, pricesFromUniswap3, UniSwap3Pair, UniswapPoolContracts } from './pricesFromUniswap3'
 
 export class XyoUniswapCryptoMarketWitness extends XyoQueryWitness<XyoCryptoMarketUniswapQueryPayload, XyoCryptoMarketUniswapPayload> {
   protected provider: Provider
@@ -13,7 +13,7 @@ export class XyoUniswapCryptoMarketWitness extends XyoQueryWitness<XyoCryptoMark
       ...query,
     })
     this.provider = provider
-    this.pairs = uniswapPoolContracts(provider)
+    this.pairs = createUniswapPoolContracts(provider, query.pools ?? UniswapPoolContracts)
   }
 
   override async observe(): Promise<XyoCryptoMarketUniswapPayload> {

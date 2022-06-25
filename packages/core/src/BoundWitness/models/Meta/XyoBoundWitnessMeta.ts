@@ -1,8 +1,8 @@
-import { XyoPayload, XyoPayloadMeta } from '../../../models'
+import { XyoPayloadMeta, XyoPayloadWithPartialMeta } from '../../../models'
 import { XyoBoundWitness } from '../XyoBoundWitness'
 
 export type XyoBoundWitnessMeta = XyoPayloadMeta<{
-  _payloads?: XyoPayload[]
+  _payloads?: XyoPayloadWithPartialMeta[]
   _signatures?: string[]
   _source_ip?: string
   _user_agent?: string

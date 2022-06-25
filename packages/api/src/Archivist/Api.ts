@@ -1,4 +1,4 @@
-import { Huri, XyoAddressValue, XyoBoundWitness, XyoDataLike, XyoPayload } from '@xyo-network/core'
+import { Huri, XyoAddressValue, XyoBoundWitnessWithMeta, XyoDataLike, XyoPayload } from '@xyo-network/core'
 
 import { XyoApiBase } from '../Base'
 import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'
@@ -76,7 +76,7 @@ export class XyoArchivistApi extends XyoApiBase {
    * @param archive Optional, the archive to issue the requests against
    * @returns Confirmation for the request, as a BoundWitness, from the network Node
    */
-  public node<TData extends XyoBoundWitness | XyoBoundWitness[] = XyoBoundWitness | XyoBoundWitness[]>(archive = 'temp') {
+  public node<TData extends XyoBoundWitnessWithMeta | XyoBoundWitnessWithMeta[] = XyoBoundWitnessWithMeta | XyoBoundWitnessWithMeta[]>(archive = 'temp') {
     return new XyoArchivistNodeApi<TData>({
       ...this.config,
       root: `${this.root}${archive}/`,

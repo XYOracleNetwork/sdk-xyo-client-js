@@ -104,5 +104,5 @@
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
   "version": "2.20.47",
-  "packageManager": "yarn@3.2.0"
+  "packageManager": "yarn@3.2.1"
 }

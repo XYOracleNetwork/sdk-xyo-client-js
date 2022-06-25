@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/core'
+import { XyoPayload, XyoPayloadWithMeta, XyoPayloadWrapper } from '@xyo-network/core'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity, Filter, SortDirection } from 'mongodb'
 
-export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
+export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithMeta> {
   private _archive: string
   private _maxTime: number
   constructor(config: BaseMongoSdkConfig, archive: string, maxTime = 2000) {
@@ -13,14 +13,14 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   }
 
   public async fetchCount() {
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+    return await this.useCollection(async (collection: Collection<XyoPayloadWithMeta>) => {
       return await collection.estimatedDocumentCount()
     })
   }
 
   public async findRecentQuery(limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoPayload>) => {
+    return await this.useCollection((collection: Collection<XyoPayloadWithMeta>) => {
       return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
     })
   }
@@ -35,7 +35,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
 
   private async findAfterQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoPayload>) => {
+    return await this.useCollection((collection: Collection<XyoPayloadWithMeta>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
         .sort({ _timestamp: 1 })
@@ -52,7 +52,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
       query.schema = schema
     }
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    return await this.useCollection((collection: Collection<XyoPayload>) => {
+    return await this.useCollection((collection: Collection<XyoPayloadWithMeta>) => {
       return collection.find(query).sort(sort).limit(limit).maxTimeMS(this._maxTime)
     })
   }
@@ -71,7 +71,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
 
   private async findBeforeQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoPayload>) => {
+    return await this.useCollection((collection: Collection<XyoPayloadWithMeta>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
         .sort({ _timestamp: -1 })
@@ -90,7 +90,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
 
   private async findByHashQuery(hash: string, timestamp?: number) {
     const predicate = timestamp ? { _archive: this._archive, _hash: hash, _timestamp: timestamp } : { _archive: this._archive, _hash: hash }
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+    return await this.useCollection(async (collection: Collection<XyoPayloadWithMeta>) => {
       return await collection.find(predicate).maxTimeMS(this._maxTime)
     })
   }
@@ -104,19 +104,19 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayload> {
   }
 
   public async updateByHash(hash: string, payload: XyoPayload) {
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+    return await this.useCollection(async (collection: Collection<XyoPayloadWithMeta>) => {
       return await collection.updateMany({ _archive: this._archive, _hash: hash }, { $set: payload })
     })
   }
 
   public async deleteByHash(hash: string) {
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+    return await this.useCollection(async (collection: Collection<XyoPayloadWithMeta>) => {
       return await collection.deleteMany({ _archive: this._archive, _hash: hash })
     })
   }
 
   public async findByHashes(hashes: string[]) {
-    return await this.useCollection(async (collection: Collection<XyoPayload>) => {
+    return await this.useCollection(async (collection: Collection<XyoPayloadWithMeta>) => {
       const promises = hashes.map((hash) => {
         return collection.find({ _archive: this._archive, _hash: hash }).maxTimeMS(this._maxTime).toArray()
       })

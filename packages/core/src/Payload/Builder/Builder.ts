@@ -1,11 +1,12 @@
 import { deepOmitUnderscoreFields, removeEmptyFields, XyoHasher } from '../../Hasher'
-import { XyoPayload } from '../models'
+import { StringKeyObject } from '../../lib'
+import { XyoPayload } from '../../models'
 
 export interface XyoPayloadBuilderOptions {
   schema: string
 }
 
-export class XyoPayloadBuilder<T extends XyoPayload> {
+export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<StringKeyObject>> {
   private _fields: Partial<T> = {}
   private _previousHash?: string
   private _schema: string

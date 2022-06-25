@@ -1,6 +1,6 @@
-import { XyoBoundWitnessBody } from './Body'
 import { XyoBoundWitnessMeta } from './Meta'
+import { XyoBoundWitness } from './XyoBoundWitness'
 
-type WithXyoBoundWitnessMeta<T extends XyoBoundWitnessBody> = T & XyoBoundWitnessMeta
+type WithXyoBoundWitnessMeta<T extends XyoBoundWitness> = T & XyoBoundWitnessMeta
 
 export type { WithXyoBoundWitnessMeta }

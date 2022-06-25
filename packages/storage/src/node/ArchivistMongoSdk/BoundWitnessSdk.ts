@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoBoundWitness, XyoBoundWitnessWrapper } from '@xyo-network/core'
+import { XyoBoundWitness, XyoBoundWitnessWithMeta, XyoBoundWitnessWrapper } from '@xyo-network/core'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity } from 'mongodb'
 
-export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitness> {
+export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitnessWithMeta> {
   private _archive: string
   private _maxTime: number
   constructor(config: BaseMongoSdkConfig, archive: string, maxTime = 2000) {
@@ -13,14 +13,14 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
   }
 
   public async fetchCount() {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithMeta>) => {
       return await collection.estimatedDocumentCount()
     })
   }
 
   private async findRecentQuery(limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
+    return await this.useCollection((collection: Collection<XyoBoundWitnessWithMeta>) => {
       return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
     })
   }
@@ -35,7 +35,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
 
   private async findAfterQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
+    return await this.useCollection((collection: Collection<XyoBoundWitnessWithMeta>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
         .sort({ _timestamp: 1 })
@@ -54,7 +54,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
 
   private async findBeforeQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitness>) => {
+    return await this.useCollection((collection: Collection<XyoBoundWitnessWithMeta>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
         .sort({ _timestamp: -1 })
@@ -73,7 +73,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
 
   private async findByHashQuery(hash: string, timestamp?: number) {
     const predicate = timestamp ? { _archive: this._archive, _hash: hash, _timestamp: timestamp } : { _archive: this._archive, _hash: hash }
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithMeta>) => {
       return await collection.find(predicate).maxTimeMS(this._maxTime)
     })
   }
@@ -87,13 +87,13 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
   }
 
   public async updateByHash(hash: string, bw: XyoBoundWitness) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithMeta>) => {
       return await collection.updateMany({ _archive: this._archive, _hash: hash }, { $set: bw })
     })
   }
 
   public async deleteByHash(hash: string) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitness>) => {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithMeta>) => {
       return await collection.deleteMany({ _archive: this._archive, _hash: hash })
     })
   }

@@ -12,7 +12,7 @@
     "@xyo-network/core": "workspace:^",
     "bowser": "^2.11.0",
     "lodash": "^4.17.21",
-    "systeminformation": "^5.11.21"
+    "systeminformation": "^5.11.22"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

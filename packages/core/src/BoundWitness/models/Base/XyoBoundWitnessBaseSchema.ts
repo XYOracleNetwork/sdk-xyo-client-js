@@ -1,6 +1,6 @@
 //Should type as JSONSchemaType<XyoBoundWitnessBody> once ajv/eslint issue is fixed
 //https://github.com/microsoft/TypeScript/issues/44851
-const XyoBoundWitnessBodySchema = {
+export const XyoBoundWitnessBaseSchema = {
   $id: 'https://schemas.xyo.network/2.0/boundwitness/body',
   additionalProperties: false,
   properties: {
@@ -13,5 +13,3 @@ const XyoBoundWitnessBodySchema = {
   required: ['addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes', 'schema'],
   type: 'object',
 }
-
-export { XyoBoundWitnessBodySchema }

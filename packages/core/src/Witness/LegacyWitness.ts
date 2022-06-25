@@ -1,4 +1,5 @@
-import { XyoPayload, XyoPayloadBuilder } from '../Payload'
+import { XyoPayload } from '../models'
+import { XyoPayloadBuilder } from '../Payload'
 import { XyoWitness } from './Witness'
 
 export interface XyoSimpleWitnessConfig<T extends XyoPayload = XyoPayload> {

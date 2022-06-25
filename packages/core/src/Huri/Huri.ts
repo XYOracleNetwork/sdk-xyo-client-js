@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import axios from 'axios'
 
-import { XyoPayload } from '../Payload'
+import { XyoPayload } from '../models'
 import { XyoAddressValue, XyoDataLike } from '../Wallet'
 
 export type XyoObjectCategory = 'block' | 'payload'

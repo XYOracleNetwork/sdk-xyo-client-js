@@ -1,23 +1,21 @@
 import uniq from 'lodash/uniq'
 
 import { XyoHasher } from '../../Hasher'
-import { validateType } from '../../lib'
-import { WithStringIndex } from '../../models'
-import { XyoPayload } from '../../Payload'
+import { validateType, XyoValidator } from '../../lib'
+import { XyoPayload } from '../../models'
 import { XyoSchemaNameValidator } from '../../SchemaNameValidator'
-import { XyoBoundWitnessBody } from '../models'
+import { XyoBoundWitness } from '../models'
 
-class XyoBoundWitnessBodyValidator {
-  private body: WithStringIndex<XyoBoundWitnessBody>
+export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWitness> extends XyoValidator<T> {
   private payloads?: XyoPayload[]
-  constructor(body: XyoBoundWitnessBody, payloads?: XyoPayload[]) {
-    this.body = body as WithStringIndex<XyoBoundWitnessBody>
+  constructor(boundWitness: T, payloads?: XyoPayload[]) {
+    super(boundWitness)
     this.payloads = payloads
   }
 
   public addressesUniqueness() {
     const errors: Error[] = []
-    const { addresses } = this.body
+    const { addresses } = this.obj
     const uniqAddresses = uniq(addresses)
     if (addresses?.length !== uniqAddresses?.length) errors.push(new Error('addresses must be unique'))
     return errors
@@ -25,7 +23,7 @@ class XyoBoundWitnessBodyValidator {
 
   public addresses() {
     const errors: Error[] = []
-    const { addresses } = this.body
+    const { addresses } = this.obj
     if (!addresses?.length) errors.push(new Error('addresses missing [at least one address required]'))
     errors.push(...this.addressesUniqueness())
     return errors
@@ -34,8 +32,8 @@ class XyoBoundWitnessBodyValidator {
   private validateArrayLength(fieldName: string, compareArrayName: string) {
     const errors: Error[] = []
 
-    const [array, arrayErrors] = validateType('array', this.body[fieldName] as [], true)
-    const [compareArray, compareArrayErrors] = validateType('array', this.body[compareArrayName] as [], true)
+    const [array, arrayErrors] = validateType('array', this.stringKeyObj[fieldName] as [], true)
+    const [compareArray, compareArrayErrors] = validateType('array', this.stringKeyObj[compareArrayName] as [], true)
 
     if (array?.length !== compareArray?.length) {
       errors.push(new Error(`${fieldName}/${compareArrayName} count mismatch [${array?.length} !== ${compareArray?.length}]`))
@@ -58,10 +56,10 @@ class XyoBoundWitnessBodyValidator {
 
   public payloadHashes() {
     const errors: Error[] = []
-    const passedHashes = this.body.payload_hashes
+    const passedHashes = this.obj.payload_hashes
     this.payloads?.forEach((payload, index) => {
       const calcHash = new XyoHasher(payload).hash
-      const passedHash = passedHashes[index]
+      const passedHash = passedHashes?.[index]
       if (calcHash !== passedHash) {
         errors.push(new Error(`hash mismatch [${calcHash} !== ${passedHash}]`))
       }
@@ -71,12 +69,15 @@ class XyoBoundWitnessBodyValidator {
 
   public payloadSchemas() {
     const errors: Error[] = []
-    const schemaValidators: XyoSchemaNameValidator[] = this.body.payload_schemas.map((schema: string) => {
-      return new XyoSchemaNameValidator(schema)
-    })
-    schemaValidators.forEach((validator) => {
-      errors.push(...validator.all())
-    })
+    const payloadSchemas = this.obj.payload_schemas
+    if (payloadSchemas) {
+      const schemaValidators: XyoSchemaNameValidator[] = payloadSchemas.map((schema: string) => {
+        return new XyoSchemaNameValidator(schema)
+      })
+      schemaValidators.forEach((validator) => {
+        errors.push(...validator.all())
+      })
+    }
     return errors
   }
 
@@ -85,20 +86,18 @@ class XyoBoundWitnessBodyValidator {
     return errors
   }
 
-  public schmea() {
+  public schema() {
     const errors: Error[] = []
     const expectedSchema = 'network.xyo.boundwitness'
-    if (this.body.schema !== expectedSchema) {
-      errors.push(new Error(`invalid schema [${expectedSchema} !== ${this.body.schema}]`))
+    if (this.obj.schema !== expectedSchema) {
+      errors.push(new Error(`invalid schema [${expectedSchema} !== ${this.obj.schema}]`))
     }
     return errors
   }
 
-  public all() {
+  public validate() {
     const errors: Error[] = []
-    errors.push(...this.addresses(), ...this.validateArrayLengths(), ...this.payloadHashes(), ...this.payloadSchemas(), ...this.previousHashes(), ...this.schmea())
+    errors.push(...this.addresses(), ...this.validateArrayLengths(), ...this.payloadHashes(), ...this.payloadSchemas(), ...this.previousHashes(), ...this.schema())
     return errors
   }
 }
-
-export { XyoBoundWitnessBodyValidator }

@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/sdk-js'
 
+import { XyoValidator } from '../../lib'
 import { XyoAddressValue } from '../../Wallet'
-import { XyoBoundWitness } from '../models'
+import { XyoBoundWitnessWithMeta } from '../models'
 import { XyoBoundWitnessBodyValidator } from './BodyValidator'
 import { XyoBoundWitnessMetaValidator } from './MetaValidator'
 
@@ -19,30 +20,29 @@ const validateSignature = (hash: string, address: string, signature?: string) =>
   return []
 }
 
-class XyoBoundWitnessValidator {
-  private bw: XyoBoundWitness
+class XyoBoundWitnessValidator<T extends XyoBoundWitnessWithMeta = XyoBoundWitnessWithMeta> extends XyoValidator<T> {
   public body: XyoBoundWitnessBodyValidator
   public meta: XyoBoundWitnessMetaValidator
-  constructor(bw: XyoBoundWitness) {
-    this.bw = bw
+  constructor(bw: T) {
+    super(bw)
     this.body = new XyoBoundWitnessBodyValidator(bw, bw._payloads)
     this.meta = new XyoBoundWitnessMetaValidator(bw)
   }
 
   public signatures() {
-    const hash = assertEx(this.bw._hash, 'Missing _hash')
+    const hash = assertEx(this.obj._hash, 'Missing _hash')
     return [
-      ...validateArraysSameLength(this.bw._signatures ?? [], this.bw.addresses, 'Length mismatch: address/_signature'),
-      ...this.bw.addresses.reduce<Error[]>((errors, address, index) => {
-        errors.push(...validateSignature(hash, address, this.bw._signatures?.[index]))
+      ...validateArraysSameLength(this.obj._signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
+      ...this.obj.addresses.reduce<Error[]>((errors, address, index) => {
+        errors.push(...validateSignature(hash, address, this.obj._signatures?.[index]))
         return errors
       }, []),
     ]
   }
 
-  public all() {
+  public validate() {
     const errors: Error[] = []
-    errors.push(...this.meta.all(), ...this.body.all())
+    errors.push(...this.meta.validate(), ...this.body.validate())
     errors.push(...this.signatures())
     return errors
   }

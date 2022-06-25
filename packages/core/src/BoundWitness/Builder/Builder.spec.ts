@@ -1,12 +1,13 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 import { XyoHasher } from '../../Hasher'
-import { XyoPayload } from '../../Payload'
+import { StringKeyObject } from '../../lib'
+import { XyoPayload } from '../../models'
 import { XyoAccount, XyoAddressValue } from '../../Wallet'
 import { XyoBoundWitnessBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'
-const payload1: XyoPayload = {
+const payload1: XyoPayload<StringKeyObject> = {
   number_field: 1,
   object_field: {
     number_value: 2,
@@ -16,7 +17,7 @@ const payload1: XyoPayload = {
   string_field: 'there',
   timestamp: 1618603439107,
 }
-const payload2: XyoPayload = {
+const payload2: XyoPayload<StringKeyObject> = {
   timestamp: 1618603439107,
   string_field: 'there',
   schema,

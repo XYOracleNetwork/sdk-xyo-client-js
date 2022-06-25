@@ -1,9 +1,10 @@
 import { assertEx, Buffer } from '@xylabs/sdk-js'
 
 import { sortFields, XyoHasher } from '../../Hasher'
+import { WithAdditional } from '../../lib'
 import { XyoPayload, XyoPayloadWithPartialMeta } from '../../models'
 import { XyoAccount } from '../../Wallet'
-import { WithXyoBoundWitnessMeta, XyoBoundWitness, XyoBoundWitnessWithPartialMeta } from '../models'
+import { WithXyoBoundWitnessMeta, XyoBoundWitness, XyoBoundWitnessWithMeta } from '../models'
 
 export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
@@ -28,7 +29,7 @@ export class XyoBoundWitnessBuilder {
     return this
   }
 
-  public payloads(payloads: (XyoPayloadWithPartialMeta | null)[]) {
+  public payloads<T extends XyoPayload = WithAdditional<XyoPayload>>(payloads: (T | null)[]) {
     payloads.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)
@@ -37,7 +38,7 @@ export class XyoBoundWitnessBuilder {
     return this
   }
 
-  public payload(payload?: XyoPayloadWithPartialMeta) {
+  public payload<T extends XyoPayload = WithAdditional<XyoPayload>>(payload?: T) {
     if (payload) {
       this._payload_schemas.push(payload.schema)
       this._payloads.push(assertEx(sortFields(payload)))
@@ -70,7 +71,7 @@ export class XyoBoundWitnessBuilder {
     })
   }
 
-  public build(): XyoBoundWitnessWithPartialMeta {
+  public build(): XyoBoundWitnessWithMeta {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = new XyoHasher(hashableFields).hash
 

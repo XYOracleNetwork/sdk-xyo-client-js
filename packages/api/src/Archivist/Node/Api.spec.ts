@@ -1,5 +1,5 @@
 import { assertEx, delay } from '@xylabs/sdk-js'
-import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
+import { XyoBoundWitnessBuilder, XyoBoundWitnessWithMeta, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
 import { v4 } from 'uuid'
 
 import { XyoApiConfig, XyoApiEnvelope } from '../../models'
@@ -11,7 +11,7 @@ const config: XyoApiConfig = {
 
 const schema = 'network.xyo.debug'
 
-const getQuery = (count = 1): XyoBoundWitness => {
+const getQuery = (count = 1): XyoBoundWitnessWithMeta => {
   const payloads = [] as XyoPayload[]
   for (let i = 0; i < count; i++) {
     payloads.push(new XyoPayloadBuilder({ schema }).fields({ nonce: v4() }).build())
@@ -19,7 +19,7 @@ const getQuery = (count = 1): XyoBoundWitness => {
   return new XyoBoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()
 }
 
-const issueQuery = async (query: XyoBoundWitness = getQuery()): Promise<string> => {
+const issueQuery = async (query: XyoBoundWitnessWithMeta = getQuery()): Promise<string> => {
   const api = new XyoArchivistApi(config)
   const response = await api.node('temp').post(query)
   const id = response?.[0]?.[0]

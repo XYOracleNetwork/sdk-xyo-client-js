@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayload, XyoWitness } from '@xyo-network/core'
+import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPartialPayloadMeta, XyoPayload, XyoWitness } from '@xyo-network/core'
 
 export interface XyoPanelConfig {
   /** @deprecated use account instead */
@@ -64,7 +64,7 @@ export class XyoPanel {
         let postResult: XyoBoundWitness[] | undefined = undefined
         try {
           postResult = await archivist.archives.archive(this.config.archive).block.post([boundWitness])
-          postResult?.forEach((value) => this.addToHistory({ _archive: this.config.archive, ...value }))
+          postResult?.forEach((value) => this.addToHistory(value))
         } catch (ex) {
           error = ex as Error
           onError?.(archivist, error)
@@ -78,11 +78,11 @@ export class XyoPanel {
     return await Promise.allSettled(promises)
   }
 
-  private async generatePayload(witness: XyoWitness, onError?: (witness: XyoWitness, error: Error) => void): Promise<[XyoPayload | null, Error?]> {
+  private async generatePayload(witness: XyoWitness, onError?: (witness: XyoWitness, error: Error) => void): Promise<[XyoPartialPayloadMeta<XyoPayload> | null, Error?]> {
     this.config.onWitnessReportStart?.(witness)
     const startTime = Date.now()
     try {
-      const result = await witness.observe()
+      const result: XyoPartialPayloadMeta<XyoPayload> = await witness.observe()
       if (result) {
         result._observeDuration = Date.now() - startTime
       }

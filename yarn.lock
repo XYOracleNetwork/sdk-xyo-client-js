@@ -3135,7 +3135,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-js@npm:^2.4.2, @xylabs/sdk-js@npm:^2.5.9":
+"@xylabs/sdk-js@npm:^2.5.9":
   version: 2.5.9
   resolution: "@xylabs/sdk-js@npm:2.5.9"
   dependencies:
@@ -3384,14 +3384,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sdk-xyo-mongo-js@npm:^2.2.7":
-  version: 2.2.7
-  resolution: "@xyo-network/sdk-xyo-mongo-js@npm:2.2.7"
+"@xyo-network/sdk-xyo-mongo-js@npm:^2.2.8":
+  version: 2.2.8
+  resolution: "@xyo-network/sdk-xyo-mongo-js@npm:2.2.8"
   dependencies:
-    "@xylabs/sdk-js": ^2.4.2
+    "@xylabs/sdk-js": ^2.5.9
     async-mutex: ^0.3.2
-    mongodb: ^4.4.0
-  checksum: fc445735799efdf0a06f2a69af5eeb295e347070150565cb950f3734117eccc39e1167657e6fd370f67d1bc258eb96b7804386750aad63ad54bffe0c0b60d12f
+    mongodb: ^4.7.0
+  checksum: 7acb546530934b3d969ae359c7698a20eef67611d3591718089335b8fc8c33000172a87992f47cd0f05c93489862b028aaed46e158a56cdc69d75333c88e993d
   languageName: node
   linkType: hard
 
@@ -3414,7 +3414,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.5.9
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/sdk-xyo-mongo-js": ^2.2.7
+    "@xyo-network/sdk-xyo-mongo-js": ^2.2.8
     dotenv: ^16.0.1
     mongodb: ^4.7.0
     tslib: ^2.4.0
@@ -3431,7 +3431,7 @@ __metadata:
     bowser: ^2.11.0
     license-checker: ^25.0.1
     lodash: ^4.17.21
-    systeminformation: ^5.11.21
+    systeminformation: ^5.11.22
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -8783,7 +8783,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.4.0, mongodb@npm:^4.7.0":
+"mongodb@npm:^4.7.0":
   version: 4.7.0
   resolution: "mongodb@npm:4.7.0"
   dependencies:
@@ -12298,12 +12298,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.11.21":
-  version: 5.11.21
-  resolution: "systeminformation@npm:5.11.21"
+"systeminformation@npm:^5.11.22":
+  version: 5.11.22
+  resolution: "systeminformation@npm:5.11.22"
   bin:
     systeminformation: lib/cli.js
-  checksum: 4cd9a7fee381e0e8c8998c7f73a9023074672698b0d5713ff2e8b2b2faed3ffe228fffbb02dc8420971eaa1ed3f6dd88c8d513d3445ce3b098838eff7284fbee
+  checksum: 82edcb6e6e4f7feec44e9bfddf7a7dff280977a504171cc0affa98541667a01baee53c87d1d587f47c75c38c7a4abc002d50b06dee63af34ecb2ffeb4365c743
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -12727,11 +12727,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.7.4#~builtin<compat/typescript>":
   version: 4.7.4
-  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=bda367"
+  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 96d3030cb01143570567cb4f3a616b10df65f658f0e74e853e77a089a6a954e35c800be7db8b9bfe9a1ae05d9c2897e281359f65e4caa1caf266368e1c4febd3
+  checksum: 9096d8f6c16cb80ef3bf96fcbbd055bf1c4a43bd14f3b7be45a9fbe7ada46ec977f604d5feed3263b4f2aa7d4c7477ce5f9cd87de0d6feedec69a983f3a4f93e
   languageName: node
   linkType: hard
 

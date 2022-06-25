@@ -1,20 +1,16 @@
-import { XyoPayload } from '../models'
+import { XyoValidator } from '../../lib'
+import { XyoPayloadWithMeta } from '../../models'
 import { XyoPayloadValidator } from '../Validator'
 import { XyoPayloadWrapper } from './Wrapper'
 
-export class XyoPayloadWrapperValidator<T extends XyoPayloadWrapper<XyoPayload> = XyoPayloadWrapper<XyoPayload>> {
-  protected wrapper: T
-  constructor(wrapper: T) {
-    this.wrapper = wrapper
-  }
-
+export class XyoPayloadWrapperValidator<T extends XyoPayloadWrapper<XyoPayloadWithMeta> = XyoPayloadWrapper<XyoPayloadWithMeta>> extends XyoValidator<T> {
   public get payload() {
-    return new XyoPayloadValidator(this.wrapper.payload)
+    return new XyoPayloadValidator(this.obj.body)
   }
 
-  public all() {
+  public validate() {
     const errors: Error[] = []
-    errors.push(...this.payload.all())
+    errors.push(...this.payload.validate())
     return errors
   }
 }

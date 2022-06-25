@@ -1,6 +1,6 @@
-import { XyoBoundWitness } from '../BoundWitness'
+import { XyoBoundWitnessWithMeta } from '../BoundWitness'
 
-const testBoundWitness: XyoBoundWitness = {
+const testBoundWitness: XyoBoundWitnessWithMeta = {
   _archive: 'temp',
   _client: 'js',
   _hash: 'b0ffb9ebf872dc316b7be48327256c5316f7cb84d7c706861b18b86af1942dea',

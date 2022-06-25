@@ -1,4 +1,4 @@
-import { XyoPayload } from '../Payload'
+import { XyoPayload } from '../models'
 
 export interface XyoQueryPayload extends XyoPayload {
   /** @field The preferred schema to use for the answer */

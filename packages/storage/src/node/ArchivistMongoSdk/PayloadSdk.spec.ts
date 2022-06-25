@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
+import { XyoPayloadBuilder, XyoPayloadWithPartialMeta } from '@xyo-network/core'
 import dotenv from 'dotenv'
 import { v4 } from 'uuid'
 
@@ -35,14 +35,14 @@ describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
   const numPayloads = 20
   const limit = 10
   let sdk: XyoArchivistPayloadMongoSdk
-  let payloads: XyoPayload[] = []
+  let payloads: XyoPayloadWithPartialMeta[] = []
   beforeAll(async () => {
     sdk = getMongoSdk('test')
     payloads = getPayloads(numPayloads)
     await payloads.map(async (p) => await sdk.insert(p))
   })
   describe('findAfter', () => {
-    let payload: XyoPayload | undefined
+    let payload: XyoPayloadWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
@@ -69,7 +69,7 @@ describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
     })
   })
   describe('findBefore', () => {
-    let payload: XyoPayload | undefined
+    let payload: XyoPayloadWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
@@ -105,7 +105,7 @@ describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
     })
   })
   describe('findByHash', () => {
-    let payload: XyoPayload | undefined
+    let payload: XyoPayloadWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {

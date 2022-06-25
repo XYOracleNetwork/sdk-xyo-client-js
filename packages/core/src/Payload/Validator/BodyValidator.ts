@@ -1,22 +1,17 @@
-import { WithStringIndex } from '../../models'
+import { XyoValidator } from '../../lib'
+import { XyoPayload } from '../../models'
 import { XyoSchemaNameValidator } from '../../SchemaNameValidator'
-import { XyoPayloadBody } from '../models'
 
-class XyoPayloadBodyValidator {
-  private body: WithStringIndex<XyoPayloadBody>
-  constructor(body: XyoPayloadBody) {
-    this.body = body as WithStringIndex<XyoPayloadBody>
-  }
-
+export class XyoPayloadBodyValidator<T extends XyoPayload = XyoPayload> extends XyoValidator<T> {
   private _schemaValidator?: XyoSchemaNameValidator
   get schemaValidator() {
-    this._schemaValidator = this._schemaValidator ?? new XyoSchemaNameValidator(this.body.schema ?? '')
+    this._schemaValidator = this._schemaValidator ?? new XyoSchemaNameValidator(this.obj.schema ?? '')
     return this._schemaValidator
   }
 
   public schemaName() {
     const errors: Error[] = []
-    if (this.body.schema === undefined) {
+    if (this.obj.schema === undefined) {
       errors.push(Error('schema missing'))
     } else {
       errors.push(...this.schemaValidator.all())
@@ -24,11 +19,9 @@ class XyoPayloadBodyValidator {
     return errors
   }
 
-  public all() {
+  public validate() {
     const errors: Error[] = []
     errors.push(...this.schemaName())
     return errors
   }
 }
-
-export { XyoPayloadBodyValidator }

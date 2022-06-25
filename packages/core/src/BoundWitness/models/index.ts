@@ -1,4 +1,4 @@
-export * from './Body'
+export * from './Base'
 export * from './Meta'
 export * from './WithXyoBoundWitnessMeta'
 export * from './XyoBoundWitness'

@@ -1,25 +1,19 @@
-import { deepOmitUnderscoreFields, deepPickUnderscoreFields, XyoAbstractHasher } from '../../Hasher'
+import { deepOmitUnderscoreFields, deepPickUnderscoreFields, XyoHasher } from '../../Hasher'
 import { Huri } from '../../Huri'
+import { XyoPayload } from '../../models'
 import { XyoDataLike } from '../../Wallet'
-import { XyoPayload } from '../models'
 
-export class XyoPayloadWrapper<T extends XyoPayload> extends XyoAbstractHasher<T> {
-  public payload: T
-  constructor(payload: T) {
-    super()
-    this.payload = payload
-  }
-
-  protected get obj() {
-    return this.payload
+export class XyoPayloadWrapper<T extends XyoPayload> extends XyoHasher<T> {
+  public get payload() {
+    return this.obj
   }
 
   public get body() {
-    return deepOmitUnderscoreFields(this.payload)
+    return deepOmitUnderscoreFields<T>(this.obj)
   }
 
   public get meta() {
-    return deepPickUnderscoreFields(this.payload)
+    return deepPickUnderscoreFields<T>(this.obj)
   }
 
   public static async load(address: XyoDataLike | Huri) {

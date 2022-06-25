@@ -1,8 +1,8 @@
-import { XyoPayload, XyoSimpleWitness } from '@xyo-network/core'
+import { StringKeyObject, XyoPayload, XyoSimpleWitness } from '@xyo-network/core'
 
-export class XyoAdhocWitness extends XyoSimpleWitness<XyoPayload> {
-  public payload: XyoPayload
-  constructor(payload: XyoPayload) {
+export class XyoAdhocWitness<T extends XyoPayload = XyoPayload<StringKeyObject>> extends XyoSimpleWitness<T> {
+  public payload: T
+  constructor(payload: T) {
     super({
       schema: payload.schema,
       template: { schema: '' },
@@ -10,7 +10,7 @@ export class XyoAdhocWitness extends XyoSimpleWitness<XyoPayload> {
     this.payload = payload
   }
 
-  override async observe(): Promise<XyoPayload> {
+  override async observe(): Promise<T> {
     return await super.observe(this.payload)
   }
 }

@@ -1,9 +1,9 @@
 import { assertEx, Buffer } from '@xylabs/sdk-js'
 
 import { sortFields, XyoHasher } from '../../Hasher'
-import { XyoPayload, XyoPayloadBody } from '../../Payload'
+import { XyoPayload, XyoPayloadWithPartialMeta } from '../../models'
 import { XyoAccount } from '../../Wallet'
-import { XyoBoundWitness } from '../models'
+import { WithXyoBoundWitnessMeta, XyoBoundWitness, XyoBoundWitnessWithPartialMeta } from '../models'
 
 export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
@@ -28,7 +28,7 @@ export class XyoBoundWitnessBuilder {
     return this
   }
 
-  public payloads(payloads: (XyoPayload | null)[]) {
+  public payloads(payloads: (XyoPayloadWithPartialMeta | null)[]) {
     payloads.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)
@@ -37,7 +37,7 @@ export class XyoBoundWitnessBuilder {
     return this
   }
 
-  public payload(payload?: XyoPayload) {
+  public payload(payload?: XyoPayloadWithPartialMeta) {
     if (payload) {
       this._payload_schemas.push(payload.schema)
       this._payloads.push(assertEx(sortFields(payload)))
@@ -62,7 +62,7 @@ export class XyoBoundWitnessBuilder {
   }
 
   private inlinePayloads() {
-    return this._payloads.map<XyoPayloadBody>((payload, index) => {
+    return this._payloads.map<XyoPayload>((payload, index) => {
       return {
         ...payload,
         schema: this._payload_schemas[index],
@@ -70,11 +70,11 @@ export class XyoBoundWitnessBuilder {
     })
   }
 
-  public build(): XyoBoundWitness {
+  public build(): XyoBoundWitnessWithPartialMeta {
     const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
     const _hash = new XyoHasher(hashableFields).hash
 
-    const ret = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() } as XyoBoundWitness
+    const ret = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() } as WithXyoBoundWitnessMeta<XyoBoundWitness>
     if (this.config.inlinePayloads) {
       ret._payloads = this.inlinePayloads()
     }

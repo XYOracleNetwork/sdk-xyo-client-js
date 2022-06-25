@@ -1,4 +1,4 @@
-import { XyoAccount, XyoBoundWitnessBuilder, XyoPayload } from '@xyo-network/core'
+import { XyoAccount, XyoBoundWitnessBuilder, XyoSchemaPayload } from '@xyo-network/core'
 
 import { XyoApiConfig } from '../../../models'
 import { XyoArchivistApi } from '../../Api'
@@ -8,7 +8,7 @@ const config: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
 }
 
-const payload: XyoPayload = {
+const payload: XyoSchemaPayload = {
   definition: {
     $id: '',
     $schema: 'http://json-schema.org/draft-07/schema#',

@@ -1,7 +1,3 @@
-import { XyoPayload } from '../../Payload'
-import { XyoBoundWitnessBody } from './Body'
-import { WithXyoBoundWitnessMeta } from './WithXyoBoundWitnessMeta'
+import { XyoBoundWitnessBase } from './Base'
 
-type XyoBoundWitness = WithXyoBoundWitnessMeta<XyoBoundWitnessBody & XyoPayload>
-
-export type { XyoBoundWitness }
+export type XyoBoundWitness<T extends object = XyoBoundWitnessBase> = T & XyoBoundWitnessBase

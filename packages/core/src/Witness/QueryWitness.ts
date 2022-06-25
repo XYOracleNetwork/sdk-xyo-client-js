@@ -1,6 +1,7 @@
 import { delay } from '@xylabs/sdk-js'
 
-import { XyoPayload, XyoPayloadBuilder } from '../Payload'
+import { XyoPayload } from '../models'
+import { XyoPayloadBuilder } from '../Payload'
 import { XyoQueryPayload } from '../Query'
 import { XyoWitness } from './Witness'
 

@@ -1,15 +1,12 @@
-import { XyoPayloadBody } from '../../../Payload'
+import { XyoPayload, XyoPayloadMeta } from '../../../models'
+import { XyoBoundWitness } from '../XyoBoundWitness'
 
-interface XyoBoundWitnessMeta {
-  [key: string]: unknown
-  _client?: string
-  _hash?: string
-  _archive?: string
-  _payloads?: XyoPayloadBody[]
+export type XyoBoundWitnessMeta = XyoPayloadMeta<{
+  _payloads?: XyoPayload[]
   _signatures?: string[]
-  _timestamp?: number
   _source_ip?: string
   _user_agent?: string
-}
+}>
 
-export type { XyoBoundWitnessMeta }
+export type XyoBoundWitnessWithMeta<T = unknown> = T & XyoBoundWitnessMeta & XyoBoundWitness
+export type XyoBoundWitnessWithPartialMeta<T = unknown> = T & Partial<XyoBoundWitnessMeta> & XyoBoundWitness

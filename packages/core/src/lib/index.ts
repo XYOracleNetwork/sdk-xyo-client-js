@@ -1,4 +1,7 @@
 export * from './dns'
 export * from './dumpErrors'
 export * from './isBrowser'
+export * from './StringKeyObject'
 export * from './typeOf'
+export * from './XyoObject'
+export * from './XyoValidator'

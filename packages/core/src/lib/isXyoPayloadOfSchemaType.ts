@@ -1,5 +1,5 @@
 import { XyoBoundWitness } from '../BoundWitness'
-import { XyoPayload } from '../Payload'
+import { XyoPayload } from '../models'
 import { XyoSchemaPayload } from '../Schema'
 
 export const isXyoPayloadOfSchemaType = <T extends XyoPayload>(schema: string) => {

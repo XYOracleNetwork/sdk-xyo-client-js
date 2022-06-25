@@ -1,6 +1,6 @@
 import { delay } from '@xylabs/sdk-js'
 
-import { XyoPayload } from '../Payload'
+import { XyoPayload } from '../models'
 import { Huri } from './Huri'
 
 const hash = 'fb3606d71dcdd49a0aacc9d234e412684d577803c8a9ed9399a9d3776cc88e24'

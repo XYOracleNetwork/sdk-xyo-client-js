@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayload } from '@xyo-network/core'
+import { XyoPayload, XyoPayloadWithPartialMeta } from '@xyo-network/core'
 
 import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'
@@ -18,12 +18,10 @@ export interface XyoPayloadStats {
   count: number
 }
 
-export class XyoArchivistPayloadApi<T extends XyoPayload = XyoPayload, C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>> extends XyoApiSimple<
-  T[],
-  T[],
-  XyoPayloadFindFilter,
-  C
-> {
+export class XyoArchivistPayloadApi<
+  T extends XyoPayloadWithPartialMeta = XyoPayloadWithPartialMeta,
+  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>
+> extends XyoApiSimple<T[], T[], XyoPayloadFindFilter, C> {
   public get schema(): XyoArchivistArchivePayloadSchemaApi {
     return new XyoArchivistArchivePayloadSchemaApi({
       ...this.config,

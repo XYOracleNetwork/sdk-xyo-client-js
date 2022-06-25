@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoAccount, XyoBoundWitness, XyoBoundWitnessBuilder, XyoPayloadBuilder } from '@xyo-network/core'
+import { XyoAccount, XyoBoundWitnessBuilder, XyoBoundWitnessWithPartialMeta, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
 import dotenv from 'dotenv'
 import { v4 } from 'uuid'
 
@@ -28,7 +28,7 @@ const getBoundWitnesses = (number = 5) => {
   return new Array(number).fill(0).map((_) => {
     return new XyoBoundWitnessBuilder({ inlinePayloads: true })
       .witness(address)
-      .payload(new XyoPayloadBuilder({ schema }).fields({ prop: v4() }).build())
+      .payload(new XyoPayloadBuilder<XyoPayload<{ prop: string }>>({ schema }).fields({ prop: v4() }).build())
       .build()
   })
 }
@@ -38,14 +38,14 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
   const numBoundWitnesses = 20
   const limit = 10
   let sdk: XyoArchivistBoundWitnessMongoSdk
-  let boundWitnesses: XyoBoundWitness[] = []
+  let boundWitnesses: XyoBoundWitnessWithPartialMeta[] = []
   beforeAll(async () => {
     sdk = getMongoSdk('temp')
     boundWitnesses = getBoundWitnesses(numBoundWitnesses)
     await sdk.insertMany(boundWitnesses)
   })
   describe('findAfter', () => {
-    let boundWitness: XyoBoundWitness | undefined
+    let boundWitness: XyoBoundWitnessWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
@@ -72,7 +72,7 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
     })
   })
   describe('findBefore', () => {
-    let boundWitness: XyoBoundWitness | undefined
+    let boundWitness: XyoBoundWitnessWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
@@ -108,7 +108,7 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
     })
   })
   describe('findByHash', () => {
-    let boundWitness: XyoBoundWitness | undefined
+    let boundWitness: XyoBoundWitnessWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {

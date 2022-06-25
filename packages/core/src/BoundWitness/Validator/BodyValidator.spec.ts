@@ -4,7 +4,7 @@ import { XyoBoundWitnessBodyValidator } from './BodyValidator'
 
 test('all', () => {
   const validator = new XyoBoundWitnessBodyValidator(testBoundWitness)
-  const errors = validator.all()
+  const errors = validator.validate()
   dumpErrors(errors)
   expect(errors.length).toBe(0)
 })

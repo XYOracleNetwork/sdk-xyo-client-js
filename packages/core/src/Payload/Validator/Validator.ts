@@ -1,22 +1,20 @@
-import { XyoPayload } from '../models'
+import { XyoValidator } from '../../lib'
+import { XyoPayloadWithMeta } from '../../models'
 import { XyoPayloadBodyValidator } from './BodyValidator'
 import { XyoPayloadMetaValidator } from './MetaValidator'
 
-class XyoPayloadValidator<T extends XyoPayload = XyoPayload> {
-  protected payload: T
+export class XyoPayloadValidator<T extends XyoPayloadWithMeta = XyoPayloadWithMeta> extends XyoValidator<T> {
   public body: XyoPayloadBodyValidator
   public meta: XyoPayloadMetaValidator
   constructor(payload: T) {
-    this.payload = payload
+    super(payload)
     this.body = new XyoPayloadBodyValidator(payload)
     this.meta = new XyoPayloadMetaValidator(payload)
   }
 
-  public all() {
+  public validate() {
     const errors: Error[] = []
-    errors.push(...this.body.all())
+    errors.push(...this.body.validate())
     return errors
   }
 }
-
-export { XyoPayloadValidator }

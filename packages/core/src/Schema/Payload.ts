@@ -1,6 +1,6 @@
-import { XyoPayload } from '../Payload'
+import { XyoPayload } from '../models'
 
-export interface XyoSchemaPayload extends XyoPayload {
+export type XyoSchemaPayload = XyoPayload<{
   /** @deprecated use definition.$id instead */
   name?: string
   definition: {
@@ -8,4 +8,4 @@ export interface XyoSchemaPayload extends XyoPayload {
     [key: string]: unknown
   }
   extends?: string
-}
+}>

@@ -103,6 +103,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.20.47",
+  "version": "2.21.0",
   "packageManager": "yarn@3.2.1"
 }

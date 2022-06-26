@@ -1,4 +1,7 @@
-import { StringKeyObject, XyoPayload, XyoSimpleWitness } from '@xyo-network/core'
+import { StringKeyObject } from '@xyo-network/core'
+import { XyoPayload } from '@xyo-network/payload'
+
+import { XyoSimpleWitness } from '../Witness'
 
 export class XyoAdhocWitness<T extends XyoPayload = XyoPayload<StringKeyObject>> extends XyoSimpleWitness<T> {
   public payload: T

@@ -1,4 +1,5 @@
-import { XyoBoundWitnessWithPartialMeta, XyoPayload } from '@xyo-network/core'
+import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'

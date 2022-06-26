@@ -1,4 +1,4 @@
-import { XyoPayloadWrapper } from '@xyo-network/core'
+import { XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { XyoPanelIntervalAutomationPayload } from './Automation'
 

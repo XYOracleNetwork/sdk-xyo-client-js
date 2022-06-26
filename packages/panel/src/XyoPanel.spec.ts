@@ -1,5 +1,5 @@
+import { XyoAccount } from '@xyo-network/account'
 import { XyoApiConfig, XyoArchivistApi } from '@xyo-network/api'
-import { XyoAccount } from '@xyo-network/core'
 import { XyoSystemInfoWitness } from '@xyo-network/systeminfo-witness'
 import { XyoAdhocWitness, XyoIdWitness } from '@xyo-network/witnesses'
 

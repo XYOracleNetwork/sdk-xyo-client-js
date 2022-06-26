@@ -1,4 +1,4 @@
-import { XyoSchemaPayload } from '@xyo-network/core'
+import { XyoSchemaPayload } from '@xyo-network/payload'
 export const schemaTemplate = (): XyoSchemaPayload => ({
   definition: {
     $id: '',

@@ -9,7 +9,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/core": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/witnesses": "workspace:^",
     "bowser": "^2.11.0",
     "lodash": "^4.17.21",
     "systeminformation": "^5.11.22"
@@ -57,6 +58,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.9",
+  "version": "2.21.10",
   "packageManager": "yarn@3.1.1"
 }

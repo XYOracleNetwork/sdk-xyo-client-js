@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayloadWrapper } from '@xyo-network/core'
+import { XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { XyoPanelAutomationPayload, XyoPanelIntervalAutomationPayload } from './Automation'
 import { XyoPanelIntervalAutomationWrapper } from './XyoAutomationWrapper'

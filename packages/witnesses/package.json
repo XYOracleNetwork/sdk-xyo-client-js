@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/witnesses",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,7 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/sdk-js": "^2.5.9",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
     "uuid": "^8.3.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -40,7 +44,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/witnesses",
   "publishConfig": {
     "access": "public"
   },
@@ -50,6 +53,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.9",
+  "version": "2.21.10",
   "packageManager": "yarn@3.1.1"
 }

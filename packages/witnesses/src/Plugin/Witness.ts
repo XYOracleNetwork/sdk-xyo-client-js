@@ -1,5 +1,4 @@
-import { XyoSimpleWitness } from '@xyo-network/core'
-
+import { XyoSimpleWitness } from '../Witness'
 import { XyoPluginPayload } from './Payload'
 import { pluginTemplate } from './Template'
 

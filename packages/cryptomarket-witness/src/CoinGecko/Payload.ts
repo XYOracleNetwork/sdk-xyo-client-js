@@ -1,4 +1,4 @@
-import { XyoPayload, XyoQueryPayload } from '@xyo-network/core'
+import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
 import { XyoCryptoAsset } from './XyoCryptoAsset'
 import { XyoCryptoAssets } from './XyoCryptoAssets'

@@ -1,4 +1,4 @@
-import { XyoBoundWitnessWithMeta } from '@xyo-network/core'
+import { XyoBoundWitnessWithMeta } from '@xyo-network/boundwitness'
 
 const testBoundWitness: XyoBoundWitnessWithMeta = {
   _archive: 'temp',

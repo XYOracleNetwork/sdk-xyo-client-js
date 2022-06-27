@@ -3230,13 +3230,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/account@^2.21.10, @xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/account":
+"@xyo-network/account@^2.21.11, @xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/account":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/account"
   dependencies:
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
-    "@xyo-network/core": ^2.21.10
+    "@xyo-network/core": ^2.21.11
     elliptic: ^6.5.4
     sha.js: ^2.4.11
     tslib: ^2.4.0
@@ -3282,7 +3282,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/core@^2.21.10, @xyo-network/core@workspace:^, @xyo-network/core@workspace:packages/core":
+"@xyo-network/core@^2.21.11, @xyo-network/core@workspace:^, @xyo-network/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/core"
   dependencies:
@@ -3352,13 +3352,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/network@^2.21.10, @xyo-network/network@workspace:^, @xyo-network/network@workspace:packages/network":
+"@xyo-network/network@^2.21.11, @xyo-network/network@workspace:^, @xyo-network/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/network"
   dependencies:
     "@xylabs/sdk-js": ^2.5.9
     "@xylabs/tsconfig": ^1.0.14
-    "@xyo-network/payload": ^2.21.10
+    "@xyo-network/payload": ^2.21.11
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3379,13 +3379,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload@^2.21.10, @xyo-network/payload@workspace:^, @xyo-network/payload@workspace:packages/payload":
+"@xyo-network/payload@^2.21.11, @xyo-network/payload@workspace:^, @xyo-network/payload@workspace:packages/payload":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload@workspace:packages/payload"
   dependencies:
     "@xylabs/sdk-js": ^2.5.9
-    "@xyo-network/account": ^2.21.10
-    "@xyo-network/core": ^2.21.10
+    "@xyo-network/account": ^2.21.11
+    "@xyo-network/core": ^2.21.11
     axios: ^0.27.2
     tslib: ^2.4.0
   languageName: unknown
@@ -3414,6 +3414,7 @@ __metadata:
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/cryptomarket-witness": "workspace:^"
     "@xyo-network/domain": "workspace:^"
@@ -3511,7 +3512,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.5.9
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/domain": "workspace:^"
-    "@xyo-network/network": ^2.21.10
+    "@xyo-network/network": ^2.21.11
     "@xyo-network/payload": "workspace:^"
     ajv: ^8.11.0
     lru-cache: ^7.10.2

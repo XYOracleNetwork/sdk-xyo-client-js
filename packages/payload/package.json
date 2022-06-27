@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@xylabs/sdk-js": "^2.5.9",
-    "@xyo-network/account": "^2.21.10",
-    "@xyo-network/core": "^2.21.10",
+    "@xyo-network/account": "^2.21.11",
+    "@xyo-network/core": "^2.21.11",
     "axios": "^0.27.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -51,6 +51,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.10",
+  "version": "2.21.11",
   "packageManager": "yarn@3.1.1"
 }

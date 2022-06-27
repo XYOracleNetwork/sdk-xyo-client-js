@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "outDir": "../account/dist",
-    "types": ["jest", "node", "@types/jest", "jest-sorted", "json-schema"]
-  },
-  "extends": "@xylabs/tsconfig"
-}

@@ -12,13 +12,14 @@
     "@xyo-network/api": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/network": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/witnesses": "workspace:^",
     "axios": "^0.27.2",
     "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.182",
-    "@xylabs/ts-scripts": "^1.0.66",
     "@xylabs/tsconfig": "^1.0.14",
     "tslib": "^2.4.0"
   },
@@ -55,6 +56,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.9",
+  "version": "2.21.10",
   "packageManager": "yarn@3.1.1"
 }

@@ -12,6 +12,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/cryptomarket-witness": "workspace:^",
@@ -19,10 +20,13 @@
     "@xyo-network/ethereum-witness": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/panel": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-witness": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/systeminfo-witness": "workspace:^",
+    "@xyo-network/typeof": "workspace:^",
     "@xyo-network/utils": "workspace:^",
+    "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -36,6 +40,7 @@
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "license-checker": "^25.0.1",
+    "rimraf": "^3.0.2",
     "typedoc": "^0.22.17",
     "typescript": "^4.7.4"
   },
@@ -90,7 +95,7 @@
     "up": "yarn workspaces foreach -pv up",
     "updo": "yarn workspaces foreach -pv run updo3:package",
     "gen:docs:package": "typedoc --excludeExternals --externalPattern \"packages/**/*\" $INIT_CWD/src/index.ts --json $INIT_CWD/dist/docs.json",
-    "clean:package": "rimraf -q $INIT_CWD/dist && rimraf -q $INIT_CWD/build",
+    "clean:package": "yarn rimraf -q $INIT_CWD/dist && yarn rimraf -q $INIT_CWD/build",
     "fix:package": "yarn eslint $INIT_CWD/src --fix",
     "lint:package": "yarn eslint $INIT_CWD/src",
     "cycle:package": "yarn eslint --rule \"import/no-cycle:[1, { maxDepth: 10 }]\" $INIT_CWD/src",
@@ -103,6 +108,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.9",
+  "version": "2.21.10",
   "packageManager": "yarn@3.2.1"
 }

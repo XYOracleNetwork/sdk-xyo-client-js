@@ -1,7 +1,9 @@
-import { Huri, XyoAddressValue, XyoDataLike, XyoPayloadWrapper, XyoQueryWitness, XyoSimpleWitness } from '@xyo-network/core'
+import { XyoAddressValue } from '@xyo-network/account'
+import { XyoDataLike } from '@xyo-network/core'
+import { Huri, XyoPayloadWrapper } from '@xyo-network/payload'
 
+import { XyoQueryWitness, XyoSimpleWitness } from '../Witness'
 import { XyoContractPayload, XyoNonFungibleTokenMintPayload, XyoNonFungibleTokenMintQueryPayload, XyoNonFungibleTokenPayload } from './Payload'
-import { XyoNonFungibleTokenWitness } from './Witness'
 
 export class XyoSmartContractWrapper<T extends XyoContractPayload> extends XyoPayloadWrapper<T> {
   public static async load(address: XyoDataLike | Huri) {
@@ -21,7 +23,7 @@ export class XyoNonFungibleTokenMintQuery extends XyoQueryWitness<XyoNonFungible
   protected minter: XyoAddressValue
   constructor(query: XyoNonFungibleTokenMintQueryPayload, minter: XyoDataLike) {
     super({
-      targetSchema: XyoNonFungibleTokenWitness.schema,
+      targetSchema: XyoNonFungibleTokenMintWitness.schema,
       ...query,
     })
     this.minter = new XyoAddressValue(minter)

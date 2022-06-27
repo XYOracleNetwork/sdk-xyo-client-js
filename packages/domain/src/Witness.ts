@@ -1,4 +1,4 @@
-import { XyoSimpleWitness } from '@xyo-network/core'
+import { XyoSimpleWitness } from '@xyo-network/witnesses'
 
 import { XyoDomainPayload } from './DomainPayload'
 import { domainConfigTemplate } from './Template'

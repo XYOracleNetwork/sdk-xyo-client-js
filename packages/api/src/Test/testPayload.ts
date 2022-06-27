@@ -1,4 +1,5 @@
-import { StringKeyObject, XyoPayloadWithMeta } from '@xyo-network/core'
+import { StringKeyObject } from '@xyo-network/core'
+import { XyoPayloadWithMeta } from '@xyo-network/payload'
 
 const testSchema = 'network.xyo.test'
 const testPayload: XyoPayloadWithMeta<StringKeyObject> = {

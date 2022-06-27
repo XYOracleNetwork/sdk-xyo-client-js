@@ -1,5 +1,4 @@
-import { XyoSimpleWitness } from '@xyo-network/core'
-
+import { XyoSimpleWitness } from '../Witness'
 import { XyoLocationPayload } from './Payload'
 import { locationTemplate } from './Template'
 

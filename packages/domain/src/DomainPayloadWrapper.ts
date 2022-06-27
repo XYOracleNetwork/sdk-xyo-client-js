@@ -1,6 +1,7 @@
 import { XyoApiEnvelope } from '@xyo-network/api'
-import { DnsRecordType, domainResolve, Huri, HuriOptions, isBrowser, XyoFetchedPayload, XyoPayloadWrapper } from '@xyo-network/core'
+import { DnsRecordType, domainResolve, isBrowser } from '@xyo-network/core'
 import { XyoNetworkPayload, XyoNetworkPayloadWrapper } from '@xyo-network/network'
+import { Huri, HuriOptions, XyoFetchedPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import axios, { AxiosError } from 'axios'
 import reverse from 'lodash/reverse'
 

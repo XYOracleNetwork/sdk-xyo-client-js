@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayloadWrapper } from '@xyo-network/core'
+import { XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { knownArchivists } from './knownArchivists'
 import { knownDiviners } from './knownDiviners'

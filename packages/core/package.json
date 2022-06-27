@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/core",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,33 +11,30 @@
   },
   "dependencies": {
     "@xylabs/sdk-js": "^2.5.9",
+    "@xyo-network/typeof": "workspace:^",
     "axios": "^0.27.2",
-    "elliptic": "^6.5.4",
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",
-    "sha.js": "^2.4.11",
-    "ua-parser-js": "^1.0.2"
+    "sha.js": "^2.4.11"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/elliptic": "^6.4.14",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.0.0",
     "@types/sha.js": "^2.4.0",
-    "@types/ua-parser-js": "^0.7.36",
     "tslib": "^2.4.0"
   },
-  "browser": "dist/esm/browserIndex.js",
+  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
       "node": {
-        "import": "./dist/esm/nodeIndex.js",
-        "require": "./dist/cjs/nodeIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "browser": {
-        "import": "./dist/esm/browserIndex.js",
-        "require": "./dist/cjs/browserIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     },
@@ -49,7 +47,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/core",
   "publishConfig": {
     "access": "public"
   },
@@ -59,6 +56,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.9",
+  "version": "2.21.10",
   "packageManager": "yarn@3.1.1"
 }

@@ -1,4 +1,4 @@
-import { XyoSimpleWitnessConfig } from '@xyo-network/core'
+import { XyoSimpleWitnessConfig } from '@xyo-network/witnesses'
 import merge from 'lodash/merge'
 import { get } from 'systeminformation'
 

@@ -1,4 +1,5 @@
-import { XyoAccount, XyoBoundWitnessBuilder } from '@xyo-network/core'
+import { XyoAccount } from '@xyo-network/account'
+import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { config } from 'dotenv'
 
 import { XyoApiConfig, XyoApiError } from '../../models'

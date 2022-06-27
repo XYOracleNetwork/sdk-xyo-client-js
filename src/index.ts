@@ -1,5 +1,6 @@
 export * from '@xyo-network/account'
 export * from '@xyo-network/api'
+export * from '@xyo-network/boundwitness'
 export * from '@xyo-network/core'
 export * from '@xyo-network/cryptomarket-witness'
 export * from '@xyo-network/domain'

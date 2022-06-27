@@ -3414,6 +3414,7 @@ __metadata:
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/cryptomarket-witness": "workspace:^"
     "@xyo-network/domain": "workspace:^"

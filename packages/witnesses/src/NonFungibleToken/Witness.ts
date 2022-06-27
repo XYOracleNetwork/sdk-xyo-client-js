@@ -1,5 +1,4 @@
-import { XyoSimpleWitness } from '@xyo-network/core'
-
+import { XyoSimpleWitness } from '../Witness'
 import { XyoNonFungibleTokenPayload } from './Payload'
 
 export class XyoNonFungibleTokenWitness extends XyoSimpleWitness<XyoNonFungibleTokenPayload> {

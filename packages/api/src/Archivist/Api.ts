@@ -1,4 +1,7 @@
-import { Huri, XyoAddressValue, XyoBoundWitnessWithMeta, XyoDataLike, XyoPayload } from '@xyo-network/core'
+import { XyoAddressValue } from '@xyo-network/account'
+import { XyoBoundWitnessWithMeta } from '@xyo-network/boundwitness'
+import { XyoDataLike } from '@xyo-network/core'
+import { Huri, XyoPayload } from '@xyo-network/payload'
 
 import { XyoApiBase } from '../Base'
 import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'

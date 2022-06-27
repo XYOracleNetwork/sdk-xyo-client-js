@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/core'
+import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoApiBase } from '../../../Base'
 import { XyoApiSimple } from '../../../Simple'

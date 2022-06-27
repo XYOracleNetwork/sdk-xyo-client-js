@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/core'
+import { XyoPayload } from '@xyo-network/payload'
 
 export interface XyoPanelBaseAutomationPayload extends XyoPayload {
   /** @field The list of witnesses to invoke [all if undefined] */

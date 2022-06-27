@@ -1,4 +1,5 @@
-import { XyoSchemaPayload, XyoSimpleWitness } from '@xyo-network/core'
+import { XyoSchemaPayload } from '@xyo-network/payload'
+import { XyoSimpleWitness } from '@xyo-network/witnesses'
 import merge from 'lodash/merge'
 
 import { schemaTemplate } from './Template'

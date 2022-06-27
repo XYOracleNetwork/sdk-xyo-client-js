@@ -1,5 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoAccount, XyoBoundWitnessBuilder, XyoBoundWitnessWithPartialMeta, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
+import { XyoAccount } from '@xyo-network/account'
+import { XyoBoundWitnessBuilder, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import dotenv from 'dotenv'
 import { v4 } from 'uuid'
 

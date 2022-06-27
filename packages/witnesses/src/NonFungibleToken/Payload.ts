@@ -1,4 +1,4 @@
-import { XyoPayload, XyoQueryPayload } from '@xyo-network/core'
+import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
 export interface XyoExternalAddress extends XyoPayload {
   chain: {

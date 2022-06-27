@@ -3230,13 +3230,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/account@^2.21.11, @xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/account":
+"@xyo-network/account@^2.21.13, @xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/account":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/account"
   dependencies:
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
-    "@xyo-network/core": ^2.21.11
+    "@xyo-network/core": ^2.21.13
     elliptic: ^6.5.4
     sha.js: ^2.4.11
     tslib: ^2.4.0
@@ -3282,7 +3282,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/core@^2.21.11, @xyo-network/core@workspace:^, @xyo-network/core@workspace:packages/core":
+"@xyo-network/core@^2.21.13, @xyo-network/core@workspace:^, @xyo-network/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/core"
   dependencies:
@@ -3352,13 +3352,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/network@^2.21.11, @xyo-network/network@workspace:^, @xyo-network/network@workspace:packages/network":
+"@xyo-network/network@^2.21.13, @xyo-network/network@workspace:^, @xyo-network/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/network"
   dependencies:
     "@xylabs/sdk-js": ^2.5.9
     "@xylabs/tsconfig": ^1.0.14
-    "@xyo-network/payload": ^2.21.11
+    "@xyo-network/payload": ^2.21.13
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3379,13 +3379,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload@^2.21.11, @xyo-network/payload@workspace:^, @xyo-network/payload@workspace:packages/payload":
+"@xyo-network/payload@^2.21.13, @xyo-network/payload@workspace:^, @xyo-network/payload@workspace:packages/payload":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload@workspace:packages/payload"
   dependencies:
     "@xylabs/sdk-js": ^2.5.9
-    "@xyo-network/account": ^2.21.11
-    "@xyo-network/core": ^2.21.11
+    "@xyo-network/account": ^2.21.13
+    "@xyo-network/core": ^2.21.13
     axios: ^0.27.2
     tslib: ^2.4.0
   languageName: unknown
@@ -3434,7 +3434,7 @@ __metadata:
     jest-environment-jsdom: ^28.1.1
     license-checker: ^25.0.1
     rimraf: ^3.0.2
-    typedoc: ^0.22.17
+    typedoc: ^0.23.1
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft
@@ -3512,7 +3512,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.5.9
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/domain": "workspace:^"
-    "@xyo-network/network": ^2.21.11
+    "@xyo-network/network": ^2.21.13
     "@xyo-network/payload": "workspace:^"
     ajv: ^8.11.0
     lru-cache: ^7.10.2
@@ -6258,7 +6258,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^8.0.1, glob@npm:^8.0.3":
+"glob@npm:^8.0.1":
   version: 8.0.3
   resolution: "glob@npm:8.0.3"
   dependencies:
@@ -12780,20 +12780,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.22.17":
-  version: 0.22.17
-  resolution: "typedoc@npm:0.22.17"
+"typedoc@npm:^0.23.1":
+  version: 0.23.1
+  resolution: "typedoc@npm:0.23.1"
   dependencies:
-    glob: ^8.0.3
     lunr: ^2.3.9
     marked: ^4.0.16
     minimatch: ^5.1.0
     shiki: ^0.10.1
   peerDependencies:
-    typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x || 4.6.x || 4.7.x
+    typescript: 4.6.x || 4.7.x
   bin:
     typedoc: bin/typedoc
-  checksum: 3a2f492477989855fa43afc0ebfb84dca819436ec5c868ca175cb02485c6347c04dbb2d11669a8be04fc6860a8f3d29d124300b5718ba17174622ace29a0276a
+  checksum: 8622847ffff85b4ca2fa4d95e7507aafe50b155fe37d7f3f9b2721f7a80effecbca4dda682f9f81bdf1ac230cefd6e6127715398146fc00205042f25da19373a
   languageName: node
   linkType: hard
 

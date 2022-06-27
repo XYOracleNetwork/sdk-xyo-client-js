@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import { XyoAddressValue } from '@xyo-network/account'
 import { XyoValidator } from '@xyo-network/core'
 
-import { XyoBoundWitnessWithMeta, XyoBoundWitnessWithPartialMeta } from '../models'
+import { XyoBoundWitnessWithPartialMeta } from '../models'
 import { XyoBoundWitnessBodyValidator } from './BodyValidator'
 import { XyoBoundWitnessMetaValidator } from './MetaValidator'
 

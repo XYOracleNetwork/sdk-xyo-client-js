@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
     "@xylabs/tsconfig": "^1.0.14",
-    "@xyo-network/network": "^2.21.12",
+    "@xyo-network/network": "^2.21.13",
     "tslib": "^2.4.0"
   },
   "browser": "dist/esm/browserIndex.js",
@@ -57,6 +57,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.12",
+  "version": "2.21.13",
   "packageManager": "yarn@3.1.1"
 }

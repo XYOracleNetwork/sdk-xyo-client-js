@@ -1,4 +1,6 @@
-import { XyoAccount, XyoBoundWitnessBuilder, XyoSchemaPayload } from '@xyo-network/core'
+import { XyoAccount } from '@xyo-network/account'
+import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { XyoSchemaPayload } from '@xyo-network/payload'
 
 import { XyoApiConfig } from '../../../models'
 import { XyoArchivistApi } from '../../Api'

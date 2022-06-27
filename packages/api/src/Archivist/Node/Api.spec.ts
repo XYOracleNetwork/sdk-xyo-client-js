@@ -1,5 +1,6 @@
 import { assertEx, delay } from '@xylabs/sdk-js'
-import { XyoBoundWitnessBuilder, XyoBoundWitnessWithMeta, XyoPayload, XyoPayloadBuilder } from '@xyo-network/core'
+import { XyoBoundWitnessBuilder, XyoBoundWitnessWithMeta } from '@xyo-network/boundwitness'
+import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { v4 } from 'uuid'
 
 import { XyoApiConfig, XyoApiEnvelope } from '../../models'

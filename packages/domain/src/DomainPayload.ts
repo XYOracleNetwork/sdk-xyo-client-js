@@ -1,5 +1,5 @@
-import { XyoPayload } from '@xyo-network/core'
 import { XyoNetworkPayload } from '@xyo-network/network'
+import { XyoPayload } from '@xyo-network/payload'
 
 export interface XyoAlias {
   /** @field cononical name (ex. network.xyo.example) */

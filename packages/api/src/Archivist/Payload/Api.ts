@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayload, XyoPayloadWithPartialMeta } from '@xyo-network/core'
+import { XyoPayload, XyoPayloadWithPartialMeta } from '@xyo-network/payload'
 
 import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'

@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@xylabs/sdk-js": "^2.5.9",
-    "@xyo-network/core": "workspace:^",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.8",
     "mongodb": "^4.7.0",
     "uuid": "^8.3.2"
@@ -55,6 +57,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.9",
+  "version": "2.21.10",
   "packageManager": "yarn@3.1.1"
 }

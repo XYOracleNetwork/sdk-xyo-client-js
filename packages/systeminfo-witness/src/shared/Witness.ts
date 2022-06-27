@@ -1,4 +1,4 @@
-import { XyoSimpleWitness, XyoSimpleWitnessConfig } from '@xyo-network/core'
+import { XyoSimpleWitness, XyoSimpleWitnessConfig } from '@xyo-network/witnesses'
 
 import { XyoSystemInfoPayload } from './Payload'
 

@@ -1,5 +1,5 @@
 import { Provider } from '@ethersproject/providers'
-import { XyoQueryWitness } from '@xyo-network/core'
+import { XyoQueryWitness } from '@xyo-network/witnesses'
 
 import { XyoCryptoMarketUniswapPayload, XyoCryptoMarketUniswapQueryPayload } from './Payload'
 import { createUniswapPoolContracts, pricesFromUniswap3, UniSwap3Pair, UniswapPoolContracts } from './pricesFromUniswap3'

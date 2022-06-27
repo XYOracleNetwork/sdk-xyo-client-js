@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "./dist/cjs",
+    "target": "ES6"
+  },
+  "exclude": ["dist", "src/**/*.spec.ts"],
+  "extends": "./tsconfig.json",
+  "include": ["src"]
+}

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayloadBuilder, XyoPayloadWithPartialMeta } from '@xyo-network/core'
+import { XyoPayloadBuilder, XyoPayloadWithPartialMeta } from '@xyo-network/payload'
 import dotenv from 'dotenv'
 import { v4 } from 'uuid'
 

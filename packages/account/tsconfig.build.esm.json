@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "outDir": "./dist/esm",
+    "target": "ES2021"
+  },
+  "exclude": ["src/**/*.spec.ts"],
+  "extends": "./tsconfig.json",
+  "include": ["src"]
+}

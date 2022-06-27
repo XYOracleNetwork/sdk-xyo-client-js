@@ -1,4 +1,6 @@
-import { StringKeyObject, typeOf } from '../lib'
+import { typeOf } from '@xyo-network/typeof'
+
+import { StringKeyObject } from '../lib'
 
 //if an object, subsort
 const subSort = (value: unknown) => {

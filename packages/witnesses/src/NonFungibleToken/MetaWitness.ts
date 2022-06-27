@@ -1,5 +1,4 @@
-import { XyoSimpleWitness } from '@xyo-network/core'
-
+import { XyoSimpleWitness } from '../Witness'
 import { XyoNonFungibleTokenMetaPayload } from './MetaPayload'
 import { nonFungibleTokenMetaTemplate } from './Template'
 

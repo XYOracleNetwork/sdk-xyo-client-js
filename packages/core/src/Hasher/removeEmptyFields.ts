@@ -1,4 +1,4 @@
-import { typeOf } from '../lib'
+import { typeOf } from '@xyo-network/typeof'
 
 export const removeEmptyFields = (obj: Record<string, unknown>) => {
   if (obj === null || Array.isArray(obj)) return obj

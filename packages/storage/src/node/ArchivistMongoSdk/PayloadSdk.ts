@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayloadWithPartialMeta, XyoPayloadWrapper } from '@xyo-network/core'
+import { XyoPayloadWithPartialMeta, XyoPayloadWrapper } from '@xyo-network/payload'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity, Filter, SortDirection } from 'mongodb'
 

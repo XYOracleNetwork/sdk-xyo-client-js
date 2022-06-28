@@ -1,6 +1,6 @@
 import { XyoPayload } from '../models'
 
-export interface XyoQueryPayload extends XyoPayload {
+export type XyoQueryPayload<T extends object = object> = XyoPayload<{
   /** @field The preferred schema to use for the answer */
   targetSchema?: string
 
@@ -12,4 +12,5 @@ export interface XyoQueryPayload extends XyoPayload {
 
   /** @field The starting point for the bidding on the query */
   minBid?: number
-}
+}> &
+  T

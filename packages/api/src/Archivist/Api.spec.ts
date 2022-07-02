@@ -11,14 +11,10 @@ config()
 
 const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
-  apiKey: process.env.API_KEY || undefined,
-  jwtToken: process.env.JWT_TOKEN || undefined,
   onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
   onFailure: (response) => response, //console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
   onSuccess: (response) => response, //console.log(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
 }
-
-const describeSkipIfNoToken = configData.jwtToken || configData.apiKey ? describe : describe.skip
 
 describe('postBoundWitness', () => {
   it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
@@ -57,7 +53,7 @@ describe('postBoundWitnesses', () => {
   })
 })
 
-describeSkipIfNoToken('XyoArchivistApi', () => {
+describe.skip('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns a new XyoArchivistApi', () => {
       const api = new XyoArchivistApi(configData)

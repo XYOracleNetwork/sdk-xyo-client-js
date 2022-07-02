@@ -1,4 +1,3 @@
-import { delay } from '@xylabs/sdk-js'
 import { XyoPayload, XyoPayloadBuilder, XyoQueryPayload } from '@xyo-network/payload'
 
 import { XyoWitness } from './Witness'
@@ -15,8 +14,7 @@ export class XyoQueryWitness<Q extends XyoQueryPayload, T extends XyoPayload> ex
     return this.query.targetSchema ?? 'network.xyo.payload'
   }
 
-  public async observe(fields?: Partial<T>): Promise<T> {
-    await delay(0)
-    return new XyoPayloadBuilder<T>({ schema: this.targetSchema }).fields(fields).build()
+  public observe(fields?: Partial<T>): Promise<T> {
+    return Promise.resolve(new XyoPayloadBuilder<T>({ schema: this.targetSchema }).fields(fields).build())
   }
 }

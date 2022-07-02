@@ -18,9 +18,11 @@ export class XyoUniswapCryptoMarketWitness extends XyoQueryWitness<XyoCryptoMark
 
   override async observe(): Promise<XyoCryptoMarketUniswapPayload> {
     const pairs = await pricesFromUniswap3(this.pairs)
+    const timestamp = Date.now()
 
     return await super.observe({
       pairs,
+      timestamp,
     })
   }
 

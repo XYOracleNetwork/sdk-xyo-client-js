@@ -7,10 +7,7 @@ import { XyoUserApi } from './Api'
 const timeout = 20000
 const config: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
-  jwtToken: process.env.JWT_TOKEN || undefined,
 }
-
-const describeSkipIfNoToken = config.jwtToken ? describe : describe.skip
 
 describe('XyoAuthApi', () => {
   describe('get', () => {
@@ -19,8 +16,7 @@ describe('XyoAuthApi', () => {
       expect(api).toBeDefined()
     })
   })
-
-  describeSkipIfNoToken('walletChallenge', function () {
+  describe('walletChallenge', function () {
     it(
       'returns a nonce',
       async () => {

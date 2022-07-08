@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-interface EtherscanGasPriceSimple {
+export interface EtherscanGasPriceSimple {
   status: string
   message: string
   result: {

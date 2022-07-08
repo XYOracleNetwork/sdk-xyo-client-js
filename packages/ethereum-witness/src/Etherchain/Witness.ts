@@ -1,5 +1,6 @@
 import { XyoQueryWitness } from '@xyo-network/witnesses'
 
+import { getGasFromEtherchain } from './getGasFromEtherchain'
 import { XyoEthereumGasEtherchainPayload, XyoEthereumGasEtherchainQueryPayload } from './Payload'
 
 export class XyoEtherchainEthereumGasWitness extends XyoQueryWitness<XyoEthereumGasEtherchainQueryPayload, XyoEthereumGasEtherchainPayload> {
@@ -11,7 +12,9 @@ export class XyoEtherchainEthereumGasWitness extends XyoQueryWitness<XyoEthereum
   }
 
   override async observe(): Promise<XyoEthereumGasEtherchainPayload> {
+    const fields = await getGasFromEtherchain()
     return await super.observe({
+      ...fields,
       timestamp: Date.now(),
     })
   }

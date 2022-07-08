@@ -15,7 +15,7 @@
     "@xyo-network/domain": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "ajv": "^8.11.0",
-    "lru-cache": "^7.10.2"
+    "lru-cache": "^7.12.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

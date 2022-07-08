@@ -1,6 +1,6 @@
 import { XyoQueryWitness } from '@xyo-network/witnesses'
 
-import { EtherscanGasPriceSimple, getGasFromEtherscan } from './getGasFromEtherscan'
+import { EtherscanGasPriceResult, getGasFromEtherscan } from './getGasFromEtherscan'
 import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanQueryPayload } from './Payload'
 
 export class XyoEtherscanEthereumGasWitness extends XyoQueryWitness<XyoEthereumGasEtherscanQueryPayload, XyoEthereumGasEtherscanPayload> {
@@ -24,6 +24,6 @@ export class XyoEtherscanEthereumGasWitness extends XyoQueryWitness<XyoEthereumG
   public static schema = 'network.xyo.blockchain.ethereum.gas.etherscan'
 }
 
-const transformToNumerical = (gas: EtherscanGasPriceSimple): Partial<XyoEthereumGasEtherscanPayload> => {
+const transformToNumerical = (gas: EtherscanGasPriceResult): Partial<XyoEthereumGasEtherscanPayload> => {
   throw new Error('not implemented')
 }

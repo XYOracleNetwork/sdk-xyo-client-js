@@ -4,10 +4,10 @@ export type XyoEthereumGasEtherscanQueryPayload = XyoQueryPayload
 
 export interface XyoEthereumGasEtherscanPayload extends XyoPayload {
   timestamp: number
-  LastBlock: number
-  SafeGasPrice: number
-  ProposeGasPrice: number
-  FastGasPrice: number
+  lastBlock: number
+  safeGasPrice: number
+  proposeGasPrice: number
+  fastGasPrice: number
   suggestBaseFee: number
   gasUsedRatio: number[]
 }

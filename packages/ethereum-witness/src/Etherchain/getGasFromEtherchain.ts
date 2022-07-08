@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-interface EtherchainGasPriceOracle {
+export interface EtherchainGasPriceResult {
   safeLow: number
   standard: number
   fast: number
@@ -9,7 +9,7 @@ interface EtherchainGasPriceOracle {
   recommendedBaseFee: number
 }
 
-export const getGasFromEtherchain = async (): Promise<EtherchainGasPriceOracle> => {
-  const etherchainGasPrices = (await axios.get<EtherchainGasPriceOracle>('https://www.etherchain.org/api/gasPriceOracle')).data
+export const getGasFromEtherchain = async (): Promise<EtherchainGasPriceResult> => {
+  const etherchainGasPrices = (await axios.get<EtherchainGasPriceResult>('https://www.etherchain.org/api/gasPriceOracle')).data
   return etherchainGasPrices
 }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export interface EtherscanGasPriceSimple {
+export interface EtherscanGasPriceResult {
   status: string
   message: string
   result: {
@@ -15,7 +15,7 @@ export interface EtherscanGasPriceSimple {
 
 const apiKey = process.env.ETHERSCAN_API_KEY
 
-export const getGasFromEtherscan = async (): Promise<EtherscanGasPriceSimple> => {
-  const gasPrices = (await axios.get<EtherscanGasPriceSimple>(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${apiKey}`)).data
+export const getGasFromEtherscan = async (): Promise<EtherscanGasPriceResult> => {
+  const gasPrices = (await axios.get<EtherscanGasPriceResult>(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${apiKey}`)).data
   return gasPrices
 }

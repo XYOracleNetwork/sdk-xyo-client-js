@@ -1,8 +1,4 @@
 {
-  "compilerOptions": {
-    "outDir": "dist",
-    "typeRoots": ["./node_modules/@types"],
-  },
   "extends": "./tsconfig.json",
   "include": ["**/*.spec.ts"]
 }

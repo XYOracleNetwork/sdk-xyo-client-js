@@ -1,9 +1,4 @@
 {
-  "compilerOptions": {
-    "outDir": "dist",
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["jest", "node", "@types/jest", "jest-sorted"]
-  },
   "extends": "./tsconfig.json",
   "include": ["**/*.spec.ts"]
 }

@@ -3,6 +3,7 @@
     "outDir": "./dist",
     "module": "ESNext",
     "target": "ES2022",
+    "typeRoots": ["./node_modules/@types"],
     "types": ["jest", "node", "@types/jest", "jest-sorted", "jest-extended", "json-schema"]
   },
   "extends": "@xylabs/tsconfig"

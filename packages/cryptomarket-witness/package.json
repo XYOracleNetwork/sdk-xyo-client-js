@@ -17,7 +17,7 @@
     "@ethersproject/solidity": "^5.6.1",
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.0.1",
-    "@uniswap/v3-sdk": "^3.8.3",
+    "@uniswap/v3-sdk": "^3.9.0",
     "@xylabs/sdk-js": "^2.5.9",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-typechain": "^1.0.4",

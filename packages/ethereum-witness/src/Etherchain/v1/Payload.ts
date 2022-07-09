@@ -1,8 +1,8 @@
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
-export type XyoEthereumGasEtherchainQueryPayload = XyoQueryPayload
+export type XyoEthereumGasEtherchainQueryPayloadV1 = XyoQueryPayload
 
-export interface XyoEthereumGasEtherchainPayload extends XyoPayload {
+export interface XyoEthereumGasEtherchainPayloadV1 extends XyoPayload {
   timestamp: number
   safeLow: number
   standard: number

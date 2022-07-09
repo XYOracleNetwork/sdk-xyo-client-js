@@ -5,7 +5,7 @@ import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanQueryPayload } f
 import { transformGasFromEtherscan } from './transformGasFromEtherscan'
 
 export class XyoEtherscanEthereumGasWitness extends XyoQueryWitness<XyoEthereumGasEtherscanQueryPayload, XyoEthereumGasEtherscanPayload> {
-  constructor(query: XyoEthereumGasEtherscanQueryPayload) {
+  constructor(query: XyoEthereumGasEtherscanQueryPayload, protected readonly apiKey: string) {
     super({
       targetSchema: XyoEtherscanEthereumGasWitness.schema,
       ...query,
@@ -13,7 +13,7 @@ export class XyoEtherscanEthereumGasWitness extends XyoQueryWitness<XyoEthereumG
   }
 
   override async observe(): Promise<XyoEthereumGasEtherscanPayload> {
-    const result = await getGasFromEtherscan()
+    const result = await getGasFromEtherscan(this.apiKey)
     const transformed = transformGasFromEtherscan(result)
     return await super.observe({
       ...transformed,

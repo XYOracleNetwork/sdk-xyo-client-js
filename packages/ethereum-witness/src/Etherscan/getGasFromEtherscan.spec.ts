@@ -1,8 +1,12 @@
 import { getGasFromEtherscan } from './getGasFromEtherscan'
 
+const apiKey = process.env.ETHERSCAN_API_KEY || ''
+
+const testIf = (condition: string | undefined) => (condition ? it : it.skip)
+
 describe('getGasFromEtherscan', () => {
-  test('returns prices', async () => {
-    const gas = await getGasFromEtherscan()
+  testIf(apiKey)('returns prices', async () => {
+    const gas = await getGasFromEtherscan(apiKey)
     expect(gas).toBeTruthy()
     expect(gas.status).toEqual('1')
     expect(gas.message).toEqual('OK')

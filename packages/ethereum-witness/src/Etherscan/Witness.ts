@@ -1,6 +1,6 @@
 import { XyoQueryWitness } from '@xyo-network/witnesses'
 
-import { EtherscanGasPriceResult, getGasFromEtherscan } from './getGasFromEtherscan'
+import { getGasFromEtherscan } from './getGasFromEtherscan'
 import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanQueryPayload } from './Payload'
 import { transformGasFromEtherscan } from './transformGasFromEtherscan'
 

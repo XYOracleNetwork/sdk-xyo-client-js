@@ -1,17 +1,6 @@
 import axios from 'axios'
 
-export interface EtherscanGasPriceResult {
-  status: string
-  message: string
-  result: {
-    LastBlock: string
-    SafeGasPrice: string
-    ProposeGasPrice: string
-    FastGasPrice: string
-    suggestBaseFee: string
-    gasUsedRatio: string
-  }
-}
+import { EtherscanGasPriceResult } from './EtherscanGasPriceResult'
 
 const apiKey = process.env.ETHERSCAN_API_KEY
 

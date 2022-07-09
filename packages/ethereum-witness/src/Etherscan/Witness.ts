@@ -13,10 +13,10 @@ export class XyoEtherscanEthereumGasWitness extends XyoQueryWitness<XyoEthereumG
   }
 
   override async observe(): Promise<XyoEthereumGasEtherscanPayload> {
-    const fields = await getGasFromEtherscan()
-    const converted = transformGasFromEtherscan(fields)
+    const result = await getGasFromEtherscan()
+    const transformed = transformGasFromEtherscan(result)
     return await super.observe({
-      ...converted,
+      ...transformed,
       timestamp: Date.now(),
     })
   }

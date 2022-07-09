@@ -15,7 +15,7 @@ const testGasResult: EtherscanGasPriceResult = {
 }
 
 describe('transformGasFromEtherscan', () => {
-  test('returns transformed result', () => {
+  test('returns string results transformed to numeric values', () => {
     const actual = transformGasFromEtherscan(testGasResult)
     expect(actual).toBeObject
     expect(actual.fastGasPrice).toBeNumber()

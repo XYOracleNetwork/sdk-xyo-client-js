@@ -1,2 +1,2 @@
-export * from './Payload'
-export * from './Witness'
+export * from './v1'
+export * from './v2'

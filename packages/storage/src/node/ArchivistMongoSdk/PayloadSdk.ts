@@ -105,7 +105,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
 
   public async updateByHash(hash: string, payload: XyoPayloadWithPartialMeta) {
     return await this.useCollection(async (collection: Collection<XyoPayloadWithPartialMeta>) => {
-      return await collection.updateMany({ _archive: this._archive, _hash: hash }, { $set: payload })
+      return await collection.updateMany({ _archive: this._archive, _hash: hash }, payload)
     })
   }
 

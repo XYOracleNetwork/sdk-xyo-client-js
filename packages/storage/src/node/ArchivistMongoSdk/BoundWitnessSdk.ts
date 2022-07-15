@@ -88,7 +88,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
 
   public async updateByHash(hash: string, bw: XyoBoundWitnessWithPartialMeta) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
-      return await collection.updateMany({ _archive: this._archive, _hash: hash }, { $set: bw })
+      return await collection.updateMany({ _archive: this._archive, _hash: hash }, bw)
     })
   }
 

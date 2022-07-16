@@ -1,4 +1,5 @@
-import { assertEx, BigNumber, Buffer, bufferPolyfill } from '@xylabs/sdk-js'
+import { Buffer, bufferPolyfill } from '@xylabs/buffer'
+import { assertEx, BigNumber } from '@xylabs/sdk-js'
 import keccak256 from 'keccak256'
 
 import { XyoAbstractData } from './AbstractData'

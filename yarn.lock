@@ -2654,10 +2654,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.0.0, @types/node@npm:^18.0.4":
-  version: 18.0.4
-  resolution: "@types/node@npm:18.0.4"
-  checksum: 981284fd57941f233f0e77038087c122f56e3c2b4fc4e090dfc7f0a93abfc526d5ccdd59eb3ef551d713245cf3943e37c7b957f12ba699209341a447c39fab59
+"@types/node@npm:*, @types/node@npm:^18.0.5":
+  version: 18.0.5
+  resolution: "@types/node@npm:18.0.5"
+  checksum: cc9c67d0074252f798d226dd95a22e0e8851cf7fc623ef4a603d9ad2c2b46650f930147062ea33719008b1de67f08f499ad693307d02f8396e6f1fead8144329
   languageName: node
   linkType: hard
 
@@ -3107,6 +3107,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/buffer@npm:^2.6.2":
+  version: 2.6.2
+  resolution: "@xylabs/buffer@npm:2.6.2"
+  dependencies:
+    buffer: ^6.0.3
+  checksum: 9b0f05fee6509203c6c1dae1f833d9a56bdb18d1568082746959e11a1c8690acecb4378daca2b468bda41c8b5a7800e4ac7ecede4c875404bbd5dd5f463530ba
+  languageName: node
+  linkType: hard
+
 "@xylabs/eslint-config@npm:^2.3.22, @xylabs/eslint-config@npm:^2.3.30":
   version: 2.3.30
   resolution: "@xylabs/eslint-config@npm:2.3.30"
@@ -3154,16 +3163,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-js@npm:^2.5.9":
-  version: 2.5.9
-  resolution: "@xylabs/sdk-js@npm:2.5.9"
+"@xylabs/sdk-js@npm:^2.5.9, @xylabs/sdk-js@npm:^2.6.2":
+  version: 2.6.2
+  resolution: "@xylabs/sdk-js@npm:2.6.2"
   dependencies:
-    "@types/node": ^18.0.0
     axios: ^0.27.2
     bn.js: ^5.2.1
-    buffer: ^6.0.3
     rollbar: ^2.25.0
-  checksum: fc60384c6c1a4ebf6397ddbf85ab9e00c2087301e2f2e6138cb1470da01e78f72756b34f9e856d8efb32e57980efa0d7ff001ecc3556221ff55fe92b9441e240
+  checksum: 19b39da31a3756f13fcd661595be833aaad5e3f95a3c1ca163755758ba66f5fe0619332f58f6e8c1e0ba79fd7bbf6f4fca25d10b04f8dff4eac3543af6222625
   languageName: node
   linkType: hard
 
@@ -3269,7 +3276,7 @@ __metadata:
     "@ethersproject/wallet": ^5.6.2
     "@types/pako": ^2.0.0
     "@types/uuid": ^8.3.4
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
@@ -3290,7 +3297,7 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.182
     "@types/ua-parser-js": ^0.7.36
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3306,9 +3313,10 @@ __metadata:
   resolution: "@xyo-network/core@workspace:packages/core"
   dependencies:
     "@types/lodash": ^4.14.182
-    "@types/node": ^18.0.4
+    "@types/node": ^18.0.5
     "@types/sha.js": ^2.4.0
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/buffer": ^2.6.2
+    "@xylabs/sdk-js": ^2.6.2
     "@xyo-network/typeof": "workspace:^"
     axios: ^0.27.2
     keccak256: ^1.0.6
@@ -3331,7 +3339,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.0.1
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/sdk-xyo-typechain": ^1.0.4
@@ -3375,7 +3383,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/network"
   dependencies:
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/payload": ^2.21.18
     tslib: ^2.4.0
@@ -3386,7 +3394,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/panel@workspace:packages/panel"
   dependencies:
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
@@ -3402,7 +3410,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload@workspace:packages/payload"
   dependencies:
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xyo-network/account": ^2.21.18
     "@xyo-network/core": ^2.21.18
     axios: ^0.27.2
@@ -3486,7 +3494,7 @@ __metadata:
   resolution: "@xyo-network/storage@workspace:packages/storage"
   dependencies:
     "@types/uuid": ^8.3.4
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
@@ -3529,7 +3537,7 @@ __metadata:
     "@ethersproject/providers": ^5.6.8
     "@metamask/providers": ^9.0.0
     "@types/lru-cache": ^7.10.10
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/domain": "workspace:^"
     "@xyo-network/network": ^2.21.18
@@ -3545,7 +3553,7 @@ __metadata:
   resolution: "@xyo-network/wallet@workspace:packages/wallet"
   dependencies:
     "@types/sha.js": ^2.4.0
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     sha.js: ^2.4.11
@@ -3557,7 +3565,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/witnesses"
   dependencies:
-    "@xylabs/sdk-js": ^2.5.9
+    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"

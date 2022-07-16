@@ -1,4 +1,5 @@
-import { assertEx, Buffer } from '@xylabs/sdk-js'
+import { Buffer } from '@xylabs/buffer'
+import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
 import { sortFields, WithAdditional, XyoHasher } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'

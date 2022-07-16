@@ -1,4 +1,5 @@
-import { assertEx, BigNumber, Buffer } from '@xylabs/sdk-js'
+import { Buffer } from '@xylabs/buffer'
+import { assertEx, BigNumber } from '@xylabs/sdk-js'
 import { ifTypeOf } from '@xyo-network/typeof'
 
 import { XyoAbstractData } from './AbstractData'

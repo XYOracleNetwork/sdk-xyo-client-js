@@ -25,7 +25,7 @@ describe('postBoundWitness', () => {
     } catch (ex) {
       const error = ex as XyoApiError
       console.log(JSON.stringify(error.response?.data, null, 2))
-      throw ex
+      expect(error === undefined)
     }
   })
 })
@@ -45,7 +45,7 @@ describe('postBoundWitnesses', () => {
     } catch (ex) {
       const error = ex as XyoApiError
       console.log(JSON.stringify(error, null, 2))
-      throw ex
+      expect(error === undefined)
     }
   })
 })
@@ -74,7 +74,7 @@ describe.skip('XyoArchivistApi', () => {
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })
@@ -93,7 +93,7 @@ describe.skip('XyoArchivistApi', () => {
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })
@@ -111,7 +111,7 @@ describe.skip('XyoArchivistApi', () => {
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })
@@ -130,7 +130,7 @@ describe.skip('XyoArchivistApi', () => {
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })
@@ -147,7 +147,7 @@ describe.skip('XyoArchivistApi', () => {
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })
@@ -162,7 +162,7 @@ describe.skip('XyoArchivistApi', () => {
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })
@@ -184,7 +184,7 @@ describe.skip('XyoArchivistApi', () => {
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })
@@ -206,7 +206,7 @@ describe.skip('XyoArchivistApi', () => {
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })

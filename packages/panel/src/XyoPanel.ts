@@ -71,7 +71,7 @@ export class XyoPanel {
         } catch (ex) {
           error = ex as Error
           onError?.(archivist, error)
-          throw ex
+          expect(error === undefined)
         }
         this.config.onArchivistSendEnd?.(archivist, error)
         return postResult

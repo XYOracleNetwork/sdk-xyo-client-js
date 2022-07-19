@@ -1,6 +1,6 @@
 const dumpErrors = (errors: Error[]) => {
   errors.forEach((error) => {
-    console.log(error)
+    console.log(error, null, 2)
   })
 }
 

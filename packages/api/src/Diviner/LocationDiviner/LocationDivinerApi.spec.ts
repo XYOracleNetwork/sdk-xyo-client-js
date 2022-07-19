@@ -68,7 +68,7 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
     it('posts a location time range query', async () => {
@@ -80,7 +80,7 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })
@@ -94,7 +94,7 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
       } catch (ex) {
         const error = ex as AxiosError
         console.log(JSON.stringify(error.response?.data, null, 2))
-        throw ex
+        expect(error === undefined)
       }
     })
   })

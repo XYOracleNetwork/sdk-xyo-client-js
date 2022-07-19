@@ -12,13 +12,11 @@ export class XyoWalletBase {
     this._phrase = phrase
   }
 
-  public getAccount(index: number) {
-    let counter = index
-    let hash = shajs('sha256').update(this._phrase).digest().toString('hex')
-    while (counter) {
-      hash = shajs('sha256').update(hash).digest().toString('hex')
-      counter--
-    }
+  public getAccount(index: number, salt?: string) {
+    const hash = shajs('sha256')
+      .update(`${index}${this._phrase}${salt ?? ''}`)
+      .digest()
+      .toString('hex')
     return new XyoAccount({ privateKey: hash })
   }
 

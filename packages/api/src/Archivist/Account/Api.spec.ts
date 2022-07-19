@@ -32,7 +32,7 @@ describe('XyoAuthApi', () => {
         } catch (ex) {
           const error = ex as XyoApiError
           console.log(JSON.stringify(error.response?.data, null, 2))
-          throw ex
+          expect(error === undefined)
         }
       },
       timeout
@@ -60,7 +60,7 @@ describe('XyoAuthApi', () => {
         } catch (ex) {
           const error = ex as AxiosError
           console.log(JSON.stringify(error.response?.data, null, 2))
-          throw ex
+          expect(error === undefined)
         }
       },
       timeout

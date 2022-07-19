@@ -3284,7 +3284,6 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     axios: ^0.27.2
-    dotenv: ^16.0.1
     pako: ^2.0.4
     tslib: ^2.4.0
     uuid: ^8.3.2
@@ -3372,9 +3371,9 @@ __metadata:
   dependencies:
     "@ethersproject/providers": ^5.6.8
     "@xylabs/tsconfig": ^1.0.14
-    "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
+    axios: ^0.27.2
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3565,7 +3564,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/witnesses"
   dependencies:
-    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"

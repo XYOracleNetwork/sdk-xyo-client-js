@@ -1,20 +1,20 @@
 import { Buffer } from '@xylabs/buffer'
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
-import { sortFields, WithAdditional, XyoHasher } from '@xyo-network/core'
+import { sortFields, XyoHasher } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { WithXyoBoundWitnessMeta, XyoBoundWitness, XyoBoundWitnessWithMeta } from '../models'
+import { XyoBoundWitness, XyoBoundWitnessWithMeta } from '../models'
 
 export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
   readonly inlinePayloads?: boolean
 }
 
-export class XyoBoundWitnessBuilder {
+export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoBoundWitness, TPayload extends XyoPayload = XyoPayload> {
   private _accounts: XyoAccount[] = []
   private _payload_schemas: string[] = []
-  private _payloads: XyoPayload[] = []
+  private _payloads: TPayload[] = []
 
   constructor(public readonly config: XyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {}
 
@@ -29,7 +29,7 @@ export class XyoBoundWitnessBuilder {
     return this
   }
 
-  public payloads<T extends XyoPayload = WithAdditional<XyoPayload>>(payloads: (T | null)[]) {
+  public payloads(payloads: (TPayload | null)[]) {
     payloads.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)
@@ -38,15 +38,15 @@ export class XyoBoundWitnessBuilder {
     return this
   }
 
-  public payload<T extends XyoPayload = WithAdditional<XyoPayload>>(payload?: T) {
+  public payload(payload?: TPayload) {
     if (payload) {
       this._payload_schemas.push(payload.schema)
-      this._payloads.push(assertEx(sortFields(payload)))
+      this._payloads.push(assertEx(sortFields<TPayload>(payload)))
     }
     return this
   }
 
-  public hashableFields(): XyoBoundWitness {
+  public hashableFields(): TBoundWitness {
     const addresses = this._accounts.map((account) => account.addressValue.hex)
     const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
     return {
@@ -55,7 +55,7 @@ export class XyoBoundWitnessBuilder {
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
       previous_hashes,
       schema: 'network.xyo.boundwitness',
-    }
+    } as TBoundWitness
   }
 
   private signatures(_hash: string) {
@@ -63,7 +63,7 @@ export class XyoBoundWitnessBuilder {
   }
 
   private inlinePayloads() {
-    return this._payloads.map<XyoPayload>((payload, index) => {
+    return this._payloads.map<TPayload>((payload, index) => {
       return {
         ...payload,
         schema: this._payload_schemas[index],
@@ -71,11 +71,11 @@ export class XyoBoundWitnessBuilder {
     })
   }
 
-  public build(): XyoBoundWitnessWithMeta {
-    const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
+  public build(): XyoBoundWitnessWithMeta<TBoundWitness, TPayload> {
+    const hashableFields = this.hashableFields()
     const _hash = new XyoHasher(hashableFields).hash
 
-    const ret = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() } as WithXyoBoundWitnessMeta<XyoBoundWitness>
+    const ret: XyoBoundWitnessWithMeta<TBoundWitness, TPayload> = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() }
     if (this.config.inlinePayloads) {
       ret._payloads = this.inlinePayloads()
     }

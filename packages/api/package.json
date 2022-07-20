@@ -11,6 +11,7 @@
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.2",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -61,6 +62,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.21.21",
+  "version": "2.21.22",
   "packageManager": "yarn@3.1.1"
 }

@@ -1,18 +1,11 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { XyoPayloadFindFilter } from '@xyo-network/archivist'
 import { XyoPayload, XyoPayloadWithPartialMeta } from '@xyo-network/payload'
 
 import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
 import { XyoArchivistArchivePayloadSchemaApi } from './Schema'
-
-export interface XyoPayloadFindFilter {
-  [key: string]: unknown
-  order?: 'desc' | 'asc'
-  timestamp?: number
-  limit?: number
-  schema?: string
-}
 
 export interface XyoPayloadStats {
   count: number

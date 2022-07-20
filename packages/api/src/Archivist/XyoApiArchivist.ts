@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
+import { XyoArchivist, XyoPayloadFindFilter } from '@xyo-network/archivist'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 
 import { XyoArchivistApi } from './Api'
-import { XyoPayloadFindFilter } from './Payload'
-import { XyoArchivist } from './XyoArchivist'
 
 export class XyoApiArchivist extends XyoArchivist {
   protected api: XyoArchivistApi

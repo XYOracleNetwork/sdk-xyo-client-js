@@ -4,7 +4,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { sortFields, WithAdditional, XyoHasher } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { WithXyoBoundWitnessMeta, XyoBoundWitness, XyoBoundWitnessWithMeta } from '../models'
+import { XyoBoundWitness, XyoBoundWitnessWithMeta } from '../models'
 
 export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
@@ -72,10 +72,10 @@ export class XyoBoundWitnessBuilder {
   }
 
   public build(): XyoBoundWitnessWithMeta {
-    const hashableFields = this.hashableFields() as unknown as Record<string, unknown>
+    const hashableFields = this.hashableFields()
     const _hash = new XyoHasher(hashableFields).hash
 
-    const ret = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() } as WithXyoBoundWitnessMeta<XyoBoundWitness>
+    const ret: XyoBoundWitnessWithMeta = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() }
     if (this.config.inlinePayloads) {
       ret._payloads = this.inlinePayloads()
     }

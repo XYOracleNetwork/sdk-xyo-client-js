@@ -4,7 +4,7 @@ import { XyoPayload } from './XyoPayload'
 export interface XyoPayloadMetaBase {
   _hash: string
   _observeDuration?: number
-  _archive: string
+  _archive?: string
   _client?: string
   _reportedHash?: string
   _timestamp: number

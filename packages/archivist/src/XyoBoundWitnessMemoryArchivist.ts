@@ -1,10 +1,14 @@
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
+import { XyoBoundWitnessWithMeta, XyoBoundWitnessWrapper } from '@xyo-network/boundwitness'
+import { XyoPayload, XyoPayloadWithMeta, XyoPayloadWrapper } from '@xyo-network/payload'
 import LruCache from 'lru-cache'
 
-import { XyoArchivist } from './XyoArchivist'
+import { XyoBoundWitnessArchivist } from './XyoBoundWitnessArchivist'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export class XyoMemoryArchivist<TWrite extends XyoPayload = XyoPayload, TRead extends XyoPayload = XyoPayload> extends XyoArchivist<TWrite, TRead> {
+export class XyoBoundWitnessMemoryArchivist<
+  TWrite extends XyoBoundWitnessWithMeta = XyoBoundWitnessWithMeta,
+  TRead extends XyoPayload = XyoPayload
+> extends XyoBoundWitnessArchivist<TWrite, TRead> {
   private cache: LruCache<string, TRead> = new LruCache<string, TRead>({ max: 10000 })
 
   public delete(hash: string) {
@@ -20,10 +24,19 @@ export class XyoMemoryArchivist<TWrite extends XyoPayload = XyoPayload, TRead ex
   }
 
   public insert(payload: TWrite) {
-    const wrapper = new XyoPayloadWrapper(payload)
-    const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+    const wrapper = new XyoBoundWitnessWrapper(payload)
+    const payloadWithmeta: XyoPayloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
     const hashes: string[] = []
     hashes.push(payloadWithmeta._hash)
+    // AT: Nasty Cast
+    this.cache.set(payloadWithmeta._hash, payloadWithmeta as unknown as TRead)
+    payload._payloads?.forEach((payload) => {
+      const wrapper = new XyoPayloadWrapper(payload)
+      const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+      hashes.push(payloadWithmeta._hash)
+      // AT: Nasty Cast
+      this.cache.set(payloadWithmeta._hash, payloadWithmeta as unknown as TRead)
+    })
     return hashes
   }
 

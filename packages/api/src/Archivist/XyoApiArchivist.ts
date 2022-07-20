@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 
 import { XyoArchivistApi } from './Api'
@@ -8,8 +9,8 @@ import { XyoArchivist } from './XyoArchivist'
 export class XyoApiArchivist extends XyoArchivist {
   protected api: XyoArchivistApi
   protected archive: string
-  constructor(api: XyoArchivistApi, archive: string) {
-    super()
+  constructor(api: XyoArchivistApi, archive: string, parent?: XyoArchivist, account?: XyoAccount) {
+    super(parent, account)
     this.api = api
     this.archive = archive
   }

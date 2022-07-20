@@ -1,4 +1,4 @@
-import { XyoBoundWitnessWithMeta, XyoBoundWitnessWrapper } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessWithMeta, XyoBoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWithMeta, XyoPayloadWrapper } from '@xyo-network/payload'
 import LruCache from 'lru-cache'
 
@@ -6,8 +6,8 @@ import { XyoBoundWitnessArchivist } from './XyoBoundWitnessArchivist'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export class XyoBoundWitnessMemoryArchivist<
-  TWrite extends XyoBoundWitnessWithMeta = XyoBoundWitnessWithMeta,
-  TRead extends XyoPayload = XyoPayload
+  TRead extends XyoPayloadWithMeta = XyoPayloadWithMeta,
+  TWrite extends XyoBoundWitnessWithMeta<XyoBoundWitness, TRead> & TRead = XyoBoundWitnessWithMeta<XyoBoundWitness, TRead> & TRead
 > extends XyoBoundWitnessArchivist<TWrite, TRead> {
   private cache: LruCache<string, TRead> = new LruCache<string, TRead>({ max: 10000 })
 
@@ -20,48 +20,26 @@ export class XyoBoundWitnessMemoryArchivist<
   }
 
   public get(hash: string) {
-    return this.cache.get(hash) ?? this.parent?.get(hash)
+    const localResult = this.cache.get(hash)
+    return localResult ? [localResult] : this.parent?.get(hash)
   }
 
-  public insert(payload: TWrite) {
-    const wrapper = new XyoBoundWitnessWrapper(payload)
-    const payloadWithmeta: XyoPayloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+  public insert(boundWitness: TWrite) {
+    const wrapper = new XyoBoundWitnessWrapper(boundWitness)
+    const boundWitnessWithMeta = { ...boundWitness, _hash: wrapper.hash, _timestamp: Date.now() }
     const hashes: string[] = []
-    hashes.push(payloadWithmeta._hash)
-    // AT: Nasty Cast
-    this.cache.set(payloadWithmeta._hash, payloadWithmeta as unknown as TRead)
-    payload._payloads?.forEach((payload) => {
+    hashes.push(boundWitnessWithMeta._hash)
+    this.cache.set(boundWitnessWithMeta._hash, boundWitnessWithMeta)
+    boundWitness._payloads?.forEach((payload) => {
       const wrapper = new XyoPayloadWrapper(payload)
-      const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
-      hashes.push(payloadWithmeta._hash)
-      // AT: Nasty Cast
-      this.cache.set(payloadWithmeta._hash, payloadWithmeta as unknown as TRead)
+      const payloadWithMeta: TRead = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+      hashes.push(payloadWithMeta._hash)
+      this.cache.set(payloadWithMeta._hash, payloadWithMeta)
     })
     return hashes
   }
 
-  public find<T extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): T[] {
-    const result: T[] = []
-    if (filter.type === 'schema') {
-      const filterSchema = filter.schema !== undefined ? (Array.isArray(filter.schema) ? filter.schema : [filter.schema]) : undefined
-      this.cache.forEach((value) => {
-        let match: XyoPayload | undefined = value
-        match = filterSchema === undefined || filterSchema.includes(value.schema) ? value : undefined
-        if (match) {
-          result.push(match as T)
-        }
-      })
-    }
-    if (filter.type === 'hash') {
-      const filterHash = filter.hash !== undefined ? (Array.isArray(filter.hash) ? filter.hash : [filter.hash]) : undefined
-      this.cache.forEach((value) => {
-        let match: XyoPayload | undefined = value
-        match = filterHash === undefined || filterHash.includes(new XyoPayloadWrapper(value).hash) ? value : undefined
-        if (match) {
-          result.push(match as T)
-        }
-      })
-    }
-    return result
+  public find<T extends XyoPayload = XyoPayload>(_filter: XyoPayloadFindFilter): T[] {
+    throw Error('find not supported')
   }
 }

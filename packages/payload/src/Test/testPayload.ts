@@ -1,9 +1,9 @@
-import { WithAdditional } from '@xyo-network/core'
+import { StringKeyObject } from '@xyo-network/core'
 
 import { XyoPayloadWithMeta } from '../models'
 
 const testSchema = 'network.xyo.test'
-const testPayload: WithAdditional<XyoPayloadWithMeta> = {
+const testPayload: XyoPayloadWithMeta<StringKeyObject> = {
   _archive: 'test',
   _hash: '20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c',
   _timestamp: 1609459255555,

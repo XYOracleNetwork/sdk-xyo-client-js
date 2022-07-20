@@ -16,7 +16,7 @@ export class XyoApiArchivist extends XyoBoundWitnessArchivist {
 
   public async get(hash: string) {
     const [payloads] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
-    return payloads?.pop()
+    return payloads
   }
 
   public async insert(payload: XyoBoundWitnessWithPartialMeta) {

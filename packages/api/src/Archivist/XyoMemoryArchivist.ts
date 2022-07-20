@@ -17,7 +17,7 @@ export class XyoMemoryArchivist extends XyoArchivist {
   }
 
   public get(hash: string) {
-    return this.cache.get(hash)
+    return this.cache.get(hash) ?? this.parent?.get(hash)
   }
 
   public insert(payload: XyoBoundWitnessWithMeta) {

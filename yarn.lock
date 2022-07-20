@@ -3279,6 +3279,29 @@ __metadata:
     "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/typeof": "workspace:^"
+    axios: ^0.27.2
+    lru-cache: ^7.13.1
+    pako: ^2.0.4
+    tslib: ^2.4.0
+    uuid: ^8.3.2
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/archivist@workspace:^, @xyo-network/archivist@workspace:packages/archivist":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist@workspace:packages/archivist"
+  dependencies:
+    "@ethersproject/wallet": ^5.6.2
+    "@types/pako": ^2.0.0
+    "@types/uuid": ^8.3.4
+    "@xylabs/sdk-js": ^2.6.2
+    "@xylabs/tsconfig": ^1.0.14
+    "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3441,6 +3464,7 @@ __metadata:
     "@xylabs/tsconfig": ^1.0.14
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
+    "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/cryptomarket-witness": "workspace:^"

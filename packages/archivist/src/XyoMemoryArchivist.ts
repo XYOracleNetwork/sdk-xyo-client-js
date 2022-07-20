@@ -2,8 +2,8 @@ import { XyoBoundWitnessWithMeta, XyoBoundWitnessWrapper } from '@xyo-network/bo
 import { XyoPayload, XyoPayloadWithPartialMeta, XyoPayloadWrapper } from '@xyo-network/payload'
 import LruCache from 'lru-cache'
 
-import { XyoPayloadFindFilter } from './Payload'
 import { XyoArchivist } from './XyoArchivist'
+import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export class XyoMemoryArchivist extends XyoArchivist {
   private cache: LruCache<string, XyoPayloadWithPartialMeta> = new LruCache<string, XyoPayloadWithPartialMeta>({ max: 10000 })

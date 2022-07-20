@@ -3,8 +3,8 @@ import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness, XyoBoundWitnessBuilder, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWithPartialMeta } from '@xyo-network/payload'
 
-import { Archivist } from './Model'
-import { XyoPayloadFindFilter } from './Payload'
+import { Archivist } from './model'
+import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export abstract class XyoArchivist<TWrite extends XyoBoundWitness = XyoBoundWitnessWithPartialMeta, TRead extends XyoPayload = XyoPayloadWithPartialMeta>
   implements Archivist<string[], TWrite, TRead | undefined, string, TRead[], XyoPayloadFindFilter>

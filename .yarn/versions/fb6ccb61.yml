@@ -1,0 +1,5 @@
+releases:
+  "@xyo-network/systeminfo-witness": patch
+
+undecided:
+  - "@xyo-network/archivist"

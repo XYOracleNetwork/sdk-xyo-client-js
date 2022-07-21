@@ -1,11 +1,13 @@
+import { assertEx } from '@xylabs/sdk-js'
+import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import LruCache from 'lru-cache'
 
 import { XyoArchivistBase } from './XyoArchivist'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
+import { XyoPayloadFindQuery } from './XyoPayloadFindFilter'
 
-export class XyoMemoryArchivist<T extends XyoPayload = XyoPayload> extends XyoArchivistBase<T> {
-  private cache = new LruCache<string, T>({ max: 10000 })
+export class XyoMemoryArchivist extends XyoArchivistBase<XyoPayload> {
+  private cache = new LruCache<string, XyoPayload>({ max: 10000 })
 
   public delete(hash: string): boolean | Promise<boolean> {
     return this.cache.delete(hash)
@@ -15,11 +17,11 @@ export class XyoMemoryArchivist<T extends XyoPayload = XyoPayload> extends XyoAr
     this.cache.clear()
   }
 
-  public get(hash: string): T | Promise<T | undefined> | undefined {
+  public get(hash: string): XyoPayload | Promise<XyoPayload | undefined> | undefined {
     return this.cache.get(hash) ?? this.parent?.get(hash)
   }
 
-  public insert(payloads: T[]): T[] | Promise<T[]> {
+  public insert(payloads: XyoPayload[]): XyoPayload[] | Promise<XyoPayload[]> {
     return payloads.map((payload) => {
       const wrapper = new XyoPayloadWrapper(payload)
       const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
@@ -28,13 +30,24 @@ export class XyoMemoryArchivist<T extends XyoPayload = XyoPayload> extends XyoAr
     })
   }
 
-  public find<R extends T = T>(filter: XyoPayloadFindFilter): T[] | Promise<T[]> {
+  public find<R extends XyoPayload = XyoPayload>(query: XyoPayloadFindQuery): R[] | Promise<R[]> {
     const result: R[] = []
     this.cache.forEach((value) => {
-      if (value.schema === filter.schema) {
+      if (value.schema === query.filter.schema) {
         result.push(value as R)
       }
     })
+    return result
+  }
+
+  public async commit() {
+    const parent = assertEx(this.parent, 'Parent is required for commit')
+    const account = assertEx(this.account, 'Account is required for commit')
+    const payloads = assertEx(await this.all(), 'Nothing to commit')
+    const builder = new XyoBoundWitnessBuilder<XyoBoundWitness, XyoPayload>()
+    const block = builder.payloads(payloads).witness(account).build()
+    const result = await parent.insert?.(payloads.concat([block]))
+    await this.clear()
     return result
   }
 }

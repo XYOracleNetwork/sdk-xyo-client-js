@@ -61,33 +61,33 @@ export class XyoArchivistPayloadApi<
 
   /** @deprecated use find */
   public async findBefore(timestamp: number, limit = 20) {
-    return await this.find({ limit, order: 'desc', schema: 'network.xyo.query', timestamp })
+    return await this.find({ limit, order: 'desc', timestamp })
   }
 
   /** @deprecated use findBefore */
   public async getBefore(timestamp: number, limit = 20) {
-    return await this.find({ limit, order: 'desc', schema: 'network.xyo.query', timestamp })
+    return await this.find({ limit, order: 'desc', timestamp })
   }
 
   /** @deprecated use find */
   public async findAfter(timestamp: number, limit = 20) {
-    return await this.find({ limit, order: 'asc', schema: 'network.xyo.query', timestamp })
+    return await this.find({ limit, order: 'asc', timestamp })
   }
 
   /** @deprecated use find */
   public async getAfter(timestamp: number, limit = 20) {
-    return await this.find({ limit, order: 'asc', schema: 'network.xyo.query', timestamp })
+    return await this.find({ limit, order: 'asc', timestamp })
   }
 
   /** @deprecated use find */
   public async findMostRecent(limit = 20) {
     assertEx(limit > 0, 'min limit = 1')
     assertEx(limit <= 100, 'max limit = 100')
-    return await this.find({ limit, order: 'desc', schema: 'network.xyo.query', timestamp: 999999999999 })
+    return await this.find({ limit, order: 'desc', timestamp: 999999999999 })
   }
 
   /** @deprecated use find */
   public async getMostRecent(limit = 20) {
-    return await this.find({ limit, order: 'desc', schema: 'network.xyo.query', timestamp: 999999999999 })
+    return await this.find({ limit, order: 'desc', timestamp: 999999999999 })
   }
 }

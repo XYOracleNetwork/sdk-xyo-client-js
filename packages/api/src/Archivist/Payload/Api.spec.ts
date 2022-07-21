@@ -27,7 +27,7 @@ describe('XyoArchivistPayloadApi', () => {
           const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
           const blockResult = await api.archive(archive).block.post([boundWitness])
           expect(blockResult?.length).toBe(1)
-          const response = await api.archive(archive).block.find({ order: 'asc', timestamp })
+          const response = await api.archive(archive).block.find({ order: 'asc', schema: 'netowrk.xyo.query', timestamp })
           expect(response?.length).toBe(1)
           const actual = response?.[0]
           expect(actual?._timestamp).toBeTruthy()
@@ -46,7 +46,7 @@ describe('XyoArchivistPayloadApi', () => {
           const blockResult = await api.archive(archive).block.post([boundWitness])
           expect(blockResult?.length).toBe(1)
           const timestamp = getTimestampMinutesFromNow(1)
-          const response = await api.archive(archive).block.find({ order: 'desc', timestamp })
+          const response = await api.archive(archive).block.find({ order: 'desc', schema: 'netowrk.xyo.query', timestamp })
           expect(response?.length).toBe(1)
           const actual = response?.[0]
           expect(actual?._timestamp).toBeTruthy()

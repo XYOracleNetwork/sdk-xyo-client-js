@@ -1,37 +1,38 @@
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import LruCache from 'lru-cache'
 
-import { XyoArchivist } from './XyoArchivist'
+import { XyoArchivistBase } from './XyoArchivist'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export class XyoMemoryArchivist<TRead extends XyoPayload = XyoPayload, TWrite extends XyoPayload & TRead = XyoPayload & TRead> extends XyoArchivist<TRead, TWrite> {
-  private cache = new LruCache<string, TRead>({ max: 10000 })
+export class XyoMemoryArchivist<T extends XyoPayload = XyoPayload> extends XyoArchivistBase<T> {
+  private cache = new LruCache<string, T>({ max: 10000 })
 
-  public delete(hash: string) {
+  public delete(hash: string): boolean | Promise<boolean> {
     return this.cache.delete(hash)
   }
 
-  public clear() {
+  public clear(): void | Promise<void> {
     this.cache.clear()
   }
 
-  public get(hash: string) {
-    const localResult = this.cache.get(hash)
-    return localResult ? [localResult] : this.parent?.get(hash)
+  public get(hash: string): T | Promise<T | undefined> | undefined {
+    return this.cache.get(hash) ?? this.parent?.get(hash)
   }
 
-  public insert(payload: TWrite) {
-    const wrapper = new XyoPayloadWrapper(payload)
-    const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
-    this.cache.set(payloadWithmeta._hash, payloadWithmeta)
-    return [payloadWithmeta._hash]
+  public insert(payloads: T[]): T[] | Promise<T[]> {
+    return payloads.map((payload) => {
+      const wrapper = new XyoPayloadWrapper(payload)
+      const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+      this.cache.set(payloadWithmeta._hash, payloadWithmeta)
+      return payloadWithmeta
+    })
   }
 
-  public find<T extends TRead = TRead>(filter: XyoPayloadFindFilter): T[] {
-    const result: T[] = []
+  public find<R extends T = T>(filter: XyoPayloadFindFilter): T[] | Promise<T[]> {
+    const result: R[] = []
     this.cache.forEach((value) => {
       if (value.schema === filter.schema) {
-        result.push(value as T)
+        result.push(value as R)
       }
     })
     return result

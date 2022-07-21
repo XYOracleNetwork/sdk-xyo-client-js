@@ -2,7 +2,7 @@ import { getGasFromEtherscan } from './getGasFromEtherscan'
 
 const apiKey = process.env.ETHERSCAN_API_KEY || ''
 
-const testIf = (condition: string | undefined) => (condition ? it : it.skip)
+const testIf = (condition: boolean | string | null | undefined) => (condition ? it : it.skip)
 
 describe('getGasFromEtherscan', () => {
   testIf(apiKey)('returns prices', async () => {

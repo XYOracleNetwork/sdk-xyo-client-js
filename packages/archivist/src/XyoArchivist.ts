@@ -16,11 +16,11 @@ export abstract class XyoArchivistBase<T extends XyoPayload = XyoPayload> implem
 
   abstract insert(payloads: T[]): T[] | Promise<T[]>
   abstract find<R extends T = T>(query: XyoPayloadFindQuery): R[] | Promise<R[]>
-  abstract get(hash: string): T | Promise<T | undefined> | undefined
+  abstract get(hash: string[]): (T | null)[] | Promise<(T | null)[]>
   public all(): T[] | Promise<T[]> {
     throw Error('getAll not supported')
   }
-  public delete(_hash: string): boolean | Promise<boolean> {
+  public delete(_hashes: string[]): boolean[] | Promise<boolean[]> {
     throw Error('delete not supported')
   }
   public clear(): void | Promise<void> {

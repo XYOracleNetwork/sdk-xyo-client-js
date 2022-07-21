@@ -15,9 +15,13 @@ export class XyoRemoteArchivist extends XyoArchivistBase {
     this.archive = archive
   }
 
-  public async get(hash: string) {
-    const [payloads] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
-    return payloads?.pop()
+  public async get(hashes: string[]) {
+    return await Promise.all(
+      hashes.map(async (hash) => {
+        const [payloads] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
+        return payloads?.pop() ?? null
+      })
+    )
   }
 
   public async insert(payloads: XyoPayload[]) {

@@ -1,7 +1,8 @@
 export interface Archivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TQueryResponse = TReadResponse, TQuery = unknown, TId = string> {
-  get(id: TId): Promise<TReadResponse | undefined> | TReadResponse | undefined
+  get(ids: TId[]): Promise<(TReadResponse | null)[]> | (TReadResponse | null)[]
+  all?(): Promise<TReadResponse[]> | TReadResponse[]
   find?(query: TQuery): Promise<TQueryResponse[]> | TQueryResponse[]
   insert?(item: TWrite[]): Promise<TWriteResponse[]> | TWriteResponse[]
-  delete?(id: TId): Promise<boolean> | boolean
+  delete?(ids: TId[]): Promise<boolean[]> | boolean[]
   clear?(): void
 }

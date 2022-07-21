@@ -9,16 +9,22 @@ import { XyoPayloadFindQuery } from './XyoPayloadFindFilter'
 export class XyoMemoryArchivist extends XyoArchivistBase<XyoPayload> {
   private cache = new LruCache<string, XyoPayload>({ max: 10000 })
 
-  public delete(hash: string): boolean | Promise<boolean> {
-    return this.cache.delete(hash)
+  public delete(hashes: string[]): boolean[] | Promise<boolean[]> {
+    return hashes.map((hash) => {
+      return this.cache.delete(hash)
+    })
   }
 
   public clear(): void | Promise<void> {
     this.cache.clear()
   }
 
-  public get(hash: string): XyoPayload | Promise<XyoPayload | undefined> | undefined {
-    return this.cache.get(hash) ?? this.parent?.get(hash)
+  public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
+    return await Promise.all(
+      hashes.map(async (hash) => {
+        return this.cache.get(hash) ?? (await this.parent?.get([hash]))?.pop() ?? null
+      })
+    )
   }
 
   public insert(payloads: XyoPayload[]): XyoPayload[] | Promise<XyoPayload[]> {

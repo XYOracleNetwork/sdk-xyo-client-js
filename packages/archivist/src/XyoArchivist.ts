@@ -2,9 +2,9 @@ import { XyoAccount } from '@xyo-network/account'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { Archivist } from './model'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
+import { XyoPayloadFindQuery } from './XyoPayloadFindFilter'
 
-export type XyoArchivist<T extends XyoPayload = XyoPayload> = Archivist<T, T, T, T, XyoPayloadFindFilter>
+export type XyoArchivist<T extends XyoPayload = XyoPayload> = Archivist<T, T, T, T, XyoPayloadFindQuery>
 
 export abstract class XyoArchivistBase<T extends XyoPayload = XyoPayload> implements XyoArchivist<T> {
   protected parent?: XyoArchivist<T>
@@ -15,7 +15,7 @@ export abstract class XyoArchivistBase<T extends XyoPayload = XyoPayload> implem
   }
 
   abstract insert(payloads: T[]): T[] | Promise<T[]>
-  abstract find(query: XyoPayloadFindFilter): T[] | Promise<T[]>
+  abstract find(query: XyoPayloadFindQuery): T[] | Promise<T[]>
   abstract get(hash: string): T | Promise<T | undefined> | undefined
   public all(): T[] | Promise<T[]> {
     throw Error('getAll not supported')

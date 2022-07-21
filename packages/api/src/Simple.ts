@@ -1,11 +1,11 @@
-import { EmptyObject } from '@xyo-network/core'
+import { XyoPayloadFindFilter } from '@xyo-network/archivist'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoApiBase } from './Base'
 import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from './models'
 import { objToQuery } from './objToQuery'
 
-export type XyoApiSimpleQuery<T extends EmptyObject = EmptyObject> = XyoPayload<T>
+export type XyoApiSimpleQuery = XyoPayloadFindFilter
 
 export class XyoApiSimple<T = XyoPayload, D = T, Q extends XyoApiSimpleQuery = XyoApiSimpleQuery, C extends XyoApiConfig = XyoApiConfig> extends XyoApiBase<C> {
   public async get(): Promise<XyoApiResponseBody<T>>

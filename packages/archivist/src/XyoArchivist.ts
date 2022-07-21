@@ -15,7 +15,7 @@ export abstract class XyoArchivistBase<T extends XyoPayload = XyoPayload> implem
   }
 
   abstract insert(payloads: T[]): T[] | Promise<T[]>
-  abstract find(query: XyoPayloadFindQuery): T[] | Promise<T[]>
+  abstract find<R extends T = T>(query: XyoPayloadFindQuery): R[] | Promise<R[]>
   abstract get(hash: string): T | Promise<T | undefined> | undefined
   public all(): T[] | Promise<T[]> {
     throw Error('getAll not supported')

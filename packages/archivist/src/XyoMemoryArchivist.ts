@@ -28,6 +28,6 @@ export class XyoMemoryArchivist<TRead extends XyoPayload = XyoPayload, TWrite ex
   }
 
   public find<T extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): T[] {
-    return this.cache.find((value) => value.schema === filter.schema)
+    return [this.cache.find((value) => value.schema === filter.schema)]
   }
 }

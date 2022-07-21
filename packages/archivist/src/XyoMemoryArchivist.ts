@@ -4,7 +4,7 @@ import LruCache from 'lru-cache'
 import { XyoArchivist } from './XyoArchivist'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export class XyoMemoryArchivist<TWrite extends XyoPayload = XyoPayload, TRead extends XyoPayload = XyoPayload> extends XyoArchivist<TWrite, TRead> {
+export class XyoMemoryArchivist<TRead extends XyoPayload = XyoPayload, TWrite extends XyoPayload & TRead = XyoPayload & TRead> extends XyoArchivist<TRead, TWrite> {
   private cache: LruCache<string, TRead> = new LruCache<string, TRead>({ max: 10000 })
 
   public delete(hash: string) {
@@ -23,9 +23,8 @@ export class XyoMemoryArchivist<TWrite extends XyoPayload = XyoPayload, TRead ex
   public insert(payload: TWrite) {
     const wrapper = new XyoPayloadWrapper(payload)
     const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
-    const hashes: string[] = []
-    hashes.push(payloadWithmeta._hash)
-    return hashes
+    this.cache.set(payloadWithmeta._hash, payloadWithmeta)
+    return [payloadWithmeta._hash]
   }
 
   public find<T extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): T[] {

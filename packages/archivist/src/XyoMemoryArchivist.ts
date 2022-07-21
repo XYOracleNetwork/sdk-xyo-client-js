@@ -5,7 +5,7 @@ import { XyoArchivist } from './XyoArchivist'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export class XyoMemoryArchivist<TRead extends XyoPayload = XyoPayload, TWrite extends XyoPayload & TRead = XyoPayload & TRead> extends XyoArchivist<TRead, TWrite> {
-  private cache: LruCache<string, TRead> = new LruCache<string, TRead>({ max: 10000 })
+  private cache = new LruCache<string, TRead>({ max: 10000 })
 
   public delete(hash: string) {
     return this.cache.delete(hash)
@@ -27,7 +27,13 @@ export class XyoMemoryArchivist<TRead extends XyoPayload = XyoPayload, TWrite ex
     return [payloadWithmeta._hash]
   }
 
-  public find<T extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): T[] {
-    return [this.cache.find((value) => value.schema === filter.schema)]
+  public find<T extends TRead = TRead>(filter: XyoPayloadFindFilter): T[] {
+    const result: T[] = []
+    this.cache.forEach((value) => {
+      if (value.schema === filter.schema) {
+        result.push(value as T)
+      }
+    })
+    return result
   }
 }

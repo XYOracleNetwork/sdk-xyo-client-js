@@ -1,0 +1,15 @@
+releases:
+  "@xyo-network/account": patch
+  "@xyo-network/api": patch
+  "@xyo-network/archivist": patch
+  "@xyo-network/boundwitness": patch
+  "@xyo-network/core": patch
+  "@xyo-network/cryptomarket-witness": patch
+  "@xyo-network/domain": patch
+  "@xyo-network/ethereum-witness": patch
+  "@xyo-network/network": patch
+  "@xyo-network/panel": patch
+  "@xyo-network/payload": patch
+  "@xyo-network/schema-witness": patch
+  "@xyo-network/sdk-xyo-client-js": patch
+  "@xyo-network/storage": patch

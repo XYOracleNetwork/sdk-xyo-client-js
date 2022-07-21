@@ -1,5 +1,5 @@
 import { XyoBoundWitness, XyoBoundWitnessWithMeta, XyoBoundWitnessWrapper } from '@xyo-network/boundwitness'
-import { XyoPayload, XyoPayloadWithMeta, XyoPayloadWrapper } from '@xyo-network/payload'
+import { XyoPayloadWithMeta, XyoPayloadWrapper } from '@xyo-network/payload'
 import LruCache from 'lru-cache'
 
 import { XyoBoundWitnessArchivist } from './XyoBoundWitnessArchivist'
@@ -39,7 +39,13 @@ export class XyoBoundWitnessMemoryArchivist<
     return hashes
   }
 
-  public find<T extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): T[] {
-    return [this.cache.find((value) => value.schema === filter.schema)]
+  public find<T extends TRead = TRead>(filter: XyoPayloadFindFilter): T[] {
+    const result: T[] = []
+    this.cache.forEach((value) => {
+      if (value.schema === filter.schema) {
+        result.push(value as T)
+      }
+    })
+    return result
   }
 }

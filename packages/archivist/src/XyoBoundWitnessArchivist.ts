@@ -4,9 +4,9 @@ import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoArchivist } from './XyoArchivist'
 
-export abstract class XyoBoundWitnessArchivist<TWrite extends XyoBoundWitnessWithMeta = XyoBoundWitnessWithMeta, TRead extends XyoPayload = XyoPayload> extends XyoArchivist<
-  TWrite,
-  TRead
+export abstract class XyoBoundWitnessArchivist<TRead extends XyoPayload = XyoPayload, TWrite extends XyoBoundWitnessWithMeta = XyoBoundWitnessWithMeta> extends XyoArchivist<
+  TRead,
+  TWrite
 > {
   public async commit() {
     const parent = assertEx(this.parent, 'Parent is required for commit')

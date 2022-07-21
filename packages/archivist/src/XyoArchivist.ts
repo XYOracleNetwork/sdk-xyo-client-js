@@ -4,12 +4,12 @@ import { XyoPayload } from '@xyo-network/payload'
 import { Archivist } from './model'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export abstract class XyoArchivist<TWrite extends XyoPayload = XyoPayload, TRead extends XyoPayload = XyoPayload>
+export abstract class XyoArchivist<TRead extends XyoPayload = XyoPayload, TWrite extends XyoPayload = XyoPayload>
   implements Archivist<string, TWrite, TRead | undefined, string, TRead, XyoPayloadFindFilter>
 {
-  protected parent?: XyoArchivist<TWrite, TRead>
+  protected parent?: XyoArchivist<TRead, TWrite>
   protected account?: XyoAccount
-  constructor(parent?: XyoArchivist<TWrite, TRead>, account?: XyoAccount) {
+  constructor(parent?: XyoArchivist<TRead, TWrite>, account?: XyoAccount) {
     this.parent = parent
     this.account = account
   }

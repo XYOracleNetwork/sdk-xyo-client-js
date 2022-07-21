@@ -8,8 +8,8 @@ import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 export class XyoBoundWitnessMemoryArchivist<
   TRead extends XyoPayloadWithMeta = XyoPayloadWithMeta,
   TWrite extends XyoBoundWitnessWithMeta<XyoBoundWitness, TRead> & TRead = XyoBoundWitnessWithMeta<XyoBoundWitness, TRead> & TRead
-> extends XyoBoundWitnessArchivist<TWrite, TRead> {
-  private cache: LruCache<string, TRead> = new LruCache<string, TRead>({ max: 10000 })
+> extends XyoBoundWitnessArchivist<TRead, TWrite> {
+  private cache = new LruCache<string, TRead>({ max: 10000 })
 
   public delete(hash: string) {
     return this.cache.delete(hash)

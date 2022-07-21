@@ -18,8 +18,7 @@ export const getTokenForNewUser = async (api: XyoArchivistApi): Promise<string> 
   const account = XyoAccount.random()
   const address = new Wallet(account.private.bytes)
   const challenge = await api.account(account.public).challenge.post()
-  expect(challenge?.state).toBeTruthy()
-  const message = challenge?.state || ''
+  const message = assertEx(challenge?.state, 'Missing state from login challenge')
   const signature = await address.signMessage(message)
   const verify = await api.account(account.public).verify.post({ message, signature })
   const jwtToken = assertEx(verify?.token, 'Missing JWT token in response')

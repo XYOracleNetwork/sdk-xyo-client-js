@@ -4,19 +4,20 @@ import { XyoPayload } from '@xyo-network/payload'
 import { Archivist } from './model'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export abstract class XyoArchivist<TRead extends XyoPayload = XyoPayload, TWrite extends XyoPayload = XyoPayload>
-  implements Archivist<string, TWrite, TRead | undefined, string, TRead, XyoPayloadFindFilter>
-{
-  protected parent?: XyoArchivist<TRead, TWrite>
+export type XyoArchivist<T extends XyoPayload = XyoPayload> = Archivist<T, T, T, T, XyoPayloadFindFilter>
+
+export abstract class XyoArchivistBase<T extends XyoPayload = XyoPayload> implements XyoArchivist<T> {
+  protected parent?: XyoArchivist<T>
   protected account?: XyoAccount
-  constructor(parent?: XyoArchivist<TRead, TWrite>, account?: XyoAccount) {
+  constructor(parent?: XyoArchivist<T>, account?: XyoAccount) {
     this.parent = parent
     this.account = account
   }
-  abstract insert(item: TWrite): string[] | Promise<string[]>
-  abstract find(query: XyoPayloadFindFilter): TRead[] | Promise<TRead[]>
-  abstract get(hash: string): TRead[] | Promise<TRead[] | undefined> | undefined
-  public all(): TRead[] | Promise<TRead[] | undefined> | undefined {
+
+  abstract insert(payloads: T[]): T[] | Promise<T[]>
+  abstract find(query: XyoPayloadFindFilter): T[] | Promise<T[]>
+  abstract get(hash: string): T | Promise<T | undefined> | undefined
+  public all(): T[] | Promise<T[]> {
     throw Error('getAll not supported')
   }
   public delete(_hash: string): boolean | Promise<boolean> {

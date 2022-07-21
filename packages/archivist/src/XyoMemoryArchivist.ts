@@ -28,7 +28,7 @@ export class XyoMemoryArchivist<TWrite extends XyoPayload = XyoPayload, TRead ex
     return hashes
   }
 
-  public find<T extends XyoPayload = XyoPayload>(_filter: XyoPayloadFindFilter): T[] {
-    throw Error('find not supported')
+  public find<T extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): T[] {
+    return this.cache.find((value) => value.schema === filter.schema)
   }
 }

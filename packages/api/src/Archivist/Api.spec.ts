@@ -198,7 +198,7 @@ describe.skip('XyoArchivistApi', () => {
         const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
         await api.archives.archive(archive).block.post([boundWitness])
         const timestamp = Date.now() - 10000
-        const response = await api.archives.archive(archive).block.find({ order: 'asc', timestamp })
+        const response = await api.archives.archive(archive).block.find({ order: 'asc', schema: 'netowrk.xyo.query', timestamp })
         expect(response?.length).toBe(1)
         const actual = response?.[0]
         expect(actual?._timestamp).toBeTruthy()

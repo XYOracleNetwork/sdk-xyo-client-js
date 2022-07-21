@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivist, XyoArchivistBase, XyoPayloadFindFilter } from '@xyo-network/archivist'
+import { XyoArchivist, XyoArchivistBase, XyoPayloadFindQuery } from '@xyo-network/archivist'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
@@ -43,9 +43,9 @@ export class XyoRemoteArchivist extends XyoArchivistBase {
     return payloads
   }
 
-  public async find(filter: XyoPayloadFindFilter) {
-    const [payloads = []] = (await this.api.archive(this.archive).payload.find(filter, 'tuple')) ?? []
-    const [blocks = []] = (await this.api.archive(this.archive).block.find(filter, 'tuple')) ?? []
-    return payloads.concat(blocks)
+  public async find<R extends XyoPayload = XyoPayload>(query: XyoPayloadFindQuery): Promise<R[]> {
+    const [payloads = []] = (await this.api.archive(this.archive).payload.find(query.filter, 'tuple')) ?? []
+    const [blocks = []] = (await this.api.archive(this.archive).block.find(query.filter, 'tuple')) ?? []
+    return payloads.concat(blocks) as R[]
   }
 }

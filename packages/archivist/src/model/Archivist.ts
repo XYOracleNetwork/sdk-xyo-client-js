@@ -5,4 +5,5 @@ export interface Archivist<TReadResponse, TWriteResponse = TReadResponse, TWrite
   insert?(item: TWrite[]): Promise<TWriteResponse[]> | TWriteResponse[]
   delete?(ids: TId[]): Promise<boolean[]> | boolean[]
   clear?(): void
+  commit?(): void
 }

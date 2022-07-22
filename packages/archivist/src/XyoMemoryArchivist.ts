@@ -3,10 +3,11 @@ import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitne
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import LruCache from 'lru-cache'
 
-import { XyoArchivistBase } from './XyoArchivist'
+import { XyoArchivist } from './XyoArchivist'
+import { XyoArchivistConfigWrapper } from './XyoArchivistConfig'
 import { XyoPayloadFindQuery } from './XyoPayloadFindFilter'
 
-export class XyoMemoryArchivist extends XyoArchivistBase<XyoPayload> {
+export class XyoMemoryArchivist extends XyoArchivistConfigWrapper<XyoPayload> implements XyoArchivist {
   private cache = new LruCache<string, XyoPayload>({ max: 10000 })
 
   public delete(hashes: string[]): boolean[] | Promise<boolean[]> {
@@ -44,6 +45,10 @@ export class XyoMemoryArchivist extends XyoArchivistBase<XyoPayload> {
       }
     })
     return result
+  }
+
+  public all(): Promise<XyoPayload[]> | XyoPayload[] {
+    return this.cache.dump().map((value) => value[1].value)
   }
 
   public async commit() {

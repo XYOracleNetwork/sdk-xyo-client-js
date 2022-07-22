@@ -1,13 +1,13 @@
 import shajs from 'sha.js'
 
-import { StringKeyObject, XyoObject } from '../lib'
+import { StringKeyObject, XyoObjectWrapper } from '../lib'
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
 
-export class XyoHasher<T extends object = StringKeyObject> extends XyoObject<T> {
+export class XyoHasher<T extends object = StringKeyObject> extends XyoObjectWrapper<T> {
   get hashFields() {
-    return removeEmptyFields(deepOmitUnderscoreFields(this.stringKeyObj))
+    return removeEmptyFields(deepOmitUnderscoreFields(this.obj))
   }
 
   /** @deprecated use stringified instead */

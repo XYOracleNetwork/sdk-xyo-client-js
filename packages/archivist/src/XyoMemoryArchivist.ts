@@ -3,14 +3,31 @@ import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitne
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import LruCache from 'lru-cache'
 
+import { PromisableArray } from './model'
 import { XyoArchivist } from './XyoArchivist'
-import { XyoArchivistConfigWrapper } from './XyoArchivistConfig'
+import { XyoArchivistConfig, XyoArchivistConfigWrapper } from './XyoArchivistConfig'
 import { XyoPayloadFindQuery } from './XyoPayloadFindFilter'
 
-export class XyoMemoryArchivist extends XyoArchivistConfigWrapper<XyoPayload> implements XyoArchivist {
-  private cache = new LruCache<string, XyoPayload>({ max: 10000 })
+export interface XyoMemoryArchivistConfig<T extends XyoPayload = XyoPayload> extends XyoArchivistConfig<T> {
+  max?: number
+}
 
-  public delete(hashes: string[]): boolean[] | Promise<boolean[]> {
+export class XyoMemoryArchivist<C extends XyoMemoryArchivistConfig<XyoPayload> = XyoMemoryArchivistConfig<XyoPayload>>
+  extends XyoArchivistConfigWrapper<XyoPayload, C>
+  implements XyoArchivist
+{
+  public get max() {
+    return this.config?.max ?? 10000
+  }
+
+  private cache: LruCache<string, XyoPayload>
+
+  constructor(config?: C) {
+    super(config)
+    this.cache = new LruCache<string, XyoPayload>({ max: this.max })
+  }
+
+  public delete(hashes: string[]): PromisableArray<boolean> {
     return hashes.map((hash) => {
       return this.cache.delete(hash)
     })
@@ -28,7 +45,7 @@ export class XyoMemoryArchivist extends XyoArchivistConfigWrapper<XyoPayload> im
     )
   }
 
-  public insert(payloads: XyoPayload[]): XyoPayload[] | Promise<XyoPayload[]> {
+  public insert(payloads: XyoPayload[]): PromisableArray<XyoPayload> {
     return payloads.map((payload) => {
       const wrapper = new XyoPayloadWrapper(payload)
       const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
@@ -37,7 +54,7 @@ export class XyoMemoryArchivist extends XyoArchivistConfigWrapper<XyoPayload> im
     })
   }
 
-  public find<R extends XyoPayload = XyoPayload>(query: XyoPayloadFindQuery): R[] | Promise<R[]> {
+  public find<R extends XyoPayload = XyoPayload>(query: XyoPayloadFindQuery): PromisableArray<R> {
     const result: R[] = []
     this.cache.forEach((value) => {
       if (value.schema === query.filter.schema) {

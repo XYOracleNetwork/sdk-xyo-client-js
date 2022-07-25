@@ -3368,7 +3368,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@workspace:^, @xyo-network/domain-payload-plugin@workspace:packages/domain-payload-plugin":
+"@xyo-network/domain-payload-plugin@workspace:packages/domain-payload-plugin":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/domain-payload-plugin"
   dependencies:
@@ -3468,7 +3468,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@workspace:^, @xyo-network/schema-payload-plugin@workspace:packages/schema-payload-plugin":
+"@xyo-network/schema-payload-plugin@workspace:packages/schema-payload-plugin":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/schema-payload-plugin"
   dependencies:
@@ -3512,13 +3512,11 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/cryptomarket-witness": "workspace:^"
     "@xyo-network/domain": "workspace:^"
-    "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/ethereum-witness": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/panel": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/schema-witness": "workspace:^"
     "@xyo-network/storage": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"

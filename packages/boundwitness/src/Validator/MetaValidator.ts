@@ -1,4 +1,4 @@
-import { XyoHasher, XyoValidator, XyoValidatorBase } from '@xyo-network/core'
+import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoBoundWitnessMeta } from '../models'
 import { isIP } from './is-ip'

@@ -1,6 +1,6 @@
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 
-import { XyoWitness } from './Witness'
+import { XyoWitness, XyoWitnessBase } from './Witness'
 
 export interface XyoSimpleWitnessConfig<T extends XyoPayload = XyoPayload> {
   schema: string
@@ -8,7 +8,10 @@ export interface XyoSimpleWitnessConfig<T extends XyoPayload = XyoPayload> {
   observer?: () => Promise<T> | T
 }
 
-export class XyoSimpleWitness<T extends XyoPayload = XyoPayload, C extends XyoSimpleWitnessConfig<T> = XyoSimpleWitnessConfig<T>> extends XyoWitness<T> {
+export class XyoSimpleWitness<T extends XyoPayload = XyoPayload, C extends XyoSimpleWitnessConfig<T> = XyoSimpleWitnessConfig<T>>
+  extends XyoWitnessBase<T>
+  implements XyoWitness<T>
+{
   public config?: C
   public previousHash?: string
 

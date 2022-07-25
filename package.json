@@ -23,6 +23,7 @@
     "@xyo-network/network": "workspace:^",
     "@xyo-network/panel": "workspace:^",
     "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/schema-witness": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/systeminfo-witness": "workspace:^",

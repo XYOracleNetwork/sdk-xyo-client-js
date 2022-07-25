@@ -1,10 +1,10 @@
-import { XyoValidator } from '@xyo-network/core'
+import { XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoPayloadWithMeta } from '../models'
 import { XyoPayloadValidator } from '../Validator'
 import { XyoPayloadWrapper } from './Wrapper'
 
-export class XyoPayloadWrapperValidator<T extends XyoPayloadWrapper<XyoPayloadWithMeta> = XyoPayloadWrapper<XyoPayloadWithMeta>> extends XyoValidator<T> {
+export class XyoPayloadWrapperValidator<T extends XyoPayloadWrapper<XyoPayloadWithMeta> = XyoPayloadWrapper<XyoPayloadWithMeta>> extends XyoValidatorBase<T> {
   public get payload() {
     return new XyoPayloadValidator(this.obj.body)
   }

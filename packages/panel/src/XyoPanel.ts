@@ -13,7 +13,7 @@ export interface XyoPanelConfig {
   account: XyoAccount
   archivists: XyoArchivistApi[]
   archive?: string
-  witnesses: XyoWitness<XyoPayload>[]
+  witnesses: XyoWitness[]
   historyDepth?: number
   onReportStart?: () => void
   onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void

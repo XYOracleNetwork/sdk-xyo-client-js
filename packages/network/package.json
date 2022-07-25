@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.2",
-    "@xyo-network/payload": "^2.22.12"
+    "@xyo-network/payload": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

@@ -45,7 +45,7 @@
     "jest-extended": "^3.0.1",
     "license-checker": "^25.0.1",
     "rimraf": "^3.0.2",
-    "typedoc": "^0.23.8",
+    "typedoc": "^0.23.9",
     "typescript": "^4.7.4"
   },
   "browser": "dist/esm/index.js",

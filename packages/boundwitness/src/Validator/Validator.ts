@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAddressValue } from '@xyo-network/account'
-import { XyoValidator } from '@xyo-network/core'
+import { XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoBoundWitnessWithPartialMeta } from '../models'
 import { XyoBoundWitnessBodyValidator } from './BodyValidator'
@@ -20,7 +20,7 @@ const validateSignature = (hash: string, address: string, signature?: string) =>
   return []
 }
 
-class XyoBoundWitnessValidator<T extends XyoBoundWitnessWithPartialMeta = XyoBoundWitnessWithPartialMeta> extends XyoValidator<T> {
+class XyoBoundWitnessValidator<T extends XyoBoundWitnessWithPartialMeta = XyoBoundWitnessWithPartialMeta> extends XyoValidatorBase<T> {
   public body: XyoBoundWitnessBodyValidator
   public meta: XyoBoundWitnessMetaValidator
   constructor(bw: T) {

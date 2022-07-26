@@ -1,11 +1,11 @@
-import { XyoHasher, XyoValidator } from '@xyo-network/core'
+import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoPayloadMeta } from '../models'
 
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000
 
-class XyoPayloadMetaValidator<T extends XyoPayloadMeta = XyoPayloadMeta> extends XyoValidator<T> {
+class XyoPayloadMetaValidator<T extends XyoPayloadMeta = XyoPayloadMeta> extends XyoValidatorBase<T> {
   public hash() {
     const errors: Error[] = []
     const wrapper = new XyoHasher(this.obj)

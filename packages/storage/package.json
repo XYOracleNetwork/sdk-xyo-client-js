@@ -14,13 +14,13 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
-    "mongodb": "^4.8.0",
+    "mongodb": "^4.8.1",
     "uuid": "^8.3.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/uuid": "^8.3.4",
-    "@xylabs/tsconfig": "^1.0.14",
+    "@xylabs/tsconfig": "^2.5.0",
     "dotenv": "^16.0.1",
     "tslib": "^2.4.0"
   },
@@ -57,6 +57,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.11",
+  "version": "2.22.12",
   "packageManager": "yarn@3.1.1"
 }

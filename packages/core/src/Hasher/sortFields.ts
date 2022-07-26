@@ -1,6 +1,6 @@
 import { typeOf } from '@xyo-network/typeof'
 
-import { StringKeyObject } from '../lib'
+import { EmptyObject, StringKeyObject } from '../lib'
 
 //if an object, subsort
 const subSort = (value: unknown) => {
@@ -12,7 +12,7 @@ const subSort = (value: unknown) => {
   }
 }
 
-export const sortFields = <T extends object = object>(obj: T) => {
+export const sortFields = <T extends EmptyObject = EmptyObject>(obj: T) => {
   if (obj === null) {
     return null
   }

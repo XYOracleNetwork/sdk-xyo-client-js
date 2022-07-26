@@ -1,4 +1,4 @@
-import { XyoHasher, XyoValidator } from '@xyo-network/core'
+import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoBoundWitnessMeta } from '../models'
 import { isIP } from './is-ip'
@@ -6,7 +6,7 @@ import { isIP } from './is-ip'
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000
 
-export class XyoBoundWitnessMetaValidator<T extends Partial<XyoBoundWitnessMeta> = Partial<XyoBoundWitnessMeta>> extends XyoValidator<T> {
+export class XyoBoundWitnessMetaValidator<T extends Partial<XyoBoundWitnessMeta> = Partial<XyoBoundWitnessMeta>> extends XyoValidatorBase<T> {
   public client() {
     const errors: Error[] = []
     return errors

@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.2",
-    "@xyo-network/payload": "^2.22.11"
+    "@xyo-network/payload": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/tsconfig": "^1.0.14",
+    "@xylabs/tsconfig": "^2.5.0",
     "tslib": "^2.4.0"
   },
   "browser": "dist/esm/index.js",
@@ -50,6 +50,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.11",
+  "version": "2.22.12",
   "packageManager": "yarn@3.1.1"
 }

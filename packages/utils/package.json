@@ -20,8 +20,8 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
-    "@xylabs/tsconfig": "^1.0.14",
-    "@xyo-network/network": "^2.22.11",
+    "@xylabs/tsconfig": "^2.5.0",
+    "@xyo-network/network": "workspace:^",
     "tslib": "^2.4.0"
   },
   "browser": "dist/esm/browserIndex.js",
@@ -57,6 +57,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.11",
+  "version": "2.22.12",
   "packageManager": "yarn@3.1.1"
 }

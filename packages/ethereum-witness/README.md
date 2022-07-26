@@ -10,7 +10,8 @@
 [![codeclimate-badge][]][codeclimate-link]
 [![snyk-badge][]][snyk-link]
 
-> The XYO Foundation provides this source code available in our efforts to advance the understanding of the XYO Protocol and its possible uses.
+> The XYO Foundation provides this source code available in our efforts to
+> advance the understanding of the XYO Protocol and its possible uses.
 > We continue to maintain this software in the interest of developer education.
 > Usage of this source code is not intended for production.
 
@@ -25,7 +26,8 @@
 
 ## Description
 
-> Primary SDK for using the XYO Protocol 2.0 from TypeScript/JavaScript.  Designed to work in both browser based and Node JS based solutions.
+> Primary SDK for using the XYO Protocol 2.0 from TypeScript/JavaScript.
+> Designed to work in both browser based and Node JS based solutions.
 
 ## Install
 

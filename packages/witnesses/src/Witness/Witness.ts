@@ -1,6 +1,7 @@
 import { XyoPayload } from '@xyo-network/payload'
 
 export interface XyoWitness<T extends XyoPayload = XyoPayload> {
+  targetSchema: string
   observe(fields?: Partial<T>): Promise<T>
 }
 

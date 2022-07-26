@@ -1,5 +1,5 @@
 export * from './Adhoc'
+export * from './browser'
 export * from './Id'
-export * from './Location'
 export * from './NonFungibleToken'
 export * from './Witness'

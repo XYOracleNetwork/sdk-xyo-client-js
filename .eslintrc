@@ -7,7 +7,8 @@
     "project": "tsconfig.json"
   },
   "ignorePatterns": [
-    "**/dist"
+    "**/dist",
+    "node_modules"
   ],
   "rules": {
     "import/no-internal-modules": [

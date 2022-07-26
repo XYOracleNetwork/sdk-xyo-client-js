@@ -1,11 +1,11 @@
-import { XyoHasher, XyoValidator } from '@xyo-network/core'
+import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
 import { XyoPayload, XyoSchemaNameValidator } from '@xyo-network/payload'
 import { validateType } from '@xyo-network/typeof'
 import uniq from 'lodash/uniq'
 
 import { XyoBoundWitness } from '../models'
 
-export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWitness> extends XyoValidator<T> {
+export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWitness> extends XyoValidatorBase<T> {
   private payloads?: XyoPayload[]
   constructor(boundWitness: T, payloads?: XyoPayload[]) {
     super(boundWitness)

@@ -1,3 +1,9 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": true,
+    "declaration": true,
+    "rootDir": "./src"
+  },
   "extends": "../../tsconfig.json"
 }

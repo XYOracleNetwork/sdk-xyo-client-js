@@ -1,8 +1,8 @@
 import { XyoPayload, XyoPayloadBuilder, XyoQueryPayload } from '@xyo-network/payload'
 
-import { XyoWitness } from './Witness'
+import { XyoWitnessBase } from './Witness'
 
-export class XyoQueryWitness<Q extends XyoQueryPayload, T extends XyoPayload> extends XyoWitness {
+export class XyoQueryWitness<Q extends XyoQueryPayload, T extends XyoPayload> extends XyoWitnessBase<T> {
   public query: Q
 
   constructor(query: Q) {

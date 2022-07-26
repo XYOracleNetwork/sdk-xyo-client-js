@@ -1,6 +1,10 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-export abstract class XyoWitness<T extends XyoPayload = XyoPayload> {
+export interface XyoWitness<T extends XyoPayload = XyoPayload> {
+  observe(fields?: Partial<T>): Promise<T>
+}
+
+export abstract class XyoWitnessBase<T extends XyoPayload = XyoPayload> implements XyoWitness<T> {
   abstract observe(fields?: Partial<T>): Promise<T>
   abstract get targetSchema(): string
 }

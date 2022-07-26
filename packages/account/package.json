@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/core": "^2.22.12",
+    "@xyo-network/core": "workspace:^",
     "elliptic": "^6.5.4",
     "sha.js": "^2.4.11"
   },

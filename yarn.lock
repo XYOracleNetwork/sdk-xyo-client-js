@@ -3435,7 +3435,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-plugin@workspace:packages/payload-plugin"
   dependencies:
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    "@xyo-network/witnesses": "workspace:^"
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 
-import { XyoWalletBase } from '../Wallet'
+import { XyoWalletBase } from '../../Wallet'
 
 export class XyoWebWallet extends XyoWalletBase {
   public static load(name = 'xyoWallet') {

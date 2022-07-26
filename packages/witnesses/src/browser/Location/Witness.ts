@@ -1,4 +1,4 @@
-import { XyoSimpleWitness } from '../Witness'
+import { XyoSimpleWitness } from '../../Witness'
 import { XyoLocationPayload } from './Payload'
 import { locationTemplate } from './Template'
 

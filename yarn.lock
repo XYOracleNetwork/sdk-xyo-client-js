@@ -3109,7 +3109,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^2.5.3":
+"@xylabs/eslint-config@npm:^2.5.2, @xylabs/eslint-config@npm:^2.5.3":
   version: 2.5.3
   resolution: "@xylabs/eslint-config@npm:2.5.3"
   dependencies:
@@ -3149,7 +3149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts@npm:^2.5.3":
+"@xylabs/ts-scripts@npm:^2.5.2":
   version: 2.5.3
   resolution: "@xylabs/ts-scripts@npm:2.5.3"
   dependencies:
@@ -3220,7 +3220,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^2.5.3":
+"@xylabs/tsconfig@npm:^2.5.2, @xylabs/tsconfig@npm:^2.5.3":
   version: 2.5.3
   resolution: "@xylabs/tsconfig@npm:2.5.3"
   dependencies:
@@ -3456,9 +3456,9 @@ __metadata:
   dependencies:
     "@babel/core": ^7.18.9
     "@babel/preset-env": ^7.18.9
-    "@xylabs/eslint-config": ^2.5.3
-    "@xylabs/ts-scripts": ^2.5.3
-    "@xylabs/tsconfig": ^2.5.3
+    "@xylabs/eslint-config": ^2.5.2
+    "@xylabs/ts-scripts": ^2.5.2
+    "@xylabs/tsconfig": ^2.5.2
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/archivist": "workspace:^"

@@ -38,9 +38,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
-    "@xylabs/eslint-config": "^2.5.3",
-    "@xylabs/ts-scripts": "^2.5.3",
-    "@xylabs/tsconfig": "^2.5.3",
+    "@xylabs/eslint-config": "^2.5.2",
+    "@xylabs/ts-scripts": "^2.5.2",
+    "@xylabs/tsconfig": "^2.5.2",
     "eslint": "^8.20.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",
@@ -114,6 +114,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.16",
+  "version": "2.22.17",
   "packageManager": "yarn@3.2.1"
 }

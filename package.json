@@ -92,8 +92,8 @@
     "deploy-major": "yarn workspaces foreach --all version major --deferred && yarn deploy-common",
     "deploy-minor": "yarn workspaces foreach --all version minor --deferred && yarn deploy-common",
     "deploy-patch": "yarn workspaces foreach --all version patch --deferred && yarn deploy-common",
-    "deploy-common": "yarn build && yarn gen:docs && yarn version apply --all && yarn workspaces foreach -pt npm publish",
-    "clean": "yarn workspaces foreach -pv run clean:package",
+    "deploy-common": "yarn build && yarn version apply --all && yarn workspaces foreach -pt npm publish",
+    "clean": "echo Cleaning... && yarn workspaces foreach -pv run clean:package",
     "deps": "yarn workspaces foreach -pv run deps:package",
     "lint": "echo Linting... && yarn eslint .",
     "cycle": "yarn workspaces foreach -pv run cycle:package",
@@ -114,6 +114,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.15",
+  "version": "2.22.17",
   "packageManager": "yarn@3.2.1"
 }

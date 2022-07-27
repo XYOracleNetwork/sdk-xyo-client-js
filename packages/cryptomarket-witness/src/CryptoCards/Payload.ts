@@ -1,6 +1,7 @@
 import { XyoPayload } from '@xyo-network/payload'
 
 export type XyoCryptoCardsGamePayload = XyoPayload<{
+  schema: 'network.xyo.crypto.cards.game'
   /** @field The time [epoch] when the game is no longer allowed to be joined */
   expiration: number
   /** @field The length [ms] of the game */
@@ -14,6 +15,7 @@ export type XyoCryptoCardsGamePayload = XyoPayload<{
 }>
 
 export type XyoCryptoCardsMovePayload = XyoPayload<{
+  schema: 'network.xyo.crypto.cards.move'
   /** @field The Huri of each of the cards you play - some are globally available */
   cards: string[]
   /** @field The moves chosen by the player */

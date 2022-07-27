@@ -2,10 +2,10 @@ import { XyoValidator } from '@xyo-network/core'
 import { XyoPayload, XyoPayloadBase, XyoPayloadWrapper } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witnesses'
 
+import { XyoDefaultPayloadPlugin } from './Default'
 import { XyoPayloadPlugin } from './Plugin'
-import { XyoDefaultPayloadPlugin } from './XyoDefaultPayloadPlugin'
 
-export class XyoPayloadPluginResolver implements XyoPayloadPlugin<string> {
+export class XyoPayloadPluginResolver {
   protected plugins = new Map<string, XyoPayloadPlugin<string>>()
   protected defaultPlugin: XyoPayloadPlugin<string>
 

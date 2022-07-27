@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/uniswap-crypto-market-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,17 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.6.8",
-    "@xylabs/sdk-js": "^2.6.2",
+    "@xyo-network/cryptomarket-witness": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/witnesses": "workspace:^",
-    "axios": "^0.27.2"
+    "@xyo-network/payload-plugin": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.2",
-    "tslib": "^2.4.0"
-  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
@@ -43,7 +38,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/ethereum-witness",
   "publishConfig": {
     "access": "public"
   },
@@ -51,7 +45,7 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
-  "sideEffects": false,
+  "sideEffects": true,
   "types": "dist/esm/index.d.ts",
   "version": "2.22.15",
   "packageManager": "yarn@3.1.1"

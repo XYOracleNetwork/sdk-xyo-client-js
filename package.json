@@ -19,6 +19,7 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/cryptomarket-witness": "workspace:^",
     "@xyo-network/domain": "workspace:^",
+    "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/ethereum-witness": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/panel": "workspace:^",
@@ -28,6 +29,7 @@
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/systeminfo-witness": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
+    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"

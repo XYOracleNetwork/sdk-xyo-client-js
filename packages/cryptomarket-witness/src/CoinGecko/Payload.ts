@@ -9,6 +9,7 @@ export interface XyoCryptoMarketCoinGeckoQueryPayload extends XyoQueryPayload {
 }
 
 export interface XyoCryptoMarketCoinGeckoPayload extends XyoPayload {
+  schema: 'network.xyo.crypto.market.coingecko'
   timestamp: number
   assets: XyoCryptoAssets
 }

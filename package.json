@@ -80,7 +80,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
-    "build": "yarn lint && yarn build:esm && yarn build:cjs && yarn gen:docs",
+    "build": "yarn build:esm && yarn build:cjs && yarn lint && yarn gen:docs",
     "build:cjs": "yarn workspaces foreach -ptRv run build:package:cjs",
     "build:esm": "yarn workspaces foreach -ptRv run build:package:esm",
     "gen:docs": "yarn workspaces foreach -pv --exclude \"@xyo-network/sdk-xyo-client-js\" run gen:docs:package",
@@ -89,7 +89,7 @@
     "deploy-major": "yarn workspaces foreach --all version major --deferred && yarn deploy-common",
     "deploy-minor": "yarn workspaces foreach --all version minor --deferred && yarn deploy-common",
     "deploy-patch": "yarn workspaces foreach --all version patch --deferred && yarn deploy-common",
-    "deploy-common": "yarn build && yarn gen:docs && yarn version apply --all && yarn workspaces foreach -ptv npm publish",
+    "deploy-common": "yarn build && yarn gen:docs && yarn version apply --all && yarn workspaces foreach -pt npm publish",
     "clean": "yarn workspaces foreach -pv run clean:package",
     "deps": "yarn workspaces foreach -pv run deps:package",
     "lint": "echo Linting... && yarn eslint .",
@@ -111,6 +111,6 @@
   },
   "sideEffects": true,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.13",
+  "version": "2.22.15",
   "packageManager": "yarn@3.2.1"
 }

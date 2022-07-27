@@ -5,8 +5,8 @@ import { domainConfigTemplate } from './Template'
 
 const template = domainConfigTemplate()
 
-export class XyoDomainConfigWitness extends XyoSimpleWitness<XyoDomainPayload> {
-  public static demarc = '_xyo'
+export class XyoDomainWitness extends XyoSimpleWitness<XyoDomainPayload> {
+  public static dmarc = '_xyo'
 
   constructor() {
     super({
@@ -15,13 +15,10 @@ export class XyoDomainConfigWitness extends XyoSimpleWitness<XyoDomainPayload> {
     })
   }
 
-  public static generateDemarc(domain: string) {
-    return `${XyoDomainConfigWitness.demarc}.${domain}`
-  }
-
-  /** @deprecate use generateDemarc instead */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static generateDemark(domain: string) {
-    return
+  public static generateDmarc(domain: string) {
+    return `${XyoDomainWitness.dmarc}.${domain}`
   }
 }
+
+/** @deprecated use XyoDomainWitness instead */
+export class XyoDomainConfigWitness extends XyoDomainWitness {}

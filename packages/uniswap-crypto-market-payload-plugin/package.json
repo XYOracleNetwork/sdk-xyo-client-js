@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/witnesses",
+  "name": "@xyo-network/uniswap-crypto-market-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,16 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/core": "workspace:^",
+    "@xyo-network/cryptomarket-witness": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "uuid": "^8.3.2"
+    "@xyo-network/payload-plugin": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.2",
-    "tslib": "^2.4.0"
-  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
@@ -50,7 +45,7 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
-  "sideEffects": false,
+  "sideEffects": true,
   "types": "dist/esm/index.d.ts",
   "version": "2.22.15",
   "packageManager": "yarn@3.1.1"

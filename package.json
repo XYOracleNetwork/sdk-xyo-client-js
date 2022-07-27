@@ -19,6 +19,7 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/cryptomarket-witness": "workspace:^",
     "@xyo-network/domain": "workspace:^",
+    "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/ethereum-witness": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/panel": "workspace:^",
@@ -28,6 +29,7 @@
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/systeminfo-witness": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
+    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"
@@ -80,9 +82,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
-    "build": "yarn build:esm && yarn build:cjs && yarn lint && yarn gen:docs",
-    "build:cjs": "yarn workspaces foreach -ptRv run build:package:cjs",
-    "build:esm": "yarn workspaces foreach -ptRv run build:package:esm",
+    "build": "echo Building... && yarn clean && yarn compile && yarn gen:docs && yarn lint",
+    "compile": "echo Compiling... && yarn compile:esm && yarn compile:cjs",
+    "compile:cjs": "echo Compiling CJS... && yarn workspaces foreach -ptRv run compile:package:cjs",
+    "compile:esm": "echo Compiling ESM... && yarn workspaces foreach -ptRv run compile:package:esm",
     "gen:docs": "yarn workspaces foreach -pv --exclude \"@xyo-network/sdk-xyo-client-js\" run gen:docs:package",
     "lint-pkg": "npmPkgJsonLint .",
     "deploy3": "yarn deploy-patch",
@@ -104,12 +107,12 @@
     "cycle:package": "yarn eslint --rule \"import/no-cycle:[1, { maxDepth: 10 }]\" $INIT_CWD/src",
     "deps:package": "depcheck $INIT_CWD",
     "updo3:package": "yarn update-interactive",
-    "build:package:cjs": "tsc -p $INIT_CWD/tsconfig.build.cjs.json",
-    "build:package:esm": "tsc -p $INIT_CWD/tsconfig.build.esm.json",
+    "compile:package:cjs": "tsc -p $INIT_CWD/tsconfig.build.cjs.json",
+    "compile:package:esm": "tsc -p $INIT_CWD/tsconfig.build.esm.json",
     "test": "yarn jest .",
     "license": "yarn license-checker --exclude \"MIT, ISC, Apache-2.0, BSD, BSD-2-Clause, CC-BY-4.0, Unlicense, CC-BY-3.0, CC0-1.0\""
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "version": "2.22.15",
   "packageManager": "yarn@3.2.1"

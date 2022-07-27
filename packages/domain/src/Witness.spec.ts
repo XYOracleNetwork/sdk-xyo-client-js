@@ -1,14 +1,14 @@
-import { XyoDomainConfigWitness } from './Witness'
+import { XyoDomainWitness } from './Witness'
 
 describe('XyoDomainConfigWitness', () => {
   test('valid-instantiation', () => {
-    const witness = new XyoDomainConfigWitness()
+    const witness = new XyoDomainWitness()
     expect(witness).toBeTruthy()
     expect(witness?.config?.schema).toBe('network.xyo.domain')
-    expect(XyoDomainConfigWitness.demarc).toBe('_xyo')
+    expect(XyoDomainWitness.dmarc).toBe('_xyo')
   })
 
   test('generatesDemarc', () => {
-    expect(XyoDomainConfigWitness.generateDemarc('foo')).toBe('_xyo.foo')
+    expect(XyoDomainWitness.generateDmarc('foo')).toBe('_xyo.foo')
   })
 })

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.6.8",
+    "@xylabs/sdk-js": "^2.6.2",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witnesses": "workspace:^",
     "axios": "^0.27.2"
@@ -50,7 +51,7 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "version": "2.22.15",
   "packageManager": "yarn@3.1.1"

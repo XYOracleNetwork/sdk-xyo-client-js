@@ -38,9 +38,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
-    "@xylabs/eslint-config": "^2.5.2",
-    "@xylabs/ts-scripts": "^2.5.2",
-    "@xylabs/tsconfig": "^2.5.2",
+    "@xylabs/eslint-config": "^2.5.3",
+    "@xylabs/ts-scripts": "^2.5.3",
+    "@xylabs/tsconfig": "^2.5.3",
     "eslint": "^8.20.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",
@@ -92,8 +92,8 @@
     "deploy-major": "yarn workspaces foreach --all version major --deferred && yarn deploy-common",
     "deploy-minor": "yarn workspaces foreach --all version minor --deferred && yarn deploy-common",
     "deploy-patch": "yarn workspaces foreach --all version patch --deferred && yarn deploy-common",
-    "deploy-common": "yarn build && yarn gen:docs && yarn version apply --all && yarn workspaces foreach -pt npm publish",
-    "clean": "yarn workspaces foreach -pv run clean:package",
+    "deploy-common": "yarn build && yarn version apply --all && yarn workspaces foreach -pt npm publish",
+    "clean": "echo Cleaning... && yarn workspaces foreach -pv run clean:package",
     "deps": "yarn workspaces foreach -pv run deps:package",
     "lint": "echo Linting... && yarn eslint .",
     "cycle": "yarn workspaces foreach -pv run cycle:package",
@@ -114,6 +114,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.15",
+  "version": "2.22.16",
   "packageManager": "yarn@3.2.1"
 }

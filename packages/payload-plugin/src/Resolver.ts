@@ -2,14 +2,14 @@ import { XyoValidator } from '@xyo-network/core'
 import { XyoPayload, XyoPayloadBase, XyoPayloadWrapper } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witnesses'
 
-import { XyoDefaultPayloadPluginEntry } from './defaultPlugin'
+import { XyoDefaultPayloadPlugin } from './Default'
 import { XyoPayloadPlugin } from './Plugin'
 
-export class XyoPayloadPluginResolver implements XyoPayloadPlugin<string> {
+export class XyoPayloadPluginResolver {
   protected plugins = new Map<string, XyoPayloadPlugin<string>>()
   protected defaultPlugin: XyoPayloadPlugin<string>
 
-  constructor(plugins?: XyoPayloadPlugin<string>[], defaultPlugin = XyoDefaultPayloadPluginEntry) {
+  constructor(plugins?: XyoPayloadPlugin<string>[], defaultPlugin = XyoDefaultPayloadPlugin) {
     plugins?.forEach((plugin) => this.plugins.set(plugin.schema, plugin))
     this.defaultPlugin = defaultPlugin
   }

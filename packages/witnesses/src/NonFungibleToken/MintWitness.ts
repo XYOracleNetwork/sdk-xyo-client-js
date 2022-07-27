@@ -2,7 +2,7 @@ import { XyoAddressValue } from '@xyo-network/account'
 import { XyoDataLike } from '@xyo-network/core'
 import { Huri, XyoPayloadWrapper } from '@xyo-network/payload'
 
-import { XyoQueryWitness, XyoSimpleWitness } from '../Witness'
+import { XyoQueryWitness, XyoQueryWitnessConfig, XyoSimpleWitness } from '../Witness'
 import { XyoContractPayload, XyoNonFungibleTokenMintPayload, XyoNonFungibleTokenMintQueryPayload, XyoNonFungibleTokenPayload } from './Payload'
 
 export class XyoSmartContractWrapper<T extends XyoContractPayload> extends XyoPayloadWrapper<T> {
@@ -19,16 +19,17 @@ export class XyoNonFungibleTokenMintWitness extends XyoSimpleWitness<XyoNonFungi
 }
 
 /** @description Witness that will sign a new NFT being minted if it follows the terms */
-export class XyoNonFungibleTokenMintQuery extends XyoQueryWitness<XyoNonFungibleTokenMintQueryPayload, XyoNonFungibleTokenPayload> {
+export class XyoNonFungibleTokenMintQuery extends XyoQueryWitness<
+  XyoNonFungibleTokenPayload,
+  XyoNonFungibleTokenMintQueryPayload,
+  XyoQueryWitnessConfig<XyoNonFungibleTokenMintQueryPayload>
+> {
   protected minter: XyoAddressValue
-  constructor(query: XyoNonFungibleTokenMintQueryPayload, minter: XyoDataLike) {
-    super({
-      targetSchema: XyoNonFungibleTokenMintWitness.schema,
-      ...query,
-    })
+  constructor(config: XyoQueryWitnessConfig<XyoNonFungibleTokenMintQueryPayload>, minter: XyoDataLike) {
+    super(config)
     this.minter = new XyoAddressValue(minter)
   }
-  override async observe(payload: XyoNonFungibleTokenPayload) {
-    return await super.observe(payload)
+  override async observe(fields?: Partial<XyoNonFungibleTokenPayload>) {
+    return await super.observe(fields)
   }
 }

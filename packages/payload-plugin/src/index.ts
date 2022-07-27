@@ -1,4 +1,4 @@
 export * from './createPlugin'
-export * from './defaultPlugin'
+export * from './Default'
 export * from './Plugin'
-export * from './XyoPayloadPluginResolver'
+export * from './Resolver'

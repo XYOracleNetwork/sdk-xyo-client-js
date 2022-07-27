@@ -50,8 +50,8 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.13",
+  "version": "2.22.15",
   "packageManager": "yarn@3.1.1"
 }

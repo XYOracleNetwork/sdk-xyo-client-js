@@ -2,16 +2,24 @@ import { XyoPayload, XyoPayloadBuilder, XyoQueryPayload } from '@xyo-network/pay
 
 import { XyoWitnessBase } from './Witness'
 
-export class XyoQueryWitness<Q extends XyoQueryPayload, T extends XyoPayload> extends XyoWitnessBase<T> {
-  public query: Q
+export interface XyoQueryWitnessConfig<Q extends XyoQueryPayload = XyoQueryPayload> {
+  query: Q
+}
 
-  constructor(query: Q) {
+export class XyoQueryWitness<
+  T extends XyoPayload,
+  Q extends XyoQueryPayload = XyoQueryPayload,
+  C extends XyoQueryWitnessConfig<Q> = XyoQueryWitnessConfig<Q>
+> extends XyoWitnessBase<T> {
+  public config: C | undefined
+
+  constructor(config?: C) {
     super()
-    this.query = query
+    this.config = config
   }
 
   override get targetSchema() {
-    return this.query.targetSchema ?? 'network.xyo.payload'
+    return this.config?.query.targetSchema ?? 'network.xyo.payload'
   }
 
   public observe(fields?: Partial<T>): Promise<T> {

@@ -17,3 +17,8 @@ export * from '@xyo-network/typeof'
 export * from '@xyo-network/utils'
 export * from '@xyo-network/wallet'
 export * from '@xyo-network/witnesses'
+
+import XyoDomainPayloadPlugin from '@xyo-network/domain-payload-plugin'
+import XyoUniswapCryptoMarketPayloadPlugin from '@xyo-network/uniswap-crypto-market-payload-plugin'
+
+export { XyoDomainPayloadPlugin, XyoUniswapCryptoMarketPayloadPlugin }

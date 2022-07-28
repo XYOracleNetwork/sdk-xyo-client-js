@@ -2,9 +2,10 @@ import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
 import { XyoUniswapCryptoPair } from './CryptoPair'
 
-export interface XyoCryptoMarketUniswapQueryPayload extends XyoQueryPayload<XyoCryptoMarketUniswapPayload> {
+export type XyoCryptoMarketUniswapQueryPayload = XyoQueryPayload<{
+  schema: 'network.xyo.crypto.market.uniswap.query'
   pools: string[]
-}
+}>
 
 export interface XyoCryptoMarketUniswapPayload extends XyoPayload {
   schema: 'network.xyo.crypto.market.uniswap'

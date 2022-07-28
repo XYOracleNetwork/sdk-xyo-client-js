@@ -2,7 +2,7 @@ import { XyoEtherchainEthereumGasWitnessV1 } from './Witness'
 
 describe('Witness', () => {
   test('returns observation', async () => {
-    const sut = new XyoEtherchainEthereumGasWitnessV1({ schema: '' })
+    const sut = new XyoEtherchainEthereumGasWitnessV1()
     const actual = await sut.observe()
     expect(actual).toBeObject()
     expect(actual.currentBaseFee).toBeNumber()
@@ -13,6 +13,6 @@ describe('Witness', () => {
     expect(actual.standard).toBeNumber()
 
     expect(actual.timestamp).toBeNumber()
-    expect(actual.schema).toBe(XyoEtherchainEthereumGasWitnessV1.schema)
+    expect(actual.schema).toBe('network.xyo.blockchain.ethereum.gas.etherchain.v1')
   })
 })

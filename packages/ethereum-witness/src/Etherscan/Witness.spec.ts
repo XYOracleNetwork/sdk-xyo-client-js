@@ -6,7 +6,10 @@ const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 
 describe('Witness', () => {
   testIf(apiKey)('returns observation', async () => {
-    const sut = new XyoEtherscanEthereumGasWitness({ schema: XyoEtherscanEthereumGasWitness.schema }, apiKey)
+    const sut = new XyoEtherscanEthereumGasWitness({
+      apiKey,
+      query: { schema: 'network.xyo.blockchain.ethereum.gas.etherscan.query', targetSchema: 'network.xyo.blockchain.ethereum.gas.etherscan' },
+    })
     const actual = await sut.observe()
     expect(actual.fastGasPrice).toBeNumber()
     expect(actual.gasUsedRatio).toBeArray()
@@ -18,6 +21,6 @@ describe('Witness', () => {
     expect(actual.suggestBaseFee).toBeNumber()
 
     expect(actual.timestamp).toBeNumber()
-    expect(actual.schema).toBe(XyoEtherscanEthereumGasWitness.schema)
+    expect(actual.schema).toBe('network.xyo.blockchain.ethereum.gas.etherscan')
   })
 })

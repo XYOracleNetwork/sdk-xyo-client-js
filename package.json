@@ -9,7 +9,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "workspaces": [
-    "packages/*"
+    "packages/sdk/*",
+    "packages/plugins/*"
   ],
   "dependencies": {
     "@xyo-network/account": "workspace:^",
@@ -19,7 +20,6 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/cryptomarket-witness": "workspace:^",
     "@xyo-network/domain": "workspace:^",
-    "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/ethereum-witness": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/panel": "workspace:^",
@@ -29,7 +29,6 @@
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/systeminfo-witness": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
-    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"
@@ -38,9 +37,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
-    "@xylabs/eslint-config": "^2.5.2",
-    "@xylabs/ts-scripts": "^2.5.2",
-    "@xylabs/tsconfig": "^2.5.2",
+    "@xylabs/eslint-config": "^2.5.4",
+    "@xylabs/ts-scripts": "^2.5.4",
+    "@xylabs/tsconfig": "^2.5.4",
     "eslint": "^8.20.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",

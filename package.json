@@ -9,8 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "workspaces": [
-    "packages/sdk/*",
-    "packages/plugins/*"
+    "packages/**/*"
   ],
   "dependencies": {
     "@xyo-network/account": "workspace:^",

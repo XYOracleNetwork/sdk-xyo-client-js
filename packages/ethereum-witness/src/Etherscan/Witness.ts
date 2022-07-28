@@ -18,6 +18,4 @@ export class XyoEtherscanEthereumGasWitness extends XyoQueryWitness<XyoEthereumG
       timestamp: Date.now(),
     })
   }
-
-  public static schema = 'network.xyo.blockchain.ethereum.gas.etherscan'
 }

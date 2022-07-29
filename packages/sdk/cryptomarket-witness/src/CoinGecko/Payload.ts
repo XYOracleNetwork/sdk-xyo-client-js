@@ -1,7 +1,7 @@
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
 import { XyoCryptoAsset } from './XyoCryptoAsset'
-import { XyoCryptoAssets } from './XyoCryptoAssets'
+import { XyoCryptoAssetPrices } from './XyoCryptoAssets'
 
 export interface XyoCryptoMarketCoinGeckoQueryPayload extends XyoQueryPayload {
   coins: XyoCryptoAsset[]
@@ -11,5 +11,5 @@ export interface XyoCryptoMarketCoinGeckoQueryPayload extends XyoQueryPayload {
 export interface XyoCryptoMarketCoinGeckoPayload extends XyoPayload {
   schema: 'network.xyo.crypto.market.coingecko'
   timestamp: number
-  assets: XyoCryptoAssets
+  assets: XyoCryptoAssetPrices
 }

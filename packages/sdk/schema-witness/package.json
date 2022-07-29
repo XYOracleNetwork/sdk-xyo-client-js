@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/witnesses": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.4",
+    "@xylabs/tsconfig": "^2.5.6",
     "tslib": "^2.4.0"
   },
   "browser": "dist/esm/index.js",

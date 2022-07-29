@@ -96,7 +96,14 @@ export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWi
 
   public validate() {
     const errors: Error[] = []
-    errors.push(...this.addresses(), ...this.validateArrayLengths(), ...this.payloadHashes(), ...this.payloadSchemas(), ...this.previousHashes(), ...this.schema())
+    errors.push(
+      ...this.addresses(),
+      ...this.validateArrayLengths(),
+      ...this.payloadHashes(),
+      ...this.payloadSchemas(),
+      ...this.previousHashes(),
+      ...this.schema()
+    )
     return errors
   }
 }

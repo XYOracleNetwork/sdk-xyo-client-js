@@ -1,5 +1,5 @@
 import { XyoQueryPayload } from '@xyo-network/payload'
-import { XyoQueryWitness } from '@xyo-network/witnesses'
+import { XyoQueryWitness } from '@xyo-network/witness'
 
 import { XyoCryptoCardsGamePayload, XyoCryptoCardsMovePayload } from './Payload'
 

@@ -15,7 +15,7 @@
     "@xyo-network/schema-witness": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.4"
+    "@xylabs/tsconfig": "^2.5.6"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

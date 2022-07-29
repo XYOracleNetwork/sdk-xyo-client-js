@@ -18,7 +18,8 @@ export class XyoBoundWitnessMetaValidator<T extends Partial<XyoBoundWitnessMeta>
     const hasher = new XyoHasher(this.obj)
 
     const bodyHash = hasher.hash
-    if (bodyHash !== this.obj._hash) errors.push(new Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.obj._hash}] [sortedStringify: ${hasher.stringified}]`))
+    if (bodyHash !== this.obj._hash)
+      errors.push(new Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.obj._hash}] [sortedStringify: ${hasher.stringified}]`))
     return errors
   }
 

@@ -1,4 +1,4 @@
-import { XyoQueryWitness } from '@xyo-network/witnesses'
+import { XyoQueryWitness } from '@xyo-network/witness'
 
 import { getV2GasFromEtherchain } from './getV2GasFromEtherchain'
 import { XyoEthereumGasEtherchainPayloadV2, XyoEthereumGasEtherchainQueryPayloadV2 } from './Payload'

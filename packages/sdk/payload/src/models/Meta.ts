@@ -1,6 +1,6 @@
 import { EmptyObject } from '@xyo-network/core'
 
-import { XyoPayloadBase } from './Base'
+import { XyoPayload } from './Base'
 
 export interface XyoPayloadMetaBase {
   _hash: string
@@ -17,14 +17,13 @@ export interface XyoPayloadMetaBase {
 export interface XyoQueryPayloadMetaBase extends XyoPayloadMetaBase {
   _queryId: string
 }
-export type XyoPayload<T extends EmptyObject = EmptyObject> = T & XyoPayloadBase
 
 export type XyoPayloadMeta<T extends EmptyObject = EmptyObject> = T & XyoPayloadMetaBase
 export type XyoPartialPayloadMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoPayloadMetaBase>
-export type XyoPayloadWithMeta<T extends EmptyObject = EmptyObject> = T & XyoPayloadMetaBase & XyoPayloadBase
-export type XyoPayloadWithPartialMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoPayloadMetaBase> & XyoPayloadBase
+export type XyoPayloadWithMeta<T extends EmptyObject = EmptyObject> = T & XyoPayloadMetaBase & XyoPayload
+export type XyoPayloadWithPartialMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoPayloadMetaBase> & XyoPayload
 
 export type XyoQueryPayloadMeta<T extends EmptyObject = EmptyObject> = T & XyoQueryPayloadMetaBase
 export type XyoQueryPartialPayloadMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoQueryPayloadMetaBase>
-export type XyoQueryPayloadWithMeta<T extends EmptyObject = EmptyObject> = T & XyoQueryPayloadMetaBase & XyoPayloadBase
-export type XyoQueryPayloadWithPartialMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoQueryPayloadMetaBase> & XyoPayloadBase
+export type XyoQueryPayloadWithMeta<T extends EmptyObject = EmptyObject> = T & XyoQueryPayloadMetaBase & XyoPayload
+export type XyoQueryPayloadWithPartialMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoQueryPayloadMetaBase> & XyoPayload

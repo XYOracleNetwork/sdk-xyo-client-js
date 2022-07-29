@@ -6,9 +6,10 @@ import { XyoNetworkPayload } from './XyoNetworkPayload'
 const kerplunk = (): XyoNetworkPayload => {
   return {
     name: 'Kerplunk',
-    nodes: [XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network')?.payload, XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network')?.payload].filter(
-      (item) => item
-    ) as XyoNetworkNodePayload[],
+    nodes: [
+      XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network')?.payload,
+      XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network')?.payload,
+    ].filter((item) => item) as XyoNetworkNodePayload[],
     schema: XyoNetworkPayloadSchema,
     slug: 'kerplunk',
   }
@@ -17,9 +18,10 @@ const kerplunk = (): XyoNetworkPayload => {
 const main = (): XyoNetworkPayload => {
   return {
     name: 'Main',
-    nodes: [XyoNetworkNodePayloadWrapper.known('main-archivist-xyo-network')?.payload, XyoNetworkNodePayloadWrapper.known('location-diviner-xyo-network')?.payload].filter(
-      (item) => item
-    ) as XyoNetworkNodePayload[],
+    nodes: [
+      XyoNetworkNodePayloadWrapper.known('main-archivist-xyo-network')?.payload,
+      XyoNetworkNodePayloadWrapper.known('location-diviner-xyo-network')?.payload,
+    ].filter((item) => item) as XyoNetworkNodePayload[],
     schema: XyoNetworkPayloadSchema,
     slug: 'main',
   }
@@ -28,9 +30,10 @@ const main = (): XyoNetworkPayload => {
 const local = (): XyoNetworkPayload => {
   return {
     name: 'Local',
-    nodes: [XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network')?.payload, XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network')?.payload].filter(
-      (item) => item
-    ) as XyoNetworkNodePayload[],
+    nodes: [
+      XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network')?.payload,
+      XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network')?.payload,
+    ].filter((item) => item) as XyoNetworkNodePayload[],
     schema: XyoNetworkPayloadSchema,
     slug: 'local',
   }

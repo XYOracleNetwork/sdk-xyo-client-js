@@ -24,8 +24,14 @@ export interface StashArchivist<TReadResponse> {
   commit?(): PromisableArray<TReadResponse>
 }
 
-export interface Archivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TQueryResponse = TReadResponse, TQuery = unknown, TId = string>
-  extends ReadArchivist<TReadResponse, TId>,
+export interface Archivist<
+  TReadResponse,
+  TWriteResponse = TReadResponse,
+  TWrite = TReadResponse,
+  TQueryResponse = TReadResponse,
+  TQuery = unknown,
+  TId = string
+> extends ReadArchivist<TReadResponse, TId>,
     QueryArchivist<TReadResponse, TQueryResponse, TQuery>,
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
     StashArchivist<TReadResponse> {}

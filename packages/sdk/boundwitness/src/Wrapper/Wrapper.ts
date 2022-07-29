@@ -4,7 +4,19 @@ import { UAParser } from 'ua-parser-js'
 
 import { XyoBoundWitness, XyoBoundWitnessWithMeta } from '../models'
 
-const scrubbedFields = ['_archive', '_client', '_hash', '_signatures', '_timestamp', '_user_agent', 'addresses', 'payload_schemas', 'previous_hashes', 'payload_hashes', 'schema']
+const scrubbedFields = [
+  '_archive',
+  '_client',
+  '_hash',
+  '_signatures',
+  '_timestamp',
+  '_user_agent',
+  'addresses',
+  'payload_schemas',
+  'previous_hashes',
+  'payload_hashes',
+  'schema',
+]
 
 export class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends XyoHasher<T> {
   public readonly bw: T

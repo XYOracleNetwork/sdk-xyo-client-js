@@ -36,9 +36,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
-    "@xylabs/eslint-config": "^2.5.4",
-    "@xylabs/ts-scripts": "^2.5.4",
-    "@xylabs/tsconfig": "^2.5.4",
+    "@xylabs/eslint-config": "^2.5.6",
+    "@xylabs/ts-scripts": "^2.5.6",
+    "@xylabs/tsconfig": "^2.5.6",
     "eslint": "^8.20.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",
@@ -79,6 +79,11 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "Root Package"
+  },
   "scripts": {
     "build": "echo Building... && yarn clean && yarn compile && yarn gen:docs && yarn lint",
     "compile": "echo Compiling... && yarn compile:esm && yarn compile:cjs",
@@ -92,14 +97,14 @@
     "deploy-patch": "yarn workspaces foreach --all version patch --deferred && yarn deploy-common",
     "deploy-common": "echo Deploy... && yarn build && echo Applying Version... && yarn version apply --all && echo Publishing... && yarn workspaces foreach -pt npm publish",
     "clean": "echo Cleaning... && yarn workspaces foreach -pA run clean:package",
-    "deps": "yarn workspaces foreach -pA run deps:package",
+    "deps": "yarn workspaces foreach -pAv run deps:package",
     "lint": "echo Linting... && yarn eslint .",
     "cycle": "yarn workspaces foreach -pA run cycle:package",
     "fix": "yarn workspaces foreach -pA run fix:package",
     "outdated": "yarn workspaces foreach -pA outdated",
     "up": "yarn workspaces foreach -pA up",
     "updo": "yarn workspaces foreach -pA run updo3:package",
-    "gen:docs:package": "typedoc --tsconfig $INIT_CWD/tsconfig.json $INIT_CWD/src/index.ts --json $INIT_CWD/dist/docs.json",
+    "gen:docs:package": "typedoc --logLevel Error --tsconfig $INIT_CWD/tsconfig.build.cjs.json --excludeExternals $INIT_CWD/src/index.ts --json $INIT_CWD/dist/docs.json",
     "clean:package": "yarn rimraf -q $INIT_CWD/dist && yarn rimraf -q $INIT_CWD/build",
     "fix:package": "yarn eslint $INIT_CWD/src --fix",
     "cycle:package": "yarn eslint --rule \"import/no-cycle:[1, { maxDepth: 10 }]\" $INIT_CWD/src",
@@ -112,6 +117,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.18",
+  "version": "2.22.19",
   "packageManager": "yarn@3.2.1"
 }

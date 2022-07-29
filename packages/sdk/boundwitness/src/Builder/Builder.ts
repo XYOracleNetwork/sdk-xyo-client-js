@@ -75,7 +75,13 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
     const hashableFields = this.hashableFields()
     const _hash = new XyoHasher(hashableFields).hash
 
-    const ret: XyoBoundWitnessWithMeta<TBoundWitness, TPayload> = { ...hashableFields, _client: 'js', _hash, _signatures: this.signatures(_hash), _timestamp: Date.now() }
+    const ret: XyoBoundWitnessWithMeta<TBoundWitness, TPayload> = {
+      ...hashableFields,
+      _client: 'js',
+      _hash,
+      _signatures: this.signatures(_hash),
+      _timestamp: Date.now(),
+    }
     if (this.config.inlinePayloads) {
       ret._payloads = this.inlinePayloads()
     }

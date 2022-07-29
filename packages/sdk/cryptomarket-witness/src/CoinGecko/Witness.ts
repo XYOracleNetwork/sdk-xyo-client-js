@@ -1,4 +1,4 @@
-import { XyoQueryWitness } from '@xyo-network/witnesses'
+import { XyoQueryWitness } from '@xyo-network/witness'
 
 import { XyoCryptoMarketCoinGeckoPayload, XyoCryptoMarketCoinGeckoQueryPayload } from './Payload'
 import { pricesFromCoinGecko } from './pricesFromCoinGecko'

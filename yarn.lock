@@ -3606,6 +3606,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/witnesses"
   dependencies:
+    "@xylabs/sdk-js": ^2.6.2
     "@xylabs/tsconfig": ^2.5.4
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"

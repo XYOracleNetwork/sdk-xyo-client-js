@@ -79,6 +79,11 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "Root Package"
+  },
   "scripts": {
     "build": "echo Building... && yarn clean && yarn compile && yarn gen:docs && yarn lint",
     "compile": "echo Compiling... && yarn compile:esm && yarn compile:cjs",
@@ -99,7 +104,7 @@
     "outdated": "yarn workspaces foreach -pA outdated",
     "up": "yarn workspaces foreach -pA up",
     "updo": "yarn workspaces foreach -pA run updo3:package",
-    "gen:docs:package": "typedoc --tsconfig $INIT_CWD/tsconfig.build.esm.json --excludeExternals $INIT_CWD/src/index.ts --json $INIT_CWD/dist/docs.json",
+    "gen:docs:package": "typedoc --logLevel Error --tsconfig $INIT_CWD/tsconfig.build.cjs.json --excludeExternals $INIT_CWD/src/index.ts --json $INIT_CWD/dist/docs.json",
     "clean:package": "yarn rimraf -q $INIT_CWD/dist && yarn rimraf -q $INIT_CWD/build",
     "fix:package": "yarn eslint $INIT_CWD/src --fix",
     "cycle:package": "yarn eslint --rule \"import/no-cycle:[1, { maxDepth: 10 }]\" $INIT_CWD/src",

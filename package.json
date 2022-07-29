@@ -30,6 +30,7 @@
     "@xyo-network/typeof": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

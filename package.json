@@ -99,7 +99,7 @@
     "outdated": "yarn workspaces foreach -pA outdated",
     "up": "yarn workspaces foreach -pA up",
     "updo": "yarn workspaces foreach -pA run updo3:package",
-    "gen:docs:package": "typedoc --excludeExternals --externalPattern \"packages/**/*\" $INIT_CWD/src/index.ts --json $INIT_CWD/dist/docs.json",
+    "gen:docs:package": "typedoc --tsconfig $INIT_CWD/tsconfig.json $INIT_CWD/src/index.ts --json $INIT_CWD/dist/docs.json",
     "clean:package": "yarn rimraf -q $INIT_CWD/dist && yarn rimraf -q $INIT_CWD/build",
     "fix:package": "yarn eslint $INIT_CWD/src --fix",
     "cycle:package": "yarn eslint --rule \"import/no-cycle:[1, { maxDepth: 10 }]\" $INIT_CWD/src",

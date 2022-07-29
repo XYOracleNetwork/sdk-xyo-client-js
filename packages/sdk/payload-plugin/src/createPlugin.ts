@@ -1,22 +1,25 @@
+import { assertEx } from '@xylabs/sdk-js'
 import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload, XyoPayloadValidator, XyoPayloadWrapper } from '@xyo-network/payload'
-import { XyoSimpleWitness, XyoWitness } from '@xyo-network/witnesses'
 
 import { XyoPayloadPlugin } from './Plugin'
 
-export const createXyoPayloadPlugin = <TSchema extends string = string, TPayload extends XyoPayload = XyoPayload, TWitnessConfig extends EmptyObject = EmptyObject>(
-  plugin: Partial<XyoPayloadPlugin<TSchema, TPayload, TWitnessConfig>> & { schema: string }
-): XyoPayloadPlugin<TSchema, TPayload, TWitnessConfig> => {
+export const createXyoPayloadPlugin = <
+  TSchema extends string = string,
+  TPayload extends XyoPayload = XyoPayload,
+  TWitnessConfig extends EmptyObject = EmptyObject,
+  TDivinerConfig extends EmptyObject = EmptyObject
+>(
+  plugin: Partial<XyoPayloadPlugin<TSchema, TPayload, TWitnessConfig, TDivinerConfig>> & { schema: string }
+): XyoPayloadPlugin<TSchema, TPayload, TWitnessConfig, TDivinerConfig> => {
   return {
     validate: function (payload: TPayload): XyoPayloadValidator<TPayload> {
       return new XyoPayloadValidator<TPayload>(payload)
-    },
-    witness: function (config?: TWitnessConfig): XyoWitness<TPayload> {
-      return new XyoSimpleWitness<TPayload>({ schema: plugin.schema, ...config })
     },
     wrap: function (payload: TPayload): XyoPayloadWrapper<TPayload> {
       return new XyoPayloadWrapper(payload)
     },
     ...plugin,
+    schema: assertEx(plugin.schema, 'schema field required to cretae plugin'),
   }
 }

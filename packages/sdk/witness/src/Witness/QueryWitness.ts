@@ -1,6 +1,6 @@
 import { XyoPayload, XyoPayloadBuilder, XyoQueryPayload } from '@xyo-network/payload'
 
-import { XyoWitnessBase } from './Witness'
+import { XyoAbstractWitness } from './Witness'
 
 export interface XyoQueryWitnessConfig<Q extends XyoQueryPayload = XyoQueryPayload> {
   query: Q
@@ -10,14 +10,7 @@ export class XyoQueryWitness<
   T extends XyoPayload,
   Q extends XyoQueryPayload = XyoQueryPayload,
   C extends XyoQueryWitnessConfig<Q> = XyoQueryWitnessConfig<Q>
-> extends XyoWitnessBase<T> {
-  public config: C | undefined
-
-  constructor(config?: C) {
-    super()
-    this.config = config
-  }
-
+> extends XyoAbstractWitness<T, C> {
   override get targetSchema() {
     return this.config?.query.targetSchema ?? 'network.xyo.payload'
   }

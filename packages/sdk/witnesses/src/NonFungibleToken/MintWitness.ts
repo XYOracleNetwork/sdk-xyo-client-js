@@ -1,8 +1,8 @@
 import { XyoAddressValue } from '@xyo-network/account'
 import { XyoDataLike } from '@xyo-network/core'
 import { Huri, XyoPayloadWrapper } from '@xyo-network/payload'
+import { XyoQueryWitness, XyoQueryWitnessConfig, XyoSimpleWitness } from '@xyo-network/witness'
 
-import { XyoQueryWitness, XyoQueryWitnessConfig, XyoSimpleWitness } from '../Witness'
 import { XyoContractPayload, XyoNonFungibleTokenMintPayload, XyoNonFungibleTokenMintQueryPayload, XyoNonFungibleTokenPayload } from './Payload'
 
 export class XyoSmartContractWrapper<T extends XyoContractPayload> extends XyoPayloadWrapper<T> {

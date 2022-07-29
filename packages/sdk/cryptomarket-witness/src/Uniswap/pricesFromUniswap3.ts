@@ -151,7 +151,14 @@ export class UniSwap3Pair {
     const slot0 = await this.slot0()
     this._pool =
       this._pool ??
-      new Pool(await this.token0(), await this.token1(), slot0.feeProtocol, slot0.sqrtPriceX96.toHexString(), (await this.poolContract().liquidity()).toHexString(), slot0.tick)
+      new Pool(
+        await this.token0(),
+        await this.token1(),
+        slot0.feeProtocol,
+        slot0.sqrtPriceX96.toHexString(),
+        (await this.poolContract().liquidity()).toHexString(),
+        slot0.tick
+      )
     return assertEx(this._pool)
   }
 

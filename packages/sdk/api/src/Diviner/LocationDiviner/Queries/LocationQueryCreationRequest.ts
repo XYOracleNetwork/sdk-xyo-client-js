@@ -4,7 +4,10 @@ import { LocationQuadkeyHeatmapQuery, LocationQuadkeyHeatmapQuerySchema } from '
 import { LocationQuerySchema } from './LocationQuerySchema'
 import { LocationTimeRangeQuery, LocationTimeRangeQuerySchema } from './LocationTimeRangeQuery'
 
-export interface LocationQueryCreationRequest<TSchema extends LocationQuerySchema = LocationQuerySchema, TQuery extends Record<string, unknown> = Record<string, unknown>> {
+export interface LocationQueryCreationRequest<
+  TSchema extends LocationQuerySchema = LocationQuerySchema,
+  TQuery extends Record<string, unknown> = Record<string, unknown>
+> {
   sourceArchivist: XyoApiConfig
   sourceArchive: string
   resultArchivist: XyoApiConfig
@@ -18,4 +21,7 @@ export type LocationHeatmapQueryCreationRequest = LocationQueryCreationRequest<L
 
 export type LocationQuadkeyHeatmapQueryCreationRequest = LocationQueryCreationRequest<LocationQuadkeyHeatmapQuerySchema, LocationQuadkeyHeatmapQuery>
 
-export type SupportedLocationQueryCreationRequest = LocationTimeRangeQueryCreationRequest | LocationHeatmapQueryCreationRequest | LocationQuadkeyHeatmapQueryCreationRequest
+export type SupportedLocationQueryCreationRequest =
+  | LocationTimeRangeQueryCreationRequest
+  | LocationHeatmapQueryCreationRequest
+  | LocationQuadkeyHeatmapQueryCreationRequest

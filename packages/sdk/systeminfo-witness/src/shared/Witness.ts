@@ -1,11 +1,11 @@
-import { XyoSimpleWitness, XyoSimpleWitnessConfig } from '@xyo-network/witnesses'
+import { XyoSimpleWitness, XyoSimpleWitnessConfig } from '@xyo-network/witness'
 
 import { XyoSystemInfoPayload } from './Payload'
 
-export class XyoSystemInfoWitness<T extends XyoSystemInfoPayload = XyoSystemInfoPayload, C extends XyoSimpleWitnessConfig<T> = XyoSimpleWitnessConfig<T>> extends XyoSimpleWitness<
-  T,
-  C
-> {
+export class XyoSystemInfoWitness<
+  T extends XyoSystemInfoPayload = XyoSystemInfoPayload,
+  C extends XyoSimpleWitnessConfig<T> = XyoSimpleWitnessConfig<T>
+> extends XyoSimpleWitness<T, C> {
   constructor(config: C = { schema: 'network.xyo.system.info' } as C) {
     super({ ...config })
   }

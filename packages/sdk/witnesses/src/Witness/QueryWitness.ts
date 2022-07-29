@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/sdk-js'
 import { XyoPayload, XyoPayloadBuilder, XyoQueryPayload } from '@xyo-network/payload'
 
 import { XyoWitnessBase } from './Witness'
@@ -24,6 +23,6 @@ export class XyoQueryWitness<
   }
 
   public observe(fields?: Partial<T>): Promise<T> {
-    return Promise.resolve(new XyoPayloadBuilder<T>({ schema: assertEx(this.targetSchema, 'targetSchema not specified') }).fields(fields).build())
+    return Promise.resolve(new XyoPayloadBuilder<T>({ schema: this.targetSchema }).fields(fields).build())
   }
 }

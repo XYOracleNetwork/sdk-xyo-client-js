@@ -1,0 +1,26 @@
+releases:
+  "@xyo-network/account": patch
+  "@xyo-network/api": patch
+  "@xyo-network/archivist": patch
+  "@xyo-network/boundwitness": patch
+  "@xyo-network/core": patch
+  "@xyo-network/cryptomarket-witness": patch
+  "@xyo-network/diviner": patch
+  "@xyo-network/domain": patch
+  "@xyo-network/domain-payload-plugin": patch
+  "@xyo-network/ethereum-witness": patch
+  "@xyo-network/network": patch
+  "@xyo-network/panel": patch
+  "@xyo-network/payload": patch
+  "@xyo-network/payload-plugin": patch
+  "@xyo-network/schema-payload-plugin": patch
+  "@xyo-network/schema-witness": patch
+  "@xyo-network/sdk-xyo-client-js": patch
+  "@xyo-network/storage": patch
+  "@xyo-network/systeminfo-witness": patch
+  "@xyo-network/typeof": patch
+  "@xyo-network/uniswap-crypto-market-payload-plugin": patch
+  "@xyo-network/utils": patch
+  "@xyo-network/wallet": patch
+  "@xyo-network/witness": patch
+  "@xyo-network/witnesses": patch

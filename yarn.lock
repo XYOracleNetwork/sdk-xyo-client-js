@@ -3415,7 +3415,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    "@xyo-network/witnesses": ^2.22.19
+    "@xyo-network/witnesses": ^2.22.20
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3495,6 +3495,7 @@ __metadata:
     "@xyo-network/typeof": "workspace:^"
     "@xyo-network/utils": "workspace:^"
     "@xyo-network/wallet": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     eslint: ^8.20.0
     jest: ^28.1.3
@@ -3624,7 +3625,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witnesses@^2.22.19, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
+"@xyo-network/witnesses@^2.22.20, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/witnesses"
   dependencies:

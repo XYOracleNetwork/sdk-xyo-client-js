@@ -1,0 +1,58 @@
+{
+  "name": "@xyo-network/wallet",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xylabs/sdk-js": "^2.6.2",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "sha.js": "^2.4.11"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "devDependencies": {
+    "@types/sha.js": "^2.4.0",
+    "@xylabs/tsconfig": "^2.5.4",
+    "tslib": "^2.4.0"
+  },
+  "browser": "dist/esm/browserIndex.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "docs": "dist/docs.json",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "import": "./dist/esm/browserIndex.js",
+        "require": "./dist/cjs/browserIndex.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "types": "dist/esm/index.d.ts",
+  "version": "2.22.18",
+  "packageManager": "yarn@3.1.1"
+}

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "../uniswap-crypto-market",
+    "composite": true,
+    "declaration": true,
+    "rootDir": "../uniswap-crypto-market/src"
+  },
+  "extends": "@xylabs/tsconfig"
+}

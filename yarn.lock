@@ -3495,6 +3495,7 @@ __metadata:
     "@xyo-network/typeof": "workspace:^"
     "@xyo-network/utils": "workspace:^"
     "@xyo-network/wallet": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     eslint: ^8.20.0
     jest: ^28.1.3

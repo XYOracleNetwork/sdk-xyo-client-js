@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "ESNext",
-    "target": "ES2022",
+    "sourceRoot": "src",
     "typeRoots": ["./node_modules/@types"],
     "types": ["jest", "node", "@types/jest", "jest-sorted", "jest-extended", "json-schema"]
   },

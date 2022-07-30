@@ -32,7 +32,6 @@
     "**/.yarn": true,
     "**/yarn.lock": true
   },
-  "files.autoSave": "onFocusChange",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "[typescriptreact]": {

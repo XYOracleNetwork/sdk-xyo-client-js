@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "CommonJS",
     "outDir": "./dist/cjs",
-    "rootDir": "./src",
     "target": "ES6"
   },
   "exclude": ["src/**/*.spec.ts"],

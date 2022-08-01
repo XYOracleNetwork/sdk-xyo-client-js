@@ -20,7 +20,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
-    "@xylabs/tsconfig": "^2.5.8",
+    "@xylabs/tsconfig": "^2.5.11",
     "@xyo-network/network": "workspace:^",
     "tslib": "^2.4.0"
   },

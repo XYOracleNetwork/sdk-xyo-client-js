@@ -20,7 +20,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/tsconfig": "^2.5.11",
-    "@xyo-network/witnesses": "^2.22.25",
+    "@xyo-network/witnesses": "^2.22.26",
     "tslib": "^2.4.0"
   },
   "browser": "dist/esm/index.js",
@@ -56,6 +56,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.22.25",
+  "version": "2.22.26",
   "packageManager": "yarn@3.1.1"
 }

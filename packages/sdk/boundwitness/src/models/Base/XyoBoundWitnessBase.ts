@@ -7,4 +7,5 @@ export type XyoBoundWitnessBase = XyoPayload<{
   payload_schemas: string[]
   previous_hashes: (string | null)[]
   schema: string
+  _signatures: string[]
 }>

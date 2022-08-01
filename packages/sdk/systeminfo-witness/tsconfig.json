@@ -2,10 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "composite": true,
-    "declaration": true,
-    "lib": [
-      "DOM"
-    ],
     "rootDir": "./src"
   },
   "extends": "@xylabs/tsconfig"

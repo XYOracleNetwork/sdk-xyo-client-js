@@ -13,7 +13,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "lru-cache": "^7.13.1"
+    "lru-cache": "^7.13.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

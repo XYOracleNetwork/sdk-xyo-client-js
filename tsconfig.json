@@ -4,5 +4,6 @@
     "typeRoots": ["./node_modules/@types"],
     "types": ["jest", "node", "@types/jest", "jest-sorted", "jest-extended", "json-schema"]
   },
+  "exclude": ["**/dist", "**/node_modules"],
   "extends": "@xylabs/tsconfig"
 }

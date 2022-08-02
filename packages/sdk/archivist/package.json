@@ -13,11 +13,11 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "lru-cache": "^7.13.1"
+    "lru-cache": "^7.13.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.11",
+    "@xylabs/tsconfig": "^2.5.13",
     "tslib": "^2.4.0"
   },
   "browser": "dist/esm/index.js",

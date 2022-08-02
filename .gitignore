@@ -6,6 +6,7 @@ dist
 .nyc_output
 .env
 *.tgz
+*.eslintcache
 
 .pnp.*
 .yarn/*

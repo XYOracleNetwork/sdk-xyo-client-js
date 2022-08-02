@@ -86,7 +86,7 @@
     "displayName": "Root Package"
   },
   "scripts": {
-    "build": "echo Building... && yarn clean && yarn compile && yarn gen:docs && yarn lint",
+    "build": "echo Building... && yarn clean && yarn compile && yarn gen:docs",
     "compile": "echo Compiling... && yarn compile:esm && yarn compile:cjs && yarn lint-fast",
     "compile:cjs": "echo Compiling CJS... && yarn workspaces foreach -ptA run compile:package:cjs",
     "compile:esm": "echo Compiling ESM... && yarn workspaces foreach -ptA run compile:package:esm",
@@ -100,7 +100,7 @@
     "clean": "echo Cleaning... && yarn workspaces foreach -pA run clean:package",
     "deps": "yarn workspaces foreach -pAv run deps:package",
     "lint": "echo Linting... && yarn eslint .",
-    "lint-fast": "echo Linting... && yarn eslint . --cache",
+    "lint-fast": "echo Linting fast... && yarn eslint . --cache",
     "lint-profile": "echo Profiling Lint... && TIMING=1 && yarn eslint .",
     "cycle": "yarn workspaces foreach -pA run cycle:package",
     "fix": "yarn workspaces foreach -pA run fix:package",
@@ -120,6 +120,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.23.0",
+  "version": "2.23.1",
   "packageManager": "yarn@3.2.2"
 }

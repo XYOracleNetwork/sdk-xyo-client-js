@@ -13,12 +13,13 @@
     "@xylabs/sdk-js": "^2.6.2",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/payload": "workspace:^",
+    "bip39": "^3.0.4",
     "sha.js": "^2.4.11"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/sha.js": "^2.4.0",
-    "@xylabs/tsconfig": "^2.5.11",
+    "@xylabs/tsconfig": "^2.5.13",
     "tslib": "^2.4.0"
   },
   "browser": "dist/esm/browserIndex.js",

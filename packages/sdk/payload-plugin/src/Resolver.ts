@@ -1,25 +1,34 @@
 import { XyoValidator } from '@xyo-network/core'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
+import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
 
-export class XyoPayloadPluginResolver<T extends XyoPayloadPlugin<string> = XyoPayloadPlugin<string>> {
-  protected pluginMap = new Map<string, T>()
-  protected defaultPlugin: T
+export class XyoPayloadPluginResolver {
+  protected pluginMap = new Map<string, XyoPayloadPlugin<string>>()
+  protected defaultPlugin: XyoPayloadPlugin<string>
 
-  constructor(plugins: T[], defaultPlugin: T) {
-    plugins?.forEach((plugin) => this.pluginMap.set(plugin.schema, plugin))
+  constructor(
+    /** @param plugins The initial set of plugins */
+    plugins?: XyoPayloadPlugin<string>[],
+    /** @param defaultPlugin Specifies the plugin to be used if no plugins resolve */
+    defaultPlugin = createXyoPayloadPlugin<string, XyoPayload>({
+      schema: 'network.xyo.payload',
+    })
+  ) {
+    plugins?.forEach((plugin) => this.register(plugin))
     this.defaultPlugin = defaultPlugin
   }
   schema = 'network.xyo.payload'
 
-  public register(plugin: T) {
+  public register(plugin: XyoPayloadPlugin<string>) {
     this.pluginMap.set(plugin.schema, plugin)
+    return this
   }
 
-  public resolve(schema?: string): T
-  public resolve(payload: XyoPayload): T
-  public resolve(value: XyoPayload | string | undefined): T {
+  public resolve(schema?: string): XyoPayloadPlugin<string>
+  public resolve(payload: XyoPayload): XyoPayloadPlugin<string>
+  public resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin<string> {
     return value ? this.pluginMap.get(typeof value === 'string' ? value : value.schema) ?? this.defaultPlugin : this.defaultPlugin
   }
 
@@ -33,7 +42,7 @@ export class XyoPayloadPluginResolver<T extends XyoPayloadPlugin<string> = XyoPa
 
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */
   public plugins(type?: 'witness' | 'diviner') {
-    const result: T[] = []
+    const result: XyoPayloadPlugin<string>[] = []
     this.pluginMap.forEach((value) => {
       if (type === 'witness' && !value.witness) {
         return

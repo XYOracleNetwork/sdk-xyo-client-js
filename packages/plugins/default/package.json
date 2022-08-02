@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/default-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,32 +10,26 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.2",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
-    "mongodb": "^4.8.1",
-    "uuid": "^8.3.2"
+    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/schema-witness": "workspace:^",
+    "@xyo-network/witnesses": "workspace:^"
+  },
+  "devDependencies": {
+    "@xylabs/tsconfig": "^2.5.13"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@types/uuid": "^8.3.4",
-    "@xylabs/tsconfig": "^2.5.13",
-    "dotenv": "^16.0.1",
-    "tslib": "^2.4.0"
-  },
-  "browser": "dist/esm/browserIndex.js",
+  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
       "node": {
-        "import": "./dist/esm/nodeIndex.js",
-        "require": "./dist/cjs/nodeIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "browser": {
-        "import": "./dist/esm/browserIndex.js",
-        "require": "./dist/cjs/browserIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     },
@@ -47,7 +42,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/storage",
   "publishConfig": {
     "access": "public"
   },

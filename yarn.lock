@@ -3359,18 +3359,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/default-payload-plugin@workspace:packages/plugins/default":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/default-payload-plugin@workspace:packages/plugins/default"
-  dependencies:
-    "@xylabs/tsconfig": ^2.5.13
-    "@xyo-network/payload": "workspace:^"
-    "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/schema-witness": "workspace:^"
-    "@xyo-network/witnesses": "workspace:^"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/diviner@workspace:packages/sdk/diviner":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/sdk/diviner"
@@ -3446,7 +3434,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    "@xyo-network/witnesses": ^2.23.0
+    "@xyo-network/witnesses": ^2.23.1
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3657,7 +3645,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witnesses@^2.23.0, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
+"@xyo-network/witnesses@^2.23.1, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/witnesses"
   dependencies:

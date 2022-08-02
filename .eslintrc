@@ -8,7 +8,7 @@
   },
   "ignorePatterns": [
     "**/dist",
-    "node_modules"
+    "**/node_modules"
   ],
   "rules": {
     "import/no-internal-modules": [

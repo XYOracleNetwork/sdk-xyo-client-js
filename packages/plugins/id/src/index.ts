@@ -1,14 +1,11 @@
-import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
-import { XyoIdPayload, XyoIdWitness } from '@xyo-network/witnesses'
+import { XyoIdPayloadPlugin } from './Plugin'
 
-const plugin: XyoPayloadPluginFunc<'network.xyo.id', XyoIdPayload> = () =>
-  createXyoPayloadPlugin({
-    auto: true,
-    schema: 'network.xyo.id',
-    witness: (): XyoIdWitness => {
-      return new XyoIdWitness()
-    },
-  })
+export * from './Payload'
+export * from './Schema'
+export * from './Template'
+export * from './Witness'
+
+export { XyoIdPayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default plugin
+export default XyoIdPayloadPlugin

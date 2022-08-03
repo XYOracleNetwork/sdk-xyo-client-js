@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "uuid": "^8.3.2"

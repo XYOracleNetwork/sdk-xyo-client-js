@@ -1,6 +1,6 @@
+import { PartialRecord } from '@xylabs/sdk-js'
 import axios from 'axios'
 
-import { PartialRecord } from '../PartialRecord'
 import { AssetSymbol } from './AssetSymbol'
 import { coinGeckoCoinToAssetMap } from './coinGeckoCoinToAssetMap'
 import { XyoCryptoAsset } from './XyoCryptoAsset'

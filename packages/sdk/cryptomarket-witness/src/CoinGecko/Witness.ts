@@ -12,6 +12,4 @@ export class XyoCoinGeckoCryptoMarketWitness extends XyoQueryWitness<XyoCryptoMa
       timestamp: Date.now(),
     })
   }
-
-  public static schema = 'network.xyo.crypto.market.coingecko'
 }

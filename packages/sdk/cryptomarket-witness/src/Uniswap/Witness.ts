@@ -31,6 +31,4 @@ export class XyoUniswapCryptoMarketWitness extends XyoQueryWitness<
       timestamp,
     })
   }
-
-  public static schema = 'network.xyo.crypto.market.uniswap'
 }

@@ -10,8 +10,6 @@ export class XyoCryptoCardsGameWitness extends XyoQueryWitness<XyoCryptoCardsGam
       timestamp: Date.now(),
     })
   }
-
-  public static schema = 'network.xyo.crypto.cards.game'
 }
 
 export class XyoCryptoCardsMoveWitness extends XyoQueryWitness<XyoCryptoCardsMovePayload, XyoQueryPayload> {
@@ -21,6 +19,4 @@ export class XyoCryptoCardsMoveWitness extends XyoQueryWitness<XyoCryptoCardsMov
       timestamp: Date.now(),
     })
   }
-
-  public static schema = 'network.xyo.crypto.cards.move'
 }

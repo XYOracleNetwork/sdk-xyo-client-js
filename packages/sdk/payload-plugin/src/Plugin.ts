@@ -21,7 +21,7 @@ export type XyoPayloadPluginFunc<
 export type XyoPayloadPlugin<TSchema extends string, TPayload extends XyoPayload = XyoPayload> = {
   schema: TSchema
   auto?: boolean
-  template?: TPayload
+  template?: () => Partial<TPayload>
   validate: (payload: XyoPayload) => XyoValidator
   wrap: (payload: XyoPayload) => XyoPayloadWrapper
   witness?: () => XyoWitness

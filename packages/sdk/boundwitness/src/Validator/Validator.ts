@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAddressValue } from '@xyo-network/account'
-import { XyoValidatorBase } from '@xyo-network/core'
+import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoBoundWitnessWithPartialMeta } from '../models'
 import { XyoBoundWitnessBodyValidator } from './BodyValidator'
@@ -29,12 +29,15 @@ class XyoBoundWitnessValidator<T extends XyoBoundWitnessWithPartialMeta = XyoBou
     this.meta = new XyoBoundWitnessMetaValidator(bw)
   }
 
+  public get hash() {
+    return new XyoHasher(this.obj).hash
+  }
+
   public signatures() {
-    const hash = assertEx(this.obj._hash, 'Missing _hash')
     return [
       ...validateArraysSameLength(this.obj._signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
       ...this.obj.addresses.reduce<Error[]>((errors, address, index) => {
-        errors.push(...validateSignature(hash, address, this.obj._signatures?.[index]))
+        errors.push(...validateSignature(this.hash, address, this.obj._signatures?.[index]))
         return errors
       }, []),
     ]

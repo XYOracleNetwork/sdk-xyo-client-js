@@ -33,10 +33,7 @@ class XyoBoundWitnessValidator<T extends XyoBoundWitnessWithPartialMeta = XyoBou
   }
 
   public validate() {
-    const errors: Error[] = []
-    errors.push(...this.meta.validate(), ...this.body.validate())
-    errors.push(...this.signatures())
-    return errors
+    return [...this.body.validate(), ...this.signatures()]
   }
 
   static validateSignature(hash: string, address: string, signature?: string) {

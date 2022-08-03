@@ -8,6 +8,7 @@ const plugin: XyoPayloadPluginFunc<
   XyoPayloadPluginConfig<XyoUniswapCryptoMarketWitnessConfig>
 > = (config?) =>
   createXyoPayloadPlugin({
+    auto: true,
     schema: 'network.xyo.crypto.market.uniswap',
     witness: (): XyoWitness => {
       return new XyoUniswapCryptoMarketWitness(config?.witness)

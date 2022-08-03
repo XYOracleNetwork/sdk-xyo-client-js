@@ -3411,6 +3411,28 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/id-payload-plugin@workspace:packages/plugins/id":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/id"
+  dependencies:
+    "@xylabs/tsconfig": ^2.5.13
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/schema-witness": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/location-payload-plugin@workspace:packages/plugins/location":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/location-payload-plugin@workspace:packages/plugins/location"
+  dependencies:
+    "@xylabs/tsconfig": ^2.5.13
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/schema-witness": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/network@workspace:^, @xyo-network/network@workspace:packages/sdk/network":
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/sdk/network"
@@ -3630,7 +3652,6 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     bip39: ^3.0.4
-    jest-environment-jsdom: ^28.1.3
     sha.js: ^2.4.11
     tslib: ^2.4.0
   languageName: unknown

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoDomainPayload } from '@xyo-network/domain'
+import { XyoDomainPayload } from '@xyo-network/domain-payload-plugin'
 import { XyoNetworkNodePayloadSchema, XyoNetworkPayloadSchema } from '@xyo-network/network'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 

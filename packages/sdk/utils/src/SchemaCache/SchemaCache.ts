@@ -1,4 +1,4 @@
-import { XyoDomainPayloadWrapper } from '@xyo-network/domain'
+import { XyoDomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import { XyoFetchedPayload, XyoSchemaPayload } from '@xyo-network/payload'
 import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'

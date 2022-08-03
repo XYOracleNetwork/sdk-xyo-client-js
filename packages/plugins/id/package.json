@@ -12,7 +12,9 @@
   "dependencies": {
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/schema-witness": "workspace:^"
+    "@xyo-network/witness": "workspace:^",
+    "tslib": "^2.4.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@xylabs/tsconfig": "^2.5.13"

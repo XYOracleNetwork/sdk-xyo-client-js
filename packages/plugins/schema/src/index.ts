@@ -1,14 +1,11 @@
-import { XyoSchemaPayload } from '@xyo-network/payload'
-import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
-import { XyoSchemaWitness } from '@xyo-network/schema-witness'
+import { XyoSchemaPayloadPlugin } from './Plugin'
 
-const plugin: XyoPayloadPluginFunc<'network.xyo.schema', XyoSchemaPayload> = () =>
-  createXyoPayloadPlugin({
-    schema: 'network.xyo.schema',
-    witness: (): XyoSchemaWitness => {
-      return new XyoSchemaWitness()
-    },
-  })
+export * from './Payload'
+export * from './Schema'
+export * from './Template'
+export * from './Witness'
+
+export { XyoSchemaPayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default plugin
+export default XyoSchemaPayloadPlugin

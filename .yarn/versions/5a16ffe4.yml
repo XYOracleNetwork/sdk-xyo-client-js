@@ -1,0 +1,7 @@
+releases:
+  "@xyo-network/all-crypto-cards-payload-plugins": patch
+  "@xyo-network/crypto-cards-game-payload-plugin": patch
+  "@xyo-network/sdk-xyo-client-js": patch
+
+undecided:
+  - "@xyo-network/boundwitness"

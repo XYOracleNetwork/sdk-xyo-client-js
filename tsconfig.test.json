@@ -1,4 +1,12 @@
 {
+  "compilerOptions": {
+    "composite": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ]
+  },
   "extends": "./tsconfig.json",
   "include": ["**/*.spec.ts"]
 }

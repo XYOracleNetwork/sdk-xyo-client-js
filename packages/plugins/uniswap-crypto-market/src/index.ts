@@ -1,18 +1,16 @@
 import { XyoCryptoMarketUniswapPayload, XyoUniswapCryptoMarketWitness, XyoUniswapCryptoMarketWitnessConfig } from '@xyo-network/cryptomarket-witness'
-import { XyoPayloadValidator, XyoPayloadWrapper } from '@xyo-network/payload'
-import { createXyoPayloadPlugin, XyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { XyoWitness } from '@xyo-network/witness'
 
-const plugin: XyoPayloadPlugin<'network.xyo.crypto.market.uniswap', XyoCryptoMarketUniswapPayload, XyoUniswapCryptoMarketWitnessConfig> =
-  createXyoPayloadPlugin<'network.xyo.crypto.market.uniswap', XyoCryptoMarketUniswapPayload, XyoUniswapCryptoMarketWitnessConfig>({
+const plugin: XyoPayloadPluginFunc<
+  'network.xyo.crypto.market.uniswap',
+  XyoCryptoMarketUniswapPayload,
+  XyoPayloadPluginConfig<XyoUniswapCryptoMarketWitnessConfig>
+> = (config?) =>
+  createXyoPayloadPlugin({
     schema: 'network.xyo.crypto.market.uniswap',
-    validate: function (payload: XyoCryptoMarketUniswapPayload): XyoPayloadValidator<XyoCryptoMarketUniswapPayload> {
-      return new XyoPayloadValidator(payload)
-    },
-    witness: function (config?: XyoUniswapCryptoMarketWitnessConfig): XyoUniswapCryptoMarketWitness {
-      return new XyoUniswapCryptoMarketWitness(config)
-    },
-    wrap: function (payload: XyoCryptoMarketUniswapPayload): XyoPayloadWrapper<XyoCryptoMarketUniswapPayload> {
-      return new XyoPayloadWrapper(payload)
+    witness: (): XyoWitness => {
+      return new XyoUniswapCryptoMarketWitness(config?.witness)
     },
   })
 

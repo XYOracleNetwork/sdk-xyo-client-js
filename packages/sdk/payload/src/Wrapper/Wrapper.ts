@@ -3,7 +3,7 @@ import { deepOmitUnderscoreFields, deepPickUnderscoreFields, XyoDataLike, XyoHas
 import { Huri } from '../Huri'
 import { XyoPayload } from '../models'
 
-export class XyoPayloadWrapper<T extends XyoPayload> extends XyoHasher<T> {
+export class XyoPayloadWrapper<T extends XyoPayload = XyoPayload> extends XyoHasher<T> {
   public get payload() {
     return this.obj
   }

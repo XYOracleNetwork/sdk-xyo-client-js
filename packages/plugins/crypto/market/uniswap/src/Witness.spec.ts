@@ -5,7 +5,7 @@ jest.useFakeTimers().setSystemTime(now)
 import { InfuraProvider } from '@ethersproject/providers'
 
 import { UniswapPoolContracts } from './lib'
-import { XyoCryptoMarketUniswapPayloadSchema, XyoCryptoMarketUniswapQueryPayloadSchema } from './Schema'
+import { XyoUniswapCryptoMarketPayloadSchema, XyoUniswapCryptoMarketQueryPayloadSchema } from './Schema'
 import { XyoUniswapCryptoMarketWitness } from './Witness'
 
 describe('Witness', () => {
@@ -13,7 +13,7 @@ describe('Witness', () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
     const witness = new XyoUniswapCryptoMarketWitness({
       provider,
-      query: { pools: UniswapPoolContracts, schema: XyoCryptoMarketUniswapQueryPayloadSchema, targetSchema: XyoCryptoMarketUniswapPayloadSchema },
+      query: { pools: UniswapPoolContracts, schema: XyoUniswapCryptoMarketQueryPayloadSchema, targetSchema: XyoUniswapCryptoMarketPayloadSchema },
     })
     const observation = await witness.observe()
     expect(observation.pairs.length).toBeGreaterThan(1)

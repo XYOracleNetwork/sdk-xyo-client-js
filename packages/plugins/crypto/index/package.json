@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/crypto-payload-plugins",
+  "name": "@xyo-network/all-crypto-payload-plugins",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,11 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.3",
-    "@xyo-network/payload": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
-    "axios": "^0.27.2",
+    "@xyo-network/all-crypto-cards-payload-plugins": "workspace:^",
+    "@xyo-network/all-crypto-market-payload-plugins": "workspace:^",
     "tslib": "^2.4.0"
   },
   "devDependencies": {

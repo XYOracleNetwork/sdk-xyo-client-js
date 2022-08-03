@@ -1,19 +1,19 @@
 import { defaultCoins, defaultCurrencies } from './lib'
-import { XyoCryptoMarketCoinGeckoPayloadSchema, XyoCryptoMarketCoinGeckoQueryPayloadSchema } from './Schema'
-import { XyoCoinGeckoCryptoMarketWitness } from './Witness'
+import { XyoCoingeckoCryptoMarketPayloadSchema, XyoCoingeckoCryptoMarketQueryPayloadSchema } from './Schema'
+import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
 describe('Witness', () => {
   test('returns observation', async () => {
-    const sut = new XyoCoinGeckoCryptoMarketWitness({
+    const sut = new XyoCoingeckoCryptoMarketWitness({
       query: {
         coins: defaultCoins,
         currencies: defaultCurrencies,
-        schema: XyoCryptoMarketCoinGeckoQueryPayloadSchema,
-        targetSchema: XyoCryptoMarketCoinGeckoPayloadSchema,
+        schema: XyoCoingeckoCryptoMarketQueryPayloadSchema,
+        targetSchema: XyoCoingeckoCryptoMarketPayloadSchema,
       },
     })
     const actual = await sut.observe()
 
-    expect(actual.schema).toBe(XyoCryptoMarketCoinGeckoPayloadSchema)
+    expect(actual.schema).toBe(XyoCoingeckoCryptoMarketPayloadSchema)
   })
 })

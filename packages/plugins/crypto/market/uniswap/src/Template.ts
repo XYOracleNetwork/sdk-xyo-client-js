@@ -1,6 +1,6 @@
-import { XyoCryptoMarketUniswapPayload } from './Payload'
-import { XyoCryptoMarketUniswapPayloadSchema } from './Schema'
+import { XyoUniswapCryptoMarketPayload } from './Payload'
+import { XyoUniswapCryptoMarketPayloadSchema } from './Schema'
 
-export const XyoCryptoMarketUniswapPayloadTemplate = (): Partial<XyoCryptoMarketUniswapPayload> => ({
-  schema: XyoCryptoMarketUniswapPayloadSchema,
+export const XyoUniswapCryptoMarketPayloadTemplate = (): Partial<XyoUniswapCryptoMarketPayload> => ({
+  schema: XyoUniswapCryptoMarketPayloadSchema,
 })

@@ -1,5 +1,5 @@
-export type XyoCryptoMarketUniswapQueryPayloadSchema = 'network.xyo.crypto.market.uniswap.query'
-export const XyoCryptoMarketUniswapQueryPayloadSchema: XyoCryptoMarketUniswapQueryPayloadSchema = 'network.xyo.crypto.market.uniswap.query'
+export type XyoUniswapCryptoMarketQueryPayloadSchema = 'network.xyo.crypto.market.uniswap.query'
+export const XyoUniswapCryptoMarketQueryPayloadSchema: XyoUniswapCryptoMarketQueryPayloadSchema = 'network.xyo.crypto.market.uniswap.query'
 
-export type XyoCryptoMarketUniswapPayloadSchema = 'network.xyo.crypto.market.uniswap'
-export const XyoCryptoMarketUniswapPayloadSchema: XyoCryptoMarketUniswapPayloadSchema = 'network.xyo.crypto.market.uniswap'
+export type XyoUniswapCryptoMarketPayloadSchema = 'network.xyo.crypto.market.uniswap'
+export const XyoUniswapCryptoMarketPayloadSchema: XyoUniswapCryptoMarketPayloadSchema = 'network.xyo.crypto.market.uniswap'

@@ -13,8 +13,8 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "uuid": "^8.3.2",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@xylabs/tsconfig": "^2.5.13"

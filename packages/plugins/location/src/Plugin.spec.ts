@@ -1,7 +1,7 @@
 import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { XyoLocationPayloadSchema } from './Payload'
 import { XyoLocationPayloadPlugin } from './Plugin'
+import { XyoLocationPayloadSchema } from './Schema'
 
 describe('XyoLocationPayloadPlugin', () => {
   test('Add to Resolver', () => {

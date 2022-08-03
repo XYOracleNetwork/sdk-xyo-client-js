@@ -1,8 +1,8 @@
 import { XyoQueryPayload } from '@xyo-network/payload'
 
-import { XyoCryptoMarketUniswapQueryPayloadSchema } from './Schema'
+import { XyoUniswapCryptoMarketQueryPayloadSchema } from './Schema'
 
-export type XyoCryptoMarketUniswapQueryPayload = XyoQueryPayload<{
-  schema: XyoCryptoMarketUniswapQueryPayloadSchema
+export type XyoUniswapCryptoMarketQueryPayload = XyoQueryPayload<{
+  schema: XyoUniswapCryptoMarketQueryPayloadSchema
   pools: string[]
 }>

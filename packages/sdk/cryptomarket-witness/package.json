@@ -18,7 +18,7 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.0.1",
     "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/sdk-js": "^2.6.2",
+    "@xylabs/sdk-js": "^2.6.3",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-typechain": "^1.0.4",
     "@xyo-network/witness": "workspace:^",
@@ -63,6 +63,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.23.1",
+  "version": "2.23.2",
   "packageManager": "yarn@3.1.1"
 }

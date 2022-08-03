@@ -1,4 +1,4 @@
-import { XyoDomainPayload } from '@xyo-network/domain'
+import { XyoDomainPayload } from '@xyo-network/domain-payload-plugin'
 import { XyoPayload, XyoSchemaPayload } from '@xyo-network/payload'
 
 /**

@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/default-payload-plugin",
+  "name": "@xyo-network/location-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -12,8 +12,7 @@
   "dependencies": {
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/schema-witness": "workspace:^",
-    "@xyo-network/witnesses": "workspace:^"
+    "@xyo-network/schema-witness": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/tsconfig": "^2.5.13"
@@ -51,6 +50,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.23.0",
+  "version": "2.23.1",
   "packageManager": "yarn@3.1.1"
 }

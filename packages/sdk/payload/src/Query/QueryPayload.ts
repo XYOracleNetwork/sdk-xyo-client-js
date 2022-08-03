@@ -1,8 +1,6 @@
-import { EmptyObject } from '@xyo-network/core'
-
 import { XyoPayload } from '../models'
 
-export type XyoQueryPayload<T extends EmptyObject = EmptyObject> = XyoPayload<{
+export type XyoQueryPayload<T = unknown> = XyoPayload<{
   /** @field The preferred schema to use for the answer */
   targetSchema?: string
 

@@ -5,8 +5,6 @@ jest.config.js
 rollup.config.ts
 yarn.lock
 
-*.eslintcache
-*.tsbuildinfo
-
 .pnp.*
 .yarn/*
+packages

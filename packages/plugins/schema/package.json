@@ -12,7 +12,6 @@
   "dependencies": {
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/schema-witness": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0"

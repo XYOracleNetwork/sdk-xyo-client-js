@@ -3425,22 +3425,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/cryptomarket-witness@workspace:packages/sdk/cryptomarket-witness"
   dependencies:
-    "@ethersproject/address": ^5.6.1
-    "@ethersproject/bignumber": ^5.6.2
-    "@ethersproject/contracts": ^5.6.2
-    "@ethersproject/networks": ^5.6.4
-    "@ethersproject/providers": ^5.6.8
-    "@ethersproject/solidity": ^5.6.1
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.0.1
-    "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/sdk-js": ^2.6.3
     "@xylabs/tsconfig": ^2.5.13
-    "@xyo-network/payload": "workspace:^"
-    "@xyo-network/sdk-xyo-typechain": ^1.0.4
-    "@xyo-network/witness": "workspace:^"
-    axios: ^0.27.2
-    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3477,16 +3462,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain@workspace:packages/sdk/domain"
   dependencies:
-    "@types/lodash": ^4.14.182
     "@xylabs/tsconfig": ^2.5.13
-    "@xyo-network/api": "workspace:^"
-    "@xyo-network/core": "workspace:^"
-    "@xyo-network/network": "workspace:^"
-    "@xyo-network/payload": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ^0.27.2
-    lodash: ^4.17.21
-    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3589,7 +3565,6 @@ __metadata:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/schema-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     lodash: ^4.17.21
     tslib: ^2.4.0
@@ -3601,10 +3576,6 @@ __metadata:
   resolution: "@xyo-network/schema-witness@workspace:packages/sdk/schema-witness"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
-    "@xyo-network/payload": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    lodash: ^4.17.21
-    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3743,7 +3714,7 @@ __metadata:
     "@types/lru-cache": ^7.10.10
     "@xylabs/sdk-js": ^2.6.3
     "@xylabs/tsconfig": ^2.5.13
-    "@xyo-network/domain": "workspace:^"
+    "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     ajv: ^8.11.0
@@ -3785,11 +3756,9 @@ __metadata:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.0
-    uuid: ^8.3.2
   languageName: unknown
   linkType: soft
 

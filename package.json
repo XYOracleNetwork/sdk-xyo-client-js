@@ -18,6 +18,7 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/cryptomarket-witness": "workspace:^",
+    "@xyo-network/diviner": "workspace:^",
     "@xyo-network/domain": "workspace:^",
     "@xyo-network/ethereum-witness": "workspace:^",
     "@xyo-network/network": "workspace:^",
@@ -122,6 +123,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.24.4",
+  "version": "2.24.6",
   "packageManager": "yarn@3.2.2"
 }

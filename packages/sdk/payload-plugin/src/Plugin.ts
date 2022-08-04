@@ -1,8 +1,7 @@
 import { XyoValidator } from '@xyo-network/core'
+import { XyoDiviner } from '@xyo-network/diviner'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import { XyoQueryWitnessConfig, XyoWitness } from '@xyo-network/witness'
-
-import { XyoDiviner } from './XyoDiviner'
 
 export interface XyoPayloadPluginConfig<
   TPayloadWitnessConfig extends XyoQueryWitnessConfig = XyoQueryWitnessConfig,

@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xyo-network/archivist": "workspace:^",
     "@xyo-network/payload": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -49,6 +50,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.24.4",
+  "version": "2.24.6",
   "packageManager": "yarn@3.1.1"
 }

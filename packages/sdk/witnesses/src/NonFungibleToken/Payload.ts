@@ -1,38 +1,43 @@
+import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
-export interface XyoExternalAddress extends XyoPayload {
+export type XyoExternalAddress = XyoPayload<{
+  schema: 'network.xyo.address.external'
   chain: {
     platform: 'ethereum'
     network: string
   }
   address: string
-}
+}>
 
-export type XyoNonFungibleTokenPayload = XyoPayload
+export type XyoNonFungibleTokenPayload<T extends EmptyObject = EmptyObject> = XyoPayload<{ schema: 'network.xyo.nft' } & T>
 
-export type XyoContractTermPayload = XyoPayload
+export type XyoContractTermPayload<T extends EmptyObject = EmptyObject> = XyoPayload<{ schema: 'network.xyo.contract.term' } & T>
 
-export interface XyoOwnerContractTermPayload extends XyoContractTermPayload {
+export type XyoOwnerContractTermPayload = XyoContractTermPayload<{
   owner?: string
   read?: string | string[]
   write?: string | string[]
-}
+}>
 
-export interface XyoContractPayload extends XyoPayload {
-  terms?: string[]
-}
+export type XyoContractPayload<T extends EmptyObject = EmptyObject> = XyoPayload<
+  { schema: 'network.xyo.contract' } & T & {
+      terms?: string[]
+    }
+>
 
-export interface XyoNonFungibleTokenMintPayload extends XyoContractPayload {
+export type XyoNonFungibleTokenMintPayload = XyoContractPayload<{
   schema: 'network.xyo.nft.minter'
   name: string
   symbol: string
   /** @field array of XyoContractTermPayload hashes */
   terms?: string[]
   minters?: string[]
-}
+}>
 
-export interface XyoNonFungibleTokenMintQueryPayload extends XyoQueryPayload {
+export type XyoNonFungibleTokenMintQueryPayload = XyoQueryPayload<{
   schema: 'network.xyo.nft.minter.query'
   mint: string
   mintToken?: XyoNonFungibleTokenPayload
-}
+  targetSchema: 'network.xyo.nft.minter'
+}>

@@ -2,7 +2,7 @@ import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
 export type XyoEthereumGasEtherchainQueryPayloadV2 = XyoQueryPayload
 
-export interface XyoEthereumGasEtherchainPayloadV2 extends XyoPayload {
+export type XyoEthereumGasEtherchainPayloadV2 = XyoPayload<{
   schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2'
   code: number
   data: {
@@ -13,4 +13,4 @@ export interface XyoEthereumGasEtherchainPayloadV2 extends XyoPayload {
     standard: number
     timestamp: number
   }
-}
+}>

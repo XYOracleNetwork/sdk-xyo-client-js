@@ -2,7 +2,7 @@ import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
 export type XyoEthereumGasEtherchainQueryPayloadV1 = XyoQueryPayload
 
-export interface XyoEthereumGasEtherchainPayloadV1 extends XyoPayload {
+export type XyoEthereumGasEtherchainPayloadV1 = XyoPayload<{
   schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v1'
   timestamp: number
   safeLow: number
@@ -11,4 +11,4 @@ export interface XyoEthereumGasEtherchainPayloadV1 extends XyoPayload {
   fastest: number
   currentBaseFee: number
   recommendedBaseFee: number
-}
+}>

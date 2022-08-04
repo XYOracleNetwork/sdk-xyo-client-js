@@ -97,7 +97,7 @@
     "deploy-minor": "yarn workspaces foreach --all version minor --deferred && yarn deploy-common",
     "deploy-patch": "yarn workspaces foreach --all version patch --deferred && yarn deploy-common",
     "deploy-common": "echo Deploy... && yarn clean && yarn build && yarn apply-version:private && yarn publish:private",
-    "apply-version:private": "echo Applying Version... && yarn version apply --all && echo Publishing... && yarn workspaces foreach -pt npm publish",
+    "apply-version:private": "echo Applying Version... && yarn version apply --all",
     "publish:private": "echo Publishing... && yarn workspaces foreach -pt npm publish",
     "clean": "echo Cleaning... && yarn workspaces foreach -pA run clean:package",
     "deps": "yarn workspaces foreach -pAv run deps:package",
@@ -122,6 +122,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.23.3",
+  "version": "2.24.3",
   "packageManager": "yarn@3.2.2"
 }

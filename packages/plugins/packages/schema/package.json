@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/coingecko-crypto-market-payload-plugin",
+  "name": "@xyo-network/schema-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,11 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.3",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "axios": "^0.27.2",
+    "lodash": "^4.17.21",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
@@ -53,6 +52,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.23.2",
+  "version": "2.24.3",
   "packageManager": "yarn@3.1.1"
 }

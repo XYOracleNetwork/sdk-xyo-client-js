@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/crypto-cards-game-payload-plugin",
+  "name": "@xyo-network/all-crypto-cards-payload-plugins",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,9 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/payload": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
+    "@xyo-network/crypto-cards-game-payload-plugin": "workspace:^",
+    "@xyo-network/crypto-cards-move-payload-plugin": "workspace:^",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
@@ -51,6 +50,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.23.3",
+  "version": "2.24.3",
   "packageManager": "yarn@3.1.1"
 }

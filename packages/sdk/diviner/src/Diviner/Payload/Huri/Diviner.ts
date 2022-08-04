@@ -1,11 +1,11 @@
 import { Huri, HuriOptions } from '@xyo-network/payload'
 
-import { XyoAbstractDiviner } from '../../Diviner'
 import { profile } from '../lib'
+import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoPayloadDivinerPayload, XyoPayloadDivinerPayloadSchema } from '../XyoPayloadDivinerPayload'
 import { XyoPayloadDivinerQueryPayload } from '../XyoPayloadDivinerQueryPayload'
 
-export class XyoHuriPayloadDiviner extends XyoAbstractDiviner<XyoPayloadDivinerPayload, XyoPayloadDivinerQueryPayload> {
+export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayloadDivinerPayload, XyoPayloadDivinerQueryPayload> {
   protected options: HuriOptions
 
   constructor(options: HuriOptions) {

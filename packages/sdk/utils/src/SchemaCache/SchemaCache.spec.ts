@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { StringKeyObject } from '@xyo-network/core'
 import { XyoDomainPayload } from '@xyo-network/domain-payload-plugin'
 import { XyoNetworkNodePayloadSchema, XyoNetworkPayloadSchema } from '@xyo-network/network'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
@@ -52,9 +53,9 @@ describe('XyoSchemaCache', () => {
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
         const payloads: XyoPayload[] = [
-          new XyoPayloadBuilder({ schema }).fields({ a: 'a' }).build(),
-          new XyoPayloadBuilder({ schema }).fields({ b: 'b' }).build(),
-          new XyoPayloadBuilder({ schema }).fields({ c: 'c' }).build(),
+          new XyoPayloadBuilder<XyoPayload<{ schema: string } & StringKeyObject>>({ schema }).fields({ a: 'a' }).build(),
+          new XyoPayloadBuilder<XyoPayload<{ schema: string } & StringKeyObject>>({ schema }).fields({ b: 'b' }).build(),
+          new XyoPayloadBuilder<XyoPayload<{ schema: string } & StringKeyObject>>({ schema }).fields({ c: 'c' }).build(),
         ]
         const validator = assertEx(cache.validators[schema])
         // Strongly typing variable to ensure TypeScript inferred type from validator matches

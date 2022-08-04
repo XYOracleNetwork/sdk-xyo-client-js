@@ -4,7 +4,7 @@ import { AxiosError } from 'axios'
 import { XyoApiConfig } from '../../models'
 import { XyoLocationDivinerApi } from './LocationDivinerApi'
 import { LocationHeatmapQueryCreationRequest, locationHeatmapQuerySchema, LocationTimeRangeQueryCreationRequest, locationTimeRangeQuerySchema } from './Queries'
-import { locationWitnessPayloadSchema } from './Witnesses'
+import { LocationWitnessPayloadSchema } from './Witnesses'
 
 const config: ApiConfig = {
   apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082',
@@ -22,7 +22,7 @@ const getDefaultStartStopTime = () => {
 }
 
 const getLocationTimeRangeQueryCreationRequest = (): LocationTimeRangeQueryCreationRequest => {
-  const query = { schema: locationWitnessPayloadSchema, ...getDefaultStartStopTime() }
+  const query = { schema: LocationWitnessPayloadSchema, ...getDefaultStartStopTime() }
   const sourceArchivist = { ...getArchiveConfig() }
   const resultArchivist = { ...getArchiveConfig() }
   return {
@@ -36,7 +36,7 @@ const getLocationTimeRangeQueryCreationRequest = (): LocationTimeRangeQueryCreat
 }
 
 const getLocationHeatmapQueryCreationRequest = (): LocationHeatmapQueryCreationRequest => {
-  const query = { schema: locationWitnessPayloadSchema, ...getDefaultStartStopTime() }
+  const query = { schema: LocationWitnessPayloadSchema, ...getDefaultStartStopTime() }
   const sourceArchivist = { ...getArchiveConfig() }
   const resultArchivist = { ...getArchiveConfig() }
   return {

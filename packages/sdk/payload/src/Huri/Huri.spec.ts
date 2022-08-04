@@ -79,7 +79,7 @@ describe('Huri', () => {
           await delay(0)
           const payload: XyoPayload = {
             schema: huri.hash,
-          }
+          } as XyoPayload
           return payload
         }
         const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')

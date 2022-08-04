@@ -116,11 +116,11 @@ export class Huri<T extends XyoPayload = XyoPayload> {
   }
 
   public async fetch(): Promise<T | undefined> {
-    return await Huri.fetch<T>(this)
+    return (await Huri.fetch(this)) as T
   }
 
-  static async fetch<T extends XyoPayload = XyoPayload>(huri: Huri): Promise<T | undefined> {
-    return (await axios.get<T>(huri.href)).data
+  static async fetch(huri: Huri): Promise<XyoPayload | undefined> {
+    return (await axios.get<XyoPayload>(huri.href)).data
   }
 
   private static parseProtocol(huri: string) {

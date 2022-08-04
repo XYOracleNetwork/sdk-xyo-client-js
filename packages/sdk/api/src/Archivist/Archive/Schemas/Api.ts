@@ -1,4 +1,4 @@
-import { XyoSchemaPayload } from '@xyo-network/payload'
+import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 
 import { XyoApiSimple } from '../../../Simple'
 

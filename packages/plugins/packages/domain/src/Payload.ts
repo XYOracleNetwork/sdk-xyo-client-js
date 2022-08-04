@@ -10,7 +10,7 @@ export interface XyoAlias {
   huri: string
 }
 
-export interface XyoDomainPayload extends XyoPayload {
+export type XyoDomainPayload = XyoPayload<{
   schema: XyoDomainPayloadSchema
   /** @field Values associated with this domain [out] */
   aliases?: Record<string, XyoAlias>
@@ -18,7 +18,7 @@ export interface XyoDomainPayload extends XyoPayload {
   additional?: string[]
   /** @field Known networks [out] */
   networks?: XyoNetworkPayload[]
-}
+}>
 
 /** @deprecated use XyoDomainPayload instead */
 export type XyoDomainConfig = XyoDomainPayload

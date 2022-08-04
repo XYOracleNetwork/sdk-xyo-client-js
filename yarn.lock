@@ -3717,6 +3717,7 @@ __metadata:
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    "@xyo-network/schema-payload-plugin": "workspace:^"
     ajv: ^8.11.0
     lru-cache: ^7.13.2
     tslib: ^2.4.0

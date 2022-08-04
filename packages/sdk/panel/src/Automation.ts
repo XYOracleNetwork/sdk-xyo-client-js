@@ -1,13 +1,16 @@
+import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
-export interface XyoPanelBaseAutomationPayload extends XyoPayload {
-  /** @field The list of witnesses to invoke [all if undefined] */
-  witnesses?: string[]
-  type?: 'interval' | 'change'
-  schema: 'network.xyo.automation'
-}
+export type XyoPanelBaseAutomationPayload<T extends EmptyObject = EmptyObject> = XyoPayload<
+  T & {
+    /** @field The list of witnesses to invoke [all if undefined] */
+    witnesses?: string[]
+    type?: 'interval' | 'change'
+    schema: 'network.xyo.automation'
+  }
+>
 
-export type XyoPanelIntervalAutomationPayload = XyoPanelBaseAutomationPayload & {
+export type XyoPanelIntervalAutomationPayload = XyoPanelBaseAutomationPayload<{
   type: 'interval'
 
   /** @field epoch of the next trigger */
@@ -24,10 +27,10 @@ export type XyoPanelIntervalAutomationPayload = XyoPanelBaseAutomationPayload & 
 
   /** @field remaining triggers [infinite if undefined] */
   remaining?: number
-}
+}>
 
-export type XyoPanelChangeAutomationPayload = XyoPanelBaseAutomationPayload & {
+export type XyoPanelChangeAutomationPayload = XyoPanelBaseAutomationPayload<{
   type: 'change'
-}
+}>
 
 export type XyoPanelAutomationPayload = XyoPanelIntervalAutomationPayload | XyoPanelChangeAutomationPayload

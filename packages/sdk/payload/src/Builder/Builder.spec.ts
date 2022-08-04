@@ -1,3 +1,6 @@
+import { StringKeyObject } from '@xyo-network/core'
+
+import { XyoPayload } from '../models'
 import { XyoPayloadBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'
@@ -8,7 +11,7 @@ const ADDITIONAL_FIELD_COUNT = 4
 
 describe('XyoBoundWitnessBuilder', () => {
   test('build', () => {
-    let builder = new XyoPayloadBuilder({ schema })
+    let builder = new XyoPayloadBuilder<XyoPayload<{ schema: string } & StringKeyObject>>({ schema })
     expect(builder).toBeDefined()
     builder = builder.fields({
       testArray: [1, 2, 3],

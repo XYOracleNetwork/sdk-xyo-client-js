@@ -15,7 +15,7 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner {
 
   override async divine(query: XyoPayloadDivinerQueryPayload): Promise<XyoPayloadDivinerPayload> {
     const huri = new Huri(query.huri, this.options)
-    const [payload = null, duration] = await profile(huri.fetch)
+    const [payload = null, duration] = await profile(async () => await huri.fetch())
     return { duration, payload, schema: XyoPayloadDivinerPayloadSchema }
   }
 }

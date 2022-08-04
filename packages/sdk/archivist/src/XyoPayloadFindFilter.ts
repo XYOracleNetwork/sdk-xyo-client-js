@@ -8,5 +8,6 @@ export interface XyoPayloadFindFilter {
 }
 
 export type XyoPayloadFindQuery = XyoQueryPayload<{
+  schema: 'network.xyo.payload.query.find'
   filter: XyoPayloadFindFilter
 }>

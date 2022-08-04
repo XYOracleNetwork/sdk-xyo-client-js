@@ -2,7 +2,7 @@ import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoIdPayloadSchema } from './Schema'
 
-export interface XyoIdPayload extends XyoPayload {
+export type XyoIdPayload = XyoPayload<{
   schema: XyoIdPayloadSchema
   salt: string
-}
+}>

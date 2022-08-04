@@ -1,6 +1,6 @@
-import { XyoSchemaPayload } from '@xyo-network/payload'
 import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 
+import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaPayloadSchema } from './Schema'
 import { XyoSchemaWitness } from './Witness'
 

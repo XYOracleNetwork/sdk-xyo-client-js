@@ -1,5 +1,4 @@
-import { XyoSchemaPayload } from '@xyo-network/payload'
-
+import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaPayloadSchema } from './Schema'
 export const XyoSchemaPayloadTemplate = (): XyoSchemaPayload => ({
   definition: {

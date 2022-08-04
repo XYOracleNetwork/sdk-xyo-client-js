@@ -1,7 +1,7 @@
-import { XyoPayload, XyoPayloadMeta } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
 
-export const locationWitnessPayloadSchema: LocationWitnessPayloadSchema = 'network.xyo.location'
 export type LocationWitnessPayloadSchema = 'network.xyo.location'
+export const LocationWitnessPayloadSchema: LocationWitnessPayloadSchema = 'network.xyo.location'
 
 export interface Coordinates {
   accuracy: number | null
@@ -17,9 +17,7 @@ export interface CurrentLocation {
   timestamp: number
 }
 
-export interface LocationWitnessPayloadBody extends XyoPayload {
+export type LocationWitnessPayload = XyoPayload<{
   currentLocation: CurrentLocation
   schema: LocationWitnessPayloadSchema
-}
-
-export type LocationWitnessPayload = XyoPayloadMeta<LocationWitnessPayloadBody>
+}>

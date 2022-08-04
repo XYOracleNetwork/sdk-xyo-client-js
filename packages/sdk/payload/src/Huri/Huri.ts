@@ -28,7 +28,7 @@ export interface XyoFetchedPayload<T extends XyoPayload = XyoPayload> {
   huri?: Huri
 }
 
-export class Huri {
+export class Huri<T extends XyoPayload = XyoPayload> {
   public originalHref: string
   public protocol?: string
   public archivist?: string
@@ -115,12 +115,12 @@ export class Huri {
     return this.href
   }
 
-  public async fetch() {
-    return await Huri.fetch(this)
+  public async fetch(): Promise<T | undefined> {
+    return await Huri.fetch<T>(this)
   }
 
-  static async fetch(huri: Huri): Promise<XyoPayload | undefined> {
-    return (await axios.get<XyoPayload>(huri.href)).data
+  static async fetch<T extends XyoPayload = XyoPayload>(huri: Huri): Promise<T | undefined> {
+    return (await axios.get<T>(huri.href)).data
   }
 
   private static parseProtocol(huri: string) {

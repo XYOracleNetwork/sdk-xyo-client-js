@@ -1,6 +1,6 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-export type XyoBoundWitnessBase = XyoPayload<{
+export type XyoBoundWitness = XyoPayload<{
   addresses: string[]
   previous_hash?: string
   payload_hashes: string[]

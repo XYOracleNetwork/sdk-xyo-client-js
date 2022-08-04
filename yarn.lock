@@ -3365,6 +3365,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser"
+  dependencies:
+    "@xylabs/tsconfig": ^2.5.13
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    tslib: ^2.4.0
+    uuid: ^8.3.2
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:^, @xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko":
   version: 0.0.0-use.local
   resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko"

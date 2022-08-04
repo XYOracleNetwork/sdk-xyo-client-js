@@ -3443,11 +3443,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner@workspace:packages/sdk/diviner":
+"@xyo-network/diviner@workspace:^, @xyo-network/diviner@workspace:packages/sdk/diviner":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/sdk/diviner"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
+    "@xyo-network/archivist": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
@@ -3555,6 +3556,7 @@ __metadata:
   dependencies:
     "@xylabs/sdk-js": ^2.6.3
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/diviner": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.0
@@ -3610,6 +3612,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/cryptomarket-witness": "workspace:^"
+    "@xyo-network/diviner": "workspace:^"
     "@xyo-network/domain": "workspace:^"
     "@xyo-network/ethereum-witness": "workspace:^"
     "@xyo-network/network": "workspace:^"

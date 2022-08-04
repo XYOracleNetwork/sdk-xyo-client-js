@@ -1,23 +1,13 @@
 import { WithTimestamp, XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
-export interface XyoDiviner<TTargetPayload extends XyoPayload = XyoPayload> {
-  targetSchema: string
-  divine(fields?: Partial<TTargetPayload>): Promise<TTargetPayload>
+export interface XyoDiviner<TPayload extends XyoPayload = XyoPayload, TQueryPayload extends XyoQueryPayload = XyoQueryPayload> {
+  divine(query: TQueryPayload): Promise<TPayload>
 }
 
-export abstract class XyoAbstractDiviner<TTargetPayload extends XyoPayload = XyoPayload, TQueryPayload extends XyoQueryPayload = XyoQueryPayload>
-  implements XyoDiviner<TTargetPayload>
+export abstract class XyoAbstractDiviner<TPayload extends XyoPayload = XyoPayload, TQueryPayload extends XyoQueryPayload = XyoQueryPayload>
+  implements XyoDiviner<TPayload>
 {
-  public readonly query: TQueryPayload
-  constructor(query: TQueryPayload) {
-    this.query = query
-  }
-
-  get targetSchema() {
-    return this.query.targetSchema ?? 'network.xyo.payload'
-  }
-
-  abstract divine(fields?: Partial<TTargetPayload>): Promise<TTargetPayload>
+  abstract divine(query: TQueryPayload): Promise<TPayload>
 }
 
 export abstract class XyoAbstractTimestampDiviner<

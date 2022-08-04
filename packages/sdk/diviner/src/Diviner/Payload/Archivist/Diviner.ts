@@ -1,12 +1,12 @@
 import { XyoArchivist } from '@xyo-network/archivist'
 import { Huri } from '@xyo-network/payload'
 
-import { XyoAbstractDiviner } from '../../Diviner'
 import { profile } from '../lib'
+import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoPayloadDivinerPayload, XyoPayloadDivinerPayloadSchema } from '../XyoPayloadDivinerPayload'
 import { XyoPayloadDivinerQueryPayload } from '../XyoPayloadDivinerQueryPayload'
 
-export class XyoArchivistPayloadDiviner extends XyoAbstractDiviner<XyoPayloadDivinerPayload, XyoPayloadDivinerQueryPayload> {
+export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoPayloadDivinerPayload, XyoPayloadDivinerQueryPayload> {
   protected archivist: XyoArchivist
 
   constructor(archivist: XyoArchivist) {

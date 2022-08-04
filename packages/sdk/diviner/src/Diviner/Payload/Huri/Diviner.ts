@@ -5,7 +5,7 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoPayloadDivinerPayload, XyoPayloadDivinerPayloadSchema } from '../XyoPayloadDivinerPayload'
 import { XyoPayloadDivinerQueryPayload } from '../XyoPayloadDivinerQueryPayload'
 
-export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayloadDivinerPayload, XyoPayloadDivinerQueryPayload> {
+export class XyoHuriPayloadDiviner extends XyoPayloadDiviner {
   protected options: HuriOptions
 
   constructor(options: HuriOptions) {

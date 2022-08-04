@@ -3323,6 +3323,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     axios: ^0.27.2
     pako: ^2.0.4
@@ -3525,10 +3526,11 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    "@xyo-network/witnesses": ^2.24.3
+    "@xyo-network/witnesses": ^2.24.4
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3750,7 +3752,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witnesses@^2.24.3, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
+"@xyo-network/witnesses@^2.24.4, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/witnesses"
   dependencies:

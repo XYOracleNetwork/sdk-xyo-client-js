@@ -13,6 +13,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/systeminfo-witness": "workspace:^",
     "@xyo-network/witness": "workspace:^"

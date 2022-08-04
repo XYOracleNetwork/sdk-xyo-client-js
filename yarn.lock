@@ -3262,9 +3262,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/all-crypto-cards-payload-plugins@workspace:^, @xyo-network/all-crypto-cards-payload-plugins@workspace:packages/plugins/crypto/cards/index":
+"@xyo-network/all-crypto-cards-payload-plugins@workspace:^, @xyo-network/all-crypto-cards-payload-plugins@workspace:packages/plugins/packages/crypto/packages/cards":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/all-crypto-cards-payload-plugins@workspace:packages/plugins/crypto/cards/index"
+  resolution: "@xyo-network/all-crypto-cards-payload-plugins@workspace:packages/plugins/packages/crypto/packages/cards"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/crypto-cards-game-payload-plugin": "workspace:^"
@@ -3273,9 +3273,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/all-crypto-market-payload-plugins@workspace:^, @xyo-network/all-crypto-market-payload-plugins@workspace:packages/plugins/crypto/market/index":
+"@xyo-network/all-crypto-market-payload-plugins@workspace:^, @xyo-network/all-crypto-market-payload-plugins@workspace:packages/plugins/packages/crypto/packages/market":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/all-crypto-market-payload-plugins@workspace:packages/plugins/crypto/market/index"
+  resolution: "@xyo-network/all-crypto-market-payload-plugins@workspace:packages/plugins/packages/crypto/packages/market"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
@@ -3284,9 +3284,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/all-crypto-payload-plugins@workspace:^, @xyo-network/all-crypto-payload-plugins@workspace:packages/plugins/crypto/index":
+"@xyo-network/all-crypto-payload-plugins@workspace:^, @xyo-network/all-crypto-payload-plugins@workspace:packages/plugins/packages/crypto":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/all-crypto-payload-plugins@workspace:packages/plugins/crypto/index"
+  resolution: "@xyo-network/all-crypto-payload-plugins@workspace:packages/plugins/packages/crypto"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/all-crypto-cards-payload-plugins": "workspace:^"
@@ -3295,9 +3295,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/all-payload-plugins@workspace:packages/plugins/index":
+"@xyo-network/all-payload-plugins@workspace:packages/plugins":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/all-payload-plugins@workspace:packages/plugins/index"
+  resolution: "@xyo-network/all-payload-plugins@workspace:packages/plugins"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/all-crypto-payload-plugins": "workspace:^"
@@ -3364,9 +3364,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/coingecko-crypto-market-payload-plugin@workspace:^, @xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/crypto/market/coingecko":
+"@xyo-network/coingecko-crypto-market-payload-plugin@workspace:^, @xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/crypto/market/coingecko"
+  resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko"
   dependencies:
     "@xylabs/sdk-js": ^2.6.3
     "@xylabs/tsconfig": ^2.5.13
@@ -3397,9 +3397,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-cards-game-payload-plugin@workspace:^, @xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/crypto/cards/game":
+"@xyo-network/crypto-cards-game-payload-plugin@workspace:^, @xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/crypto/cards/game"
+  resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/payload": "workspace:^"
@@ -3409,9 +3409,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-cards-move-payload-plugin@workspace:^, @xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/crypto/cards/move":
+"@xyo-network/crypto-cards-move-payload-plugin@workspace:^, @xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/move":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/crypto/cards/move"
+  resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/move"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/payload": "workspace:^"
@@ -3439,9 +3439,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@workspace:^, @xyo-network/domain-payload-plugin@workspace:packages/plugins/domain":
+"@xyo-network/domain-payload-plugin@workspace:^, @xyo-network/domain-payload-plugin@workspace:packages/plugins/packages/domain":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/domain-payload-plugin@workspace:packages/plugins/domain"
+  resolution: "@xyo-network/domain-payload-plugin@workspace:packages/plugins/packages/domain"
   dependencies:
     "@types/lodash": ^4.14.182
     "@xylabs/sdk-js": ^2.6.3
@@ -3480,9 +3480,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/id-payload-plugin@workspace:^, @xyo-network/id-payload-plugin@workspace:packages/plugins/id":
+"@xyo-network/id-payload-plugin@workspace:^, @xyo-network/id-payload-plugin@workspace:packages/plugins/packages/id":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/id"
+  resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/packages/id"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/payload": "workspace:^"
@@ -3493,9 +3493,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/location-payload-plugin@workspace:^, @xyo-network/location-payload-plugin@workspace:packages/plugins/location":
+"@xyo-network/location-payload-plugin@workspace:^, @xyo-network/location-payload-plugin@workspace:packages/plugins/packages/location":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/location-payload-plugin@workspace:packages/plugins/location"
+  resolution: "@xyo-network/location-payload-plugin@workspace:packages/plugins/packages/location"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/payload": "workspace:^"
@@ -3558,9 +3558,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@workspace:^, @xyo-network/schema-payload-plugin@workspace:packages/plugins/schema":
+"@xyo-network/schema-payload-plugin@workspace:^, @xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/schema":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/schema"
+  resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/schema"
   dependencies:
     "@xylabs/tsconfig": ^2.5.13
     "@xyo-network/payload": "workspace:^"
@@ -3682,9 +3682,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/uniswap-crypto-market-payload-plugin@workspace:^, @xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/crypto/market/uniswap":
+"@xyo-network/uniswap-crypto-market-payload-plugin@workspace:^, @xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/uniswap":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/crypto/market/uniswap"
+  resolution: "@xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/uniswap"
   dependencies:
     "@ethersproject/address": ^5.6.1
     "@ethersproject/bignumber": ^5.6.2

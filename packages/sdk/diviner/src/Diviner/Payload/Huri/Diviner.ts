@@ -5,7 +5,7 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoPayloadDivinerPayload, XyoPayloadDivinerPayloadSchema } from '../XyoPayloadDivinerPayload'
 import { XyoPayloadDivinerQueryPayload } from '../XyoPayloadDivinerQueryPayload'
 
-export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayloadDivinerPayload, XyoPayloadDivinerQueryPayload> {
+export class XyoHuriPayloadDiviner extends XyoPayloadDiviner {
   protected options: HuriOptions
 
   constructor(options: HuriOptions) {
@@ -15,7 +15,7 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayloadDivinerPa
 
   override async divine(query: XyoPayloadDivinerQueryPayload): Promise<XyoPayloadDivinerPayload> {
     const huri = new Huri(query.huri, this.options)
-    const [payload = null, duration] = await profile(huri.fetch)
+    const [payload = null, duration] = await profile(async () => await huri.fetch())
     return { duration, payload, schema: XyoPayloadDivinerPayloadSchema }
   }
 }

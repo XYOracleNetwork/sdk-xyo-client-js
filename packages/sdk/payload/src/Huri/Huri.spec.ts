@@ -75,11 +75,11 @@ describe('Huri', () => {
     invalid.map((item) => {
       test(`invalid [${item}]`, async () => {
         const oldFetch = Huri.fetch
-        Huri.fetch = async (huri: Huri) => {
+        Huri.fetch = async <T extends XyoPayload = XyoPayload>(huri: Huri): Promise<T | undefined> => {
           await delay(0)
-          const payload: XyoPayload = {
+          const payload: T = {
             schema: huri.hash,
-          } as XyoPayload
+          } as T
           return payload
         }
         const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')

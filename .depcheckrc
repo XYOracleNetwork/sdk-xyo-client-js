@@ -4,5 +4,6 @@ ignores: [
   "jest-extended",
   "typedoc",
   "@babel/core",
-  "@babel/preset-env"
+  "@babel/preset-env",
+  "typescript"
 ]

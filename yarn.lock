@@ -2608,10 +2608,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.6.3":
-  version: 18.6.3
-  resolution: "@types/node@npm:18.6.3"
-  checksum: 38495b8fd27200d2b7ab9ccd8c1e2475d2411fba15330f2cba869a85ef79dd42382a2658c8dd298ace8c21ed3bfafcdea408faecd74928b144377d07d00e7c8c
+"@types/node@npm:*, @types/node@npm:^18.6.4":
+  version: 18.6.4
+  resolution: "@types/node@npm:18.6.4"
+  checksum: fc453dd2b541f5812ba1a8f957f577727cf2d8aee886f1d5c03eb153b2b3373d2e0953c5bd2b7a5b184073bc317f54ec91f1ec4830a58eda4a833e90654021de
   languageName: node
   linkType: hard
 
@@ -3129,9 +3129,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^2.5.13":
-  version: 2.5.13
-  resolution: "@xylabs/eslint-config@npm:2.5.13"
+"@xylabs/eslint-config@npm:^2.5.54":
+  version: 2.5.54
+  resolution: "@xylabs/eslint-config@npm:2.5.54"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/eslint-parser": ^7.18.9
@@ -3154,7 +3154,7 @@ __metadata:
     remark-lint-maximum-line-length: ^3.1.2
     remark-preset-lint-markdown-style-guide: ^5.1.2
     typescript: ^4.7.4
-  checksum: 140a9d4a6f22a3532d53c97b3bdd3989d9317751804ed9730a5d78dd14155c81951db97bfbdfe1ed866a18c114c162d8ddbd207d6eed6fe87cef71ca228f3a1c
+  checksum: bcd71ba7c7fdc19831a95511c484bca0512a00f58c97c0a46bd828ef201fc81cdf8210a0ab669c8f63be54ffbb18b9706722df5c85aa592d77ab9d49b2c0343c
   languageName: node
   linkType: hard
 
@@ -3169,13 +3169,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts@npm:^2.5.13":
-  version: 2.5.13
-  resolution: "@xylabs/ts-scripts@npm:2.5.13"
+"@xylabs/ts-scripts-yarn3@npm:^2.5.54":
+  version: 2.5.54
+  resolution: "@xylabs/ts-scripts-yarn3@npm:2.5.54"
   dependencies:
     "@types/jest": ^28.1.6
-    "@xylabs/eslint-config": ^2.5.13
-    chalk: 5.0.1
+    "@types/node": ^18.6.4
+    "@xylabs/eslint-config": ^2.5.54
+    "@xylabs/sdk-js": ^2.6.3
+    chalk: ^4
     copyfiles: ^2.4.1
     depcheck: ^1.4.3
     eslint: ^8.21.0
@@ -3191,20 +3193,27 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ^28.0.7
     ts-prune: ^0.10.3
+    typedoc: ^0.23.10
     typescript: ^4.7.4
   bin:
     build: dist/cjs/build.js
     clean: dist/cjs/clean.js
     compile: dist/cjs/compile.js
+    "compile:cjs": dist/cjs/compile-cjs.js
+    "compile:esm": dist/cjs/compile-esm.js
     cycle: dist/cjs/cycle.js
     dead: dist/cjs/dead.js
     deploy: dist/cjs/deploy.js
     deploy3: dist/cjs/deploy3.js
     deps: dist/cjs/deps.js
     fix: dist/cjs/fix.js
+    gen-docs: dist/cjs/gen-docs.js
     gitlint: dist/cjs/gitlint.js
     gitlint-fix: dist/cjs/gitlint-fix.js
+    license: dist/cjs/license.js
     lint: dist/cjs/lint.js
+    lint-fast: dist/cjs/lint-fast.js
+    lint-profile: dist/cjs/lint-profile.js
     migrate: dist/cjs/migrate.js
     rebuild: dist/cjs/rebuild.js
     reinstall: dist/cjs/reinstall.js
@@ -3220,31 +3229,32 @@ __metadata:
     xylabs-cycle: dist/cjs/cycle.js
     xylabs-dead: dist/cjs/dead.js
     xylabs-deploy: dist/cjs/deploy.js
-    xylabs-deploy3: dist/cjs/deploy3.js
     xylabs-deps: dist/cjs/deps.js
     xylabs-fix: dist/cjs/fix.js
     xylabs-gitlint: dist/cjs/gitlint.js
     xylabs-gitlint-fix: dist/cjs/gitlint-fix.js
+    xylabs-license: dist/cjs/lint.js
     xylabs-lint: dist/cjs/lint.js
-    xylabs-migrate: dist/cjs/migrate.js
+    xylabs-lint-fast: dist/cjs/lint-fast.js
+    xylabs-lint-profile: dist/cjs/lint-profile.js
     xylabs-rebuild: dist/cjs/rebuild.js
     xylabs-reinstall: dist/cjs/reinstall.js
     xylabs-sonar: dist/cjs/sonar.js
     xylabs-test: dist/cjs/test.js
     xylabs-up: dist/cjs/up.js
-    xylabs-up3: dist/cjs/up3.js
     xylabs-updo: dist/cjs/updo.js
-    xylabs-updo3: dist/cjs/updo3.js
-  checksum: 3d546a21b694f4e7108538bd042191b14e32e1a207d825f6bd3042e048735c9f6d07ddbbd590634f1ec925ed5aae8ec5e1a1df9d7ac242beedf634d4b33cfb5f
+    xylabs-yarn3only: dist/cjs/yarn3only.js
+    yarn3only: dist/cjs/yarn3only.js
+  checksum: d7815fe53b29f706a4eb50fe5f76e4659c1bf9d329b926ab09a6a59af3cbabc09a48259f41972fea0e0bbdad17d85d73068ba975e686a718e9900a5d0e3a63d6
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^2.5.13":
-  version: 2.5.13
-  resolution: "@xylabs/tsconfig@npm:2.5.13"
+"@xylabs/tsconfig@npm:^2.5.54":
+  version: 2.5.54
+  resolution: "@xylabs/tsconfig@npm:2.5.54"
   dependencies:
     typescript: ^4.7.4
-  checksum: 96cdd500aa990089876b13f28cf5ea969949f61524c1020591e9d0a063d9852ea393ba66bc660519e044ab6a17ead2e09ee56c0e4da6112a12d5352a263c8838
+  checksum: 7f8243d42bd483523c2f952a290c24a4c5a082d515e2fcc63be6d89a6b3545e457e06338f3a3e2c2e1a9645972c21b1754e110c9224ac10beae31f0ab2d1c205
   languageName: node
   linkType: hard
 
@@ -3254,7 +3264,7 @@ __metadata:
   dependencies:
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/core": "workspace:^"
     elliptic: ^6.5.4
     sha.js: ^2.4.11
@@ -3266,7 +3276,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/all-crypto-cards-payload-plugins@workspace:packages/plugins/packages/crypto/packages/cards"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/crypto-cards-game-payload-plugin": "workspace:^"
     "@xyo-network/crypto-cards-move-payload-plugin": "workspace:^"
     tslib: ^2.4.0
@@ -3277,7 +3287,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/all-crypto-market-payload-plugins@workspace:packages/plugins/packages/crypto/packages/market"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     tslib: ^2.4.0
@@ -3288,7 +3298,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/all-crypto-payload-plugins@workspace:packages/plugins/packages/crypto"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/all-crypto-cards-payload-plugins": "workspace:^"
     "@xyo-network/all-crypto-market-payload-plugins": "workspace:^"
     tslib: ^2.4.0
@@ -3299,7 +3309,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/all-payload-plugins@workspace:packages/plugins"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/all-crypto-payload-plugins": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
@@ -3317,7 +3327,7 @@ __metadata:
     "@types/pako": ^2.0.0
     "@types/uuid": ^8.3.4
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
@@ -3337,7 +3347,7 @@ __metadata:
   resolution: "@xyo-network/archivist@workspace:packages/sdk/archivist"
   dependencies:
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3354,7 +3364,7 @@ __metadata:
     "@types/ua-parser-js": ^0.7.36
     "@xylabs/buffer": ^2.6.3
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3369,12 +3379,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@types/lodash": ^4.14.182
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
+    bowser: ^2.11.0
+    lodash: ^4.17.21
     tslib: ^2.4.0
-    uuid: ^8.3.2
   languageName: unknown
   linkType: soft
 
@@ -3383,7 +3395,7 @@ __metadata:
   resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko"
   dependencies:
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3397,11 +3409,11 @@ __metadata:
   resolution: "@xyo-network/core@workspace:packages/sdk/core"
   dependencies:
     "@types/lodash": ^4.14.182
-    "@types/node": ^18.6.3
+    "@types/node": ^18.6.4
     "@types/sha.js": ^2.4.0
     "@xylabs/buffer": ^2.6.3
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/typeof": "workspace:^"
     axios: ^0.27.2
     keccak256: ^1.0.6
@@ -3415,7 +3427,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3427,7 +3439,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/move"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3435,11 +3447,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/cryptomarket-witness@workspace:^, @xyo-network/cryptomarket-witness@workspace:packages/sdk/cryptomarket-witness":
+"@xyo-network/cryptomarket-witness@workspace:packages/sdk/cryptomarket-witness":
   version: 0.0.0-use.local
   resolution: "@xyo-network/cryptomarket-witness@workspace:packages/sdk/cryptomarket-witness"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
   languageName: unknown
   linkType: soft
 
@@ -3447,7 +3459,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/sdk/diviner"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
@@ -3460,7 +3472,7 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.182
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/api": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/network": "workspace:^"
@@ -3473,11 +3485,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain@workspace:^, @xyo-network/domain@workspace:packages/sdk/domain":
+"@xyo-network/domain@workspace:packages/sdk/domain":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain@workspace:packages/sdk/domain"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
   languageName: unknown
   linkType: soft
 
@@ -3487,7 +3499,7 @@ __metadata:
   dependencies:
     "@ethersproject/providers": ^5.6.8
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ^0.27.2
@@ -3499,7 +3511,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/packages/id"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3512,7 +3524,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-payload-plugin@workspace:packages/plugins/packages/location"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3525,7 +3537,7 @@ __metadata:
   resolution: "@xyo-network/network@workspace:packages/sdk/network"
   dependencies:
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
@@ -3536,7 +3548,7 @@ __metadata:
   resolution: "@xyo-network/panel@workspace:packages/sdk/panel"
   dependencies:
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
@@ -3568,7 +3580,7 @@ __metadata:
   resolution: "@xyo-network/payload@workspace:packages/sdk/payload"
   dependencies:
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     axios: ^0.27.2
@@ -3580,7 +3592,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/schema"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3589,11 +3601,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-witness@workspace:^, @xyo-network/schema-witness@workspace:packages/sdk/schema-witness":
+"@xyo-network/schema-witness@workspace:packages/sdk/schema-witness":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-witness@workspace:packages/sdk/schema-witness"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
   languageName: unknown
   linkType: soft
 
@@ -3603,23 +3615,20 @@ __metadata:
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/preset-env": ^7.18.10
-    "@xylabs/eslint-config": ^2.5.13
-    "@xylabs/ts-scripts": ^2.5.13
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/eslint-config": ^2.5.54
+    "@xylabs/ts-scripts-yarn3": ^2.5.54
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/cryptomarket-witness": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/domain": "workspace:^"
     "@xyo-network/ethereum-witness": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/panel": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/schema-witness": "workspace:^"
     "@xyo-network/storage": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
@@ -3627,13 +3636,8 @@ __metadata:
     "@xyo-network/wallet": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
-    eslint: ^8.21.0
-    jest: ^28.1.3
     jest-environment-jsdom: ^28.1.3
     jest-extended: ^3.0.2
-    license-checker: ^25.0.1
-    rimraf: ^3.0.2
-    typedoc: ^0.23.10
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft
@@ -3666,7 +3670,7 @@ __metadata:
   dependencies:
     "@types/uuid": ^8.3.4
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3682,7 +3686,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/systeminfo-witness@workspace:packages/sdk/systeminfo-witness"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     bowser: ^2.11.0
@@ -3696,7 +3700,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/sdk/typeof"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3715,7 +3719,7 @@ __metadata:
     "@uniswap/sdk-core": ^3.0.1
     "@uniswap/v3-sdk": ^3.9.0
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/sdk-xyo-typechain": ^1.0.4
@@ -3732,7 +3736,7 @@ __metadata:
     "@metamask/providers": ^9.1.0
     "@types/lru-cache": ^7.10.10
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3749,7 +3753,7 @@ __metadata:
   dependencies:
     "@types/sha.js": ^2.4.0
     "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     bip39: ^3.0.4
@@ -3762,7 +3766,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/sdk/witness"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
@@ -3773,7 +3777,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/witnesses"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.13
+    "@xylabs/tsconfig": ^2.5.54
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -4031,13 +4035,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"array-find-index@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "array-find-index@npm:1.0.2"
-  checksum: aac128bf369e1ac6c06ff0bb330788371c0e256f71279fb92d745e26fb4b9db8920e485b4ec25e841c93146bf71a34dcdbcefa115e7e0f96927a214d237b7081
-  languageName: node
-  linkType: hard
-
 "array-includes@npm:^3.1.4":
   version: 3.1.5
   resolution: "array-includes@npm:3.1.5"
@@ -4081,13 +4078,6 @@ __metadata:
   version: 2.0.1
   resolution: "arrify@npm:2.0.1"
   checksum: 067c4c1afd182806a82e4c1cb8acee16ab8b5284fbca1ce29408e6e91281c36bb5b612f6ddfbd40a0f7a7e0c75bf2696eb94c027f6e328d6e9c52465c98e4209
-  languageName: node
-  linkType: hard
-
-"asap@npm:^2.0.0":
-  version: 2.0.6
-  resolution: "asap@npm:2.0.6"
-  checksum: b296c92c4b969e973260e47523207cd5769abd27c245a68c26dc7a0fe8053c55bb04360237cb51cab1df52be939da77150ace99ad331fb7fb13b3423ed73ff3d
   languageName: node
   linkType: hard
 
@@ -4594,14 +4584,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:5.0.1, chalk@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "chalk@npm:5.0.1"
-  checksum: 7b45300372b908f0471fbf7389ce2f5de8d85bb949026fd51a1b95b10d0ed32c7ed5aab36dd5e9d2bf3191867909b4404cef75c5f4d2d1daeeacd301dd280b76
-  languageName: node
-  linkType: hard
-
-"chalk@npm:^2.0.0, chalk@npm:^2.1.0, chalk@npm:^2.4.1":
+"chalk@npm:^2.0.0, chalk@npm:^2.1.0":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -4612,13 +4595,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.2":
+"chalk@npm:^4, chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: fe75c9d5c76a7a98d45495b91b2172fa3b7a09e0cc9370e5c8feb1c567b85c4288e2b3fded7cfdd7359ac28d6b3844feb8b82b8686842e93d23c827c417e83fc
+  languageName: node
+  linkType: hard
+
+"chalk@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "chalk@npm:5.0.1"
+  checksum: 7b45300372b908f0471fbf7389ce2f5de8d85bb949026fd51a1b95b10d0ed32c7ed5aab36dd5e9d2bf3191867909b4404cef75c5f4d2d1daeeacd301dd280b76
   languageName: node
   linkType: hard
 
@@ -5114,19 +5104,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^3.1.0, debug@npm:^3.2.7":
+"debug@npm:^3.2.7":
   version: 3.2.7
   resolution: "debug@npm:3.2.7"
   dependencies:
     ms: ^2.1.1
   checksum: b3d8c5940799914d30314b7c3304a43305fd0715581a919dacb8b3176d024a782062368405b47491516d2091d6462d4d11f2f4974a405048094f8bfebfa3071c
-  languageName: node
-  linkType: hard
-
-"debuglog@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "debuglog@npm:1.0.1"
-  checksum: 970679f2eb7a73867e04d45b52583e7ec6dee1f33c058e9147702e72a665a9647f9c3d6e7c2f66f6bf18510b23eb5ded1b617e48ac1db23603809c5ddbbb9763
   languageName: node
   linkType: hard
 
@@ -5326,16 +5309,6 @@ __metadata:
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
   checksum: ae6cd429c41ad01b164c59ea36f264a2c479598e61cba7c99da24175a7ab80ddf066420f2bec9a1c57a6bead411b4655ff15ad7d281c000a89791f48cbe939e7
-  languageName: node
-  linkType: hard
-
-"dezalgo@npm:^1.0.0":
-  version: 1.0.4
-  resolution: "dezalgo@npm:1.0.4"
-  dependencies:
-    asap: ^2.0.0
-    wrappy: 1
-  checksum: 895389c6aead740d2ab5da4d3466d20fa30f738010a4d3f4dcccc9fc645ca31c9d10b7e1804ae489b1eb02c7986f9f1f34ba132d409b043082a86d9a4e745624
   languageName: node
   linkType: hard
 
@@ -6568,7 +6541,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.0.5, glob@npm:^7.1.1, glob@npm:^7.1.3, glob@npm:^7.1.4":
+"glob@npm:^7.0.5, glob@npm:^7.1.3, glob@npm:^7.1.4":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
   dependencies:
@@ -6691,7 +6664,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graceful-fs@npm:4.2.10, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6, graceful-fs@npm:^4.2.9":
+"graceful-fs@npm:4.2.10, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6, graceful-fs@npm:^4.2.9":
   version: 4.2.10
   resolution: "graceful-fs@npm:4.2.10"
   checksum: 3f109d70ae123951905d85032ebeae3c2a5a7a997430df00ea30df0e3a6c60cf6689b109654d6fdacd28810a053348c4d14642da1d075049e6be1ba5216218da
@@ -8337,26 +8310,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"license-checker@npm:^25.0.1":
-  version: 25.0.1
-  resolution: "license-checker@npm:25.0.1"
-  dependencies:
-    chalk: ^2.4.1
-    debug: ^3.1.0
-    mkdirp: ^0.5.1
-    nopt: ^4.0.1
-    read-installed: ~4.0.3
-    semver: ^5.5.0
-    spdx-correct: ^3.0.0
-    spdx-expression-parse: ^3.0.0
-    spdx-satisfies: ^4.0.0
-    treeify: ^1.1.0
-  bin:
-    license-checker: ./bin/license-checker
-  checksum: deaabf56b471cfcd7bda190753becf2589c1fede585f21160f1c3bdcff255ef013401bdeaeb6ddcfde796ed4d03612508a6338b2465132205aaf73df45c9c2b5
-  languageName: node
-  linkType: hard
-
 "lines-and-columns@npm:^1.1.6":
   version: 1.2.4
   resolution: "lines-and-columns@npm:1.2.4"
@@ -9374,18 +9327,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nopt@npm:^4.0.1":
-  version: 4.0.3
-  resolution: "nopt@npm:4.0.3"
-  dependencies:
-    abbrev: 1
-    osenv: ^0.1.4
-  bin:
-    nopt: bin/nopt.js
-  checksum: 66cd3b6021fc8130fc201236bc3dce614fc86988b78faa91377538b09d57aad9ba4300b5d6a01dc93d6c6f2c170f81cc893063d496d108150b65191beb4a50a4
-  languageName: node
-  linkType: hard
-
 "nopt@npm:^5.0.0":
   version: 5.0.0
   resolution: "nopt@npm:5.0.0"
@@ -9397,7 +9338,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"normalize-package-data@npm:^2.0.0, normalize-package-data@npm:^2.5.0":
+"normalize-package-data@npm:^2.5.0":
   version: 2.5.0
   resolution: "normalize-package-data@npm:2.5.0"
   dependencies:
@@ -9503,7 +9444,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"npm-normalize-package-bin@npm:^1.0.0, npm-normalize-package-bin@npm:^1.0.1":
+"npm-normalize-package-bin@npm:^1.0.1":
   version: 1.0.1
   resolution: "npm-normalize-package-bin@npm:1.0.1"
   checksum: ae7f15155a1e3ace2653f12ddd1ee8eaa3c84452fdfbf2f1943e1de264e4b079c86645e2c55931a51a0a498cba31f70022a5219d5665fbcb221e99e58bc70122
@@ -9720,27 +9661,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"os-homedir@npm:^1.0.0":
-  version: 1.0.2
-  resolution: "os-homedir@npm:1.0.2"
-  checksum: af609f5a7ab72de2f6ca9be6d6b91a599777afc122ac5cad47e126c1f67c176fe9b52516b9eeca1ff6ca0ab8587fe66208bc85e40a3940125f03cdb91408e9d2
-  languageName: node
-  linkType: hard
-
-"os-tmpdir@npm:^1.0.0, os-tmpdir@npm:~1.0.2":
+"os-tmpdir@npm:~1.0.2":
   version: 1.0.2
   resolution: "os-tmpdir@npm:1.0.2"
   checksum: 5666560f7b9f10182548bf7013883265be33620b1c1b4a4d405c25be2636f970c5488ff3e6c48de75b55d02bde037249fe5dbfbb4c0fb7714953d56aed062e6d
-  languageName: node
-  linkType: hard
-
-"osenv@npm:^0.1.4":
-  version: 0.1.5
-  resolution: "osenv@npm:0.1.5"
-  dependencies:
-    os-homedir: ^1.0.0
-    os-tmpdir: ^1.0.0
-  checksum: 779d261920f2a13e5e18cf02446484f12747d3f2ff82280912f52b213162d43d312647a40c332373cbccd5e3fb8126915d3bfea8dde4827f70f82da76e52d359
   languageName: node
   linkType: hard
 
@@ -10297,24 +10221,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"read-installed@npm:~4.0.3":
-  version: 4.0.3
-  resolution: "read-installed@npm:4.0.3"
-  dependencies:
-    debuglog: ^1.0.1
-    graceful-fs: ^4.1.2
-    read-package-json: ^2.0.0
-    readdir-scoped-modules: ^1.0.0
-    semver: 2 || 3 || 4 || 5
-    slide: ~1.1.3
-    util-extend: ^1.0.1
-  dependenciesMeta:
-    graceful-fs:
-      optional: true
-  checksum: 44429cd2085a294184bfb83fbd06558815a6c84ce23df28e66c63feb605cb87438b5aa93d3bc7c70679e2bd3ae774b59c2d13a39e8ea993629759eef2bd9e2fa
-  languageName: node
-  linkType: hard
-
 "read-package-json-fast@npm:^2.0.3":
   version: 2.0.3
   resolution: "read-package-json-fast@npm:2.0.3"
@@ -10322,18 +10228,6 @@ __metadata:
     json-parse-even-better-errors: ^2.3.0
     npm-normalize-package-bin: ^1.0.1
   checksum: fca37b3b2160b9dda7c5588b767f6a2b8ce68d03a044000e568208e20bea0cf6dd2de17b90740ce8da8b42ea79c0b3859649dadf29510bbe77224ea65326a903
-  languageName: node
-  linkType: hard
-
-"read-package-json@npm:^2.0.0":
-  version: 2.1.2
-  resolution: "read-package-json@npm:2.1.2"
-  dependencies:
-    glob: ^7.1.1
-    json-parse-even-better-errors: ^2.3.0
-    normalize-package-data: ^2.0.0
-    npm-normalize-package-bin: ^1.0.0
-  checksum: 56a2642851e9321a68e1708263944bf5ab8a2c172daf3f13f18aad32fbe2f2ba516935b068c93771d9671012aec4596962c20417aca8b5e73501bc647691337a
   languageName: node
   linkType: hard
 
@@ -10407,18 +10301,6 @@ __metadata:
     isarray: 0.0.1
     string_decoder: ~0.10.x
   checksum: 85042c537e4f067daa1448a7e257a201070bfec3dd2706abdbd8ebc7f3418eb4d3ed4b8e5af63e2544d69f88ab09c28d5da3c0b77dc76185fddd189a59863b60
-  languageName: node
-  linkType: hard
-
-"readdir-scoped-modules@npm:^1.0.0":
-  version: 1.1.0
-  resolution: "readdir-scoped-modules@npm:1.1.0"
-  dependencies:
-    debuglog: ^1.0.1
-    dezalgo: ^1.0.0
-    graceful-fs: ^4.1.2
-    once: ^1.3.0
-  checksum: 6d9f334e40dfd0f5e4a8aab5e67eb460c95c85083c690431f87ab2c9135191170e70c2db6d71afcafb78e073d23eb95dcb3fc33ef91308f6ebfe3197be35e608
   languageName: node
   linkType: hard
 
@@ -12349,13 +12231,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slide@npm:~1.1.3":
-  version: 1.1.6
-  resolution: "slide@npm:1.1.6"
-  checksum: 5768635d227172e215b7a1a91d32f8781f5783b4961feaaf3d536bbf83cc51878928c137508cde7659fea6d7c04074927cab982731302771ee0051518ff24896
-  languageName: node
-  linkType: hard
-
 "smart-buffer@npm:^4.2.0":
   version: 4.2.0
   resolution: "smart-buffer@npm:4.2.0"
@@ -12448,17 +12323,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"spdx-compare@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "spdx-compare@npm:1.0.0"
-  dependencies:
-    array-find-index: ^1.0.2
-    spdx-expression-parse: ^3.0.0
-    spdx-ranges: ^2.0.0
-  checksum: 7d8b55b31163ba8e7abeaf69d8d7accba5aee324dd55e22a796a685ec4d5e3c3cbc2683b9a2edff5543ee6f6242f4ec22c15dc2e493eb807690fb65e1051e5eb
-  languageName: node
-  linkType: hard
-
 "spdx-correct@npm:^3.0.0":
   version: 3.1.1
   resolution: "spdx-correct@npm:3.1.1"
@@ -12490,24 +12354,6 @@ __metadata:
   version: 3.0.11
   resolution: "spdx-license-ids@npm:3.0.11"
   checksum: 1da1acb090257773e60b022094050e810ae9fec874dc1461f65dc0400cd42dd830ab2df6e64fb49c2db3dce386dd0362110780e1b154db7c0bb413488836aaeb
-  languageName: node
-  linkType: hard
-
-"spdx-ranges@npm:^2.0.0":
-  version: 2.1.1
-  resolution: "spdx-ranges@npm:2.1.1"
-  checksum: f807bd915aa2975bcebd9c4b4805661f248efcd4953ee62557626452fcd2933183f5b1a307d65507d8be6b9519b4e46dce05b61db0fbd5fce253b8f6d69bbbad
-  languageName: node
-  linkType: hard
-
-"spdx-satisfies@npm:^4.0.0":
-  version: 4.0.1
-  resolution: "spdx-satisfies@npm:4.0.1"
-  dependencies:
-    spdx-compare: ^1.0.0
-    spdx-expression-parse: ^3.0.0
-    spdx-ranges: ^2.0.0
-  checksum: a44c3665b1eb991285b6c1019d97a3df43290b39436e7a914dc99498580039cfe7d20e0680856c1d420ffa365fd7de3c39ee534abd3130a6fec6c2bd24259cca
   languageName: node
   linkType: hard
 
@@ -12960,13 +12806,6 @@ __metadata:
   version: 0.1.0
   resolution: "traverse-chain@npm:0.1.0"
   checksum: dea79231a429a3dd80a829ff83e8914b6d0032d55dd0971f69d5273e95155869fca400dd9e22f0d91c3b0dda9668aaeeb694f525d7e5a55ca7f695cc149088a2
-  languageName: node
-  linkType: hard
-
-"treeify@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "treeify@npm:1.1.0"
-  checksum: aa00dded220c1dd052573bd6fc2c52862f09870851a284f0d3650d72bf913ba9b4f6b824f4f1ab81899bae29375f4266b07fe47cbf82343a1efa13cc09ce87af
   languageName: node
   linkType: hard
 
@@ -13589,13 +13428,6 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 474acf1146cb2701fe3b074892217553dfcf9a031280919ba1b8d651a068c9b15d863b7303cb15bd00a862b498e6cf4ad7b4a08fb134edd5a6f7641681cb54a2
-  languageName: node
-  linkType: hard
-
-"util-extend@npm:^1.0.1":
-  version: 1.0.3
-  resolution: "util-extend@npm:1.0.3"
-  checksum: da57f399b331f40fe2cea5409b1f4939231433db9b52dac5593e4390a98b7b0d1318a0daefbcc48123fffe5026ef49f418b3e4df7a4cd7649a2583e559c608a5
   languageName: node
   linkType: hard
 

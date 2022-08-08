@@ -17,8 +17,8 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "lodash": "^4.17.21",
-    "ua-parser-js": "^1.0.2",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "ua-parser-js": "^1.0.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
@@ -58,6 +58,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.24.10",
+  "version": "2.24.11",
   "packageManager": "yarn@3.1.1"
 }

@@ -3217,6 +3217,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     elliptic: ^6.5.4
     sha.js: ^2.4.11
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3285,6 +3286,7 @@ __metadata:
     "@xyo-network/typeof": "workspace:^"
     axios: ^0.27.2
     pako: ^2.0.4
+    tslib: ^2.4.0
     uuid: ^8.3.2
   languageName: unknown
   linkType: soft
@@ -3299,6 +3301,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     lru-cache: ^7.13.2
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3316,6 +3319,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     lodash: ^4.17.21
+    tslib: ^2.4.0
     ua-parser-js: ^1.0.2
   languageName: unknown
   linkType: soft
@@ -3364,6 +3368,7 @@ __metadata:
     keccak256: ^1.0.6
     lodash: ^4.17.21
     sha.js: ^2.4.11
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3406,6 +3411,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.5.68
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3446,6 +3452,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ^0.27.2
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3481,6 +3488,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.6.3
     "@xylabs/tsconfig": ^2.5.68
     "@xyo-network/payload": "workspace:^"
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3498,7 +3506,8 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    "@xyo-network/witnesses": ^2.24.10
+    "@xyo-network/witnesses": ^2.24.11
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3524,6 +3533,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     axios: ^0.27.2
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3612,6 +3622,7 @@ __metadata:
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.9
     dotenv: ^16.0.1
     mongodb: ^4.8.1
+    tslib: ^2.4.0
     uuid: ^8.3.2
   languageName: unknown
   linkType: soft
@@ -3626,6 +3637,7 @@ __metadata:
     bowser: ^2.11.0
     lodash: ^4.17.21
     systeminformation: ^5.12.3
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3634,6 +3646,7 @@ __metadata:
   resolution: "@xyo-network/typeof@workspace:packages/sdk/typeof"
   dependencies:
     "@xylabs/tsconfig": ^2.5.68
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3675,6 +3688,7 @@ __metadata:
     "@xyo-network/schema-payload-plugin": "workspace:^"
     ajv: ^8.11.0
     lru-cache: ^7.13.2
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3689,6 +3703,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     bip39: ^3.0.4
     sha.js: ^2.4.11
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -3699,10 +3714,11 @@ __metadata:
     "@xylabs/tsconfig": ^2.5.68
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witnesses@^2.24.10, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
+"@xyo-network/witnesses@^2.24.11, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/witnesses"
   dependencies:
@@ -3711,6 +3727,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 

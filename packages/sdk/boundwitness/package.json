@@ -17,14 +17,14 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "lodash": "^4.17.21",
+    "tslib": "^2.4.0",
     "ua-parser-js": "^1.0.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "@types/ua-parser-js": "^0.7.36",
-    "@xylabs/tsconfig": "^2.5.68",
-    "tslib": "^2.4.0"
+    "@xylabs/tsconfig": "^2.5.68"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -58,6 +58,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.24.10",
+  "version": "2.24.11",
   "packageManager": "yarn@3.1.1"
 }

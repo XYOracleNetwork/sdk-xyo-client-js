@@ -3506,7 +3506,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    "@xyo-network/witnesses": ^2.24.10
+    "@xyo-network/witnesses": ^2.24.11
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3718,7 +3718,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witnesses@^2.24.10, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
+"@xyo-network/witnesses@^2.24.11, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/witnesses"
   dependencies:

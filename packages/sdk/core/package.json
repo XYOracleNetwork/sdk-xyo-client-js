@@ -16,15 +16,15 @@
     "axios": "^0.27.2",
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",
-    "sha.js": "^2.4.11"
+    "sha.js": "^2.4.11",
+    "tslib": "^2.4.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.6.4",
     "@types/sha.js": "^2.4.0",
-    "@xylabs/tsconfig": "^2.5.68",
-    "tslib": "^2.4.0"
+    "@xylabs/tsconfig": "^2.5.68"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -58,6 +58,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.24.10",
+  "version": "2.24.11",
   "packageManager": "yarn@3.1.1"
 }

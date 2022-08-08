@@ -21,7 +21,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/uuid": "^8.3.4",
-    "@xylabs/tsconfig": "^2.5.68",
+    "@xylabs/tsconfig": "^2.5.73",
     "dotenv": "^16.0.1"
   },
   "browser": "dist/esm/browserIndex.js",

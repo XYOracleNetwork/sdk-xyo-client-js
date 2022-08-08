@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
-import { XyoSchemaPayload } from '@xyo-network/payload'
+import { XyoSchemaPayload, XyoSchemaPayloadSchema } from '@xyo-network/schema-payload-plugin'
 
 import { XyoApiConfig } from '../../../models'
 import { XyoArchivistApi } from '../../Api'
@@ -14,8 +14,9 @@ const payload: XyoSchemaPayload = {
   definition: {
     $id: '',
     $schema: 'http://json-schema.org/draft-07/schema#',
+    schema: getSchemaName(),
   },
-  schema: getSchemaName(),
+  schema: XyoSchemaPayloadSchema,
 }
 
 describe('XyoArchivistArchivePayloadSchemaApi', () => {

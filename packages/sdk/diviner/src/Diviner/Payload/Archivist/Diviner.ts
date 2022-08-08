@@ -6,7 +6,7 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoPayloadDivinerPayload, XyoPayloadDivinerPayloadSchema } from '../XyoPayloadDivinerPayload'
 import { XyoPayloadDivinerQueryPayload } from '../XyoPayloadDivinerQueryPayload'
 
-export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoPayloadDivinerPayload, XyoPayloadDivinerQueryPayload> {
+export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner {
   protected archivist: XyoArchivist
 
   constructor(archivist: XyoArchivist) {

@@ -20,7 +20,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/uuid": "^8.3.4",
-    "@xylabs/tsconfig": "^2.5.13",
+    "@xylabs/tsconfig": "^2.5.68",
     "dotenv": "^16.0.1",
     "tslib": "^2.4.0"
   },
@@ -57,6 +57,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.24.7",
+  "version": "2.24.10",
   "packageManager": "yarn@3.1.1"
 }

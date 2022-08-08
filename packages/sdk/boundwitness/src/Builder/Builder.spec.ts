@@ -8,7 +8,7 @@ import { XyoPayload } from '@xyo-network/payload'
 import { XyoBoundWitnessBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'
-const payload1: XyoPayload<StringKeyObject> = {
+const payload1: XyoPayload<StringKeyObject & { schema: string }> = {
   number_field: 1,
   object_field: {
     number_value: 2,
@@ -18,7 +18,7 @@ const payload1: XyoPayload<StringKeyObject> = {
   string_field: 'there',
   timestamp: 1618603439107,
 }
-const payload2: XyoPayload<StringKeyObject> = {
+const payload2: XyoPayload<StringKeyObject & { schema: string }> = {
   timestamp: 1618603439107,
   string_field: 'there',
   schema,

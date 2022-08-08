@@ -20,7 +20,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/sha.js": "^2.4.0",
-    "@xylabs/tsconfig": "^2.5.71"
+    "@xylabs/tsconfig": "^2.5.73"
   },
   "browser": "dist/esm/browserIndex.js",
   "main": "dist/cjs/index.js",

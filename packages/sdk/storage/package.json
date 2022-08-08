@@ -15,14 +15,14 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
     "mongodb": "^4.8.1",
+    "tslib": "^2.4.0",
     "uuid": "^8.3.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/uuid": "^8.3.4",
     "@xylabs/tsconfig": "^2.5.68",
-    "dotenv": "^16.0.1",
-    "tslib": "^2.4.0"
+    "dotenv": "^16.0.1"
   },
   "browser": "dist/esm/browserIndex.js",
   "docs": "dist/docs.json",

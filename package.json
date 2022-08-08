@@ -33,13 +33,9 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.18.10",
-    "@babel/preset-env": "^7.18.10",
-    "@xylabs/eslint-config": "^2.5.54",
-    "@xylabs/ts-scripts-yarn3": "^2.5.54",
-    "@xylabs/tsconfig": "^2.5.54",
-    "jest-environment-jsdom": "^28.1.3",
-    "jest-extended": "^3.0.2",
+    "@xylabs/eslint-config": "^2.5.68",
+    "@xylabs/ts-scripts-yarn3": "^2.5.68",
+    "@xylabs/tsconfig": "^2.5.68",
     "typescript": "^4.7.4"
   },
   "browser": "dist/esm/index.js",
@@ -79,14 +75,7 @@
     "displayName": "Root Package"
   },
   "scripts": {
-    "lint-pkg": "npmPkgJsonLint .",
-    "deploy3": "yarn deploy-patch",
-    "deploy-major": "yarn workspaces foreach --all version major --deferred && yarn deploy-common",
-    "deploy-minor": "yarn workspaces foreach --all version minor --deferred && yarn deploy-common",
-    "deploy-patch": "yarn workspaces foreach --all version patch --deferred && yarn deploy-common",
-    "deploy-common": "echo Deploy... && yarn clean && yarn build && yarn apply-version:private && yarn publish:private",
-    "apply-version:private": "echo Applying Version... && yarn version apply --all",
-    "publish:private": "echo Publishing... && yarn workspaces foreach -pt npm publish"
+    "lint-pkg": "npmPkgJsonLint ."
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",

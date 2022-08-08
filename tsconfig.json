@@ -5,6 +5,5 @@
     "types": ["jest", "node", "@types/jest", "jest-sorted", "jest-extended", "json-schema"]
   },
   "exclude": ["**/dist", "**/node_modules"],
-  "extends": "@xylabs/tsconfig",
-  "include": ["src"]
+  "extends": "@xylabs/tsconfig"
 }

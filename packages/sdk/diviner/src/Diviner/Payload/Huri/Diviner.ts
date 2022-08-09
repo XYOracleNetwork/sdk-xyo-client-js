@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { Huri, HuriOptions } from '@xyo-network/payload'
+import { Huri, HuriOptions, XyoPayload } from '@xyo-network/payload'
 
 import { profile } from '../lib'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
@@ -15,10 +15,10 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner {
     this.options = options
   }
 
-  override async divine(query: XyoPayloadDivinerQueryPayload): Promise<XyoBoundWitness> {
+  override async divine(query: XyoPayloadDivinerQueryPayload): Promise<[XyoBoundWitness, XyoPayload[]]> {
     const huri = new Huri(query.huri, this.options)
     const [payload = null, duration] = await profile(async () => await huri.fetch())
     const resultPayload: XyoPayloadDivinerPayload = { duration, payload, schema: XyoPayloadDivinerPayloadSchema }
-    return this.bind([resultPayload])
+    return [this.bind([resultPayload]), [resultPayload]]
   }
 }

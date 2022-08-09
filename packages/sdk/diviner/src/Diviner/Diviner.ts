@@ -10,7 +10,7 @@ export interface XyoNode {
 
 export interface XyoDiviner<TQueryPayload extends XyoQueryPayload = XyoQueryPayload> {
   address: string
-  divine(query: TQueryPayload): Promise<XyoBoundWitness>
+  divine(query: TQueryPayload): Promise<[XyoBoundWitness, XyoPayload[]]>
 }
 
 export abstract class XyoAbstractDiviner<TQueryPayload extends XyoQueryPayload = XyoQueryPayload> implements XyoDiviner<TQueryPayload> {
@@ -18,7 +18,7 @@ export abstract class XyoAbstractDiviner<TQueryPayload extends XyoQueryPayload =
   constructor(account: XyoAccount) {
     this.account = account
   }
-  abstract divine(query: TQueryPayload): Promise<XyoBoundWitness>
+  abstract divine(query: TQueryPayload): Promise<[XyoBoundWitness, XyoPayload[]]>
   get address() {
     return this.account.addressValue.hex
   }

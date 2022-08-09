@@ -5,7 +5,9 @@ import { XyoEthereumGasEtherchainPayloadV2, XyoEthereumGasEtherchainQueryPayload
 
 export class XyoEtherchainEthereumGasWitnessV2 extends XyoQueryWitness<XyoEthereumGasEtherchainPayloadV2, XyoEthereumGasEtherchainQueryPayloadV2> {
   constructor() {
-    super({ query: { schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.query', targetSchema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2' } })
+    super({
+      query: { schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.query', targetSchema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2' },
+    })
   }
   override async observe(): Promise<XyoEthereumGasEtherchainPayloadV2> {
     const fields = await getV2GasFromEtherchain()

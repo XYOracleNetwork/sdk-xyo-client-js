@@ -28,4 +28,6 @@ export abstract class XyoAbstractDiviner<TQueryPayload extends XyoQueryPayload =
   }
 }
 
-export abstract class XyoAbstractTimestampDiviner<TQueryPayload extends XyoQueryPayload = XyoQueryPayload> extends XyoAbstractDiviner<TQueryPayload> {}
+export abstract class XyoAbstractTimestampDiviner<
+  TQueryPayload extends XyoQueryPayload = XyoQueryPayload,
+> extends XyoAbstractDiviner<TQueryPayload> {}

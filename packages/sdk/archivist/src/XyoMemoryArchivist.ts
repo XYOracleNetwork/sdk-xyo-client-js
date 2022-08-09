@@ -41,7 +41,7 @@ export class XyoMemoryArchivist<C extends XyoMemoryArchivistConfig<XyoPayload> =
     return await Promise.all(
       hashes.map(async (hash) => {
         return this.cache.get(hash) ?? (await this.parent?.get([hash]))?.pop() ?? null
-      })
+      }),
     )
   }
 

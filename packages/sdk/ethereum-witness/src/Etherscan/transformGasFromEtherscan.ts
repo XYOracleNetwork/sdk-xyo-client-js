@@ -1,7 +1,14 @@
 import { EtherscanGasPriceResult } from './EtherscanGasPriceResult'
 
 export const transformGasFromEtherscan = (response: EtherscanGasPriceResult) => {
-  const { FastGasPrice, LastBlock, ProposeGasPrice, SafeGasPrice, gasUsedRatio: unparsedGasUsedRatio, suggestBaseFee: unparsedSuggestBaseFee } = response.result
+  const {
+    FastGasPrice,
+    LastBlock,
+    ProposeGasPrice,
+    SafeGasPrice,
+    gasUsedRatio: unparsedGasUsedRatio,
+    suggestBaseFee: unparsedSuggestBaseFee,
+  } = response.result
   const fastGasPrice: number = parseInt(FastGasPrice, 10)
   const lastBlock: number = parseInt(LastBlock, 10)
   const proposeGasPrice: number = parseInt(ProposeGasPrice, 10)

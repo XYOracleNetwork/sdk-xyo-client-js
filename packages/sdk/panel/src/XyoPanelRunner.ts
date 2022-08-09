@@ -45,7 +45,7 @@ export class XyoPanelRunner {
             this.timeoutId = undefined
             await this.start()
           },
-          delay > 0 ? delay : 0
+          delay > 0 ? delay : 0,
         )
       }
     }

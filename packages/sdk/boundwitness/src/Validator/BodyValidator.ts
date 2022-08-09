@@ -102,7 +102,7 @@ export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWi
       ...this.payloadHashes(),
       ...this.payloadSchemas(),
       ...this.previousHashes(),
-      ...this.schema()
+      ...this.schema(),
     )
     return errors
   }

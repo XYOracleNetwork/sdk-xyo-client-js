@@ -20,7 +20,7 @@ const anyRequestsFailed = (results: XyoApiResponseTuple<XyoPayload>[][]): boolea
 
 export class XyoArchivistNodeApi<
   D extends XyoBoundWitnessWithMeta | XyoBoundWitnessWithMeta[] = XyoBoundWitnessWithMeta | XyoBoundWitnessWithMeta[],
-  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>
+  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoApiSimple<string[][], D, XyoApiSimpleQuery, C> {
   /**
    * Get the result of a previously issued query (if available)

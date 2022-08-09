@@ -10,7 +10,7 @@ export interface XyoRemoteArchivistConfig<T extends XyoPayload = XyoPayload> ext
 
 export class XyoRemoteArchivistConfigWrapper<
   T extends XyoPayload = XyoPayload,
-  C extends XyoRemoteArchivistConfig<T> = XyoRemoteArchivistConfig<T>
+  C extends XyoRemoteArchivistConfig<T> = XyoRemoteArchivistConfig<T>,
 > extends XyoArchivistConfigWrapper<T, C> {
   constructor(config?: C) {
     super(config)

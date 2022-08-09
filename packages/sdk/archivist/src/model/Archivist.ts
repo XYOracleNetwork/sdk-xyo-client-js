@@ -30,7 +30,7 @@ export interface Archivist<
   TWrite = TReadResponse,
   TQueryResponse = TReadResponse,
   TQuery = unknown,
-  TId = string
+  TId = string,
 > extends ReadArchivist<TReadResponse, TId>,
     QueryArchivist<TReadResponse, TQueryResponse, TQuery>,
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,

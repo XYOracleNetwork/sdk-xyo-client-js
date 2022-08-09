@@ -83,7 +83,7 @@ export class XyoPanel {
 
   private async generatePayload(
     witness: XyoWitness,
-    onError?: (witness: XyoWitness, error: Error) => void
+    onError?: (witness: XyoWitness, error: Error) => void,
   ): Promise<[XyoPartialPayloadMeta<XyoPayload> | null, Error?]> {
     this.config.onWitnessReportStart?.(witness)
     const startTime = Date.now()
@@ -107,7 +107,7 @@ export class XyoPanel {
         const [payload, error] = await this.generatePayload(witness, onError)
         this.config.onWitnessReportEnd?.(witness, error)
         return payload
-      })
+      }),
     )
     return payloads
   }

@@ -6,7 +6,7 @@ import { LocationTimeRangeQuery, LocationTimeRangeQuerySchema } from './Location
 
 export interface LocationQueryCreationRequest<
   TSchema extends LocationQuerySchema = LocationQuerySchema,
-  TQuery extends Record<string, unknown> = Record<string, unknown>
+  TQuery extends Record<string, unknown> = Record<string, unknown>,
 > {
   sourceArchivist: XyoApiConfig
   sourceArchive: string

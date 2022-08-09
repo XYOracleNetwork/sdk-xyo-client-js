@@ -8,7 +8,7 @@ import { XyoArchivistPayloadApi } from '../Payload'
 
 export class XyoArchivistArchiveBlockApi<
   T extends XyoBoundWitnessWithPartialMeta = XyoBoundWitnessWithPartialMeta,
-  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>
+  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoArchivistPayloadApi<T, C> {
   public payloads(hash: string): XyoApiSimple<XyoPayload[][]> {
     return new XyoApiSimple<XyoPayload[][]>({

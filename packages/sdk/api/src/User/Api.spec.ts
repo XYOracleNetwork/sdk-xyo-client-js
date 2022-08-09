@@ -31,7 +31,7 @@ describe('XyoAuthApi', () => {
           expect(error === undefined)
         }
       },
-      timeout
+      timeout,
     )
   })
 })

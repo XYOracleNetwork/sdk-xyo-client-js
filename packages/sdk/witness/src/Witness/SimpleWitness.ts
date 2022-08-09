@@ -28,10 +28,10 @@ export class XyoSimpleWitness<T extends XyoPayload = XyoPayload, C extends XyoSi
 }
 
 /** @deprecated Use XyoSimpleWitness */
-export class XyoLegacyWitness<T extends XyoPayload = XyoPayload, C extends XyoSimpleWitnessConfig<T> = XyoSimpleWitnessConfig<T>> extends XyoSimpleWitness<
-  T,
-  C
-> {}
+export class XyoLegacyWitness<
+  T extends XyoPayload = XyoPayload,
+  C extends XyoSimpleWitnessConfig<T> = XyoSimpleWitnessConfig<T>,
+> extends XyoSimpleWitness<T, C> {}
 
 /** @deprecated Use XyoSimpleWitnessConfig */
 export type XyoWitnessConfig<T extends XyoPayload = XyoPayload> = XyoSimpleWitnessConfig<T>

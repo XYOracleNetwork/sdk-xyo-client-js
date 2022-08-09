@@ -2266,13 +2266,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rushstack/eslint-patch@npm:^1.1.4":
-  version: 1.1.4
-  resolution: "@rushstack/eslint-patch@npm:1.1.4"
-  checksum: 597bc84e2f76c7f5f2bcedd4c4b1dd5d02524167a0f67ac588e8fbbd94666297aaf0e6a53ec46afb95554164fc1169ff782841003280e4bc98e80ab6559412c6
-  languageName: node
-  linkType: hard
-
 "@sinclair/typebox@npm:^0.24.1":
   version: 0.24.27
   resolution: "@sinclair/typebox@npm:0.24.27"
@@ -2609,7 +2602,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.6.4, @types/node@npm:^18.6.5":
+"@types/node@npm:*, @types/node@npm:^18.6.5":
   version: 18.6.5
   resolution: "@types/node@npm:18.6.5"
   checksum: e3e66c9a84b94010a57c1b9dac882c08484278d74f9d120dbe6a3e45d00740d178bd1d34a5deee28197c94b9f4359153b637bab9b305328e865027e9987a0f3d
@@ -2744,13 +2737,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.32.0":
-  version: 5.32.0
-  resolution: "@typescript-eslint/eslint-plugin@npm:5.32.0"
+"@typescript-eslint/eslint-plugin@npm:^5.33.0":
+  version: 5.33.0
+  resolution: "@typescript-eslint/eslint-plugin@npm:5.33.0"
   dependencies:
-    "@typescript-eslint/scope-manager": 5.32.0
-    "@typescript-eslint/type-utils": 5.32.0
-    "@typescript-eslint/utils": 5.32.0
+    "@typescript-eslint/scope-manager": 5.33.0
+    "@typescript-eslint/type-utils": 5.33.0
+    "@typescript-eslint/utils": 5.33.0
     debug: ^4.3.4
     functional-red-black-tree: ^1.0.1
     ignore: ^5.2.0
@@ -2763,7 +2756,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 9785c34d9742b51130237bfe244924ca6dfd529bdcc5932a5cf81558f0235099c963a11125df393037db51ce451f7ab9442aba3c3a8bb2e0607569a0e31480c8
+  checksum: d408f3f474b34fefde8ee65d98deb126949fd7d8e211a7f95c5cc2b507dedbf8eb239f3895e0c37aa6338989531e37c5f35c2e0de36a126c52f0846e89605487
   languageName: node
   linkType: hard
 
@@ -2778,20 +2771,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.32.0":
-  version: 5.32.0
-  resolution: "@typescript-eslint/parser@npm:5.32.0"
+"@typescript-eslint/parser@npm:^5.33.0":
+  version: 5.33.0
+  resolution: "@typescript-eslint/parser@npm:5.33.0"
   dependencies:
-    "@typescript-eslint/scope-manager": 5.32.0
-    "@typescript-eslint/types": 5.32.0
-    "@typescript-eslint/typescript-estree": 5.32.0
+    "@typescript-eslint/scope-manager": 5.33.0
+    "@typescript-eslint/types": 5.33.0
+    "@typescript-eslint/typescript-estree": 5.33.0
     debug: ^4.3.4
   peerDependencies:
     eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 3fcfa183cad125c3198fd63701c6e13dad1cc984d309e8cd40ec9a2eb857902abfd7e9ee3f030b18eb1c18c795a61ea289ef147a7f9dfac38df905e7514316af
+  checksum: 2617aba987a70ee6b16ecc6afa6d245422df33a9d056018ff2e316159e667a0ab9d9c15fcea95e0ba65832661e71cc2753a221e77f0b0fab278e52c4497b8278
   languageName: node
   linkType: hard
 
@@ -2805,11 +2798,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/type-utils@npm:5.32.0":
-  version: 5.32.0
-  resolution: "@typescript-eslint/type-utils@npm:5.32.0"
+"@typescript-eslint/scope-manager@npm:5.33.0":
+  version: 5.33.0
+  resolution: "@typescript-eslint/scope-manager@npm:5.33.0"
   dependencies:
-    "@typescript-eslint/utils": 5.32.0
+    "@typescript-eslint/types": 5.33.0
+    "@typescript-eslint/visitor-keys": 5.33.0
+  checksum: b2cbea9abd528d01a5acb2d68a2a5be51ec6827760d3869bdd70920cf6c3a4f9f96d87c77177f8313009d9db71253e4a75f8393f38651e2abaf91ef28e60fb9d
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/type-utils@npm:5.33.0":
+  version: 5.33.0
+  resolution: "@typescript-eslint/type-utils@npm:5.33.0"
+  dependencies:
+    "@typescript-eslint/utils": 5.33.0
     debug: ^4.3.4
     tsutils: ^3.21.0
   peerDependencies:
@@ -2817,7 +2820,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 4063808ca054789bebc6adb376d15c13e38f8ea14fa2842c38ae616d77fb77681b67a04b77887cf9ceb6f801ab3fc5eddfb6325779ab821404c62f36c56310bb
+  checksum: a1d1ffb42fe96bfc2339cc2875e218aa82fa9391be04c1a266bb11da1eca6835555687e81cde75477c60e6702049cd4dde7d2638e7e9b9d8cf4b7b2242353a6e
   languageName: node
   linkType: hard
 
@@ -2825,6 +2828,13 @@ __metadata:
   version: 5.32.0
   resolution: "@typescript-eslint/types@npm:5.32.0"
   checksum: 6758f54d8d7763893cd7c1753f525ef1777eee8b558bf3d54fd2a2ce691ca0cf813c68a26e4db83a1deae4e4a62b247f1195e15a1f3577f1293849f9e55a232c
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/types@npm:5.33.0":
+  version: 5.33.0
+  resolution: "@typescript-eslint/types@npm:5.33.0"
+  checksum: 8bbddda84cb3adf5c659b0d42547a2d6ab87f4eea574aca5dd63a3bd85169f32796ecbddad3b27f18a609070f6b1d18a54018d488bad746ae0f6ea5c02206109
   languageName: node
   linkType: hard
 
@@ -2846,6 +2856,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/typescript-estree@npm:5.33.0":
+  version: 5.33.0
+  resolution: "@typescript-eslint/typescript-estree@npm:5.33.0"
+  dependencies:
+    "@typescript-eslint/types": 5.33.0
+    "@typescript-eslint/visitor-keys": 5.33.0
+    debug: ^4.3.4
+    globby: ^11.1.0
+    is-glob: ^4.0.3
+    semver: ^7.3.7
+    tsutils: ^3.21.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 26f9005cdfb14654125a33d90d872b926820e560dff8970c4629fd5f6f47ad2a31e4c63161564d21bb42a8fc3ced0033994854ee37336ae07d90ccf6300d702b
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/utils@npm:5.32.0":
   version: 5.32.0
   resolution: "@typescript-eslint/utils@npm:5.32.0"
@@ -2862,6 +2890,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/utils@npm:5.33.0":
+  version: 5.33.0
+  resolution: "@typescript-eslint/utils@npm:5.33.0"
+  dependencies:
+    "@types/json-schema": ^7.0.9
+    "@typescript-eslint/scope-manager": 5.33.0
+    "@typescript-eslint/types": 5.33.0
+    "@typescript-eslint/typescript-estree": 5.33.0
+    eslint-scope: ^5.1.1
+    eslint-utils: ^3.0.0
+  peerDependencies:
+    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+  checksum: 6ce5ee5eabeb6d73538b24e6487f811ecb0ef3467bd366cbd15bf30d904bdedb73fc6f48cf2e2e742dda462b42999ea505e8b59255545825ec9db86f3d423ea7
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/visitor-keys@npm:5.32.0":
   version: 5.32.0
   resolution: "@typescript-eslint/visitor-keys@npm:5.32.0"
@@ -2869,6 +2913,16 @@ __metadata:
     "@typescript-eslint/types": 5.32.0
     eslint-visitor-keys: ^3.3.0
   checksum: 1f9b756d648c2346a6e8538ffde729d3d9ce6621fded3d9f15c96aa0ebf8f511daf8232470423fb36359c2113538a4daaf3336181be78a0cfbfd297af91ce9ba
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:5.33.0":
+  version: 5.33.0
+  resolution: "@typescript-eslint/visitor-keys@npm:5.33.0"
+  dependencies:
+    "@typescript-eslint/types": 5.33.0
+    eslint-visitor-keys: ^3.3.0
+  checksum: d7e3653de6bac6841e6fcc54226b93ad6bdca4aa76ebe7d83459c016c3eebcc50d4f65ee713174bc267d765295b642d1927a778c5de707b8389e3fcc052aa4a1
   languageName: node
   linkType: hard
 
@@ -3060,24 +3114,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/buffer@npm:^2.6.3":
-  version: 2.6.3
-  resolution: "@xylabs/buffer@npm:2.6.3"
+"@xylabs/assert@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "@xylabs/assert@npm:2.6.4"
   dependencies:
-    buffer: ^6.0.3
-  checksum: 51195ee53aa67f8975c4d0d879d72ab1e59a8760de52f0048f1b60f8eed71807d309b77f04f87ff4ff5948d945711b1d50d26b48098ceea49b4f8d32a615605b
+    tslib: ^2.4.0
+  checksum: fdbd9f9da3cef2795dd03a00a4677350fea300bdf36191746bbb44458b2433592c352128caad34e8e62e6ccabbec53ef2f2d10464d349881bcc0b52c96c336e3
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^2.5.75":
-  version: 2.5.75
-  resolution: "@xylabs/eslint-config@npm:2.5.75"
+"@xylabs/buffer@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "@xylabs/buffer@npm:2.6.4"
+  dependencies:
+    buffer: ^6.0.3
+    tslib: ^2.4.0
+  checksum: 2f2762bfd4a356cdc5a586c6aea5c4f3bbe0a5e3b14e875215d5e9b6efaf7885da1040821f22850bf3f2559b69c9babbd324fd62e762593c96415912f6a30d55
+  languageName: node
+  linkType: hard
+
+"@xylabs/delay@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "@xylabs/delay@npm:2.6.4"
+  dependencies:
+    tslib: ^2.4.0
+  checksum: 94aa30059461b3d394456b93bdab3fafc9af841c4d6a4838bd678efe65e75058d63074428d88a4305cb6d8353a29320b0606c76eb42c043c5c41adf05fa6266f
+  languageName: node
+  linkType: hard
+
+"@xylabs/eslint-config@npm:^2.5.87":
+  version: 2.5.87
+  resolution: "@xylabs/eslint-config@npm:2.5.87"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/eslint-parser": ^7.18.9
-    "@rushstack/eslint-patch": ^1.1.4
-    "@typescript-eslint/eslint-plugin": ^5.32.0
-    "@typescript-eslint/parser": ^5.32.0
+    "@typescript-eslint/eslint-plugin": ^5.33.0
+    "@typescript-eslint/parser": ^5.33.0
     eslint: ^8.21.0
     eslint-config-prettier: ^8.5.0
     eslint-import-resolver-typescript: ^3.4.0
@@ -3094,36 +3166,49 @@ __metadata:
     remark-lint-maximum-line-length: ^3.1.2
     remark-preset-lint-markdown-style-guide: ^5.1.2
     typescript: ^4.7.4
-  checksum: e746cdb3802b1424e4fd7ca6a8badbcc80930527fc2d06e5e9ef40d6ddd4fc4e494fdad020fc934b09a2a4be7ccd85572a7b70b9132241142516e7cd34ad22e3
+  checksum: d40ef56e49de90e19b3f207693cd0d0307683ca1b1b6a9a20390c38994062e2a39d0f2d54791f6786cb78e10c2d3b91f5f7969add2a2a73d1c5a89f36db61f9e
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-js@npm:^2.5.9, @xylabs/sdk-js@npm:^2.6.3":
-  version: 2.6.3
-  resolution: "@xylabs/sdk-js@npm:2.6.3"
+"@xylabs/forget@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "@xylabs/forget@npm:2.6.4"
   dependencies:
+    "@xylabs/delay": ^2.6.4
+    tslib: ^2.4.0
+  checksum: efd21a2af53f9b28a6ba07f6445454e58a669a586c4d95e6c2fc1feb7816de7284aef50ae89d18de75113985842c210ca92c6c00846ebdc26172497e96fc16f1
+  languageName: node
+  linkType: hard
+
+"@xylabs/sdk-js@npm:^2.5.9, @xylabs/sdk-js@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "@xylabs/sdk-js@npm:2.6.4"
+  dependencies:
+    "@xylabs/assert": ^2.6.4
+    "@xylabs/delay": ^2.6.4
+    "@xylabs/forget": ^2.6.4
     axios: ^0.27.2
     bn.js: ^5.2.1
     rollbar: ^2.25.1
-  checksum: d0e014094f9bec5055d369d4e55fea02779b982009007d393cfe8d65d2fe3bb28d2a9d4386f47102cdc781f8152de822a88a0ec2eaa7fc265be1ba9bd7d8555c
+  checksum: b687870e5bd2ea97db07dda7b907d1f5bac029a82a278cbaf9f88f9482273919bd805e83ea38c227a09d05f21d909271c72e2d2dce31a643a8d89852f78231af
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^2.5.75":
-  version: 2.5.75
-  resolution: "@xylabs/ts-scripts-yarn3@npm:2.5.75"
+"@xylabs/ts-scripts-yarn3@npm:^2.5.87":
+  version: 2.5.87
+  resolution: "@xylabs/ts-scripts-yarn3@npm:2.5.87"
   dependencies:
     "@babel/core": ^7.18.10
     "@babel/preset-env": ^7.18.10
     "@types/jest": ^28.1.6
-    "@types/node": ^18.6.4
-    "@xylabs/eslint-config": ^2.5.75
-    "@xylabs/sdk-js": ^2.6.3
+    "@types/node": ^18.6.5
+    "@xylabs/eslint-config": ^2.5.87
+    "@xylabs/sdk-js": ^2.6.4
     chalk: ^4.1.2
     cpy-cli: ^4.1.0
     depcheck: ^1.4.3
     eslint: ^8.21.0
-    eslint-plugin-sonarjs: ^0.14.0
+    eslint-plugin-sonarjs: ^0.15.0
     jest: ^28.1.3
     jest-environment-jsdom: ^28.1.3
     jest-extended: ^3.0.2
@@ -3166,6 +3251,7 @@ __metadata:
     migrate: dist/cjs/migrate.js
     rebuild: dist/cjs/rebuild.js
     reinstall: dist/cjs/reinstall.js
+    relint: dist/cjs/relint.js
     sonar: dist/cjs/sonar.js
     test: dist/cjs/test.js
     up: dist/cjs/up.js
@@ -3190,22 +3276,23 @@ __metadata:
     xylabs-lint-profile: dist/cjs/lint-profile.js
     xylabs-rebuild: dist/cjs/rebuild.js
     xylabs-reinstall: dist/cjs/reinstall.js
+    xylabs-relint: dist/cjs/relint.js
     xylabs-sonar: dist/cjs/sonar.js
     xylabs-test: dist/cjs/test.js
     xylabs-up: dist/cjs/up.js
     xylabs-updo: dist/cjs/updo.js
     xylabs-yarn3only: dist/cjs/yarn3only.js
     yarn3only: dist/cjs/yarn3only.js
-  checksum: 7695e1f2c17c81665b38831631128ce83b43699089062a62465d596e206ed3795c8215ce862528d793301911a7ee91a7a886da3dfa12a634f6702595ad2333b0
+  checksum: c81413b1e901c49bd08a7c1cdb3a3a9161d585a7bd3bded3f39ab387e6cb7c8f0b0b8a79d82340e4a7125832cd1f3aca382f524e69985b61b605acfab000481f
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^2.5.75":
-  version: 2.5.75
-  resolution: "@xylabs/tsconfig@npm:2.5.75"
+"@xylabs/tsconfig@npm:^2.5.87":
+  version: 2.5.87
+  resolution: "@xylabs/tsconfig@npm:2.5.87"
   dependencies:
     typescript: ^4.7.4
-  checksum: 71d0b1cd669dcd5d133910747e50cceedd02a444ddc8e0f66d255a385f3186a07dacdab4894e737a4da41109ee2f4a9a4b443a242f4ac52e06cdfc98e98b7bb0
+  checksum: 034b53af68803cde5c118dbb15e5b2d80baa3de56f4ce0111bd66938cc349237515037df0932c5739ca21352369122522de91d19647965e38324a885e6fe1935
   languageName: node
   linkType: hard
 
@@ -3215,7 +3302,7 @@ __metadata:
   dependencies:
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/core": "workspace:^"
     elliptic: ^6.5.4
     sha.js: ^2.4.11
@@ -3227,7 +3314,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/all-crypto-cards-payload-plugins@workspace:packages/plugins/packages/crypto/packages/cards"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/crypto-cards-game-payload-plugin": "workspace:^"
     "@xyo-network/crypto-cards-move-payload-plugin": "workspace:^"
     tslib: ^2.4.0
@@ -3238,7 +3325,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/all-crypto-market-payload-plugins@workspace:packages/plugins/packages/crypto/packages/market"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     tslib: ^2.4.0
@@ -3249,7 +3336,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/all-crypto-payload-plugins@workspace:packages/plugins/packages/crypto"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/all-crypto-cards-payload-plugins": "workspace:^"
     "@xyo-network/all-crypto-market-payload-plugins": "workspace:^"
     tslib: ^2.4.0
@@ -3260,7 +3347,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/all-payload-plugins@workspace:packages/plugins"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/all-crypto-payload-plugins": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
@@ -3277,8 +3364,8 @@ __metadata:
     "@ethersproject/wallet": ^5.6.2
     "@types/pako": ^2.0.0
     "@types/uuid": ^8.3.4
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
@@ -3297,8 +3384,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist@workspace:packages/sdk/archivist"
   dependencies:
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3313,9 +3400,9 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.182
     "@types/ua-parser-js": ^0.7.36
-    "@xylabs/buffer": ^2.6.3
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/buffer": ^2.6.4
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3331,7 +3418,7 @@ __metadata:
   resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser"
   dependencies:
     "@types/lodash": ^4.14.182
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3345,8 +3432,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko"
   dependencies:
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3362,9 +3449,9 @@ __metadata:
     "@types/lodash": ^4.14.182
     "@types/node": ^18.6.5
     "@types/sha.js": ^2.4.0
-    "@xylabs/buffer": ^2.6.3
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/buffer": ^2.6.4
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/typeof": "workspace:^"
     axios: ^0.27.2
     keccak256: ^1.0.6
@@ -3378,7 +3465,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3390,7 +3477,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/move"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3402,7 +3489,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/cryptomarket-witness@workspace:packages/sdk/cryptomarket-witness"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
   languageName: unknown
   linkType: soft
 
@@ -3410,7 +3497,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/sdk/diviner"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
@@ -3422,8 +3509,8 @@ __metadata:
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/plugins/packages/domain"
   dependencies:
     "@types/lodash": ^4.14.182
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/api": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/network": "workspace:^"
@@ -3440,7 +3527,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain@workspace:packages/sdk/domain"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
   languageName: unknown
   linkType: soft
 
@@ -3449,8 +3536,8 @@ __metadata:
   resolution: "@xyo-network/ethereum-witness@workspace:packages/sdk/ethereum-witness"
   dependencies:
     "@ethersproject/providers": ^5.6.8
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ^0.27.2
@@ -3462,7 +3549,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/packages/id"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3475,7 +3562,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-payload-plugin@workspace:packages/plugins/packages/location"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3487,8 +3574,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/sdk/network"
   dependencies:
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
@@ -3498,8 +3585,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/panel@workspace:packages/sdk/panel"
   dependencies:
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
@@ -3508,7 +3595,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    "@xyo-network/witnesses": ^2.24.12
+    "@xyo-network/witnesses": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3517,7 +3604,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-plugin@workspace:packages/sdk/payload-plugin"
   dependencies:
-    "@xylabs/sdk-js": ^2.6.3
+    "@xylabs/sdk-js": ^2.6.4
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3530,8 +3617,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload@workspace:packages/sdk/payload"
   dependencies:
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     axios: ^0.27.2
@@ -3543,7 +3630,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/schema"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -3556,7 +3643,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-witness@workspace:packages/sdk/schema-witness"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
   languageName: unknown
   linkType: soft
 
@@ -3564,9 +3651,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-xyo-client-js@workspace:."
   dependencies:
-    "@xylabs/eslint-config": ^2.5.75
-    "@xylabs/ts-scripts-yarn3": ^2.5.75
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/eslint-config": ^2.5.87
+    "@xylabs/ts-scripts-yarn3": ^2.5.87
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
@@ -3616,8 +3703,8 @@ __metadata:
   resolution: "@xyo-network/storage@workspace:packages/sdk/storage"
   dependencies:
     "@types/uuid": ^8.3.4
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3633,12 +3720,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/systeminfo-witness@workspace:packages/sdk/systeminfo-witness"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     bowser: ^2.11.0
     lodash: ^4.17.21
-    systeminformation: ^5.12.3
+    systeminformation: ^5.12.4
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3647,7 +3734,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/sdk/typeof"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3665,8 +3752,8 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.0.1
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/sdk-xyo-typechain": ^1.0.4
@@ -3682,8 +3769,8 @@ __metadata:
     "@ethersproject/providers": ^5.6.8
     "@metamask/providers": ^9.1.0
     "@types/lru-cache": ^7.10.10
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3699,8 +3786,8 @@ __metadata:
   resolution: "@xyo-network/wallet@workspace:packages/sdk/wallet"
   dependencies:
     "@types/sha.js": ^2.4.0
-    "@xylabs/sdk-js": ^2.6.3
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/sdk-js": ^2.6.4
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     bip39: ^3.0.4
@@ -3713,18 +3800,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/sdk/witness"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witnesses@^2.24.12, @xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
+"@xyo-network/witnesses@workspace:^, @xyo-network/witnesses@workspace:packages/sdk/witnesses":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/witnesses"
   dependencies:
-    "@xylabs/tsconfig": ^2.5.75
+    "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -5772,12 +5859,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-sonarjs@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "eslint-plugin-sonarjs@npm:0.14.0"
+"eslint-plugin-sonarjs@npm:^0.15.0":
+  version: 0.15.0
+  resolution: "eslint-plugin-sonarjs@npm:0.15.0"
   peerDependencies:
     eslint: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-  checksum: 5a6d20d985ce3d0e776d04815e305822dc866040903a4b8796011c4d1e8e8ccebe8904c6807596c5cc69ce898098956ce48f5a7bc47ad4ea7290e6845f7b3b1f
+  checksum: 0718232626057e9a30c58350ef79af3bbc5ea7c3a880d1609965b0c1cbe347e4834ddf831962f755464f7a6350cb715c1c76e2670dc7bdf1a48c37bf0fe269c8
   languageName: node
   linkType: hard
 
@@ -12753,12 +12840,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.12.3":
-  version: 5.12.3
-  resolution: "systeminformation@npm:5.12.3"
+"systeminformation@npm:^5.12.4":
+  version: 5.12.4
+  resolution: "systeminformation@npm:5.12.4"
   bin:
     systeminformation: lib/cli.js
-  checksum: 94a192c139153693db36e16371bc4b8f8b66d8b0cacb08539a780cc901b04b645f021e22dc8b2ecd70780dbaa6e89669c607be16692c76dad9d93cd409518850
+  checksum: 799490ff04abbf0f4c03a7915a0eff673c6860732e45841a7b24d9da81ae164aa000badca00bc826b37c0d6aa03e68dc8734df6df141ba0aa89df707bccd15cf
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

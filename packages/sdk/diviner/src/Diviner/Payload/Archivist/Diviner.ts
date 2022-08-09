@@ -1,4 +1,6 @@
+import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivist } from '@xyo-network/archivist'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { Huri } from '@xyo-network/payload'
 
 import { profile } from '../lib'
@@ -9,14 +11,15 @@ import { XyoPayloadDivinerQueryPayload } from '../XyoPayloadDivinerQueryPayload'
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner {
   protected archivist: XyoArchivist
 
-  constructor(archivist: XyoArchivist) {
-    super()
+  constructor(account: XyoAccount, archivist: XyoArchivist) {
+    super(account)
     this.archivist = archivist
   }
 
-  override async divine(query: XyoPayloadDivinerQueryPayload): Promise<XyoPayloadDivinerPayload> {
+  override async divine(query: XyoPayloadDivinerQueryPayload): Promise<XyoBoundWitness> {
     const huri = new Huri(query.huri)
-    const [payload = [], duration] = await profile(async () => await this.archivist.get([huri.hash]))
-    return { duration, payload: payload.pop() ?? null, schema: XyoPayloadDivinerPayloadSchema }
+    const [payloads = [], duration] = await profile(async () => await this.archivist.get([huri.hash]))
+    const resultPayload: XyoPayloadDivinerPayload = { duration, payload: payloads.pop() ?? null, schema: XyoPayloadDivinerPayloadSchema }
+    return this.bind([resultPayload])
   }
 }

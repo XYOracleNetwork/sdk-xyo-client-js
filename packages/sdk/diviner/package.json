@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "tslib": "^2.4.0"
   },
@@ -50,6 +51,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.24.12",
-  "packageManager": "yarn@3.1.1"
+  "version": "2.24.13"
 }

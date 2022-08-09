@@ -3499,6 +3499,7 @@ __metadata:
   dependencies:
     "@xylabs/tsconfig": ^2.5.87
     "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown

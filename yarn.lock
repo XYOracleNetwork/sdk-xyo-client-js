@@ -3498,6 +3498,7 @@ __metadata:
   resolution: "@xyo-network/diviner@workspace:packages/sdk/diviner"
   dependencies:
     "@xylabs/tsconfig": ^2.5.87
+    "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/payload": "workspace:^"

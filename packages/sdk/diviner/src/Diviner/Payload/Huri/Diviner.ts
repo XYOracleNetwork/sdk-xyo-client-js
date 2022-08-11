@@ -18,6 +18,6 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner {
     const huri = new Huri(query.huri, this.options)
     const [payload = null] = await profile(async () => await huri.fetch())
     const payloads = payload ? [payload] : []
-    return [this.bind(payloads), payloads]
+    return [this.bindPayloads(payloads), payloads]
   }
 }

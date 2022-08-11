@@ -4,6 +4,7 @@ import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPartialPayloadMeta, XyoPayload } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
+import compact from 'lodash/compact'
 
 export interface XyoPanelConfig {
   /** @deprecated use account instead */
@@ -117,7 +118,7 @@ export class XyoPanel {
     this.config.onReportStart?.()
     const allWitnesses: XyoWitness<XyoPayload>[] = [...adhocWitnesses, ...this.config.witnesses]
     const newBoundWitness = new XyoBoundWitnessBuilder({ inlinePayloads: this.config.inlinePayloads ?? true })
-      .payloads(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
+      .payloads(compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error))))
       .witness(this.config.account)
       .build()
 

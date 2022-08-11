@@ -10,8 +10,8 @@ export type XyoCryptoCardsGamePayload = XyoPayload<{
   duration: number
   /** @field The set of weights to pick from */
   allowedWeights: number[]
-  /** @field The Huri of the Oracle that will determine the winner */
-  oracle: string
+  /** @field The Huri of the Oracle Pointer that will determine the winner */
+  oraclePointer: string
   /** @field The Address of the Sequencer that will be used */
   sequencer: string
 }>

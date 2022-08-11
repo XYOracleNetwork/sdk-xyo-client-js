@@ -15,13 +15,17 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
   private _accounts: XyoAccount[] = []
   private _payload_schemas: string[] = []
   private _payloads: TPayload[] = []
+  private _payloadHashes: string[] | undefined
 
   constructor(public readonly config: XyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {}
 
   private get _payload_hashes(): string[] {
-    return this._payloads.map((payload) => {
-      return new XyoHasher(payload).hash
-    })
+    return (
+      this._payloadHashes ??
+      this._payloads.map((payload) => {
+        return new XyoHasher(payload).hash
+      })
+    )
   }
 
   public witness(account: XyoAccount) {
@@ -29,12 +33,18 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
     return this
   }
 
-  public payloads(payloads: (TPayload | null)[]) {
+  public payloads(payloads: TPayload[]) {
     payloads.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)
       }
     })
+    return this
+  }
+
+  public hashes(hashes: string[], schema: string[]) {
+    this._payloadHashes = hashes
+    this._payload_schemas = schema
     return this
   }
 

@@ -1,4 +1,5 @@
 import { XyoAccount } from '@xyo-network/account'
+import { Promisable } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
@@ -10,7 +11,7 @@ export interface XyoNode {
 
 export interface XyoDiviner<TQueryPayload extends XyoQueryPayload = XyoQueryPayload> {
   address: string
-  divine(query: TQueryPayload): Promise<[XyoBoundWitness, XyoPayload[]]>
+  divine(query: TQueryPayload): Promisable<[XyoBoundWitness, XyoPayload[]]>
 }
 
 export abstract class XyoAbstractDiviner<TQueryPayload extends XyoQueryPayload = XyoQueryPayload> implements XyoDiviner<TQueryPayload> {
@@ -18,12 +19,16 @@ export abstract class XyoAbstractDiviner<TQueryPayload extends XyoQueryPayload =
   constructor(account: XyoAccount) {
     this.account = account
   }
-  abstract divine(query: TQueryPayload): Promise<[XyoBoundWitness, XyoPayload[]]>
+  abstract divine(query: TQueryPayload): Promisable<[XyoBoundWitness, XyoPayload[]]>
   get address() {
     return this.account.addressValue.hex
   }
 
-  bind(payloads: XyoPayload[]) {
+  bindHashes(hashes: string[], schema: string[]) {
+    return new XyoBoundWitnessBuilder().hashes(hashes, schema).witness(this.account).build()
+  }
+
+  bindPayloads(payloads: XyoPayload[]) {
     return new XyoBoundWitnessBuilder().payloads(payloads).witness(this.account).build()
   }
 }

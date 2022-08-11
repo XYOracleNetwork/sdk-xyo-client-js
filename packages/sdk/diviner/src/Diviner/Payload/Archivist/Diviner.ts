@@ -19,6 +19,6 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner {
     const huri = new Huri(query.huri)
     const [payloads = []] = await profile(async () => await this.archivist.get([huri.hash]))
     const resultPayloads = payloads?.[0] ? [payloads?.[0]] : []
-    return [this.bind(resultPayloads), resultPayloads]
+    return [this.bindPayloads(resultPayloads), resultPayloads]
   }
 }

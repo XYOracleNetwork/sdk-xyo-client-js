@@ -14,4 +14,6 @@ export type XyoCryptoCardsGamePayload = XyoPayload<{
   oraclePointer: string
   /** @field The Address of the Sequencer that will be used */
   sequencer: string
+  /** @field The Sequence of payloads the are required for completion */
+  sequence: string[]
 }>

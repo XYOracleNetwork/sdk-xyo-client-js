@@ -24,7 +24,7 @@
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.7.2",
     "@types/sha.js": "^2.4.0",
-    "@xylabs/tsconfig": "^2.5.95"
+    "@xylabs/tsconfig": "^2.5.98"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

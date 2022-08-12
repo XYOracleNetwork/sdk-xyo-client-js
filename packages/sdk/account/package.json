@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
     "@types/sha.js": "^2.4.0",
-    "@xylabs/tsconfig": "^2.5.89"
+    "@xylabs/tsconfig": "^2.5.95"
   },
   "browser": "dist/esm/index.js",
   "main": "dist/cjs/index.js",

@@ -33,9 +33,9 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/eslint-config": "^2.5.89",
-    "@xylabs/ts-scripts-yarn3": "^2.5.89",
-    "@xylabs/tsconfig": "^2.5.89",
+    "@xylabs/eslint-config": "^2.5.95",
+    "@xylabs/ts-scripts-yarn3": "^2.5.95",
+    "@xylabs/tsconfig": "^2.5.95",
     "typescript": "^4.7.4"
   },
   "browser": "dist/esm/index.js",

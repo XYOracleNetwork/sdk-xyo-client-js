@@ -8,6 +8,7 @@ dist
 *.tgz
 *.eslintcache
 *.tsbuildinfo
+.tsconfig*
 
 .pnp.*
 .yarn/*

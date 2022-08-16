@@ -1,1 +1,2 @@
-export * from './sampleResponses'
+export * from './sampleCoinGecko'
+export * from './sampleUniswap'

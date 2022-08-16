@@ -12,12 +12,12 @@
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.6",
     "@xyo-network/account": "workspace:^",
-    "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/promisable": "workspace:^",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "tslib": "^2.4.0"

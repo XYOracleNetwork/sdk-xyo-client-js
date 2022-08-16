@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.6",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",

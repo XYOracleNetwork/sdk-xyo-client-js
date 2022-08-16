@@ -11,6 +11,7 @@
   "dependencies": {
     "@ethersproject/providers": "^5.6.8",
     "@xylabs/sdk-js": "^2.6.6",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "axios": "^0.27.2",

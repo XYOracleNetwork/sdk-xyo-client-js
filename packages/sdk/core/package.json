@@ -17,13 +17,15 @@
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",
     "sha.js": "^2.4.11",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "uuid": "^8.3.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.183",
     "@types/node": "^18.7.6",
     "@types/sha.js": "^2.4.0",
+    "@types/uuid": "^8.3.4",
     "@xylabs/tsconfig": "^2.5.99"
   },
   "browser": "dist/esm/index.js",

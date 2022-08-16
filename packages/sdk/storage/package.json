@@ -12,15 +12,14 @@
     "@xylabs/sdk-js": "^2.6.6",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
     "mongodb": "^4.8.1",
-    "tslib": "^2.4.0",
-    "uuid": "^8.3.2"
+    "tslib": "^2.4.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/uuid": "^8.3.4",
     "@xylabs/tsconfig": "^2.5.99",
     "dotenv": "^16.0.1"
   },

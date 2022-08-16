@@ -1,6 +1,6 @@
 import { XyoDiviner } from '@xyo-network/diviner'
 import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
-import { XyoQueryWitnessConfig } from '@xyo-network/witness'
+import { XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoCryptoMarketAssetPayload } from './Payload'
 import { XyoCryptoMarketAssetQueryPayload } from './Query'
@@ -10,7 +10,7 @@ import { XyoCryptoMarketAssetPayloadTemplate } from './Template'
 export const XyoCryptoMarketAssetPayloadPlugin: XyoPayloadPluginFunc<
   XyoCryptoMarketAssetPayloadSchema,
   XyoCryptoMarketAssetPayload,
-  XyoPayloadPluginConfig<XyoQueryWitnessConfig<XyoCryptoMarketAssetQueryPayload>>
+  XyoPayloadPluginConfig<XyoWitnessConfig<XyoCryptoMarketAssetQueryPayload>>
 > = (_config?) =>
   createXyoPayloadPlugin({
     auto: true,

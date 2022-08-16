@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/delay": "^2.6.6",
     "@xylabs/sdk-js": "^2.6.6",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/network": "workspace:^",

@@ -3473,6 +3473,8 @@ __metadata:
     "@xylabs/sdk-js": ^2.6.5
     "@xylabs/tsconfig": ^2.5.98
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
@@ -3697,6 +3699,8 @@ __metadata:
     "@xyo-network/wallet": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
+    jest: ^28.1.3
+    jest-extended: ^3.0.2
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft

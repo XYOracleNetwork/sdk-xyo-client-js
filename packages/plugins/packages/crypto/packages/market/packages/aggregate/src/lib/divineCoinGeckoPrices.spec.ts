@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 
+import { sampleCoinGeckoPayload } from '../test'
 import { divineCoinGeckoPrices } from './divineCoinGeckoPrices'
-import { sampleCoinGeckoPayload } from './sampleResponses.spec'
 
 describe('divineCoinGeckoPrices', () => {
   it('divines prices from CoinGecko', () => {

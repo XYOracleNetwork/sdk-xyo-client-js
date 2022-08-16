@@ -262,9 +262,3 @@ export const sampleUniswapPayload: XyoUniswapCryptoMarketPayload = {
   schema: 'network.xyo.crypto.market.uniswap',
   timestamp: 1659012011418,
 }
-
-describe('sampleResponses', () => {
-  it.each([sampleCoinGeckoPayload, sampleUniswapPayload])('has sample responses', (response) => {
-    expect(response).toBeObject()
-  })
-})

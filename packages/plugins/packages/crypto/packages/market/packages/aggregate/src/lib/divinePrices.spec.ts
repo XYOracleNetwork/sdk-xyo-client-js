@@ -1,5 +1,5 @@
+import { sampleCoinGeckoPayload, sampleUniswapPayload } from '../test'
 import { divinePrices } from './divinePrices'
-import { sampleCoinGeckoPayload, sampleUniswapPayload } from './sampleResponses.spec'
 
 describe('divinePrices', () => {
   it('divines prices', () => {

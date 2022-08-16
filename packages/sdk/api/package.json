@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.5",
+    "@xylabs/sdk-js": "^2.6.6",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
@@ -27,7 +27,7 @@
     "@ethersproject/wallet": "^5.6.2",
     "@types/pako": "^2.0.0",
     "@types/uuid": "^8.3.4",
-    "@xylabs/tsconfig": "^2.5.98"
+    "@xylabs/tsconfig": "^2.5.99"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -62,5 +62,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.25.4"
+  "version": "2.25.5"
 }

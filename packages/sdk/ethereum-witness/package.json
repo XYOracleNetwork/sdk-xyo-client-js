@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.6.8",
-    "@xylabs/sdk-js": "^2.6.5",
+    "@xylabs/sdk-js": "^2.6.6",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "axios": "^0.27.2",
@@ -18,7 +18,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.98"
+    "@xylabs/tsconfig": "^2.5.99"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -53,5 +53,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.25.4"
+  "version": "2.25.5"
 }

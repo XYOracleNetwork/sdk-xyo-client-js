@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/buffer": "^2.6.5",
-    "@xylabs/sdk-js": "^2.6.5",
+    "@xylabs/buffer": "^2.6.6",
+    "@xylabs/sdk-js": "^2.6.6",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -22,9 +22,9 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lodash": "^4.14.182",
+    "@types/lodash": "^4.14.183",
     "@types/ua-parser-js": "^0.7.36",
-    "@xylabs/tsconfig": "^2.5.98"
+    "@xylabs/tsconfig": "^2.5.99"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -58,5 +58,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.25.4"
+  "version": "2.25.5"
 }

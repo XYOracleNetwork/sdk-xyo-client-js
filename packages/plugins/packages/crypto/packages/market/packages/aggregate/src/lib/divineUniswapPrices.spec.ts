@@ -1,5 +1,5 @@
+import { sampleUniswapPayload } from '../test'
 import { divineUniswapPrices } from './divineUniswapPrices'
-import { sampleUniswapPayload } from './sampleResponses.spec'
 
 describe('divineUniswapPrices', () => {
   it('divines prices from Uniswap', () => {

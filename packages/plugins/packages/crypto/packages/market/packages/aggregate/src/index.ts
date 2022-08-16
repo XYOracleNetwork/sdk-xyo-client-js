@@ -1,7 +1,7 @@
 import { XyoCryptoMarketAssetPayloadPlugin } from './Plugin'
 
 export * from './Diviner'
-export * from './lib'
+export * from './MyModels'
 export * from './Payload'
 export * from './Query'
 export * from './Schema'

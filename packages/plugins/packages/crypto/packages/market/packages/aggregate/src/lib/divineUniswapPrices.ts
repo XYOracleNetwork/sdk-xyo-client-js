@@ -2,7 +2,7 @@ import { exists, PartialRecord } from '@xylabs/sdk-js'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 import { XyoUniswapCryptoMarketPayload } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
-import { AssetInfo, Currency, Token, ValueBasis } from '../model'
+import { AssetInfo, Currency, Token, ValueBasis } from '../MyModels'
 import { XyoCryptoMarketAssetPayload } from '../Payload'
 import { XyoCryptoMarketAssetPayloadSchema } from '../Schema'
 

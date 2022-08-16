@@ -12,8 +12,9 @@ export class XyoCryptoMarketAssetDiviner extends XyoAbstractDiviner<XyoCryptoMar
   constructor(account: XyoAccount) {
     super(account)
   }
-  divine(_query: XyoCryptoMarketAssetQueryPayload): Promisable<[XyoBoundWitness, XyoPayload<XyoCryptoMarketAssetPayload>[]]> {
-    const result: XyoCryptoMarketAssetPayload = divinePrices(undefined, undefined)
+  divine(query: XyoCryptoMarketAssetQueryPayload): Promisable<[XyoBoundWitness, XyoPayload<XyoCryptoMarketAssetPayload>[]]> {
+    const { coinGeckoPayload, uniswapPayload } = query.payloads
+    const result: XyoCryptoMarketAssetPayload = divinePrices(coinGeckoPayload, uniswapPayload)
     const witnessedResult = this.bindPayloads([result])
     return [witnessedResult, [result]]
   }

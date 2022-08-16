@@ -14,7 +14,7 @@ export const pricesFromCoingecko = async (coins: XyoCryptoAsset[], currencies: X
     await axios.get<CoinGeckoSimplePrices>(
       `https://api.coingecko.com/api/v3/simple/price?ids=${coins.map(({ name }) => name).join(',')}&vs_currencies=${currencies
         .map(({ symbol }) => symbol)
-        .join(',')}`
+        .join(',')}`,
     )
   ).data
 

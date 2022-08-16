@@ -14,7 +14,7 @@ export class XyoPayloadPluginResolver {
     /** @param defaultPlugin Specifies the plugin to be used if no plugins resolve */
     defaultPlugin = createXyoPayloadPlugin<string, XyoPayload>({
       schema: 'network.xyo.payload',
-    })
+    }),
   ) {
     plugins?.forEach((plugin) => this.register(plugin))
     this.defaultPlugin = defaultPlugin

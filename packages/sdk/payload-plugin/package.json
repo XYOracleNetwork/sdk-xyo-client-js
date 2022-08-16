@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.4",
+    "@xylabs/sdk-js": "^2.6.5",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -50,5 +50,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.25.1"
+  "version": "2.25.2"
 }

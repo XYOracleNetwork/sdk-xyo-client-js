@@ -1,3 +1,4 @@
 ignores: [
-  "@xylabs/tsconfig"
+  "@xylabs/tsconfig",
+  "bip39"
 ]

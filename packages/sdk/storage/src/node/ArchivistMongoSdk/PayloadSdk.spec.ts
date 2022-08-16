@@ -19,7 +19,7 @@ const getMongoSdk = (archive: string) => {
       dbPassword: assertEx(process.env.MONGO_PASSWORD, 'Missing Mongo Password'),
       dbUserName: assertEx(process.env.MONGO_USERNAME, 'Missing Mongo Username'),
     },
-    archive
+    archive,
   )
 }
 

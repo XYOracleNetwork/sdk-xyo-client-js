@@ -10,7 +10,7 @@ export class XyoNetworkNodePayloadWrapper<T extends XyoNetworkNodePayload = XyoN
     const config = assertEx(
       knownArchivists().find((payload) => new XyoNetworkNodePayloadWrapper(payload).hash === hash) ??
         knownDiviners().find((payload) => new XyoNetworkNodePayloadWrapper(payload).hash === hash),
-      'Unknown node'
+      'Unknown node',
     )
     return new XyoNetworkNodePayloadWrapper(config)
   }

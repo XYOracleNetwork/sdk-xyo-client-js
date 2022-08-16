@@ -14,7 +14,7 @@ export interface XyoSystemInfoNodeWitnessConfig<T extends XyoSystemInfoNodePaylo
 
 export class XyoSystemInfoNodeWitness<
   T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload,
-  C extends XyoSystemInfoNodeWitnessConfig<T> = XyoSystemInfoNodeWitnessConfig<T>
+  C extends XyoSystemInfoNodeWitnessConfig<T> = XyoSystemInfoNodeWitnessConfig<T>,
 > extends XyoSystemInfoWitness<T, C> {
   constructor(config: C = { schema: template.schema } as C) {
     super({

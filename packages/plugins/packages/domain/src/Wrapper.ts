@@ -37,7 +37,7 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
       const fetchedAliases = await Promise.all(
         Object.entries(this.payload.aliases ?? {}).map(([, alias]) => {
           return this.fetchAlias(alias, { archivistUri })
-        })
+        }),
       )
       //cast to XyoFetchedPayload[] after we filter out any null/undefined entries
       this.aliases = fetchedAliases.filter((alias) => alias) as XyoFetchedAlias[]

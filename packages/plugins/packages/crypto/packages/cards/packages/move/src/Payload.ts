@@ -6,6 +6,6 @@ export type XyoCryptoCardsMovePayload = XyoPayload<{
   schema: XyoCryptoCardsMovePayloadSchema
   /** @field The Huri of each of the cards you play - some are globally available */
   cards: string[]
-  /** @field The moves chosen by the player */
+  /** @field The moves chosen by the player (negative/positive for direction, and weight) */
   moves: number[]
 }>

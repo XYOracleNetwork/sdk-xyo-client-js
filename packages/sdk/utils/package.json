@@ -11,7 +11,7 @@
   "dependencies": {
     "@ethersproject/providers": "^5.6.8",
     "@metamask/providers": "^9.1.0",
-    "@xylabs/sdk-js": "^2.6.4",
+    "@xylabs/sdk-js": "^2.6.5",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
@@ -22,7 +22,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
-    "@xylabs/tsconfig": "^2.5.87",
+    "@xylabs/tsconfig": "^2.5.98",
     "@xyo-network/network": "workspace:^"
   },
   "browser": "dist/esm/browserIndex.js",
@@ -58,5 +58,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.25.1"
+  "version": "2.25.2"
 }

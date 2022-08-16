@@ -17,7 +17,7 @@ export abstract class XyoAbstractWitness<T extends XyoPayload = XyoPayload, C ex
 
 export abstract class XyoAbstractTimestampWitness<
   TTargetPayload extends WithTimestamp<XyoPayload> = WithTimestamp<XyoPayload>,
-  TConfig extends EmptyObject = EmptyObject
+  TConfig extends EmptyObject = EmptyObject,
 > extends XyoAbstractWitness<TTargetPayload, TConfig> {}
 
 /** @deprecated use XyoAbstractWitness instead */

@@ -13,7 +13,7 @@ export interface XyoPayloadStats {
 
 export class XyoArchivistPayloadApi<
   T extends XyoPayloadWithPartialMeta = XyoPayloadWithPartialMeta,
-  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>
+  C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoApiSimple<T[], T[], XyoPayloadFindFilter, C> {
   public get schema(): XyoArchivistArchivePayloadSchemaApi {
     return new XyoArchivistArchivePayloadSchemaApi({

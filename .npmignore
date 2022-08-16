@@ -1,5 +1,6 @@
 .*
 tsconfig*
+.tsconfig*
 rollup.config.ts
 jest.config.js
 rollup.config.ts

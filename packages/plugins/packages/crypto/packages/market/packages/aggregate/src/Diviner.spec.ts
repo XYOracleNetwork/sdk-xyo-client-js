@@ -16,8 +16,18 @@ describe('Diviner', () => {
       schema: XyoCryptoMarketAssetQueryPayloadSchema,
       targetSchema: XyoCryptoMarketAssetPayloadSchema,
     }
-    const actual = await sut.divine(query)
-    expect(actual).toBeTruthy()
-    // TODO: Better assertions
+    const result = await sut.divine(query)
+    expect(result).toBeArray()
+    expect(result.length).toBe(2)
+    const bw = result[0]
+    expect(bw.schema).toBe('network.xyo.boundwitness')
+    const payloads = result[1]
+    expect(payloads).toBeArray()
+    payloads.map((payload) => {
+      expect(payload).toBeObject()
+      expect(payload.assets).toBeObject()
+      expect(payload.schema).toBe(XyoCryptoMarketAssetPayloadSchema)
+      expect(payload.timestamp).toBeNumber()
+    })
   })
 })

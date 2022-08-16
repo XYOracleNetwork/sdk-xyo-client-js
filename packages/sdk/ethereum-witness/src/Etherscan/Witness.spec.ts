@@ -1,3 +1,5 @@
+import { XyoAccount } from '@xyo-network/account'
+
 import { XyoEtherscanEthereumGasWitness } from './Witness'
 
 const apiKey = process.env.ETHERSCAN_API_KEY || ''
@@ -7,8 +9,10 @@ const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 describe('Witness', () => {
   testIf(apiKey)('returns observation', async () => {
     const sut = new XyoEtherscanEthereumGasWitness({
+      account: new XyoAccount(),
       apiKey,
       query: { schema: 'network.xyo.blockchain.ethereum.gas.etherscan.query', targetSchema: 'network.xyo.blockchain.ethereum.gas.etherscan' },
+      schema: 'network.xyo.blockchain.ethereum.gas.etherscan.config',
     })
     const actual = await sut.observe()
     expect(actual.fastGasPrice).toBeNumber()

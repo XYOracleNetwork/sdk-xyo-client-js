@@ -17,7 +17,7 @@ describe('XyoPanel', () => {
     const archivists = archivistConfigs.map((config) => {
       return new XyoArchivistApi(config)
     })
-    const witnesses = [new XyoSystemInfoWitness(), new XyoIdWitness()]
+    const witnesses = [new XyoSystemInfoWitness({ account: new XyoAccount(), schema: 'network.xyo.system.info.config' }), new XyoIdWitness()]
 
     const config: XyoPanelConfig = { account: new XyoAccount(), archivists, witnesses }
 

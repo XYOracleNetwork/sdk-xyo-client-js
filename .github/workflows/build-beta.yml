@@ -22,6 +22,8 @@ jobs:
         run: yarn build
       - name: cycle
         run: yarn cycle
+      - name: gen-docs
+        run: yarn gen-docs
   build-windows:
     runs-on: windows-latest
     steps:
@@ -40,6 +42,8 @@ jobs:
         run: yarn build
       - name: cycle
         run: yarn cycle
+      - name: gen-docs
+        run: yarn gen-docs
   build-macos:
     runs-on: macos-latest
     steps:
@@ -56,3 +60,5 @@ jobs:
         run: yarn build
       - name: cycle
         run: yarn cycle
+      - name: gen-docs
+        run: yarn gen-docs

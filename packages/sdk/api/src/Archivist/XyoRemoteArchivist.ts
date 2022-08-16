@@ -24,7 +24,7 @@ export class XyoRemoteArchivist extends XyoRemoteArchivistConfigWrapper implemen
       hashes.map(async (hash) => {
         const [payloads] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
         return payloads?.pop() ?? null
-      })
+      }),
     )
   }
 

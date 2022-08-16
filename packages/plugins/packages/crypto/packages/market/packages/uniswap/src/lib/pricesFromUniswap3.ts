@@ -26,7 +26,8 @@ export const UniswapPoolContracts = [
   /*usdc/usdt*/ '0x3416cF6C708Da44DB2624D63ea0AAef7113527C6',
 ]
 
-export const createUniswapPoolContracts = (provider: Provider, contracts: string[]) => contracts.map((contract) => new UniSwap3Pair(contract, provider))
+export const createUniswapPoolContracts = (provider: Provider, contracts: string[]) =>
+  contracts.map((contract) => new UniSwap3Pair(contract, provider))
 export class Uniswap3PoolSlot0Wrapper {
   protected values: UniswapV3Slot0Fields
   constructor(values: UniswapV3Slot0Fields) {
@@ -109,7 +110,7 @@ export class UniSwap3Pair {
         (await this.token0Contract()).address,
         await (await this.token0Contract()).decimals(),
         await (await this.token0Contract()).symbol(),
-        await (await this.token0Contract()).name()
+        await (await this.token0Contract()).name(),
       )
     return assertEx(this._token0)
   }
@@ -127,7 +128,7 @@ export class UniSwap3Pair {
         (await this.token1Contract()).address,
         await (await this.token1Contract()).decimals(),
         await (await this.token1Contract()).symbol(),
-        await (await this.token1Contract()).name()
+        await (await this.token1Contract()).name(),
       )
     return assertEx(this._token1)
   }
@@ -157,7 +158,7 @@ export class UniSwap3Pair {
         slot0.feeProtocol,
         slot0.sqrtPriceX96.toHexString(),
         (await this.poolContract().liquidity()).toHexString(),
-        slot0.tick
+        slot0.tick,
       )
     return assertEx(this._pool)
   }
@@ -184,8 +185,10 @@ export const pricesFromUniswap3 = async (pools: UniSwap3Pair[]): Promise<XyoUnis
   const promiseResults = await Promise.allSettled(
     pools.map(async (pool): Promise<XyoUniswapCryptoPair> => {
       return await pool.price()
-    })
+    }),
   )
 
-  return (promiseResults.filter((result) => result.status === 'fulfilled') as PromiseFulfilledResult<XyoUniswapCryptoPair>[]).map((result) => result.value)
+  return (promiseResults.filter((result) => result.status === 'fulfilled') as PromiseFulfilledResult<XyoUniswapCryptoPair>[]).map(
+    (result) => result.value,
+  )
 }

@@ -1,6 +1,7 @@
 ignores: [
   "@xylabs/tsconfig",
   "@xylabs/ts-scripts-yarn3",
+  "jest",
   "jest-environment-jsdom",
   "jest-extended",
   "typedoc",

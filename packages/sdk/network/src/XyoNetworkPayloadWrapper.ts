@@ -29,7 +29,7 @@ export class XyoNetworkPayloadWrapper extends XyoPayloadWrapper<XyoNetworkPayloa
   static known(hash: string) {
     const payload = assertEx(
       knownNetworks().find((payload) => new XyoNetworkPayloadWrapper(payload).hash === hash),
-      'Unknown network'
+      'Unknown network',
     )
     return new XyoNetworkPayloadWrapper(payload)
   }

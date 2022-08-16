@@ -23,7 +23,7 @@ export class XyoLocationWitness extends XyoSimpleWitness<XyoLocationPayload> {
         },
         (error: GeolocationPositionError) => {
           reject(error)
-        }
+        },
       )
     })
   }

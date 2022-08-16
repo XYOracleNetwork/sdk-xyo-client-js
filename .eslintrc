@@ -5,7 +5,8 @@
   ],
   "ignorePatterns": [
     "**/dist",
-    "**/node_modules"
+    "**/node_modules",
+    "coverage"
   ],
   "rules": {
     "import/no-internal-modules": [

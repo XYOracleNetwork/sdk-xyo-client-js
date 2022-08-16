@@ -7,7 +7,12 @@ import { objToQuery } from './objToQuery'
 
 export type XyoApiSimpleQuery = XyoPayloadFindFilter
 
-export class XyoApiSimple<T = XyoPayload, D = T, Q extends XyoApiSimpleQuery = XyoApiSimpleQuery, C extends XyoApiConfig = XyoApiConfig> extends XyoApiBase<C> {
+export class XyoApiSimple<
+  T = XyoPayload,
+  D = T,
+  Q extends XyoApiSimpleQuery = XyoApiSimpleQuery,
+  C extends XyoApiConfig = XyoApiConfig,
+> extends XyoApiBase<C> {
   public async get(): Promise<XyoApiResponseBody<T>>
   public async get(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
   public async get(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>

@@ -9,7 +9,7 @@ export interface XyoQueryWitnessConfig<Q extends XyoQueryPayload = XyoQueryPaylo
 export class XyoQueryWitness<
   T extends XyoPayload,
   Q extends XyoQueryPayload = XyoQueryPayload,
-  C extends XyoQueryWitnessConfig<Q> = XyoQueryWitnessConfig<Q>
+  C extends XyoQueryWitnessConfig<Q> = XyoQueryWitnessConfig<Q>,
 > extends XyoAbstractWitness<T, C> {
   override get targetSchema() {
     return this.config?.query.targetSchema ?? 'network.xyo.payload'

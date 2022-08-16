@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "tslib": "^2.4.0"
   },

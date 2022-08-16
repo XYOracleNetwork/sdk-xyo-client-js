@@ -3385,15 +3385,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist@workspace:^, @xyo-network/archivist@workspace:packages/sdk/archivist":
+"@xyo-network/archivist@workspace:^, @xyo-network/archivist@workspace:packages/modules/archivist":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/archivist@workspace:packages/sdk/archivist"
+  resolution: "@xyo-network/archivist@workspace:packages/modules/archivist"
   dependencies:
     "@xylabs/sdk-js": ^2.6.5
     "@xylabs/tsconfig": ^2.5.98
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    "@xyo-network/promisable": "workspace:^"
     lru-cache: ^7.13.2
     tslib: ^2.4.0
   languageName: unknown
@@ -3498,15 +3500,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner@workspace:^, @xyo-network/diviner@workspace:packages/sdk/diviner":
+"@xyo-network/diviner@workspace:^, @xyo-network/diviner@workspace:packages/modules/diviner":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner@workspace:packages/sdk/diviner"
+  resolution: "@xyo-network/diviner@workspace:packages/modules/diviner"
   dependencies:
     "@xylabs/tsconfig": ^2.5.98
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    "@xyo-network/promisable": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3577,6 +3581,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/module@workspace:^, @xyo-network/module@workspace:packages/modules/module":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/module@workspace:packages/modules/module"
+  dependencies:
+    "@xylabs/tsconfig": ^2.5.98
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    tslib: ^2.4.0
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/network@workspace:^, @xyo-network/network@workspace:packages/sdk/network":
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/sdk/network"
@@ -3584,6 +3600,19 @@ __metadata:
     "@xylabs/sdk-js": ^2.6.5
     "@xylabs/tsconfig": ^2.5.98
     "@xyo-network/payload": "workspace:^"
+    tslib: ^2.4.0
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/node@workspace:packages/modules/node":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/node@workspace:packages/modules/node"
+  dependencies:
+    "@xylabs/tsconfig": ^2.5.98
+    "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/promisable": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3632,6 +3661,14 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     axios: ^0.27.2
     tslib: ^2.4.0
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/promisable@workspace:^, @xyo-network/promisable@workspace:packages/sdk/promisable":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/promisable@workspace:packages/sdk/promisable"
+  dependencies:
+    "@xylabs/tsconfig": ^2.5.98
   languageName: unknown
   linkType: soft
 
@@ -3811,6 +3848,7 @@ __metadata:
   dependencies:
     "@xylabs/tsconfig": ^2.5.98
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown

@@ -1,18 +1,22 @@
-import merge from 'lodash/merge'
+import { delay } from '@xylabs/delay'
+import { XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoSystemInfoWitness } from '../shared'
 import { observeBowser } from './observeBowser'
 import { XyoSystemInfoBrowserPayload } from './Payload'
-import { SystemInfoBrowserWitnessTemplate } from './Template'
 
-const template = SystemInfoBrowserWitnessTemplate()
+export interface XyoSystemInfoBrowserWitnessConfig<Q extends XyoWitnessQueryPayload = XyoWitnessQueryPayload> extends XyoWitnessConfig<Q> {
+  bowser?: Record<string, string>
+}
 
-export class XyoSystemInfoBrowserWitness<T extends XyoSystemInfoBrowserPayload = XyoSystemInfoBrowserPayload> extends XyoSystemInfoWitness<T> {
-  constructor(config = { schema: template.schema, template }) {
-    super(config)
-  }
-  override async observe(fields?: Partial<T>) {
+export class XyoSystemInfoBrowserWitness<
+  T extends XyoSystemInfoBrowserPayload = XyoSystemInfoBrowserPayload,
+  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
+  C extends XyoSystemInfoBrowserWitnessConfig<Q> = XyoSystemInfoBrowserWitnessConfig<Q>,
+> extends XyoSystemInfoWitness<T, Q, C> {
+  override async observe(_fields?: Partial<XyoSystemInfoBrowserPayload>, _query?: Q | undefined): Promise<T> {
+    await delay(0)
     const bowser = observeBowser()
-    return await super.observe(merge({ bowser }, fields))
+    return { bowser } as T
   }
 }

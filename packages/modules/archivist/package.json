@@ -12,7 +12,9 @@
     "@xylabs/sdk-js": "^2.6.5",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
+    "@xyo-network/promisable": "workspace:^",
     "lru-cache": "^7.13.2",
     "tslib": "^2.4.0"
   },

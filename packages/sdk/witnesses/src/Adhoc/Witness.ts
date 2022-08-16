@@ -1,18 +1,24 @@
+import { XyoAccount } from '@xyo-network/account'
 import { WithAdditional } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
-import { XyoSimpleWitness } from '@xyo-network/witness'
+import { Promisable } from '@xyo-network/promisable'
+import { XyoWitness, XyoWitnessQueryPayload } from '@xyo-network/witness'
+import merge from 'lodash/merge'
 
-export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> extends XyoSimpleWitness<T> {
+export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> extends XyoWitness<T> {
   public payload: T
-  constructor(payload: T) {
+  constructor(payload: T, account = new XyoAccount()) {
     super({
-      schema: payload.schema,
-      template: { schema: '' },
+      account,
+      query: {
+        schema: 'network.xyo.witness.adhoc.query',
+      },
+      schema: 'network.xyo.witness.adhoc.config',
     })
     this.payload = payload
   }
 
-  override async observe(): Promise<T> {
-    return await super.observe(this.payload)
+  override observe(fields?: Partial<T>, _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>>): Promisable<T> {
+    return merge(this.payload, fields)
   }
 }

@@ -41,3 +41,8 @@ export type XyoNonFungibleTokenMintQueryPayload = XyoQueryPayload<{
   mintToken?: XyoNonFungibleTokenPayload
   targetSchema: 'network.xyo.nft.minter'
 }>
+
+export type XyoNonFungibleTokenQueryPayload = XyoQueryPayload<{
+  schema: 'network.xyo.nft.query'
+  targetSchema: 'network.xyo.nft'
+}>

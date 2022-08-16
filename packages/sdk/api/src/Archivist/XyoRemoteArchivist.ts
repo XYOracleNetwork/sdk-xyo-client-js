@@ -1,22 +1,22 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoArchivist, XyoPayloadFindQuery } from '@xyo-network/archivist'
-import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { XyoAbstractArchivist, XyoArchivistQueryPayload, XyoPayloadFindQuery } from '@xyo-network/archivist'
+import { XyoBoundWitness, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
+import { Promisable } from '@xyo-network/promisable'
 
-import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigWrapper } from './XyoRemoteArchivistConfig'
+import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
 
 /** @description Archivist Context that connects to a remote archivist using the API */
-export class XyoRemoteArchivist extends XyoRemoteArchivistConfigWrapper implements XyoArchivist {
+export class XyoRemoteArchivist extends XyoAbstractArchivist<XyoArchivistQueryPayload, XyoRemoteArchivistConfig> {
+  query<Q>(_query: Q): Promisable<[XyoBoundWitness, XyoPayload<{ schema: string }>[]]> {
+    throw new Error('Method not implemented.')
+  }
   public get api() {
     return assertEx(this.config?.api, 'API not defined')
   }
 
   public get archive() {
     return this.config?.archive
-  }
-
-  constructor(config?: XyoRemoteArchivistConfig) {
-    super(config)
   }
 
   public async get(hashes: string[]) {

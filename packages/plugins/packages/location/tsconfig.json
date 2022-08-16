@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "composite": true,
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ]
   },
-  "extends": "@xylabs/tsconfig"
+  "extends": "../../tsconfig.json"
 }

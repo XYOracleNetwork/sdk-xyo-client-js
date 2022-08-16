@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
+  "rootDir": "./src",
     "lib": [
       "DOM",
       "DOM.Iterable",

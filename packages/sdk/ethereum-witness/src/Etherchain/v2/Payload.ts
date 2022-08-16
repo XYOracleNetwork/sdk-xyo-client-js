@@ -1,6 +1,9 @@
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 
-export type XyoEthereumGasEtherchainQueryPayloadV2 = XyoQueryPayload
+export type XyoEthereumGasEtherchainQueryPayloadV2 = XyoQueryPayload<{
+  schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.query'
+  targetSchema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2'
+}>
 
 export type XyoEthereumGasEtherchainPayloadV2 = XyoPayload<{
   schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2'

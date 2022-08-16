@@ -1,24 +1,20 @@
-import { EmptyObject } from '@xyo-network/core'
-import { WithTimestamp, XyoPayload } from '@xyo-network/payload'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoAbstractModule } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
+import { Promisable } from '@xyo-network/promisable'
 
-export interface XyoWitness<T extends XyoPayload = XyoPayload> {
-  targetSchema: string
-  observe(fields?: Partial<T>): Promise<T>
-}
+import { XyoWitnessConfig } from './XyoWitnessConfig'
+import { XyoWitnessQueryPayload } from './XyoWitnessQueryPayload'
 
-export abstract class XyoAbstractWitness<T extends XyoPayload = XyoPayload, C extends EmptyObject = EmptyObject> implements XyoWitness<T> {
-  public readonly config?: C
-  constructor(config?: C) {
-    this.config = config
+export abstract class XyoWitness<
+  T extends XyoPayload = XyoPayload,
+  Q extends XyoWitnessQueryPayload = XyoWitnessQueryPayload,
+  C extends XyoWitnessConfig<Q> = XyoWitnessConfig<Q>,
+> extends XyoAbstractModule<Q, C> {
+  abstract observe(fields?: Partial<T> | undefined, query?: Q | undefined): Promisable<T>
+
+  async query(query?: Q): Promise<[XyoBoundWitness, XyoPayload<{ schema: string }>[]]> {
+    const payloads = [await this.observe({}, query)]
+    return [this.bindPayloads(payloads), payloads]
   }
-  abstract observe(fields?: Partial<T>): Promise<T>
-  abstract get targetSchema(): string
 }
-
-export abstract class XyoAbstractTimestampWitness<
-  TTargetPayload extends WithTimestamp<XyoPayload> = WithTimestamp<XyoPayload>,
-  TConfig extends EmptyObject = EmptyObject,
-> extends XyoAbstractWitness<TTargetPayload, TConfig> {}
-
-/** @deprecated use XyoAbstractWitness instead */
-export abstract class XyoWitnessBase<T extends XyoPayload = XyoPayload, C extends EmptyObject = EmptyObject> extends XyoAbstractWitness<T, C> {}

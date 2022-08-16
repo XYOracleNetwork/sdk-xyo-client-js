@@ -11,11 +11,11 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner {
   protected archivist: XyoArchivist
 
   constructor(account: XyoAccount, archivist: XyoArchivist) {
-    super(account)
+    super({ account, schema: 'network.xyo.diviner.payload.config' })
     this.archivist = archivist
   }
 
-  override async divine(query: XyoPayloadDivinerQueryPayload): Promise<[XyoBoundWitness, XyoPayload[]]> {
+  override async query(query: XyoPayloadDivinerQueryPayload): Promise<[XyoBoundWitness, XyoPayload[]]> {
     const huri = new Huri(query.huri)
     const [payloads = []] = await profile(async () => await this.archivist.get([huri.hash]))
     const resultPayloads = payloads?.[0] ? [payloads?.[0]] : []

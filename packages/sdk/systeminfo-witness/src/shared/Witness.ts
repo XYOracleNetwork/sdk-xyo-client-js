@@ -8,8 +8,8 @@ export class XyoSystemInfoWitness<
   Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
   C extends XyoWitnessConfig<Q> = XyoWitnessConfig<Q>,
 > extends XyoWitness<T, Q, C> {
-  override async observe(fields?: Partial<XyoSystemInfoPayload>, _query?: Q | undefined): Promise<T> {
+  override async observe(fields?: Partial<T>, _query?: Q | undefined): Promise<T> {
     await delay(0)
-    return { ...fields } as T
+    return super.observe(fields)
   }
 }

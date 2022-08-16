@@ -11,7 +11,7 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
   private salt: string
 
   constructor(salt = uuid()) {
-    super({ account: new XyoAccount(), schema: 'network.xyo.id.config' })
+    super({ account: new XyoAccount(), schema: 'network.xyo.id.config', targetSchema: 'network.xyo.id' })
     this.salt = salt
   }
 

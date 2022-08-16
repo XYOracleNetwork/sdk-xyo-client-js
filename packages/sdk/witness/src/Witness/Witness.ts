@@ -11,7 +11,9 @@ export abstract class XyoWitness<
   Q extends XyoWitnessQueryPayload = XyoWitnessQueryPayload,
   C extends XyoWitnessConfig<Q> = XyoWitnessConfig<Q>,
 > extends XyoAbstractModule<Q, C> {
-  abstract observe(fields?: Partial<T> | undefined, query?: Q | undefined): Promisable<T>
+  public observe(fields?: Partial<T> | undefined, _query?: Q | undefined): Promisable<T> {
+    return { ...fields, schema: this.config.targetSchema } as T
+  }
 
   async query(query?: Q): Promise<[XyoBoundWitness, XyoPayload<{ schema: string }>[]]> {
     const payloads = [await this.observe({}, query)]

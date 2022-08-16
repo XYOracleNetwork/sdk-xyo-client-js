@@ -6,9 +6,9 @@ import { XyoCryptoCardsMovePayload } from './Payload'
 
 export class XyoCryptoCardsMoveWitness extends XyoWitness<XyoCryptoCardsMovePayload, XyoQueryPayload> {
   override observe(payload: XyoCryptoCardsMovePayload): Promisable<XyoCryptoCardsMovePayload> {
-    return {
+    return super.observe({
       ...payload,
       timestamp: Date.now(),
-    }
+    })
   }
 }

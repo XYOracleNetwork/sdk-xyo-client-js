@@ -3,7 +3,6 @@ import Bowser from 'bowser'
 import merge from 'lodash/merge'
 
 import { XyoBowserSystemInfoPayload } from './Payload'
-import { XyoBowserSystemInfoPayloadSchema } from './Schema'
 
 export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = XyoBowserSystemInfoPayload> extends XyoWitness<T> {
   protected get bowser() {
@@ -12,7 +11,7 @@ export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = X
     return Bowser.parse(window.navigator.userAgent)
   }
 
-  override observe(fields?: Partial<T>): T {
-    return merge({ bowser: this.bowser }, fields, { schema: XyoBowserSystemInfoPayloadSchema }) as T
+  override observe(fields?: Partial<T>) {
+    return super.observe(merge({ bowser: this.bowser }, fields))
   }
 }

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@xylabs/delay": "^2.6.6",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "bowser": "^2.11.0",

@@ -14,8 +14,8 @@ export class XyoSystemInfoNodeWitness<
   Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
   C extends XyoSystemInfoNodeWitnessConfig<Q> = XyoSystemInfoNodeWitnessConfig<Q>,
 > extends XyoSystemInfoWitness<T, Q, C> {
-  override async observe(_fields?: Partial<XyoSystemInfoNodePayload>, _query?: Q | undefined): Promise<T> {
+  override async observe(fields?: Partial<XyoSystemInfoNodePayload>, _query?: Q | undefined): Promise<T> {
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
-    return await super.observe(node)
+    return await super.observe({ ...node, ...fields })
   }
 }

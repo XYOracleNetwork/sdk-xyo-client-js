@@ -14,11 +14,12 @@ export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> 
         schema: 'network.xyo.witness.adhoc.query',
       },
       schema: 'network.xyo.witness.adhoc.config',
+      targetSchema: 'network.xyo.payload',
     })
     this.payload = payload
   }
 
   override observe(fields?: Partial<T>, _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>>): Promisable<T> {
-    return merge(this.payload, fields)
+    return super.observe(merge(this.payload, fields))
   }
 }

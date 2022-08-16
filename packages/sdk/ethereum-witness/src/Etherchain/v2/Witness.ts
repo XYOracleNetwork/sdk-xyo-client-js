@@ -10,6 +10,7 @@ export class XyoEtherchainEthereumGasWitnessV2 extends XyoWitness<XyoEthereumGas
       account,
       query: { schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.query', targetSchema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2' },
       schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.config',
+      targetSchema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2',
     })
   }
   override async observe(): Promise<XyoEthereumGasEtherchainPayloadV2> {

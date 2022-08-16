@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/sdk-js'
 
-import { AssetInfo, Currency, Token } from '../model'
+import { AssetInfo, Currency, Token } from '../MyModels'
 import { XyoCryptoMarketAssetPayload } from '../Payload'
 
 const isNumber = (val: number | undefined): val is number => {

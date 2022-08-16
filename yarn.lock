@@ -3466,6 +3466,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/crypto-asset-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/aggregate":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/crypto-asset-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/aggregate"
+  dependencies:
+    "@xylabs/sdk-js": ^2.6.5
+    "@xylabs/tsconfig": ^2.5.98
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    axios: ^0.27.2
+    tslib: ^2.4.0
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/crypto-cards-game-payload-plugin@workspace:^, @xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game":
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game"

@@ -3,8 +3,18 @@
  */
 
 import { XyoAccount } from '@xyo-network/account'
+import crypto from 'crypto'
 
 import { XyoSystemInfoBrowserWitness } from './Witness'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const cryptoPolyfill = (window: Window & typeof globalThis) => {
+  window.crypto = window.crypto ?? {
+    getRandomValues: (arr: []) => crypto.randomBytes(arr.length),
+  }
+}
+
+cryptoPolyfill(window)
 
 describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {

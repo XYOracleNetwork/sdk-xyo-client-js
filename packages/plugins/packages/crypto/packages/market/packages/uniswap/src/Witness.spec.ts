@@ -17,6 +17,7 @@ describe('Witness', () => {
       provider,
       query: { pools: UniswapPoolContracts, schema: XyoUniswapCryptoMarketQueryPayloadSchema },
       schema: 'network.xyo.crypto.market.uniswap.config',
+      targetSchema: 'network.xyo.crypto.market.uniswap',
     })
     const observation = await witness.observe()
     expect(observation.pairs.length).toBeGreaterThan(1)

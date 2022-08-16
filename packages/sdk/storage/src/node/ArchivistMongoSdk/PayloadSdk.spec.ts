@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { uuid } from '@xyo-network/core'
 import { XyoPayloadBuilder, XyoPayloadWithPartialMeta } from '@xyo-network/payload'
 import dotenv from 'dotenv'
-import { v4 } from 'uuid'
 
 import { XyoArchivistPayloadMongoSdk } from './PayloadSdk'
 
@@ -25,7 +25,7 @@ const getMongoSdk = (archive: string) => {
 
 const getPayloads = (number = 5) => {
   return new Array(number).fill(0).map((_) => {
-    return new XyoPayloadBuilder({ schema }).fields({ prop: v4() }).build()
+    return new XyoPayloadBuilder({ schema }).fields({ prop: uuid() }).build()
   })
 }
 

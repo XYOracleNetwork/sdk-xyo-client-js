@@ -1,7 +1,7 @@
 import { assertEx, delay } from '@xylabs/sdk-js'
 import { XyoBoundWitnessBuilder, XyoBoundWitnessWithMeta } from '@xyo-network/boundwitness'
+import { uuid } from '@xyo-network/core'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
-import { v4 } from 'uuid'
 
 import { XyoApiConfig, XyoApiEnvelope } from '../../models'
 import { XyoArchivistApi } from '../Api'
@@ -15,7 +15,7 @@ const schema = 'network.xyo.debug'
 const getQuery = (count = 1): XyoBoundWitnessWithMeta => {
   const payloads = [] as XyoPayload[]
   for (let i = 0; i < count; i++) {
-    payloads.push(new XyoPayloadBuilder({ schema }).fields({ nonce: v4() }).build())
+    payloads.push(new XyoPayloadBuilder({ schema }).fields({ nonce: uuid() }).build())
   }
   return new XyoBoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()
 }
@@ -88,7 +88,7 @@ describe('XyoArchivistNodeApi', () => {
   describe.skip('perform', () => {
     it('creates and issues the query and returns the result', async () => {
       const api = new XyoArchivistApi(config)
-      const response = await api.node().perform({ nonce: v4() }, schema)
+      const response = await api.node().perform({ nonce: uuid() }, schema)
       expect(response).toBeDefined()
       expect((response as unknown as XyoPayload).schema).toBe(schema)
     })

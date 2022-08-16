@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "composite": true,
-  "rootDir": "./src",
     "outDir": "./dist",
     "rootDir": "./src"
   },

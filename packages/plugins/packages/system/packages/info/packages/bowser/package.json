@@ -18,8 +18,8 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.182",
-    "@xylabs/tsconfig": "^2.5.98"
+    "@types/lodash": "^4.14.183",
+    "@xylabs/tsconfig": "^2.5.99"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

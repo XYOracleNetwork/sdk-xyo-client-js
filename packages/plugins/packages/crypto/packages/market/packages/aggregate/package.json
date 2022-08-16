@@ -20,7 +20,6 @@
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "axios": "^0.27.2",
     "tslib": "^2.4.0"
   },
   "devDependencies": {

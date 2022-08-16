@@ -3385,9 +3385,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist@workspace:^, @xyo-network/archivist@workspace:packages/sdk/archivist":
+"@xyo-network/archivist@workspace:^, @xyo-network/archivist@workspace:packages/modules/archivist":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/archivist@workspace:packages/sdk/archivist"
+  resolution: "@xyo-network/archivist@workspace:packages/modules/archivist"
   dependencies:
     "@xylabs/sdk-js": ^2.6.5
     "@xylabs/tsconfig": ^2.5.98
@@ -3498,9 +3498,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner@workspace:^, @xyo-network/diviner@workspace:packages/sdk/diviner":
+"@xyo-network/diviner@workspace:^, @xyo-network/diviner@workspace:packages/modules/diviner":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner@workspace:packages/sdk/diviner"
+  resolution: "@xyo-network/diviner@workspace:packages/modules/diviner"
   dependencies:
     "@xylabs/tsconfig": ^2.5.98
     "@xyo-network/account": "workspace:^"

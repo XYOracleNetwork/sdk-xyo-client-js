@@ -21,8 +21,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lodash": "^4.14.182",
-    "@types/node": "^18.7.5",
+    "@types/lodash": "^4.14.183",
+    "@types/node": "^18.7.6",
     "@types/sha.js": "^2.4.0",
     "@xylabs/tsconfig": "^2.5.99"
   },
@@ -58,5 +58,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.25.2"
+  "version": "2.25.5"
 }

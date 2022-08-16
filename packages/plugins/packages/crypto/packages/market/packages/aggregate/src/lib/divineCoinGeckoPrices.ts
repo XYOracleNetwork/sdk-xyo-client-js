@@ -2,7 +2,7 @@ import { PartialRecord } from '@xylabs/sdk-js'
 import { XyoCoingeckoCryptoMarketPayload } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
-import { AssetInfo } from '../MyModels'
+import { AssetInfo } from '../Model'
 import { XyoCryptoMarketAssetPayload } from '../Payload'
 import { XyoCryptoMarketAssetPayloadSchema } from '../Schema'
 

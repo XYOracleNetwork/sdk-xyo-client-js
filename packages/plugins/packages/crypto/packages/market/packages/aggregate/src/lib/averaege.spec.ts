@@ -1,6 +1,6 @@
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
-import { AssetInfo } from '../MyModels'
+import { AssetInfo } from '../Model'
 import { XyoCryptoMarketAssetPayload } from '../Payload'
 import { XyoCryptoMarketAssetPayloadSchema } from '../Schema'
 import { average } from './average'

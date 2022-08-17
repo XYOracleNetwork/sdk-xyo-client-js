@@ -1,9 +1,9 @@
 import { XyoAddressValue } from '@xyo-network/account'
-import { XyoDataLike } from '@xyo-network/core'
+import { EmptyObject, XyoDataLike } from '@xyo-network/core'
 import { Huri, XyoPayloadWrapper } from '@xyo-network/payload'
-import { XyoQueryWitness, XyoQueryWitnessConfig, XyoSimpleWitness } from '@xyo-network/witness'
+import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
-import { XyoContractPayload, XyoNonFungibleTokenMintPayload, XyoNonFungibleTokenMintQueryPayload, XyoNonFungibleTokenPayload } from './Payload'
+import { XyoContractPayload, XyoNonFungibleTokenPayload, XyoNonFungibleTokenQueryPayload } from './Payload'
 
 export class XyoSmartContractWrapper<T extends XyoContractPayload> extends XyoPayloadWrapper<T> {
   public static async load(address: XyoDataLike | Huri) {
@@ -14,22 +14,22 @@ export class XyoSmartContractWrapper<T extends XyoContractPayload> extends XyoPa
   }
 }
 
-export class XyoNonFungibleTokenMintWitness extends XyoSimpleWitness<XyoNonFungibleTokenMintPayload> {
-  static schema = 'network.xyo.nft.mint'
-}
-
 /** @description Witness that will sign a new NFT being minted if it follows the terms */
-export class XyoNonFungibleTokenMintQuery extends XyoQueryWitness<
+export class XyoNonFungibleTokenMintWitness extends XyoWitness<
   XyoNonFungibleTokenPayload,
-  XyoNonFungibleTokenMintQueryPayload,
-  XyoQueryWitnessConfig<XyoNonFungibleTokenMintQueryPayload>
+  XyoNonFungibleTokenQueryPayload,
+  XyoWitnessConfig<XyoNonFungibleTokenQueryPayload>
 > {
   protected minter: XyoAddressValue
-  constructor(config: XyoQueryWitnessConfig<XyoNonFungibleTokenMintQueryPayload>, minter: XyoDataLike) {
+  constructor(config: XyoWitnessConfig<XyoNonFungibleTokenQueryPayload>, minter: XyoDataLike) {
     super(config)
     this.minter = new XyoAddressValue(minter)
   }
-  override async observe(fields?: Partial<XyoNonFungibleTokenPayload>) {
-    return await super.observe(fields)
+
+  override observe(
+    _fields: Partial<XyoNonFungibleTokenPayload>,
+    _query?: XyoNonFungibleTokenQueryPayload | undefined,
+  ): Promise<XyoNonFungibleTokenPayload<EmptyObject>> {
+    throw new Error('Method not implemented.')
   }
 }

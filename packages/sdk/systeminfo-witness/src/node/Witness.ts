@@ -1,29 +1,21 @@
-import { XyoSimpleWitnessConfig } from '@xyo-network/witness'
-import merge from 'lodash/merge'
+import { XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 import { get } from 'systeminformation'
 
 import { XyoSystemInfoWitness } from '../shared'
 import { XyoSystemInfoNodePayload } from './Payload'
-import { defaultSystemInfoConfig, systemInfoNodeWitnessTemplate } from './Template'
+import { defaultSystemInfoConfig } from './Template'
 
-const template = systemInfoNodeWitnessTemplate()
-
-export interface XyoSystemInfoNodeWitnessConfig<T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload> extends XyoSimpleWitnessConfig<T> {
+export interface XyoSystemInfoNodeWitnessConfig<Q extends XyoWitnessQueryPayload = XyoWitnessQueryPayload> extends XyoWitnessConfig<Q> {
   nodeValues?: Record<string, string>
 }
 
 export class XyoSystemInfoNodeWitness<
   T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload,
-  C extends XyoSystemInfoNodeWitnessConfig<T> = XyoSystemInfoNodeWitnessConfig<T>,
-> extends XyoSystemInfoWitness<T, C> {
-  constructor(config: C = { schema: template.schema } as C) {
-    super({
-      ...template,
-      ...config,
-    })
-  }
-  override async observe(fields?: Partial<T>) {
+  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
+  C extends XyoSystemInfoNodeWitnessConfig<Q> = XyoSystemInfoNodeWitnessConfig<Q>,
+> extends XyoSystemInfoWitness<T, Q, C> {
+  override async observe(fields?: Partial<XyoSystemInfoNodePayload>, _query?: Q | undefined): Promise<T> {
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
-    return await super.observe(merge({ node }, fields))
+    return await super.observe({ ...node, ...fields })
   }
 }

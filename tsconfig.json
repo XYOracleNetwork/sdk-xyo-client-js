@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "declaration": true,
+    "declarationMap": true,
     "typeRoots": ["./node_modules/@types"],
     "types": ["jest", "node", "@types/jest", "jest-sorted", "jest-extended", "json-schema"]
   },

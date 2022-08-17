@@ -16,13 +16,13 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "ajv": "^8.11.0",
-    "lru-cache": "^7.13.2",
+    "lru-cache": "^7.14.0",
     "tslib": "^2.4.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
-    "@xylabs/tsconfig": "^2.5.99",
+    "@xylabs/tsconfig": "^2.5.117",
     "@xyo-network/network": "workspace:^"
   },
   "browser": "dist/esm/browserIndex.js",

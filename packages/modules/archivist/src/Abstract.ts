@@ -1,11 +1,10 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoAbstractModule } from '@xyo-network/module'
+import { XyoAbstractModule, XyoModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
 
 import { Archivist } from './Archivist'
-import { XyoArchivistQueryPayload } from './Query'
+import { XyoArchivistFindQueryPayloadSchema, XyoArchivistGetQueryPayloadSchema, XyoArchivistQueryPayload } from './Query'
 import { XyoArchivist } from './XyoArchivist'
 import { XyoArchivistConfig, XyoArchivistParents } from './XyoArchivistConfig'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
@@ -14,6 +13,10 @@ export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPaylo
   extends XyoAbstractModule<XyoArchivistQueryPayload, XyoArchivistConfig<TConfig>>
   implements XyoArchivist<XyoArchivistQueryPayload>, Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
 {
+  public override get queries() {
+    return [XyoArchivistGetQueryPayloadSchema, XyoArchivistFindQueryPayloadSchema]
+  }
+
   abstract get(hashes: string[]): NullablePromisableArray<XyoPayload>
 
   public all(): PromisableArray<XyoPayload> {
@@ -36,7 +39,7 @@ export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPaylo
 
   abstract insert(item: XyoPayload[]): PromisableArray<XyoPayload>
 
-  async query(query: XyoArchivistQueryPayload): Promise<[XyoBoundWitness, (XyoPayload | null)[]]> {
+  async query(query: XyoArchivistQueryPayload): Promise<XyoModuleQueryResult> {
     const payloads: (XyoPayload | null)[] = []
     switch (query.schema) {
       case 'network.xyo.query.archivist.all':

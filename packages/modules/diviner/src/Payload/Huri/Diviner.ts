@@ -1,5 +1,5 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { Huri, HuriOptions, XyoPayload } from '@xyo-network/payload'
+import { XyoModuleQueryResult } from '@xyo-network/module'
+import { Huri, HuriOptions } from '@xyo-network/payload'
 
 import { XyoDivinerConfig } from '../../Abstract'
 import { XyoDivinerQueryPayload } from '../../Diviner'
@@ -22,7 +22,7 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivin
     return this.config.options
   }
 
-  override async query(query: XyoHuriPayloadDivinerQuery): Promise<[XyoBoundWitness, XyoPayload[]]> {
+  override async query(query: XyoHuriPayloadDivinerQuery): Promise<XyoModuleQueryResult> {
     const huri = new Huri(query.huri, query.options ?? this.options)
     const [payload = null] = await profile(async () => await huri.fetch())
     const payloads = payload ? [payload] : []

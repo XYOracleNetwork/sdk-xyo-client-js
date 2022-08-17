@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule } from '@xyo-network/module'
+import { XyoModule, XyoModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
@@ -16,7 +16,7 @@ export abstract class XyoAbstractNode implements XyoNode {
   get<T extends XyoModule<XyoQueryPayload<XyoPayload>>>(address: string): T | undefined {
     throw new Error('Method not implemented.')
   }
-  query(query: XyoQueryPayload<XyoPayload>): Promisable<[XyoBoundWitness, XyoPayload[]]> {
+  query(query: XyoQueryPayload<XyoPayload>): Promisable<XyoModuleQueryResult> {
     throw new Error('Method not implemented.')
   }
 }

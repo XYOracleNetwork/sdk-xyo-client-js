@@ -1,9 +1,9 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
-import { XyoModule } from './Module'
+import { XyoModule, XyoModuleQueryResult } from './Module'
 
 export type XyoModuleConfig<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoPayload = XyoPayload> = TConfig & {
   account: XyoAccount
@@ -17,7 +17,16 @@ export abstract class XyoAbstractModule<TQuery extends XyoPayload = XyoPayload, 
   constructor(config: XyoModuleConfig<TConfig, TQuery>) {
     this.config = config
   }
-  abstract query(query: XyoQueryPayload<TQuery>): Promisable<[XyoBoundWitness, (XyoPayload | null)[]]>
+
+  public queriable(schema: string): boolean {
+    return !!this.queries.find((item) => item === schema)
+  }
+
+  public get queries(): string[] {
+    return []
+  }
+
+  abstract query(query: XyoQueryPayload<TQuery>): Promisable<XyoModuleQueryResult>
 
   get account() {
     return this.config.account

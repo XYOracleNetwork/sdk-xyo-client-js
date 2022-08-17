@@ -6,11 +6,21 @@ import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
 import { XyoAbstractArchivist } from './Abstract'
+import {
+  XyoArchivistAllQueryPayloadSchema,
+  XyoArchivistClearQueryPayloadSchema,
+  XyoArchivistCommitQueryPayloadSchema,
+  XyoArchivistDeleteQueryPayloadSchema,
+  XyoArchivistFindQueryPayloadSchema,
+} from './Query'
 import { XyoArchivistConfig } from './XyoArchivistConfig'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
+export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
+export const XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
+
 export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
-  schema: 'network.xyo.module.config.archivist.memory'
+  schema: XyoMemoryArchivistConfigSchema
   max?: number
 }>
 
@@ -20,6 +30,17 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistC
   }
 
   private cache: LruCache<string, XyoPayload>
+
+  public override get queries() {
+    return [
+      ...super.queries,
+      XyoArchivistAllQueryPayloadSchema,
+      XyoArchivistDeleteQueryPayloadSchema,
+      XyoArchivistClearQueryPayloadSchema,
+      XyoArchivistFindQueryPayloadSchema,
+      XyoArchivistCommitQueryPayloadSchema,
+    ]
+  }
 
   constructor(config: XyoMemoryArchivistConfig) {
     super(config)

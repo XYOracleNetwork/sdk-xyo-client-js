@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoAbstractArchivist, XyoPayloadFindFilter } from '@xyo-network/archivist'
+import { XyoAbstractArchivist, XyoArchivistFindQueryPayloadSchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
@@ -9,6 +9,10 @@ import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
 export class XyoRemoteArchivist extends XyoAbstractArchivist<XyoRemoteArchivistConfig> {
   public get api() {
     return assertEx(this.config?.api, 'API not defined')
+  }
+
+  public override get queries() {
+    return [...super.queries, XyoArchivistFindQueryPayloadSchema]
   }
 
   public get archive() {

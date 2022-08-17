@@ -15,10 +15,7 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
-export class XyoMemoryArchivist<
-  Q extends XyoArchivistQueryPayload = XyoArchivistQueryPayload,
-  C extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig,
-> extends XyoAbstractArchivist<Q, C> {
+export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoArchivistQueryPayload, XyoMemoryArchivistConfig> {
   query<Q>(_query: Q): Promisable<[XyoBoundWitness, XyoPayload<{ schema: string }>[]]> {
     throw new Error('Method not implemented.')
   }
@@ -28,7 +25,7 @@ export class XyoMemoryArchivist<
 
   private cache: LruCache<string, XyoPayload>
 
-  constructor(config: C) {
+  constructor(config: XyoMemoryArchivistConfig) {
     super(config)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }

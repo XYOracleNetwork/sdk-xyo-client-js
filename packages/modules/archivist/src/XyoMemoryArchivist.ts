@@ -83,15 +83,15 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoArchivistQueryPa
     return this.cache.dump().map((value) => value[1].value)
   }
 
-  public async commit() {
+  public async commit(): Promise<XyoPayload[]> {
     const account = assertEx(this.account, 'Account is required for commit')
     const payloads = assertEx(await this.all(), 'Nothing to commit')
     const builder = new XyoBoundWitnessBuilder<XyoBoundWitness, XyoPayload>()
     const block = builder.payloads(payloads).witness(account).build()
-    const result = await Promise.all(
+    await Promise.allSettled(
       compact(Object.values(this.parents?.commit ?? [])?.map(async (parent) => await parent?.insert?.(payloads.concat([block])))),
     )
     await this.clear()
-    return result
+    return payloads
   }
 }

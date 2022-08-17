@@ -11,6 +11,10 @@ export abstract class XyoWitness<
   Q extends XyoWitnessQueryPayload = XyoWitnessQueryPayload,
   C extends XyoWitnessConfig<Q> = XyoWitnessConfig<Q>,
 > extends XyoAbstractModule<Q, C> {
+  public get targetSchema() {
+    return this.config.targetSchema
+  }
+
   public observe(fields?: Partial<T> | undefined, _query?: Q | undefined): Promisable<T> {
     return { ...fields, schema: this.config.targetSchema } as T
   }

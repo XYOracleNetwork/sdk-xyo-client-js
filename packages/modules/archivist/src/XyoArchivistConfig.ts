@@ -1,19 +1,12 @@
-import { XyoAccount } from '@xyo-network/account'
 import { XyoModuleConfig } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoArchivist, XyoArchivistQueryPayload } from './XyoArchivist'
 
 export interface XyoArchivistParents {
-  read?: string[]
-  write?: string[]
-  commit?: string[]
-}
-
-export interface XyoResolvedArchivistParents {
-  read?: (XyoArchivist | null)[]
-  write?: (XyoArchivist | null)[]
-  commit?: (XyoArchivist | null)[]
+  read?: Record<string, XyoArchivist | null | undefined>
+  write?: Record<string, XyoArchivist | null | undefined>
+  commit?: Record<string, XyoArchivist | null | undefined>
 }
 
 export type XyoArchivistConfig<
@@ -23,7 +16,6 @@ export type XyoArchivistConfig<
   {
     /** @field address of one or more parent archivists to read from */
     parents?: XyoArchivistParents
-    account?: XyoAccount
     cacheParentReads?: boolean
     /** @field address of archivist to write through to */
     writeThrough?: string

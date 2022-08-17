@@ -3,22 +3,22 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoAbstractModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
-import compact from 'lodash/compact'
 
 import { Archivist } from './Archivist'
 import { XyoArchivist, XyoArchivistQueryPayload } from './XyoArchivist'
-import { XyoArchivistConfig, XyoResolvedArchivistParents } from './XyoArchivistConfig'
+import { XyoArchivistConfig, XyoArchivistParents } from './XyoArchivistConfig'
+import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export abstract class XyoAbstractArchivist<
     Q extends XyoArchivistQueryPayload = XyoArchivistQueryPayload,
     C extends XyoArchivistConfig = XyoArchivistConfig,
   >
   extends XyoAbstractModule<Q, C>
-  implements XyoArchivist<XyoArchivistQueryPayload>, Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoArchivistQueryPayload>
+  implements XyoArchivist<XyoArchivistQueryPayload>, Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
 {
   abstract get(ids: string[]): NullablePromisableArray<XyoPayload<{ schema: string }>>
 
-  abstract find(query: XyoArchivistQueryPayload<XyoPayload<{ schema: string }>>): PromisableArray<XyoPayload<{ schema: string }>>
+  abstract find(filter: XyoPayloadFindFilter): PromisableArray<XyoPayload<{ schema: string }>>
 
   abstract insert(item: XyoPayload<{ schema: string }>[]): PromisableArray<XyoPayload<{ schema: string }>>
 
@@ -28,12 +28,22 @@ export abstract class XyoAbstractArchivist<
     return this.config.resolver
   }
 
-  private _parents?: XyoResolvedArchivistParents
+  private resolveArchivists(archivists?: Record<string, XyoArchivist | null | undefined>) {
+    const resolved: Record<string, XyoArchivist | null | undefined> = {}
+    if (archivists) {
+      Object.entries(archivists).forEach(([key, value]) => {
+        resolved[key] = value ?? this.resolver?.(key) ?? null
+      })
+    }
+    return resolved
+  }
+
+  private _parents?: XyoArchivistParents
   get parents() {
     this._parents = this._parents ?? {
-      commit: compact(this.config.parents?.commit?.map((parent) => this.resolver?.(parent))),
-      read: compact(this.config.parents?.read?.map((parent) => this.resolver?.(parent))),
-      write: compact(this.config.parents?.write?.map((parent) => this.resolver?.(parent))),
+      commit: this.resolveArchivists(this.config.parents?.commit),
+      read: this.resolveArchivists(this.config.parents?.commit),
+      write: this.resolveArchivists(this.config.parents?.commit),
     }
     return assertEx(this._parents)
   }

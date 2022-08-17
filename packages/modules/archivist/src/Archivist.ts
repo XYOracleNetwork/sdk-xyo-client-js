@@ -11,8 +11,8 @@ export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, T
   clear?(): void
 }
 
-export interface QueryArchivist<TReadResponse, TQueryResponse = TReadResponse, TQuery = unknown> {
-  find(query: TQuery): PromisableArray<TQueryResponse>
+export interface FindArchivist<TReadResponse, TFindResponse = TReadResponse, TFindFilter = unknown> {
+  find(filter: TFindFilter): PromisableArray<TFindResponse>
 }
 
 export interface StashArchivist<TReadResponse> {
@@ -23,10 +23,10 @@ export interface Archivist<
   TReadResponse,
   TWriteResponse = TReadResponse,
   TWrite = TReadResponse,
-  TQueryResponse = TReadResponse,
-  TQuery = unknown,
+  TFindResponse = TReadResponse,
+  TFindFilter = unknown,
   TId = string,
 > extends ReadArchivist<TReadResponse, TId>,
-    QueryArchivist<TReadResponse, TQueryResponse, TQuery>,
+    FindArchivist<TReadResponse, TFindResponse, TFindFilter>,
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
     StashArchivist<TReadResponse> {}

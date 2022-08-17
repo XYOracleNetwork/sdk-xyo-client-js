@@ -26,7 +26,7 @@
     "@types/node": "^18.7.6",
     "@types/sha.js": "^2.4.0",
     "@types/uuid": "^8.3.4",
-    "@xylabs/tsconfig": "^2.5.118"
+    "@xylabs/tsconfig": "^2.5.119"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

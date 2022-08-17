@@ -184,7 +184,8 @@ export class UniSwap3Pair {
 export const pricesFromUniswap3 = async (pools: UniSwap3Pair[]): Promise<XyoUniswapCryptoPair[]> => {
   const promiseResults = await Promise.allSettled(
     pools.map(async (pool): Promise<XyoUniswapCryptoPair> => {
-      return await pool.price()
+      const result = await pool.price()
+      return result
     }),
   )
 

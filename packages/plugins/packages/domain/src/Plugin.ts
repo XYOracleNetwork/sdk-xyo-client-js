@@ -7,11 +7,11 @@ import { XyoDomainPayloadSchema } from './Schema'
 import { XyoDomainWitness } from './Witness'
 import { XyoDomainPayloadWrapper } from './Wrapper'
 
-export const XyoDomainPayloadPlugin: XyoPayloadPluginFunc<XyoDomainPayloadSchema, XyoDomainPayload> = () =>
+export const XyoDomainPayloadPlugin: XyoPayloadPluginFunc<XyoDomainPayloadSchema, XyoDomainPayload> = (config?) =>
   createXyoPayloadPlugin({
     schema: XyoDomainPayloadSchema,
     witness: (): XyoDomainWitness => {
-      return new XyoDomainWitness()
+      return new XyoDomainWitness(assertEx(config?.witness, 'Missing config'))
     },
     wrap: (payload: XyoPayload): XyoDomainPayloadWrapper => {
       assertEx(payload.schema === XyoDomainPayloadSchema)

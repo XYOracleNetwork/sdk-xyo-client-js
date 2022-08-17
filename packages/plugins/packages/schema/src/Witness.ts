@@ -1,21 +1,24 @@
-import { XyoSimpleWitness, XyoWitness } from '@xyo-network/witness'
-import merge from 'lodash/merge'
+import { delay } from '@xylabs/delay'
+import { XyoPayload } from '@xyo-network/payload'
+import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaPayloadSchema } from './Schema'
-import { XyoSchemaPayloadTemplate } from './Template'
 
-export class XyoSchemaWitness extends XyoSimpleWitness<XyoSchemaPayload> implements XyoWitness<XyoSchemaPayload> {
-  constructor() {
-    super({
-      schema: XyoSchemaPayloadSchema,
-      template: XyoSchemaPayloadTemplate(),
-    })
+export type XyoSchemaWitnessConfig = XyoWitnessConfig
+
+export type XyoSchemaWitnessQueryPayload = XyoWitnessQueryPayload
+
+export class XyoSchemaWitness
+  extends XyoWitness<XyoSchemaPayload>
+  implements XyoWitness<XyoSchemaPayload, XyoSchemaWitnessQueryPayload, XyoSchemaWitnessConfig>
+{
+  override async observe(
+    _fields: Partial<XyoSchemaPayload>,
+    _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>> | undefined,
+  ): Promise<XyoSchemaPayload> {
+    await delay(0)
+    throw new Error('Method not implemented.')
   }
-
-  override async observe(fields: XyoSchemaPayload): Promise<XyoSchemaPayload> {
-    return await super.observe(merge({}, this.config?.template, fields))
-  }
-
   static schema: XyoSchemaPayloadSchema = XyoSchemaPayloadSchema
 }

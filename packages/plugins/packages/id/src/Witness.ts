@@ -1,26 +1,32 @@
-import { XyoSimpleWitness } from '@xyo-network/witness'
-import { v4 as uuid } from 'uuid'
+import { delay } from '@xylabs/delay'
+import { uuid } from '@xyo-network/core'
+import { XyoPayload } from '@xyo-network/payload'
+import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
 import { XyoIdPayloadSchema } from './Schema'
-import { XyoIdPayloadTemplate } from './Template'
 
-export class XyoIdWitness extends XyoSimpleWitness<XyoIdPayload> {
+export interface XyoIdWitnessConfig extends XyoWitnessConfig {
+  salt?: string
+}
+
+export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
   private salt: string
 
-  constructor(salt = uuid()) {
-    const template = XyoIdPayloadTemplate()
-    super({
-      schema: template.schema,
-      template,
-    })
-    this.salt = salt
+  constructor({ salt, ...config }: XyoIdWitnessConfig) {
+    super(config)
+    this.salt = salt ?? uuid()
   }
 
-  override async observe(): Promise<XyoIdPayload> {
-    return await super.observe({
+  override async observe(
+    _fields?: Partial<XyoIdPayload>,
+    _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>> | undefined,
+  ): Promise<XyoIdPayload> {
+    await delay(0)
+    return {
       salt: this.salt,
-    })
+      schema: 'network.xyo.id',
+    }
   }
 
   static schema: XyoIdPayloadSchema = XyoIdPayloadSchema

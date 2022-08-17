@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessBuilder, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { uuid } from '@xyo-network/core'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 import dotenv from 'dotenv'
-import { v4 } from 'uuid'
 
 import { XyoArchivistBoundWitnessMongoSdk } from './BoundWitnessSdk'
 
@@ -30,7 +30,7 @@ const getBoundWitnesses = (number = 5) => {
   return new Array(number).fill(0).map((_) => {
     return new XyoBoundWitnessBuilder({ inlinePayloads: true })
       .witness(address)
-      .payload(new XyoPayloadBuilder({ schema }).fields({ prop: v4() }).build())
+      .payload(new XyoPayloadBuilder({ schema }).fields({ prop: uuid() }).build())
       .build()
   })
 }

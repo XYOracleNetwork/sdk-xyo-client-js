@@ -1,18 +1,12 @@
-import { XyoSimpleWitness } from '@xyo-network/witness'
+import { delay } from '@xylabs/delay'
+import { XyoPayload } from '@xyo-network/payload'
+import { XyoWitness, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoNonFungibleTokenMetaPayload } from './MetaPayload'
-import { nonFungibleTokenMetaTemplate } from './Template'
 
-export class XyoNonFungibleTokenMetaWitness extends XyoSimpleWitness<XyoNonFungibleTokenMetaPayload> {
-  constructor() {
-    const template = nonFungibleTokenMetaTemplate()
-    super({
-      schema: template.schema,
-      template,
-    })
-  }
-
-  override async observe() {
-    return await super.observe({})
+export class XyoNonFungibleTokenMetaWitness extends XyoWitness<XyoNonFungibleTokenMetaPayload> {
+  override async observe(_fields?: Partial<XyoNonFungibleTokenMetaPayload>, _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>>) {
+    await delay(0)
+    return { address: '', schema: 'network.xyo.nft.meta' }
   }
 }

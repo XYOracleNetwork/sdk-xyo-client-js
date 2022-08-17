@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/sdk-js'
 import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 import { XyoWitness } from '@xyo-network/witness'
 
@@ -16,6 +17,6 @@ export const XyoUniswapCryptoMarketPayloadPlugin: XyoPayloadPluginFunc<
     schema: XyoUniswapCryptoMarketPayloadSchema,
     template: XyoUniswapCryptoMarketPayloadTemplate,
     witness: (): XyoWitness => {
-      return new XyoUniswapCryptoMarketWitness(config?.witness)
+      return new XyoUniswapCryptoMarketWitness(assertEx(config?.witness, 'Missing config'))
     },
   })

@@ -1,17 +1,20 @@
-import { XyoSimpleWitness } from '@xyo-network/witness'
+import { delay } from '@xylabs/delay'
+import { XyoPayload } from '@xyo-network/payload'
+import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoLocationPayload } from './Payload'
 import { XyoLocationPayloadSchema } from './Schema'
-import { XyoLocationPayloadTemplate } from './Template'
 
-export class XyoLocationWitness extends XyoSimpleWitness<XyoLocationPayload> {
+export type XyoLocationWitnessConfig = XyoWitnessConfig<{
+  schema: 'network.xyo.location.config'
+  targetSchema: 'network.xyo.location'
+  geoLocation: Geolocation
+}>
+
+export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
   private geoLocation: Geolocation
-  constructor() {
-    const template = XyoLocationPayloadTemplate()
-    super({
-      schema: template.schema,
-      template,
-    })
+  constructor(config: XyoLocationWitnessConfig) {
+    super(config)
     this.geoLocation = navigator.geolocation
   }
 
@@ -28,9 +31,13 @@ export class XyoLocationWitness extends XyoSimpleWitness<XyoLocationPayload> {
     })
   }
 
-  override async observe() {
+  override async observe(
+    _fields: Partial<XyoLocationPayload>,
+    _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>> | undefined,
+  ): Promise<XyoLocationPayload> {
+    await delay(0)
     const location = await this.getCurrentPosition()
-    return await super.observe({
+    return {
       currentLocation: {
         coords: {
           accuracy: location.coords.accuracy,
@@ -43,7 +50,7 @@ export class XyoLocationWitness extends XyoSimpleWitness<XyoLocationPayload> {
         },
         timestamp: location.timestamp,
       },
-    })
+    } as XyoLocationPayload
   }
 
   static schema: XyoLocationPayloadSchema = XyoLocationPayloadSchema

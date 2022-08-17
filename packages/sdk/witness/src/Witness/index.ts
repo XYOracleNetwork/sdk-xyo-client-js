@@ -1,3 +1,3 @@
-export * from './QueryWitness'
-export * from './SimpleWitness'
 export * from './Witness'
+export * from './XyoWitnessConfig'
+export * from './XyoWitnessQueryPayload'

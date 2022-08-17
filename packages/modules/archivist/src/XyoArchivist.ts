@@ -4,6 +4,7 @@ import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
 import { Archivist } from './Archivist'
+import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoArchivistQueryPayloadGetSchema = 'network.xyo.query.archivist.get'
 export const XyoArchivistQueryPayloadGetSchema = 'network.xyo.query.archivist.get'
@@ -17,6 +18,6 @@ export type XyoArchivistQueryPayload<T extends XyoPayload = XyoPayload> = XyoQue
 
 export interface XyoArchivist<Q extends XyoArchivistQueryPayload = XyoArchivistQueryPayload>
   extends XyoModule<Q>,
-    Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoArchivistQueryPayload> {
+    Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter> {
   query<T extends Q>(query: T): Promisable<[XyoBoundWitness, XyoPayload[]]>
 }

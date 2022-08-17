@@ -1,23 +1,32 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
-import { XyoModule } from './Module'
+import { XyoModule, XyoModuleQueryResult } from './Module'
 
-export type XyoModuleConfig<T extends XyoPayload = XyoPayload, M extends XyoModule = XyoModule> = {
+export type XyoModuleConfig<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoPayload = XyoPayload> = TConfig & {
   account: XyoAccount
-  resolver?: (address: string) => M
-} & T
+  resolver?: (address: string) => XyoModule<XyoQueryPayload<TQuery>>
+}
 
-export abstract class XyoAbstractModule<Q extends XyoQueryPayload = XyoQueryPayload, C extends XyoModuleConfig = XyoModuleConfig>
-  implements XyoModule<Q>
+export abstract class XyoAbstractModule<TQuery extends XyoPayload = XyoPayload, TConfig extends XyoPayload = XyoPayload>
+  implements XyoModule<TQuery>
 {
-  protected config: C
-  constructor(config: C) {
+  protected config: XyoModuleConfig<TConfig, TQuery>
+  constructor(config: XyoModuleConfig<TConfig, TQuery>) {
     this.config = config
   }
-  abstract query(query: Q): Promisable<[XyoBoundWitness, XyoPayload[]]>
+
+  public queriable(schema: string): boolean {
+    return !!this.queries.find((item) => item === schema)
+  }
+
+  public get queries(): string[] {
+    return []
+  }
+
+  abstract query(query: XyoQueryPayload<TQuery>): Promisable<XyoModuleQueryResult>
 
   get account() {
     return this.config.account
@@ -31,7 +40,7 @@ export abstract class XyoAbstractModule<Q extends XyoQueryPayload = XyoQueryPayl
     return new XyoBoundWitnessBuilder().hashes(hashes, schema).witness(this.account).build()
   }
 
-  bindPayloads(payloads: XyoPayload[]) {
+  bindPayloads(payloads: (XyoPayload | null)[]) {
     return new XyoBoundWitnessBuilder().payloads(payloads).witness(this.account).build()
   }
 }

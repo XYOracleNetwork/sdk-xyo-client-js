@@ -15,7 +15,6 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/promisable": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "axios": "^0.27.2",
@@ -61,5 +60,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.26.9"
+  "version": "2.26.13"
 }

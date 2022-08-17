@@ -1,4 +1,4 @@
-import { NullablePromisableArray, PromisableArray } from '@xyo-network/promisable'
+import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
   get(ids: TId[]): NullablePromisableArray<TReadResponse>
@@ -8,7 +8,7 @@ export interface ReadArchivist<TReadResponse, TId = string> {
 export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {
   insert(item: TWrite[]): PromisableArray<TWriteResponse>
   delete?(ids: TId[]): PromisableArray<boolean>
-  clear?(): void
+  clear?(): Promisable<void>
 }
 
 export interface FindArchivist<TReadResponse, TFindResponse = TReadResponse, TFindFilter = unknown> {

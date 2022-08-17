@@ -1,28 +1,71 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoAbstractModule } from '@xyo-network/module'
+import { XyoAbstractModule, XyoModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
 
 import { Archivist } from './Archivist'
-import { XyoArchivist, XyoArchivistQueryPayload } from './XyoArchivist'
+import { XyoArchivistFindQueryPayloadSchema, XyoArchivistGetQueryPayloadSchema, XyoArchivistQueryPayload } from './Query'
+import { XyoArchivist } from './XyoArchivist'
 import { XyoArchivistConfig, XyoArchivistParents } from './XyoArchivistConfig'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export abstract class XyoAbstractArchivist<
-    Q extends XyoArchivistQueryPayload = XyoArchivistQueryPayload,
-    C extends XyoArchivistConfig = XyoArchivistConfig,
-  >
-  extends XyoAbstractModule<Q, C>
+export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPayload>
+  extends XyoAbstractModule<XyoArchivistQueryPayload, XyoArchivistConfig<TConfig>>
   implements XyoArchivist<XyoArchivistQueryPayload>, Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
 {
-  abstract get(ids: string[]): NullablePromisableArray<XyoPayload<{ schema: string }>>
+  public override get queries() {
+    return [XyoArchivistGetQueryPayloadSchema, XyoArchivistFindQueryPayloadSchema]
+  }
 
-  abstract find(filter: XyoPayloadFindFilter): PromisableArray<XyoPayload<{ schema: string }>>
+  abstract get(hashes: string[]): NullablePromisableArray<XyoPayload>
 
-  abstract insert(item: XyoPayload<{ schema: string }>[]): PromisableArray<XyoPayload<{ schema: string }>>
+  public all(): PromisableArray<XyoPayload> {
+    throw Error('Not implemented')
+  }
 
-  abstract override query<Q>(query: Q): Promisable<[XyoBoundWitness, XyoPayload[]]>
+  public clear(): Promisable<void> {
+    throw Error('Not implemented')
+  }
+
+  public commit(): PromisableArray<XyoPayload> {
+    throw Error('Not implemented')
+  }
+
+  public delete(_hashes: string[]): PromisableArray<boolean> {
+    throw Error('Not implemented')
+  }
+
+  abstract find(filter: XyoPayloadFindFilter): PromisableArray<XyoPayload>
+
+  abstract insert(item: XyoPayload[]): PromisableArray<XyoPayload>
+
+  async query(query: XyoArchivistQueryPayload): Promise<XyoModuleQueryResult> {
+    const payloads: (XyoPayload | null)[] = []
+    switch (query.schema) {
+      case 'network.xyo.query.archivist.all':
+        payloads.concat(await this.all())
+        break
+      case 'network.xyo.query.archivist.clear':
+        await this.clear()
+        break
+      case 'network.xyo.query.archivist.commit':
+        payloads.concat(await this.commit())
+        break
+      case 'network.xyo.query.archivist.delete':
+        await this.delete(query.hashes)
+        break
+      case 'network.xyo.query.archivist.find':
+        payloads.concat(await this.find(query.filter))
+        break
+      case 'network.xyo.query.archivist.get':
+        payloads.concat(await this.get(query.hashes))
+        break
+      case 'network.xyo.query.archivist.insert':
+        payloads.concat(await this.insert(query.payloads))
+        break
+    }
+    return [this.bindPayloads(payloads), payloads]
+  }
 
   get resolver() {
     return this.config.resolver

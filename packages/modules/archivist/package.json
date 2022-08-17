@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.6",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
@@ -56,5 +55,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.26.9"
+  "version": "2.26.13"
 }

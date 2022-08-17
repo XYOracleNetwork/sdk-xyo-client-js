@@ -12,9 +12,9 @@
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.6",
     "@xyo-network/account": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/promisable": "workspace:^",
@@ -58,5 +58,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.26.9"
+  "version": "2.26.13"
 }

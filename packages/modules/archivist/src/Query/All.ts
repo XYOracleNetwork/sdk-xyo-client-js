@@ -1,8 +1,8 @@
-import { XyoArchivistQueryPayload } from '../XyoArchivist'
+import { XyoQueryPayload } from '@xyo-network/payload'
 
-export type XyoArchvistAllQueryPayloadSchema = 'network.xyo.query.archivist.all'
-export const XyoArchvistAllQueryPayloadSchema = 'network.xyo.query.archivist.all'
+export type XyoArchivistAllQueryPayloadSchema = 'network.xyo.query.archivist.all'
+export const XyoArchivistAllQueryPayloadSchema = 'network.xyo.query.archivist.all'
 
-export type XyoArchvistAllQueryPayload = XyoArchivistQueryPayload<{
-  schema: XyoArchvistAllQueryPayloadSchema
+export type XyoArchivistAllQueryPayload = XyoQueryPayload<{
+  schema: XyoArchivistAllQueryPayloadSchema
 }>

@@ -18,7 +18,7 @@ export class XyoPrivateKey extends XyoEllipticKey {
         this._keyPair = XyoPrivateKey.ecContext.genKeyPair()
       } catch {
         //this catch is for the few browsers that do not have crypto random
-        this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate((Math.random() * 999999999999).toString())
+        this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999999999999).toString())
         console.warn('XyoAccount created without browser crypto')
       }
     }

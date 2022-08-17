@@ -1,12 +1,11 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
-import { Promisable, PromisableArray } from '@xyo-network/promisable'
+import { PromisableArray } from '@xyo-network/promisable'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
 import { XyoAbstractArchivist } from './Abstract'
-import { XyoArchivistQueryPayload } from './XyoArchivist'
 import { XyoArchivistConfig } from './XyoArchivistConfig'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
@@ -15,10 +14,7 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
-export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoArchivistQueryPayload, XyoMemoryArchivistConfig> {
-  query<Q>(_query: Q): Promisable<[XyoBoundWitness, XyoPayload<{ schema: string }>[]]> {
-    throw new Error('Method not implemented.')
-  }
+export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistConfig> {
   public get max() {
     return this.config?.max ?? 10000
   }
@@ -36,7 +32,7 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoArchivistQueryPa
     })
   }
 
-  public clear(): void | Promise<void> {
+  public override clear(): void | Promise<void> {
     this.cache.clear()
   }
 
@@ -45,7 +41,8 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoArchivistQueryPa
       await Promise.all(
         compact(
           Object.values(this.parents?.read ?? {}).map(async (parent) => {
-            return (await parent?.get([hash]))?.[0] ?? null
+            const [, payloads] = (await parent?.query({ hashes: [hash], schema: 'network.xyo.query.archivist.get' })) ?? []
+            return payloads?.[0]
           }),
         ),
       ),
@@ -89,7 +86,11 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoArchivistQueryPa
     const builder = new XyoBoundWitnessBuilder<XyoBoundWitness, XyoPayload>()
     const block = builder.payloads(payloads).witness(account).build()
     await Promise.allSettled(
-      compact(Object.values(this.parents?.commit ?? [])?.map(async (parent) => await parent?.insert?.(payloads.concat([block])))),
+      compact(
+        Object.values(this.parents?.commit ?? [])?.map(
+          async (parent) => await parent?.query({ payloads: [block, ...payloads], schema: 'network.xyo.query.archivist.insert' }),
+        ),
+      ),
     )
     await this.clear()
     return payloads

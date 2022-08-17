@@ -3336,7 +3336,6 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     axios: ^0.27.2
@@ -3351,7 +3350,6 @@ __metadata:
   dependencies:
     "@xylabs/sdk-js": ^2.6.6
     "@xylabs/tsconfig": ^2.5.119
-    "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"

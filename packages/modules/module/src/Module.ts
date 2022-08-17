@@ -4,5 +4,5 @@ import { Promisable } from '@xyo-network/promisable'
 
 export interface XyoModule<Q extends XyoQueryPayload = XyoQueryPayload> {
   address: string
-  query<T extends Q>(query: T): Promisable<[XyoBoundWitness, XyoPayload[]]>
+  query<T extends Q>(query: T): Promisable<[XyoBoundWitness, (XyoPayload | null)[]]>
 }

@@ -17,7 +17,7 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner {
 
   override async query(query: XyoPayloadDivinerQueryPayload): Promise<[XyoBoundWitness, XyoPayload[]]> {
     const huri = new Huri(query.huri)
-    const [payloads = []] = await profile(async () => await this.archivist.get([huri.hash]))
+    const [payloads = []] = await profile(async () => await this.archivist.query({ hashes: [huri.hash], schema: 'network.xyo.query.archivist.get' }))
     const resultPayloads = payloads?.[0] ? [payloads?.[0]] : []
     return [this.bindPayloads(resultPayloads), resultPayloads]
   }

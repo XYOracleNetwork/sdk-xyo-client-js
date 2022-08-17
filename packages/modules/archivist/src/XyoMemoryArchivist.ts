@@ -8,7 +8,7 @@ import LruCache from 'lru-cache'
 import { XyoAbstractArchivist } from './Abstract'
 import { XyoArchivistQueryPayload } from './XyoArchivist'
 import { XyoArchivistConfig } from './XyoArchivistConfig'
-import { XyoPayloadFindQuery } from './XyoPayloadFindFilter'
+import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   schema: 'network.xyo.module.config.archivist.memory'
@@ -69,10 +69,10 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoArchivistQueryPa
     })
   }
 
-  public find<R extends XyoPayload = XyoPayload>(query: XyoPayloadFindQuery): PromisableArray<R> {
+  public find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): PromisableArray<R> {
     const result: R[] = []
     this.cache.forEach((value) => {
-      if (value.schema === query.filter.schema) {
+      if (value.schema === filter.schema) {
         result.push(value as R)
       }
     })

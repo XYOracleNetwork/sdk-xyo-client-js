@@ -1,5 +1,6 @@
 export * from './Abstract'
 export * from './Archivist'
+export * from './Query'
 export * from './XyoArchivist'
 export * from './XyoArchivistConfig'
 export * from './XyoMemoryArchivist'

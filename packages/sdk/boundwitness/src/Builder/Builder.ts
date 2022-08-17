@@ -33,7 +33,7 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
     return this
   }
 
-  public payloads(payloads: TPayload[]) {
+  public payloads(payloads: (TPayload | null)[]) {
     payloads.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)

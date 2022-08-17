@@ -7,17 +7,18 @@ import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-netwo
 import { Archivist } from './Archivist'
 import { XyoArchivist, XyoArchivistQueryPayload } from './XyoArchivist'
 import { XyoArchivistConfig, XyoArchivistParents } from './XyoArchivistConfig'
+import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export abstract class XyoAbstractArchivist<
     Q extends XyoArchivistQueryPayload = XyoArchivistQueryPayload,
     C extends XyoArchivistConfig = XyoArchivistConfig,
   >
   extends XyoAbstractModule<Q, C>
-  implements XyoArchivist<XyoArchivistQueryPayload>, Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoArchivistQueryPayload>
+  implements XyoArchivist<XyoArchivistQueryPayload>, Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
 {
   abstract get(ids: string[]): NullablePromisableArray<XyoPayload<{ schema: string }>>
 
-  abstract find(query: XyoArchivistQueryPayload<XyoPayload<{ schema: string }>>): PromisableArray<XyoPayload<{ schema: string }>>
+  abstract find(filter: XyoPayloadFindFilter): PromisableArray<XyoPayload<{ schema: string }>>
 
   abstract insert(item: XyoPayload<{ schema: string }>[]): PromisableArray<XyoPayload<{ schema: string }>>
 

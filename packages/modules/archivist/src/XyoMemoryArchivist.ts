@@ -1,28 +1,34 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
+import { Promisable, PromisableArray } from '@xyo-network/promisable'
+import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
-import { PromisableArray } from './model'
-import { XyoArchivist } from './XyoArchivist'
-import { XyoArchivistConfig, XyoArchivistConfigWrapper } from './XyoArchivistConfig'
+import { XyoAbstractArchivist } from './Abstract'
+import { XyoArchivistQueryPayload } from './XyoArchivist'
+import { XyoArchivistConfig } from './XyoArchivistConfig'
 import { XyoPayloadFindQuery } from './XyoPayloadFindFilter'
 
-export interface XyoMemoryArchivistConfig<T extends XyoPayload = XyoPayload> extends XyoArchivistConfig<T> {
+export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
+  schema: 'network.xyo.module.config.archivist.memory'
   max?: number
-}
+}>
 
-export class XyoMemoryArchivist<C extends XyoMemoryArchivistConfig<XyoPayload> = XyoMemoryArchivistConfig<XyoPayload>>
-  extends XyoArchivistConfigWrapper<XyoPayload, C>
-  implements XyoArchivist
-{
+export class XyoMemoryArchivistWrapper<
+  Q extends XyoArchivistQueryPayload = XyoArchivistQueryPayload,
+  C extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig,
+> extends XyoAbstractArchivist<Q, C> {
+  query<Q>(_query: Q): Promisable<[XyoBoundWitness, XyoPayload<{ schema: string }>[]]> {
+    throw new Error('Method not implemented.')
+  }
   public get max() {
     return this.config?.max ?? 10000
   }
 
   private cache: LruCache<string, XyoPayload>
 
-  constructor(config?: C) {
+  constructor(config: C) {
     super(config)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
@@ -37,10 +43,22 @@ export class XyoMemoryArchivist<C extends XyoMemoryArchivistConfig<XyoPayload> =
     this.cache.clear()
   }
 
+  public async getFromParents(hash: string) {
+    return compact(
+      await Promise.all(
+        compact(
+          this.parents?.read?.map(async (parent) => {
+            return (await parent?.get([hash]))?.[0] ?? null
+          }),
+        ),
+      ),
+    )[0]
+  }
+
   public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
     return await Promise.all(
       hashes.map(async (hash) => {
-        return this.cache.get(hash) ?? (await this.parent?.get([hash]))?.pop() ?? null
+        return this.cache.get(hash) ?? (await this.getFromParents(hash)) ?? null
       }),
     )
   }
@@ -69,12 +87,11 @@ export class XyoMemoryArchivist<C extends XyoMemoryArchivistConfig<XyoPayload> =
   }
 
   public async commit() {
-    const parent = assertEx(this.parent, 'Parent is required for commit')
     const account = assertEx(this.account, 'Account is required for commit')
     const payloads = assertEx(await this.all(), 'Nothing to commit')
     const builder = new XyoBoundWitnessBuilder<XyoBoundWitness, XyoPayload>()
     const block = builder.payloads(payloads).witness(account).build()
-    const result = await parent.insert?.(payloads.concat([block]))
+    const result = await Promise.all(compact(this.parents?.commit?.map(async (parent) => await parent?.insert?.(payloads.concat([block])))))
     await this.clear()
     return result
   }

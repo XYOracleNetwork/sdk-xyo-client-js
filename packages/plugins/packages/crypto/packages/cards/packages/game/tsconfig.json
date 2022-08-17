@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "composite": true,
-    "rootDir": "./src"
+  "composite": true,
+  "rootDir": "./src"
   },
-  "extends": "@xylabs/tsconfig"
+  "extends": "../../tsconfig.json"
 }

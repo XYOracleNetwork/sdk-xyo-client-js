@@ -1,16 +1,15 @@
-import { XyoSimpleWitness, XyoSimpleWitnessConfig } from '@xyo-network/witness'
+import { delay } from '@xylabs/delay'
+import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoSystemInfoPayload } from './Payload'
 
 export class XyoSystemInfoWitness<
   T extends XyoSystemInfoPayload = XyoSystemInfoPayload,
-  C extends XyoSimpleWitnessConfig<T> = XyoSimpleWitnessConfig<T>,
-> extends XyoSimpleWitness<T, C> {
-  constructor(config: C = { schema: 'network.xyo.system.info' } as C) {
-    super({ ...config })
-  }
-
-  override async observe(fields?: Partial<T>): Promise<T> {
-    return await super.observe(fields)
+  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
+  C extends XyoWitnessConfig<Q> = XyoWitnessConfig<Q>,
+> extends XyoWitness<T, Q, C> {
+  override async observe(fields?: Partial<T>, _query?: Q | undefined): Promise<T> {
+    await delay(0)
+    return super.observe(fields)
   }
 }

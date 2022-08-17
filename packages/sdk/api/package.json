@@ -26,7 +26,7 @@
   "devDependencies": {
     "@ethersproject/wallet": "^5.6.2",
     "@types/pako": "^2.0.0",
-    "@xylabs/tsconfig": "^2.5.99"
+    "@xylabs/tsconfig": "^2.5.117"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

@@ -16,12 +16,12 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promisable": "workspace:^",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.13.2",
+    "lru-cache": "^7.14.0",
     "tslib": "^2.4.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.99"
+    "@xylabs/tsconfig": "^2.5.117"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

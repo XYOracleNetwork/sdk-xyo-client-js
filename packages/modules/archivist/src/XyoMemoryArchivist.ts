@@ -15,7 +15,7 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
-export class XyoMemoryArchivistWrapper<
+export class XyoMemoryArchivist<
   Q extends XyoArchivistQueryPayload = XyoArchivistQueryPayload,
   C extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig,
 > extends XyoAbstractArchivist<Q, C> {

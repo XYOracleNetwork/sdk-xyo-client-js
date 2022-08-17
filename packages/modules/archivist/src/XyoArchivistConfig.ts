@@ -1,4 +1,3 @@
-import { XyoAccount } from '@xyo-network/account'
 import { XyoModuleConfig } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
@@ -17,7 +16,6 @@ export type XyoArchivistConfig<
   {
     /** @field address of one or more parent archivists to read from */
     parents?: XyoArchivistParents
-    account?: XyoAccount
     cacheParentReads?: boolean
     /** @field address of archivist to write through to */
     writeThrough?: string

@@ -11,7 +11,7 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner {
   protected archivist: XyoArchivist
 
   constructor(account: XyoAccount, archivist: XyoArchivist) {
-    super({ account, schema: 'network.xyo.diviner.payload.config' })
+    super({ account, schema: 'network.xyo.diviner.payload.config', targetSchema: 'network.xyo.payload' })
     this.archivist = archivist
   }
 

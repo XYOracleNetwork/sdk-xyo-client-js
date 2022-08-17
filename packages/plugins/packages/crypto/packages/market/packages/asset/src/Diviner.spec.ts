@@ -10,13 +10,16 @@ const uniswapPayload = sampleUniswapPayload
 
 describe('Diviner', () => {
   test('returns observation', async () => {
-    const sut = new XyoCryptoMarketAssetDiviner(XyoAccount.random())
+    const sut = new XyoCryptoMarketAssetDiviner({
+      account: new XyoAccount(),
+      schema: 'network.xyo.crypto.market.asset.diviner.config',
+      targetSchema: XyoCryptoMarketAssetPayloadSchema,
+    })
     const query: XyoCryptoMarketAssetQueryPayload = {
       payloads: { coinGeckoPayload, uniswapPayload },
       schema: XyoCryptoMarketAssetQueryPayloadSchema,
-      targetSchema: XyoCryptoMarketAssetPayloadSchema,
     }
-    const result = await sut.divine(query)
+    const result = await sut.query(query)
     expect(result).toBeArray()
     expect(result.length).toBe(2)
     const bw = result[0]

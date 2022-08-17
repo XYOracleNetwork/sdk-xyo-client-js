@@ -3421,6 +3421,7 @@ __metadata:
     "@xyo-network/promisable": "workspace:^"
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
+    jest-extended: ^3.0.2
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft

@@ -1,9 +1,7 @@
-import { XyoModuleConfig } from '@xyo-network/module'
-
-import { XyoAbstractDiviner } from '../Abstract'
+import { XyoAbstractDiviner, XyoDivinerConfig } from '../Abstract'
 import { XyoPayloadDivinerQueryPayload } from './XyoPayloadDivinerQueryPayload'
 
 export abstract class XyoPayloadDiviner<
   Q extends XyoPayloadDivinerQueryPayload = XyoPayloadDivinerQueryPayload,
-  C extends XyoModuleConfig = XyoModuleConfig,
+  C extends XyoDivinerConfig = XyoDivinerConfig,
 > extends XyoAbstractDiviner<Q, C> {}

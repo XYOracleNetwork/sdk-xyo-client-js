@@ -1,13 +1,13 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleConfig } from '@xyo-network/module'
 import { Huri, HuriOptions, XyoPayload } from '@xyo-network/payload'
 
+import { XyoDivinerConfig } from '../../Abstract'
 import { XyoDivinerQueryPayload } from '../../Diviner'
 import { profile } from '../lib'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoPayloadDivinerQueryPayload } from '../XyoPayloadDivinerQueryPayload'
 
-export type XyoHuriPayloadDivinerConfig = XyoModuleConfig<{
+export type XyoHuriPayloadDivinerConfig = XyoDivinerConfig<{
   schema: 'network.xyo.diviner.payload.huri.config'
   huriOptions: HuriOptions
   huri: string

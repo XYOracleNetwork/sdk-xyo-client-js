@@ -8,7 +8,7 @@ export class XyoEtherchainEthereumGasWitnessV2 extends XyoWitness<XyoEthereumGas
   constructor(account = new XyoAccount()) {
     super({
       account,
-      query: { schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.query', targetSchema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2' },
+      query: { schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.query' },
       schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.config',
       targetSchema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2',
     })

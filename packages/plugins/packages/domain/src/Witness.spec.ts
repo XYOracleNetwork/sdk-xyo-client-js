@@ -4,7 +4,7 @@ import { XyoDomainWitness } from './Witness'
 
 describe('XyoDomainConfigWitness', () => {
   test('valid-instantiation', () => {
-    const witness = new XyoDomainWitness({ account: new XyoAccount(), schema: 'network.xyo.domain.config' })
+    const witness = new XyoDomainWitness({ account: new XyoAccount(), schema: 'network.xyo.domain.config', targetSchema: 'network.xyo.domain' })
     expect(witness).toBeTruthy()
     expect(XyoDomainWitness.dmarc).toBe('_xyo')
   })

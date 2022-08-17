@@ -12,9 +12,9 @@ describe('Witness', () => {
         coins: defaultCoins,
         currencies: defaultCurrencies,
         schema: XyoCoingeckoCryptoMarketQueryPayloadSchema,
-        targetSchema: XyoCoingeckoCryptoMarketPayloadSchema,
       },
       schema: 'network.xyo.crypto.market.coingecko.config',
+      targetSchema: XyoCoingeckoCryptoMarketPayloadSchema,
     })
     const actual = await sut.observe()
 

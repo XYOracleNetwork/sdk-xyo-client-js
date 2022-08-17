@@ -5,7 +5,6 @@ export const XyoEthereumGasEtherscanQueryPayloadSchema = 'network.xyo.blockchain
 
 export type XyoEthereumGasEtherscanQueryPayload = XyoQueryPayload<{
   schema: XyoEthereumGasEtherscanQueryPayloadSchema
-  targetSchema: XyoEthereumGasEtherscanPayloadSchema
 }>
 
 export type XyoEthereumGasEtherscanPayloadSchema = 'network.xyo.blockchain.ethereum.gas.etherscan'

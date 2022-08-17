@@ -6,7 +6,7 @@ describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {
     const witness = new XyoSystemInfoNodeWitness({
       account: new XyoAccount(),
-      schema: 'network.xyo.systen.info.config',
+      schema: 'network.xyo.systen.info.node.config',
       targetSchema: 'network.xyo.system.info.node',
     })
     const observation = await witness.observe()

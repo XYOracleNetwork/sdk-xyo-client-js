@@ -47,7 +47,7 @@ export class XyoMemoryArchivist<
     return compact(
       await Promise.all(
         compact(
-          this.parents?.read?.map(async (parent) => {
+          Object.values(this.parents?.read ?? {}).map(async (parent) => {
             return (await parent?.get([hash]))?.[0] ?? null
           }),
         ),
@@ -91,7 +91,9 @@ export class XyoMemoryArchivist<
     const payloads = assertEx(await this.all(), 'Nothing to commit')
     const builder = new XyoBoundWitnessBuilder<XyoBoundWitness, XyoPayload>()
     const block = builder.payloads(payloads).witness(account).build()
-    const result = await Promise.all(compact(this.parents?.commit?.map(async (parent) => await parent?.insert?.(payloads.concat([block])))))
+    const result = await Promise.all(
+      compact(Object.values(this.parents?.commit ?? [])?.map(async (parent) => await parent?.insert?.(payloads.concat([block])))),
+    )
     await this.clear()
     return result
   }

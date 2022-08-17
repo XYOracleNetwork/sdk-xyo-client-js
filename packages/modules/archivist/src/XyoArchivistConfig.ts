@@ -5,15 +5,9 @@ import { XyoPayload } from '@xyo-network/payload'
 import { XyoArchivist, XyoArchivistQueryPayload } from './XyoArchivist'
 
 export interface XyoArchivistParents {
-  read?: string[]
-  write?: string[]
-  commit?: string[]
-}
-
-export interface XyoResolvedArchivistParents {
-  read?: (XyoArchivist | null)[]
-  write?: (XyoArchivist | null)[]
-  commit?: (XyoArchivist | null)[]
+  read?: Record<string, XyoArchivist | null | undefined>
+  write?: Record<string, XyoArchivist | null | undefined>
+  commit?: Record<string, XyoArchivist | null | undefined>
 }
 
 export type XyoArchivistConfig<

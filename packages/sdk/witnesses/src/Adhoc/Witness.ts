@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
 import { WithAdditional } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 import { XyoWitness, XyoWitnessQueryPayload } from '@xyo-network/witness'
 import merge from 'lodash/merge'
@@ -14,7 +14,7 @@ export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> 
         schema: 'network.xyo.witness.adhoc.query',
       },
       schema: 'network.xyo.witness.adhoc.config',
-      targetSchema: 'network.xyo.payload',
+      targetSchema: XyoPayloadSchema,
     })
     this.payload = payload
   }

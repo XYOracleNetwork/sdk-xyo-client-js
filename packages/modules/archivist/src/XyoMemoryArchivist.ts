@@ -12,12 +12,14 @@ import {
   XyoArchivistCommitQueryPayloadSchema,
   XyoArchivistDeleteQueryPayloadSchema,
   XyoArchivistFindQueryPayloadSchema,
+  XyoArchivistGetQueryPayloadSchema,
+  XyoArchivistInsertQueryPayloadSchema,
 } from './Query'
 import { XyoArchivistConfig } from './XyoArchivistConfig'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
-export const XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
+export const XyoMemoryArchivistConfigSchema: XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 
 export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   schema: XyoMemoryArchivistConfigSchema
@@ -62,7 +64,7 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistC
       await Promise.all(
         compact(
           Object.values(this.parents?.read ?? {}).map(async (parent) => {
-            const [, payloads] = (await parent?.query({ hashes: [hash], schema: 'network.xyo.query.archivist.get' })) ?? []
+            const [, payloads] = (await parent?.query({ hashes: [hash], schema: XyoArchivistGetQueryPayloadSchema })) ?? []
             return payloads?.[0]
           }),
         ),
@@ -109,7 +111,7 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistC
     await Promise.allSettled(
       compact(
         Object.values(this.parents?.commit ?? [])?.map(
-          async (parent) => await parent?.query({ payloads: [block, ...payloads], schema: 'network.xyo.query.archivist.insert' }),
+          async (parent) => await parent?.query({ payloads: [block, ...payloads], schema: XyoArchivistInsertQueryPayloadSchema }),
         ),
       ),
     )

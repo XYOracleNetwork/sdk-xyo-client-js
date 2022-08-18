@@ -4,7 +4,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { sortFields, XyoHasher } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoBoundWitness, XyoBoundWitnessWithMeta } from '../models'
+import { XyoBoundWitness, XyoBoundWitnessSchema, XyoBoundWitnessWithMeta } from '../models'
 
 export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
@@ -64,7 +64,7 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
       previous_hashes,
-      schema: 'network.xyo.boundwitness',
+      schema: XyoBoundWitnessSchema,
     } as TBoundWitness
   }
 

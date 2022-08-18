@@ -3,7 +3,3 @@ export interface XyoCryptoUniswapToken {
   symbol: string
   value: number
 }
-
-export interface XyoUniswapCryptoPair {
-  tokens: XyoCryptoUniswapToken[]
-}

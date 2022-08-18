@@ -1,6 +1,8 @@
 import { InfuraProvider } from '@ethersproject/providers'
 
-import { createUniswapPoolContracts, pricesFromUniswap3, UniswapPoolContracts } from './pricesFromUniswap3'
+import { createUniswapPoolContracts } from './Ethers'
+import { pricesFromUniswap3 } from './pricesFromUniswap3'
+import { UniswapPoolContracts } from './UniswapPoolContracts'
 
 describe('pricesFromUniswap3', () => {
   test('observe', async () => {

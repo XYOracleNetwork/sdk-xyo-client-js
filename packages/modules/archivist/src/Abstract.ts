@@ -49,25 +49,25 @@ export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPaylo
     const payloads: (XyoPayload | null)[] = []
     switch (query.schema) {
       case 'network.xyo.query.archivist.all':
-        payloads.concat(await this.all())
+        payloads.push(...(await this.all()))
         break
       case 'network.xyo.query.archivist.clear':
         await this.clear()
         break
       case 'network.xyo.query.archivist.commit':
-        payloads.concat(await this.commit())
+        payloads.push(...(await this.commit()))
         break
       case 'network.xyo.query.archivist.delete':
         await this.delete(query.hashes)
         break
       case 'network.xyo.query.archivist.find':
-        payloads.concat(await this.find(query.filter))
+        payloads.push(...(await this.find(query.filter)))
         break
       case XyoArchivistGetQueryPayloadSchema:
-        payloads.concat(await this.get(query.hashes))
+        payloads.push(...(await this.get(query.hashes)))
         break
       case XyoArchivistInsertQueryPayloadSchema:
-        payloads.concat(await this.insert(query.payloads))
+        payloads.push(...(await this.insert(query.payloads)))
         break
     }
     return [this.bindPayloads(payloads), payloads]

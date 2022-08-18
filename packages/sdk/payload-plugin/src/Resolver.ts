@@ -1,5 +1,5 @@
 import { XyoValidator } from '@xyo-network/core'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
@@ -13,13 +13,13 @@ export class XyoPayloadPluginResolver {
     plugins?: XyoPayloadPlugin<string>[],
     /** @param defaultPlugin Specifies the plugin to be used if no plugins resolve */
     defaultPlugin = createXyoPayloadPlugin<string, XyoPayload>({
-      schema: 'network.xyo.payload',
+      schema: XyoPayloadSchema,
     }),
   ) {
     plugins?.forEach((plugin) => this.register(plugin))
     this.defaultPlugin = defaultPlugin
   }
-  schema = 'network.xyo.payload'
+  schema = XyoPayloadSchema
 
   public register(plugin: XyoPayloadPlugin<string>) {
     this.pluginMap.set(plugin.schema, plugin)

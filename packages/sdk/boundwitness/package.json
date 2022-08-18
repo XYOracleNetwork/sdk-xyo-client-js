@@ -24,7 +24,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.183",
     "@types/ua-parser-js": "^0.7.36",
-    "@xylabs/tsconfig": "^2.5.119"
+    "@xylabs/tsconfig": "^2.5.121"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

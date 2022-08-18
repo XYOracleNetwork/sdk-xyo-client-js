@@ -14,12 +14,12 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "bowser": "^2.11.0",
-    "systeminformation": "^5.12.5",
+    "systeminformation": "^5.12.6",
     "tslib": "^2.4.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.119"
+    "@xylabs/tsconfig": "^2.5.121"
   },
   "browser": "dist/esm/browserIndex.js",
   "docs": "dist/docs.json",

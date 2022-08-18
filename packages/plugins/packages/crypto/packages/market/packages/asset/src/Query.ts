@@ -2,10 +2,10 @@ import { XyoCoingeckoCryptoMarketPayload } from '@xyo-network/coingecko-crypto-m
 import { XyoQueryPayload } from '@xyo-network/payload'
 import { XyoUniswapCryptoMarketPayload } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
-import { XyoCryptoMarketAssetQueryPayloadSchema } from './Schema'
+import { XyoCryptoMarketAssetDivinerQueryPayloadSchema } from './Schema'
 
 export type XyoCryptoMarketAssetQueryPayload = XyoQueryPayload<{
-  schema: XyoCryptoMarketAssetQueryPayloadSchema
+  schema: XyoCryptoMarketAssetDivinerQueryPayloadSchema
   payloads: {
     coinGeckoPayload: XyoCoingeckoCryptoMarketPayload | undefined
     uniswapPayload: XyoUniswapCryptoMarketPayload | undefined

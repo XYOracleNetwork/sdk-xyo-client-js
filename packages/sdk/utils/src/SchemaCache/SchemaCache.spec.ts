@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoDomainPayload } from '@xyo-network/domain-payload-plugin'
+import { XyoDomainPayload, XyoDomainPayloadSchema } from '@xyo-network/domain-payload-plugin'
 import { XyoNetworkNodePayloadSchema, XyoNetworkPayloadSchema } from '@xyo-network/network'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/payload'
+import { XyoSchemaPayloadSchema } from '@xyo-network/schema-payload-plugin'
 
 import { XyoSchemaCache } from './SchemaCache'
 
@@ -9,7 +10,7 @@ const proxy = 'https://beta.api.archivist.xyo.network/domain'
 
 const exampleDomainConfig: XyoDomainPayload = {
   aliases: {
-    'network.xyo.schema': {
+    [XyoSchemaPayloadSchema]: {
       huri: '548476cc8388e97c7a724c77ffc89b8b858b66ee009750797405d264c570b260',
     },
   },
@@ -30,7 +31,7 @@ const exampleDomainConfig: XyoDomainPayload = {
       slug: 'main',
     },
   ],
-  schema: 'network.xyo.domain',
+  schema: XyoDomainPayloadSchema,
 }
 
 describe('XyoSchemaCache', () => {
@@ -40,14 +41,14 @@ describe('XyoSchemaCache', () => {
 
   test('Valid', async () => {
     const cache = XyoSchemaCache.instance
-    const fetchedPayload = await cache.get('network.xyo.schema')
-    expect(fetchedPayload?.payload.schema).toBe('network.xyo.schema')
+    const fetchedPayload = await cache.get(XyoSchemaPayloadSchema)
+    expect(fetchedPayload?.payload.schema).toBe(XyoSchemaPayloadSchema)
   })
 
   describe('validator', () => {
     describe('provides strongly typed validator for known schema type', () => {
       test('XyoPayload', async () => {
-        const schema = 'network.xyo.payload'
+        const schema = XyoPayloadSchema
         const cache = XyoSchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
@@ -62,7 +63,7 @@ describe('XyoSchemaCache', () => {
         expect(valid.length).toBe(payloads.length)
       })
       test('XyoDomainConfig', async () => {
-        const schema = 'network.xyo.domain'
+        const schema = XyoDomainPayloadSchema
         const cache = XyoSchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()

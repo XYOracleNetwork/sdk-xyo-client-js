@@ -1,21 +1,10 @@
 import { XyoModuleQueryResult } from '@xyo-network/module'
-import { Huri, HuriOptions } from '@xyo-network/payload'
+import { Huri } from '@xyo-network/payload'
 
-import { XyoDivinerConfig } from '../../Abstract'
-import { XyoDivinerQueryPayload } from '../../Diviner'
 import { profile } from '../lib'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
-
-export type XyoHuriPayloadDivinerConfig = XyoDivinerConfig<{
-  schema: 'network.xyo.diviner.payload.huri.config'
-  options?: HuriOptions
-}>
-
-export type XyoHuriPayloadDivinerQuery = XyoDivinerQueryPayload<{
-  schema: 'network.xyo.diviner.payload.huri.query'
-  options?: HuriOptions
-  huri: string
-}>
+import { XyoHuriPayloadDivinerConfig } from './Config'
+import { XyoHuriPayloadDivinerQuery } from './Query'
 
 export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerQuery, XyoHuriPayloadDivinerConfig> {
   protected get options() {

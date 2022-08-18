@@ -4,7 +4,13 @@ import { XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
 
 import { Archivist } from './Archivist'
-import { XyoArchivistFindQueryPayloadSchema, XyoArchivistGetQueryPayloadSchema, XyoArchivistQueryPayload } from './Query'
+import {
+  XyoArchivistFindQueryPayloadSchema,
+  XyoArchivistGetQueryPayloadSchema,
+  XyoArchivistInsertQueryPayloadSchema,
+  XyoArchivistQueryPayload,
+  XyoArchivistQueryPayloadSchema,
+} from './Query'
 import { XyoArchivist } from './XyoArchivist'
 import { XyoArchivistConfig, XyoArchivistParents } from './XyoArchivistConfig'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
@@ -13,7 +19,7 @@ export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPaylo
   extends XyoAbstractModule<XyoArchivistQueryPayload, XyoArchivistConfig<TConfig>>
   implements XyoArchivist<XyoArchivistQueryPayload>, Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
 {
-  public override get queries() {
+  public override get queries(): XyoArchivistQueryPayloadSchema[] {
     return [XyoArchivistGetQueryPayloadSchema, XyoArchivistFindQueryPayloadSchema]
   }
 
@@ -57,10 +63,10 @@ export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPaylo
       case 'network.xyo.query.archivist.find':
         payloads.concat(await this.find(query.filter))
         break
-      case 'network.xyo.query.archivist.get':
+      case XyoArchivistGetQueryPayloadSchema:
         payloads.concat(await this.get(query.hashes))
         break
-      case 'network.xyo.query.archivist.insert':
+      case XyoArchivistInsertQueryPayloadSchema:
         payloads.concat(await this.insert(query.payloads))
         break
     }

@@ -5,6 +5,7 @@ import { Promisable } from '@xyo-network/promisable'
 export interface XyoNode {
   attach(module: XyoModule): void
   remove(address: string): void
+  list(): string[]
   get<T extends XyoModule>(address: string): T | undefined
-  query(query: XyoQueryPayload): Promisable<XyoModuleQueryResult>
+  query(address: string, query: XyoQueryPayload): Promisable<XyoModuleQueryResult>
 }

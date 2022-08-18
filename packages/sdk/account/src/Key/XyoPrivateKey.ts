@@ -25,7 +25,7 @@ export class XyoPrivateKey extends XyoEllipticKey {
   }
 
   public override get bytes() {
-    return toUint8Array(this._keyPair?.getPrivate())
+    return toUint8Array(this._keyPair?.getPrivate('hex'))
   }
 
   public get public() {

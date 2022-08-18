@@ -1,5 +1,6 @@
-import { XyoAbstractDiviner, XyoDivinerConfig } from '../Abstract'
-import { XyoPayloadDivinerQueryPayload } from './XyoPayloadDivinerQueryPayload'
+import { XyoAbstractDiviner } from '../Abstract'
+import { XyoDivinerConfig } from '../Config'
+import { XyoPayloadDivinerQueryPayload } from './Query'
 
 export abstract class XyoPayloadDiviner<
   Q extends XyoPayloadDivinerQueryPayload = XyoPayloadDivinerQueryPayload,

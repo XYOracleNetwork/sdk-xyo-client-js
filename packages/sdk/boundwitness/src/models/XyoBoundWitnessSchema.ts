@@ -3,7 +3,7 @@
 
 import { XyoBoundWitnessMetaSchemaProperties } from './Meta'
 
-const XyoBoundWitnessSchema = () => {
+export const XyoBoundWitnessJsonSchema = () => {
   return {
     $id: 'https://schemas.xyo.network/2.0/boundwitness',
     additionalProperties: false,
@@ -19,5 +19,3 @@ const XyoBoundWitnessSchema = () => {
     type: 'object',
   }
 }
-
-export { XyoBoundWitnessSchema }

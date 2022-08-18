@@ -3,7 +3,7 @@ import { XyoPayload, XyoSchemaNameValidator } from '@xyo-network/payload'
 import { validateType } from '@xyo-network/typeof'
 import uniq from 'lodash/uniq'
 
-import { XyoBoundWitness } from '../models'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 
 export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWitness> extends XyoValidatorBase<T> {
   private payloads?: XyoPayload[]
@@ -87,7 +87,7 @@ export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWi
 
   public schema() {
     const errors: Error[] = []
-    const expectedSchema = 'network.xyo.boundwitness'
+    const expectedSchema = XyoBoundWitnessSchema
     if (this.obj.schema !== expectedSchema) {
       errors.push(new Error(`invalid schema [${expectedSchema} !== ${this.obj.schema}]`))
     }

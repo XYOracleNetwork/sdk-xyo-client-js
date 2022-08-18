@@ -1,5 +1,5 @@
 import { isXyoPayloadOfSchemaType } from '@xyo-network/payload'
 
-import { XyoBoundWitness } from './models'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from './models'
 
-export const isXyoBoundWitnessPayload = isXyoPayloadOfSchemaType<XyoBoundWitness>('network.xyo.boundwitness')
+export const isXyoBoundWitnessPayload = isXyoPayloadOfSchemaType<XyoBoundWitness>(XyoBoundWitnessSchema)

@@ -1,4 +1,4 @@
-import { XyoBoundWitnessWithMeta } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessSchema, XyoBoundWitnessWithMeta } from '@xyo-network/boundwitness'
 
 const testBoundWitness: XyoBoundWitnessWithMeta = {
   _archive: 'temp',
@@ -10,7 +10,7 @@ const testBoundWitness: XyoBoundWitnessWithMeta = {
   payload_hashes: ['20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c'],
   payload_schemas: ['network.xyo.test'],
   previous_hashes: [null],
-  schema: 'network.xyo.boundwitness',
+  schema: XyoBoundWitnessSchema,
 }
 
 export { testBoundWitness }

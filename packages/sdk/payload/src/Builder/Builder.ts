@@ -1,12 +1,12 @@
 import { deepOmitUnderscoreFields, removeEmptyFields, StringKeyObject, XyoHasher } from '@xyo-network/core'
 
-import { XyoPayload } from '../models'
+import { XyoPayload, XyoPayloadSchema } from '../models'
 
 export interface XyoPayloadBuilderOptions {
   schema: string
 }
 
-export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<{ schema: 'network.xyo.payload' } & StringKeyObject>> {
+export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<{ schema: XyoPayloadSchema } & StringKeyObject>> {
   private _fields: Partial<T> = {}
   private _previousHash?: string
   private _schema: string

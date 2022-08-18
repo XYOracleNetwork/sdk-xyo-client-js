@@ -3438,6 +3438,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.6.7
     "@xylabs/tsconfig": ^2.5.121
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -3491,7 +3492,6 @@ __metadata:
   resolution: "@xyo-network/diviner@workspace:packages/modules/diviner"
   dependencies:
     "@xylabs/tsconfig": ^2.5.121
-    "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"

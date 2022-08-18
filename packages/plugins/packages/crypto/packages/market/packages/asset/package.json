@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.7",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/module": "workspace:^",

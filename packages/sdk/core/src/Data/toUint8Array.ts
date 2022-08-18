@@ -10,7 +10,8 @@ const stringToUint8Array = (value: string) => {
 }
 
 const bigNumberToUint8Array = (value: BigNumber) => {
-  return bufferToUint8Array(Buffer.from(value.toBuffer()))
+  //we do new BigNumber in case we got something BigNumberish by accident
+  return bufferToUint8Array(Buffer.from(new BigNumber(value).toBuffer()))
 }
 
 const bufferToUint8Array = (value: Buffer) => {

@@ -13,7 +13,6 @@ describe('Diviner', () => {
     const sut = new XyoCryptoMarketAssetDiviner({
       account: new XyoAccount(),
       schema: 'network.xyo.crypto.market.asset.diviner.config',
-      targetSchema: XyoCryptoMarketAssetPayloadSchema,
     })
     const query: XyoCryptoMarketAssetQueryPayload = {
       payloads: { coinGeckoPayload, uniswapPayload },
@@ -28,9 +27,9 @@ describe('Diviner', () => {
     expect(payloads).toBeArray()
     payloads.map((payload) => {
       expect(payload).toBeObject()
-      expect(payload.assets).toBeObject()
-      expect(payload.schema).toBe(XyoCryptoMarketAssetPayloadSchema)
-      expect(payload.timestamp).toBeNumber()
+      expect(payload?.assets).toBeObject()
+      expect(payload?.schema).toBe(XyoCryptoMarketAssetPayloadSchema)
+      expect(payload?.timestamp).toBeNumber()
     })
   })
 })

@@ -1,6 +1,6 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoBoundWitnessSchema } from '../XyoBoundWitness'
+import { XyoBoundWitnessSchema } from '../XyoBoundWitnessSchema'
 
 export type XyoBoundWitness = XyoPayload<{
   addresses: string[]

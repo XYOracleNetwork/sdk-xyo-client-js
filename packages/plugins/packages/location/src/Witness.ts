@@ -1,13 +1,15 @@
-import { delay } from '@xylabs/delay'
 import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoLocationPayload } from './Payload'
 import { XyoLocationPayloadSchema } from './Schema'
 
+export type XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
+export const XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
+
 export type XyoLocationWitnessConfig = XyoWitnessConfig<{
-  schema: 'network.xyo.location.config'
-  targetSchema: 'network.xyo.location'
+  schema: XyoLocationWitnessConfigSchema
+  targetSchema: XyoLocationPayloadSchema
   geoLocation: Geolocation
 }>
 
@@ -35,9 +37,8 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
     _fields: Partial<XyoLocationPayload>,
     _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>> | undefined,
   ): Promise<XyoLocationPayload> {
-    await delay(0)
     const location = await this.getCurrentPosition()
-    return {
+    return super.observe({
       currentLocation: {
         coords: {
           accuracy: location.coords.accuracy,
@@ -50,7 +51,7 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
         },
         timestamp: location.timestamp,
       },
-    } as XyoLocationPayload
+    })
   }
 
   static schema: XyoLocationPayloadSchema = XyoLocationPayloadSchema

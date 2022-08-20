@@ -1,6 +1,9 @@
 import { XyoPayload } from '../models'
 
-export type XyoQueryPayload<T extends XyoPayload = XyoPayload> = XyoPayload<
+export type XyoQuerySchema = 'network.xyo.query'
+export const XyoQuerySchema: XyoQuerySchema = 'network.xyo.query'
+
+export type XyoQueryPayload<T extends XyoPayload = XyoPayload, S extends string = T['schema']> = XyoPayload<
   T & {
     /** @field The maximum XYO that can be spent executing the query */
     budget?: number
@@ -10,5 +13,6 @@ export type XyoQueryPayload<T extends XyoPayload = XyoPayload> = XyoPayload<
 
     /** @field The starting point for the bidding on the query */
     minBid?: number
-  }
+  },
+  S
 >

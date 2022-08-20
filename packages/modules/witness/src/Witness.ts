@@ -23,7 +23,10 @@ export abstract class XyoWitness<
     return { ...fields, schema: this.config.targetSchema } as T
   }
 
-  async query(query?: Q): Promise<[XyoBoundWitness, XyoPayload<{ schema: string }>[]]> {
+  async query(query: XyoWitnessQueryPayload<T>): Promise<[XyoBoundWitness, XyoPayload[]]> {
+    switch (query.schema) {
+      case XyoWitnessObserveQueryPayloadSchema:
+    }
     const payloads = [await this.observe(query?.payload ?? {})]
     return [this.bindPayloads(payloads), payloads]
   }

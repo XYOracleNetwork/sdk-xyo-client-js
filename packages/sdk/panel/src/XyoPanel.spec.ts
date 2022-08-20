@@ -1,7 +1,8 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoApiConfig, XyoArchivistApi } from '@xyo-network/api'
 import { XyoIdWitness } from '@xyo-network/id-payload-plugin'
-import { XyoSystemInfoWitness } from '@xyo-network/systeminfo-witness'
+import { XyoSystemInfoNodeWitness, XyoSystemInfoNodeWitnessConfig, XyoSystemInfoPayloadSchema } from '@xyo-network/systeminfo-witness'
+import { XyoWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness } from '@xyo-network/witnesses'
 
 import { XyoPanel, XyoPanelConfig } from './XyoPanel'
@@ -17,9 +18,16 @@ describe('XyoPanel', () => {
     const archivists = archivistConfigs.map((config) => {
       return new XyoArchivistApi(config)
     })
-    const witnesses = [
-      new XyoSystemInfoWitness({ account: new XyoAccount(), schema: 'network.xyo.system.info.config', targetSchema: 'network.xyo.system.info' }),
-      new XyoIdWitness({ account: new XyoAccount(), schema: 'network.xyo.id.config', targetSchema: 'network.xyo.id' }),
+
+    const systemInfoNodeWitnessConfig: XyoSystemInfoNodeWitnessConfig = {
+      account: new XyoAccount(),
+      schema: 'network.xyo.system.info.node.config',
+      targetSchema: XyoSystemInfoPayloadSchema,
+    }
+
+    const witnesses: XyoWitness[] = [
+      new XyoIdWitness({ account: new XyoAccount(), schema: 'network.xyo.id.witness.config', targetSchema: 'network.xyo.id' }),
+      new XyoSystemInfoNodeWitness(systemInfoNodeWitnessConfig),
     ]
 
     const config: XyoPanelConfig = { account: new XyoAccount(), archivists, witnesses }

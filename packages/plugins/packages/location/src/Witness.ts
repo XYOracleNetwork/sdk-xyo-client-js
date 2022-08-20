@@ -7,11 +7,13 @@ import { XyoLocationPayloadSchema } from './Schema'
 export type XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
 export const XyoLocationWitnessConfigSchema: XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
 
-export type XyoLocationWitnessConfig = XyoWitnessConfig<{
-  schema: XyoLocationWitnessConfigSchema
-  targetSchema: XyoLocationPayloadSchema
-  geoLocation: Geolocation
-}>
+export type XyoLocationWitnessConfig = XyoWitnessConfig<
+  XyoLocationPayloadSchema,
+  {
+    schema: XyoLocationWitnessConfigSchema
+    geoLocation: Geolocation
+  }
+>
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
   private geoLocation: Geolocation

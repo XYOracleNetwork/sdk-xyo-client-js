@@ -3,9 +3,11 @@ import { XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoUniswapCryptoMarketPayloadSchema, XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
 
-export type XyoUniswapCryptoMarketWitnessConfig = XyoWitnessConfig<{
-  schema: XyoUniswapCryptoMarketWitnessConfigSchema
-  provider: Provider
-  pools: string[]
-  targetSchema: XyoUniswapCryptoMarketPayloadSchema
-}>
+export type XyoUniswapCryptoMarketWitnessConfig = XyoWitnessConfig<
+  XyoUniswapCryptoMarketPayloadSchema,
+  {
+    schema: XyoUniswapCryptoMarketWitnessConfigSchema
+    provider: Provider
+    pools: string[]
+  }
+>

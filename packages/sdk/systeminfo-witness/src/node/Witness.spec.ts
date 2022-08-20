@@ -1,15 +1,16 @@
 import { XyoAccount } from '@xyo-network/account'
 
-import { XyoSystemInfoNodeWitness } from './Witness'
+import { XyoSystemInfoPayloadSchema } from '../shared'
+import { XyoSystemInfoNodeWitness, XyoSystemInfoNodeWitnessConfigSchema } from './Witness'
 
 describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {
     const witness = new XyoSystemInfoNodeWitness({
       account: new XyoAccount(),
-      schema: 'network.xyo.systen.info.node.config',
-      targetSchema: 'network.xyo.system.info.node',
+      schema: XyoSystemInfoNodeWitnessConfigSchema,
+      targetSchema: XyoSystemInfoPayloadSchema,
     })
     const observation = await witness.observe()
-    expect(observation.schema).toBe('network.xyo.system.info.node')
+    expect(observation.schema).toBe('network.xyo.system.info')
   }, 60000)
 })

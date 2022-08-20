@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+
 import { XyoModule, XyoModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'

@@ -20,10 +20,10 @@ export interface XyoQueryPayloadMetaBase extends XyoPayloadMetaBase {
 
 export type XyoPayloadMeta<T extends EmptyObject = EmptyObject> = T & XyoPayloadMetaBase
 export type XyoPartialPayloadMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoPayloadMetaBase>
-export type XyoPayloadWithMeta<T extends EmptyObject = EmptyObject> = T & XyoPayloadMetaBase & XyoPayload
-export type XyoPayloadWithPartialMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoPayloadMetaBase> & XyoPayload
+export type XyoPayloadWithMeta<T extends EmptyObject = EmptyObject> = XyoPayload<T & XyoPayloadMetaBase>
+export type XyoPayloadWithPartialMeta<T extends EmptyObject = EmptyObject> = XyoPayload<T & Partial<XyoPayloadMetaBase>>
 
 export type XyoQueryPayloadMeta<T extends EmptyObject = EmptyObject> = T & XyoQueryPayloadMetaBase
 export type XyoQueryPartialPayloadMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoQueryPayloadMetaBase>
-export type XyoQueryPayloadWithMeta<T extends EmptyObject = EmptyObject> = T & XyoQueryPayloadMetaBase & XyoPayload
-export type XyoQueryPayloadWithPartialMeta<T extends EmptyObject = EmptyObject> = T & Partial<XyoQueryPayloadMetaBase> & XyoPayload
+export type XyoQueryPayloadWithMeta<T extends EmptyObject = EmptyObject> = XyoPayload<T & XyoQueryPayloadMetaBase>
+export type XyoQueryPayloadWithPartialMeta<T extends EmptyObject = EmptyObject> = XyoPayload<T & Partial<XyoQueryPayloadMetaBase>>

@@ -1,5 +1,4 @@
-import { XyoNetworkNodePayloadSchema } from './schema'
-import { XyoNetworkNodePayload } from './XyoNetworkNodePayload'
+import { XyoNetworkNodePayload, XyoNetworkNodePayloadSchema } from './XyoNetworkNodePayload'
 
 const beta = (): XyoNetworkNodePayload => {
   return {

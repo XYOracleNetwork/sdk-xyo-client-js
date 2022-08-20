@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAbstractArchivist, XyoArchivistFindQueryPayloadSchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
-import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
-import { XyoPayload, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/payload'
+import { XyoBoundWitnessSchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
 
@@ -29,7 +29,7 @@ export class XyoRemoteArchivist extends XyoAbstractArchivist<XyoRemoteArchivistC
   }
 
   public async insert(payloads: XyoPayload[]) {
-    const boundwitnesses = payloads.filter((payload) => payload.schema === XyoPayloadSchema) as XyoBoundWitnessWithPartialMeta[]
+    const boundwitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitnessWithPartialMeta[]
     boundwitnesses.forEach((boundwitness) => {
       boundwitness._payloads ===
         payloads.filter((payload) => {

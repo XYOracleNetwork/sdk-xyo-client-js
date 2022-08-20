@@ -20,7 +20,7 @@ describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {
     const witness = new XyoSystemInfoBrowserWitness({
       account: new XyoAccount(),
-      schema: 'network.xyo.system.info.browser.config',
+      schema: 'network.xyo.system.info.browser.witness.config',
       targetSchema: 'network.xyo.system.info.browser',
     })
     const observation = await witness.observe()

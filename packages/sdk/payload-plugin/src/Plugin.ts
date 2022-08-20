@@ -6,15 +6,19 @@ import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 export interface XyoPayloadPluginConfig<
   TTargetSchema extends string,
   TWitnessConfigSchema extends string = 'network.xyo.witness.config',
-  TPayloadWitnessConfig extends XyoWitnessConfig = XyoWitnessConfig<{
-    schema: TWitnessConfigSchema
-    targetSchema: TTargetSchema
-  }>,
+  TPayloadWitnessConfig extends XyoWitnessConfig = XyoWitnessConfig<
+    TTargetSchema,
+    {
+      schema: TWitnessConfigSchema
+    }
+  >,
   TDivinerConfigSchema extends string = 'network.xyo.diviner.config',
-  TPayloadDivinerConfig extends XyoWitnessConfig<{ schema: TDivinerConfigSchema; targetSchema: TTargetSchema }> = XyoWitnessConfig<{
-    schema: TDivinerConfigSchema
-    targetSchema: TTargetSchema
-  }>,
+  TPayloadDivinerConfig extends XyoWitnessConfig<TTargetSchema, { schema: TDivinerConfigSchema }> = XyoWitnessConfig<
+    TTargetSchema,
+    {
+      schema: TDivinerConfigSchema
+    }
+  >,
 > {
   witness?: TPayloadWitnessConfig
   diviner?: TPayloadDivinerConfig

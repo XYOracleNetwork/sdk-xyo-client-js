@@ -1,7 +1,6 @@
 import { delay } from '@xylabs/delay'
 import { uuid } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload'
-import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
+import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
 import { XyoIdPayloadSchema } from './Schema'
@@ -9,11 +8,13 @@ import { XyoIdPayloadSchema } from './Schema'
 export type XyoIdWitnessConfigSchema = 'network.xyo.id.witness.config'
 export const XyoIdWitnessConfigSchema: XyoIdWitnessConfigSchema = 'network.xyo.id.witness.config'
 
-export type XyoIdWitnessConfig = XyoWitnessConfig<{
-  schema: XyoIdWitnessConfigSchema
-  targetSchema: XyoIdPayloadSchema
-  salt?: string
-}>
+export type XyoIdWitnessConfig = XyoWitnessConfig<
+  XyoIdPayloadSchema,
+  {
+    schema: XyoIdWitnessConfigSchema
+    salt?: string
+  }
+>
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
   private salt: string
@@ -23,10 +24,7 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
     this.salt = salt ?? uuid()
   }
 
-  override async observe(
-    _fields?: Partial<XyoIdPayload>,
-    _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>> | undefined,
-  ): Promise<XyoIdPayload> {
+  override async observe(_fields?: Partial<XyoIdPayload>): Promise<XyoIdPayload> {
     await delay(0)
     return {
       salt: this.salt,

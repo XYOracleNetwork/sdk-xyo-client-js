@@ -7,12 +7,7 @@ import { XyoSchemaPayloadSchema } from './Schema'
 
 export type XyoSchemaWitnessConfig = XyoWitnessConfig
 
-export type XyoSchemaWitnessQueryPayload = XyoWitnessQueryPayload
-
-export class XyoSchemaWitness
-  extends XyoWitness<XyoSchemaPayload>
-  implements XyoWitness<XyoSchemaPayload, XyoSchemaWitnessQueryPayload, XyoSchemaWitnessConfig>
-{
+export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload> implements XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
   override async observe(
     _fields: Partial<XyoSchemaPayload>,
     _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>> | undefined,

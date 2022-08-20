@@ -2,15 +2,18 @@ import { XyoArchivistGetQueryPayloadSchema } from '@xyo-network/archivist'
 import { XyoModuleQueryResult } from '@xyo-network/module'
 import { Huri } from '@xyo-network/payload'
 
+import { XyoAbstractDiviner } from '../../Abstract'
 import { profile } from '../lib'
-import { XyoPayloadDivinerQueryPayload } from '../Query'
-import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
+import { XyoPayloadDivinerQueryPayload, XyoPayloadDivinerQueryPayloadSchema } from '../Query'
 import { XyoArchivistPayloadDivinerConfig } from './Config'
-import { XyoArchivistPayloadDivinerQuery } from './Query'
 
-export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerQuery, XyoArchivistPayloadDivinerConfig> {
+export class XyoArchivistPayloadDiviner extends XyoAbstractDiviner<XyoArchivistPayloadDivinerConfig, XyoPayloadDivinerQueryPayload> {
   protected get archivist() {
     return this.config.archivist
+  }
+
+  override get queries() {
+    return [XyoPayloadDivinerQueryPayloadSchema]
   }
 
   override async query(query: XyoPayloadDivinerQueryPayload): Promise<XyoModuleQueryResult> {

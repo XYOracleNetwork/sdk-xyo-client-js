@@ -5,12 +5,14 @@ import { Promisable } from '@xyo-network/promisable'
 
 import { XyoModule, XyoModuleQueryResult } from './Module'
 
-export type XyoModuleConfig<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoPayload = XyoPayload> = TConfig & {
-  account: XyoAccount
-  resolver?: (address: string) => XyoModule<XyoQueryPayload<TQuery>>
-}
+export type XyoModuleConfig<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoQueryPayload = XyoQueryPayload> = XyoPayload<
+  TConfig & {
+    account: XyoAccount
+    resolver?: (address: string) => XyoModule<TQuery>
+  }
+>
 
-export abstract class XyoAbstractModule<TQuery extends XyoPayload = XyoPayload, TConfig extends XyoPayload = XyoPayload>
+export abstract class XyoAbstractModule<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoQueryPayload = XyoQueryPayload>
   implements XyoModule<TQuery>
 {
   protected config: XyoModuleConfig<TConfig, TQuery>
@@ -22,11 +24,9 @@ export abstract class XyoAbstractModule<TQuery extends XyoPayload = XyoPayload, 
     return !!this.queries.find((item) => item === schema)
   }
 
-  public get queries(): string[] {
-    return []
-  }
+  public abstract get queries(): string[]
 
-  abstract query(query: XyoQueryPayload<TQuery>): Promisable<XyoModuleQueryResult>
+  abstract query(query: TQuery): Promisable<XyoModuleQueryResult>
 
   get account() {
     return this.config.account

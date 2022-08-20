@@ -5,7 +5,7 @@ import { XyoLocationPayload } from './Payload'
 import { XyoLocationPayloadSchema } from './Schema'
 
 export type XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
-export const XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
+export const XyoLocationWitnessConfigSchema: XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
 
 export type XyoLocationWitnessConfig = XyoWitnessConfig<{
   schema: XyoLocationWitnessConfigSchema

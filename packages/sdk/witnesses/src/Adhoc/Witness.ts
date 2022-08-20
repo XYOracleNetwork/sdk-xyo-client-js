@@ -10,16 +10,13 @@ export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> 
   constructor(payload: T, account = new XyoAccount()) {
     super({
       account,
-      query: {
-        schema: 'network.xyo.witness.adhoc.query',
-      },
       schema: 'network.xyo.witness.adhoc.config',
       targetSchema: XyoPayloadSchema,
     })
     this.payload = payload
   }
 
-  override observe(fields?: Partial<T>, _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>>): Promisable<T> {
+  override observe(fields?: Partial<T>, _query?: XyoWitnessQueryPayload): Promisable<T> {
     return super.observe(merge(this.payload, fields))
   }
 }

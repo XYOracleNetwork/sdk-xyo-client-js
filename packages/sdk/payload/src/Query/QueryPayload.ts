@@ -6,7 +6,7 @@ export type XyoQueryPayload<T extends XyoPayload = XyoPayload> = XyoPayload<
     budget?: number
 
     /** @field The frequency on which this query can be rerun */
-    maxFrequency?: 'once' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year'
+    maxFrequency?: 'once' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year' | number
 
     /** @field The starting point for the bidding on the query */
     minBid?: number

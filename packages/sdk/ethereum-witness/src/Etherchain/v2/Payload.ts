@@ -1,10 +1,11 @@
-import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
+import { XyoWitnessConfig } from '@xyo-network/witness'
 
-export type XyoEthereumGasEtherchainQueryPayloadV2 = XyoQueryPayload<{
-  schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.query'
+export type XyoEthereumGasEtherchainV2Config = XyoWitnessConfig<{
+  schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2.config'
 }>
 
-export type XyoEthereumGasEtherchainPayloadV2 = XyoPayload<{
+export type XyoEthereumGasEtherchainV2Payload = XyoPayload<{
   schema: 'network.xyo.blockchain.ethereum.gas.etherchain.v2'
   code: number
   data: {

@@ -1,13 +1,9 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoDivinerQueryPayload } from '@xyo-network/diviner'
 
 import { XyoCryptoMarketAssetDiviner } from './Diviner'
-import { XyoCryptoMarketAssetQueryPayload } from './Query'
-import {
-  XyoCryptoMarketAssetDivinerConfigPayloadSchema,
-  XyoCryptoMarketAssetDivinerQueryPayloadSchema,
-  XyoCryptoMarketAssetPayloadSchema,
-} from './Schema'
+import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetDivinerQuerySchema, XyoCryptoMarketAssetPayloadSchema } from './Schema'
 import { sampleCoinGeckoPayload, sampleUniswapPayload } from './test'
 
 const coinGeckoPayload = sampleCoinGeckoPayload
@@ -17,11 +13,11 @@ describe('Diviner', () => {
   test('returns observation', async () => {
     const sut = new XyoCryptoMarketAssetDiviner({
       account: new XyoAccount(),
-      schema: XyoCryptoMarketAssetDivinerConfigPayloadSchema,
+      schema: XyoCryptoMarketAssetDivinerConfigSchema,
     })
-    const query: XyoCryptoMarketAssetQueryPayload = {
-      payloads: { coinGeckoPayload, uniswapPayload },
-      schema: XyoCryptoMarketAssetDivinerQueryPayloadSchema,
+    const query: XyoDivinerQueryPayload = {
+      payloads: [coinGeckoPayload, uniswapPayload],
+      schema: XyoCryptoMarketAssetDivinerQuerySchema,
     }
     const result = await sut.query(query)
     expect(result).toBeArray()

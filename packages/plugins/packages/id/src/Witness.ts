@@ -6,9 +6,14 @@ import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-netwo
 import { XyoIdPayload } from './Payload'
 import { XyoIdPayloadSchema } from './Schema'
 
-export interface XyoIdWitnessConfig extends XyoWitnessConfig {
+export type XyoIdWitnessConfigSchema = 'network.xyo.id.witness.config'
+export const XyoIdWitnessConfigSchema: XyoIdWitnessConfigSchema = 'network.xyo.id.witness.config'
+
+export type XyoIdWitnessConfig = XyoWitnessConfig<{
+  schema: XyoIdWitnessConfigSchema
+  targetSchema: XyoIdPayloadSchema
   salt?: string
-}
+}>
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
   private salt: string

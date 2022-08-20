@@ -1,20 +1,19 @@
-import { XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
+import { XyoWitnessConfig } from '@xyo-network/witness'
 import { get } from 'systeminformation'
 
-import { XyoSystemInfoWitness } from '../shared'
-import { XyoSystemInfoNodePayload } from './Payload'
+import { XyoSystemInfoPayload, XyoSystemInfoWitness } from '../shared'
 import { defaultSystemInfoConfig } from './Template'
 
-export interface XyoSystemInfoNodeWitnessConfig<Q extends XyoWitnessQueryPayload = XyoWitnessQueryPayload> extends XyoWitnessConfig<Q> {
+export type XyoSystemInfoNodeWitnessConfig = XyoWitnessConfig<{
+  schema: 'network.xyo.system.info.node.config'
   nodeValues?: Record<string, string>
-}
+}>
 
 export class XyoSystemInfoNodeWitness<
-  T extends XyoSystemInfoNodePayload = XyoSystemInfoNodePayload,
-  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
-  C extends XyoSystemInfoNodeWitnessConfig<Q> = XyoSystemInfoNodeWitnessConfig<Q>,
-> extends XyoSystemInfoWitness<T, Q, C> {
-  override async observe(fields?: Partial<XyoSystemInfoNodePayload>, _query?: Q | undefined): Promise<T> {
+  T extends XyoSystemInfoPayload = XyoSystemInfoPayload,
+  C extends XyoSystemInfoNodeWitnessConfig = XyoSystemInfoNodeWitnessConfig,
+> extends XyoSystemInfoWitness<T, C> {
+  override async observe(fields?: Partial<T>): Promise<T> {
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
     return await super.observe({ ...node, ...fields })
   }

@@ -1,4 +1,5 @@
 export * from './Abstract'
 export * from './Diviner'
 export * from './Payload'
+export * from './Query'
 export * from './Sequence'

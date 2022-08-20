@@ -1,5 +1,6 @@
 import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
+import { XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 export type XyoExternalAddress = XyoPayload<{
   schema: 'network.xyo.address.external'
@@ -35,14 +36,14 @@ export type XyoNonFungibleTokenMintPayload = XyoContractPayload<{
   minters?: string[]
 }>
 
-export type XyoNonFungibleTokenMintQueryPayload = XyoQueryPayload<{
+export type XyoNonFungibleTokenMinterWitnessConfig = XyoWitnessConfig<{
   schema: 'network.xyo.nft.minter.query'
   mint: string
   mintToken?: XyoNonFungibleTokenPayload
   targetSchema: 'network.xyo.nft.minter'
 }>
 
-export type XyoNonFungibleTokenQueryPayload = XyoQueryPayload<{
+export type XyoNonFungibleTokenWitnessConfig = XyoWitnessConfig<{
   schema: 'network.xyo.nft.query'
   targetSchema: 'network.xyo.nft'
 }>

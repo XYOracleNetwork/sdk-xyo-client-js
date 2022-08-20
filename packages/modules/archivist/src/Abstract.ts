@@ -5,6 +5,10 @@ import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-netwo
 
 import { Archivist } from './Archivist'
 import {
+  XyoArchivistAllQueryPayloadSchema,
+  XyoArchivistClearQueryPayloadSchema,
+  XyoArchivistCommitQueryPayloadSchema,
+  XyoArchivistDeleteQueryPayloadSchema,
   XyoArchivistFindQueryPayloadSchema,
   XyoArchivistGetQueryPayloadSchema,
   XyoArchivistInsertQueryPayloadSchema,
@@ -16,14 +20,12 @@ import { XyoArchivistConfig, XyoArchivistParents } from './XyoArchivistConfig'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPayload>
-  extends XyoAbstractModule<XyoArchivistQueryPayload, XyoArchivistConfig<TConfig>>
+  extends XyoAbstractModule<XyoArchivistConfig<TConfig>, XyoArchivistQueryPayload>
   implements XyoArchivist<XyoArchivistQueryPayload>, Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
 {
   public override get queries(): XyoArchivistQueryPayloadSchema[] {
-    return [XyoArchivistGetQueryPayloadSchema, XyoArchivistFindQueryPayloadSchema]
+    return [XyoArchivistGetQueryPayloadSchema, XyoArchivistInsertQueryPayloadSchema]
   }
-
-  abstract get(hashes: string[]): NullablePromisableArray<XyoPayload>
 
   public all(): PromisableArray<XyoPayload> {
     throw Error('Not implemented')
@@ -41,26 +43,34 @@ export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPaylo
     throw Error('Not implemented')
   }
 
-  abstract find(filter: XyoPayloadFindFilter): PromisableArray<XyoPayload>
+  public find(_filter: XyoPayloadFindFilter): PromisableArray<XyoPayload> {
+    throw Error('Not implemented')
+  }
+
+  abstract get(hashes: string[]): NullablePromisableArray<XyoPayload>
 
   abstract insert(item: XyoPayload[]): PromisableArray<XyoPayload>
 
   async query(query: XyoArchivistQueryPayload): Promise<XyoModuleQueryResult> {
+    if (!this.queries.find((schema) => schema === query.schema)) {
+      console.error(`Undeclared Module Query: ${query.schema}`)
+    }
+
     const payloads: (XyoPayload | null)[] = []
     switch (query.schema) {
-      case 'network.xyo.query.archivist.all':
+      case XyoArchivistAllQueryPayloadSchema:
         payloads.push(...(await this.all()))
         break
-      case 'network.xyo.query.archivist.clear':
+      case XyoArchivistClearQueryPayloadSchema:
         await this.clear()
         break
-      case 'network.xyo.query.archivist.commit':
+      case XyoArchivistCommitQueryPayloadSchema:
         payloads.push(...(await this.commit()))
         break
-      case 'network.xyo.query.archivist.delete':
+      case XyoArchivistDeleteQueryPayloadSchema:
         await this.delete(query.hashes)
         break
-      case 'network.xyo.query.archivist.find':
+      case XyoArchivistFindQueryPayloadSchema:
         payloads.push(...(await this.find(query.filter)))
         break
       case XyoArchivistGetQueryPayloadSchema:
@@ -91,8 +101,8 @@ export abstract class XyoAbstractArchivist<TConfig extends XyoPayload = XyoPaylo
   get parents() {
     this._parents = this._parents ?? {
       commit: this.resolveArchivists(this.config.parents?.commit),
-      read: this.resolveArchivists(this.config.parents?.commit),
-      write: this.resolveArchivists(this.config.parents?.commit),
+      read: this.resolveArchivists(this.config.parents?.read),
+      write: this.resolveArchivists(this.config.parents?.write),
     }
     return assertEx(this._parents)
   }

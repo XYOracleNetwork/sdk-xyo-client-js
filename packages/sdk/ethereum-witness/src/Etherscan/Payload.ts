@@ -1,12 +1,4 @@
-import { XyoPayload, XyoQueryPayload } from '@xyo-network/payload'
-
-export type XyoEthereumGasEtherscanQueryPayloadSchema = 'network.xyo.blockchain.ethereum.gas.etherscan.query'
-export const XyoEthereumGasEtherscanQueryPayloadSchema: XyoEthereumGasEtherscanQueryPayloadSchema =
-  'network.xyo.blockchain.ethereum.gas.etherscan.query'
-
-export type XyoEthereumGasEtherscanQueryPayload = XyoQueryPayload<{
-  schema: XyoEthereumGasEtherscanQueryPayloadSchema
-}>
+import { XyoPayload } from '@xyo-network/payload'
 
 export type XyoEthereumGasEtherscanPayloadSchema = 'network.xyo.blockchain.ethereum.gas.etherscan'
 export const XyoEthereumGasEtherscanPayloadSchema: XyoEthereumGasEtherscanPayloadSchema = 'network.xyo.blockchain.ethereum.gas.etherscan'

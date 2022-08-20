@@ -3,6 +3,6 @@ import { XyoDivinerConfig } from '../Config'
 import { XyoPayloadDivinerQueryPayload } from './Query'
 
 export abstract class XyoPayloadDiviner<
-  Q extends XyoPayloadDivinerQueryPayload = XyoPayloadDivinerQueryPayload,
   C extends XyoDivinerConfig = XyoDivinerConfig,
-> extends XyoAbstractDiviner<Q, C> {}
+  Q extends XyoPayloadDivinerQueryPayload = XyoPayloadDivinerQueryPayload,
+> extends XyoAbstractDiviner<C, Q> {}

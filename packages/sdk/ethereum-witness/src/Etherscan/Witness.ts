@@ -2,18 +2,15 @@ import { assertEx } from '@xylabs/sdk-js'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { getGasFromEtherscan } from './getGasFromEtherscan'
-import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanQueryPayload } from './Payload'
+import { XyoEthereumGasEtherscanPayload } from './Payload'
 import { transformGasFromEtherscan } from './transformGasFromEtherscan'
 
-export interface XyoEtherscanEthereumGasWitnessConfig extends XyoWitnessConfig<XyoEthereumGasEtherscanQueryPayload> {
+export type XyoEtherscanEthereumGasWitnessConfig = XyoWitnessConfig<{
+  schema: 'network.xyo.blockchain.ethereum.gas.etherscan.config'
   apiKey: string
-}
+}>
 
-export class XyoEtherscanEthereumGasWitness extends XyoWitness<
-  XyoEthereumGasEtherscanPayload,
-  XyoEthereumGasEtherscanQueryPayload,
-  XyoEtherscanEthereumGasWitnessConfig
-> {
+export class XyoEtherscanEthereumGasWitness extends XyoWitness<XyoEthereumGasEtherscanPayload, XyoEtherscanEthereumGasWitnessConfig> {
   override async observe(): Promise<XyoEthereumGasEtherscanPayload> {
     const result = await getGasFromEtherscan(assertEx(this.config?.apiKey, 'apiKey is required'))
     const transformed = transformGasFromEtherscan(result)

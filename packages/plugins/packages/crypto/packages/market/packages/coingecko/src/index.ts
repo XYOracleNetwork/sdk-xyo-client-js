@@ -1,8 +1,8 @@
 import { XyoCoingeckoCryptoMarketPayloadPlugin } from './Plugin'
 
+export * from './Config'
 export * from './lib'
 export * from './Payload'
-export * from './Query'
 export * from './Schema'
 export * from './Template'
 export * from './Witness'

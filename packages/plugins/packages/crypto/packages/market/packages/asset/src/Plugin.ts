@@ -1,17 +1,11 @@
 import { XyoDiviner } from '@xyo-network/diviner'
-import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
-import { XyoWitnessConfig } from '@xyo-network/witness'
+import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 
 import { XyoCryptoMarketAssetPayload } from './Payload'
-import { XyoCryptoMarketAssetQueryPayload } from './Query'
 import { XyoCryptoMarketAssetPayloadSchema } from './Schema'
 import { XyoCryptoMarketAssetPayloadTemplate } from './Template'
 
-export const XyoCryptoMarketAssetPayloadPlugin: XyoPayloadPluginFunc<
-  XyoCryptoMarketAssetPayloadSchema,
-  XyoCryptoMarketAssetPayload,
-  XyoPayloadPluginConfig<XyoWitnessConfig<XyoCryptoMarketAssetQueryPayload>>
-> = (_config?) =>
+export const XyoCryptoMarketAssetPayloadPlugin: XyoPayloadPluginFunc<XyoCryptoMarketAssetPayloadSchema, XyoCryptoMarketAssetPayload> = (_config?) =>
   createXyoPayloadPlugin({
     auto: true,
     diviner: (): XyoDiviner => {

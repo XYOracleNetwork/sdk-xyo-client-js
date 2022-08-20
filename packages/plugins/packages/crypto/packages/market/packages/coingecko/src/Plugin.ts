@@ -1,17 +1,18 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { XyoWitness } from '@xyo-network/witness'
 
+import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
 import { XyoCoingeckoCryptoMarketPayload } from './Payload'
-import { XyoCoingeckoCryptoMarketQueryPayload } from './Query'
-import { XyoCoingeckoCryptoMarketPayloadSchema } from './Schema'
+import { XyoCoingeckoCryptoMarketPayloadSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 import { XyoCoingeckoCryptoMarketPayloadTemplate } from './Template'
 import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
 export const XyoCoingeckoCryptoMarketPayloadPlugin: XyoPayloadPluginFunc<
   XyoCoingeckoCryptoMarketPayloadSchema,
   XyoCoingeckoCryptoMarketPayload,
-  XyoPayloadPluginConfig<XyoWitnessConfig<XyoCoingeckoCryptoMarketQueryPayload>>
+  XyoCoingeckoCryptoMarketWitnessConfigSchema,
+  XyoPayloadPluginConfig<XyoCoingeckoCryptoMarketPayloadSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema, XyoCoingeckoCryptoMarketWitnessConfig>
 > = (config?) =>
   createXyoPayloadPlugin({
     auto: true,

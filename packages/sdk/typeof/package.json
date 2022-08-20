@@ -14,7 +14,7 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.121"
+    "@xylabs/tsconfig": "^2.5.122"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

@@ -3,24 +3,28 @@ import { XyoAbstractModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
+import { XyoWitnessObserveQueryPayloadSchema, XyoWitnessQueryPayload } from './Query'
 import { XyoWitnessConfig } from './XyoWitnessConfig'
-import { XyoWitnessQueryPayload } from './XyoWitnessQueryPayload'
 
 export abstract class XyoWitness<
   T extends XyoPayload = XyoPayload,
-  Q extends XyoWitnessQueryPayload = XyoWitnessQueryPayload,
-  C extends XyoWitnessConfig<Q> = XyoWitnessConfig<Q>,
-> extends XyoAbstractModule<Q, C> {
+  C extends XyoWitnessConfig = XyoWitnessConfig,
+  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
+> extends XyoAbstractModule<C, Q> {
   public get targetSchema() {
     return this.config.targetSchema
   }
 
-  public observe(fields?: Partial<T> | undefined, _query?: Q | undefined): Promisable<T> {
+  override get queries() {
+    return [XyoWitnessObserveQueryPayloadSchema]
+  }
+
+  public observe(fields?: Partial<T> | undefined): Promisable<T> {
     return { ...fields, schema: this.config.targetSchema } as T
   }
 
   async query(query?: Q): Promise<[XyoBoundWitness, XyoPayload<{ schema: string }>[]]> {
-    const payloads = [await this.observe({}, query)]
+    const payloads = [await this.observe(query?.payload ?? {})]
     return [this.bindPayloads(payloads), payloads]
   }
 }

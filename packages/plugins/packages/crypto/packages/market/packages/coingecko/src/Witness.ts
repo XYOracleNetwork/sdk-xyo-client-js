@@ -1,13 +1,13 @@
 import { XyoWitness } from '@xyo-network/witness'
 
+import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
 import { pricesFromCoingecko } from './lib'
 import { XyoCoingeckoCryptoMarketPayload } from './Payload'
-import { XyoCoingeckoCryptoMarketQueryPayload } from './Query'
 import { XyoCoingeckoCryptoMarketPayloadSchema } from './Schema'
 
-export class XyoCoingeckoCryptoMarketWitness extends XyoWitness<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketQueryPayload> {
+export class XyoCoingeckoCryptoMarketWitness extends XyoWitness<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfig> {
   override async observe(): Promise<XyoCoingeckoCryptoMarketPayload> {
-    const assets = await pricesFromCoingecko(this.config.query?.coins ?? [], this.config.query?.currencies ?? [])
+    const assets = await pricesFromCoingecko(this.config.coins ?? [], this.config.currencies ?? [])
 
     return {
       assets,

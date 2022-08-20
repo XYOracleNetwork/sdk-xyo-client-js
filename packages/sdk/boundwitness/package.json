@@ -22,9 +22,9 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lodash": "^4.14.183",
+    "@types/lodash": "^4.14.184",
     "@types/ua-parser-js": "^0.7.36",
-    "@xylabs/tsconfig": "^2.5.121"
+    "@xylabs/tsconfig": "^2.5.122"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -58,5 +58,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.26.19"
+  "version": "2.26.20"
 }

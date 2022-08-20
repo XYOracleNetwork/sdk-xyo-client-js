@@ -11,7 +11,7 @@ export type XyoDivinerQueryPayload<
 > = XyoQueryPayload<
   {
     schema: TSchema
-    payloads: TPayload[]
+    payloads?: TPayload[]
   } & TQuery
 >
 

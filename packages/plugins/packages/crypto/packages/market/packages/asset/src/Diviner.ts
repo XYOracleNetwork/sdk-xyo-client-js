@@ -12,10 +12,10 @@ export class XyoCryptoMarketAssetDiviner extends XyoAbstractDiviner {
     return [XyoDivinerQueryPayloadSchema]
   }
   query(query: XyoDivinerQueryPayload): Promisable<XyoModuleQueryResult<XyoCryptoMarketAssetPayload>> {
-    const coinGeckoPayload = query.payloads.find(
+    const coinGeckoPayload = query.payloads?.find(
       (payload) => payload.schema === XyoCoingeckoCryptoMarketPayloadSchema,
     ) as XyoCoingeckoCryptoMarketPayload
-    const uniswapPayload = query.payloads.find((payload) => payload.schema === XyoUniswapCryptoMarketPayloadSchema) as XyoUniswapCryptoMarketPayload
+    const uniswapPayload = query.payloads?.find((payload) => payload.schema === XyoUniswapCryptoMarketPayloadSchema) as XyoUniswapCryptoMarketPayload
     const result: XyoCryptoMarketAssetPayload = divinePrices(coinGeckoPayload, uniswapPayload)
     const witnessedResult = this.bindPayloads([result])
     return [witnessedResult, [result]]

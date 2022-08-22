@@ -1,5 +1,4 @@
 import { delay } from '@xylabs/delay'
-import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoDomainPayload } from './Payload'

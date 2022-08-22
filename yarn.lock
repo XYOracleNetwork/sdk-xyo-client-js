@@ -3994,7 +3994,6 @@ __metadata:
   resolution: "@xyo-network/node@workspace:packages/modules/node"
   dependencies:
     "@xylabs/tsconfig": ^2.5.123
-    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promisable": "workspace:^"

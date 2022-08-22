@@ -1,9 +1,10 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoDivinerQueryPayload } from '@xyo-network/diviner'
+import { XyoDivinerDivineQuerySchema, XyoDivinerQueryPayload } from '@xyo-network/diviner'
 
 import { XyoCryptoMarketAssetDiviner } from './Diviner'
-import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetDivinerQuerySchema, XyoCryptoMarketAssetPayloadSchema } from './Schema'
+import { XyoCryptoMarketAssetPayload } from './Payload'
+import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetPayloadSchema } from './Schema'
 import { sampleCoinGeckoPayload, sampleUniswapPayload } from './test'
 
 const coinGeckoPayload = sampleCoinGeckoPayload
@@ -17,7 +18,7 @@ describe('Diviner', () => {
     })
     const query: XyoDivinerQueryPayload = {
       payloads: [coinGeckoPayload, uniswapPayload],
-      schema: XyoCryptoMarketAssetDivinerQuerySchema,
+      schema: XyoDivinerDivineQuerySchema,
     }
     const result = await sut.query(query)
     expect(result).toBeArray()
@@ -27,10 +28,13 @@ describe('Diviner', () => {
     const payloads = result[1]
     expect(payloads).toBeArray()
     payloads.map((payload) => {
-      expect(payload).toBeObject()
-      expect(payload?.assets).toBeObject()
-      expect(payload?.schema).toBe(XyoCryptoMarketAssetPayloadSchema)
-      expect(payload?.timestamp).toBeNumber()
+      if (payload?.schema === XyoCryptoMarketAssetPayloadSchema) {
+        const assetPayload = payload as XyoCryptoMarketAssetPayload
+        expect(assetPayload).toBeObject()
+        expect(assetPayload?.assets).toBeObject()
+        expect(assetPayload?.schema).toBe(XyoCryptoMarketAssetPayloadSchema)
+        expect(assetPayload?.timestamp).toBeNumber()
+      }
     })
   })
 })

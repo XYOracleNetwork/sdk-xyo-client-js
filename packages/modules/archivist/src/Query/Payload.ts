@@ -8,7 +8,7 @@ import { XyoArchivistFindQueryPayload } from './Find'
 import { XyoArchivistGetQueryPayload } from './Get'
 import { XyoArchivistInsertQueryPayload } from './Insert'
 
-export type XyoArchivistQueryPayload =
+export type XyoArchivistQueryPayload<T extends string = never> =
   | XyoArchivistAllQueryPayload
   | XyoArchivistClearQueryPayload
   | XyoArchivistCommitQueryPayload
@@ -17,3 +17,4 @@ export type XyoArchivistQueryPayload =
   | XyoArchivistGetQueryPayload
   | XyoArchivistInsertQueryPayload
   | XyoModuleQueryPayload
+  | T

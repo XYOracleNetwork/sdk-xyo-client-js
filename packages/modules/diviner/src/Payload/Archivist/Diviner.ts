@@ -1,27 +1,25 @@
 import { XyoArchivistGetQueryPayloadSchema } from '@xyo-network/archivist'
-import { XyoModuleQueryResult } from '@xyo-network/module'
-import { Huri } from '@xyo-network/payload'
+import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
-import { XyoAbstractDiviner } from '../../Abstract'
+import { XyoDivinerDivineQuerySchema } from '../../Query'
 import { profile } from '../lib'
-import { XyoPayloadDivinerQueryPayload, XyoPayloadDivinerQueryPayloadSchema } from '../Query'
+import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoArchivistPayloadDivinerConfig } from './Config'
 
-export class XyoArchivistPayloadDiviner extends XyoAbstractDiviner<XyoArchivistPayloadDivinerConfig, XyoPayloadDivinerQueryPayload> {
+export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
   protected get archivist() {
     return this.config.archivist
   }
 
   override get queries() {
-    return [XyoPayloadDivinerQueryPayloadSchema]
+    return [XyoDivinerDivineQuerySchema]
   }
 
-  override async query(query: XyoPayloadDivinerQueryPayload): Promise<XyoModuleQueryResult> {
-    const huri = new Huri(query.huri)
+  public async divine(_payloads: XyoPayloads): Promise<XyoPayload | null> {
+    const huriObj = new Huri(this.config.huri)
     const [[, payloads = []]] = await profile(
-      async () => await this.archivist.query({ hashes: [huri.hash], schema: XyoArchivistGetQueryPayloadSchema }),
+      async () => await this.archivist.query({ hashes: [huriObj.hash], schema: XyoArchivistGetQueryPayloadSchema }),
     )
-    const resultPayloads = payloads?.[0] ? [payloads?.[0]] : []
-    return [this.bindPayloads(resultPayloads), resultPayloads]
+    return payloads?.[0] ?? null
   }
 }

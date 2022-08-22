@@ -15,7 +15,6 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
-    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/promisable": "workspace:^",

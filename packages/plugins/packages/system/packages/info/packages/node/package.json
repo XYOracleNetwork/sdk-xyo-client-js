@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/bowser-system-info-payload-plugin",
+  "name": "@xyo-network/node-system-info-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -15,12 +15,10 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "bowser": "^2.11.0",
-    "lodash": "^4.17.21",
+    "systeminformation": "^5.12.6",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.184",
     "@xylabs/tsconfig": "^2.5.123"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

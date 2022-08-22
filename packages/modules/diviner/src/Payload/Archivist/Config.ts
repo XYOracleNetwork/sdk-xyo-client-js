@@ -1,11 +1,11 @@
 import { XyoArchivist } from '@xyo-network/archivist'
 
-import { XyoDivinerConfig } from '../../Config'
+import { XyoHuriPayloadDivinerConfig } from '../Huri'
 
 export type XyoArchivistPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.archivist.config'
 export const XyoArchivistPayloadDivinerConfigSchema: XyoArchivistPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.archivist.config'
 
-export type XyoArchivistPayloadDivinerConfig = XyoDivinerConfig<{
+export type XyoArchivistPayloadDivinerConfig = XyoHuriPayloadDivinerConfig<{
   schema: XyoArchivistPayloadDivinerConfigSchema
   archivist: XyoArchivist
 }>

@@ -1,24 +1,22 @@
-import { XyoModuleQueryResult } from '@xyo-network/module'
-import { Huri } from '@xyo-network/payload'
+import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
+import { XyoDivinerDivineQuerySchema } from '../../Query'
 import { profile } from '../lib'
-import { XyoPayloadDivinerQueryPayload, XyoPayloadDivinerQueryPayloadSchema } from '../Query'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoHuriPayloadDivinerConfig } from './Config'
 
-export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig, XyoPayloadDivinerQueryPayload> {
+export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig> {
   protected get options() {
     return this.config.options
   }
 
   override get queries() {
-    return [XyoPayloadDivinerQueryPayloadSchema]
+    return [XyoDivinerDivineQuerySchema]
   }
 
-  override async query(query: XyoPayloadDivinerQueryPayload): Promise<XyoModuleQueryResult> {
-    const huri = new Huri(query.huri, this.options)
+  override async divine(_payloads?: XyoPayloads): Promise<XyoPayload | null> {
+    const huri = new Huri(this.config.huri, this.options)
     const [payload = null] = await profile(async () => await huri.fetch())
-    const payloads = payload ? [payload] : []
-    return [this.bindPayloads(payloads), payloads]
+    return payload
   }
 }

@@ -23,6 +23,7 @@ releases:
   "@xyo-network/module": minor
   "@xyo-network/network": minor
   "@xyo-network/node": minor
+  "@xyo-network/node-system-info-payload-plugin": minor
   "@xyo-network/panel": minor
   "@xyo-network/payload": minor
   "@xyo-network/payload-plugin": minor

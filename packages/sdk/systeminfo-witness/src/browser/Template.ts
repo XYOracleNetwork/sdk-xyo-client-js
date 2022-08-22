@@ -1,5 +1,7 @@
 import { Parser } from 'bowser'
 
+import { XyoSystemInfoBrowserPayloadSchema } from './Payload'
+
 export const SystemInfoBrowserWitnessTemplate = () => ({
   bowser: {
     browser: {} as Parser.ParsedResult['browser'],
@@ -7,5 +9,5 @@ export const SystemInfoBrowserWitnessTemplate = () => ({
     os: {} as Parser.ParsedResult['os'],
     platform: {} as Parser.ParsedResult['platform'],
   },
-  schema: 'network.xyo.system.info.browser',
+  schema: XyoSystemInfoBrowserPayloadSchema,
 })

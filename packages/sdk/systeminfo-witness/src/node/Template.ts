@@ -1,3 +1,5 @@
+import { XyoSystemInfoPayloadSchema } from '../shared'
+
 const defaultSystemInfoConfig = () => {
   return {
     audio: '*',
@@ -17,7 +19,7 @@ const defaultSystemInfoConfig = () => {
 }
 
 const systemInfoNodeWitnessTemplate = () => ({
-  schema: 'network.xyo.system.info.node',
+  schema: XyoSystemInfoPayloadSchema,
   systeminformation: defaultSystemInfoConfig(),
 })
 

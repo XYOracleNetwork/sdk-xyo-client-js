@@ -1,11 +1,11 @@
 import { XyoAccount } from '@xyo-network/account'
 
 import { XyoDomainPayloadSchema } from './Schema'
-import { XyoDomainWitness } from './Witness'
+import { XyoDomainWitness, XyoDomainWitnessConfigSchema } from './Witness'
 
 describe('XyoDomainConfigWitness', () => {
   test('valid-instantiation', () => {
-    const witness = new XyoDomainWitness({ account: new XyoAccount(), schema: 'network.xyo.domain.config', targetSchema: XyoDomainPayloadSchema })
+    const witness = new XyoDomainWitness({ account: new XyoAccount(), schema: XyoDomainWitnessConfigSchema, targetSchema: XyoDomainPayloadSchema })
     expect(witness).toBeTruthy()
     expect(XyoDomainWitness.dmarc).toBe('_xyo')
   })

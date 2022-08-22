@@ -2,8 +2,11 @@ import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitnessConfig } from '@xyo-network/witness'
 
+export type XyoExternalAddressSchema = 'network.xyo.address.external'
+export const XyoExternalAddressSchema = 'network.xyo.address.external'
+
 export type XyoExternalAddress = XyoPayload<{
-  schema: 'network.xyo.address.external'
+  schema: XyoExternalAddressSchema
   chain: {
     platform: 'ethereum'
     network: string

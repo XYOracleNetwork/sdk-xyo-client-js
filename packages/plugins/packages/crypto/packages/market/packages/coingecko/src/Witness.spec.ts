@@ -1,7 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
 
 import { defaultCoins, defaultCurrencies } from './lib'
-import { XyoCoingeckoCryptoMarketPayloadSchema } from './Schema'
+import { XyoCoingeckoCryptoMarketPayloadSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
 describe('Witness', () => {
@@ -10,7 +10,7 @@ describe('Witness', () => {
       account: new XyoAccount(),
       coins: defaultCoins,
       currencies: defaultCurrencies,
-      schema: 'network.xyo.crypto.market.coingecko.witness.config',
+      schema: XyoCoingeckoCryptoMarketWitnessConfigSchema,
       targetSchema: XyoCoingeckoCryptoMarketPayloadSchema,
     })
     const actual = await sut.observe()

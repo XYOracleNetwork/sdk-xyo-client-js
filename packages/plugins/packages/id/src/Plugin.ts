@@ -14,7 +14,7 @@ export const XyoIdPayloadPlugin: XyoPayloadPluginFunc<
 > = (config?) =>
   createXyoPayloadPlugin({
     auto: true,
-    schema: 'network.xyo.id',
+    schema: XyoIdPayloadSchema,
     template: XyoIdPayloadTemplate,
     witness: (): XyoIdWitness => {
       return new XyoIdWitness(assertEx(config?.witness, 'Missing config'))

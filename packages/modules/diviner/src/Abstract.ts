@@ -3,8 +3,9 @@ import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
 import { XyoDivinerConfig } from './Config'
-import { XyoDiviner } from './Diviner'
+import { Diviner } from './Diviner'
 import { XyoDivinerDivineQuerySchema, XyoDivinerQueryPayload, XyoDivinerQuerySchema } from './Query'
+import { XyoDiviner } from './XyoDiviner'
 
 export abstract class XyoAbstractDiviner<
     TConfig extends XyoDivinerConfig = XyoDivinerConfig,
@@ -12,9 +13,9 @@ export abstract class XyoAbstractDiviner<
     TQuery extends XyoDivinerQueryPayload = XyoDivinerQueryPayload,
   >
   extends XyoAbstractModule<TConfig, TQuery>
-  implements XyoDiviner<TQuery>
+  implements XyoDiviner<TQuery>, Diviner<Promisable<XyoPayload | null>>
 {
-  public abstract divine(payloads?: XyoPayloads): Promisable<XyoPayload | null>
+  abstract divine(payloads?: XyoPayloads): Promisable<XyoPayload | null>
 
   public override get queries(): (TQuerySchema | XyoDivinerQuerySchema)[] {
     return [XyoDivinerDivineQuerySchema]

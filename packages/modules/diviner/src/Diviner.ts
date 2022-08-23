@@ -1,5 +1,5 @@
-import { XyoModule } from '@xyo-network/module'
+import { XyoPayloads } from '@xyo-network/payload'
 
-import { XyoDivinerQueryPayload } from './Query'
-
-export type XyoDiviner<Q extends XyoDivinerQueryPayload = XyoDivinerQueryPayload> = XyoModule<Q>
+export interface Diviner<TDivineResponse> {
+  divine(payloads?: XyoPayloads): TDivineResponse
+}

@@ -1,12 +1,17 @@
 import { assertEx } from '@xylabs/assert'
-import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 
 import { XyoCryptoCardsGamePayload } from './Payload'
-import { XyoCryptoCardsGamePayloadSchema } from './Schema'
+import { XyoCryptoCardsGamePayloadSchema, XyoCryptoCardsGameWitnessConfigSchema } from './Schema'
 import { XyoCryptoCardsGamePayloadTemplate } from './Template'
-import { XyoCryptoCardsGameWitness } from './Witness'
+import { XyoCryptoCardsGameWitness, XyoCryptoCardsGameWitnessConfig } from './Witness'
 
-export const XyoCryptoCardsGamePayloadPlugin: XyoPayloadPluginFunc<XyoCryptoCardsGamePayloadSchema, XyoCryptoCardsGamePayload> = (config?) =>
+export const XyoCryptoCardsGamePayloadPlugin: XyoPayloadPluginFunc<
+  XyoCryptoCardsGamePayloadSchema,
+  XyoCryptoCardsGamePayload,
+  XyoCryptoCardsGameWitnessConfigSchema,
+  XyoPayloadPluginConfig<XyoCryptoCardsGamePayloadSchema, XyoCryptoCardsGameWitnessConfigSchema, XyoCryptoCardsGameWitnessConfig>
+> = (config?) =>
   createXyoPayloadPlugin({
     auto: true,
     schema: XyoCryptoCardsGamePayloadSchema,

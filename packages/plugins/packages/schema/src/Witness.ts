@@ -4,9 +4,12 @@ import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaPayloadSchema } from './Schema'
 
-export type XyoSchemaWitnessConfig = XyoWitnessConfig
+export type XyoSchemaWitnessConfigSchema = 'network.xyo.schema.witness.config'
+export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'network.xyo.schema.witness.config'
 
-export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload> implements XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
+export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayloadSchema, { schema: XyoSchemaWitnessConfigSchema }>
+
+export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
   override async observe(_fields: Partial<XyoSchemaPayload>): Promise<XyoSchemaPayload> {
     await delay(0)
     throw new Error('Method not implemented.')

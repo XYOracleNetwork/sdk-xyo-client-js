@@ -3708,9 +3708,11 @@ __metadata:
   dependencies:
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/all-crypto-payload-plugins": "workspace:^"
+    "@xyo-network/bowser-system-info-payload-plugin": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
+    "@xyo-network/node-system-info-payload-plugin": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
@@ -3772,7 +3774,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser":
+"@xyo-network/bowser-system-info-payload-plugin@workspace:^, @xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser":
   version: 0.0.0-use.local
   resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser"
   dependencies:
@@ -3989,7 +3991,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/node":
+"@xyo-network/node-system-info-payload-plugin@workspace:^, @xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/node":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/node"
   dependencies:
@@ -4169,7 +4171,6 @@ __metadata:
   dependencies:
     "@xylabs/delay": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
-    "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     bowser: ^2.11.0

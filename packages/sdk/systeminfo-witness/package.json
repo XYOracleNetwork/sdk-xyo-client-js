@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@xylabs/delay": "^2.6.7",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "bowser": "^2.11.0",
@@ -21,17 +20,17 @@
   "devDependencies": {
     "@xylabs/tsconfig": "^2.5.123"
   },
-  "browser": "dist/esm/browserIndex.js",
+  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
       "node": {
-        "import": "./dist/esm/nodeIndex.js",
-        "require": "./dist/cjs/nodeIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "browser": {
-        "import": "./dist/esm/browserIndex.js",
-        "require": "./dist/cjs/browserIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     },

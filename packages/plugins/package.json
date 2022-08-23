@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@xyo-network/all-crypto-payload-plugins": "workspace:^",
+    "@xyo-network/bowser-system-info-payload-plugin": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
+    "@xyo-network/node-system-info-payload-plugin": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "tslib": "^2.4.0"
   },

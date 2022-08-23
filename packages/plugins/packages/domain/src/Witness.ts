@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { XyoWitness, XyoWitnessQueryPayload } from '@xyo-network/witness'
+import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
 
 import { XyoDomainPayload } from './Payload'
 import { XyoDomainPayloadSchema } from './Schema'
@@ -12,7 +12,10 @@ export type XyoDomainWitnessConfig = XyoWitnessQueryPayload<{
   domain: string
 }>
 
-export class XyoDomainWitness extends XyoWitness<XyoDomainPayload> {
+export class XyoDomainWitness extends XyoWitness<
+  XyoDomainPayload,
+  XyoWitnessConfig<XyoDomainPayloadSchema, { schema: XyoDomainWitnessConfigSchema }>
+> {
   override async observe(_payload: Partial<XyoDomainPayload>): Promise<XyoDomainPayload> {
     await delay(0)
     return { schema: XyoDomainPayloadSchema }

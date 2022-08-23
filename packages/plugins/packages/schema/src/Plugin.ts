@@ -3,9 +3,9 @@ import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/paylo
 
 import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaPayloadSchema } from './Schema'
-import { XyoSchemaWitness } from './Witness'
+import { XyoSchemaWitness, XyoSchemaWitnessConfigSchema } from './Witness'
 
-export const XyoSchemaPayloadPlugin: XyoPayloadPluginFunc<XyoSchemaPayloadSchema, XyoSchemaPayload> = (config?) =>
+export const XyoSchemaPayloadPlugin: XyoPayloadPluginFunc<XyoSchemaPayloadSchema, XyoSchemaPayload, XyoSchemaWitnessConfigSchema> = (config?) =>
   createXyoPayloadPlugin({
     schema: XyoSchemaPayloadSchema,
     witness: (): XyoSchemaWitness => {

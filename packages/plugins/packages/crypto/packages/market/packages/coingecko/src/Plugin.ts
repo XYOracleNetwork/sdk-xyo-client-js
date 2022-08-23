@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin, XyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 import { XyoWitness } from '@xyo-network/witness'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
@@ -13,12 +13,12 @@ export const XyoCoingeckoCryptoMarketPayloadPlugin: XyoPayloadPluginFunc<
   XyoCoingeckoCryptoMarketPayload,
   XyoCoingeckoCryptoMarketWitnessConfigSchema,
   XyoPayloadPluginConfig<XyoCoingeckoCryptoMarketPayloadSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema, XyoCoingeckoCryptoMarketWitnessConfig>
-> = (config?) =>
+> = (config?): XyoPayloadPlugin<XyoCoingeckoCryptoMarketPayload> =>
   createXyoPayloadPlugin({
     auto: true,
     schema: XyoCoingeckoCryptoMarketPayloadSchema,
     template: XyoCoingeckoCryptoMarketPayloadTemplate,
-    witness: (): XyoWitness => {
+    witness: (): XyoWitness<XyoCoingeckoCryptoMarketPayload> => {
       return new XyoCoingeckoCryptoMarketWitness(assertEx(config?.witness, 'Missing config'))
     },
   })

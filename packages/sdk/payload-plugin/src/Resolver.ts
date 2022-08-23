@@ -5,14 +5,14 @@ import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
 
 export class XyoPayloadPluginResolver {
-  protected pluginMap = new Map<string, XyoPayloadPlugin<string>>()
-  protected defaultPlugin: XyoPayloadPlugin<string>
+  protected pluginMap = new Map<string, XyoPayloadPlugin>()
+  protected defaultPlugin: XyoPayloadPlugin
 
   constructor(
     /** @param plugins The initial set of plugins */
-    plugins?: XyoPayloadPlugin<string>[],
+    plugins?: XyoPayloadPlugin[],
     /** @param defaultPlugin Specifies the plugin to be used if no plugins resolve */
-    defaultPlugin = createXyoPayloadPlugin<string, XyoPayload>({
+    defaultPlugin = createXyoPayloadPlugin<XyoPayload>({
       schema: XyoPayloadSchema,
     }),
   ) {
@@ -21,14 +21,14 @@ export class XyoPayloadPluginResolver {
   }
   schema = XyoPayloadSchema
 
-  public register(plugin: XyoPayloadPlugin<string>) {
+  public register<T extends XyoPayloadPlugin>(plugin: T) {
     this.pluginMap.set(plugin.schema, plugin)
     return this
   }
 
-  public resolve(schema?: string): XyoPayloadPlugin<string>
-  public resolve(payload: XyoPayload): XyoPayloadPlugin<string>
-  public resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin<string> {
+  public resolve(schema?: string): XyoPayloadPlugin
+  public resolve(payload: XyoPayload): XyoPayloadPlugin
+  public resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin {
     return value ? this.pluginMap.get(typeof value === 'string' ? value : value.schema) ?? this.defaultPlugin : this.defaultPlugin
   }
 
@@ -42,7 +42,7 @@ export class XyoPayloadPluginResolver {
 
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */
   public plugins(type?: 'witness' | 'diviner') {
-    const result: XyoPayloadPlugin<string>[] = []
+    const result: XyoPayloadPlugin[] = []
     this.pluginMap.forEach((value) => {
       if (type === 'witness' && !value.witness) {
         return

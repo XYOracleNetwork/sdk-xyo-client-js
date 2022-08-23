@@ -29,10 +29,10 @@ export type XyoPayloadPluginFunc<
   TPayload extends XyoPayload<{ schema: TPayloadSchema }> = XyoPayload<{ schema: TPayloadSchema }>,
   TWitnessConfigSchema extends string = XyoWitnessConfigSchema,
   TConfig extends XyoPayloadPluginConfig<TPayloadSchema, TWitnessConfigSchema> = XyoPayloadPluginConfig<TPayloadSchema, TWitnessConfigSchema>,
-> = (config?: TConfig) => XyoPayloadPlugin<TPayloadSchema, TPayload>
+> = (config?: TConfig) => XyoPayloadPlugin<TPayload>
 
-export type XyoPayloadPlugin<TSchema extends string, TPayload extends XyoPayload = XyoPayload> = {
-  schema: TSchema
+export type XyoPayloadPlugin<TPayload extends XyoPayload = XyoPayload> = {
+  schema: TPayload['schema']
   auto?: boolean
   template?: () => Partial<TPayload>
   validate: (payload: XyoPayload) => XyoValidator

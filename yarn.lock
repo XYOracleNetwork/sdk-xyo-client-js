@@ -3885,6 +3885,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/modules/diviner"
   dependencies:
+    "@xylabs/assert": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -4030,6 +4031,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
+    "@xyo-network/node-system-info-payload-plugin": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"

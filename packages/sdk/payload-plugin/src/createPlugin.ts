@@ -3,20 +3,20 @@ import { XyoPayload, XyoPayloadValidator, XyoPayloadWrapper } from '@xyo-network
 
 import { XyoPayloadPlugin } from './Plugin'
 
-export const defaultXyoPayloadPluginFunctions = () => {
+export const defaultXyoPayloadPluginFunctions = <T extends XyoPayload>() => {
   return {
-    validate: function (payload: XyoPayload): XyoPayloadValidator {
-      return new XyoPayloadValidator(payload)
+    validate: function (payload: T): XyoPayloadValidator<T> {
+      return new XyoPayloadValidator<T>(payload)
     },
-    wrap: function (payload: XyoPayload): XyoPayloadWrapper {
-      return new XyoPayloadWrapper(payload)
+    wrap: function (payload: T): XyoPayloadWrapper<T> {
+      return new XyoPayloadWrapper<T>(payload)
     },
   }
 }
 
-export const createXyoPayloadPlugin = <TSchema extends string = string, TPayload extends XyoPayload = XyoPayload>(
-  plugin: Partial<XyoPayloadPlugin<TSchema, TPayload>> & { schema: string },
-): XyoPayloadPlugin<TSchema, TPayload> => {
+export const createXyoPayloadPlugin = <TPayload extends XyoPayload = XyoPayload>(
+  plugin: Partial<XyoPayloadPlugin<TPayload>> & { schema: string },
+): XyoPayloadPlugin<TPayload> => {
   return {
     ...defaultXyoPayloadPluginFunctions(),
     ...plugin,

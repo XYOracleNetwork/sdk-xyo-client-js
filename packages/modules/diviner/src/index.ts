@@ -1,4 +1,3 @@
-export * from './Abstract'
 export * from './Config'
 export * from './Diviner'
 export * from './Payload'

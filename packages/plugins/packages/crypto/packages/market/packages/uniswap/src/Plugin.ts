@@ -18,7 +18,7 @@ export const XyoUniswapCryptoMarketPayloadPlugin: XyoPayloadPluginFunc<
     auto: true,
     schema: XyoUniswapCryptoMarketPayloadSchema,
     template: XyoUniswapCryptoMarketPayloadTemplate,
-    witness: (): XyoWitness => {
+    witness: (): XyoWitness<XyoUniswapCryptoMarketPayload> => {
       return new XyoUniswapCryptoMarketWitness(assertEx(config?.witness, 'Missing config'))
     },
   })

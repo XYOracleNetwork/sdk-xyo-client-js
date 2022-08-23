@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin, XyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 
 import { XyoCryptoCardsGamePayload } from './Payload'
 import { XyoCryptoCardsGamePayloadSchema, XyoCryptoCardsGameWitnessConfigSchema } from './Schema'
@@ -11,7 +11,7 @@ export const XyoCryptoCardsGamePayloadPlugin: XyoPayloadPluginFunc<
   XyoCryptoCardsGamePayload,
   XyoCryptoCardsGameWitnessConfigSchema,
   XyoPayloadPluginConfig<XyoCryptoCardsGamePayloadSchema, XyoCryptoCardsGameWitnessConfigSchema, XyoCryptoCardsGameWitnessConfig>
-> = (config?) =>
+> = (config?): XyoPayloadPlugin<XyoCryptoCardsGamePayload> =>
   createXyoPayloadPlugin({
     auto: true,
     schema: XyoCryptoCardsGamePayloadSchema,

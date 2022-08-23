@@ -24,7 +24,6 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/storage": "workspace:^",
-    "@xyo-network/systeminfo-witness": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
@@ -85,7 +84,7 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.27.0-rc.8",
+  "version": "2.27.0-rc.9",
   "packageManager": "yarn@3.2.2",
   "stableVersion": "2.26.19"
 }

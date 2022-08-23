@@ -23,17 +23,17 @@
     "@xylabs/tsconfig": "^2.5.123"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "browser": "dist/esm/index.js",
+  "browser": "dist/esm/indexBrowser.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
       "node": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
+        "import": "./dist/esm/indexNode.js",
+        "require": "./dist/cjs/indexNode.js"
       },
       "browser": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
+        "import": "./dist/esm/indexBrowser.js",
+        "require": "./dist/cjs/indexBrowser.js"
       },
       "default": "./dist/esm/index.js"
     },
@@ -55,6 +55,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.27.0-rc.8",
+  "version": "2.27.0-rc.9",
   "stableVersion": "2.26.19"
 }

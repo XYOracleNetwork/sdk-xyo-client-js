@@ -4114,7 +4114,6 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/storage": "workspace:^"
-    "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     "@xyo-network/utils": "workspace:^"
     "@xyo-network/wallet": "workspace:^"
@@ -4169,13 +4168,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/systeminfo-witness@workspace:packages/sdk/systeminfo-witness"
   dependencies:
-    "@xylabs/delay": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
-    "@xyo-network/payload": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    bowser: ^2.11.0
-    systeminformation: ^5.12.6
-    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 

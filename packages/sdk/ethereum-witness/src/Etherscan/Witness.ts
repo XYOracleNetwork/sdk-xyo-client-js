@@ -5,13 +5,10 @@ import { getGasFromEtherscan } from './getGasFromEtherscan'
 import { XyoEthereumGasEtherscanPayload } from './Payload'
 import { transformGasFromEtherscan } from './transformGasFromEtherscan'
 
-export type XyoEtherscanEthereumGasWitnessConfig = XyoWitnessConfig<
-  'network.xyo.blockchain.ethereum.gas.etherscan',
-  {
-    schema: 'network.xyo.blockchain.ethereum.gas.etherscan.witness.config'
-    apiKey: string
-  }
->
+export type XyoEtherscanEthereumGasWitnessConfig = XyoWitnessConfig<{
+  schema: 'network.xyo.blockchain.ethereum.gas.etherscan.witness.config'
+  apiKey: string
+}>
 
 export class XyoEtherscanEthereumGasWitness extends XyoWitness<XyoEthereumGasEtherscanPayload, XyoEtherscanEthereumGasWitnessConfig> {
   override async observe(): Promise<XyoEthereumGasEtherscanPayload> {

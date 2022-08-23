@@ -9,10 +9,9 @@ import { XyoCoingeckoCryptoMarketPayloadTemplate } from './Template'
 import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
 export const XyoCoingeckoCryptoMarketPayloadPlugin: XyoPayloadPluginFunc<
-  XyoCoingeckoCryptoMarketPayloadSchema,
   XyoCoingeckoCryptoMarketPayload,
   XyoCoingeckoCryptoMarketWitnessConfigSchema,
-  XyoPayloadPluginConfig<XyoCoingeckoCryptoMarketPayloadSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema, XyoCoingeckoCryptoMarketWitnessConfig>
+  XyoPayloadPluginConfig<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfigSchema, XyoCoingeckoCryptoMarketWitnessConfig>
 > = (config?): XyoPayloadPlugin<XyoCoingeckoCryptoMarketPayload> =>
   createXyoPayloadPlugin({
     auto: true,

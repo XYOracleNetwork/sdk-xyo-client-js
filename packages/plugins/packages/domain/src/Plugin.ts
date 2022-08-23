@@ -7,7 +7,7 @@ import { XyoDomainPayloadSchema } from './Schema'
 import { XyoDomainWitness, XyoDomainWitnessConfigSchema } from './Witness'
 import { XyoDomainPayloadWrapper } from './Wrapper'
 
-export const XyoDomainPayloadPlugin: XyoPayloadPluginFunc<XyoDomainPayloadSchema, XyoDomainPayload, XyoDomainWitnessConfigSchema> = (
+export const XyoDomainPayloadPlugin: XyoPayloadPluginFunc<XyoDomainPayload, XyoDomainWitnessConfigSchema> = (
   config?,
 ): XyoPayloadPlugin<XyoDomainPayload> =>
   createXyoPayloadPlugin({

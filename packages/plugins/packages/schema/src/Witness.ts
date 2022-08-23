@@ -7,7 +7,7 @@ import { XyoSchemaPayloadSchema } from './Schema'
 export type XyoSchemaWitnessConfigSchema = 'network.xyo.schema.witness.config'
 export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'network.xyo.schema.witness.config'
 
-export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayloadSchema, { schema: XyoSchemaWitnessConfigSchema }>
+export type XyoSchemaWitnessConfig = XyoWitnessConfig<{ schema: XyoSchemaWitnessConfigSchema }>
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
   override async observe(_fields: Partial<XyoSchemaPayload>): Promise<XyoSchemaPayload> {

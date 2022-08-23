@@ -6,11 +6,7 @@ import { XyoNodeSystemInfoPayload } from './Payload'
 import { XyoNodeSystemInfoPayloadSchema } from './Schema'
 import { XyoNodeSystemInfoWitness } from './Witness'
 
-export const XyoNodeSystemInfoPayloadPlugin: XyoPayloadPluginFunc<
-  XyoNodeSystemInfoPayloadSchema,
-  XyoNodeSystemInfoPayload,
-  XyoNodeSystemInfoWitnessConfigSchema
-> = (config?) =>
+export const XyoNodeSystemInfoPayloadPlugin: XyoPayloadPluginFunc<XyoNodeSystemInfoPayload, XyoNodeSystemInfoWitnessConfigSchema> = (config?) =>
   createXyoPayloadPlugin({
     auto: true,
     schema: XyoNodeSystemInfoPayloadSchema,

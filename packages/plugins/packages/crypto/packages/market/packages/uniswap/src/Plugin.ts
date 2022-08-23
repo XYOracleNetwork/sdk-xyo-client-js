@@ -9,10 +9,9 @@ import { XyoUniswapCryptoMarketPayloadTemplate } from './Template'
 import { XyoUniswapCryptoMarketWitness } from './Witness'
 
 export const XyoUniswapCryptoMarketPayloadPlugin: XyoPayloadPluginFunc<
-  XyoUniswapCryptoMarketPayloadSchema,
   XyoUniswapCryptoMarketPayload,
   XyoUniswapCryptoMarketWitnessConfigSchema,
-  XyoPayloadPluginConfig<XyoUniswapCryptoMarketPayloadSchema, XyoUniswapCryptoMarketWitnessConfigSchema, XyoUniswapCryptoMarketWitnessConfig>
+  XyoPayloadPluginConfig<XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfigSchema, XyoUniswapCryptoMarketWitnessConfig>
 > = (config?) =>
   createXyoPayloadPlugin({
     auto: true,

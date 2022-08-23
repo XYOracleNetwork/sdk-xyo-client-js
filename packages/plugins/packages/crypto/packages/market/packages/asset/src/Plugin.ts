@@ -5,7 +5,7 @@ import { XyoCryptoMarketAssetPayload } from './Payload'
 import { XyoCryptoMarketAssetPayloadSchema } from './Schema'
 import { XyoCryptoMarketAssetPayloadTemplate } from './Template'
 
-export const XyoCryptoMarketAssetPayloadPlugin: XyoPayloadPluginFunc<XyoCryptoMarketAssetPayloadSchema, XyoCryptoMarketAssetPayload> = (
+export const XyoCryptoMarketAssetPayloadPlugin: XyoPayloadPluginFunc<XyoCryptoMarketAssetPayload> = (
   _config?,
 ): XyoPayloadPlugin<XyoCryptoMarketAssetPayload> =>
   createXyoPayloadPlugin({

@@ -7,10 +7,9 @@ import { XyoLocationPayloadTemplate } from './Template'
 import { XyoLocationWitness, XyoLocationWitnessConfig, XyoLocationWitnessConfigSchema } from './Witness'
 
 export const XyoLocationPayloadPlugin: XyoPayloadPluginFunc<
-  XyoLocationPayloadSchema,
   XyoLocationPayload,
   XyoLocationWitnessConfigSchema,
-  XyoPayloadPluginConfig<XyoLocationPayloadSchema, XyoLocationWitnessConfigSchema, XyoLocationWitnessConfig>
+  XyoPayloadPluginConfig<XyoLocationPayload, XyoLocationWitnessConfigSchema, XyoLocationWitnessConfig>
 > = (config?) =>
   createXyoPayloadPlugin({
     auto: true,

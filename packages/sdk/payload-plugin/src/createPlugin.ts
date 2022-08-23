@@ -15,7 +15,7 @@ export const defaultXyoPayloadPluginFunctions = <T extends XyoPayload>() => {
 }
 
 export const createXyoPayloadPlugin = <TPayload extends XyoPayload = XyoPayload>(
-  plugin: Partial<XyoPayloadPlugin<TPayload>> & { schema: string },
+  plugin: XyoPayloadPlugin<TPayload> & { schema: string },
 ): XyoPayloadPlugin<TPayload> => {
   return {
     ...defaultXyoPayloadPluginFunctions(),

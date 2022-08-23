@@ -6,7 +6,7 @@ import { XyoBowserSystemInfoPayloadSchema } from './Schema'
 import { XyoBowserSystemInfoPayloadTemplate } from './Template'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
-export const XyoBowserSystemInfoPayloadPlugin: XyoPayloadPluginFunc<XyoBowserSystemInfoPayloadSchema, XyoBowserSystemInfoPayload> = (
+export const XyoBowserSystemInfoPayloadPlugin: XyoPayloadPluginFunc<XyoBowserSystemInfoPayload> = (
   config?,
 ): XyoPayloadPlugin<XyoBowserSystemInfoPayload> =>
   createXyoPayloadPlugin({

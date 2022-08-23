@@ -7,10 +7,9 @@ import { XyoIdPayloadTemplate } from './Template'
 import { XyoIdWitness, XyoIdWitnessConfig, XyoIdWitnessConfigSchema } from './Witness'
 
 export const XyoIdPayloadPlugin: XyoPayloadPluginFunc<
-  XyoIdPayloadSchema,
   XyoIdPayload,
   XyoIdWitnessConfigSchema,
-  XyoPayloadPluginConfig<XyoIdPayloadSchema, XyoIdWitnessConfigSchema, XyoIdWitnessConfig>
+  XyoPayloadPluginConfig<XyoIdPayload, XyoIdWitnessConfigSchema, XyoIdWitnessConfig>
 > = (config?): XyoPayloadPlugin<XyoIdPayload> =>
   createXyoPayloadPlugin({
     auto: true,

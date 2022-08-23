@@ -32,12 +32,12 @@ export class XyoPayloadPluginResolver {
     return value ? this.pluginMap.get(typeof value === 'string' ? value : value.schema) ?? this.defaultPlugin : this.defaultPlugin
   }
 
-  public validate(payload: XyoPayload): XyoValidator<XyoPayload> {
-    return this.resolve(payload).validate(payload)
+  public validate(payload: XyoPayload): XyoValidator<XyoPayload> | undefined {
+    return this.resolve(payload).validate?.(payload)
   }
 
-  public wrap(payload: XyoPayload): XyoPayloadWrapper<XyoPayload> {
-    return this.resolve(payload).wrap(payload)
+  public wrap(payload: XyoPayload): XyoPayloadWrapper<XyoPayload> | undefined {
+    return this.resolve(payload).wrap?.(payload)
   }
 
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */

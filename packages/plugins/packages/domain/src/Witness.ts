@@ -12,10 +12,7 @@ export type XyoDomainWitnessConfig = XyoWitnessQueryPayload<{
   domain: string
 }>
 
-export class XyoDomainWitness extends XyoWitness<
-  XyoDomainPayload,
-  XyoWitnessConfig<XyoDomainPayloadSchema, { schema: XyoDomainWitnessConfigSchema }>
-> {
+export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoWitnessConfig<{ schema: XyoDomainWitnessConfigSchema }>> {
   override async observe(_payload: Partial<XyoDomainPayload>): Promise<XyoDomainPayload> {
     await delay(0)
     return { schema: XyoDomainPayloadSchema }

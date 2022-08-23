@@ -39,20 +39,14 @@ export type XyoNonFungibleTokenMintPayload = XyoContractPayload<{
   minters?: string[]
 }>
 
-export type XyoNonFungibleTokenMinterWitnessConfig = XyoWitnessConfig<
-  'network.xyo.nft.minter.query',
-  {
-    schema: 'network.xyo.nft.minter.query'
-    mint: string
-    mintToken?: XyoNonFungibleTokenPayload
-    targetSchema: 'network.xyo.nft.minter'
-  }
->
+export type XyoNonFungibleTokenMinterWitnessConfig = XyoWitnessConfig<{
+  schema: 'network.xyo.nft.minter.query'
+  mint: string
+  mintToken?: XyoNonFungibleTokenPayload
+  targetSchema: 'network.xyo.nft.minter'
+}>
 
-export type XyoNonFungibleTokenWitnessConfig = XyoWitnessConfig<
-  'network.xyo.nft.query',
-  {
-    schema: 'network.xyo.nft.query'
-    targetSchema: 'network.xyo.nft'
-  }
->
+export type XyoNonFungibleTokenWitnessConfig = XyoWitnessConfig<{
+  schema: 'network.xyo.nft.query'
+  targetSchema: 'network.xyo.nft'
+}>

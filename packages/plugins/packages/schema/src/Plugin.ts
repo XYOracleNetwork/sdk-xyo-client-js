@@ -5,7 +5,7 @@ import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaPayloadSchema } from './Schema'
 import { XyoSchemaWitness, XyoSchemaWitnessConfigSchema } from './Witness'
 
-export const XyoSchemaPayloadPlugin: XyoPayloadPluginFunc<XyoSchemaPayloadSchema, XyoSchemaPayload, XyoSchemaWitnessConfigSchema> = (
+export const XyoSchemaPayloadPlugin: XyoPayloadPluginFunc<XyoSchemaPayload, XyoSchemaWitnessConfigSchema> = (
   config?,
 ): XyoPayloadPlugin<XyoSchemaPayload> =>
   createXyoPayloadPlugin({

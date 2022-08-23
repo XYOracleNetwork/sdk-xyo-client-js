@@ -7,10 +7,9 @@ import { XyoCryptoCardsGamePayloadTemplate } from './Template'
 import { XyoCryptoCardsGameWitness, XyoCryptoCardsGameWitnessConfig } from './Witness'
 
 export const XyoCryptoCardsGamePayloadPlugin: XyoPayloadPluginFunc<
-  XyoCryptoCardsGamePayloadSchema,
   XyoCryptoCardsGamePayload,
   XyoCryptoCardsGameWitnessConfigSchema,
-  XyoPayloadPluginConfig<XyoCryptoCardsGamePayloadSchema, XyoCryptoCardsGameWitnessConfigSchema, XyoCryptoCardsGameWitnessConfig>
+  XyoPayloadPluginConfig<XyoCryptoCardsGamePayload, XyoCryptoCardsGameWitnessConfigSchema, XyoCryptoCardsGameWitnessConfig>
 > = (config?): XyoPayloadPlugin<XyoCryptoCardsGamePayload> =>
   createXyoPayloadPlugin({
     auto: true,

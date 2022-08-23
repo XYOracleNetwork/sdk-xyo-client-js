@@ -4,10 +4,13 @@ import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 import { XyoCryptoCardsGamePayload } from './Payload'
 import { XyoCryptoCardsGamePayloadSchema, XyoCryptoCardsGameWitnessConfigSchema } from './Schema'
 
-export type XyoCryptoCardsGameWitnessConfig = XyoWitnessConfig<{
-  schema: XyoCryptoCardsGameWitnessConfigSchema
-  targetSchema: XyoCryptoCardsGamePayloadSchema
-}>
+export type XyoCryptoCardsGameWitnessConfig = XyoWitnessConfig<
+  XyoCryptoCardsGamePayload,
+  {
+    schema: XyoCryptoCardsGameWitnessConfigSchema
+    targetSchema: XyoCryptoCardsGamePayloadSchema
+  }
+>
 
 export class XyoCryptoCardsGameWitness extends XyoWitness<XyoCryptoCardsGamePayload, XyoCryptoCardsGameWitnessConfig> {
   override observe(payload: XyoCryptoCardsGamePayload): Promisable<XyoCryptoCardsGamePayload> {

@@ -8,7 +8,7 @@ import { XyoWitnessConfig } from './XyoWitnessConfig'
 
 export abstract class XyoWitness<
   T extends XyoPayload = XyoPayload,
-  C extends XyoWitnessConfig = XyoWitnessConfig,
+  C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>,
   Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
 > extends XyoAbstractModule<C, Q> {
   public get targetSchema() {

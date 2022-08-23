@@ -5,9 +5,12 @@ export type XyoEthereumGasEtherchainV2ConfigSchema = 'network.xyo.blockchain.eth
 export const XyoEthereumGasEtherchainV2ConfigSchema: XyoEthereumGasEtherchainV2ConfigSchema =
   'network.xyo.blockchain.ethereum.gas.etherchain.v2.config'
 
-export type XyoEthereumGasEtherchainV2Config = XyoWitnessConfig<{
-  schema: XyoEthereumGasEtherchainV2ConfigSchema
-}>
+export type XyoEthereumGasEtherchainV2Config = XyoWitnessConfig<
+  XyoEthereumGasEtherchainV2Payload,
+  {
+    schema: XyoEthereumGasEtherchainV2ConfigSchema
+  }
+>
 
 export type XyoEthereumGasEtherchainV2Schema = 'network.xyo.blockchain.ethereum.gas.etherchain.v2'
 export const XyoEthereumGasEtherchainV2Schema: XyoEthereumGasEtherchainV2Schema = 'network.xyo.blockchain.ethereum.gas.etherchain.v2'

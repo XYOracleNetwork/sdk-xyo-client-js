@@ -46,7 +46,10 @@ export type XyoNonFungibleTokenMinterWitnessConfig = XyoWitnessConfig<{
   targetSchema: 'network.xyo.nft.minter'
 }>
 
-export type XyoNonFungibleTokenWitnessConfig = XyoWitnessConfig<{
-  schema: 'network.xyo.nft.query'
-  targetSchema: 'network.xyo.nft'
-}>
+export type XyoNonFungibleTokenWitnessConfig = XyoWitnessConfig<
+  XyoNonFungibleTokenPayload,
+  {
+    schema: 'network.xyo.nft.query'
+    targetSchema: 'network.xyo.nft'
+  }
+>

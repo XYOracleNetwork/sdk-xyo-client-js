@@ -1,16 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { createXyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 
 import { XyoLocationPayload } from './Payload'
 import { XyoLocationPayloadSchema } from './Schema'
 import { XyoLocationPayloadTemplate } from './Template'
-import { XyoLocationWitness, XyoLocationWitnessConfig, XyoLocationWitnessConfigSchema } from './Witness'
+import { XyoLocationWitness, XyoLocationWitnessConfig } from './Witness'
 
-export const XyoLocationPayloadPlugin: XyoPayloadPluginFunc<
-  XyoLocationPayload,
-  XyoLocationWitnessConfigSchema,
-  XyoPayloadPluginConfig<XyoLocationPayload, XyoLocationWitnessConfigSchema, XyoLocationWitnessConfig>
-> = (config?) =>
+export const XyoLocationPayloadPlugin: XyoPayloadPluginFunc<XyoLocationPayload, XyoLocationWitnessConfig> = (config?) =>
   createXyoPayloadPlugin({
     auto: true,
     schema: XyoLocationPayloadSchema,

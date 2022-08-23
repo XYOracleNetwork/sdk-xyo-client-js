@@ -4,12 +4,10 @@ import { createXyoPayloadPlugin, XyoPayloadPlugin, XyoPayloadPluginFunc } from '
 
 import { XyoDomainPayload } from './Payload'
 import { XyoDomainPayloadSchema } from './Schema'
-import { XyoDomainWitness, XyoDomainWitnessConfigSchema } from './Witness'
+import { XyoDomainWitness, XyoDomainWitnessConfig } from './Witness'
 import { XyoDomainPayloadWrapper } from './Wrapper'
 
-export const XyoDomainPayloadPlugin: XyoPayloadPluginFunc<XyoDomainPayload, XyoDomainWitnessConfigSchema> = (
-  config?,
-): XyoPayloadPlugin<XyoDomainPayload> =>
+export const XyoDomainPayloadPlugin: XyoPayloadPluginFunc<XyoDomainPayload, XyoDomainWitnessConfig> = (config?): XyoPayloadPlugin<XyoDomainPayload> =>
   createXyoPayloadPlugin({
     schema: XyoDomainPayloadSchema,
     witness: (): XyoDomainWitness => {

@@ -1,16 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { createXyoPayloadPlugin, XyoPayloadPlugin, XyoPayloadPluginConfig, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin, XyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 
 import { XyoIdPayload } from './Payload'
 import { XyoIdPayloadSchema } from './Schema'
 import { XyoIdPayloadTemplate } from './Template'
-import { XyoIdWitness, XyoIdWitnessConfig, XyoIdWitnessConfigSchema } from './Witness'
+import { XyoIdWitness, XyoIdWitnessConfig } from './Witness'
 
-export const XyoIdPayloadPlugin: XyoPayloadPluginFunc<
-  XyoIdPayload,
-  XyoIdWitnessConfigSchema,
-  XyoPayloadPluginConfig<XyoIdPayload, XyoIdWitnessConfigSchema, XyoIdWitnessConfig>
-> = (config?): XyoPayloadPlugin<XyoIdPayload> =>
+export const XyoIdPayloadPlugin: XyoPayloadPluginFunc<XyoIdPayload, XyoIdWitnessConfig> = (config?): XyoPayloadPlugin<XyoIdPayload> =>
   createXyoPayloadPlugin({
     auto: true,
     schema: XyoIdPayloadSchema,

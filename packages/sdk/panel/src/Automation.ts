@@ -1,12 +1,15 @@
 import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
+export type XyoAutomationPayloadSchema = 'network.xyo.automation'
+export const XyoAutomationPayloadSchema = 'network.xyo.automation'
+
 export type XyoPanelBaseAutomationPayload<T extends EmptyObject = EmptyObject> = XyoPayload<
   T & {
     /** @field The list of witnesses to invoke [all if undefined] */
     witnesses?: string[]
     type?: 'interval' | 'change'
-    schema: 'network.xyo.automation'
+    schema: XyoAutomationPayloadSchema
   }
 >
 

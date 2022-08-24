@@ -1,28 +1,29 @@
 import { XyoValidator } from '@xyo-network/core'
-import { XyoDiviner } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
-export interface XyoPayloadPluginConfig<
-  TPayloadWitnessConfig extends XyoWitnessConfig = XyoWitnessConfig,
-  TPayloadDivinerConfig extends XyoWitnessConfig = XyoWitnessConfig,
-> {
+export type XyoPayloadPluginConfig<
+  TTargetPayload extends XyoPayload = XyoPayload,
+  TPayloadWitnessConfig extends XyoWitnessConfig<TTargetPayload> | void = void,
+  TPayloadDivinerConfig extends XyoDivinerConfig<TTargetPayload> | void = void,
+> = XyoPayload<{
   witness?: TPayloadWitnessConfig
   diviner?: TPayloadDivinerConfig
-}
+}>
 
 export type XyoPayloadPluginFunc<
-  TSchema extends string,
   TPayload extends XyoPayload = XyoPayload,
-  TConfig extends XyoPayloadPluginConfig = XyoPayloadPluginConfig,
-> = (config?: TConfig) => XyoPayloadPlugin<TSchema, TPayload>
+  TWitnessConfig extends XyoWitnessConfig<TPayload> | void = void,
+  TDivinerConfig extends XyoDivinerConfig<TPayload> | void = void,
+> = (config?: XyoPayloadPluginConfig<TPayload, TWitnessConfig, TDivinerConfig>) => XyoPayloadPlugin<TPayload>
 
-export type XyoPayloadPlugin<TSchema extends string, TPayload extends XyoPayload = XyoPayload> = {
-  schema: TSchema
+export type XyoPayloadPlugin<TPayload extends XyoPayload = XyoPayload> = {
+  schema: TPayload['schema']
   auto?: boolean
   template?: () => Partial<TPayload>
-  validate: (payload: XyoPayload) => XyoValidator
-  wrap: (payload: XyoPayload) => XyoPayloadWrapper
+  validate?: (payload: XyoPayload) => XyoValidator
+  wrap?: (payload: XyoPayload) => XyoPayloadWrapper
   witness?: () => XyoWitness
   diviner?: () => XyoDiviner
 }

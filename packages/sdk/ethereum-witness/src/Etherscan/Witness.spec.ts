@@ -11,9 +11,8 @@ describe('Witness', () => {
     const sut = new XyoEtherscanEthereumGasWitness({
       account: new XyoAccount(),
       apiKey,
-      query: { schema: 'network.xyo.blockchain.ethereum.gas.etherscan.query' },
-      schema: 'network.xyo.blockchain.ethereum.gas.etherscan.config',
-      targetSchema: 'network.xyo.blockchain.ethereum.gas.etherscan.config',
+      schema: 'network.xyo.blockchain.ethereum.gas.etherscan.witness.config',
+      targetSchema: 'network.xyo.blockchain.ethereum.gas.etherscan',
     })
     const actual = await sut.observe()
     expect(actual.fastGasPrice).toBeNumber()

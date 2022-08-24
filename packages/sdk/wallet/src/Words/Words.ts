@@ -1,9 +1,9 @@
 /* eslint-disable max-lines */
-import { XyoWordsPayload } from './WordsPayload'
+import { XyoWordsPayload, XyoWordsPayloadSchema } from './WordsPayload'
 
 //TODO: Move to archivist
 export const Words: XyoWordsPayload = {
-  schema: 'network.xyo.words',
+  schema: XyoWordsPayloadSchema,
   words: [
     'abandon',
     'ability',

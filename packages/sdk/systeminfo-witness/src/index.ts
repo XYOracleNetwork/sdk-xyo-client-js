@@ -1,4 +1,5 @@
-//has all the code in it, so must be tree shakable project using it
-export * from './browser'
-export * from './node'
-export * from './shared'
+/** @deprecated use plugins instead */
+const deprecated = 'Deprecated'
+
+// eslint-disable-next-line import/no-default-export, deprecation/deprecation
+export default deprecated

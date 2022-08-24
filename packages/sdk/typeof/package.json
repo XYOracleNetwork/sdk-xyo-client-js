@@ -14,7 +14,7 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.122"
+    "@xylabs/tsconfig": "^2.5.123"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -48,5 +48,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.26.20"
+  "version": "2.27.0"
 }

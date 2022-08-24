@@ -1,17 +1,19 @@
-import { XyoPayload } from '@xyo-network/payload'
-import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
+import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoLocationPayload } from './Payload'
 import { XyoLocationPayloadSchema } from './Schema'
 
 export type XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
-export const XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
+export const XyoLocationWitnessConfigSchema: XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
 
-export type XyoLocationWitnessConfig = XyoWitnessConfig<{
-  schema: XyoLocationWitnessConfigSchema
-  targetSchema: XyoLocationPayloadSchema
-  geoLocation: Geolocation
-}>
+export type XyoLocationWitnessConfig = XyoWitnessConfig<
+  XyoLocationPayload,
+  {
+    schema: XyoLocationWitnessConfigSchema
+    targetSchema: XyoLocationPayloadSchema
+    geoLocation: Geolocation
+  }
+>
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
   private geoLocation: Geolocation
@@ -33,10 +35,7 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
     })
   }
 
-  override async observe(
-    _fields: Partial<XyoLocationPayload>,
-    _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>> | undefined,
-  ): Promise<XyoLocationPayload> {
+  override async observe(_fields: Partial<XyoLocationPayload>): Promise<XyoLocationPayload> {
     const location = await this.getCurrentPosition()
     return super.observe({
       currentLocation: {

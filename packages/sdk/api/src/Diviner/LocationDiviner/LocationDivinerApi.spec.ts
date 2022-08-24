@@ -7,7 +7,7 @@ import {
   LocationHeatmapQueryCreationRequest,
   locationHeatmapQuerySchema,
   LocationTimeRangeQueryCreationRequest,
-  locationTimeRangeQuerySchema,
+  LocationTimeRangeQuerySchema,
 } from './Queries'
 import { LocationWitnessPayloadSchema } from './Witnesses'
 
@@ -34,7 +34,7 @@ const getLocationTimeRangeQueryCreationRequest = (): LocationTimeRangeQueryCreat
     query,
     resultArchive: 'temp',
     resultArchivist,
-    schema: locationTimeRangeQuerySchema,
+    schema: LocationTimeRangeQuerySchema,
     sourceArchive: 'temp',
     sourceArchivist,
   }

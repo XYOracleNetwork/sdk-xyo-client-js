@@ -15,8 +15,8 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
+    "@xyo-network/node-system-info-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/systeminfo-witness": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0"
@@ -24,7 +24,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.184",
-    "@xylabs/tsconfig": "^2.5.122",
+    "@xylabs/tsconfig": "^2.5.123",
     "@xyo-network/witnesses": "workspace:^"
   },
   "browser": "dist/esm/index.js",
@@ -60,5 +60,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.26.20"
+  "version": "2.27.0"
 }

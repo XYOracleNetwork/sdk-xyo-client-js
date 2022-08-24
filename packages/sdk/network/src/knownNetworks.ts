@@ -1,7 +1,6 @@
-import { XyoNetworkPayloadSchema } from './schema'
 import { XyoNetworkNodePayload } from './XyoNetworkNodePayload'
 import { XyoNetworkNodePayloadWrapper } from './XyoNetworkNodePayloadWrapper'
-import { XyoNetworkPayload } from './XyoNetworkPayload'
+import { XyoNetworkPayload, XyoNetworkPayloadSchema } from './XyoNetworkPayload'
 
 const kerplunk = (): XyoNetworkPayload => {
   return {

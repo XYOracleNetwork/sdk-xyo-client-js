@@ -1,20 +1,25 @@
-import { XyoModuleQueryResult } from '@xyo-network/module'
-import { Huri } from '@xyo-network/payload'
+import { assertEx } from '@xylabs/assert'
+import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
+import { XyoDivinerDivineQuerySchema } from '../../Query'
 import { profile } from '../lib'
+import { XyoHuriPayload, XyoHuriPayloadSchema } from '../XyoHuriPayload'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoHuriPayloadDivinerConfig } from './Config'
-import { XyoHuriPayloadDivinerQuery } from './Query'
 
-export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerQuery, XyoHuriPayloadDivinerConfig> {
+export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoHuriPayloadDivinerConfig> {
   protected get options() {
     return this.config.options
   }
 
-  override async query(query: XyoHuriPayloadDivinerQuery): Promise<XyoModuleQueryResult> {
-    const huri = new Huri(query.huri, query.options ?? this.options)
+  override get queries() {
+    return [XyoDivinerDivineQuerySchema]
+  }
+
+  override async divine(payloads?: XyoPayloads): Promise<XyoPayload | null> {
+    const huriPayload = assertEx(payloads?.find((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriPayloadSchema))
+    const huri = new Huri(huriPayload?.huri, this.options)
     const [payload = null] = await profile(async () => await huri.fetch())
-    const payloads = payload ? [payload] : []
-    return [this.bindPayloads(payloads), payloads]
+    return payload
   }
 }

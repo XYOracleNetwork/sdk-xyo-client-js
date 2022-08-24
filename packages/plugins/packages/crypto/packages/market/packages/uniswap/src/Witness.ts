@@ -1,25 +1,16 @@
-import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { XyoWitness } from '@xyo-network/witness'
 
+import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 import { XyoUniswapCryptoMarketPayload } from './Payload'
-import { XyoUniswapCryptoMarketQueryPayload } from './Query'
 import { XyoUniswapCryptoMarketPayloadSchema } from './Schema'
 
-export interface XyoUniswapCryptoMarketWitnessConfig extends XyoWitnessConfig<XyoUniswapCryptoMarketQueryPayload> {
-  provider: Provider
-}
-
-export class XyoUniswapCryptoMarketWitness extends XyoWitness<
-  XyoUniswapCryptoMarketPayload,
-  XyoUniswapCryptoMarketQueryPayload,
-  XyoUniswapCryptoMarketWitnessConfig
-> {
+export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfig> {
   protected pairs: EthersUniSwap3Pair[]
   constructor(config: XyoUniswapCryptoMarketWitnessConfig) {
     super(config)
-    this.pairs = createUniswapPoolContracts(assertEx(this.config?.provider, 'Provider is Required'), this.config.query?.pools ?? UniswapPoolContracts)
+    this.pairs = createUniswapPoolContracts(assertEx(this.config?.provider, 'Provider is Required'), this.config.pools ?? UniswapPoolContracts)
   }
 
   override async observe(): Promise<XyoUniswapCryptoMarketPayload> {

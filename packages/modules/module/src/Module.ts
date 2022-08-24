@@ -4,9 +4,9 @@ import { Promisable } from '@xyo-network/promisable'
 
 export type XyoModuleQueryResult<T extends XyoPayload = XyoPayload> = [XyoBoundWitness, (T | null)[]]
 
-export interface XyoModule<Q extends XyoQueryPayload = XyoQueryPayload> {
+export interface XyoModule<TQuery extends XyoQueryPayload = XyoQueryPayload> {
   address: string
   queries: string[]
   queriable: (schema: string) => boolean
-  query<T extends Q>(query: T): Promisable<XyoModuleQueryResult>
+  query: (query: TQuery) => Promisable<XyoModuleQueryResult>
 }

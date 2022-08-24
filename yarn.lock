@@ -4033,7 +4033,6 @@ __metadata:
     "@xyo-network/id-payload-plugin": "workspace:^"
     "@xyo-network/node-system-info-payload-plugin": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/systeminfo-witness": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     lodash: ^4.17.21
@@ -4166,7 +4165,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/systeminfo-witness@workspace:^, @xyo-network/systeminfo-witness@workspace:packages/sdk/systeminfo-witness":
+"@xyo-network/systeminfo-witness@workspace:packages/sdk/systeminfo-witness":
   version: 0.0.0-use.local
   resolution: "@xyo-network/systeminfo-witness@workspace:packages/sdk/systeminfo-witness"
   dependencies:

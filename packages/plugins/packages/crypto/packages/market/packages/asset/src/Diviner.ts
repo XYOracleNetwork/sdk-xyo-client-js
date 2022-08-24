@@ -1,5 +1,5 @@
 import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketPayloadSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
-import { XyoAbstractDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketPayloadSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
@@ -7,7 +7,7 @@ import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketPayloadSchema } fr
 import { divinePrices } from './lib'
 import { XyoCryptoMarketAssetPayload } from './Payload'
 
-export class XyoCryptoMarketAssetDiviner extends XyoAbstractDiviner {
+export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
   get queries() {
     return [XyoDivinerDivineQuerySchema]
   }

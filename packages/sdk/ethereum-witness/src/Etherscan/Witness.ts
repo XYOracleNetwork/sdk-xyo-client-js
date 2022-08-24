@@ -5,10 +5,14 @@ import { getGasFromEtherscan } from './getGasFromEtherscan'
 import { XyoEthereumGasEtherscanPayload } from './Payload'
 import { transformGasFromEtherscan } from './transformGasFromEtherscan'
 
+export type XyoEtherscanEthereumGasWitnessConfigSchema = 'network.xyo.blockchain.ethereum.gas.etherscan.witness.config'
+export const XyoEtherscanEthereumGasWitnessConfigSchema: XyoEtherscanEthereumGasWitnessConfigSchema =
+  'network.xyo.blockchain.ethereum.gas.etherscan.witness.config'
+
 export type XyoEtherscanEthereumGasWitnessConfig = XyoWitnessConfig<
   XyoEthereumGasEtherscanPayload,
   {
-    schema: 'network.xyo.blockchain.ethereum.gas.etherscan.witness.config'
+    schema: XyoEtherscanEthereumGasWitnessConfigSchema
     apiKey: string
   }
 >

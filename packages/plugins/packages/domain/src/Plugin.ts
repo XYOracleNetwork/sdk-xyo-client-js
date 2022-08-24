@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayload } from '@xyo-network/payload'
 import { createXyoPayloadPlugin, XyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 
 import { XyoDomainPayload } from './Payload'
@@ -13,7 +12,7 @@ export const XyoDomainPayloadPlugin: XyoPayloadPluginFunc<XyoDomainPayload, XyoD
     witness: (): XyoDomainWitness => {
       return new XyoDomainWitness(assertEx(config?.witness, 'Missing config'))
     },
-    wrap: (payload: XyoPayload): XyoDomainPayloadWrapper => {
+    wrap: (payload: XyoDomainPayload): XyoDomainPayloadWrapper => {
       assertEx(payload.schema === XyoDomainPayloadSchema)
       return new XyoDomainPayloadWrapper(payload as XyoDomainPayload)
     },

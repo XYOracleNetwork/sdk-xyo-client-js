@@ -22,8 +22,8 @@ export type XyoPayloadPlugin<TPayload extends XyoPayload = XyoPayload> = {
   schema: TPayload['schema']
   auto?: boolean
   template?: () => Partial<TPayload>
-  validate?: (payload: XyoPayload) => XyoValidator
-  wrap?: (payload: XyoPayload) => XyoPayloadWrapper
-  witness?: () => XyoWitness
-  diviner?: () => XyoDiviner
+  validate?: (payload: TPayload) => XyoValidator<TPayload>
+  wrap?: (payload: TPayload) => XyoPayloadWrapper<TPayload>
+  witness?: () => XyoWitness<TPayload>
+  diviner?: () => XyoDiviner<TPayload>
 }

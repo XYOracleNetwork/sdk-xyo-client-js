@@ -15,7 +15,7 @@ export type XyoBowserSystemInfoWitnessConfig = XyoWitnessConfig<XyoBowserSystemI
 export const XyoBowserSystemInfoPayloadPlugin: XyoPayloadPluginFunc<XyoBowserSystemInfoPayload, XyoBowserSystemInfoWitnessConfig> = (
   config?,
 ): XyoPayloadPlugin<XyoBowserSystemInfoPayload> =>
-  createXyoPayloadPlugin({
+  createXyoPayloadPlugin<XyoBowserSystemInfoPayload>({
     auto: true,
     schema: XyoBowserSystemInfoPayloadSchema,
     template: XyoBowserSystemInfoPayloadTemplate,

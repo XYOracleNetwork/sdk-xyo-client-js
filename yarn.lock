@@ -3955,7 +3955,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/ethereum-witness@workspace:^, @xyo-network/ethereum-witness@workspace:packages/sdk/ethereum-witness":
+"@xyo-network/ethereum-witness@workspace:packages/sdk/ethereum-witness":
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethereum-witness@workspace:packages/sdk/ethereum-witness"
   dependencies:
@@ -4148,7 +4148,6 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/ethereum-witness": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/panel": "workspace:^"
     "@xyo-network/payload": "workspace:^"

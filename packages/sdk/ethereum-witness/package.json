@@ -8,15 +8,6 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "dependencies": {
-    "@ethersproject/providers": "^5.7.0",
-    "@xylabs/sdk-js": "^2.6.7",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
-    "axios": "^0.27.2",
-    "tslib": "^2.4.0"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/tsconfig": "^2.5.123"

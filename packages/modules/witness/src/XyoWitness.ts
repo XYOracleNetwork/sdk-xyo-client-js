@@ -1,6 +1,6 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoAbstractModule } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { WithTimestamp, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
 import { XyoWitnessObserveQueryPayloadSchema, XyoWitnessQueryPayload } from './Query'
@@ -29,5 +29,15 @@ export abstract class XyoWitness<
     }
     const payloads = [await this.observe(query?.payload ?? {})]
     return [this.bindPayloads(payloads), payloads]
+  }
+}
+
+export abstract class XyoTimestampWitness<
+  T extends WithTimestamp<XyoPayload> = WithTimestamp<XyoPayload>,
+  C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>,
+  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
+> extends XyoWitness<T, C, Q> {
+  public observe(fields?: Partial<T> | undefined): Promisable<T> {
+    return { ...fields, schema: this.config.targetSchema, timestamp: Date.now() } as T
   }
 }

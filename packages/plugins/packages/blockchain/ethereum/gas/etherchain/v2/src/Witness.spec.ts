@@ -14,6 +14,7 @@ describe('Witness', () => {
     expect(actual).toBeObject()
     expect(actual.code).toBeNumber()
     expect(actual.data).toBeObject()
+    expect(actual.timestamp).toBeNumber()
     expect(actual.schema).toBe(XyoEthereumGasEtherchainV2PayloadSchema)
   })
 })

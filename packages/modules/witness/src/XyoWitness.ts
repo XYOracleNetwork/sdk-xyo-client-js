@@ -31,3 +31,13 @@ export abstract class XyoWitness<
     return [this.bindPayloads(payloads), payloads]
   }
 }
+
+export abstract class XyoTimestampWitness<
+  T extends XyoPayload = XyoPayload,
+  C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>,
+  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
+> extends XyoWitness<T, C, Q> {
+  public observe(fields?: Partial<T> | undefined): Promisable<T> {
+    return { ...fields, schema: this.config.targetSchema, timestamp: Date.now() } as T
+  }
+}

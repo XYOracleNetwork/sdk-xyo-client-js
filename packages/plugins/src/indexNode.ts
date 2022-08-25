@@ -1,3 +1,4 @@
+export * from './indexShared'
 export * from '@xyo-network/node-system-info-payload-plugin'
 
 import { XyoNodeSystemInfoPayloadPlugin } from '@xyo-network/node-system-info-payload-plugin'

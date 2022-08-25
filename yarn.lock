@@ -3779,7 +3779,6 @@ __metadata:
   resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser"
   dependencies:
     "@types/lodash": ^4.14.184
-    "@xylabs/assert": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3849,7 +3848,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
@@ -3863,7 +3861,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/move"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
@@ -3928,7 +3925,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-ethereum-gas-v1-payload-plugin@workspace:packages/plugins/packages/blockchain/ethereum/gas/etherchain/v1"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3943,7 +3939,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:packages/plugins/packages/blockchain/ethereum/gas/etherchain/v2"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3954,7 +3949,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/ethereum-witness@workspace:^, @xyo-network/ethereum-witness@workspace:packages/sdk/ethereum-witness":
+"@xyo-network/ethereum-witness@workspace:packages/sdk/ethereum-witness":
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethereum-witness@workspace:packages/sdk/ethereum-witness"
   dependencies:
@@ -3966,7 +3961,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherscan-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/ethereum/gas/etherscan"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/sdk-js": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/account": "workspace:^"
@@ -3982,7 +3976,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/packages/id"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/delay": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/account": "workspace:^"
@@ -3998,7 +3991,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-payload-plugin@workspace:packages/plugins/packages/location"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
@@ -4035,7 +4027,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/node"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/account": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -4117,7 +4108,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/schema"
   dependencies:
-    "@xylabs/assert": ^2.6.7
     "@xylabs/delay": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
     "@xyo-network/payload": "workspace:^"
@@ -4148,7 +4138,6 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/ethereum-witness": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/panel": "workspace:^"
     "@xyo-network/payload": "workspace:^"

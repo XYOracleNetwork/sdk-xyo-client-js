@@ -1,5 +1,6 @@
 import { XyoDomainPayloadPlugin } from './Plugin'
 
+export * from './Config'
 export * from './Payload'
 export * from './Schema'
 export * from './Template'

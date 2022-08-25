@@ -13,16 +13,17 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
   {
     schema: XyoIdWitnessConfigSchema
     targetSchema: XyoIdPayloadSchema
-    salt?: string
+    salt: string
   }
 >
 
-export class XyoIdWitness extends XyoWitness<XyoIdPayload> {
-  private salt: string
+export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
+  constructor(config: Partial<XyoIdWitnessConfig> & Pick<XyoIdWitnessConfig, 'account'>) {
+    super({ ...config, salt: config.salt ?? uuid(), schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdPayloadSchema })
+  }
 
-  constructor({ salt, ...config }: XyoIdWitnessConfig) {
-    super(config)
-    this.salt = salt ?? uuid()
+  public get salt() {
+    return this.config.salt
   }
 
   override async observe(_fields?: Partial<XyoIdPayload>): Promise<XyoIdPayload> {

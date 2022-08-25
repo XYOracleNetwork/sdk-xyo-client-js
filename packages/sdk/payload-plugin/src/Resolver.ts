@@ -5,12 +5,12 @@ import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
 
 export class XyoPayloadPluginResolver {
-  protected pluginMap = new Map<string, XyoPayloadPlugin>()
+  protected pluginMap: Record<string, XyoPayloadPlugin> = {}
   protected defaultPlugin: XyoPayloadPlugin
 
   constructor(
     /** @param plugins The initial set of plugins */
-    plugins?: XyoPayloadPlugin[],
+    plugins?: XyoPayloadPlugin<XyoPayload>[],
     /** @param defaultPlugin Specifies the plugin to be used if no plugins resolve */
     defaultPlugin = createXyoPayloadPlugin<XyoPayload>({
       schema: XyoPayloadSchema,
@@ -21,15 +21,15 @@ export class XyoPayloadPluginResolver {
   }
   schema = XyoPayloadSchema
 
-  public register<T extends XyoPayloadPlugin>(plugin: T) {
-    this.pluginMap.set(plugin.schema, plugin)
+  public register(plugin: XyoPayloadPlugin) {
+    this.pluginMap[plugin.schema] = plugin
     return this
   }
 
   public resolve(schema?: string): XyoPayloadPlugin
   public resolve(payload: XyoPayload): XyoPayloadPlugin
   public resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin {
-    return value ? this.pluginMap.get(typeof value === 'string' ? value : value.schema) ?? this.defaultPlugin : this.defaultPlugin
+    return value ? this.pluginMap[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin : this.defaultPlugin
   }
 
   public validate(payload: XyoPayload): XyoValidator<XyoPayload> | undefined {
@@ -43,7 +43,7 @@ export class XyoPayloadPluginResolver {
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */
   public plugins(type?: 'witness' | 'diviner') {
     const result: XyoPayloadPlugin[] = []
-    this.pluginMap.forEach((value) => {
+    Object.values(this.pluginMap).forEach((value) => {
       if (type === 'witness' && !value.witness) {
         return
       }
@@ -58,7 +58,7 @@ export class XyoPayloadPluginResolver {
   /** @description Create list of schema, optionally filtered by ability to witness/divine */
   public schemas(type?: 'witness' | 'diviner') {
     const result: string[] = []
-    this.pluginMap.forEach((value) => {
+    Object.values(this.pluginMap).forEach((value) => {
       if (type === 'witness' && !value.witness) {
         return
       }

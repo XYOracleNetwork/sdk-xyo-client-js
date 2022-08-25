@@ -5,7 +5,8 @@ import { XyoBowserSystemInfoPayloadSchema } from './Schema'
 
 describe('XyoBowserSystemInfoPayloadPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoBowserSystemInfoPayloadPlugin())
+    const plugin = XyoBowserSystemInfoPayloadPlugin()
+    const resolver = new XyoPayloadPluginResolver().register(plugin)
     expect(resolver.resolve({ schema: XyoBowserSystemInfoPayloadSchema })).toBeDefined()
   })
 })

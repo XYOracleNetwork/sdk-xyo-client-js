@@ -18,7 +18,6 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
-    "@xyo-network/ethereum-witness": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/panel": "workspace:^",
     "@xyo-network/payload": "workspace:^",

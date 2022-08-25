@@ -15,6 +15,7 @@ describe('Diviner', () => {
     const sut = new XyoCryptoMarketAssetDiviner({
       account: new XyoAccount(),
       schema: XyoCryptoMarketAssetDivinerConfigSchema,
+      targetSchema: XyoCryptoMarketAssetPayloadSchema,
     })
     const query: XyoDivinerQueryPayload = {
       payloads: [coinGeckoPayload, uniswapPayload],

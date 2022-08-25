@@ -3958,14 +3958,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethereum-witness@workspace:packages/sdk/ethereum-witness"
   dependencies:
-    "@ethersproject/providers": ^5.7.0
-    "@xylabs/sdk-js": ^2.6.7
     "@xylabs/tsconfig": ^2.5.123
-    "@xyo-network/account": "workspace:^"
-    "@xyo-network/payload": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ^0.27.2
-    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 

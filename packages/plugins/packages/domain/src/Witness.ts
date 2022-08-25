@@ -1,15 +1,11 @@
 import { delay } from '@xylabs/delay'
 import { XyoWitness } from '@xyo-network/witness'
 
-import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
+import { XyoDomainWitnessConfig } from './Config'
 import { XyoDomainPayload } from './Payload'
 import { XyoDomainPayloadSchema } from './Schema'
 
 export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoDomainWitnessConfig> {
-  constructor(config: Partial<XyoDomainWitnessConfig> & Pick<XyoDomainWitnessConfig, 'account' | 'domain'>) {
-    super({ ...config, schema: XyoDomainWitnessConfigSchema, targetSchema: XyoDomainPayloadSchema })
-  }
-
   override async observe(_payload: Partial<XyoDomainPayload>): Promise<XyoDomainPayload> {
     await delay(0)
     return { schema: XyoDomainPayloadSchema }

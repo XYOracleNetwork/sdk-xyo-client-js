@@ -1,11 +1,24 @@
+import { assertEx } from '@xylabs/assert'
+import { XyoAccount } from '@xyo-network/account'
 import { XyoValidator } from '@xyo-network/core'
+import { PartialDivinerConfig, XyoDivinerConfig } from '@xyo-network/diviner'
 import { XyoPayload, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/payload'
+import { PartialWitnessConfig, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
 
+export interface XyoPayloadPluginConfigs<
+  TWitnessConfig extends XyoWitnessConfig = XyoWitnessConfig,
+  TDivinerConfig extends XyoDivinerConfig = XyoDivinerConfig,
+> {
+  witness?: PartialWitnessConfig<TWitnessConfig>
+  diviner?: PartialDivinerConfig<TDivinerConfig>
+}
+
 export class XyoPayloadPluginResolver {
-  protected pluginMap: Record<string, XyoPayloadPlugin> = {}
+  protected _plugins: Record<string, XyoPayloadPlugin> = {}
+  protected configs: Record<string, XyoPayloadPluginConfigs> = {}
   protected defaultPlugin: XyoPayloadPlugin
 
   constructor(
@@ -21,15 +34,19 @@ export class XyoPayloadPluginResolver {
   }
   schema = XyoPayloadSchema
 
-  public register(plugin: XyoPayloadPlugin) {
-    this.pluginMap[plugin.schema] = plugin
+  public register<TPlugin extends XyoPayloadPlugin = XyoPayloadPlugin, TConfigs extends TPlugin['configs'] = TPlugin['configs']>(
+    plugin: TPlugin,
+    configs?: TConfigs,
+  ) {
+    this._plugins[plugin.schema] = plugin
+    this.configs[plugin.schema] = configs ?? { witness: { account: new XyoAccount() } }
     return this
   }
 
   public resolve(schema?: string): XyoPayloadPlugin
   public resolve(payload: XyoPayload): XyoPayloadPlugin
   public resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin {
-    return value ? this.pluginMap[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin : this.defaultPlugin
+    return value ? this._plugins[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin : this.defaultPlugin
   }
 
   public validate(payload: XyoPayload): XyoValidator<XyoPayload> | undefined {
@@ -40,10 +57,18 @@ export class XyoPayloadPluginResolver {
     return this.resolve(payload).wrap?.(payload)
   }
 
+  public witness(schema: string) {
+    return this._plugins[schema]?.witness?.(assertEx(this.configs[schema]?.witness, 'Config required for witness creation'))
+  }
+
+  public diviner(schema: string) {
+    return this._plugins[schema]?.diviner?.(assertEx(this.configs[schema]?.diviner, 'Config required for diviner creation'))
+  }
+
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */
   public plugins(type?: 'witness' | 'diviner') {
     const result: XyoPayloadPlugin[] = []
-    Object.values(this.pluginMap).forEach((value) => {
+    Object.values(this._plugins).forEach((value) => {
       if (type === 'witness' && !value.witness) {
         return
       }
@@ -58,7 +83,7 @@ export class XyoPayloadPluginResolver {
   /** @description Create list of schema, optionally filtered by ability to witness/divine */
   public schemas(type?: 'witness' | 'diviner') {
     const result: string[] = []
-    Object.values(this.pluginMap).forEach((value) => {
+    Object.values(this._plugins).forEach((value) => {
       if (type === 'witness' && !value.witness) {
         return
       }

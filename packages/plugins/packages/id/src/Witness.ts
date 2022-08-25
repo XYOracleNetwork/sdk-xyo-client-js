@@ -1,5 +1,4 @@
 import { delay } from '@xylabs/delay'
-import { uuid } from '@xyo-network/core'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
@@ -18,10 +17,6 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
-  constructor(config: Partial<XyoIdWitnessConfig> & Pick<XyoIdWitnessConfig, 'account'>) {
-    super({ ...config, salt: config.salt ?? uuid(), schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdPayloadSchema })
-  }
-
   public get salt() {
     return this.config.salt
   }

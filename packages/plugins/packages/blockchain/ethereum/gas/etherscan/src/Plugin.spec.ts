@@ -6,6 +6,7 @@ import { XyoEthereumGasEtherscanPayloadSchema } from './Schema'
 describe('XyoEthereumGasEtherscanPayloadPlugin', () => {
   test('Add to Resolver', () => {
     const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasEtherscanPayloadPlugin())
-    expect(resolver.resolve({ schema: XyoEthereumGasEtherscanPayloadSchema })).toBeDefined()
+    expect(resolver.resolve({ schema: XyoEthereumGasEtherscanPayloadSchema })).toBeObject()
+    expect(resolver.witness(XyoEthereumGasEtherscanPayloadSchema)).toBeObject()
   })
 })

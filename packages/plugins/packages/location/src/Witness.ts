@@ -11,20 +11,18 @@ export type XyoLocationWitnessConfig = XyoWitnessConfig<
   {
     schema: XyoLocationWitnessConfigSchema
     targetSchema: XyoLocationPayloadSchema
-    geoLocation: Geolocation
+    geolocation: Geolocation
   }
 >
 
-export class XyoLocationWitness extends XyoWitness<XyoLocationPayload> {
-  private geoLocation: Geolocation
-  constructor(config: XyoLocationWitnessConfig) {
-    super(config)
-    this.geoLocation = navigator.geolocation
+export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
+  public get geolocation() {
+    return this.config.geolocation
   }
 
   public getCurrentPosition() {
     return new Promise<GeolocationPosition>((resolve, reject) => {
-      this.geoLocation.getCurrentPosition(
+      this.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
           resolve(position)
         },

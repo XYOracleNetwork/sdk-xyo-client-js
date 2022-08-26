@@ -7,6 +7,7 @@ describe('XyoIdWitness', () => {
   test('observe', async () => {
     const witness = new XyoIdWitness({
       account: new XyoAccount(),
+      salt: 'test',
       schema: XyoIdWitnessConfigSchema,
       targetSchema: XyoIdPayloadSchema,
     })

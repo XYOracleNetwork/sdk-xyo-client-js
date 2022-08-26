@@ -24,7 +24,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.184",
     "@types/ua-parser-js": "^0.7.36",
-    "@xylabs/tsconfig": "^2.5.123"
+    "@xylabs/tsconfig": "^2.5.127"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -58,5 +58,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.27.0"
+  "version": "2.28.0-rc.7",
+  "stableVersion": "2.28.0-rc.2"
 }

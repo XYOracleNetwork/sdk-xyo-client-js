@@ -15,7 +15,7 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.123"
+    "@xylabs/tsconfig": "^2.5.127"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -50,5 +50,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.27.0"
+  "version": "2.28.0-rc.7",
+  "stableVersion": "2.28.0-rc.2"
 }

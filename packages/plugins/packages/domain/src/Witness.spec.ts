@@ -1,7 +1,8 @@
 import { XyoAccount } from '@xyo-network/account'
 
+import { XyoDomainWitnessConfigSchema } from './Config'
 import { XyoDomainPayloadSchema } from './Schema'
-import { XyoDomainWitness, XyoDomainWitnessConfigSchema } from './Witness'
+import { XyoDomainWitness } from './Witness'
 
 describe('XyoDomainConfigWitness', () => {
   test('valid-instantiation', () => {

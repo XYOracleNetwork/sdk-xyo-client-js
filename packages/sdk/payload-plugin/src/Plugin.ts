@@ -3,7 +3,7 @@ import { PartialDivinerConfig, XyoDiviner, XyoDivinerConfig } from '@xyo-network
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import { PartialWitnessConfig, XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
-import { XyoPayloadPluginConfigs } from './Resolver'
+import { XyoPayloadPluginConfigs } from './XyoPayloadPluginConfigs'
 
 export type XyoPayloadPluginFunc<
   TPayload extends XyoPayload = XyoPayload,

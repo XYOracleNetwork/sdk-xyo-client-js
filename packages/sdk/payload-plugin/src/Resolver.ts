@@ -1,20 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoValidator } from '@xyo-network/core'
-import { PartialDivinerConfig, XyoDivinerConfig } from '@xyo-network/diviner'
 import { XyoPayload, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/payload'
-import { PartialWitnessConfig, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
-
-export interface XyoPayloadPluginConfigs<
-  TWitnessConfig extends XyoWitnessConfig = XyoWitnessConfig,
-  TDivinerConfig extends XyoDivinerConfig = XyoDivinerConfig,
-> {
-  witness?: PartialWitnessConfig<TWitnessConfig>
-  diviner?: PartialDivinerConfig<TDivinerConfig>
-}
+import { XyoPayloadPluginConfigs } from './XyoPayloadPluginConfigs'
 
 export class XyoPayloadPluginResolver {
   protected _plugins: Record<string, XyoPayloadPlugin> = {}

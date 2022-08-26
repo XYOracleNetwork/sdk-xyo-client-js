@@ -58,6 +58,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.28.0-rc.7",
-  "stableVersion": "2.28.0-rc.2"
+  "version": "2.28.1"
 }

@@ -5712,9 +5712,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.202":
-  version: 1.4.230
-  resolution: "electron-to-chromium@npm:1.4.230"
-  checksum: 882245dfcff83ea5851f1176d5616e8f4a8566f5f42fe2bae70d9f6e0c028d37f32a7e4db1e31d9d13614204696965d60d863fad1556a9dbc78f69c179630373
+  version: 1.4.232
+  resolution: "electron-to-chromium@npm:1.4.232"
+  checksum: 6b2317fb2a348e7daf0ad840d683ed0283f72c1a03d3786486503c795cd732563d20ec9123a9d3eda937ee451a657b02a2e22777bfd8e8801d0b1780867d5782
   languageName: node
   linkType: hard
 
@@ -9262,7 +9262,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.0.18":
+"marked@npm:^4.0.19":
   version: 4.0.19
   resolution: "marked@npm:4.0.19"
   bin:
@@ -10169,8 +10169,8 @@ __metadata:
   linkType: hard
 
 "npm-check-updates@npm:^16.0.5":
-  version: 16.0.5
-  resolution: "npm-check-updates@npm:16.0.5"
+  version: 16.0.6
+  resolution: "npm-check-updates@npm:16.0.6"
   dependencies:
     chalk: ^5.0.1
     cli-table: ^0.3.11
@@ -10202,7 +10202,7 @@ __metadata:
   bin:
     ncu: build/src/bin/cli.js
     npm-check-updates: build/src/bin/cli.js
-  checksum: c7fa18c1dc7432465fd47821816daa4721ee272ed300a4595e1c61b5d5c6effe91674ec376ff22b31b2ac748d24f0a07ca1ef85d05eb257beab17bdf30e8bd02
+  checksum: fdc794b7566e478dab105139c0ab461658de7c0702de7cce0f06b442ab4b35a2f5c03a7366d44f7eceadee97ca9d3e42ba465e3adeb984ff4872684762ceefa1
   languageName: node
   linkType: hard
 
@@ -13106,14 +13106,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shiki@npm:^0.10.1":
-  version: 0.10.1
-  resolution: "shiki@npm:0.10.1"
+"shiki@npm:^0.11.1":
+  version: 0.11.1
+  resolution: "shiki@npm:0.11.1"
   dependencies:
     jsonc-parser: ^3.0.0
     vscode-oniguruma: ^1.6.1
-    vscode-textmate: 5.2.0
-  checksum: fb746f3cb3de7e545e3b10a6cb658d3938f840e4ccc9a3c90ceb7e69a8f89dbb432171faac1e9f02a03f103684dad88ee5e54b5c4964fa6b579fca6e8e26424d
+    vscode-textmate: ^6.0.0
+  checksum: 2a4ebc3b466816263fc244ae4f67a4ff96aa74d863b9c5e7e4affc50f37fd6d1a781405de0dbf763b777bc33e49a0d441de7ff3fededb8b01e3b8dbb37e2927d
   languageName: node
   linkType: hard
 
@@ -14087,18 +14087,18 @@ __metadata:
   linkType: hard
 
 "typedoc@npm:^0.23.10":
-  version: 0.23.10
-  resolution: "typedoc@npm:0.23.10"
+  version: 0.23.11
+  resolution: "typedoc@npm:0.23.11"
   dependencies:
     lunr: ^2.3.9
-    marked: ^4.0.18
+    marked: ^4.0.19
     minimatch: ^5.1.0
-    shiki: ^0.10.1
+    shiki: ^0.11.1
   peerDependencies:
-    typescript: 4.6.x || 4.7.x
+    typescript: 4.6.x || 4.7.x || 4.8.x
   bin:
     typedoc: bin/typedoc
-  checksum: 58dd8bc12856801c4f315812d03f209f706435e5f56edceeb3e01e456c7d058a127f3dee1674529d62b64dcc04847d8be5e4ce06921b9c5388b901dd976b92bf
+  checksum: 02bc1e4c15ea064c0a35e049500b40f99ce8dec1d2778edd9dbc12c0ca348c630253ad17e1c2b901961fcd56e3eea31fd62f82eed4ff95864e9e1d2e5e7564d7
   languageName: node
   linkType: hard
 
@@ -14656,10 +14656,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-textmate@npm:5.2.0":
-  version: 5.2.0
-  resolution: "vscode-textmate@npm:5.2.0"
-  checksum: 5449b42d451080f6f3649b66948f4b5ee4643c4e88cfe3558a3b31c84c78060cfdd288c4958c1690eaa5cd65d09992fa6b7c3bef9d4aa72b3651054a04624d20
+"vscode-textmate@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "vscode-textmate@npm:6.0.0"
+  checksum: ff6f17a406c2906586afc14ef01cb122e33acd35312e815abb5c924347a777c6783ce3fe7db8b83f1760ebf843c669843b9390f905b69c433b3395af28e4b483
   languageName: node
   linkType: hard
 

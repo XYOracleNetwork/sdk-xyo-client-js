@@ -26,6 +26,12 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
+class MemoryArchivistError extends Error {
+  constructor(action: string, error: Error['cause'], message?: string) {
+    super(`Memory Archivist [${action}] failed${message ? ` (${message})` : ''}`, { cause: error })
+  }
+}
+
 export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistConfig> {
   public get max() {
     return this.config?.max ?? 10000
@@ -50,16 +56,24 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistC
   }
 
   public delete(hashes: string[]): PromisableArray<boolean> {
-    return hashes.map((hash) => {
-      return this.cache.delete(hash)
-    })
+    try {
+      return hashes.map((hash) => {
+        return this.cache.delete(hash)
+      })
+    } catch (ex) {
+      throw new MemoryArchivistError('delete', ex, 'unexpected')
+    }
   }
 
   public override clear(): void | Promise<void> {
-    this.cache.clear()
+    try {
+      this.cache.clear()
+    } catch (ex) {
+      throw new MemoryArchivistError('clear', ex, 'unexpected')
+    }
   }
 
-  public async getFromParents(hash: string) {
+  protected async getFromParents(hash: string) {
     return compact(
       await Promise.all(
         compact(
@@ -73,49 +87,69 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistC
   }
 
   public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
-    return await Promise.all(
-      hashes.map(async (hash) => {
-        return this.cache.get(hash) ?? (await this.getFromParents(hash)) ?? null
-      }),
-    )
+    try {
+      return await Promise.all(
+        hashes.map(async (hash) => {
+          return this.cache.get(hash) ?? (await this.getFromParents(hash)) ?? null
+        }),
+      )
+    } catch (ex) {
+      throw new MemoryArchivistError('get', ex, 'unexpected')
+    }
   }
 
   public insert(payloads: XyoPayload[]): PromisableArray<XyoPayload> {
-    return payloads.map((payload) => {
-      const wrapper = new XyoPayloadWrapper(payload)
-      const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
-      this.cache.set(payloadWithmeta._hash, payloadWithmeta)
-      return payloadWithmeta
-    })
+    try {
+      return payloads.map((payload) => {
+        const wrapper = new XyoPayloadWrapper(payload)
+        const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+        this.cache.set(payloadWithmeta._hash, payloadWithmeta)
+        return payloadWithmeta
+      })
+    } catch (ex) {
+      throw new MemoryArchivistError('insert', ex, 'unexpected')
+    }
   }
 
   public find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): PromisableArray<R> {
-    const result: R[] = []
-    this.cache.forEach((value) => {
-      if (value.schema === filter.schema) {
-        result.push(value as R)
-      }
-    })
-    return result
+    try {
+      const result: R[] = []
+      this.cache.forEach((value) => {
+        if (value.schema === filter.schema) {
+          result.push(value as R)
+        }
+      })
+      return result
+    } catch (ex) {
+      throw new MemoryArchivistError('find', ex, 'unexpected')
+    }
   }
 
   public all(): Promise<XyoPayload[]> | XyoPayload[] {
-    return this.cache.dump().map((value) => value[1].value)
+    try {
+      return this.cache.dump().map((value) => value[1].value)
+    } catch (ex) {
+      throw new MemoryArchivistError('all', ex, 'unexpected')
+    }
   }
 
   public async commit(): Promise<XyoPayload[]> {
-    const account = assertEx(this.account, 'Account is required for commit')
-    const payloads = assertEx(await this.all(), 'Nothing to commit')
-    const builder = new XyoBoundWitnessBuilder<XyoBoundWitness, XyoPayload>()
-    const block = builder.payloads(payloads).witness(account).build()
-    await Promise.allSettled(
-      compact(
-        Object.values(this.parents?.commit ?? [])?.map(
-          async (parent) => await parent?.query({ payloads: [block, ...payloads], schema: XyoArchivistInsertQueryPayloadSchema }),
+    try {
+      const account = assertEx(this.account, 'Account is required for commit')
+      const payloads = assertEx(await this.all(), 'Nothing to commit')
+      const builder = new XyoBoundWitnessBuilder<XyoBoundWitness, XyoPayload>()
+      const block = builder.payloads(payloads).witness(account).build()
+      await Promise.allSettled(
+        compact(
+          Object.values(this.parents?.commit ?? [])?.map(
+            async (parent) => await parent?.query({ payloads: [block, ...payloads], schema: XyoArchivistInsertQueryPayloadSchema }),
+          ),
         ),
-      ),
-    )
-    await this.clear()
-    return payloads
+      )
+      await this.clear()
+      return payloads
+    } catch (ex) {
+      throw new MemoryArchivistError('commit', ex, 'unexpected')
+    }
   }
 }

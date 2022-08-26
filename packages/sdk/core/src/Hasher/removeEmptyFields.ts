@@ -1,6 +1,6 @@
 import { typeOf } from '@xyo-network/typeof'
 
-export const removeEmptyFields = <T>(obj: T) => {
+export const removeEmptyFields = <T extends Record<string, unknown>>(obj: T) => {
   if (obj === null || Array.isArray(obj)) return obj
 
   const newObject: Record<string, unknown> = {}

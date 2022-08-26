@@ -67,7 +67,7 @@ export class XyoArchivistNodeApi<
    * @param retryInterval The interval to poll for query results
    * @returns The result for the issued query
    */
-  public async perform<T>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
+  public async perform<T extends Partial<XyoPayload>>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
     const payload = new XyoPayloadBuilder({ schema }).fields(data).build()
     const query = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build() as D
     const result = await this.performTransaction(query, timeout, retryInterval)

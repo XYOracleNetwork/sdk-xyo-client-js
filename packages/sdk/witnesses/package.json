@@ -21,7 +21,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.126"
+    "@xylabs/tsconfig": "^2.5.127"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

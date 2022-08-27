@@ -16,7 +16,7 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.138",
+    "@xylabs/tsconfig": "^2.5.163",
     "@xyo-network/account": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

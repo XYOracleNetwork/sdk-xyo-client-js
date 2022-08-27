@@ -24,8 +24,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@ethersproject/wallet": "^5.7.0",
-    "@types/pako": "^2.0.0",
-    "@xylabs/tsconfig": "^2.5.138"
+    "@types/pako": "^2.0.0"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

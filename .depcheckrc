@@ -7,5 +7,6 @@ ignores: [
   "typedoc",
   "@babel/core",
   "@babel/preset-env",
+  "ts-jest",
   "typescript"
 ]

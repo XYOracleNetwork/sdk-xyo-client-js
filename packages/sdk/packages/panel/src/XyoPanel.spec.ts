@@ -31,7 +31,7 @@ describe('XyoPanel', () => {
     }
 
     const witnesses: XyoWitness[] = [
-      new XyoIdWitness({ account: new XyoAccount(), schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdPayloadSchema }),
+      new XyoIdWitness({ account: new XyoAccount(), salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdPayloadSchema }),
       new XyoNodeSystemInfoWitness(systemInfoNodeWitnessConfig),
     ]
 

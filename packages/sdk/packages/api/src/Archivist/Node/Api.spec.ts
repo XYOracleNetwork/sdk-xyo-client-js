@@ -88,7 +88,7 @@ describe('XyoArchivistNodeApi', () => {
   describe.skip('perform', () => {
     it('creates and issues the query and returns the result', async () => {
       const api = new XyoArchivistApi(config)
-      const response = await api.node().perform({ nonce: uuid() }, schema)
+      const response = await api.node().perform({}, schema)
       expect(response).toBeDefined()
       expect((response as unknown as XyoPayload).schema).toBe(schema)
     })

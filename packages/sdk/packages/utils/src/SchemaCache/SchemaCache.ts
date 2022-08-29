@@ -4,6 +4,7 @@ import { XyoSchemaPayload, XyoSchemaPayloadSchema } from '@xyo-network/schema-pa
 import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'
 
+import { Debounce } from '../Debounce'
 import { XyoSchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
@@ -54,18 +55,23 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
       })
   }
 
-  //Note: there is a race condition in here if two threads (or promises) start a get at the same time, they will both do the discovery
+  //prevents double discovery
+  private discoverDebounce = new Debounce()
+
   public async get(schema?: string) {
     if (schema) {
       const loadSchema = async (schema: string) => {
-        const domain = await XyoDomainPayloadWrapper.discover(schema, this.proxy)
-        await domain?.fetch()
-        this.cacheSchemas(domain?.aliases)
+        //if in progress, wait for it to finish
+        await this.discoverDebounce.one(schema, async () => {
+          const domain = await XyoDomainPayloadWrapper.discover(schema, this.proxy)
+          await domain?.fetch()
+          this.cacheSchemas(domain?.aliases)
 
-        //if it is still undefined, mark it as null (not found)
-        if (this.cache.get(schema) === undefined) {
-          this.cache.set(schema, null)
-        }
+          //if it is still undefined, mark it as null (not found)
+          if (this.cache.get(schema) === undefined) {
+            this.cache.set(schema, null)
+          }
+        })
       }
 
       //if we did not find it, mark it as not found (null)

@@ -4026,6 +4026,7 @@ __metadata:
     "@xyo-network/sdk": "workspace:^"
     jest: ^29.0.1
     jest-extended: ^3.0.2
+    ts-jest: ^28.0.8
     typescript: ^4.8.2
   languageName: unknown
   linkType: soft
@@ -14696,7 +14697,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.7":
+"ts-jest@npm:^28.0.7, ts-jest@npm:^28.0.8":
   version: 28.0.8
   resolution: "ts-jest@npm:28.0.8"
   dependencies:

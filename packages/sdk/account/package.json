@@ -18,8 +18,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
-    "@types/sha.js": "^2.4.0",
-    "@xylabs/tsconfig": "^2.5.127"
+    "@types/sha.js": "^2.4.0"
   },
   "browser": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
@@ -53,6 +52,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.28.0-rc.7",
-  "stableVersion": "2.28.0-rc.2"
+  "version": "2.29.0-rc.2",
+  "stableVersion": "2.28.1"
 }

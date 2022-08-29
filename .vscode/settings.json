@@ -4,9 +4,9 @@
     ".svn": true,
     ".hg": true,
     ".DS_Store": true,
-    "node_modules": true,
+    "node_modules": false,
     "**/build": true,
-    "**/dist": true,
+    "**/dist": false,
     ".webpack": true,
     ".serverless": true,
     ".rollup.cache": true

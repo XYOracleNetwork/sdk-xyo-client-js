@@ -20,6 +20,6 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoHuri
     const huriPayload = assertEx(payloads?.find((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriPayloadSchema))
     const huri = new Huri(huriPayload?.huri, this.options)
     const [payload = null] = await profile(async () => await huri.fetch())
-    return payload
+    return payload ?? null
   }
 }

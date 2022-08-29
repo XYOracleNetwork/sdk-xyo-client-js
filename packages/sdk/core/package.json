@@ -25,8 +25,7 @@
     "@types/lodash": "^4.14.184",
     "@types/node": "^18.7.13",
     "@types/sha.js": "^2.4.0",
-    "@types/uuid": "^8.3.4",
-    "@xylabs/tsconfig": "^2.5.127"
+    "@types/uuid": "^8.3.4"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -60,6 +59,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.28.0-rc.7",
-  "stableVersion": "2.28.0-rc.2"
+  "version": "2.29.0-rc.2",
+  "stableVersion": "2.28.1"
 }

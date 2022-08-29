@@ -1,6 +1,6 @@
 import { exists, PartialRecord } from '@xylabs/sdk-js'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
-import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoPair } from '@xyo-network/uniswap-crypto-market-payload-plugin'
+import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoPair, XyoUniswapCryptoToken } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 import { AssetInfo, Currency, Token, ValueBasis } from '../Model'
 import { XyoCryptoMarketAssetPayload } from '../Payload'
@@ -31,6 +31,18 @@ const tokensFromPairs = (pairs: XyoUniswapCryptoPair[]) => {
     .map((t) => t.symbol.toLowerCase() as Token)
 }
 
+const valuesFromTokenPairs = (tokensPairs: XyoUniswapCryptoToken[][], token: Token): ValueBasis => {
+  return Object.fromEntries(
+    tokensPairs
+      .map((pair) => {
+        const current = pair.filter((p) => p.symbol.toLowerCase() === token)?.[0]
+        const other = pair.filter((p) => p.symbol.toLowerCase() !== token)?.[0]
+        return [other.symbol.toLowerCase(), current.value.toString()]
+      })
+      .map((x) => [mapUniswapToken(x[0]), x[1]]),
+  )
+}
+
 export const divineUniswapPrices = (uniswapPayload: XyoUniswapCryptoMarketPayload | undefined): XyoCryptoMarketAssetPayload => {
   let assets: PartialRecord<Token, AssetInfo | undefined> = {}
   if (uniswapPayload) {
@@ -38,15 +50,7 @@ export const divineUniswapPrices = (uniswapPayload: XyoUniswapCryptoMarketPayloa
     assets = Object.fromEntries(
       [...tokens].map((token) => {
         const pairs = pairsContainingToken(uniswapPayload, token)
-        const value: ValueBasis = Object.fromEntries(
-          pairs
-            .map((pair) => {
-              const current = pair.filter((p) => p.symbol.toLowerCase() === token)?.[0]
-              const other = pair.filter((p) => p.symbol.toLowerCase() !== token)?.[0]
-              return [other.symbol.toLowerCase(), current.value.toString()]
-            })
-            .map((x) => [mapUniswapToken(x[0]), x[1]]),
-        )
+        const value: ValueBasis = valuesFromTokenPairs(pairs, token)
         const assetInfo: AssetInfo = { value }
         return [token, assetInfo]
       }),

@@ -1,7 +1,7 @@
 import { XyoModule, XyoModuleQueryResult, XyoQueryPayload } from '@xyo-network/module'
 import { Promisable } from '@xyo-network/promisable'
 
-export interface XyoNode extends XyoModule {
+export interface XyoNode {
   attach(module: XyoModule): void
   remove(address: string): void
   list(): string[]

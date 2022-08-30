@@ -56,13 +56,13 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   }
 
   //prevents double discovery
-  private discoverDebounce = new Debounce()
+  private getDebounce = new Debounce()
 
   public async get(schema?: string) {
     if (schema) {
-      const loadSchema = async (schema: string) => {
-        //if in progress, wait for it to finish
-        await this.discoverDebounce.one(schema, async () => {
+      await this.getDebounce.one(schema, async () => {
+        const loadSchema = async (schema: string) => {
+          //if in progress, wait for it to finish
           const domain = await XyoDomainPayloadWrapper.discover(schema, this.proxy)
           await domain?.fetch()
           this.cacheSchemas(domain?.aliases)
@@ -71,13 +71,13 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
           if (this.cache.get(schema) === undefined) {
             this.cache.set(schema, null)
           }
-        })
-      }
+        }
 
-      //if we did not find it, mark it as not found (null)
-      if (this.cache.get(schema) === undefined) {
-        await loadSchema(schema)
-      }
+        //if we did not find it, mark it as not found (null)
+        if (this.cache.get(schema) === undefined) {
+          await loadSchema(schema)
+        }
+      })
       return this.cache.get(schema)
     }
   }

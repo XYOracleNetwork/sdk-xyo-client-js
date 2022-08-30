@@ -15,6 +15,10 @@
     "@xyo-network/promisable": "workspace:^",
     "tslib": "^2.4.0"
   },
+  "devDependencies": {
+    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/sdk": "workspace:^"
+  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

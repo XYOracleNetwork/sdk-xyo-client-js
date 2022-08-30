@@ -1,23 +1,20 @@
-import { XyoModuleConfig } from '@xyo-network/module'
+import { XyoModule, XyoModuleConfig } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoArchivist } from './XyoArchivist'
-
 export interface XyoArchivistParents {
-  read?: Record<string, XyoArchivist | null | undefined>
-  write?: Record<string, XyoArchivist | null | undefined>
-  commit?: Record<string, XyoArchivist | null | undefined>
+  read?: Record<string, XyoModule | null | undefined>
+  write?: Record<string, XyoModule | null | undefined>
+  commit?: Record<string, XyoModule | null | undefined>
 }
 
-export type XyoArchivistConfig<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoPayload = XyoPayload> = XyoModuleConfig<
+export type XyoArchivistConfig<TConfig extends XyoPayload = XyoPayload> = XyoModuleConfig<
   {
     /** @field address of one or more parent archivists to read from */
     parents?: XyoArchivistParents
     cacheParentReads?: boolean
     /** @field address of archivist to write through to */
     writeThrough?: string
-  } & TConfig,
-  TQuery
+  } & TConfig
 >
 
 export class XyoArchivistConfigWrapper<C extends XyoArchivistConfig = XyoArchivistConfig> {

@@ -61,24 +61,23 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   public async get(schema?: string) {
     if (schema) {
       await this.getDebounce.one(schema, async () => {
-        const loadSchema = async (schema: string) => {
-          //if in progress, wait for it to finish
-          const domain = await XyoDomainPayloadWrapper.discover(schema, this.proxy)
-          await domain?.fetch()
-          this.cacheSchemas(domain?.aliases)
-
-          //if it is still undefined, mark it as null (not found)
-          if (this.cache.get(schema) === undefined) {
-            this.cache.set(schema, null)
-          }
-        }
-
         //if we did not find it, mark it as not found (null)
         if (this.cache.get(schema) === undefined) {
-          await loadSchema(schema)
+          await this.fetchSchema(schema)
         }
       })
       return this.cache.get(schema)
+    }
+  }
+
+  private async fetchSchema(schema: string) {
+    const domain = await XyoDomainPayloadWrapper.discover(schema, this.proxy)
+    await domain?.fetch()
+    this.cacheSchemas(domain?.aliases)
+
+    //if it is still undefined, mark it as null (not found)
+    if (this.cache.get(schema) === undefined) {
+      this.cache.set(schema, null)
     }
   }
 

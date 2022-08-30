@@ -1,0 +1,55 @@
+{
+  "name": "@xyo-network/modules",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/node": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
+    "tslib": "^2.4.0"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "browser": "dist/esm/index.js",
+  "docs": "dist/docs.json",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "types": "dist/esm/index.d.ts",
+  "version": "2.29.0-rc.10",
+  "stableVersion": "2.28.1"
+}

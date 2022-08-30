@@ -1,5 +1,5 @@
-import { XyoCryptoUniswapToken } from './XyoCryptoUniswapToken'
+import { XyoUniswapCryptoToken } from './XyoUniswapCryptoToken'
 
 export interface XyoUniswapCryptoPair {
-  tokens: XyoCryptoUniswapToken[]
+  tokens: XyoUniswapCryptoToken[]
 }

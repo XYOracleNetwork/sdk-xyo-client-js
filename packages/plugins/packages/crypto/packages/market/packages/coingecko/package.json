@@ -51,5 +51,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.29.0"
+  "version": "2.29.2"
 }

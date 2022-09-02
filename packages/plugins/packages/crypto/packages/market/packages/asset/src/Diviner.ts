@@ -1,16 +1,21 @@
-import { XyoAbstractDiviner } from '@xyo-network/diviner'
-import { XyoModuleQueryResult } from '@xyo-network/module'
+import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketPayloadSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
+import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketPayloadSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 import { divinePrices } from './lib'
 import { XyoCryptoMarketAssetPayload } from './Payload'
-import { XyoCryptoMarketAssetQueryPayload } from './Query'
 
-export class XyoCryptoMarketAssetDiviner extends XyoAbstractDiviner<XyoCryptoMarketAssetQueryPayload> {
-  query(query: XyoCryptoMarketAssetQueryPayload): Promisable<XyoModuleQueryResult<XyoCryptoMarketAssetPayload>> {
-    const { coinGeckoPayload, uniswapPayload } = query.payloads
+export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
+  get queries() {
+    return [XyoDivinerDivineQuerySchema]
+  }
+
+  public override divine(payloads?: XyoPayloads): Promisable<XyoPayload | null> {
+    const coinGeckoPayload = payloads?.find((payload) => payload?.schema === XyoCoingeckoCryptoMarketPayloadSchema) as XyoCoingeckoCryptoMarketPayload
+    const uniswapPayload = payloads?.find((payload) => payload?.schema === XyoUniswapCryptoMarketPayloadSchema) as XyoUniswapCryptoMarketPayload
     const result: XyoCryptoMarketAssetPayload = divinePrices(coinGeckoPayload, uniswapPayload)
-    const witnessedResult = this.bindPayloads([result])
-    return [witnessedResult, [result]]
+    return result
   }
 }

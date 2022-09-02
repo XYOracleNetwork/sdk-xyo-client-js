@@ -1,0 +1,64 @@
+name: Build (next)
+
+on:
+  push:
+    branches:
+      - next
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: install
+        run: yarn install
+      - name: build
+        run: yarn build
+      - name: cycle
+        run: yarn cycle
+      - name: gen-docs
+        run: yarn gen-docs
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: windows-defender
+        run: powershell -Command Add-MpPreference -ExclusionPath "."
+      - name: install
+        run: yarn install
+      - name: build
+        run: yarn build
+      - name: cycle
+        run: yarn cycle
+      - name: gen-docs
+        run: yarn gen-docs
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: install
+        run: yarn install
+      - name: build
+        run: yarn build
+      - name: cycle
+        run: yarn cycle
+      - name: gen-docs
+        run: yarn gen-docs

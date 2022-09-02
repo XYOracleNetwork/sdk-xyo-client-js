@@ -1,22 +1,16 @@
 import { delay } from '@xylabs/delay'
-import { XyoPayload } from '@xyo-network/payload'
-import { XyoWitness, XyoWitnessConfig, XyoWitnessQueryPayload } from '@xyo-network/witness'
+import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaPayloadSchema } from './Schema'
 
-export type XyoSchemaWitnessConfig = XyoWitnessConfig
+export type XyoSchemaWitnessConfigSchema = 'network.xyo.schema.witness.config'
+export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'network.xyo.schema.witness.config'
 
-export type XyoSchemaWitnessQueryPayload = XyoWitnessQueryPayload
+export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayload, { schema: XyoSchemaWitnessConfigSchema }>
 
-export class XyoSchemaWitness
-  extends XyoWitness<XyoSchemaPayload>
-  implements XyoWitness<XyoSchemaPayload, XyoSchemaWitnessQueryPayload, XyoSchemaWitnessConfig>
-{
-  override async observe(
-    _fields: Partial<XyoSchemaPayload>,
-    _query?: XyoWitnessQueryPayload<XyoPayload<{ schema: string }>> | undefined,
-  ): Promise<XyoSchemaPayload> {
+export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
+  override async observe(_fields: Partial<XyoSchemaPayload>): Promise<XyoSchemaPayload> {
     await delay(0)
     throw new Error('Method not implemented.')
   }

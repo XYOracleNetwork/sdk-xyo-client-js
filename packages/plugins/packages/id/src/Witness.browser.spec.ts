@@ -4,16 +4,18 @@
 
 import { XyoAccount } from '@xyo-network/account'
 
-import { XyoIdWitness } from './Witness'
+import { XyoIdPayloadSchema } from './Schema'
+import { XyoIdWitness, XyoIdWitnessConfigSchema } from './Witness'
 
-describe('XyoSystemInfoWitness', () => {
+describe('XyoIdWitness [Browser]', () => {
   test('observe', async () => {
     const witness = new XyoIdWitness({
       account: new XyoAccount(),
-      schema: 'network.xyo.id.config',
-      targetSchema: 'network.xyo.id',
+      salt: 'test',
+      schema: XyoIdWitnessConfigSchema,
+      targetSchema: XyoIdPayloadSchema,
     })
     const observation = await witness.observe()
-    expect(observation.schema).toBe('network.xyo.id')
+    expect(observation.schema).toBe(XyoIdPayloadSchema)
   })
 })

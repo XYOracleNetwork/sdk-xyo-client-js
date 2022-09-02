@@ -1,17 +1,21 @@
-import { assertEx } from '@xylabs/assert'
-import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
+import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 import { XyoBowserSystemInfoPayload } from './Payload'
 import { XyoBowserSystemInfoPayloadSchema } from './Schema'
 import { XyoBowserSystemInfoPayloadTemplate } from './Template'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
-export const XyoBowserSystemInfoPayloadPlugin: XyoPayloadPluginFunc<XyoBowserSystemInfoPayloadSchema, XyoBowserSystemInfoPayload> = (config?) =>
-  createXyoPayloadPlugin({
+export const XyoBowserSystemInfoPayloadPlugin = () =>
+  createXyoPayloadPlugin<XyoBowserSystemInfoPayload, XyoBowserSystemInfoWitnessConfig>({
     auto: true,
     schema: XyoBowserSystemInfoPayloadSchema,
     template: XyoBowserSystemInfoPayloadTemplate,
-    witness: (): XyoBowserSystemInfoWitness => {
-      return new XyoBowserSystemInfoWitness(assertEx(config?.witness, 'Missing config'))
+    witness: (config): XyoBowserSystemInfoWitness => {
+      return new XyoBowserSystemInfoWitness({
+        ...config,
+        schema: XyoBowserSystemInfoWitnessConfigSchema,
+        targetSchema: XyoBowserSystemInfoPayloadSchema,
+      })
     },
   })

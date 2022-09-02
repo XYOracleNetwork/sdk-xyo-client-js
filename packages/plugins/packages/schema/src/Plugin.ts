@@ -1,14 +1,17 @@
-import { assertEx } from '@xylabs/assert'
-import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaPayloadSchema } from './Schema'
-import { XyoSchemaWitness } from './Witness'
+import { XyoSchemaWitness, XyoSchemaWitnessConfig, XyoSchemaWitnessConfigSchema } from './Witness'
 
-export const XyoSchemaPayloadPlugin: XyoPayloadPluginFunc<XyoSchemaPayloadSchema, XyoSchemaPayload> = (config?) =>
-  createXyoPayloadPlugin({
+export const XyoSchemaPayloadPlugin = () =>
+  createXyoPayloadPlugin<XyoSchemaPayload, XyoSchemaWitnessConfig>({
     schema: XyoSchemaPayloadSchema,
-    witness: (): XyoSchemaWitness => {
-      return new XyoSchemaWitness(assertEx(config?.witness, 'Missing config'))
+    witness: (config): XyoSchemaWitness => {
+      return new XyoSchemaWitness({
+        ...config,
+        schema: XyoSchemaWitnessConfigSchema,
+        targetSchema: XyoSchemaPayloadSchema,
+      })
     },
   })

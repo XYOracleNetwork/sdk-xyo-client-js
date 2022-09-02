@@ -1,17 +1,22 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoPayload } from '@xyo-network/payload'
-import { createXyoPayloadPlugin, XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
+import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
 import { XyoDomainPayload } from './Payload'
 import { XyoDomainPayloadSchema } from './Schema'
 import { XyoDomainWitness } from './Witness'
 import { XyoDomainPayloadWrapper } from './Wrapper'
 
-export const XyoDomainPayloadPlugin: XyoPayloadPluginFunc<XyoDomainPayloadSchema, XyoDomainPayload> = (config?) =>
-  createXyoPayloadPlugin({
+export const XyoDomainPayloadPlugin = () =>
+  createXyoPayloadPlugin<XyoDomainPayload, XyoDomainWitnessConfig>({
     schema: XyoDomainPayloadSchema,
-    witness: (): XyoDomainWitness => {
-      return new XyoDomainWitness(assertEx(config?.witness, 'Missing config'))
+    witness: (config): XyoDomainWitness => {
+      return new XyoDomainWitness({
+        ...config,
+        schema: XyoDomainWitnessConfigSchema,
+        targetSchema: XyoDomainPayloadSchema,
+      })
     },
     wrap: (payload: XyoPayload): XyoDomainPayloadWrapper => {
       assertEx(payload.schema === XyoDomainPayloadSchema)

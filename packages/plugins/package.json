@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/all-payload-plugins",
+  "name": "@xyo-network/payload-plugins",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,15 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/all-crypto-payload-plugins": "workspace:^",
+    "@xyo-network/blockchain-payload-plugins": "workspace:^",
+    "@xyo-network/crypto-payload-plugins": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
+    "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
+    "@xyo-network/system-payload-plugins": "workspace:^",
     "tslib": "^2.4.0"
-  },
-  "devDependencies": {
-    "@xylabs/tsconfig": "^2.5.121"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -53,5 +53,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.26.19"
+  "version": "2.30.0"
 }

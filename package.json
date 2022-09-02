@@ -18,11 +18,11 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/eslint-config": "^2.5.163",
-    "@xylabs/ts-scripts-yarn3": "^2.5.163",
-    "@xylabs/tsconfig": "^2.5.163",
+    "@xylabs/eslint-config": "^2.5.167",
+    "@xylabs/ts-scripts-yarn3": "^2.5.167",
+    "@xylabs/tsconfig": "^2.5.167",
     "jest": "^29.0.1",
-    "jest-extended": "^3.0.2",
+    "jest-extended": "^3.1.0",
     "ts-jest": "^28.0.8",
     "typescript": "^4.8.2"
   },
@@ -71,7 +71,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.30.0-rc.3",
-  "packageManager": "yarn@3.2.3",
-  "stableVersion": "2.29.2"
+  "version": "2.30.0",
+  "packageManager": "yarn@3.2.3"
 }

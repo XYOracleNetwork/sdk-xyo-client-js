@@ -15,12 +15,12 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
-    "mongodb": "^4.9.0",
+    "mongodb": "^4.9.1",
     "tslib": "^2.4.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.2"
   },
   "browser": "dist/esm/browserIndex.js",
   "docs": "dist/docs.json",
@@ -55,6 +55,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.30.0-rc.3",
-  "stableVersion": "2.29.2"
+  "version": "2.30.0"
 }

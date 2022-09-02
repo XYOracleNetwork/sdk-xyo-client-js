@@ -2,13 +2,18 @@ import { assertEx } from '@xylabs/assert'
 import { XyoArchivistGetQueryPayloadSchema } from '@xyo-network/archivist'
 import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
+import { PartialDivinerConfig } from '../../PartialDivinerConfig'
 import { XyoDivinerDivineQuerySchema } from '../../Query'
 import { profile } from '../lib'
 import { XyoHuriPayload, XyoHuriPayloadSchema } from '../XyoHuriPayload'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
-import { XyoArchivistPayloadDivinerConfig } from './Config'
+import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoArchivistPayloadDivinerConfig> {
+  constructor(config: PartialDivinerConfig<XyoArchivistPayloadDivinerConfig>) {
+    super({ ...config, schema: XyoArchivistPayloadDivinerConfigSchema })
+  }
+
   protected get archivist() {
     return this.config.archivist
   }

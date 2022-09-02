@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoAbstractArchivist, XyoArchivistFindQueryPayloadSchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
+import { XyoArchivist, XyoArchivistFindQueryPayloadSchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
 import { XyoBoundWitnessSchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
@@ -12,7 +12,7 @@ class RemoteArchivistError extends Error {
 }
 
 /** @description Archivist Context that connects to a remote archivist using the API */
-export class XyoRemoteArchivist extends XyoAbstractArchivist<XyoRemoteArchivistConfig> {
+export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
   public get api() {
     return assertEx(this.config?.api, 'API not defined')
   }

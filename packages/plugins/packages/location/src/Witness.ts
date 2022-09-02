@@ -10,7 +10,6 @@ export type XyoLocationWitnessConfig = XyoWitnessConfig<
   XyoLocationPayload,
   {
     schema: XyoLocationWitnessConfigSchema
-    targetSchema: XyoLocationPayloadSchema
     geolocation: Geolocation
   }
 >

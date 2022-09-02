@@ -1,6 +1,6 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-export type XyoQueryPayload<T extends XyoPayload = XyoPayload> = XyoPayload<
+export type XyoQueryPayload<T extends XyoPayload = XyoPayload, TSchema extends string = string> = XyoPayload<
   T & {
     /** @field The maximum XYO that can be spent executing the query */
     budget?: number
@@ -10,5 +10,6 @@ export type XyoQueryPayload<T extends XyoPayload = XyoPayload> = XyoPayload<
 
     /** @field The starting point for the bidding on the query */
     minBid?: number
-  }
+  },
+  TSchema
 >

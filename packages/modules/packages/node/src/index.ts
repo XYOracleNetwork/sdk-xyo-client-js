@@ -1,2 +1,2 @@
-export * from './Abstract'
 export * from './Node'
+export * from './XyoNode'

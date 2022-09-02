@@ -11,7 +11,6 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
   XyoIdPayload,
   {
     schema: XyoIdWitnessConfigSchema
-    targetSchema: XyoIdPayloadSchema
     salt: string
   }
 >

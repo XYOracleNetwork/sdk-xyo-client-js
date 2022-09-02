@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-  "composite": true,
-  "rootDir": "./src"
+    "experimentalDecorators": true,
+    "composite": true,
+    "rootDir": "./src"
   },
   "extends": "../../tsconfig.json"
 }

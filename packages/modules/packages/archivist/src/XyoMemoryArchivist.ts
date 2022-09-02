@@ -5,17 +5,20 @@ import { PromisableArray } from '@xyo-network/promisable'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
-import { XyoAbstractArchivist } from './Abstract'
+import { XyoArchivist } from './Abstract'
+import { XyoArchivistConfig } from './Config'
+import { PartialArchivistConfig } from './PartialArchivistConfig'
 import {
   XyoArchivistAllQueryPayloadSchema,
   XyoArchivistClearQueryPayloadSchema,
   XyoArchivistCommitQueryPayloadSchema,
   XyoArchivistDeleteQueryPayloadSchema,
   XyoArchivistFindQueryPayloadSchema,
+  XyoArchivistGetQueryPayload,
   XyoArchivistGetQueryPayloadSchema,
+  XyoArchivistInsertQueryPayload,
   XyoArchivistInsertQueryPayloadSchema,
 } from './Query'
-import { XyoArchivistConfig } from './XyoArchivistConfig'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
@@ -32,7 +35,7 @@ class MemoryArchivistError extends Error {
   }
 }
 
-export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistConfig> {
+export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
   public get max() {
     return this.config?.max ?? 10000
   }
@@ -50,8 +53,8 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistC
     ]
   }
 
-  constructor(config: XyoMemoryArchivistConfig) {
-    super(config)
+  constructor(config: PartialArchivistConfig<XyoMemoryArchivistConfig>) {
+    super({ ...config, schema: XyoMemoryArchivistConfigSchema })
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
 
@@ -78,7 +81,8 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistC
       await Promise.all(
         compact(
           Object.values(this.parents?.read ?? {}).map(async (parent) => {
-            const [, payloads] = (await parent?.query({ hashes: [hash], schema: XyoArchivistGetQueryPayloadSchema })) ?? []
+            const query: XyoArchivistGetQueryPayload = { hashes: [hash], schema: XyoArchivistGetQueryPayloadSchema }
+            const [, payloads] = (await parent?.query(query)) ?? []
             return payloads?.[0]
           }),
         ),
@@ -141,9 +145,10 @@ export class XyoMemoryArchivist extends XyoAbstractArchivist<XyoMemoryArchivistC
       const block = builder.payloads(payloads).witness(account).build()
       await Promise.allSettled(
         compact(
-          Object.values(this.parents?.commit ?? [])?.map(
-            async (parent) => await parent?.query({ payloads: [block, ...payloads], schema: XyoArchivistInsertQueryPayloadSchema }),
-          ),
+          Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
+            const query: XyoArchivistInsertQueryPayload = { payloads: [block, ...payloads], schema: XyoArchivistInsertQueryPayloadSchema }
+            return await parent?.query(query)
+          }),
         ),
       )
       await this.clear()

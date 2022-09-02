@@ -3699,7 +3699,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-payload-plugins@workspace:packages/plugins/packages/crypto":
+"@xyo-network/crypto-payload-plugins@workspace:^, @xyo-network/crypto-payload-plugins@workspace:packages/plugins/packages/crypto":
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-payload-plugins@workspace:packages/plugins/packages/crypto"
   dependencies:
@@ -3921,9 +3921,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
+    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/diviner": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/sdk": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3968,6 +3971,7 @@ __metadata:
   resolution: "@xyo-network/payload-plugins@workspace:packages/plugins"
   dependencies:
     "@xyo-network/blockchain-payload-plugins": "workspace:^"
+    "@xyo-network/crypto-payload-plugins": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"

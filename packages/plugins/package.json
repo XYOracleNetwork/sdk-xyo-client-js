@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/blockchain-payload-plugins": "workspace:^",
+    "@xyo-network/crypto-payload-plugins": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
@@ -52,5 +53,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.29.2"
+  "version": "2.30.0-rc.3",
+  "stableVersion": "2.29.2"
 }

@@ -1,16 +1,15 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoAbstractModule } from '@xyo-network/module'
+import { XyoModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
+import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQueryPayloadSchema, XyoWitnessQueryPayload } from './Query'
-import { XyoWitnessConfig } from './XyoWitnessConfig'
 
 export abstract class XyoWitness<
-  T extends XyoPayload = XyoPayload,
-  C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>,
-  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
-> extends XyoAbstractModule<C, Q> {
+  TTarget extends XyoPayload = XyoPayload,
+  TConfig extends XyoWitnessConfig = XyoWitnessConfig,
+> extends XyoModule<TConfig> {
   public get targetSchema() {
     return this.config.targetSchema
   }
@@ -19,24 +18,24 @@ export abstract class XyoWitness<
     return [XyoWitnessObserveQueryPayloadSchema]
   }
 
-  public observe(fields?: Partial<T> | undefined): Promisable<T> {
-    return { ...fields, schema: this.config.targetSchema } as T
+  public observe(fields?: Partial<TTarget> | undefined): Promisable<TTarget> {
+    return { ...fields, schema: this.config.targetSchema } as TTarget
   }
 
-  async query(query: XyoWitnessQueryPayload<T>): Promise<[XyoBoundWitness, XyoPayload[]]> {
+  async query(query: XyoWitnessQueryPayload<TTarget>): Promise<[XyoBoundWitness, XyoPayload[]]> {
     switch (query.schema) {
-      case XyoWitnessObserveQueryPayloadSchema:
+      case XyoWitnessObserveQueryPayloadSchema: {
+        const payloads = [await this.observe(query?.payload)]
+        return [this.bindPayloads(payloads), payloads]
+      }
     }
-    const payloads = [await this.observe(query?.payload ?? {})]
-    return [this.bindPayloads(payloads), payloads]
   }
 }
 
-export abstract class XyoTimestampWitness<
-  T extends XyoPayload = XyoPayload,
-  C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>,
-  Q extends XyoWitnessQueryPayload<T> = XyoWitnessQueryPayload<T>,
-> extends XyoWitness<T, C, Q> {
+export abstract class XyoTimestampWitness<T extends XyoPayload = XyoPayload, C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>> extends XyoWitness<
+  T,
+  C
+> {
   public observe(fields?: Partial<T> | undefined): Promisable<T> {
     return { ...fields, schema: this.config.targetSchema, timestamp: Date.now() } as T
   }

@@ -2,13 +2,12 @@ import { Promisable } from '@xyo-network/promisable'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoCryptoCardsMovePayload } from './Payload'
-import { XyoCryptoCardsMovePayloadSchema, XyoCryptoCardsMoveWitnessConfigSchema } from './Schema'
+import { XyoCryptoCardsMoveWitnessConfigSchema } from './Schema'
 
 export type XyoCryptoCardsMoveWitnessConfig = XyoWitnessConfig<
   XyoCryptoCardsMovePayload,
   {
     schema: XyoCryptoCardsMoveWitnessConfigSchema
-    targetSchema: XyoCryptoCardsMovePayloadSchema
   }
 >
 

@@ -15,6 +15,11 @@
     "@xyo-network/promisable": "workspace:^",
     "tslib": "^2.4.0"
   },
+  "devDependencies": {
+    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/sdk": "workspace:^"
+  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -48,5 +53,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.29.2"
+  "version": "2.30.0-rc.3",
+  "stableVersion": "2.29.2"
 }

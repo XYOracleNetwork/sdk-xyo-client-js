@@ -20,7 +20,6 @@
     "@uniswap/sdk-core": "^3.0.1",
     "@uniswap/v3-sdk": "^3.9.0",
     "@xylabs/sdk-js": "^2.6.7",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/sdk-xyo-typechain": "^1.0.4",

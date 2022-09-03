@@ -21,8 +21,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lru-cache": "^7.10.10",
-    "@xyo-network/network": "workspace:^"
+    "@types/lru-cache": "^7.10.10"
   },
   "browser": "dist/esm/browserIndex.js",
   "docs": "dist/docs.json",

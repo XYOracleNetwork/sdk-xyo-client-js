@@ -23,7 +23,6 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.184",
-    "@types/node": "^18.7.14",
     "@types/sha.js": "^2.4.0",
     "@types/uuid": "^8.3.4"
   },

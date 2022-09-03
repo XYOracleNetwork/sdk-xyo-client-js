@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
     "composite": true,
     "rootDir": "./src"
   },

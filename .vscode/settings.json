@@ -4,7 +4,7 @@
     ".svn": true,
     ".hg": true,
     ".DS_Store": true,
-    "node_modules": true,
+    "**/node_modules": true,
     "**/build": true,
     "**/dist": true,
     ".webpack": true,

@@ -1,4 +1,4 @@
-import { XyoModuleConfig } from '../Abstract'
+import { XyoModuleConfig } from '../Config'
 import { XyoQueryPayload } from './Query'
 
 export type XyoModuleInitializeQueryPayloadSchema = 'network.xyo.query.module.initialize'

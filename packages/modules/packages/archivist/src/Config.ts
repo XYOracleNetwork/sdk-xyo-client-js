@@ -1,10 +1,10 @@
-import { XyoModule, XyoModuleConfig } from '@xyo-network/module'
+import { Module, XyoModuleConfig } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
 export interface XyoArchivistParents {
-  read?: Record<string, XyoModule | null | undefined>
-  write?: Record<string, XyoModule | null | undefined>
-  commit?: Record<string, XyoModule | null | undefined>
+  read?: Record<string, Module | null | undefined>
+  write?: Record<string, Module | null | undefined>
+  commit?: Record<string, Module | null | undefined>
 }
 
 export type XyoArchivistConfig<TConfig extends XyoPayload = XyoPayload> = XyoModuleConfig<

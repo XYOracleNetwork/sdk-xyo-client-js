@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoModule, XyoModuleQueryResult } from '@xyo-network/module'
+import { Module, XyoModule, XyoModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
 
@@ -86,8 +86,8 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
     return this.config.resolver
   }
 
-  private resolveArchivists(archivists?: Record<string, XyoModule | null | undefined>) {
-    const resolved: Record<string, XyoModule | null | undefined> = {}
+  private resolveArchivists(archivists?: Record<string, Module | null | undefined>) {
+    const resolved: Record<string, Module | null | undefined> = {}
     if (archivists) {
       Object.entries(archivists).forEach(([key, value]) => {
         resolved[key] = value ?? this.resolver?.(key) ?? null

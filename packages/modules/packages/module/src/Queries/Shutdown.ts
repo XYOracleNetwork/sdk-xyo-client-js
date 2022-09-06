@@ -1,4 +1,4 @@
-import { XyoQueryPayload } from './Query'
+import { XyoQueryPayload } from '../Query'
 
 export type XyoModuleShutdownQueryPayloadSchema = 'network.xyo.query.module.shutdown'
 export const XyoModuleShutdownQueryPayloadSchema: XyoModuleShutdownQueryPayloadSchema = 'network.xyo.query.module.shutdown'

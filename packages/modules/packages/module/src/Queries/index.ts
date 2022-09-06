@@ -5,7 +5,6 @@ import { XyoModuleSubscribeQueryPayload, XyoModuleSubscribeQueryPayloadSchema } 
 
 export * from './Discover'
 export * from './Initialize'
-export * from './Query'
 export * from './Shutdown'
 export * from './Subscribe'
 

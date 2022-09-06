@@ -3259,9 +3259,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^2.7.7":
-  version: 2.7.7
-  resolution: "@xylabs/eslint-config@npm:2.7.7"
+"@xylabs/eslint-config@npm:^2.7.8":
+  version: 2.7.8
+  resolution: "@xylabs/eslint-config@npm:2.7.8"
   dependencies:
     "@babel/core": ^7.19.0
     "@babel/eslint-parser": ^7.18.9
@@ -3285,7 +3285,7 @@ __metadata:
     typescript: ^4.8.2
   peerDependencies:
     eslint: ^8.23.0
-  checksum: fd6e41b072f8762e1517462bb4e394d7b9dd95e49e845baa58e664d55e48379696d20d3bccd76e3eff4d1ed43edd7163247eb701e36db6ebc89c157852e07989
+  checksum: d77460de1eeb901d3a1f0f5d4cfd1d325d35d99626a937747733d9680fca5aa05c056c92502eb6309865403636e0ea8aaee5e78c8b65189012527555b8d0e5a6
   languageName: node
   linkType: hard
 
@@ -3313,15 +3313,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^2.7.7":
-  version: 2.7.7
-  resolution: "@xylabs/ts-scripts-yarn3@npm:2.7.7"
+"@xylabs/ts-scripts-yarn3@npm:^2.7.8":
+  version: 2.7.8
+  resolution: "@xylabs/ts-scripts-yarn3@npm:2.7.8"
   dependencies:
     "@babel/core": ^7.19.0
     "@babel/preset-env": ^7.19.0
     "@types/jest": ^29.0.0
     "@types/node": ^18.7.15
-    "@xylabs/eslint-config": ^2.7.7
+    "@xylabs/eslint-config": ^2.7.8
     chalk: ^4.1.2
     cpy: ^8.1.2
     depcheck: ^1.4.3
@@ -3385,16 +3385,16 @@ __metadata:
     updo: dist/cjs/bin/updo.js
     xy: dist/cjs/bin/xy
     yarn3only: dist/cjs/bin/yarn3only.js
-  checksum: 9afd0172c25cfa9b76862d51ef119ff912566384963c15e9c8d3ce96b971027bd72b2f6daf12a1544aaa52cec49d83fa229e17112a358e2a7566ac01d8847230
+  checksum: fab0fb1a8b2823f1f0335a061404f531daf594bcd6efa71e761ddf1740c34b388902b1df372b1b3f9242ae0eb8e39d64f3a908dab3e46fb2385d18d026672b99
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^2.7.7":
-  version: 2.7.7
-  resolution: "@xylabs/tsconfig@npm:2.7.7"
+"@xylabs/tsconfig@npm:^2.7.8":
+  version: 2.7.8
+  resolution: "@xylabs/tsconfig@npm:2.7.8"
   dependencies:
     typescript: ^4.8.2
-  checksum: 4f2f5d5cb340c8fac8abe2de6f2690efaf0f28b04fb520aa0e1c6e95b46749c79d2aef45a88528fcc7b003dfc7efb364643d16388f4bc0af0452fae758c35455
+  checksum: 4c9ba9cb11c5683b500eb538eed98a4ecc4c652696537c23392e2a1becb0f9dee2b7ebacd9d97eef9f9157613b75c1845d6d950c6bd1cf4b0d6e9badb100a184
   languageName: node
   linkType: hard
 
@@ -3889,9 +3889,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-xyo-client-js@workspace:."
   dependencies:
-    "@xylabs/eslint-config": ^2.7.7
-    "@xylabs/ts-scripts-yarn3": ^2.7.7
-    "@xylabs/tsconfig": ^2.7.7
+    "@xylabs/eslint-config": ^2.7.8
+    "@xylabs/ts-scripts-yarn3": ^2.7.8
+    "@xylabs/tsconfig": ^2.7.8
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/payload-plugins": "workspace:^"
     "@xyo-network/sdk": "workspace:^"

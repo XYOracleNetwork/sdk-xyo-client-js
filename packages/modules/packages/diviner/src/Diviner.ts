@@ -1,6 +1,6 @@
-import { Module } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
+import { Promisable } from '@xyo-network/promisable'
 
-export interface Diviner<TDivineResponse> extends Module {
-  divine(payloads?: XyoPayloads): TDivineResponse
+export interface Diviner<TDivineResponse> {
+  divine(payloads?: XyoPayloads): Promisable<TDivineResponse>
 }

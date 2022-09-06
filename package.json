@@ -18,9 +18,9 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/eslint-config": "^2.6.1",
-    "@xylabs/ts-scripts-yarn3": "^2.7.0-rc.22",
-    "@xylabs/tsconfig": "^2.6.1",
+    "@xylabs/eslint-config": "^2.7.6",
+    "@xylabs/ts-scripts-yarn3": "^2.7.6",
+    "@xylabs/tsconfig": "^2.7.6",
     "eslint": "^8.23.0",
     "jest": "^29.0.2",
     "jest-extended": "^3.1.0",

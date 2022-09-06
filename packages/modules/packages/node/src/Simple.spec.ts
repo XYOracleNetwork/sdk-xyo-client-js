@@ -34,6 +34,9 @@ test('Create Node', async () => {
   const insertQuery: XyoArchivistInsertQueryPayload = { payloads: [testPayload], schema: XyoArchivistInsertQueryPayloadSchema }
   await foundArchivist?.query(insertQuery)
 
+  /*const subscribeQuery: XyoModuleSubscribeQueryPayload = { payloads: [testPayload], schema: XyoModuleSubscribeQueryPayloadSchema }
+  await foundArchivist?.query(subscribeQuery)*/
+
   const allQuery: XyoArchivistAllQueryPayload = { schema: XyoArchivistAllQueryPayloadSchema }
   const [, payloads] = (await foundArchivist?.query(allQuery)) ?? []
   expect(payloads?.length).toBe(1)

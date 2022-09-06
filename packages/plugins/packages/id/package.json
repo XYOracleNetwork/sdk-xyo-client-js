@@ -16,9 +16,6 @@
     "@xyo-network/witness": "workspace:^",
     "tslib": "^2.4.0"
   },
-  "devDependencies": {
-    "@xyo-network/account": "workspace:^"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -52,5 +49,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.30.0"
+  "version": "2.31.0-rc.1",
+  "stableVersion": "2.30.0"
 }

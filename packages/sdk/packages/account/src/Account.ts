@@ -10,13 +10,6 @@ export interface XyoAccountConfig {
   phrase?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-function sealed(constructor: Function) {
-  Object.seal(constructor)
-  Object.seal(constructor.prototype)
-}
-
-@sealed
 export class XyoAccount extends XyoKeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData

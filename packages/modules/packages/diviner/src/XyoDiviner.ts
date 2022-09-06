@@ -3,13 +3,17 @@ import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
 import { XyoDivinerConfig } from './Config'
+import { Diviner } from './Diviner'
 import { XyoDivinerDivineQuerySchema, XyoDivinerQueryPayload, XyoDivinerQuerySchema } from './Query'
 
 export abstract class XyoDiviner<
-  TPayload extends XyoPayload = XyoPayload,
-  TConfig extends XyoDivinerConfig<TPayload> = XyoDivinerConfig<TPayload>,
-  TQuery extends XyoDivinerQueryPayload<TPayload> = XyoDivinerQueryPayload<TPayload>,
-> extends XyoModule<TConfig> {
+    TPayload extends XyoPayload = XyoPayload,
+    TConfig extends XyoDivinerConfig<TPayload> = XyoDivinerConfig<TPayload>,
+    TQuery extends XyoDivinerQueryPayload<TPayload> = XyoDivinerQueryPayload<TPayload>,
+  >
+  extends XyoModule<TConfig>
+  implements Diviner<TPayload | null>
+{
   abstract divine(payloads?: XyoPayloads<TPayload>): Promisable<TPayload | null>
 
   public override get queries(): (TQuery['schema'] | XyoDivinerQuerySchema)[] {

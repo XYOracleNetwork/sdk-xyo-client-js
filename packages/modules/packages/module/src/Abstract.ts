@@ -4,7 +4,7 @@ import { Promisable } from '@xyo-network/promisable'
 
 import { XyoModuleConfig } from './Config'
 import { Module, XyoModuleQueryResult } from './Module'
-import { XyoQueryPayload } from './Query'
+import { XyoQuery } from './Query'
 
 export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
   protected config: TConfig
@@ -18,7 +18,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   public abstract get queries(): string[]
 
-  abstract query(query: XyoQueryPayload): Promisable<XyoModuleQueryResult>
+  abstract query(query: XyoQuery): Promisable<XyoModuleQueryResult>
 
   get account() {
     return this.config.account

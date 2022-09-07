@@ -1,4 +1,4 @@
-import { LocationWitnessPayloadSchema } from '../../Witnesses'
+import { LocationWitnessSchema } from '../../Witnesses'
 
 export type LocationTimeRangeQuerySchema = 'network.xyo.location.range.query'
 export const LocationTimeRangeQuerySchema: LocationTimeRangeQuerySchema = 'network.xyo.location.range.query'
@@ -9,7 +9,7 @@ export const LocationTimeRangeAnswerSchema: LocationTimeRangeAnswerSchema = 'net
 export type LocationTimeRangeQuery = {
   startTime?: string
   stopTime?: string
-  schema: LocationWitnessPayloadSchema
+  schema: LocationWitnessSchema
   // TODO: Bounding rectangle, etc.
 }
 

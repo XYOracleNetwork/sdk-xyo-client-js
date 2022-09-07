@@ -6,7 +6,7 @@ import { InfuraProvider } from '@ethersproject/providers'
 import { XyoAccount } from '@xyo-network/account'
 
 import { UniswapPoolContracts } from './lib'
-import { XyoUniswapCryptoMarketPayloadSchema, XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
+import { XyoUniswapCryptoMarketSchema, XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
 import { XyoUniswapCryptoMarketWitness } from './Witness'
 
 describe('Witness', () => {
@@ -17,7 +17,7 @@ describe('Witness', () => {
       pools: UniswapPoolContracts,
       provider,
       schema: XyoUniswapCryptoMarketWitnessConfigSchema,
-      targetSchema: XyoUniswapCryptoMarketPayloadSchema,
+      targetSchema: XyoUniswapCryptoMarketSchema,
     })
     const observation = await witness.observe()
     expect(observation.pairs.length).toBeGreaterThan(1)

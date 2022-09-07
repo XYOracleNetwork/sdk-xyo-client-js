@@ -2,7 +2,7 @@ import { delay } from '@xylabs/delay'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoSchemaPayload } from './Payload'
-import { XyoSchemaPayloadSchema } from './Schema'
+import { XyoSchemaSchema } from './Schema'
 
 export type XyoSchemaWitnessConfigSchema = 'network.xyo.schema.witness.config'
 export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'network.xyo.schema.witness.config'
@@ -14,5 +14,5 @@ export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitn
     await delay(0)
     throw new Error('Method not implemented.')
   }
-  static schema: XyoSchemaPayloadSchema = XyoSchemaPayloadSchema
+  static schema: XyoSchemaSchema = XyoSchemaSchema
 }

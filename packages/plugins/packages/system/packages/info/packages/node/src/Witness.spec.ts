@@ -1,7 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
 
 import { XyoNodeSystemInfoWitnessConfigSchema } from './Config'
-import { XyoNodeSystemInfoPayloadSchema } from './Schema'
+import { XyoNodeSystemInfoSchema } from './Schema'
 import { XyoNodeSystemInfoWitness } from './Witness'
 
 describe('XyoSystemInfoWitness', () => {
@@ -9,7 +9,7 @@ describe('XyoSystemInfoWitness', () => {
     const witness = new XyoNodeSystemInfoWitness({
       account: new XyoAccount(),
       schema: XyoNodeSystemInfoWitnessConfigSchema,
-      targetSchema: XyoNodeSystemInfoPayloadSchema,
+      targetSchema: XyoNodeSystemInfoSchema,
     })
     const observation = await witness.observe()
     expect(observation.schema).toBe('network.xyo.system.info.node')

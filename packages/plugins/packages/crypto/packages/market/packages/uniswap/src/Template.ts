@@ -1,6 +1,6 @@
 import { XyoUniswapCryptoMarketPayload } from './Payload'
-import { XyoUniswapCryptoMarketPayloadSchema } from './Schema'
+import { XyoUniswapCryptoMarketSchema } from './Schema'
 
 export const XyoUniswapCryptoMarketPayloadTemplate = (): Partial<XyoUniswapCryptoMarketPayload> => ({
-  schema: XyoUniswapCryptoMarketPayloadSchema,
+  schema: XyoUniswapCryptoMarketSchema,
 })

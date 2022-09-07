@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { XyoModule, XyoModuleQueryResult, XyoQueryPayload } from '@xyo-network/module'
+import { Module, XyoModule, XyoModuleQueryResult, XyoModuleQuerySchema, XyoQuery } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
 import { Node } from './Node'
 
-export abstract class XyoNode<TModule extends XyoModule = XyoModule> implements Node<TModule> {
+export abstract class XyoNode<TModule extends XyoModule = XyoModule> extends XyoModule implements Node<TModule> {
+  public get queries(): XyoModuleQuerySchema[] {
+    return []
+  }
   list(): string[] {
     throw new Error('Method not implemented.')
   }

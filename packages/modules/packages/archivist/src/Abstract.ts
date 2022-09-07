@@ -1,20 +1,20 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { Module, XyoModule, XyoModuleQueryResult } from '@xyo-network/module'
+import { Module, XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
 
 import { Archivist } from './Archivist'
 import { XyoArchivistConfig, XyoArchivistParents } from './Config'
 import {
-  XyoArchivistAllQueryPayloadSchema,
-  XyoArchivistClearQueryPayloadSchema,
-  XyoArchivistCommitQueryPayloadSchema,
-  XyoArchivistDeleteQueryPayloadSchema,
-  XyoArchivistFindQueryPayloadSchema,
-  XyoArchivistGetQueryPayloadSchema,
-  XyoArchivistInsertQueryPayloadSchema,
-  XyoArchivistQueryPayload,
-  XyoArchivistQueryPayloadSchema,
+  XyoArchivistAllQuerySchema,
+  XyoArchivistClearQuerySchema,
+  XyoArchivistCommitQuerySchema,
+  XyoArchivistDeleteQuerySchema,
+  XyoArchivistFindQuerySchema,
+  XyoArchivistGetQuerySchema,
+  XyoArchivistInsertQuerySchema,
+  XyoArchivistQuery,
+  XyoArchivistQuerySchema,
 } from './Query'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
@@ -22,8 +22,8 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   extends XyoModule<XyoArchivistConfig<TConfig>>
   implements Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
 {
-  public override get queries(): XyoArchivistQueryPayloadSchema[] {
-    return [XyoArchivistGetQueryPayloadSchema, XyoArchivistInsertQueryPayloadSchema]
+  public override get queries(): XyoArchivistQuerySchema[] {
+    return [XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema]
   }
 
   public all(): PromisableArray<XyoPayload> {
@@ -50,32 +50,32 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
 
   abstract insert(item: XyoPayload[]): PromisableArray<XyoPayload>
 
-  async query(query: XyoArchivistQueryPayload): Promise<XyoModuleQueryResult> {
+  async query(query: XyoArchivistQuery): Promise<XyoModuleQueryResult> {
     if (!this.queries.find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }
 
     const payloads: (XyoPayload | null)[] = []
     switch (query.schema) {
-      case XyoArchivistAllQueryPayloadSchema:
+      case XyoArchivistAllQuerySchema:
         payloads.push(...(await this.all()))
         break
-      case XyoArchivistClearQueryPayloadSchema:
+      case XyoArchivistClearQuerySchema:
         await this.clear()
         break
-      case XyoArchivistCommitQueryPayloadSchema:
+      case XyoArchivistCommitQuerySchema:
         payloads.push(...(await this.commit()))
         break
-      case XyoArchivistDeleteQueryPayloadSchema:
+      case XyoArchivistDeleteQuerySchema:
         await this.delete(query.hashes)
         break
-      case XyoArchivistFindQueryPayloadSchema:
+      case XyoArchivistFindQuerySchema:
         payloads.push(...(await this.find(query.filter)))
         break
-      case XyoArchivistGetQueryPayloadSchema:
+      case XyoArchivistGetQuerySchema:
         payloads.push(...(await this.get(query.hashes)))
         break
-      case XyoArchivistInsertQueryPayloadSchema:
+      case XyoArchivistInsertQuerySchema:
         payloads.push(...(await this.insert(query.payloads)))
         break
     }

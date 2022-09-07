@@ -1,9 +1,9 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoWitnessObserveQueryPayload, XyoWitnessObserveQuerySchema } from './Observe'
+import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Observe'
 
 export * from './Observe'
 
-export type XyoWitnessQueryPayload<T extends XyoPayload = XyoPayload> = XyoWitnessObserveQueryPayload<T>
+export type XyoWitnessQuery<T extends XyoPayload = XyoPayload> = XyoWitnessObserveQuery<T>
 
-export type XyoWitnessQueryPayloadSchema = XyoWitnessObserveQuerySchema
+export type XyoWitnessQuerySchema = XyoWitnessObserveQuerySchema

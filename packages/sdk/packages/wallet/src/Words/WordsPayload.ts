@@ -1,9 +1,9 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-export type XyoWordsPayloadSchema = 'network.xyo.words'
-export const XyoWordsPayloadSchema: XyoWordsPayloadSchema = 'network.xyo.words'
+export type XyoWordsSchema = 'network.xyo.words'
+export const XyoWordsSchema: XyoWordsSchema = 'network.xyo.words'
 
 export type XyoWordsPayload = XyoPayload<{
-  schema: XyoWordsPayloadSchema
+  schema: XyoWordsSchema
   words: string[]
 }>

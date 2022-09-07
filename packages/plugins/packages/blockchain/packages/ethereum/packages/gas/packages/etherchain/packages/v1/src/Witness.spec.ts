@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
 
-import { XyoEthereumGasEtherchainV1PayloadSchema, XyoEthereumGasEtherchainV1WitnessConfigSchema } from './Schema'
+import { XyoEthereumGasEtherchainV1Schema, XyoEthereumGasEtherchainV1WitnessConfigSchema } from './Schema'
 import { XyoEtherchainEthereumGasWitnessV1 } from './Witness'
 
 describe('Witness', () => {
@@ -8,7 +8,7 @@ describe('Witness', () => {
     const sut = new XyoEtherchainEthereumGasWitnessV1({
       account: new XyoAccount(),
       schema: XyoEthereumGasEtherchainV1WitnessConfigSchema,
-      targetSchema: XyoEthereumGasEtherchainV1PayloadSchema,
+      targetSchema: XyoEthereumGasEtherchainV1Schema,
     })
     const actual = await sut.observe()
     expect(actual).toBeObject()
@@ -20,6 +20,6 @@ describe('Witness', () => {
     expect(actual.standard).toBeNumber()
 
     expect(actual.timestamp).toBeNumber()
-    expect(actual.schema).toBe(XyoEthereumGasEtherchainV1PayloadSchema)
+    expect(actual.schema).toBe(XyoEthereumGasEtherchainV1Schema)
   })
 })

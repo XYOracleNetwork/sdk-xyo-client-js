@@ -1,7 +1,7 @@
-import { XyoQueryPayload } from '../Query'
+import { XyoQuery } from '../Query'
 
-export type XyoModuleSubscribeQueryPayloadSchema = 'network.xyo.query.module.subscribe'
-export const XyoModuleSubscribeQueryPayloadSchema: XyoModuleSubscribeQueryPayloadSchema = 'network.xyo.query.module.subscribe'
+export type XyoModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe'
+export const XyoModuleSubscribeQuerySchema: XyoModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe'
 
 export interface XyoModuleSubscribeFilter {
   /** @field if specified, at least one of the schemas must be present in the boundwtness to generate a notification */
@@ -9,8 +9,8 @@ export interface XyoModuleSubscribeFilter {
 }
 
 //requests notification when a boundwitness is added to the modules chain that meets the filter criteria
-export type XyoModuleSubscribeQueryPayload = XyoQueryPayload<{
-  schema: XyoModuleSubscribeQueryPayloadSchema
+export type XyoModuleSubscribeQuery = XyoQuery<{
+  schema: XyoModuleSubscribeQuerySchema
   /** @field The address that will receive notifications */
   address: string
   /** @field A subscribe with a null for filter is an unsubscribe */

@@ -1,9 +1,9 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoLocationPayloadSchema } from './Schema'
+import { XyoLocationSchema } from './Schema'
 
 export type XyoLocationPayload = XyoPayload<{
-  schema: XyoLocationPayloadSchema
+  schema: XyoLocationSchema
   currentLocation: {
     coords: {
       accuracy?: number

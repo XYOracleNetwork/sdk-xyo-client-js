@@ -3,12 +3,12 @@ import { XyoWitness } from '@xyo-network/witness'
 
 import { XyoDomainWitnessConfig } from './Config'
 import { XyoDomainPayload } from './Payload'
-import { XyoDomainPayloadSchema } from './Schema'
+import { XyoDomainSchema } from './Schema'
 
 export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoDomainWitnessConfig> {
   override async observe(_payload: Partial<XyoDomainPayload>): Promise<XyoDomainPayload> {
     await delay(0)
-    return { schema: XyoDomainPayloadSchema }
+    return { schema: XyoDomainSchema }
   }
   public static dmarc = '_xyo'
 

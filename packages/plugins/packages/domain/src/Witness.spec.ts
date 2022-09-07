@@ -1,7 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
 
 import { XyoDomainWitnessConfigSchema } from './Config'
-import { XyoDomainPayloadSchema } from './Schema'
+import { XyoDomainSchema } from './Schema'
 import { XyoDomainWitness } from './Witness'
 
 describe('XyoDomainConfigWitness', () => {
@@ -10,7 +10,7 @@ describe('XyoDomainConfigWitness', () => {
       account: new XyoAccount(),
       domain: 'xyo.network',
       schema: XyoDomainWitnessConfigSchema,
-      targetSchema: XyoDomainPayloadSchema,
+      targetSchema: XyoDomainSchema,
     })
     expect(witness).toBeTruthy()
     expect(XyoDomainWitness.dmarc).toBe('_xyo')

@@ -9,15 +9,15 @@ import { XyoArchivist } from './Abstract'
 import { XyoArchivistConfig } from './Config'
 import { PartialArchivistConfig } from './PartialArchivistConfig'
 import {
-  XyoArchivistAllQueryPayloadSchema,
-  XyoArchivistClearQueryPayloadSchema,
-  XyoArchivistCommitQueryPayloadSchema,
-  XyoArchivistDeleteQueryPayloadSchema,
-  XyoArchivistFindQueryPayloadSchema,
-  XyoArchivistGetQueryPayload,
-  XyoArchivistGetQueryPayloadSchema,
-  XyoArchivistInsertQueryPayload,
-  XyoArchivistInsertQueryPayloadSchema,
+  XyoArchivistAllQuerySchema,
+  XyoArchivistClearQuerySchema,
+  XyoArchivistCommitQuerySchema,
+  XyoArchivistDeleteQuerySchema,
+  XyoArchivistFindQuerySchema,
+  XyoArchivistGetQuery,
+  XyoArchivistGetQuerySchema,
+  XyoArchivistInsertQuery,
+  XyoArchivistInsertQuerySchema,
 } from './Query'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
@@ -45,11 +45,11 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
   public override get queries() {
     return [
       ...super.queries,
-      XyoArchivistAllQueryPayloadSchema,
-      XyoArchivistDeleteQueryPayloadSchema,
-      XyoArchivistClearQueryPayloadSchema,
-      XyoArchivistFindQueryPayloadSchema,
-      XyoArchivistCommitQueryPayloadSchema,
+      XyoArchivistAllQuerySchema,
+      XyoArchivistDeleteQuerySchema,
+      XyoArchivistClearQuerySchema,
+      XyoArchivistFindQuerySchema,
+      XyoArchivistCommitQuerySchema,
     ]
   }
 
@@ -81,7 +81,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       await Promise.all(
         compact(
           Object.values(this.parents?.read ?? {}).map(async (parent) => {
-            const query: XyoArchivistGetQueryPayload = { hashes: [hash], schema: XyoArchivistGetQueryPayloadSchema }
+            const query: XyoArchivistGetQuery = { hashes: [hash], schema: XyoArchivistGetQuerySchema }
             const [, payloads] = (await parent?.query(query)) ?? []
             return payloads?.[0]
           }),
@@ -146,7 +146,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
-            const query: XyoArchivistInsertQueryPayload = { payloads: [block, ...payloads], schema: XyoArchivistInsertQueryPayloadSchema }
+            const query: XyoArchivistInsertQuery = { payloads: [block, ...payloads], schema: XyoArchivistInsertQuerySchema }
             return await parent?.query(query)
           }),
         ),

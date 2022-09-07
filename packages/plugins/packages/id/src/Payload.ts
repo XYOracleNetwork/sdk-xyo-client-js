@@ -1,8 +1,8 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoIdPayloadSchema } from './Schema'
+import { XyoIdSchema } from './Schema'
 
 export type XyoIdPayload = XyoPayload<{
-  schema: XyoIdPayloadSchema
+  schema: XyoIdSchema
   salt: string
 }>

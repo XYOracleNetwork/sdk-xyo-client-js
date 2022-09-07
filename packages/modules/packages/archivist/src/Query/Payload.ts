@@ -1,19 +1,19 @@
-import { XyoModuleQueryPayload } from '@xyo-network/module'
+import { XyoModuleQuery } from '@xyo-network/module'
 
-import { XyoArchivistAllQueryPayload } from './All'
-import { XyoArchivistClearQueryPayload } from './Clear'
-import { XyoArchivistCommitQueryPayload } from './Commit'
-import { XyoArchivistDeleteQueryPayload } from './Delete'
-import { XyoArchivistFindQueryPayload } from './Find'
-import { XyoArchivistGetQueryPayload } from './Get'
-import { XyoArchivistInsertQueryPayload } from './Insert'
+import { XyoArchivistAllQuery } from './All'
+import { XyoArchivistClearQuery } from './Clear'
+import { XyoArchivistCommitQuery } from './Commit'
+import { XyoArchivistDeleteQuery } from './Delete'
+import { XyoArchivistFindQuery } from './Find'
+import { XyoArchivistGetQuery } from './Get'
+import { XyoArchivistInsertQuery } from './Insert'
 
-export type XyoArchivistQueryPayload =
-  | XyoModuleQueryPayload
-  | XyoArchivistAllQueryPayload
-  | XyoArchivistClearQueryPayload
-  | XyoArchivistCommitQueryPayload
-  | XyoArchivistDeleteQueryPayload
-  | XyoArchivistFindQueryPayload
-  | XyoArchivistGetQueryPayload
-  | XyoArchivistInsertQueryPayload
+export type XyoArchivistQuery =
+  | XyoModuleQuery
+  | XyoArchivistAllQuery
+  | XyoArchivistClearQuery
+  | XyoArchivistCommitQuery
+  | XyoArchivistDeleteQuery
+  | XyoArchivistFindQuery
+  | XyoArchivistGetQuery
+  | XyoArchivistInsertQuery

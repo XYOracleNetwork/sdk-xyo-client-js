@@ -1,6 +1,6 @@
 import { XyoDomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import { XyoFetchedPayload } from '@xyo-network/payload'
-import { XyoSchemaPayload, XyoSchemaPayloadSchema } from '@xyo-network/schema-payload-plugin'
+import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'
 
@@ -53,7 +53,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
 
   private cacheSchemas(aliasEntries?: XyoFetchedPayload[] | null) {
     aliasEntries
-      ?.filter((entry) => entry.payload.schema === XyoSchemaPayloadSchema)
+      ?.filter((entry) => entry.payload.schema === XyoSchemaSchema)
       .forEach((entry) => {
         this.cacheSchemaIfValid(entry as XyoSchemaCacheEntry)
       })

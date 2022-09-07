@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
 
-import { XyoIdPayloadSchema } from './Schema'
+import { XyoIdSchema } from './Schema'
 import { XyoIdWitness, XyoIdWitnessConfigSchema } from './Witness'
 
 describe('XyoIdWitness', () => {
@@ -9,7 +9,7 @@ describe('XyoIdWitness', () => {
       account: new XyoAccount(),
       salt: 'test',
       schema: XyoIdWitnessConfigSchema,
-      targetSchema: XyoIdPayloadSchema,
+      targetSchema: XyoIdSchema,
     })
     const observation = await witness.observe()
     expect(observation.schema).toBe('network.xyo.id')

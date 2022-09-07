@@ -4,7 +4,7 @@ import { XyoWitness } from '@xyo-network/witness'
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 import { XyoUniswapCryptoMarketPayload } from './Payload'
-import { XyoUniswapCryptoMarketPayloadSchema } from './Schema'
+import { XyoUniswapCryptoMarketSchema } from './Schema'
 
 export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfig> {
   protected pairs: EthersUniSwap3Pair[]
@@ -19,7 +19,7 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
 
     return {
       pairs,
-      schema: XyoUniswapCryptoMarketPayloadSchema,
+      schema: XyoUniswapCryptoMarketSchema,
       timestamp,
     }
   }

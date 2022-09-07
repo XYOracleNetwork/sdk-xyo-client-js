@@ -1,6 +1,6 @@
-import { XyoModuleQueryPayload } from '@xyo-network/module'
+import { XyoModuleQuery } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoDivinerDivineQueryPayload } from './Divine'
+import { XyoDivinerDivineQuery } from './Divine'
 
-export type XyoDivinerQueryPayload<T extends XyoPayload = XyoPayload> = XyoDivinerDivineQueryPayload<T> | XyoModuleQueryPayload
+export type XyoDivinerQuery<T extends XyoPayload = XyoPayload> = XyoDivinerDivineQuery<T> | XyoModuleQuery

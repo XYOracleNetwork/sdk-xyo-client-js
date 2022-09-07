@@ -1,4 +1,5 @@
-import { XyoModule } from '@xyo-network/module'
+import { XyoModule, XyoModuleQueryResult, XyoQuery } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoNode } from './XyoNode'
 
@@ -21,5 +22,14 @@ export class XyoSimpleNode<TModule extends XyoModule = XyoModule> extends XyoNod
 
   override get(address: string) {
     return this.modules.get(address)
+  }
+
+  query(query: XyoQuery): XyoModuleQueryResult {
+    if (!this.queries.find((schema) => schema === query.schema)) {
+      console.error(`Undeclared Module Query: ${query.schema}`)
+    }
+
+    const payloads: (XyoPayload | null)[] = []
+    return [this.bindPayloads(payloads), payloads]
   }
 }

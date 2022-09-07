@@ -2,7 +2,7 @@ import { delay } from '@xylabs/delay'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
-import { XyoIdPayloadSchema } from './Schema'
+import { XyoIdSchema } from './Schema'
 
 export type XyoIdWitnessConfigSchema = 'network.xyo.id.witness.config'
 export const XyoIdWitnessConfigSchema: XyoIdWitnessConfigSchema = 'network.xyo.id.witness.config'
@@ -28,5 +28,5 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
     }
   }
 
-  static schema: XyoIdPayloadSchema = XyoIdPayloadSchema
+  static schema: XyoIdSchema = XyoIdSchema
 }

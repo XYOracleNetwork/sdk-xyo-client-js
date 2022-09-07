@@ -66,11 +66,11 @@ export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWi
     return errors
   }
 
-  public payloadSchemas() {
+  public Schemas() {
     const errors: Error[] = []
-    const payloadSchemas = this.obj.payload_schemas
-    if (payloadSchemas) {
-      const schemaValidators: XyoSchemaNameValidator[] = payloadSchemas.map((schema: string) => {
+    const Schemas = this.obj.payload_schemas
+    if (Schemas) {
+      const schemaValidators: XyoSchemaNameValidator[] = Schemas.map((schema: string) => {
         return new XyoSchemaNameValidator(schema)
       })
       schemaValidators.forEach((validator) => {
@@ -100,7 +100,7 @@ export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWi
       ...this.addresses(),
       ...this.validateArrayLengths(),
       ...this.payloadHashes(),
-      ...this.payloadSchemas(),
+      ...this.Schemas(),
       ...this.previousHashes(),
       ...this.schema(),
     )

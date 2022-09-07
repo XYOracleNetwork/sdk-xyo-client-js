@@ -1,6 +1,6 @@
-import { XyoDomainPayload, XyoDomainPayloadSchema } from '@xyo-network/domain-payload-plugin'
-import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
-import { XyoSchemaPayload, XyoSchemaPayloadSchema } from '@xyo-network/schema-payload-plugin'
+import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
+import { XyoPayload, XyoSchema } from '@xyo-network/payload'
+import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 /**
  * Used in conjunction with schema validation to support compile time type assertion
@@ -12,7 +12,7 @@ export type PayloadValidator<T extends XyoPayload = XyoPayload> = ((x: XyoPayloa
  * Used to map known schemas (byt their string name) to the validators which assert their types
  */
 export interface XyoSchemaNameToValidatorMap {
-  [XyoDomainPayloadSchema]: PayloadValidator<XyoDomainPayload>
-  [XyoPayloadSchema]: PayloadValidator<XyoPayload>
-  [XyoSchemaPayloadSchema]: PayloadValidator<XyoSchemaPayload>
+  [XyoDomainSchema]: PayloadValidator<XyoDomainPayload>
+  [XyoSchema]: PayloadValidator<XyoPayload>
+  [XyoSchemaSchema]: PayloadValidator<XyoSchemaPayload>
 }

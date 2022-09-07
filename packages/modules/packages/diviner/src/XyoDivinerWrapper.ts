@@ -2,7 +2,7 @@ import { XyoModule } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
 import { Diviner } from './Diviner'
-import { XyoDivinerDivineQueryPayload, XyoDivinerDivineQuerySchema } from './Query'
+import { XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from './Query'
 
 export class XyoDivinerWrapper implements Diviner<XyoPayload | null> {
   protected module: XyoModule
@@ -16,7 +16,7 @@ export class XyoDivinerWrapper implements Diviner<XyoPayload | null> {
   }
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayload | null> {
-    const query: XyoDivinerDivineQueryPayload = { payloads, schema: XyoDivinerDivineQuerySchema }
+    const query: XyoDivinerDivineQuery = { payloads, schema: XyoDivinerDivineQuerySchema }
     return (await this.module.query(query))[1][0]
   }
 }

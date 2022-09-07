@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoValidator } from '@xyo-network/core'
-import { XyoPayload, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadWrapper, XyoSchema } from '@xyo-network/payload'
 
 import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
@@ -17,13 +17,13 @@ export class XyoPayloadPluginResolver {
     plugins?: XyoPayloadPlugin<XyoPayload>[],
     /** @param defaultPlugin Specifies the plugin to be used if no plugins resolve */
     defaultPlugin = createXyoPayloadPlugin<XyoPayload>({
-      schema: XyoPayloadSchema,
+      schema: XyoSchema,
     }),
   ) {
     plugins?.forEach((plugin) => this.register(plugin))
     this.defaultPlugin = defaultPlugin
   }
-  schema = XyoPayloadSchema
+  schema = XyoSchema
 
   public register<TPlugin extends XyoPayloadPlugin = XyoPayloadPlugin, TConfigs extends TPlugin['configs'] = TPlugin['configs']>(
     plugin: TPlugin,

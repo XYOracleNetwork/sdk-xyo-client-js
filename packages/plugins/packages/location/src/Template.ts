@@ -1,5 +1,5 @@
 import { XyoLocationPayload } from './Payload'
-import { XyoLocationPayloadSchema } from './Schema'
+import { XyoLocationSchema } from './Schema'
 
 export const XyoLocationPayloadTemplate = (): XyoLocationPayload => {
   return {
@@ -15,6 +15,6 @@ export const XyoLocationPayloadTemplate = (): XyoLocationPayload => {
       },
       timestamp: Date.now(),
     },
-    schema: XyoLocationPayloadSchema,
+    schema: XyoLocationSchema,
   }
 }

@@ -1,7 +1,7 @@
-import { LocationWitnessPayloadSchema } from '../../Witnesses'
+import { LocationWitnessSchema } from '../../Witnesses'
 
 export interface LocationTimeRangePointProperties {
-  schema: LocationWitnessPayloadSchema
+  schema: LocationWitnessSchema
   _archive: string
   _client: string
   _timestamp: number

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoArchivist, XyoArchivistFindQueryPayloadSchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
+import { XyoArchivist, XyoArchivistFindQuerySchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
 import { XyoBoundWitnessSchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
@@ -18,7 +18,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
   }
 
   public override get queries() {
-    return [...super.queries, XyoArchivistFindQueryPayloadSchema]
+    return [...super.queries, XyoArchivistFindQuerySchema]
   }
 
   public get archive() {

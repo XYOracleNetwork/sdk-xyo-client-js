@@ -1,19 +1,13 @@
 import {
-  XyoArchivistAllQueryPayload,
-  XyoArchivistAllQueryPayloadSchema,
-  XyoArchivistInsertQueryPayload,
-  XyoArchivistInsertQueryPayloadSchema,
+  XyoArchivistAllQuery,
+  XyoArchivistAllQuerySchema,
+  XyoArchivistInsertQuery,
+  XyoArchivistInsertQuerySchema,
   XyoMemoryArchivist,
 } from '@xyo-network/archivist'
-import {
-  XyoArchivistPayloadDiviner,
-  XyoDivinerDivineQueryPayload,
-  XyoDivinerDivineQuerySchema,
-  XyoHuriPayload,
-  XyoHuriPayloadSchema,
-} from '@xyo-network/diviner'
+import { XyoArchivistPayloadDiviner, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema, XyoHuriPayload, XyoHuriSchema } from '@xyo-network/diviner'
 import { XyoModule } from '@xyo-network/module'
-import { XyoAccount, XyoPayloadBuilder, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/sdk'
+import { XyoAccount, XyoPayloadBuilder, XyoPayloadWrapper, XyoSchema } from '@xyo-network/sdk'
 
 import { XyoSimpleNode } from './Simple'
 
@@ -29,22 +23,22 @@ test('Create Node', async () => {
   const foundArchivist = node.get(archivistAccount.addressValue.hex)
   expect(foundArchivist).toBeDefined()
   expect(foundArchivist?.address).toBe(archivistAccount.addressValue.hex)
-  const testPayload = new XyoPayloadBuilder({ schema: XyoPayloadSchema }).fields({ test: true }).build()
+  const testPayload = new XyoPayloadBuilder({ schema: XyoSchema }).fields({ test: true }).build()
 
-  const insertQuery: XyoArchivistInsertQueryPayload = { payloads: [testPayload], schema: XyoArchivistInsertQueryPayloadSchema }
+  const insertQuery: XyoArchivistInsertQuery = { payloads: [testPayload], schema: XyoArchivistInsertQuerySchema }
   await foundArchivist?.query(insertQuery)
 
-  /*const subscribeQuery: XyoModuleSubscribeQueryPayload = { payloads: [testPayload], schema: XyoModuleSubscribeQueryPayloadSchema }
+  /*const subscribeQuery: XyoModuleSubscribeQuery = { payloads: [testPayload], schema: XyoModuleSubscribeQuerySchema }
   await foundArchivist?.query(subscribeQuery)*/
 
-  const allQuery: XyoArchivistAllQueryPayload = { schema: XyoArchivistAllQueryPayloadSchema }
+  const allQuery: XyoArchivistAllQuery = { schema: XyoArchivistAllQuerySchema }
   const [, payloads] = (await foundArchivist?.query(allQuery)) ?? []
   expect(payloads?.length).toBe(1)
 
   if (payloads && payloads[0]) {
     const huri = new XyoPayloadWrapper(payloads[0]).hash
-    const huriPayload: XyoHuriPayload = { huri, schema: XyoHuriPayloadSchema }
-    const divineQuery: XyoDivinerDivineQueryPayload = { payloads: [huriPayload], schema: XyoDivinerDivineQuerySchema }
+    const huriPayload: XyoHuriPayload = { huri, schema: XyoHuriSchema }
+    const divineQuery: XyoDivinerDivineQuery = { payloads: [huriPayload], schema: XyoDivinerDivineQuerySchema }
     const foundDiviner = node.get(divinerAccount.addressValue.hex)
     expect(foundDiviner).toBeDefined()
     if (foundDiviner) {

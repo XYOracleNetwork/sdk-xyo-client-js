@@ -1,2 +1,2 @@
-export type XyoNodeSystemInfoPayloadSchema = 'network.xyo.system.info.node'
-export const XyoNodeSystemInfoPayloadSchema: XyoNodeSystemInfoPayloadSchema = 'network.xyo.system.info.node'
+export type XyoNodeSystemInfoSchema = 'network.xyo.system.info.node'
+export const XyoNodeSystemInfoSchema: XyoNodeSystemInfoSchema = 'network.xyo.system.info.node'

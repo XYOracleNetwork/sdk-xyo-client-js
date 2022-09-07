@@ -1,20 +1,20 @@
-import { XyoModuleQueryPayloadSchema } from '@xyo-network/module'
+import { XyoModuleQuerySchema } from '@xyo-network/module'
 
-import { XyoArchivistAllQueryPayloadSchema } from './All'
-import { XyoArchivistClearQueryPayloadSchema } from './Clear'
-import { XyoArchivistCommitQueryPayloadSchema } from './Commit'
-import { XyoArchivistDeleteQueryPayloadSchema } from './Delete'
-import { XyoArchivistFindQueryPayloadSchema } from './Find'
-import { XyoArchivistGetQueryPayloadSchema } from './Get'
-import { XyoArchivistInsertQueryPayloadSchema } from './Insert'
+import { XyoArchivistAllQuerySchema } from './All'
+import { XyoArchivistClearQuerySchema } from './Clear'
+import { XyoArchivistCommitQuerySchema } from './Commit'
+import { XyoArchivistDeleteQuerySchema } from './Delete'
+import { XyoArchivistFindQuerySchema } from './Find'
+import { XyoArchivistGetQuerySchema } from './Get'
+import { XyoArchivistInsertQuerySchema } from './Insert'
 
-export type XyoArchivistQueryPayloadSchema<T extends string = never> =
-  | XyoArchivistAllQueryPayloadSchema
-  | XyoArchivistClearQueryPayloadSchema
-  | XyoArchivistCommitQueryPayloadSchema
-  | XyoArchivistDeleteQueryPayloadSchema
-  | XyoArchivistFindQueryPayloadSchema
-  | XyoArchivistGetQueryPayloadSchema
-  | XyoArchivistInsertQueryPayloadSchema
-  | XyoModuleQueryPayloadSchema
+export type XyoArchivistQuerySchema<T extends string = never> =
+  | XyoArchivistAllQuerySchema
+  | XyoArchivistClearQuerySchema
+  | XyoArchivistCommitQuerySchema
+  | XyoArchivistDeleteQuerySchema
+  | XyoArchivistFindQuerySchema
+  | XyoArchivistGetQuerySchema
+  | XyoArchivistInsertQuerySchema
+  | XyoModuleQuerySchema
   | T

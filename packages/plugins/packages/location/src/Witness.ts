@@ -1,7 +1,7 @@
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoLocationPayload } from './Payload'
-import { XyoLocationPayloadSchema } from './Schema'
+import { XyoLocationSchema } from './Schema'
 
 export type XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
 export const XyoLocationWitnessConfigSchema: XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
@@ -50,5 +50,5 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
     })
   }
 
-  static schema: XyoLocationPayloadSchema = XyoLocationPayloadSchema
+  static schema: XyoLocationSchema = XyoLocationSchema
 }

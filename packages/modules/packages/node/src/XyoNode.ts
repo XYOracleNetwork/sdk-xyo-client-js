@@ -6,7 +6,7 @@ import { Promisable } from '@xyo-network/promisable'
 
 import { Node } from './Node'
 
-export abstract class XyoNode<TModule extends XyoModule = XyoModule> implements XyoNode<TModule> {
+export abstract class XyoNode<TModule extends XyoModule = XyoModule> implements Node<TModule> {
   list(): string[] {
     throw new Error('Method not implemented.')
   }
@@ -17,9 +17,6 @@ export abstract class XyoNode<TModule extends XyoModule = XyoModule> implements 
     throw new Error('Method not implemented.')
   }
   get(address: string): TModule | undefined {
-    throw new Error('Method not implemented.')
-  }
-  query(address: string, query: XyoQueryPayload<XyoPayload>): Promisable<XyoModuleQueryResult | undefined> {
     throw new Error('Method not implemented.')
   }
 }

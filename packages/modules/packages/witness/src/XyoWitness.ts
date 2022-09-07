@@ -5,11 +5,12 @@ import { Promisable } from '@xyo-network/promisable'
 
 import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQueryPayloadSchema, XyoWitnessQueryPayload } from './Query'
+import { Witness } from './Witness'
 
-export abstract class XyoWitness<
-  TTarget extends XyoPayload = XyoPayload,
-  TConfig extends XyoWitnessConfig = XyoWitnessConfig,
-> extends XyoModule<TConfig> {
+export abstract class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig = XyoWitnessConfig>
+  extends XyoModule<TConfig>
+  implements Witness<TTarget>
+{
   public get targetSchema() {
     return this.config.targetSchema
   }

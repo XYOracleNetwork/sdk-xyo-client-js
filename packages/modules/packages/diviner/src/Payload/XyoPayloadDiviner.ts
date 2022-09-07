@@ -1,7 +1,7 @@
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoDivinerConfig } from '../Config'
-import { XyoDivinerQuery } from '../Query'
+import { XyoDivinerQuery } from '../Queries'
 import { XyoDiviner } from '../XyoDiviner'
 
 export abstract class XyoPayloadDiviner<

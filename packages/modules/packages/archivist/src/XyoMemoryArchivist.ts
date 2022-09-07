@@ -5,7 +5,6 @@ import { PromisableArray } from '@xyo-network/promisable'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
-import { XyoArchivist } from './Abstract'
 import { XyoArchivistConfig } from './Config'
 import { PartialArchivistConfig } from './PartialArchivistConfig'
 import {
@@ -18,7 +17,8 @@ import {
   XyoArchivistGetQuerySchema,
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
-} from './Query'
+} from './Queries'
+import { XyoArchivist } from './XyoArchivist'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'

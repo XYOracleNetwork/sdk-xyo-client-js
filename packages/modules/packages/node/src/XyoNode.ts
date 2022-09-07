@@ -1,25 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { XyoModule, XyoModuleQuerySchema } from '@xyo-network/module'
 
-import { Module, XyoModule, XyoModuleQueryResult, XyoModuleQuerySchema, XyoQuery } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promisable'
+import { NodeModule } from './Node'
 
-import { Node } from './Node'
-
-export abstract class XyoNode<TModule extends XyoModule = XyoModule> extends XyoModule implements Node<TModule> {
+export abstract class XyoNode<TModule extends XyoModule = XyoModule> extends XyoModule implements NodeModule {
   public get queries(): XyoModuleQuerySchema[] {
     return []
   }
-  list(): string[] {
+
+  register(_module: TModule): void {
     throw new Error('Method not implemented.')
   }
-  attach(module: TModule): void {
+
+  abstract attach(_address: string): void
+  abstract detatch(_address: string): void
+
+  available(): string[] {
     throw new Error('Method not implemented.')
   }
-  remove(address: string): void {
+  attached(): string[] {
     throw new Error('Method not implemented.')
   }
-  get(address: string): TModule | undefined {
-    throw new Error('Method not implemented.')
-  }
+  abstract get(_address: string): TModule | undefined
 }

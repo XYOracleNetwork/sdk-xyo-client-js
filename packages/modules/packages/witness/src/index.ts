@@ -1,5 +1,5 @@
 export * from './Config'
-export * from './PartialWitnessConfig'
-export * from './Query'
+export * from './PartialConfig'
+export * from './Queries'
 export * from './XyoWitness'
 export * from './XyoWitnessWrapper'

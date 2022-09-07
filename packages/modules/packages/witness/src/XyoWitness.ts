@@ -1,15 +1,18 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule } from '@xyo-network/module'
+import { XyoModule, XyoModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
 import { XyoWitnessConfig } from './Config'
-import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Query'
+import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
-export abstract class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig = XyoWitnessConfig>
-  extends XyoModule<TConfig>
-  implements Witness<TTarget>
+export abstract class XyoWitness<
+    TTarget extends XyoPayload = XyoPayload,
+    TConfig extends XyoWitnessConfig = XyoWitnessConfig,
+    TQuery extends XyoWitnessQuery<TTarget> = XyoWitnessQuery<TTarget>,
+  >
+  extends XyoModule<TConfig, TQuery, TTarget>
+  implements Witness<TTarget, TQuery>
 {
   public get targetSchema() {
     return this.config.targetSchema
@@ -23,11 +26,14 @@ export abstract class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfi
     return { ...fields, schema: this.config.targetSchema } as TTarget
   }
 
-  async query(query: XyoWitnessQuery<TTarget>): Promise<[XyoBoundWitness, XyoPayload[]]> {
+  async query(query: TQuery): Promise<XyoModuleQueryResult<TTarget>> {
     switch (query.schema) {
       case XyoWitnessObserveQuerySchema: {
         const payloads = [await this.observe(query?.payload)]
         return [this.bindPayloads(payloads), payloads]
+      }
+      default: {
+        return super.query(query)
       }
     }
   }

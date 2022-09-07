@@ -1,4 +1,4 @@
-import { XyoModule } from '@xyo-network/module'
+import { XyoModuleWrapper } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { Archivist } from './Archivist'
@@ -17,20 +17,13 @@ import {
   XyoArchivistGetQuerySchema,
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
-} from './Query'
+} from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export class XyoArchivistWrapper implements Archivist<XyoPayload | null, XyoPayload | null, XyoPayload, XyoPayload | null, XyoPayloadFindFilter> {
-  protected module: XyoModule
-
-  constructor(module: XyoModule) {
-    this.module = module
-  }
-
-  public get queries() {
-    return this.module.queries
-  }
-
+export class XyoArchivistWrapper
+  extends XyoModuleWrapper
+  implements Archivist<XyoPayload | null, XyoPayload | null, XyoPayload, XyoPayload | null, XyoPayloadFindFilter>
+{
   public async delete(hashes: string[]) {
     const query: XyoArchivistDeleteQuery = { hashes, schema: XyoArchivistDeleteQuerySchema }
     return (await this.module.query(query))[0].payload_hashes.map(() => true)

@@ -3486,6 +3486,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/bridge@workspace:packages/modules/packages/bridge":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bridge@workspace:packages/modules/packages/bridge"
+  dependencies:
+    "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/promisable": "workspace:^"
+    tslib: ^2.4.0
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:^, @xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko":
   version: 0.0.0-use.local
   resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko"
@@ -3794,9 +3806,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
+    "@xylabs/assert": ^2.6.7
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3827,6 +3839,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.0

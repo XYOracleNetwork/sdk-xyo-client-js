@@ -1,16 +1,10 @@
-import { XyoModule } from '@xyo-network/module'
+import { XyoModuleWrapper } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Query'
+import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
-export class XyoWitnessWrapper implements Witness {
-  protected module: XyoModule
-
-  constructor(module: XyoModule) {
-    this.module = module
-  }
-
+export class XyoWitnessWrapper extends XyoModuleWrapper implements Witness {
   public get queries() {
     return this.module.queries
   }

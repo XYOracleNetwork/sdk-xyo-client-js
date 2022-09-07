@@ -1,27 +1,40 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoModule, XyoModuleQueryResult, XyoQuery } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoNode } from './XyoNode'
 
 export class XyoSimpleNode<TModule extends XyoModule = XyoModule> extends XyoNode<TModule> {
-  private modules = new Map<string, TModule>()
+  private registeredModules = new Map<string, TModule>()
+  private attachedModules = new Map<string, TModule>()
 
-  override list() {
-    return Array.from(this.modules.keys()).map(([key]) => {
+  override attached() {
+    return Array.from(this.attachedModules.keys()).map(([key]) => {
       return key
     })
   }
 
-  override attach(module: TModule) {
-    this.modules.set(module.address, module)
+  override available() {
+    return Array.from(this.registeredModules.keys()).map(([key]) => {
+      return key
+    })
   }
 
-  override remove(address: string) {
-    this.modules.delete(address)
+  override register(module: TModule) {
+    this.registeredModules.set(module.address, module)
+  }
+
+  override attach(address: string) {
+    const module = assertEx(this.registeredModules.get(address), 'No module found at that address')
+    this.attachedModules.set(address, module)
+  }
+
+  override detatch(address: string) {
+    this.attachedModules.delete(address)
   }
 
   override get(address: string) {
-    return this.modules.get(address)
+    return this.attachedModules.get(address)
   }
 
   query(query: XyoQuery): XyoModuleQueryResult {

@@ -15,7 +15,7 @@ import {
   XyoArchivistInsertQuerySchema,
   XyoArchivistQuery,
   XyoArchivistQuerySchema,
-} from './Query'
+} from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
@@ -80,10 +80,6 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
         break
     }
     return [this.bindPayloads(payloads), payloads]
-  }
-
-  get resolver() {
-    return this.config.resolver
   }
 
   private resolveArchivists(archivists?: Record<string, Module | null | undefined>) {

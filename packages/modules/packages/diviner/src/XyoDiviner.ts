@@ -3,29 +3,29 @@ import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
 
 import { XyoDivinerConfig } from './Config'
-import { Diviner } from './Diviner'
-import { XyoDivinerDivineQuerySchema, XyoDivinerQuery, XyoDivinerQuerySchema } from './Query'
+import { DivinerModule } from './Diviner'
+import { XyoDivinerDivineQuerySchema, XyoDivinerQuery, XyoDivinerQuerySchema } from './Queries'
 
 export abstract class XyoDiviner<
-    TPayload extends XyoPayload = XyoPayload,
-    TConfig extends XyoDivinerConfig<TPayload> = XyoDivinerConfig<TPayload>,
-    TQuery extends XyoDivinerQuery<TPayload> = XyoDivinerQuery<TPayload>,
+    TDivineResult extends XyoPayload = XyoPayload,
+    TConfig extends XyoDivinerConfig = XyoDivinerConfig,
+    TQuery extends XyoDivinerQuery<TDivineResult> = XyoDivinerQuery<TDivineResult>,
   >
-  extends XyoModule<TConfig>
-  implements Diviner<TPayload | null>
+  extends XyoModule<TConfig, TQuery, TDivineResult>
+  implements DivinerModule<TDivineResult, TQuery, TDivineResult>
 {
-  abstract divine(payloads?: XyoPayloads<TPayload>): Promisable<TPayload | null>
+  abstract divine(payloads?: XyoPayloads<TDivineResult>): Promisable<TDivineResult | null>
 
   public override get queries(): (TQuery['schema'] | XyoDivinerQuerySchema)[] {
     return [XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoDivinerDivineQuerySchema]
   }
 
-  async query(query: TQuery): Promise<XyoModuleQueryResult> {
+  async query(query: TQuery): Promise<XyoModuleQueryResult<TDivineResult>> {
     if (!this.queries.find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }
 
-    const payloads: (TPayload | null)[] = []
+    const payloads: (TDivineResult | null)[] = []
     switch (query.schema) {
       case XyoDivinerDivineQuerySchema:
         payloads.push(await this.divine(query.payloads))

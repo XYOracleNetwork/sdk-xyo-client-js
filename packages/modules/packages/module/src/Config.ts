@@ -8,7 +8,7 @@ export const XyoModuleConfigSchema: XyoModuleConfigSchema = 'network.xyo.module.
 
 export type XyoModuleConfig<TConfig extends XyoPayload = XyoPayload> = XyoPayload<
   TConfig & {
-    account: XyoAccount
+    account?: XyoAccount
     resolver?: (address: string) => Module
   },
   TConfig['schema']

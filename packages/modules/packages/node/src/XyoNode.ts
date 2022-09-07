@@ -19,7 +19,4 @@ export abstract class XyoNode<TModule extends XyoModule = XyoModule> implements 
   get(address: string): TModule | undefined {
     throw new Error('Method not implemented.')
   }
-  query(address: string, query: XyoQueryPayload<XyoPayload>): Promisable<XyoModuleQueryResult | undefined> {
-    throw new Error('Method not implemented.')
-  }
 }

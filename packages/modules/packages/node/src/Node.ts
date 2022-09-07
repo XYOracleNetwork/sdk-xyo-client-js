@@ -1,10 +1,8 @@
-import { XyoModule, XyoModuleQueryResult, XyoQueryPayload } from '@xyo-network/module'
-import { Promisable } from '@xyo-network/promisable'
+import { Module } from '@xyo-network/module'
 
-export interface Node<TModule extends XyoModule = XyoModule> {
+export interface Node<TModule extends Module = Module> {
   attach(module: TModule): void
   remove(address: string): void
   list(): string[]
   get(address: string): TModule | undefined
-  query(address: string, query: XyoQueryPayload): Promisable<XyoModuleQueryResult | undefined>
 }

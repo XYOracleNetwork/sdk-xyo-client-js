@@ -1,4 +1,4 @@
-import { XyoModule, XyoModuleQueryPayload } from '@xyo-network/module'
+import { XyoModule } from '@xyo-network/module'
 
 import { XyoNode } from './XyoNode'
 
@@ -21,9 +21,5 @@ export class XyoSimpleNode<TModule extends XyoModule = XyoModule> extends XyoNod
 
   override get(address: string) {
     return this.modules.get(address)
-  }
-
-  override async query(address: string, query: XyoModuleQueryPayload) {
-    return await this.get(address)?.query(query)
   }
 }

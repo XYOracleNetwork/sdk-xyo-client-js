@@ -5,8 +5,10 @@ import { Promisable } from '@xyo-network/promisable'
 
 import { XyoModuleConfig } from './Config'
 import { Module, XyoModuleQueryResult } from './Module'
-import { XyoModuleDiscoverQuerySchema } from './Queries'
+import { XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoModuleSubscribeQuerySchema } from './Queries'
 import { XyoQuery } from './Query'
+
+export type XyoModuleResolverFunc = (address: string) => XyoModule
 
 export abstract class XyoModule<
   TConfig extends XyoModuleConfig = XyoModuleConfig,
@@ -14,24 +16,42 @@ export abstract class XyoModule<
   TQueryResult extends XyoPayload = XyoPayload,
 > implements Module<TQuery, TQueryResult>
 {
-  protected config: TConfig
+  protected config?: TConfig
   protected account: XyoAccount
-  constructor(config: TConfig) {
+  protected resolver?: XyoModuleResolverFunc
+  constructor(config?: TConfig, account?: XyoAccount, resolver?: (address: string) => XyoModule) {
     this.config = config
-    this.account = config.account ?? new XyoAccount()
+    this.account = account ?? new XyoAccount()
+    this.resolver = resolver
+  }
+
+  get address() {
+    return this.account.addressValue.hex
   }
 
   public queriable(schema: string): boolean {
     return !!this.queries.find((item) => item === schema)
   }
 
-  public abstract get queries(): string[]
+  abstract get queries(): TQuery['schema'][]
 
   query(query: TQuery): Promisable<XyoModuleQueryResult<TQueryResult>> {
     const payloads: (TQueryResult | null)[] = []
     switch (query.schema) {
       case XyoModuleDiscoverQuerySchema: {
         this.discover()
+        break
+      }
+      case XyoModuleInitializeQuerySchema: {
+        this.initialize()
+        break
+      }
+      case XyoModuleSubscribeQuerySchema: {
+        this.subscribe()
+        break
+      }
+      case XyoModuleShutdownQuerySchema: {
+        this.shutdown()
         break
       }
     }
@@ -42,12 +62,16 @@ export abstract class XyoModule<
     throw new Error('Method not implemented.')
   }
 
-  get address() {
-    return this.account.addressValue.hex
+  initialize() {
+    throw new Error('Method not implemented.')
   }
 
-  get resolver() {
-    return this.config.resolver
+  subscribe() {
+    throw new Error('Method not implemented.')
+  }
+
+  shutdown() {
+    throw new Error('Method not implemented.')
   }
 
   bindHashes(hashes: string[], schema: string[]) {

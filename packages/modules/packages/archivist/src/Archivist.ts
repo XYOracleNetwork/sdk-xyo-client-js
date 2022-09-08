@@ -36,10 +36,10 @@ export interface StashArchivist<TReadResponse, TQuery extends XyoArchivistQuery 
 }
 
 export interface Archivist<
-  TReadResponse = XyoPayload,
-  TWriteResponse = TReadResponse,
+  TReadResponse = XyoPayload | null,
+  TWriteResponse = TReadResponse | null,
   TWrite = TReadResponse,
-  TFindResponse = TReadResponse,
+  TFindResponse = TReadResponse | null,
   TFindFilter = XyoPayloadFindFilter,
   TId = string,
   TQuery extends XyoArchivistQuery = XyoArchivistQuery,

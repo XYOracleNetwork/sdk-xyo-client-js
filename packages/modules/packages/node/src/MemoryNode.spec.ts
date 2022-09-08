@@ -7,23 +7,25 @@ import {
 } from '@xyo-network/archivist'
 import { XyoArchivistPayloadDiviner, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema, XyoHuriPayload, XyoHuriSchema } from '@xyo-network/diviner'
 import { XyoModule } from '@xyo-network/module'
-import { XyoAccount, XyoPayloadBuilder, XyoPayloadWrapper, XyoSchema } from '@xyo-network/sdk'
+import { XyoAccount, XyoPayloadBuilder, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/sdk'
 
-import { XyoSimpleNode } from './Simple'
+import { XyoMemoryNode } from './MemoryNode'
 
 test('Create Node', async () => {
-  const node = new XyoSimpleNode()
-  const archivistAccount = new XyoAccount()
-  const archivist = new XyoMemoryArchivist({ account: archivistAccount })
+  const node = new XyoMemoryNode()
+  const archivist = new XyoMemoryArchivist()
   const divinerAccount = new XyoAccount()
-  const diviner: XyoModule = new XyoArchivistPayloadDiviner({ account: divinerAccount, archivist })
-  node.attach(archivist)
-  node.attach(diviner)
-  expect(node.list().length).toBe(2)
-  const foundArchivist = node.get(archivistAccount.addressValue.hex)
+  const diviner: XyoModule = new XyoArchivistPayloadDiviner({}, archivist)
+  node.register(archivist)
+  node.attach(archivist.address)
+  node.register(diviner)
+  node.attach(diviner.address)
+  expect(node.available().length).toBe(2)
+  expect(node.attached().length).toBe(2)
+  const foundArchivist = node.get(archivist.address)
   expect(foundArchivist).toBeDefined()
-  expect(foundArchivist?.address).toBe(archivistAccount.addressValue.hex)
-  const testPayload = new XyoPayloadBuilder({ schema: XyoSchema }).fields({ test: true }).build()
+  expect(foundArchivist?.address).toBe(archivist.address)
+  const testPayload = new XyoPayloadBuilder({ schema: XyoPayloadSchema }).fields({ test: true }).build()
 
   const insertQuery: XyoArchivistInsertQuery = { payloads: [testPayload], schema: XyoArchivistInsertQuerySchema }
   await foundArchivist?.query(insertQuery)

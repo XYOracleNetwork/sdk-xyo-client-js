@@ -95,9 +95,9 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   private _parents?: XyoArchivistParents
   get parents() {
     this._parents = this._parents ?? {
-      commit: this.resolveArchivists(this.config.parents?.commit),
-      read: this.resolveArchivists(this.config.parents?.read),
-      write: this.resolveArchivists(this.config.parents?.write),
+      commit: this.resolveArchivists(this.config?.parents?.commit),
+      read: this.resolveArchivists(this.config?.parents?.read),
+      write: this.resolveArchivists(this.config?.parents?.write),
     }
     return assertEx(this._parents)
   }

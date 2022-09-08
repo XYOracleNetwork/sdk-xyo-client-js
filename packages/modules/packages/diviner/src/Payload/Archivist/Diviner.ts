@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
+import { Archivist, XyoArchivist, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { PartialModuleConfig } from '@xyo-network/module'
 import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
@@ -10,12 +10,16 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoArchivistPayloadDivinerConfig> {
-  constructor(config: PartialModuleConfig<XyoArchivistPayloadDivinerConfig>) {
-    super({ ...config, schema: XyoArchivistPayloadDivinerConfigSchema })
-  }
+  protected readonly archivist: Archivist
 
-  protected get archivist() {
-    return this.config.archivist
+  constructor(config: PartialModuleConfig<XyoArchivistPayloadDivinerConfig>, archivist?: XyoArchivist) {
+    super({ ...config, schema: XyoArchivistPayloadDivinerConfigSchema })
+    if (archivist) {
+      this.archivist = new XyoArchivistWrapper(archivist)
+    } else {
+      const resolvedArchivist = this.resolver?.(assertEx(config.archivist, 'No archivist specified'))
+      this.archivist = new XyoArchivistWrapper(assertEx(resolvedArchivist, 'Unable to resolve archivist'))
+    }
   }
 
   override get queries() {

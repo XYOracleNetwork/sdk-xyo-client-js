@@ -16,12 +16,12 @@ export type XyoLocationWitnessConfig = XyoWitnessConfig<
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
   public get geolocation() {
-    return this.config.geolocation
+    return this.config?.geolocation
   }
 
   public getCurrentPosition() {
     return new Promise<GeolocationPosition>((resolve, reject) => {
-      this.geolocation.getCurrentPosition(
+      this.geolocation?.getCurrentPosition(
         (position: GeolocationPosition) => {
           resolve(position)
         },

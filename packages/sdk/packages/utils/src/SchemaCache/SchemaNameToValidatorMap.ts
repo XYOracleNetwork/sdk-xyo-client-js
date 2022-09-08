@@ -1,5 +1,5 @@
 import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
-import { XyoPayload, XyoSchema } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 /**
@@ -13,6 +13,6 @@ export type PayloadValidator<T extends XyoPayload = XyoPayload> = ((x: XyoPayloa
  */
 export interface XyoSchemaNameToValidatorMap {
   [XyoDomainSchema]: PayloadValidator<XyoDomainPayload>
-  [XyoSchema]: PayloadValidator<XyoPayload>
+  [XyoPayloadSchema]: PayloadValidator<XyoPayload>
   [XyoSchemaSchema]: PayloadValidator<XyoSchemaPayload>
 }

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
 import { XyoNetworkNodeSchema, XyoNetworkSchema } from '@xyo-network/network'
-import { XyoPayload, XyoPayloadBuilder, XyoSchema } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/payload'
 import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 import { XyoSchemaCache } from './SchemaCache'
@@ -48,7 +48,7 @@ describe('XyoSchemaCache', () => {
   describe('validator', () => {
     describe('provides strongly typed validator for known schema type', () => {
       test('XyoPayload', async () => {
-        const schema = XyoSchema
+        const schema = XyoPayloadSchema
         const cache = XyoSchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()

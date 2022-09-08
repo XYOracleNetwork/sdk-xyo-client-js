@@ -20,10 +20,7 @@ import {
 } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export class XyoArchivistWrapper
-  extends XyoModuleWrapper
-  implements Archivist<XyoPayload | null, XyoPayload | null, XyoPayload, XyoPayload | null, XyoPayloadFindFilter>
-{
+export class XyoArchivistWrapper extends XyoModuleWrapper implements Archivist {
   public async delete(hashes: string[]) {
     const query: XyoArchivistDeleteQuery = { hashes, schema: XyoArchivistDeleteQuerySchema }
     return (await this.module.query(query))[0].payload_hashes.map(() => true)

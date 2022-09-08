@@ -3537,6 +3537,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.6.7
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/promisable": "workspace:^"
@@ -3725,6 +3726,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/packages/id"
   dependencies:
+    "@xylabs/assert": ^2.6.7
     "@xylabs/delay": ^2.6.7
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
@@ -3809,6 +3811,8 @@ __metadata:
     "@xylabs/assert": ^2.6.7
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    "@xyo-network/promisable": "workspace:^"
+    lodash: ^4.17.21
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3836,7 +3840,6 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.6.7
     "@xylabs/sdk-js": ^2.6.7
-    "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -4053,7 +4056,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/modules/packages/witness"
   dependencies:
-    "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/account": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promisable": "workspace:^"

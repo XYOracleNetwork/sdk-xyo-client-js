@@ -1,12 +1,9 @@
-import { XyoAccount } from '@xyo-network/account'
-
 import { XyoEthereumGasEtherchainV1Schema, XyoEthereumGasEtherchainV1WitnessConfigSchema } from './Schema'
 import { XyoEtherchainEthereumGasWitnessV1 } from './Witness'
 
 describe('Witness', () => {
   test('returns observation', async () => {
     const sut = new XyoEtherchainEthereumGasWitnessV1({
-      account: new XyoAccount(),
       schema: XyoEthereumGasEtherchainV1WitnessConfigSchema,
       targetSchema: XyoEthereumGasEtherchainV1Schema,
     })

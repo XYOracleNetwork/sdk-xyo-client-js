@@ -53,7 +53,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     ]
   }
 
-  constructor(config: PartialArchivistConfig<XyoMemoryArchivistConfig>) {
+  constructor(config?: PartialArchivistConfig<XyoMemoryArchivistConfig>) {
     super({ ...config, schema: XyoMemoryArchivistConfigSchema })
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }

@@ -1,12 +1,22 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoModule, XyoModuleQueryResult, XyoQuery } from '@xyo-network/module'
+import { XyoModule, XyoModuleConfig } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
+import { XyoNodeAttachQuerySchema, XyoNodeQuery } from './Queries'
 import { XyoNode } from './XyoNode'
 
-export class XyoSimpleNode<TModule extends XyoModule = XyoModule> extends XyoNode<TModule> {
+export class XyoMemoryNode<
+  TConfig extends XyoModuleConfig = XyoModuleConfig,
+  TQuery extends XyoNodeQuery = XyoNodeQuery,
+  TQueryResult extends XyoPayload = XyoPayload,
+  TModule extends XyoModule = XyoModule,
+> extends XyoNode<TConfig, TQuery, TQueryResult, TModule> {
   private registeredModules = new Map<string, TModule>()
   private attachedModules = new Map<string, TModule>()
+
+  public get queries(): TQuery['schema'][] {
+    return [XyoNodeAttachQuerySchema]
+  }
 
   override attached() {
     return Array.from(this.attachedModules.keys()).map(([key]) => {
@@ -35,14 +45,5 @@ export class XyoSimpleNode<TModule extends XyoModule = XyoModule> extends XyoNod
 
   override get(address: string) {
     return this.attachedModules.get(address)
-  }
-
-  query(query: XyoQuery): XyoModuleQueryResult {
-    if (!this.queries.find((schema) => schema === query.schema)) {
-      console.error(`Undeclared Module Query: ${query.schema}`)
-    }
-
-    const payloads: (XyoPayload | null)[] = []
-    return [this.bindPayloads(payloads), payloads]
   }
 }

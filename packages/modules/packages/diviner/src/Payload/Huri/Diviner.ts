@@ -9,7 +9,7 @@ import { XyoHuriPayloadDivinerConfig } from './Config'
 
 export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoHuriPayloadDivinerConfig> {
   protected get options() {
-    return this.config.options
+    return this.config?.options
   }
 
   override get queries() {

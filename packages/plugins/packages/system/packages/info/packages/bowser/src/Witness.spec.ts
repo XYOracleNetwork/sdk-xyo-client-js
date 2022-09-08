@@ -2,10 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { XyoAccount } from '@xyo-network/account'
 import crypto from 'crypto'
 
-import { XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 import { XyoBowserSystemInfoSchema } from './Schema'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
@@ -20,11 +18,7 @@ cryptoPolyfill(window)
 
 describe('XyoBowserSystemInfo', () => {
   test('observe', async () => {
-    const witness = new XyoBowserSystemInfoWitness({
-      account: new XyoAccount(),
-      schema: XyoBowserSystemInfoWitnessConfigSchema,
-      targetSchema: XyoBowserSystemInfoSchema,
-    })
+    const witness = new XyoBowserSystemInfoWitness()
     const observation = await witness.observe()
     expect(observation.schema).toBe(XyoBowserSystemInfoSchema)
   })

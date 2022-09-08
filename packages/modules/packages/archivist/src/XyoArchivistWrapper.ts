@@ -1,3 +1,4 @@
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleWrapper } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
@@ -36,9 +37,9 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements Archivist {
     return (await this.module.query(query))[1]
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<(XyoPayload | null)[]> {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     const query: XyoArchivistInsertQuery = { payloads, schema: XyoArchivistInsertQuerySchema }
-    return (await this.module.query(query))[1]
+    return (await this.module.query(query))[0]
   }
 
   public async find(filter: XyoPayloadFindFilter): Promise<(XyoPayload | null)[]> {
@@ -51,8 +52,8 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements Archivist {
     return (await this.module.query(query))[1]
   }
 
-  public async commit(): Promise<(XyoPayload | null)[]> {
+  public async commit(): Promise<XyoBoundWitness> {
     const query: XyoArchivistCommitQuery = { schema: XyoArchivistCommitQuerySchema }
-    return (await this.module.query(query))[1]
+    return (await this.module.query(query))[0]
   }
 }

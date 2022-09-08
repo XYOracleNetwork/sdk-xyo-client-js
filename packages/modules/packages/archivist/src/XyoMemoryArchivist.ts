@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promisable'
 import compact from 'lodash/compact'
@@ -13,8 +13,6 @@ import {
   XyoArchivistCommitQuerySchema,
   XyoArchivistDeleteQuerySchema,
   XyoArchivistFindQuerySchema,
-  XyoArchivistGetQuery,
-  XyoArchivistGetQuerySchema,
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
 } from './Queries'
@@ -76,25 +74,15 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  protected async getFromParents(hash: string) {
-    return compact(
-      await Promise.all(
-        compact(
-          Object.values(this.parents?.read ?? {}).map(async (parent) => {
-            const query: XyoArchivistGetQuery = { hashes: [hash], schema: XyoArchivistGetQuerySchema }
-            const [, payloads] = (await parent?.query(query)) ?? []
-            return payloads?.[0]
-          }),
-        ),
-      ),
-    )[0]
-  }
-
   public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {
-          return this.cache.get(hash) ?? (await this.getFromParents(hash)) ?? null
+          const payload = this.cache.get(hash) ?? (await this.getFromParents(hash)) ?? null
+          if (this.cacheParentReads) {
+            this.cache.set(hash, payload)
+          }
+          return payload
         }),
       )
     } catch (ex) {
@@ -102,14 +90,19 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  public insert(payloads: XyoPayload[]): PromisableArray<XyoPayload> {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
-      return payloads.map((payload) => {
+      payloads.map((payload) => {
         const wrapper = new XyoPayloadWrapper(payload)
         const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
         this.cache.set(payloadWithmeta._hash, payloadWithmeta)
         return payloadWithmeta
       })
+      const boundwitness = this.bindPayloads(payloads)
+      if (this.writeThrough) {
+        await this.writeToParents(payloads)
+      }
+      return boundwitness
     } catch (ex) {
       throw new MemoryArchivistError('insert', ex, 'unexpected')
     }
@@ -129,7 +122,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  public all(): Promise<XyoPayload[]> | XyoPayload[] {
+  public all(): PromisableArray<XyoPayload> {
     try {
       return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
@@ -137,12 +130,10 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  public async commit(): Promise<XyoPayload[]> {
+  public async commit(): Promise<XyoBoundWitness> {
     try {
-      const account = assertEx(this.account, 'Account is required for commit')
       const payloads = assertEx(await this.all(), 'Nothing to commit')
-      const builder = new XyoBoundWitnessBuilder<XyoBoundWitness, XyoPayload>()
-      const block = builder.payloads(payloads).witness(account).build()
+      const block = this.bindPayloads(payloads)
       await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
@@ -152,7 +143,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         ),
       )
       await this.clear()
-      return payloads
+      return block
     } catch (ex) {
       throw new MemoryArchivistError('commit', ex, 'unexpected')
     }

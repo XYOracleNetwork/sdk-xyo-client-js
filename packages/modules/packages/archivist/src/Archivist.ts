@@ -1,3 +1,4 @@
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { Module } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
@@ -17,7 +18,7 @@ export interface WriteArchivist<
   TId = string,
   TQuery extends XyoArchivistQuery = XyoArchivistQuery,
 > extends Module<TQuery> {
-  insert(item: TWrite[]): PromisableArray<TWriteResponse>
+  insert(item: TWrite[]): Promisable<TWriteResponse>
   delete?(ids: TId[]): PromisableArray<boolean>
   clear?(): Promisable<void>
 }
@@ -31,13 +32,13 @@ export interface FindArchivist<
   find(filter: TFindFilter): PromisableArray<TFindResponse>
 }
 
-export interface StashArchivist<TReadResponse, TQuery extends XyoArchivistQuery = XyoArchivistQuery> extends Module<TQuery> {
-  commit?(): PromisableArray<TReadResponse>
+export interface StashArchivist<TWriteResponse, TQuery extends XyoArchivistQuery = XyoArchivistQuery> extends Module<TQuery> {
+  commit?(): Promisable<TWriteResponse>
 }
 
 export interface Archivist<
   TReadResponse = XyoPayload | null,
-  TWriteResponse = TReadResponse | null,
+  TWriteResponse = XyoBoundWitness | null,
   TWrite = TReadResponse,
   TFindResponse = TReadResponse | null,
   TFindFilter = XyoPayloadFindFilter,
@@ -46,4 +47,4 @@ export interface Archivist<
 > extends ReadArchivist<TReadResponse, TId, TQuery>,
     FindArchivist<TReadResponse, TFindResponse, TFindFilter, TQuery>,
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId, TQuery>,
-    StashArchivist<TReadResponse, TQuery> {}
+    StashArchivist<TWriteResponse, TQuery> {}

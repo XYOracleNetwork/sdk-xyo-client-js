@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoArchivist, XyoArchivistFindQuerySchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
-import { XyoBoundWitnessSchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
@@ -41,7 +41,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     )
   }
 
-  public async insert(payloads: XyoPayload[]) {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
       const boundwitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitnessWithPartialMeta[]
       boundwitnesses.forEach((boundwitness) => {
@@ -61,11 +61,12 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
         })
         assertEx(found, 'Payload not in Boundwitness received')
       })
-      const [, { error }] = await this.api.archive(this.archive).block.post(boundwitnesses, 'tuple')
+      const boundwitness = this.bindPayloads(payloads)
+      const [, { error }] = await this.api.archive(this.archive).block.post([boundwitness, ...boundwitnesses], 'tuple')
       if (error?.length) {
         throw new RemoteArchivistError('insert', error)
       }
-      return payloads
+      return boundwitness
     } catch (ex) {
       throw new RemoteArchivistError('insert', ex, 'unexpected')
     }

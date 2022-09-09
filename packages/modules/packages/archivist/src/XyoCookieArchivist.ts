@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
 
 import { XyoArchivistConfig } from './Config'
-import { PartialArchivistConfig } from './PartialArchivistConfig'
+import { PartialArchivistConfig } from './PartialConfig'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,

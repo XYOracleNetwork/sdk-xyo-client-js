@@ -6,7 +6,7 @@ import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
 
 import { XyoArchivistConfig } from './Config'
-import { PartialArchivistConfig } from './PartialArchivistConfig'
+import { PartialArchivistConfig } from './PartialConfig'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,

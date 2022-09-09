@@ -6,7 +6,7 @@ import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
 import { XyoArchivistConfig } from './Config'
-import { PartialArchivistConfig } from './PartialArchivistConfig'
+import { PartialArchivistConfig } from './PartialConfig'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,

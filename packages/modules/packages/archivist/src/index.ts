@@ -1,6 +1,6 @@
 export * from './Archivist'
 export * from './Config'
-export * from './PartialArchivistConfig'
+export * from './PartialConfig'
 export * from './Queries'
 export * from './XyoArchivist'
 export * from './XyoArchivistWrapper'

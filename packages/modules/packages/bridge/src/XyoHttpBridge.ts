@@ -3,12 +3,12 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
-import { Axios, AxiosError, AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
-import { gzip } from 'pako'
+import { AxiosError, AxiosRequestHeaders } from 'axios'
 
+import { AxiosJson, AxiosJsonRequestConfig } from './AxiosJson'
 import { BridgeModule } from './Bridge'
 import { XyoBridgeConfig } from './Config'
-import { PartialBridgeConfig } from './PartialBridgeConfig'
+import { PartialBridgeConfig } from './PartialConfig'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
 export type XyoHttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
@@ -17,18 +17,18 @@ export const XyoHttpBridgeConfigSchema: XyoHttpBridgeConfigSchema = 'network.xyo
 export type XyoHttpBridgeConfig = XyoBridgeConfig<{
   schema: XyoHttpBridgeConfigSchema
   headers?: AxiosRequestHeaders
-  axios?: AxiosRequestConfig
+  axios?: AxiosJsonRequestConfig
 }>
 
 export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
   extends XyoModule<XyoHttpBridgeConfig, TQuery>
   implements BridgeModule<TQuery>
 {
-  private axios
+  private axios: AxiosJson
 
   constructor(config: PartialBridgeConfig<XyoHttpBridgeConfig>) {
     super({ schema: XyoHttpBridgeConfigSchema, ...config })
-    this.axios = new Axios(this.axiosConfig)
+    this.axios = new AxiosJson(this.config?.axios)
   }
 
   public get nodeUri() {
@@ -41,37 +41,6 @@ export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
 
   public get targetAddressString() {
     return this.targetAddress ?? ''
-  }
-
-  private get axiosHeaders(): AxiosRequestHeaders {
-    return {
-      ...this.config?.headers,
-      Accept: 'application/json, text/plain, *.*',
-      'Content-Type': 'application/json',
-    }
-  }
-
-  private get axiosConfig(): AxiosRequestConfig {
-    return {
-      headers: this.axiosHeaders,
-      transformRequest: (data, headers) => {
-        const json = JSON.stringify(data)
-        if (headers && data) {
-          if (json.length > (this.config?.axios ?? 1024)) {
-            headers['Content-Encoding'] = 'gzip'
-            return gzip(JSON.stringify(data)).buffer
-          }
-        }
-        return JSON.stringify(data)
-      },
-      transformResponse: (data) => {
-        try {
-          return JSON.parse(data)
-        } catch (ex) {
-          return null
-        }
-      },
-    }
   }
 
   connect(): Promisable<boolean> {

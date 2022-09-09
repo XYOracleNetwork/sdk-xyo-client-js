@@ -20,8 +20,8 @@ export class XyoModuleWrapper implements Module<XyoQuery, XyoPayload> {
     return this.module.queries
   }
 
-  queriable(schema: string) {
-    return this.module.queriable(schema)
+  queryable(schema: string) {
+    return this.module.queryable(schema)
   }
 
   query(query: XyoQuery): Promisable<XyoModuleQueryResult<XyoPayload>> {

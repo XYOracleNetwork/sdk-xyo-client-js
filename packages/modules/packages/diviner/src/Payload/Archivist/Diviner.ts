@@ -22,8 +22,8 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoPayload, Xy
     }
   }
 
-  override get queries() {
-    return [XyoDivinerDivineQuerySchema]
+  override queries() {
+    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
   public async divine(payloads?: XyoPayloads): Promise<XyoPayload | null> {

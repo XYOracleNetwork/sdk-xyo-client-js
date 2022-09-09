@@ -17,8 +17,8 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     return assertEx(this.config?.api, 'API not defined')
   }
 
-  public override get queries() {
-    return [...super.queries, XyoArchivistFindQuerySchema]
+  public override queries() {
+    return [XyoArchivistFindQuerySchema, ...super.queries()]
   }
 
   public get archive() {

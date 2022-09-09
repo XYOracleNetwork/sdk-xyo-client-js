@@ -25,17 +25,19 @@ export abstract class XyoModule<
     this.resolver = resolver
   }
 
-  get address() {
+  public get address() {
     return this.account.addressValue.hex
   }
 
   public queriable(schema: string): boolean {
-    return !!this.queries.find((item) => item === schema)
+    return !!this.queries().find((item) => item === schema)
   }
 
-  abstract get queries(): TQuery['schema'][]
+  public queries(): TQuery['schema'][] {
+    return [XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleSubscribeQuerySchema, XyoModuleShutdownQuerySchema]
+  }
 
-  query(query: TQuery): Promisable<XyoModuleQueryResult<TQueryResult>> {
+  public query(query: TQuery): Promisable<XyoModuleQueryResult<TQueryResult>> {
     const payloads: (TQueryResult | null)[] = []
     switch (query.schema) {
       case XyoModuleDiscoverQuerySchema: {

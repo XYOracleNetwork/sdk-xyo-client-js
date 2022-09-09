@@ -40,14 +40,14 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
 
   private cache: LruCache<string, XyoPayload>
 
-  public override get queries() {
+  public override queries() {
     return [
-      ...super.queries,
       XyoArchivistAllQuerySchema,
       XyoArchivistDeleteQuerySchema,
       XyoArchivistClearQuerySchema,
       XyoArchivistFindQuerySchema,
       XyoArchivistCommitQuerySchema,
+      ...super.queries(),
     ]
   }
 

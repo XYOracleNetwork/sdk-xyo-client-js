@@ -14,8 +14,8 @@ export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
     super({ schema: XyoCryptoMarketAssetDivinerConfigSchema, ...config })
   }
 
-  get queries() {
-    return [XyoDivinerDivineQuerySchema]
+  override queries() {
+    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
   public override divine(payloads?: XyoPayloads): Promisable<XyoPayload | null> {

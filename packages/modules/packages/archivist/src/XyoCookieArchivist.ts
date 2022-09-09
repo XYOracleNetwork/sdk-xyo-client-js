@@ -55,14 +55,14 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     return this.config?.maxEntrySize ?? 4000
   }
 
-  public override get queries() {
+  public override queries() {
     return [
-      ...super.queries,
       XyoArchivistAllQuerySchema,
       XyoArchivistDeleteQuerySchema,
       XyoArchivistClearQuerySchema,
       XyoArchivistFindQuerySchema,
       XyoArchivistCommitQuerySchema,
+      ...super.queries(),
     ]
   }
 

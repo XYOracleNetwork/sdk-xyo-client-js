@@ -14,7 +14,7 @@ export class XyoMemoryNode<
   private registeredModules = new Map<string, TModule>()
   private attachedModules = new Map<string, TModule>()
 
-  public get queries(): TQuery['schema'][] {
+  public override queries(): TQuery['schema'][] {
     return [XyoNodeAttachQuerySchema]
   }
 

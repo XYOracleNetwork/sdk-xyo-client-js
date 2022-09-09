@@ -53,14 +53,14 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     return this.config?.maxEntries ?? 16000
   }
 
-  public override get queries() {
+  public override queries() {
     return [
-      ...super.queries,
       XyoArchivistAllQuerySchema,
       XyoArchivistDeleteQuerySchema,
       XyoArchivistClearQuerySchema,
       XyoArchivistFindQuerySchema,
       XyoArchivistCommitQuerySchema,
+      ...super.queries(),
     ]
   }
 

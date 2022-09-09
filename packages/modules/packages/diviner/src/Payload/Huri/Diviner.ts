@@ -12,8 +12,8 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoHuri
     return this.config?.options
   }
 
-  override get queries() {
-    return [XyoDivinerDivineQuerySchema]
+  override queries() {
+    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayload | null> {

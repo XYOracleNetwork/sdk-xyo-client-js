@@ -11,26 +11,32 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
   extends XyoModule<TConfig, TQuery>
   implements BridgeModule<TQuery>
 {
-  override get queries() {
-    return [XyoBridgeConnectQuerySchema]
+  override queries() {
+    return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries()]
   }
 
-  abstract connect(uri?: string): Promisable<boolean>
-  abstract disconnect(uri?: string): Promisable<boolean>
+  abstract connect(): Promisable<boolean>
+  abstract disconnect(): Promisable<boolean>
+
+  abstract forward(query: TQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]>
 
   override async query(query: TQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]> {
     const payloads: (XyoPayload | null)[] = []
     switch (query.schema) {
       case XyoBridgeConnectQuerySchema: {
-        await this.connect(query?.uri)
+        await this.connect()
         break
       }
       case XyoBridgeDisconnectQuerySchema: {
-        await this.disconnect(query?.uri)
+        await this.disconnect()
         break
       }
       default:
-        return super.query(query)
+        if (super.queries().find((schema) => schema === query.schema)) {
+          return super.query(query)
+        } else {
+          return super.query(query)
+        }
     }
     return [this.bindPayloads(payloads), payloads]
   }

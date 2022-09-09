@@ -1,4 +1,6 @@
 export * from './Config'
+export * from './PartialBridgeConfig'
 export * from './Queries'
 export * from './XyoBridge'
 export * from './XyoBridgeWrapper'
+export * from './XyoHttpBridge'

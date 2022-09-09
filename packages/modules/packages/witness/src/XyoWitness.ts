@@ -24,8 +24,8 @@ export abstract class XyoWitness<
     return this.config?.targetSchema
   }
 
-  override get queries() {
-    return [XyoWitnessObserveQuerySchema]
+  override queries() {
+    return [XyoWitnessObserveQuerySchema, ...super.queries()]
   }
 
   public observe(fields?: Partial<TTarget> | undefined): Promisable<TTarget> {

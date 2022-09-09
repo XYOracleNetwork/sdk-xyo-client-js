@@ -16,12 +16,12 @@ export abstract class XyoDiviner<
 {
   abstract divine(payloads?: XyoPayloads<TDivineResult>): Promisable<TDivineResult | null>
 
-  public override get queries(): (TQuery['schema'] | XyoDivinerQuerySchema)[] {
+  public override queries(): (TQuery['schema'] | XyoDivinerQuerySchema)[] {
     return [XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoDivinerDivineQuerySchema]
   }
 
   async query(query: TQuery): Promise<XyoModuleQueryResult<TDivineResult>> {
-    if (!this.queries.find((schema) => schema === query.schema)) {
+    if (!this.queries().find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }
 

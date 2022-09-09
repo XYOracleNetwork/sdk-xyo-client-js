@@ -79,13 +79,15 @@ export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const payloads = (query as any as { payloads?: XyoPayload[] })?.payloads || []
       const bw = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()
-      const path = `${this.uri}/${this.config?.archive}`
-      const result = await this.axios.post<string[][]>(path, bw)
-      const queryId = result?.data?.[0]?.[0]
+      const forwardingPath = `${this.uri}/${this.config?.archive}`
+      const forwardedResult = await this.axios.post<{ data: string[][] }>(forwardingPath, bw)
+      const queryId = forwardedResult?.data?.data?.[0]?.[0]
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (result.status !== 202 || !queryId) return [] as any as [XyoBoundWitness, XyoPayloads]
+      const emptyResponse = [] as any as [XyoBoundWitness, XyoPayloads]
+      if (forwardedResult.status !== 202 || !queryId) emptyResponse
       const queryResultUri = `${this.uri}/query/${queryId}`
       const queryResult = await this.axios.get<XyoPayload>(queryResultUri)
+      if (queryResult.status !== 200 || !queryResult?.data?.schema) return emptyResponse
       const forwardedPayload = queryResult.data
       const bound = this.bindPayloads([forwardedPayload])
       return [bound, [forwardedPayload]]

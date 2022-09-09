@@ -72,7 +72,7 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.32.0-rc.2",
+  "version": "2.32.0-rc.3",
   "packageManager": "yarn@3.2.3",
   "stableVersion": "2.31.5"
 }

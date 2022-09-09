@@ -54,7 +54,7 @@ export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
   async forward(query: TQuery): Promise<[XyoBoundWitness, XyoPayloads]> {
     try {
       const boundQuery = this.bindPayloads([query])
-      const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(`${this.nodeUri}/${this.targetAddressString}`, [boundQuery, [query]])
+      const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(`${this.nodeUri}/${this.address}`, [boundQuery, ...[query]])
       console.log(`Status: ${result.status}`)
       console.log(`Data: ${JSON.stringify(result.data, null, 2)}`)
       return result.data

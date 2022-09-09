@@ -138,7 +138,6 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   }
 
   public all(): PromisableArray<XyoPayload> {
-    console.log(`all: ${JSON.stringify(this.storage.getAll(), null, 2)}`)
     try {
       return Object.entries(this.storage.getAll()).map(([, value]) => value)
     } catch (ex) {

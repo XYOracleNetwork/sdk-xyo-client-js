@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { testArchivistAll, testArchivistRoundTrip } from './test'
+import { testArchivistAll, testArchivistRoundTrip } from './test.spec.test'
 import { XyoStorageArchivist } from './XyoStorageArchivist'
 
 testArchivistRoundTrip(new XyoStorageArchivist({ namespace: 'test', type: 'local' }), 'local')

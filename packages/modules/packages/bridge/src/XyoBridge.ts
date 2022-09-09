@@ -35,7 +35,7 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
         if (super.queries().find((schema) => schema === query.schema)) {
           return super.query(query)
         } else {
-          return super.query(query)
+          return this.forward(query)
         }
     }
     return [this.bindPayloads(payloads), payloads]

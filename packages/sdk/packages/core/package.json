@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@scure/base": "^1.1.1",
     "@xylabs/buffer": "^2.6.7",
     "@xylabs/sdk-js": "^2.6.7",
     "@xyo-network/typeof": "workspace:^",

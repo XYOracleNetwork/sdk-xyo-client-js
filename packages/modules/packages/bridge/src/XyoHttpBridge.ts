@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
-import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
@@ -32,8 +31,16 @@ export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
     this.axios = new Axios(this.axiosConfig)
   }
 
-  public get uri() {
-    return assertEx(this.config?.uri, 'Missing URI')
+  public get nodeUri() {
+    return assertEx(this.config?.nodeUri, 'Missing nodeUri')
+  }
+
+  public get targetAddress() {
+    return this.config?.targetAddress
+  }
+
+  public get targetAddressString() {
+    return this.targetAddress ?? ''
   }
 
   private get axiosHeaders(): AxiosRequestHeaders {
@@ -77,22 +84,11 @@ export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
 
   async forward(query: TQuery): Promise<[XyoBoundWitness, XyoPayloads]> {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const payloads = (query as any as { payloads?: XyoPayload[] })?.payloads || []
-      const bw = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()
-      const forwardingPath = `${this.uri}/${this.config?.archive}`
-      const forwardedResult = await this.axios.post<{ data: string[][] }>(forwardingPath, bw)
-      const queryId = forwardedResult?.data?.data?.[0]?.[0]
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const emptyResponse = [] as any as [XyoBoundWitness, XyoPayloads]
-      if (forwardedResult.status !== 202 || !queryId) emptyResponse
-      const queryResultUri = `${this.uri}/query/${queryId}`
-      await delay(100)
-      const queryResult = await this.axios.get<XyoPayload>(queryResultUri)
-      if (queryResult.status !== 200 || !queryResult?.data?.schema) return emptyResponse
-      const forwardedPayload = queryResult.data
-      const bound = this.bindPayloads([forwardedPayload])
-      return [bound, [forwardedPayload]]
+      const boundQuery = this.bindPayloads([query])
+      const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(`${this.nodeUri}/${this.targetAddressString}`, [boundQuery, [query]])
+      console.log(`Status: ${result.status}`)
+      console.log(`Data: ${JSON.stringify(result.data, null, 2)}`)
+      return result.data
     } catch (ex) {
       const error = ex as AxiosError
       console.log(`Error Status: ${error.status}`)

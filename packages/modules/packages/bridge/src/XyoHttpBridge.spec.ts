@@ -5,9 +5,9 @@ import { XyoPayloadWrapper } from '@xyo-network/payload'
 import { XyoHttpBridge } from './XyoHttpBridge'
 
 test('XyoHttpBridge', async () => {
-  const uri = `${process.env.API_DOMAIN}` ?? 'https://beta.api.archivist.xyo.network'
-  const archive = 'temp'
-  const bridge = new XyoHttpBridge({ archive, uri })
+  const nodeUri = `${process.env.API_DOMAIN}` ?? 'https://beta.api.archivist.xyo.network'
+  const targetAddress = 'temp'
+  const bridge = new XyoHttpBridge({ nodeUri, targetAddress })
   const wrapper = new XyoArchivistWrapper(bridge)
   const debugPayload = {
     nonce: uuid(),

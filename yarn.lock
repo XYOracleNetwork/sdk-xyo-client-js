@@ -3416,7 +3416,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/sdk/packages/account"
   dependencies:
-    "@scure/base": ^1.1.1
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
     "@xyo-network/core": "workspace:^"
@@ -3537,6 +3536,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/core@workspace:packages/sdk/packages/core"
   dependencies:
+    "@scure/base": ^1.1.1
     "@types/lodash": ^4.14.184
     "@types/sha.js": ^2.4.0
     "@types/uuid": ^8.3.4

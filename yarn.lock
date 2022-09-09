@@ -2355,6 +2355,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@scure/base@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@scure/base@npm:1.1.1"
+  checksum: b4fc810b492693e7e8d0107313ac74c3646970c198bbe26d7332820886fa4f09441991023ec9aa3a2a51246b74409ab5ebae2e8ef148bbc253da79ac49130309
+  languageName: node
+  linkType: hard
+
 "@sinclair/typebox@npm:^0.24.1":
   version: 0.24.35
   resolution: "@sinclair/typebox@npm:0.24.35"
@@ -3409,6 +3416,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/sdk/packages/account"
   dependencies:
+    "@scure/base": ^1.1.1
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
     "@xyo-network/core": "workspace:^"

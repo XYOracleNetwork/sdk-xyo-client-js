@@ -8,6 +8,7 @@ export class XyoPublicKey extends XyoEllipticKey {
   constructor(bytes: XyoDataLike) {
     super(64, bytes)
   }
+
   public get address() {
     return new XyoAddressValue(this.keccak256.slice(12).toString('hex').padStart(40, '0'))
   }

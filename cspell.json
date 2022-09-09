@@ -16,6 +16,7 @@
     "Hasher",
     "keccak",
     "pako",
+    "Promisable",
     "snyk",
     "systeminfo",
     "Trouw",

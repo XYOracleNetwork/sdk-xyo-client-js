@@ -2,7 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { testArchivist } from './test'
+import { testArchivistAll, testArchivistRoundTrip } from './test'
 import { XyoCookieArchivist } from './XyoCookieArchivist'
 
-testArchivist(new XyoCookieArchivist(), 'cookie')
+testArchivistRoundTrip(new XyoCookieArchivist({ namespace: 'test' }), 'cookie')
+testArchivistAll(new XyoCookieArchivist({ namespace: 'test' }), 'cookie')

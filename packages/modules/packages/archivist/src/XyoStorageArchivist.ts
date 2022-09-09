@@ -94,8 +94,8 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     try {
       return await Promise.all(
         hashes.map(async (hash) => {
-          const cookieString = this.storage.get(hash)
-          return cookieString ? JSON.parse(cookieString) : (await this.getFromParents(hash)) ?? null
+          const value = this.storage.get(hash)
+          return value ?? (await this.getFromParents(hash)) ?? null
         }),
       )
     } catch (ex) {
@@ -110,7 +110,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
         const hash = wrapper.hash
         const value = JSON.stringify(wrapper.payload)
         assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hash}, ${value.length}]`)
-        this.storage.set(hash, JSON.stringify(wrapper.payload))
+        this.storage.set(hash, wrapper.payload)
         return wrapper.payload
       })
       const boundwitness = this.bindPayloads(storedPayloads)
@@ -138,10 +138,9 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   }
 
   public all(): PromisableArray<XyoPayload> {
+    console.log(`all: ${JSON.stringify(this.storage.getAll(), null, 2)}`)
     try {
-      return Object.entries(this.storage.getAll())
-        .filter(([key]) => key.startsWith(`${this.namespace}-`))
-        .map(([, value]) => JSON.parse(value))
+      return Object.entries(this.storage.getAll()).map(([, value]) => value)
     } catch (ex) {
       throw new StorageArchivistError('all', ex, 'unexpected')
     }

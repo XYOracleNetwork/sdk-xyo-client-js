@@ -2,9 +2,13 @@
  * @jest-environment jsdom
  */
 
-import { testArchivist } from './test'
+import { testArchivistAll, testArchivistRoundTrip } from './test'
 import { XyoStorageArchivist } from './XyoStorageArchivist'
 
-testArchivist(new XyoStorageArchivist({ type: 'local' }), 'local')
-testArchivist(new XyoStorageArchivist({ type: 'session' }), 'session')
-testArchivist(new XyoStorageArchivist({ type: 'page' }), 'page')
+testArchivistRoundTrip(new XyoStorageArchivist({ namespace: 'test', type: 'local' }), 'local')
+testArchivistRoundTrip(new XyoStorageArchivist({ namespace: 'test', type: 'session' }), 'session')
+testArchivistRoundTrip(new XyoStorageArchivist({ namespace: 'test', type: 'page' }), 'page')
+
+testArchivistAll(new XyoStorageArchivist({ namespace: 'test', type: 'local' }), 'local')
+testArchivistAll(new XyoStorageArchivist({ namespace: 'test', type: 'session' }), 'session')
+testArchivistAll(new XyoStorageArchivist({ namespace: 'test', type: 'page' }), 'page')

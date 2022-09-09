@@ -2,17 +2,17 @@
  * @jest-environment jsdom
  */
 
-import { XyoIdPayload, XyoIdSchema } from '@xyo-network/id-payload-plugin'
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { delay } from '@xylabs/delay'
+import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { XyoArchivist } from '../XyoArchivist'
 import { XyoArchivistWrapper } from '../XyoArchivistWrapper'
 
-export const testArchivist = (archivist: XyoArchivist, name: string) => {
+export const testArchivistRoundTrip = (archivist: XyoArchivist, name: string) => {
   test(`XyoArchivist [${name}]`, async () => {
-    const idPayload: XyoIdPayload = {
+    const idPayload: XyoPayload<{ salt: string }> = {
       salt: 'test',
-      schema: XyoIdSchema,
+      schema: 'network.xyo.id',
     }
     const payloadWrapper = new XyoPayloadWrapper(idPayload)
     const archivistWrapper = new XyoArchivistWrapper(archivist)
@@ -27,5 +27,22 @@ export const testArchivist = (archivist: XyoArchivist, name: string) => {
       const gottenPayloadWrapper = new XyoPayloadWrapper(gottenPayload)
       expect(gottenPayloadWrapper.hash).toBe(payloadWrapper.hash)
     }
+  })
+}
+
+export const testArchivistAll = (archivist: XyoArchivist, name: string) => {
+  test(`XyoArchivist [${name}]`, async () => {
+    const idPayload = {
+      salt: 'test',
+      schema: 'network.xyo.id',
+    }
+    const archivistWrapper = new XyoArchivistWrapper(archivist)
+    for (let x = 0; x < 10; x++) {
+      await archivistWrapper.insert([{ ...idPayload, salt: Date.now().toString() } as XyoPayload<{ salt: string }>])
+      await delay(10)
+    }
+    const getResult = await archivistWrapper.all()
+    expect(getResult).toBeDefined()
+    expect(getResult.length).toBe(11)
   })
 }

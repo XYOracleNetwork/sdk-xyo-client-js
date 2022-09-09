@@ -9,6 +9,6 @@ export type XyoModuleQueryResult<T extends XyoPayload = XyoPayload> = [XyoBoundW
 export interface Module<TQuery extends XyoQuery = XyoQuery, TQueryResult extends XyoPayload = XyoPayload> {
   address: string
   queries(): string[]
-  queriable: (schema: string) => boolean
+  queryable: (schema: string) => boolean
   query: (query: TQuery) => Promisable<XyoModuleQueryResult<TQueryResult>>
 }

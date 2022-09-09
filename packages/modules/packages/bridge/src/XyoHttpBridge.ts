@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoModule } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
@@ -86,6 +87,7 @@ export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
       const emptyResponse = [] as any as [XyoBoundWitness, XyoPayloads]
       if (forwardedResult.status !== 202 || !queryId) emptyResponse
       const queryResultUri = `${this.uri}/query/${queryId}`
+      await delay(100)
       const queryResult = await this.axios.get<XyoPayload>(queryResultUri)
       if (queryResult.status !== 200 || !queryResult?.data?.schema) return emptyResponse
       const forwardedPayload = queryResult.data

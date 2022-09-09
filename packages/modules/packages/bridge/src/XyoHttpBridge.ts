@@ -76,12 +76,19 @@ export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
 
   async forward(query: TQuery): Promise<[XyoBoundWitness, XyoPayloads]> {
     try {
-      const bw = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payload(query).build()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const payloads = (query as any as { payloads?: XyoPayload[] })?.payloads || []
+      const bw = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()
       const path = `${this.uri}/${this.config?.archive}`
-      const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(path, bw)
-      console.log(`Status: ${result.status}`)
-      console.log(`Data: ${JSON.stringify(result.data, null, 2)}`)
-      return result.data
+      const result = await this.axios.post<string[][]>(path, bw)
+      const queryId = result?.data?.[0]?.[0]
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (result.status !== 202 || !queryId) return [] as any as [XyoBoundWitness, XyoPayloads]
+      const queryResultUri = `${this.uri}/query/${queryId}`
+      const queryResult = await this.axios.get<XyoPayload>(queryResultUri)
+      const forwardedPayload = queryResult.data
+      const bound = this.bindPayloads([forwardedPayload])
+      return [bound, [forwardedPayload]]
     } catch (ex) {
       const error = ex as AxiosError
       console.log(`Error Status: ${error.status}`)

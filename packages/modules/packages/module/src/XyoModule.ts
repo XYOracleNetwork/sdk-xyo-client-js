@@ -29,7 +29,7 @@ export abstract class XyoModule<
     return this.account.addressValue.hex
   }
 
-  public queriable(schema: string): boolean {
+  public queryable(schema: string): boolean {
     return !!this.queries().find((item) => item === schema)
   }
 

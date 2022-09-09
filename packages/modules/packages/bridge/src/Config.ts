@@ -7,5 +7,6 @@ export const XyoBridgeConfigSchema: XyoBridgeConfigSchema = 'network.xyo.bridge.
 export type XyoBridgeConfig<TConfig extends XyoPayload = XyoPayload> = XyoModuleConfig<
   {
     uri: string
+    archive: string
   } & TConfig
 >

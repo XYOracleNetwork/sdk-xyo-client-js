@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoModule } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promisable'
@@ -76,7 +76,9 @@ export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
 
   async forward(query: TQuery): Promise<[XyoBoundWitness, XyoPayloads]> {
     try {
-      const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(this.uri, query)
+      const bw = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payload(query).build()
+      const path = `${this.uri}/${this.config?.archive}`
+      const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(path, bw)
       console.log(`Status: ${result.status}`)
       console.log(`Data: ${JSON.stringify(result.data, null, 2)}`)
       return result.data

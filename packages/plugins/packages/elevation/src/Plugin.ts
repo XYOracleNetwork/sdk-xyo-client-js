@@ -5,7 +5,7 @@ import { XyoElevationSchema } from './Schema'
 import { XyoElevationPayloadTemplate } from './Template'
 import { XyoElevationWitness, XyoElevationWitnessConfig, XyoElevationWitnessConfigSchema } from './Witness'
 
-export const XyoLocationPayloadPlugin = () =>
+export const XyoElevationPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoElevationPayload, XyoElevationWitnessConfig>({
     auto: true,
     schema: XyoElevationSchema,

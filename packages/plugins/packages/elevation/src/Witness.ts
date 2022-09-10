@@ -21,7 +21,7 @@ export type XyoElevationWitnessConfig = XyoWitnessConfig<
   XyoElevationPayload,
   {
     schema: XyoElevationWitnessConfigSchema
-    uri: string
+    uri?: string
   }
 >
 

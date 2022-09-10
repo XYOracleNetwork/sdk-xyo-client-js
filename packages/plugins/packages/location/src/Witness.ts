@@ -35,18 +35,14 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
   override async observe(_fields: Partial<XyoLocationPayload>): Promise<XyoLocationPayload> {
     const location = await this.getCurrentPosition()
     return super.observe({
-      currentLocation: {
-        coords: {
-          accuracy: location.coords.accuracy,
-          altitude: location.coords.altitude ?? undefined,
-          altitudeAccuracy: location.coords.altitudeAccuracy ?? undefined,
-          heading: location.coords.heading ?? undefined,
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          speed: location.coords.speed ?? undefined,
-        },
-        timestamp: location.timestamp,
-      },
+      accuracy: location.coords.accuracy,
+      altitude: location.coords.altitude ?? undefined,
+      altitudeAccuracy: location.coords.altitudeAccuracy ?? undefined,
+      heading: location.coords.heading ?? undefined,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      speed: location.coords.speed ?? undefined,
+      time: Date.now(),
     })
   }
 

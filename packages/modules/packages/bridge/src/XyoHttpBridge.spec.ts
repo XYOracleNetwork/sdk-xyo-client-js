@@ -16,6 +16,6 @@ test('XyoHttpBridge', async () => {
   const result = await wrapper.insert([debugPayload])
   console.log(result)
   //expect(result).toBeDefined()
-  const result2 = await wrapper.get([new XyoPayloadWrapper(debugPayload).hash])
+  await wrapper.get([new XyoPayloadWrapper(debugPayload).hash])
   //expect(result2).toBeDefined()
 })

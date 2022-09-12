@@ -17,11 +17,19 @@ export abstract class XyoNode<
   /** Query Functions - Start */
   abstract attach(_address: string): void
   abstract detatch(_address: string): void
+  abstract resolve(_address: string): XyoModule | null
 
   available(): string[] {
     throw new Error('Method not implemented.')
   }
   attached(): string[] {
+    throw new Error('Method not implemented.')
+  }
+
+  availableModules(): XyoModule[] {
+    throw new Error('Method not implemented.')
+  }
+  attachedModules(): XyoModule[] {
     throw new Error('Method not implemented.')
   }
   /** Query Functions - End */

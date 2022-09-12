@@ -130,10 +130,10 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     }
   }
 
-  public async find(filter: XyoPayloadFindFilter): Promise<XyoPayload[]> {
+  public async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
     try {
       const x = (await this.all()).filter((payload) => {
-        if (filter.schema && filter.schema !== payload.schema) {
+        if (filter?.schema && filter.schema !== payload.schema) {
           return false
         }
         return true

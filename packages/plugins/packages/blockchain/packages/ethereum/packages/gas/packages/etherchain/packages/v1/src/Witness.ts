@@ -9,7 +9,7 @@ export class XyoEtherchainEthereumGasWitnessV1 extends XyoTimestampWitness<
   XyoEthereumGasEtherchainV1Payload,
   XyoEthereumGasEtherchainV1WitnessConfig
 > {
-  constructor(config: PartialWitnessConfig<XyoEthereumGasEtherchainV1WitnessConfig>) {
+  constructor(config?: PartialWitnessConfig<XyoEthereumGasEtherchainV1WitnessConfig>) {
     super({ schema: XyoEthereumGasEtherchainV1WitnessConfigSchema, targetSchema: XyoEthereumGasEtherchainV1Schema, ...config })
   }
 

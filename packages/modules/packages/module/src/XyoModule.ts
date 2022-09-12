@@ -8,7 +8,7 @@ import { Module, XyoModuleQueryResult } from './Module'
 import { XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoModuleSubscribeQuerySchema } from './Queries'
 import { XyoQuery } from './Query'
 
-export type XyoModuleResolverFunc = (address: string) => XyoModule
+export type XyoModuleResolverFunc = (address: string) => XyoModule | null
 
 export abstract class XyoModule<
   TConfig extends XyoModuleConfig = XyoModuleConfig,
@@ -19,7 +19,7 @@ export abstract class XyoModule<
   protected config?: TConfig
   protected account: XyoAccount
   protected resolver?: XyoModuleResolverFunc
-  constructor(config?: TConfig, account?: XyoAccount, resolver?: (address: string) => XyoModule) {
+  constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
     this.config = config
     this.account = account ?? new XyoAccount()
     this.resolver = resolver
@@ -30,6 +30,8 @@ export abstract class XyoModule<
   }
 
   public queryable(schema: string): boolean {
+    console.log(`Queryable: ${JSON.stringify(schema)}`)
+    console.log(`QueryableList: ${JSON.stringify(this.queries(), null, 2)}`)
     return !!this.queries().find((item) => item === schema)
   }
 

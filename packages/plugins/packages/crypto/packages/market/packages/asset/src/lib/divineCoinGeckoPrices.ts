@@ -4,9 +4,9 @@ import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { AssetInfo } from '../Model'
 import { XyoCryptoMarketAssetPayload } from '../Payload'
-import { XyoCryptoMarketAssetPayloadSchema } from '../Schema'
+import { XyoCryptoMarketAssetSchema } from '../Schema'
 
-const schema = XyoCryptoMarketAssetPayloadSchema
+const schema = XyoCryptoMarketAssetSchema
 
 const valuationExists = (value: [string, PartialRecord<string, number> | undefined]): value is [string, PartialRecord<string, number>] => {
   return !!value[1]

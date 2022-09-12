@@ -1,4 +1,4 @@
-import { XyoSchemaPayloadSchema } from '@xyo-network/schema-payload-plugin'
+import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 import { XyoSchemaCache } from './SchemaCache'
 
@@ -7,7 +7,7 @@ describe('SchemaCache.Proxy', () => {
     const cache = XyoSchemaCache.instance
     cache.proxy = 'http://foo.com'
 
-    const fetchedPayload = await cache.get(XyoSchemaPayloadSchema)
+    const fetchedPayload = await cache.get(XyoSchemaSchema)
     expect(fetchedPayload).toBeNull()
   })
 })

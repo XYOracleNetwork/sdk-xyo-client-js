@@ -1,10 +1,10 @@
 import { XyoModuleConfig } from '../Config'
-import { XyoQueryPayload } from '../Query'
+import { XyoQuery } from '../Query'
 
-export type XyoModuleInitializeQueryPayloadSchema = 'network.xyo.query.module.initialize'
-export const XyoModuleInitializeQueryPayloadSchema: XyoModuleInitializeQueryPayloadSchema = 'network.xyo.query.module.initialize'
+export type XyoModuleInitializeQuerySchema = 'network.xyo.query.module.initialize'
+export const XyoModuleInitializeQuerySchema: XyoModuleInitializeQuerySchema = 'network.xyo.query.module.initialize'
 
-export type XyoModuleInitializeQueryPayload = XyoQueryPayload<{
-  schema: XyoModuleInitializeQueryPayloadSchema
+export type XyoModuleInitializeQuery = XyoQuery<{
+  schema: XyoModuleInitializeQuerySchema
   config?: XyoModuleConfig
 }>

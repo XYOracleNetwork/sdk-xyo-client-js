@@ -1,3 +1,4 @@
+import { base16, base58 } from '@scure/base'
 import { Buffer, bufferPolyfill } from '@xylabs/buffer'
 import { assertEx, BigNumber } from '@xylabs/sdk-js'
 import keccak256 from 'keccak256'
@@ -9,9 +10,12 @@ import { XyoDataLike } from './XyoDataLike'
 export class XyoData extends XyoAbstractData {
   private _bytes?: Uint8Array
   private _length: number
-  constructor(length: number, bytes?: XyoDataLike) {
+
+  constructor(length: number, bytes?: XyoDataLike)
+  constructor(length: number, bytes: string, base?: number)
+  constructor(length: number, bytes?: XyoDataLike, base?: number) {
     super()
-    this._bytes = toUint8ArrayOptional(bytes)
+    this._bytes = toUint8ArrayOptional(bytes, length, base)
     this._length = length
   }
 
@@ -21,7 +25,12 @@ export class XyoData extends XyoAbstractData {
 
   public get hex() {
     this.checkLength()
-    return Buffer.from(this.bytes).toString('hex').toLowerCase()
+    return base16.encode(this.bytes).toLowerCase()
+  }
+
+  public get base58() {
+    this.checkLength()
+    return base58.encode(this.bytes)
   }
 
   public get buffer() {

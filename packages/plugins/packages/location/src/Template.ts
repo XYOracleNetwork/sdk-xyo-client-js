@@ -1,20 +1,16 @@
 import { XyoLocationPayload } from './Payload'
-import { XyoLocationPayloadSchema } from './Schema'
+import { XyoLocationSchema } from './Schema'
 
 export const XyoLocationPayloadTemplate = (): XyoLocationPayload => {
   return {
-    currentLocation: {
-      coords: {
-        accuracy: undefined,
-        altitude: undefined,
-        altitudeAccuracy: undefined,
-        heading: undefined,
-        latitude: undefined,
-        longitude: undefined,
-        speed: undefined,
-      },
-      timestamp: Date.now(),
-    },
-    schema: XyoLocationPayloadSchema,
+    accuracy: undefined,
+    altitude: undefined,
+    altitudeAccuracy: undefined,
+    heading: undefined,
+    latitude: undefined,
+    longitude: undefined,
+    schema: XyoLocationSchema,
+    speed: undefined,
+    time: Date.now(),
   }
 }

@@ -1,5 +1,5 @@
 import { XyoNodeSystemInfoPayload } from './Payload'
-import { XyoNodeSystemInfoPayloadSchema } from './Schema'
+import { XyoNodeSystemInfoSchema } from './Schema'
 
 const defaultSystemInfoConfig = () => {
   return {
@@ -20,7 +20,7 @@ const defaultSystemInfoConfig = () => {
 }
 
 const systemInfoNodeWitnessTemplate = (): XyoNodeSystemInfoPayload => ({
-  schema: XyoNodeSystemInfoPayloadSchema,
+  schema: XyoNodeSystemInfoSchema,
 })
 
 export { defaultSystemInfoConfig, systemInfoNodeWitnessTemplate }

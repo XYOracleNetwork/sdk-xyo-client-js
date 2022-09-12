@@ -1,12 +1,12 @@
 import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
 
 import { XyoCryptoCardsMovePayloadPlugin } from './Plugin'
-import { XyoCryptoCardsMovePayloadSchema } from './Schema'
+import { XyoCryptoCardsMoveSchema } from './Schema'
 
-describe('XyoLocationPayloadPlugin', () => {
+describe('XyoCryptoCardsMovePayloadPlugin', () => {
   test('Add to Resolver', () => {
     const resolver = new XyoPayloadPluginResolver().register(XyoCryptoCardsMovePayloadPlugin())
-    expect(resolver.resolve({ schema: XyoCryptoCardsMovePayloadSchema })).toBeObject()
-    expect(resolver.witness(XyoCryptoCardsMovePayloadSchema)).toBeObject()
+    expect(resolver.resolve({ schema: XyoCryptoCardsMoveSchema })).toBeObject()
+    expect(resolver.witness(XyoCryptoCardsMoveSchema)).toBeObject()
   })
 })

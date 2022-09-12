@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoValidator } from '@xyo-network/core'
 import { XyoPayload, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/payload'
 
@@ -30,7 +29,7 @@ export class XyoPayloadPluginResolver {
     configs?: TConfigs,
   ) {
     this._plugins[plugin.schema] = plugin
-    this.configs[plugin.schema] = configs ?? { witness: { account: new XyoAccount() } }
+    this.configs[plugin.schema] = configs ?? { witness: {} }
     return this
   }
 

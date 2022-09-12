@@ -1,21 +1,17 @@
-import { XyoModuleDiscoverQueryPayload, XyoModuleDiscoverQueryPayloadSchema } from './Discover'
-import { XyoModuleInitializeQueryPayload, XyoModuleInitializeQueryPayloadSchema } from './Initialize'
-import { XyoModuleShutdownQueryPayload, XyoModuleShutdownQueryPayloadSchema } from './Shutdown'
-import { XyoModuleSubscribeQueryPayload, XyoModuleSubscribeQueryPayloadSchema } from './Subscribe'
+import { XyoModuleDiscoverQuery, XyoModuleDiscoverQuerySchema } from './Discover'
+import { XyoModuleInitializeQuery, XyoModuleInitializeQuerySchema } from './Initialize'
+import { XyoModuleShutdownQuery, XyoModuleShutdownQuerySchema } from './Shutdown'
+import { XyoModuleSubscribeQuery, XyoModuleSubscribeQuerySchema } from './Subscribe'
 
 export * from './Discover'
 export * from './Initialize'
 export * from './Shutdown'
 export * from './Subscribe'
 
-export type XyoModuleQueryPayloadSchema =
-  | XyoModuleSubscribeQueryPayloadSchema
-  | XyoModuleDiscoverQueryPayloadSchema
-  | XyoModuleInitializeQueryPayloadSchema
-  | XyoModuleShutdownQueryPayloadSchema
+export type XyoModuleQuerySchema =
+  | XyoModuleSubscribeQuerySchema
+  | XyoModuleDiscoverQuerySchema
+  | XyoModuleInitializeQuerySchema
+  | XyoModuleShutdownQuerySchema
 
-export type XyoModuleQueryPayload =
-  | XyoModuleSubscribeQueryPayload
-  | XyoModuleDiscoverQueryPayload
-  | XyoModuleInitializeQueryPayload
-  | XyoModuleShutdownQueryPayload
+export type XyoModuleQuery = XyoModuleSubscribeQuery | XyoModuleDiscoverQuery | XyoModuleInitializeQuery | XyoModuleShutdownQuery

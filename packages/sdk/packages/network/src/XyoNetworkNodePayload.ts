@@ -2,8 +2,8 @@ import { XyoPayload } from '@xyo-network/payload'
 
 export type XyoNetworkNodeType = 'archivist' | 'diviner' | 'bridge' | 'sentinel'
 
-export type XyoNetworkNodePayloadSchema = 'network.xyo.network.node'
-export const XyoNetworkNodePayloadSchema: XyoNetworkNodePayloadSchema = 'network.xyo.network.node'
+export type XyoNetworkNodeSchema = 'network.xyo.network.node'
+export const XyoNetworkNodeSchema: XyoNetworkNodeSchema = 'network.xyo.network.node'
 
 export type XyoNetworkNodePayload = XyoPayload<
   {
@@ -14,7 +14,7 @@ export type XyoNetworkNodePayload = XyoPayload<
     web?: string
     docs?: string
   },
-  XyoNetworkNodePayloadSchema
+  XyoNetworkNodeSchema
 >
 
 /** @deprecated use XyoNodePayload instead */

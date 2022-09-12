@@ -1,3 +1,4 @@
+import { base16, base58 } from '@scure/base'
 import { Buffer } from '@xylabs/buffer'
 import { assertEx, BigNumber } from '@xylabs/sdk-js'
 import { ifTypeOf } from '@xyo-network/typeof'
@@ -5,8 +6,15 @@ import { ifTypeOf } from '@xyo-network/typeof'
 import { XyoAbstractData } from './AbstractData'
 import { XyoDataLike } from './XyoDataLike'
 
-const stringToUint8Array = (value: string) => {
-  return bufferToUint8Array(Buffer.from(value.startsWith('0x') ? value.slice(2) : value, 'hex'))
+const stringToUint8Array = (value: string, base = 16) => {
+  switch (base) {
+    case 16:
+      return base16.decode((value.startsWith('0x') ? value.slice(2) : value).toUpperCase())
+    case 58:
+      return base58.decode(value)
+    default:
+      throw Error(`Unsupported base [${base}]`)
+  }
 }
 
 const bigNumberToUint8Array = (value: BigNumber) => {
@@ -22,13 +30,13 @@ const xyoDataToUint8Array = (value: XyoAbstractData) => {
   return value.bytes
 }
 
-export const toUint8ArrayOptional = (value?: XyoDataLike, padLength?: number): Uint8Array | undefined => {
-  return value ? toUint8Array(value, padLength) : undefined
+export const toUint8ArrayOptional = (value?: XyoDataLike, padLength?: number, base?: number): Uint8Array | undefined => {
+  return value ? toUint8Array(value, padLength, base) : undefined
 }
 
-export const toUint8Array = (value: XyoDataLike, padLength?: number): Uint8Array => {
+export const toUint8Array = (value: XyoDataLike, padLength?: number, base?: number): Uint8Array => {
   let result: Uint8Array | undefined =
-    ifTypeOf<string, Uint8Array>('string', value as string, stringToUint8Array) ??
+    ifTypeOf<string, Uint8Array>('string', value as string, (value) => stringToUint8Array(value, base)) ??
     ifTypeOf<BigNumber, Uint8Array | undefined>('object', value as BigNumber, bigNumberToUint8Array, BigNumber.isBN) ??
     ifTypeOf<Buffer, Uint8Array | undefined>('object', value as Buffer, bufferToUint8Array, Buffer.isBuffer) ??
     ifTypeOf<XyoAbstractData, Uint8Array | undefined>('object', value as Buffer, xyoDataToUint8Array, XyoAbstractData.isXyoData) ??

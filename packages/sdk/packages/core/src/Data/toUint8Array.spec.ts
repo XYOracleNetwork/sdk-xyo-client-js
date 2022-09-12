@@ -1,3 +1,4 @@
+import { base58 } from '@scure/base'
 import { Buffer } from 'buffer'
 
 import { toUint8Array } from './toUint8Array'
@@ -15,5 +16,10 @@ describe('toUint8Array', () => {
     const testHex = '1a2b3c'
     const testHexPrime = Buffer.from(toUint8Array(testHex)).toString('hex')
     expect(testHex).toBe(testHexPrime)
+  })
+  test('Base58 Round Trip', () => {
+    const testBase58 = '1a2FZb3caz'
+    const testBase58Prime = base58.encode(Buffer.from(toUint8Array(testBase58, undefined, 58)))
+    expect(testBase58).toBe(testBase58Prime)
   })
 })

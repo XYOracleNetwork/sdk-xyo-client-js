@@ -1,5 +1,5 @@
 import { XyoDomainPayload } from './Payload'
-import { XyoDomainPayloadSchema } from './Schema'
+import { XyoDomainSchema } from './Schema'
 
 export const domainConfigTemplate = (): XyoDomainPayload => ({
   aliases: {
@@ -23,5 +23,5 @@ export const domainConfigTemplate = (): XyoDomainPayload => ({
       slug: '',
     },
   ],
-  schema: XyoDomainPayloadSchema,
+  schema: XyoDomainSchema,
 })

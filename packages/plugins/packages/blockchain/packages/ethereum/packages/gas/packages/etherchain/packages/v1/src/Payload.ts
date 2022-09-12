@@ -1,9 +1,9 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoEthereumGasEtherchainV1PayloadSchema } from './Schema'
+import { XyoEthereumGasEtherchainV1Schema } from './Schema'
 
 export type XyoEthereumGasEtherchainV1Payload = XyoPayload<{
-  schema: XyoEthereumGasEtherchainV1PayloadSchema
+  schema: XyoEthereumGasEtherchainV1Schema
   timestamp: number
   safeLow: number
   standard: number

@@ -1,10 +1,10 @@
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoUniswapCryptoPair } from './lib'
-import { XyoUniswapCryptoMarketPayloadSchema } from './Schema'
+import { XyoUniswapCryptoMarketSchema } from './Schema'
 
 export type XyoUniswapCryptoMarketPayload = XyoPayload<{
-  schema: XyoUniswapCryptoMarketPayloadSchema
+  schema: XyoUniswapCryptoMarketSchema
   timestamp: number
   pairs: XyoUniswapCryptoPair[]
 }>

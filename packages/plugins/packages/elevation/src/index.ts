@@ -1,11 +1,11 @@
-import { XyoLocationPayloadPlugin } from './Plugin'
+import { XyoElevationPayloadPlugin } from './Plugin'
 
 export * from './Payload'
 export * from './Schema'
 export * from './Template'
 export * from './Witness'
 
-export { XyoLocationPayloadPlugin }
+export { XyoElevationPayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoLocationPayloadPlugin
+export default XyoElevationPayloadPlugin

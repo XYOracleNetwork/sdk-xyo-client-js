@@ -3911,6 +3911,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair"
+  dependencies:
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/utils": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    node-screenlogic: ^1.10.1
+    tslib: ^2.4.0
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/promisable@workspace:^, @xyo-network/promisable@workspace:packages/sdk/packages/promisable":
   version: 0.0.0-use.local
   resolution: "@xyo-network/promisable@workspace:packages/sdk/packages/promisable"
@@ -4069,6 +4082,9 @@ __metadata:
     ajv: ^8.11.0
     lru-cache: ^7.14.0
     tslib: ^2.4.0
+  peerDependencies:
+    axios: ^0.27.2
+    pako: ^2.0.4
   languageName: unknown
   linkType: soft
 
@@ -10382,6 +10398,16 @@ __metadata:
   version: 2.0.6
   resolution: "node-releases@npm:2.0.6"
   checksum: e86a926dc9fbb3b41b4c4a89d998afdf140e20a4e8dbe6c0a807f7b2948b42ea97d7fd3ad4868041487b6e9ee98409829c6e4d84a734a4215dff060a7fbeb4bf
+  languageName: node
+  linkType: hard
+
+"node-screenlogic@npm:^1.10.1":
+  version: 1.10.1
+  resolution: "node-screenlogic@npm:1.10.1"
+  dependencies:
+    debug: ^4.3.2
+    smart-buffer: ^4.2.0
+  checksum: 82e1601adf0e8cf60818077eef20b95ae4bf2d6efea2a3ab8c1e1595b870820c9a2131231f33c84498c083adf13cafc1faf20c83f7aac420173f68ec7d0df88c
   languageName: node
   linkType: hard
 

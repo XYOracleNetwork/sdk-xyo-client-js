@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/pentair-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,35 +10,25 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.7.0",
-    "@metamask/providers": "^9.1.0",
-    "@xylabs/sdk-js": "^2.6.7",
-    "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/schema-payload-plugin": "workspace:^",
-    "ajv": "^8.11.0",
-    "lru-cache": "^7.14.0",
+    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
+    "events": "^3.3.0",
+    "node-screenlogic": "^1.10.1",
     "tslib": "^2.4.0"
   },
-  "peerDependencies": {
-    "axios": "^0.27.2",
-    "pako": "^2.0.4"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@types/lru-cache": "^7.10.10"
-  },
-  "browser": "dist/esm/browserIndex.js",
+  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
       "node": {
-        "import": "./dist/esm/nodeIndex.js",
-        "require": "./dist/cjs/nodeIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "browser": {
-        "import": "./dist/esm/browserIndex.js",
-        "require": "./dist/cjs/browserIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     },
@@ -50,7 +41,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/utils",
   "publishConfig": {
     "access": "public"
   },

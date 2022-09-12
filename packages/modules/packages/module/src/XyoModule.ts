@@ -61,19 +61,19 @@ export abstract class XyoModule<
   }
 
   discover() {
-    throw new Error('Method not implemented.')
+    return
   }
 
   initialize() {
-    throw new Error('Method not implemented.')
+    return
   }
 
   subscribe() {
-    throw new Error('Method not implemented.')
+    return
   }
 
   shutdown() {
-    throw new Error('Method not implemented.')
+    return
   }
 
   bindHashes(hashes: string[], schema: string[]) {

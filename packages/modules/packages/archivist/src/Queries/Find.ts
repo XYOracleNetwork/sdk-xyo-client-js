@@ -7,5 +7,5 @@ export const XyoArchivistFindQuerySchema: XyoArchivistFindQuerySchema = 'network
 
 export type XyoArchivistFindQuery = XyoQuery<{
   schema: XyoArchivistFindQuerySchema
-  filter: XyoPayloadFindFilter
+  filter?: XyoPayloadFindFilter
 }>

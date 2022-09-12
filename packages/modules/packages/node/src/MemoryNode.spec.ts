@@ -1,10 +1,4 @@
-import {
-  XyoArchivistAllQuery,
-  XyoArchivistAllQuerySchema,
-  XyoArchivistInsertQuery,
-  XyoArchivistInsertQuerySchema,
-  XyoMemoryArchivist,
-} from '@xyo-network/archivist'
+import { XyoArchivistAllQuery, XyoArchivistAllQuerySchema, XyoArchivistInsertQuery, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { XyoArchivistPayloadDiviner, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema, XyoHuriPayload, XyoHuriSchema } from '@xyo-network/diviner'
 import { XyoModule } from '@xyo-network/module'
 import { XyoPayloadBuilder, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/sdk'
@@ -12,6 +6,7 @@ import { XyoPayloadBuilder, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-net
 import { XyoMemoryNode } from './MemoryNode'
 
 test('Create Node', async () => {
+  const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
   const node = new XyoMemoryNode()
   const archivist = new XyoMemoryArchivist()
   const diviner: XyoModule = new XyoArchivistPayloadDiviner({}, archivist)

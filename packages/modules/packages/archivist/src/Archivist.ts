@@ -29,7 +29,7 @@ export interface FindArchivist<
   TFindFilter = unknown,
   TQuery extends XyoArchivistQuery = XyoArchivistQuery,
 > extends Module<TQuery> {
-  find(filter: TFindFilter): PromisableArray<TFindResponse>
+  find(filter?: TFindFilter): PromisableArray<TFindResponse>
 }
 
 export interface StashArchivist<TWriteResponse, TQuery extends XyoArchivistQuery = XyoArchivistQuery> extends Module<TQuery> {

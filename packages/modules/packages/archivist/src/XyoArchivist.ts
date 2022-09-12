@@ -60,7 +60,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
     throw Error('Not implemented')
   }
 
-  public find(_filter: XyoPayloadFindFilter): PromisableArray<XyoPayload> {
+  public find(_filter?: XyoPayloadFindFilter): PromisableArray<XyoPayload> {
     throw Error('Not implemented')
   }
 

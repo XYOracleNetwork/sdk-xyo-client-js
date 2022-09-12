@@ -34,6 +34,10 @@ class MemoryArchivistError extends Error {
 }
 
 export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
+  static create(config?: XyoMemoryArchivistConfig) {
+    return new XyoMemoryArchivist(config)
+  }
+
   public get max() {
     return this.config?.max ?? 10000
   }

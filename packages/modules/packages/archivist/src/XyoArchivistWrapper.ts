@@ -42,7 +42,7 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements Archivist {
     return (await this.module.query(query))[0]
   }
 
-  public async find(filter: XyoPayloadFindFilter): Promise<(XyoPayload | null)[]> {
+  public async find(filter?: XyoPayloadFindFilter): Promise<(XyoPayload | null)[]> {
     const query: XyoArchivistFindQuery = { filter, schema: XyoArchivistFindQuerySchema }
     return (await this.module.query(query))[1]
   }

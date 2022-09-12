@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.7",
+    "@xyo-network/archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promisable": "workspace:^",

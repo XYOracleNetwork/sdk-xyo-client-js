@@ -68,7 +68,9 @@
     "displayName": "Root Package"
   },
   "scripts": {
-    "lint-pkg": "npmPkgJsonLint ."
+    "lint-pkg": "npmPkgJsonLint .",
+    "xyo": "yarn workspace @xyo-network/node xyo",
+    "xyo-ts": "yarn workspace @xyo-network/node xyo-ts"
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",

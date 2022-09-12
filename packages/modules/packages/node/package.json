@@ -15,7 +15,14 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promisable": "workspace:^",
     "lodash": "^4.17.21",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "yargs": "^17.5.1"
+  },
+  "bin": {
+    "xyo": "dist/cjs/cli.js"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -49,6 +56,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
+  "scripts": {
+    "xyo-ts": "ts-node src/cli.ts"
+  },
   "types": "dist/esm/index.d.ts",
   "version": "2.32.0"
 }

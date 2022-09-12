@@ -1,11 +1,6 @@
 const generateJestConfig = ({ esModules }) => {
   const esModulesList = Array.isArray(esModules) ? esModules.join('|') : esModules
   return {
-    globals: {
-      'ts-jest': {
-        tsconfig: 'tsconfig.test.json',
-      },
-    },
     moduleNameMapper: {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },
@@ -16,7 +11,12 @@ const generateJestConfig = ({ esModules }) => {
     testTimeout: 20000,
     transform: {
       [`(${esModulesList}).+\\.js$`]: 'babel-jest',
-      '^.+\\.tsx?$': 'ts-jest/legacy',
+      '^.+\\.tsx?$': [
+        'ts-jest',
+        {
+          tsconfig: 'tsconfig.test.json',
+        },
+      ],
     },
     transformIgnorePatterns: [`./node_modules/(?!${esModulesList})`],
   }

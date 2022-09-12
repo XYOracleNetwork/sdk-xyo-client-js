@@ -32,8 +32,6 @@ export class XyoPentairScreenlogicWitness extends XyoWitness<XyoPentairScreenlog
   ): Promise<XyoPentairScreenlogicPayload> {
     const config = await this.controller.getPoolConfig()
     const status = await this.controller.getPoolStatus()
-    console.log(`PC: ${JSON.stringify(config)}`)
-    console.log(`PS: ${JSON.stringify(status)}`)
     return await super.observe({ config, status })
   }
 

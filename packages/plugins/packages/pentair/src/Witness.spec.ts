@@ -5,7 +5,7 @@ describe('XyoPentairScreenLopgicWitness', () => {
     const witness = new XyoPentairScreenlogicWitness()
     witness.initialize()
     const result = await witness.observe()
-    await witness.shutdown()
+    witness.shutdown()
 
     console.log(`Result: ${JSON.stringify(result, null, 2)}`)
   })

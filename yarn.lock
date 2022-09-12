@@ -3917,8 +3917,8 @@ __metadata:
   dependencies:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/utils": "workspace:^"
     "@xyo-network/witness": "workspace:^"
+    events: ^3.3.0
     node-screenlogic: ^1.10.1
     tslib: ^2.4.0
   languageName: unknown
@@ -6655,6 +6655,13 @@ __metadata:
     "@ethersproject/web": 5.7.0
     "@ethersproject/wordlists": 5.7.0
   checksum: 03b16c194e035a25c0c522b81f5bb9d2157f9389db3227066ff3bbf0bd348218a25b576a5293078b61885bd2be6871e1da8232cf5351ce72de1189c89e4d05c7
+  languageName: node
+  linkType: hard
+
+"events@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "events@npm:3.3.0"
+  checksum: f6f487ad2198aa41d878fa31452f1a3c00958f46e9019286ff4787c84aac329332ab45c9cdc8c445928fc6d7ded294b9e005a7fce9426488518017831b272780
   languageName: node
   linkType: hard
 

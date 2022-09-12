@@ -61,5 +61,5 @@
     "xyo-ts": "ts-node src/cli.ts"
   },
   "types": "dist/esm/index.d.ts",
-  "version": "2.32.0"
+  "version": "2.32.1"
 }

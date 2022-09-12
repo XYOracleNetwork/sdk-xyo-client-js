@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoDomainPayload, XyoDomainPayloadSchema } from '@xyo-network/domain-payload-plugin'
-import { XyoNetworkNodePayloadSchema, XyoNetworkPayloadSchema } from '@xyo-network/network'
+import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
+import { XyoNetworkNodeSchema, XyoNetworkSchema } from '@xyo-network/network'
 import { XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/payload'
-import { XyoSchemaPayloadSchema } from '@xyo-network/schema-payload-plugin'
+import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 import { XyoSchemaCache } from './SchemaCache'
 
@@ -10,7 +10,7 @@ const proxy = 'https://beta.api.archivist.xyo.network/domain'
 
 const exampleDomainConfig: XyoDomainPayload = {
   aliases: {
-    [XyoSchemaPayloadSchema]: {
+    [XyoSchemaSchema]: {
       huri: '548476cc8388e97c7a724c77ffc89b8b858b66ee009750797405d264c570b260',
     },
   },
@@ -20,18 +20,18 @@ const exampleDomainConfig: XyoDomainPayload = {
       nodes: [
         {
           name: 'XYO Archivist',
-          schema: XyoNetworkNodePayloadSchema,
+          schema: XyoNetworkNodeSchema,
           slug: 'xyo',
           type: 'archivist',
           uri: 'https://api.archivist.xyo.network',
           web: 'https://archivist.xyo.network',
         },
       ],
-      schema: XyoNetworkPayloadSchema,
+      schema: XyoNetworkSchema,
       slug: 'main',
     },
   ],
-  schema: XyoDomainPayloadSchema,
+  schema: XyoDomainSchema,
 }
 
 describe('XyoSchemaCache', () => {
@@ -41,8 +41,8 @@ describe('XyoSchemaCache', () => {
 
   test('Valid', async () => {
     const cache = XyoSchemaCache.instance
-    const fetchedPayload = await cache.get(XyoSchemaPayloadSchema)
-    expect(fetchedPayload?.payload.schema).toBe(XyoSchemaPayloadSchema)
+    const fetchedPayload = await cache.get(XyoSchemaSchema)
+    expect(fetchedPayload?.payload.schema).toBe(XyoSchemaSchema)
   })
 
   describe('validator', () => {
@@ -63,7 +63,7 @@ describe('XyoSchemaCache', () => {
         expect(valid.length).toBe(payloads.length)
       })
       test('XyoDomainConfig', async () => {
-        const schema = XyoDomainPayloadSchema
+        const schema = XyoDomainSchema
         const cache = XyoSchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()

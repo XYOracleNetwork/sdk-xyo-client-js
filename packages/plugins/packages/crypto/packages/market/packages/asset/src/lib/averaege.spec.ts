@@ -2,10 +2,10 @@ import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { AssetInfo } from '../Model'
 import { XyoCryptoMarketAssetPayload } from '../Payload'
-import { XyoCryptoMarketAssetPayloadSchema } from '../Schema'
+import { XyoCryptoMarketAssetSchema } from '../Schema'
 import { average } from './average'
 
-const schema = XyoCryptoMarketAssetPayloadSchema
+const schema = XyoCryptoMarketAssetSchema
 
 const getPayloadWithPrice = (price: number): XyoCryptoMarketAssetPayload => {
   const assets: Record<string, AssetInfo> = { xyo: { value: { usd: price.toString() } } }

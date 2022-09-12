@@ -2,18 +2,18 @@ import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoNodeSystemInfoWitnessConfig, XyoNodeSystemInfoWitnessConfigSchema } from './Config'
 import { XyoNodeSystemInfoPayload } from './Payload'
-import { XyoNodeSystemInfoPayloadSchema } from './Schema'
+import { XyoNodeSystemInfoSchema } from './Schema'
 import { XyoNodeSystemInfoWitness } from './Witness'
 
 export const XyoNodeSystemInfoPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoNodeSystemInfoPayload, XyoNodeSystemInfoWitnessConfig>({
     auto: true,
-    schema: XyoNodeSystemInfoPayloadSchema,
+    schema: XyoNodeSystemInfoSchema,
     witness: (config): XyoNodeSystemInfoWitness => {
       return new XyoNodeSystemInfoWitness({
         ...config,
         schema: XyoNodeSystemInfoWitnessConfigSchema,
-        targetSchema: XyoNodeSystemInfoPayloadSchema,
+        targetSchema: XyoNodeSystemInfoSchema,
       })
     },
   })

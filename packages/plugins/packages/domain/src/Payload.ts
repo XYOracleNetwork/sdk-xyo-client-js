@@ -1,7 +1,7 @@
 import { XyoNetworkPayload } from '@xyo-network/network'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoDomainPayloadSchema } from './Schema'
+import { XyoDomainSchema } from './Schema'
 
 export interface XyoAlias {
   /** @field cononical name (ex. network.xyo.example) */
@@ -11,7 +11,7 @@ export interface XyoAlias {
 }
 
 export type XyoDomainPayload = XyoPayload<{
-  schema: XyoDomainPayloadSchema
+  schema: XyoDomainSchema
   /** @field Values associated with this domain [out] */
   aliases?: Record<string, XyoAlias>
   /** @field Additional config files [huri] [out] */

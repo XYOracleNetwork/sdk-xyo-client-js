@@ -1,8 +1,14 @@
-import { Module } from '@xyo-network/module'
+import { Module, XyoQuery } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
+import { Promisable } from '@xyo-network/promisable'
 
-export interface Node<TModule extends Module = Module> {
-  attach(module: TModule): void
-  remove(address: string): void
-  list(): string[]
-  get(address: string): TModule | undefined
+export interface Node {
+  attach(address: string): void
+  detatch(address: string): void
+  available(): Promisable<string[]>
+  attached(): Promisable<string[]>
 }
+
+export interface NodeModule<TQuery extends XyoQuery = XyoQuery, TQueryResult extends XyoPayload = XyoPayload>
+  extends Node,
+    Module<TQuery, TQueryResult> {}

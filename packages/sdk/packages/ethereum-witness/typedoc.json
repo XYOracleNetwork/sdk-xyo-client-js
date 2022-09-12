@@ -2,6 +2,6 @@
   "intentionallyNotExported": [
     "XyoPayloadFull",
     "XyoWitnessConfig",
-    "XyoQueryPayload"
+    "XyoQuery"
   ]
 }

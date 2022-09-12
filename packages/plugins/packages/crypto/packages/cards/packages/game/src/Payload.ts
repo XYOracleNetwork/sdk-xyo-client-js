@@ -1,9 +1,9 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoCryptoCardsGamePayloadSchema } from './Schema'
+import { XyoCryptoCardsGameSchema } from './Schema'
 
 export type XyoCryptoCardsGamePayload = XyoPayload<{
-  schema: XyoCryptoCardsGamePayloadSchema
+  schema: XyoCryptoCardsGameSchema
   /** @field The time [epoch] when the game is no longer allowed to be joined */
   expiration: number
   /** @field The length [ms] of the game */

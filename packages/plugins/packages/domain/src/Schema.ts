@@ -1,2 +1,2 @@
-export type XyoDomainPayloadSchema = 'network.xyo.domain'
-export const XyoDomainPayloadSchema: XyoDomainPayloadSchema = 'network.xyo.domain'
+export type XyoDomainSchema = 'network.xyo.domain'
+export const XyoDomainSchema: XyoDomainSchema = 'network.xyo.domain'

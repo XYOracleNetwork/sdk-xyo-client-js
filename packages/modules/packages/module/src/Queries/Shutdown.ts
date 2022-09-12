@@ -1,8 +1,8 @@
-import { XyoQueryPayload } from '../Query'
+import { XyoQuery } from '../Query'
 
-export type XyoModuleShutdownQueryPayloadSchema = 'network.xyo.query.module.shutdown'
-export const XyoModuleShutdownQueryPayloadSchema: XyoModuleShutdownQueryPayloadSchema = 'network.xyo.query.module.shutdown'
+export type XyoModuleShutdownQuerySchema = 'network.xyo.query.module.shutdown'
+export const XyoModuleShutdownQuerySchema: XyoModuleShutdownQuerySchema = 'network.xyo.query.module.shutdown'
 
-export type XyoModuleShutdownQueryPayload = XyoQueryPayload<{
-  schema: XyoModuleShutdownQueryPayloadSchema
+export type XyoModuleShutdownQuery = XyoQuery<{
+  schema: XyoModuleShutdownQuerySchema
 }>

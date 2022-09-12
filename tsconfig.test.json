@@ -9,5 +9,5 @@
     "rootDir": "./src"
   },
   "extends": "./tsconfig.json",
-  "include": ["**/*.spec.ts"]
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

@@ -12,9 +12,9 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.7",
     "@xylabs/sdk-js": "^2.6.7",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "tslib": "^2.4.0"
@@ -52,5 +52,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.31.5"
+  "version": "2.32.0-rc.4",
+  "stableVersion": "2.31.5"
 }

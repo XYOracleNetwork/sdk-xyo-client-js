@@ -1,6 +1,6 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-export type XyoQueryPayload<T extends XyoPayload = XyoPayload, TSchema extends string = string> = XyoPayload<
+export type XyoQuery<T extends XyoPayload = XyoPayload, TSchema extends string = string> = XyoPayload<
   T & {
     /** @field The maximum XYO that can be spent executing the query */
     budget?: number

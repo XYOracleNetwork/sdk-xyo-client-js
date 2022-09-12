@@ -19,6 +19,10 @@
     "lru-cache": "^7.14.0",
     "tslib": "^2.4.0"
   },
+  "peerDependencies": {
+    "axios": "^0.27.2",
+    "pako": "^2.0.4"
+  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10"
@@ -56,5 +60,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.31.5"
+  "version": "2.32.0-rc.4",
+  "stableVersion": "2.31.5"
 }

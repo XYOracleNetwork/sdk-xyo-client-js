@@ -9,7 +9,7 @@ import {
   LocationTimeRangeQueryCreationRequest,
   LocationTimeRangeQuerySchema,
 } from './Queries'
-import { LocationWitnessPayloadSchema } from './Witnesses'
+import { LocationWitnessSchema } from './Witnesses'
 
 const config: ApiConfig = {
   apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082',
@@ -27,7 +27,7 @@ const getDefaultStartStopTime = () => {
 }
 
 const getLocationTimeRangeQueryCreationRequest = (): LocationTimeRangeQueryCreationRequest => {
-  const query = { schema: LocationWitnessPayloadSchema, ...getDefaultStartStopTime() }
+  const query = { schema: LocationWitnessSchema, ...getDefaultStartStopTime() }
   const sourceArchivist = { ...getArchiveConfig() }
   const resultArchivist = { ...getArchiveConfig() }
   return {
@@ -41,7 +41,7 @@ const getLocationTimeRangeQueryCreationRequest = (): LocationTimeRangeQueryCreat
 }
 
 const getLocationHeatmapQueryCreationRequest = (): LocationHeatmapQueryCreationRequest => {
-  const query = { schema: LocationWitnessPayloadSchema, ...getDefaultStartStopTime() }
+  const query = { schema: LocationWitnessSchema, ...getDefaultStartStopTime() }
   const sourceArchivist = { ...getArchiveConfig() }
   const resultArchivist = { ...getArchiveConfig() }
   return {

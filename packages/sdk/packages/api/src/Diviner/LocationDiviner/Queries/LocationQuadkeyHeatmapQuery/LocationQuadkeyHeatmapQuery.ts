@@ -1,4 +1,4 @@
-import { LocationWitnessPayloadSchema } from '../../Witnesses'
+import { LocationWitnessSchema } from '../../Witnesses'
 
 export type LocationQuadkeyHeatmapQuerySchema = 'network.xyo.location.heatmap.quadkey.query'
 export const locationQuadkeyHeatmapQuerySchema: LocationQuadkeyHeatmapQuerySchema = 'network.xyo.location.heatmap.quadkey.query'
@@ -7,7 +7,7 @@ export const locationQuadkeyHeatmapAnswerSchema: LocationQuadkeyHeatmapAnswerSch
 export type LocationQuadkeyHeatmapQuery = {
   startTime?: string
   stopTime?: string
-  schema: LocationWitnessPayloadSchema
+  schema: LocationWitnessSchema
 }
 
 export const isLocationQuadkeyHeatmapQuery = (query: Record<string, unknown>): query is LocationQuadkeyHeatmapQuery => {

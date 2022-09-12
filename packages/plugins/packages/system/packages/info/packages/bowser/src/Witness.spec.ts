@@ -2,11 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { XyoAccount } from '@xyo-network/account'
 import crypto from 'crypto'
 
-import { XyoBowserSystemInfoWitnessConfigSchema } from './Config'
-import { XyoBowserSystemInfoPayloadSchema } from './Schema'
+import { XyoBowserSystemInfoSchema } from './Schema'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,12 +18,8 @@ cryptoPolyfill(window)
 
 describe('XyoBowserSystemInfo', () => {
   test('observe', async () => {
-    const witness = new XyoBowserSystemInfoWitness({
-      account: new XyoAccount(),
-      schema: XyoBowserSystemInfoWitnessConfigSchema,
-      targetSchema: XyoBowserSystemInfoPayloadSchema,
-    })
+    const witness = new XyoBowserSystemInfoWitness()
     const observation = await witness.observe()
-    expect(observation.schema).toBe(XyoBowserSystemInfoPayloadSchema)
+    expect(observation.schema).toBe(XyoBowserSystemInfoSchema)
   })
 })

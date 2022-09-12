@@ -4,22 +4,22 @@ import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
 import { XyoDomainPayload } from './Payload'
-import { XyoDomainPayloadSchema } from './Schema'
+import { XyoDomainSchema } from './Schema'
 import { XyoDomainWitness } from './Witness'
 import { XyoDomainPayloadWrapper } from './Wrapper'
 
 export const XyoDomainPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoDomainPayload, XyoDomainWitnessConfig>({
-    schema: XyoDomainPayloadSchema,
+    schema: XyoDomainSchema,
     witness: (config): XyoDomainWitness => {
       return new XyoDomainWitness({
         ...config,
         schema: XyoDomainWitnessConfigSchema,
-        targetSchema: XyoDomainPayloadSchema,
+        targetSchema: XyoDomainSchema,
       })
     },
     wrap: (payload: XyoPayload): XyoDomainPayloadWrapper => {
-      assertEx(payload.schema === XyoDomainPayloadSchema)
+      assertEx(payload.schema === XyoDomainSchema)
       return new XyoDomainPayloadWrapper(payload as XyoDomainPayload)
     },
   })

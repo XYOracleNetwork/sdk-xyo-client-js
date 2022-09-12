@@ -1,4 +1,4 @@
-import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketPayloadSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
+import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 export const sampleUniswapPayload: XyoUniswapCryptoMarketPayload = {
   pairs: [
@@ -185,6 +185,6 @@ export const sampleUniswapPayload: XyoUniswapCryptoMarketPayload = {
       ],
     },
   ],
-  schema: XyoUniswapCryptoMarketPayloadSchema,
+  schema: XyoUniswapCryptoMarketSchema,
   timestamp: 1659012011418,
 }

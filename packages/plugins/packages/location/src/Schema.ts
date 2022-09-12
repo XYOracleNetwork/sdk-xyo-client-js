@@ -1,2 +1,2 @@
-export type XyoLocationPayloadSchema = 'network.xyo.location'
-export const XyoLocationPayloadSchema: XyoLocationPayloadSchema = 'network.xyo.location'
+export type XyoLocationSchema = 'network.xyo.location'
+export const XyoLocationSchema: XyoLocationSchema = 'network.xyo.location'

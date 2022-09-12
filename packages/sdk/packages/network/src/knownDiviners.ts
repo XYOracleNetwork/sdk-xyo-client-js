@@ -1,9 +1,9 @@
-import { XyoNetworkNodePayload, XyoNetworkNodePayloadSchema } from './XyoNetworkNodePayload'
+import { XyoNetworkNodePayload, XyoNetworkNodeSchema } from './XyoNetworkNodePayload'
 
 const beta = (): XyoNetworkNodePayload => {
   return {
     name: 'XYO Location (beta)',
-    schema: XyoNetworkNodePayloadSchema,
+    schema: XyoNetworkNodeSchema,
     slug: 'beta',
     type: 'diviner',
     uri: 'https://beta.api.location.diviner.xyo.network',
@@ -14,7 +14,7 @@ const beta = (): XyoNetworkNodePayload => {
 const main = (): XyoNetworkNodePayload => {
   return {
     name: 'XYO Location',
-    schema: XyoNetworkNodePayloadSchema,
+    schema: XyoNetworkNodeSchema,
     slug: 'main',
     type: 'diviner',
     uri: 'https://api.location.diviner.xyo.network',

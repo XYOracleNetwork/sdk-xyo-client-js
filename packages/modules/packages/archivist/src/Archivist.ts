@@ -1,7 +1,7 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { Module } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
-import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
+import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
 import { XyoArchivistQuery } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'

@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promisable'
+import { Promisable } from '@xyo-network/promise'
 import { AxiosError, AxiosRequestHeaders } from 'axios'
 
 import { AxiosJson, AxiosJsonRequestConfig } from './AxiosJson'

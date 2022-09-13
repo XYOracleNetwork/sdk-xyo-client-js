@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { Module, XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
-import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
+import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
 import { Archivist } from './Archivist'

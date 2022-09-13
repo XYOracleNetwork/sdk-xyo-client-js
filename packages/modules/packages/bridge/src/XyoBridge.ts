@@ -1,7 +1,7 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promisable'
+import { Promisable } from '@xyo-network/promise'
 
 import { BridgeModule } from './Bridge'
 import { XyoBridgeConfig } from './Config'

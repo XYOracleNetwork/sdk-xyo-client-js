@@ -1,6 +1,6 @@
 import { WithAdditional } from '@xyo-network/core'
 import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promisable'
+import { Promisable } from '@xyo-network/promise'
 import { XyoWitness } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 

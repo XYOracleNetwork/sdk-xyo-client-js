@@ -1,5 +1,5 @@
 import { XyoPayload } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promisable'
+import { Promisable } from '@xyo-network/promise'
 
 import { Module, XyoModuleQueryResult } from './Module'
 import { XyoQuery } from './Query'

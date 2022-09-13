@@ -8,37 +8,12 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "workspaces": [
-    "packages/**/*"
-  ],
-  "dependencies": {
-    "@xyo-network/modules": "workspace:^",
-    "@xyo-network/payload-plugins": "workspace:^",
-    "@xyo-network/sdk": "workspace:^"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@xylabs/eslint-config": "^2.7.9",
-    "@xylabs/ts-scripts-yarn3": "^2.7.9",
-    "@xylabs/tsconfig": "^2.7.9",
-    "axios": "^0.27.2",
-    "eslint": "^8.23.1",
-    "jest": "^29.0.3",
-    "jest-extended": "^3.1.0",
-    "pako": "^2.0.4",
-    "ts-jest": "^29.0.0",
-    "typescript": "^4.8.3"
-  },
-  "peerDependencies": {
-    "axios": "^0.27.2",
-    "pako": "^2.0.4"
-  },
-  "resolutions": {
-    "bn.js": "^5.2.1",
-    "lodash": "^4.17.21"
-  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
+  "dependencies": {
+    "tslib": "^2.4.0"
+  },
   "exports": {
     ".": {
       "node": {
@@ -60,7 +35,7 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/sdk-xyo-client-js",
+  "name": "@xyo-network/promise",
   "publishConfig": {
     "access": "public"
   },
@@ -68,18 +43,7 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
-  "typedoc": {
-    "entryPoint": "./src/index.ts",
-    "readmeFile": "./README.md",
-    "displayName": "Root Package"
-  },
-  "scripts": {
-    "lint-pkg": "npmPkgJsonLint .",
-    "xyo": "yarn workspace @xyo-network/node xyo",
-    "xyo-ts": "yarn workspace @xyo-network/node xyo-ts"
-  },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.32.1",
-  "packageManager": "yarn@3.2.3"
+  "version": "2.32.1"
 }

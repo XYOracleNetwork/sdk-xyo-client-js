@@ -1,7 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promisable'
+import { Promisable } from '@xyo-network/promise'
 
 import { XyoModuleConfig } from './Config'
 import { Module, XyoModuleQueryResult } from './Module'

@@ -12,7 +12,7 @@
   "dependencies": {
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/promisable": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "tslib": "^2.4.0"
   },

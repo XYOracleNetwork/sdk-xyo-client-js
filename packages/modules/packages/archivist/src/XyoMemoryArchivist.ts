@@ -102,7 +102,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         this.cache.set(payloadWithmeta._hash, payloadWithmeta)
         return payloadWithmeta
       })
-      const boundwitness = this.bindPayloads(payloads)
+      const [boundwitness] = await this.bindPayloads(payloads)
       if (this.writeThrough) {
         await this.writeToParents(payloads)
       }
@@ -137,7 +137,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
   public async commit(): Promise<XyoBoundWitness> {
     try {
       const payloads = assertEx(await this.all(), 'Nothing to commit')
-      const block = this.bindPayloads(payloads)
+      const [block] = await this.bindPayloads(payloads)
       await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {

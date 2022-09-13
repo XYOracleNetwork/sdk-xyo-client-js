@@ -113,7 +113,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
         this.storage.set(hash, wrapper.payload)
         return wrapper.payload
       })
-      const boundwitness = this.bindPayloads(storedPayloads)
+      const [boundwitness] = await this.bindPayloads(storedPayloads)
       if (this.writeThrough) {
         await this.writeToParents([boundwitness, ...storedPayloads])
       }
@@ -149,7 +149,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
-      const block = this.bindPayloads(payloads)
+      const [block] = await this.bindPayloads(payloads)
       await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {

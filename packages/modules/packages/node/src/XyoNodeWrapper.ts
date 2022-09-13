@@ -14,7 +14,7 @@ import {
 } from './Queries'
 
 export class XyoNodeWrapper extends XyoModuleWrapper implements Node {
-  async available(): Promise<string[]> {
+  async registered(): Promise<string[]> {
     const query: XyoNodeAvailableQuery = { schema: XyoNodeAvailableQuerySchema }
     return compact((await this.module.query(query))[1].map((payload) => payload?.schema))
   }

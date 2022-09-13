@@ -1,5 +1,5 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoModule, XyoModuleQueryResult } from '@xyo-network/module'
+import { XyoModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -32,24 +32,17 @@ export abstract class XyoWitness<
     return { ...fields, schema: this.targetSchema } as TTarget
   }
 
-  async query(query: TQuery): Promise<XyoModuleQueryResult<TTarget>> {
+  override async query(query: TQuery) {
+    const queryAccount = new XyoAccount()
     switch (query.schema) {
       case XyoWitnessObserveQuerySchema: {
         const payloads = [await this.observe(query?.payload)]
-        return [this.bindPayloads(payloads), payloads]
+        return this.bindPayloads(payloads, queryAccount)
       }
+
       default: {
         return super.query(query)
       }
     }
-  }
-}
-
-export abstract class XyoTimestampWitness<T extends XyoPayload = XyoPayload, C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>> extends XyoWitness<
-  T,
-  C
-> {
-  public observe(fields?: Partial<T> | undefined): Promisable<T> {
-    return { ...fields, schema: this.targetSchema, timestamp: Date.now() } as T
   }
 }

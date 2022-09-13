@@ -14,7 +14,7 @@ test('Create Node', async () => {
   node.attach(archivist.address)
   node.register(diviner)
   node.attach(diviner.address)
-  expect(node.available().length).toBe(2)
+  expect(node.registered().length).toBe(2)
   expect(node.attached().length).toBe(2)
   const foundArchivist = node.get(archivist.address)
   expect(foundArchivist).toBeDefined()

@@ -3482,7 +3482,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     js-cookie: ^3.0.1
     lodash: ^4.17.21
     lru-cache: ^7.14.0
@@ -3541,7 +3541,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     pako: ^2.0.4
     tslib: ^2.4.0
   peerDependencies:
@@ -3592,7 +3592,7 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
@@ -3604,7 +3604,7 @@ __metadata:
   dependencies:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
@@ -3616,7 +3616,7 @@ __metadata:
   dependencies:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
@@ -3669,7 +3669,7 @@ __metadata:
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3831,7 +3831,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3878,6 +3878,7 @@ __metadata:
     "@types/node": ^18.7.17
     "@types/terminal-kit": ^2.5.0
     "@xylabs/assert": ^2.6.7
+    "@xylabs/forget": ^2.6.7
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -3965,7 +3966,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/promisable@workspace:^, @xyo-network/promisable@workspace:packages/sdk/packages/promisable":
+"@xyo-network/promisable@workspace:packages/sdk/packages/promisable":
   version: 0.0.0-use.local
   resolution: "@xyo-network/promisable@workspace:packages/sdk/packages/promisable"
   dependencies:
@@ -4169,7 +4170,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/promisable": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft

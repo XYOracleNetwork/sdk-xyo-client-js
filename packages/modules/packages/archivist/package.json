@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.7",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/promisable": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "lru-cache": "^7.14.0",

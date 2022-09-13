@@ -112,7 +112,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
-      const storedPayloads = payloads.map((payload) => {
+      const storedPayloads: XyoPayload[] = payloads.map((payload) => {
         const wrapper = new XyoPayloadWrapper(payload)
         const key = this.keyFromHash(wrapper.hash)
         const value = JSON.stringify(wrapper.payload)
@@ -120,7 +120,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         Cookies.set(key, JSON.stringify(wrapper.payload))
         return wrapper.payload
       })
-      const boundwitness = this.bindPayloads(storedPayloads)
+      const [boundwitness] = await this.bindPayloads(storedPayloads)
       if (this.writeThrough) {
         await this.writeToParents([boundwitness, ...storedPayloads])
       }
@@ -158,7 +158,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
-      const block = this.bindPayloads(payloads)
+      const [block] = await this.bindPayloads(payloads)
       await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {

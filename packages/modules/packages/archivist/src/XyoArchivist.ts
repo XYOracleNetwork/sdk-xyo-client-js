@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { Module, XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
@@ -74,6 +75,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
     }
 
     const payloads: (XyoPayload | null)[] = []
+    const queryAccount = new XyoAccount()
     switch (query.schema) {
       case XyoArchivistAllQuerySchema:
         payloads.push(...(await this.all()))
@@ -97,7 +99,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
         payloads.push(await this.insert(query.payloads), ...query.payloads)
         break
     }
-    return [this.bindPayloads(payloads), payloads]
+    return this.bindPayloads(payloads, queryAccount)
   }
 
   private resolveArchivists(archivists?: Record<string, Module | null | undefined>) {

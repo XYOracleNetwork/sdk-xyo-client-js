@@ -1,3 +1,4 @@
+import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
@@ -20,8 +21,9 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
 
   abstract forward(query: TQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]>
 
-  override async query(query: TQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]> {
+  override async query(query: TQuery) {
     const payloads: (XyoPayload | null)[] = []
+    const queryAccount = new XyoAccount()
     switch (query.schema) {
       case XyoBridgeConnectQuerySchema: {
         await this.connect()
@@ -38,6 +40,6 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
           return this.forward(query)
         }
     }
-    return [this.bindPayloads(payloads), payloads]
+    return this.bindPayloads(payloads, queryAccount)
   }
 }

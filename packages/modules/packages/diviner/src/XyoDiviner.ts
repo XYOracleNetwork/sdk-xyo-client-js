@@ -1,3 +1,4 @@
+import { XyoAccount } from '@xyo-network/account'
 import { XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
@@ -21,6 +22,7 @@ export abstract class XyoDiviner<
   }
 
   async query(query: TQuery): Promise<XyoModuleQueryResult<TDivineResult>> {
+    const queryAccount = new XyoAccount()
     if (!this.queries().find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }
@@ -31,7 +33,7 @@ export abstract class XyoDiviner<
         payloads.push(await this.divine(query.payloads))
         break
     }
-    return [this.bindPayloads(payloads), payloads]
+    return await this.bindPayloads(payloads, queryAccount)
   }
 }
 

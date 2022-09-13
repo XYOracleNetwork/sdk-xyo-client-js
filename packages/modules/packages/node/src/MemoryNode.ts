@@ -25,7 +25,7 @@ export class XyoMemoryNode<
     })
   }
 
-  override available() {
+  override registered() {
     return Array.from(this.registeredModuleMap.keys()).map((key) => {
       return key
     })
@@ -49,7 +49,7 @@ export class XyoMemoryNode<
       console.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)
       return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
     }
-    return this.registeredModuleMap?.get(address) ?? null
+    return this.attachedModuleMap?.get(address) ?? null
   }
 
   override register(module: TModule) {
@@ -58,14 +58,14 @@ export class XyoMemoryNode<
 
   override attach(address: string) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
-    this.registeredModuleMap.set(address, module)
+    this.attachedModuleMap.set(address, module)
   }
 
   override detatch(address: string) {
-    this.registeredModuleMap.delete(address)
+    this.attachedModuleMap.delete(address)
   }
 
   override get(address: string) {
-    return this.registeredModuleMap.get(address)
+    return this.attachedModuleMap.get(address)
   }
 }

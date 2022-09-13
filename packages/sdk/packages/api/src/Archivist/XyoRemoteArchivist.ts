@@ -61,7 +61,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
         })
         assertEx(found, 'Payload not in Boundwitness received')
       })
-      const boundwitness = this.bindPayloads(payloads)
+      const [boundwitness] = await this.bindPayloads(payloads)
       const [, { error }] = await this.api.archive(this.archive).block.post([boundwitness, ...boundwitnesses], 'tuple')
       if (error?.length) {
         throw new RemoteArchivistError('insert', error)

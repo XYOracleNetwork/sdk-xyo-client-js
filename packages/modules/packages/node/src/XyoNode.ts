@@ -1,6 +1,6 @@
-import { XyoModule, XyoModuleConfig, XyoModuleQueryResult } from '@xyo-network/module'
+import { XyoAccount } from '@xyo-network/account'
+import { XyoModule, XyoModuleConfig } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promise'
 
 import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeAvailableQuerySchema, XyoNodeDetatchQuerySchema, XyoNodeQuery } from './Queries'
@@ -19,7 +19,7 @@ export abstract class XyoNode<
   abstract detatch(_address: string): void
   abstract resolve(_address: string): XyoModule | null
 
-  available(): string[] {
+  registered(): string[] {
     throw new Error('Method not implemented.')
   }
   attached(): string[] {
@@ -34,7 +34,8 @@ export abstract class XyoNode<
   }
   /** Query Functions - End */
 
-  query(query: TQuery): Promisable<XyoModuleQueryResult<TQueryResult>> {
+  query(query: TQuery) {
+    const queryAccount = new XyoAccount()
     const payloads: (TQueryResult | null)[] = []
     switch (query.schema) {
       case XyoNodeAttachQuerySchema: {
@@ -50,11 +51,11 @@ export abstract class XyoNode<
         break
       }
       case XyoNodeAvailableQuerySchema: {
-        this.available()
+        this.registered()
         break
       }
     }
-    return [this.bindPayloads(payloads), payloads]
+    return this.bindPayloads(payloads, queryAccount)
   }
 
   register(_module: TModule): void {

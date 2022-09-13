@@ -1,36 +1,68 @@
-import path from 'path'
 import { terminal } from 'terminal-kit'
 
-import xyo_logo_black from './xyo_logo_black.png'
+function terminate() {
+  terminal.grabInput(false)
+  terminal.clear()
+  terminal.green('\n\nXYO Node Shutdown - Bye\n\n')
+  setTimeout(function () {
+    process.exit()
+  }, 100)
+}
 
-const commands = ['exit', 'plugin']
-
-const getCommand = (): Promise<string | undefined> => {
-  return new Promise((resolve, reject) => {
-    terminal.inputField({ autoComplete: commands, autoCompleteMenu: true }, (error, input) => {
-      terminal('\n')
-      if (error) {
-        reject(error)
-      } else {
-        resolve(input)
+const getCommand = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    terminal.once('key', (name: string) => {
+      if (name === 'ESCAPE') {
+        resolve(true)
+      }
+      if (name === 'CTRL_C') {
+        resolve(false)
       }
     })
+    const items = [
+      'Register Plugin',
+      'Unregister Plugin',
+      'List Registered Plugins',
+      'Attach Plugin',
+      'Detatch Plugin',
+      'List Attached Plugins',
+      'Show Config',
+      'Status',
+      'Exit',
+    ].map((item, index) => {
+      return {
+        slug: item.toLowerCase().replaceAll(' ', '-'),
+        text: `${index + 1}. ${item}`,
+      }
+    })
+    terminal.clear()
+    terminal.green('\nXYO Node Running\n')
+    terminal.singleColumnMenu(
+      items.map((item) => item.text),
+      (error, response) => {
+        terminal.removeListener('key', id)
+        if (error) {
+          terminal.red(`Error: ${error}`)
+        }
+        switch (items[response.selectedIndex].slug) {
+          case 'exit':
+            resolve(false)
+            break
+          case 'register-plugin':
+            terminal.yellow('Register Plugin')
+            break
+        }
+        resolve(true)
+      },
+    )
   })
 }
 
 export const startTerminal = async () => {
-  const imagePath = path.resolve(__dirname, xyo_logo_black)
-  await terminal.drawImage(imagePath)
-  terminal.green('XYO Node Started\n\n')
-  terminal.green("Type 'exit' to exit\n\n")
-
   let running = true
-
   while (running) {
-    const command = await getCommand()
-    if (command === 'exit') {
-      running = false
-    }
+    running = await getCommand()
   }
-  process.exit(0)
+
+  terminate()
 }

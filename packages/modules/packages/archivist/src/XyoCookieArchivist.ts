@@ -81,6 +81,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         return true
       })
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('delete', ex, 'unexpected')
     }
   }
@@ -93,6 +94,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         }
       })
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('clear', ex, 'unexpected')
     }
   }
@@ -106,6 +108,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         }),
       )
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('get', ex, 'unexpected')
     }
   }
@@ -126,6 +129,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       }
       return boundwitness
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('insert', ex, 'unexpected')
     }
   }
@@ -140,6 +144,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       })
       return x
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('find', ex, 'unexpected')
     }
   }
@@ -150,6 +155,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
         .map(([, value]) => JSON.parse(value))
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('all', ex, 'unexpected')
     }
   }
@@ -170,6 +176,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       await this.clear()
       return block
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('commit', ex, 'unexpected')
     }
   }

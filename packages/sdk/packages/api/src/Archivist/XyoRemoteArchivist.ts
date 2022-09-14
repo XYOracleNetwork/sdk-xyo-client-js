@@ -35,6 +35,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
           }
           return payloads?.pop() ?? null
         } catch (ex) {
+          console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
           throw new RemoteArchivistError('get', ex, 'unexpected')
         }
       }),
@@ -68,6 +69,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       }
       return boundwitness
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new RemoteArchivistError('insert', ex, 'unexpected')
     }
   }
@@ -84,6 +86,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       }
       return payloads.concat(blocks) as R[]
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new RemoteArchivistError('find', ex, 'unexpected')
     }
   }

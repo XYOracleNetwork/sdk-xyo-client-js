@@ -78,6 +78,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
         return true
       })
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('delete', ex, 'unexpected')
     }
   }
@@ -86,6 +87,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     try {
       this.storage.clear()
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('clear', ex, 'unexpected')
     }
   }
@@ -99,6 +101,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
         }),
       )
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('get', ex, 'unexpected')
     }
   }
@@ -119,6 +122,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       }
       return boundwitness
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('insert', ex, 'unexpected')
     }
   }
@@ -133,6 +137,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       })
       return x
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('find', ex, 'unexpected')
     }
   }
@@ -141,6 +146,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     try {
       return Object.entries(this.storage.getAll()).map(([, value]) => value)
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('all', ex, 'unexpected')
     }
   }
@@ -161,6 +167,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       await this.clear()
       return block
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('commit', ex, 'unexpected')
     }
   }

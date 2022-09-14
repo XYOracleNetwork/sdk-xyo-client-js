@@ -66,6 +66,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         return this.cache.delete(hash)
       })
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('delete', ex, 'unexpected')
     }
   }
@@ -74,6 +75,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     try {
       this.cache.clear()
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('clear', ex, 'unexpected')
     }
   }
@@ -90,6 +92,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         }),
       )
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('get', ex, 'unexpected')
     }
   }
@@ -108,6 +111,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       }
       return boundwitness
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('insert', ex, 'unexpected')
     }
   }
@@ -122,6 +126,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       })
       return result
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('find', ex, 'unexpected')
     }
   }
@@ -130,6 +135,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     try {
       return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('all', ex, 'unexpected')
     }
   }
@@ -149,6 +155,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       await this.clear()
       return block
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('commit', ex, 'unexpected')
     }
   }

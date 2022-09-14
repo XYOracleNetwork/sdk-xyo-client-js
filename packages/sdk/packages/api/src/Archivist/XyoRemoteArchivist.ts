@@ -35,7 +35,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
           }
           return payloads?.pop() ?? null
         } catch (ex) {
-          console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+          console.warn(`Error: ${JSON.stringify(ex, null, 2)}`)
           throw new RemoteArchivistError('get', ex, 'unexpected')
         }
       }),
@@ -52,24 +52,15 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
             return boundwitness.payload_hashes.includes(hash)
           })
       })
-      payloads.forEach((payload) => {
-        let found = false
-        const hash = new XyoPayloadWrapper(payload).hash
-        boundwitnesses.forEach((boundwitnesses) => {
-          if (boundwitnesses.payload_hashes.includes(hash)) {
-            found = true
-          }
-        })
-        assertEx(found, 'Payload not in Boundwitness received')
-      })
       const [boundwitness] = await this.bindPayloads(payloads)
-      const [, { error }] = await this.api.archive(this.archive).block.post([boundwitness, ...boundwitnesses], 'tuple')
+      const result = await this.api.archive(this.archive).block.post([boundwitness], 'tuple')
+      const [, { error }] = result
       if (error?.length) {
         throw new RemoteArchivistError('insert', error)
       }
       return boundwitness
     } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      console.warn(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new RemoteArchivistError('insert', ex, 'unexpected')
     }
   }
@@ -86,7 +77,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       }
       return payloads.concat(blocks) as R[]
     } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      console.warn(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new RemoteArchivistError('find', ex, 'unexpected')
     }
   }

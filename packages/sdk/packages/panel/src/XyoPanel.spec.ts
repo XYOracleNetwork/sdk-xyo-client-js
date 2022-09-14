@@ -36,10 +36,10 @@ describe('XyoPanel', () => {
 
     const report1 = await panel.report([adhocWitness])
     expect(report1.schema).toBe(XyoBoundWitnessSchema)
-    expect(report1.payload_hashes.length).toBe(3)
+    expect(report1.payload_hashes.length).toBe(5)
     const report2 = await panel.report()
     expect(report2.schema).toBeDefined()
-    expect(report2.payload_hashes.length).toBe(2)
+    expect(report2.payload_hashes.length).toBe(4)
 
     expect(new XyoPayloadWrapper(report2).hash !== new XyoPayloadWrapper(report1).hash).toBe(true)
   })

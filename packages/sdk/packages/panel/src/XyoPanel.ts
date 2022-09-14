@@ -67,8 +67,8 @@ export class XyoPanel {
     const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
     const newBoundWitness = new XyoBoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
-    await this.archivist.insert([newBoundWitness, ...payloads])
+    const bw = await this.archivist.insert([newBoundWitness, ...payloads])
     this.config.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
-    return newBoundWitness
+    return bw
   }
 }

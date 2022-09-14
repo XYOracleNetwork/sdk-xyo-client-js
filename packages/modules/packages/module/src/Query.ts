@@ -10,6 +10,9 @@ export type XyoQuery<T extends XyoPayload = XyoPayload, TSchema extends string =
 
     /** @field The starting point for the bidding on the query */
     minBid?: number
+
+    /** @field The addresses of the intended handlers */
+    address?: string | [string]
   },
   TSchema
 >

@@ -45,6 +45,7 @@ releases:
   "@xyo-network/schema-witness": minor
   "@xyo-network/sdk": minor
   "@xyo-network/sdk-xyo-client-js": minor
+  "@xyo-network/shared": minor
   "@xyo-network/storage": minor
   "@xyo-network/system-payload-plugins": minor
   "@xyo-network/systeminfo-witness": minor

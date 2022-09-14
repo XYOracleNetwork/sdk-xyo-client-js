@@ -4079,7 +4079,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/shared@workspace:packages/sdk/packages/shared"
   dependencies:
-    "@types/lru-cache": ^7.10.10
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft

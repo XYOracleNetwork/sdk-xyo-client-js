@@ -54,6 +54,8 @@ export abstract class XyoNode<
         this.registered()
         break
       }
+      default:
+        return super.query(query)
     }
     return this.bindPayloads(payloads, queryAccount)
   }

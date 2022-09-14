@@ -1,3 +1,5 @@
+import { XyoPayloadWrapper } from '@xyo-network/payload'
+
 import { XyoApiConfig } from '../models'
 import { XyoArchivistApi } from './Api'
 import { XyoRemoteArchivist } from './XyoRemoteArchivist'
@@ -14,10 +16,13 @@ test('XyoRemoteArchivist', async () => {
   const api = new XyoArchivistApi(configData)
   const archivist = new XyoRemoteArchivist({ api, schema: XyoRemoteArchivistConfigSchema })
   const payload = {
-    salt: 'test',
+    salt: `${Math.random() * 10000}`,
     schema: 'network.xyo.id',
   }
   const result = await archivist.insert([payload])
-  console.log(`Result: ${JSON.stringify(result)}`)
   expect(result.payload_hashes.length).toBe(1)
+  const getResult = await archivist.get([new XyoPayloadWrapper(payload).hash])
+  console.log(`getResult: ${JSON.stringify(getResult)}`)
+  expect(getResult.length).toBe(1)
+  expect(getResult[0]?.schema).toBe(payload.schema)
 })

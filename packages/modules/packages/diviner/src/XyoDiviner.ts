@@ -32,6 +32,8 @@ export abstract class XyoDiviner<
       case XyoDivinerDivineQuerySchema:
         payloads.push(await this.divine(query.payloads))
         break
+      default:
+        return super.query(query)
     }
     return await this.bindPayloads(payloads, queryAccount)
   }

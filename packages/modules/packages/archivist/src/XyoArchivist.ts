@@ -98,6 +98,8 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
       case XyoArchivistInsertQuerySchema:
         payloads.push(await this.insert(query.payloads), ...query.payloads)
         break
+      default:
+        return super.query(query)
     }
     return this.bindPayloads(payloads, queryAccount)
   }

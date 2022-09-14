@@ -19,6 +19,7 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/promise": "workspace:^",
+    "@xyo-network/shared": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "@xyo-network/utils": "workspace:^",

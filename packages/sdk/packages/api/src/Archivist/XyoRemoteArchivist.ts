@@ -1,36 +1,10 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoArchivist, XyoArchivistFindQuerySchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessSchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema, XyoBoundWitnessWithMeta, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { RemoteArchivistError } from './RemoteArchivistError'
 import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
-
-const dump = (obj: unknown) => {
-  const cache: unknown[] = []
-  return JSON.stringify(
-    obj,
-    (key, value) => {
-      if (typeof value === 'object' && value !== null) {
-        // Duplicate reference found, discard key
-        if (cache.includes(value)) {
-          return '[circular]'
-        }
-
-        // Store value in our collection
-        cache.push(value)
-      }
-      return value
-    },
-    2,
-  )
-}
-
-const handleError = (tag: string, ex: unknown) => {
-  const error = ex as Error
-  console.log(`Error: ${error.message}`)
-  throw error
-}
 
 /** @description Archivist Context that connects to a remote archivist using the API */
 export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
@@ -56,7 +30,8 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
           }
           return payloads?.pop() ?? null
         } catch (ex) {
-          return handleError('get', ex)
+          console.error(ex)
+          throw ex
         }
       }),
     )
@@ -73,23 +48,16 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
           })
       })
       const [boundwitness] = await this.bindPayloads(payloads)
-      const payloadResult = await this.api.archive(this.archive).payload.post(payloads, 'tuple')
-      console.log(`payloadResult: ${dump(payloadResult)}`)
-      const [, { error: payloadError }, apiResult] = payloadResult
-      if (apiResult.status >= 400) {
-        throw new RemoteArchivistError('insert', payloadError)
-      }
-      if (payloadError?.length) {
-        throw new RemoteArchivistError('insert', payloadError)
-      }
-      const bwResult = await this.api.archive(this.archive).block.post([boundwitness], 'tuple')
+      const bwWithMeta: Partial<XyoBoundWitnessWithMeta> & XyoBoundWitness = { ...boundwitness, _payloads: payloads }
+      const bwResult = await this.api.archive(this.archive).block.post([bwWithMeta], 'tuple')
       const [, { error: bwError }] = bwResult
       if (bwError?.length) {
         throw new RemoteArchivistError('insert', bwError)
       }
       return boundwitness
     } catch (ex) {
-      return handleError('insert', ex)
+      console.error(ex)
+      throw ex
     }
   }
 
@@ -105,7 +73,8 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       }
       return payloads.concat(blocks) as R[]
     } catch (ex) {
-      return handleError('find', ex)
+      console.error(ex)
+      throw ex
     }
   }
 }

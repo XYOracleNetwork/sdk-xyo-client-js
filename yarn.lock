@@ -4062,6 +4062,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/promise": "workspace:^"
+    "@xyo-network/shared": "workspace:^"
     "@xyo-network/storage": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     "@xyo-network/utils": "workspace:^"
@@ -4071,6 +4072,15 @@ __metadata:
   peerDependencies:
     axios: ^0.27.2
     pako: ^2.0.4
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/shared@workspace:^, @xyo-network/shared@workspace:packages/sdk/packages/shared":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/shared@workspace:packages/sdk/packages/shared"
+  dependencies:
+    "@types/lru-cache": ^7.10.10
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 

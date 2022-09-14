@@ -1,0 +1,9 @@
+{
+  "intentionallyNotExported": [
+    "XyoFetchedPayload",
+    "XyoSchemaPayload",
+    "XyoPayloadFull",
+    "XyoDomainPayload",
+    "XyoPayload"
+  ]
+}

@@ -4,26 +4,17 @@
     "name": "XYO Development Team",
     "url": "https://xyo.network"
   },
+  "name": "@xyo-network/shared",
   "bugs": {
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.7",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/archivist": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
-    "@xyo-network/shared": "workspace:^",
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
-    "@xyo-network/schema-payload-plugin": "workspace:^",
-    "axios": "^0.27.2",
-    "pako": "^2.0.4",
     "tslib": "^2.4.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/pako": "^2.0.0"
+    "@types/lru-cache": "^7.10.10"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -48,7 +39,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/api",
   "publishConfig": {
     "access": "public"
   },

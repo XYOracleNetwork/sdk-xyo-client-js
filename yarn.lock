@@ -3905,7 +3905,6 @@ __metadata:
     "@types/lodash": ^4.14.185
     "@xylabs/sdk-js": ^2.6.7
     "@xyo-network/account": "workspace:^"
-    "@xyo-network/api": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"

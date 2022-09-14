@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
+import { XyoArchivist, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
-import { XyoArchivist, XyoArchivistWrapper } from '@xyo-network/modules'
 import { XyoPartialPayloadMeta, XyoPayload } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 import compact from 'lodash/compact'

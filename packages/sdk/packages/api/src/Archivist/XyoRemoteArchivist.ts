@@ -24,9 +24,12 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     return await Promise.all(
       hashes.map(async (hash) => {
         try {
-          const [payloads, { error }] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
-          if (error?.length) {
-            throw new RemoteArchivistError('get', error)
+          const [payloads, response, error] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
+          if (error?.status >= 400) {
+            throw new RemoteArchivistError('get', `${error.statusText} [${error.status}]`)
+          }
+          if (response?.error?.length) {
+            throw new RemoteArchivistError('get', response?.error)
           }
           return payloads?.pop() ?? null
         } catch (ex) {
@@ -50,9 +53,12 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       const [boundwitness] = await this.bindPayloads(payloads)
       const bwWithMeta: Partial<XyoBoundWitnessWithMeta> & XyoBoundWitness = { ...boundwitness, _payloads: payloads }
       const bwResult = await this.api.archive(this.archive).block.post([bwWithMeta], 'tuple')
-      const [, { error: bwError }] = bwResult
-      if (bwError?.length) {
-        throw new RemoteArchivistError('insert', bwError)
+      const [, response, error] = bwResult
+      if (error?.status >= 400) {
+        throw new RemoteArchivistError('insert', `${error.statusText} [${error.status}]`)
+      }
+      if (response?.error?.length) {
+        throw new RemoteArchivistError('insert', response?.error)
       }
       return boundwitness
     } catch (ex) {
@@ -67,9 +73,12 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       if (payloadError?.length) {
         throw new RemoteArchivistError('find', payloadError, 'payloads')
       }
-      const [blocks = [], { error: blockError }] = await this.api.archive(this.archive).block.find(filter, 'tuple')
-      if (blockError?.length) {
-        throw new RemoteArchivistError('find', blockError, 'blocks')
+      const [blocks = [], response, error] = await this.api.archive(this.archive).block.find(filter, 'tuple')
+      if (error?.status >= 400) {
+        throw new RemoteArchivistError('find', `${error.statusText} [${error.status}]`)
+      }
+      if (response?.error?.length) {
+        throw new RemoteArchivistError('find', response?.error)
       }
       return payloads.concat(blocks) as R[]
     } catch (ex) {

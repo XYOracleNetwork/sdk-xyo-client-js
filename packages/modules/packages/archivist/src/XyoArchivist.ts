@@ -23,9 +23,9 @@ import {
 } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
-  extends XyoModule<XyoArchivistConfig<TConfig>, XyoArchivistQuery>
-  implements Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
+export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoArchivistQuery = XyoArchivistQuery>
+  extends XyoModule<XyoArchivistConfig<TConfig>, TQuery>
+  implements Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter, string, TQuery>
 {
   public override queries(): XyoArchivistQuerySchema[] {
     return [
@@ -69,7 +69,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
 
   abstract insert(item: XyoPayload[]): Promisable<XyoBoundWitness>
 
-  async query(query: XyoArchivistQuery): Promise<XyoModuleQueryResult> {
+  override async query(query: TQuery): Promise<XyoModuleQueryResult> {
     if (!this.queries().find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }

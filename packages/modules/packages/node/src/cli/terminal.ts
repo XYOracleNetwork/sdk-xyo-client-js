@@ -1,5 +1,4 @@
 import { XyoModuleConfig } from '@xyo-network/module'
-import { XyoNodeConfig } from '@xyo-network/sdk'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { terminal } from 'terminal-kit'

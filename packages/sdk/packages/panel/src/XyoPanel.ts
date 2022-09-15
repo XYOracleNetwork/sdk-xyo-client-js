@@ -1,5 +1,5 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivist, XyoArchivistWrapper } from '@xyo-network/archivist'
+import { PayloadArchivist, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPartialPayloadMeta, XyoPayload } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
@@ -19,7 +19,7 @@ export class XyoPanel {
   public history: XyoBoundWitness[] = []
   public archivist: XyoArchivistWrapper
   public account: XyoAccount
-  constructor({ witnesses, ...config }: Partial<XyoPanelConfig>, archivist: XyoArchivist) {
+  constructor({ witnesses, ...config }: Partial<XyoPanelConfig>, archivist: PayloadArchivist) {
     this.config = {
       ...config,
       witnesses: witnesses ?? [],

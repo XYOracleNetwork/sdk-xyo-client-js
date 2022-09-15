@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { Module, XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
+import { XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -104,11 +104,11 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQue
     return this.bindPayloads(payloads, queryAccount)
   }
 
-  private resolveArchivists(archivists?: Record<string, Module | null | undefined>) {
-    const resolved: Record<string, Module | null | undefined> = {}
+  private resolveArchivists(archivists?: Record<string, PayloadArchivist | null | undefined>) {
+    const resolved: Record<string, PayloadArchivist | null | undefined> = {}
     if (archivists) {
       Object.entries(archivists).forEach(([key, value]) => {
-        resolved[key] = value ?? this.resolver?.(key) ?? null
+        resolved[key] = value ?? (this.resolver?.(key) as unknown as PayloadArchivist) ?? null
       })
     }
     return resolved
@@ -131,7 +131,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQue
     )[0]
   }
 
-  protected async writeToParent(parent: Module, payloads: XyoPayload[]) {
+  protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
     const query: XyoArchivistInsertQuery = { payloads, schema: XyoArchivistInsertQuerySchema }
     const [, writtenPayloads] = (await parent?.query(query)) ?? []
     return writtenPayloads

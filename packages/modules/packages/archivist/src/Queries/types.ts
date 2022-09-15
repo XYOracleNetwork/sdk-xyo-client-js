@@ -1,4 +1,4 @@
-import { XyoModuleQuery } from '@xyo-network/module'
+import { XyoModuleQuery, XyoQuery } from '@xyo-network/module'
 
 import { XyoArchivistAllQuery } from './All'
 import { XyoArchivistClearQuery } from './Clear'
@@ -8,7 +8,7 @@ import { XyoArchivistFindQuery } from './Find'
 import { XyoArchivistGetQuery } from './Get'
 import { XyoArchivistInsertQuery } from './Insert'
 
-export type XyoArchivistQuery =
+type XyoArchivistQueryRoot =
   | XyoModuleQuery
   | XyoArchivistAllQuery
   | XyoArchivistClearQuery
@@ -17,3 +17,9 @@ export type XyoArchivistQuery =
   | XyoArchivistFindQuery
   | XyoArchivistGetQuery
   | XyoArchivistInsertQuery
+
+type XyoArchivistQueryRootSchema = XyoArchivistQueryRoot['schema']
+
+export type XyoArchivistQuerySchema<T extends string | void = void> = T extends string ? XyoArchivistQueryRootSchema | T : XyoArchivistQueryRootSchema
+
+export type XyoArchivistQuery<T extends XyoQuery | void = void> = T extends XyoQuery ? XyoArchivistQueryRoot | T : XyoArchivistQueryRoot

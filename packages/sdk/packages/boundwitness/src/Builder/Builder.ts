@@ -1,7 +1,7 @@
 import { Buffer } from '@xylabs/buffer'
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
-import { sortFields, XyoHasher } from '@xyo-network/core'
+import { Hasher, sortFields } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema, XyoBoundWitnessWithMeta } from '../models'
@@ -23,7 +23,7 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
     return (
       this._payloadHashes ??
       this._payloads.map((payload) => {
-        return new XyoHasher(payload).hash
+        return new Hasher(payload).hash
       })
     )
   }
@@ -83,7 +83,7 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
 
   public build(): XyoBoundWitnessWithMeta<TBoundWitness, TPayload> {
     const hashableFields = this.hashableFields()
-    const _hash = new XyoHasher(hashableFields).hash
+    const _hash = new Hasher(hashableFields).hash
 
     const ret: XyoBoundWitnessWithMeta<TBoundWitness, TPayload> = {
       ...hashableFields,

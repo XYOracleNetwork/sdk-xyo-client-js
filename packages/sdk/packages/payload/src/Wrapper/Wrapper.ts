@@ -1,9 +1,9 @@
-import { deepOmitUnderscoreFields, deepPickUnderscoreFields, XyoDataLike, XyoHasher } from '@xyo-network/core'
+import { deepOmitUnderscoreFields, deepPickUnderscoreFields, Hasher, XyoDataLike } from '@xyo-network/core'
 
 import { Huri } from '../Huri'
 import { XyoPayload } from '../models'
 
-export class XyoPayloadWrapper<T extends XyoPayload = XyoPayload> extends XyoHasher<T> {
+export class XyoPayloadWrapper<T extends XyoPayload = XyoPayload> extends Hasher<T> {
   public get payload() {
     return this.obj
   }
@@ -12,6 +12,7 @@ export class XyoPayloadWrapper<T extends XyoPayload = XyoPayload> extends XyoHas
     return deepOmitUnderscoreFields<T>(this.obj)
   }
 
+  /** @deprecated - meta fields not supported by client anymore */
   public get meta() {
     return deepPickUnderscoreFields<T>(this.obj)
   }

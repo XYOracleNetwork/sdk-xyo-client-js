@@ -1,14 +1,17 @@
-import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
+/* eslint-disable deprecation/deprecation */
+/* eslint-disable import/no-deprecated */
+import { Hasher, XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoPayloadMeta } from '../models'
 
 const MIN_ALLOWED_TIMESTAMP = 1609459200000
 const MAX_ALLOWED_TIMESTAMP = 4102444800000
 
+/** @deprecated - meta fields not supported by client anymore */
 class XyoPayloadMetaValidator<T extends XyoPayloadMeta = XyoPayloadMeta> extends XyoValidatorBase<T> {
   public hash() {
     const errors: Error[] = []
-    const wrapper = new XyoHasher(this.obj)
+    const wrapper = new Hasher(this.obj)
 
     const bodyHash = wrapper.hash
     if (bodyHash !== this.obj._hash) errors.push(new Error(`Body hash mismatch: [calculated: ${bodyHash}] [found: ${this.obj._hash}]`))

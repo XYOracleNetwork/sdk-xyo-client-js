@@ -1,7 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
 import { PayloadArchivist, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
-import { XyoPartialPayloadMeta, XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 
@@ -28,17 +28,10 @@ export class XyoPanel {
     this.account = new XyoAccount()
   }
 
-  private async generatePayload(
-    witness: XyoWitness,
-    onError?: (witness: XyoWitness, error: Error) => void,
-  ): Promise<[XyoPartialPayloadMeta<XyoPayload> | null, Error?]> {
+  private async generatePayload(witness: XyoWitness, onError?: (witness: XyoWitness, error: Error) => void): Promise<[XyoPayload | null, Error?]> {
     this.config.onWitnessReportStart?.(witness)
-    const startTime = Date.now()
     try {
-      const result: XyoPartialPayloadMeta<XyoPayload> = await witness.observe()
-      if (result) {
-        result._observeDuration = Date.now() - startTime
-      }
+      const result: XyoPayload = await witness.observe()
       return [result]
     } catch (ex) {
       const error = ex as Error

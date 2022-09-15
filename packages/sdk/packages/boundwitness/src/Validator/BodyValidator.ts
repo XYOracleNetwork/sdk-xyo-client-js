@@ -1,4 +1,4 @@
-import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
+import { Hasher, XyoValidatorBase } from '@xyo-network/core'
 import { XyoPayload, XyoSchemaNameValidator } from '@xyo-network/payload'
 import { validateType } from '@xyo-network/typeof'
 import uniq from 'lodash/uniq'
@@ -57,7 +57,7 @@ export class XyoBoundWitnessBodyValidator<T extends XyoBoundWitness = XyoBoundWi
     const errors: Error[] = []
     const passedHashes = this.obj.payload_hashes
     this.payloads?.forEach((payload, index) => {
-      const calcHash = new XyoHasher(payload).hash
+      const calcHash = new Hasher(payload).hash
       const passedHash = passedHashes?.[index]
       if (calcHash !== passedHash) {
         errors.push(new Error(`hash mismatch [${calcHash} !== ${passedHash}]`))

@@ -1,4 +1,4 @@
-import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
+import { Hasher, XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoBoundWitnessMeta } from '../models'
 import { isIP } from './is-ip'
@@ -15,7 +15,7 @@ export class XyoBoundWitnessMetaValidator<T extends Partial<XyoBoundWitnessMeta>
   public hash() {
     const errors: Error[] = []
 
-    const hasher = new XyoHasher(this.obj)
+    const hasher = new Hasher(this.obj)
 
     const bodyHash = hasher.hash
     if (bodyHash !== this.obj._hash)

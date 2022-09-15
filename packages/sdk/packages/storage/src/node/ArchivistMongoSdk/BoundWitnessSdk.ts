@@ -1,7 +1,9 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoBoundWitnessWithPartialMeta, XyoBoundWitnessWrapper } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity } from 'mongodb'
+
+import { XyoBoundWitnessWithPartialMeta } from './Meta'
 
 export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitnessWithPartialMeta> {
   private _archive: string

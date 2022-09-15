@@ -1,4 +1,4 @@
-import { XyoHasher } from '@xyo-network/core'
+import { Hasher } from '@xyo-network/core'
 import pick from 'lodash/pick'
 import { UAParser } from 'ua-parser-js'
 
@@ -6,7 +6,7 @@ import { XyoBoundWitness, XyoBoundWitnessWithMeta } from '../models'
 
 const scrubbedFields = ['_signatures', 'addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes', 'schema', 'timestamp']
 
-export class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends XyoHasher<T> {
+export class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends Hasher<T> {
   public readonly bw: T
   constructor(bw: T) {
     super(bw)

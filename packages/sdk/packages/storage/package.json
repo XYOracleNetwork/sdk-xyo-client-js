@@ -11,6 +11,7 @@
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.7",
     "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
     "mongodb": "^4.9.1",

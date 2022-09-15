@@ -1,5 +1,5 @@
 import { XyoAddressValue } from '@xyo-network/account'
-import { XyoHasher, XyoValidatorBase } from '@xyo-network/core'
+import { Hasher, XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoBoundWitnessWithPartialMeta } from '../models'
 import { XyoBoundWitnessBodyValidator } from './BodyValidator'
@@ -19,7 +19,7 @@ class XyoBoundWitnessValidator<T extends XyoBoundWitnessWithPartialMeta = XyoBou
   }
 
   public get hash() {
-    return new XyoHasher(this.obj).hash
+    return new Hasher(this.obj).hash
   }
 
   public signatures() {

@@ -1,7 +1,7 @@
 import { XyoArchivistAllQuery, XyoArchivistAllQuerySchema, XyoArchivistInsertQuery, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { XyoArchivistPayloadDiviner, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema, XyoHuriPayload, XyoHuriSchema } from '@xyo-network/diviner'
 import { XyoModule } from '@xyo-network/module'
-import { XyoPayloadBuilder, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/sdk'
+import { XyoPayload, XyoPayloadBuilder, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/sdk'
 
 import { XyoMemoryNode } from './MemoryNode'
 
@@ -19,7 +19,9 @@ test('Create Node', async () => {
   const foundArchivist = node.get(archivist.address)
   expect(foundArchivist).toBeDefined()
   expect(foundArchivist?.address).toBe(archivist.address)
-  const testPayload = new XyoPayloadBuilder({ schema: XyoPayloadSchema }).fields({ test: true }).build()
+  const testPayload = new XyoPayloadBuilder<XyoPayload<{ schema: XyoPayloadSchema; test: boolean }>>({ schema: XyoPayloadSchema })
+    .fields({ test: true })
+    .build()
 
   const insertQuery: XyoArchivistInsertQuery = { payloads: [testPayload], schema: XyoArchivistInsertQuerySchema }
   await foundArchivist?.query(insertQuery)

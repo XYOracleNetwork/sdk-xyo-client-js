@@ -2,7 +2,7 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleWrapper } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { Archivist } from './Archivist'
+import { PayloadArchivist } from './Archivist'
 import {
   XyoArchivistAllQuery,
   XyoArchivistAllQuerySchema,
@@ -18,10 +18,14 @@ import {
   XyoArchivistGetQuerySchema,
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
+  XyoArchivistQuery,
 } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export class XyoArchivistWrapper extends XyoModuleWrapper implements Archivist {
+export class XyoArchivistWrapper<TQuery extends XyoArchivistQuery = XyoArchivistQuery, TQueryResult extends XyoPayload = XyoPayload>
+  extends XyoModuleWrapper<TQuery | XyoArchivistQuery, TQueryResult>
+  implements PayloadArchivist<TQuery | XyoArchivistQuery>
+{
   public async delete(hashes: string[]) {
     const query: XyoArchivistDeleteQuery = { hashes, schema: XyoArchivistDeleteQuerySchema }
     return (await this.module.query(query))[0].payload_hashes.map(() => true)

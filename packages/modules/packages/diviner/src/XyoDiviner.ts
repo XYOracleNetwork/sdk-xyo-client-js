@@ -12,7 +12,7 @@ export abstract class XyoDiviner<
     TConfig extends XyoDivinerConfig = XyoDivinerConfig,
     TQuery extends XyoDivinerQuery<TDivineResult> = XyoDivinerQuery<TDivineResult>,
   >
-  extends XyoModule<TConfig, TQuery, TDivineResult>
+  extends XyoModule<TQuery, TDivineResult, TConfig>
   implements DivinerModule<TDivineResult, TQuery, TDivineResult>
 {
   abstract divine(payloads?: XyoPayloads<TDivineResult>): Promisable<TDivineResult | null>

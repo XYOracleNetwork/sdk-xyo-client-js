@@ -22,7 +22,7 @@ export type XyoHttpBridgeConfig = XyoBridgeConfig<{
 }>
 
 export class XyoHttpBridge<TQuery extends XyoBridgeQuery = XyoBridgeQuery>
-  extends XyoModule<XyoHttpBridgeConfig, TQuery>
+  extends XyoModule<TQuery, XyoPayload, XyoHttpBridgeConfig>
   implements BridgeModule<TQuery>
 {
   private axios: AxiosJson

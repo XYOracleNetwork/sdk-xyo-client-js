@@ -6,7 +6,7 @@ import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
-import { Archivist } from './Archivist'
+import { PayloadArchivist } from './Archivist'
 import { XyoArchivistConfig, XyoArchivistParents } from './Config'
 import {
   XyoArchivistAllQuerySchema,
@@ -24,8 +24,8 @@ import {
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoArchivistQuery = XyoArchivistQuery>
-  extends XyoModule<XyoArchivistConfig<TConfig>, TQuery>
-  implements Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter, string, TQuery>
+  extends XyoModule<TQuery, XyoPayload, XyoArchivistConfig<TConfig>>
+  implements PayloadArchivist<TQuery>
 {
   public override queries(): XyoArchivistQuerySchema[] {
     return [
@@ -69,7 +69,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQue
 
   abstract insert(item: XyoPayload[]): Promisable<XyoBoundWitness>
 
-  override async query(query: TQuery): Promise<XyoModuleQueryResult> {
+  override async query(query: TQuery): Promise<XyoModuleQueryResult<XyoPayload>> {
     if (!this.queries().find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }

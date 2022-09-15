@@ -13,7 +13,7 @@ export interface ReadArchivist<
   TQueryResult extends XyoPayload = XyoPayload,
 > extends Module<TQuery, TQueryResult> {
   get(ids: TId[]): NullablePromisableArray<TReadResponse>
-  all?(): PromisableArray<TReadResponse>
+  all?(): NullablePromisableArray<TReadResponse>
 }
 
 export interface WriteArchivist<
@@ -36,7 +36,7 @@ export interface FindArchivist<
   TQuery extends XyoArchivistQuery = XyoArchivistQuery,
   TQueryResult extends XyoPayload = XyoPayload,
 > extends Module<TQuery, TQueryResult> {
-  find(filter?: TFindFilter): PromisableArray<TFindResponse>
+  find(filter?: TFindFilter): NullablePromisableArray<TFindResponse>
 }
 
 export interface StashArchivist<TWriteResponse, TQuery extends XyoArchivistQuery = XyoArchivistQuery, TQueryResult extends XyoPayload = XyoPayload>
@@ -45,10 +45,10 @@ export interface StashArchivist<TWriteResponse, TQuery extends XyoArchivistQuery
 }
 
 export interface Archivist<
-  TReadResponse = XyoPayload | null,
-  TWriteResponse = XyoBoundWitness | null,
+  TReadResponse = XyoPayload,
+  TWriteResponse = XyoBoundWitness,
   TWrite = TReadResponse,
-  TFindResponse = TReadResponse | null,
+  TFindResponse = TReadResponse,
   TFindFilter = XyoPayloadFindFilter,
   TId = string,
   TQuery extends XyoArchivistQuery = XyoArchivistQuery,
@@ -58,3 +58,14 @@ export interface Archivist<
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId, TQuery, TQueryResult>,
     StashArchivist<TWriteResponse, TQuery, TQueryResult>,
     Module<TQuery, TQueryResult> {}
+
+export type PayloadArchivist<TQuery extends XyoArchivistQuery = XyoArchivistQuery> = Archivist<
+  XyoPayload,
+  XyoPayload,
+  XyoPayload,
+  XyoPayload,
+  XyoPayloadFindFilter,
+  string,
+  TQuery,
+  XyoPayload
+>

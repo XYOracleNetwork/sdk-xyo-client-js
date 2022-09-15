@@ -11,7 +11,7 @@ export abstract class XyoNode<
     TQueryResult extends XyoPayload = XyoPayload,
     TModule extends XyoModule = XyoModule,
   >
-  extends XyoModule<TConfig, TQuery, TQueryResult>
+  extends XyoModule<TQuery, TQueryResult, TConfig>
   implements NodeModule<TQuery, TQueryResult>
 {
   /** Query Functions - Start */

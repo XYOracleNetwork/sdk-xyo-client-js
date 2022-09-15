@@ -9,7 +9,7 @@ import { XyoBridgeConfig } from './Config'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
 export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfig, TQuery extends XyoBridgeQuery = XyoBridgeQuery>
-  extends XyoModule<TConfig, TQuery>
+  extends XyoModule<TQuery, XyoPayload, TConfig>
   implements BridgeModule<TQuery>
 {
   override queries() {

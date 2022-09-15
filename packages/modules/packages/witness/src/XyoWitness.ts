@@ -12,7 +12,7 @@ export abstract class XyoWitness<
     TConfig extends XyoWitnessConfig = XyoWitnessConfig,
     TQuery extends XyoWitnessQuery<TTarget> = XyoWitnessQuery<TTarget>,
   >
-  extends XyoModule<TConfig, TQuery, TTarget>
+  extends XyoModule<TQuery, TTarget, TConfig>
   implements Witness<TTarget, TQuery>
 {
   //we require a config for witnesses

@@ -3,12 +3,16 @@ import { Promisable } from '@xyo-network/promise'
 
 import { Module, XyoModuleQueryResult } from './Module'
 import { XyoQuery } from './Query'
-import { XyoModule } from './XyoModule'
 
-export class XyoModuleWrapper implements Module<XyoQuery, XyoPayload> {
-  public module: XyoModule
+export class XyoModuleWrapper<
+  TQuery extends XyoQuery = XyoQuery,
+  TQueryResult extends XyoPayload = XyoPayload,
+  TModule extends Module<TQuery, TQueryResult> = Module<TQuery, TQueryResult>,
+> implements Module<TQuery, TQueryResult>
+{
+  public module: TModule
 
-  constructor(module: XyoModule) {
+  constructor(module: TModule) {
     this.module = module
   }
 
@@ -24,7 +28,7 @@ export class XyoModuleWrapper implements Module<XyoQuery, XyoPayload> {
     return this.module.queryable(schema)
   }
 
-  query(query: XyoQuery): Promisable<XyoModuleQueryResult<XyoPayload>> {
+  query(query: TQuery): Promisable<XyoModuleQueryResult<TQueryResult>> {
     return this.module.query(query)
   }
 }

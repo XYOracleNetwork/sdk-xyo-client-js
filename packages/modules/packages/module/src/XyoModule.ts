@@ -11,9 +11,9 @@ import { XyoQuery } from './Query'
 export type XyoModuleResolverFunc = (address: string) => XyoModule | null
 
 export abstract class XyoModule<
-  TConfig extends XyoModuleConfig = XyoModuleConfig,
   TQuery extends XyoQuery = XyoQuery,
   TQueryResult extends XyoPayload = XyoPayload,
+  TConfig extends XyoModuleConfig = XyoModuleConfig,
 > implements Module<TQuery, TQueryResult>
 {
   protected config?: TConfig

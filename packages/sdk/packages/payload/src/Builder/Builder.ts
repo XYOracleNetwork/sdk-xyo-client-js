@@ -6,7 +6,7 @@ export interface XyoPayloadBuilderOptions {
   schema: string
 }
 
-export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unknown>>> {
+export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload> {
   private _fields: Partial<T> = {}
   private _previousHash?: string
   private _schema: string

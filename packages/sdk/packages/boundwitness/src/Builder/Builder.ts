@@ -4,7 +4,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoBoundWitness, XyoBoundWitnessSchema, XyoBoundWitnessWithMeta } from '../models'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 
 export interface XyoBoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
@@ -81,11 +81,11 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
     })
   }
 
-  public build(): XyoBoundWitnessWithMeta<TBoundWitness, TPayload> {
+  public build(): XyoBoundWitness {
     const hashableFields = this.hashableFields()
     const _hash = new Hasher(hashableFields).hash
 
-    const ret: XyoBoundWitnessWithMeta<TBoundWitness, TPayload> = {
+    const ret: XyoBoundWitness = {
       ...hashableFields,
       _client: 'js',
       _hash,
@@ -93,7 +93,10 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
       _timestamp: Date.now(),
     }
     if (this.config.inlinePayloads) {
-      ret._payloads = this.inlinePayloads()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const anyRet = ret as any
+      //leaving this in here to prevent breaking code (for now)
+      anyRet._payloads = this.inlinePayloads()
     }
     return ret
   }

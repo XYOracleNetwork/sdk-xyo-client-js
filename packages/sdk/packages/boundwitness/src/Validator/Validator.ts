@@ -1,21 +1,20 @@
 import { XyoAddressValue } from '@xyo-network/account'
 import { Hasher, XyoValidatorBase } from '@xyo-network/core'
+import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoBoundWitnessWithPartialMeta } from '../models'
+import { XyoBoundWitness } from '../models'
 import { XyoBoundWitnessBodyValidator } from './BodyValidator'
-import { XyoBoundWitnessMetaValidator } from './MetaValidator'
 
 const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array length mismatch') => {
   return a.length != b.length ? [Error(`${message} []`)] : []
 }
 
-class XyoBoundWitnessValidator<T extends XyoBoundWitnessWithPartialMeta = XyoBoundWitnessWithPartialMeta> extends XyoValidatorBase<T> {
+class XyoBoundWitnessValidator<T extends XyoBoundWitness = XyoBoundWitness> extends XyoValidatorBase<T> {
   public body: XyoBoundWitnessBodyValidator
-  public meta: XyoBoundWitnessMetaValidator
-  constructor(bw: T) {
+
+  constructor(bw: T, payloads: XyoPayload[] = []) {
     super(bw)
-    this.body = new XyoBoundWitnessBodyValidator(bw, bw._payloads)
-    this.meta = new XyoBoundWitnessMetaValidator(bw)
+    this.body = new XyoBoundWitnessBodyValidator(bw, payloads)
   }
 
   public get hash() {

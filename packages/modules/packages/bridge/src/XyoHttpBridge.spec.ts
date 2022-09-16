@@ -1,14 +1,13 @@
-import { XyoArchivistQuery, XyoArchivistWrapper } from '@xyo-network/archivist'
+import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { uuid } from '@xyo-network/core'
 import { XyoPayloadWrapper } from '@xyo-network/payload'
 
-import { XyoBridgeQuery } from './Queries'
-import { XyoHttpBridge } from './XyoHttpBridge'
+import { XyoArchivistHttpBridge } from './XyoArchivistHttpBridge'
 
 test('XyoHttpBridge', async () => {
   const nodeUri = `${process.env.API_DOMAIN}` ?? 'https://beta.api.archivist.xyo.network'
   const targetAddress = 'temp'
-  const bridge = new XyoHttpBridge<XyoBridgeQuery<XyoArchivistQuery>>({ nodeUri, targetAddress })
+  const bridge = new XyoArchivistHttpBridge({ nodeUri, targetAddress })
   const wrapper = new XyoArchivistWrapper(bridge)
   const debugPayload = {
     nonce: uuid(),

@@ -52,12 +52,12 @@ describe('XyoBoundWitnessBuilder', () => {
         const actual = builder.build()
 
         expect(actual).toBeDefined()
-        expect(actual._hash).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')
+        expect(Hasher.hash(actual)).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')
 
-        if (actual._hash && actual._signatures) {
+        if (actual._signatures) {
           const addr = new XyoAddressValue(actual.addresses[0])
           expect(addr.hex).toBe(actual.addresses[0])
-          const verify = new XyoAddressValue(actual.addresses[0]).verify(actual._hash, actual._signatures[0])
+          const verify = new XyoAddressValue(actual.addresses[0]).verify(Hasher.hash(actual), actual._signatures[0])
           expect(verify).toBe(true)
         }
       })
@@ -70,7 +70,6 @@ describe('XyoBoundWitnessBuilder', () => {
         const actual = builder.build()
 
         expect(actual).toBeDefined()
-        expect(actual._payloads).toBeDefined()
       })
     })
     describe('with inlinePayloads false', () => {
@@ -81,7 +80,6 @@ describe('XyoBoundWitnessBuilder', () => {
         const actual = builder.build()
 
         expect(actual).toBeDefined()
-        expect(actual._payloads).toBeUndefined()
       })
     })
   })

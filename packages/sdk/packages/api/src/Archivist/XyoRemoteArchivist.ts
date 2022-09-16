@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoArchivist, XyoArchivistFindQuerySchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessSchema, XyoBoundWitnessWithMeta, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
 
 import { RemoteArchivistError } from './RemoteArchivistError'
@@ -42,16 +42,19 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
-      const boundwitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitnessWithPartialMeta[]
+      const boundwitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
       boundwitnesses.forEach((boundwitness) => {
-        boundwitness._payloads ===
+        // doing this here to prevent breaking code (for now)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const anyBoundwitness: any = boundwitness
+        anyBoundwitness._payloads ===
           payloads.filter((payload) => {
             const hash = new XyoPayloadWrapper(payload).hash
             return boundwitness.payload_hashes.includes(hash)
           })
       })
       const [boundwitness] = await this.bindPayloads(payloads)
-      const bwWithMeta: Partial<XyoBoundWitnessWithMeta> & XyoBoundWitness = { ...boundwitness, _payloads: payloads }
+      const bwWithMeta = { ...boundwitness, _payloads: payloads } as XyoBoundWitness
       const bwResult = await this.api.archive(this.archive).block.post([bwWithMeta], 'tuple')
       const [, response, error] = bwResult
       if (error?.status >= 400) {

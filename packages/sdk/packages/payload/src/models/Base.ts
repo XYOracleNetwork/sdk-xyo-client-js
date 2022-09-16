@@ -17,8 +17,14 @@ type XyoPayloadBase<T extends EmptyObject = EmptyObject> = XyoPayloadBaseWithSch
   } & T
 >
 
-export type XyoPayload<T extends void | EmptyObject | XyoPayloadBaseWithSchema = void, S extends string = string> = T extends XyoPayloadBaseWithSchema
-  ? XyoPayloadBase<T>
+export type XyoPayload<
+  T extends void | EmptyObject | XyoPayloadBaseWithSchema = void,
+  S extends string = T extends XyoPayloadBaseWithSchema ? T['schema'] : string,
+> = T extends XyoPayloadBaseWithSchema
+  ? /* Type sent is an XyoPayload */
+    XyoPayloadBase<T>
   : T extends EmptyObject
-  ? XyoPayloadBase & T & { schema: S }
-  : XyoPayloadBase & { schema: S }
+  ? /* Type sent is an Object */
+    XyoPayloadBase & T & { schema: S }
+  : /* Type sent is void */
+    XyoPayloadBase & { schema: S }

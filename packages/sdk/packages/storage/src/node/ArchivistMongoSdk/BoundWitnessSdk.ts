@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoBoundWitnessWrapper } from '@xyo-network/boundwitness'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity } from 'mongodb'
 
@@ -102,7 +102,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
 
   public async insert(item: XyoBoundWitnessWithPartialMeta) {
     const _timestamp = Date.now()
-    const wrapper = new XyoBoundWitnessWrapper(item)
+    const wrapper = new BoundWitnessWrapper(item)
     return await super.insertOne({
       ...item,
       _archive: this._archive,
@@ -114,7 +114,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
   public override async insertMany(items: XyoBoundWitnessWithPartialMeta[]) {
     const _timestamp = Date.now()
     const itemsToInsert = items.map((item) => {
-      const wrapper = new XyoBoundWitnessWrapper(item)
+      const wrapper = new BoundWitnessWrapper(item)
       return {
         ...item,
         _archive: this._archive,

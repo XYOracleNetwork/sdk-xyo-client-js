@@ -6,13 +6,13 @@ import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-p
  * Used in conjunction with schema validation to support compile time type assertion
  * for known schema types.
  */
-export type PayloadValidator<T extends XyoPayload = XyoPayload> = ((x: XyoPayload) => x is T) | undefined
+export type NarrowPayload<T extends XyoPayload = XyoPayload> = ((x: XyoPayload) => x is T) | undefined
 
 /**
  * Used to map known schemas (byt their string name) to the validators which assert their types
  */
 export interface XyoSchemaNameToValidatorMap {
-  [XyoDomainSchema]: PayloadValidator<XyoDomainPayload>
-  [XyoPayloadSchema]: PayloadValidator<XyoPayload>
-  [XyoSchemaSchema]: PayloadValidator<XyoSchemaPayload>
+  [XyoDomainSchema]: NarrowPayload<XyoDomainPayload>
+  [XyoPayloadSchema]: NarrowPayload<XyoPayload>
+  [XyoSchemaSchema]: NarrowPayload<XyoSchemaPayload>
 }

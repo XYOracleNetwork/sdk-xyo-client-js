@@ -1,18 +1,17 @@
-import { Hasher } from '@xyo-network/core'
-import pick from 'lodash/pick'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoBoundWitness } from '../models'
+import { BoundWitnessValidator } from '../Validator'
 
-const scrubbedFields = ['_signatures', 'addresses', 'payload_hashes', 'payload_schemas', 'previous_hashes', 'schema', 'timestamp']
-
-export class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends Hasher<T> {
-  public readonly bw: T
-  constructor(bw: T) {
-    super(bw)
-    this.bw = bw
+export class BoundWitnessWrapper<T extends XyoBoundWitness = XyoBoundWitness> extends PayloadWrapper<T> {
+  public get boundwitness() {
+    return this.obj
   }
 
-  get scrubbedFields() {
-    return pick(this.bw, scrubbedFields)
+  override get errors() {
+    return new BoundWitnessValidator(this.boundwitness).validate()
   }
 }
+
+/** @deprecated use BoundWitnessWrapper instead*/
+export class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends BoundWitnessWrapper<T> {}

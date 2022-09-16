@@ -1,17 +1,17 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoDivinerConfig } from '@xyo-network/diviner'
-import { XyoPayload, XyoPayloadValidator, XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadValidator, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoPayloadPlugin } from './Plugin'
 
 export const defaultXyoPayloadPluginFunctions = <T extends XyoPayload>() => {
   return {
-    validate: function (payload: T): XyoPayloadValidator<T> {
-      return new XyoPayloadValidator<T>(payload)
+    validate: function (payload: T): PayloadValidator<T> {
+      return new PayloadValidator<T>(payload)
     },
-    wrap: function (payload: T): XyoPayloadWrapper<T> {
-      return new XyoPayloadWrapper<T>(payload)
+    wrap: function (payload: T): PayloadWrapper<T> {
+      return new PayloadWrapper<T>(payload)
     },
   }
 }

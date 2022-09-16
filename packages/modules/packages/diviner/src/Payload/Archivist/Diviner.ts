@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Archivist, XyoArchivist, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
+import { PayloadArchivist, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { PartialModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
 import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
@@ -10,14 +10,15 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoArchivistPayloadDivinerConfig> {
-  protected readonly archivist?: Archivist
+  protected readonly archivist?: PayloadArchivist | null
 
-  constructor(config?: PartialModuleConfig<XyoArchivistPayloadDivinerConfig>, archivist?: XyoArchivist, resolver?: XyoModuleResolverFunc) {
+  constructor(config?: PartialModuleConfig<XyoArchivistPayloadDivinerConfig>, archivist?: PayloadArchivist, resolver?: XyoModuleResolverFunc) {
     super({ ...config, schema: XyoArchivistPayloadDivinerConfigSchema }, undefined, resolver)
     const configArchivistAddress = config?.archivist
-    const resolvedArchivist = archivist ?? (configArchivistAddress ? this.resolver?.(configArchivistAddress) : null)
+    const resolvedArchivist: PayloadArchivist | null =
+      archivist ?? (configArchivistAddress ? (this.resolver?.(configArchivistAddress) as unknown as PayloadArchivist) : null)
     if (resolvedArchivist) {
-      this.archivist = new XyoArchivistWrapper(resolvedArchivist)
+      this.archivist = resolvedArchivist ? new XyoArchivistWrapper(resolvedArchivist) : null
     }
   }
 

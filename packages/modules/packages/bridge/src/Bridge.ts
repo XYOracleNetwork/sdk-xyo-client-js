@@ -1,5 +1,5 @@
 import { Module } from '@xyo-network/module'
-import { Promisable } from '@xyo-network/promisable'
+import { Promisable } from '@xyo-network/promise'
 
 import { XyoBridgeQuery } from './Queries'
 

@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.7",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/promisable": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "pako": "^2.0.4",
     "tslib": "^2.4.0"
   },
@@ -54,5 +56,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.32.1"
+  "version": "2.33.0-rc.19",
+  "stableVersion": "2.32.1"
 }

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
-import { PromisableArray } from '@xyo-network/promisable'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
@@ -66,6 +66,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         return this.cache.delete(hash)
       })
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('delete', ex, 'unexpected')
     }
   }
@@ -74,6 +75,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     try {
       this.cache.clear()
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('clear', ex, 'unexpected')
     }
   }
@@ -90,6 +92,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         }),
       )
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('get', ex, 'unexpected')
     }
   }
@@ -97,17 +100,18 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
       payloads.map((payload) => {
-        const wrapper = new XyoPayloadWrapper(payload)
+        const wrapper = new PayloadWrapper(payload)
         const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
         this.cache.set(payloadWithmeta._hash, payloadWithmeta)
         return payloadWithmeta
       })
-      const boundwitness = this.bindPayloads(payloads)
+      const [boundwitness] = await this.bindPayloads(payloads)
       if (this.writeThrough) {
         await this.writeToParents(payloads)
       }
       return boundwitness
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('insert', ex, 'unexpected')
     }
   }
@@ -122,6 +126,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       })
       return result
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('find', ex, 'unexpected')
     }
   }
@@ -130,6 +135,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     try {
       return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('all', ex, 'unexpected')
     }
   }
@@ -137,7 +143,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
   public async commit(): Promise<XyoBoundWitness> {
     try {
       const payloads = assertEx(await this.all(), 'Nothing to commit')
-      const block = this.bindPayloads(payloads)
+      const [block] = await this.bindPayloads(payloads)
       await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
@@ -149,6 +155,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       await this.clear()
       return block
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('commit', ex, 'unexpected')
     }
   }

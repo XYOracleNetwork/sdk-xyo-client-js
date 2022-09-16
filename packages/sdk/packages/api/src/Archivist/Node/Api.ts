@@ -1,5 +1,5 @@
 import { assertEx, delay } from '@xylabs/sdk-js'
-import { XyoBoundWitnessBuilder, XyoBoundWitnessWithMeta } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoApiConfig, XyoApiResponseTuple } from '../../models'
@@ -19,7 +19,7 @@ const anyRequestsFailed = (results: XyoApiResponseTuple<XyoPayload>[][]): boolea
 }
 
 export class XyoArchivistNodeApi<
-  D extends XyoBoundWitnessWithMeta | XyoBoundWitnessWithMeta[] = XyoBoundWitnessWithMeta | XyoBoundWitnessWithMeta[],
+  D extends XyoBoundWitness | XyoBoundWitness[] = XyoBoundWitness | XyoBoundWitness[],
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoApiSimple<string[][], D, XyoApiSimpleQuery, C> {
   /**

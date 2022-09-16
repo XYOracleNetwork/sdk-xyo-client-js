@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoPanelAutomationPayload, XyoPanelIntervalAutomationPayload } from './Automation'
 import { XyoPanelIntervalAutomationWrapper } from './XyoAutomationWrapper'
@@ -78,7 +78,7 @@ export class XyoPanelRunner {
   }
 
   public async add(automation: XyoPanelAutomationPayload, restart = true) {
-    const hash = new XyoPayloadWrapper(automation).hash
+    const hash = new PayloadWrapper(automation).hash
     this._automations[hash] = automation
     if (restart) await this.restart()
     return hash

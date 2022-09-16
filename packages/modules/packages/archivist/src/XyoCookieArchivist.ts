@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
-import { PromisableArray } from '@xyo-network/promisable'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
 
@@ -81,6 +81,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         return true
       })
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('delete', ex, 'unexpected')
     }
   }
@@ -93,6 +94,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         }
       })
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('clear', ex, 'unexpected')
     }
   }
@@ -106,26 +108,28 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         }),
       )
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('get', ex, 'unexpected')
     }
   }
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
-      const storedPayloads = payloads.map((payload) => {
-        const wrapper = new XyoPayloadWrapper(payload)
+      const storedPayloads: XyoPayload[] = payloads.map((payload) => {
+        const wrapper = new PayloadWrapper(payload)
         const key = this.keyFromHash(wrapper.hash)
         const value = JSON.stringify(wrapper.payload)
         assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hash}, ${value.length}]`)
         Cookies.set(key, JSON.stringify(wrapper.payload))
         return wrapper.payload
       })
-      const boundwitness = this.bindPayloads(storedPayloads)
+      const [boundwitness] = await this.bindPayloads(storedPayloads)
       if (this.writeThrough) {
         await this.writeToParents([boundwitness, ...storedPayloads])
       }
       return boundwitness
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('insert', ex, 'unexpected')
     }
   }
@@ -140,6 +144,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       })
       return x
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('find', ex, 'unexpected')
     }
   }
@@ -150,6 +155,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
         .map(([, value]) => JSON.parse(value))
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('all', ex, 'unexpected')
     }
   }
@@ -158,7 +164,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
-      const block = this.bindPayloads(payloads)
+      const [block] = await this.bindPayloads(payloads)
       await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
@@ -170,6 +176,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       await this.clear()
       return block
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('commit', ex, 'unexpected')
     }
   }

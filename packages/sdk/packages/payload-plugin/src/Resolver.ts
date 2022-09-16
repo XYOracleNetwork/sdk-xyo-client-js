@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoValidator } from '@xyo-network/core'
-import { XyoPayload, XyoPayloadSchema, XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 
 import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
@@ -43,7 +43,7 @@ export class XyoPayloadPluginResolver {
     return this.resolve(payload).validate?.(payload)
   }
 
-  public wrap(payload: XyoPayload): XyoPayloadWrapper<XyoPayload> | undefined {
+  public wrap(payload: XyoPayload): PayloadWrapper<XyoPayload> | undefined {
     return this.resolve(payload).wrap?.(payload)
   }
 

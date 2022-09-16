@@ -1,5 +1,5 @@
 import { XyoMemoryArchivist } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoIdWitness } from '@xyo-network/id-payload-plugin'
 import { XyoNodeSystemInfoWitness } from '@xyo-network/node-system-info-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload'
@@ -34,10 +34,10 @@ describe('XyoPanel', () => {
 
     expect(adhocObserved).toBeDefined()
 
-    const report1 = (await panel.report([adhocWitness]))[0] as XyoBoundWitness
+    const report1 = (await panel.report([adhocWitness]))[0][0]
     expect(report1.schema).toBe(XyoBoundWitnessSchema)
     expect(report1.payload_hashes.length).toBe(5)
-    const report2 = (await panel.report())[0] as XyoBoundWitness
+    const report2 = (await panel.report())[0][0]
     expect(report2.schema).toBeDefined()
     expect(report2.payload_hashes.length).toBe(4)
 

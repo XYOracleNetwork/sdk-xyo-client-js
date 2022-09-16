@@ -53,7 +53,7 @@ export class XyoPanel {
     return payloads
   }
 
-  public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<XyoPayload[]> {
+  public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {
     const errors: Error[] = []
     this.config.onReportStart?.()
     const allWitnesses: XyoWitness<XyoPayload>[] = [...adhocWitnesses, ...this.config.witnesses]
@@ -63,6 +63,6 @@ export class XyoPanel {
     const bwList = await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))
     this.history.push(...bwList)
     this.config.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
-    return [...bwList, ...payloads]
+    return [bwList, payloads]
   }
 }

@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
@@ -120,7 +120,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQue
         Object.values(this.parents?.read ?? {}).map(async (parent) => {
           const query: XyoArchivistGetQuery = { hashes: [hash], schema: XyoArchivistGetQuerySchema }
           const [, payloads] = (await parent?.query(query)) ?? []
-          const wrapper = payloads?.[0] ? new XyoPayloadWrapper(payloads?.[0]) : undefined
+          const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
           if (wrapper && wrapper.hash !== hash) {
             console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hash}]`)
             return null

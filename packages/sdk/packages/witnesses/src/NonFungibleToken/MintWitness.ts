@@ -1,11 +1,11 @@
 import { XyoAddressValue } from '@xyo-network/account'
 import { EmptyObject, XyoDataLike } from '@xyo-network/core'
-import { Huri, XyoPayloadWrapper } from '@xyo-network/payload'
+import { Huri, PayloadWrapper } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 
 import { XyoContractPayload, XyoNonFungibleTokenPayload, XyoNonFungibleTokenWitnessConfig } from './Config'
 
-export class XyoSmartContractWrapper<T extends XyoContractPayload> extends XyoPayloadWrapper<T> {
+export class XyoSmartContractWrapper<T extends XyoContractPayload> extends PayloadWrapper<T> {
   public static async load(address: XyoDataLike | Huri) {
     const payload = await new Huri<XyoContractPayload>(address).fetch()
     if (payload) {

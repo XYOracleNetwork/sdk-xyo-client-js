@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
@@ -109,7 +109,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
       const storedPayloads = payloads.map((payload) => {
-        const wrapper = new XyoPayloadWrapper(payload)
+        const wrapper = new PayloadWrapper(payload)
         const hash = wrapper.hash
         const value = JSON.stringify(wrapper.payload)
         assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hash}, ${value.length}]`)

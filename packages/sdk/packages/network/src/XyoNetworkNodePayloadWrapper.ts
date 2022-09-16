@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { knownArchivists } from './knownArchivists'
 import { knownDiviners } from './knownDiviners'
 import { XyoNetworkNodePayload } from './XyoNetworkNodePayload'
 
-export class XyoNetworkNodePayloadWrapper<T extends XyoNetworkNodePayload = XyoNetworkNodePayload> extends XyoPayloadWrapper<T> {
+export class XyoNetworkNodePayloadWrapper<T extends XyoNetworkNodePayload = XyoNetworkNodePayload> extends PayloadWrapper<T> {
   static known(hash: string) {
     const config = assertEx(
       knownArchivists().find((payload) => new XyoNetworkNodePayloadWrapper(payload).hash === hash) ??

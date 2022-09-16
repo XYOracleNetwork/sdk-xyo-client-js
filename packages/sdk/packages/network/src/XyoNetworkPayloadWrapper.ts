@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { knownNetworks } from './knownNetworks'
 import { XyoNetworkNodeType } from './XyoNetworkNodePayload'
 import { XyoNetworkPayload } from './XyoNetworkPayload'
 
-export class XyoNetworkPayloadWrapper extends XyoPayloadWrapper<XyoNetworkPayload> {
+export class XyoNetworkPayloadWrapper extends PayloadWrapper<XyoNetworkPayload> {
   public filterNodesByType(type: XyoNetworkNodeType) {
     return this.payload.nodes?.filter((node) => node.type === type)
   }

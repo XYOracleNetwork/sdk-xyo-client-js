@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { uuid } from '@xyo-network/core'
-import { XyoPayloadBuilder, XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
 import dotenv from 'dotenv'
 
 import { XyoPayloadWithPartialMeta } from './Meta'
@@ -47,7 +47,7 @@ describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
-      hash = XyoPayloadWrapper.hash(payloads[0])
+      hash = PayloadWrapper.hash(payloads[0])
       expect(hash).toBeTruthy()
       payload = (await sdk.findByHash(hash))[0]
       expect(payload).toBeDefined()

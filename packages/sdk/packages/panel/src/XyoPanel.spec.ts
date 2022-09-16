@@ -2,7 +2,7 @@ import { XyoMemoryArchivist } from '@xyo-network/archivist'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoIdWitness } from '@xyo-network/id-payload-plugin'
 import { XyoNodeSystemInfoWitness } from '@xyo-network/node-system-info-payload-plugin'
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness } from '@xyo-network/witnesses'
 
@@ -41,6 +41,6 @@ describe('XyoPanel', () => {
     expect(report2.schema).toBeDefined()
     expect(report2.payload_hashes.length).toBe(4)
 
-    expect(new XyoPayloadWrapper(report2).hash !== new XyoPayloadWrapper(report1).hash).toBe(true)
+    expect(new PayloadWrapper(report2).hash !== new PayloadWrapper(report1).hash).toBe(true)
   })
 })

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
@@ -100,7 +100,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
       payloads.map((payload) => {
-        const wrapper = new XyoPayloadWrapper(payload)
+        const wrapper = new PayloadWrapper(payload)
         const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
         this.cache.set(payloadWithmeta._hash, payloadWithmeta)
         return payloadWithmeta

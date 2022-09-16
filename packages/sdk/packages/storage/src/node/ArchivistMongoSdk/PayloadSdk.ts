@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity, Filter, SortDirection } from 'mongodb'
 
@@ -135,7 +135,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
 
   public async insert(item: XyoPayloadWithPartialMeta) {
     const _timestamp = Date.now()
-    const wrapper = new XyoPayloadWrapper(item)
+    const wrapper = new PayloadWrapper(item)
     return await super.insertOne({
       ...item,
       _archive: this._archive,
@@ -147,7 +147,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
   public override async insertMany(items: XyoPayloadWithPartialMeta[]) {
     const _timestamp = Date.now()
     const itemsToInsert = items.map((item) => {
-      const wrapper = new XyoPayloadWrapper(item)
+      const wrapper = new PayloadWrapper(item)
       return {
         ...item,
         _archive: this._archive,

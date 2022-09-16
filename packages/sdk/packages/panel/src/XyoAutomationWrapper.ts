@@ -1,10 +1,10 @@
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoPanelIntervalAutomationPayload } from './Automation'
 
 export class XyoPanelIntervalAutomationWrapper<
   T extends XyoPanelIntervalAutomationPayload = XyoPanelIntervalAutomationPayload,
-> extends XyoPayloadWrapper<T> {
+> extends PayloadWrapper<T> {
   protected get frequencyMillis() {
     if (this.payload.frequency === undefined) return Infinity
     switch (this.payload.frequencyUnits ?? 'hour') {

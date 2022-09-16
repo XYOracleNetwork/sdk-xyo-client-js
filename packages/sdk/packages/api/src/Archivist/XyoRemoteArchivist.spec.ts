@@ -1,4 +1,4 @@
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoApiConfig } from '../models'
 import { XyoArchivistApi } from './Api'
@@ -21,7 +21,7 @@ test('XyoRemoteArchivist', async () => {
   }
   const result = await archivist.insert([payload])
   expect(result.payload_hashes.length).toBe(1)
-  const getResult = await archivist.get([new XyoPayloadWrapper(payload).hash])
+  const getResult = await archivist.get([new PayloadWrapper(payload).hash])
   console.log(`getResult: ${JSON.stringify(getResult)}`)
   expect(getResult.length).toBe(1)
   expect(getResult[0]?.schema).toBe(payload.schema)

@@ -1,6 +1,6 @@
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { uuid } from '@xyo-network/core'
-import { XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoArchivistHttpBridge } from './XyoArchivistHttpBridge'
 
@@ -16,6 +16,6 @@ test('XyoHttpBridge', async () => {
   const result = await wrapper.insert([debugPayload])
   console.log(result)
   //expect(result).toBeDefined()
-  await wrapper.get([new XyoPayloadWrapper(debugPayload).hash])
+  await wrapper.get([new PayloadWrapper(debugPayload).hash])
   //expect(result2).toBeDefined()
 })

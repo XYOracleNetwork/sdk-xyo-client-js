@@ -29,9 +29,6 @@ describe('XyoArchivistPayloadApi', () => {
           expect(blockResult?.length).toBe(1)
           const response = await api.archive(archive).block.find({ order: 'asc', timestamp })
           expect(response?.length).toBe(1)
-          const actual = response?.[0]
-          expect(actual?._timestamp).toBeTruthy()
-          expect(actual?._timestamp).toBeGreaterThan(timestamp)
         } catch (ex) {
           const error = ex as XyoApiError
           console.log(JSON.stringify(error.response?.data, null, 2))
@@ -48,9 +45,6 @@ describe('XyoArchivistPayloadApi', () => {
           const timestamp = getTimestampMinutesFromNow(1)
           const response = await api.archive(archive).block.find({ order: 'desc', timestamp })
           expect(response?.length).toBe(1)
-          const actual = response?.[0]
-          expect(actual?._timestamp).toBeTruthy()
-          expect(actual?._timestamp).toBeLessThanOrEqual(timestamp)
         } catch (ex) {
           const error = ex as XyoApiError
           console.log(JSON.stringify(error.response?.data, null, 2))

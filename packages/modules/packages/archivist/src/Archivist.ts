@@ -1,32 +1,71 @@
-import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { Module } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
+import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
-export interface ReadArchivist<TReadResponse, TId = string> {
+import { XyoArchivistQuery } from './Queries'
+import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
+
+export interface ReadArchivist<
+  TReadResponse,
+  TId = string,
+  TQuery extends XyoArchivistQuery = XyoArchivistQuery,
+  TQueryResult extends XyoPayload = XyoPayload,
+> extends Module<TQuery, TQueryResult> {
   get(ids: TId[]): NullablePromisableArray<TReadResponse>
-  all?(): PromisableArray<TReadResponse>
+  all?(): NullablePromisableArray<TReadResponse>
 }
 
-export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {
-  insert(item: TWrite[]): PromisableArray<TWriteResponse>
+export interface WriteArchivist<
+  TReadResponse,
+  TWriteResponse = TReadResponse,
+  TWrite = TReadResponse,
+  TId = string,
+  TQuery extends XyoArchivistQuery = XyoArchivistQuery,
+  TQueryResult extends XyoPayload = XyoPayload,
+> extends Module<TQuery, TQueryResult> {
+  insert(item: TWrite[]): Promisable<TWriteResponse>
   delete?(ids: TId[]): PromisableArray<boolean>
   clear?(): Promisable<void>
 }
 
-export interface FindArchivist<TReadResponse, TFindResponse = TReadResponse, TFindFilter = unknown> {
-  find(filter: TFindFilter): PromisableArray<TFindResponse>
+export interface FindArchivist<
+  TReadResponse,
+  TFindResponse = TReadResponse,
+  TFindFilter = unknown,
+  TQuery extends XyoArchivistQuery = XyoArchivistQuery,
+  TQueryResult extends XyoPayload = XyoPayload,
+> extends Module<TQuery, TQueryResult> {
+  find(filter?: TFindFilter): NullablePromisableArray<TFindResponse>
 }
 
-export interface StashArchivist<TReadResponse> {
-  commit?(): PromisableArray<TReadResponse>
+export interface StashArchivist<TWriteResponse, TQuery extends XyoArchivistQuery = XyoArchivistQuery, TQueryResult extends XyoPayload = XyoPayload>
+  extends Module<TQuery, TQueryResult> {
+  commit?(): Promisable<TWriteResponse>
 }
 
 export interface Archivist<
-  TReadResponse,
-  TWriteResponse = TReadResponse,
+  TReadResponse = XyoPayload,
+  TWriteResponse = XyoBoundWitness,
   TWrite = TReadResponse,
   TFindResponse = TReadResponse,
-  TFindFilter = unknown,
+  TFindFilter = XyoPayloadFindFilter,
   TId = string,
-> extends ReadArchivist<TReadResponse, TId>,
-    FindArchivist<TReadResponse, TFindResponse, TFindFilter>,
-    WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
-    StashArchivist<TReadResponse> {}
+  TQuery extends XyoArchivistQuery = XyoArchivistQuery,
+  TQueryResult extends XyoPayload = XyoPayload,
+> extends ReadArchivist<TReadResponse, TId, TQuery, TQueryResult>,
+    FindArchivist<TReadResponse, TFindResponse, TFindFilter, TQuery, TQueryResult>,
+    WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId, TQuery, TQueryResult>,
+    StashArchivist<TWriteResponse, TQuery, TQueryResult>,
+    Module<TQuery, TQueryResult> {}
+
+export type PayloadArchivist<TQuery extends XyoArchivistQuery = XyoArchivistQuery> = Archivist<
+  XyoPayload,
+  XyoPayload,
+  XyoPayload,
+  XyoPayload,
+  XyoPayloadFindFilter,
+  string,
+  TQuery,
+  XyoPayload
+>

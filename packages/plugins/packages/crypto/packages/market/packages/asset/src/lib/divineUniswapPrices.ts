@@ -4,9 +4,9 @@ import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoPair, XyoUniswapCryptoTo
 
 import { AssetInfo, Currency, Token, ValueBasis } from '../Model'
 import { XyoCryptoMarketAssetPayload } from '../Payload'
-import { XyoCryptoMarketAssetPayloadSchema } from '../Schema'
+import { XyoCryptoMarketAssetSchema } from '../Schema'
 
-const schema = XyoCryptoMarketAssetPayloadSchema
+const schema = XyoCryptoMarketAssetSchema
 
 const mapUniswapToken = (symbol: string): Token | Currency => {
   // TODO: Actually calculate the value of the token/stablecoin based on others

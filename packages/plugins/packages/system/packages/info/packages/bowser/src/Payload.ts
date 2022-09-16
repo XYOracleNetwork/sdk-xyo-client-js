@@ -1,9 +1,9 @@
 import { XyoPayload } from '@xyo-network/payload'
 import { Parser } from 'bowser'
 
-import { XyoBowserSystemInfoPayloadSchema } from './Schema'
+import { XyoBowserSystemInfoSchema } from './Schema'
 
 export type XyoBowserSystemInfoPayload = XyoPayload<{
-  schema: XyoBowserSystemInfoPayloadSchema
+  schema: XyoBowserSystemInfoSchema
   bowser?: Parser.ParsedResult
 }>

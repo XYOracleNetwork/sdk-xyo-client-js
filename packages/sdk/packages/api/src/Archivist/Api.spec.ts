@@ -178,9 +178,6 @@ describe.skip('XyoArchivistApi', () => {
         // eslint-disable-next-line deprecation/deprecation
         const response = await api.archives.archive('temp').block.findBefore(timestamp)
         expect(response?.length).toBe(1)
-        const actual = response?.[0]
-        expect(actual?._timestamp).toBeTruthy()
-        expect(actual?._timestamp).toBeLessThan(timestamp)
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))
@@ -200,9 +197,6 @@ describe.skip('XyoArchivistApi', () => {
         const timestamp = Date.now() - 10000
         const response = await api.archives.archive(archive).block.find({ order: 'asc', timestamp })
         expect(response?.length).toBe(1)
-        const actual = response?.[0]
-        expect(actual?._timestamp).toBeTruthy()
-        expect(actual?._timestamp).toBeGreaterThan(timestamp)
       } catch (ex) {
         const error = ex as XyoApiError
         console.log(JSON.stringify(error.response?.data, null, 2))

@@ -11,6 +11,7 @@
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.7",
     "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
     "mongodb": "^4.9.1",
@@ -50,5 +51,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.31.4"
+  "version": "2.33.0-rc.19",
+  "stableVersion": "2.32.1"
 }

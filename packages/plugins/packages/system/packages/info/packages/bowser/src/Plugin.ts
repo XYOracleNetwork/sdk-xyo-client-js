@@ -2,20 +2,20 @@ import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 import { XyoBowserSystemInfoPayload } from './Payload'
-import { XyoBowserSystemInfoPayloadSchema } from './Schema'
+import { XyoBowserSystemInfoSchema } from './Schema'
 import { XyoBowserSystemInfoPayloadTemplate } from './Template'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
 export const XyoBowserSystemInfoPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoBowserSystemInfoPayload, XyoBowserSystemInfoWitnessConfig>({
     auto: true,
-    schema: XyoBowserSystemInfoPayloadSchema,
+    schema: XyoBowserSystemInfoSchema,
     template: XyoBowserSystemInfoPayloadTemplate,
     witness: (config): XyoBowserSystemInfoWitness => {
       return new XyoBowserSystemInfoWitness({
         ...config,
         schema: XyoBowserSystemInfoWitnessConfigSchema,
-        targetSchema: XyoBowserSystemInfoPayloadSchema,
+        targetSchema: XyoBowserSystemInfoSchema,
       })
     },
   })

@@ -1,6 +1,6 @@
 import { XyoBowserSystemInfoPayload } from './Payload'
-import { XyoBowserSystemInfoPayloadSchema } from './Schema'
+import { XyoBowserSystemInfoSchema } from './Schema'
 
 export const XyoBowserSystemInfoPayloadTemplate = (): XyoBowserSystemInfoPayload => ({
-  schema: XyoBowserSystemInfoPayloadSchema,
+  schema: XyoBowserSystemInfoSchema,
 })

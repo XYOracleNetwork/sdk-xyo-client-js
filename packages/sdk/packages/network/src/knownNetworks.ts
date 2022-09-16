@@ -1,6 +1,6 @@
 import { XyoNetworkNodePayload } from './XyoNetworkNodePayload'
 import { XyoNetworkNodePayloadWrapper } from './XyoNetworkNodePayloadWrapper'
-import { XyoNetworkPayload, XyoNetworkPayloadSchema } from './XyoNetworkPayload'
+import { XyoNetworkPayload, XyoNetworkSchema } from './XyoNetworkPayload'
 
 const kerplunk = (): XyoNetworkPayload => {
   return {
@@ -9,7 +9,7 @@ const kerplunk = (): XyoNetworkPayload => {
       XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network')?.payload,
       XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network')?.payload,
     ].filter((item) => item) as XyoNetworkNodePayload[],
-    schema: XyoNetworkPayloadSchema,
+    schema: XyoNetworkSchema,
     slug: 'kerplunk',
   }
 }
@@ -21,7 +21,7 @@ const main = (): XyoNetworkPayload => {
       XyoNetworkNodePayloadWrapper.known('main-archivist-xyo-network')?.payload,
       XyoNetworkNodePayloadWrapper.known('location-diviner-xyo-network')?.payload,
     ].filter((item) => item) as XyoNetworkNodePayload[],
-    schema: XyoNetworkPayloadSchema,
+    schema: XyoNetworkSchema,
     slug: 'main',
   }
 }
@@ -33,7 +33,7 @@ const local = (): XyoNetworkPayload => {
       XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network')?.payload,
       XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network')?.payload,
     ].filter((item) => item) as XyoNetworkNodePayload[],
-    schema: XyoNetworkPayloadSchema,
+    schema: XyoNetworkSchema,
     slug: 'local',
   }
 }

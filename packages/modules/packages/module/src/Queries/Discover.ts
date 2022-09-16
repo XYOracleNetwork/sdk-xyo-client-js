@@ -1,8 +1,8 @@
-import { XyoQueryPayload } from '../Query'
+import { XyoQuery } from '../Query'
 
-export type XyoModuleDiscoverQueryPayloadSchema = 'network.xyo.query.module.discover'
-export const XyoModuleDiscoverQueryPayloadSchema: XyoModuleDiscoverQueryPayloadSchema = 'network.xyo.query.module.discover'
+export type XyoModuleDiscoverQuerySchema = 'network.xyo.query.module.discover'
+export const XyoModuleDiscoverQuerySchema: XyoModuleDiscoverQuerySchema = 'network.xyo.query.module.discover'
 
-export type XyoModuleDiscoverQueryPayload = XyoQueryPayload<{
-  schema: XyoModuleDiscoverQueryPayloadSchema
+export type XyoModuleDiscoverQuery = XyoQuery<{
+  schema: XyoModuleDiscoverQuerySchema
 }>

@@ -1,17 +1,17 @@
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoSchemaPayload } from './Payload'
-import { XyoSchemaPayloadSchema } from './Schema'
+import { XyoSchemaSchema } from './Schema'
 import { XyoSchemaWitness, XyoSchemaWitnessConfig, XyoSchemaWitnessConfigSchema } from './Witness'
 
 export const XyoSchemaPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoSchemaPayload, XyoSchemaWitnessConfig>({
-    schema: XyoSchemaPayloadSchema,
+    schema: XyoSchemaSchema,
     witness: (config): XyoSchemaWitness => {
       return new XyoSchemaWitness({
         ...config,
         schema: XyoSchemaWitnessConfigSchema,
-        targetSchema: XyoSchemaPayloadSchema,
+        targetSchema: XyoSchemaSchema,
       })
     },
   })

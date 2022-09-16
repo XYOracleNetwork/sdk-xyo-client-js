@@ -10,10 +10,26 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/assert": "^2.6.7",
+    "@xylabs/forget": "^2.6.7",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/promisable": "workspace:^",
-    "tslib": "^2.4.0"
+    "@xyo-network/promise": "workspace:^",
+    "lodash": "^4.17.21",
+    "terminal-kit": "^2.11.6",
+    "tslib": "^2.4.0",
+    "yargs": "^17.5.1"
+  },
+  "bin": {
+    "xyo": "dist/cjs/cli/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.18",
+    "@types/terminal-kit": "^2.5.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -47,6 +63,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
+  "scripts": {
+    "xyo-ts": "ts-node src/cli/index.ts"
+  },
   "types": "dist/esm/index.d.ts",
-  "version": "2.31.4"
+  "version": "2.33.0-rc.19",
+  "stableVersion": "2.32.1"
 }

@@ -1,7 +1,7 @@
 import { XyoIdPayload } from './Payload'
-import { XyoIdPayloadSchema } from './Schema'
+import { XyoIdSchema } from './Schema'
 
 export const XyoIdPayloadTemplate = (): XyoIdPayload => ({
   salt: '',
-  schema: XyoIdPayloadSchema,
+  schema: XyoIdSchema,
 })

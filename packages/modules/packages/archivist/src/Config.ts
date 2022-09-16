@@ -1,10 +1,12 @@
-import { Module, XyoModuleConfig } from '@xyo-network/module'
+import { XyoModuleConfig } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
+import { PayloadArchivist } from './Archivist'
+
 export interface XyoArchivistParents {
-  read?: Record<string, Module | null | undefined>
-  write?: Record<string, Module | null | undefined>
-  commit?: Record<string, Module | null | undefined>
+  read?: Record<string, PayloadArchivist | null | undefined>
+  write?: Record<string, PayloadArchivist | null | undefined>
+  commit?: Record<string, PayloadArchivist | null | undefined>
 }
 
 export type XyoArchivistConfig<TConfig extends XyoPayload = XyoPayload> = XyoModuleConfig<
@@ -16,26 +18,3 @@ export type XyoArchivistConfig<TConfig extends XyoPayload = XyoPayload> = XyoMod
     writeThrough?: string
   } & TConfig
 >
-
-export class XyoArchivistConfigWrapper<C extends XyoArchivistConfig = XyoArchivistConfig> {
-  protected config?: C
-  constructor(config?: C) {
-    this.config = config
-  }
-
-  public get parents() {
-    return this.config?.parents
-  }
-
-  public get account() {
-    return this.config?.account
-  }
-
-  public get writeThrough() {
-    return this.config?.writeThrough
-  }
-
-  public get cacheParentReads() {
-    return this.config?.cacheParentReads
-  }
-}

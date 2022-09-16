@@ -1,4 +1,3 @@
-import { XyoArchivist } from '@xyo-network/archivist'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoDivinerConfig } from '../../Config'
@@ -9,6 +8,6 @@ export const XyoArchivistPayloadDivinerConfigSchema: XyoArchivistPayloadDivinerC
 export type XyoArchivistPayloadDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
   T & {
     schema: XyoArchivistPayloadDivinerConfigSchema
-    archivist: XyoArchivist
+    archivist?: string
   }
 >

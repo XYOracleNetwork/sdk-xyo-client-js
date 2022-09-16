@@ -1,3 +1,5 @@
+/* eslint-disable deprecation/deprecation */
+/* eslint-disable import/no-deprecated */
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessBuilder, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
@@ -28,10 +30,13 @@ const getMongoSdk = (archive: string) => {
 
 const getBoundWitnesses = (number = 5) => {
   return new Array(number).fill(0).map((_) => {
-    return new XyoBoundWitnessBuilder({ inlinePayloads: true })
-      .witness(address)
-      .payload(new XyoPayloadBuilder({ schema }).fields({ prop: uuid() }).build())
-      .build()
+    return (
+      new XyoBoundWitnessBuilder({ inlinePayloads: true })
+        .witness(address)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .payload(new XyoPayloadBuilder({ schema }).fields({ prop: uuid() } as any).build())
+        .build()
+    )
   })
 }
 const describeSkipIfNoDB = process.env.MONGO_CONNECTION_STRING ? describe : describe.skip

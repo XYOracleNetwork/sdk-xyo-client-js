@@ -11,6 +11,9 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
+  "dependencies": {
+    "tslib": "^2.4.0"
+  },
   "exports": {
     ".": {
       "node": {
@@ -42,5 +45,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.31.4"
+  "version": "2.33.0-rc.19",
+  "stableVersion": "2.32.1"
 }

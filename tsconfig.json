@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "**/src/typres"],
     "types": ["jest", "node", "@types/jest", "jest-sorted", "jest-extended", "json-schema"]
   },
   "exclude": ["**/dist", "**/node_modules"],

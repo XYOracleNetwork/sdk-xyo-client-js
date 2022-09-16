@@ -1,2 +1,2 @@
-export type XyoIdPayloadSchema = 'network.xyo.id'
-export const XyoIdPayloadSchema: XyoIdPayloadSchema = 'network.xyo.id'
+export type XyoIdSchema = 'network.xyo.id'
+export const XyoIdSchema: XyoIdSchema = 'network.xyo.id'

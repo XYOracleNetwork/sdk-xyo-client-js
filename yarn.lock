@@ -1567,12 +1567,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/networks@npm:5.7.0, @ethersproject/networks@npm:^5.7.0":
+"@ethersproject/networks@npm:5.7.0":
   version: 5.7.0
   resolution: "@ethersproject/networks@npm:5.7.0"
   dependencies:
     "@ethersproject/logger": ^5.7.0
   checksum: 4f4d77e7c59e79cfcba616315a5d0e634a7653acbd11bb06a0028f4bd009b19f9a31556148a1e38f7308f55d1a1d170eb9f065290de9f9cf104b34e91cc348b8
+  languageName: node
+  linkType: hard
+
+"@ethersproject/networks@npm:^5.7.0, @ethersproject/networks@npm:^5.7.1":
+  version: 5.7.1
+  resolution: "@ethersproject/networks@npm:5.7.1"
+  dependencies:
+    "@ethersproject/logger": ^5.7.0
+  checksum: 0339f312304c17d9a0adce550edb825d4d2c8c9468c1634c44172c67a9ed256f594da62c4cda5c3837a0f28b7fabc03aca9b492f68ff1fdad337ee861b27bd5d
   languageName: node
   linkType: hard
 
@@ -1595,7 +1604,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/providers@npm:5.7.0, @ethersproject/providers@npm:^5.7.0":
+"@ethersproject/providers@npm:5.7.0":
   version: 5.7.0
   resolution: "@ethersproject/providers@npm:5.7.0"
   dependencies:
@@ -1620,6 +1629,34 @@ __metadata:
     bech32: 1.1.4
     ws: 7.4.6
   checksum: a6f80cea838424ceb367ff8e0f004f9fd6b43a87505da9d6aef33eb2bbc77cdb03ab51709ae83b7aa07d038fadf00634e08d8683fe6ae8b17b9351e3b30b26cb
+  languageName: node
+  linkType: hard
+
+"@ethersproject/providers@npm:^5.7.1":
+  version: 5.7.1
+  resolution: "@ethersproject/providers@npm:5.7.1"
+  dependencies:
+    "@ethersproject/abstract-provider": ^5.7.0
+    "@ethersproject/abstract-signer": ^5.7.0
+    "@ethersproject/address": ^5.7.0
+    "@ethersproject/base64": ^5.7.0
+    "@ethersproject/basex": ^5.7.0
+    "@ethersproject/bignumber": ^5.7.0
+    "@ethersproject/bytes": ^5.7.0
+    "@ethersproject/constants": ^5.7.0
+    "@ethersproject/hash": ^5.7.0
+    "@ethersproject/logger": ^5.7.0
+    "@ethersproject/networks": ^5.7.0
+    "@ethersproject/properties": ^5.7.0
+    "@ethersproject/random": ^5.7.0
+    "@ethersproject/rlp": ^5.7.0
+    "@ethersproject/sha2": ^5.7.0
+    "@ethersproject/strings": ^5.7.0
+    "@ethersproject/transactions": ^5.7.0
+    "@ethersproject/web": ^5.7.0
+    bech32: 1.1.4
+    ws: 7.4.6
+  checksum: 673745e967e7215b46b7d3024f5ee02be975d6cf66b605f87a0e5beaa349d6d30c987165f98eceddaf7996f64a1ec414f0715f25fc3458aead6eea4c4820c399
   languageName: node
   linkType: hard
 
@@ -2764,10 +2801,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.7.15, @types/node@npm:^18.7.17":
-  version: 18.7.17
-  resolution: "@types/node@npm:18.7.17"
-  checksum: bb1b832f4ad42a106d189d87e95aef117f0026a7ea291f34c5d106a25419d6d4c9d39099688ad46746cc3c2307c263be4adec1049a35dc12c9e48f19975b2dc6
+"@types/node@npm:*, @types/node@npm:^18.7.15, @types/node@npm:^18.7.18":
+  version: 18.7.18
+  resolution: "@types/node@npm:18.7.18"
+  checksum: 8aec61f0f96e2a69ce51f1f40f949ca578bbb4fe05d7c0b8ce3aeeb848e90f755837f17f6ac132ca404d974fe9b2974150ad3b4984fc9dc7c3ceddb10bae0167
   languageName: node
   linkType: hard
 
@@ -3296,9 +3333,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^2.7.9":
-  version: 2.7.9
-  resolution: "@xylabs/eslint-config@npm:2.7.9"
+"@xylabs/eslint-config@npm:^2.7.13":
+  version: 2.7.13
+  resolution: "@xylabs/eslint-config@npm:2.7.13"
   dependencies:
     "@babel/core": ^7.19.0
     "@babel/eslint-parser": ^7.18.9
@@ -3322,7 +3359,7 @@ __metadata:
     typescript: ^4.8.2
   peerDependencies:
     eslint: ^8.23.0
-  checksum: a2dfb59bc308831a4bdaeef10019453e58570ace5c59f85bf1ffa9454b49af1db3fb5c03036f78d4b4d980a66b86b183a44cfe3c77d56675f801b5d82d997910
+  checksum: 6d231d439bc457a2526973ad230af4a2ff6e19e9d5ae8b352a3133061e6c6ca95fba71da393059eed7ba638bb1fa2b5dd49ca5aaa5e15876982b67d4ae98f091
   languageName: node
   linkType: hard
 
@@ -3350,15 +3387,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^2.7.9":
-  version: 2.7.9
-  resolution: "@xylabs/ts-scripts-yarn3@npm:2.7.9"
+"@xylabs/ts-scripts-yarn3@npm:^2.7.13":
+  version: 2.7.13
+  resolution: "@xylabs/ts-scripts-yarn3@npm:2.7.13"
   dependencies:
     "@babel/core": ^7.19.0
     "@babel/preset-env": ^7.19.0
     "@types/jest": ^29.0.0
     "@types/node": ^18.7.15
-    "@xylabs/eslint-config": ^2.7.9
+    "@xylabs/eslint-config": ^2.7.13
     chalk: ^4.1.2
     cpy: ^8.1.2
     depcheck: ^1.4.3
@@ -3406,32 +3443,32 @@ __metadata:
     lint-fast: dist/cjs/bin/lint-fast.js
     lint-profile: dist/cjs/bin/lint-profile.js
     package-clean: dist/cjs/bin/package/clean.js
-    "package:compile:cjs": dist/cjs/bin/package/compile-cjs.js
-    "package:compile:esm": dist/cjs/bin/package/compile-esm.js
+    package-compile-cjs: dist/cjs/bin/package/compile-cjs.js
+    package-compile-esm: dist/cjs/bin/package/compile-esm.js
     rebuild: dist/cjs/bin/rebuild.js
     reinstall: dist/cjs/bin/reinstall.js
     relint: dist/cjs/bin/relint.js
     sonar: dist/cjs/bin/sonar.js
     test: dist/cjs/bin/test.js
     tsconfig-gen: dist/cjs/bin/tsconfig-gen.js
-    "tsconfig-gen:cjs": dist/cjs/bin/tsconfig-gen-cjs.js
-    "tsconfig-gen:clean": dist/cjs/bin/tsconfig-gen-clean.js
-    "tsconfig-gen:esm": dist/cjs/bin/tsconfig-gen-esm.js
-    "tsconfig-gen:test": dist/cjs/bin/tsconfig-gen-test.js
+    tsconfig-gen-cjs: dist/cjs/bin/tsconfig-gen-cjs.js
+    tsconfig-gen-clean: dist/cjs/bin/tsconfig-gen-clean.js
+    tsconfig-gen-esm: dist/cjs/bin/tsconfig-gen-esm.js
+    tsconfig-gen-test: dist/cjs/bin/tsconfig-gen-test.js
     up: dist/cjs/bin/up.js
     updo: dist/cjs/bin/updo.js
     xy: dist/cjs/bin/xy
     yarn3only: dist/cjs/bin/yarn3only.js
-  checksum: 8e398bcf97ab13763cd0b67758283f4c5c4e607809b30931f69f6de513e9ca7dad0771fa982c3c3040473ca5d8a4d07da626237d3ac4150b0a36d2a869ab959e
+  checksum: 1fafffdf1144ec91f59fdfad4dfd9b3fdc4bc6d54184078be25cbcf8dd2005810575ade0218ede099c73990c9223aa23700280723ce639cf0cf5afbb4d02ac9c
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^2.7.9":
-  version: 2.7.9
-  resolution: "@xylabs/tsconfig@npm:2.7.9"
+"@xylabs/tsconfig@npm:^2.7.13":
+  version: 2.7.13
+  resolution: "@xylabs/tsconfig@npm:2.7.13"
   dependencies:
     typescript: ^4.8.2
-  checksum: 80366002697e72a3f04f7747b7abd1f2acc155a5a2263cea0f80d727b0224bc3112acbd9b87797464c9d0d7f8611dd41d3605e3cdb57cf4d8b2b2915d26b07f8
+  checksum: 7248264f447b9d210929dd3f1739cdc860e967e67f496db5218aeb9b83ed9e183dedd9eab1d65b5fee645fe0af02eabd239ed6025ccbe580eb24c643c9822162
   languageName: node
   linkType: hard
 
@@ -3870,7 +3907,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
-    "@types/node": ^18.7.17
+    "@types/node": ^18.7.18
     "@types/terminal-kit": ^2.5.0
     "@xylabs/assert": ^2.6.7
     "@xylabs/forget": ^2.6.7
@@ -3880,7 +3917,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
-    terminal-kit: ^2.11.4
+    terminal-kit: ^2.11.6
     ts-node: ^10.9.1
     tslib: ^2.4.0
     typescript: ^4.8.3
@@ -4000,9 +4037,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-xyo-client-js@workspace:."
   dependencies:
-    "@xylabs/eslint-config": ^2.7.9
-    "@xylabs/ts-scripts-yarn3": ^2.7.9
-    "@xylabs/tsconfig": ^2.7.9
+    "@xylabs/eslint-config": ^2.7.13
+    "@xylabs/ts-scripts-yarn3": ^2.7.13
+    "@xylabs/tsconfig": ^2.7.13
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/payload-plugins": "workspace:^"
     "@xyo-network/sdk": "workspace:^"
@@ -4011,7 +4048,7 @@ __metadata:
     jest: ^29.0.3
     jest-extended: ^3.1.0
     pako: ^2.0.4
-    ts-jest: ^29.0.0
+    ts-jest: ^29.0.1
     typescript: ^4.8.3
   peerDependencies:
     axios: ^0.27.2
@@ -4120,8 +4157,8 @@ __metadata:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/bignumber": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.0
-    "@ethersproject/providers": ^5.7.0
+    "@ethersproject/networks": ^5.7.1
+    "@ethersproject/providers": ^5.7.1
     "@ethersproject/solidity": ^5.7.0
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.0.2
@@ -4139,7 +4176,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/utils@workspace:packages/sdk/packages/utils"
   dependencies:
-    "@ethersproject/providers": ^5.7.0
+    "@ethersproject/providers": ^5.7.1
     "@metamask/providers": ^9.1.0
     "@types/lru-cache": ^7.10.10
     "@xylabs/sdk-js": ^2.6.7
@@ -14049,10 +14086,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-kit@npm:^0.17.3":
-  version: 0.17.5
-  resolution: "string-kit@npm:0.17.5"
-  checksum: bd40375462f5d2a500790bb22dcb3a2a248f495a7affafadd175a3b7c3561e43e0e0d14efb7dfd44ea557d54cd25b8f51c4a4cf3876494df377ec3d3304fce5c
+"string-kit@npm:^0.17.6":
+  version: 0.17.6
+  resolution: "string-kit@npm:0.17.6"
+  checksum: bc18904f53339abd4c5e11c420dad81eb9dca94979b0bf9d16094709eb524f9a4d9897b7e060cbef15aa81bbf8721e4b9ba2378b2a52e27bb3940669cf28cd39
   languageName: node
   linkType: hard
 
@@ -14327,9 +14364,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terminal-kit@npm:^2.11.4":
-  version: 2.11.4
-  resolution: "terminal-kit@npm:2.11.4"
+"terminal-kit@npm:^2.11.6":
+  version: 2.11.6
+  resolution: "terminal-kit@npm:2.11.6"
   dependencies:
     "@cronvel/get-pixels": ^3.4.1
     chroma-js: ^2.4.2
@@ -14337,9 +14374,9 @@ __metadata:
     ndarray: ^1.0.19
     nextgen-events: ^1.5.3
     seventh: ^0.7.40
-    string-kit: ^0.17.3
+    string-kit: ^0.17.6
     tree-kit: ^0.7.4
-  checksum: 5b0eb1626160ec400f6c6557f5229c408c51d71e2362ab720460d0a14147d0b4d6e7d19ce46c9afa734260f3bb123ec3e708222c13e5e834c02f9f4eb364782b
+  checksum: b7c880f3e792f41e93c10262bf748bf3f3338bb159e24fc9a971977ded56e72227c0ea17723702becd76ba7b7efd689dd69ca128fa6745b5d1e5e65942c9bd6f
   languageName: node
   linkType: hard
 
@@ -14598,9 +14635,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^29.0.0":
-  version: 29.0.0
-  resolution: "ts-jest@npm:29.0.0"
+"ts-jest@npm:^29.0.1":
+  version: 29.0.1
+  resolution: "ts-jest@npm:29.0.1"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -14627,7 +14664,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: f4e811aa910b7cd2ef6a9269700dda17ccf253ebdb6ba9e596982d238292d6482973e670e7a6875209e7d246cdf575d79590fc503e12e9368e9105d1d74f09fc
+  checksum: f126675beb0d103d440b0297dc331ce37ba0f1e1a8002f4e97bfeb9043cf21b4de03deebf11ac1f08b7e4978d87f6a1c71e398b1c2f8535df3b684338786408e
   languageName: node
   linkType: hard
 

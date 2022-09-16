@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.7.0",
+    "@ethersproject/providers": "^5.7.1",
     "@metamask/providers": "^9.1.0",
     "@xylabs/sdk-js": "^2.6.7",
     "@xyo-network/domain-payload-plugin": "workspace:^",
@@ -60,6 +60,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.33.0-rc.15",
+  "version": "2.33.0-rc.16",
   "stableVersion": "2.32.1"
 }

@@ -13,8 +13,8 @@
     "@ethersproject/address": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
-    "@ethersproject/networks": "^5.7.0",
-    "@ethersproject/providers": "^5.7.0",
+    "@ethersproject/networks": "^5.7.1",
+    "@ethersproject/providers": "^5.7.1",
     "@ethersproject/solidity": "^5.7.0",
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.0.2",
@@ -59,6 +59,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.33.0-rc.15",
+  "version": "2.33.0-rc.16",
   "stableVersion": "2.32.1"
 }

@@ -1,11 +1,12 @@
 import { assertEx } from '@xylabs/sdk-js'
+import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { Module, XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
-import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promisable'
+import { XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
-import { Archivist } from './Archivist'
+import { PayloadArchivist } from './Archivist'
 import { XyoArchivistConfig, XyoArchivistParents } from './Config'
 import {
   XyoArchivistAllQuerySchema,
@@ -22,9 +23,9 @@ import {
 } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
-  extends XyoModule<XyoArchivistConfig<TConfig>, XyoArchivistQuery>
-  implements Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter>
+export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoArchivistQuery = XyoArchivistQuery>
+  extends XyoModule<TQuery, XyoPayload, XyoArchivistConfig<TConfig>>
+  implements PayloadArchivist<TQuery>
 {
   public override queries(): XyoArchivistQuerySchema[] {
     return [
@@ -68,12 +69,13 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
 
   abstract insert(item: XyoPayload[]): Promisable<XyoBoundWitness>
 
-  async query(query: XyoArchivistQuery): Promise<XyoModuleQueryResult> {
+  override async query(query: TQuery): Promise<XyoModuleQueryResult<XyoPayload>> {
     if (!this.queries().find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }
 
     const payloads: (XyoPayload | null)[] = []
+    const queryAccount = new XyoAccount()
     switch (query.schema) {
       case XyoArchivistAllQuerySchema:
         payloads.push(...(await this.all()))
@@ -96,15 +98,17 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
       case XyoArchivistInsertQuerySchema:
         payloads.push(await this.insert(query.payloads), ...query.payloads)
         break
+      default:
+        return super.query(query)
     }
-    return [this.bindPayloads(payloads), payloads]
+    return this.bindPayloads(payloads, queryAccount)
   }
 
-  private resolveArchivists(archivists?: Record<string, Module | null | undefined>) {
-    const resolved: Record<string, Module | null | undefined> = {}
+  private resolveArchivists(archivists?: Record<string, PayloadArchivist | null | undefined>) {
+    const resolved: Record<string, PayloadArchivist | null | undefined> = {}
     if (archivists) {
       Object.entries(archivists).forEach(([key, value]) => {
-        resolved[key] = value ?? this.resolver?.(key) ?? null
+        resolved[key] = value ?? (this.resolver?.(key) as unknown as PayloadArchivist) ?? null
       })
     }
     return resolved
@@ -116,7 +120,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
         Object.values(this.parents?.read ?? {}).map(async (parent) => {
           const query: XyoArchivistGetQuery = { hashes: [hash], schema: XyoArchivistGetQuerySchema }
           const [, payloads] = (await parent?.query(query)) ?? []
-          const wrapper = payloads?.[0] ? new XyoPayloadWrapper(payloads?.[0]) : undefined
+          const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
           if (wrapper && wrapper.hash !== hash) {
             console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hash}]`)
             return null
@@ -127,7 +131,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
     )[0]
   }
 
-  protected async writeToParent(parent: Module, payloads: XyoPayload[]) {
+  protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
     const query: XyoArchivistInsertQuery = { payloads, schema: XyoArchivistInsertQuerySchema }
     const [, writtenPayloads] = (await parent?.query(query)) ?? []
     return writtenPayloads

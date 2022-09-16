@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
-import { PromisableArray } from '@xyo-network/promisable'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
 
@@ -78,6 +78,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
         return true
       })
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('delete', ex, 'unexpected')
     }
   }
@@ -86,6 +87,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     try {
       this.storage.clear()
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('clear', ex, 'unexpected')
     }
   }
@@ -99,6 +101,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
         }),
       )
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('get', ex, 'unexpected')
     }
   }
@@ -106,19 +109,20 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
       const storedPayloads = payloads.map((payload) => {
-        const wrapper = new XyoPayloadWrapper(payload)
+        const wrapper = new PayloadWrapper(payload)
         const hash = wrapper.hash
         const value = JSON.stringify(wrapper.payload)
         assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hash}, ${value.length}]`)
         this.storage.set(hash, wrapper.payload)
         return wrapper.payload
       })
-      const boundwitness = this.bindPayloads(storedPayloads)
+      const [boundwitness] = await this.bindPayloads(storedPayloads)
       if (this.writeThrough) {
         await this.writeToParents([boundwitness, ...storedPayloads])
       }
       return boundwitness
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('insert', ex, 'unexpected')
     }
   }
@@ -133,6 +137,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       })
       return x
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('find', ex, 'unexpected')
     }
   }
@@ -141,6 +146,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     try {
       return Object.entries(this.storage.getAll()).map(([, value]) => value)
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('all', ex, 'unexpected')
     }
   }
@@ -149,7 +155,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
-      const block = this.bindPayloads(payloads)
+      const [block] = await this.bindPayloads(payloads)
       await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
@@ -161,6 +167,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       await this.clear()
       return block
     } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('commit', ex, 'unexpected')
     }
   }

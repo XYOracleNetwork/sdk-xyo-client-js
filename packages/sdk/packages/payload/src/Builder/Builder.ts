@@ -1,4 +1,4 @@
-import { deepOmitUnderscoreFields, removeEmptyFields, StringKeyObject, XyoHasher } from '@xyo-network/core'
+import { deepOmitUnderscoreFields, Hasher, removeEmptyFields } from '@xyo-network/core'
 
 import { XyoPayload } from '../models'
 
@@ -6,7 +6,7 @@ export interface XyoPayloadBuilderOptions {
   schema: string
 }
 
-export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<StringKeyObject>> {
+export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unknown>>> {
   private _fields: Partial<T> = {}
   private _previousHash?: string
   private _schema: string
@@ -36,7 +36,7 @@ export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<StringKeyObject
 
   public build(): T {
     const hashableFields = this.hashableFields()
-    const _hash = new XyoHasher(hashableFields).hash
+    const _hash = new Hasher(hashableFields).hash
     const _timestamp = Date.now()
     return { ...hashableFields, _client: 'js', _hash, _timestamp, schema: this._schema }
   }

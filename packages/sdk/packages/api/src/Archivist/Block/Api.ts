@@ -1,4 +1,4 @@
-import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoApiConfig } from '../../models'
@@ -7,7 +7,7 @@ import { WithArchive } from '../../WithArchive'
 import { XyoArchivistPayloadApi } from '../Payload'
 
 export class XyoArchivistArchiveBlockApi<
-  T extends XyoBoundWitnessWithPartialMeta = XyoBoundWitnessWithPartialMeta,
+  T extends XyoBoundWitness = XyoBoundWitness,
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoArchivistPayloadApi<T, C> {
   public payloads(hash: string): XyoApiSimple<XyoPayload[][]> {

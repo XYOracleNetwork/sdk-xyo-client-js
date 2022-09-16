@@ -3,7 +3,7 @@
  */
 
 import { delay } from '@xylabs/delay'
-import { XyoPayload, XyoPayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
 import { XyoArchivist } from '../XyoArchivist'
 import { XyoArchivistWrapper } from '../XyoArchivistWrapper'
@@ -14,7 +14,7 @@ export const testArchivistRoundTrip = (archivist: XyoArchivist, name: string) =>
       salt: 'test',
       schema: 'network.xyo.id',
     }
-    const payloadWrapper = new XyoPayloadWrapper(idPayload)
+    const payloadWrapper = new PayloadWrapper(idPayload)
     const archivistWrapper = new XyoArchivistWrapper(archivist)
     const insertResult = await archivistWrapper.insert([idPayload])
     expect(insertResult).toBeDefined()
@@ -24,7 +24,7 @@ export const testArchivistRoundTrip = (archivist: XyoArchivist, name: string) =>
     expect(getResult.length).toBe(1)
     const gottenPayload = getResult[0]
     if (gottenPayload) {
-      const gottenPayloadWrapper = new XyoPayloadWrapper(gottenPayload)
+      const gottenPayloadWrapper = new PayloadWrapper(gottenPayload)
       expect(gottenPayloadWrapper.hash).toBe(payloadWrapper.hash)
     }
   })

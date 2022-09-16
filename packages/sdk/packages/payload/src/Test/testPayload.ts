@@ -1,12 +1,9 @@
 import { StringKeyObject } from '@xyo-network/core'
 
-import { XyoPayloadWithMeta } from '../models'
+import { XyoPayload } from '../models'
 
 const testSchema = 'network.xyo.test'
-const testPayload: XyoPayloadWithMeta<StringKeyObject> = {
-  _archive: 'test',
-  _hash: '20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c',
-  _timestamp: 1609459255555,
+const testPayload: XyoPayload<StringKeyObject> = {
   numberField: 1,
   objectField: {
     numberField: 1,

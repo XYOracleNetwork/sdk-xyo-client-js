@@ -2,7 +2,7 @@ import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from 
 import { XyoDiviner, XyoDivinerConfig, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { PartialModuleConfig } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promisable'
+import { Promisable } from '@xyo-network/promise'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 import { divinePrices } from './lib'

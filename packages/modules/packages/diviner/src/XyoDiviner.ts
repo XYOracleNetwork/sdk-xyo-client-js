@@ -1,6 +1,7 @@
+import { XyoAccount } from '@xyo-network/account'
 import { XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promisable'
+import { Promisable } from '@xyo-network/promise'
 
 import { XyoDivinerConfig } from './Config'
 import { DivinerModule } from './Diviner'
@@ -11,7 +12,7 @@ export abstract class XyoDiviner<
     TConfig extends XyoDivinerConfig = XyoDivinerConfig,
     TQuery extends XyoDivinerQuery<TDivineResult> = XyoDivinerQuery<TDivineResult>,
   >
-  extends XyoModule<TConfig, TQuery, TDivineResult>
+  extends XyoModule<TQuery, TDivineResult, TConfig>
   implements DivinerModule<TDivineResult, TQuery, TDivineResult>
 {
   abstract divine(payloads?: XyoPayloads<TDivineResult>): Promisable<TDivineResult | null>
@@ -21,6 +22,7 @@ export abstract class XyoDiviner<
   }
 
   async query(query: TQuery): Promise<XyoModuleQueryResult<TDivineResult>> {
+    const queryAccount = new XyoAccount()
     if (!this.queries().find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }
@@ -30,8 +32,10 @@ export abstract class XyoDiviner<
       case XyoDivinerDivineQuerySchema:
         payloads.push(await this.divine(query.payloads))
         break
+      default:
+        return super.query(query)
     }
-    return [this.bindPayloads(payloads), payloads]
+    return await this.bindPayloads(payloads, queryAccount)
   }
 }
 

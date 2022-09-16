@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { PayloadArchivist, XyoArchivist, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
+import { Archivist, PayloadArchivist, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { PartialModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
 import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
@@ -12,7 +12,7 @@ import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchem
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoArchivistPayloadDivinerConfig> {
   protected readonly archivist?: PayloadArchivist | null
 
-  constructor(config?: PartialModuleConfig<XyoArchivistPayloadDivinerConfig>, archivist?: XyoArchivist, resolver?: XyoModuleResolverFunc) {
+  constructor(config?: PartialModuleConfig<XyoArchivistPayloadDivinerConfig>, archivist?: Archivist, resolver?: XyoModuleResolverFunc) {
     super({ ...config, schema: XyoArchivistPayloadDivinerConfigSchema }, undefined, resolver)
     const configArchivistAddress = config?.archivist
     const resolvedArchivist: PayloadArchivist | null =

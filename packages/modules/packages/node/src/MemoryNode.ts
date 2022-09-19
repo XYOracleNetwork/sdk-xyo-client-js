@@ -37,7 +37,7 @@ export class MemoryNode<
     })
   }
 
-  override availableModules() {
+  override registeredModules() {
     return Array.from(this.registeredModuleMap.values()).map((value) => {
       return value
     })
@@ -63,9 +63,5 @@ export class MemoryNode<
 
   override detatch(address: string) {
     this.attachedModuleMap.delete(address)
-  }
-
-  override get(address: string) {
-    return this.attachedModuleMap.get(address)
   }
 }

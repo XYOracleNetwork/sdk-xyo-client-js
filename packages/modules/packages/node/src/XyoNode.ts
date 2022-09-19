@@ -3,8 +3,14 @@ import { XyoModule, XyoModuleResolverFunc } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { NodeConfig } from './Config'
-import { NodeModule } from './Node'
-import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeAvailableQuerySchema, XyoNodeDetatchQuerySchema, XyoNodeQuery } from './Queries'
+import { NodeModule } from './NodeModule'
+import {
+  XyoNodeAttachedQuerySchema,
+  XyoNodeAttachQuerySchema,
+  XyoNodeDetatchQuerySchema,
+  XyoNodeQuery,
+  XyoNodeRegisteredQuerySchema,
+} from './Queries'
 export abstract class XyoNode<
     TConfig extends NodeConfig = NodeConfig,
     TQuery extends XyoNodeQuery = XyoNodeQuery,
@@ -12,7 +18,7 @@ export abstract class XyoNode<
     TModule extends XyoModule = XyoModule,
   >
   extends XyoModule<TQuery, TQueryResult, TConfig>
-  implements NodeModule<TQuery, TQueryResult>
+  implements NodeModule<TQuery, TQueryResult, TModule>
 {
   constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
     super(config, account, resolver)
@@ -21,7 +27,7 @@ export abstract class XyoNode<
   /** Query Functions - Start */
   abstract attach(_address: string): void
   abstract detatch(_address: string): void
-  abstract resolve(_address: string): XyoModule | null
+  abstract resolve(_address: string): TModule | null
 
   registered(): string[] {
     throw new Error('Method not implemented.')
@@ -30,10 +36,10 @@ export abstract class XyoNode<
     throw new Error('Method not implemented.')
   }
 
-  availableModules(): XyoModule[] {
+  registeredModules(): TModule[] {
     throw new Error('Method not implemented.')
   }
-  attachedModules(): XyoModule[] {
+  attachedModules(): TModule[] {
     throw new Error('Method not implemented.')
   }
   /** Query Functions - End */
@@ -54,7 +60,7 @@ export abstract class XyoNode<
         this.attached()
         break
       }
-      case XyoNodeAvailableQuerySchema: {
+      case XyoNodeRegisteredQuerySchema: {
         this.registered()
         break
       }
@@ -67,6 +73,4 @@ export abstract class XyoNode<
   register(_module: TModule): void {
     throw new Error('Method not implemented.')
   }
-
-  abstract get(_address: string): TModule | undefined
 }

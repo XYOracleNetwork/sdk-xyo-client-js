@@ -20,8 +20,8 @@ export class XyoModuleWrapper<
     return this.module.address
   }
 
-  get queries() {
-    return this.module.queries
+  queries(): TQuery['schema'][] {
+    return this.module.queries()
   }
 
   queryable(schema: string) {

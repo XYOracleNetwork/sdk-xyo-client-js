@@ -19,6 +19,8 @@ type XyoNodeQuerySchemaBase =
 
 export type XyoNodeQuerySchema<T extends string | void = void> = T extends string ? XyoNodeQuerySchemaBase | T : XyoNodeQuerySchemaBase
 
-type XyoNodeQueryBase = XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery | XyoModuleQuery
+type XyoNodeQueryBase<T extends XyoQuery | void = void> = T extends XyoQuery
+  ? XyoModuleQuery<XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery | T>
+  : XyoModuleQuery<XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery>
 
-export type XyoNodeQuery<T extends XyoQuery | void = void> = T extends XyoQuery ? XyoNodeQueryBase | T : XyoNodeQueryBase
+export type XyoNodeQuery<T extends XyoQuery | void = void> = T extends XyoQuery ? XyoNodeQueryBase<T> : XyoNodeQueryBase

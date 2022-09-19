@@ -1,5 +1,5 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoModule, XyoModuleResolverFunc } from '@xyo-network/module'
+import { XyoModule, XyoModuleQueryResult, XyoModuleResolverFunc } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { NodeConfig } from './Config'
@@ -44,7 +44,7 @@ export abstract class XyoNode<
   }
   /** Query Functions - End */
 
-  query(query: TQuery) {
+  override query(query: TQuery): Promise<XyoModuleQueryResult<TQueryResult>> {
     const queryAccount = new XyoAccount()
     const payloads: (TQueryResult | null)[] = []
     switch (query.schema) {

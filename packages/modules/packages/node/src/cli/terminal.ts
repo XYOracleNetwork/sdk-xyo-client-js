@@ -3,6 +3,9 @@ import { readFileSync } from 'fs'
 import path from 'path'
 import { terminal } from 'terminal-kit'
 
+import { MemoryNode } from '../MemoryNode'
+import { Node } from '../Node'
+
 function terminate() {
   terminal.grabInput(false)
   terminal.clear()
@@ -40,7 +43,7 @@ const readFileDeep = (names: string[]) => {
   return [result, resolvedPath]
 }
 
-const getCommand = (): Promise<boolean> => {
+const getCommand = (node: Node): Promise<boolean> => {
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') {
@@ -78,8 +81,16 @@ const getCommand = (): Promise<boolean> => {
           case 'exit':
             resolve(false)
             break
+          case 'list-registered-plugins': {
+            terminal.yellow('\nList Registered Plugins\n')
+            const registered = await node?.registered()
+            registered.forEach((module) => {
+              terminal(`0x${module}`)
+            })
+            break
+          }
           case 'register-plugin':
-            terminal.yellow('Register Plugin')
+            terminal.yellow('\nRegister Plugin\n')
             break
           case 'show-config': {
             const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
@@ -102,10 +113,10 @@ const getCommand = (): Promise<boolean> => {
   })
 }
 
-export const startTerminal = async () => {
+export const startTerminal = async (node: MemoryNode) => {
   let running = true
   while (running) {
-    running = await getCommand()
+    running = await getCommand(node)
   }
 
   terminate()

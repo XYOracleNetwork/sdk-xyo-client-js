@@ -1,12 +1,12 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoModule, XyoModuleConfig } from '@xyo-network/module'
+import { XyoModule, XyoModuleResolverFunc } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
+import { NodeConfig } from './Config'
 import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeAvailableQuerySchema, XyoNodeDetatchQuerySchema, XyoNodeQuery } from './Queries'
-
 export abstract class XyoNode<
-    TConfig extends XyoModuleConfig = XyoModuleConfig,
+    TConfig extends NodeConfig = NodeConfig,
     TQuery extends XyoNodeQuery = XyoNodeQuery,
     TQueryResult extends XyoPayload = XyoPayload,
     TModule extends XyoModule = XyoModule,
@@ -14,6 +14,10 @@ export abstract class XyoNode<
   extends XyoModule<TQuery, TQueryResult, TConfig>
   implements NodeModule<TQuery, TQueryResult>
 {
+  constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+    super(config, account, resolver)
+  }
+
   /** Query Functions - Start */
   abstract attach(_address: string): void
   abstract detatch(_address: string): void

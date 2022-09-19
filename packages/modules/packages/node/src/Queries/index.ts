@@ -2,23 +2,25 @@ import { XyoModuleQuery, XyoModuleQuerySchema, XyoQuery } from '@xyo-network/mod
 
 import { XyoNodeAttachQuery, XyoNodeAttachQuerySchema } from './Attach'
 import { XyoNodeAttachedQuery, XyoNodeAttachedQuerySchema } from './Attached'
-import { XyoNodeAvailableQuery, XyoNodeAvailableQuerySchema } from './Available'
 import { XyoNodeDetatchQuery, XyoNodeDetatchQuerySchema } from './Detatch'
+import { XyoNodeRegisteredQuery, XyoNodeRegisteredQuerySchema } from './Registered'
 
 export * from './Attach'
 export * from './Attached'
-export * from './Available'
 export * from './Detatch'
+export * from './Registered'
 
 type XyoNodeQuerySchemaBase =
   | XyoNodeAttachQuerySchema
   | XyoNodeDetatchQuerySchema
   | XyoNodeAttachedQuerySchema
-  | XyoNodeAvailableQuerySchema
+  | XyoNodeRegisteredQuerySchema
   | XyoModuleQuerySchema
 
 export type XyoNodeQuerySchema<T extends string | void = void> = T extends string ? XyoNodeQuerySchemaBase | T : XyoNodeQuerySchemaBase
 
-type XyoNodeQueryBase = XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeAvailableQuery | XyoModuleQuery
+type XyoNodeQueryBase<T extends XyoQuery | void = void> = T extends XyoQuery
+  ? XyoModuleQuery<XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery | T>
+  : XyoModuleQuery<XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery>
 
-export type XyoNodeQuery<T extends XyoQuery | void = void> = T extends XyoQuery ? XyoNodeQueryBase | T : XyoNodeQueryBase
+export type XyoNodeQuery<T extends XyoQuery | void = void> = T extends XyoQuery ? XyoNodeQueryBase<T> : XyoNodeQueryBase

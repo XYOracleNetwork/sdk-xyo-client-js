@@ -4,10 +4,11 @@ import { XyoModule } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
 
 import { MemoryNode } from './MemoryNode'
+import { NodeModule } from './NodeModule'
 
 test('Create Node', async () => {
   const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
-  const node = new MemoryNode()
+  const node: NodeModule = new MemoryNode()
   const archivist = new XyoMemoryArchivist()
   const diviner: XyoModule = new XyoArchivistPayloadDiviner({}, archivist)
   node.register(archivist)
@@ -16,7 +17,7 @@ test('Create Node', async () => {
   node.attach(diviner.address)
   expect(node.registered().length).toBe(2)
   expect(node.attached().length).toBe(2)
-  const foundArchivist = node.get(archivist.address)
+  const foundArchivist = node.resolve(archivist.address)
   expect(foundArchivist).toBeDefined()
   expect(foundArchivist?.address).toBe(archivist.address)
   const testPayload = new XyoPayloadBuilder<XyoPayload<{ schema: XyoPayloadSchema; test: boolean }>>({ schema: XyoPayloadSchema })
@@ -37,7 +38,7 @@ test('Create Node', async () => {
     const huri = new PayloadWrapper(payloads[0]).hash
     const huriPayload: XyoHuriPayload = { huri, schema: XyoHuriSchema }
     const divineQuery: XyoDivinerDivineQuery = { payloads: [huriPayload], schema: XyoDivinerDivineQuerySchema }
-    const foundDiviner = node.get(diviner.address)
+    const foundDiviner = node.resolve(diviner.address)
     expect(foundDiviner).toBeDefined()
     if (foundDiviner) {
       const [, payloads] = await foundDiviner.query(divineQuery)

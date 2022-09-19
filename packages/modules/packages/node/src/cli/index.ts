@@ -1,4 +1,4 @@
-import { forget } from '@xylabs/forget'
+import { XyoMemoryArchivist } from '@xyo-network/archivist'
 import { XyoModule, XyoModuleResolverFunc } from '@xyo-network/module'
 import yargs from 'yargs'
 // eslint-disable-next-line import/no-internal-modules
@@ -30,8 +30,10 @@ const loadModule = async (pkg: string, name?: string, resolver?: XyoModuleResolv
   return new ModuleConstructor(undefined, undefined, resolver)
 }
 
-const xyo = () => {
-  return parseOptions().command(
+const xyo = async () => {
+  const node = new MemoryNode()
+  node.register(new XyoMemoryArchivist())
+  await parseOptions().command(
     'node',
     'Start an XYO Node',
     (yargs) => {
@@ -43,7 +45,7 @@ const xyo = () => {
       const modules = Array.isArray(module) ? module : [module]
       if (verbose) console.info('Starting Node')
 
-      const node = new MemoryNode()
+      node.register(new XyoMemoryArchivist())
 
       const resolver: XyoModuleResolverFunc = (address: string) => {
         console.log(`Resolving: ${address}`)
@@ -63,7 +65,17 @@ const xyo = () => {
       )
     },
   ).argv
+  return node
 }
 
-void xyo()
-forget(startTerminal())
+const start = async () => {
+  await startTerminal(await xyo())
+}
+
+start()
+  .then(() => {
+    console.log('Finishing,...')
+  })
+  .catch(() => {
+    console.log('Excepting,...')
+  })

@@ -1,13 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
-import { XyoModule, XyoModuleConfig } from '@xyo-network/module'
+import { XyoModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
+import { NodeConfig } from './Config'
 import { XyoNodeAttachQuerySchema, XyoNodeDetatchQuerySchema, XyoNodeQuery } from './Queries'
 import { XyoNode } from './XyoNode'
 
 export class MemoryNode<
-  TConfig extends XyoModuleConfig = XyoModuleConfig,
+  TConfig extends NodeConfig = NodeConfig,
   TQuery extends XyoNodeQuery = XyoNodeQuery,
   TQueryResult extends XyoPayload = XyoPayload,
   TModule extends XyoModule = XyoModule,

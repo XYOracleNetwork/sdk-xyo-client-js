@@ -1,3 +1,5 @@
-import { PartialModuleConfig, XyoModuleConfig } from '@xyo-network/module'
+import { PartialModuleConfig } from '@xyo-network/module'
 
-export type PartiaDivinerConfig<T extends XyoModuleConfig> = PartialModuleConfig<T>
+import { NodeConfig } from './Config'
+
+export type PartialNodeConfig<T extends NodeConfig = NodeConfig> = PartialModuleConfig<T>

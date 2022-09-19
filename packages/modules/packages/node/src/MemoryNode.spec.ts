@@ -3,11 +3,11 @@ import { XyoArchivistPayloadDiviner, XyoDivinerDivineQuery, XyoDivinerDivineQuer
 import { XyoModule } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
 
-import { XyoMemoryNode } from './MemoryNode'
+import { MemoryNode } from './MemoryNode'
 
 test('Create Node', async () => {
   const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
-  const node = new XyoMemoryNode()
+  const node = new MemoryNode()
   const archivist = new XyoMemoryArchivist()
   const diviner: XyoModule = new XyoArchivistPayloadDiviner({}, archivist)
   node.register(archivist)

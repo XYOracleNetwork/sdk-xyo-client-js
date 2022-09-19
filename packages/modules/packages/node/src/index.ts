@@ -1,2 +1,5 @@
+export * from './Config'
+export * from './MemoryNode'
 export * from './Node'
+export * from './PartialConfig'
 export * from './XyoNode'

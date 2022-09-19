@@ -6,7 +6,7 @@ import { XyoPayload } from '@xyo-network/payload'
 import { XyoNodeAttachQuerySchema, XyoNodeQuery } from './Queries'
 import { XyoNode } from './XyoNode'
 
-export class XyoMemoryNode<
+export class MemoryNode<
   TConfig extends XyoModuleConfig = XyoModuleConfig,
   TQuery extends XyoNodeQuery = XyoNodeQuery,
   TQueryResult extends XyoPayload = XyoPayload,

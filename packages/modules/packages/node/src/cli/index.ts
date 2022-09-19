@@ -4,7 +4,7 @@ import yargs from 'yargs'
 // eslint-disable-next-line import/no-internal-modules
 import { hideBin } from 'yargs/helpers'
 
-import { XyoMemoryNode } from '../MemoryNode'
+import { MemoryNode } from '../MemoryNode'
 import { startTerminal } from './terminal'
 
 const parseOptions = () => {
@@ -43,7 +43,7 @@ const xyo = () => {
       const modules = Array.isArray(module) ? module : [module]
       if (verbose) console.info('Starting Node')
 
-      const node = new XyoMemoryNode()
+      const node = new MemoryNode()
 
       const resolver: XyoModuleResolverFunc = (address: string) => {
         console.log(`Resolving: ${address}`)

@@ -17,14 +17,14 @@ export interface XyoPanelConfig {
 export class XyoPanel {
   public config: XyoPanelConfig
   public history: XyoBoundWitness[] = []
-  public archivist: XyoArchivistWrapper
+  public archivists: XyoArchivistWrapper[]
   public account: XyoAccount
-  constructor({ witnesses, ...config }: Partial<XyoPanelConfig>, archivist: PayloadArchivist) {
+  constructor({ witnesses, ...config }: Partial<XyoPanelConfig>, archivist: PayloadArchivist | PayloadArchivist[]) {
     this.config = {
       ...config,
       witnesses: witnesses ?? [],
     }
-    this.archivist = new XyoArchivistWrapper(archivist)
+    this.archivists = (Array.isArray(archivist) ? archivist : [archivist]).map((archivist) => new XyoArchivistWrapper(archivist))
     this.account = new XyoAccount()
   }
 
@@ -53,16 +53,16 @@ export class XyoPanel {
     return payloads
   }
 
-  public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []) {
+  public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {
     const errors: Error[] = []
     this.config.onReportStart?.()
     const allWitnesses: XyoWitness<XyoPayload>[] = [...adhocWitnesses, ...this.config.witnesses]
     const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
     const newBoundWitness = new XyoBoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
-    const bw = await this.archivist.insert([newBoundWitness, ...payloads])
-    this.history.push(bw)
+    const bwList = await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))
+    this.history.push(...bwList)
     this.config.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
-    return bw
+    return [bwList, payloads]
   }
 }

@@ -4,10 +4,11 @@ import { XyoModule } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
 
 import { MemoryNode } from './MemoryNode'
+import { NodeModule } from './NodeModule'
 
 test('Create Node', async () => {
   const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
-  const node = new MemoryNode()
+  const node: NodeModule = new MemoryNode()
   const archivist = new XyoMemoryArchivist()
   const diviner: XyoModule = new XyoArchivistPayloadDiviner({}, archivist)
   node.register(archivist)

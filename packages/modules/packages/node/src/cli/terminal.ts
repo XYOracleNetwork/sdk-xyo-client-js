@@ -4,7 +4,7 @@ import path from 'path'
 import { terminal } from 'terminal-kit'
 
 import { MemoryNode } from '../MemoryNode'
-import { NodeModule } from '../NodeModule'
+import { Node } from '../Node'
 
 function terminate() {
   terminal.grabInput(false)
@@ -43,7 +43,7 @@ const readFileDeep = (names: string[]) => {
   return [result, resolvedPath]
 }
 
-const getCommand = (node: MemoryNode): Promise<boolean> => {
+const getCommand = (node: Node): Promise<boolean> => {
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') {
@@ -83,7 +83,7 @@ const getCommand = (node: MemoryNode): Promise<boolean> => {
             break
           case 'list-registered-plugins': {
             terminal.yellow('\nList Registered Plugins\n')
-            const registered = node?.registered()
+            const registered = await node?.registered()
             registered.forEach((module) => {
               terminal(`0x${module}`)
             })

@@ -1,4 +1,4 @@
-import { XyoModule, XyoModuleWrapper } from '@xyo-network/module'
+import { Module, XyoModule, XyoModuleWrapper } from '@xyo-network/module'
 import compact from 'lodash/compact'
 
 import { NodeModule } from './NodeModule'
@@ -14,6 +14,9 @@ import {
 } from './Queries'
 
 export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
+  register(_module: Module): void {
+    throw Error('Not implemented')
+  }
   async registered(): Promise<string[]> {
     const query: XyoNodeRegisteredQuery = { schema: XyoNodeRegisteredQuerySchema }
     return compact((await this.module.query(query))[1].map((payload) => payload?.schema))
@@ -43,6 +46,6 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
   }
 
   resolve(_address: string): XyoModule | null {
-    return null
+    throw Error('Not implemented')
   }
 }

@@ -34,10 +34,10 @@ describe('XyoPanel', () => {
 
     expect(adhocObserved).toBeDefined()
 
-    const report1 = await panel.report([adhocWitness])
+    const report1 = (await panel.report([adhocWitness]))[0][0]
     expect(report1.schema).toBe(XyoBoundWitnessSchema)
     expect(report1.payload_hashes.length).toBe(5)
-    const report2 = await panel.report()
+    const report2 = (await panel.report())[0][0]
     expect(report2.schema).toBeDefined()
     expect(report2.payload_hashes.length).toBe(4)
 

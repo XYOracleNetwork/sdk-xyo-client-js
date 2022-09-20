@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoModule, XyoModuleQueryResult, XyoModuleResolverFunc } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayloads } from '@xyo-network/payload'
 
 import { NodeConfig } from './Config'
 import { NodeModule } from './NodeModule'
@@ -14,11 +14,10 @@ import {
 export abstract class XyoNode<
     TConfig extends NodeConfig = NodeConfig,
     TQuery extends XyoNodeQuery = XyoNodeQuery,
-    TQueryResult extends XyoPayload = XyoPayload,
     TModule extends XyoModule = XyoModule,
   >
-  extends XyoModule<TQuery, TQueryResult, TConfig>
-  implements NodeModule<TQuery, TQueryResult, TModule>
+  extends XyoModule<TQuery, TConfig>
+  implements NodeModule<TQuery, TModule>
 {
   constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
     super(config, account, resolver)
@@ -44,9 +43,9 @@ export abstract class XyoNode<
   }
   /** Query Functions - End */
 
-  override query(query: TQuery): Promise<XyoModuleQueryResult<TQueryResult>> {
+  override query(query: TQuery): Promise<XyoModuleQueryResult> {
     const queryAccount = new XyoAccount()
-    const payloads: (TQueryResult | null)[] = []
+    const payloads: XyoPayloads = []
     switch (query.schema) {
       case XyoNodeAttachQuerySchema: {
         this.attach(query.address)

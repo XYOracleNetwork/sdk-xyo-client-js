@@ -9,7 +9,7 @@ import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
 
-export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoArchivistPayloadDivinerConfig> {
+export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
   protected readonly archivist?: PayloadArchivist | null
 
   constructor(config?: PartialModuleConfig<XyoArchivistPayloadDivinerConfig>, archivist?: PayloadArchivist, resolver?: XyoModuleResolverFunc) {

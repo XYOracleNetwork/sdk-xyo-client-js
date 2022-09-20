@@ -4,13 +4,8 @@ import { Promisable } from '@xyo-network/promise'
 
 import { XyoDivinerQuery } from './Queries'
 
-export interface Diviner<TDivineResponse extends XyoPayload = XyoPayload> {
-  divine(payloads?: XyoPayloads): Promisable<TDivineResponse | null>
+export interface Diviner {
+  divine(payloads?: XyoPayloads): Promisable<XyoPayload | null>
 }
 
-export interface DivinerModule<
-  TDivineResult extends XyoPayload = XyoPayload,
-  TQuery extends XyoDivinerQuery<TDivineResult> = XyoDivinerQuery<TDivineResult>,
-  TQueryResult extends XyoPayload = XyoPayload,
-> extends Module<TQuery, TQueryResult>,
-    Diviner<TDivineResult> {}
+export interface DivinerModule<TQuery extends XyoDivinerQuery = XyoDivinerQuery> extends Module<TQuery>, Diviner {}

@@ -7,27 +7,23 @@ import { XyoDivinerConfig } from './Config'
 import { DivinerModule } from './Diviner'
 import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 
-export abstract class XyoDiviner<
-    TDivineResult extends XyoPayload = XyoPayload,
-    TConfig extends XyoDivinerConfig = XyoDivinerConfig,
-    TQuery extends XyoDivinerQuery<TDivineResult> = XyoDivinerQuery<TDivineResult>,
-  >
-  extends XyoModule<TQuery, TDivineResult, TConfig>
-  implements DivinerModule<TDivineResult, TQuery, TDivineResult>
+export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig, TQuery extends XyoDivinerQuery = XyoDivinerQuery>
+  extends XyoModule<TQuery, TConfig>
+  implements DivinerModule<TQuery>
 {
-  abstract divine(payloads?: XyoPayloads<TDivineResult>): Promisable<TDivineResult | null>
+  abstract divine(payloads?: XyoPayloads): Promisable<XyoPayload | null>
 
   public override queries(): TQuery['schema'][] {
     return [XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoDivinerDivineQuerySchema]
   }
 
-  async query(query: TQuery): Promise<XyoModuleQueryResult<TDivineResult>> {
+  async query(query: TQuery): Promise<XyoModuleQueryResult> {
     const queryAccount = new XyoAccount()
     if (!this.queries().find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }
 
-    const payloads: (TDivineResult | null)[] = []
+    const payloads: XyoPayloads = []
     switch (query.schema) {
       case XyoDivinerDivineQuerySchema:
         payloads.push(await this.divine(query.payloads))
@@ -40,19 +36,18 @@ export abstract class XyoDiviner<
 }
 
 export abstract class XyoTimestampDiviner<
-  TPayload extends XyoPayload = XyoPayload,
-  TConfig extends XyoDivinerConfig<TPayload> = XyoDivinerConfig<TPayload>,
-  TQuery extends XyoDivinerQuery<TPayload> = XyoDivinerQuery<TPayload>,
-> extends XyoDiviner<TPayload, TConfig, TQuery> {}
+  TConfig extends XyoDivinerConfig = XyoDivinerConfig,
+  TQuery extends XyoDivinerQuery = XyoDivinerQuery,
+> extends XyoDiviner<TConfig, TQuery> {}
 
 /** @deprecated use XyoDiviner instead*/
 export abstract class XyoAbstractDiviner<
   TConfig extends XyoDivinerConfig = XyoDivinerConfig,
   TQuery extends XyoDivinerQuery = XyoDivinerQuery,
-> extends XyoDiviner<XyoPayload, TConfig, TQuery> {}
+> extends XyoDiviner<TConfig, TQuery> {}
 
 /** @deprecated use XyoDiviner instead*/
 export abstract class XyoAbstractTimestampDiviner<
   TConfig extends XyoDivinerConfig = XyoDivinerConfig,
   TQuery extends XyoDivinerQuery = XyoDivinerQuery,
-> extends XyoTimestampDiviner<XyoPayload, TConfig, TQuery> {}
+> extends XyoTimestampDiviner<TConfig, TQuery> {}

@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { XyoArchivistAllQuery, XyoArchivistAllQuerySchema, XyoArchivistInsertQuery, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import {
   DivinerModule,

@@ -1,5 +1,13 @@
 import { XyoArchivistAllQuery, XyoArchivistAllQuerySchema, XyoArchivistInsertQuery, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
-import { XyoArchivistPayloadDiviner, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema, XyoHuriPayload, XyoHuriSchema } from '@xyo-network/diviner'
+import {
+  DivinerModule,
+  XyoArchivistPayloadDiviner,
+  XyoDivinerDivineQuery,
+  XyoDivinerDivineQuerySchema,
+  XyoDivinerWrapper,
+  XyoHuriPayload,
+  XyoHuriSchema,
+} from '@xyo-network/diviner'
 import { XyoModule } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
 
@@ -38,7 +46,8 @@ test('Create Node', async () => {
     const huri = new PayloadWrapper(payloads[0]).hash
     const huriPayload: XyoHuriPayload = { huri, schema: XyoHuriSchema }
     const divineQuery: XyoDivinerDivineQuery = { payloads: [huriPayload], schema: XyoDivinerDivineQuerySchema }
-    const foundDiviner = node.resolve(diviner.address)
+    const divinerModule = node.resolve(diviner.address) as DivinerModule
+    const foundDiviner = divinerModule ? new XyoDivinerWrapper(divinerModule) : null
     expect(foundDiviner).toBeDefined()
     if (foundDiviner) {
       const [, payloads] = await foundDiviner.query(divineQuery)

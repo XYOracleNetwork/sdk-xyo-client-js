@@ -19,7 +19,6 @@ import {
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
   XyoArchivistQuery,
-  XyoArchivistQuerySchema,
 } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
@@ -27,7 +26,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQue
   extends XyoModule<TQuery, XyoPayload, XyoArchivistConfig<TConfig>>
   implements PayloadArchivist<TQuery>
 {
-  public override queries(): XyoArchivistQuerySchema[] {
+  public override queries(): TQuery['schema'][] {
     return [
       XyoModuleInitializeQuerySchema,
       XyoModuleShutdownQuerySchema,

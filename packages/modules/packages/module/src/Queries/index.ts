@@ -12,5 +12,3 @@ export * from './Subscribe'
 export type XyoModuleQueryBase = XyoModuleSubscribeQuery | XyoModuleDiscoverQuery | XyoModuleInitializeQuery | XyoModuleShutdownQuery
 
 export type XyoModuleQuery<T extends XyoQuery | void = void> = T extends XyoQuery ? XyoModuleQueryBase | T : XyoModuleQueryBase
-
-export type XyoModuleQuerySchema = XyoModuleQuery['schema']

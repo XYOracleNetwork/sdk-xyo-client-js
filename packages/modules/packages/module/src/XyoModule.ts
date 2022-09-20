@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { PromiseEx } from '@xyo-network/promise'
 
 import { XyoModuleConfig } from './Config'
@@ -10,12 +10,7 @@ import { XyoQuery } from './Query'
 
 export type XyoModuleResolverFunc = (address: string) => XyoModule | null
 
-export abstract class XyoModule<
-  TQuery extends XyoQuery = XyoQuery,
-  TQueryResult extends XyoPayload = XyoPayload,
-  TConfig extends XyoModuleConfig = XyoModuleConfig,
-> implements Module<TQuery, TQueryResult>
-{
+export abstract class XyoModule<TQuery extends XyoQuery = XyoQuery, TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module<TQuery> {
   protected config?: TConfig
   protected account: XyoAccount
   protected resolver?: XyoModuleResolverFunc
@@ -39,8 +34,8 @@ export abstract class XyoModule<
     return [XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleSubscribeQuerySchema, XyoModuleShutdownQuerySchema]
   }
 
-  public query(query: TQuery): Promise<XyoModuleQueryResult<TQueryResult>> {
-    const payloads: (TQueryResult | null)[] = []
+  public query(query: TQuery): Promise<XyoModuleQueryResult> {
+    const payloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
     switch (query.schema) {
       case XyoModuleDiscoverQuerySchema: {
@@ -80,7 +75,7 @@ export abstract class XyoModule<
     return
   }
 
-  bindHashesInternal(hashes: string[], schema: string[], account?: XyoAccount): XyoModuleQueryResult<TQueryResult> {
+  bindHashesInternal(hashes: string[], schema: string[], account?: XyoAccount): XyoModuleQueryResult {
     const builder = new XyoBoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     return [(account ? builder.witness(account) : builder).build(), []]
   }
@@ -94,13 +89,13 @@ export abstract class XyoModule<
     return promise
   }
 
-  bindPayloadsInternal(payloads: (TQueryResult | null)[], account?: XyoAccount): XyoModuleQueryResult<TQueryResult> {
+  bindPayloadsInternal(payloads: XyoPayloads, account?: XyoAccount): XyoModuleQueryResult {
     const builder = new XyoBoundWitnessBuilder().payloads(payloads).witness(this.account)
     return [(account ? builder.witness(account) : builder).build(), payloads]
   }
 
-  bindPayloads(payloads: (TQueryResult | null)[], account?: XyoAccount): PromiseEx<XyoModuleQueryResult<TQueryResult>, XyoAccount> {
-    const promise = new PromiseEx<XyoModuleQueryResult<TQueryResult>, XyoAccount>((resolve) => {
+  bindPayloads(payloads: XyoPayloads, account?: XyoAccount): PromiseEx<XyoModuleQueryResult, XyoAccount> {
+    const promise = new PromiseEx<XyoModuleQueryResult, XyoAccount>((resolve) => {
       const result = this.bindPayloadsInternal(payloads, account)
       resolve?.(result)
       return result

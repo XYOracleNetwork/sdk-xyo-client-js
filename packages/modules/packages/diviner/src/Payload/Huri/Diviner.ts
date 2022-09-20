@@ -7,7 +7,7 @@ import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoHuriPayloadDivinerConfig } from './Config'
 
-export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoPayload, XyoHuriPayloadDivinerConfig> {
+export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig> {
   protected get options() {
     return this.config?.options
   }

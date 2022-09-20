@@ -23,7 +23,7 @@ import {
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoArchivistQuery = XyoArchivistQuery>
-  extends XyoModule<TQuery, XyoPayload, XyoArchivistConfig<TConfig>>
+  extends XyoModule<TQuery, XyoArchivistConfig<TConfig>>
   implements PayloadArchivist<TQuery>
 {
   public override queries(): TQuery['schema'][] {

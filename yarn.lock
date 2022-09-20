@@ -3910,7 +3910,6 @@ __metadata:
     "@types/node": ^18.7.18
     "@types/terminal-kit": ^2.5.0
     "@xylabs/assert": ^2.6.7
-    "@xylabs/forget": ^2.6.7
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"

@@ -9,11 +9,12 @@ import {
   XyoNodeAttachQuerySchema,
   XyoNodeDetatchQuery,
   XyoNodeDetatchQuerySchema,
+  XyoNodeQuery,
   XyoNodeRegisteredQuery,
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
+export class XyoNodeWrapper extends XyoModuleWrapper<XyoNodeQuery> implements NodeModule {
   register(_module: Module): void {
     throw Error('Not implemented')
   }

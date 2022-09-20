@@ -8,8 +8,7 @@ import { XyoArchivistFindQuery } from './Find'
 import { XyoArchivistGetQuery } from './Get'
 import { XyoArchivistInsertQuery } from './Insert'
 
-type XyoArchivistQueryRoot =
-  | XyoModuleQuery
+export type XyoArchivistQueryRoot =
   | XyoArchivistAllQuery
   | XyoArchivistClearQuery
   | XyoArchivistCommitQuery
@@ -18,8 +17,8 @@ type XyoArchivistQueryRoot =
   | XyoArchivistGetQuery
   | XyoArchivistInsertQuery
 
-type XyoArchivistQueryRootSchema = XyoArchivistQueryRoot['schema']
+export type XyoArchivistQuery<T extends XyoQuery | void = void> = T extends XyoQuery
+  ? XyoModuleQuery<XyoArchivistQueryRoot | T>
+  : XyoModuleQuery<XyoArchivistQueryRoot>
 
-export type XyoArchivistQuerySchema<T extends string | void = void> = T extends string ? XyoArchivistQueryRootSchema | T : XyoArchivistQueryRootSchema
-
-export type XyoArchivistQuery<T extends XyoQuery | void = void> = T extends XyoQuery ? XyoArchivistQueryRoot | T : XyoArchivistQueryRoot
+export type XyoArchivistQuerySchema = XyoArchivistQuery['schema']

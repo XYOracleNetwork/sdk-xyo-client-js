@@ -10,10 +10,8 @@ export * from './Attached'
 export * from './Detatch'
 export * from './Registered'
 
-export type XyoNodeQueryBase<T extends XyoQuery | void = void> = T extends XyoQuery
-  ? XyoModuleQuery<XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery | T>
-  : XyoModuleQuery<XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery>
+export type XyoNodeQueryBase = XyoNodeAttachQuery | XyoNodeDetatchQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery
 
-export type XyoNodeQuery<T extends XyoQuery | void = void> = XyoNodeQueryBase<T>
-
-export type XyoNodeQuerySchema = XyoNodeQuery['schema']
+export type XyoNodeQuery<T extends XyoQuery | void = void> = T extends XyoQuery
+  ? XyoModuleQuery<XyoNodeQueryBase | T>
+  : XyoModuleQuery<XyoNodeQueryBase>

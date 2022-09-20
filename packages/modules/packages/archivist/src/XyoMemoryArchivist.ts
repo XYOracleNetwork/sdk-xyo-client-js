@@ -15,6 +15,7 @@ import {
   XyoArchivistFindQuerySchema,
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
+  XyoArchivistQuery,
 } from './Queries'
 import { XyoArchivist } from './XyoArchivist'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
@@ -33,7 +34,7 @@ class MemoryArchivistError extends Error {
   }
 }
 
-export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
+export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig, XyoArchivistQuery> {
   static create(config?: XyoMemoryArchivistConfig) {
     return new XyoMemoryArchivist(config)
   }

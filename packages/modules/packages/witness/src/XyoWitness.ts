@@ -9,10 +9,10 @@ import { Witness } from './Witness'
 
 export abstract class XyoWitness<
     TTarget extends XyoPayload = XyoPayload,
-    TConfig extends XyoWitnessConfig = XyoWitnessConfig,
+    TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>,
     TQuery extends XyoWitnessQuery<TTarget> = XyoWitnessQuery<TTarget>,
   >
-  extends XyoModule<TQuery, TTarget, TConfig>
+  extends XyoModule<TQuery, TConfig>
   implements Witness<TTarget, TQuery>
 {
   //we require a config for witnesses

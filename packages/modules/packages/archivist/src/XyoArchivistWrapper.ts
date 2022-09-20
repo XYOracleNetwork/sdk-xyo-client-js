@@ -22,8 +22,8 @@ import {
 } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export class XyoArchivistWrapper<TQuery extends XyoArchivistQuery = XyoArchivistQuery, TQueryResult extends XyoPayload = XyoPayload>
-  extends XyoModuleWrapper<TQuery | XyoArchivistQuery, TQueryResult>
+export class XyoArchivistWrapper<TQuery extends XyoArchivistQuery = XyoArchivistQuery>
+  extends XyoModuleWrapper<TQuery | XyoArchivistQuery>
   implements PayloadArchivist<TQuery | XyoArchivistQuery>
 {
   public async delete(hashes: string[]) {

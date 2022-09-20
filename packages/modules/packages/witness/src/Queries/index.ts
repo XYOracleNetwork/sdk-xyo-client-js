@@ -10,5 +10,3 @@ export type XyoWitnessQueryBase<TTarget extends XyoPayload = XyoPayload> = XyoWi
 export type XyoWitnessQuery<TTarget extends XyoPayload = XyoPayload, TQuery extends XyoQuery | void = void> = TQuery extends XyoQuery
   ? XyoModuleQuery<XyoWitnessQueryBase<TTarget> | TQuery>
   : XyoModuleQuery<XyoWitnessQueryBase<TTarget>>
-
-export type XyoWitnessQuerySchema = XyoWitnessQuery['schema']

@@ -20,5 +20,3 @@ export type XyoArchivistQueryRoot =
 export type XyoArchivistQuery<T extends XyoQuery | void = void> = T extends XyoQuery
   ? XyoModuleQuery<XyoArchivistQueryRoot | T>
   : XyoModuleQuery<XyoArchivistQueryRoot>
-
-export type XyoArchivistQuerySchema = XyoArchivistQuery['schema']

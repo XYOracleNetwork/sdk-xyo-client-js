@@ -5,7 +5,7 @@ import { Promisable } from '@xyo-network/promise'
 
 import { XyoDivinerConfig } from './Config'
 import { DivinerModule } from './Diviner'
-import { XyoDivinerDivineQuerySchema, XyoDivinerQuery, XyoDivinerQuerySchema } from './Queries'
+import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 
 export abstract class XyoDiviner<
     TDivineResult extends XyoPayload = XyoPayload,
@@ -17,7 +17,7 @@ export abstract class XyoDiviner<
 {
   abstract divine(payloads?: XyoPayloads<TDivineResult>): Promisable<TDivineResult | null>
 
-  public override queries(): (TQuery['schema'] | XyoDivinerQuerySchema)[] {
+  public override queries(): TQuery['schema'][] {
     return [XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoDivinerDivineQuerySchema]
   }
 

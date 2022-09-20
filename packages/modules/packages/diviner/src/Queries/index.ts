@@ -10,5 +10,3 @@ export type XyoDivinerQueryBase<TDivineResult extends XyoPayload = XyoPayload> =
 export type XyoDivinerQuery<TDivineResult extends XyoPayload = XyoPayload, TQuery extends XyoQuery | void = void> = TQuery extends XyoQuery
   ? XyoModuleQuery<XyoDivinerQueryBase<TDivineResult> | TQuery>
   : XyoModuleQuery<XyoDivinerQueryBase<TDivineResult>>
-
-export type XyoDivinerQuerySchema = XyoDivinerQuery['schema']

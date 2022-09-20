@@ -14,7 +14,7 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
-    "mongodb": "^4.9.1",
+    "mongodb": "^4.10.0",
     "tslib": "^2.4.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -51,5 +51,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.33.7"
+  "version": "2.33.9"
 }

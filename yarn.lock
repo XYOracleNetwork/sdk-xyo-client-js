@@ -4121,7 +4121,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.9
-    mongodb: ^4.9.1
+    mongodb: ^4.10.0
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -10368,9 +10368,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.8.0, mongodb@npm:^4.9.1":
-  version: 4.9.1
-  resolution: "mongodb@npm:4.9.1"
+"mongodb@npm:^4.10.0, mongodb@npm:^4.8.0":
+  version: 4.10.0
+  resolution: "mongodb@npm:4.10.0"
   dependencies:
     bson: ^4.7.0
     denque: ^2.1.0
@@ -10380,7 +10380,7 @@ __metadata:
   dependenciesMeta:
     saslprep:
       optional: true
-  checksum: 43d66207f094930d134e263489f788c5efd0ef079bf059986cd887570b561067f4dcf23d6e4334d2fd13fee7ce3ef8f9b163e609fc48e03e1236b6407095a4c5
+  checksum: 4847fe69b6d3baddc440936d306b4d00fa40a1dafabd387f9fb6f3ecd63b27c41f11b2cc46774ac2bf17e9b508d35908ebe21f47badf3449fb7afcbde2733951
   languageName: node
   linkType: hard
 

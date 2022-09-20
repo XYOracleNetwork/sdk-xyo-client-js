@@ -1,16 +1,14 @@
-import { XyoModuleQuery, XyoModuleQuerySchema, XyoQuery } from '@xyo-network/module'
+import { XyoModuleQuery, XyoQuery } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Observe'
+import { XyoWitnessObserveQuery } from './Observe'
 
 export * from './Observe'
 
-type XyoWitnessQueryBase<TTarget extends XyoPayload = XyoPayload> = XyoWitnessObserveQuery<TTarget> | XyoModuleQuery
+export type XyoWitnessQueryBase<TTarget extends XyoPayload = XyoPayload> = XyoWitnessObserveQuery<TTarget>
 
 export type XyoWitnessQuery<TTarget extends XyoPayload = XyoPayload, TQuery extends XyoQuery | void = void> = TQuery extends XyoQuery
-  ? XyoWitnessQueryBase<TTarget> | TQuery
-  : XyoWitnessQueryBase<TTarget>
+  ? XyoModuleQuery<XyoWitnessQueryBase<TTarget> | TQuery>
+  : XyoModuleQuery<XyoWitnessQueryBase<TTarget>>
 
-type XyoWitnessQuerySchemaBase = XyoWitnessObserveQuerySchema | XyoModuleQuerySchema
-
-export type XyoWitnessQuerySchema<T extends string | void = void> = T extends string ? XyoWitnessQuerySchemaBase | T : XyoWitnessQuerySchemaBase
+export type XyoWitnessQuerySchema = XyoWitnessQuery['schema']

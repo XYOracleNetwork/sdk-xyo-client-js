@@ -7,7 +7,7 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
-export abstract class XyoWitness<
+export class XyoWitness<
     TTarget extends XyoPayload = XyoPayload,
     TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>,
     TQuery extends XyoWitnessQuery<TTarget> = XyoWitnessQuery<TTarget>,

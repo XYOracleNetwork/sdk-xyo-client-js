@@ -13,5 +13,8 @@ interface XyoQueryFields {
   /** @field The addresses of the intended handlers */
   address?: string | [string]
 }
-
-export type XyoQuery<T extends XyoPayload | void = void> = T extends XyoPayload ? XyoPayload<T & XyoQueryFields> : XyoPayload<XyoQueryFields>
+/* TODO: Figure out this problem: I am setting the schema to 'any' below since string and string constants do not seem to be compatable */
+export type XyoQuery<T extends XyoPayload | void = void> = T extends XyoPayload
+  ? XyoPayload<T & XyoQueryFields>
+  : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    XyoPayload<{ schema: any } & XyoQueryFields>

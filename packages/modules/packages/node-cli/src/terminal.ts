@@ -1,10 +1,8 @@
 import { XyoModuleConfig } from '@xyo-network/module'
+import { MemoryNode, Node } from '@xyo-network/node'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { terminal } from 'terminal-kit'
-
-import { MemoryNode } from '../MemoryNode'
-import { Node } from '../Node'
 
 function terminate() {
   terminal.grabInput(false)

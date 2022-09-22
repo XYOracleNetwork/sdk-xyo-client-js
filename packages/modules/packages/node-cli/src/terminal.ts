@@ -79,16 +79,16 @@ const getCommand = (node: Node): Promise<boolean> => {
           case 'exit':
             resolve(false)
             break
-          case 'list-registered-plugins': {
-            terminal.yellow('\nList Registered Plugins\n')
+          case 'list-registered-modules': {
+            terminal.yellow('\nList Registered Modules\n')
             const registered = await node?.registered()
             registered.forEach((module) => {
               terminal(`0x${module}`)
             })
             break
           }
-          case 'register-plugin':
-            terminal.yellow('\nRegister Plugin\n')
+          case 'register-module':
+            terminal.yellow('\nRegister Module\n')
             break
           case 'show-config': {
             const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])

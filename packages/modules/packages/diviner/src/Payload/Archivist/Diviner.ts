@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { PayloadArchivist, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
+import { PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { PartialModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
 import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
@@ -16,7 +16,7 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     super({ ...config, schema: XyoArchivistPayloadDivinerConfigSchema }, undefined, resolver)
     const configArchivistAddress = config?.archivist
     const resolvedArchivist: PayloadArchivist | null =
-      archivist ?? (configArchivistAddress ? (this.resolver?.(configArchivistAddress) as unknown as PayloadArchivist) : null)
+      archivist ?? (configArchivistAddress ? (this.resolver?.(configArchivistAddress) as unknown as PayloadArchivist) ?? null : null)
     if (resolvedArchivist) {
       this.archivist = resolvedArchivist ? new XyoArchivistWrapper(resolvedArchivist) : null
     }
@@ -32,7 +32,7 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     const activeArchvist = this.archivist
     if (activeArchvist) {
       const [[, [payload = null]]] = await profile(
-        async () => await activeArchvist.query({ hashes: [huriObj.hash], schema: XyoArchivistGetQuerySchema }),
+        async () => await activeArchvist.query<XyoArchivistGetQuery>({ hashes: [huriObj.hash], schema: XyoArchivistGetQuerySchema }),
       )
       return payload ?? null
     }

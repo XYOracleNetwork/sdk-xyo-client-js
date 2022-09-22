@@ -5,12 +5,18 @@ import { PromiseEx } from '@xyo-network/promise'
 
 import { XyoModuleConfig } from './Config'
 import { Module, XyoModuleQueryResult } from './Module'
-import { XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoModuleSubscribeQuerySchema } from './Queries'
+import {
+  XyoModuleDiscoverQuerySchema,
+  XyoModuleInitializeQuerySchema,
+  XyoModuleQuery,
+  XyoModuleShutdownQuerySchema,
+  XyoModuleSubscribeQuerySchema,
+} from './Queries'
 import { XyoQuery } from './Query'
 
 export type XyoModuleResolverFunc = (address: string) => XyoModule | null
 
-export abstract class XyoModule<TQuery extends XyoQuery = XyoQuery, TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module<TQuery> {
+export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
   protected config?: TConfig
   protected account: XyoAccount
   protected resolver?: XyoModuleResolverFunc
@@ -30,14 +36,15 @@ export abstract class XyoModule<TQuery extends XyoQuery = XyoQuery, TConfig exte
     return !!this.queries().find((item) => item === schema)
   }
 
-  public queries(): TQuery['schema'][] {
+  public queries(): string[] {
     return [XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleSubscribeQuerySchema, XyoModuleShutdownQuerySchema]
   }
 
-  public query(query: TQuery): Promise<XyoModuleQueryResult> {
+  public query<T extends XyoQuery = XyoQuery>(query: T): Promise<XyoModuleQueryResult> {
     const payloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
-    switch (query.schema) {
+    const typedQuery = query as XyoModuleQuery
+    switch (typedQuery.schema) {
       case XyoModuleDiscoverQuerySchema: {
         this.discover(queryAccount)
         break
@@ -54,6 +61,8 @@ export abstract class XyoModule<TQuery extends XyoQuery = XyoQuery, TConfig exte
         this.shutdown(queryAccount)
         break
       }
+      default:
+        console.error(`Unsupported Query [${query.schema}]`)
     }
 
     return this.bindPayloads(payloads, queryAccount)

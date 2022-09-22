@@ -1,5 +1,5 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoModule, XyoModuleQueryResult, XyoModuleResolverFunc } from '@xyo-network/module'
+import { XyoModule, XyoModuleQueryResult, XyoModuleResolverFunc, XyoQuery } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 
 import { NodeConfig } from './Config'
@@ -11,13 +11,9 @@ import {
   XyoNodeQuery,
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
-export abstract class XyoNode<
-    TConfig extends NodeConfig = NodeConfig,
-    TQuery extends XyoNodeQuery = XyoNodeQuery,
-    TModule extends XyoModule = XyoModule,
-  >
-  extends XyoModule<TQuery, TConfig>
-  implements NodeModule<TQuery, TModule>
+export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
+  extends XyoModule<TConfig>
+  implements NodeModule<TModule>
 {
   constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
     super(config, account, resolver)
@@ -43,16 +39,17 @@ export abstract class XyoNode<
   }
   /** Query Functions - End */
 
-  override query(query: TQuery): Promise<XyoModuleQueryResult> {
+  override query<T extends XyoQuery = XyoQuery>(query: T): Promise<XyoModuleQueryResult> {
     const queryAccount = new XyoAccount()
+    const typedQuery = query as XyoNodeQuery
     const payloads: XyoPayloads = []
-    switch (query.schema) {
+    switch (typedQuery.schema) {
       case XyoNodeAttachQuerySchema: {
-        this.attach(query.address)
+        this.attach(typedQuery.address)
         break
       }
       case XyoNodeDetatchQuerySchema: {
-        this.detatch(query.address)
+        this.detatch(typedQuery.address)
         break
       }
       case XyoNodeAttachedQuerySchema: {
@@ -64,7 +61,7 @@ export abstract class XyoNode<
         break
       }
       default:
-        return super.query(query)
+        return super.query(typedQuery)
     }
     return this.bindPayloads(payloads, queryAccount)
   }

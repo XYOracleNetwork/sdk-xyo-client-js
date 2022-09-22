@@ -3905,7 +3905,7 @@ __metadata:
     typescript: ^4.8.3
     yargs: ^17.5.1
   bin:
-    xyo: dist/cjs/cli/index.js
+    xyo: dist/cjs/index.js
   languageName: unknown
   linkType: soft
 
@@ -3925,8 +3925,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
-    "@types/node": ^18.7.18
-    "@types/terminal-kit": ^2.5.0
     "@xylabs/assert": ^2.6.7
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
@@ -3934,11 +3932,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
-    ts-node: ^10.9.1
     tslib: ^2.4.0
-    typescript: ^4.8.3
-  bin:
-    xyo: dist/cjs/cli/index.js
   languageName: unknown
   linkType: soft
 

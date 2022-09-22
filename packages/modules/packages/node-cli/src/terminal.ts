@@ -52,12 +52,12 @@ const getCommand = (node: Node): Promise<boolean> => {
       }
     })
     const items = [
-      'Register Plugin',
-      'Unregister Plugin',
-      'List Registered Plugins',
-      'Attach Plugin',
-      'Detach Plugin',
-      'List Attached Plugins',
+      'Register Module',
+      'Unregister Module',
+      'List Registered Modules',
+      'Attach Module',
+      'Detach Module',
+      'List Attached Modules',
       'Show Config',
       'Status',
       'Exit',

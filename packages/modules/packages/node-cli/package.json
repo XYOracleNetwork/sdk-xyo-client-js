@@ -18,7 +18,7 @@
     "yargs": "^17.5.1"
   },
   "bin": {
-    "xyo": "dist/cjs/cli/index.js"
+    "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
     "@types/node": "^18.7.18",
@@ -59,7 +59,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "xyo-ts": "ts-node src/cli/index.ts"
+    "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/esm/index.d.ts",
   "version": "2.33.15"

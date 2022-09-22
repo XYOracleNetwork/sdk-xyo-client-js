@@ -1,5 +1,5 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { PromiseEx } from '@xyo-network/promise'
 
@@ -85,7 +85,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
   }
 
   bindHashesInternal(hashes: string[], schema: string[], account?: XyoAccount): XyoModuleQueryResult {
-    const builder = new XyoBoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
+    const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     return [(account ? builder.witness(account) : builder).build(), []]
   }
 
@@ -99,7 +99,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
   }
 
   bindPayloadsInternal(payloads: XyoPayloads, account?: XyoAccount): XyoModuleQueryResult {
-    const builder = new XyoBoundWitnessBuilder().payloads(payloads).witness(this.account)
+    const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
     return [(account ? builder.witness(account) : builder).build(), payloads]
   }
 

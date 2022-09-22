@@ -5,7 +5,7 @@ import { XyoAccount, XyoAddressValue } from '@xyo-network/account'
 import { Hasher, StringKeyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoBoundWitnessBuilder } from './Builder'
+import { BoundWitnessBuilder } from './Builder'
 
 const schema = 'network.xyo.temp'
 const payload1: XyoPayload<StringKeyObject & { schema: string }> = {
@@ -31,7 +31,7 @@ const payload2: XyoPayload<StringKeyObject & { schema: string }> = {
 const payloads = [payload1, payload2]
 const payloadHash = '3c817871cbf24708703e907dbc344b1b2aefcc3603d14d59c3a35a5c446410d1'
 
-describe('XyoBoundWitnessBuilder', () => {
+describe('BoundWitnessBuilder', () => {
   describe('hash', () => {
     it.each(payloads)('consistently hashes equivalent payload independent of the order of the keys', (payload) => {
       const hash = new Hasher(payload).hash
@@ -42,7 +42,7 @@ describe('XyoBoundWitnessBuilder', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', (payload) => {
         const address = XyoAccount.fromPhrase('test1')
-        let builder = new XyoBoundWitnessBuilder()
+        let builder = new BoundWitnessBuilder()
         expect(builder).toBeDefined()
         builder = builder.witness(address)
         expect(builder).toBeDefined()
@@ -65,7 +65,7 @@ describe('XyoBoundWitnessBuilder', () => {
     describe('with inlinePayloads true', () => {
       it('contains the _payloads field', () => {
         const address = XyoAccount.fromPhrase('test2')
-        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
+        const builder = new BoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
 
         const actual = builder.build()
 
@@ -75,7 +75,7 @@ describe('XyoBoundWitnessBuilder', () => {
     describe('with inlinePayloads false', () => {
       it('omits the _payloads field', () => {
         const address = XyoAccount.fromPhrase('test3')
-        const builder = new XyoBoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
+        const builder = new BoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
 
         const actual = builder.build()
 

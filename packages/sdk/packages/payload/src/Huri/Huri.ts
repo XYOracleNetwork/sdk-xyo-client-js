@@ -60,8 +60,8 @@ export class Huri<T extends XyoPayload = XyoPayload> {
   private parsePath(path: string, hasProtocol: boolean) {
     const pathParts = path.split('/')
 
-    //if the protocal was found, then there is not allowed to be a leading /
-    assertEx(!(hasProtocol && pathParts[0].length === 0), 'Invalid protocol seperator')
+    //if the protocol was found, then there is not allowed to be a leading /
+    assertEx(!(hasProtocol && pathParts[0].length === 0), 'Invalid protocol separator')
 
     //remove leading '/' if needed
     pathParts[0].length === 0 ? pathParts.shift() : null

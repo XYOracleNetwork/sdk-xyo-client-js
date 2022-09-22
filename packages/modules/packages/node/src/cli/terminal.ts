@@ -58,7 +58,7 @@ const getCommand = (node: Node): Promise<boolean> => {
       'Unregister Plugin',
       'List Registered Plugins',
       'Attach Plugin',
-      'Detatch Plugin',
+      'Detach Plugin',
       'List Attached Plugins',
       'Show Config',
       'Status',

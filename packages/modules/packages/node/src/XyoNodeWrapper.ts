@@ -7,8 +7,8 @@ import {
   XyoNodeAttachedQuerySchema,
   XyoNodeAttachQuery,
   XyoNodeAttachQuerySchema,
-  XyoNodeDetatchQuery,
-  XyoNodeDetatchQuerySchema,
+  XyoNodeDetachQuery,
+  XyoNodeDetachQuerySchema,
   XyoNodeRegisteredQuery,
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
@@ -30,8 +30,8 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
     await this.module.query(query)
     return
   }
-  async detatch(address: string): Promise<void> {
-    const query: XyoNodeDetatchQuery = { address, schema: XyoNodeDetatchQuerySchema }
+  async detach(address: string): Promise<void> {
+    const query: XyoNodeDetachQuery = { address, schema: XyoNodeDetachQuerySchema }
     await this.module.query(query)
     return
   }

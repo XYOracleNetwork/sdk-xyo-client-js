@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
 import { PayloadArchivist, XyoArchivistWrapper } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 import compact from 'lodash/compact'
@@ -58,7 +58,7 @@ export class XyoPanel {
     this.config.onReportStart?.()
     const allWitnesses: XyoWitness<XyoPayload>[] = [...adhocWitnesses, ...this.config.witnesses]
     const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
-    const newBoundWitness = new XyoBoundWitnessBuilder().payloads(payloads).witness(this.account).build()
+    const newBoundWitness = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
     const bwList = await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))
     this.history.push(...bwList)

@@ -1,5 +1,5 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 
 import { XyoApiConfig, XyoApiError } from '../../models'
 import { XyoArchivistApi } from '../Api'
@@ -24,7 +24,7 @@ describe('XyoArchivistPayloadApi', () => {
       it('returns payloads greater than or equal to timestamp', async () => {
         try {
           const timestamp = getTimestampMinutesFromNow(-1)
-          const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
+          const boundWitness = new BoundWitnessBuilder().witness(XyoAccount.random()).build()
           const blockResult = await api.archive(archive).block.post([boundWitness])
           expect(blockResult?.length).toBe(1)
           const response = await api.archive(archive).block.find({ order: 'asc', timestamp })
@@ -39,7 +39,7 @@ describe('XyoArchivistPayloadApi', () => {
     describe('when order is descending', () => {
       it('returns payloads less than or equal to timestamp', async () => {
         try {
-          const boundWitness = new XyoBoundWitnessBuilder().witness(XyoAccount.random()).build()
+          const boundWitness = new BoundWitnessBuilder().witness(XyoAccount.random()).build()
           const blockResult = await api.archive(archive).block.post([boundWitness])
           expect(blockResult?.length).toBe(1)
           const timestamp = getTimestampMinutesFromNow(1)

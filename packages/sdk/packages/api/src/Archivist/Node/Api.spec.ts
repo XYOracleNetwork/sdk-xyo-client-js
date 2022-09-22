@@ -1,5 +1,5 @@
 import { assertEx, delay } from '@xylabs/sdk-js'
-import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { uuid } from '@xyo-network/core'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 
@@ -18,7 +18,7 @@ const getQuery = (count = 1): XyoBoundWitness => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     payloads.push(new XyoPayloadBuilder({ schema }).fields({ nonce: uuid() } as any).build())
   }
-  return new XyoBoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()
+  return new BoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()
 }
 
 const issueQuery = async (query: XyoBoundWitness = getQuery()): Promise<string> => {

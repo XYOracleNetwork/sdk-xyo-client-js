@@ -1,5 +1,5 @@
 import { assertEx, delay } from '@xylabs/sdk-js'
-import { XyoBoundWitness, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoApiConfig, XyoApiResponseTuple } from '../../models'
@@ -69,7 +69,7 @@ export class XyoArchivistNodeApi<
    */
   public async perform<T extends Partial<XyoPayload>>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
     const payload = new XyoPayloadBuilder({ schema }).fields(data).build()
-    const query = new XyoBoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build() as D
+    const query = new BoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build() as D
     const result = await this.performTransaction(query, timeout, retryInterval)
     return result?.[0]?.[0]
   }

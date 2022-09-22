@@ -1,28 +1,32 @@
-import { Promisable } from '@xyo-network/promise'
+import { XyoAccount } from '@xyo-network/account'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 
+import { XyoModuleConfig } from './Config'
 import { Module, XyoModuleQueryResult } from './Module'
 import { XyoQuery } from './Query'
+import { XyoModule, XyoModuleResolverFunc } from './XyoModule'
 
-export class XyoModuleWrapper<TModule extends Module = Module> implements Module {
+export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends XyoModuleConfig = XyoModuleConfig> extends XyoModule<TConfig> {
   public module: TModule
 
-  constructor(module: TModule) {
+  constructor(module: TModule, config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+    super(config, account, resolver)
     this.module = module
   }
 
-  get address() {
+  override get address() {
     return this.module.address
   }
 
-  queries(): string[] {
+  override queries(): string[] {
     return this.module.queries()
   }
 
-  queryable(schema: string) {
-    return this.module.queryable(schema)
+  override queryable(schema: string, addresses?: string[]) {
+    return this.module.queryable(schema, addresses)
   }
 
-  query(query: XyoQuery): Promisable<XyoModuleQueryResult> {
-    return this.module.query(query)
+  override query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T): Promise<XyoModuleQueryResult> {
+    return this.module.query(bw, query)
   }
 }

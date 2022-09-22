@@ -3,7 +3,7 @@ import { XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
 import { XyoModule } from '@xyo-network/module'
 
 import { NodeConfig } from './Config'
-import { XyoNodeAttachQuerySchema, XyoNodeDetatchQuerySchema } from './Queries'
+import { XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema } from './Queries'
 import { XyoNode } from './XyoNode'
 
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends XyoNode<TConfig, TModule> {
@@ -11,7 +11,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   private attachedModuleMap = new Map<string, TModule>()
 
   public override queries(): string[] {
-    return [XyoNodeAttachQuerySchema, XyoNodeDetatchQuerySchema, ...super.queries()]
+    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, ...super.queries()]
   }
 
   override attached() {
@@ -56,7 +56,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     this.attachedModuleMap.set(address, module)
   }
 
-  override detatch(address: string) {
+  override detach(address: string) {
     this.attachedModuleMap.delete(address)
   }
 }

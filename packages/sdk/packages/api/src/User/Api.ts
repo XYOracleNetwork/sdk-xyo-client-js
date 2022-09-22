@@ -11,11 +11,11 @@ export interface XyoUserLogin {
 }
 
 export class XyoUserApi extends XyoApiBase {
-  public get authenticated() {
+  public override get authenticated() {
     return !!this.config.jwtToken
   }
 
-  public get headers(): Record<string, string> {
+  public override get headers(): Record<string, string> {
     const headers: Record<string, string> = {}
     if (this.config.jwtToken) {
       headers.Authorization = `Bearer ${this.config.jwtToken}`

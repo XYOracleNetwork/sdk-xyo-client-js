@@ -11,7 +11,7 @@ export class PromiseEx<T, V = void> extends Promise<T> {
     this._value = value
   }
 
-  then<TResult1 = T, TResult2 = never>(
+  override then<TResult1 = T, TResult2 = never>(
     onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null | undefined,
     onrejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | null | undefined,
     onvalue?: (value?: V) => boolean,

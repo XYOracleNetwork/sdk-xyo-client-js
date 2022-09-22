@@ -76,18 +76,6 @@ export class XyoAddress extends XyoAccount {
     return this.previousHash?.hex
   }
 
-  static fromPhrase(phrase: string) {
-    return XyoAccount.fromPhrase(phrase)
-  }
-
-  static fromPrivateKey(key: Uint8Array | string) {
-    return XyoAccount.fromPrivateKey(key)
-  }
-
-  static random() {
-    return XyoAccount.random()
-  }
-
   static verifyAddress(msg: Uint8Array | string, signature: Uint8Array | string, address: XyoDataLike) {
     return new XyoPublicKey(address).verify(msg, signature)
   }

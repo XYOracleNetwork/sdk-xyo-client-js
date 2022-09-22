@@ -1,10 +1,10 @@
 import { XyoMemoryArchivist } from '@xyo-network/archivist'
 import { XyoModule, XyoModuleResolverFunc } from '@xyo-network/module'
+import { MemoryNode } from '@xyo-network/node'
 import yargs from 'yargs'
 // eslint-disable-next-line import/no-internal-modules
 import { hideBin } from 'yargs/helpers'
 
-import { MemoryNode } from '../MemoryNode'
 import { startTerminal } from './terminal'
 
 const parseOptions = () => {

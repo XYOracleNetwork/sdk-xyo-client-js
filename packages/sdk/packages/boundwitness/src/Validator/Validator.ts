@@ -94,7 +94,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness = XyoBoundWitness> 
     return errors
   }
 
-  public validate() {
+  public override validate() {
     return [
       ...this.signatures(),
       ...this.addresses(),

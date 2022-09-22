@@ -4,7 +4,7 @@ import { XyoPayload } from '@xyo-network/payload'
 import { XyoDomainSchema } from './Schema'
 
 export interface XyoAlias {
-  /** @field cononical name (ex. network.xyo.example) */
+  /** @field canonical name (ex. network.xyo.example) */
   name?: string
   /** @field huri to the aliased payload */
   huri: string

@@ -68,10 +68,8 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
 
   abstract insert(item: XyoPayload[]): Promisable<XyoBoundWitness>
 
-  override async query<T extends XyoQuery = XyoQuery>(query: T): Promise<XyoModuleQueryResult<XyoPayload>> {
-    if (!this.queries().find((schema) => schema === query.schema)) {
-      console.error(`Undeclared Module Query: ${query.schema}`)
-    }
+  override async query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T): Promise<XyoModuleQueryResult<XyoPayload>> {
+    assertEx(this.queryable(query.schema, bw.addresses))
 
     const payloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
@@ -99,7 +97,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
         payloads.push(await this.insert(typedQuery.payloads), ...typedQuery.payloads)
         break
       default:
-        return super.query(typedQuery)
+        return super.query(bw, typedQuery)
     }
     return this.bindPayloads(payloads, queryAccount)
   }
@@ -119,7 +117,8 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
       await Promise.all(
         Object.values(this.parents?.read ?? {}).map(async (parent) => {
           const query: XyoArchivistGetQuery = { hashes: [hash], schema: XyoArchivistGetQuerySchema }
-          const [, payloads] = (await parent?.query(query)) ?? []
+          const bw = (await this.bindPayloads([query]))[0]
+          const [, payloads] = (await parent?.query(bw, query)) ?? []
           const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
           if (wrapper && wrapper.hash !== hash) {
             console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hash}]`)
@@ -133,7 +132,8 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
 
   protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
     const query: XyoArchivistInsertQuery = { payloads, schema: XyoArchivistInsertQuerySchema }
-    const [, writtenPayloads] = (await parent?.query(query)) ?? []
+    const bw = (await this.bindPayloads([query]))[0]
+    const [, writtenPayloads] = (await parent?.query(bw, query)) ?? []
     return writtenPayloads
   }
 

@@ -19,20 +19,24 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
   }
   async registered(): Promise<string[]> {
     const query: XyoNodeRegisteredQuery = { schema: XyoNodeRegisteredQuerySchema }
-    return compact((await this.module.query(query))[1].map((payload) => payload?.schema))
+    const bw = (await this.bindPayloads([query]))[0]
+    return compact((await this.module.query(bw, query))[1].map((payload) => payload?.schema))
   }
   async attached(): Promise<string[]> {
     const query: XyoNodeAttachedQuery = { schema: XyoNodeAttachedQuerySchema }
-    return compact((await this.module.query(query))[1].map((payload) => payload?.schema))
+    const bw = (await this.bindPayloads([query]))[0]
+    return compact((await this.module.query(bw, query))[1].map((payload) => payload?.schema))
   }
   async attach(address: string): Promise<void> {
     const query: XyoNodeAttachQuery = { address, schema: XyoNodeAttachQuerySchema }
-    await this.module.query(query)
+    const bw = (await this.bindPayloads([query]))[0]
+    await this.module.query(bw, query)
     return
   }
   async detach(address: string): Promise<void> {
     const query: XyoNodeDetachQuery = { address, schema: XyoNodeDetachQuerySchema }
-    await this.module.query(query)
+    const bw = (await this.bindPayloads([query]))[0]
+    await this.module.query(bw, query)
     return
   }
 

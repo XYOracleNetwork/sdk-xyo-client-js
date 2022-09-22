@@ -10,7 +10,7 @@ import {
   XyoHuriSchema,
 } from '@xyo-network/diviner'
 import { XyoModule } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
+import { BoundWitnessBuilder, PayloadWrapper, XyoAccount, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
 
 import { MemoryNode } from './MemoryNode'
 import { NodeModule } from './NodeModule'
@@ -34,24 +34,27 @@ test('Create Node', async () => {
     .build()
 
   const insertQuery: XyoArchivistInsertQuery = { payloads: [testPayload], schema: XyoArchivistInsertQuerySchema }
-  await foundArchivist?.query(insertQuery)
+  const insertQueryBoundwitness = new BoundWitnessBuilder().payload(insertQuery).witness(new XyoAccount()).build()
+  await foundArchivist?.query(insertQueryBoundwitness, insertQuery)
 
   /*const subscribeQuery: XyoModuleSubscribeQuery = { payloads: [testPayload], schema: XyoModuleSubscribeQuerySchema }
   await foundArchivist?.query(subscribeQuery)*/
 
   const allQuery: XyoArchivistAllQuery = { schema: XyoArchivistAllQuerySchema }
-  const [, payloads] = (await foundArchivist?.query(allQuery)) ?? []
+  const allQueryBoundwitness = new BoundWitnessBuilder().payload(allQuery).witness(new XyoAccount()).build()
+  const [, payloads] = (await foundArchivist?.query(allQueryBoundwitness, allQuery)) ?? []
   expect(payloads?.length).toBe(1)
 
   if (payloads && payloads[0]) {
     const huri = new PayloadWrapper(payloads[0]).hash
     const huriPayload: XyoHuriPayload = { huri, schema: XyoHuriSchema }
     const divineQuery: XyoDivinerDivineQuery = { payloads: [huriPayload], schema: XyoDivinerDivineQuerySchema }
+    const divineQueryBoundwitness = new BoundWitnessBuilder().payload(divineQuery).witness(new XyoAccount()).build()
     const divinerModule = node.resolve(diviner.address) as DivinerModule
     const foundDiviner = divinerModule ? new XyoDivinerWrapper(divinerModule) : null
     expect(foundDiviner).toBeDefined()
     if (foundDiviner) {
-      const [, payloads] = await foundDiviner.query(divineQuery)
+      const [, payloads] = await foundDiviner.query(divineQueryBoundwitness, divineQuery)
       expect(payloads?.length).toBe(1)
       expect(payloads[0]).toBeDefined()
       if (payloads?.length === 1 && payloads[0]) {

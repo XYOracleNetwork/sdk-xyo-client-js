@@ -31,9 +31,9 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     const huriObj = new Huri(huriPayload.huri)
     const activeArchivist = this.archivist
     if (activeArchivist) {
-      const [[, [payload = null]]] = await profile(
-        async () => await activeArchivist.query<XyoArchivistGetQuery>({ hashes: [huriObj.hash], schema: XyoArchivistGetQuerySchema }),
-      )
+      const query: XyoArchivistGetQuery = { hashes: [huriObj.hash], schema: XyoArchivistGetQuerySchema }
+      const bw = (await this.bindPayloads([query]))[0]
+      const [[, [payload = null]]] = await profile(async () => await activeArchivist.query(bw, query))
       return payload ?? null
     }
     return null

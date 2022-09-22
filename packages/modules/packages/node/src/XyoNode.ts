@@ -1,4 +1,6 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule, XyoModuleQueryResult, XyoModuleResolverFunc, XyoQuery } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 
@@ -33,7 +35,9 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
   }
   /** Query Functions - End */
 
-  override query<T extends XyoQuery = XyoQuery>(query: T): Promise<XyoModuleQueryResult> {
+  override query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T): Promise<XyoModuleQueryResult> {
+    assertEx(this.queryable(query.schema, bw.addresses))
+
     const queryAccount = new XyoAccount()
     const typedQuery = query as XyoNodeQuery
     const payloads: XyoPayloads = []
@@ -55,7 +59,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
         break
       }
       default:
-        return super.query(typedQuery)
+        return super.query(bw, typedQuery)
     }
     return this.bindPayloads(payloads, queryAccount)
   }

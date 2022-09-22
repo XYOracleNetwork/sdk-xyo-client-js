@@ -4,13 +4,7 @@ import { XyoPayloads } from '@xyo-network/payload'
 
 import { NodeConfig } from './Config'
 import { NodeModule } from './NodeModule'
-import {
-  XyoNodeAttachedQuerySchema,
-  XyoNodeAttachQuerySchema,
-  XyoNodeDetatchQuerySchema,
-  XyoNodeQuery,
-  XyoNodeRegisteredQuerySchema,
-} from './Queries'
+import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
   extends XyoModule<TConfig>
   implements NodeModule<TModule>
@@ -21,7 +15,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 
   /** Query Functions - Start */
   abstract attach(_address: string): void
-  abstract detatch(_address: string): void
+  abstract detach(_address: string): void
   abstract resolve(_address: string): TModule | null
 
   registered(): string[] {
@@ -48,8 +42,8 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
         this.attach(typedQuery.address)
         break
       }
-      case XyoNodeDetatchQuerySchema: {
-        this.detatch(typedQuery.address)
+      case XyoNodeDetachQuerySchema: {
+        this.detach(typedQuery.address)
         break
       }
       case XyoNodeAttachedQuerySchema: {

@@ -7,6 +7,6 @@ export * from './Observe'
 
 export type XyoWitnessQueryBase<TTarget extends XyoPayload = XyoPayload> = XyoWitnessObserveQuery<TTarget>
 
-export type XyoWitnessQuery<TTarget extends XyoPayload = XyoPayload, TQuery extends XyoQuery | void = void> = TQuery extends XyoQuery
-  ? XyoModuleQuery<XyoWitnessQueryBase<TTarget> | TQuery>
-  : XyoModuleQuery<XyoWitnessQueryBase<TTarget>>
+export type XyoWitnessQuery<TTarget extends XyoPayload = XyoPayload, TQuery extends XyoQuery | void = void> = XyoModuleQuery<
+  TQuery extends XyoQuery ? XyoWitnessQueryBase<TTarget> | TQuery : XyoWitnessQueryBase<TTarget>
+>

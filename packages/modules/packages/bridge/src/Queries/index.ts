@@ -6,7 +6,5 @@ import { XyoBridgeDisconnectQuery } from './Disconnect'
 export * from './Connect'
 export * from './Disconnect'
 
-export type XyoBridgeQueryBase = XyoBridgeConnectQuery | XyoBridgeDisconnectQuery | XyoModuleQuery
-export type XyoBridgeQuery<T extends XyoQuery = XyoQuery> = T extends XyoQuery ? XyoBridgeQueryBase | T : XyoBridgeQueryBase
-
-export type XyoBridgeQuerySchema = XyoBridgeQuery['schema']
+export type XyoBridgeQueryBase = XyoBridgeConnectQuery | XyoBridgeDisconnectQuery
+export type XyoBridgeQuery<T extends XyoQuery | void = void> = XyoModuleQuery<T extends XyoQuery ? XyoBridgeQueryBase | T : XyoBridgeQueryBase>

@@ -7,6 +7,6 @@ import { XyoDivinerDivineQuery } from './Divine'
 
 export type XyoDivinerQueryBase<TDivineResult extends XyoPayload = XyoPayload> = XyoDivinerDivineQuery<TDivineResult>
 
-export type XyoDivinerQuery<TQuery extends XyoQuery | void = void> = TQuery extends XyoQuery
-  ? XyoModuleQuery<XyoDivinerQueryBase<XyoPayload> | TQuery>
-  : XyoModuleQuery<XyoDivinerQueryBase<XyoPayload>>
+export type XyoDivinerQuery<TQuery extends XyoQuery | void = void> = XyoModuleQuery<
+  TQuery extends XyoQuery ? XyoDivinerQueryBase<XyoPayload> | TQuery : XyoDivinerQueryBase<XyoPayload>
+>

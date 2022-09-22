@@ -3,18 +3,14 @@ import { XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
 import { XyoModule } from '@xyo-network/module'
 
 import { NodeConfig } from './Config'
-import { XyoNodeAttachQuerySchema, XyoNodeDetatchQuerySchema, XyoNodeQuery } from './Queries'
+import { XyoNodeAttachQuerySchema, XyoNodeDetatchQuerySchema } from './Queries'
 import { XyoNode } from './XyoNode'
 
-export class MemoryNode<
-  TConfig extends NodeConfig = NodeConfig,
-  TQuery extends XyoNodeQuery = XyoNodeQuery,
-  TModule extends XyoModule = XyoModule,
-> extends XyoNode<TConfig, TQuery, TModule> {
+export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends XyoNode<TConfig, TModule> {
   private registeredModuleMap = new Map<string, TModule>()
   private attachedModuleMap = new Map<string, TModule>()
 
-  public override queries(): TQuery['schema'][] {
+  public override queries(): string[] {
     return [XyoNodeAttachQuerySchema, XyoNodeDetatchQuerySchema, ...super.queries()]
   }
 

@@ -18,14 +18,10 @@ import {
   XyoArchivistGetQuerySchema,
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
-  XyoArchivistQuery,
 } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export class XyoArchivistWrapper<TQuery extends XyoArchivistQuery = XyoArchivistQuery>
-  extends XyoModuleWrapper<TQuery | XyoArchivistQuery>
-  implements PayloadArchivist<TQuery | XyoArchivistQuery>
-{
+export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArchivist {
   public async delete(hashes: string[]) {
     const query: XyoArchivistDeleteQuery = { hashes, schema: XyoArchivistDeleteQuerySchema }
     return (await this.module.query(query))[0].payload_hashes.map(() => true)

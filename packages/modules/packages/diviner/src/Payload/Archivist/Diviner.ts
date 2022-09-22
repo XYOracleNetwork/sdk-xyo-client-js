@@ -29,10 +29,10 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
   public async divine(payloads?: XyoPayloads): Promise<XyoPayload | null> {
     const huriPayload = assertEx(payloads?.find((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema))
     const huriObj = new Huri(huriPayload.huri)
-    const activeArchvist = this.archivist
-    if (activeArchvist) {
+    const activeArchivist = this.archivist
+    if (activeArchivist) {
       const [[, [payload = null]]] = await profile(
-        async () => await activeArchvist.query<XyoArchivistGetQuery>({ hashes: [huriObj.hash], schema: XyoArchivistGetQuerySchema }),
+        async () => await activeArchivist.query<XyoArchivistGetQuery>({ hashes: [huriObj.hash], schema: XyoArchivistGetQuerySchema }),
       )
       return payload ?? null
     }

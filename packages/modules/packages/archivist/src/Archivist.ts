@@ -3,7 +3,6 @@ import { Module } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
-import { XyoArchivistQuery } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
@@ -37,5 +36,4 @@ export interface Archivist<
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
     StashArchivist<TWriteResponse> {}
 
-export type PayloadArchivist<TQuery extends XyoArchivistQuery = XyoArchivistQuery> = Module<TQuery> &
-  Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter, string>
+export type PayloadArchivist = Module & Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, XyoPayloadFindFilter, string>

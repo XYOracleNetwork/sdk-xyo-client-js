@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema } from '@xyo-network/module'
+import { XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema, XyoQuery } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -22,11 +22,11 @@ import {
 } from './Queries'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
-export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQuery extends XyoArchivistQuery = XyoArchivistQuery>
-  extends XyoModule<TQuery, XyoArchivistConfig<TConfig>>
-  implements PayloadArchivist<TQuery>
+export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
+  extends XyoModule<XyoArchivistConfig<TConfig>>
+  implements PayloadArchivist
 {
-  public override queries(): TQuery['schema'][] {
+  public override queries() {
     return [
       XyoModuleInitializeQuerySchema,
       XyoModuleShutdownQuerySchema,
@@ -68,14 +68,15 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQue
 
   abstract insert(item: XyoPayload[]): Promisable<XyoBoundWitness>
 
-  override async query(query: TQuery): Promise<XyoModuleQueryResult<XyoPayload>> {
+  override async query<T extends XyoQuery = XyoQuery>(query: T): Promise<XyoModuleQueryResult<XyoPayload>> {
     if (!this.queries().find((schema) => schema === query.schema)) {
       console.error(`Undeclared Module Query: ${query.schema}`)
     }
 
     const payloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
-    switch (query.schema) {
+    const typedQuery = query as XyoArchivistQuery
+    switch (typedQuery.schema) {
       case XyoArchivistAllQuerySchema:
         payloads.push(...(await this.all()))
         break
@@ -86,19 +87,19 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload, TQue
         payloads.push(await this.commit())
         break
       case XyoArchivistDeleteQuerySchema:
-        await this.delete(query.hashes)
+        await this.delete(typedQuery.hashes)
         break
       case XyoArchivistFindQuerySchema:
-        payloads.push(...(await this.find(query.filter)))
+        payloads.push(...(await this.find(typedQuery.filter)))
         break
       case XyoArchivistGetQuerySchema:
-        payloads.push(...(await this.get(query.hashes)))
+        payloads.push(...(await this.get(typedQuery.hashes)))
         break
       case XyoArchivistInsertQuerySchema:
-        payloads.push(await this.insert(query.payloads), ...query.payloads)
+        payloads.push(await this.insert(typedQuery.payloads), ...typedQuery.payloads)
         break
       default:
-        return super.query(query)
+        return super.query(typedQuery)
     }
     return this.bindPayloads(payloads, queryAccount)
   }

@@ -60,7 +60,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
 
-  public delete(hashes: string[]): PromisableArray<boolean> {
+  public override delete(hashes: string[]): PromisableArray<boolean> {
     try {
       return hashes.map((hash) => {
         return this.cache.delete(hash)
@@ -116,7 +116,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  public find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): PromisableArray<R> {
+  public override find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): PromisableArray<R> {
     try {
       const result: R[] = []
       this.cache.forEach((value) => {
@@ -131,7 +131,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  public all(): PromisableArray<XyoPayload> {
+  public override all(): PromisableArray<XyoPayload> {
     try {
       return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
@@ -140,7 +140,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  public async commit(): Promise<XyoBoundWitness> {
+  public override async commit(): Promise<XyoBoundWitness> {
     try {
       const payloads = assertEx(await this.all(), 'Nothing to commit')
       const [block] = await this.bindPayloads(payloads)
@@ -148,7 +148,8 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
             const query: XyoArchivistInsertQuery = { payloads: [block, ...payloads], schema: XyoArchivistInsertQuerySchema }
-            return await parent?.query(query)
+            const bw = (await this.bindPayloads([query]))[0]
+            return await parent?.query(bw, query)
           }),
         ),
       )

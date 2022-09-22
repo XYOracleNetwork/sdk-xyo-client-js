@@ -74,7 +74,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     return `${this.namespace}-${hash}`
   }
 
-  public delete(hashes: string[]): PromisableArray<boolean> {
+  public override delete(hashes: string[]): PromisableArray<boolean> {
     try {
       return hashes.map((hash) => {
         Cookies.remove(this.keyFromHash(hash))
@@ -134,7 +134,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     }
   }
 
-  public async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
+  public override async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
     try {
       const x = (await this.all()).filter((payload) => {
         if (filter?.schema && filter.schema !== payload.schema) {
@@ -149,7 +149,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     }
   }
 
-  public all(): PromisableArray<XyoPayload> {
+  public override all(): PromisableArray<XyoPayload> {
     try {
       return Object.entries(Cookies.get())
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
@@ -160,7 +160,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     }
   }
 
-  public async commit(): Promise<XyoBoundWitness> {
+  public override async commit(): Promise<XyoBoundWitness> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
@@ -169,7 +169,8 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
             const query: XyoArchivistInsertQuery = { payloads: [block, ...payloads], schema: XyoArchivistInsertQuerySchema }
-            return await parent?.query(query)
+            const bw = (await this.bindPayloads([query]))[0]
+            return await parent?.query(bw, query)
           }),
         ),
       )

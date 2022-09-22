@@ -1,10 +1,8 @@
 import { XyoModuleConfig } from '@xyo-network/module'
+import { MemoryNode, Node } from '@xyo-network/node'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { terminal } from 'terminal-kit'
-
-import { MemoryNode } from '../MemoryNode'
-import { Node } from '../Node'
 
 function terminate() {
   terminal.grabInput(false)
@@ -54,12 +52,12 @@ const getCommand = (node: Node): Promise<boolean> => {
       }
     })
     const items = [
-      'Register Plugin',
-      'Unregister Plugin',
-      'List Registered Plugins',
-      'Attach Plugin',
-      'Detatch Plugin',
-      'List Attached Plugins',
+      'Register Module',
+      'Unregister Module',
+      'List Registered Modules',
+      'Attach Module',
+      'Detach Module',
+      'List Attached Modules',
       'Show Config',
       'Status',
       'Exit',
@@ -81,16 +79,16 @@ const getCommand = (node: Node): Promise<boolean> => {
           case 'exit':
             resolve(false)
             break
-          case 'list-registered-plugins': {
-            terminal.yellow('\nList Registered Plugins\n')
+          case 'list-registered-modules': {
+            terminal.yellow('\nList Registered Modules\n')
             const registered = await node?.registered()
             registered.forEach((module) => {
               terminal(`0x${module}`)
             })
             break
           }
-          case 'register-plugin':
-            terminal.yellow('\nRegister Plugin\n')
+          case 'register-module':
+            terminal.yellow('\nRegister Module\n')
             break
           case 'show-config': {
             const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])

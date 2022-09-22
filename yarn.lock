@@ -3698,6 +3698,7 @@ __metadata:
     "@xylabs/assert": ^2.6.7
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
@@ -3859,8 +3860,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module@workspace:packages/modules/packages/module"
   dependencies:
+    "@xylabs/assert": ^2.6.7
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     tslib: ^2.4.0
@@ -3890,6 +3893,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/node-cli@workspace:packages/modules/packages/node-cli":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/node-cli@workspace:packages/modules/packages/node-cli"
+  dependencies:
+    "@types/node": ^18.7.18
+    "@types/terminal-kit": ^2.5.0
+    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/node": "workspace:^"
+    terminal-kit: ^2.11.6
+    ts-node: ^10.9.1
+    tslib: ^2.4.0
+    typescript: ^4.8.3
+    yargs: ^17.5.1
+  bin:
+    xyo: dist/cjs/index.js
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/node-system-info-payload-plugin@workspace:^, @xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/node":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/node"
@@ -3906,22 +3928,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
-    "@types/node": ^18.7.18
-    "@types/terminal-kit": ^2.5.0
     "@xylabs/assert": ^2.6.7
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
-    terminal-kit: ^2.11.6
-    ts-node: ^10.9.1
     tslib: ^2.4.0
-    typescript: ^4.8.3
-    yargs: ^17.5.1
-  bin:
-    xyo: dist/cjs/cli/index.js
   languageName: unknown
   linkType: soft
 
@@ -4208,7 +4223,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/modules/packages/witness"
   dependencies:
+    "@xylabs/assert": ^2.6.7
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
@@ -14363,8 +14380,8 @@ __metadata:
   linkType: hard
 
 "terminal-kit@npm:^2.11.6":
-  version: 2.11.6
-  resolution: "terminal-kit@npm:2.11.6"
+  version: 2.11.7
+  resolution: "terminal-kit@npm:2.11.7"
   dependencies:
     "@cronvel/get-pixels": ^3.4.1
     chroma-js: ^2.4.2
@@ -14374,7 +14391,7 @@ __metadata:
     seventh: ^0.7.40
     string-kit: ^0.17.6
     tree-kit: ^0.7.4
-  checksum: b7c880f3e792f41e93c10262bf748bf3f3338bb159e24fc9a971977ded56e72227c0ea17723702becd76ba7b7efd689dd69ca128fa6745b5d1e5e65942c9bd6f
+  checksum: 0c6f93b4dd739a05d29ef76b13696b9933dcc346fd938ca5d46229db0eb4da927d6b49790ac156549dfa26a5842bf148d78d7dbf8a6a030aa48bc758c6432b3f
   languageName: node
   linkType: hard
 

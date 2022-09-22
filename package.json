@@ -75,8 +75,8 @@
   },
   "scripts": {
     "lint-pkg": "npmPkgJsonLint .",
-    "xyo": "yarn workspace @xyo-network/node xyo",
-    "xyo-ts": "yarn workspace @xyo-network/node xyo-ts"
+    "xyo": "yarn workspace @xyo-network/node-cli xyo",
+    "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",

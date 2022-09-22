@@ -6,7 +6,7 @@ import { XyoWitness } from '@xyo-network/witness'
 import { XyoContractPayload, XyoNonFungibleTokenPayload, XyoNonFungibleTokenWitnessConfig } from './Config'
 
 export class XyoSmartContractWrapper<T extends XyoContractPayload> extends PayloadWrapper<T> {
-  public static async load(address: XyoDataLike | Huri) {
+  public static override async load(address: XyoDataLike | Huri) {
     const payload = await new Huri<XyoContractPayload>(address).fetch()
     if (payload) {
       return new XyoSmartContractWrapper(payload)

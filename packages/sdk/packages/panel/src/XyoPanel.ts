@@ -63,6 +63,6 @@ export class XyoPanel {
     const bwList = await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))
     this.history.push(...bwList)
     this.config.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
-    return [bwList, payloads]
+    return [bwList, [newBoundWitness, ...payloads]]
   }
 }

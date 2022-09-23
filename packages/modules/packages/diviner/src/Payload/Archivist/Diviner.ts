@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { PartialModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
-import { Huri, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { Huri, PayloadWrapper, XyoPayloads } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
 import { profile } from '../lib'
@@ -26,16 +26,25 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayload | null> {
-    const huriPayload = assertEx(payloads?.find((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema))
-    const huriObj = new Huri(huriPayload.huri)
+  public async divine(context?: string, payloads?: XyoPayloads): Promise<XyoPayloads> {
+    const huriPayloads = assertEx(
+      payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
+      `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
+    )
+    const huriPayload = context
+      ? assertEx(
+          huriPayloads.find((payload) => PayloadWrapper.hash(payload) === context),
+          `context hash provided not found [${context}, ${JSON.stringify(payloads, null, 2)}]`,
+        )
+      : huriPayloads[0]
+    const hashes = huriPayload.huri.map((huri) => new Huri(huri).hash)
     const activeArchivist = this.archivist
     if (activeArchivist) {
-      const query: XyoArchivistGetQuery = { hashes: [huriObj.hash], schema: XyoArchivistGetQuerySchema }
+      const query: XyoArchivistGetQuery = { hashes, schema: XyoArchivistGetQuerySchema }
       const bw = (await this.bindPayloads([query]))[0]
-      const [[, [payload = null]]] = await profile(async () => await activeArchivist.query(bw, query))
-      return payload ?? null
+      const [[, payloads]] = await profile(async () => await activeArchivist.query(bw, query))
+      return payloads
     }
-    return null
+    return []
   }
 }

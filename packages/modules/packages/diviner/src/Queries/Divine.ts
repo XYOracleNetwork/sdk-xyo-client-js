@@ -1,10 +1,11 @@
 import { XyoQuery } from '@xyo-network/module'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayloads } from '@xyo-network/payload'
 
 export type XyoDivinerDivineQuerySchema = 'network.xyo.query.diviner.divine'
 export const XyoDivinerDivineQuerySchema: XyoDivinerDivineQuerySchema = 'network.xyo.query.diviner.divine'
 
-export type XyoDivinerDivineQuery<T extends XyoPayload = XyoPayload> = XyoQuery<{
+export type XyoDivinerDivineQuery = XyoQuery<{
   schema: XyoDivinerDivineQuerySchema
-  payloads?: XyoPayloads<T>
+  context?: string
+  payloads?: XyoPayloads
 }>

@@ -21,7 +21,7 @@ export interface FindArchivist<TReadResponse, TFindResponse = TReadResponse, TFi
 }
 
 export interface StashArchivist<TWriteResponse> {
-  commit?(): Promisable<TWriteResponse>
+  commit?(): Promisable<TWriteResponse[]>
 }
 
 export interface Archivist<

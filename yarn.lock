@@ -3903,7 +3903,7 @@ __metadata:
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
-    terminal-kit: ^2.11.6
+    terminal-kit: ^2.11.7
     ts-node: ^10.9.1
     tslib: ^2.4.0
     typescript: ^4.8.3
@@ -14380,7 +14380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terminal-kit@npm:^2.11.6":
+"terminal-kit@npm:^2.11.7":
   version: 2.11.7
   resolution: "terminal-kit@npm:2.11.7"
   dependencies:

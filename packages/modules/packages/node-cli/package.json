@@ -13,7 +13,7 @@
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node": "workspace:^",
-    "terminal-kit": "^2.11.6",
+    "terminal-kit": "^2.11.7",
     "tslib": "^2.4.0",
     "yargs": "^17.5.1"
   },
@@ -62,5 +62,5 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/esm/index.d.ts",
-  "version": "2.34.0"
+  "version": "2.35.0"
 }

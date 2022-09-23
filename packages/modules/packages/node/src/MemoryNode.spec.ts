@@ -33,9 +33,9 @@ test('Create Node', async () => {
     .fields({ test: true })
     .build()
 
-  const insertQuery: XyoArchivistInsertQuery = { payloads: [testPayload], schema: XyoArchivistInsertQuerySchema }
+  const insertQuery: XyoArchivistInsertQuery = { payloads: [PayloadWrapper.hash(testPayload)], schema: XyoArchivistInsertQuerySchema }
   const insertQueryBoundwitness = new BoundWitnessBuilder().payload(insertQuery).witness(new XyoAccount()).build()
-  await foundArchivist?.query(insertQueryBoundwitness, insertQuery)
+  await foundArchivist?.query(insertQueryBoundwitness, insertQuery, [testPayload])
 
   /*const subscribeQuery: XyoModuleSubscribeQuery = { payloads: [testPayload], schema: XyoModuleSubscribeQuerySchema }
   await foundArchivist?.query(subscribeQuery)*/
@@ -47,7 +47,7 @@ test('Create Node', async () => {
 
   if (payloads && payloads[0]) {
     const huri = new PayloadWrapper(payloads[0]).hash
-    const huriPayload: XyoHuriPayload = { huri, schema: XyoHuriSchema }
+    const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
     const divineQuery: XyoDivinerDivineQuery = { payloads: [huriPayload], schema: XyoDivinerDivineQuerySchema }
     const divineQueryBoundwitness = new BoundWitnessBuilder().payload(divineQuery).witness(new XyoAccount()).build()
     const divinerModule = node.resolve(diviner.address) as DivinerModule

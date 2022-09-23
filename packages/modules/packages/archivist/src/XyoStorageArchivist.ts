@@ -151,22 +151,28 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     }
   }
 
-  public override async commit(): Promise<XyoBoundWitness> {
+  public override async commit(): Promise<XyoBoundWitness[]> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
-      const [block] = await this.bindPayloads(payloads)
-      await Promise.allSettled(
+      const settled = await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
-            const query: XyoArchivistInsertQuery = { payloads: [block, ...payloads], schema: XyoArchivistInsertQuerySchema }
+            const query: XyoArchivistInsertQuery = {
+              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
+              schema: XyoArchivistInsertQuerySchema,
+            }
             const bw = (await this.bindPayloads([query]))[0]
             return await parent?.query(bw, query)
           }),
         ),
       )
       await this.clear()
-      return block
+      return compact(
+        settled.map((result) => {
+          return result.status === 'fulfilled' ? result.value?.[0] : null
+        }),
+      )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('commit', ex, 'unexpected')

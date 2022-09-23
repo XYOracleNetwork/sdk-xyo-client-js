@@ -9,5 +9,5 @@ export interface Module {
   address: string
   queries(): string[]
   queryable: (schema: string, addresses?: string[]) => boolean
-  query: <T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T) => Promise<XyoModuleQueryResult>
+  query: <T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T, payloads?: XyoPayload[]) => Promise<XyoModuleQueryResult>
 }

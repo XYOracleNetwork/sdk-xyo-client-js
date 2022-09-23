@@ -3702,6 +3702,7 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
+    lodash: ^4.17.21
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft

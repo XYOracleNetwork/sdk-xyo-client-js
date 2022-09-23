@@ -1,12 +1,11 @@
 export * from './Divine'
 
 import { XyoModuleQuery, XyoQuery } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuery } from './Divine'
 
-export type XyoDivinerQueryBase<TDivineResult extends XyoPayload = XyoPayload> = XyoDivinerDivineQuery<TDivineResult>
+export type XyoDivinerQueryBase = XyoDivinerDivineQuery
 
 export type XyoDivinerQuery<TQuery extends XyoQuery | void = void> = XyoModuleQuery<
-  TQuery extends XyoQuery ? XyoDivinerQueryBase<XyoPayload> | TQuery : XyoDivinerQueryBase<XyoPayload>
+  TQuery extends XyoQuery ? XyoDivinerQueryBase | TQuery : XyoDivinerQueryBase
 >

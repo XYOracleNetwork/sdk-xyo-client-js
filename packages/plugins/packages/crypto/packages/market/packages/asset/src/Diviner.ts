@@ -1,7 +1,7 @@
 import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { XyoDiviner, XyoDivinerConfig, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { PartialModuleConfig } from '@xyo-network/module'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
@@ -18,10 +18,10 @@ export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  public override divine(payloads?: XyoPayloads): Promisable<XyoPayload | null> {
+  public override divine(context?: string, payloads?: XyoPayloads): Promisable<XyoPayloads> {
     const coinGeckoPayload = payloads?.find((payload) => payload?.schema === XyoCoingeckoCryptoMarketSchema) as XyoCoingeckoCryptoMarketPayload
     const uniswapPayload = payloads?.find((payload) => payload?.schema === XyoUniswapCryptoMarketSchema) as XyoUniswapCryptoMarketPayload
     const result: XyoCryptoMarketAssetPayload = divinePrices(coinGeckoPayload, uniswapPayload)
-    return result
+    return [result]
   }
 }

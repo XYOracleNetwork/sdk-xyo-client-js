@@ -4,7 +4,6 @@ import { PartialModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
 import { Huri, PayloadWrapper, XyoPayloads } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
-import { profile } from '../lib'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
@@ -40,10 +39,9 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     const hashes = huriPayload.huri.map((huri) => new Huri(huri).hash)
     const activeArchivist = this.archivist
     if (activeArchivist) {
-      const query: XyoArchivistGetQuery = { hashes, schema: XyoArchivistGetQuerySchema }
-      const bw = (await this.bindPayloads([query]))[0]
-      const [[, payloads]] = await profile(async () => await activeArchivist.query(bw, query))
-      return payloads
+      const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
+      const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+      return (await activeArchivist.query(query[0], query[1]))[1]
     }
     return []
   }

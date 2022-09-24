@@ -1,9 +1,9 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
 
 import { XyoModuleConfig } from './Config'
-import { Module, XyoModuleQueryResult } from './Module'
-import { XyoQuery } from './Query'
+import { Module } from './Module'
+import { ModuleQueryResult } from './ModuleQueryResult'
+import { XyoQueryBoundWitness } from './Query'
 import { XyoModule, XyoModuleResolverFunc } from './XyoModule'
 
 export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends XyoModuleConfig = XyoModuleConfig> extends XyoModule<TConfig> {
@@ -26,7 +26,7 @@ export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends X
     return this.module.queryable(schema, addresses)
   }
 
-  override query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T): Promise<XyoModuleQueryResult> {
-    return this.module.query(bw, query)
+  override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T): Promise<ModuleQueryResult> {
+    return this.module.query(query)
   }
 }

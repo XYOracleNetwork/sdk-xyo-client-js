@@ -14,7 +14,10 @@ export interface BoundWitnessBuilderConfig {
 /** @deprecated use BoundWitnessBuilderConfig instead */
 export type XyoBoundWitnessBuilderConfig = BoundWitnessBuilderConfig
 
-export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoBoundWitness, TPayload extends XyoPayload = XyoPayload> {
+export class BoundWitnessBuilder<
+  TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
+  TPayload extends XyoPayload = XyoPayload,
+> {
   private _accounts: XyoAccount[] = []
   private _payload_schemas: string[] = []
   private _payloads: TPayload[] = []
@@ -71,7 +74,7 @@ export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoBoun
     } as TBoundWitness
   }
 
-  private signatures(_hash: string) {
+  protected signatures(_hash: string) {
     return this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
   }
 

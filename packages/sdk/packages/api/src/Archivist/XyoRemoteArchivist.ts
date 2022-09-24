@@ -42,8 +42,8 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
     try {
-      const boundwitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
-      boundwitnesses.forEach((boundwitness) => {
+      const boundWitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
+      boundWitnesses.forEach((boundwitness) => {
         // doing this here to prevent breaking code (for now)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const anyBoundwitness: any = boundwitness
@@ -53,7 +53,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
             return boundwitness.payload_hashes.includes(hash)
           })
       })
-      const [boundwitness] = await this.bindPayloads(payloads)
+      const [boundwitness] = await this.bindResult(payloads)
       const bwWithMeta = { ...boundwitness, _payloads: payloads } as XyoBoundWitness
       const bwResult = await this.api.archive(this.archive).block.post([bwWithMeta], 'tuple')
       const [, response, error] = bwResult

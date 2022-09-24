@@ -23,52 +23,48 @@ import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArchivist {
   public async delete(hashes: string[]) {
-    const query: XyoArchivistDeleteQuery = { hashes, schema: XyoArchivistDeleteQuerySchema }
-    const bw = (await this.bindPayloads([query]))[0]
-    return (await this.module.query(bw, query))[0].payload_hashes.map(() => true)
+    const queryPayload = PayloadWrapper.parse<XyoArchivistDeleteQuery>({ hashes, schema: XyoArchivistDeleteQuerySchema })
+    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+    await this.module.query(query[0], query[1])
+    return (await this.module.query(query[0], query[1]))[0].payload_hashes.map(() => true)
   }
 
   public async clear(): Promise<void> {
-    const query: XyoArchivistClearQuery = { schema: XyoArchivistClearQuerySchema }
-    const bw = (await this.bindPayloads([query]))[0]
-    await this.module.query(bw, query)
+    const queryPayload = PayloadWrapper.parse<XyoArchivistClearQuery>({ schema: XyoArchivistClearQuerySchema })
+    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+    await this.module.query(query[0], query[1])
   }
 
   public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
-    const query: XyoArchivistGetQuery = { hashes, schema: XyoArchivistGetQuerySchema }
-    const bw = (await this.bindPayloads([query]))[0]
-    return (await this.module.query(bw, query))[1]
+    const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
+    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+    return (await this.module.query(query[0], query[1]))[1]
   }
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
-    const query: XyoArchivistInsertQuery = {
+    const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
       payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
       schema: XyoArchivistInsertQuerySchema,
-    }
-
-    const bw = (await this.bindPayloads([query, ...payloads]))[0]
-    const result = await this.module.query(bw, query, payloads)
-
-    console.log(`result: ${JSON.stringify(result, null, 2)}`)
-
-    return result[1][0] as XyoBoundWitness
+    })
+    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+    return (await this.module.query(query[0], query[1]))[0]
   }
 
   public async find(filter?: XyoPayloadFindFilter): Promise<(XyoPayload | null)[]> {
-    const query: XyoArchivistFindQuery = { filter, schema: XyoArchivistFindQuerySchema }
-    const bw = (await this.bindPayloads([query]))[0]
-    return (await this.module.query(bw, query))[1]
+    const queryPayload = PayloadWrapper.parse<XyoArchivistFindQuery>({ filter, schema: XyoArchivistFindQuerySchema })
+    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+    return (await this.module.query(query[0], query[1]))[1]
   }
 
   public async all(): Promise<(XyoPayload | null)[]> {
-    const query: XyoArchivistAllQuery = { schema: XyoArchivistAllQuerySchema }
-    const bw = (await this.bindPayloads([query]))[0]
-    return (await this.module.query(bw, query))[1]
+    const queryPayload = PayloadWrapper.parse<XyoArchivistAllQuery>({ schema: XyoArchivistAllQuerySchema })
+    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+    return (await this.module.query(query[0], query[1]))[1]
   }
 
   public async commit(): Promise<XyoBoundWitness[]> {
-    const query: XyoArchivistCommitQuery = { schema: XyoArchivistCommitQuerySchema }
-    const bw = (await this.bindPayloads([query]))[0]
-    return (await this.module.query(bw, query))[1] as XyoBoundWitness[]
+    const queryPayload = PayloadWrapper.parse<XyoArchivistCommitQuery>({ schema: XyoArchivistCommitQuerySchema })
+    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+    return (await this.module.query(query[0], query[1]))[1] as XyoBoundWitness[]
   }
 }

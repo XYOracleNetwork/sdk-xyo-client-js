@@ -1814,14 +1814,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/config-array@npm:^0.10.4":
-  version: 0.10.4
-  resolution: "@humanwhocodes/config-array@npm:0.10.4"
+"@humanwhocodes/config-array@npm:^0.10.5":
+  version: 0.10.5
+  resolution: "@humanwhocodes/config-array@npm:0.10.5"
   dependencies:
     "@humanwhocodes/object-schema": ^1.2.1
     debug: ^4.1.1
     minimatch: ^3.0.4
-  checksum: d480e5d57e6d787565b6cff78e27c3d1b380692d4ffb0ada7d7f5957a56c9032f034da05a3e443065dbd0671ebf4d859036ced34e96b325bbc1badbae3c05300
+  checksum: af4fa2633c57414be22ddba0a072cc611ef9a07104542fa24bde918a0153b89b6e08ca6a20ccc9079de6079e219e2406e38414d1b662db8bb59a3ba9d6eee6e3
   languageName: node
   linkType: hard
 
@@ -2801,10 +2801,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.7.15, @types/node@npm:^18.7.18":
-  version: 18.7.18
-  resolution: "@types/node@npm:18.7.18"
-  checksum: 8aec61f0f96e2a69ce51f1f40f949ca578bbb4fe05d7c0b8ce3aeeb848e90f755837f17f6ac132ca404d974fe9b2974150ad3b4984fc9dc7c3ceddb10bae0167
+"@types/node@npm:*, @types/node@npm:^18.7.15, @types/node@npm:^18.7.19":
+  version: 18.7.19
+  resolution: "@types/node@npm:18.7.19"
+  checksum: 879366b379599cd0e06bff86973c82497de57d23b113967d20cac94994acdf2c47b6fc5cb92d007a9ff1939bd037257a5f3965e7bbda70cfa6b949a40e4e14a8
   languageName: node
   linkType: hard
 
@@ -3867,6 +3867,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
+    lodash: ^4.17.21
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -3898,12 +3899,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-cli@workspace:packages/modules/packages/node-cli"
   dependencies:
-    "@types/node": ^18.7.18
+    "@types/node": ^18.7.19
     "@types/terminal-kit": ^2.5.0
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
-    terminal-kit: ^2.11.7
+    terminal-kit: ^3.0.0
     ts-node: ^10.9.1
     tslib: ^2.4.0
     typescript: ^4.8.3
@@ -4058,7 +4059,7 @@ __metadata:
     "@xyo-network/payload-plugins": "workspace:^"
     "@xyo-network/sdk": "workspace:^"
     axios: ^0.27.2
-    eslint: ^8.23.1
+    eslint: ^8.24.0
     jest: ^29.0.3
     jest-extended: ^3.1.0
     pako: ^2.0.4
@@ -6620,12 +6621,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.23.0, eslint@npm:^8.23.1":
-  version: 8.23.1
-  resolution: "eslint@npm:8.23.1"
+"eslint@npm:^8.23.0, eslint@npm:^8.24.0":
+  version: 8.24.0
+  resolution: "eslint@npm:8.24.0"
   dependencies:
     "@eslint/eslintrc": ^1.3.2
-    "@humanwhocodes/config-array": ^0.10.4
+    "@humanwhocodes/config-array": ^0.10.5
     "@humanwhocodes/gitignore-to-minimatch": ^1.0.2
     "@humanwhocodes/module-importer": ^1.0.1
     ajv: ^6.10.0
@@ -6665,7 +6666,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: a727e15492786a03b438bcf021db49f715680679846a7b8d79b98ad34576f2a570404ffe882d3c3e26f6359bff7277ef11fae5614bfe8629adb653f20d018c71
+  checksum: ca293ce7116599b742d7ab4d43db469beec22f40dd272092d809498be3cff3a7c567769f9763bdf6799aac13dd53447b93a99629b7b54092783046eb57eaced6
   languageName: node
   linkType: hard
 
@@ -13684,12 +13685,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"seventh@npm:^0.7.40":
-  version: 0.7.40
-  resolution: "seventh@npm:0.7.40"
+"seventh@npm:^0.8.1":
+  version: 0.8.1
+  resolution: "seventh@npm:0.8.1"
   dependencies:
     setimmediate: ^1.0.5
-  checksum: d5083c443ff8eca57111d438e90116393d3ac73172fb728e8bac7b24a220895a57c21605ef18378b202a420308d8701d96e4f08dbf55ce36834dbf60a570c24c
+  checksum: e54ef2c55590920679f957ba1a37d46ff2541b283fa1add88bc9d9d388793edb98ae215e7f3d9f685e87ecd2070f99ad089d45d0714c0e2fddb2c7d6e17a4016
   languageName: node
   linkType: hard
 
@@ -14380,19 +14381,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terminal-kit@npm:^2.11.7":
-  version: 2.11.7
-  resolution: "terminal-kit@npm:2.11.7"
+"terminal-kit@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "terminal-kit@npm:3.0.0"
   dependencies:
     "@cronvel/get-pixels": ^3.4.1
     chroma-js: ^2.4.2
     lazyness: ^1.2.0
     ndarray: ^1.0.19
     nextgen-events: ^1.5.3
-    seventh: ^0.7.40
+    seventh: ^0.8.1
     string-kit: ^0.17.6
     tree-kit: ^0.7.4
-  checksum: 0c6f93b4dd739a05d29ef76b13696b9933dcc346fd938ca5d46229db0eb4da927d6b49790ac156549dfa26a5842bf148d78d7dbf8a6a030aa48bc758c6432b3f
+  checksum: bf33b9b8bcb2419d457c2f409a08d1cd378d054f588cf5e2972857cbfead6281121e6d84cd96bbd9078fdf7664d4346d794ddbe4b51794f5617f141c08bdcb31
   languageName: node
   linkType: hard
 

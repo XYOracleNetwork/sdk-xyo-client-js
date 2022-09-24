@@ -116,9 +116,9 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
         this.storage.set(hash, wrapper.payload)
         return wrapper.payload
       })
-      const [boundwitness] = await this.bindPayloads(storedPayloads)
+      const [boundwitness] = await this.bindResult(storedPayloads)
       if (this.writeThrough) {
-        await this.writeToParents([boundwitness, ...storedPayloads])
+        await this.writeToParents(storedPayloads)
       }
       return boundwitness
     } catch (ex) {
@@ -158,19 +158,19 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       const settled = await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
-            const query: XyoArchivistInsertQuery = {
+            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
               schema: XyoArchivistInsertQuerySchema,
-            }
-            const bw = (await this.bindPayloads([query]))[0]
-            return await parent?.query(bw, query)
+            })
+            const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+            return (await parent?.query(query[0], query[1]))?.[0]
           }),
         ),
       )
       await this.clear()
       return compact(
         settled.map((result) => {
-          return result.status === 'fulfilled' ? result.value?.[0] : null
+          return result.status === 'fulfilled' ? result.value : null
         }),
       )
     } catch (ex) {

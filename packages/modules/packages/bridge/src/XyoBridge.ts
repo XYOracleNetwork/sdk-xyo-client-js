@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule, XyoQuery } from '@xyo-network/module'
+import { QueryBoundWitnessWrapper, XyoModule, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -19,12 +19,14 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
 
   abstract forward(query: XyoQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]>
 
-  override async query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T) {
-    assertEx(this.queryable(query.schema, bw.addresses))
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T) {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query)
+    const typedQuery = wrapper.query
+    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const payloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
-    const typedQuery = query as XyoBridgeQuery
+
     switch (typedQuery.schema) {
       case XyoBridgeConnectQuerySchema: {
         await this.connect()
@@ -35,12 +37,12 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
         break
       }
       default:
-        if (super.queries().includes(query.schema)) {
-          return super.query(bw, query)
+        if (super.queries().includes(typedQuery.schema)) {
+          return super.query(query)
         } else {
           return this.forward(typedQuery)
         }
     }
-    return this.bindPayloads(payloads, queryAccount)
+    return this.bindResult(payloads, queryAccount)
   }
 }

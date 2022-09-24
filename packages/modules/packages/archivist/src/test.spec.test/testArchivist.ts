@@ -11,13 +11,15 @@ import { XyoArchivistWrapper } from '../XyoArchivistWrapper'
 export const testArchivistRoundTrip = (archivist: XyoArchivist, name: string) => {
   test(`XyoArchivist [${name}]`, async () => {
     const idPayload: XyoPayload<{ salt: string }> = {
-      salt: 'test',
+      salt: Date.now().toString(),
       schema: 'network.xyo.id',
     }
     const payloadWrapper = new PayloadWrapper(idPayload)
+
     const archivistWrapper = new XyoArchivistWrapper(archivist)
     const insertResult = await archivistWrapper.insert([idPayload])
     expect(insertResult).toBeDefined()
+
     expect(insertResult.payload_hashes.find((hash) => hash === payloadWrapper.hash)).toBeDefined()
     const getResult = await archivistWrapper.get([payloadWrapper.hash])
     expect(getResult).toBeDefined()
@@ -33,16 +35,16 @@ export const testArchivistRoundTrip = (archivist: XyoArchivist, name: string) =>
 export const testArchivistAll = (archivist: XyoArchivist, name: string) => {
   test(`XyoArchivist [${name}]`, async () => {
     const idPayload = {
-      salt: 'test',
+      salt: Date.now().toString(),
       schema: 'network.xyo.id',
     }
     const archivistWrapper = new XyoArchivistWrapper(archivist)
     for (let x = 0; x < 10; x++) {
-      await archivistWrapper.insert([{ ...idPayload, salt: Date.now().toString() } as XyoPayload<{ salt: string }>])
+      await archivistWrapper.insert([idPayload])
       await delay(10)
     }
     const getResult = await archivistWrapper.all()
     expect(getResult).toBeDefined()
-    expect(getResult.length).toBe(11)
+    expect(getResult.length).toBe(2)
   })
 }

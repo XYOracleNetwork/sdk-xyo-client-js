@@ -71,7 +71,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     this.storage = store[this.type].namespace(this.namespace)
   }
 
-  public delete(hashes: string[]): PromisableArray<boolean> {
+  public override delete(hashes: string[]): PromisableArray<boolean> {
     try {
       return hashes.map((hash) => {
         this.storage.remove(hash)
@@ -127,7 +127,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     }
   }
 
-  public async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
+  public override async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
     try {
       const x = (await this.all()).filter((payload) => {
         if (filter?.schema && filter.schema !== payload.schema) {
@@ -142,7 +142,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     }
   }
 
-  public all(): PromisableArray<XyoPayload> {
+  public override all(): PromisableArray<XyoPayload> {
     try {
       return Object.entries(this.storage.getAll()).map(([, value]) => value)
     } catch (ex) {
@@ -151,21 +151,28 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     }
   }
 
-  public async commit(): Promise<XyoBoundWitness> {
+  public override async commit(): Promise<XyoBoundWitness[]> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
-      const [block] = await this.bindPayloads(payloads)
-      await Promise.allSettled(
+      const settled = await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
-            const query: XyoArchivistInsertQuery = { payloads: [block, ...payloads], schema: XyoArchivistInsertQuerySchema }
-            return await parent?.query(query)
+            const query: XyoArchivistInsertQuery = {
+              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
+              schema: XyoArchivistInsertQuerySchema,
+            }
+            const bw = (await this.bindPayloads([query]))[0]
+            return await parent?.query(bw, query)
           }),
         ),
       )
       await this.clear()
-      return block
+      return compact(
+        settled.map((result) => {
+          return result.status === 'fulfilled' ? result.value?.[0] : null
+        }),
+      )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new StorageArchivistError('commit', ex, 'unexpected')

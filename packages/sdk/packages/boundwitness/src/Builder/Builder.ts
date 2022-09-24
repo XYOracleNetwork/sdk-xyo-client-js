@@ -6,18 +6,21 @@ import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 
-export interface XyoBoundWitnessBuilderConfig {
+export interface BoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
   readonly inlinePayloads?: boolean
 }
 
-export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoBoundWitness, TPayload extends XyoPayload = XyoPayload> {
+/** @deprecated use BoundWitnessBuilderConfig instead */
+export type XyoBoundWitnessBuilderConfig = BoundWitnessBuilderConfig
+
+export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoBoundWitness, TPayload extends XyoPayload = XyoPayload> {
   private _accounts: XyoAccount[] = []
   private _payload_schemas: string[] = []
   private _payloads: TPayload[] = []
   private _payloadHashes: string[] | undefined
 
-  constructor(public readonly config: XyoBoundWitnessBuilderConfig = { inlinePayloads: false }) {}
+  constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }) {}
 
   private get _payload_hashes(): string[] {
     return (
@@ -81,11 +84,11 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
     })
   }
 
-  public build(): XyoBoundWitness {
+  public build(): TBoundWitness {
     const hashableFields = this.hashableFields()
     const _hash = new Hasher(hashableFields).hash
 
-    const ret: XyoBoundWitness = {
+    const ret: TBoundWitness = {
       ...hashableFields,
       _client: 'js',
       _hash,
@@ -101,3 +104,6 @@ export class XyoBoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoB
     return ret
   }
 }
+
+/** @deprecated use BoundWitnessBuilder instead */
+export class XyoBoundWitnessBuilder extends BoundWitnessBuilder {}

@@ -1,18 +1,15 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoModule, XyoModuleResolverFunc } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModule, XyoModuleQueryResult, XyoModuleResolverFunc, XyoQuery } from '@xyo-network/module'
+import { XyoPayloads } from '@xyo-network/payload'
 
 import { NodeConfig } from './Config'
-import { NodeModule } from './Node'
-import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeAvailableQuerySchema, XyoNodeDetatchQuerySchema, XyoNodeQuery } from './Queries'
-export abstract class XyoNode<
-    TConfig extends NodeConfig = NodeConfig,
-    TQuery extends XyoNodeQuery = XyoNodeQuery,
-    TQueryResult extends XyoPayload = XyoPayload,
-    TModule extends XyoModule = XyoModule,
-  >
-  extends XyoModule<TQuery, TQueryResult, TConfig>
-  implements NodeModule<TQuery, TQueryResult>
+import { NodeModule } from './NodeModule'
+import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
+export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
+  extends XyoModule<TConfig>
+  implements NodeModule<TModule>
 {
   constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
     super(config, account, resolver)
@@ -20,8 +17,8 @@ export abstract class XyoNode<
 
   /** Query Functions - Start */
   abstract attach(_address: string): void
-  abstract detatch(_address: string): void
-  abstract resolve(_address: string): XyoModule | null
+  abstract detach(_address: string): void
+  abstract resolve(_address: string): TModule | null
 
   registered(): string[] {
     throw new Error('Method not implemented.')
@@ -30,36 +27,39 @@ export abstract class XyoNode<
     throw new Error('Method not implemented.')
   }
 
-  availableModules(): XyoModule[] {
+  registeredModules(): TModule[] {
     throw new Error('Method not implemented.')
   }
-  attachedModules(): XyoModule[] {
+  attachedModules(): TModule[] {
     throw new Error('Method not implemented.')
   }
   /** Query Functions - End */
 
-  query(query: TQuery) {
+  override query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T): Promise<XyoModuleQueryResult> {
+    assertEx(this.queryable(query.schema, bw.addresses))
+
     const queryAccount = new XyoAccount()
-    const payloads: (TQueryResult | null)[] = []
-    switch (query.schema) {
+    const typedQuery = query as XyoNodeQuery
+    const payloads: XyoPayloads = []
+    switch (typedQuery.schema) {
       case XyoNodeAttachQuerySchema: {
-        this.attach(query.address)
+        this.attach(typedQuery.address)
         break
       }
-      case XyoNodeDetatchQuerySchema: {
-        this.detatch(query.address)
+      case XyoNodeDetachQuerySchema: {
+        this.detach(typedQuery.address)
         break
       }
       case XyoNodeAttachedQuerySchema: {
         this.attached()
         break
       }
-      case XyoNodeAvailableQuerySchema: {
+      case XyoNodeRegisteredQuerySchema: {
         this.registered()
         break
       }
       default:
-        return super.query(query)
+        return super.query(bw, typedQuery)
     }
     return this.bindPayloads(payloads, queryAccount)
   }
@@ -67,6 +67,4 @@ export abstract class XyoNode<
   register(_module: TModule): void {
     throw new Error('Method not implemented.')
   }
-
-  abstract get(_address: string): TModule | undefined
 }

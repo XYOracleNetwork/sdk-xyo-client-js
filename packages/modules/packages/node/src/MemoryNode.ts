@@ -1,22 +1,17 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
-import { XyoModule, XyoModuleConfig } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoModule } from '@xyo-network/module'
 
-import { XyoNodeAttachQuerySchema, XyoNodeQuery } from './Queries'
+import { NodeConfig } from './Config'
+import { XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema } from './Queries'
 import { XyoNode } from './XyoNode'
 
-export class MemoryNode<
-  TConfig extends XyoModuleConfig = XyoModuleConfig,
-  TQuery extends XyoNodeQuery = XyoNodeQuery,
-  TQueryResult extends XyoPayload = XyoPayload,
-  TModule extends XyoModule = XyoModule,
-> extends XyoNode<TConfig, TQuery, TQueryResult, TModule> {
+export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends XyoNode<TConfig, TModule> {
   private registeredModuleMap = new Map<string, TModule>()
   private attachedModuleMap = new Map<string, TModule>()
 
-  public override queries(): TQuery['schema'][] {
-    return [XyoNodeAttachQuerySchema]
+  public override queries(): string[] {
+    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, ...super.queries()]
   }
 
   override attached() {
@@ -37,7 +32,7 @@ export class MemoryNode<
     })
   }
 
-  override availableModules() {
+  override registeredModules() {
     return Array.from(this.registeredModuleMap.values()).map((value) => {
       return value
     })
@@ -61,11 +56,7 @@ export class MemoryNode<
     this.attachedModuleMap.set(address, module)
   }
 
-  override detatch(address: string) {
+  override detach(address: string) {
     this.attachedModuleMap.delete(address)
-  }
-
-  override get(address: string) {
-    return this.attachedModuleMap.get(address)
   }
 }

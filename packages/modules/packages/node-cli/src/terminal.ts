@@ -1,4 +1,5 @@
 import { XyoModuleConfig } from '@xyo-network/module'
+import { MemoryNode, Node } from '@xyo-network/node'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { terminal } from 'terminal-kit'
@@ -40,7 +41,7 @@ const readFileDeep = (names: string[]) => {
   return [result, resolvedPath]
 }
 
-const getCommand = (): Promise<boolean> => {
+const getCommand = (node: Node): Promise<boolean> => {
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') {
@@ -51,12 +52,12 @@ const getCommand = (): Promise<boolean> => {
       }
     })
     const items = [
-      'Register Plugin',
-      'Unregister Plugin',
-      'List Registered Plugins',
-      'Attach Plugin',
-      'Detatch Plugin',
-      'List Attached Plugins',
+      'Register Module',
+      'Unregister Module',
+      'List Registered Modules',
+      'Attach Module',
+      'Detach Module',
+      'List Attached Modules',
       'Show Config',
       'Status',
       'Exit',
@@ -78,8 +79,16 @@ const getCommand = (): Promise<boolean> => {
           case 'exit':
             resolve(false)
             break
-          case 'register-plugin':
-            terminal.yellow('Register Plugin')
+          case 'list-registered-modules': {
+            terminal.yellow('\nList Registered Modules\n')
+            const registered = await node?.registered()
+            registered.forEach((module) => {
+              terminal(`0x${module}`)
+            })
+            break
+          }
+          case 'register-module':
+            terminal.yellow('\nRegister Module\n')
             break
           case 'show-config': {
             const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
@@ -102,10 +111,10 @@ const getCommand = (): Promise<boolean> => {
   })
 }
 
-export const startTerminal = async () => {
+export const startTerminal = async (node: MemoryNode) => {
   let running = true
   while (running) {
-    running = await getCommand()
+    running = await getCommand(node)
   }
 
   terminate()

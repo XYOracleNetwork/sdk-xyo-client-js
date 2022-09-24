@@ -5,5 +5,5 @@ export const XyoHuriSchema: XyoHuriSchema = 'network.xyo.huri'
 
 export type XyoHuriPayload = XyoPayload<{
   schema: 'network.xyo.huri'
-  huri: string
+  huri: string[]
 }>

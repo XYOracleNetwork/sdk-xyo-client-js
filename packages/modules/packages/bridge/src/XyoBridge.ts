@@ -1,6 +1,7 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule } from '@xyo-network/module'
+import { XyoModule, XyoQuery } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -8,10 +9,7 @@ import { BridgeModule } from './Bridge'
 import { XyoBridgeConfig } from './Config'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
-export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfig, TQuery extends XyoBridgeQuery = XyoBridgeQuery>
-  extends XyoModule<TQuery, XyoPayload, TConfig>
-  implements BridgeModule<TQuery>
-{
+export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
   override queries() {
     return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries()]
   }
@@ -19,12 +17,15 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
 
-  abstract forward(query: TQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]>
+  abstract forward(query: XyoQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]>
 
-  override async query(query: TQuery) {
+  override async query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T) {
+    assertEx(this.queryable(query.schema, bw.addresses))
+
     const payloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
-    switch (query.schema) {
+    const typedQuery = query as XyoBridgeQuery
+    switch (typedQuery.schema) {
       case XyoBridgeConnectQuerySchema: {
         await this.connect()
         break
@@ -34,10 +35,10 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
         break
       }
       default:
-        if (super.queries().find((schema) => schema === query.schema)) {
-          return super.query(query)
+        if (super.queries().includes(query.schema)) {
+          return super.query(bw, query)
         } else {
-          return this.forward(query)
+          return this.forward(typedQuery)
         }
     }
     return this.bindPayloads(payloads, queryAccount)

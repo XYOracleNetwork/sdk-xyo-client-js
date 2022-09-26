@@ -1,4 +1,4 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoModuleWrapper } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
@@ -41,19 +41,22 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArch
     return (await this.module.query(query[0], query[1]))[1]
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
       payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
       schema: XyoArchivistInsertQuerySchema,
     })
-    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
-    return (await this.module.query(query[0], query[1]))[0]
+    const query = await this.bindQuery([queryPayload.payload, ...payloads], queryPayload.hash)
+    const result = await this.module.query(query[0], [queryPayload.payload, ...payloads])
+    const innerBoundWitnesses =
+      result[1]?.filter<XyoBoundWitness>((payload): payload is XyoBoundWitness => payload?.schema === XyoBoundWitnessSchema) ?? []
+    return [result[0], ...innerBoundWitnesses]
   }
 
   public async find(filter?: XyoPayloadFindFilter): Promise<(XyoPayload | null)[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistFindQuery>({ filter, schema: XyoArchivistFindQuerySchema })
-    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
-    return (await this.module.query(query[0], query[1]))[1]
+    const query = await this.bindQuery([queryPayload.payload], queryPayload.hash)
+    return (await this.module.query(query[0], [queryPayload.payload]))[1]
   }
 
   public async all(): Promise<(XyoPayload | null)[]> {

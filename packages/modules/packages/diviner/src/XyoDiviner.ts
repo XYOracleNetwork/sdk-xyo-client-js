@@ -16,7 +16,7 @@ import { DivinerModule } from './Diviner'
 import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 
 export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoModule<TConfig> implements DivinerModule {
-  abstract divine(query: string, payloads?: XyoPayloads): Promisable<XyoPayloads>
+  abstract divine(payloads?: XyoPayloads): Promisable<XyoPayloads>
 
   public override queries(): string[] {
     return [XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoDivinerDivineQuerySchema]
@@ -26,16 +26,16 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
     query: T,
     payloads?: XyoPayloads,
   ): Promise<ModuleQueryResult<XyoPayload>> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
     const typedQuery = wrapper.query
     assertEx(this.queryable(query.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()
 
     const resultPayloads: XyoPayloads = []
-    switch (typedQuery.schema) {
+    switch (typedQuery.schemaName) {
       case XyoDivinerDivineQuerySchema:
-        resultPayloads.push(...(await this.divine(query.query, payloads)))
+        resultPayloads.push(...(await this.divine(payloads)))
         break
       default:
         return super.query(query)

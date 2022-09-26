@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { QueryBoundWitnessWrapper, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { XyoWitnessConfig } from './Config'
@@ -29,9 +29,9 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
     return { ...fields, schema: this.targetSchema } as TTarget
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T) {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoWitnessQuery<TTarget>>(query)
-    const typedQuery = wrapper.query as XyoWitnessQuery<TTarget>
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayloads) {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoWitnessQuery<TTarget>>(query, payloads)
+    const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()

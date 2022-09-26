@@ -71,7 +71,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   public query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayloads): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
-    const typedQuery = wrapper.query
+    const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query.schema, wrapper.addresses))
 
     const resultPayloads: (XyoPayload | null)[] = []
@@ -94,7 +94,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
         break
       }
       default:
-        console.error(`Unsupported Query [${typedQuery.schema}]`)
+        console.error(`Unsupported Query [${query.schema}]`)
     }
 
     return this.bindResult(resultPayloads, queryAccount)

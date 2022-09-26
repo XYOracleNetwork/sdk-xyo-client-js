@@ -3,13 +3,14 @@
  */
 
 import { delay } from '@xylabs/delay'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
 import { XyoArchivist } from '../XyoArchivist'
 import { XyoArchivistWrapper } from '../XyoArchivistWrapper'
 
 export const testArchivistRoundTrip = (archivist: XyoArchivist, name: string) => {
-  test(`XyoArchivist [${name}]`, async () => {
+  test(`XyoArchivist RoundTrip [${name}]`, async () => {
     const idPayload: XyoPayload<{ salt: string }> = {
       salt: Date.now().toString(),
       schema: 'network.xyo.id',
@@ -18,9 +19,11 @@ export const testArchivistRoundTrip = (archivist: XyoArchivist, name: string) =>
 
     const archivistWrapper = new XyoArchivistWrapper(archivist)
     const insertResult = await archivistWrapper.insert([idPayload])
-    expect(insertResult).toBeDefined()
+    const insertResultWrappers = insertResult.map((bw) => new BoundWitnessWrapper(bw))
+    const insertResultPayload = insertResultWrappers.pop() as BoundWitnessWrapper
+    expect(insertResultPayload).toBeDefined()
 
-    expect(insertResult.payload_hashes.find((hash) => hash === payloadWrapper.hash)).toBeDefined()
+    expect(insertResultPayload.payloadHashes.find((hash) => hash === payloadWrapper.hash)).toBeDefined()
     const getResult = await archivistWrapper.get([payloadWrapper.hash])
     expect(getResult).toBeDefined()
     expect(getResult.length).toBe(1)
@@ -33,7 +36,7 @@ export const testArchivistRoundTrip = (archivist: XyoArchivist, name: string) =>
 }
 
 export const testArchivistAll = (archivist: XyoArchivist, name: string) => {
-  test(`XyoArchivist [${name}]`, async () => {
+  test(`XyoArchivist All [${name}]`, async () => {
     const idPayload = {
       salt: Date.now().toString(),
       schema: 'network.xyo.id',

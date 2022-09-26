@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
@@ -97,7 +97,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     try {
       payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
@@ -105,11 +105,14 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         this.cache.set(payloadWithMeta._hash, payloadWithMeta)
         return payloadWithMeta
       })
-      const [boundwitness] = await this.bindResult(payloads)
+
+      const result = await this.bindResult([...payloads])
+      const parentBoundWitnesses: XyoBoundWitness[] = []
       if (this.writeThrough) {
-        await this.writeToParents(payloads)
+        //we store the child bw also
+        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
       }
-      return boundwitness
+      return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('insert', ex, 'unexpected')

@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoDataLike } from '@xyo-network/core'
 import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import compact from 'lodash/compact'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 import { BoundWitnessValidator } from '../Validator'
@@ -11,9 +12,9 @@ export class BoundWitnessWrapper<
 > extends PayloadWrapper<TBoundWitness> {
   private isBoundWitnessWrapper = true
 
-  constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload>)[]) {
+  constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | null)[]) {
     super(boundwitness)
-    this.payloads = payloads
+    this.payloads = payloads ? compact(payloads) : undefined
   }
 
   protected _payloads: Record<string, PayloadWrapper<TPayload>> | undefined
@@ -58,7 +59,7 @@ export class BoundWitnessWrapper<
   }
 
   public payloadsBySchema(schema: string) {
-    return Object.values(this.payloads)?.filter((payload) => payload.schema === schema)
+    return Object.values(this.payloads)?.filter((payload) => payload.schemaName === schema)
   }
 
   override get errors() {

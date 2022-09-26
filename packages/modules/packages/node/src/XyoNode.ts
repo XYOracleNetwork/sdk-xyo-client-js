@@ -36,7 +36,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 
   override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayloads): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query)
-    const typedQuery = wrapper.query as XyoNodeQuery
+    const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()

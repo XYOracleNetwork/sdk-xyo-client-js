@@ -21,7 +21,7 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T) {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query)
-    const typedQuery = wrapper.query
+    const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const payloads: (XyoPayload | null)[] = []

@@ -13,7 +13,6 @@
     "@xylabs/assert": "^2.6.7",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",

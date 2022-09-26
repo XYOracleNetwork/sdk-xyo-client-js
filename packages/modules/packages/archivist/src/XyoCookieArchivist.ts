@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
@@ -113,7 +113,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     }
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     try {
       const storedPayloads: XyoPayload[] = payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
@@ -123,11 +123,13 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         Cookies.set(key, JSON.stringify(wrapper.payload))
         return wrapper.payload
       })
-      const [boundwitness] = await this.bindResult(storedPayloads)
+      const result = await this.bindResult([...storedPayloads])
+      const parentBoundWitnesses: XyoBoundWitness[] = []
       if (this.writeThrough) {
-        await this.writeToParents(storedPayloads)
+        //we store the child bw also
+        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...storedPayloads])))
       }
-      return boundwitness
+      return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new CookieArchivistError('insert', ex, 'unexpected')

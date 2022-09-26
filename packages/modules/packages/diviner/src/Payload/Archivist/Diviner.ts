@@ -25,18 +25,12 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  public async divine(context?: string, payloads?: XyoPayloads): Promise<XyoPayloads> {
+  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
       `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
-    const huriPayload = context
-      ? assertEx(
-          huriPayloads.find((payload) => PayloadWrapper.hash(payload) === context),
-          `context hash provided not found [${context}, ${JSON.stringify(payloads, null, 2)}]`,
-        )
-      : huriPayloads[0]
-    const hashes = huriPayload.huri.map((huri) => new Huri(huri).hash)
+    const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
     const activeArchivist = this.archivist
     if (activeArchivist) {
       const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })

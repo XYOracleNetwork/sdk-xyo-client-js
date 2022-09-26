@@ -16,7 +16,7 @@ export interface XyoPanelConfig {
 
 export class XyoPanel {
   public config: XyoPanelConfig
-  public history: XyoBoundWitness[] = []
+  public history: XyoPayload[] = []
   public archivists: XyoArchivistWrapper[]
   public account: XyoAccount
   constructor({ witnesses, ...config }: Partial<XyoPanelConfig>, archivist: PayloadArchivist | PayloadArchivist[]) {
@@ -60,7 +60,7 @@ export class XyoPanel {
     const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
     const newBoundWitness = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
-    const bwList = await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))
+    const bwList = (await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))).flat()
     this.history.push(...bwList)
     this.config.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
     return [bwList, [newBoundWitness, ...payloads]]

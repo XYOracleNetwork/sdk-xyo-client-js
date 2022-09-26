@@ -12,7 +12,8 @@ export class PayloadWrapper<T extends XyoPayload = XyoPayload> extends Hasher<T>
     return this.obj
   }
 
-  public get schema() {
+  //intentionally not naming this 'schema' so that the wrapper is not confused for a XyoPayload
+  public get schemaName() {
     return this.obj.schema
   }
 

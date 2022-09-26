@@ -3867,7 +3867,6 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    lodash: ^4.17.21
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -4227,7 +4226,6 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.6.7
     "@xyo-network/account": "workspace:^"
-    "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"

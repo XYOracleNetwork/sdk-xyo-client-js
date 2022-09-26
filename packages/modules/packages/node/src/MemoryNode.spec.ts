@@ -1,14 +1,6 @@
 /* eslint-disable max-statements */
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
-import {
-  DivinerModule,
-  XyoArchivistPayloadDiviner,
-  XyoDivinerDivineQuery,
-  XyoDivinerDivineQuerySchema,
-  XyoDivinerWrapper,
-  XyoHuriPayload,
-  XyoHuriSchema,
-} from '@xyo-network/diviner'
+import { DivinerModule, XyoArchivistPayloadDiviner, XyoDivinerWrapper, XyoHuriPayload, XyoHuriSchema } from '@xyo-network/diviner'
 import { XyoModule } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
 
@@ -45,13 +37,13 @@ test('Create Node', async () => {
   if (payloads && payloads[0]) {
     const huri = new PayloadWrapper(payloads[0]).hash
     const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
-    const divineQuery: XyoDivinerDivineQuery = { payloads: [huriPayload], schema: XyoDivinerDivineQuerySchema }
     const divinerModule = node.resolve(diviner.address) as DivinerModule
     const foundDiviner = divinerModule ? new XyoDivinerWrapper(divinerModule) : null
     expect(foundDiviner).toBeDefined()
     if (foundDiviner) {
       const foundDivinerWrapper = new XyoDivinerWrapper(foundDiviner)
-      const payloads = await foundDivinerWrapper.divine(PayloadWrapper.hash(divineQuery), [divineQuery])
+      const payloads = await foundDivinerWrapper.divine([huriPayload])
+      console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
       expect(payloads?.length).toBe(1)
       expect(payloads[0]).toBeDefined()
       if (payloads?.length === 1 && payloads[0]) {

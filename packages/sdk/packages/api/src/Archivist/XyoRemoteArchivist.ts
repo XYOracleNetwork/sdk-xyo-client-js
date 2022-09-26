@@ -40,7 +40,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     )
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     try {
       const boundWitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
       boundWitnesses.forEach((boundwitness) => {
@@ -63,7 +63,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       if (response?.error?.length) {
         throw new RemoteArchivistError('insert', response?.error)
       }
-      return boundwitness
+      return [boundwitness]
     } catch (ex) {
       console.error(ex)
       throw ex

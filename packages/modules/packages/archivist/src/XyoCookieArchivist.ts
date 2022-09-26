@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/sdk-js'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
 import compact from 'lodash/compact'

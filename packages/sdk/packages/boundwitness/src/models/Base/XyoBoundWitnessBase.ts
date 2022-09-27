@@ -8,6 +8,7 @@ export type XyoBoundWitnessBase = {
   payload_hashes: string[]
   payload_schemas: string[]
   previous_hashes: (string | null)[]
+  timestamp?: number
   _signatures: string[]
 }
 

@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import {
@@ -113,7 +113,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
         break
       }
       default:
-        return super.query(query)
+        return super.query(query, payloads)
     }
     return this.bindResult(resultPayloads, queryAccount)
   }

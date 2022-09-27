@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoDataLike } from '@xyo-network/core'
 import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'

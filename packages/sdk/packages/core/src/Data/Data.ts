@@ -1,6 +1,7 @@
 import { base16, base58 } from '@scure/base'
+import { assertEx } from '@xylabs/assert'
+import { BigNumber } from '@xylabs/bignumber'
 import { Buffer, bufferPolyfill } from '@xylabs/buffer'
-import { assertEx, BigNumber } from '@xylabs/sdk-js'
 import keccak256 from 'keccak256'
 
 import { XyoAbstractData } from './AbstractData'

@@ -1,5 +1,5 @@
 import { Wallet } from '@ethersproject/wallet'
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { uuid } from '@xyo-network/core'
 

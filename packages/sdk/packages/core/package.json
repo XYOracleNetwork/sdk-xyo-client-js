@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.1",
-    "@xylabs/buffer": "^2.6.7",
-    "@xylabs/sdk-js": "^2.6.7",
+    "@xylabs/assert": "^2.6.9",
+    "@xylabs/bignumber": "^2.6.9",
+    "@xylabs/buffer": "^2.6.9",
     "@xyo-network/typeof": "workspace:^",
     "axios": "^0.27.2",
     "keccak256": "^1.0.6",

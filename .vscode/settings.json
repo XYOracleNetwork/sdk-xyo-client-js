@@ -54,7 +54,12 @@
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
+    "bignumber",
+    "IERC",
     "Screenlogic",
-    "shajs"
+    "scure",
+    "shajs",
+    "typechain",
+    "userid"
   ]
 }

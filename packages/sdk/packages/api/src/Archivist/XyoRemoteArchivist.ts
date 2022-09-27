@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoArchivist, XyoArchivistFindQuerySchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'

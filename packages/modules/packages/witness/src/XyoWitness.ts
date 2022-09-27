@@ -42,7 +42,7 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
       }
 
       default: {
-        return super.query(query)
+        return super.query(query, payloads)
       }
     }
   }

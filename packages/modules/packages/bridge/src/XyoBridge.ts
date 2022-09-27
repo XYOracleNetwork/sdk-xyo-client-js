@@ -38,7 +38,7 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
       }
       default:
         if (super.queries().includes(typedQuery.schema)) {
-          return super.query(query)
+          return super.query(query, payloads)
         } else {
           return this.forward(typedQuery)
         }

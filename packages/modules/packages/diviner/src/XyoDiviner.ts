@@ -38,7 +38,7 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
         resultPayloads.push(...(await this.divine(payloads)))
         break
       default:
-        return super.query(query)
+        return super.query(query, payloads)
     }
     return await this.bindResult(resultPayloads, queryAccount)
   }

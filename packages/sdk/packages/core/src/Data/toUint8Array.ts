@@ -1,6 +1,7 @@
 import { base16, base58 } from '@scure/base'
+import { assertEx } from '@xylabs/assert'
+import { BigNumber } from '@xylabs/bignumber'
 import { Buffer } from '@xylabs/buffer'
-import { assertEx, BigNumber } from '@xylabs/sdk-js'
 import { ifTypeOf } from '@xyo-network/typeof'
 
 import { XyoAbstractData } from './AbstractData'

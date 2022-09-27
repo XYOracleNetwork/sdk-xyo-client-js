@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { deepOmitUnderscoreFields, Hasher, XyoDataLike } from '@xyo-network/core'
 
 import { Huri } from '../Huri'

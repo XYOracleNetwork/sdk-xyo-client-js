@@ -14,6 +14,9 @@ export class Debounce<TKey = string> {
     try {
       this.map.set(key, 1)
       return await closure()
+    } catch (ex) {
+      console.error(`Debounce closure threw: ${ex}`)
+      throw ex
     } finally {
       this.map.set(key, 0)
     }

@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoPayload } from '@xyo-network/payload'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 

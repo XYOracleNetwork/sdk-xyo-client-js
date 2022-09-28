@@ -1,13 +1,11 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayloads } from '@xyo-network/payload'
 
-import { XyoQuery } from './Query'
-
-export type XyoModuleQueryResult<T extends XyoPayload = XyoPayload> = [XyoBoundWitness, (T | null)[]]
+import { ModuleQueryResult } from './ModuleQueryResult'
+import { XyoQueryBoundWitness } from './Query'
 
 export interface Module {
   address: string
   queries(): string[]
   queryable: (schema: string, addresses?: string[]) => boolean
-  query: <T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T, payloads?: XyoPayload[]) => Promise<XyoModuleQueryResult>
+  query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayloads) => Promise<ModuleQueryResult>
 }

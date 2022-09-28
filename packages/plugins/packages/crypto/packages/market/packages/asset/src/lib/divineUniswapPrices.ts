@@ -1,4 +1,4 @@
-import { exists, PartialRecord } from '@xylabs/sdk-js'
+import { exists } from '@xylabs/exists'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoPair, XyoUniswapCryptoToken } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
@@ -44,7 +44,7 @@ const valuesFromTokenPairs = (tokensPairs: XyoUniswapCryptoToken[][], token: Tok
 }
 
 export const divineUniswapPrices = (uniswapPayload: XyoUniswapCryptoMarketPayload | undefined): XyoCryptoMarketAssetPayload => {
-  let assets: PartialRecord<Token, AssetInfo | undefined> = {}
+  let assets: Partial<Record<Token, AssetInfo | undefined>> = {}
   if (uniswapPayload) {
     const tokens: Set<Token> = new Set(tokensFromPairs(uniswapPayload.pairs))
     assets = Object.fromEntries(

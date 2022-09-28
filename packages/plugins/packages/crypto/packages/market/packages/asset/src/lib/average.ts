@@ -1,4 +1,4 @@
-import { exists } from '@xylabs/sdk-js'
+import { exists } from '@xylabs/exists'
 
 import { AssetInfo, Currency, Token } from '../Model'
 import { XyoCryptoMarketAssetPayload } from '../Payload'

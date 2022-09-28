@@ -1,6 +1,6 @@
 /* eslint-disable deprecation/deprecation */
 /* eslint-disable import/no-deprecated */
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessBuilder, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
 import { uuid } from '@xyo-network/core'

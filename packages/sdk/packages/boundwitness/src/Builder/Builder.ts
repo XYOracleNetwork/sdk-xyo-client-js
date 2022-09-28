@@ -1,24 +1,31 @@
+import { assertEx } from '@xylabs/assert'
 import { Buffer } from '@xylabs/buffer'
-import { assertEx } from '@xylabs/sdk-js'
 import { XyoAccount } from '@xyo-network/account'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
+import { BoundWitnessWrapper } from '../Wrapper'
 
 export interface BoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
   readonly inlinePayloads?: boolean
+  readonly timestamp?: boolean
+  readonly meta?: boolean
 }
 
 /** @deprecated use BoundWitnessBuilderConfig instead */
 export type XyoBoundWitnessBuilderConfig = BoundWitnessBuilderConfig
 
-export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoBoundWitness, TPayload extends XyoPayload = XyoPayload> {
+export class BoundWitnessBuilder<
+  TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
+  TPayload extends XyoPayload = XyoPayload,
+> {
   private _accounts: XyoAccount[] = []
   private _payload_schemas: string[] = []
   private _payloads: TPayload[] = []
   private _payloadHashes: string[] | undefined
+  private _timestamp = Date.now()
 
   constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }) {}
 
@@ -62,16 +69,21 @@ export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoBoun
   public hashableFields(): TBoundWitness {
     const addresses = this._accounts.map((account) => account.addressValue.hex)
     const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
-    return {
+    const result: TBoundWitness = {
       addresses: assertEx(addresses, 'Missing addresses'),
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
       previous_hashes,
       schema: XyoBoundWitnessSchema,
     } as TBoundWitness
+
+    if (this.config.timestamp ?? true) {
+      result.timestamp = this._timestamp
+    }
+    return result
   }
 
-  private signatures(_hash: string) {
+  protected signatures(_hash: string) {
     return this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
   }
 
@@ -86,15 +98,21 @@ export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness = XyoBoun
 
   public build(): TBoundWitness {
     const hashableFields = this.hashableFields()
-    const _hash = new Hasher(hashableFields).hash
+    const _hash = BoundWitnessWrapper.hash(hashableFields)
 
     const ret: TBoundWitness = {
       ...hashableFields,
-      _client: 'js',
-      _hash,
       _signatures: this.signatures(_hash),
-      _timestamp: Date.now(),
     }
+
+    if (this.config?.meta ?? true) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const bwWithMeta = ret as any
+      bwWithMeta._client = 'js'
+      bwWithMeta._hash = _hash
+      bwWithMeta._timestamp = this._timestamp
+    }
+
     if (this.config.inlinePayloads) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const anyRet = ret as any

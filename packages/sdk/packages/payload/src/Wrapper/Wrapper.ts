@@ -1,12 +1,20 @@
-import { deepOmitUnderscoreFields, deepPickUnderscoreFields, Hasher, XyoDataLike } from '@xyo-network/core'
+import { assertEx } from '@xylabs/assert'
+import { deepOmitUnderscoreFields, Hasher, XyoDataLike } from '@xyo-network/core'
 
 import { Huri } from '../Huri'
 import { XyoPayload } from '../models'
 import { PayloadValidator } from '../Validator'
 
 export class PayloadWrapper<T extends XyoPayload = XyoPayload> extends Hasher<T> {
+  private isPayloadWrapper = true
+
   public get payload() {
     return this.obj
+  }
+
+  //intentionally not naming this 'schema' so that the wrapper is not confused for a XyoPayload
+  public get schemaName() {
+    return this.obj.schema
   }
 
   public get body() {
@@ -21,16 +29,22 @@ export class PayloadWrapper<T extends XyoPayload = XyoPayload> extends Hasher<T>
     return new PayloadValidator(this.payload).validate()
   }
 
-  /** @deprecated - meta fields not supported by client anymore */
-  public get meta() {
-    return deepPickUnderscoreFields<T>(this.obj)
-  }
-
   public static async load(address: XyoDataLike | Huri) {
     const payload = await new Huri(address).fetch()
     if (payload) {
       return new PayloadWrapper(payload)
     }
+  }
+
+  public static parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
+    assertEx(!Array.isArray(obj), 'Array can not be converted to PayloadWrapper')
+    switch (typeof obj) {
+      case 'object': {
+        const castWrapper = obj as PayloadWrapper<T>
+        return castWrapper?.isPayloadWrapper ? castWrapper : new PayloadWrapper(obj as T)
+      }
+    }
+    throw Error(`Unable to parse [${typeof obj}]`)
   }
 }
 

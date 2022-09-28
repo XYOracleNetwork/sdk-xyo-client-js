@@ -1,13 +1,17 @@
-import { XyoModuleWrapper } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoModuleWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
-import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
+import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Queries'
 import { Witness } from './Witness'
 
 export class XyoWitnessWrapper extends XyoModuleWrapper implements Witness {
   async observe(payload?: Partial<XyoPayload> | undefined): Promise<XyoPayload | null> {
-    const query: XyoWitnessQuery = { payload, schema: XyoWitnessObserveQuerySchema }
-    const bw = (await this.bindPayloads([query]))[0]
-    return (await this.module.query(bw, query))[1][0]
+    const queryPayload = PayloadWrapper.parse<XyoWitnessObserveQuery>({ payload, schema: XyoWitnessObserveQuerySchema })
+    const queryResult = await this.bindQuery([queryPayload.payload], queryPayload.hash)
+    const queryBoundWitness: XyoQueryBoundWitness = queryResult[0]
+    console.log(`queryBoundWitness: ${JSON.stringify(queryBoundWitness, null, 2)}`)
+    console.log(`queryPayload-hash: ${queryPayload.hash}`)
+    console.log(`queryResult: ${JSON.stringify(queryResult, null, 2)}`)
+    return (await this.module.query(queryBoundWitness, [queryPayload.payload]))[1][0]
   }
 }

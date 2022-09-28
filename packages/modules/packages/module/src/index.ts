@@ -1,5 +1,6 @@
 export * from './Config'
 export * from './Module'
+export * from './ModuleQueryResult'
 export * from './PartialConfig'
 export * from './Queries'
 export * from './Query'

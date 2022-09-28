@@ -1,6 +1,6 @@
 import { XyoPentairScreenlogicWitness } from './Witness'
 
-describe('XyoPentairScreenLopgicWitness', () => {
+describe('XyoPentairScreenLogicWitness', () => {
   test('Witnessing', async () => {
     const witness = new XyoPentairScreenlogicWitness()
     witness.initialize()

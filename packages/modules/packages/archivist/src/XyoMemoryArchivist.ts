@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
@@ -97,19 +97,22 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     }
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     try {
       payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
-        const payloadWithmeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
-        this.cache.set(payloadWithmeta._hash, payloadWithmeta)
-        return payloadWithmeta
+        const payloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+        this.cache.set(payloadWithMeta._hash, payloadWithMeta)
+        return payloadWithMeta
       })
-      const [boundwitness] = await this.bindPayloads(payloads)
+
+      const result = await this.bindResult([...payloads])
+      const parentBoundWitnesses: XyoBoundWitness[] = []
       if (this.writeThrough) {
-        await this.writeToParents(payloads)
+        //we store the child bw also
+        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
       }
-      return boundwitness
+      return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw new MemoryArchivistError('insert', ex, 'unexpected')
@@ -146,19 +149,19 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       const settled = await Promise.allSettled(
         compact(
           Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
-            const query: XyoArchivistInsertQuery = {
+            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
               schema: XyoArchivistInsertQuerySchema,
-            }
-            const bw = (await this.bindPayloads([query]))[0]
-            return await parent?.query(bw, query)
+            })
+            const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+            return (await parent?.query(query[0], query[1]))?.[0]
           }),
         ),
       )
       await this.clear()
       return compact(
         settled.map((result) => {
-          return result.status === 'fulfilled' ? result.value?.[0] : null
+          return result.status === 'fulfilled' ? result.value : null
         }),
       )
     } catch (ex) {

@@ -19,8 +19,8 @@ test('XyoRemoteArchivist', async () => {
     salt: `${Math.random() * 10000}`,
     schema: 'network.xyo.id',
   }
-  const result = await archivist.insert([payload])
-  expect(result.payload_hashes.length).toBe(1)
+  const result = (await archivist.insert([payload])).pop()
+  expect(result?.payload_hashes.length).toBe(1)
   const getResult = await archivist.get([new PayloadWrapper(payload).hash])
   console.log(`getResult: ${JSON.stringify(getResult)}`)
   expect(getResult.length).toBe(1)

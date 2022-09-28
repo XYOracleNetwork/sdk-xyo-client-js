@@ -1,16 +1,8 @@
 /* eslint-disable max-statements */
-import { XyoArchivistAllQuery, XyoArchivistAllQuerySchema, XyoArchivistInsertQuery, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
-import {
-  DivinerModule,
-  XyoArchivistPayloadDiviner,
-  XyoDivinerDivineQuery,
-  XyoDivinerDivineQuerySchema,
-  XyoDivinerWrapper,
-  XyoHuriPayload,
-  XyoHuriSchema,
-} from '@xyo-network/diviner'
+import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { DivinerModule, XyoArchivistPayloadDiviner, XyoDivinerWrapper, XyoHuriPayload, XyoHuriSchema } from '@xyo-network/diviner'
 import { XyoModule } from '@xyo-network/module'
-import { BoundWitnessBuilder, PayloadWrapper, XyoAccount, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
+import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
 
 import { MemoryNode } from './MemoryNode'
 import { NodeModule } from './NodeModule'
@@ -33,28 +25,25 @@ test('Create Node', async () => {
     .fields({ test: true })
     .build()
 
-  const insertQuery: XyoArchivistInsertQuery = { payloads: [PayloadWrapper.hash(testPayload)], schema: XyoArchivistInsertQuerySchema }
-  const insertQueryBoundwitness = new BoundWitnessBuilder().payload(insertQuery).witness(new XyoAccount()).build()
-  await foundArchivist?.query(insertQueryBoundwitness, insertQuery, [testPayload])
+  const foundArchivistWrapper = foundArchivist ? new XyoArchivistWrapper(foundArchivist) : undefined
+  await foundArchivistWrapper?.insert([testPayload])
 
   /*const subscribeQuery: XyoModuleSubscribeQuery = { payloads: [testPayload], schema: XyoModuleSubscribeQuerySchema }
   await foundArchivist?.query(subscribeQuery)*/
 
-  const allQuery: XyoArchivistAllQuery = { schema: XyoArchivistAllQuerySchema }
-  const allQueryBoundwitness = new BoundWitnessBuilder().payload(allQuery).witness(new XyoAccount()).build()
-  const [, payloads] = (await foundArchivist?.query(allQueryBoundwitness, allQuery)) ?? []
+  const payloads = await foundArchivistWrapper?.all()
   expect(payloads?.length).toBe(1)
 
   if (payloads && payloads[0]) {
     const huri = new PayloadWrapper(payloads[0]).hash
     const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
-    const divineQuery: XyoDivinerDivineQuery = { payloads: [huriPayload], schema: XyoDivinerDivineQuerySchema }
-    const divineQueryBoundwitness = new BoundWitnessBuilder().payload(divineQuery).witness(new XyoAccount()).build()
     const divinerModule = node.resolve(diviner.address) as DivinerModule
     const foundDiviner = divinerModule ? new XyoDivinerWrapper(divinerModule) : null
     expect(foundDiviner).toBeDefined()
     if (foundDiviner) {
-      const [, payloads] = await foundDiviner.query(divineQueryBoundwitness, divineQuery)
+      const foundDivinerWrapper = new XyoDivinerWrapper(foundDiviner)
+      const payloads = await foundDivinerWrapper.divine([huriPayload])
+      console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
       expect(payloads?.length).toBe(1)
       expect(payloads[0]).toBeDefined()
       if (payloads?.length === 1 && payloads[0]) {

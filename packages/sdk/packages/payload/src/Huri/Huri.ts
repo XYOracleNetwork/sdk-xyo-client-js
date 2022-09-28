@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoAddressValue } from '@xyo-network/account'
 import { XyoDataLike } from '@xyo-network/core'
 import axios from 'axios'

@@ -1,4 +1,4 @@
-import { delay } from '@xylabs/sdk-js'
+import { delay } from '@xylabs/delay'
 import { XyoAccount } from '@xyo-network/account'
 import shajs from 'sha.js'
 

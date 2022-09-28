@@ -1,4 +1,3 @@
-import { PartialRecord } from '@xylabs/sdk-js'
 import axios from 'axios'
 
 import { AssetSymbol } from './AssetSymbol'
@@ -6,7 +5,7 @@ import { coingeckoCoinToAssetMap } from './coinGeckoCoinToAssetMap'
 import { XyoCryptoAsset } from './XyoCryptoAsset'
 import { XyoCryptoAssetPrices } from './XyoCryptoAssets'
 
-type CoinGeckoSimplePrice = PartialRecord<AssetSymbol, number>
+type CoinGeckoSimplePrice = Partial<Record<AssetSymbol, number>>
 type CoinGeckoSimplePrices = Record<string, CoinGeckoSimplePrice>
 
 export const pricesFromCoingecko = async (coins: XyoCryptoAsset[], currencies: XyoCryptoAsset[]) => {

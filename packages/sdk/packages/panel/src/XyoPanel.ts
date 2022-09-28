@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { PayloadArchivist, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
@@ -16,7 +17,7 @@ export interface XyoPanelConfig {
 
 export class XyoPanel {
   public config: XyoPanelConfig
-  public history: XyoBoundWitness[] = []
+  public history: XyoPayload[] = []
   public archivists: XyoArchivistWrapper[]
   public account: XyoAccount
   constructor({ witnesses, ...config }: Partial<XyoPanelConfig>, archivist: PayloadArchivist | PayloadArchivist[]) {
@@ -60,8 +61,8 @@ export class XyoPanel {
     const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
     const newBoundWitness = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
-    const bwList = await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))
-    this.history.push(...bwList)
+    const bwList = (await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))).flat()
+    this.history.push(assertEx(bwList.at(-1)))
     this.config.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
     return [bwList, [newBoundWitness, ...payloads]]
   }

@@ -1,4 +1,4 @@
-import { BigNumber } from '@xylabs/sdk-js'
+import { BigNumber } from '@xylabs/bignumber'
 
 import { XyoAbstractData } from './AbstractData'
 

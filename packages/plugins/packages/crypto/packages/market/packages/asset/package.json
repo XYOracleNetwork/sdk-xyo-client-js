@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.7",
+    "@xylabs/exists": "^2.6.9",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/module": "workspace:^",
@@ -53,5 +53,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.35.0"
+  "version": "2.36.0-rc.2",
+  "stableVersion": "2.35.0"
 }

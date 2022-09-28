@@ -1,6 +1,4 @@
-import { XyoAccount } from '@xyo-network/account'
-import { BoundWitnessBuilder, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner'
+import { XyoDivinerWrapper } from '@xyo-network/diviner'
 
 import { XyoCryptoMarketAssetDiviner } from './Diviner'
 import { XyoCryptoMarketAssetPayload } from './Payload'
@@ -13,18 +11,11 @@ const uniswapPayload = sampleUniswapPayload
 describe('Diviner', () => {
   test('returns observation', async () => {
     const sut = new XyoCryptoMarketAssetDiviner()
-    const query: XyoDivinerQuery = {
-      payloads: [coinGeckoPayload, uniswapPayload],
-      schema: XyoDivinerDivineQuerySchema,
-    }
-    const queryBoundwitness = new BoundWitnessBuilder().payload(query).witness(new XyoAccount()).build()
-    const result = await sut.query(queryBoundwitness, query)
-    expect(result).toBeArray()
-    expect(result.length).toBe(2)
-    const bw = result[0]
-    expect(bw.schema).toBe(XyoBoundWitnessSchema)
-    const payloads = result[1]
+    const wrapper = new XyoDivinerWrapper(sut)
+
+    const payloads = await wrapper.divine([coinGeckoPayload, uniswapPayload])
     expect(payloads).toBeArray()
+    expect(payloads.length).toBe(1)
     payloads.map((payload) => {
       if (payload?.schema === XyoCryptoMarketAssetSchema) {
         const assetPayload = payload as XyoCryptoMarketAssetPayload

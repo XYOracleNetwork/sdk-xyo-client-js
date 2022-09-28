@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule, XyoModuleQueryResult, XyoQuery } from '@xyo-network/module'
+import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import { AxiosError, AxiosRequestHeaders } from 'axios'
@@ -10,7 +10,7 @@ import { AxiosJson, AxiosJsonRequestConfig } from './AxiosJson'
 import { BridgeModule } from './Bridge'
 import { XyoBridgeConfig } from './Config'
 import { PartialBridgeConfig } from './PartialConfig'
-import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema } from './Queries'
+import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
 export type XyoHttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
 export const XyoHttpBridgeConfigSchema: XyoHttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
@@ -49,9 +49,9 @@ export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements Bri
     return true
   }
 
-  protected async forward(query: XyoQuery): Promise<[XyoBoundWitness, XyoPayloads]> {
+  protected async forward(query: XyoQuery, _payloads?: XyoPayloads): Promise<[XyoBoundWitness, XyoPayloads]> {
     try {
-      const boundQuery = this.bindPayloads([query])
+      const boundQuery = this.bindQuery([query])
       const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(`${this.nodeUri}/${this.address}`, [boundQuery, ...[query]])
       return result.data
     } catch (ex) {
@@ -62,11 +62,13 @@ export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements Bri
     }
   }
 
-  override async query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T): Promise<XyoModuleQueryResult> {
-    assertEx(this.queryable(query.schema, bw.addresses))
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayloads): Promise<ModuleQueryResult> {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
+    const typedQuery = wrapper.query.payload
+    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
     const queryAccount = new XyoAccount()
-    const payloads: (XyoPayload | null)[] = []
-    switch (query.schema) {
+    const resultPayloads: (XyoPayload | null)[] = []
+    switch (typedQuery.schema) {
       case XyoBridgeConnectQuerySchema: {
         await this.connect()
         break
@@ -76,12 +78,12 @@ export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements Bri
         break
       }
       default:
-        if (super.queries().find((schema) => schema === query.schema)) {
-          return super.query(bw, query)
+        if (super.queries().find((schema) => schema === typedQuery.schema)) {
+          return super.query(query, payloads)
         } else {
-          return this.forward(query)
+          return this.forward(query, payloads)
         }
     }
-    return this.bindPayloads(payloads, queryAccount)
+    return this.bindResult(resultPayloads, queryAccount)
   }
 }

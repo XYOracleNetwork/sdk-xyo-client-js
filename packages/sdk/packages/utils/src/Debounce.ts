@@ -1,4 +1,4 @@
-import { delay } from '@xylabs/sdk-js'
+import { delay } from '@xylabs/delay'
 
 export class Debounce<TKey = string> {
   private map = new Map<TKey, number>()
@@ -8,12 +8,15 @@ export class Debounce<TKey = string> {
     while (this.map.get(key)) {
       await delay(100)
       if (Date.now() - startTime > timeout) {
-        throw Error(`Debounce timedout [${key}]`)
+        throw Error(`Debounce timed out [${key}]`)
       }
     }
     try {
       this.map.set(key, 1)
       return await closure()
+    } catch (ex) {
+      console.error(`Debounce closure threw: ${ex}`)
+      throw ex
     } finally {
       this.map.set(key, 0)
     }

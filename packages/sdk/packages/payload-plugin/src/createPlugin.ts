@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoDivinerConfig } from '@xyo-network/diviner'
 import { PayloadValidator, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { XyoWitnessConfig } from '@xyo-network/witness'

@@ -1,6 +1,6 @@
-import { ApiConfig } from '@xylabs/sdk-js'
 import axios, { AxiosRequestConfig } from 'axios'
 
+import { ApiConfig } from './ApiConfig'
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer'
 import { GetLocationQueryResponse } from './models'
 import { LocationQueryCreationResponse, SupportedLocationQueryCreationRequest } from './Queries'

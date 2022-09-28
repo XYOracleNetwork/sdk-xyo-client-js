@@ -1,4 +1,3 @@
-import { PartialRecord } from '@xylabs/sdk-js'
 import { XyoCoingeckoCryptoMarketPayload } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
@@ -8,7 +7,7 @@ import { XyoCryptoMarketAssetSchema } from '../Schema'
 
 const schema = XyoCryptoMarketAssetSchema
 
-const valuationExists = (value: [string, PartialRecord<string, number> | undefined]): value is [string, PartialRecord<string, number>] => {
+const valuationExists = (value: [string, Partial<Record<string, number>> | undefined]): value is [string, Partial<Record<string, number>>] => {
   return !!value[1]
 }
 

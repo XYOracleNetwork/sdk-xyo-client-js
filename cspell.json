@@ -13,6 +13,7 @@
     "codeclimate",
     "cryptomarket",
     "ethersproject",
+    "hashable",
     "Hasher",
     "huri",
     "keccak",

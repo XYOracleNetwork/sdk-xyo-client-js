@@ -1,4 +1,5 @@
-import { assertEx, delay } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 

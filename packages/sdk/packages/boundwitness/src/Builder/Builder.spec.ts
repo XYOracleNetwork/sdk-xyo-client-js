@@ -42,7 +42,7 @@ describe('BoundWitnessBuilder', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', (payload) => {
         const address = XyoAccount.fromPhrase('test1')
-        let builder = new BoundWitnessBuilder()
+        let builder = new BoundWitnessBuilder({ timestamp: false })
         expect(builder).toBeDefined()
         builder = builder.witness(address)
         expect(builder).toBeDefined()

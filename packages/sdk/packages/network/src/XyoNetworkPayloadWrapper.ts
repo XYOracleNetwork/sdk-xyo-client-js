@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { knownNetworks } from './knownNetworks'

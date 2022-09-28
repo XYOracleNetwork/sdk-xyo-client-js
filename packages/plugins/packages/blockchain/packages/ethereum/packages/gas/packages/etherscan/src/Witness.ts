@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { PartialWitnessConfig, XyoTimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherscanWitnessConfig } from './Config'

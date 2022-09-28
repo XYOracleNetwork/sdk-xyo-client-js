@@ -10,7 +10,7 @@ const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array l
   return a.length != b.length ? [Error(`${message} []`)] : []
 }
 
-export class BoundWitnessValidator<T extends XyoBoundWitness = XyoBoundWitness> extends PayloadValidator<T> {
+export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness> extends PayloadValidator<T> {
   public get hash() {
     return new Hasher(this.obj).hash
   }

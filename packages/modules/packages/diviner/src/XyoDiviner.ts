@@ -1,7 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule, XyoModuleInitializeQuerySchema, XyoModuleQueryResult, XyoModuleShutdownQuerySchema, XyoQuery } from '@xyo-network/module'
+import {
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoModule,
+  XyoModuleInitializeQuerySchema,
+  XyoModuleShutdownQuerySchema,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -10,30 +16,31 @@ import { DivinerModule } from './Diviner'
 import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 
 export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoModule<TConfig> implements DivinerModule {
-  abstract divine(context?: string, data?: XyoPayloads): Promisable<XyoPayloads>
+  abstract divine(payloads?: XyoPayloads): Promisable<XyoPayloads>
 
   public override queries(): string[] {
     return [XyoModuleInitializeQuerySchema, XyoModuleShutdownQuerySchema, XyoDivinerDivineQuerySchema]
   }
 
-  override async query<T extends XyoQuery = XyoQuery>(bw: XyoBoundWitness, query: T): Promise<XyoModuleQueryResult<XyoPayload>> {
-    assertEx(this.queryable(query.schema, bw.addresses))
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
+    query: T,
+    payloads?: XyoPayloads,
+  ): Promise<ModuleQueryResult<XyoPayload>> {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
+    const typedQuery = wrapper.query
+    assertEx(this.queryable(query.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()
-    if (!this.queries().find((schema) => schema === query.schema)) {
-      console.error(`Undeclared Module Query: ${query.schema}`)
-    }
 
-    const payloads: XyoPayloads = []
-    const typedQuery = query as XyoDivinerQuery
-    switch (typedQuery.schema) {
+    const resultPayloads: XyoPayloads = []
+    switch (typedQuery.schemaName) {
       case XyoDivinerDivineQuerySchema:
-        payloads.push(...(await this.divine(typedQuery.context, typedQuery.payloads)))
+        resultPayloads.push(...(await this.divine(payloads)))
         break
       default:
-        return super.query(bw, typedQuery)
+        return super.query(query, payloads)
     }
-    return await this.bindPayloads(payloads, queryAccount)
+    return await this.bindResult(resultPayloads, queryAccount)
   }
 }
 

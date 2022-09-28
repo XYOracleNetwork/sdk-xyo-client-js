@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { XyoArchivist, XyoArchivistFindQuerySchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
@@ -40,10 +40,10 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     )
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness> {
+  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     try {
-      const boundwitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
-      boundwitnesses.forEach((boundwitness) => {
+      const boundWitnesses = payloads.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
+      boundWitnesses.forEach((boundwitness) => {
         // doing this here to prevent breaking code (for now)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const anyBoundwitness: any = boundwitness
@@ -53,7 +53,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
             return boundwitness.payload_hashes.includes(hash)
           })
       })
-      const [boundwitness] = await this.bindPayloads(payloads)
+      const [boundwitness] = await this.bindResult(payloads)
       const bwWithMeta = { ...boundwitness, _payloads: payloads } as XyoBoundWitness
       const bwResult = await this.api.archive(this.archive).block.post([bwWithMeta], 'tuple')
       const [, response, error] = bwResult
@@ -63,7 +63,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       if (response?.error?.length) {
         throw new RemoteArchivistError('insert', response?.error)
       }
-      return boundwitness
+      return [boundwitness]
     } catch (ex) {
       console.error(ex)
       throw ex

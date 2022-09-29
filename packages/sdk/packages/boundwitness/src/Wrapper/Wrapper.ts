@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoDataLike } from '@xyo-network/core'
-import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { Huri, PayloadWrapper, PayloadWrapperBase, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
@@ -9,7 +9,7 @@ import { BoundWitnessValidator } from '../Validator'
 export class BoundWitnessWrapper<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
   TPayload extends XyoPayload = XyoPayload,
-> extends PayloadWrapper<TBoundWitness> {
+> extends PayloadWrapperBase<TBoundWitness> {
   private isBoundWitnessWrapper = true
 
   constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | null)[]) {
@@ -94,12 +94,11 @@ export class BoundWitnessWrapper<
   public static override async load(address: XyoDataLike | Huri) {
     const payload = await new Huri(address).fetch()
     assertEx(payload?.schema === XyoBoundWitnessSchema, 'Attempt to load non-boundwitness')
-    if (payload) {
-      return new BoundWitnessWrapper(payload as XyoBoundWitness)
-    }
+
+    return payload ? new BoundWitnessWrapper(payload as XyoBoundWitness) : null
   }
 
-  public static parseBoundWitness<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
+  public static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
     obj: unknown,
   ): BoundWitnessWrapper<T, P> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to BoundWitnessWrapper')

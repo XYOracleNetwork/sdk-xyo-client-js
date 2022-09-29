@@ -13,8 +13,8 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
-    "@xyo-network/module": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21",
@@ -57,5 +57,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.1"
+  "version": "2.36.2"
 }

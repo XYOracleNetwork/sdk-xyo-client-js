@@ -133,7 +133,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
       await Promise.all(
         Object.values(this.parents?.read ?? {}).map(async (parent) => {
           const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes: [hash], schema: XyoArchivistGetQuerySchema })
-          const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+          const query = await this.bindQuery(queryPayload)
           const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
           const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
           if (wrapper && wrapper.hash !== hash) {
@@ -151,7 +151,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
       payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
       schema: XyoArchivistInsertQuerySchema,
     })
-    const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+    const query = await this.bindQuery(queryPayload)
     const result = (await parent?.query(query[0], query[1])) ?? []
     return result[0]
   }

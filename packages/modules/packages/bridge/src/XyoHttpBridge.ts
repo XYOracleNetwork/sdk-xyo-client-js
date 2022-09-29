@@ -49,9 +49,9 @@ export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements Bri
     return true
   }
 
-  protected async forward(query: XyoQuery, _payloads?: XyoPayloads): Promise<[XyoBoundWitness, XyoPayloads]> {
+  protected async forward(query: XyoQuery, payloads?: XyoPayloads): Promise<[XyoBoundWitness, XyoPayloads]> {
     try {
-      const boundQuery = this.bindQuery([query])
+      const boundQuery = this.bindQuery(query, payloads)
       const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(`${this.nodeUri}/${this.address}`, [boundQuery, ...[query]])
       return result.data
     } catch (ex) {

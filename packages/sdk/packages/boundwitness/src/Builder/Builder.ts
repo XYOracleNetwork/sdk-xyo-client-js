@@ -43,8 +43,8 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  public payloads(payloads: (TPayload | null)[]) {
-    payloads.forEach((payload) => {
+  public payloads(payloads?: (TPayload | null)[]) {
+    payloads?.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)
       }
@@ -96,7 +96,7 @@ export class BoundWitnessBuilder<
     })
   }
 
-  public build(): TBoundWitness {
+  public build(): [TBoundWitness, TPayload[]] {
     const hashableFields = this.hashableFields()
     const _hash = BoundWitnessWrapper.hash(hashableFields)
 
@@ -119,7 +119,7 @@ export class BoundWitnessBuilder<
       //leaving this in here to prevent breaking code (for now)
       anyRet._payloads = this.inlinePayloads()
     }
-    return ret
+    return [ret, this._payloads]
   }
 }
 

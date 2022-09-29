@@ -49,7 +49,7 @@ describe('BoundWitnessBuilder', () => {
         builder = builder.payload(payload)
         expect(builder).toBeDefined()
 
-        const actual = builder.build()
+        const [actual] = builder.build()
 
         expect(actual).toBeDefined()
         expect(Hasher.hash(actual)).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')
@@ -67,7 +67,7 @@ describe('BoundWitnessBuilder', () => {
         const address = XyoAccount.fromPhrase('test2')
         const builder = new BoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
 
-        const actual = builder.build()
+        const [actual] = builder.build()
 
         expect(actual).toBeDefined()
       })
@@ -77,7 +77,7 @@ describe('BoundWitnessBuilder', () => {
         const address = XyoAccount.fromPhrase('test3')
         const builder = new BoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
 
-        const actual = builder.build()
+        const [actual] = builder.build()
 
         expect(actual).toBeDefined()
       })

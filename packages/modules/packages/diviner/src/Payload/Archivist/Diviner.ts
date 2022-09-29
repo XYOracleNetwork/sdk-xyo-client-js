@@ -34,7 +34,7 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     const activeArchivist = this.archivist
     if (activeArchivist) {
       const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
-      const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+      const query = await this.bindQuery(queryPayload)
       return (await activeArchivist.query(query[0], query[1]))[1]
     }
     return []

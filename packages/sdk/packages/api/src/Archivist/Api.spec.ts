@@ -17,7 +17,7 @@ describe('postBoundWitness', () => {
   it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
     const builder = new BoundWitnessBuilder({ inlinePayloads }).witness(XyoAccount.random()).payload(testPayload)
     const api = new XyoArchivistApi(configData)
-    const boundWitness: XyoBoundWitness = builder.build()
+    const [boundWitness] = builder.build()
     try {
       const response = await api.archives.archive().block.post([boundWitness])
 
@@ -34,7 +34,7 @@ describe('postBoundWitnesses', () => {
   it.each([true, false])('posts multiple bound witnesses', async (inlinePayloads) => {
     const builder = new BoundWitnessBuilder({ inlinePayloads }).witness(XyoAccount.random()).payload(testPayload)
     const api = new XyoArchivistApi(configData)
-    const json = builder.build()
+    const [json] = builder.build()
     const boundWitnesses: XyoBoundWitness[] = [json, json]
 
     //TODO: We are casting the result here since the server has not yet been updated to return the actual saved data
@@ -172,7 +172,7 @@ describe.skip('XyoArchivistApi', () => {
       let api = new XyoArchivistApi(configData)
       try {
         api = new XyoArchivistApi({ ...configData })
-        const boundWitness = new BoundWitnessBuilder().witness(XyoAccount.random()).build()
+        const [boundWitness] = new BoundWitnessBuilder().witness(XyoAccount.random()).build()
         await api.archives.archive().block.post([boundWitness])
         const timestamp = Date.now() + 10000
         // eslint-disable-next-line deprecation/deprecation
@@ -192,7 +192,7 @@ describe.skip('XyoArchivistApi', () => {
       try {
         const archive = await getNewArchive(api)
         api = new XyoArchivistApi({ ...configData })
-        const boundWitness = new BoundWitnessBuilder().witness(XyoAccount.random()).build()
+        const [boundWitness] = new BoundWitnessBuilder().witness(XyoAccount.random()).build()
         await api.archives.archive(archive).block.post([boundWitness])
         const timestamp = Date.now() - 10000
         const response = await api.archives.archive(archive).block.find({ order: 'asc', timestamp })

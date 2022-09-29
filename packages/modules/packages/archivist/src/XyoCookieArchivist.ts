@@ -173,7 +173,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
               schema: XyoArchivistInsertQuerySchema,
             })
-            const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+            const query = await this.bindQuery(queryPayload)
             return (await parent?.query(query[0], query[1]))?.[0]
           }),
         ),

@@ -59,7 +59,7 @@ export class XyoPanel {
     this.config.onReportStart?.()
     const allWitnesses: XyoWitness<XyoPayload>[] = [...adhocWitnesses, ...this.config.witnesses]
     const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
-    const newBoundWitness = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
+    const [newBoundWitness] = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
     const bwList = (await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))).flat()
     this.history.push(assertEx(bwList.at(-1)))

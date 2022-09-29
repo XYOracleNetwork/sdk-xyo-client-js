@@ -70,8 +70,8 @@ export class XyoArchivistNodeApi<
    */
   public async perform<T extends Partial<XyoPayload>>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
     const payload = new XyoPayloadBuilder({ schema }).fields(data).build()
-    const query = new BoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build() as D
-    const result = await this.performTransaction(query, timeout, retryInterval)
+    const [query] = new BoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build()
+    const result = await this.performTransaction(query as D, timeout, retryInterval)
     return result?.[0]?.[0]
   }
 }

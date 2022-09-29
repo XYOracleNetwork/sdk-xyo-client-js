@@ -24,7 +24,7 @@ describe('XyoArchivistArchiveSchemaApi', () => {
   let archive = ''
   beforeAll(async () => {
     archive = await getNewArchive(api)
-    const boundWitness = new BoundWitnessBuilder({ inlinePayloads: true }).witness(XyoAccount.random()).payload(payload).build()
+    const [boundWitness] = new BoundWitnessBuilder({ inlinePayloads: true }).witness(XyoAccount.random()).payload(payload).build()
     await api.archives.archive(archive).block.post([boundWitness])
   })
   describe('get', () => {

@@ -27,6 +27,10 @@ describe('DomainPayloadWrapper', () => {
     expect(wrapper?.aliases?.length).toBe(3)
     expect(wrapper?.aliases?.[0].huri).toBeDefined()
   })
+  test('Valid-domain-no-file', async () => {
+    const wrapper = await XyoDomainPayloadWrapper.discoverRootFileDirect('com.cnn')
+    expect(wrapper).toBe(undefined)
+  })
   test('InValid', async () => {
     const wrapper = await XyoDomainPayloadWrapper.discover('blahblah.blahblah.blahblah')
     expect(wrapper).toBe(undefined)

@@ -7,7 +7,7 @@ import { Witness } from './Witness'
 export class XyoWitnessWrapper extends XyoModuleWrapper implements Witness {
   async observe(payload?: Partial<XyoPayload> | undefined): Promise<XyoPayload | null> {
     const queryPayload = PayloadWrapper.parse<XyoWitnessObserveQuery>({ payload, schema: XyoWitnessObserveQuerySchema })
-    const queryResult = await this.bindQuery([queryPayload.payload], queryPayload.hash)
+    const queryResult = await this.bindQuery(queryPayload)
     const queryBoundWitness: XyoQueryBoundWitness = queryResult[0]
     console.log(`queryBoundWitness: ${JSON.stringify(queryBoundWitness, null, 2)}`)
     console.log(`queryPayload-hash: ${queryPayload.hash}`)

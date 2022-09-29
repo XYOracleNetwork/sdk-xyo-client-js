@@ -3584,12 +3584,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/cryptomarket-witness@workspace:packages/sdk/packages/cryptomarket-witness":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/cryptomarket-witness@workspace:packages/sdk/packages/cryptomarket-witness"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/diviner@workspace:^, @xyo-network/diviner@workspace:packages/modules/packages/diviner":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/modules/packages/diviner"
@@ -3687,12 +3681,6 @@ __metadata:
     "@xyo-network/gas-ethereum-blockchain-payload-plugins": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     tslib: ^2.4.0
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/ethereum-witness@workspace:packages/sdk/packages/ethereum-witness":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/ethereum-witness@workspace:packages/sdk/packages/ethereum-witness"
   languageName: unknown
   linkType: soft
 
@@ -3937,12 +3925,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-witness@workspace:packages/sdk/packages/schema-witness":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/schema-witness@workspace:packages/sdk/packages/schema-witness"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/sdk-xyo-client-js@workspace:.":
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-xyo-client-js@workspace:."
@@ -4043,12 +4025,6 @@ __metadata:
     "@xyo-network/info-system-payload-plugins": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     tslib: ^2.4.0
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/systeminfo-witness@workspace:packages/sdk/packages/systeminfo-witness":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/systeminfo-witness@workspace:packages/sdk/packages/systeminfo-witness"
   languageName: unknown
   linkType: soft
 

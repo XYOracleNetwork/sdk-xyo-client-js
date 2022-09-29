@@ -42,6 +42,10 @@ export class BoundWitnessWrapper<
     return this.boundwitness.payload_hashes
   }
 
+  public get previousHashes() {
+    return this.boundwitness.previous_hashes
+  }
+
   public get addresses() {
     return this.boundwitness.addresses
   }
@@ -56,6 +60,10 @@ export class BoundWitnessWrapper<
 
   public get boundwitness() {
     return this.obj
+  }
+
+  public prev(address: string) {
+    return this.previousHashes[this.addresses.findIndex((addr) => address === addr)]
   }
 
   public payloadsBySchema(schema: string) {

@@ -8,9 +8,7 @@ import { XyoContractPayload, XyoNonFungibleTokenPayload, XyoNonFungibleTokenWitn
 export class XyoSmartContractWrapper<T extends XyoContractPayload> extends PayloadWrapper<T> {
   public static override async load(address: XyoDataLike | Huri) {
     const payload = await new Huri<XyoContractPayload>(address).fetch()
-    if (payload) {
-      return new XyoSmartContractWrapper(payload)
-    }
+    return payload ? new XyoSmartContractWrapper(payload) : null
   }
 }
 

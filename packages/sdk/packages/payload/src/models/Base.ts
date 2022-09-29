@@ -12,7 +12,6 @@ export type SchemaFields = {
 export type WithSchema<T extends EmptyObject | void = void> = T extends EmptyObject ? SchemaFields & T : SchemaFields
 
 export type PayloadFields = {
-  previousHash?: string
   sources?: string[]
   timestamp?: number
 }

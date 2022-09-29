@@ -19,8 +19,8 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
   private _validators: T = {} as T
 
-  private constructor() {
-    null
+  private constructor(proxy?: string) {
+    this.proxy = proxy
   }
 
   /**
@@ -32,7 +32,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
     return this._validators
   }
 
-  public proxy = 'https://api.archivist.xyo.network/domain'
+  public proxy?: string
   public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
 
   private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {

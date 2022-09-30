@@ -40,8 +40,12 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     this.config = { ...config, security: { allowed: config?.security?.allowed, disallowed: config?.security?.disallowed } } as TConfig
     this.initializeAllowedAddressSets()
     this.disallowedAddresses = this.config.security?.disallowed
-    this.account = account ?? new XyoAccount()
+    this.account = this.loadAccount(account)
     this.resolver = resolver
+  }
+
+  protected loadAccount(account?: XyoAccount) {
+    return account ?? new XyoAccount()
   }
 
   public get address() {

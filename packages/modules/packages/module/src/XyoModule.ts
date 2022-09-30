@@ -20,7 +20,7 @@ export type XyoModuleResolverFunc = (address: string) => XyoModule | null
 export type SortedPipedAddressesString = string
 
 export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
-  protected config?: TConfig
+  protected readonly config?: TConfig
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected disallowedAddresses?: Record<SchemaString, AddressString[]>
   protected account: XyoAccount
@@ -52,6 +52,10 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return this.account.addressValue.hex
   }
 
+  public get logger() {
+    return this.config?.logging ? console : undefined
+  }
+
   private queryAllowed(schema: string, addresses: string[]) {
     return this?.allowedAddressSets?.[schema]?.includes(addresses.sort().join('|'))
   }
@@ -77,6 +81,8 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query.schema, wrapper.addresses))
+
+    this.logger?.log(`Query: ${wrapper.schemaName} [${this.address}]`)
 
     const resultPayloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()

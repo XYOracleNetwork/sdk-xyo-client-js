@@ -16,6 +16,7 @@ export type XyoModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayloa
       //if schema in record, then anyone except these addresses can access query
       disallowed?: Record<SchemaString, AddressString[]>
     }
+    logging?: boolean
   } & T
 >
 

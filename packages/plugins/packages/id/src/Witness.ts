@@ -22,14 +22,14 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
   }
 
   public get salt() {
-    return this.config?.salt
+    return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
   }
 
   override async observe(fields?: Partial<XyoIdPayload>): Promise<XyoIdPayload> {
     await delay(0)
     return {
       ...fields,
-      salt: assertEx(this.salt ?? fields?.salt, 'Missing salt'),
+      salt: assertEx(fields?.salt ?? this.salt, 'Missing salt'),
       schema: 'network.xyo.id',
     }
   }

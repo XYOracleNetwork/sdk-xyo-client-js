@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
@@ -28,6 +29,7 @@ export type XyoStorageArchivistConfig = XyoArchivistConfig<{
   namespace?: string
   maxEntries?: number
   maxEntrySize?: number
+  persistAccount?: boolean
 }>
 
 class StorageArchivistError extends Error {
@@ -42,7 +44,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   }
 
   public get namespace() {
-    return this.config?.namespace ?? 'xyoarch'
+    return this.config?.namespace ?? 'xyo-archivist'
   }
 
   public get maxEntries() {
@@ -51,6 +53,10 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
 
   public get maxEntrySize() {
     return this.config?.maxEntries ?? 16000
+  }
+
+  public get persistAccount() {
+    return this.config?.persistAccount ?? false
   }
 
   public override queries() {
@@ -64,11 +70,44 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     ]
   }
 
-  private storage: StoreBase
+  /* This has to be a getter so that it can access it during construction */
+  private _storage: StoreBase | undefined
+  private get storage(): StoreBase {
+    this._storage = this._storage ?? store[this.type].namespace(this.namespace)
+    return this._storage
+  }
+
+  /* This has to be a getter so that it can access it during construction */
+  private _privateStorage: StoreBase | undefined
+  private get privateStorage(): StoreBase {
+    this._privateStorage = this._storage ?? store[this.type].namespace(`${this.namespace}|private`)
+    return this._privateStorage
+  }
 
   constructor(config?: PartialArchivistConfig<XyoStorageArchivistConfig>) {
     super({ ...config, schema: XyoStorageArchivistConfigSchema })
-    this.storage = store[this.type].namespace(this.namespace)
+    this.saveAccount()
+  }
+
+  protected override loadAccount() {
+    if (this.persistAccount) {
+      const privateKey = this.privateStorage.get('privateKey')
+      if (privateKey) {
+        try {
+          return new XyoAccount({ privateKey })
+        } catch {
+          console.error(`Error reading Account from storage [${this.type}] - Recreating Account`)
+          this.privateStorage.remove('privateKey')
+        }
+      }
+    }
+    return super.loadAccount()
+  }
+
+  protected saveAccount() {
+    if (this.persistAccount) {
+      this.privateStorage.set('privateKey', this.account.private.hex)
+    }
   }
 
   public override delete(hashes: string[]): PromisableArray<boolean> {

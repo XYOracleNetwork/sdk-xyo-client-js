@@ -38,7 +38,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     })
   }
 
-  override resolve(address: string) {
+  override resolve(address: string): TModule | null {
     console.log(`Resolving in MemoryNode: ${address}`)
     if (address === 'archivist') {
       console.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)

@@ -14,7 +14,7 @@ import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-netwo
 import compact from 'lodash/compact'
 
 import { PayloadArchivist } from './Archivist'
-import { XyoArchivistConfig, XyoArchivistParents } from './Config'
+import { XyoArchivistConfig } from './Config'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,
@@ -27,7 +27,14 @@ import {
   XyoArchivistInsertQuerySchema,
   XyoArchivistQuery,
 } from './Queries'
+import { XyoArchivistWrapper } from './XyoArchivistWrapper'
 import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
+
+export interface XyoArchivistParentWrappers {
+  read?: Record<string, XyoArchivistWrapper>
+  write?: Record<string, XyoArchivistWrapper>
+  commit?: Record<string, XyoArchivistWrapper>
+}
 
 export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   extends XyoModule<XyoArchivistConfig<TConfig>>
@@ -115,17 +122,23 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
       default:
         return super.query(query, payloads)
     }
+    this.log?.('Query', wrapper.schemaName)
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  private resolveArchivists(archivists?: Record<string, PayloadArchivist | null | undefined>) {
-    const resolved: Record<string, PayloadArchivist | null | undefined> = {}
+  private resolveArchivists(archivists?: string[]) {
+    const resolvedWrappers: Record<string, XyoArchivistWrapper> = {}
     if (archivists) {
-      Object.entries(archivists).forEach(([key, value]) => {
-        resolved[key] = value ?? (this.resolver?.(key) as unknown as PayloadArchivist) ?? null
+      archivists.map((archivist) => {
+        if (resolvedWrappers[archivist] === undefined) {
+          const module = this.resolver?.(archivist)
+          if (module) {
+            resolvedWrappers[archivist] = new XyoArchivistWrapper(module)
+          }
+        }
       })
     }
-    return resolved
+    return resolvedWrappers
   }
 
   protected async getFromParents(hash: string) {
@@ -147,6 +160,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   }
 
   protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
+    this.log?.('Write to Parent', parent.address)
     const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
       payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
       schema: XyoArchivistInsertQuerySchema,
@@ -157,6 +171,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   }
 
   protected async writeToParents(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+    this.log?.('Write to Parents', this.parents?.write?.length ?? 0)
     return compact(
       await Promise.all(
         Object.values(this.parents?.write ?? {}).map(async (parent) => {
@@ -166,7 +181,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
     )
   }
 
-  private _parents?: XyoArchivistParents
+  private _parents?: XyoArchivistParentWrappers
   get parents() {
     this._parents = this._parents ?? {
       commit: this.resolveArchivists(this.config?.parents?.commit),

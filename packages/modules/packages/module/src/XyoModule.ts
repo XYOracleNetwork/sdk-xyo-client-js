@@ -26,6 +26,18 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
   protected account: XyoAccount
   protected resolver?: XyoModuleResolverFunc
 
+  protected get log() {
+    return this.config?.logging
+      ? (tag: string, message?: string | object | boolean | number) => {
+          this.logger?.log(
+            `${tag} [0x${this.account.addressValue.hex}] ${
+              typeof message === 'string' ? message : typeof message === 'object' ? JSON.stringify(message, null, 2) : `${message}`
+            }`,
+          )
+        }
+      : undefined
+  }
+
   private initializeAllowedAddressSets() {
     if (this.config?.security?.allowed) {
       const allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
@@ -42,6 +54,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     this.disallowedAddresses = this.config.security?.disallowed
     this.account = this.loadAccount(account)
     this.resolver = resolver
+    this.log?.('Module Loaded', this.config)
   }
 
   protected loadAccount(account?: XyoAccount) {
@@ -82,7 +95,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query.schema, wrapper.addresses))
 
-    this.logger?.log(`Query: ${wrapper.schemaName} [${this.address}]`)
+    this.log?.('Query', wrapper.schemaName)
 
     const resultPayloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()

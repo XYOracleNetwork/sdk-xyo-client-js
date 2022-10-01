@@ -1,5 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModuleResolverFunc } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -55,8 +57,8 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     ]
   }
 
-  constructor(config?: PartialArchivistConfig<XyoMemoryArchivistConfig>) {
-    super({ ...config, schema: XyoMemoryArchivistConfigSchema })
+  constructor(config?: PartialArchivistConfig<XyoMemoryArchivistConfig>, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+    super({ ...config, schema: XyoMemoryArchivistConfigSchema }, account, resolver)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
 

@@ -1,5 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModuleResolverFunc } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
@@ -66,8 +68,8 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     ]
   }
 
-  constructor(config?: PartialArchivistConfig<XyoCookieArchivistConfig>) {
-    super({ ...config, schema: XyoCookieArchivistConfigSchema })
+  constructor(config?: PartialArchivistConfig<XyoCookieArchivistConfig>, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+    super({ ...config, schema: XyoCookieArchivistConfigSchema }, account, resolver)
   }
 
   private keyFromHash(hash: string) {

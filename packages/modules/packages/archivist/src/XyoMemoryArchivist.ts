@@ -29,12 +29,6 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
-class MemoryArchivistError extends Error {
-  constructor(action: string, error: Error['cause'], message?: string) {
-    super(`Memory Archivist [${action}] failed${message ? ` (${message})` : ''}`, { cause: error })
-  }
-}
-
 export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
   static create(config?: XyoMemoryArchivistConfig) {
     return new XyoMemoryArchivist(config)
@@ -69,7 +63,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('delete', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -78,7 +72,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       this.cache.clear()
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('clear', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -95,7 +89,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('get', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -117,7 +111,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('insert', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -132,7 +126,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       return result
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('find', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -141,7 +135,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('all', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -168,7 +162,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('commit', ex, 'unexpected')
+      throw ex
     }
   }
 }

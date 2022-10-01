@@ -32,12 +32,6 @@ export type XyoCookieArchivistConfig = XyoArchivistConfig<{
   namespace?: string
 }>
 
-class CookieArchivistError extends Error {
-  constructor(action: string, error: Error['cause'], message?: string) {
-    super(`Cookie Archivist [${action}] failed${message ? ` (${message})` : ''}`, { cause: error })
-  }
-}
-
 export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
   public get domain() {
     return this.config?.domain
@@ -84,7 +78,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('delete', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -97,7 +91,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('clear', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -111,7 +105,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('get', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -134,7 +128,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('insert', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -149,7 +143,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       return x
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('find', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -160,7 +154,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         .map(([, value]) => JSON.parse(value))
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('all', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -188,7 +182,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('commit', ex, 'unexpected')
+      throw ex
     }
   }
 }

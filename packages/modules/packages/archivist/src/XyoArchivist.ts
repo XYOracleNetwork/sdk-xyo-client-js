@@ -23,7 +23,6 @@ import {
   XyoArchivistFindQuerySchema,
   XyoArchivistGetQuery,
   XyoArchivistGetQuerySchema,
-  XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
   XyoArchivistQuery,
 } from './Queries'
@@ -160,14 +159,8 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   }
 
   protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
-    this.log?.('Write to Parent', parent.address)
-    const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
-      payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
-      schema: XyoArchivistInsertQuerySchema,
-    })
-    const query = await this.bindQuery(queryPayload)
-    const result = (await parent?.query(query[0], query[1])) ?? []
-    return result[0]
+    const wrapper = new XyoArchivistWrapper(parent)
+    return await wrapper.insert(payloads)
   }
 
   protected async writeToParents(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
@@ -178,7 +171,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
           return parent ? await this.writeToParent(parent, payloads) : undefined
         }),
       ),
-    )
+    ).flat()
   }
 
   private _parents?: XyoArchivistParentWrappers

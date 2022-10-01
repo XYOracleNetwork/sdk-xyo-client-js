@@ -8,7 +8,7 @@ import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
   extends XyoModule<TConfig>
-  implements NodeModule<TModule>
+  implements NodeModule
 {
   constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
     super(config, account, resolver)

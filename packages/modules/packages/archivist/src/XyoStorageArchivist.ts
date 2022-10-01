@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModuleResolverFunc } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -84,8 +85,8 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     return this._privateStorage
   }
 
-  constructor(config?: PartialArchivistConfig<XyoStorageArchivistConfig>) {
-    super({ ...config, schema: XyoStorageArchivistConfigSchema })
+  constructor(config?: PartialArchivistConfig<XyoStorageArchivistConfig>, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+    super({ ...config, schema: XyoStorageArchivistConfigSchema }, account, resolver)
     this.saveAccount()
   }
 

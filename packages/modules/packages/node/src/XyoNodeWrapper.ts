@@ -1,3 +1,4 @@
+import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { Module, XyoModule, XyoModuleWrapper } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload'
 import compact from 'lodash/compact'
@@ -15,6 +16,12 @@ import {
 } from './Queries'
 
 export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
+  private _archivist?: XyoArchivistWrapper
+  public get archivist() {
+    this._archivist = this._archivist ?? new XyoArchivistWrapper(this.module)
+    return this._archivist
+  }
+
   register(_module: Module): void {
     throw Error('Not implemented')
   }

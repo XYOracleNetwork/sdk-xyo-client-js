@@ -3710,7 +3710,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/elevation-payload-plugin@workspace:packages/plugins/packages/elevation":
+"@xyo-network/elevation-payload-plugin@workspace:^, @xyo-network/elevation-payload-plugin@workspace:packages/plugins/packages/elevation":
   version: 0.0.0-use.local
   resolution: "@xyo-network/elevation-payload-plugin@workspace:packages/plugins/packages/elevation"
   dependencies:
@@ -3843,6 +3843,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/module-instance-payload-plugin@workspace:^, @xyo-network/module-instance-payload-plugin@workspace:packages/plugins/packages/module-instance":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/module-instance-payload-plugin@workspace:packages/plugins/packages/module-instance"
+  dependencies:
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    lodash: ^4.17.21
+    tslib: ^2.4.0
+  peerDependencies:
+    axios: ^0.27.2
+    pako: ^2.0.4
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/module@workspace:^, @xyo-network/module@workspace:packages/modules/packages/module":
   version: 0.0.0-use.local
   resolution: "@xyo-network/module@workspace:packages/modules/packages/module"
@@ -3965,12 +3981,17 @@ __metadata:
     "@xyo-network/blockchain-payload-plugins": "workspace:^"
     "@xyo-network/crypto-payload-plugins": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
+    "@xyo-network/elevation-payload-plugin": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
+    "@xyo-network/module-instance-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/system-payload-plugins": "workspace:^"
     tslib: ^2.4.0
+  peerDependencies:
+    axios: ^0.27.2
+    pako: ^2.0.4
   languageName: unknown
   linkType: soft
 

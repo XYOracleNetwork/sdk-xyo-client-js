@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/payload-plugins",
+  "name": "@xyo-network/module-instance-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,23 +10,18 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/blockchain-payload-plugins": "workspace:^",
-    "@xyo-network/crypto-payload-plugins": "workspace:^",
-    "@xyo-network/domain-payload-plugin": "workspace:^",
-    "@xyo-network/elevation-payload-plugin": "workspace:^",
-    "@xyo-network/id-payload-plugin": "workspace:^",
-    "@xyo-network/location-payload-plugin": "workspace:^",
-    "@xyo-network/module-instance-payload-plugin": "workspace:^",
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/schema-payload-plugin": "workspace:^",
-    "@xyo-network/system-payload-plugins": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
+    "lodash": "^4.17.21",
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
     "axios": "^0.27.2",
     "pako": "^2.0.4"
   },
-  "description": "Primary SDK for using XYO Protocol 2.0",
+  "description": "Contains the information about a module instance",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
@@ -59,5 +54,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.10"
+  "version": "2.35.10"
 }

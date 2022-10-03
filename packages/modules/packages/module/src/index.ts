@@ -1,4 +1,5 @@
 export * from './Config'
+export * from './Logger'
 export * from './Module'
 export * from './ModuleQueryResult'
 export * from './PartialConfig'

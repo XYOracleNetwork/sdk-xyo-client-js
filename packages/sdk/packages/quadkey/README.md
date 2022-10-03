@@ -26,7 +26,7 @@
 
 ## Description
 
-> Location is an observation of XYZT
+> Quadkey Class
 
 ## Install
 

@@ -5,6 +5,7 @@ import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { PromiseEx } from '@xyo-network/promise'
 
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
+import { Logger } from './Logger'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import {
@@ -25,9 +26,10 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
   protected disallowedAddresses?: Record<SchemaString, AddressString[]>
   protected account: XyoAccount
   protected resolver?: XyoModuleResolverFunc
+  protected readonly logger?: Logger
 
   protected get log() {
-    return this.config?.logging
+    return this.logger
       ? (tag: string, message?: string | object | boolean | number) => {
           this.logger?.log(
             `${tag} [0x${this.account.addressValue.hex}] ${
@@ -48,8 +50,9 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     }
   }
 
-  constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+  constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc, logger?: Logger) {
     this.config = { ...config, security: { allowed: config?.security?.allowed, disallowed: config?.security?.disallowed } } as TConfig
+    this.logger = logger
     this.initializeAllowedAddressSets()
     this.disallowedAddresses = this.config.security?.disallowed
     this.account = this.loadAccount(account)
@@ -63,10 +66,6 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   public get address() {
     return this.account.addressValue.hex
-  }
-
-  public get logger() {
-    return this.config?.logging ? console : undefined
   }
 
   private queryAllowed(schema: string, addresses: string[]) {

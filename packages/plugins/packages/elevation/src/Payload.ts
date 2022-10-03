@@ -1,9 +1,9 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoElevationSchema } from './Schema'
+import { XyoLocationElevationSchema } from './Schema'
 
-export type XyoElevationPayload = XyoPayload<{
-  schema: XyoElevationSchema
+export type XyoLocationElevationPayload = XyoPayload<{
+  schema: XyoLocationElevationSchema
   elevation?: number
   latitude?: number
   longitude?: number

@@ -73,8 +73,14 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
     throw Error('Not implemented')
   }
 
-  public find(_filter?: XyoPayloadFindFilter): PromisableArray<XyoPayload> {
-    throw Error('Not implemented')
+  public async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
+    try {
+      const filterSchemaList = filter?.schema ? (Array.isArray(filter.schema) ? filter.schema : [filter.schema]) : []
+      return (await this.all()).filter((payload) => filterSchemaList.includes(payload.schema))
+    } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      throw ex
+    }
   }
 
   abstract get(hashes: string[]): NullablePromisableArray<XyoPayload>

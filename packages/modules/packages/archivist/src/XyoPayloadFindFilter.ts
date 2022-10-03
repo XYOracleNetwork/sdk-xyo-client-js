@@ -15,5 +15,5 @@ export type XyoPayloadFindFilter = {
   /** @deprecated use offset instead */
   timestamp?: number
   limit?: number
-  schema?: string
+  schema?: string | string[]
 } & XyoPayloadFindFilterOffset

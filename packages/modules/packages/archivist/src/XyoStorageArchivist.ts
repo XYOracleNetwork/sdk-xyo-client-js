@@ -19,7 +19,6 @@ import {
   XyoArchivistInsertQuerySchema,
 } from './Queries'
 import { XyoArchivist } from './XyoArchivist'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 export const XyoStorageArchivistConfigSchema: XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
@@ -162,21 +161,6 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${ex}`)
-      throw ex
-    }
-  }
-
-  public override async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
-    try {
-      const x = (await this.all()).filter((payload) => {
-        if (filter?.schema && filter.schema !== payload.schema) {
-          return false
-        }
-        return true
-      })
-      return x
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
     }
   }

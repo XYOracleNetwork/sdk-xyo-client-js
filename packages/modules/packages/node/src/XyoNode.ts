@@ -1,6 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
 import { XyoAccount } from '@xyo-network/account'
+import { XyoArchivistWrapper, XyoMemoryArchivist } from '@xyo-network/archivist'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoModuleResolverFunc, XyoQueryBoundWitness } from '@xyo-network/module'
+import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayloads } from '@xyo-network/payload'
 
 import { NodeConfig } from './Config'
@@ -12,12 +15,27 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 {
   constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
     super(config, account, resolver)
+    forget(this.storeInstanceData())
+  }
+
+  private async storeInstanceData() {
+    const payload = { address: this.address, queries: this.queries, schema: XyoModuleInstanceSchema }
+    const [bw] = await this.bindResult([payload])
+    await new XyoArchivistWrapper(this.archivist).insert([bw, payload])
   }
 
   /** Query Functions - Start */
   abstract attach(_address: string): void
   abstract detach(_address: string): void
   abstract resolve(_address: string): TModule | null
+
+  private _archivist?: XyoModule
+  public get archivist() {
+    if (!this._archivist) {
+      this._archivist = this._archivist ?? (this.config?.archivist ? this.resolver?.(this.config?.archivist) : undefined) ?? new XyoMemoryArchivist()
+    }
+    return this._archivist
+  }
 
   registered(): string[] {
     throw new Error('Method not implemented.')

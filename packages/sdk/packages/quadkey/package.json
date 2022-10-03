@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/domain-payload-plugin",
+  "name": "@xyo-network/quadkey",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,20 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.6.9",
-    "@xylabs/delay": "^2.6.9",
-    "@xyo-network/api": "workspace:^",
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/network": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
-    "axios": "^0.27.2",
-    "lodash": "^4.17.21",
+    "@xylabs/bignumber": "^2.6.9",
+    "@xylabs/buffer": "^2.6.9",
+    "@xylabs/sdk-js": "^2.6.9",
+    "@xyo-network/sdk-xyo-js": "^2.6.23",
+    "mapbox-gl": "^2.10.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.186"
+    "@types/mapbox-gl": "^2.7.6"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

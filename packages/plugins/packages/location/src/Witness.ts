@@ -1,3 +1,4 @@
+import { Quadkey } from '@xyo-network/quadkey'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoLocationPayload } from './Payload'
@@ -34,6 +35,7 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
 
   override async observe(_fields: Partial<XyoLocationPayload>): Promise<XyoLocationPayload> {
     const location = await this.getCurrentPosition()
+    const quadkey = Quadkey.fromLngLat({ lat: location.coords.latitude, lng: location.coords.longitude }, 32)
     return super.observe({
       accuracy: location.coords.accuracy,
       altitude: location.coords.altitude ?? undefined,
@@ -41,6 +43,7 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
       heading: location.coords.heading ?? undefined,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
+      quadkey: quadkey?.toBase4Hash(),
       speed: location.coords.speed ?? undefined,
       time: Date.now(),
     })

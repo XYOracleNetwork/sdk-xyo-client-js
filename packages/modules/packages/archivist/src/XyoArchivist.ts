@@ -9,7 +9,7 @@ import {
   XyoModuleShutdownQuerySchema,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
@@ -89,7 +89,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
     query: T,
-    payloads?: XyoPayloads,
+    payloads?: XyoPayload[],
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload

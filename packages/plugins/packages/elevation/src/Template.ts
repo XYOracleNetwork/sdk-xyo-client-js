@@ -4,8 +4,7 @@ import { XyoLocationElevationSchema } from './Schema'
 export const XyoLocationElevationPayloadTemplate = (): XyoLocationElevationPayload => {
   return {
     elevation: undefined,
-    latitude: undefined,
-    longitude: undefined,
+    quadkey: undefined,
     schema: XyoLocationElevationSchema,
   }
 }

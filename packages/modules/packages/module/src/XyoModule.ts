@@ -89,14 +89,14 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return [XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleSubscribeQuerySchema, XyoModuleShutdownQuerySchema]
   }
 
-  public query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayloads): Promise<ModuleQueryResult> {
+  public query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query.schema, wrapper.addresses))
 
     this.log?.('Query', wrapper.schemaName)
 
-    const resultPayloads: (XyoPayload | null)[] = []
+    const resultPayloads: XyoPayload[] = []
     const queryAccount = new XyoAccount()
     switch (typedQuery.schema) {
       case XyoModuleDiscoverQuerySchema: {
@@ -159,9 +159,9 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
-    payloads?: XyoPayloads,
+    payloads?: XyoPayload[],
     account?: XyoAccount,
-  ): [XyoQueryBoundWitness, XyoPayloads] {
+  ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     return (account ? builder.witness(account) : builder).build()
   }
@@ -177,10 +177,10 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
-    payloads?: XyoPayloads,
+    payloads?: XyoPayload[],
     account?: XyoAccount,
-  ): PromiseEx<[XyoQueryBoundWitness, XyoPayloads], XyoAccount> {
-    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayloads], XyoAccount>((resolve) => {
+  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], XyoAccount> {
+    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], XyoAccount>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result

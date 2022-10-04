@@ -10,7 +10,7 @@ describe('Witness', () => {
     const sut = new XyoEtherscanEthereumGasWitness({
       apiKey,
     })
-    const actual = await sut.observe()
+    const [actual] = await sut.observe()
     expect(actual.FastGasPrice).toBeString()
     expect(actual.gasUsedRatio).toBeString()
     expect(actual.LastBlock).toBeString()

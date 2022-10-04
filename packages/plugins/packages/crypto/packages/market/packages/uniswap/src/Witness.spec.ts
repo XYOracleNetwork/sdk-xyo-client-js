@@ -14,7 +14,7 @@ describe('Witness', () => {
       pools: UniswapPoolContracts,
       provider,
     })
-    const observation = await witness.observe()
+    const [observation] = await witness.observe()
     expect(observation.pairs.length).toBeGreaterThan(1)
     expect(observation.timestamp).toBe(+now)
   })

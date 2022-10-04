@@ -14,7 +14,7 @@ export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload 
     super({ schema: XyoNodeSystemInfoWitnessConfigSchema, targetSchema: XyoNodeSystemInfoSchema, ...config })
   }
 
-  override async observe(fields?: Partial<TPayload>) {
+  override async observe(fields?: Partial<TPayload>[]) {
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
     return await super.observe({ ...node, ...fields })
   }

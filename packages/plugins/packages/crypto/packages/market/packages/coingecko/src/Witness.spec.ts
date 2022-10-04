@@ -8,7 +8,7 @@ describe('Witness', () => {
       coins: defaultCoins,
       currencies: defaultCurrencies,
     })
-    const actual = await sut.observe()
+    const [actual] = await sut.observe()
 
     expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
   })

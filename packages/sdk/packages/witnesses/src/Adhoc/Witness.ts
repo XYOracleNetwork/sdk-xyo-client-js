@@ -17,7 +17,7 @@ export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> 
     this.payload = payload
   }
 
-  override observe(fields?: Partial<T>): Promisable<T> {
+  override observe(fields?: Partial<T>[]): Promisable<T[]> {
     return super.observe(merge(this.payload, fields))
   }
 }

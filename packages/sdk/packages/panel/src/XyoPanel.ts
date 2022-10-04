@@ -3,7 +3,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule, XyoModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 
@@ -62,7 +62,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
   private async generatePayload(
     witness: XyoWitnessWrapper,
     onError?: (witness: XyoWitnessWrapper, error: Error) => void,
-  ): Promise<[XyoPayload | null, Error?]> {
+  ): Promise<[XyoPayloads | null, Error?]> {
     this.config?.onWitnessReportStart?.(witness)
     try {
       const result = await witness.observe()
@@ -84,7 +84,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
         return payload
       }),
     )
-    return payloads
+    return payloads.flat()
   }
 
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {

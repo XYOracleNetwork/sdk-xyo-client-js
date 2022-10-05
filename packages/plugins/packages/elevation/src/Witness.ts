@@ -54,11 +54,13 @@ export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevation
   }
 
   override async observe(fields?: Partial<XyoLocationElevationPayload>[]): Promise<XyoLocationElevationPayload[]> {
-    const results = await new AxiosJson().post<OpenElevationResult>('https://api.open-elevation.com/api/v1/lookup', {
-      locations: fields ?? this.locations,
-    })
+    const results = (
+      await new AxiosJson().post<OpenElevationResult>('https://api.open-elevation.com/api/v1/lookup', {
+        locations: fields ?? this.locations,
+      })
+    ).data?.results
     console.log(`Elevation observe: ${JSON.stringify(results, null, 2)}`)
-    return this.observe(results.data?.results.map((result, index) => merge({}, result, fields?.[index])))
+    return this.observe(results?.map((result, index) => merge({}, result, fields?.[index])))
   }
 
   static schema: XyoLocationElevationSchema = XyoLocationElevationSchema

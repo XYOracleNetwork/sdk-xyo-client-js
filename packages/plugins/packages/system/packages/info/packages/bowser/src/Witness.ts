@@ -18,6 +18,6 @@ export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = X
   }
 
   override observe(fields?: Partial<T>[]) {
-    return super.observe(merge({ bowser: this.bowser }, fields))
+    return super.observe([merge({ bowser: this.bowser }, fields?.[0])])
   }
 }

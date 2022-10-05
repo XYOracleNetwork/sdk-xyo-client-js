@@ -5,7 +5,7 @@ describe('XyoIdWitness', () => {
     const witness = new XyoIdWitness({
       salt: 'test',
     })
-    const [observation] = await witness.observe()
+    const [observation] = await witness.observe([{ salt: 'test' }])
     expect(observation.schema).toBe('network.xyo.id')
   })
 })

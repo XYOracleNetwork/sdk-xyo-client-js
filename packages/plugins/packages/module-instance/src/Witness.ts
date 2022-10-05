@@ -22,7 +22,7 @@ export class XyoModuleInstanceWitness extends XyoWitness<XyoModuleInstancePayloa
   }
 
   override async observe(fields?: Partial<XyoModuleInstancePayload>[]): Promise<XyoModuleInstancePayload[]> {
-    return await super.observe(merge({ queries: this.module?.queries }, fields))
+    return await super.observe([merge({ queries: this.module?.queries }, fields?.[0])])
   }
 
   static schema: XyoModuleInstanceSchema = XyoModuleInstanceSchema

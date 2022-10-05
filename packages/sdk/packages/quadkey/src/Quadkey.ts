@@ -12,7 +12,7 @@ import {
   tileToBoundingBox,
   tileToQuadkey,
 } from '@xyo-network/sdk-xyo-js'
-import { LngLat, LngLatLike, Point } from 'mapbox-gl'
+import { LngLat, LngLatLike } from 'mapbox-gl'
 
 import { bitShiftLeft, bitShiftRight, padHex } from './utils'
 

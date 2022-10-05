@@ -33,10 +33,10 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
     })
   }
 
-  override async observe(_fields: Partial<XyoLocationPayload>): Promise<XyoLocationPayload> {
+  override async observe(_fields: Partial<XyoLocationPayload>[]): Promise<XyoLocationPayload[]> {
     const location = await this.getCurrentPosition()
     const quadkey = Quadkey.fromLngLat({ lat: location.coords.latitude, lng: location.coords.longitude }, 32)
-    return super.observe({
+    const payload: XyoLocationPayload = {
       accuracy: location.coords.accuracy,
       altitude: location.coords.altitude ?? undefined,
       altitudeAccuracy: location.coords.altitudeAccuracy ?? undefined,
@@ -44,9 +44,11 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       quadkey: quadkey?.toBase4Hash(),
+      schema: XyoLocationSchema,
       speed: location.coords.speed ?? undefined,
       time: Date.now(),
-    })
+    }
+    return super.observe([payload])
   }
 
   static schema: XyoLocationSchema = XyoLocationSchema

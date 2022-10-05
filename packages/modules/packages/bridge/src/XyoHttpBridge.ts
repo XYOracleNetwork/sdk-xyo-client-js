@@ -49,7 +49,7 @@ export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements Bri
     return true
   }
 
-  protected async forward(query: XyoQuery, payloads?: XyoPayloads): Promise<[XyoBoundWitness, XyoPayloads]> {
+  protected async forward(query: XyoQuery, payloads?: XyoPayload[]): Promise<[XyoBoundWitness, XyoPayloads]> {
     try {
       const boundQuery = this.bindQuery(query, payloads)
       const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(`${this.nodeUri}/${this.address}`, [boundQuery, ...[query]])
@@ -62,7 +62,7 @@ export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements Bri
     }
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayloads): Promise<ModuleQueryResult> {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))

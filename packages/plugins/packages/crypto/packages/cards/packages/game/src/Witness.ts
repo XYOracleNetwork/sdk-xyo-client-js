@@ -12,10 +12,7 @@ export type XyoCryptoCardsGameWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoCryptoCardsGameWitness extends XyoWitness<XyoCryptoCardsGamePayload, XyoCryptoCardsGameWitnessConfig> {
-  override observe(payload: XyoCryptoCardsGamePayload): Promisable<XyoCryptoCardsGamePayload> {
-    return super.observe({
-      ...payload,
-      timestamp: Date.now(),
-    })
+  override observe(payloads: XyoCryptoCardsGamePayload[]): Promisable<XyoCryptoCardsGamePayload[]> {
+    return super.observe(payloads)
   }
 }

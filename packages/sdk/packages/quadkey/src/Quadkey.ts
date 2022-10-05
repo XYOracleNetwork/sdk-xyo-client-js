@@ -2,6 +2,7 @@ import { BigNumber } from '@xylabs/bignumber'
 import { Buffer } from '@xylabs/buffer'
 import { assertEx } from '@xylabs/sdk-js'
 import {
+  boundingBoxToCenter,
   GeoJson,
   MercatorBoundingBox,
   MercatorTile,
@@ -11,7 +12,7 @@ import {
   tileToBoundingBox,
   tileToQuadkey,
 } from '@xyo-network/sdk-xyo-js'
-import { LngLat, LngLatLike } from 'mapbox-gl'
+import { LngLat, LngLatLike, Point } from 'mapbox-gl'
 
 import { bitShiftLeft, bitShiftRight, padHex } from './utils'
 
@@ -248,6 +249,11 @@ export class Quadkey {
 
   public toBoundingBox(): MercatorBoundingBox {
     return tileToBoundingBox(this.toTile())
+  }
+
+  public toCenter() {
+    const result = boundingBoxToCenter(this.toBoundingBox())
+    return new LngLat(result[0], result[1])
   }
 
   public getGridLocation() {

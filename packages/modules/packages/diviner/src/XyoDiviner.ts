@@ -24,7 +24,7 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
     query: T,
-    payloads?: XyoPayloads,
+    payloads?: XyoPayload[],
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
     const typedQuery = wrapper.query

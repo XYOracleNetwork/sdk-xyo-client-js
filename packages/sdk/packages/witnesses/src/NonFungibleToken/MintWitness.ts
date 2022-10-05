@@ -20,7 +20,7 @@ export class XyoNonFungibleTokenMintWitness extends XyoWitness<XyoNonFungibleTok
     this.minter = new XyoAddressValue(minter)
   }
 
-  override observe(_fields: Partial<XyoNonFungibleTokenPayload>): Promise<XyoNonFungibleTokenPayload<EmptyObject>> {
+  override observe(_fields: Partial<XyoNonFungibleTokenPayload>[]): Promise<XyoNonFungibleTokenPayload<EmptyObject>[]> {
     throw new Error('Method not implemented.')
   }
 }

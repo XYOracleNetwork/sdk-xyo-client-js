@@ -13,14 +13,16 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
     this.pairs = createUniswapPoolContracts(assertEx(this.config?.provider, 'Provider is Required'), this.config?.pools ?? UniswapPoolContracts)
   }
 
-  override async observe(): Promise<XyoUniswapCryptoMarketPayload> {
+  override async observe(): Promise<XyoUniswapCryptoMarketPayload[]> {
     const pairs = await pricesFromUniswap3(this.pairs)
     const timestamp = Date.now()
 
-    return {
-      pairs,
-      schema: XyoUniswapCryptoMarketSchema,
-      timestamp,
-    }
+    return [
+      {
+        pairs,
+        schema: XyoUniswapCryptoMarketSchema,
+        timestamp,
+      },
+    ]
   }
 }

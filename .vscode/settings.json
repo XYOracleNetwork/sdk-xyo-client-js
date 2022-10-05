@@ -55,6 +55,9 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
     "bignumber",
+    "bowser",
+    "dmarc",
+    "Etherchain",
     "IERC",
     "mapbox",
     "quadkey",

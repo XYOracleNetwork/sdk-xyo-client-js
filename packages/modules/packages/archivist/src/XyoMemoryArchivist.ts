@@ -19,7 +19,6 @@ import {
   XyoArchivistInsertQuerySchema,
 } from './Queries'
 import { XyoArchivist } from './XyoArchivist'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 export const XyoMemoryArchivistConfigSchema: XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
@@ -109,21 +108,6 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
         parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
       }
       return [result[0], ...parentBoundWitnesses]
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
-  }
-
-  public override find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): PromisableArray<R> {
-    try {
-      const result: R[] = []
-      this.cache.forEach((value) => {
-        if (value.schema === filter.schema) {
-          result.push(value as R)
-        }
-      })
-      return result
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

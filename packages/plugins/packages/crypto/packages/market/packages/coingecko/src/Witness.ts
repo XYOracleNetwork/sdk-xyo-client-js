@@ -10,13 +10,15 @@ export class XyoCoingeckoCryptoMarketWitness extends XyoWitness<XyoCoingeckoCryp
     super({ schema: XyoCoingeckoCryptoMarketWitnessConfigSchema, targetSchema: XyoCoingeckoCryptoMarketSchema, ...config })
   }
 
-  override async observe(): Promise<XyoCoingeckoCryptoMarketPayload> {
+  override async observe(): Promise<XyoCoingeckoCryptoMarketPayload[]> {
     const assets = await pricesFromCoingecko(this.config?.coins ?? [], this.config?.currencies ?? [])
 
-    return {
-      assets,
-      schema: XyoCoingeckoCryptoMarketSchema,
-      timestamp: Date.now(),
-    }
+    return [
+      {
+        assets,
+        schema: XyoCoingeckoCryptoMarketSchema,
+        timestamp: Date.now(),
+      },
+    ]
   }
 }

@@ -11,7 +11,7 @@ export * from '@xyo-network/system-payload-plugins'
 import { XyoBlockchainPayloadPlugins } from '@xyo-network/blockchain-payload-plugins'
 import { XyoCryptoPayloadPlugins } from '@xyo-network/crypto-payload-plugins'
 import { XyoDomainPayloadPlugin } from '@xyo-network/domain-payload-plugin'
-import { XyoElevationPayloadPlugin } from '@xyo-network/elevation-payload-plugin'
+import { XyoLocationElevationPayloadPlugin } from '@xyo-network/elevation-payload-plugin'
 import { XyoIdPayloadPlugin } from '@xyo-network/id-payload-plugin'
 import { XyoLocationPayloadPlugin } from '@xyo-network/location-payload-plugin'
 import { XyoModuleInstancePayloadPlugin } from '@xyo-network/module-instance-payload-plugin'
@@ -24,7 +24,7 @@ export const XyoPayloadPlugins: XyoPayloadPluginFunc[] = [
   ...XyoBlockchainPayloadPlugins,
   ...XyoCryptoPayloadPlugins,
   XyoDomainPayloadPlugin,
-  XyoElevationPayloadPlugin,
+  XyoLocationElevationPayloadPlugin,
   XyoIdPayloadPlugin,
   XyoLocationPayloadPlugin,
   XyoModuleInstancePayloadPlugin,

@@ -10,9 +10,9 @@ export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoDomainWitn
     super({ schema: XyoDomainWitnessConfigSchema, targetSchema: XyoDomainSchema, ...config })
   }
 
-  override async observe(_payload: Partial<XyoDomainPayload>): Promise<XyoDomainPayload> {
+  override async observe(_payload: Partial<XyoDomainPayload>[]): Promise<XyoDomainPayload[]> {
     await delay(0)
-    return { schema: XyoDomainSchema }
+    return [{ schema: XyoDomainSchema }]
   }
   public static dmarc = '_xyo'
 

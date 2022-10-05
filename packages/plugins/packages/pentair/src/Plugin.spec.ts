@@ -7,7 +7,7 @@ import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
 import { XyoPentairScreenlogicPayloadPlugin } from './Plugin'
 import { XyoPentairScreenlogicSchema } from './Schema'
 
-describe('XyoElevationPayloadPlugin', () => {
+describe('XyoPentairScreenlogicPayloadPlugin', () => {
   test('Add to Resolver', () => {
     const resolver = new XyoPayloadPluginResolver().register(XyoPentairScreenlogicPayloadPlugin(), {
       witness: {},

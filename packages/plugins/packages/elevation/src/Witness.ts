@@ -27,7 +27,7 @@ export type XyoLocationElevationWitnessConfig = XyoWitnessConfig<
     schema: XyoLocationElevationWitnessConfigSchema
     uri?: string
     zoom?: number
-    locations: XyoLocationPayload[]
+    locations?: XyoLocationPayload[]
   }
 >
 
@@ -42,7 +42,7 @@ export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevation
 
   public get locations() {
     return compact(
-      this.config?.locations.map((location) => {
+      this.config?.locations?.map((location) => {
         const quadkey = (location as QuadkeyPhysicalLocation).quadkey
           ? Quadkey.fromBase10String((location as QuadkeyPhysicalLocation).quadkey)
           : Quadkey.fromLngLat({ lat: (location as LngLatPhysicalLocation).latitude, lng: (location as LngLatPhysicalLocation).longitude }, this.zoom)
@@ -55,8 +55,9 @@ export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevation
 
   override async observe(fields?: Partial<XyoLocationElevationPayload>[]): Promise<XyoLocationElevationPayload[]> {
     const results = await new AxiosJson().post<OpenElevationResult>('https://api.open-elevation.com/api/v1/lookup', {
-      locations: this.locations,
+      locations: fields ?? this.locations,
     })
+    console.log(`Elevation observe: ${JSON.stringify(results, null, 2)}`)
     return this.observe(results.data?.results.map((result, index) => merge({}, result, fields?.[index])))
   }
 

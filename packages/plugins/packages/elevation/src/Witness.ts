@@ -1,4 +1,5 @@
-import { LngLatPhysicalLocation, QuadkeyPhysicalLocation, XyoLocationPayload } from '@xyo-network/location-payload-plugin'
+import { assertEx } from '@xylabs/assert'
+import { LngLatPhysicalLocation, PhysicalLocation, QuadkeyPhysicalLocation, XyoLocationPayload } from '@xyo-network/location-payload-plugin'
 import { Quadkey } from '@xyo-network/quadkey'
 import { AxiosJson } from '@xyo-network/utils'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
@@ -31,6 +32,16 @@ export type XyoLocationElevationWitnessConfig = XyoWitnessConfig<
   }
 >
 
+const physicalLocationToOpenElevationLocation = (location: PhysicalLocation, zoom: number) => {
+  const quadkey = assertEx(
+    (location as QuadkeyPhysicalLocation).quadkey
+      ? Quadkey.fromBase10String((location as QuadkeyPhysicalLocation).quadkey)
+      : Quadkey.fromLngLat({ lat: (location as LngLatPhysicalLocation).latitude, lng: (location as LngLatPhysicalLocation).longitude }, zoom),
+  )
+  const center = quadkey.toCenter()
+  return { latitude: center.lat, longitude: center?.lng }
+}
+
 export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevationPayload, XyoLocationElevationWitnessConfig> {
   public get uri() {
     return this.config?.uri ?? 'https://api.open-elevation.com/api/v1/lookup'
@@ -43,24 +54,21 @@ export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevation
   public get locations() {
     return compact(
       this.config?.locations?.map((location) => {
-        const quadkey = (location as QuadkeyPhysicalLocation).quadkey
-          ? Quadkey.fromBase10String((location as QuadkeyPhysicalLocation).quadkey)
-          : Quadkey.fromLngLat({ lat: (location as LngLatPhysicalLocation).latitude, lng: (location as LngLatPhysicalLocation).longitude }, this.zoom)
-        return quadkey?.toCenter()
+        return physicalLocationToOpenElevationLocation(location, this.zoom)
       }),
-    ).map((center) => {
-      return { latitude: center.lat, longitude: center?.lng }
-    })
+    )
   }
 
   override async observe(fields?: Partial<XyoLocationElevationPayload>[]): Promise<XyoLocationElevationPayload[]> {
-    const results = (
-      await new AxiosJson().post<OpenElevationResult>('https://api.open-elevation.com/api/v1/lookup', {
-        locations: fields ?? this.locations,
-      })
-    ).data?.results
+    const request = {
+      locations: fields?.map((location) => physicalLocationToOpenElevationLocation(location as PhysicalLocation, this.zoom)) ?? this.locations,
+    }
+    console.log(`Elevation request: ${JSON.stringify(request, null, 2)}`)
+    const result = await new AxiosJson().post<OpenElevationResult>('https://api.open-elevation.com/api/v1/lookup', request)
+    const results = result.data?.results
+    console.log(`Elevation result.status: ${JSON.stringify(result.status, null, 2)}`)
     console.log(`Elevation observe: ${JSON.stringify(results, null, 2)}`)
-    return this.observe(results?.map((result, index) => merge({}, result, fields?.[index])))
+    return super.observe(results?.map((result, index) => merge({}, result, fields?.[index])))
   }
 
   static schema: XyoLocationElevationSchema = XyoLocationElevationSchema

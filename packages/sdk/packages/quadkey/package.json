@@ -13,7 +13,7 @@
     "@xylabs/bignumber": "^2.6.9",
     "@xylabs/buffer": "^2.6.9",
     "@xylabs/sdk-js": "^2.6.9",
-    "@xyo-network/sdk-xyo-js": "^2.6.23",
+    "@xyo-network/sdk-geo": "^2.7.0",
     "mapbox-gl": "^2.10.0",
     "tslib": "^2.4.0"
   },

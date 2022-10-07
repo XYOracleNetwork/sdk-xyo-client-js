@@ -245,7 +245,6 @@ export class Quadkey {
   }
 
   public toTile(): MercatorTile {
-    console.log(`hash: ${this.toBase4Hash()}`)
     return tileFromQuadkey(this.toBase4Hash())
   }
 

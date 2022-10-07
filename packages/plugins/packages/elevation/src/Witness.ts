@@ -63,11 +63,8 @@ export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevation
     const request = {
       locations: fields?.map((location) => physicalLocationToOpenElevationLocation(location as PhysicalLocation, this.zoom)) ?? this.locations,
     }
-    console.log(`Elevation request: ${JSON.stringify(request, null, 2)}`)
     const result = await new AxiosJson().post<OpenElevationResult>('https://api.open-elevation.com/api/v1/lookup', request)
     const results = result.data?.results
-    console.log(`Elevation result.status: ${JSON.stringify(result.status, null, 2)}`)
-    console.log(`Elevation observe: ${JSON.stringify(results, null, 2)}`)
     return super.observe(results?.map((result, index) => merge({}, result, fields?.[index])))
   }
 

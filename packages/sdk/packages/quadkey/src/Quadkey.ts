@@ -36,6 +36,7 @@ export class Quadkey {
 
   constructor(key = Buffer.alloc(32)) {
     key.copy(this.key, this.key.length - key.length)
+    this.guessZoom()
   }
 
   public equals(obj: Quadkey): boolean {
@@ -104,8 +105,8 @@ export class Quadkey {
     )
   }
 
-  public static fromBoundingBox(bbox: MercatorBoundingBox, zoom: number) {
-    const tiles = tilesFromBoundingBox(bbox, Math.floor(zoom))
+  public static fromBoundingBox(boundingBox: MercatorBoundingBox, zoom: number) {
+    const tiles = tilesFromBoundingBox(boundingBox, Math.floor(zoom))
     const result: Quadkey[] = []
     for (const tile of tiles) {
       result.push(assertEx(Quadkey.fromTile(tile), 'Bad Quadkey'))
@@ -155,13 +156,13 @@ export class Quadkey {
 
   public setZoom(zoom: number) {
     assertEx(zoom < MAX_ZOOM, `Invalid zoom [${zoom}] max=${MAX_ZOOM}`)
-    this.setKey(zoom, this.id())
+    this.setKey(zoom, this.id)
     return this
   }
 
   public parent() {
-    if (this.zoom() > 0) {
-      return new Quadkey().setId(bitShiftRight(bitShiftRight(this.id()))).setZoom(this.zoom() - 1)
+    if (this.zoom > 0) {
+      return new Quadkey().setId(bitShiftRight(bitShiftRight(this.id))).setZoom(this.zoom - 1)
     }
   }
 
@@ -192,7 +193,7 @@ export class Quadkey {
 
   public childrenByZoom(zoom: number) {
     // if we are limiting by zoom, and we are already at that limit, just return this quadkey
-    if (zoom && zoom === this.zoom()) {
+    if (zoom && zoom === this.zoom) {
       return [this]
     }
 
@@ -205,29 +206,29 @@ export class Quadkey {
   }
 
   public children() {
-    assertEx(this.zoom() < MAX_ZOOM - 1, 'Can not get children of bottom tiles')
+    assertEx(this.zoom < MAX_ZOOM - 1, 'Can not get children of bottom tiles')
     const result: Quadkey[] = []
-    const shiftedId = bitShiftLeft(bitShiftLeft(this.id()))
+    const shiftedId = bitShiftLeft(bitShiftLeft(this.id))
     for (let i = 0; i < 4; i++) {
       const currentLastByte = shiftedId.readUInt8(shiftedId.length - 1)
       shiftedId.writeUInt8((currentLastByte & 0xfc) | i, shiftedId.length - 1)
-      result.push(new Quadkey().setId(shiftedId).setZoom(this.zoom() + 1))
+      result.push(new Quadkey().setId(shiftedId).setZoom(this.zoom + 1))
     }
     return result
   }
 
   public siblings() {
     const siblings = assertEx(this.parent()?.children(), `siblings: parentChildren ${this.toBase4Hash()}`)
-    const filteredeSiblinngs = siblings.filter((quadkey) => this.compareTo(quadkey) !== 0)
-    assertEx(filteredeSiblinngs.length === 3, `siblings: expected 3 [${filteredeSiblinngs.length}]`)
-    return filteredeSiblinngs
+    const filteredSiblings = siblings.filter((quadkey) => this.compareTo(quadkey) !== 0)
+    assertEx(filteredSiblings.length === 3, `siblings: expected 3 [${filteredSiblings.length}]`)
+    return filteredSiblings
   }
 
   public clone() {
     return Quadkey.fromBase10String(this.toBase10String())
   }
 
-  public zoom() {
+  public get zoom() {
     return this.toBuffer().readUInt8(0)
   }
 
@@ -239,11 +240,12 @@ export class Quadkey {
   }
 
   public setId(id: Buffer) {
-    this.setKey(this.zoom(), id)
+    this.setKey(this.zoom, id)
     return this
   }
 
   public toTile(): MercatorTile {
+    console.log(`hash: ${this.toBase4Hash()}`)
     return tileFromQuadkey(this.toBase4Hash())
   }
 
@@ -267,9 +269,9 @@ export class Quadkey {
   }
 
   public valid() {
-    const zoom = this.zoom()
+    const zoom = this.zoom
     const shift = (MAX_ZOOM - zoom) * 2
-    const id = this.id()
+    const id = this.id
     let testId = id
     for (let i = 0; i < shift; i++) {
       testId = bitShiftLeft(testId)
@@ -280,7 +282,7 @@ export class Quadkey {
     return testId.compare(id) === 0
   }
 
-  public id() {
+  public get id() {
     return this.toBuffer().slice(1)
   }
 
@@ -309,9 +311,15 @@ export class Quadkey {
     return hash.length === 0 ? 'fhr' : hash
   }
 
+  protected guessZoom() {
+    const bn = new BigNumber(this.id.toString('hex'), 16)
+    const quadkeySimple = bn.toString(4)
+    this.setZoom(quadkeySimple.length)
+  }
+
   public toBase4Hash() {
-    const bn = new BigNumber(this.id().toString('hex'), 16)
-    const zoom = this.zoom()
+    const bn = new BigNumber(this.id.toString('hex'), 16)
+    const zoom = this.zoom
     if (zoom === 0) {
       return ''
     }

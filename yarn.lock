@@ -2206,9 +2206,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/providers@npm:^9.1.0":
-  version: 9.1.0
-  resolution: "@metamask/providers@npm:9.1.0"
+"@metamask/providers@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "@metamask/providers@npm:10.0.0"
   dependencies:
     "@metamask/object-multiplex": ^1.1.0
     "@metamask/safe-event-emitter": ^2.0.0
@@ -2219,10 +2219,10 @@ __metadata:
     fast-deep-equal: ^2.0.1
     is-stream: ^2.0.0
     json-rpc-engine: ^6.1.0
-    json-rpc-middleware-stream: ^3.0.0
+    json-rpc-middleware-stream: ^4.0.0
     pump: ^3.0.0
     webextension-polyfill-ts: ^0.25.0
-  checksum: b36fdd3eb6b7dd64eb8017fc32cc485327cd70f8448be1fa87109862db4ffe391a5936e78f1204ef6ff6a381436e185eafa3cfebdb499f0955fc724bde82a881
+  checksum: 7b1908f8dee1ed7a73eb1f4bf9fe8344dfa948786d88c5fec6a4f3042cffede96a761267434d588a41e8b200e2ce243af857fe9fd22d456fcc64f883bf6c2e51
   languageName: node
   linkType: hard
 
@@ -2808,7 +2808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.8.2, @types/node@npm:^18.8.3":
+"@types/node@npm:*, @types/node@npm:^18.8.2, @types/node@npm:^18.8.4":
   version: 18.8.4
   resolution: "@types/node@npm:18.8.4"
   checksum: c2b87f6b0b1f02b2ce61ca7cb93ea287119bda086a3f33e48da8f5e70c24ad7141cc3465946e0e36abb7eba70c7b320c7659842096e4aa573b3a8d557322c818
@@ -3880,7 +3880,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-cli@workspace:packages/modules/packages/node-cli"
   dependencies:
-    "@types/node": ^18.8.3
+    "@types/node": ^18.8.4
     "@types/terminal-kit": ^2.5.0
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -4071,7 +4071,7 @@ __metadata:
     "@xyo-network/payload-plugins": "workspace:^"
     "@xyo-network/sdk": "workspace:^"
     axios: ^0.27.2
-    eslint: ^8.24.0
+    eslint: ^8.25.0
     jest: ^29.1.2
     jest-extended: ^3.1.0
     pako: ^2.0.4
@@ -4200,7 +4200,7 @@ __metadata:
   resolution: "@xyo-network/utils@workspace:packages/sdk/packages/utils"
   dependencies:
     "@ethersproject/providers": ^5.7.1
-    "@metamask/providers": ^9.1.0
+    "@metamask/providers": ^10.0.0
     "@types/lru-cache": ^7.10.10
     "@xylabs/delay": ^2.6.9
     "@xyo-network/domain-payload-plugin": "workspace:^"
@@ -6629,7 +6629,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.24.0":
+"eslint@npm:^8.24.0, eslint@npm:^8.25.0":
   version: 8.25.0
   resolution: "eslint@npm:8.25.0"
   dependencies:
@@ -9269,13 +9269,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-rpc-middleware-stream@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "json-rpc-middleware-stream@npm:3.0.0"
+"json-rpc-middleware-stream@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "json-rpc-middleware-stream@npm:4.0.0"
   dependencies:
     "@metamask/safe-event-emitter": ^2.0.0
     readable-stream: ^2.3.3
-  checksum: 9ff56cd40a6ba0a6f3d0226ea100921635120154c602822f0f4fdfa6bf7c61367d1e8cd055b6e7a7639aa19ed51a9ce7fbf2932a2d348b2404c060f75bc1231f
+  checksum: 7ef6dcf89ee821305d566866ee544cd6800c2da62c2f48f62ddf1b662836907c208b3d03908c19cae09ecdadc88f37156351c5bedb4df8515ad529f20fa97ba4
   languageName: node
   linkType: hard
 

@@ -1,7 +1,4 @@
-// TODO: Pull in from SDK once migrated to SDK
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type LogFunction = (message?: any) => void
+export type LogFunction = (message?: unknown) => void
 
 /**
  * Interface to handle overlap between Winston &

@@ -15,7 +15,7 @@ export type XyoPayloadPluginFunc<
 export type XyoPayloadPlugin<
   TPayload extends XyoPayload = XyoPayload,
   TWitnessConfig extends XyoWitnessConfig<TPayload> = XyoWitnessConfig<TPayload>,
-  TDivinerConfig extends XyoDivinerConfig<TPayload> = XyoDivinerConfig<TPayload>,
+  TDivinerConfig extends XyoDivinerConfig = XyoDivinerConfig,
 > = {
   configs?: XyoPayloadPluginConfigs<TWitnessConfig, TDivinerConfig>
   schema: TPayload['schema']

@@ -3,9 +3,9 @@ import { XyoAccount } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { PromiseEx } from '@xyo-network/promise'
+import { Logger } from '@xyo-network/shared'
 
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
-import { Logger } from './Logger'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import {

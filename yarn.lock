@@ -4073,7 +4073,7 @@ __metadata:
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/payload-plugins": "workspace:^"
     "@xyo-network/sdk": "workspace:^"
-    axios: ^0.27.2
+    axios: ^1.1.2
     eslint: ^8.25.0
     jest: ^29.1.2
     jest-extended: ^3.1.0
@@ -4081,7 +4081,7 @@ __metadata:
     ts-jest: ^29.0.3
     typescript: ^4.8.4
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.2
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4674,6 +4674,17 @@ __metadata:
     follow-redirects: ^1.14.9
     form-data: ^4.0.0
   checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "axios@npm:1.1.2"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 136c25a5031aa2845fdbda3006c36888bbe351b11d1195f1f898a23c5df1430febbdb1ad034a61f27967e83762d5b5a3e851fff8a363cb4badeb883f8ff21461
   languageName: node
   linkType: hard
 
@@ -7134,7 +7145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.9":
+"follow-redirects@npm:^1.14.9, follow-redirects@npm:^1.15.0":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
   peerDependenciesMeta:
@@ -11646,6 +11657,13 @@ __metadata:
   version: 3.6.0
   resolution: "protocol-buffers-schema@npm:3.6.0"
   checksum: 8713b5770f6745ddbcdf3bbd03ee020624d506233bb567927a6615a6f69a5bd620a5f49597f34f4115792b853a4c9cb9e2d5d6b930a1c04bf198023e45c1c349
+  languageName: node
+  linkType: hard
+
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: ed7fcc2ba0a33404958e34d95d18638249a68c430e30fcb6c478497d72739ba64ce9810a24f53a7d921d0c065e5b78e3822759800698167256b04659366ca4d4
   languageName: node
   linkType: hard
 

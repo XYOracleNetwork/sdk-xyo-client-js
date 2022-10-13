@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoArchivist, XyoArchivistFindQuerySchema, XyoPayloadFindFilter } from '@xyo-network/archivist'
+import { XyoArchivist, XyoArchivistFindQuerySchema } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 
 import { RemoteArchivistError } from './RemoteArchivistError'
 import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'

@@ -78,6 +78,10 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
 
   constructor(params?: XyoArchivistParams<XyoStorageArchivistConfig>) {
     super(params)
+    const savedAccount = this.loadAccount()
+    if (savedAccount) {
+      this.account = savedAccount
+    }
     this.saveAccount()
   }
 
@@ -100,7 +104,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
 
   protected saveAccount() {
     if (this.persistAccount) {
-      this.log?.('Load Account', this.account.addressValue.hex)
+      this.log?.('Save Account', this.account.addressValue.hex)
       this.privateStorage.set('privateKey', this.account.private.hex)
     }
   }

@@ -1,23 +1,17 @@
-import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivist, XyoMemoryArchivist } from '@xyo-network/archivist'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
-import { Logger } from '@xyo-network/shared'
-import { mock, MockProxy } from 'jest-mock-extended'
+import { XyoModuleResolver } from '@xyo-network/module'
 
 import { LocationCertaintyPayload } from '../Payload'
 import { LocationCertaintySchema } from '../Schema'
 import { LocationCertaintyDiviner } from './Diviner'
 
 describe('MongoDBLocationCertaintyDiviner', () => {
-  let logger: MockProxy<Logger>
-  let account: XyoAccount
   let payloadsArchivist: XyoArchivist
   let sut: LocationCertaintyDiviner
   beforeEach(() => {
-    logger = mock<Logger>()
-    account = XyoAccount.random()
     payloadsArchivist = new XyoMemoryArchivist()
-    sut = new LocationCertaintyDiviner(undefined, account, () => payloadsArchivist, logger)
+    sut = new LocationCertaintyDiviner({ logger: console, resolver: new XyoModuleResolver().add(payloadsArchivist) })
   })
   describe('divine', () => {
     describe('with valid query', () => {

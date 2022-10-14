@@ -23,10 +23,12 @@ testArchivistAll(new XyoStorageArchivist({ config: { namespace: 'test', schema: 
 test('XyoArchivist Private Key Save', () => {
   const storage = new XyoStorageArchivist({
     config: { namespace: 'test', persistAccount: true, schema: XyoStorageArchivistConfigSchema, type: 'local' },
+    logger: console,
   })
   const address = storage.address
   const storage2 = new XyoStorageArchivist({
     config: { namespace: 'test', persistAccount: true, schema: XyoStorageArchivistConfigSchema, type: 'local' },
+    logger: console,
   })
   expect(storage2.address).toBe(address)
 })
@@ -36,6 +38,7 @@ test('XyoArchivist Parent Write Through', async () => {
 
   const storage = new XyoStorageArchivist({
     config: { namespace: 'test', parents: { write: [memory.address] }, persistAccount: true, schema: XyoStorageArchivistConfigSchema, type: 'local' },
+    logger: console,
     resolver: new XyoModuleResolver().add(memory),
   })
 

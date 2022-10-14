@@ -39,5 +39,6 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
   override async initialize(config?: XyoUniswapCryptoMarketWitnessConfig, _queryAccount?: XyoAccount | undefined) {
     await super.initialize(config)
     this.pairs = createUniswapPoolContracts(this.provider, this.config?.pools ?? UniswapPoolContracts)
+    this.log?.('Initialize', JSON.stringify(this.pairs, null, 2))
   }
 }

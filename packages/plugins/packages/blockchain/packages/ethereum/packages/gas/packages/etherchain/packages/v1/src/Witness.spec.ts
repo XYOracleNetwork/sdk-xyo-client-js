@@ -1,9 +1,11 @@
-import { XyoEthereumGasEtherchainV1Schema } from './Schema'
+import { XyoEthereumGasEtherchainV1Schema, XyoEthereumGasEtherchainV1WitnessConfigSchema } from './Schema'
 import { XyoEtherchainEthereumGasWitnessV1 } from './Witness'
 
 describe('Witness', () => {
   test('returns observation', async () => {
-    const sut = new XyoEtherchainEthereumGasWitnessV1()
+    const sut = new XyoEtherchainEthereumGasWitnessV1({
+      config: { schema: XyoEthereumGasEtherchainV1WitnessConfigSchema, targetSchema: XyoEthereumGasEtherchainV1Schema },
+    })
     const [actual] = await sut.observe()
     expect(actual).toBeObject()
     expect(actual.currentBaseFee).toBeNumber()

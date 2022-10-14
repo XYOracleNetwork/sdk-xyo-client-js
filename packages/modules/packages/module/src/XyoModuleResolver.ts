@@ -9,13 +9,33 @@ export class XyoModuleResolver implements ModuleResolver {
     return true
   }
 
-  add(module: XyoModule) {
-    this.modules[module.address] = module
+  private addSingleModule(module?: XyoModule) {
+    if (module) {
+      this.modules[module.address] = module
+    }
+  }
+
+  add(module?: XyoModule | XyoModule[]) {
+    if (Array.isArray(module)) {
+      module.forEach((module) => this.addSingleModule(module))
+    } else {
+      this.addSingleModule(module)
+    }
     return this
   }
 
-  remove(module: XyoModule) {
-    delete this.modules[module.address]
+  private removeSingleModule(module?: XyoModule) {
+    if (module) {
+      delete this.modules[module.address]
+    }
+  }
+
+  remove(module?: XyoModule | XyoModule[]) {
+    if (Array.isArray(module)) {
+      module.forEach((module) => this.removeSingleModule(module))
+    } else {
+      this.removeSingleModule(module)
+    }
     return this
   }
 

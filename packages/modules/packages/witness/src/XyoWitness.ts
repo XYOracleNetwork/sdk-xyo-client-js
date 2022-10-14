@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { QueryBoundWitnessWrapper, XyoModule, XyoModuleConfig, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
+import { QueryBoundWitnessWrapper, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -8,7 +8,7 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
-export type XyoWitnessParams<TConfig extends XyoModuleConfig = XyoModuleConfig> = XyoModuleParams<TConfig>
+export type XyoWitnessParams = XyoModuleParams
 
 export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>>
   extends XyoModule<TConfig>
@@ -23,7 +23,7 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
   }
 
   public observe(fields?: Partial<XyoPayload>[]): Promisable<TTarget[]> {
-    this.checkInitialized('Observe')
+    this.started('throw')
     return (
       fields?.map((fieldsItem) => {
         return { ...fieldsItem, schema: this.targetSchema } as TTarget

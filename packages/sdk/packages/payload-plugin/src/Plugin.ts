@@ -1,6 +1,7 @@
 import { XyoValidator } from '@xyo-network/core'
 import { XyoDiviner, XyoDivinerConfig, XyoDivinerParams } from '@xyo-network/diviner'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { Promisable } from '@xyo-network/promise'
 import { XyoWitness, XyoWitnessConfig, XyoWitnessParams } from '@xyo-network/witness'
 
 import { XyoPayloadPluginParams } from './XyoPayloadPluginConfigs'
@@ -22,8 +23,8 @@ export type XyoPayloadPlugin<
   template?: () => Partial<TPayload>
   validate?: (payload: XyoPayload) => XyoValidator
   wrap?: (payload: XyoPayload) => PayloadWrapper
-  witness?: <T extends XyoWitnessParams<TWitnessConfig>>(params: T) => XyoWitness
-  diviner?: <T extends XyoDivinerParams<TDivinerConfig>>(config: T) => XyoDiviner
+  witness?: <TParams extends XyoWitnessParams & { config?: TWitnessConfig }>(params?: TParams) => Promisable<XyoWitness>
+  diviner?: <TParams extends XyoDivinerParams & { config?: TDivinerConfig }>(params?: TParams) => Promisable<XyoDiviner>
 }
 
 /* Note: We use PartialWitnessConfig to allow people to config witnesses without having to pass in all the schema info*/

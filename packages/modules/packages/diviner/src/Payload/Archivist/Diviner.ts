@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
 import { PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { Huri, PayloadWrapper, XyoPayloads } from '@xyo-network/payload'
 
@@ -15,9 +14,9 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  override async initialize(config?: XyoArchivistPayloadDivinerConfig, _queryAccount?: XyoAccount | undefined) {
-    await super.initialize(config)
-    const configArchivistAddress = config?.archivist
+  override async start() {
+    await super.start()
+    const configArchivistAddress = this.config?.archivist
     if (configArchivistAddress) {
       const resolvedArchivist: PayloadArchivist | null = configArchivistAddress
         ? (this.resolver?.fromAddress([configArchivistAddress]) as unknown as PayloadArchivist[]).shift() ?? null
@@ -26,6 +25,7 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
         this.archivist = resolvedArchivist ? new XyoArchivistWrapper({ module: resolvedArchivist }) : null
       }
     }
+    return this
   }
 
   public async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {

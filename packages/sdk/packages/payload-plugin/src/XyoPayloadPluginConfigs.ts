@@ -5,6 +5,6 @@ export interface XyoPayloadPluginParams<
   TWitnessConfig extends XyoWitnessConfig = XyoWitnessConfig,
   TDivinerConfig extends XyoDivinerConfig = XyoDivinerConfig,
 > {
-  witness?: XyoWitnessParams<TWitnessConfig>
-  diviner?: XyoDivinerParams<TDivinerConfig>
+  witness?: XyoWitnessParams & { config?: TWitnessConfig }
+  diviner?: XyoDivinerParams & { config?: TDivinerConfig }
 }

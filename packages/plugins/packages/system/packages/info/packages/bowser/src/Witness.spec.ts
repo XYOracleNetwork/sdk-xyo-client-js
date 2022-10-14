@@ -19,11 +19,14 @@ cryptoPolyfill(window)
 
 describe('XyoBowserSystemInfo', () => {
   test('observe', async () => {
-    const witness = new XyoBowserSystemInfoWitness({ logger: console })
-    await witness.initialize({
-      schema: XyoBowserSystemInfoWitnessConfigSchema,
-      targetSchema: XyoBowserSystemInfoSchema,
+    const witness = new XyoBowserSystemInfoWitness({
+      config: {
+        schema: XyoBowserSystemInfoWitnessConfigSchema,
+        targetSchema: XyoBowserSystemInfoSchema,
+      },
+      logger: console,
     })
+    await witness.start()
     const [observation] = await witness.observe()
     console.log(JSON.stringify(observation, null, 2))
     expect(observation.schema).toBe(XyoBowserSystemInfoSchema)

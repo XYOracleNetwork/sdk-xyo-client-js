@@ -78,11 +78,13 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
 
   constructor(params?: XyoArchivistParams<XyoStorageArchivistConfig>) {
     super(params)
-    const savedAccount = this.loadAccount()
-    if (savedAccount) {
-      this.account = savedAccount
-    }
+    this.loadAccount()
+  }
+
+  override async start() {
+    await super.start()
     this.saveAccount()
+    return this
   }
 
   protected override loadAccount() {
@@ -93,8 +95,8 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
           const account = new XyoAccount({ privateKey })
           this.log?.('Load Account', account.addressValue.hex)
           return account
-        } catch {
-          console.error(`Error reading Account from storage [${this.type}] - Recreating Account`)
+        } catch (ex) {
+          console.error(`Error reading Account from storage [${this.type}, ${ex}] - Recreating Account`)
           this.privateStorage.remove('privateKey')
         }
       }

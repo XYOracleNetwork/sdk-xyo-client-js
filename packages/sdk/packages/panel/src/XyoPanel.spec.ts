@@ -11,10 +11,11 @@ import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from './XyoPanel'
 describe('XyoPanel', () => {
   test('all [simple panel send]', async () => {
     const archivist = new XyoMemoryArchivist()
+    await archivist.start()
 
     const witnesses: XyoWitness[] = [
-      new XyoIdWitness({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } }),
-      new XyoNodeSystemInfoWitness({
+      await new XyoIdWitness({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } }).start(),
+      await new XyoNodeSystemInfoWitness({
         config: {
           nodeValues: {
             osInfo: '*',
@@ -22,7 +23,7 @@ describe('XyoPanel', () => {
           schema: XyoNodeSystemInfoWitnessConfigSchema,
           targetSchema: XyoNodeSystemInfoSchema,
         },
-      }),
+      }).start(),
     ]
 
     const config: XyoPanelConfig = {
@@ -32,9 +33,11 @@ describe('XyoPanel', () => {
     }
 
     const resolver = new XyoModuleResolver()
+    resolver.add(archivist)
     witnesses.forEach((witness) => resolver.add(witness))
 
     const panel = new XyoPanel({ config, resolver })
+    await panel.start()
     expect(panel.archivists.length).toBe(1)
     expect(panel.witnesses.length).toBe(2)
     const adhocWitness = new XyoAdhocWitness({
@@ -50,6 +53,7 @@ describe('XyoPanel', () => {
       testUndefined: undefined,
     })
 
+    await adhocWitness.start()
     const adhocObserved = await adhocWitness.observe()
 
     expect(adhocObserved).toBeDefined()

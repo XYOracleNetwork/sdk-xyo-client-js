@@ -9,6 +9,7 @@ test('XyoHttpBridge', async () => {
   const nodeUri = `${process.env.API_DOMAIN}` ?? 'https://beta.api.archivist.xyo.network'
   const targetAddress = 'temp'
   const bridge = new XyoHttpBridge({ axios: new Axios(), config: { nodeUri, schema: XyoHttpBridgeConfigSchema, targetAddress } })
+  await bridge.start()
   const wrapper = new XyoArchivistWrapper({ module: bridge })
   const debugPayload = {
     nonce: uuid(),

@@ -1,6 +1,5 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness } from '@xyo-network/witness'
 
@@ -9,8 +8,7 @@ import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, Uni
 import { XyoUniswapCryptoMarketPayload } from './Payload'
 import { XyoUniswapCryptoMarketSchema } from './Schema'
 
-export interface XyoUniswapCryptoMarketWitnessParams<TConfig extends XyoUniswapCryptoMarketWitnessConfig = XyoUniswapCryptoMarketWitnessConfig>
-  extends XyoModuleParams<TConfig> {
+export interface XyoUniswapCryptoMarketWitnessParams extends XyoModuleParams<XyoUniswapCryptoMarketWitnessConfig> {
   provider: Provider
 }
 
@@ -23,7 +21,7 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
   }
 
   override async observe(): Promise<XyoUniswapCryptoMarketPayload[]> {
-    this.checkInitialized('Observe')
+    this.started('throw')
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()
 
@@ -36,9 +34,8 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
     ]
   }
 
-  override async initialize(config?: XyoUniswapCryptoMarketWitnessConfig, _queryAccount?: XyoAccount | undefined) {
-    await super.initialize(config)
+  override async start() {
     this.pairs = createUniswapPoolContracts(this.provider, this.config?.pools ?? UniswapPoolContracts)
-    this.log?.('Initialize', JSON.stringify(this.pairs, null, 2))
+    return await super.start()
   }
 }

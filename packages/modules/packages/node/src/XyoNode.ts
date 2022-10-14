@@ -49,7 +49,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
   }
   /** Query Functions - End */
 
-  override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
@@ -74,14 +74,15 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
         break
       }
       default:
-        return super.query(query, payloads)
+        return await super.query(query, payloads)
     }
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  override async initialize(config?: TConfig | undefined, _queryAccount?: XyoAccount | undefined) {
-    await super.initialize(config)
+  override async start() {
+    await super.start()
     await this.storeInstanceData()
+    return this
   }
 
   register(_module: TModule): void {

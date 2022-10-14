@@ -18,10 +18,12 @@ test('Create Node', async () => {
   const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
   const node: NodeModule = new MemoryNode()
   const archivist = new XyoMemoryArchivist()
+  await archivist.start()
   const diviner: XyoModule = new XyoArchivistPayloadDiviner({
     config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
     resolver: new XyoModuleResolver().add(archivist),
   })
+  await diviner.start()
   await node.register(archivist)
   node.attach(archivist.address)
   await node.register(diviner)

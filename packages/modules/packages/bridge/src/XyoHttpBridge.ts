@@ -1,15 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import {
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoModule,
-  XyoModuleConfig,
-  XyoModuleParams,
-  XyoQuery,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoModuleParams, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import { Axios, AxiosError, AxiosRequestHeaders } from 'axios'
@@ -28,7 +20,7 @@ export type XyoHttpBridgeConfig = XyoBridgeConfig<{
   axios?: AxiosJsonRequestConfig
 }>
 
-export interface XyoHttpBridgeParams<TConfig extends XyoModuleConfig = XyoModuleConfig> extends XyoModuleParams<TConfig> {
+export interface XyoHttpBridgeParams<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeConfig> extends XyoModuleParams<TConfig> {
   axios: Axios
 }
 

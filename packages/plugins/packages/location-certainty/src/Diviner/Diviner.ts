@@ -76,6 +76,7 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
           targetSchema: XyoLocationElevationSchema,
         },
       })
+      await elevationWitness.start()
       const elevations = await elevationWitness.observe()
 
       const heuristics = LocationCertaintyDiviner.locationsToHeuristics(elevations, locations)
@@ -92,20 +93,6 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
       return [result]
     }
     return []
-  }
-
-  override async initialize(): Promise<void> {
-    this.logger?.log('LocationCertaintyDiviner.Initialize: Initializing')
-    // TODO: Any async init here
-    await Promise.resolve()
-    this.logger?.log('LocationCertaintyDiviner.Initialize: Initialized')
-  }
-
-  override async shutdown(): Promise<void> {
-    this.logger?.log('LocationCertaintyDiviner.Shutdown: Shutting down')
-    // TODO: Any async shutdown
-    await Promise.resolve()
-    this.logger?.log('LocationCertaintyDiviner.Shutdown: Shutdown')
   }
 
   /** @description Is the goal here to prime/index the diviner? */

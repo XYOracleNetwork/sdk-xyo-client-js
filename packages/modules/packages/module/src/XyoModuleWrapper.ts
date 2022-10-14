@@ -1,4 +1,5 @@
 import { XyoPayload } from '@xyo-network/payload'
+import { Promisable } from '@xyo-network/promise'
 
 import { XyoModuleConfig } from './Config'
 import { Module } from './Module'
@@ -30,7 +31,7 @@ export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends X
     return this.module.queryable(schema, addresses)
   }
 
-  override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promisable<ModuleQueryResult> {
     return this.module.query(query, payloads)
   }
 }

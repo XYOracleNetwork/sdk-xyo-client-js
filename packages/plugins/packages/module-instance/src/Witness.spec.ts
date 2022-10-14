@@ -6,7 +6,10 @@ import { XyoModuleInstanceWitness, XyoModuleInstanceWitnessConfigSchema } from '
 describe('XyoElevationWitness', () => {
   test('Witnessing', async () => {
     const module = new XyoMemoryArchivist()
-    const witness = new XyoModuleInstanceWitness({ module, schema: XyoModuleInstanceWitnessConfigSchema, targetSchema: XyoModuleInstanceSchema })
+    const witness = new XyoModuleInstanceWitness({
+      config: { module, schema: XyoModuleInstanceWitnessConfigSchema, targetSchema: XyoModuleInstanceSchema },
+    })
+    await witness.start()
     const [result] = await witness.observe()
 
     console.log(`Module: ${JSON.stringify(result, null, 2)}`)

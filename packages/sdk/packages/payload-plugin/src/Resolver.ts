@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { XyoValidator } from '@xyo-network/core'
 import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 
@@ -29,7 +28,7 @@ export class XyoPayloadPluginResolver {
     params?: TParams,
   ) {
     this._plugins[plugin.schema] = plugin
-    this.params[plugin.schema] = params ?? { witness: {} }
+    this.params[plugin.schema] = params ?? {}
     return this
   }
 
@@ -48,11 +47,11 @@ export class XyoPayloadPluginResolver {
   }
 
   public witness(schema: string) {
-    return this._plugins[schema]?.witness?.(assertEx(this.params[schema]?.witness, 'Config required for witness creation'))
+    return this._plugins[schema]?.witness?.(this.params[schema]?.witness)
   }
 
   public diviner(schema: string) {
-    return this._plugins[schema]?.diviner?.(assertEx(this.params[schema]?.diviner, 'Config required for diviner creation'))
+    return this._plugins[schema]?.diviner?.(this.params[schema]?.diviner)
   }
 
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */

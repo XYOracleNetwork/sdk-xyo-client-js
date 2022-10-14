@@ -3956,6 +3956,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.0
   languageName: unknown

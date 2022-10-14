@@ -1,15 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import {
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoModule,
-  XyoModuleInitializeQuerySchema,
-  XyoModuleParams,
-  XyoModuleShutdownQuerySchema,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -39,13 +31,7 @@ export type XyoArchivistParams<TConfig extends XyoArchivistConfig = XyoArchivist
 
 export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig> extends XyoModule<TConfig> implements PayloadArchivist {
   public override queries() {
-    return [
-      XyoModuleInitializeQuerySchema,
-      XyoModuleShutdownQuerySchema,
-      XyoArchivistGetQuerySchema,
-      XyoArchivistInsertQuerySchema,
-      ...super.queries(),
-    ]
+    return [XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, ...super.queries()]
   }
 
   public get cacheParentReads() {
@@ -126,7 +112,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
       default:
         return super.query(query, payloads)
     }
-    this.log?.('Query', wrapper.schemaName)
+    this.log?.('query', wrapper.schemaName)
     return this.bindResult(resultPayloads, queryAccount)
   }
 

@@ -6,6 +6,7 @@ import { XyoWitnessWrapper } from './XyoWitnessWrapper'
 
 test('XyoWitness', async () => {
   const witness = new XyoWitness({ config: { schema: 'xyo.network.test.witness.config', targetSchema: 'xyo.network.test' } })
+  await witness.start()
   const witnessAsModule: Module = witness
   const witnessAsWitness: Witness = witness
   const witnessAsXyoModule: XyoModule = witness

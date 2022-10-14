@@ -8,13 +8,7 @@ import { Logger } from '@xyo-network/shared'
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
-import {
-  XyoModuleDiscoverQuerySchema,
-  XyoModuleInitializeQuerySchema,
-  XyoModuleQuery,
-  XyoModuleShutdownQuerySchema,
-  XyoModuleSubscribeQuerySchema,
-} from './Queries'
+import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoQuery, XyoQueryBoundWitness } from './Query'
 import { ModuleResolver } from './Resolver'
 
@@ -28,7 +22,7 @@ export interface XyoModuleParams<TConfig extends XyoModuleConfig = XyoModuleConf
 }
 
 export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
-  protected initialized = false
+  protected _started = false
   protected config?: TConfig
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected account: XyoAccount
@@ -43,7 +37,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return this.logger
       ? (tag: string, message?: string | object | boolean | number) => {
           this.logger?.log(
-            `${tag} [0x${this.account.addressValue.hex}] ${
+            `${tag} [0x${this.account?.addressValue?.hex}] ${
               typeof message === 'string' ? message : typeof message === 'object' ? JSON.stringify(message, null, 2) : `${message}`
             }`,
           )
@@ -55,7 +49,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return this.logger
       ? (tag: string, message?: string | object | boolean | number) => {
           this.logger?.warn(
-            `${tag} [0x${this.account.addressValue.hex}] ${
+            `${tag} [0x${this.account?.addressValue?.hex}] ${
               typeof message === 'string' ? message : typeof message === 'object' ? JSON.stringify(message, null, 2) : `${message}`
             }`,
           )
@@ -75,24 +69,44 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   constructor(params?: XyoModuleParams<TConfig>) {
     this.logger = params?.logger
-    this.account = this.loadAccount(params?.account)
     this.resolver = params?.resolver
+    this.config = params?.config
+    this.account = this.loadAccount(params?.account)
     this.log?.('Module Constructed', `Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
-    /* If a config is passed, we go ahead and initialize the module */
-    if (params?.config) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.initialize(params?.config)
-    }
+  }
+
+  public start(_timeout?: number): Promisable<typeof this> {
+    this.initializeAllowedAddressSets()
+    this._started = true
+    return this
+  }
+
+  public stop(_timeout?: number): Promisable<typeof this> {
+    this.allowedAddressSets = undefined
+    this._started = false
+    return this
   }
 
   protected loadAccount(account?: XyoAccount) {
     return account ?? new XyoAccount()
   }
 
-  protected checkInitialized(tag: string) {
-    if (!this.initialized) {
-      this.warn?.(tag, 'Uninitialized')
+  public started(notStartedAction?: 'throw' | 'warn' | 'log' | 'none', tag = 'started') {
+    if (!this._started) {
+      switch (notStartedAction) {
+        case 'throw':
+          throw Error(`Module not Started [${this.address}]`)
+        case 'warn':
+          this.warn?.(tag, 'Module not started')
+          break
+        case 'none':
+          break
+        case 'log':
+        default:
+          this.log?.(tag, 'Module not started')
+      }
     }
+    return this._started
   }
 
   public get address() {
@@ -111,24 +125,24 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
   }
 
   public queryable(schema: SchemaString, addresses?: AddressString[]): boolean {
-    this.checkInitialized('Queryable')
-    return !!this.queries().includes(schema) && addresses
-      ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true
-      : true
+    return this.started('warn')
+      ? !!this.queries().includes(schema) && addresses
+        ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true
+        : true
+      : false
   }
 
   public queries(): string[] {
-    this.checkInitialized('Queries')
-    return [XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleSubscribeQuerySchema, XyoModuleShutdownQuerySchema]
+    return [XyoModuleDiscoverQuerySchema, XyoModuleSubscribeQuerySchema]
   }
 
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    this.checkInitialized('Query')
+  public query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promisable<ModuleQueryResult> {
+    this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query.schema, wrapper.addresses))
 
-    this.log?.('Query', wrapper.schemaName)
+    this.log?.('query', wrapper.schemaName)
 
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new XyoAccount()
@@ -137,16 +151,8 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
         this.discover(queryAccount)
         break
       }
-      case XyoModuleInitializeQuerySchema: {
-        await this.initialize(payloads?.[0] as TConfig, queryAccount)
-        break
-      }
       case XyoModuleSubscribeQuerySchema: {
         this.subscribe(queryAccount)
-        break
-      }
-      case XyoModuleShutdownQuerySchema: {
-        this.shutdown(queryAccount)
         break
       }
       default:
@@ -160,20 +166,8 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return
   }
 
-  public initialize(config?: TConfig, _queryAccount?: XyoAccount): Promisable<void> {
-    this.config = config
-    this.initializeAllowedAddressSets()
-    this.initialized = true
-  }
-
   public subscribe(_queryAccount?: XyoAccount) {
     return
-  }
-
-  public shutdown(_queryAccount?: XyoAccount) {
-    this.config = undefined
-    this.allowedAddressSets = undefined
-    this.initialized = false
   }
 
   protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: XyoAccount): ModuleQueryResult {
@@ -226,7 +220,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return promise
   }
 
-  static create<TConfig extends XyoModuleConfig>(_config?: TConfig): Promisable<XyoModule | null> {
-    throw Error('Not implemented')
+  static create<TParams extends XyoModuleParams<XyoModuleConfig>>(_params?: TParams): Promisable<XyoModule | null> {
+    throw Error('Can not create base XyoModule')
   }
 }

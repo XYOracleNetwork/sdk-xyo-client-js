@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleConfig } from '@xyo-network/module'
+import { XyoModuleConfig, XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -26,17 +26,17 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
-export type XyoMemoryArchivistParams<TConfig extends XyoModuleConfig = XyoModuleConfig> = XyoArchivistParams<TConfig>
+export type XyoMemoryArchivistParams<TConfig extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig> = XyoArchivistParams<TConfig>
 
 export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig> extends XyoArchivist<TConfig> {
-  static override async create<TConfig extends XyoModuleConfig>(config?: TConfig): Promise<XyoMemoryArchivist | null> {
-    const archivist: XyoMemoryArchivist = new XyoMemoryArchivist()
-    await archivist.initialize(config as XyoMemoryArchivistConfig)
-    return archivist
-  }
-
   public get max() {
     return this.config?.max ?? 10000
+  }
+
+  static override async create<TParams extends XyoModuleParams<XyoModuleConfig>>(params?: TParams): Promise<XyoMemoryArchivist | null> {
+    const archivist: XyoMemoryArchivist = new XyoMemoryArchivist(params as XyoMemoryArchivistParams)
+    await archivist.start()
+    return archivist
   }
 
   private cache: LruCache<string, XyoPayload>

@@ -8,14 +8,16 @@ import { LocationCertaintyPayloadTemplate } from './Template'
 export const LocationCertaintyPayloadPlugin = () =>
   createXyoPayloadPlugin<LocationCertaintyPayload>({
     auto: true,
-    diviner: (config): LocationCertaintyDiviner => {
-      return new LocationCertaintyDiviner({
+    diviner: async (config): Promise<LocationCertaintyDiviner> => {
+      const diviner = new LocationCertaintyDiviner({
         config: {
           ...config,
           schema: LocationCertaintyDivinerConfigSchema,
           targetSchema: LocationCertaintySchema,
         },
       })
+      await diviner.start()
+      return diviner
     },
     schema: LocationCertaintySchema,
     template: LocationCertaintyPayloadTemplate,

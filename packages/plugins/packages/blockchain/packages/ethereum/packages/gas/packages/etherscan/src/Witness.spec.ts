@@ -1,4 +1,4 @@
-import { XyoEthereumGasEtherscanSchema } from './Schema'
+import { XyoEthereumGasEtherscanSchema, XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 import { XyoEtherscanEthereumGasWitness } from './Witness'
 
 const apiKey = process.env.ETHERSCAN_API_KEY || ''
@@ -8,7 +8,11 @@ const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 describe('Witness', () => {
   testIf(apiKey)('returns observation', async () => {
     const sut = new XyoEtherscanEthereumGasWitness({
-      apiKey,
+      config: {
+        apiKey,
+        schema: XyoEthereumGasEtherscanWitnessConfigSchema,
+        targetSchema: XyoEthereumGasEtherscanSchema,
+      },
     })
     const [actual] = await sut.observe()
     expect(actual.FastGasPrice).toBeString()

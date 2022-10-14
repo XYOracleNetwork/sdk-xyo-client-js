@@ -5,13 +5,18 @@ jest.useFakeTimers().setSystemTime(now)
 import { InfuraProvider } from '@ethersproject/providers'
 
 import { UniswapPoolContracts } from './lib'
+import { XyoUniswapCryptoMarketSchema, XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
 import { XyoUniswapCryptoMarketWitness } from './Witness'
 
 describe('Witness', () => {
   test('observe', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
     const witness = new XyoUniswapCryptoMarketWitness({
-      pools: UniswapPoolContracts,
+      config: {
+        pools: UniswapPoolContracts,
+        schema: XyoUniswapCryptoMarketWitnessConfigSchema,
+        targetSchema: XyoUniswapCryptoMarketSchema,
+      },
       provider,
     })
     const [observation] = await witness.observe()

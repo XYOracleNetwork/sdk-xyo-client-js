@@ -1,12 +1,16 @@
 import { defaultCoins, defaultCurrencies } from './lib'
-import { XyoCoingeckoCryptoMarketSchema } from './Schema'
+import { XyoCoingeckoCryptoMarketSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
 describe('Witness', () => {
   test('returns observation', async () => {
     const sut = new XyoCoingeckoCryptoMarketWitness({
-      coins: defaultCoins,
-      currencies: defaultCurrencies,
+      config: {
+        coins: defaultCoins,
+        currencies: defaultCurrencies,
+        schema: XyoCoingeckoCryptoMarketWitnessConfigSchema,
+        targetSchema: XyoCoingeckoCryptoMarketSchema,
+      },
     })
     const [actual] = await sut.observe()
 

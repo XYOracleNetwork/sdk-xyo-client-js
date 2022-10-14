@@ -1,14 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleResolverFunc } from '@xyo-network/module'
+import { XyoModuleConfig } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
 import { XyoArchivistConfig } from './Config'
-import { PartialArchivistConfig } from './PartialConfig'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,
@@ -18,7 +16,7 @@ import {
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
 } from './Queries'
-import { XyoArchivist } from './XyoArchivist'
+import { XyoArchivist, XyoArchivistParams } from './XyoArchivist'
 
 export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 export const XyoMemoryArchivistConfigSchema: XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
@@ -28,9 +26,13 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
-export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
-  static create(config?: XyoMemoryArchivistConfig) {
-    return new XyoMemoryArchivist(config)
+export type XyoMemoryArchivistParams<TConfig extends XyoModuleConfig = XyoModuleConfig> = XyoArchivistParams<TConfig>
+
+export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig> extends XyoArchivist<TConfig> {
+  static override async create<TConfig extends XyoModuleConfig>(config?: TConfig): Promise<XyoMemoryArchivist | null> {
+    const archivist: XyoMemoryArchivist = new XyoMemoryArchivist()
+    await archivist.initialize(config as XyoMemoryArchivistConfig)
+    return archivist
   }
 
   public get max() {
@@ -50,8 +52,8 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     ]
   }
 
-  constructor(config?: PartialArchivistConfig<XyoMemoryArchivistConfig>, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
-    super({ ...config, schema: XyoMemoryArchivistConfigSchema }, account, resolver)
+  constructor(params?: XyoMemoryArchivistParams<TConfig>) {
+    super(params)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
 

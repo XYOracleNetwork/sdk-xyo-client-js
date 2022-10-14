@@ -3575,7 +3575,6 @@ __metadata:
     "@xylabs/exists": ^2.6.9
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/promise": "workspace:^"
@@ -3918,7 +3917,6 @@ __metadata:
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
     "@xylabs/assert": ^2.6.9
-    "@xylabs/forget": ^2.6.9
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -3939,7 +3937,6 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.186
     "@xylabs/assert": ^2.6.9
-    "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
@@ -3958,7 +3955,6 @@ __metadata:
     "@xylabs/assert": ^2.6.9
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.0
@@ -4190,6 +4186,8 @@ __metadata:
     "@xylabs/assert": ^2.6.9
     "@xylabs/bignumber": ^2.6.9
     "@xylabs/delay": ^2.6.9
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/sdk-xyo-typechain": ^1.0.4

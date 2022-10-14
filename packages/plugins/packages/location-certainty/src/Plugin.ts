@@ -10,9 +10,11 @@ export const LocationCertaintyPayloadPlugin = () =>
     auto: true,
     diviner: (config): LocationCertaintyDiviner => {
       return new LocationCertaintyDiviner({
-        ...config,
-        schema: LocationCertaintyDivinerConfigSchema,
-        targetSchema: LocationCertaintySchema,
+        config: {
+          ...config,
+          schema: LocationCertaintyDivinerConfigSchema,
+          targetSchema: LocationCertaintySchema,
+        },
       })
     },
     schema: LocationCertaintySchema,

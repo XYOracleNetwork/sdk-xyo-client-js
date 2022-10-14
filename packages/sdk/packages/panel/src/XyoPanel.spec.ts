@@ -1,7 +1,8 @@
 import { XyoMemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoIdWitness } from '@xyo-network/id-payload-plugin'
-import { XyoNodeSystemInfoWitness } from '@xyo-network/node-system-info-payload-plugin'
+import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
+import { XyoModuleResolver } from '@xyo-network/module'
+import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
 import { XyoWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness } from '@xyo-network/witnesses'
 
@@ -12,10 +13,14 @@ describe('XyoPanel', () => {
     const archivist = new XyoMemoryArchivist()
 
     const witnesses: XyoWitness[] = [
-      new XyoIdWitness({ salt: 'test' }),
+      new XyoIdWitness({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } }),
       new XyoNodeSystemInfoWitness({
-        nodeValues: {
-          osInfo: '*',
+        config: {
+          nodeValues: {
+            osInfo: '*',
+          },
+          schema: XyoNodeSystemInfoWitnessConfigSchema,
+          targetSchema: XyoNodeSystemInfoSchema,
         },
       }),
     ]
@@ -26,11 +31,10 @@ describe('XyoPanel', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const resolver = (address: string) => {
-      return archivist.address === address ? archivist : witnesses.find((witness) => witness.address === address) ?? null
-    }
+    const resolver = new XyoModuleResolver()
+    witnesses.forEach((witness) => resolver.add(witness))
 
-    const panel = new XyoPanel(config, undefined, resolver)
+    const panel = new XyoPanel({ config, resolver })
     expect(panel.archivists.length).toBe(1)
     expect(panel.witnesses.length).toBe(2)
     const adhocWitness = new XyoAdhocWitness({

@@ -1,5 +1,5 @@
 import { WithAdditional } from '@xyo-network/core'
-import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import { XyoWitness } from '@xyo-network/witness'
 import merge from 'lodash/merge'
@@ -10,10 +10,7 @@ export const XyoAdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> extends XyoWitness<T> {
   public payload: T
   constructor(payload: T) {
-    super({
-      schema: XyoAdhocWitnessConfigSchema,
-      targetSchema: XyoPayloadSchema,
-    })
+    super()
     this.payload = payload
   }
 

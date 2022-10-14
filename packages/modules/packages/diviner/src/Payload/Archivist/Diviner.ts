@@ -1,28 +1,31 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoAccount } from '@xyo-network/account'
 import { PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
-import { PartialModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
 import { Huri, PayloadWrapper, XyoPayloads } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
-import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
+import { XyoArchivistPayloadDivinerConfig } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
-  protected readonly archivist?: PayloadArchivist | null
-
-  constructor(config?: PartialModuleConfig<XyoArchivistPayloadDivinerConfig>, archivist?: PayloadArchivist, resolver?: XyoModuleResolverFunc) {
-    super({ ...config, schema: XyoArchivistPayloadDivinerConfigSchema }, undefined, resolver)
-    const configArchivistAddress = config?.archivist
-    const resolvedArchivist: PayloadArchivist | null =
-      archivist ?? (configArchivistAddress ? (this.resolver?.(configArchivistAddress) as unknown as PayloadArchivist) ?? null : null)
-    if (resolvedArchivist) {
-      this.archivist = resolvedArchivist ? new XyoArchivistWrapper(resolvedArchivist) : null
-    }
-  }
+  protected archivist?: PayloadArchivist | null
 
   override queries() {
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
+  }
+
+  override async initialize(config?: XyoArchivistPayloadDivinerConfig, _queryAccount?: XyoAccount | undefined) {
+    await super.initialize(config)
+    const configArchivistAddress = config?.archivist
+    if (configArchivistAddress) {
+      const resolvedArchivist: PayloadArchivist | null = configArchivistAddress
+        ? (this.resolver?.fromAddress([configArchivistAddress]) as unknown as PayloadArchivist[]).shift() ?? null
+        : null
+      if (resolvedArchivist) {
+        this.archivist = resolvedArchivist ? new XyoArchivistWrapper({ module: resolvedArchivist }) : null
+      }
+    }
   }
 
   public async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {

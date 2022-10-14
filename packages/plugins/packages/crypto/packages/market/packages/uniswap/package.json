@@ -22,6 +22,8 @@
     "@xylabs/assert": "^2.6.9",
     "@xylabs/bignumber": "^2.6.9",
     "@xylabs/delay": "^2.6.9",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/sdk-xyo-typechain": "^1.0.4",

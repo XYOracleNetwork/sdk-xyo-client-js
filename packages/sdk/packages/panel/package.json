@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.9",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",

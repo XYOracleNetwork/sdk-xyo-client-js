@@ -1,8 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule, XyoModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
+import { XyoModule, XyoModuleConfig } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
@@ -23,19 +22,15 @@ export type XyoPanelConfig = XyoModuleConfig<{
 export class XyoPanel extends XyoModule<XyoPanelConfig> {
   public history: XyoPayload[] = []
 
-  constructor(config?: XyoPanelConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
-    super(config, account, resolver)
-  }
-
   private _archivists: XyoArchivistWrapper[] | undefined
   public get archivists() {
     this._archivists =
       this._archivists ||
       compact(
         compact((Array.isArray(this.config?.archivists) ? this.config?.archivists : [this.config?.archivists]) ?? []).map((archivist) => {
-          const module = this.resolver?.(archivist)
+          const module = this.resolver?.fromAddress([archivist]).shift()
           if (module) {
-            return new XyoArchivistWrapper(module)
+            return new XyoArchivistWrapper({ module })
           }
           throw Error(`Archivist not found: ${archivist}`)
         }),
@@ -49,9 +44,9 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
       this._witnesses ||
       compact(
         compact((Array.isArray(this.config?.witnesses) ? this.config?.witnesses : [this.config?.witnesses]) ?? []).map((witness) => {
-          const module = this.resolver?.(witness)
+          const module = this.resolver?.fromAddress([witness]).shift()
           if (module) {
-            return new XyoWitnessWrapper(module)
+            return new XyoWitnessWrapper({ module })
           }
           throw Error(`Witness not found: ${witness}`)
         }),
@@ -90,7 +85,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {
     const errors: Error[] = []
     this.config?.onReportStart?.()
-    const allWitnesses = [...adhocWitnesses.map((adhoc) => new XyoWitnessWrapper(adhoc)), ...this.witnesses]
+    const allWitnesses = [...adhocWitnesses.map((adhoc) => new XyoWitnessWrapper({ module: adhoc })), ...this.witnesses]
     const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
     const [newBoundWitness] = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { QueryBoundWitnessWrapper, XyoModule, XyoModuleResolverFunc, XyoQueryBoundWitness } from '@xyo-network/module'
+import { QueryBoundWitnessWrapper, XyoModule, XyoModuleConfig, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -8,15 +8,12 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
+export type XyoWitnessParams<TConfig extends XyoModuleConfig = XyoModuleConfig> = XyoModuleParams<TConfig>
+
 export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>>
   extends XyoModule<TConfig>
   implements Witness<TTarget>
 {
-  //we require a config for witnesses
-  constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
-    super(config, account, resolver)
-  }
-
   public get targetSchema() {
     return this.config?.targetSchema
   }
@@ -26,6 +23,7 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
   }
 
   public observe(fields?: Partial<XyoPayload>[]): Promisable<TTarget[]> {
+    this.checkInitialized('Observe')
     return (
       fields?.map((fieldsItem) => {
         return { ...fieldsItem, schema: this.targetSchema } as TTarget

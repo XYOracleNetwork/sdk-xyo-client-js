@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
-import { PartialWitnessConfig, XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
 import { XyoIdSchema } from './Schema'
@@ -17,10 +17,6 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
-  constructor(config: PartialWitnessConfig<XyoIdWitnessConfig>) {
-    super({ schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema, ...config })
-  }
-
   public get salt() {
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
   }

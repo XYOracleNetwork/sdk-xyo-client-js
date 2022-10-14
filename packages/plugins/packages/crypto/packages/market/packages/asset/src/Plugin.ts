@@ -10,9 +10,11 @@ export const XyoCryptoMarketAssetPayloadPlugin = () =>
     auto: true,
     diviner: (config) => {
       return new XyoCryptoMarketAssetDiviner({
-        ...config,
-        schema: XyoCryptoMarketAssetDivinerConfigSchema,
-        targetSchema: XyoCryptoMarketAssetSchema,
+        config: {
+          ...config,
+          schema: XyoCryptoMarketAssetDivinerConfigSchema,
+          targetSchema: XyoCryptoMarketAssetSchema,
+        },
       })
     },
     schema: XyoCryptoMarketAssetSchema,

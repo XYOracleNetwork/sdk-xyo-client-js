@@ -70,9 +70,11 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
     // If this is a query we support
     if (locations && locations?.length > 0) {
       const elevationWitness = new XyoLocationElevationWitness({
-        locations,
-        schema: XyoLocationElevationWitnessConfigSchema,
-        targetSchema: XyoLocationElevationSchema,
+        config: {
+          locations,
+          schema: XyoLocationElevationWitnessConfigSchema,
+          targetSchema: XyoLocationElevationSchema,
+        },
       })
       const elevations = await elevationWitness.observe()
 

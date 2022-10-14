@@ -6,6 +6,7 @@ import {
   QueryBoundWitnessWrapper,
   XyoModule,
   XyoModuleInitializeQuerySchema,
+  XyoModuleParams,
   XyoModuleShutdownQuerySchema,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
@@ -34,10 +35,9 @@ export interface XyoArchivistParentWrappers {
   commit?: Record<string, XyoArchivistWrapper>
 }
 
-export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
-  extends XyoModule<XyoArchivistConfig<TConfig>>
-  implements PayloadArchivist
-{
+export type XyoArchivistParams<TConfig extends XyoArchivistConfig = XyoArchivistConfig> = XyoModuleParams<TConfig>
+
+export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig> extends XyoModule<TConfig> implements PayloadArchivist {
   public override queries() {
     return [
       XyoModuleInitializeQuerySchema,
@@ -135,9 +135,9 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
     if (archivists) {
       archivists.map((archivist) => {
         if (resolvedWrappers[archivist] === undefined) {
-          const module = this.resolver?.(archivist)
+          const module = this.resolver?.fromAddress([archivist]).shift()
           if (module) {
-            resolvedWrappers[archivist] = new XyoArchivistWrapper(module)
+            resolvedWrappers[archivist] = new XyoArchivistWrapper({ module })
           }
         }
       })
@@ -164,7 +164,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   }
 
   protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
-    const wrapper = new XyoArchivistWrapper(parent)
+    const wrapper = new XyoArchivistWrapper({ module: parent })
     return await wrapper.insert(payloads)
   }
 

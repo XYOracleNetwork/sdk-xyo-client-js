@@ -1,15 +1,22 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoModule,
+  XyoModuleConfig,
+  XyoModuleParams,
+  XyoQuery,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
-import { AxiosError, AxiosRequestHeaders } from 'axios'
+import { Axios, AxiosError, AxiosRequestHeaders } from 'axios'
 
 import { AxiosJson, AxiosJsonRequestConfig } from './AxiosJson'
 import { BridgeModule } from './Bridge'
 import { XyoBridgeConfig } from './Config'
-import { PartialBridgeConfig } from './PartialConfig'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
 export type XyoHttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
@@ -21,11 +28,15 @@ export type XyoHttpBridgeConfig = XyoBridgeConfig<{
   axios?: AxiosJsonRequestConfig
 }>
 
-export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements BridgeModule {
+export interface XyoHttpBridgeParams<TConfig extends XyoModuleConfig = XyoModuleConfig> extends XyoModuleParams<TConfig> {
+  axios: Axios
+}
+
+export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
   private axios: AxiosJson
 
-  constructor(config: PartialBridgeConfig<XyoHttpBridgeConfig>) {
-    super({ schema: XyoHttpBridgeConfigSchema, ...config })
+  constructor(params: XyoHttpBridgeParams<TConfig>) {
+    super(params)
     this.axios = new AxiosJson(this.config?.axios)
   }
 

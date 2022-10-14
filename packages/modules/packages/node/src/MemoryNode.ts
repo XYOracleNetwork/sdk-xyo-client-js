@@ -38,13 +38,15 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     })
   }
 
-  override resolve(address: string): TModule | null {
-    console.log(`Resolving in MemoryNode: ${address}`)
-    if (address === 'archivist') {
-      console.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)
-      return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
-    }
-    return this.attachedModuleMap?.get(address) ?? null
+  override resolve(addresses: string[]): (TModule | null)[] {
+    return addresses.map((address) => {
+      console.log(`Resolving in MemoryNode: ${address}`)
+      if (address === 'archivist') {
+        console.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)
+        return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
+      }
+      return this.attachedModuleMap?.get(address) ?? null
+    })
   }
 
   override register(module: TModule) {

@@ -4,7 +4,9 @@ import {
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoModule,
+  XyoModuleConfig,
   XyoModuleInitializeQuerySchema,
+  XyoModuleParams,
   XyoModuleShutdownQuerySchema,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
@@ -14,6 +16,8 @@ import { Promisable } from '@xyo-network/promise'
 import { XyoDivinerConfig } from './Config'
 import { DivinerModule } from './Diviner'
 import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
+
+export type XyoDivinerParams<TConfig extends XyoModuleConfig = XyoModuleConfig> = XyoModuleParams<TConfig>
 
 export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoModule<TConfig> implements DivinerModule {
   abstract divine(payloads?: XyoPayloads): Promisable<XyoPayloads>

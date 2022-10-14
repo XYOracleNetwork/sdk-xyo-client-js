@@ -1,14 +1,11 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleResolverFunc } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
 
 import { XyoArchivistConfig } from './Config'
-import { PartialArchivistConfig } from './PartialConfig'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,
@@ -59,10 +56,6 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       XyoArchivistCommitQuerySchema,
       ...super.queries(),
     ]
-  }
-
-  constructor(config?: PartialArchivistConfig<XyoCookieArchivistConfig>, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
-    super({ ...config, schema: XyoCookieArchivistConfigSchema }, account, resolver)
   }
 
   private keyFromHash(hash: string) {

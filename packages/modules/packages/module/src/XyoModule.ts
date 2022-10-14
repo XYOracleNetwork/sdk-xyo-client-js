@@ -8,9 +8,9 @@ import { Logger } from '@xyo-network/shared'
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
+import { ModuleResolver } from './ModuleResolver'
 import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoQuery, XyoQueryBoundWitness } from './Query'
-import { ModuleResolver } from './Resolver'
 
 export type SortedPipedAddressesString = string
 

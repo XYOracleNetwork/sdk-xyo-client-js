@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistWrapper, XyoMemoryArchivist } from '@xyo-network/archivist'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
+import { Module, ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
@@ -23,8 +23,8 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
   abstract detach(_address: string): void
   abstract resolve(_address: string[]): (TModule | null)[]
 
-  private _archivist?: XyoModule
-  public get archivist() {
+  private _archivist?: Module
+  public get archivist(): Module {
     if (!this._archivist) {
       this._archivist =
         this._archivist ??

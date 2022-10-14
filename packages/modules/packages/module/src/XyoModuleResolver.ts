@@ -1,19 +1,9 @@
-import { AddressString, SchemaString } from './Config'
+import { ModuleResolver, ModuleResolverEventFunc } from './ModuleResolver'
 import { XyoModule } from './XyoModule'
-
-export type ModuleResolverEventFunc = (event: 'add' | 'remove', module: XyoModule) => void
-
-export interface ModuleResolver {
-  isModuleResolver: boolean
-  fromAddress(address: AddressString[]): (XyoModule | null)[]
-  fromQuery(schema: SchemaString[]): XyoModule[]
-  subscribe(handler: ModuleResolverEventFunc): void
-  unsubscribe(handler: ModuleResolverEventFunc): void
-}
 
 export class XyoModuleResolver implements ModuleResolver {
   private modules: Record<string, XyoModule> = {}
-  private handlers: ModuleResolverEventFunc[] = []
+  private handlers: ModuleResolverEventFunc<XyoModule>[] = []
 
   public get isModuleResolver() {
     return true

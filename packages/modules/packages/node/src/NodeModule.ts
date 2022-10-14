@@ -6,6 +6,6 @@ import { Node } from './Node'
 export interface NodeModule<TModule extends Module = Module> extends Node, Module {
   registeredModules(): PromisableArray<TModule>
   attachedModules(): PromisableArray<TModule>
-  resolve(address: string): Promisable<TModule | null>
+  resolve(address: string[]): Promisable<(TModule | null)[]>
   register(module: TModule): Promisable<void>
 }

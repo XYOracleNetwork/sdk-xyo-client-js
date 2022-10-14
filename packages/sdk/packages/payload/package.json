@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.6.9",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "axios": "^0.27.2",
     "tslib": "^2.4.0"
   },
@@ -49,6 +50,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.0-rc.2",
-  "stableVersion": "2.35.0"
+  "version": "2.37.6"
 }

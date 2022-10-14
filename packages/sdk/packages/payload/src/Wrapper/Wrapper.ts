@@ -1,13 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { deepOmitUnderscoreFields, Hasher, XyoDataLike } from '@xyo-network/core'
+import { Promisable } from '@xyo-network/promise'
 
 import { Huri } from '../Huri'
 import { XyoPayload } from '../models'
 import { PayloadValidator } from '../Validator'
 
-export class PayloadWrapper<T extends XyoPayload = XyoPayload> extends Hasher<T> {
-  private isPayloadWrapper = true
-
+export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayload> extends Hasher<TPayload> {
   public get payload() {
     return this.obj
   }
@@ -18,7 +17,7 @@ export class PayloadWrapper<T extends XyoPayload = XyoPayload> extends Hasher<T>
   }
 
   public get body() {
-    return deepOmitUnderscoreFields<T>(this.obj)
+    return deepOmitUnderscoreFields<TPayload>(this.obj)
   }
 
   get valid() {
@@ -29,14 +28,28 @@ export class PayloadWrapper<T extends XyoPayload = XyoPayload> extends Hasher<T>
     return new PayloadValidator(this.payload).validate()
   }
 
-  public static async load(address: XyoDataLike | Huri) {
-    const payload = await new Huri(address).fetch()
-    if (payload) {
-      return new PayloadWrapper(payload)
-    }
+  public static load(_address: XyoDataLike | Huri): Promisable<PayloadWrapperBase | null> {
+    throw Error('Not implemented')
   }
 
-  public static parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
+  public static parse(_obj: unknown): PayloadWrapperBase {
+    throw Error('Not implemented')
+  }
+}
+
+export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends PayloadWrapperBase<TPayload> {
+  private isPayloadWrapper = true
+
+  public static override async load(address: XyoDataLike | Huri) {
+    const payload = await new Huri(address).fetch()
+    return payload ? new PayloadWrapper(payload) : null
+  }
+
+  public get previousHash() {
+    return null
+  }
+
+  public static override parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to PayloadWrapper')
     switch (typeof obj) {
       case 'object': {
@@ -49,4 +62,4 @@ export class PayloadWrapper<T extends XyoPayload = XyoPayload> extends Hasher<T>
 }
 
 /** @deprecated use PayloadWrapper instead */
-export class XyoPayloadWrapper<T extends XyoPayload = XyoPayload> extends PayloadWrapper<T> {}
+export class XyoPayloadWrapper<T extends XyoPayload = XyoPayload> extends PayloadWrapperBase<T> {}

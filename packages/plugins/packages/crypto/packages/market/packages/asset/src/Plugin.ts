@@ -8,12 +8,16 @@ import { XyoCryptoMarketAssetPayloadTemplate } from './Template'
 export const XyoCryptoMarketAssetPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoCryptoMarketAssetPayload>({
     auto: true,
-    diviner: (config) => {
-      return new XyoCryptoMarketAssetDiviner({
-        ...config,
-        schema: XyoCryptoMarketAssetDivinerConfigSchema,
-        targetSchema: XyoCryptoMarketAssetSchema,
+    diviner: async (config) => {
+      const diviner = new XyoCryptoMarketAssetDiviner({
+        config: {
+          ...config,
+          schema: XyoCryptoMarketAssetDivinerConfigSchema,
+          targetSchema: XyoCryptoMarketAssetSchema,
+        },
       })
+      await diviner.start()
+      return diviner
     },
     schema: XyoCryptoMarketAssetSchema,
     template: XyoCryptoMarketAssetPayloadTemplate,

@@ -1,11 +1,10 @@
-import { XyoElevationPayload } from './Payload'
-import { XyoElevationSchema } from './Schema'
+import { XyoLocationElevationPayload } from './Payload'
+import { XyoLocationElevationSchema } from './Schema'
 
-export const XyoElevationPayloadTemplate = (): XyoElevationPayload => {
+export const XyoLocationElevationPayloadTemplate = (): XyoLocationElevationPayload => {
   return {
     elevation: undefined,
-    latitude: undefined,
-    longitude: undefined,
-    schema: XyoElevationSchema,
+    quadkey: undefined,
+    schema: XyoLocationElevationSchema,
   }
 }

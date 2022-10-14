@@ -14,7 +14,7 @@ const configData: XyoApiConfig = {
 
 test('XyoRemoteArchivist', async () => {
   const api = new XyoArchivistApi(configData)
-  const archivist = new XyoRemoteArchivist({ api, schema: XyoRemoteArchivistConfigSchema })
+  const archivist = new XyoRemoteArchivist({ config: { api, schema: XyoRemoteArchivistConfigSchema } })
   const payload = {
     salt: `${Math.random() * 10000}`,
     schema: 'network.xyo.id',

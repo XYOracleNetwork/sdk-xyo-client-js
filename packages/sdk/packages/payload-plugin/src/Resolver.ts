@@ -1,14 +1,13 @@
-import { assertEx } from '@xylabs/assert'
 import { XyoValidator } from '@xyo-network/core'
 import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 
 import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
-import { XyoPayloadPluginConfigs } from './XyoPayloadPluginConfigs'
+import { XyoPayloadPluginParams } from './XyoPayloadPluginConfigs'
 
 export class XyoPayloadPluginResolver {
   protected _plugins: Record<string, XyoPayloadPlugin> = {}
-  protected configs: Record<string, XyoPayloadPluginConfigs> = {}
+  protected params: Record<string, XyoPayloadPluginParams> = {}
   protected defaultPlugin: XyoPayloadPlugin
 
   constructor(
@@ -24,12 +23,12 @@ export class XyoPayloadPluginResolver {
   }
   schema = XyoPayloadSchema
 
-  public register<TPlugin extends XyoPayloadPlugin = XyoPayloadPlugin, TConfigs extends TPlugin['configs'] = TPlugin['configs']>(
+  public register<TPlugin extends XyoPayloadPlugin = XyoPayloadPlugin, TParams extends TPlugin['params'] = TPlugin['params']>(
     plugin: TPlugin,
-    configs?: TConfigs,
+    params?: TParams,
   ) {
     this._plugins[plugin.schema] = plugin
-    this.configs[plugin.schema] = configs ?? { witness: {} }
+    this.params[plugin.schema] = params ?? {}
     return this
   }
 
@@ -48,11 +47,11 @@ export class XyoPayloadPluginResolver {
   }
 
   public witness(schema: string) {
-    return this._plugins[schema]?.witness?.(assertEx(this.configs[schema]?.witness, 'Config required for witness creation'))
+    return this._plugins[schema]?.witness?.(this.params[schema]?.witness)
   }
 
   public diviner(schema: string) {
-    return this._plugins[schema]?.diviner?.(assertEx(this.configs[schema]?.diviner, 'Config required for diviner creation'))
+    return this._plugins[schema]?.diviner?.(this.params[schema]?.diviner)
   }
 
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */

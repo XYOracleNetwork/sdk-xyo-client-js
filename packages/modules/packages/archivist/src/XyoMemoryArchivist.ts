@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModuleConfig, XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 
 import { XyoArchivistConfig } from './Config'
-import { PartialArchivistConfig } from './PartialConfig'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,
@@ -16,8 +16,7 @@ import {
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
 } from './Queries'
-import { XyoArchivist } from './XyoArchivist'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
+import { XyoArchivist, XyoArchivistParams } from './XyoArchivist'
 
 export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 export const XyoMemoryArchivistConfigSchema: XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
@@ -27,19 +26,17 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
-class MemoryArchivistError extends Error {
-  constructor(action: string, error: Error['cause'], message?: string) {
-    super(`Memory Archivist [${action}] failed${message ? ` (${message})` : ''}`, { cause: error })
-  }
-}
+export type XyoMemoryArchivistParams<TConfig extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig> = XyoArchivistParams<TConfig>
 
-export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
-  static create(config?: XyoMemoryArchivistConfig) {
-    return new XyoMemoryArchivist(config)
-  }
-
+export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig> extends XyoArchivist<TConfig> {
   public get max() {
     return this.config?.max ?? 10000
+  }
+
+  static override async create<TParams extends XyoModuleParams<XyoModuleConfig>>(params?: TParams): Promise<XyoMemoryArchivist | null> {
+    const archivist: XyoMemoryArchivist = new XyoMemoryArchivist(params as XyoMemoryArchivistParams)
+    await archivist.start()
+    return archivist
   }
 
   private cache: LruCache<string, XyoPayload>
@@ -55,8 +52,8 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     ]
   }
 
-  constructor(config?: PartialArchivistConfig<XyoMemoryArchivistConfig>) {
-    super({ ...config, schema: XyoMemoryArchivistConfigSchema })
+  constructor(params?: XyoMemoryArchivistParams<TConfig>) {
+    super(params)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
 
@@ -67,7 +64,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('delete', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -76,7 +73,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       this.cache.clear()
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('clear', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -93,7 +90,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('get', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -115,22 +112,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('insert', ex, 'unexpected')
-    }
-  }
-
-  public override find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): PromisableArray<R> {
-    try {
-      const result: R[] = []
-      this.cache.forEach((value) => {
-        if (value.schema === filter.schema) {
-          result.push(value as R)
-        }
-      })
-      return result
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('find', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -139,7 +121,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('all', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -153,7 +135,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
               schema: XyoArchivistInsertQuerySchema,
             })
-            const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+            const query = await this.bindQuery(queryPayload)
             return (await parent?.query(query[0], query[1]))?.[0]
           }),
         ),
@@ -166,7 +148,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('commit', ex, 'unexpected')
+      throw ex
     }
   }
 }

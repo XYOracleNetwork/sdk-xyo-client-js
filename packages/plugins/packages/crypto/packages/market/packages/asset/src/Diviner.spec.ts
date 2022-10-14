@@ -10,8 +10,9 @@ const uniswapPayload = sampleUniswapPayload
 
 describe('Diviner', () => {
   test('returns observation', async () => {
-    const sut = new XyoCryptoMarketAssetDiviner()
-    const wrapper = new XyoDivinerWrapper(sut)
+    const module = new XyoCryptoMarketAssetDiviner()
+    await module.start()
+    const wrapper = new XyoDivinerWrapper({ module })
 
     const payloads = await wrapper.divine([coinGeckoPayload, uniswapPayload])
     expect(payloads).toBeArray()

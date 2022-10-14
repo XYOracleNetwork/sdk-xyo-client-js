@@ -8,21 +8,19 @@ import { XyoContractPayload, XyoNonFungibleTokenPayload, XyoNonFungibleTokenWitn
 export class XyoSmartContractWrapper<T extends XyoContractPayload> extends PayloadWrapper<T> {
   public static override async load(address: XyoDataLike | Huri) {
     const payload = await new Huri<XyoContractPayload>(address).fetch()
-    if (payload) {
-      return new XyoSmartContractWrapper(payload)
-    }
+    return payload ? new XyoSmartContractWrapper(payload) : null
   }
 }
 
 /** @description Witness that will sign a new NFT being minted if it follows the terms */
 export class XyoNonFungibleTokenMintWitness extends XyoWitness<XyoNonFungibleTokenPayload, XyoNonFungibleTokenWitnessConfig> {
   protected minter: XyoAddressValue
-  constructor(config: XyoNonFungibleTokenWitnessConfig, minter: XyoDataLike) {
-    super(config)
+  constructor(minter: XyoDataLike) {
+    super()
     this.minter = new XyoAddressValue(minter)
   }
 
-  override observe(_fields: Partial<XyoNonFungibleTokenPayload>): Promise<XyoNonFungibleTokenPayload<EmptyObject>> {
+  override observe(_fields: Partial<XyoNonFungibleTokenPayload>[]): Promise<XyoNonFungibleTokenPayload<EmptyObject>[]> {
     throw new Error('Method not implemented.')
   }
 }

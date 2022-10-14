@@ -52,6 +52,8 @@ test('Address from Key', () => {
 
 test('Sign-fromPrivateKey', () => {
   const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
+  expect(wallet.public).toBeDefined()
+  expect(wallet.addressValue.hex).toBeDefined()
   const signature = wallet.sign('1234567890abcdef')
   const valid = wallet.verify('1234567890abcdef', signature)
   expect(valid).toBeTruthy()

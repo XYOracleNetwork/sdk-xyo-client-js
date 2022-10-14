@@ -13,13 +13,13 @@ const config: XyoApiConfig = {
 
 const schema = 'network.xyo.debug'
 
-const getQuery = (count = 1): XyoBoundWitness => {
+const getQuery = (count = 1) => {
   const payloads = [] as XyoPayload[]
   for (let i = 0; i < count; i++) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     payloads.push(new XyoPayloadBuilder({ schema }).fields({ nonce: uuid() } as any).build())
   }
-  return new BoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()
+  return new BoundWitnessBuilder({ inlinePayloads: true }).payloads(payloads).build()[0]
 }
 
 const issueQuery = async (query: XyoBoundWitness = getQuery()): Promise<string> => {

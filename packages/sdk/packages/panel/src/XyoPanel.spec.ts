@@ -1,22 +1,45 @@
 import { XyoMemoryArchivist } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoIdWitness } from '@xyo-network/id-payload-plugin'
-import { XyoNodeSystemInfoWitness } from '@xyo-network/node-system-info-payload-plugin'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { BoundWitnessWrapper, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
+import { XyoModuleResolver } from '@xyo-network/module'
+import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
 import { XyoWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness } from '@xyo-network/witnesses'
 
-import { XyoPanel, XyoPanelConfig } from './XyoPanel'
+import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from './XyoPanel'
 
 describe('XyoPanel', () => {
   test('all [simple panel send]', async () => {
     const archivist = new XyoMemoryArchivist()
+    await archivist.start()
 
-    const witnesses: XyoWitness[] = [new XyoIdWitness({ salt: 'test' }), new XyoNodeSystemInfoWitness()]
+    const witnesses: XyoWitness[] = [
+      await new XyoIdWitness({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } }).start(),
+      await new XyoNodeSystemInfoWitness({
+        config: {
+          nodeValues: {
+            osInfo: '*',
+          },
+          schema: XyoNodeSystemInfoWitnessConfigSchema,
+          targetSchema: XyoNodeSystemInfoSchema,
+        },
+      }).start(),
+    ]
 
-    const config: XyoPanelConfig = { witnesses }
+    const config: XyoPanelConfig = {
+      archivists: [archivist.address],
+      schema: XyoPanelConfigSchema,
+      witnesses: witnesses.map((witness) => witness.address),
+    }
 
-    const panel = new XyoPanel(config, archivist)
+    const resolver = new XyoModuleResolver()
+    resolver.add(archivist)
+    witnesses.forEach((witness) => resolver.add(witness))
+
+    const panel = new XyoPanel({ config, resolver })
+    await panel.start()
+    expect(panel.archivists.length).toBe(1)
+    expect(panel.witnesses.length).toBe(2)
     const adhocWitness = new XyoAdhocWitness({
       schema: 'network.xyo.test.array',
       testArray: [1, 2, 3],
@@ -30,18 +53,20 @@ describe('XyoPanel', () => {
       testUndefined: undefined,
     })
 
+    await adhocWitness.start()
     const adhocObserved = await adhocWitness.observe()
 
     expect(adhocObserved).toBeDefined()
 
     const report1Result = await panel.report([adhocWitness])
-    const report1 = report1Result[1][0] as XyoBoundWitness
-    expect(report1.schema).toBe(XyoBoundWitnessSchema)
-    expect(report1.payload_hashes.length).toBe(3)
-    const report2 = (await panel.report())[1][0] as XyoBoundWitness
-    expect(report2.schema).toBeDefined()
-    expect(report2.payload_hashes.length).toBe(2)
-
-    expect(new PayloadWrapper(report2).hash !== new PayloadWrapper(report1).hash).toBe(true)
+    const report1 = BoundWitnessWrapper.parse(report1Result[1][0])
+    expect(report1.schemaName).toBe(XyoBoundWitnessSchema)
+    expect(report1.payloadHashes.length).toBe(3)
+    const report2 = BoundWitnessWrapper.parse((await panel.report())[1][0])
+    expect(report2.schemaName).toBeDefined()
+    expect(report2.payloadHashes.length).toBe(2)
+    expect(report2.hash !== report1.hash).toBe(true)
+    expect(report2.prev(panel.address)).toBeDefined()
+    expect(report2.prev(panel.address)).toBe(report1.hash)
   })
 })

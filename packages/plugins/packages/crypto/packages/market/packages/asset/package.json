@@ -13,7 +13,6 @@
     "@xylabs/exists": "^2.6.9",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
-    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/promise": "workspace:^",
@@ -53,6 +52,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.0-rc.2",
-  "stableVersion": "2.35.0"
+  "version": "2.37.6"
 }

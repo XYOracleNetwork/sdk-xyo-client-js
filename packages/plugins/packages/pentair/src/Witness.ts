@@ -27,12 +27,10 @@ export class XyoPentairScreenlogicWitness extends XyoWitness<XyoPentairScreenlog
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected controller = new Controller()
 
-  override async observe(
-    _fields?: Partial<XyoPentairScreenlogicPayload> & { longitude: number; latitude: number },
-  ): Promise<XyoPentairScreenlogicPayload> {
+  override async observe(_fields?: Partial<XyoPentairScreenlogicPayload>[]): Promise<XyoPentairScreenlogicPayload[]> {
     const config = await this.controller.getPoolConfig()
     const status = await this.controller.getPoolStatus()
-    return await super.observe({ config, status })
+    return await super.observe([{ config, status }] as XyoPentairScreenlogicPayload[])
   }
 
   static schema: XyoPentairScreenlogicSchema = XyoPentairScreenlogicSchema

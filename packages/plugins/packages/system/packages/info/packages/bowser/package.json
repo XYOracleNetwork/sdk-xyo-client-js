@@ -18,7 +18,7 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.185"
+    "@types/lodash": "^4.14.186"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -53,6 +53,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.0-rc.2",
-  "stableVersion": "2.35.0"
+  "version": "2.37.6"
 }

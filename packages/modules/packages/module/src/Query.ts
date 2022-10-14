@@ -46,14 +46,18 @@ export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends Bou
   }
 }
 
-export class QueryBoundWitnessBuilder<T extends XyoQueryBoundWitness = XyoQueryBoundWitness> extends BoundWitnessBuilder<T> {
-  private _query: string | undefined
-  public query(hash?: string) {
-    this._query = hash
+export class QueryBoundWitnessBuilder<
+  TBoundWitness extends XyoQueryBoundWitness = XyoQueryBoundWitness,
+  TQuery extends XyoQuery = XyoQuery,
+> extends BoundWitnessBuilder<TBoundWitness> {
+  private _query: PayloadWrapper<TQuery> | undefined
+  public query<T extends TQuery | PayloadWrapper<TQuery>>(query: T) {
+    this._query = PayloadWrapper.parse(query)
+    this.payload(this._query.payload)
     return this
   }
 
-  public override hashableFields(): T {
-    return { ...super.hashableFields(), query: this._query }
+  public override hashableFields(): TBoundWitness {
+    return { ...super.hashableFields(), query: assertEx(this._query?.hash, 'No Query Specified') }
   }
 }

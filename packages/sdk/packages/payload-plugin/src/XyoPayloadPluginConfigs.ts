@@ -1,11 +1,10 @@
-import { XyoDivinerConfig } from '@xyo-network/diviner'
-import { PartialModuleConfig } from '@xyo-network/module'
-import { PartialWitnessConfig, XyoWitnessConfig } from '@xyo-network/witness'
+import { XyoDivinerConfig, XyoDivinerParams } from '@xyo-network/diviner'
+import { XyoWitnessConfig, XyoWitnessParams } from '@xyo-network/witness'
 
-export interface XyoPayloadPluginConfigs<
+export interface XyoPayloadPluginParams<
   TWitnessConfig extends XyoWitnessConfig = XyoWitnessConfig,
   TDivinerConfig extends XyoDivinerConfig = XyoDivinerConfig,
 > {
-  witness?: PartialWitnessConfig<TWitnessConfig>
-  diviner?: PartialModuleConfig<TDivinerConfig>
+  witness?: XyoWitnessParams & { config?: TWitnessConfig }
+  diviner?: XyoDivinerParams & { config?: TDivinerConfig }
 }

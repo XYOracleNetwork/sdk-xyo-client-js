@@ -6,6 +6,7 @@ export type XyoHuriPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.hur
 export const XyoHuriPayloadDivinerConfigSchema: XyoHuriPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.huri.config'
 
 export type XyoHuriPayloadDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+  XyoPayload,
   T & {
     schema: XyoHuriPayloadDivinerConfigSchema
     options?: HuriOptions

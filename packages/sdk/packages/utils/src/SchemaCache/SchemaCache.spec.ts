@@ -6,8 +6,6 @@ import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 import { XyoSchemaCache } from './SchemaCache'
 
-const proxy = 'https://beta.api.archivist.xyo.network/domain'
-
 const exampleDomainConfig: XyoDomainPayload = {
   aliases: {
     [XyoSchemaSchema]: {
@@ -35,10 +33,6 @@ const exampleDomainConfig: XyoDomainPayload = {
 }
 
 describe('XyoSchemaCache', () => {
-  beforeEach(() => {
-    XyoSchemaCache.instance.proxy = proxy
-  })
-
   test('Valid', async () => {
     const cache = XyoSchemaCache.instance
     const fetchedPayload = await cache.get(XyoSchemaSchema)
@@ -80,12 +74,5 @@ describe('XyoSchemaCache', () => {
     const cache = XyoSchemaCache.instance
     const fetchedPayload = await cache.get('foo.domain.com')
     expect(fetchedPayload).toBeNull()
-  })
-
-  test('Set Proxy', () => {
-    const cache = XyoSchemaCache.instance
-    const testProxy = 'http://foo.com'
-    cache.proxy = testProxy
-    expect(cache?.proxy).toBe(testProxy)
   })
 })

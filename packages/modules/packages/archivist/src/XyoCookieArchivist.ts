@@ -6,7 +6,6 @@ import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
 
 import { XyoArchivistConfig } from './Config'
-import { PartialArchivistConfig } from './PartialConfig'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,
@@ -17,7 +16,6 @@ import {
   XyoArchivistInsertQuerySchema,
 } from './Queries'
 import { XyoArchivist } from './XyoArchivist'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoCookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
 export const XyoCookieArchivistConfigSchema: XyoCookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
@@ -29,12 +27,6 @@ export type XyoCookieArchivistConfig = XyoArchivistConfig<{
   maxEntrySize?: number
   namespace?: string
 }>
-
-class CookieArchivistError extends Error {
-  constructor(action: string, error: Error['cause'], message?: string) {
-    super(`Cookie Archivist [${action}] failed${message ? ` (${message})` : ''}`, { cause: error })
-  }
-}
 
 export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
   public get domain() {
@@ -66,10 +58,6 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     ]
   }
 
-  constructor(config?: PartialArchivistConfig<XyoCookieArchivistConfig>) {
-    super({ ...config, schema: XyoCookieArchivistConfigSchema })
-  }
-
   private keyFromHash(hash: string) {
     return `${this.namespace}-${hash}`
   }
@@ -82,7 +70,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('delete', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -95,7 +83,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('clear', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -109,7 +97,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('get', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -132,22 +120,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('insert', ex, 'unexpected')
-    }
-  }
-
-  public override async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
-    try {
-      const x = (await this.all()).filter((payload) => {
-        if (filter?.schema && filter.schema !== payload.schema) {
-          return false
-        }
-        return true
-      })
-      return x
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('find', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -158,7 +131,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         .map(([, value]) => JSON.parse(value))
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('all', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -173,7 +146,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
               schema: XyoArchivistInsertQuerySchema,
             })
-            const query = await this.bindQuery([queryPayload.body], queryPayload.hash)
+            const query = await this.bindQuery(queryPayload)
             return (await parent?.query(query[0], query[1]))?.[0]
           }),
         ),
@@ -186,7 +159,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new CookieArchivistError('commit', ex, 'unexpected')
+      throw ex
     }
   }
 }

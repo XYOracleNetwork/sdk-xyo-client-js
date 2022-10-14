@@ -17,11 +17,12 @@
     "@ethersproject/providers": "^5.7.1",
     "@ethersproject/solidity": "^5.7.0",
     "@uniswap/sdk": "^3.0.3",
-    "@uniswap/sdk-core": "^3.0.2",
+    "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",
     "@xylabs/assert": "^2.6.9",
     "@xylabs/bignumber": "^2.6.9",
     "@xylabs/delay": "^2.6.9",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/sdk-xyo-typechain": "^1.0.4",
@@ -61,6 +62,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.0-rc.2",
-  "stableVersion": "2.35.0"
+  "version": "2.37.6"
 }

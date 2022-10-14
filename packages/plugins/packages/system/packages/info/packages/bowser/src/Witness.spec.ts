@@ -4,6 +4,7 @@
 
 import crypto from 'crypto'
 
+import { XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 import { XyoBowserSystemInfoSchema } from './Schema'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
@@ -18,8 +19,16 @@ cryptoPolyfill(window)
 
 describe('XyoBowserSystemInfo', () => {
   test('observe', async () => {
-    const witness = new XyoBowserSystemInfoWitness()
-    const observation = await witness.observe()
+    const witness = new XyoBowserSystemInfoWitness({
+      config: {
+        schema: XyoBowserSystemInfoWitnessConfigSchema,
+        targetSchema: XyoBowserSystemInfoSchema,
+      },
+      logger: console,
+    })
+    await witness.start()
+    const [observation] = await witness.observe()
+    console.log(JSON.stringify(observation, null, 2))
     expect(observation.schema).toBe(XyoBowserSystemInfoSchema)
   })
 })

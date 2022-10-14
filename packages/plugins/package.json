@@ -13,12 +13,18 @@
     "@xyo-network/blockchain-payload-plugins": "workspace:^",
     "@xyo-network/crypto-payload-plugins": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
+    "@xyo-network/elevation-payload-plugin": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
+    "@xyo-network/module-instance-payload-plugin": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "@xyo-network/system-payload-plugins": "workspace:^",
     "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "axios": "^0.27.2",
+    "pako": "^2.0.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -53,6 +59,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.0-rc.2",
-  "stableVersion": "2.35.0"
+  "version": "2.37.6"
 }

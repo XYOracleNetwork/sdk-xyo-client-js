@@ -1,2 +1,2 @@
-export type XyoElevationSchema = 'network.xyo.elevation'
-export const XyoElevationSchema: XyoElevationSchema = 'network.xyo.elevation'
+export type XyoLocationElevationSchema = 'network.xyo.location.elevation'
+export const XyoLocationElevationSchema: XyoLocationElevationSchema = 'network.xyo.location.elevation'

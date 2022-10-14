@@ -15,16 +15,20 @@
     "@xyo-network/node": "workspace:^",
     "terminal-kit": "^3.0.0",
     "tslib": "^2.4.0",
-    "yargs": "^17.5.1"
+    "yargs": "^17.6.0"
   },
   "bin": {
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
-    "@types/node": "^18.7.23",
+    "@types/node": "^18.8.4",
     "@types/terminal-kit": "^2.5.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
+  },
+  "peerDependencies": {
+    "axios": "^0.27.2",
+    "pako": "^2.0.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -62,6 +66,5 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.0-rc.2",
-  "stableVersion": "2.35.0"
+  "version": "2.37.6"
 }

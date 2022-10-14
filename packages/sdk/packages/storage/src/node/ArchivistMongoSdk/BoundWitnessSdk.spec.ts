@@ -2,7 +2,7 @@
 /* eslint-disable import/no-deprecated */
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitnessBuilder, XyoBoundWitnessWithPartialMeta } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { uuid } from '@xyo-network/core'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 import dotenv from 'dotenv'
@@ -31,11 +31,11 @@ const getMongoSdk = (archive: string) => {
 const getBoundWitnesses = (number = 5) => {
   return new Array(number).fill(0).map((_) => {
     return (
-      new XyoBoundWitnessBuilder({ inlinePayloads: true })
+      new BoundWitnessBuilder({ inlinePayloads: true })
         .witness(address)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .payload(new XyoPayloadBuilder({ schema }).fields({ prop: uuid() } as any).build())
-        .build()
+        .build()[0]
     )
   })
 }
@@ -45,22 +45,22 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
   const numBoundWitnesses = 20
   const limit = 10
   let sdk: XyoArchivistBoundWitnessMongoSdk
-  let boundWitnesses: XyoBoundWitnessWithPartialMeta[] = []
+  let boundWitnesses: XyoBoundWitness[] = []
   beforeAll(async () => {
     sdk = getMongoSdk('temp')
     boundWitnesses = getBoundWitnesses(numBoundWitnesses)
     await sdk.insertMany(boundWitnesses)
   })
   describe('findAfter', () => {
-    let boundWitness: XyoBoundWitnessWithPartialMeta | undefined
+    let boundWitness: XyoBoundWitness | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
-      hash = boundWitnesses[0]?._hash || ''
+      hash = BoundWitnessWrapper.hash(boundWitnesses[0]) || ''
       expect(hash).toBeTruthy()
       boundWitness = (await sdk.findByHash(hash))[0]
       expect(boundWitness).toBeDefined()
-      timestamp = boundWitness?._timestamp || 0
+      timestamp = boundWitness?.timestamp || 0
       expect(timestamp).toBeTruthy()
     })
     it('finds all records after the specified timestamp', async () => {
@@ -79,15 +79,15 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
     })
   })
   describe('findBefore', () => {
-    let boundWitness: XyoBoundWitnessWithPartialMeta | undefined
+    let boundWitness: XyoBoundWitness | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
-      hash = boundWitnesses[boundWitnesses.length - 1]?._hash || ''
+      hash = BoundWitnessWrapper.hash(boundWitnesses[boundWitnesses.length - 1]) || ''
       expect(hash).toBeTruthy()
       boundWitness = (await sdk.findByHash(hash))[0]
       expect(boundWitness).toBeDefined()
-      timestamp = boundWitness?._timestamp || 0
+      timestamp = boundWitness?.timestamp || 0
       expect(timestamp).toBeTruthy()
     })
     it('finds all records before the specified timestamp', async () => {
@@ -115,15 +115,15 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
     })
   })
   describe('findByHash', () => {
-    let boundWitness: XyoBoundWitnessWithPartialMeta | undefined
+    let boundWitness: XyoBoundWitness | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
-      hash = boundWitnesses[Math.floor(Math.random() * boundWitnesses.length)]?._hash || ''
+      hash = BoundWitnessWrapper.hash(boundWitnesses[Math.floor(Math.random() * boundWitnesses.length)]) || ''
       expect(hash).toBeTruthy()
       boundWitness = (await sdk.findByHash(hash))[0]
       expect(boundWitness).toBeDefined()
-      timestamp = boundWitness?._timestamp || 0
+      timestamp = boundWitness?.timestamp || 0
       expect(timestamp).toBeTruthy()
     })
     it('uses an index to perform the query by hash', async () => {

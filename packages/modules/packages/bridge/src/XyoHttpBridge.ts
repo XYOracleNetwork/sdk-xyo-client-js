@@ -1,15 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
+import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoModuleParams, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
-import { AxiosError, AxiosRequestHeaders } from 'axios'
+import { Axios, AxiosError, AxiosRequestHeaders } from 'axios'
 
 import { AxiosJson, AxiosJsonRequestConfig } from './AxiosJson'
 import { BridgeModule } from './Bridge'
 import { XyoBridgeConfig } from './Config'
-import { PartialBridgeConfig } from './PartialConfig'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
 export type XyoHttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
@@ -21,11 +20,15 @@ export type XyoHttpBridgeConfig = XyoBridgeConfig<{
   axios?: AxiosJsonRequestConfig
 }>
 
-export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements BridgeModule {
+export interface XyoHttpBridgeParams<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeConfig> extends XyoModuleParams<TConfig> {
+  axios: Axios
+}
+
+export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
   private axios: AxiosJson
 
-  constructor(config: PartialBridgeConfig<XyoHttpBridgeConfig>) {
-    super({ schema: XyoHttpBridgeConfigSchema, ...config })
+  constructor(params: XyoHttpBridgeParams<TConfig>) {
+    super(params)
     this.axios = new AxiosJson(this.config?.axios)
   }
 
@@ -49,9 +52,9 @@ export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements Bri
     return true
   }
 
-  protected async forward(query: XyoQuery, _payloads?: XyoPayloads): Promise<[XyoBoundWitness, XyoPayloads]> {
+  protected async forward(query: XyoQuery, payloads?: XyoPayload[]): Promise<[XyoBoundWitness, XyoPayloads]> {
     try {
-      const boundQuery = this.bindQuery([query])
+      const boundQuery = this.bindQuery(query, payloads)
       const result = await this.axios.post<[XyoBoundWitness, XyoPayloads]>(`${this.nodeUri}/${this.address}`, [boundQuery, ...[query]])
       return result.data
     } catch (ex) {
@@ -62,7 +65,7 @@ export class XyoHttpBridge extends XyoModule<XyoHttpBridgeConfig> implements Bri
     }
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayloads): Promise<ModuleQueryResult> {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))

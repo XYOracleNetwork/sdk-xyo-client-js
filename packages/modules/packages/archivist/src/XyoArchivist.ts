@@ -112,7 +112,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
       default:
         return super.query(query, payloads)
     }
-    this.log?.('query', wrapper.schemaName)
+    this.logger?.log(wrapper.schemaName, 'query')
     return this.bindResult(resultPayloads, queryAccount)
   }
 
@@ -155,7 +155,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
   }
 
   protected async writeToParents(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
-    this.log?.('Write to Parents', this.parents?.write?.length ?? 0)
+    this.logger?.log(this.parents?.write?.length ?? 0, 'writeToParents')
     return compact(
       await Promise.all(
         Object.values(this.parents?.write ?? {}).map(async (parent) => {

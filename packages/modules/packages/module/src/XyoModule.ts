@@ -6,6 +6,7 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
 
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
+import { Logging } from './Logging'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { ModuleResolver } from './ModuleResolver'
@@ -27,34 +28,10 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected account: XyoAccount
   protected resolver?: ModuleResolver
-  protected readonly logger?: Logger
+  protected readonly logger?: Logging
 
   public get disallowedAddresses() {
     return this.config?.security?.disallowed
-  }
-
-  protected get log() {
-    return this.logger
-      ? (tag: string, message?: string | object | boolean | number) => {
-          this.logger?.log(
-            `${tag} [0x${this.account?.addressValue?.hex}] ${
-              typeof message === 'string' ? message : typeof message === 'object' ? JSON.stringify(message, null, 2) : `${message}`
-            }`,
-          )
-        }
-      : undefined
-  }
-
-  protected get warn() {
-    return this.logger
-      ? (tag: string, message?: string | object | boolean | number) => {
-          this.logger?.warn(
-            `${tag} [0x${this.account?.addressValue?.hex}] ${
-              typeof message === 'string' ? message : typeof message === 'object' ? JSON.stringify(message, null, 2) : `${message}`
-            }`,
-          )
-        }
-      : undefined
   }
 
   private initializeAllowedAddressSets() {
@@ -68,11 +45,12 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
   }
 
   constructor(params?: XyoModuleParams<TConfig>) {
-    this.logger = params?.logger
     this.resolver = params?.resolver
     this.config = params?.config
     this.account = this.loadAccount(params?.account)
-    this.log?.('Module Constructed', `Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
+    const activeLogger = params?.logger ?? XyoModule.defaultLogger
+    this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
+    this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`, 'constructor')
   }
 
   public start(_timeout?: number): Promisable<typeof this> {
@@ -91,19 +69,22 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return account ?? new XyoAccount()
   }
 
-  public started(notStartedAction?: 'throw' | 'warn' | 'log' | 'none', tag = 'started') {
+  public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none', tag = 'started') {
     if (!this._started) {
       switch (notStartedAction) {
         case 'throw':
           throw Error(`Module not Started [${this.address}]`)
         case 'warn':
-          this.warn?.(tag, 'Module not started')
+          this.logger?.warn('Module not started', tag)
+          break
+        case 'error':
+          this.logger?.error('Module not started', tag)
           break
         case 'none':
           break
         case 'log':
         default:
-          this.log?.(tag, 'Module not started')
+          this.logger?.log('Module not started', tag)
       }
     }
     return this._started
@@ -142,7 +123,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query.schema, wrapper.addresses))
 
-    this.log?.('query', wrapper.schemaName)
+    this.logger?.log(wrapper.schemaName, 'query')
 
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new XyoAccount()
@@ -223,4 +204,6 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
   static create<TParams extends XyoModuleParams<XyoModuleConfig>>(_params?: TParams): Promisable<XyoModule | null> {
     throw Error('Can not create base XyoModule')
   }
+
+  static defaultLogger?: Logger
 }

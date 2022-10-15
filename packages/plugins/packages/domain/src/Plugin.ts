@@ -11,8 +11,8 @@ import { XyoDomainPayloadWrapper } from './Wrapper'
 export const XyoDomainPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoDomainPayload, XyoDomainWitnessConfig>({
     schema: XyoDomainSchema,
-    witness: (params): XyoDomainWitness => {
-      return new XyoDomainWitness(params)
+    witness: async (params) => {
+      return await new XyoDomainWitness(params).start()
     },
     wrap: (payload: XyoPayload): XyoDomainPayloadWrapper => {
       assertEx(payload.schema === XyoDomainSchema)

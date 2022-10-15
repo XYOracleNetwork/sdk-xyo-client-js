@@ -11,7 +11,7 @@ export const XyoCoingeckoCryptoMarketPayloadPlugin = () =>
     auto: true,
     schema: XyoCoingeckoCryptoMarketSchema,
     template: XyoCoingeckoCryptoMarketPayloadTemplate,
-    witness: (params) => {
-      return new XyoCoingeckoCryptoMarketWitness(params)
+    witness: async (params) => {
+      return await new XyoCoingeckoCryptoMarketWitness(params).start()
     },
   })

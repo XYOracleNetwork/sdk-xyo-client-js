@@ -11,7 +11,7 @@ export const XyoUniswapCryptoMarketPayloadPlugin = () =>
     auto: true,
     schema: XyoUniswapCryptoMarketSchema,
     template: XyoUniswapCryptoMarketPayloadTemplate,
-    witness: (params) => {
-      return new XyoUniswapCryptoMarketWitness(params as unknown as XyoUniswapCryptoMarketWitnessParams)
+    witness: async (params) => {
+      return await new XyoUniswapCryptoMarketWitness(params as unknown as XyoUniswapCryptoMarketWitnessParams).start()
     },
   })

@@ -10,7 +10,7 @@ export const XyoCryptoCardsMovePayloadPlugin = () =>
     auto: true,
     schema: XyoCryptoCardsMoveSchema,
     template: XyoXyoCryptoCardsMovePayloadTemplate,
-    witness: (params) => {
-      return new XyoCryptoCardsMoveWitness(params)
+    witness: async (params) => {
+      return await new XyoCryptoCardsMoveWitness(params).start()
     },
   })

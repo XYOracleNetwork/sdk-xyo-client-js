@@ -10,7 +10,7 @@ export const XyoLocationElevationPayloadPlugin = () =>
     auto: true,
     schema: XyoLocationElevationSchema,
     template: XyoLocationElevationPayloadTemplate,
-    witness: (params): XyoLocationElevationWitness => {
-      return new XyoLocationElevationWitness(params)
+    witness: async (params) => {
+      return await new XyoLocationElevationWitness(params).start()
     },
   })

@@ -7,7 +7,7 @@ import { XyoSchemaWitness, XyoSchemaWitnessConfig } from './Witness'
 export const XyoSchemaPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoSchemaPayload, XyoSchemaWitnessConfig>({
     schema: XyoSchemaSchema,
-    witness: (params): XyoSchemaWitness => {
-      return new XyoSchemaWitness(params)
+    witness: async (params) => {
+      return await new XyoSchemaWitness(params).start()
     },
   })

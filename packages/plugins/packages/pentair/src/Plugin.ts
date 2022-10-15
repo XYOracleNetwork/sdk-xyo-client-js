@@ -8,7 +8,7 @@ export const XyoPentairScreenlogicPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoPentairScreenlogicPayload, XyoPentairScreenlogicWitnessConfig>({
     auto: true,
     schema: XyoPentairScreenlogicSchema,
-    witness: (params): XyoPentairScreenlogicWitness => {
-      return new XyoPentairScreenlogicWitness(params)
+    witness: async (params) => {
+      return await new XyoPentairScreenlogicWitness(params).start()
     },
   })

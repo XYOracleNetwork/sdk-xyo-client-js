@@ -9,7 +9,7 @@ export const XyoModuleInstancePayloadPlugin = () =>
   createXyoPayloadPlugin<XyoModuleInstancePayload, XyoModuleInstanceWitnessConfig>({
     schema: XyoModuleInstanceSchema,
     template: XyoModuleInstancePayloadTemplate,
-    witness: (params): XyoModuleInstanceWitness => {
-      return new XyoModuleInstanceWitness(params)
+    witness: async (params) => {
+      return await new XyoModuleInstanceWitness(params).start()
     },
   })

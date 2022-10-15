@@ -9,7 +9,7 @@ export const XyoEthereumGasEtherscanPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanWitnessConfig>({
     auto: true,
     schema: XyoEthereumGasEtherscanSchema,
-    witness: (params): XyoEtherscanEthereumGasWitness => {
-      return new XyoEtherscanEthereumGasWitness(params)
+    witness: async (params) => {
+      return await new XyoEtherscanEthereumGasWitness(params).start()
     },
   })

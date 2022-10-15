@@ -46,12 +46,12 @@ export class XyoPayloadPluginResolver {
     return this.resolve(payload).wrap?.(payload)
   }
 
-  public witness(schema: string) {
-    return this._plugins[schema]?.witness?.(this.params[schema]?.witness)
+  public async witness(schema: string) {
+    return await this._plugins[schema]?.witness?.(this.params[schema]?.witness)
   }
 
-  public diviner(schema: string) {
-    return this._plugins[schema]?.diviner?.(this.params[schema]?.diviner)
+  public async diviner(schema: string) {
+    return await this._plugins[schema]?.diviner?.(this.params[schema]?.diviner)
   }
 
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */

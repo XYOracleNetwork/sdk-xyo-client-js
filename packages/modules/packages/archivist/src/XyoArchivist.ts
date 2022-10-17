@@ -34,11 +34,11 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     return [XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, ...super.queries()]
   }
 
-  public get cacheParentReads() {
+  protected get cacheParentReads() {
     return !!this.config?.cacheParentReads
   }
 
-  public get writeThrough() {
+  protected get writeThrough() {
     return !!this.config?.writeThrough
   }
 
@@ -166,7 +166,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
   }
 
   private _parents?: XyoArchivistParentWrappers
-  get parents() {
+  protected get parents() {
     this._parents = this._parents ?? {
       commit: this.resolveArchivists(this.config?.parents?.commit),
       read: this.resolveArchivists(this.config?.parents?.read),

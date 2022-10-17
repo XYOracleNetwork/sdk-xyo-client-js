@@ -44,7 +44,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     }
   }
 
-  constructor(params?: XyoModuleParams<TConfig>) {
+  protected constructor(params?: XyoModuleParams<TConfig>) {
     this.resolver = params?.resolver
     this.config = params?.config
     this.account = this.loadAccount(params?.account)
@@ -201,7 +201,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return promise
   }
 
-  static create<TParams extends XyoModuleParams<XyoModuleConfig>>(_params?: TParams): Promisable<XyoModule | null> {
+  static create(_params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoModule> {
     throw Error('Can not create base XyoModule')
   }
 

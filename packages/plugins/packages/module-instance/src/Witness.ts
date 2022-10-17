@@ -1,4 +1,4 @@
-import { XyoModule } from '@xyo-network/module'
+import { XyoModule, XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
@@ -17,6 +17,12 @@ export type XyoModuleInstanceWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoModuleInstanceWitness extends XyoWitness<XyoModuleInstancePayload, XyoModuleInstanceWitnessConfig> {
+  static override async create(params?: XyoModuleParams): Promise<XyoModuleInstanceWitness> {
+    const module = new XyoModuleInstanceWitness(params as XyoModuleParams<XyoModuleInstanceWitnessConfig>)
+    await module.start()
+    return module
+  }
+
   protected get module() {
     return this.config?.module
   }

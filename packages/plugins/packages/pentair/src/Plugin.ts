@@ -9,6 +9,6 @@ export const XyoPentairScreenlogicPayloadPlugin = () =>
     auto: true,
     schema: XyoPentairScreenlogicSchema,
     witness: async (params) => {
-      return await new XyoPentairScreenlogicWitness(params).start()
+      return await XyoPentairScreenlogicWitness.create(params)
     },
   })

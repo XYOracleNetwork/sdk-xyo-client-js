@@ -11,6 +11,6 @@ export const XyoCryptoCardsMovePayloadPlugin = () =>
     schema: XyoCryptoCardsMoveSchema,
     template: XyoXyoCryptoCardsMovePayloadTemplate,
     witness: async (params) => {
-      return await new XyoCryptoCardsMoveWitness(params).start()
+      return await XyoCryptoCardsMoveWitness.create(params)
     },
   })

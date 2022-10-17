@@ -33,10 +33,10 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
     return this.config?.max ?? 10000
   }
 
-  static override async create<TParams extends XyoModuleParams<XyoModuleConfig>>(params?: TParams): Promise<XyoMemoryArchivist | null> {
-    const archivist: XyoMemoryArchivist = new XyoMemoryArchivist(params as XyoMemoryArchivistParams)
-    await archivist.start()
-    return archivist
+  static override async create(params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoMemoryArchivist> {
+    const module: XyoMemoryArchivist = new XyoMemoryArchivist(params as XyoMemoryArchivistParams)
+    await module.start()
+    return module
   }
 
   private cache: LruCache<string, XyoPayload>
@@ -52,7 +52,7 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
     ]
   }
 
-  constructor(params?: XyoMemoryArchivistParams<TConfig>) {
+  protected constructor(params?: XyoMemoryArchivistParams<TConfig>) {
     super(params)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }

@@ -10,6 +10,6 @@ export const XyoNodeSystemInfoPayloadPlugin = () =>
     auto: true,
     schema: XyoNodeSystemInfoSchema,
     witness: async (params) => {
-      return await new XyoNodeSystemInfoWitness(params).start()
+      return await XyoNodeSystemInfoWitness.create(params)
     },
   })

@@ -8,6 +8,6 @@ export const XyoSchemaPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoSchemaPayload, XyoSchemaWitnessConfig>({
     schema: XyoSchemaSchema,
     witness: async (params) => {
-      return await new XyoSchemaWitness(params).start()
+      return await XyoSchemaWitness.create(params)
     },
   })

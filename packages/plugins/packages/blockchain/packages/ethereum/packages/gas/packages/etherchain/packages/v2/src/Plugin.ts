@@ -10,6 +10,6 @@ export const XyoEthereumGasEtherchainV2PayloadPlugin = () =>
     auto: true,
     schema: XyoEthereumGasEtherchainV2Schema,
     witness: async (params) => {
-      return await new XyoEtherchainEthereumGasWitnessV2(params).start()
+      return await XyoEtherchainEthereumGasWitnessV2.create(params)
     },
   })

@@ -6,6 +6,7 @@ import {
   XyoLocationElevationWitnessConfigSchema,
 } from '@xyo-network/elevation-payload-plugin'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { Job, JobProvider } from '@xyo-network/shared'
 
@@ -14,6 +15,12 @@ import { LocationCertaintySchema } from '../Schema'
 import { LocationCertaintyDivinerConfig } from './Config'
 
 export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
+  static override async create(params?: XyoModuleParams): Promise<LocationCertaintyDiviner> {
+    const module = new LocationCertaintyDiviner(params as XyoModuleParams<LocationCertaintyDivinerConfig>)
+    await module.start()
+    return module
+  }
+
   get jobs(): Job[] {
     return [
       {

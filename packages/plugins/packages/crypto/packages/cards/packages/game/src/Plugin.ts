@@ -11,6 +11,6 @@ export const XyoCryptoCardsGamePayloadPlugin = () =>
     schema: XyoCryptoCardsGameSchema,
     template: XyoCryptoCardsGamePayloadTemplate,
     witness: async (params) => {
-      return await new XyoCryptoCardsGameWitness(params).start()
+      return await XyoCryptoCardsGameWitness.create(params)
     },
   })

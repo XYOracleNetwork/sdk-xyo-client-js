@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness } from '@xyo-network/witness'
 import { get } from 'systeminformation'
 
@@ -9,6 +10,12 @@ export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload 
   TPayload,
   XyoNodeSystemInfoWitnessConfig
 > {
+  static override async create(params?: XyoModuleParams): Promise<XyoNodeSystemInfoWitness> {
+    const module = new XyoNodeSystemInfoWitness(params as XyoModuleParams<XyoNodeSystemInfoWitnessConfig>)
+    await module.start()
+    return module
+  }
+
   override async observe(fields?: Partial<TPayload>[]) {
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
     return await super.observe([{ ...node, ...fields?.[0] }])

@@ -12,6 +12,6 @@ export const XyoBowserSystemInfoPayloadPlugin = () =>
     schema: XyoBowserSystemInfoSchema,
     template: XyoBowserSystemInfoPayloadTemplate,
     witness: async (params) => {
-      return await new XyoBowserSystemInfoWitness(params).start()
+      return await XyoBowserSystemInfoWitness.create(params)
     },
   })

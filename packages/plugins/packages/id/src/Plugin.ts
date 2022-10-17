@@ -11,6 +11,6 @@ export const XyoIdPayloadPlugin = () =>
     schema: XyoIdSchema,
     template: XyoIdPayloadTemplate,
     witness: async (params) => {
-      return await new XyoIdWitness(params).start()
+      return await XyoIdWitness.create(params)
     },
   })

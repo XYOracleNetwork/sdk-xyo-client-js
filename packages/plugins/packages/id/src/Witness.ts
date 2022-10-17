@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
@@ -17,6 +18,12 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
+  static override async create(params?: XyoModuleParams): Promise<XyoIdWitness> {
+    const module = new XyoIdWitness(params as XyoModuleParams<XyoIdWitnessConfig>)
+    await module.start()
+    return module
+  }
+
   public get salt() {
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
   }

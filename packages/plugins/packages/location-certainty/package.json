@@ -13,6 +13,7 @@
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/elevation-payload-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/shared": "workspace:^",

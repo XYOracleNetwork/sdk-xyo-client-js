@@ -10,6 +10,6 @@ export const XyoEthereumGasEtherscanPayloadPlugin = () =>
     auto: true,
     schema: XyoEthereumGasEtherscanSchema,
     witness: async (params) => {
-      return await new XyoEtherscanEthereumGasWitness(params).start()
+      return await XyoEtherscanEthereumGasWitness.create(params)
     },
   })

@@ -15,7 +15,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
   private async storeInstanceData() {
     const payload = { address: this.address, queries: this.queries, schema: XyoModuleInstanceSchema }
     const [bw] = await this.bindResult([payload])
-    await new XyoArchivistWrapper({ module: this.archivist }).insert([bw, payload])
+    await new XyoArchivistWrapper({ module: await this.getArchivist() }).insert([bw, payload])
   }
 
   /** Query Functions - Start */
@@ -24,12 +24,12 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
   abstract resolve(_address: string[]): (TModule | null)[]
 
   private _archivist?: Module
-  public get archivist(): Module {
+  public async getArchivist(): Promise<Module> {
     if (!this._archivist) {
       this._archivist =
         this._archivist ??
         (this.config?.archivist ? this.resolver?.fromAddress([this.config?.archivist]).shift() : undefined) ??
-        new XyoMemoryArchivist()
+        (await XyoMemoryArchivist.create())
     }
     return this._archivist
   }

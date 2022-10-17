@@ -11,6 +11,6 @@ export const XyoLocationPayloadPlugin = () =>
     schema: XyoLocationSchema,
     template: XyoLocationPayloadTemplate,
     witness: async (params) => {
-      return await new XyoLocationWitness(params).start()
+      return await XyoLocationWitness.create(params)
     },
   })

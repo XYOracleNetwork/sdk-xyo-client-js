@@ -12,7 +12,7 @@ export const XyoDomainPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoDomainPayload, XyoDomainWitnessConfig>({
     schema: XyoDomainSchema,
     witness: async (params) => {
-      return await new XyoDomainWitness(params).start()
+      return await XyoDomainWitness.create(params)
     },
     wrap: (payload: XyoPayload): XyoDomainPayloadWrapper => {
       assertEx(payload.schema === XyoDomainSchema)

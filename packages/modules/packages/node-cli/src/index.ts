@@ -31,8 +31,8 @@ const loadModule = async (pkg: string, name?: string, resolver?: ModuleResolver)
 }
 
 const xyo = async () => {
-  const node = new MemoryNode()
-  node.register(new XyoMemoryArchivist())
+  const node = await MemoryNode.create()
+  node.register(await XyoMemoryArchivist.create())
   await parseOptions().command(
     'node',
     'Start an XYO Node',
@@ -45,7 +45,7 @@ const xyo = async () => {
       const modules = Array.isArray(module) ? module : [module]
       if (verbose) console.info('Starting Node')
 
-      node.register(new XyoMemoryArchivist())
+      node.register(await XyoMemoryArchivist.create())
 
       const resolver: ModuleResolver = {
         fromAddress: (address: string[]) => {

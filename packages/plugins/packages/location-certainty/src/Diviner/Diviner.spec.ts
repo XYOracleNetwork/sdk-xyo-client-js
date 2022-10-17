@@ -9,9 +9,9 @@ import { LocationCertaintyDiviner } from './Diviner'
 describe('MongoDBLocationCertaintyDiviner', () => {
   let payloadsArchivist: XyoArchivist
   let sut: LocationCertaintyDiviner
-  beforeEach(() => {
-    payloadsArchivist = new XyoMemoryArchivist()
-    sut = new LocationCertaintyDiviner({ logger: console, resolver: new XyoModuleResolver().add(payloadsArchivist) })
+  beforeEach(async () => {
+    payloadsArchivist = await XyoMemoryArchivist.create()
+    sut = await LocationCertaintyDiviner.create({ logger: console, resolver: new XyoModuleResolver().add(payloadsArchivist) })
   })
   describe('divine', () => {
     describe('with valid query', () => {

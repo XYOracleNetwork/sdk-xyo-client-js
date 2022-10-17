@@ -3,6 +3,7 @@ import {
   XyoLocationElevationPayload,
   XyoLocationElevationSchema,
   XyoLocationElevationWitness,
+  XyoLocationElevationWitnessConfig,
   XyoLocationElevationWitnessConfigSchema,
 } from '@xyo-network/elevation-payload-plugin'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
@@ -76,14 +77,13 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
     const locations = payloads?.filter<XyoLocationPayload>((payload): payload is XyoLocationPayload => payload?.schema === XyoLocationSchema)
     // If this is a query we support
     if (locations && locations?.length > 0) {
-      const elevationWitness = new XyoLocationElevationWitness({
+      const elevationWitness = await XyoLocationElevationWitness.create({
         config: {
           locations,
           schema: XyoLocationElevationWitnessConfigSchema,
           targetSchema: XyoLocationElevationSchema,
-        },
+        } as XyoLocationElevationWitnessConfig,
       })
-      await elevationWitness.start()
       const elevations = await elevationWitness.observe()
 
       const heuristics = LocationCertaintyDiviner.locationsToHeuristics(elevations, locations)

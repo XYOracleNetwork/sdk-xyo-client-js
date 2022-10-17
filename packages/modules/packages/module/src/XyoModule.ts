@@ -53,13 +53,13 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`, 'constructor')
   }
 
-  public start(_timeout?: number): Promisable<typeof this> {
+  protected start(_timeout?: number): Promisable<typeof this> {
     this.initializeAllowedAddressSets()
     this._started = true
     return this
   }
 
-  public stop(_timeout?: number): Promisable<typeof this> {
+  protected stop(_timeout?: number): Promisable<typeof this> {
     this.allowedAddressSets = undefined
     this._started = false
     return this

@@ -4,6 +4,7 @@ import {
   DivinerModule,
   XyoArchivistPayloadDiviner,
   XyoArchivistPayloadDivinerConfigSchema,
+  XyoDivinerConfig,
   XyoDivinerWrapper,
   XyoHuriPayload,
   XyoHuriSchema,
@@ -16,14 +17,12 @@ import { NodeModule } from './NodeModule'
 
 test('Create Node', async () => {
   const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
-  const node: NodeModule = new MemoryNode()
-  const archivist = new XyoMemoryArchivist()
-  await archivist.start()
-  const diviner: XyoModule = new XyoArchivistPayloadDiviner({
-    config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
+  const node: NodeModule = await MemoryNode.create()
+  const archivist = await XyoMemoryArchivist.create()
+  const diviner: XyoModule = await XyoArchivistPayloadDiviner.create({
+    config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema } as XyoDivinerConfig,
     resolver: new XyoModuleResolver().add(archivist),
   })
-  await diviner.start()
   await node.register(archivist)
   node.attach(archivist.address)
   await node.register(diviner)

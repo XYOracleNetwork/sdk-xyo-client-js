@@ -1,3 +1,5 @@
+import { XyoModuleConfig } from '@xyo-network/module'
+
 import { XyoEthereumGasEtherscanSchema, XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 import { XyoEtherscanEthereumGasWitness } from './Witness'
 
@@ -7,12 +9,12 @@ const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 
 describe('Witness', () => {
   testIf(apiKey)('returns observation', async () => {
-    const sut = new XyoEtherscanEthereumGasWitness({
+    const sut = await XyoEtherscanEthereumGasWitness.create({
       config: {
         apiKey,
         schema: XyoEthereumGasEtherscanWitnessConfigSchema,
         targetSchema: XyoEthereumGasEtherscanSchema,
-      },
+      } as XyoModuleConfig,
     })
     const [actual] = await sut.observe()
     expect(actual.FastGasPrice).toBeString()

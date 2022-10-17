@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
@@ -29,6 +30,12 @@ export type XyoCookieArchivistConfig = XyoArchivistConfig<{
 }>
 
 export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
+  static override async create(params?: XyoModuleParams): Promise<XyoCookieArchivist> {
+    const module = new XyoCookieArchivist(params as XyoModuleParams<XyoCookieArchivistConfig>)
+    await module.start()
+    return module
+  }
+
   public get domain() {
     return this.config?.domain
   }

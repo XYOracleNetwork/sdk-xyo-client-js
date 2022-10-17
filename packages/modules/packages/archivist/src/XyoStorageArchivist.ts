@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -31,6 +32,12 @@ export type XyoStorageArchivistConfig = XyoArchivistConfig<{
 }>
 
 export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig> {
+  static override async create(params?: XyoModuleParams): Promise<XyoStorageArchivist> {
+    const module = new XyoStorageArchivist(params as XyoModuleParams<XyoStorageArchivistConfig>)
+    await module.start()
+    return module
+  }
+
   public get type() {
     return this.config?.type ?? 'local'
   }

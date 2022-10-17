@@ -3,11 +3,11 @@ import { XyoLocationSchema } from '@xyo-network/location-payload-plugin'
 import { Quadkey } from '@xyo-network/quadkey'
 
 import { XyoLocationElevationSchema } from './Schema'
-import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfigSchema } from './Witness'
+import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfig, XyoLocationElevationWitnessConfigSchema } from './Witness'
 
 describe('XyoLocationElevationWitness', () => {
   test('Witnessing via Observe', async () => {
-    const witness = new XyoLocationElevationWitness()
+    const witness = await XyoLocationElevationWitness.create()
     await witness.start()
     const result = await witness.observe([
       { quadkey: Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.toBase10String() },
@@ -24,7 +24,7 @@ describe('XyoLocationElevationWitness', () => {
   })
 
   test('Witnessing via Config', async () => {
-    const witness = new XyoLocationElevationWitness({
+    const witness = await XyoLocationElevationWitness.create({
       config: {
         locations: [
           { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.toBase10String()), schema: XyoLocationSchema },
@@ -33,7 +33,7 @@ describe('XyoLocationElevationWitness', () => {
         ],
         schema: XyoLocationElevationWitnessConfigSchema,
         targetSchema: XyoLocationElevationSchema,
-      },
+      } as XyoLocationElevationWitnessConfig,
     })
     await witness.start()
     const result = await witness.observe()

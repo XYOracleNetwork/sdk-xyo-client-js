@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleConfig, XyoModuleParams } from '@xyo-network/module'
+import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -33,7 +33,7 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
     return this.config?.max ?? 10000
   }
 
-  static override async create(params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoMemoryArchivist> {
+  static override async create(params?: XyoModuleParams): Promise<XyoMemoryArchivist> {
     const module: XyoMemoryArchivist = new XyoMemoryArchivist(params as XyoMemoryArchivistParams)
     await module.start()
     return module

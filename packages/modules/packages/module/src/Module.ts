@@ -9,6 +9,4 @@ export interface Module {
   queries: () => string[]
   queryable: (schema: string, addresses?: string[]) => boolean
   query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) => Promisable<ModuleQueryResult>
-  start: (timeout?: number) => Promisable<unknown>
-  stop: (timeout?: number) => Promisable<unknown>
 }

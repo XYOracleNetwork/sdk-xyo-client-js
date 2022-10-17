@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
+import { XyoModuleParams } from '@xyo-network/module'
 import { Huri, PayloadWrapper, XyoPayloads } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
@@ -8,6 +9,12 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoArchivistPayloadDivinerConfig } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
+  static override async create(params?: XyoModuleParams): Promise<XyoArchivistPayloadDiviner> {
+    const module = new XyoArchivistPayloadDiviner(params as XyoModuleParams<XyoArchivistPayloadDivinerConfig>)
+    await module.start()
+    return module
+  }
+
   protected archivist?: PayloadArchivist | null
 
   override queries() {

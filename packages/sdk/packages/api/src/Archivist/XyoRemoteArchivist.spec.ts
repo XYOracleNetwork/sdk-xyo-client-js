@@ -3,7 +3,7 @@ import { PayloadWrapper } from '@xyo-network/payload'
 import { XyoApiConfig } from '../models'
 import { XyoArchivistApi } from './Api'
 import { XyoRemoteArchivist } from './XyoRemoteArchivist'
-import { XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
+import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
 
 const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
@@ -14,7 +14,7 @@ const configData: XyoApiConfig = {
 
 test('XyoRemoteArchivist', async () => {
   const api = new XyoArchivistApi(configData)
-  const archivist = new XyoRemoteArchivist({ config: { api, schema: XyoRemoteArchivistConfigSchema } })
+  const archivist = await XyoRemoteArchivist.create({ config: { api, schema: XyoRemoteArchivistConfigSchema } as XyoRemoteArchivistConfig })
   const payload = {
     salt: `${Math.random() * 10000}`,
     schema: 'network.xyo.id',

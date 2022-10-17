@@ -14,6 +14,12 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
   extends XyoModule<TConfig>
   implements Witness<TTarget>
 {
+  static override async create(params?: XyoModuleParams): Promise<XyoWitness> {
+    const module = new XyoWitness(params as XyoModuleParams<XyoWitnessConfig>)
+    await module.start()
+    return module
+  }
+
   public get targetSchema() {
     return this.config?.targetSchema
   }

@@ -17,7 +17,6 @@ export const XyoCryptoMarketAssetPayloadPlugin = () =>
           targetSchema: XyoCryptoMarketAssetSchema,
         } as XyoDivinerConfig,
       })
-      await diviner.start()
       return diviner
     },
     schema: XyoCryptoMarketAssetSchema,

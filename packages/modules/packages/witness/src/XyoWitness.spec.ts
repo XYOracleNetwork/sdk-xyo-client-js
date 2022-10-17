@@ -1,12 +1,14 @@
 import { Module, XyoModule } from '@xyo-network/module'
 
+import { XyoWitnessConfig } from './Config'
 import { Witness } from './Witness'
 import { XyoWitness } from './XyoWitness'
 import { XyoWitnessWrapper } from './XyoWitnessWrapper'
 
 test('XyoWitness', async () => {
-  const witness = new XyoWitness({ config: { schema: 'xyo.network.test.witness.config', targetSchema: 'xyo.network.test' } })
-  await witness.start()
+  const witness = await XyoWitness.create({
+    config: { schema: 'xyo.network.test.witness.config', targetSchema: 'xyo.network.test' } as XyoWitnessConfig,
+  })
   const witnessAsModule: Module = witness
   const witnessAsWitness: Witness = witness
   const witnessAsXyoModule: XyoModule = witness

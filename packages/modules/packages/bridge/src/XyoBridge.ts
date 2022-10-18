@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { QueryBoundWitnessWrapper, XyoModule, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
+import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -17,30 +16,35 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
 
-  abstract forward(query: XyoQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]>
+  abstract forward(query: XyoQuery): Promise<ModuleQueryResult>
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()
 
-    switch (typedQuery.schema) {
-      case XyoBridgeConnectQuerySchema: {
-        await this.connect()
-        break
-      }
-      case XyoBridgeDisconnectQuerySchema: {
-        await this.disconnect()
-        break
-      }
-      default:
-        if (super.queries().includes(typedQuery.schema)) {
-          return super.query(query, payloads)
-        } else {
-          return this.forward(typedQuery)
+    try {
+      switch (typedQuery.schema) {
+        case XyoBridgeConnectQuerySchema: {
+          await this.connect()
+          break
         }
+        case XyoBridgeDisconnectQuerySchema: {
+          await this.disconnect()
+          break
+        }
+        default:
+          if (super.queries().includes(typedQuery.schema)) {
+            return super.query(query, payloads)
+          } else {
+            return this.forward(typedQuery)
+          }
+      }
+    } catch (ex) {
+      const error = ex as Error
+      return this.bindResult([new XyoErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
     }
     return this.bindResult([], queryAccount)
   }

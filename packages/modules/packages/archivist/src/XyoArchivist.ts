@@ -115,7 +115,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder(wrapper.hash, error.message).build())
+      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
     this.logger?.log(wrapper.schemaName, 'query')
     return this.bindResult(resultPayloads, queryAccount)

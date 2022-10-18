@@ -79,7 +79,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder(wrapper.hash, error.message).build())
+      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
   }

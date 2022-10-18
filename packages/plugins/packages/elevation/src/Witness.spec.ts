@@ -8,7 +8,7 @@ import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfig, XyoLoca
 describe('XyoLocationElevationWitness', () => {
   test('Witnessing via Observe', async () => {
     const witness = await XyoLocationElevationWitness.create()
-    await witness.start()
+
     const result = await witness.observe([
       { quadkey: Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.toBase10String() },
       { quadkey: Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)?.toBase10String() },
@@ -35,7 +35,7 @@ describe('XyoLocationElevationWitness', () => {
         targetSchema: XyoLocationElevationSchema,
       } as XyoLocationElevationWitnessConfig,
     })
-    await witness.start()
+
     const result = await witness.observe()
 
     expect(result[0].elevation).toBeDefined()

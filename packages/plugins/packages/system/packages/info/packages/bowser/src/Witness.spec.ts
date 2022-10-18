@@ -27,7 +27,6 @@ describe('XyoBowserSystemInfo', () => {
       } as XyoWitnessConfig,
       logger: console,
     })
-    await witness.start()
     const [observation] = await witness.observe()
     console.log(JSON.stringify(observation, null, 2))
     expect(observation.schema).toBe(XyoBowserSystemInfoSchema)

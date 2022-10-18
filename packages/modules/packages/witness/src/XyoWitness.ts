@@ -56,7 +56,7 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindResult([new XyoErrorBuilder(wrapper.hash, error.message).build()], queryAccount)
+      return this.bindResult([new XyoErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
     }
   }
 }

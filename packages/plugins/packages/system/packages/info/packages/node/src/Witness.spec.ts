@@ -9,7 +9,7 @@ describe('XyoSystemInfoWitness', () => {
     const witness = await XyoNodeSystemInfoWitness.create({
       config: { schema: XyoNodeSystemInfoWitnessConfigSchema, targetSchema: XyoNodeSystemInfoSchema } as XyoWitnessConfig,
     })
-    await witness.start()
+
     const [observation] = await witness.observe()
     expect(observation.schema).toBe('network.xyo.system.info.node')
   }, 60000)

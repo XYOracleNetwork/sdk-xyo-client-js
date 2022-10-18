@@ -10,7 +10,7 @@ describe('XyoElevationWitness', () => {
     const witness = await XyoModuleInstanceWitness.create({
       config: { module, schema: XyoModuleInstanceWitnessConfigSchema, targetSchema: XyoModuleInstanceSchema } as XyoWitnessConfig,
     })
-    await witness.start()
+
     const [result] = await witness.observe()
 
     console.log(`Module: ${JSON.stringify(result, null, 2)}`)

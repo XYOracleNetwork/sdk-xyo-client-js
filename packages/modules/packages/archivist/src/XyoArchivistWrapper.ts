@@ -25,20 +25,24 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArch
   public async delete(hashes: string[]) {
     const queryPayload = PayloadWrapper.parse<XyoArchivistDeleteQuery>({ hashes, schema: XyoArchivistDeleteQuerySchema })
     const query = await this.bindQuery(queryPayload)
-    await this.module.query(query[0], query[1])
-    return (await this.module.query(query[0], query[1]))[0].payload_hashes.map(() => true)
+    const result = await this.module.query(query[0], query[1])
+    this.throwErrors(query, result)
+    return result[0].payload_hashes.map(() => true)
   }
 
   public async clear(): Promise<void> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistClearQuery>({ schema: XyoArchivistClearQuerySchema })
     const query = await this.bindQuery(queryPayload)
-    await this.module.query(query[0], query[1])
+    const result = await this.module.query(query[0], query[1])
+    this.throwErrors(query, result)
   }
 
   public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
     const query = await this.bindQuery(queryPayload)
-    return (await this.module.query(query[0], query[1]))[1]
+    const result = await this.module.query(query[0], query[1])
+    this.throwErrors(query, result)
+    return result[1]
   }
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
@@ -50,24 +54,31 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArch
     const result = await this.module.query(query[0], [queryPayload.payload, ...payloads])
     const innerBoundWitnesses =
       result[1]?.filter<XyoBoundWitness>((payload): payload is XyoBoundWitness => payload?.schema === XyoBoundWitnessSchema) ?? []
+    this.throwErrors(query, result)
     return [result[0], ...innerBoundWitnesses]
   }
 
   public async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistFindQuery>({ filter, schema: XyoArchivistFindQuerySchema })
     const query = await this.bindQuery(queryPayload)
-    return compact((await this.module.query(query[0], [queryPayload.payload]))[1])
+    const result = await this.module.query(query[0], [queryPayload.payload])
+    this.throwErrors(query, result)
+    return compact(result[1])
   }
 
   public async all(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistAllQuery>({ schema: XyoArchivistAllQuerySchema })
     const query = await this.bindQuery(queryPayload)
-    return compact((await this.module.query(query[0], query[1]))[1])
+    const result = await this.module.query(query[0], query[1])
+    this.throwErrors(query, result)
+    return compact(result[1])
   }
 
   public async commit(): Promise<XyoBoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistCommitQuery>({ schema: XyoArchivistCommitQuerySchema })
     const query = await this.bindQuery(queryPayload)
-    return (await this.module.query(query[0], query[1]))[1] as XyoBoundWitness[]
+    const result = await this.module.query(query[0], query[1])
+    this.throwErrors(query, result)
+    return result[1] as XyoBoundWitness[]
   }
 }

@@ -11,7 +11,7 @@ import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { ModuleResolver } from './ModuleResolver'
 import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
-import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoQuery, XyoQueryBoundWitness } from './Query'
+import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQuery, XyoQueryBoundWitness } from './Query'
 
 export type SortedPipedAddressesString = string
 
@@ -127,17 +127,22 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new XyoAccount()
-    switch (typedQuery.schema) {
-      case XyoModuleDiscoverQuerySchema: {
-        this.discover(queryAccount)
-        break
+    try {
+      switch (typedQuery.schema) {
+        case XyoModuleDiscoverQuerySchema: {
+          this.discover(queryAccount)
+          break
+        }
+        case XyoModuleSubscribeQuerySchema: {
+          this.subscribe(queryAccount)
+          break
+        }
+        default:
+          console.error(`Unsupported Query [${query.schema}]`)
       }
-      case XyoModuleSubscribeQuerySchema: {
-        this.subscribe(queryAccount)
-        break
-      }
-      default:
-        console.error(`Unsupported Query [${query.schema}]`)
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new XyoErrorBuilder(wrapper.hash, error.message).build())
     }
 
     return this.bindResult(resultPayloads, queryAccount)

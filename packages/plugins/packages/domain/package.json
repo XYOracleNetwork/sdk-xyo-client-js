@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.9",
-    "@xylabs/delay": "^2.6.9",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",

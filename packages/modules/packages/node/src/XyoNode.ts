@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistWrapper, XyoMemoryArchivist } from '@xyo-network/archivist'
-import { Module, ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
+import { Module, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
@@ -56,25 +56,30 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 
     const queryAccount = new XyoAccount()
     const resultPayloads: XyoPayloads = []
-    switch (typedQuery.schema) {
-      case XyoNodeAttachQuerySchema: {
-        this.attach(typedQuery.address)
-        break
+    try {
+      switch (typedQuery.schema) {
+        case XyoNodeAttachQuerySchema: {
+          this.attach(typedQuery.address)
+          break
+        }
+        case XyoNodeDetachQuerySchema: {
+          this.detach(typedQuery.address)
+          break
+        }
+        case XyoNodeAttachedQuerySchema: {
+          this.attached()
+          break
+        }
+        case XyoNodeRegisteredQuerySchema: {
+          this.registered()
+          break
+        }
+        default:
+          return await super.query(query, payloads)
       }
-      case XyoNodeDetachQuerySchema: {
-        this.detach(typedQuery.address)
-        break
-      }
-      case XyoNodeAttachedQuerySchema: {
-        this.attached()
-        break
-      }
-      case XyoNodeRegisteredQuerySchema: {
-        this.registered()
-        break
-      }
-      default:
-        return await super.query(query, payloads)
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new XyoErrorBuilder(wrapper.hash, error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
   }

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
+import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -82,35 +82,40 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
 
     const resultPayloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
-    switch (typedQuery.schema) {
-      case XyoArchivistAllQuerySchema:
-        resultPayloads.push(...(await this.all()))
-        break
-      case XyoArchivistClearQuerySchema:
-        await this.clear()
-        break
-      case XyoArchivistCommitQuerySchema:
-        resultPayloads.push(...(await this.commit()))
-        break
-      case XyoArchivistDeleteQuerySchema:
-        await this.delete(typedQuery.hashes)
-        break
-      case XyoArchivistFindQuerySchema:
-        resultPayloads.push(...(await this.find(typedQuery.filter)))
-        break
-      case XyoArchivistGetQuerySchema:
-        resultPayloads.push(...(await this.get(typedQuery.hashes)))
-        break
-      case XyoArchivistInsertQuerySchema: {
-        const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []
-        assertEx(typedQuery.payloads, `Missing payloads: ${JSON.stringify(typedQuery, null, 2)}`)
-        const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
-        assertEx(resolvedWrappers.length === typedQuery.payloads.length, 'Could not find some passed hashes')
-        resultPayloads.push(...(await this.insert(resolvedWrappers.map((wrapper) => wrapper.payload))))
-        break
+    try {
+      switch (typedQuery.schema) {
+        case XyoArchivistAllQuerySchema:
+          resultPayloads.push(...(await this.all()))
+          break
+        case XyoArchivistClearQuerySchema:
+          await this.clear()
+          break
+        case XyoArchivistCommitQuerySchema:
+          resultPayloads.push(...(await this.commit()))
+          break
+        case XyoArchivistDeleteQuerySchema:
+          await this.delete(typedQuery.hashes)
+          break
+        case XyoArchivistFindQuerySchema:
+          resultPayloads.push(...(await this.find(typedQuery.filter)))
+          break
+        case XyoArchivistGetQuerySchema:
+          resultPayloads.push(...(await this.get(typedQuery.hashes)))
+          break
+        case XyoArchivistInsertQuerySchema: {
+          const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []
+          assertEx(typedQuery.payloads, `Missing payloads: ${JSON.stringify(typedQuery, null, 2)}`)
+          const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
+          assertEx(resolvedWrappers.length === typedQuery.payloads.length, 'Could not find some passed hashes')
+          resultPayloads.push(...(await this.insert(resolvedWrappers.map((wrapper) => wrapper.payload))))
+          break
+        }
+        default:
+          return super.query(query, payloads)
       }
-      default:
-        return super.query(query, payloads)
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new XyoErrorBuilder(wrapper.hash, error.message).build())
     }
     this.logger?.log(wrapper.schemaName, 'query')
     return this.bindResult(resultPayloads, queryAccount)

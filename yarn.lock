@@ -3666,7 +3666,6 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.186
     "@xylabs/assert": ^2.6.9
-    "@xylabs/delay": ^2.6.9
     "@xyo-network/api": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -3783,7 +3782,6 @@ __metadata:
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/packages/id"
   dependencies:
     "@xylabs/assert": ^2.6.9
-    "@xylabs/delay": ^2.6.9
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"

@@ -1,4 +1,3 @@
-import { delay } from '@xylabs/delay'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness } from '@xyo-network/witness'
 
@@ -14,8 +13,7 @@ export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoDomainWitn
   }
 
   override async observe(_payload: Partial<XyoDomainPayload>[]): Promise<XyoDomainPayload[]> {
-    await delay(0)
-    return [{ schema: XyoDomainSchema }]
+    return await super.observe([{ schema: XyoDomainSchema }])
   }
   public static dmarc = '_xyo'
 

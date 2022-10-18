@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -29,13 +28,14 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
   }
 
   override async observe(fields: Partial<XyoIdPayload>[]): Promise<XyoIdPayload[]> {
-    await delay(0)
-    return fields.map((fieldItems) => {
-      return {
-        salt: assertEx(fieldItems?.salt ?? this.salt, 'Missing salt'),
-        schema: 'network.xyo.id',
-      }
-    })
+    return await super.observe(
+      fields.map((fieldItems) => {
+        return {
+          salt: assertEx(fieldItems?.salt ?? this.salt, 'Missing salt'),
+          schema: 'network.xyo.id',
+        }
+      }),
+    )
   }
 
   static schema: XyoIdSchema = XyoIdSchema

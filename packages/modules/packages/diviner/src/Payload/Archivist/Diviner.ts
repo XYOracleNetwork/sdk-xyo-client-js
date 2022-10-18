@@ -21,7 +21,7 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  override async start() {
+  protected override async start() {
     await super.start()
     const configArchivistAddress = this.config?.archivist
     if (configArchivistAddress) {

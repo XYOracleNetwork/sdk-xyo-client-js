@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoModuleParams } from '@xyo-network/module'
 import { Huri, XyoPayloads } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
@@ -8,6 +9,12 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoHuriPayloadDivinerConfig } from './Config'
 
 export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig> {
+  static override async create(params?: XyoModuleParams): Promise<XyoHuriPayloadDiviner> {
+    const module = new XyoHuriPayloadDiviner(params as XyoModuleParams<XyoHuriPayloadDivinerConfig>)
+    await module.start()
+    return module
+  }
+
   protected get options() {
     return this.config?.options
   }

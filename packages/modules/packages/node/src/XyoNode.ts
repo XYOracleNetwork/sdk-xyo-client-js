@@ -15,7 +15,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
   private async storeInstanceData() {
     const payload = { address: this.address, queries: this.queries, schema: XyoModuleInstanceSchema }
     const [bw] = await this.bindResult([payload])
-    await new XyoArchivistWrapper({ module: await this.getArchivist() }).insert([bw, payload])
+    await new XyoArchivistWrapper(await this.getArchivist()).insert([bw, payload])
   }
 
   /** Query Functions - Start */

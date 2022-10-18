@@ -123,7 +123,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
         if (resolvedWrappers[archivist] === undefined) {
           const module = this.resolver?.fromAddress([archivist]).shift()
           if (module) {
-            resolvedWrappers[archivist] = new XyoArchivistWrapper({ module })
+            resolvedWrappers[archivist] = new XyoArchivistWrapper(module)
           }
         }
       })
@@ -150,7 +150,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
   }
 
   protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
-    const wrapper = new XyoArchivistWrapper({ module: parent })
+    const wrapper = new XyoArchivistWrapper(parent)
     return await wrapper.insert(payloads)
   }
 

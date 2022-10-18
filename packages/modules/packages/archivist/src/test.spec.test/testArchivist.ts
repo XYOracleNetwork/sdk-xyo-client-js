@@ -18,7 +18,7 @@ export const testArchivistRoundTrip = (archivist: Promisable<XyoArchivist>, name
     }
     const payloadWrapper = new PayloadWrapper(idPayload)
 
-    const archivistWrapper = new XyoArchivistWrapper({ module: await archivist })
+    const archivistWrapper = new XyoArchivistWrapper(await archivist)
     const insertResult = await archivistWrapper.insert([idPayload])
     const insertResultWrappers = insertResult.map((bw) => new BoundWitnessWrapper(bw))
     const insertResultPayload = insertResultWrappers.pop() as BoundWitnessWrapper
@@ -42,7 +42,7 @@ export const testArchivistAll = (archivist: Promisable<XyoArchivist>, name: stri
       salt: Date.now().toString(),
       schema: 'network.xyo.id',
     }
-    const archivistWrapper = new XyoArchivistWrapper({ module: await archivist })
+    const archivistWrapper = new XyoArchivistWrapper(await archivist)
     for (let x = 0; x < 10; x++) {
       await archivistWrapper.insert([idPayload])
       await delay(10)

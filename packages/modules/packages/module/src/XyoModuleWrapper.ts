@@ -14,9 +14,9 @@ export interface XyoModuleWrapperParams<TModule extends Module = Module, TConfig
 export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends XyoModuleConfig = XyoModuleConfig> extends XyoModule<TConfig> {
   public module: TModule
 
-  constructor(params: XyoModuleWrapperParams<TModule, TConfig>) {
-    super(params)
-    this.module = params.module
+  constructor(module: TModule) {
+    super()
+    this.module = module
   }
 
   override get address() {

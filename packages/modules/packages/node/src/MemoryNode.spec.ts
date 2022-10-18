@@ -36,7 +36,7 @@ test('Create Node', async () => {
     .fields({ test: true })
     .build()
 
-  const foundArchivistWrapper = foundArchivist ? new XyoArchivistWrapper({ module: foundArchivist }) : undefined
+  const foundArchivistWrapper = foundArchivist ? new XyoArchivistWrapper(foundArchivist) : undefined
   await foundArchivistWrapper?.insert([testPayload])
 
   /*const subscribeQuery: XyoModuleSubscribeQuery = { payloads: [testPayload], schema: XyoModuleSubscribeQuerySchema }
@@ -49,10 +49,10 @@ test('Create Node', async () => {
     const huri = new PayloadWrapper(payloads[0]).hash
     const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
     const module = (await node.resolve([diviner.address])).shift() as DivinerModule
-    const foundDiviner = module ? new XyoDivinerWrapper({ module }) : null
+    const foundDiviner = module ? new XyoDivinerWrapper(module) : null
     expect(foundDiviner).toBeDefined()
     if (foundDiviner) {
-      const foundDivinerWrapper = new XyoDivinerWrapper({ module: foundDiviner })
+      const foundDivinerWrapper = new XyoDivinerWrapper(foundDiviner)
       const payloads = await foundDivinerWrapper.divine([huriPayload])
       console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
       expect(payloads?.length).toBe(1)

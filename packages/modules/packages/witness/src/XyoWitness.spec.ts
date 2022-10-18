@@ -12,7 +12,7 @@ test('XyoWitness', async () => {
   const witnessAsModule: Module = witness
   const witnessAsWitness: Witness = witness
   const witnessAsXyoModule: XyoModule = witness
-  const wrapper = new XyoWitnessWrapper({ module: witnessAsModule ?? witnessAsXyoModule ?? witnessAsWitness })
+  const wrapper = new XyoWitnessWrapper(witnessAsModule ?? witnessAsXyoModule ?? witnessAsWitness)
 
   const payloads = await wrapper.observe()
 

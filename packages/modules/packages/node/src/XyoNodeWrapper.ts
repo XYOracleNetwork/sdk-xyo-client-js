@@ -19,7 +19,7 @@ import {
 export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
   private _archivist?: XyoArchivistWrapper
   public get archivist() {
-    this._archivist = this._archivist ?? new XyoArchivistWrapper({ module: this.module })
+    this._archivist = this._archivist ?? new XyoArchivistWrapper(this.module)
     return this._archivist
   }
 

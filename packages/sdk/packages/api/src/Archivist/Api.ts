@@ -20,7 +20,7 @@ export class XyoArchivistApi extends XyoApiBase {
       this._addresses ??
       new XyoAddressesApi({
         ...this.config,
-        root: `${this.root}addresses/`,
+        root: `${this.root}address/`,
       })
     return this._addresses
   }

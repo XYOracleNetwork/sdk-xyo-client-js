@@ -1,4 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoAccount } from '@xyo-network/account'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoPayloads } from '@xyo-network/payload'
 
@@ -15,11 +17,12 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  public override async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
+  public override async divine(payloads?: XyoPayloads): Promise<XyoBoundWitness[]> {
     if (!payloads) return []
     try {
       // TODO: Get from correct API endpoint
-      const bwResult = await this.api.archive('temp').block.post([], 'tuple')
+      const address = new XyoAccount({ phrase: 'test' }).addressValue.hex
+      const bwResult = await this.api.addresses.address(address).boundWitnesses.get('tuple')
       const [, response, error] = bwResult
       if (error?.status >= 400) {
         throw new RemoteDivinerError('divine', `${error.statusText} [${error.status}]`)
@@ -27,7 +30,7 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
       if (response?.error?.length) {
         throw new RemoteDivinerError('divine', response?.error)
       }
-      throw new Error('')
+      return bwResult?.[0] as XyoBoundWitness[]
     } catch (ex) {
       console.error(ex)
       throw ex

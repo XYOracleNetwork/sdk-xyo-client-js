@@ -1,7 +1,7 @@
-import { XyoArchivistApi } from '../Archivist'
-import { XyoApiConfig } from '../models'
-import { XyoRemoteDiviner } from './XyoRemoteDiviner'
-import { XyoRemoteDivinerConfigSchema } from './XyoRemoteDivinerConfig'
+import { XyoArchivistApi } from '../../Archivist'
+import { XyoApiConfig } from '../../models'
+import { XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
+import { XyoRemoteAddressHistoryDiviner } from './XyoRemoteAddressHistoryDiviner'
 
 const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
@@ -10,9 +10,9 @@ const configData: XyoApiConfig = {
   onSuccess: (response) => response, //console.log(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
 }
 
-test('XyoRemoteDiviner', async () => {
+test('XyoRemoteAddressHistoryDiviner', async () => {
   const api = new XyoArchivistApi(configData)
-  const diviner = new XyoRemoteDiviner({ api, schema: XyoRemoteDivinerConfigSchema })
+  const diviner = new XyoRemoteAddressHistoryDiviner({ api, schema: XyoRemoteDivinerConfigSchema })
   const payload = {
     salt: `${Math.random() * 10000}`,
     schema: 'network.xyo.id',

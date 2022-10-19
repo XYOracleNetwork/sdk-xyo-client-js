@@ -2,11 +2,11 @@ import { assertEx } from '@xylabs/assert'
 import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoPayloads } from '@xyo-network/payload'
 
-import { RemoteDivinerError } from './RemoteDivinerError'
-import { XyoRemoteDivinerConfig } from './XyoRemoteDivinerConfig'
+import { RemoteDivinerError } from '../RemoteDivinerError'
+import { XyoRemoteDivinerConfig } from '../XyoRemoteDivinerConfig'
 
 /** @description Diviner Context that connects to a remote Diviner using the API */
-export class XyoRemoteDiviner extends XyoDiviner<XyoRemoteDivinerConfig> {
+export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerConfig> {
   public get api() {
     return assertEx(this.config?.api, 'API not defined')
   }

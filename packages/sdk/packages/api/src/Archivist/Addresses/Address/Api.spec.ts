@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 
 import { XyoApiConfig, XyoApiResponseBody } from '../../../models'
-import { XyoApiSimple } from '../../../Simple'
 import { XyoAddressesApi } from '../Api'
 import { ModuleDescription } from '../ModuleDescription'
 import { XyoAddressApi } from './Api'
@@ -24,11 +23,11 @@ describe('XyoAddressApi', () => {
       expect(api).toBeDefined()
       expect(api.get).toBeFunction()
     })
-    describe('returns', () => {
-      it('module address', () => {
+    describe('returns module', () => {
+      it('address', () => {
         expect(result?.address).toBeString()
       })
-      it('module address', () => {
+      it('supported queries', () => {
         const queries = result?.queries
         expect(queries).toBeArray()
         expect(queries?.length).toBeGreaterThan(0)

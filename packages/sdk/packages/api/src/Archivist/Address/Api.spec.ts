@@ -1,7 +1,7 @@
-import { XyoAccount } from '@xyo-network/account'
-import { Module } from '@xyo-network/modules'
+import { assertEx } from '@xylabs/assert'
 
 import { XyoApiConfig, XyoApiResponseBody } from '../../models'
+import { XyoApiSimple } from '../../Simple'
 import { ModuleDescription, XyoAddressApi } from './Api'
 
 const config: XyoApiConfig = {
@@ -9,7 +9,6 @@ const config: XyoApiConfig = {
 }
 
 describe('XyoAddressApi', () => {
-  const address = new XyoAccount({ phrase: 'test' }).addressValue.hex
   describe('get', () => {
     it('method exists', () => {
       const api = new XyoAddressApi(config)
@@ -44,15 +43,33 @@ describe('XyoAddressApi', () => {
   })
   describe('address', () => {
     describe('get', () => {
+      let api: XyoApiSimple<ModuleDescription>
+      let result: XyoApiResponseBody<ModuleDescription>
+      beforeAll(async () => {
+        const address = assertEx((await new XyoAddressApi(config).get())?.pop()?.address)
+        api = new XyoAddressApi(config).address(address)
+        result = await api.get()
+        expect(result).toBeObject()
+      })
       it('method exists', () => {
-        const api = new XyoAddressApi(config).address(address)
         expect(api).toBeDefined()
         expect(api.get).toBeFunction()
       })
-      it('method exists', () => {
-        const api = new XyoAddressApi(config).address(address)
-        expect(api).toBeDefined()
-        expect(api.get).toBeFunction()
+      describe('returns', () => {
+        it('module address', () => {
+          expect(result?.address).toBeString()
+        })
+        it('module address', () => {
+          const queries = result?.queries
+          expect(queries).toBeArray()
+          expect(queries?.length).toBeGreaterThan(0)
+          queries?.map((query) => {
+            expect(query).toBeString()
+          })
+        })
+        // it('module url', () => {
+        //   expect(result?.url).toBeString()
+        // })
       })
     })
   })

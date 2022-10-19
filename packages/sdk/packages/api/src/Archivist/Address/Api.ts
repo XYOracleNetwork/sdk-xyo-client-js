@@ -1,10 +1,10 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-
 import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'
+
 export interface ModuleDescription {
   address: string
   queries: string[]
+  url?: string
 }
 
 export class XyoAddressApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<ModuleDescription[], C> {

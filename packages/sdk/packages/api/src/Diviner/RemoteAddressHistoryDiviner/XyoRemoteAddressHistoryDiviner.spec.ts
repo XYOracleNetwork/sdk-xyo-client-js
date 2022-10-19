@@ -1,5 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../../Archivist'
 import { XyoApiConfig } from '../../models'
@@ -17,11 +19,14 @@ test('XyoRemoteAddressHistoryDiviner', async () => {
   const address = new XyoAccount({ phrase: 'test' }).addressValue.hex
   const api = new XyoArchivistApi(configData)
   const diviner = new XyoRemoteAddressHistoryDiviner({ api, schema: XyoRemoteDivinerConfigSchema })
-  const payload = {
-    salt: `${Math.random() * 10000}`,
-    schema: 'network.xyo.id',
+  const source = new XyoPayloadBuilder({ schema: 'TODO' }).build()
+  const sources = [new PayloadWrapper(source).hash]
+  const query: XyoDivinerDivineQuery = {
+    schema: XyoDivinerDivineQuerySchema,
+    sources,
   }
-  const result = await diviner.divine([payload])
+
+  const result = await diviner.divine([query, source])
   expect(result.length).toBeGreaterThan(0)
   result.map((bw) => {
     expect(bw.schema).toBe(XyoBoundWitnessSchema)

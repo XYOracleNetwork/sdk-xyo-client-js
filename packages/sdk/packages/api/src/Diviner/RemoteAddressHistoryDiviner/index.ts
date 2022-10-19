@@ -1,1 +1,1 @@
-export * from './XyoRemoteDiviner'
+export * from './XyoRemoteAddressHistoryDiviner'

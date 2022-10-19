@@ -39,6 +39,11 @@ describe('XyoAddressApi', () => {
           })
         })
       })
+      it('module mount point', () => {
+        result?.map((module) => {
+          expect(module.url).toBeString
+        })
+      })
     })
   })
   describe('address', () => {
@@ -67,9 +72,6 @@ describe('XyoAddressApi', () => {
             expect(query).toBeString()
           })
         })
-        // it('module url', () => {
-        //   expect(result?.url).toBeString()
-        // })
       })
     })
   })

@@ -4,6 +4,7 @@ import { BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
 
 import { XyoApiConfig, XyoApiResponseBody } from '../../../models'
 import { XyoApiSimple } from '../../../Simple'
+import { XyoArchivistApi } from '../../Api'
 import { XyoAddressesApi } from '../Api'
 import { ModuleDescription } from '../ModuleDescription'
 import { XyoAddressApi } from './Api'
@@ -18,7 +19,7 @@ describe('XyoAddressApi', () => {
     let result: XyoApiResponseBody<ModuleDescription>
     beforeAll(async () => {
       const address = assertEx((await new XyoAddressesApi(config).get())?.pop()?.address)
-      api = new XyoAddressesApi(config).address(address)
+      api = new XyoArchivistApi(config).addresses.address(address)
       result = await api.get()
       expect(result).toBeObject()
     })
@@ -46,7 +47,7 @@ describe('XyoAddressApi', () => {
     let history: XyoBoundWitness[]
     beforeAll(async () => {
       address = new XyoAccount({ phrase: 'test' }).addressValue.hex
-      api = new XyoAddressesApi(config).address(address).boundWitnesses
+      api = new XyoArchivistApi(config).addresses.address(address).boundWitnesses
       const result = await api.get()
       expect(result).toBeArray()
       expect(result?.length).toBeGreaterThan(0)

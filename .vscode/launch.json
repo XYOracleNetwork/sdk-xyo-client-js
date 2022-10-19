@@ -39,7 +39,6 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/archivist/src/XyoStorageArchivist.spec.ts",
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -7,7 +7,7 @@ export class XyoAddressesApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
   public address(address: string): XyoAddressApi {
     return new XyoAddressApi({
       ...this.config,
-      root: `${this.root}address/${address}/`,
+      root: `${this.root}${address}/`,
     })
   }
 }

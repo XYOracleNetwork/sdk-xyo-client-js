@@ -8,8 +8,8 @@ export interface ModuleDescription {
 }
 
 export class XyoAddressApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<ModuleDescription[], C> {
-  public address(address: string): XyoApiSimple<XyoBoundWitness[]> {
-    return new XyoApiSimple<XyoBoundWitness[]>({
+  public address(address: string): XyoApiSimple<ModuleDescription> {
+    return new XyoApiSimple<ModuleDescription>({
       ...this.config,
       root: `${this.root}address/${address}/`,
     })

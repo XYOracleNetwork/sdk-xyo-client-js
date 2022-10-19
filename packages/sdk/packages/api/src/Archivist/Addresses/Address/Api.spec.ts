@@ -1,6 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoAccount } from '@xyo-network/account'
+import { BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
 
 import { XyoApiConfig, XyoApiResponseBody } from '../../../models'
+import { XyoApiSimple } from '../../../Simple'
 import { XyoAddressesApi } from '../Api'
 import { ModuleDescription } from '../ModuleDescription'
 import { XyoAddressApi } from './Api'
@@ -37,4 +40,37 @@ describe('XyoAddressApi', () => {
       })
     })
   })
+  describe('boundWitness', () => {
+    let address: string
+    let api: XyoApiSimple<XyoBoundWitness[]>
+    let history: XyoBoundWitness[]
+    beforeAll(async () => {
+      address = new XyoAccount({ phrase: 'test' }).addressValue.hex
+      api = new XyoAddressesApi(config).address(address).boundWitnesses
+      const result = await api.get()
+      expect(result).toBeArray()
+      expect(result?.length).toBeGreaterThan(0)
+      history = assertEx(result)
+    })
+    it('method exists', () => {
+      expect(api).toBeDefined()
+      expect(api.get).toBeFunction()
+    })
+    describe('return BoundWitnesses', () => {
+      it('from the address specified', () => {
+        history?.map((block) => expect(block.addresses).toContain(address))
+      })
+      it('in sequential order', () => {
+        verifyBlockChainHistory(history)
+      })
+    })
+  })
 })
+
+const verifyBlockChainHistory = (history: XyoBoundWitness[]) => {
+  for (let i = 1; i < history.length; i++) {
+    const current = history[i - 1]
+    const previous = history[i]
+    expect(current.previous_hashes).toContain(new BoundWitnessWrapper(previous).hash)
+  }
+}

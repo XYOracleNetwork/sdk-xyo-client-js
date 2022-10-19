@@ -117,7 +117,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
       const error = ex as Error
       resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
-    this.logger?.log(wrapper.schemaName, 'query')
+    this.logger?.log(wrapper.schemaName)
     return this.bindResult(resultPayloads, queryAccount)
   }
 
@@ -160,7 +160,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
   }
 
   protected async writeToParents(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
-    this.logger?.log(this.parents?.write?.length ?? 0, 'writeToParents')
+    this.logger?.log(this.parents?.write?.length ?? 0)
     return compact(
       await Promise.all(
         Object.values(this.parents?.write ?? {}).map(async (parent) => {

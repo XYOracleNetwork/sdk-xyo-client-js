@@ -1,4 +1,4 @@
-import { Logger } from '@xyo-network/shared'
+import { getFunctionName, Logger } from '@xyo-network/shared'
 
 export class Logging implements Logger {
   private _logger: Logger
@@ -19,19 +19,19 @@ export class Logging implements Logger {
     }`
   }
 
-  debug(message?: unknown, tag?: string) {
-    this._logger?.log(this.generate(message, tag))
+  debug(message?: unknown) {
+    this._logger?.log(this.generate(message, getFunctionName(3)))
   }
-  error(message?: unknown, tag?: string) {
-    this._logger?.log(this.generate(message, tag))
+  error(message?: unknown) {
+    this._logger?.log(this.generate(message, getFunctionName(3)))
   }
-  info(message?: unknown, tag?: string) {
-    this._logger?.log(this.generate(message, tag))
+  info(message?: unknown) {
+    this._logger?.log(this.generate(message, getFunctionName(3)))
   }
-  log(message?: unknown, tag?: string) {
-    this._logger?.log(this.generate(message, tag))
+  log(message?: unknown) {
+    this._logger?.log(this.generate(message, getFunctionName(3)))
   }
-  warn(message?: unknown, tag?: string) {
-    this._logger?.log(this.generate(message, tag))
+  warn(message?: unknown) {
+    this._logger?.log(this.generate(message, getFunctionName(3)))
   }
 }

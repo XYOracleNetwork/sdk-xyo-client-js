@@ -100,7 +100,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       if (privateKey) {
         try {
           const account = new XyoAccount({ privateKey })
-          this.logger?.log(account.addressValue.hex, 'loadAccount')
+          this.logger?.log(account.addressValue.hex)
           return account
         } catch (ex) {
           console.error(`Error reading Account from storage [${this.type}, ${ex}] - Recreating Account`)
@@ -113,7 +113,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
 
   protected saveAccount() {
     if (this.persistAccount) {
-      this.logger?.log(this.account.addressValue.hex, 'saveAccount')
+      this.logger?.log(this.account.addressValue.hex)
       this.privateStorage.set('privateKey', this.account.private.hex)
     }
   }

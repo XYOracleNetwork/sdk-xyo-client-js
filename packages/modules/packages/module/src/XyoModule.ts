@@ -50,7 +50,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     this.account = this.loadAccount(params?.account)
     const activeLogger = params?.logger ?? XyoModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
-    this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`, 'constructor')
+    this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
   }
 
   protected start(_timeout?: number): Promisable<typeof this> {
@@ -69,22 +69,22 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return account ?? new XyoAccount()
   }
 
-  public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none', tag = 'started') {
+  public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
     if (!this._started) {
       switch (notStartedAction) {
         case 'throw':
           throw Error(`Module not Started [${this.address}]`)
         case 'warn':
-          this.logger?.warn('Module not started', tag)
+          this.logger?.warn('Module not started')
           break
         case 'error':
-          this.logger?.error('Module not started', tag)
+          this.logger?.error('Module not started')
           break
         case 'none':
           break
         case 'log':
         default:
-          this.logger?.log('Module not started', tag)
+          this.logger?.log('Module not started')
       }
     }
     return this._started
@@ -123,7 +123,7 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query.schema, wrapper.addresses))
 
-    this.logger?.log(wrapper.schemaName, 'query')
+    this.logger?.log(wrapper.schemaName)
 
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new XyoAccount()

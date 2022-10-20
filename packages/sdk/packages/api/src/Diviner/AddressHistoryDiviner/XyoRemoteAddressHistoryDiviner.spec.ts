@@ -16,15 +16,35 @@ const configData: XyoApiConfig = {
   onSuccess: (response) => response, //console.log(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
 }
 
-test('XyoRemoteAddressHistoryDiviner', async () => {
+describe('XyoRemoteAddressHistoryDiviner', () => {
   const address = new XyoAccount({ phrase: 'test' }).addressValue.hex
   const api = new XyoArchivistApi(configData)
   const diviner = new XyoRemoteAddressHistoryDiviner({ api, schema: XyoRemoteDivinerConfigSchema })
-  const source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).build()
-  const result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
-  expect(result.length).toBeGreaterThan(0)
-  result.map((bw) => {
-    expect(bw.schema).toBe(XyoBoundWitnessSchema)
-    expect(bw.addresses).toContain(address)
+
+  describe('with valid address returns', () => {
+    let result: XyoBoundWitness[]
+    beforeAll(async () => {
+      const source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).fields({ address }).build()
+      result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
+      expect(result.length).toBeGreaterThan(0)
+    })
+    it('array of Bound Witnesses', () => {
+      result.map((bw) => {
+        expect(bw.schema).toBe(XyoBoundWitnessSchema)
+      })
+    })
+    it('from address', () => {
+      expect(result.length).toBeGreaterThan(0)
+      result.map((bw) => {
+        expect(bw.addresses).toContain(address)
+      })
+    })
+  })
+  describe('with non-existent address', () => {
+    it('returns empty array', async () => {
+      const source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).fields({ address: 'foo' }).build()
+      const result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
+      expect(result.length).toBe(0)
+    })
   })
 })

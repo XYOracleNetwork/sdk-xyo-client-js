@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { Quadkey } from '@xyo-network/quadkey'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -16,6 +17,12 @@ export type XyoLocationWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
+  static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {
+    const module = new XyoLocationWitness(params)
+    await module.start()
+    return module
+  }
+
   public get geolocation() {
     return this.config?.geolocation
   }

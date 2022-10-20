@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.9",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
@@ -50,5 +51,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.37.7"
+  "version": "2.38.0-rc.12",
+  "stableVersion": "2.37.6"
 }

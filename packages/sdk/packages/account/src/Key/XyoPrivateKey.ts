@@ -12,7 +12,7 @@ export class XyoPrivateKey extends XyoEllipticKey {
   constructor(value?: XyoDataLike) {
     super(32)
     if (value) {
-      this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate(toUint8Array(value))
+      this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate(toUint8Array(value), 'array')
     } else {
       try {
         this._keyPair = XyoPrivateKey.ecContext.genKeyPair()

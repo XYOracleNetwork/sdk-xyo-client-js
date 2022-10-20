@@ -1,28 +1,46 @@
+import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { PartialWitnessConfig, XyoWitness } from '@xyo-network/witness'
+import { XyoModuleParams } from '@xyo-network/module'
+import { XyoWitness } from '@xyo-network/witness'
 
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 import { XyoUniswapCryptoMarketPayload } from './Payload'
-import { XyoUniswapCryptoMarketSchema, XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
+
+export interface XyoUniswapCryptoMarketWitnessParams extends XyoModuleParams<XyoUniswapCryptoMarketWitnessConfig> {
+  provider: Provider
+}
 
 export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfig> {
-  protected pairs: EthersUniSwap3Pair[]
-  constructor(config: PartialWitnessConfig<XyoUniswapCryptoMarketWitnessConfig>) {
-    super({ schema: XyoUniswapCryptoMarketWitnessConfigSchema, targetSchema: XyoUniswapCryptoMarketSchema, ...config })
-    this.pairs = createUniswapPoolContracts(assertEx(this.config?.provider, 'Provider is Required'), this.config?.pools ?? UniswapPoolContracts)
+  protected pairs?: EthersUniSwap3Pair[]
+  protected provider: Provider
+  constructor(params: XyoUniswapCryptoMarketWitnessParams) {
+    super(params)
+    this.provider = params.provider
+  }
+
+  static override async create(params?: XyoUniswapCryptoMarketWitnessParams): Promise<XyoUniswapCryptoMarketWitness>
+  static override async create(params?: XyoModuleParams): Promise<XyoUniswapCryptoMarketWitness> {
+    const module = new XyoUniswapCryptoMarketWitness(params as XyoUniswapCryptoMarketWitnessParams)
+    await module.start()
+    return module
   }
 
   override async observe(): Promise<XyoUniswapCryptoMarketPayload[]> {
-    const pairs = await pricesFromUniswap3(this.pairs)
+    this.started('throw')
+    const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()
 
-    return [
-      {
-        pairs,
-        schema: XyoUniswapCryptoMarketSchema,
-        timestamp,
-      },
-    ]
+    const payload: Partial<XyoUniswapCryptoMarketPayload> = {
+      pairs,
+      timestamp,
+    }
+
+    return super.observe([payload])
+  }
+
+  override async start() {
+    this.pairs = createUniswapPoolContracts(this.provider, this.config?.pools ?? UniswapPoolContracts)
+    return await super.start()
   }
 }

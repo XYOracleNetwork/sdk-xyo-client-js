@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivist, XyoArchivistFindQuerySchema } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 
 import { RemoteArchivistError } from './RemoteArchivistError'
@@ -8,6 +9,12 @@ import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
 
 /** @description Archivist Context that connects to a remote archivist using the API */
 export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
+  static override async create(params?: XyoModuleParams<XyoRemoteArchivistConfig>): Promise<XyoRemoteArchivist> {
+    const module = new XyoRemoteArchivist(params)
+    await module.start()
+    return module
+  }
+
   public get api() {
     return assertEx(this.config?.api, 'API not defined')
   }

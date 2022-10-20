@@ -1,4 +1,5 @@
 import { delay } from '@xylabs/delay'
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoSchemaPayload } from './Payload'
@@ -10,6 +11,12 @@ export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'netwo
 export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayload, { schema: XyoSchemaWitnessConfigSchema }>
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
+  static override async create(params?: XyoModuleParams<XyoSchemaWitnessConfig>): Promise<XyoSchemaWitness> {
+    const module = new XyoSchemaWitness(params)
+    await module.start()
+    return module
+  }
+
   override async observe(_fields: Partial<XyoSchemaPayload>[]): Promise<XyoSchemaPayload[]> {
     await delay(0)
     throw new Error('Method not implemented.')

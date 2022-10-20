@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { QueryBoundWitnessWrapper, XyoModule, XyoModuleResolverFunc, XyoQueryBoundWitness } from '@xyo-network/module'
+import { QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -8,13 +8,16 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
+export type XyoWitnessParams = XyoModuleParams
+
 export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>>
   extends XyoModule<TConfig>
   implements Witness<TTarget>
 {
-  //we require a config for witnesses
-  constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
-    super(config, account, resolver)
+  static override async create(params?: XyoModuleParams<XyoWitnessConfig>): Promise<XyoWitness> {
+    const module = new XyoWitness(params)
+    await module.start()
+    return module
   }
 
   public get targetSchema() {
@@ -26,6 +29,7 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
   }
 
   public observe(fields?: Partial<XyoPayload>[]): Promisable<TTarget[]> {
+    this.started('throw')
     return (
       fields?.map((fieldsItem) => {
         return { ...fieldsItem, schema: this.targetSchema } as TTarget
@@ -39,15 +43,20 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()
-    switch (typedQuery.schema) {
-      case XyoWitnessObserveQuerySchema: {
-        const resultPayloads = await this.observe(payloads)
-        return this.bindResult(resultPayloads, queryAccount)
-      }
+    try {
+      switch (typedQuery.schema) {
+        case XyoWitnessObserveQuerySchema: {
+          const resultPayloads = await this.observe(payloads)
+          return this.bindResult(resultPayloads, queryAccount)
+        }
 
-      default: {
-        return super.query(query, payloads)
+        default: {
+          return super.query(query, payloads)
+        }
       }
+    } catch (ex) {
+      const error = ex as Error
+      return this.bindResult([new XyoErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
     }
   }
 }

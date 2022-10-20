@@ -1,17 +1,19 @@
-import { PartialWitnessConfig, XyoWitness } from '@xyo-network/witness'
+import { XyoModuleParams } from '@xyo-network/module'
+import { XyoWitness } from '@xyo-network/witness'
 import { get } from 'systeminformation'
 
-import { XyoNodeSystemInfoWitnessConfig, XyoNodeSystemInfoWitnessConfigSchema } from './Config'
+import { XyoNodeSystemInfoWitnessConfig } from './Config'
 import { XyoNodeSystemInfoPayload } from './Payload'
-import { XyoNodeSystemInfoSchema } from './Schema'
 import { defaultSystemInfoConfig } from './Template'
 
 export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload = XyoNodeSystemInfoPayload> extends XyoWitness<
   TPayload,
   XyoNodeSystemInfoWitnessConfig
 > {
-  constructor(config?: PartialWitnessConfig<XyoNodeSystemInfoWitnessConfig>) {
-    super({ schema: XyoNodeSystemInfoWitnessConfigSchema, targetSchema: XyoNodeSystemInfoSchema, ...config })
+  static override async create(params?: XyoModuleParams<XyoNodeSystemInfoWitnessConfig>): Promise<XyoNodeSystemInfoWitness> {
+    const module = new XyoNodeSystemInfoWitness(params)
+    await module.start()
+    return module
   }
 
   override async observe(fields?: Partial<TPayload>[]) {

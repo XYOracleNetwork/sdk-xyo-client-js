@@ -1,16 +1,18 @@
-import { PartialWitnessConfig, XyoTimestampWitness } from '@xyo-network/witness'
+import { XyoModuleParams } from '@xyo-network/module'
+import { XyoTimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherchainV2WitnessConfig } from './Config'
 import { getV2GasFromEtherchain } from './etherchain'
 import { XyoEthereumGasEtherchainV2Payload } from './Payload'
-import { XyoEthereumGasEtherchainV2Schema, XyoEthereumGasEtherchainV2WitnessConfigSchema } from './Schema'
 
 export class XyoEtherchainEthereumGasWitnessV2 extends XyoTimestampWitness<
   XyoEthereumGasEtherchainV2Payload,
   XyoEthereumGasEtherchainV2WitnessConfig
 > {
-  constructor(config?: PartialWitnessConfig<XyoEthereumGasEtherchainV2WitnessConfig>) {
-    super({ schema: XyoEthereumGasEtherchainV2WitnessConfigSchema, targetSchema: XyoEthereumGasEtherchainV2Schema, ...config })
+  static override async create(params?: XyoModuleParams<XyoEthereumGasEtherchainV2WitnessConfig>): Promise<XyoEtherchainEthereumGasWitnessV2> {
+    const module = new XyoEtherchainEthereumGasWitnessV2(params)
+    await module.start()
+    return module
   }
 
   override async observe(): Promise<XyoEthereumGasEtherchainV2Payload[]> {

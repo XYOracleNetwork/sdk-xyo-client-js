@@ -20,7 +20,8 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
   public override async divine(payloads?: XyoPayloads): Promise<XyoBoundWitness[]> {
     if (!payloads) return []
     try {
-      const address = payloads.find<{ address: string; schema: string }>((p) => p?.schema === 'TODO')?.address
+      // const address = payloads.find<{ address: string; schema: string }>((p) => p?.schema === 'TODO')?.address
+      const address = 'TODO'
       if (!address) return []
       const bwResult = await this.api.addresses.address(address).boundWitnesses.get('tuple')
       const [, response, error] = bwResult

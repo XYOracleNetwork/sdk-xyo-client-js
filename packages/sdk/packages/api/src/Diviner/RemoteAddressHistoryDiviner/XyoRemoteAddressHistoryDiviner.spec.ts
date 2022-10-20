@@ -1,7 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
-import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoDivinerWrapper } from '@xyo-network/diviner'
+import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../../Archivist'
 import { XyoApiConfig } from '../../models'
@@ -20,13 +20,7 @@ test('XyoRemoteAddressHistoryDiviner', async () => {
   const api = new XyoArchivistApi(configData)
   const diviner = new XyoRemoteAddressHistoryDiviner({ api, schema: XyoRemoteDivinerConfigSchema })
   const source = new XyoPayloadBuilder({ schema: 'TODO' }).build()
-  const sources = [new PayloadWrapper(source).hash]
-  const query: XyoDivinerDivineQuery = {
-    schema: XyoDivinerDivineQuerySchema,
-    sources,
-  }
-
-  const result = await diviner.divine([query, source])
+  const result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
   expect(result.length).toBeGreaterThan(0)
   result.map((bw) => {
     expect(bw.schema).toBe(XyoBoundWitnessSchema)

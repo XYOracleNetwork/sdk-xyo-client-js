@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 
 import { RemoteDivinerError } from '../RemoteDivinerError'
@@ -9,6 +10,12 @@ import { AddressHistoryDiviner, isAddressHistoryQueryPayload } from './AddressHi
 
 /** @description Diviner Context that connects to a remote Diviner using the API */
 export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerConfig> implements AddressHistoryDiviner {
+  static override async create(params?: XyoModuleParams<XyoRemoteDivinerConfig>): Promise<XyoRemoteAddressHistoryDiviner> {
+    const module = new XyoRemoteAddressHistoryDiviner(params)
+    await module.start()
+    return module
+  }
+
   public get api() {
     return assertEx(this.config?.api, 'API not defined')
   }

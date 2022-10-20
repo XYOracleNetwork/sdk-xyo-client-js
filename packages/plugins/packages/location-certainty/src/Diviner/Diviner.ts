@@ -3,9 +3,11 @@ import {
   XyoLocationElevationPayload,
   XyoLocationElevationSchema,
   XyoLocationElevationWitness,
+  XyoLocationElevationWitnessConfig,
   XyoLocationElevationWitnessConfigSchema,
 } from '@xyo-network/elevation-payload-plugin'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { Job, JobProvider } from '@xyo-network/shared'
 
@@ -14,6 +16,12 @@ import { LocationCertaintySchema } from '../Schema'
 import { LocationCertaintyDivinerConfig } from './Config'
 
 export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
+  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>): Promise<LocationCertaintyDiviner> {
+    const module = new LocationCertaintyDiviner(params)
+    await module.start()
+    return module
+  }
+
   get jobs(): Job[] {
     return [
       {
@@ -69,10 +77,12 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
     const locations = payloads?.filter<XyoLocationPayload>((payload): payload is XyoLocationPayload => payload?.schema === XyoLocationSchema)
     // If this is a query we support
     if (locations && locations?.length > 0) {
-      const elevationWitness = new XyoLocationElevationWitness({
-        locations,
-        schema: XyoLocationElevationWitnessConfigSchema,
-        targetSchema: XyoLocationElevationSchema,
+      const elevationWitness = await XyoLocationElevationWitness.create({
+        config: {
+          locations,
+          schema: XyoLocationElevationWitnessConfigSchema,
+          targetSchema: XyoLocationElevationSchema,
+        } as XyoLocationElevationWitnessConfig,
       })
       const elevations = await elevationWitness.observe()
 
@@ -90,20 +100,6 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
       return [result]
     }
     return []
-  }
-
-  override async initialize(): Promise<void> {
-    this.logger?.log('LocationCertaintyDiviner.Initialize: Initializing')
-    // TODO: Any async init here
-    await Promise.resolve()
-    this.logger?.log('LocationCertaintyDiviner.Initialize: Initialized')
-  }
-
-  override async shutdown(): Promise<void> {
-    this.logger?.log('LocationCertaintyDiviner.Shutdown: Shutting down')
-    // TODO: Any async shutdown
-    await Promise.resolve()
-    this.logger?.log('LocationCertaintyDiviner.Shutdown: Shutdown')
   }
 
   /** @description Is the goal here to prime/index the diviner? */

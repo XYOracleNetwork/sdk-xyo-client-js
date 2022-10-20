@@ -2,9 +2,7 @@ import { XyoPentairScreenlogicWitness } from './Witness'
 
 describe('XyoPentairScreenLogicWitness', () => {
   test('Witnessing', async () => {
-    const witness = new XyoPentairScreenlogicWitness()
-    witness.initialize()
+    const witness = await XyoPentairScreenlogicWitness.create()
     await witness.observe()
-    witness.shutdown()
   })
 })

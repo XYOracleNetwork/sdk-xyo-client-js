@@ -9,14 +9,6 @@ export class AxiosJson extends Axios {
     super(AxiosJson.axiosConfig(config))
   }
 
-  private static axiosHeaders(headers?: AxiosRequestHeaders): AxiosRequestHeaders {
-    return {
-      Accept: 'application/json, text/plain, *.*',
-      'Content-Type': 'application/json',
-      ...headers,
-    }
-  }
-
   private static axiosConfig({ compressLength, headers, ...config }: AxiosJsonRequestConfig = {}): AxiosRequestConfig {
     return {
       headers: this.axiosHeaders(headers),
@@ -38,6 +30,14 @@ export class AxiosJson extends Axios {
         }
       },
       ...config,
+    }
+  }
+
+  private static axiosHeaders(headers?: AxiosRequestHeaders): AxiosRequestHeaders {
+    return {
+      Accept: 'application/json, text/plain, *.*',
+      'Content-Type': 'application/json',
+      ...headers,
     }
   }
 }

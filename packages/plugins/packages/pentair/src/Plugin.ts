@@ -1,18 +1,15 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoPentairScreenlogicPayload } from './Payload'
 import { XyoPentairScreenlogicSchema } from './Schema'
-import { XyoPentairScreenlogicWitness, XyoPentairScreenlogicWitnessConfig, XyoPentairScreenlogicWitnessConfigSchema } from './Witness'
+import { XyoPentairScreenlogicWitness, XyoPentairScreenlogicWitnessConfig } from './Witness'
 
 export const XyoPentairScreenlogicPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoPentairScreenlogicPayload, XyoPentairScreenlogicWitnessConfig>({
+  createXyoPayloadPlugin<XyoPentairScreenlogicPayload, XyoModuleParams<XyoPentairScreenlogicWitnessConfig>>({
     auto: true,
     schema: XyoPentairScreenlogicSchema,
-    witness: (config): XyoPentairScreenlogicWitness => {
-      return new XyoPentairScreenlogicWitness({
-        ...config,
-        schema: XyoPentairScreenlogicWitnessConfigSchema,
-        targetSchema: XyoPentairScreenlogicSchema,
-      })
+    witness: async (params) => {
+      return await XyoPentairScreenlogicWitness.create(params)
     },
   })

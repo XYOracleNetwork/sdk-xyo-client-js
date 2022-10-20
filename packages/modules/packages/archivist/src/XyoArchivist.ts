@@ -1,14 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import {
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoModule,
-  XyoModuleInitializeQuerySchema,
-  XyoModuleShutdownQuerySchema,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -34,25 +27,16 @@ export interface XyoArchivistParentWrappers {
   commit?: Record<string, XyoArchivistWrapper>
 }
 
-export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
-  extends XyoModule<XyoArchivistConfig<TConfig>>
-  implements PayloadArchivist
-{
+export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig> extends XyoModule<TConfig> implements PayloadArchivist {
   public override queries() {
-    return [
-      XyoModuleInitializeQuerySchema,
-      XyoModuleShutdownQuerySchema,
-      XyoArchivistGetQuerySchema,
-      XyoArchivistInsertQuerySchema,
-      ...super.queries(),
-    ]
+    return [XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, ...super.queries()]
   }
 
-  public get cacheParentReads() {
+  protected get cacheParentReads() {
     return !!this.config?.cacheParentReads
   }
 
-  public get writeThrough() {
+  protected get writeThrough() {
     return !!this.config?.writeThrough
   }
 
@@ -96,37 +80,42 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
 
     const resultPayloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
-    switch (typedQuery.schema) {
-      case XyoArchivistAllQuerySchema:
-        resultPayloads.push(...(await this.all()))
-        break
-      case XyoArchivistClearQuerySchema:
-        await this.clear()
-        break
-      case XyoArchivistCommitQuerySchema:
-        resultPayloads.push(...(await this.commit()))
-        break
-      case XyoArchivistDeleteQuerySchema:
-        await this.delete(typedQuery.hashes)
-        break
-      case XyoArchivistFindQuerySchema:
-        resultPayloads.push(...(await this.find(typedQuery.filter)))
-        break
-      case XyoArchivistGetQuerySchema:
-        resultPayloads.push(...(await this.get(typedQuery.hashes)))
-        break
-      case XyoArchivistInsertQuerySchema: {
-        const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []
-        assertEx(typedQuery.payloads, `Missing payloads: ${JSON.stringify(typedQuery, null, 2)}`)
-        const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
-        assertEx(resolvedWrappers.length === typedQuery.payloads.length, 'Could not find some passed hashes')
-        resultPayloads.push(...(await this.insert(resolvedWrappers.map((wrapper) => wrapper.payload))))
-        break
+    try {
+      switch (typedQuery.schema) {
+        case XyoArchivistAllQuerySchema:
+          resultPayloads.push(...(await this.all()))
+          break
+        case XyoArchivistClearQuerySchema:
+          await this.clear()
+          break
+        case XyoArchivistCommitQuerySchema:
+          resultPayloads.push(...(await this.commit()))
+          break
+        case XyoArchivistDeleteQuerySchema:
+          await this.delete(typedQuery.hashes)
+          break
+        case XyoArchivistFindQuerySchema:
+          resultPayloads.push(...(await this.find(typedQuery.filter)))
+          break
+        case XyoArchivistGetQuerySchema:
+          resultPayloads.push(...(await this.get(typedQuery.hashes)))
+          break
+        case XyoArchivistInsertQuerySchema: {
+          const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []
+          assertEx(typedQuery.payloads, `Missing payloads: ${JSON.stringify(typedQuery, null, 2)}`)
+          const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
+          assertEx(resolvedWrappers.length === typedQuery.payloads.length, 'Could not find some passed hashes')
+          resultPayloads.push(...(await this.insert(resolvedWrappers.map((wrapper) => wrapper.payload))))
+          break
+        }
+        default:
+          return super.query(query, payloads)
       }
-      default:
-        return super.query(query, payloads)
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
-    this.log?.('Query', wrapper.schemaName)
+    this.logger?.log(wrapper.schemaName)
     return this.bindResult(resultPayloads, queryAccount)
   }
 
@@ -135,7 +124,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
     if (archivists) {
       archivists.map((archivist) => {
         if (resolvedWrappers[archivist] === undefined) {
-          const module = this.resolver?.(archivist)
+          const module = this.resolver?.fromAddress([archivist]).shift()
           if (module) {
             resolvedWrappers[archivist] = new XyoArchivistWrapper(module)
           }
@@ -169,7 +158,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   }
 
   protected async writeToParents(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
-    this.log?.('Write to Parents', this.parents?.write?.length ?? 0)
+    this.logger?.log(this.parents?.write?.length ?? 0)
     return compact(
       await Promise.all(
         Object.values(this.parents?.write ?? {}).map(async (parent) => {
@@ -180,7 +169,7 @@ export abstract class XyoArchivist<TConfig extends XyoPayload = XyoPayload>
   }
 
   private _parents?: XyoArchivistParentWrappers
-  get parents() {
+  protected get parents() {
     this._parents = this._parents ?? {
       commit: this.resolveArchivists(this.config?.parents?.commit),
       read: this.resolveArchivists(this.config?.parents?.read),

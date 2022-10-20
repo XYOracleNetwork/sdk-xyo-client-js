@@ -6,12 +6,12 @@ export type XyoExternalAddressSchema = 'network.xyo.address.external'
 export const XyoExternalAddressSchema = 'network.xyo.address.external'
 
 export type XyoExternalAddress = XyoPayload<{
-  schema: XyoExternalAddressSchema
-  chain: {
-    platform: 'ethereum'
-    network: string
-  }
   address: string
+  chain: {
+    network: string
+    platform: 'ethereum'
+  }
+  schema: XyoExternalAddressSchema
 }>
 
 export type XyoNonFungibleTokenPayload<T extends EmptyObject = EmptyObject> = XyoPayload<{ schema: 'network.xyo.nft' } & T>

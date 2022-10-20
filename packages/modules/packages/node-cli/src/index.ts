@@ -1,5 +1,5 @@
 import { XyoMemoryArchivist } from '@xyo-network/archivist'
-import { XyoModule, XyoModuleResolverFunc } from '@xyo-network/module'
+import { ModuleResolver, ModuleResolverEventFunc, SchemaString, XyoModule } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import yargs from 'yargs'
 // eslint-disable-next-line import/no-internal-modules
@@ -23,7 +23,7 @@ const parseOptions = () => {
     })
 }
 
-const loadModule = async (pkg: string, name?: string, resolver?: XyoModuleResolverFunc): Promise<XyoModule> => {
+const loadModule = async (pkg: string, name?: string, resolver?: ModuleResolver): Promise<XyoModule> => {
   const loadedPkg = await import(pkg)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ModuleConstructor: any = name ? loadedPkg[name] : loadedPkg
@@ -31,8 +31,8 @@ const loadModule = async (pkg: string, name?: string, resolver?: XyoModuleResolv
 }
 
 const xyo = async () => {
-  const node = new MemoryNode()
-  node.register(new XyoMemoryArchivist())
+  const node = await MemoryNode.create()
+  node.register(await XyoMemoryArchivist.create())
   await parseOptions().command(
     'node',
     'Start an XYO Node',
@@ -45,11 +45,23 @@ const xyo = async () => {
       const modules = Array.isArray(module) ? module : [module]
       if (verbose) console.info('Starting Node')
 
-      node.register(new XyoMemoryArchivist())
+      node.register(await XyoMemoryArchivist.create())
 
-      const resolver: XyoModuleResolverFunc = (address: string) => {
-        console.log(`Resolving: ${address}`)
-        return node.resolve(address)
+      const resolver: ModuleResolver = {
+        fromAddress: (address: string[]) => {
+          console.log(`Resolving: ${address}`)
+          return node.resolve(address)
+        },
+        fromQuery: (_schema: SchemaString[]) => {
+          throw Error('Not implemented')
+        },
+        isModuleResolver: true,
+        subscribe: (_handler: ModuleResolverEventFunc) => {
+          throw Error('Not implemented')
+        },
+        unsubscribe: (_handler: ModuleResolverEventFunc) => {
+          throw Error('Not implemented')
+        },
       }
 
       await Promise.all(

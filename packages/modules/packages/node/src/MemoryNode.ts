@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
-import { XyoModule } from '@xyo-network/module'
+import { XyoModule, XyoModuleParams } from '@xyo-network/module'
 
 import { NodeConfig } from './Config'
 import { XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema } from './Queries'
@@ -9,6 +9,12 @@ import { XyoNode } from './XyoNode'
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends XyoNode<TConfig, TModule> {
   private registeredModuleMap = new Map<string, TModule>()
   private attachedModuleMap = new Map<string, TModule>()
+
+  static override async create(params?: XyoModuleParams<NodeConfig>): Promise<MemoryNode> {
+    const module = new MemoryNode(params)
+    await module.start()
+    return module
+  }
 
   public override queries(): string[] {
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, ...super.queries()]
@@ -38,13 +44,15 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     })
   }
 
-  override resolve(address: string): TModule | null {
-    console.log(`Resolving in MemoryNode: ${address}`)
-    if (address === 'archivist') {
-      console.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)
-      return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
-    }
-    return this.attachedModuleMap?.get(address) ?? null
+  override resolve(addresses: string[]): (TModule | null)[] {
+    return addresses.map((address) => {
+      console.log(`Resolving in MemoryNode: ${address}`)
+      if (address === 'archivist') {
+        console.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)
+        return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
+      }
+      return this.attachedModuleMap?.get(address) ?? null
+    })
   }
 
   override register(module: TModule) {

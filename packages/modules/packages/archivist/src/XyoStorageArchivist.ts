@@ -1,14 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleResolverFunc } from '@xyo-network/module'
+import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
 
 import { XyoArchivistConfig } from './Config'
-import { PartialArchivistConfig } from './PartialConfig'
 import {
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,
@@ -33,6 +32,12 @@ export type XyoStorageArchivistConfig = XyoArchivistConfig<{
 }>
 
 export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig> {
+  static override async create(params?: XyoModuleParams<XyoStorageArchivistConfig>): Promise<XyoStorageArchivist> {
+    const module = new XyoStorageArchivist(params)
+    await module.start()
+    return module
+  }
+
   public get type() {
     return this.config?.type ?? 'local'
   }
@@ -78,9 +83,15 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     return this._privateStorage
   }
 
-  constructor(config?: PartialArchivistConfig<XyoStorageArchivistConfig>, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
-    super({ ...config, schema: XyoStorageArchivistConfigSchema }, account, resolver)
+  constructor(params?: XyoModuleParams<XyoStorageArchivistConfig>) {
+    super(params)
+    this.loadAccount()
+  }
+
+  override async start() {
+    await super.start()
     this.saveAccount()
+    return this
   }
 
   protected override loadAccount() {
@@ -89,10 +100,10 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       if (privateKey) {
         try {
           const account = new XyoAccount({ privateKey })
-          this.log?.('Load Account', account.addressValue.hex)
+          this.logger?.log(account.addressValue.hex)
           return account
-        } catch {
-          console.error(`Error reading Account from storage [${this.type}] - Recreating Account`)
+        } catch (ex) {
+          console.error(`Error reading Account from storage [${this.type}, ${ex}] - Recreating Account`)
           this.privateStorage.remove('privateKey')
         }
       }
@@ -102,7 +113,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
 
   protected saveAccount() {
     if (this.persistAccount) {
-      this.log?.('Load Account', this.account.addressValue.hex)
+      this.logger?.log(this.account.addressValue.hex)
       this.privateStorage.set('privateKey', this.account.private.hex)
     }
   }

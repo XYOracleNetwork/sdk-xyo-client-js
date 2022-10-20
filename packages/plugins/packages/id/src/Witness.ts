@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
-import { PartialWitnessConfig, XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { XyoModuleParams } from '@xyo-network/module'
+import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
 import { XyoIdSchema } from './Schema'
@@ -17,8 +17,10 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
-  constructor(config: PartialWitnessConfig<XyoIdWitnessConfig>) {
-    super({ schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema, ...config })
+  static override async create(params?: XyoModuleParams<XyoIdWitnessConfig>): Promise<XyoIdWitness> {
+    const module = new XyoIdWitness(params)
+    await module.start()
+    return module
   }
 
   public get salt() {
@@ -26,13 +28,14 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
   }
 
   override async observe(fields: Partial<XyoIdPayload>[]): Promise<XyoIdPayload[]> {
-    await delay(0)
-    return fields.map((fieldItems) => {
-      return {
-        salt: assertEx(fieldItems?.salt ?? this.salt, 'Missing salt'),
-        schema: 'network.xyo.id',
-      }
-    })
+    return await super.observe(
+      fields.map((fieldItems) => {
+        return {
+          salt: assertEx(fieldItems?.salt ?? this.salt, 'Missing salt'),
+          schema: 'network.xyo.id',
+        }
+      }),
+    )
   }
 
   static schema: XyoIdSchema = XyoIdSchema

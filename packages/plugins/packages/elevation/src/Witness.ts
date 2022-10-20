@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { LngLatPhysicalLocation, PhysicalLocation, QuadkeyPhysicalLocation, XyoLocationPayload } from '@xyo-network/location-payload-plugin'
+import { XyoModuleParams } from '@xyo-network/module'
 import { Quadkey } from '@xyo-network/quadkey'
 import { AxiosJson } from '@xyo-network/utils'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
@@ -43,6 +44,12 @@ const physicalLocationToOpenElevationLocation = (location: PhysicalLocation, zoo
 }
 
 export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevationPayload, XyoLocationElevationWitnessConfig> {
+  static override async create(params?: XyoModuleParams<XyoLocationElevationWitnessConfig>): Promise<XyoLocationElevationWitness> {
+    const module = new XyoLocationElevationWitness(params)
+    await module.start()
+    return module
+  }
+
   public get uri() {
     return this.config?.uri ?? 'https://api.open-elevation.com/api/v1/lookup'
   }

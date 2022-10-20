@@ -3,7 +3,7 @@
  */
 
 import { testArchivistAll, testArchivistRoundTrip } from './test.spec.test'
-import { XyoCookieArchivist } from './XyoCookieArchivist'
+import { XyoCookieArchivist, XyoCookieArchivistConfigSchema } from './XyoCookieArchivist'
 
-testArchivistRoundTrip(new XyoCookieArchivist({ namespace: 'test' }), 'cookie')
-testArchivistAll(new XyoCookieArchivist({ namespace: 'test' }), 'cookie')
+testArchivistRoundTrip(XyoCookieArchivist.create({ config: { namespace: 'test', schema: XyoCookieArchivistConfigSchema } }), 'cookie')
+testArchivistAll(XyoCookieArchivist.create({ config: { namespace: 'test', schema: XyoCookieArchivistConfigSchema } }), 'cookie')

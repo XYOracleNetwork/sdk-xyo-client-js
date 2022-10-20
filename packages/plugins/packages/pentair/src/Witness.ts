@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoPentairScreenlogicPayload } from './Payload'
@@ -31,6 +32,12 @@ export class XyoPentairScreenlogicWitness extends XyoWitness<XyoPentairScreenlog
     const config = await this.controller.getPoolConfig()
     const status = await this.controller.getPoolStatus()
     return await super.observe([{ config, status }] as XyoPentairScreenlogicPayload[])
+  }
+
+  static override async create(params?: XyoModuleParams<XyoPentairScreenlogicWitnessConfig>): Promise<XyoPentairScreenlogicWitness> {
+    const module = new XyoPentairScreenlogicWitness(params)
+    await module.start()
+    return module
   }
 
   static schema: XyoPentairScreenlogicSchema = XyoPentairScreenlogicSchema

@@ -1,8 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModule, XyoModuleConfig, XyoModuleResolverFunc } from '@xyo-network/module'
+import { XyoModule, XyoModuleConfig, XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
@@ -23,8 +22,10 @@ export type XyoPanelConfig = XyoModuleConfig<{
 export class XyoPanel extends XyoModule<XyoPanelConfig> {
   public history: XyoPayload[] = []
 
-  constructor(config?: XyoPanelConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
-    super(config, account, resolver)
+  static override async create(params?: XyoModuleParams<XyoPanelConfig>): Promise<XyoPanel> {
+    const module = new XyoPanel(params)
+    await module.start()
+    return module
   }
 
   private _archivists: XyoArchivistWrapper[] | undefined
@@ -33,7 +34,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
       this._archivists ||
       compact(
         compact((Array.isArray(this.config?.archivists) ? this.config?.archivists : [this.config?.archivists]) ?? []).map((archivist) => {
-          const module = this.resolver?.(archivist)
+          const module = this.resolver?.fromAddress([archivist]).shift()
           if (module) {
             return new XyoArchivistWrapper(module)
           }
@@ -49,7 +50,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
       this._witnesses ||
       compact(
         compact((Array.isArray(this.config?.witnesses) ? this.config?.witnesses : [this.config?.witnesses]) ?? []).map((witness) => {
-          const module = this.resolver?.(witness)
+          const module = this.resolver?.fromAddress([witness]).shift()
           if (module) {
             return new XyoWitnessWrapper(module)
           }

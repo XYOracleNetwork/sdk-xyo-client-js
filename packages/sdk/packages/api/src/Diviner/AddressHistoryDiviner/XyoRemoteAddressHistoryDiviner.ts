@@ -25,7 +25,7 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
       const { address, limit, offset } = query
       const find: { limit?: number; offset?: string } = {}
       if (limit) find.limit = limit
-      if (offset) find.offset = offset as string
+      if (offset) find.offset = `${offset}`
       const [data, body, response] =
         Object.keys(find).length > 0
           ? await this.api.addresses.address(address).boundWitnesses.find(find, 'tuple')

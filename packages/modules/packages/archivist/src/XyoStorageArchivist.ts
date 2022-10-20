@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModuleResolverFunc } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -18,7 +19,6 @@ import {
   XyoArchivistInsertQuerySchema,
 } from './Queries'
 import { XyoArchivist } from './XyoArchivist'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 export const XyoStorageArchivistConfigSchema: XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
@@ -31,12 +31,6 @@ export type XyoStorageArchivistConfig = XyoArchivistConfig<{
   maxEntrySize?: number
   persistAccount?: boolean
 }>
-
-class StorageArchivistError extends Error {
-  constructor(action: string, error: Error['cause'], message?: string) {
-    super(`Storage Archivist [${action}] failed${message ? ` (${message})` : ''}`, { cause: error })
-  }
-}
 
 export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig> {
   public get type() {
@@ -84,8 +78,8 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     return this._privateStorage
   }
 
-  constructor(config?: PartialArchivistConfig<XyoStorageArchivistConfig>) {
-    super({ ...config, schema: XyoStorageArchivistConfigSchema })
+  constructor(config?: PartialArchivistConfig<XyoStorageArchivistConfig>, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+    super({ ...config, schema: XyoStorageArchivistConfigSchema }, account, resolver)
     this.saveAccount()
   }
 
@@ -94,7 +88,9 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       const privateKey = this.privateStorage.get('privateKey')
       if (privateKey) {
         try {
-          return new XyoAccount({ privateKey })
+          const account = new XyoAccount({ privateKey })
+          this.log?.('Load Account', account.addressValue.hex)
+          return account
         } catch {
           console.error(`Error reading Account from storage [${this.type}] - Recreating Account`)
           this.privateStorage.remove('privateKey')
@@ -106,6 +102,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
 
   protected saveAccount() {
     if (this.persistAccount) {
+      this.log?.('Load Account', this.account.addressValue.hex)
       this.privateStorage.set('privateKey', this.account.private.hex)
     }
   }
@@ -118,7 +115,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new StorageArchivistError('delete', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -127,7 +124,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       this.storage.clear()
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new StorageArchivistError('clear', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -141,7 +138,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new StorageArchivistError('get', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -164,22 +161,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${ex}`)
-      throw new StorageArchivistError('insert', ex, 'unexpected')
-    }
-  }
-
-  public override async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
-    try {
-      const x = (await this.all()).filter((payload) => {
-        if (filter?.schema && filter.schema !== payload.schema) {
-          return false
-        }
-        return true
-      })
-      return x
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new StorageArchivistError('find', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -188,7 +170,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       return Object.entries(this.storage.getAll()).map(([, value]) => value)
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new StorageArchivistError('all', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -216,7 +198,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new StorageArchivistError('commit', ex, 'unexpected')
+      throw ex
     }
   }
 }

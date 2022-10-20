@@ -10,7 +10,7 @@ export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'netwo
 export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayload, { schema: XyoSchemaWitnessConfigSchema }>
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
-  override async observe(_fields: Partial<XyoSchemaPayload>): Promise<XyoSchemaPayload> {
+  override async observe(_fields: Partial<XyoSchemaPayload>[]): Promise<XyoSchemaPayload[]> {
     await delay(0)
     throw new Error('Method not implemented.')
   }

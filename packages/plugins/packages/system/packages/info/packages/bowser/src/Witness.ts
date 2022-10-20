@@ -17,7 +17,7 @@ export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = X
     return Bowser.parse(window.navigator.userAgent)
   }
 
-  override observe(fields?: Partial<T>) {
-    return super.observe(merge({ bowser: this.bowser }, fields))
+  override observe(fields?: Partial<T>[]) {
+    return super.observe([merge({ bowser: this.bowser }, fields?.[0])])
   }
 }

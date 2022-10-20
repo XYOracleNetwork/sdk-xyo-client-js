@@ -13,7 +13,7 @@ export class XyoEtherchainEthereumGasWitnessV1 extends XyoTimestampWitness<
     super({ schema: XyoEthereumGasEtherchainV1WitnessConfigSchema, targetSchema: XyoEthereumGasEtherchainV1Schema, ...config })
   }
 
-  override async observe(): Promise<XyoEthereumGasEtherchainV1Payload> {
-    return super.observe(await getV1GasFromEtherchain())
+  override async observe(): Promise<XyoEthereumGasEtherchainV1Payload[]> {
+    return super.observe([await getV1GasFromEtherchain()])
   }
 }

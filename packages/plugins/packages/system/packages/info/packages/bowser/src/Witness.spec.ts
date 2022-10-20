@@ -19,7 +19,7 @@ cryptoPolyfill(window)
 describe('XyoBowserSystemInfo', () => {
   test('observe', async () => {
     const witness = new XyoBowserSystemInfoWitness()
-    const observation = await witness.observe()
+    const [observation] = await witness.observe()
     expect(observation.schema).toBe(XyoBowserSystemInfoSchema)
   })
 })

@@ -19,12 +19,11 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
 
   abstract forward(query: XyoQuery): Promise<[XyoBoundWitness, (XyoPayload | null)[]]>
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T) {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
-    const payloads: (XyoPayload | null)[] = []
     const queryAccount = new XyoAccount()
 
     switch (typedQuery.schema) {
@@ -43,6 +42,6 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
           return this.forward(typedQuery)
         }
     }
-    return this.bindResult(payloads, queryAccount)
+    return this.bindResult([], queryAccount)
   }
 }

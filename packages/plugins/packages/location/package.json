@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/quadkey": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "tslib": "^2.4.0"
   },
@@ -48,5 +49,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.36.3"
+  "version": "2.37.6"
 }

@@ -1,7 +1,7 @@
 import { XyoLocationPayload } from './Payload'
 import { XyoLocationSchema } from './Schema'
 
-export const XyoLocationPayloadTemplate = (): XyoLocationPayload => {
+export const XyoLocationPayloadTemplate = (): Partial<XyoLocationPayload> => {
   return {
     accuracy: undefined,
     altitude: undefined,
@@ -9,6 +9,7 @@ export const XyoLocationPayloadTemplate = (): XyoLocationPayload => {
     heading: undefined,
     latitude: undefined,
     longitude: undefined,
+    quadkey: undefined,
     schema: XyoLocationSchema,
     speed: undefined,
     time: Date.now(),

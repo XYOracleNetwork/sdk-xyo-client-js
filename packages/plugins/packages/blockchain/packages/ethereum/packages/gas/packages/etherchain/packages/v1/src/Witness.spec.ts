@@ -7,7 +7,7 @@ describe('Witness', () => {
       schema: XyoEthereumGasEtherchainV1WitnessConfigSchema,
       targetSchema: XyoEthereumGasEtherchainV1Schema,
     })
-    const actual = await sut.observe()
+    const [actual] = await sut.observe()
     expect(actual).toBeObject()
     expect(actual.currentBaseFee).toBeNumber()
     expect(actual.fast).toBeNumber()

@@ -11,8 +11,8 @@ export class XyoEtherscanEthereumGasWitness extends XyoTimestampWitness<XyoEther
     super({ schema: XyoEthereumGasEtherscanWitnessConfigSchema, targetSchema: XyoEthereumGasEtherscanSchema, ...config })
   }
 
-  override async observe(): Promise<XyoEthereumGasEtherscanPayload> {
+  override async observe(): Promise<XyoEthereumGasEtherscanPayload[]> {
     const result = (await getGasFromEtherscan(assertEx(this.config?.apiKey, 'apiKey is required'))).result
-    return super.observe(result)
+    return super.observe([result])
   }
 }

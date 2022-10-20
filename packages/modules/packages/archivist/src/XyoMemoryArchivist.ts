@@ -1,5 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoModuleResolverFunc } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -17,7 +19,6 @@ import {
   XyoArchivistInsertQuerySchema,
 } from './Queries'
 import { XyoArchivist } from './XyoArchivist'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 export const XyoMemoryArchivistConfigSchema: XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
@@ -26,12 +27,6 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   schema: XyoMemoryArchivistConfigSchema
   max?: number
 }>
-
-class MemoryArchivistError extends Error {
-  constructor(action: string, error: Error['cause'], message?: string) {
-    super(`Memory Archivist [${action}] failed${message ? ` (${message})` : ''}`, { cause: error })
-  }
-}
 
 export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
   static create(config?: XyoMemoryArchivistConfig) {
@@ -55,8 +50,8 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
     ]
   }
 
-  constructor(config?: PartialArchivistConfig<XyoMemoryArchivistConfig>) {
-    super({ ...config, schema: XyoMemoryArchivistConfigSchema })
+  constructor(config?: PartialArchivistConfig<XyoMemoryArchivistConfig>, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+    super({ ...config, schema: XyoMemoryArchivistConfigSchema }, account, resolver)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
 
@@ -67,7 +62,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('delete', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -76,7 +71,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       this.cache.clear()
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('clear', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -93,7 +88,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('get', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -115,22 +110,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('insert', ex, 'unexpected')
-    }
-  }
-
-  public override find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): PromisableArray<R> {
-    try {
-      const result: R[] = []
-      this.cache.forEach((value) => {
-        if (value.schema === filter.schema) {
-          result.push(value as R)
-        }
-      })
-      return result
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('find', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -139,7 +119,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('all', ex, 'unexpected')
+      throw ex
     }
   }
 
@@ -166,7 +146,7 @@ export class XyoMemoryArchivist extends XyoArchivist<XyoMemoryArchivistConfig> {
       )
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw new MemoryArchivistError('commit', ex, 'unexpected')
+      throw ex
     }
   }
 }

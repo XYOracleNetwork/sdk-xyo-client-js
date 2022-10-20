@@ -10,10 +10,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/assert": "^2.6.9",
+    "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/quadkey": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/witness": "workspace:^",
+    "lodash": "^4.17.21",
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
@@ -53,5 +57,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.35.3"
+  "version": "2.37.6"
 }

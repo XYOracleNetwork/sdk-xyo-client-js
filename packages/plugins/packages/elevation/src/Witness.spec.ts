@@ -1,12 +1,44 @@
-import { XyoElevationWitness } from './Witness'
+import { assertEx } from '@xylabs/assert'
+import { XyoLocationSchema } from '@xyo-network/location-payload-plugin'
+import { Quadkey } from '@xyo-network/quadkey'
 
-describe('XyoElevationWitness', () => {
-  test('Witnessing', async () => {
-    const witness = new XyoElevationWitness()
-    const result = await witness.observe({ latitude: 32, longitude: 117 })
+import { XyoLocationElevationSchema } from './Schema'
+import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfigSchema } from './Witness'
 
-    console.log(`Elevation: ${JSON.stringify(result, null, 2)}`)
+describe('XyoLocationElevationWitness', () => {
+  test('Witnessing via Observe', async () => {
+    const witness = new XyoLocationElevationWitness()
+    const result = await witness.observe([
+      { quadkey: Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.toBase10String() },
+      { quadkey: Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)?.toBase10String() },
+      { quadkey: Quadkey.fromLngLat({ lat: 33, lng: 118 }, 24)?.toBase10String() },
+    ])
 
-    expect(result.elevation).toBeDefined()
+    expect(result[0].elevation).toBeDefined()
+    expect(result[1].elevation).toBeDefined()
+    expect(result[2].elevation).toBeDefined()
+    expect(result[0].elevation === result[1].elevation).toBe(false)
+    expect(result[0].elevation === result[2].elevation).toBe(false)
+    expect(result[1].elevation === result[2].elevation).toBe(false)
+  })
+
+  test('Witnessing via Config', async () => {
+    const witness = new XyoLocationElevationWitness({
+      locations: [
+        { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.toBase10String()), schema: XyoLocationSchema },
+        { quadkey: assertEx(Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)?.toBase10String()), schema: XyoLocationSchema },
+        { quadkey: assertEx(Quadkey.fromLngLat({ lat: 33, lng: 118 }, 24)?.toBase10String()), schema: XyoLocationSchema },
+      ],
+      schema: XyoLocationElevationWitnessConfigSchema,
+      targetSchema: XyoLocationElevationSchema,
+    })
+    const result = await witness.observe()
+
+    expect(result[0].elevation).toBeDefined()
+    expect(result[1].elevation).toBeDefined()
+    expect(result[2].elevation).toBeDefined()
+    expect(result[0].elevation === result[1].elevation).toBe(false)
+    expect(result[0].elevation === result[2].elevation).toBe(false)
+    expect(result[1].elevation === result[2].elevation).toBe(false)
   })
 })

@@ -3,6 +3,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { PromiseEx } from '@xyo-network/promise'
+import { Logger } from '@xyo-network/shared'
 
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { Module } from './Module'
@@ -20,11 +21,24 @@ export type XyoModuleResolverFunc = (address: string) => XyoModule | null
 export type SortedPipedAddressesString = string
 
 export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
-  protected config?: TConfig
+  protected readonly config?: TConfig
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected disallowedAddresses?: Record<SchemaString, AddressString[]>
   protected account: XyoAccount
   protected resolver?: XyoModuleResolverFunc
+  protected readonly logger?: Logger
+
+  protected get log() {
+    return this.logger
+      ? (tag: string, message?: string | object | boolean | number) => {
+          this.logger?.log(
+            `${tag} [0x${this.account.addressValue.hex}] ${
+              typeof message === 'string' ? message : typeof message === 'object' ? JSON.stringify(message, null, 2) : `${message}`
+            }`,
+          )
+        }
+      : undefined
+  }
 
   private initializeAllowedAddressSets() {
     if (this.config?.security?.allowed) {
@@ -36,12 +50,14 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     }
   }
 
-  constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc) {
+  constructor(config?: TConfig, account?: XyoAccount, resolver?: XyoModuleResolverFunc, logger?: Logger) {
     this.config = { ...config, security: { allowed: config?.security?.allowed, disallowed: config?.security?.disallowed } } as TConfig
+    this.logger = logger
     this.initializeAllowedAddressSets()
     this.disallowedAddresses = this.config.security?.disallowed
     this.account = this.loadAccount(account)
     this.resolver = resolver
+    this.log?.('Module Loaded', this.config)
   }
 
   protected loadAccount(account?: XyoAccount) {
@@ -73,12 +89,14 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return [XyoModuleDiscoverQuerySchema, XyoModuleInitializeQuerySchema, XyoModuleSubscribeQuerySchema, XyoModuleShutdownQuerySchema]
   }
 
-  public query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayloads): Promise<ModuleQueryResult> {
+  public query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query.schema, wrapper.addresses))
 
-    const resultPayloads: (XyoPayload | null)[] = []
+    this.log?.('Query', wrapper.schemaName)
+
+    const resultPayloads: XyoPayload[] = []
     const queryAccount = new XyoAccount()
     switch (typedQuery.schema) {
       case XyoModuleDiscoverQuerySchema: {
@@ -141,9 +159,9 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
-    payloads?: XyoPayloads,
+    payloads?: XyoPayload[],
     account?: XyoAccount,
-  ): [XyoQueryBoundWitness, XyoPayloads] {
+  ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     return (account ? builder.witness(account) : builder).build()
   }
@@ -159,10 +177,10 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
-    payloads?: XyoPayloads,
+    payloads?: XyoPayload[],
     account?: XyoAccount,
-  ): PromiseEx<[XyoQueryBoundWitness, XyoPayloads], XyoAccount> {
-    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayloads], XyoAccount>((resolve) => {
+  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], XyoAccount> {
+    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], XyoAccount>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result

@@ -8,7 +8,9 @@ export abstract class XyoTimestampWitness<T extends XyoPayload = XyoPayload, C e
   T,
   C
 > {
-  public override observe(fields?: Partial<T> | undefined): Promisable<T> {
-    return { ...fields, schema: this.targetSchema, timestamp: Date.now() } as T
+  public override observe(fields?: Partial<T>[] | undefined): Promisable<T[]> {
+    return fields?.map((fieldItem) => {
+      return { ...fieldItem, schema: this.targetSchema, timestamp: Date.now() }
+    }) as T[]
   }
 }

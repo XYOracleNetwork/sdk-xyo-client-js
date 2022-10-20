@@ -11,7 +11,7 @@ test('XyoWitness', async () => {
   const witnessAsXyoModule: XyoModule = witness
   const wrapper = new XyoWitnessWrapper(witnessAsModule ?? witnessAsXyoModule ?? witnessAsWitness)
 
-  const payload = await wrapper.observe()
+  const payloads = await wrapper.observe()
 
-  expect(payload?.schema).toBe('xyo.network.test')
+  expect(payloads[0]?.schema).toBe('xyo.network.test')
 })

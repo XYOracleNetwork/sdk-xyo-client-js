@@ -11,7 +11,7 @@ import { LocationCertaintySchema } from './Schema'
 describe('LocationCertaintyPayloadPlugin', () => {
   test('Add to Resolver', () => {
     const resolver = new XyoPayloadPluginResolver().register(LocationCertaintyPayloadPlugin(), {
-      diviner: { schema: LocationCertaintyDivinerConfigSchema, targetSchema: LocationCertaintySchema },
+      diviner: { config: { schema: LocationCertaintyDivinerConfigSchema, targetSchema: LocationCertaintySchema } },
     })
     expect(resolver.resolve({ schema: LocationCertaintySchema })).toBeObject()
     expect(resolver.diviner(LocationCertaintySchema)).toBeObject()

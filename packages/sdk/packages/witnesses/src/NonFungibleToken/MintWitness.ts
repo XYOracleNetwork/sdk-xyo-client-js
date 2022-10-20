@@ -15,8 +15,8 @@ export class XyoSmartContractWrapper<T extends XyoContractPayload> extends Paylo
 /** @description Witness that will sign a new NFT being minted if it follows the terms */
 export class XyoNonFungibleTokenMintWitness extends XyoWitness<XyoNonFungibleTokenPayload, XyoNonFungibleTokenWitnessConfig> {
   protected minter: XyoAddressValue
-  constructor(config: XyoNonFungibleTokenWitnessConfig, minter: XyoDataLike) {
-    super(config)
+  constructor(minter: XyoDataLike) {
+    super()
     this.minter = new XyoAddressValue(minter)
   }
 

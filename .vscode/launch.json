@@ -9,7 +9,8 @@
         "runtimeArgs": [
           "--inspect-brk",
           "${workspaceRoot}/node_modules/.bin/jest",
-          "--runInBand"
+          "--runInBand",
+          "packages/modules/packages/archivist/src/XyoStorageArchivist.spec.ts"
         ]
       },
       "windows": {

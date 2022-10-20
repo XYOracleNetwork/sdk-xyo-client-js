@@ -1,17 +1,18 @@
 import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { XyoDiviner, XyoDivinerConfig, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
-import { PartialModuleConfig } from '@xyo-network/module'
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 import { divinePrices } from './lib'
 import { XyoCryptoMarketAssetPayload } from './Payload'
-import { XyoCryptoMarketAssetDivinerConfigSchema } from './Schema'
 
 export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
-  constructor(config?: PartialModuleConfig<XyoDivinerConfig>) {
-    super({ schema: XyoCryptoMarketAssetDivinerConfigSchema, ...config })
+  static override async create(params?: XyoModuleParams<XyoDivinerConfig>): Promise<XyoCryptoMarketAssetDiviner> {
+    const module = new XyoCryptoMarketAssetDiviner(params)
+    await module.start()
+    return module
   }
 
   override queries() {

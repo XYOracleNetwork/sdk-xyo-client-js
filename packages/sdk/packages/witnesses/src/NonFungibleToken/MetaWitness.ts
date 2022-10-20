@@ -6,6 +6,6 @@ import { XyoNonFungibleTokenMetaPayload } from './MetaPayload'
 export class XyoNonFungibleTokenMetaWitness extends XyoWitness<XyoNonFungibleTokenMetaPayload> {
   override async observe(_fields?: Partial<XyoNonFungibleTokenMetaPayload>[]) {
     await delay(0)
-    return [{ address: '', schema: 'network.xyo.nft.meta' }]
+    return super.observe([{ schema: 'network.xyo.nft.meta' }])
   }
 }

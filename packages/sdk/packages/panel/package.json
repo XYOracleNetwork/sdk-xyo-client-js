@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.9",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
@@ -57,5 +56,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.37.7"
+  "version": "2.38.0-rc.12",
+  "stableVersion": "2.37.6"
 }

@@ -5,7 +5,7 @@ import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-netwo
 
 export interface ReadArchivist<TReadResponse, TId = string> {
   get(ids: TId[]): NullablePromisableArray<TReadResponse>
-  all?(): NullablePromisableArray<TReadResponse>
+  all?(): PromisableArray<TReadResponse>
 }
 
 export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {
@@ -15,7 +15,7 @@ export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, T
 }
 
 export interface FindArchivist<TReadResponse, TFindResponse = TReadResponse, TFindFilter = unknown> {
-  find(filter?: TFindFilter): NullablePromisableArray<TFindResponse>
+  find(filter?: TFindFilter): PromisableArray<TFindResponse>
 }
 
 export interface StashArchivist<TWriteResponse> {

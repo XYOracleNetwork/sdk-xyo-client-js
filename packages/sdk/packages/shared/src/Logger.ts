@@ -18,7 +18,6 @@ export const getFunctionName = (depth = 2) => {
     throw Error()
   } catch (ex) {
     const error = ex as Error
-    console.log(error.stack)
     let newIndex: number | undefined = undefined
     const stackParts = error.stack?.split('\n')[depth].split(' ')
     const funcName =

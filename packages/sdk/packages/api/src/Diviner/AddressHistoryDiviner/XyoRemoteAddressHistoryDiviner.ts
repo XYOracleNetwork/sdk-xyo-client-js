@@ -5,10 +5,10 @@ import { XyoPayloads } from '@xyo-network/payload'
 
 import { RemoteDivinerError } from '../RemoteDivinerError'
 import { XyoRemoteDivinerConfig } from '../XyoRemoteDivinerConfig'
-import { isAddressHistoryQueryPayload } from './AddressHistoryDiviner'
+import { AddressHistoryDiviner, isAddressHistoryQueryPayload } from './AddressHistoryDiviner'
 
 /** @description Diviner Context that connects to a remote Diviner using the API */
-export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerConfig> {
+export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerConfig> implements AddressHistoryDiviner {
   public get api() {
     return assertEx(this.config?.api, 'API not defined')
   }

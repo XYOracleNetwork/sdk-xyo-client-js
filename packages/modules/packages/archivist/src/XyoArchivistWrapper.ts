@@ -1,6 +1,6 @@
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoModuleWrapper } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 
 import { PayloadArchivist } from './Archivist'
 import {
@@ -19,7 +19,6 @@ import {
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
 } from './Queries'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArchivist {
   public async delete(hashes: string[]) {

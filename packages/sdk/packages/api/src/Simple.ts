@@ -1,5 +1,4 @@
-import { XyoPayloadFindFilter } from '@xyo-network/archivist'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 
 import { XyoApiBase } from './Base'
 import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from './models'

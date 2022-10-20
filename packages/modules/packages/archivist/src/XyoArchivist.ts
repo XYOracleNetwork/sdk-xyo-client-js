@@ -9,7 +9,7 @@ import {
   XyoModuleShutdownQuerySchema,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
@@ -27,7 +27,6 @@ import {
   XyoArchivistQuery,
 } from './Queries'
 import { XyoArchivistWrapper } from './XyoArchivistWrapper'
-import { XyoPayloadFindFilter } from './XyoPayloadFindFilter'
 
 export interface XyoArchivistParentWrappers {
   read?: Record<string, XyoArchivistWrapper>

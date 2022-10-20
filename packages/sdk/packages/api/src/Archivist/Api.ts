@@ -8,11 +8,23 @@ import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, Xyo
 import { XyoApiSimple } from '../Simple'
 import { XyoUserApi } from '../User'
 import { XyoAccountApi } from './Account'
+import { XyoAddressesApi } from './Addresses'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
 import { XyoArchivistNodeApi } from './Node'
 
 export class XyoArchivistApi extends XyoApiBase {
+  private _addresses?: XyoAddressesApi
+  public get addresses(): XyoAddressesApi {
+    this._addresses =
+      this._addresses ??
+      new XyoAddressesApi({
+        ...this.config,
+        root: `${this.root}address/`,
+      })
+    return this._addresses
+  }
+
   private _archives?: XyoArchivistArchivesApi
   public get archives(): XyoArchivistArchivesApi {
     this._archives =

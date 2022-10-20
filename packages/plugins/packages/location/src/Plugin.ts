@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoLocationPayload } from './Payload'
@@ -6,7 +7,7 @@ import { XyoLocationPayloadTemplate } from './Template'
 import { XyoLocationWitness, XyoLocationWitnessConfig } from './Witness'
 
 export const XyoLocationPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoLocationPayload, XyoLocationWitnessConfig>({
+  createXyoPayloadPlugin<XyoLocationPayload, XyoModuleParams<XyoLocationWitnessConfig>>({
     auto: true,
     schema: XyoLocationSchema,
     template: XyoLocationPayloadTemplate,

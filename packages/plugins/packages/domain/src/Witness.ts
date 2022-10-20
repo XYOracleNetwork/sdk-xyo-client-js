@@ -6,8 +6,8 @@ import { XyoDomainPayload } from './Payload'
 import { XyoDomainSchema } from './Schema'
 
 export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoDomainWitnessConfig> {
-  static override async create(params?: XyoModuleParams): Promise<XyoDomainWitness> {
-    const module = new XyoDomainWitness(params as XyoModuleParams<XyoDomainWitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoDomainWitnessConfig>): Promise<XyoDomainWitness> {
+    const module = new XyoDomainWitness(params)
     await module.start()
     return module
   }

@@ -17,8 +17,8 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
-  static override async create(params?: XyoModuleParams): Promise<XyoIdWitness> {
-    const module = new XyoIdWitness(params as XyoModuleParams<XyoIdWitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoIdWitnessConfig>): Promise<XyoIdWitness> {
+    const module = new XyoIdWitness(params)
     await module.start()
     return module
   }

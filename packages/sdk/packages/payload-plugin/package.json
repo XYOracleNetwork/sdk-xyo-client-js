@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.6.9",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/witness": "workspace:^",

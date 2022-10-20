@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoLocationElevationPayload } from './Payload'
@@ -6,7 +7,7 @@ import { XyoLocationElevationPayloadTemplate } from './Template'
 import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfig } from './Witness'
 
 export const XyoLocationElevationPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoLocationElevationPayload, XyoLocationElevationWitnessConfig>({
+  createXyoPayloadPlugin<XyoLocationElevationPayload, XyoModuleParams<XyoLocationElevationWitnessConfig>>({
     auto: true,
     schema: XyoLocationElevationSchema,
     template: XyoLocationElevationPayloadTemplate,

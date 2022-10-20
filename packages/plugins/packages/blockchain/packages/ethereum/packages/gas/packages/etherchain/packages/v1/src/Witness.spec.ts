@@ -1,12 +1,10 @@
-import { XyoWitnessConfig } from '@xyo-network/witness'
-
 import { XyoEthereumGasEtherchainV1Schema, XyoEthereumGasEtherchainV1WitnessConfigSchema } from './Schema'
 import { XyoEtherchainEthereumGasWitnessV1 } from './Witness'
 
 describe('Witness', () => {
   test('returns observation', async () => {
     const sut = await XyoEtherchainEthereumGasWitnessV1.create({
-      config: { schema: XyoEthereumGasEtherchainV1WitnessConfigSchema, targetSchema: XyoEthereumGasEtherchainV1Schema } as XyoWitnessConfig,
+      config: { schema: XyoEthereumGasEtherchainV1WitnessConfigSchema, targetSchema: XyoEthereumGasEtherchainV1Schema },
     })
     const [actual] = await sut.observe()
     expect(actual).toBeObject()

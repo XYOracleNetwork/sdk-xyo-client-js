@@ -16,7 +16,7 @@ import {
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
 } from './Queries'
-import { XyoArchivist, XyoArchivistParams } from './XyoArchivist'
+import { XyoArchivist } from './XyoArchivist'
 
 export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 export const XyoMemoryArchivistConfigSchema: XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
@@ -26,15 +26,13 @@ export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
   max?: number
 }>
 
-export type XyoMemoryArchivistParams<TConfig extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig> = XyoArchivistParams<TConfig>
-
 export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig> extends XyoArchivist<TConfig> {
   public get max() {
     return this.config?.max ?? 10000
   }
 
-  static override async create(params?: XyoModuleParams): Promise<XyoMemoryArchivist> {
-    const module: XyoMemoryArchivist = new XyoMemoryArchivist(params as XyoMemoryArchivistParams)
+  static override async create(params?: XyoModuleParams<XyoMemoryArchivistConfig>): Promise<XyoMemoryArchivist> {
+    const module: XyoMemoryArchivist = new XyoMemoryArchivist(params)
     await module.start()
     return module
   }
@@ -52,7 +50,7 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
     ]
   }
 
-  protected constructor(params?: XyoMemoryArchivistParams<TConfig>) {
+  protected constructor(params?: XyoModuleParams<TConfig>) {
     super(params)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }

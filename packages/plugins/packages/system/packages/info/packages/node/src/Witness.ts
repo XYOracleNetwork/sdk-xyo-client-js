@@ -10,8 +10,8 @@ export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload 
   TPayload,
   XyoNodeSystemInfoWitnessConfig
 > {
-  static override async create(params?: XyoModuleParams): Promise<XyoNodeSystemInfoWitness> {
-    const module = new XyoNodeSystemInfoWitness(params as XyoModuleParams<XyoNodeSystemInfoWitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoNodeSystemInfoWitnessConfig>): Promise<XyoNodeSystemInfoWitness> {
+    const module = new XyoNodeSystemInfoWitness(params)
     await module.start()
     return module
   }

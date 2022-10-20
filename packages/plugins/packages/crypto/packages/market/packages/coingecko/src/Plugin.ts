@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
@@ -7,7 +8,7 @@ import { XyoCoingeckoCryptoMarketPayloadTemplate } from './Template'
 import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
 export const XyoCoingeckoCryptoMarketPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfig>({
+  createXyoPayloadPlugin<XyoCoingeckoCryptoMarketPayload, XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>>({
     auto: true,
     schema: XyoCoingeckoCryptoMarketSchema,
     template: XyoCoingeckoCryptoMarketPayloadTemplate,

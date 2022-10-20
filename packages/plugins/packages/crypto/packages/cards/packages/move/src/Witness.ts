@@ -1,4 +1,4 @@
-import { XyoModuleConfig, XyoModuleParams } from '@xyo-network/module'
+import { XyoModuleParams } from '@xyo-network/module'
 import { Promisable } from '@xyo-network/promise'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -13,8 +13,8 @@ export type XyoCryptoCardsMoveWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoCryptoCardsMoveWitness extends XyoWitness<XyoCryptoCardsMovePayload, XyoCryptoCardsMoveWitnessConfig> {
-  static override async create(params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoCryptoCardsMoveWitness> {
-    const module: XyoCryptoCardsMoveWitness = new XyoCryptoCardsMoveWitness(params as XyoModuleParams<XyoCryptoCardsMoveWitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoCryptoCardsMoveWitnessConfig>): Promise<XyoCryptoCardsMoveWitness> {
+    const module: XyoCryptoCardsMoveWitness = new XyoCryptoCardsMoveWitness(params)
     await module.start()
     return module
   }

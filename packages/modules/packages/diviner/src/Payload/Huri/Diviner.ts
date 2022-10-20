@@ -9,8 +9,8 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoHuriPayloadDivinerConfig } from './Config'
 
 export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig> {
-  static override async create(params?: XyoModuleParams): Promise<XyoHuriPayloadDiviner> {
-    const module = new XyoHuriPayloadDiviner(params as XyoModuleParams<XyoHuriPayloadDivinerConfig>)
+  static override async create(params?: XyoModuleParams<XyoHuriPayloadDivinerConfig>): Promise<XyoHuriPayloadDiviner> {
+    const module = new XyoHuriPayloadDiviner(params)
     await module.start()
     return module
   }

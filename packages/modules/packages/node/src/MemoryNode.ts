@@ -10,8 +10,8 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   private registeredModuleMap = new Map<string, TModule>()
   private attachedModuleMap = new Map<string, TModule>()
 
-  static override async create(params?: XyoModuleParams): Promise<MemoryNode> {
-    const module = new MemoryNode(params as XyoModuleParams<NodeConfig>)
+  static override async create(params?: XyoModuleParams<NodeConfig>): Promise<MemoryNode> {
+    const module = new MemoryNode(params)
     await module.start()
     return module
   }

@@ -17,7 +17,7 @@ import {
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
 } from './Queries'
-import { XyoArchivist, XyoArchivistParams } from './XyoArchivist'
+import { XyoArchivist } from './XyoArchivist'
 
 export type XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 export const XyoStorageArchivistConfigSchema: XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
@@ -32,8 +32,8 @@ export type XyoStorageArchivistConfig = XyoArchivistConfig<{
 }>
 
 export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig> {
-  static override async create(params?: XyoModuleParams): Promise<XyoStorageArchivist> {
-    const module = new XyoStorageArchivist(params as XyoModuleParams<XyoStorageArchivistConfig>)
+  static override async create(params?: XyoModuleParams<XyoStorageArchivistConfig>): Promise<XyoStorageArchivist> {
+    const module = new XyoStorageArchivist(params)
     await module.start()
     return module
   }
@@ -83,7 +83,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     return this._privateStorage
   }
 
-  constructor(params?: XyoArchivistParams<XyoStorageArchivistConfig>) {
+  constructor(params?: XyoModuleParams<XyoStorageArchivistConfig>) {
     super(params)
     this.loadAccount()
   }

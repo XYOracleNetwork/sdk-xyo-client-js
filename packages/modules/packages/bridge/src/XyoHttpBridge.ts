@@ -32,8 +32,9 @@ export interface XyoHttpBridgeParams<TConfig extends XyoHttpBridgeConfig = XyoHt
 }
 
 export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
-  static override async create(params?: XyoModuleParams): Promise<XyoHttpBridge> {
-    const module = new XyoHttpBridge(params as XyoModuleParams<XyoHttpBridgeConfig> as XyoHttpBridgeParams)
+  static override async create(params: XyoHttpBridgeParams): Promise<XyoHttpBridge>
+  static override async create(params: XyoModuleParams): Promise<XyoHttpBridge> {
+    const module = new XyoHttpBridge(params as XyoHttpBridgeParams)
     await module.start()
     return module
   }

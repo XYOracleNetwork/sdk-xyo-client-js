@@ -34,8 +34,8 @@ export class XyoPentairScreenlogicWitness extends XyoWitness<XyoPentairScreenlog
     return await super.observe([{ config, status }] as XyoPentairScreenlogicPayload[])
   }
 
-  static override async create(params?: XyoModuleParams): Promise<XyoPentairScreenlogicWitness> {
-    const module = new XyoPentairScreenlogicWitness(params as XyoModuleParams<XyoPentairScreenlogicWitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoPentairScreenlogicWitnessConfig>): Promise<XyoPentairScreenlogicWitness> {
+    const module = new XyoPentairScreenlogicWitness(params)
     await module.start()
     return module
   }

@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoModuleInstancePayload } from './Payload'
@@ -6,7 +7,7 @@ import { XyoModuleInstancePayloadTemplate } from './Template'
 import { XyoModuleInstanceWitness, XyoModuleInstanceWitnessConfig } from './Witness'
 
 export const XyoModuleInstancePayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoModuleInstancePayload, XyoModuleInstanceWitnessConfig>({
+  createXyoPayloadPlugin<XyoModuleInstancePayload, XyoModuleParams<XyoModuleInstanceWitnessConfig>>({
     schema: XyoModuleInstanceSchema,
     template: XyoModuleInstancePayloadTemplate,
     witness: async (params) => {

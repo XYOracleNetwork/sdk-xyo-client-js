@@ -22,8 +22,8 @@ export type XyoPanelConfig = XyoModuleConfig<{
 export class XyoPanel extends XyoModule<XyoPanelConfig> {
   public history: XyoPayload[] = []
 
-  static override async create(params?: XyoModuleParams): Promise<XyoPanel> {
-    const module = new XyoPanel(params as XyoModuleParams<XyoPanelConfig>)
+  static override async create(params?: XyoModuleParams<XyoPanelConfig>): Promise<XyoPanel> {
+    const module = new XyoPanel(params)
     await module.start()
     return module
   }

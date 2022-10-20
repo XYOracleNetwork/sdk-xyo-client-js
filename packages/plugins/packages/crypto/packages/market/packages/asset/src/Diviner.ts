@@ -9,8 +9,8 @@ import { divinePrices } from './lib'
 import { XyoCryptoMarketAssetPayload } from './Payload'
 
 export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
-  static override async create(params?: XyoModuleParams): Promise<XyoCryptoMarketAssetDiviner> {
-    const module = new XyoCryptoMarketAssetDiviner(params as XyoModuleParams<XyoDivinerConfig>)
+  static override async create(params?: XyoModuleParams<XyoDivinerConfig>): Promise<XyoCryptoMarketAssetDiviner> {
+    const module = new XyoCryptoMarketAssetDiviner(params)
     await module.start()
     return module
   }

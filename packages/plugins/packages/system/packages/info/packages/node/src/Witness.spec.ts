@@ -1,5 +1,3 @@
-import { XyoWitnessConfig } from '@xyo-network/witness'
-
 import { XyoNodeSystemInfoWitnessConfigSchema } from './Config'
 import { XyoNodeSystemInfoSchema } from './Schema'
 import { XyoNodeSystemInfoWitness } from './Witness'
@@ -7,7 +5,7 @@ import { XyoNodeSystemInfoWitness } from './Witness'
 describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {
     const witness = await XyoNodeSystemInfoWitness.create({
-      config: { schema: XyoNodeSystemInfoWitnessConfigSchema, targetSchema: XyoNodeSystemInfoSchema } as XyoWitnessConfig,
+      config: { schema: XyoNodeSystemInfoWitnessConfigSchema, targetSchema: XyoNodeSystemInfoSchema },
     })
 
     const [observation] = await witness.observe()

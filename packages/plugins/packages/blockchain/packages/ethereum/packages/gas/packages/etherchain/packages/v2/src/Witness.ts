@@ -9,8 +9,8 @@ export class XyoEtherchainEthereumGasWitnessV2 extends XyoTimestampWitness<
   XyoEthereumGasEtherchainV2Payload,
   XyoEthereumGasEtherchainV2WitnessConfig
 > {
-  static override async create(params?: XyoModuleParams): Promise<XyoEtherchainEthereumGasWitnessV2> {
-    const module = new XyoEtherchainEthereumGasWitnessV2(params as XyoModuleParams<XyoEthereumGasEtherchainV2WitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoEthereumGasEtherchainV2WitnessConfig>): Promise<XyoEtherchainEthereumGasWitnessV2> {
+    const module = new XyoEtherchainEthereumGasWitnessV2(params)
     await module.start()
     return module
   }

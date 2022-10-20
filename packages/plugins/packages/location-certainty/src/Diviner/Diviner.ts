@@ -16,8 +16,8 @@ import { LocationCertaintySchema } from '../Schema'
 import { LocationCertaintyDivinerConfig } from './Config'
 
 export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
-  static override async create(params?: XyoModuleParams): Promise<LocationCertaintyDiviner> {
-    const module = new LocationCertaintyDiviner(params as XyoModuleParams<LocationCertaintyDivinerConfig>)
+  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>): Promise<LocationCertaintyDiviner> {
+    const module = new LocationCertaintyDiviner(params)
     await module.start()
     return module
   }

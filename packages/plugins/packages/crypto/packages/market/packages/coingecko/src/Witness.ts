@@ -6,8 +6,8 @@ import { pricesFromCoingecko } from './lib'
 import { XyoCoingeckoCryptoMarketPayload } from './Payload'
 
 export class XyoCoingeckoCryptoMarketWitness extends XyoWitness<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfig> {
-  static override async create(params?: XyoModuleParams): Promise<XyoCoingeckoCryptoMarketWitness> {
-    const module = new XyoCoingeckoCryptoMarketWitness(params as XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>): Promise<XyoCoingeckoCryptoMarketWitness> {
+    const module = new XyoCoingeckoCryptoMarketWitness(params)
     await module.start()
     return module
   }

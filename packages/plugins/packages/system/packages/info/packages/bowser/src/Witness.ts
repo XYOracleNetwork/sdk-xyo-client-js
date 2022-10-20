@@ -20,8 +20,8 @@ export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = X
     return super.observe([merge({ bowser: this.bowser }, fields?.[0])])
   }
 
-  static override async create(params?: XyoModuleParams): Promise<XyoBowserSystemInfoWitness> {
-    const module = new XyoBowserSystemInfoWitness(params as XyoModuleParams<XyoBowserSystemInfoWitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoBowserSystemInfoWitnessConfig>): Promise<XyoBowserSystemInfoWitness> {
+    const module = new XyoBowserSystemInfoWitness(params)
     await module.start()
     return module
   }

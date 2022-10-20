@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoCryptoCardsMovePayload } from './Payload'
@@ -6,7 +7,7 @@ import { XyoXyoCryptoCardsMovePayloadTemplate } from './Template'
 import { XyoCryptoCardsMoveWitness, XyoCryptoCardsMoveWitnessConfig } from './Witness'
 
 export const XyoCryptoCardsMovePayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoCryptoCardsMovePayload, XyoCryptoCardsMoveWitnessConfig>({
+  createXyoPayloadPlugin<XyoCryptoCardsMovePayload, XyoModuleParams<XyoCryptoCardsMoveWitnessConfig>>({
     auto: true,
     schema: XyoCryptoCardsMoveSchema,
     template: XyoXyoCryptoCardsMovePayloadTemplate,

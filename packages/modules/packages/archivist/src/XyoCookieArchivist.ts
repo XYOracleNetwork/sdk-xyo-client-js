@@ -30,8 +30,8 @@ export type XyoCookieArchivistConfig = XyoArchivistConfig<{
 }>
 
 export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
-  static override async create(params?: XyoModuleParams): Promise<XyoCookieArchivist> {
-    const module = new XyoCookieArchivist(params as XyoModuleParams<XyoCookieArchivistConfig>)
+  static override async create(params?: XyoModuleParams<XyoCookieArchivistConfig>): Promise<XyoCookieArchivist> {
+    const module = new XyoCookieArchivist(params)
     await module.start()
     return module
   }

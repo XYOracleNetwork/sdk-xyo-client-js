@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
@@ -9,7 +10,7 @@ import { XyoDomainWitness } from './Witness'
 import { XyoDomainPayloadWrapper } from './Wrapper'
 
 export const XyoDomainPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoDomainPayload, XyoDomainWitnessConfig>({
+  createXyoPayloadPlugin<XyoDomainPayload, XyoModuleParams<XyoDomainWitnessConfig>>({
     schema: XyoDomainSchema,
     witness: async (params) => {
       return await XyoDomainWitness.create(params)

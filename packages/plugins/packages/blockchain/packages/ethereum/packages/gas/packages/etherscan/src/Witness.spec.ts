@@ -1,5 +1,3 @@
-import { XyoModuleConfig } from '@xyo-network/module'
-
 import { XyoEthereumGasEtherscanSchema, XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 import { XyoEtherscanEthereumGasWitness } from './Witness'
 
@@ -14,7 +12,7 @@ describe('Witness', () => {
         apiKey,
         schema: XyoEthereumGasEtherscanWitnessConfigSchema,
         targetSchema: XyoEthereumGasEtherscanSchema,
-      } as XyoModuleConfig,
+      },
     })
     const [actual] = await sut.observe()
     expect(actual.FastGasPrice).toBeString()

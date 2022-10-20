@@ -7,52 +7,49 @@ import { PayloadWrapper } from '@xyo-network/payload'
 
 import { testArchivistAll, testArchivistRoundTrip } from './test.spec.test'
 import { XyoMemoryArchivist } from './XyoMemoryArchivist'
-import { XyoStorageArchivist, XyoStorageArchivistConfig, XyoStorageArchivistConfigSchema } from './XyoStorageArchivist'
+import { XyoStorageArchivist, XyoStorageArchivistConfigSchema } from './XyoStorageArchivist'
 
-testArchivistRoundTrip(
-  XyoStorageArchivist.create({ config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'local' } as XyoStorageArchivistConfig }),
-  'local',
-)
+testArchivistRoundTrip(XyoStorageArchivist.create({ config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'local' } }), 'local')
 testArchivistRoundTrip(
   XyoStorageArchivist.create({
-    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'session' } as XyoStorageArchivistConfig,
+    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'session' },
   }),
   'session',
 )
 testArchivistRoundTrip(
   XyoStorageArchivist.create({
-    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'page' } as XyoStorageArchivistConfig,
+    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'page' },
   }),
   'page',
 )
 
 testArchivistAll(
   XyoStorageArchivist.create({
-    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'local' } as XyoStorageArchivistConfig,
+    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'local' },
   }),
   'local',
 )
 testArchivistAll(
   XyoStorageArchivist.create({
-    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'session' } as XyoStorageArchivistConfig,
+    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'session' },
   }),
   'session',
 )
 testArchivistAll(
   XyoStorageArchivist.create({
-    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'page' } as XyoStorageArchivistConfig,
+    config: { namespace: 'test', schema: XyoStorageArchivistConfigSchema, type: 'page' },
   }),
   'page',
 )
 
 test('XyoArchivist Private Key Save', async () => {
   const storage = await XyoStorageArchivist.create({
-    config: { namespace: 'test', persistAccount: true, schema: XyoStorageArchivistConfigSchema, type: 'local' } as XyoStorageArchivistConfig,
+    config: { namespace: 'test', persistAccount: true, schema: XyoStorageArchivistConfigSchema, type: 'local' },
     logger: console,
   })
   const address = storage.address
   const storage2 = await XyoStorageArchivist.create({
-    config: { namespace: 'test', persistAccount: true, schema: XyoStorageArchivistConfigSchema, type: 'local' } as XyoStorageArchivistConfig,
+    config: { namespace: 'test', persistAccount: true, schema: XyoStorageArchivistConfigSchema, type: 'local' },
     logger: console,
   })
   expect(storage2.address).toBe(address)
@@ -68,7 +65,7 @@ test('XyoArchivist Parent Write Through', async () => {
       persistAccount: true,
       schema: XyoStorageArchivistConfigSchema,
       type: 'local',
-    } as XyoStorageArchivistConfig,
+    },
     logger: console,
     resolver: new XyoModuleResolver().add(memory),
   })

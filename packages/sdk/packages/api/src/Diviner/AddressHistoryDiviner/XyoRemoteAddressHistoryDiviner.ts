@@ -10,8 +10,8 @@ import { AddressHistoryDiviner, isAddressHistoryQueryPayload } from './AddressHi
 
 /** @description Diviner Context that connects to a remote Diviner using the API */
 export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerConfig> implements AddressHistoryDiviner {
-  static override async create(params?: XyoModuleParams): Promise<XyoRemoteAddressHistoryDiviner> {
-    const module = new XyoRemoteAddressHistoryDiviner(params as XyoModuleParams<XyoRemoteDivinerConfig>)
+  static override async create(params?: XyoModuleParams<XyoRemoteDivinerConfig>): Promise<XyoRemoteAddressHistoryDiviner> {
+    const module = new XyoRemoteAddressHistoryDiviner(params)
     await module.start()
     return module
   }

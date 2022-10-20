@@ -14,8 +14,8 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
   extends XyoModule<TConfig>
   implements Witness<TTarget>
 {
-  static override async create(params?: XyoModuleParams): Promise<XyoWitness> {
-    const module = new XyoWitness(params as XyoModuleParams<XyoWitnessConfig>)
+  static override async create(params?: XyoModuleParams<XyoWitnessConfig>): Promise<XyoWitness> {
+    const module = new XyoWitness(params)
     await module.start()
     return module
   }

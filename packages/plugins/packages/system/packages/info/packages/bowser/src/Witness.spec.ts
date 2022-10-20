@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { XyoWitnessConfig } from '@xyo-network/witness'
 import crypto from 'crypto'
 
 import { XyoBowserSystemInfoWitnessConfigSchema } from './Config'
@@ -24,7 +23,7 @@ describe('XyoBowserSystemInfo', () => {
       config: {
         schema: XyoBowserSystemInfoWitnessConfigSchema,
         targetSchema: XyoBowserSystemInfoSchema,
-      } as XyoWitnessConfig,
+      },
       logger: console,
     })
     const [observation] = await witness.observe()

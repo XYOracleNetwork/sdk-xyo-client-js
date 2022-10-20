@@ -1,3 +1,4 @@
+import { XyoModuleParams } from '@xyo-network/module'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoBowserSystemInfoWitnessConfig } from './Config'
@@ -7,7 +8,7 @@ import { XyoBowserSystemInfoPayloadTemplate } from './Template'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
 export const XyoBowserSystemInfoPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoBowserSystemInfoPayload, XyoBowserSystemInfoWitnessConfig>({
+  createXyoPayloadPlugin<XyoBowserSystemInfoPayload, XyoModuleParams<XyoBowserSystemInfoWitnessConfig>>({
     auto: true,
     schema: XyoBowserSystemInfoSchema,
     template: XyoBowserSystemInfoPayloadTemplate,

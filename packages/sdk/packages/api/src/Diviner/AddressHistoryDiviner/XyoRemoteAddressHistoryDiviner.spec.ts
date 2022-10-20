@@ -6,6 +6,7 @@ import { XyoPayloadBuilder } from '@xyo-network/payload'
 import { XyoArchivistApi } from '../../Archivist'
 import { XyoApiConfig } from '../../models'
 import { XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
+import { AddressHistoryQuerySchema } from './AddressHistoryDiviner'
 import { XyoRemoteAddressHistoryDiviner } from './XyoRemoteAddressHistoryDiviner'
 
 const configData: XyoApiConfig = {
@@ -19,7 +20,7 @@ test('XyoRemoteAddressHistoryDiviner', async () => {
   const address = new XyoAccount({ phrase: 'test' }).addressValue.hex
   const api = new XyoArchivistApi(configData)
   const diviner = new XyoRemoteAddressHistoryDiviner({ api, schema: XyoRemoteDivinerConfigSchema })
-  const source = new XyoPayloadBuilder({ schema: 'TODO' }).build()
+  const source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).build()
   const result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
   expect(result.length).toBeGreaterThan(0)
   result.map((bw) => {

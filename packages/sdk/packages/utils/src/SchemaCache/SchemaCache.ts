@@ -16,11 +16,26 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
 export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
 
 export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
-  private cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
+  private static _instance?: XyoSchemaCache
+
+  public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
+  public proxy?: string
+
+  private _cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
   private _validators: T = {} as T
+
+  //prevents double discovery
+  private getDebounce = new Debounce()
 
   private constructor(proxy?: string) {
     this.proxy = proxy
+  }
+
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new XyoSchemaCache()
+    }
+    return this._instance
   }
 
   /**
@@ -32,8 +47,17 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
     return this._validators
   }
 
-  public proxy?: string
-  public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
+  public async get(schema?: string) {
+    if (schema) {
+      await this.getDebounce.one(schema, async () => {
+        //if we did not find it, mark it as not found (null)
+        if (this._cache.get(schema) === undefined) {
+          await this.fetchSchema(schema)
+        }
+      })
+      return this._cache.get(schema)
+    }
+  }
 
   private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
     //only store them if they match the schema root
@@ -43,7 +67,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
       const validator = ajv.compile(entry.payload.definition)
       const schemaName = getSchemaNameFromSchema(entry.payload.definition)
       if (schemaName) {
-        this.cache.set(schemaName, entry)
+        this._cache.set(schemaName, entry)
         const key = schemaName as keyof T
         this._validators[key] = validator as unknown as T[keyof T]
         this.onSchemaCached?.(schemaName, entry)
@@ -59,37 +83,14 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
       })
   }
 
-  //prevents double discovery
-  private getDebounce = new Debounce()
-
-  public async get(schema?: string) {
-    if (schema) {
-      await this.getDebounce.one(schema, async () => {
-        //if we did not find it, mark it as not found (null)
-        if (this.cache.get(schema) === undefined) {
-          await this.fetchSchema(schema)
-        }
-      })
-      return this.cache.get(schema)
-    }
-  }
-
   private async fetchSchema(schema: string) {
     const domain = await XyoDomainPayloadWrapper.discover(schema, this.proxy)
     await domain?.fetch()
     this.cacheSchemas(domain?.aliases)
 
     //if it is still undefined, mark it as null (not found)
-    if (this.cache.get(schema) === undefined) {
-      this.cache.set(schema, null)
+    if (this._cache.get(schema) === undefined) {
+      this._cache.set(schema, null)
     }
-  }
-
-  private static _instance?: XyoSchemaCache
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new XyoSchemaCache()
-    }
-    return this._instance
   }
 }

@@ -10,18 +10,21 @@ export const XyoAdhocWitnessConfigSchema: XyoAdhocWitnessConfigSchema = 'network
 
 export type XyoAdhocWitnessConfig = XyoWitnessConfig<
   WithAdditional<XyoPayload>,
-  { schema: XyoAdhocWitnessConfigSchema; payload: WithAdditional<XyoPayload> }
+  {
+    payload: WithAdditional<XyoPayload>
+    schema: XyoAdhocWitnessConfigSchema
+  }
 >
 
 export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> extends XyoWitness<T, XyoAdhocWitnessConfig> {
+  get payload() {
+    return this.config?.payload
+  }
+
   static override async create(params?: XyoModuleParams): Promise<XyoAdhocWitness> {
     const module = new XyoAdhocWitness(params as XyoModuleParams<XyoAdhocWitnessConfig>)
     await module.start()
     return module
-  }
-
-  get payload() {
-    return this.config?.payload
   }
 
   override observe(fields?: Partial<T>[]): Promisable<T[]> {

@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.7.1",
+    "@ethersproject/providers": "^5.7.2",
     "@metamask/providers": "^10.0.0",
     "@xylabs/delay": "^2.6.9",
     "@xyo-network/domain-payload-plugin": "workspace:^",

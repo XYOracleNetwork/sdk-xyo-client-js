@@ -43,7 +43,7 @@ describe('XyoRemoteAddressHistoryDiviner', () => {
   describe('with non-existent address', () => {
     it('returns empty array', async () => {
       const source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).fields({ address: 'foo' }).build()
-      const result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
+      const result = await new XyoDivinerWrapper(diviner).divine([source])
       expect(result.length).toBe(0)
     })
   })

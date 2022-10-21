@@ -3,6 +3,7 @@ import { XyoDataLike } from '@xyo-network/core'
 import { Huri, PayloadWrapper, PayloadWrapperBase, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
+import { isXyoBoundWitnessPayload } from '../isXyoPayloadOfSchemaType'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 import { BoundWitnessValidator } from '../Validator'
 
@@ -101,9 +102,10 @@ export class BoundWitnessWrapper<
 
   public static override async load(address: XyoDataLike | Huri) {
     const payload = await new Huri(address).fetch()
-    assertEx(payload?.schema === XyoBoundWitnessSchema, 'Attempt to load non-boundwitness')
+    assertEx(payload && isXyoBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
 
-    return payload ? new BoundWitnessWrapper(payload as XyoBoundWitness) : null
+    const boundWitness: XyoBoundWitness | undefined = payload && isXyoBoundWitnessPayload(payload) ? payload : undefined
+    return boundWitness ? new BoundWitnessWrapper(boundWitness) : null
   }
 
   public static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(

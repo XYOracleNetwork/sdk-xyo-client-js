@@ -1,9 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivist, XyoArchivistFindQuerySchema } from '@xyo-network/archivist'
-import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
-import { XyoBoundWitnessWithMeta } from '@xyo-network/storage/dist/esm/node/ArchivistMongoSdk/Meta'
 import compact from 'lodash/compact'
 
 import { RemoteArchivistError } from './RemoteArchivistError'

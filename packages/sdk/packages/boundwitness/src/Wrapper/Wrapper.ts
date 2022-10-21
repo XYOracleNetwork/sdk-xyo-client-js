@@ -104,7 +104,8 @@ export class BoundWitnessWrapper<
     const payload = await new Huri(address).fetch()
     assertEx(payload && isXyoBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
 
-    return payload ? isXyoBoundWitnessPayload(payload) : undefined
+    const boundWitness: XyoBoundWitness | undefined = payload && isXyoBoundWitnessPayload(payload) ? payload : undefined
+    return boundWitness ? new BoundWitnessWrapper(boundWitness) : null
   }
 
   public static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(

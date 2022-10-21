@@ -1,7 +1,6 @@
 import { WithAdditional } from '@xyo-network/core'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promise'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
@@ -28,8 +27,12 @@ export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> 
     return module
   }
 
-  override observe(fields?: Partial<T>[]): Promisable<T[]> {
-    return super.observe([merge({}, this.payload, fields?.[0])])
+  override async observe(fields?: Partial<T>[]): Promise<T[]> {
+    const result: T[] = await super.observe([merge({}, this.payload, fields?.[0])])
+
+    return result.map((payload, index) => {
+      return { ...payload, schema: fields?.[index].schema ?? payload.schema }
+    })
   }
 
   static override configSchema = XyoAdhocWitnessConfigSchema

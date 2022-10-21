@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule, XyoModuleConfig, XyoModuleParams } from '@xyo-network/module'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 

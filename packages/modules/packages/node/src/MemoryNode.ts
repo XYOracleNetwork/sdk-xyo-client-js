@@ -11,6 +11,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   private attachedModuleMap = new Map<string, TModule>()
 
   static override async create(params?: XyoModuleParams<NodeConfig>): Promise<MemoryNode> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new MemoryNode(params)
     await module.start()
     return module

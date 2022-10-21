@@ -33,6 +33,7 @@ export type XyoStorageArchivistConfig = XyoArchivistConfig<{
 
 export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig> {
   static override async create(params?: XyoModuleParams<XyoStorageArchivistConfig>): Promise<XyoStorageArchivist> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoStorageArchivist(params)
     await module.start()
     return module
@@ -119,6 +120,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   }
 
   public override delete(hashes: string[]): PromisableArray<boolean> {
+    this.logger?.log(`hashes.length: ${hashes.length}`)
     try {
       return hashes.map((hash) => {
         this.storage.remove(hash)
@@ -131,6 +133,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   }
 
   public override clear(): void | Promise<void> {
+    this.logger?.log(`this.storage.length: ${this.storage.length}`)
     try {
       this.storage.clear()
     } catch (ex) {
@@ -139,7 +142,8 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     }
   }
 
-  public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
+  public async get(hashes: string[]): Promise<XyoPayload[]> {
+    this.logger?.log(`hashes.length: ${hashes.length}`)
     try {
       return await Promise.all(
         hashes.map(async (hash) => {
@@ -154,6 +158,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   }
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+    this.logger?.log(`payloads.length: ${payloads.length}`)
     try {
       const storedPayloads = payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
@@ -177,6 +182,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   }
 
   public override all(): PromisableArray<XyoPayload> {
+    this.logger?.log(`this.storage.length: ${this.storage.length}`)
     try {
       return Object.entries(this.storage.getAll()).map(([, value]) => value)
     } catch (ex) {
@@ -186,6 +192,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   }
 
   public override async commit(): Promise<XyoBoundWitness[]> {
+    this.logger?.log(`this.storage.length: ${this.storage.length}`)
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')

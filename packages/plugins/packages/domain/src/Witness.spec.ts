@@ -1,4 +1,4 @@
-import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
+import { XyoDomainWitnessConfigSchema } from './Config'
 import { XyoDomainSchema } from './Schema'
 import { XyoDomainWitness } from './Witness'
 
@@ -9,7 +9,7 @@ describe('XyoDomainConfigWitness', () => {
         domain: 'xyo.network',
         schema: XyoDomainWitnessConfigSchema,
         targetSchema: XyoDomainSchema,
-      } as XyoDomainWitnessConfig,
+      },
     })
     expect(witness).toBeTruthy()
     expect(XyoDomainWitness.dmarc).toBe('_xyo')

@@ -17,6 +17,6 @@ export type LocationCertainty = {
   variance: LocationCertaintyHeuristic
 }
 
-export const isLocationCertaintyPayload = (x?: XyoPayload | null): x is LocationCertaintyPayload => x?.schema === LocationCertaintySchema
+export const isLocationCertaintyPayload = (x?: XyoPayload): x is LocationCertaintyPayload => x?.schema === LocationCertaintySchema
 
 export type LocationCertaintyPayload = XyoPayload<{ schema: LocationCertaintySchema } & LocationCertainty>

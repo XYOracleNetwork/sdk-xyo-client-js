@@ -8,12 +8,12 @@ import { PayloadValidator } from '../Validator'
 
 export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayload> extends Hasher<TPayload> {
   public get payload() {
-    return this.obj
+    return assertEx(this.obj, 'Missing payload object')
   }
 
   //intentionally not naming this 'schema' so that the wrapper is not confused for a XyoPayload
   public get schemaName() {
-    return this.obj.schema
+    return assertEx(this.obj.schema, 'Missing payload schema')
   }
 
   public get body() {
@@ -49,12 +49,19 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
     return null
   }
 
+  public get schema() {
+    return this.payload.schema
+  }
+
   public static override parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to PayloadWrapper')
     switch (typeof obj) {
       case 'object': {
         const castWrapper = obj as PayloadWrapper<T>
-        return castWrapper?.isPayloadWrapper ? castWrapper : new PayloadWrapper(obj as T)
+        return assertEx(
+          castWrapper?.isPayloadWrapper ? castWrapper : (obj as XyoPayload).schema ? new PayloadWrapper(obj as T) : null,
+          'Unable to parse payload object',
+        )
       }
     }
     throw Error(`Unable to parse [${typeof obj}]`)

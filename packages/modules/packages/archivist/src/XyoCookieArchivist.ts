@@ -31,6 +31,7 @@ export type XyoCookieArchivistConfig = XyoArchivistConfig<{
 
 export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
   static override async create(params?: XyoModuleParams<XyoCookieArchivistConfig>): Promise<XyoCookieArchivist> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoCookieArchivist(params)
     await module.start()
     return module
@@ -94,7 +95,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     }
   }
 
-  public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
+  public async get(hashes: string[]): Promise<XyoPayload[]> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {

@@ -17,12 +17,15 @@
     "@xyo-network/module-instance-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "lodash": "^4.17.21",
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
     "axios": "^0.27.2",
+    "lodash": "^4.17.21",
     "pako": "^2.0.4"
+  },
+  "devDependencies": {
+    "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -57,6 +60,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.38.0-rc.12",
-  "stableVersion": "2.37.6"
+  "version": "2.38.8"
 }

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { XyoModuleParams } from '@xyo-network/module'
-import { Huri, PayloadWrapper, XyoPayloads } from '@xyo-network/payload'
+import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
@@ -10,6 +10,7 @@ import { XyoArchivistPayloadDivinerConfig } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
   static override async create(params?: XyoModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<XyoArchivistPayloadDiviner> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoArchivistPayloadDiviner(params)
     await module.start()
     return module
@@ -35,7 +36,7 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
     return this
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
+  public async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
       `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,

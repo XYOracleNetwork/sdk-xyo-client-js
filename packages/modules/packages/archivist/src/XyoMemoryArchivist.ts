@@ -32,6 +32,7 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
   }
 
   static override async create(params?: XyoModuleParams<XyoMemoryArchivistConfig>): Promise<XyoMemoryArchivist> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module: XyoMemoryArchivist = new XyoMemoryArchivist(params)
     await module.start()
     return module
@@ -75,7 +76,7 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
     }
   }
 
-  public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
+  public async get(hashes: string[]): Promise<XyoPayload[]> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {

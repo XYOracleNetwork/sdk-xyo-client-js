@@ -2,7 +2,7 @@ import { typeOf } from '@xyo-network/typeof'
 
 import { EmptyObject, StringKeyObject } from '../lib'
 
-//if an object, subsort
+//if an object, sub-sort
 const subSort = (value: unknown) => {
   switch (typeOf(value)) {
     case 'object':

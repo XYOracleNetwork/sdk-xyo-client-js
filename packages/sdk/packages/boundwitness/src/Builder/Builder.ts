@@ -3,6 +3,7 @@ import { Buffer } from '@xylabs/buffer'
 import { XyoAccount } from '@xyo-network/account'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
+import { Logger } from '@xyo-network/shared'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 import { BoundWitnessWrapper } from '../Wrapper'
@@ -22,18 +23,27 @@ export class BoundWitnessBuilder<
   TPayload extends XyoPayload = XyoPayload,
 > {
   private _accounts: XyoAccount[] = []
-  private _payload_schemas: string[] = []
   private _payloads: TPayload[] = []
   private _payloadHashes: string[] | undefined
+  private _payloadSchemas: string[] | undefined
   private _timestamp = Date.now()
 
-  constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }) {}
+  constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
 
   private get _payload_hashes(): string[] {
     return (
       this._payloadHashes ??
       this._payloads.map((payload) => {
-        return new Hasher(payload).hash
+        return assertEx(new Hasher(payload).hash)
+      })
+    )
+  }
+
+  private get _payload_schemas(): string[] {
+    return (
+      this._payloadSchemas ??
+      this._payloads.map((payload) => {
+        return assertEx(payload.schema)
       })
     )
   }
@@ -53,14 +63,15 @@ export class BoundWitnessBuilder<
   }
 
   public hashes(hashes: string[], schema: string[]) {
+    assertEx(this.payloads.length === 0, 'Can not set hashes when payloads already set')
     this._payloadHashes = hashes
-    this._payload_schemas = schema
+    this._payloadSchemas = schema
     return this
   }
 
   public payload(payload?: TPayload) {
+    assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
     if (payload) {
-      this._payload_schemas.push(payload.schema)
       this._payloads.push(assertEx(sortFields<TPayload>(payload)))
     }
     return this
@@ -76,6 +87,12 @@ export class BoundWitnessBuilder<
       previous_hashes,
       schema: XyoBoundWitnessSchema,
     } as TBoundWitness
+
+    assertEx(result.payload_hashes?.length === result.payload_schemas?.length, 'Payload hash/schema mismatch')
+
+    assertEx(!result.payload_hashes.reduce((inValid, hash) => inValid || !hash, false), 'nulls found in hashes')
+
+    assertEx(!result.payload_schemas.reduce((inValid, schema) => inValid || !schema, false), 'nulls found in schemas')
 
     if (this.config.timestamp ?? true) {
       result.timestamp = this._timestamp

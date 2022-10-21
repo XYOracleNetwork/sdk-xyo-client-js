@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
-import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
 
@@ -158,7 +158,9 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: XyoAccount): XyoBoundWitness {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
-    return (account ? builder.witness(account) : builder).build()[0]
+    const result = (account ? builder.witness(account) : builder).build()[0]
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
   protected bindHashes(hashes: string[], schema: SchemaString[], account?: XyoAccount) {
@@ -170,12 +172,14 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return promise
   }
 
-  protected bindResultInternal(payloads: XyoPayloads, account?: XyoAccount): ModuleQueryResult {
+  protected bindResultInternal(payloads: XyoPayload[], account?: XyoAccount): ModuleQueryResult {
     const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
-    return [(account ? builder.witness(account) : builder).build()[0], payloads]
+    const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
-  protected bindResult(payloads: XyoPayloads, account?: XyoAccount): PromiseEx<ModuleQueryResult, XyoAccount> {
+  protected bindResult(payloads: XyoPayload[], account?: XyoAccount): PromiseEx<ModuleQueryResult, XyoAccount> {
     const promise = new PromiseEx<ModuleQueryResult, XyoAccount>((resolve) => {
       const result = this.bindResultInternal(payloads, account)
       resolve?.(result)
@@ -190,7 +194,9 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     account?: XyoAccount,
   ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
-    return (account ? builder.witness(account) : builder).build()
+    const result = (account ? builder.witness(account) : builder).build()
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(

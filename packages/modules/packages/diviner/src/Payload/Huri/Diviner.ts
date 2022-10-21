@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
-import { Huri, XyoPayloads } from '@xyo-network/payload'
+import { Huri, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
@@ -10,6 +10,7 @@ import { XyoHuriPayloadDivinerConfig } from './Config'
 
 export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig> {
   static override async create(params?: XyoModuleParams<XyoHuriPayloadDivinerConfig>): Promise<XyoHuriPayloadDiviner> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoHuriPayloadDiviner(params)
     await module.start()
     return module
@@ -23,7 +24,7 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivin
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
+  override async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
       `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,

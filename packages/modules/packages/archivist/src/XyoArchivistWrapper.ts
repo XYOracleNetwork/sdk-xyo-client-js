@@ -1,4 +1,4 @@
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoModuleWrapper } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import compact from 'lodash/compact'
@@ -37,7 +37,7 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArch
     this.throwErrors(query, result)
   }
 
-  public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
+  public async get(hashes: string[]): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
@@ -79,6 +79,6 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArch
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)
-    return result[1] as XyoBoundWitness[]
+    return result[1].filter(isXyoBoundWitnessPayload)
   }
 }

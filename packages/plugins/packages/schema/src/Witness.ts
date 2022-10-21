@@ -12,14 +12,14 @@ export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayload, { schema
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoSchemaWitnessConfig>): Promise<XyoSchemaWitness> {
-    const module = new XyoSchemaWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoSchemaWitness
   }
 
   override async observe(_fields: Partial<XyoSchemaPayload>[]): Promise<XyoSchemaPayload[]> {
     await delay(0)
     throw new Error('Method not implemented.')
   }
-  static schema: XyoSchemaSchema = XyoSchemaSchema
+
+  static override configSchema = XyoSchemaWitnessConfigSchema
+  static override targetSchema = XyoSchemaSchema
 }

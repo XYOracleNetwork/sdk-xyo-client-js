@@ -1,6 +1,6 @@
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { LocationCertaintyDiviner, LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Diviner'
+import { LocationCertaintyDiviner, LocationCertaintyDivinerConfigSchema } from './Diviner'
 import { LocationCertaintyPayload } from './Payload'
 import { LocationCertaintySchema } from './Schema'
 import { LocationCertaintyPayloadTemplate } from './Template'
@@ -14,7 +14,7 @@ export const LocationCertaintyPayloadPlugin = () =>
           ...config,
           schema: LocationCertaintyDivinerConfigSchema,
           targetSchema: LocationCertaintySchema,
-        } as LocationCertaintyDivinerConfig,
+        },
       })
     },
     schema: LocationCertaintySchema,

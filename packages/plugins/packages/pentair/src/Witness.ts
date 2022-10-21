@@ -35,10 +35,9 @@ export class XyoPentairScreenlogicWitness extends XyoWitness<XyoPentairScreenlog
   }
 
   static override async create(params?: XyoModuleParams<XyoPentairScreenlogicWitnessConfig>): Promise<XyoPentairScreenlogicWitness> {
-    const module = new XyoPentairScreenlogicWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoPentairScreenlogicWitness
   }
 
-  static schema: XyoPentairScreenlogicSchema = XyoPentairScreenlogicSchema
+  static override configSchema = XyoPentairScreenlogicWitnessConfigSchema
+  static override targetSchema = XyoPentairScreenlogicSchema
 }

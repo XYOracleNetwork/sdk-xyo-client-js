@@ -32,9 +32,9 @@ export interface XyoHttpBridgeParams<TConfig extends XyoHttpBridgeConfig = XyoHt
 }
 
 export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
-  static override async create(params: XyoHttpBridgeParams): Promise<XyoHttpBridge>
-  static override async create(params: XyoModuleParams): Promise<XyoHttpBridge> {
-    const module = new XyoHttpBridge(params as XyoHttpBridgeParams)
+  static override async create(params: XyoHttpBridgeParams): Promise<XyoHttpBridge> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
+    const module = new XyoHttpBridge(params)
     await module.start()
     return module
   }
@@ -84,7 +84,7 @@ export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeCo
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
     const queryAccount = new XyoAccount()
-    const resultPayloads: (XyoPayload | null)[] = []
+    const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schema) {
         case XyoBridgeConnectQuerySchema: {

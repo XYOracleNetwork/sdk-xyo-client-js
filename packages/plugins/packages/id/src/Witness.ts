@@ -18,10 +18,7 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoIdWitnessConfig>): Promise<XyoIdWitness> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoIdWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoIdWitness
   }
 
   public get salt() {
@@ -39,5 +36,6 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
     )
   }
 
-  static schema: XyoIdSchema = XyoIdSchema
+  static override targetSchema = XyoIdSchema
+  static override configSchema = XyoIdWitnessConfigSchema
 }

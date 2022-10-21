@@ -3,7 +3,7 @@ import { Buffer } from '@xylabs/buffer'
 import { XyoAccount } from '@xyo-network/account'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
-import { Logger } from '@Xyo-network/shared'
+import { Logger } from '@xyo-network/shared'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 import { BoundWitnessWrapper } from '../Wrapper'

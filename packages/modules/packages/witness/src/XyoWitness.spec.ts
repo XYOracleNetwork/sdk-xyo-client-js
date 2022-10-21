@@ -1,4 +1,5 @@
 import { Module, XyoModule } from '@xyo-network/module'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { Witness } from './Witness'
 import { XyoWitness } from './XyoWitness'
@@ -14,6 +15,8 @@ test('XyoWitness', async () => {
   const wrapper = new XyoWitnessWrapper(witnessAsModule ?? witnessAsXyoModule ?? witnessAsWitness)
 
   const payloads = await wrapper.observe()
+  const answerWrapper = new PayloadWrapper(payloads[0])
 
-  expect(payloads[0]?.schema).toBe('xyo.network.test')
+  expect(answerWrapper.schema).toBe('xyo.network.test')
+  expect(answerWrapper.valid).toBe(true)
 })

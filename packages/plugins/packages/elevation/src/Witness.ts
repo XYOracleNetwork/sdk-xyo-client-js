@@ -45,10 +45,7 @@ const physicalLocationToOpenElevationLocation = (location: PhysicalLocation, zoo
 
 export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevationPayload, XyoLocationElevationWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoLocationElevationWitnessConfig>): Promise<XyoLocationElevationWitness> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoLocationElevationWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoLocationElevationWitness
   }
 
   public get uri() {
@@ -76,5 +73,6 @@ export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevation
     return super.observe(results?.map((result, index) => merge({}, result, fields?.[index])))
   }
 
-  static schema: XyoLocationElevationSchema = XyoLocationElevationSchema
+  static override configSchema = XyoLocationElevationWitnessConfigSchema
+  static override targetSchema = XyoLocationElevationSchema
 }

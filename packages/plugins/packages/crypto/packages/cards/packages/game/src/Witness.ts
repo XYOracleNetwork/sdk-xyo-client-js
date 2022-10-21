@@ -3,7 +3,7 @@ import { Promisable } from '@xyo-network/promise'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoCryptoCardsGamePayload } from './Payload'
-import { XyoCryptoCardsGameWitnessConfigSchema } from './Schema'
+import { XyoCryptoCardsGameSchema, XyoCryptoCardsGameWitnessConfigSchema } from './Schema'
 
 export type XyoCryptoCardsGameWitnessConfig = XyoWitnessConfig<
   XyoCryptoCardsGamePayload,
@@ -23,4 +23,7 @@ export class XyoCryptoCardsGameWitness extends XyoWitness<XyoCryptoCardsGamePayl
   override observe(payloads: XyoCryptoCardsGamePayload[]): Promisable<XyoCryptoCardsGamePayload[]> {
     return super.observe(payloads)
   }
+
+  static override configSchema = XyoCryptoCardsGameWitnessConfigSchema
+  static override targetSchema = XyoCryptoCardsGameSchema
 }

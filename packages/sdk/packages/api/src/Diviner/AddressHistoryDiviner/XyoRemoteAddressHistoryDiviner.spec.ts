@@ -5,7 +5,7 @@ import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../../Archivist'
 import { XyoApiConfig } from '../../models'
-import { XyoRemoteDivinerConfig, XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
+import { XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
 import { AddressHistoryQuerySchema } from './AddressHistoryDiviner'
 import { XyoRemoteAddressHistoryDiviner } from './XyoRemoteAddressHistoryDiviner'
 

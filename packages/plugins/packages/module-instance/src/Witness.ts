@@ -18,10 +18,7 @@ export type XyoModuleInstanceWitnessConfig = XyoWitnessConfig<
 
 export class XyoModuleInstanceWitness extends XyoWitness<XyoModuleInstancePayload, XyoModuleInstanceWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoModuleInstanceWitnessConfig>): Promise<XyoModuleInstanceWitness> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoModuleInstanceWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoModuleInstanceWitness
   }
 
   protected get module() {
@@ -32,5 +29,6 @@ export class XyoModuleInstanceWitness extends XyoWitness<XyoModuleInstancePayloa
     return await super.observe([merge({ queries: this.module?.queries }, fields?.[0])])
   }
 
-  static schema: XyoModuleInstanceSchema = XyoModuleInstanceSchema
+  static override configSchema = XyoModuleInstanceWitnessConfigSchema
+  static override targetSchema = XyoModuleInstanceSchema
 }

@@ -3,8 +3,9 @@ import { XyoWitness } from '@xyo-network/witness'
 import Bowser from 'bowser'
 import merge from 'lodash/merge'
 
-import { XyoBowserSystemInfoWitnessConfig } from './Config'
+import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 import { XyoBowserSystemInfoPayload } from './Payload'
+import { XyoBowserSystemInfoSchema } from './Schema'
 
 export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = XyoBowserSystemInfoPayload> extends XyoWitness<
   T,
@@ -21,9 +22,9 @@ export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = X
   }
 
   static override async create(params?: XyoModuleParams<XyoBowserSystemInfoWitnessConfig>): Promise<XyoBowserSystemInfoWitness> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoBowserSystemInfoWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoBowserSystemInfoWitness
   }
+
+  static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
+  static override targetSchema = XyoBowserSystemInfoSchema
 }

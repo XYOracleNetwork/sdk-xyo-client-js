@@ -3,7 +3,6 @@ import {
   XyoLocationElevationPayload,
   XyoLocationElevationSchema,
   XyoLocationElevationWitness,
-  XyoLocationElevationWitnessConfig,
   XyoLocationElevationWitnessConfigSchema,
 } from '@xyo-network/elevation-payload-plugin'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'

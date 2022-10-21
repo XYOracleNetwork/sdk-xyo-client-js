@@ -1,11 +1,11 @@
 import { XyoMemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfig, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
+import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
-import { XyoPayloadSchema } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayloadSchema } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
-import { XyoAdhocWitness, XyoAdhocWitnessConfig, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
+import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from './XyoPanel'
 
@@ -58,9 +58,8 @@ describe('XyoPanel', () => {
       },
     })
 
-    const adhocObserved = await adhocWitness.observe()
-
-    expect(adhocObserved).toBeDefined()
+    const [adhocObserved] = await adhocWitness.observe()
+    expect(new PayloadWrapper(adhocObserved).valid).toBe(true)
 
     const report1Result = await panel.report([adhocWitness])
     const report1 = BoundWitnessWrapper.parse(report1Result[1][0])
@@ -72,5 +71,7 @@ describe('XyoPanel', () => {
     expect(report2.hash !== report1.hash).toBe(true)
     expect(report2.prev(panel.address)).toBeDefined()
     expect(report2.prev(panel.address)).toBe(report1.hash)
+    expect(report1.valid).toBe(true)
+    expect(report2.valid).toBe(true)
   })
 })

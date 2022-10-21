@@ -3,7 +3,7 @@ import { PayloadWrapper } from '@xyo-network/payload'
 import { XyoApiConfig } from '../models'
 import { XyoArchivistApi } from './Api'
 import { XyoRemoteArchivist } from './XyoRemoteArchivist'
-import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
+import { XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
 
 const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',

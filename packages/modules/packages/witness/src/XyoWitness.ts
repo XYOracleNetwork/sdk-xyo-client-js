@@ -8,18 +8,22 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
-export type XyoWitnessParams = XyoModuleParams
-
 export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>>
   extends XyoModule<TConfig>
   implements Witness<TTarget>
 {
   static override async create(params?: XyoModuleParams<XyoWitnessConfig>): Promise<XyoWitness> {
     params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoWitness(params)
+    const actualParams: XyoModuleParams<XyoWitnessConfig> = params ?? {}
+    actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
+    const module = new this(actualParams)
     await module.start()
     return module
   }
+
+  static targetSchema: string
+
+  static configSchema: string
 
   public get targetSchema() {
     return this.config?.targetSchema

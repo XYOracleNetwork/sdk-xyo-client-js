@@ -18,10 +18,7 @@ export type XyoLocationWitnessConfig = XyoWitnessConfig<
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoLocationWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoLocationWitness
   }
 
   public get geolocation() {
@@ -59,5 +56,6 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
     return super.observe([payload])
   }
 
-  static schema: XyoLocationSchema = XyoLocationSchema
+  static override configSchema = XyoLocationWitnessConfigSchema
+  static override targetSchema = XyoLocationSchema
 }

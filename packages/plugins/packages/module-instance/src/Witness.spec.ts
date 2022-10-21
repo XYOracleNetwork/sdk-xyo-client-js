@@ -1,9 +1,10 @@
 import { XyoMemoryArchivist } from '@xyo-network/archivist'
+import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoModuleInstanceSchema } from './Schema'
 import { XyoModuleInstanceWitness, XyoModuleInstanceWitnessConfigSchema } from './Witness'
 
-describe('XyoElevationWitness', () => {
+describe('XyoModuleInstanceWitness', () => {
   test('Witnessing', async () => {
     const module = await XyoMemoryArchivist.create()
     const witness = await XyoModuleInstanceWitness.create({
@@ -14,6 +15,16 @@ describe('XyoElevationWitness', () => {
 
     console.log(`Module: ${JSON.stringify(result, null, 2)}`)
 
-    //expect(result.queries?.length).toBe(2)
+    expect(new PayloadWrapper(result).valid).toBe(true)
+  })
+
+  test('Witnessing [no config]', async () => {
+    const witness = await XyoModuleInstanceWitness.create()
+
+    const [result] = await witness.observe()
+
+    console.log(`Module: ${JSON.stringify(result, null, 2)}`)
+
+    expect(new PayloadWrapper(result).valid).toBe(true)
   })
 })

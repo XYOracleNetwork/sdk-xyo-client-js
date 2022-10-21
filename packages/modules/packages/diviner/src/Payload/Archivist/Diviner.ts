@@ -10,6 +10,7 @@ import { XyoArchivistPayloadDivinerConfig } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
   static override async create(params?: XyoModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<XyoArchivistPayloadDiviner> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoArchivistPayloadDiviner(params)
     await module.start()
     return module

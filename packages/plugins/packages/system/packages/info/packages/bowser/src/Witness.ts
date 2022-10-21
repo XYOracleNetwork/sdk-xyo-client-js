@@ -21,6 +21,7 @@ export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = X
   }
 
   static override async create(params?: XyoModuleParams<XyoBowserSystemInfoWitnessConfig>): Promise<XyoBowserSystemInfoWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoBowserSystemInfoWitness(params)
     await module.start()
     return module

@@ -11,6 +11,7 @@ export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload 
   XyoNodeSystemInfoWitnessConfig
 > {
   static override async create(params?: XyoModuleParams<XyoNodeSystemInfoWitnessConfig>): Promise<XyoNodeSystemInfoWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoNodeSystemInfoWitness(params)
     await module.start()
     return module

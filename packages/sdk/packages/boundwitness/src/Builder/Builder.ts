@@ -3,6 +3,7 @@ import { Buffer } from '@xylabs/buffer'
 import { XyoAccount } from '@xyo-network/account'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
+import { Logger } from '@Xyo-network/shared'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 import { BoundWitnessWrapper } from '../Wrapper'
@@ -27,7 +28,7 @@ export class BoundWitnessBuilder<
   private _payloadSchemas: string[] | undefined
   private _timestamp = Date.now()
 
-  constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }) {}
+  constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
 
   private get _payload_hashes(): string[] {
     return (

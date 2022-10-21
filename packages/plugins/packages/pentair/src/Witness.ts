@@ -35,6 +35,7 @@ export class XyoPentairScreenlogicWitness extends XyoWitness<XyoPentairScreenlog
   }
 
   static override async create(params?: XyoModuleParams<XyoPentairScreenlogicWitnessConfig>): Promise<XyoPentairScreenlogicWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoPentairScreenlogicWitness(params)
     await module.start()
     return module

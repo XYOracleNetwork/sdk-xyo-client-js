@@ -8,6 +8,7 @@ import { XyoEthereumGasEtherscanPayload } from './Payload'
 
 export class XyoEtherscanEthereumGasWitness extends XyoTimestampWitness<XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoEthereumGasEtherscanWitnessConfig>): Promise<XyoEtherscanEthereumGasWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoEtherscanEthereumGasWitness(params)
     await module.start()
     return module

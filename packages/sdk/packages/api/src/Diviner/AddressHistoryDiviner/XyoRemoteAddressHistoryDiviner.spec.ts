@@ -21,7 +21,7 @@ describe('XyoRemoteAddressHistoryDiviner', () => {
   const api = new XyoArchivistApi(configData)
   let diviner: XyoRemoteAddressHistoryDiviner
   beforeAll(async () => {
-    diviner = await XyoRemoteAddressHistoryDiviner.create({ config: { api, schema: XyoRemoteDivinerConfigSchema } as XyoRemoteDivinerConfig })
+    diviner = await XyoRemoteAddressHistoryDiviner.create({ config: { api, schema: XyoRemoteDivinerConfigSchema } })
   })
 
   describe('with valid address returns', () => {

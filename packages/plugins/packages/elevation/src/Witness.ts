@@ -45,6 +45,7 @@ const physicalLocationToOpenElevationLocation = (location: PhysicalLocation, zoo
 
 export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevationPayload, XyoLocationElevationWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoLocationElevationWitnessConfig>): Promise<XyoLocationElevationWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoLocationElevationWitness(params)
     await module.start()
     return module

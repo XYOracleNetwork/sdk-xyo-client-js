@@ -14,6 +14,7 @@ export type XyoCryptoCardsGameWitnessConfig = XyoWitnessConfig<
 
 export class XyoCryptoCardsGameWitness extends XyoWitness<XyoCryptoCardsGamePayload, XyoCryptoCardsGameWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoCryptoCardsGameWitnessConfig>): Promise<XyoCryptoCardsGameWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoCryptoCardsGameWitness(params)
     await module.start()
     return module

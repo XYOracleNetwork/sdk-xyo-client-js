@@ -21,6 +21,7 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
 
   static override async create(params?: XyoUniswapCryptoMarketWitnessParams): Promise<XyoUniswapCryptoMarketWitness>
   static override async create(params?: XyoModuleParams): Promise<XyoUniswapCryptoMarketWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoUniswapCryptoMarketWitness(params as XyoUniswapCryptoMarketWitnessParams)
     await module.start()
     return module

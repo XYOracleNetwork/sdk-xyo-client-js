@@ -18,6 +18,7 @@ export type XyoLocationWitnessConfig = XyoWitnessConfig<
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoLocationWitness(params)
     await module.start()
     return module

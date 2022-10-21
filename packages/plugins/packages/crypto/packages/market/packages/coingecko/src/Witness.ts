@@ -7,6 +7,7 @@ import { XyoCoingeckoCryptoMarketPayload } from './Payload'
 
 export class XyoCoingeckoCryptoMarketWitness extends XyoWitness<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>): Promise<XyoCoingeckoCryptoMarketWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoCoingeckoCryptoMarketWitness(params)
     await module.start()
     return module

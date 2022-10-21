@@ -33,7 +33,7 @@ describe('XyoLocationElevationWitness', () => {
         ],
         schema: XyoLocationElevationWitnessConfigSchema,
         targetSchema: XyoLocationElevationSchema,
-      } as XyoLocationElevationWitnessConfig,
+      },
     })
 
     const result = await witness.observe()

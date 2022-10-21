@@ -15,6 +15,7 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
   implements Witness<TTarget>
 {
   static override async create(params?: XyoModuleParams<XyoWitnessConfig>): Promise<XyoWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoWitness(params)
     await module.start()
     return module
@@ -30,11 +31,12 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
 
   public observe(fields?: Partial<XyoPayload>[]): Promisable<TTarget[]> {
     this.started('throw')
-    return (
+    const result =
       fields?.map((fieldsItem) => {
         return { ...fieldsItem, schema: this.targetSchema } as TTarget
       }) ?? []
-    )
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {

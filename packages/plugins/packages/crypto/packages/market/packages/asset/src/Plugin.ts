@@ -1,4 +1,3 @@
-import { XyoDivinerConfig } from '@xyo-network/diviner'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoCryptoMarketAssetDiviner } from './Diviner'
@@ -15,7 +14,7 @@ export const XyoCryptoMarketAssetPayloadPlugin = () =>
           ...config,
           schema: XyoCryptoMarketAssetDivinerConfigSchema,
           targetSchema: XyoCryptoMarketAssetSchema,
-        } as XyoDivinerConfig,
+        },
       })
       return diviner
     },

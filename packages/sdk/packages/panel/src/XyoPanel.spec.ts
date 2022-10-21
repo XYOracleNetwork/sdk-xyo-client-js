@@ -2,12 +2,7 @@ import { XyoMemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfig, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModuleResolver } from '@xyo-network/module'
-import {
-  XyoNodeSystemInfoSchema,
-  XyoNodeSystemInfoWitness,
-  XyoNodeSystemInfoWitnessConfig,
-  XyoNodeSystemInfoWitnessConfigSchema,
-} from '@xyo-network/node-system-info-payload-plugin'
+import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
 import { XyoPayloadSchema } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfig, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
@@ -19,7 +14,7 @@ describe('XyoPanel', () => {
     const archivist = await XyoMemoryArchivist.create()
 
     const witnesses: XyoWitness[] = [
-      await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } as XyoIdWitnessConfig }),
+      await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } }),
       await XyoNodeSystemInfoWitness.create({
         config: {
           nodeValues: {
@@ -27,7 +22,7 @@ describe('XyoPanel', () => {
           },
           schema: XyoNodeSystemInfoWitnessConfigSchema,
           targetSchema: XyoNodeSystemInfoSchema,
-        } as XyoNodeSystemInfoWitnessConfig,
+        },
       }),
     ]
 
@@ -60,7 +55,7 @@ describe('XyoPanel', () => {
         },
         schema: XyoAdhocWitnessConfigSchema,
         targetSchema: XyoPayloadSchema,
-      } as XyoAdhocWitnessConfig,
+      },
     })
 
     const adhocObserved = await adhocWitness.observe()

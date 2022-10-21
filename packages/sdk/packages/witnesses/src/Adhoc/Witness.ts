@@ -22,6 +22,7 @@ export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> 
   }
 
   static override async create(params?: XyoModuleParams<XyoAdhocWitnessConfig>): Promise<XyoAdhocWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoAdhocWitness(params)
     await module.start()
     return module

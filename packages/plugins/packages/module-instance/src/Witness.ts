@@ -18,6 +18,7 @@ export type XyoModuleInstanceWitnessConfig = XyoWitnessConfig<
 
 export class XyoModuleInstanceWitness extends XyoWitness<XyoModuleInstancePayload, XyoModuleInstanceWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoModuleInstanceWitnessConfig>): Promise<XyoModuleInstanceWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoModuleInstanceWitness(params)
     await module.start()
     return module

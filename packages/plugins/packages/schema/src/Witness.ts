@@ -12,6 +12,7 @@ export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayload, { schema
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoSchemaWitnessConfig>): Promise<XyoSchemaWitness> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoSchemaWitness(params)
     await module.start()
     return module

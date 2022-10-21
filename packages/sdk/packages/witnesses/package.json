@@ -14,7 +14,6 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/promise": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0"

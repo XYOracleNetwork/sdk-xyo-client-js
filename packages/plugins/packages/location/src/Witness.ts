@@ -48,7 +48,7 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
       heading: location.coords.heading ?? undefined,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      quadkey: quadkey?.toBase4Hash(),
+      quadkey: quadkey?.base4Hash,
       schema: XyoLocationSchema,
       speed: location.coords.speed ?? undefined,
       time: Date.now(),

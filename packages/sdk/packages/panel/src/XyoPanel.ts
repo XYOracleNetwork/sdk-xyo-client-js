@@ -63,7 +63,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
   private async generatePayload(
     witness: XyoWitnessWrapper,
     onError?: (witness: XyoWitnessWrapper, error: Error) => void,
-  ): Promise<[XyoPayloads | null, Error?]> {
+  ): Promise<[XyoPayload[] | null, Error?]> {
     this.config?.onWitnessReportStart?.(witness)
     try {
       const result = await witness.observe()
@@ -76,7 +76,10 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
     }
   }
 
-  private async generatePayloads(witnesses: XyoWitnessWrapper[], onError?: (witness: XyoWitnessWrapper, error: Error) => void) {
+  private async generatePayloads(
+    witnesses: XyoWitnessWrapper[],
+    onError?: (witness: XyoWitnessWrapper, error: Error) => void,
+  ): Promise<XyoPayload[]> {
     const payloads = await Promise.all(
       witnesses.map(async (witness) => {
         this.config?.onWitnessReportStart?.(witness)
@@ -85,7 +88,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
         return payload
       }),
     )
-    return payloads.flat()
+    return compact(payloads.flat())
   }
 
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {

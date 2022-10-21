@@ -16,6 +16,9 @@ export type XyoAdhocWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> extends XyoWitness<T, XyoAdhocWitnessConfig> {
+  static override configSchema = XyoAdhocWitnessConfigSchema
+  static override targetSchema = XyoPayloadSchema
+
   get payload() {
     return this.config?.payload
   }
@@ -34,7 +37,4 @@ export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> 
       return { ...payload, schema: fields?.[index].schema ?? payload.schema }
     })
   }
-
-  static override configSchema = XyoAdhocWitnessConfigSchema
-  static override targetSchema = XyoPayloadSchema
 }

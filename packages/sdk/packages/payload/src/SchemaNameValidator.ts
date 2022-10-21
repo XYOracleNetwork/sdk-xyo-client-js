@@ -5,29 +5,10 @@ import { domainExists } from '@xyo-network/core'
  */
 export class XyoSchemaNameValidator {
   public schema?: string
+  private _parts?: string[]
+  private _rootDomain?: string
   constructor(schema?: string) {
     this.schema = schema
-  }
-
-  private _parts?: string[]
-
-  /**
-   * The schema converted into a string array split on '.'
-   *
-   * @returns string[]
-   */
-  get parts() {
-    this._parts = this._parts ?? this.schema?.split('.')
-    return this._parts
-  }
-
-  /**
-   * Levels in the schema
-   *
-   * @returns number
-   */
-  get levels(): number | undefined {
-    return this.parts?.length
   }
 
   /**
@@ -40,20 +21,23 @@ export class XyoSchemaNameValidator {
   }
 
   /**
+   * Levels in the schema
    *
-   * Get a domain for the schema at a certain level
-   *
-   * @param level - Zero based level to check
-   * @returns string
+   * @returns number
    */
-  private domainLevel(level: number): string | undefined {
-    return this.parts
-      ?.slice(0, level + 1)
-      .reverse()
-      .join('.')
+  get levels(): number | undefined {
+    return this.parts?.length
   }
 
-  private _rootDomain?: string
+  /**
+   * The schema converted into a string array split on '.'
+   *
+   * @returns string[]
+   */
+  get parts() {
+    this._parts = this._parts ?? this.schema?.split('.')
+    return this._parts
+  }
 
   /**
    * The rootDomain is the first two levels of the schema, in reverse order
@@ -68,30 +52,16 @@ export class XyoSchemaNameValidator {
   }
 
   /**
-   * Checks if the root domain validates via DNS resolution
-   *
-   * @returns boolean
+   * Run all static validations
+   * @returns Error[]
    */
-  public async rootDomainExists() {
-    return await domainExists(this.rootDomain)
-  }
 
-  /**
-   * Determines how many levels of the schema's reverse domain
-   * pass DNS resolution
-   *
-   * @returns number (0 if none exist)
-   */
-  public async domainExistanceDepth() {
-    const levels = this.levels ?? 0
-    let level = 0
-    while (level < levels) {
-      if (!(await domainExists(this.domainLevel(level)))) {
-        break
-      }
-      level += 1
-    }
-    return level
+  public all() {
+    const errors: Error[] = []
+    if ((this.schema?.length ?? 0) === 0) errors.push(Error('schema missing'))
+    else if ((this.levels ?? 0) < 3) errors.push(Error(`schema levels < 3 [${this.levels}, ${this.schema}]`))
+    else if (!this.isLowercase) errors.push(Error(`schema not lowercase [${this.schema}]`))
+    return errors
   }
 
   /**
@@ -108,21 +78,49 @@ export class XyoSchemaNameValidator {
   }
 
   /**
-   * Run all static validations
-   * @returns Error[]
+   * Determines how many levels of the schema's reverse domain
+   * pass DNS resolution
+   *
+   * @returns number (0 if none exist)
    */
+  public async domainExistenceDepth() {
+    const levels = this.levels ?? 0
+    let level = 0
+    while (level < levels) {
+      if (!(await domainExists(this.domainLevel(level)))) {
+        break
+      }
+      level += 1
+    }
+    return level
+  }
 
-  public all() {
-    const errors: Error[] = []
-    if ((this.schema?.length ?? 0) === 0) errors.push(Error('schema missing'))
-    else if ((this.levels ?? 0) < 3) errors.push(Error(`schema levels < 3 [${this.levels}, ${this.schema}]`))
-    else if (!this.isLowercase) errors.push(Error(`schema not lowercase [${this.schema}]`))
-    return errors
+  /**
+   * Checks if the root domain validates via DNS resolution
+   *
+   * @returns boolean
+   */
+  public async rootDomainExists() {
+    return await domainExists(this.rootDomain)
+  }
+
+  /**
+   *
+   * Get a domain for the schema at a certain level
+   *
+   * @param level - Zero based level to check
+   * @returns string
+   */
+  private domainLevel(level: number): string | undefined {
+    return this.parts
+      ?.slice(0, level + 1)
+      .reverse()
+      .join('.')
   }
 }
 
-/** @deprectated use XyoSchemaNameValidator instead */
+/** @deprecated use XyoSchemaNameValidator instead */
 export class SchemaValidator extends XyoSchemaNameValidator {}
 
-/** @deprectated use XyoSchemaNameValidator instead */
+/** @deprecated use XyoSchemaNameValidator instead */
 export class XyoSchemaValidator extends XyoSchemaNameValidator {}

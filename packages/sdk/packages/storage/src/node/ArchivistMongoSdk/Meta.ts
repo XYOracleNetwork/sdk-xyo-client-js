@@ -3,15 +3,15 @@ import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
 export interface XyoPayloadMetaBase {
-  _hash: string
-  _observeDuration?: number
   _archive?: string
   _client?: string
+  _hash: string
+  _observeDuration?: number
   _reportedHash?: string
-  _timestamp: number
-  _sources?: XyoPayload[]
-  _user_agent?: string
   _schemaValid?: boolean
+  _sources?: XyoPayload[]
+  _timestamp: number
+  _user_agent?: string
 }
 
 export type XyoPayloadMeta<T extends EmptyObject = EmptyObject> = T & XyoPayloadMetaBase

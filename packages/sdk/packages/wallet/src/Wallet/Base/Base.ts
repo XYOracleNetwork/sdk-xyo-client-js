@@ -5,19 +5,12 @@ import shajs from 'sha.js'
 import { Words } from '../../Words'
 
 export class XyoWalletBase {
-  protected _phrase: string
   protected _name: string
+  protected _phrase: string
+
   constructor(phrase: string, name = 'xyoWallet') {
     this._name = name
     this._phrase = phrase
-  }
-
-  public getAccount(index: number, salt?: string) {
-    const hash = shajs('sha256')
-      .update(`${index}${this._phrase}${salt ?? ''}`)
-      .digest()
-      .toString('hex')
-    return new XyoAccount({ privateKey: hash })
   }
 
   public static async generate() {
@@ -29,5 +22,13 @@ export class XyoWalletBase {
       wordList.push(Words.words[index])
     }
     return new XyoWalletBase(wordList.join(' '))
+  }
+
+  public getAccount(index: number, salt?: string) {
+    const hash = shajs('sha256')
+      .update(`${index}${this._phrase}${salt ?? ''}`)
+      .digest()
+      .toString('hex')
+    return new XyoAccount({ privateKey: hash })
   }
 }

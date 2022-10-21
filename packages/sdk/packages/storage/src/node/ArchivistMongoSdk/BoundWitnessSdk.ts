@@ -14,35 +14,15 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     this._maxTime = maxTime
   }
 
+  public async deleteByHash(hash: string) {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+      return await collection.deleteMany({ _archive: this._archive, _hash: hash })
+    })
+  }
+
   public async fetchCount() {
     return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
       return await collection.estimatedDocumentCount()
-    })
-  }
-
-  private async findRecentQuery(limit: number) {
-    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
-      return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
-    })
-  }
-
-  public async findRecent(limit = 20) {
-    return (await this.findRecentQuery(limit)).toArray()
-  }
-
-  public async findRecentPlan(limit = 20) {
-    return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
-  }
-
-  private async findAfterQuery(timestamp: number, limit: number) {
-    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
-      return collection
-        .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
-        .sort({ _timestamp: 1 })
-        .limit(limit)
-        .maxTimeMS(this._maxTime)
     })
   }
 
@@ -54,30 +34,12 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return (await this.findAfterQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  private async findBeforeQuery(timestamp: number, limit: number) {
-    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
-      return collection
-        .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
-        .sort({ _timestamp: -1 })
-        .limit(limit)
-        .maxTimeMS(this._maxTime)
-    })
-  }
-
   public async findBefore(timestamp: number, limit = 20) {
     return (await this.findBeforeQuery(timestamp, limit)).toArray()
   }
 
   public async findBeforePlan(timestamp: number, limit = 20) {
     return (await this.findBeforeQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
-  }
-
-  private async findByHashQuery(hash: string, timestamp?: number) {
-    const predicate = timestamp ? { _archive: this._archive, _hash: hash, _timestamp: timestamp } : { _archive: this._archive, _hash: hash }
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
-      return await collection.find(predicate).maxTimeMS(this._maxTime)
-    })
   }
 
   public async findByHash(hash: string, timestamp?: number) {
@@ -88,16 +50,12 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return (await this.findByHashQuery(hash, timestamp)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  public async updateByHash(hash: string, bw: XyoBoundWitnessWithPartialMeta) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
-      return await collection.updateMany({ _archive: this._archive, _hash: hash }, bw)
-    })
+  public async findRecent(limit = 20) {
+    return (await this.findRecentQuery(limit)).toArray()
   }
 
-  public async deleteByHash(hash: string) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
-      return await collection.deleteMany({ _archive: this._archive, _hash: hash })
-    })
+  public async findRecentPlan(limit = 20) {
+    return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
   public async insert(item: XyoBoundWitnessWithPartialMeta) {
@@ -123,5 +81,47 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
       }
     })
     return await super.insertMany(itemsToInsert)
+  }
+
+  public async updateByHash(hash: string, bw: XyoBoundWitnessWithPartialMeta) {
+    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+      return await collection.updateMany({ _archive: this._archive, _hash: hash }, bw)
+    })
+  }
+
+  private async findAfterQuery(timestamp: number, limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+      return collection
+        .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
+        .sort({ _timestamp: 1 })
+        .limit(limit)
+        .maxTimeMS(this._maxTime)
+    })
+  }
+
+  private async findBeforeQuery(timestamp: number, limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+      return collection
+        .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
+        .sort({ _timestamp: -1 })
+        .limit(limit)
+        .maxTimeMS(this._maxTime)
+    })
+  }
+
+  private async findByHashQuery(hash: string, timestamp?: number) {
+    const predicate = timestamp ? { _archive: this._archive, _hash: hash, _timestamp: timestamp } : { _archive: this._archive, _hash: hash }
+    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+      return await collection.find(predicate).maxTimeMS(this._maxTime)
+    })
+  }
+
+  private async findRecentQuery(limit: number) {
+    assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
+    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+      return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
+    })
   }
 }

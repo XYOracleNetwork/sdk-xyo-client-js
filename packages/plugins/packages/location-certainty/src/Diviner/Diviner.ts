@@ -12,14 +12,11 @@ import { Job, JobProvider } from '@xyo-network/shared'
 
 import { LocationCertaintyHeuristic, LocationCertaintyPayload } from '../Payload'
 import { LocationCertaintySchema } from '../Schema'
-import { LocationCertaintyDivinerConfig } from './Config'
+import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Config'
 
 export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
-  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>): Promise<LocationCertaintyDiviner> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new LocationCertaintyDiviner(params)
-    await module.start()
-    return module
+  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>) {
+    return (await super.create(params)) as LocationCertaintyDiviner
   }
 
   get jobs(): Job[] {
@@ -109,4 +106,7 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
     await Promise.resolve()
     this.logger?.log('LocationCertaintyDiviner.DivineElevationBatch: Divined elevations for batch')
   }
+
+  static override configSchema = LocationCertaintyDivinerConfigSchema
+  static override targetSchema = LocationCertaintySchema
 }

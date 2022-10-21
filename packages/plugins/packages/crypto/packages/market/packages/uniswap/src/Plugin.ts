@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoUniswapCryptoMarketPayload } from './Payload'
@@ -11,6 +12,6 @@ export const XyoUniswapCryptoMarketPayloadPlugin = () =>
     schema: XyoUniswapCryptoMarketSchema,
     template: XyoUniswapCryptoMarketPayloadTemplate,
     witness: async (params) => {
-      return await XyoUniswapCryptoMarketWitness.create(params)
+      return await XyoUniswapCryptoMarketWitness.create(assertEx(params))
     },
   })

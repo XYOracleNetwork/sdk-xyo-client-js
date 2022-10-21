@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoLocationSchema } from '@xyo-network/location-payload-plugin'
+import { PayloadWrapper } from '@xyo-network/payload'
 import { Quadkey } from '@xyo-network/quadkey'
 
 import { XyoLocationElevationSchema } from './Schema'
-import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfig, XyoLocationElevationWitnessConfigSchema } from './Witness'
+import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfigSchema } from './Witness'
 
 describe('XyoLocationElevationWitness', () => {
   test('Witnessing via Observe', async () => {
@@ -21,6 +22,9 @@ describe('XyoLocationElevationWitness', () => {
     expect(result[0].elevation === result[1].elevation).toBe(false)
     expect(result[0].elevation === result[2].elevation).toBe(false)
     expect(result[1].elevation === result[2].elevation).toBe(false)
+    expect(new PayloadWrapper(result[0]).valid).toBe(true)
+    expect(new PayloadWrapper(result[1]).valid).toBe(true)
+    expect(new PayloadWrapper(result[2]).valid).toBe(true)
   })
 
   test('Witnessing via Config', async () => {
@@ -33,7 +37,7 @@ describe('XyoLocationElevationWitness', () => {
         ],
         schema: XyoLocationElevationWitnessConfigSchema,
         targetSchema: XyoLocationElevationSchema,
-      } as XyoLocationElevationWitnessConfig,
+      },
     })
 
     const result = await witness.observe()
@@ -44,5 +48,8 @@ describe('XyoLocationElevationWitness', () => {
     expect(result[0].elevation === result[1].elevation).toBe(false)
     expect(result[0].elevation === result[2].elevation).toBe(false)
     expect(result[1].elevation === result[2].elevation).toBe(false)
+    expect(new PayloadWrapper(result[0]).valid).toBe(true)
+    expect(new PayloadWrapper(result[1]).valid).toBe(true)
+    expect(new PayloadWrapper(result[2]).valid).toBe(true)
   })
 })

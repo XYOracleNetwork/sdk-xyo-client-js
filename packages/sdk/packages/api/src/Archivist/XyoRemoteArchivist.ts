@@ -11,6 +11,7 @@ import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
 /** @description Archivist Context that connects to a remote archivist using the API */
 export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
   static override async create(params?: XyoModuleParams<XyoRemoteArchivistConfig>): Promise<XyoRemoteArchivist> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoRemoteArchivist(params)
     await module.start()
     return module

@@ -3,7 +3,6 @@ import {
   XyoLocationElevationPayload,
   XyoLocationElevationSchema,
   XyoLocationElevationWitness,
-  XyoLocationElevationWitnessConfig,
   XyoLocationElevationWitnessConfigSchema,
 } from '@xyo-network/elevation-payload-plugin'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
@@ -17,6 +16,7 @@ import { LocationCertaintyDivinerConfig } from './Config'
 
 export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
   static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>): Promise<LocationCertaintyDiviner> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new LocationCertaintyDiviner(params)
     await module.start()
     return module
@@ -82,7 +82,7 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
           locations,
           schema: XyoLocationElevationWitnessConfigSchema,
           targetSchema: XyoLocationElevationSchema,
-        } as XyoLocationElevationWitnessConfig,
+        },
       })
       const elevations = await elevationWitness.observe()
 

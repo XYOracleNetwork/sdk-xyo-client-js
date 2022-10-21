@@ -158,7 +158,9 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: XyoAccount): XyoBoundWitness {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
-    return (account ? builder.witness(account) : builder).build()[0]
+    const result = (account ? builder.witness(account) : builder).build()[0]
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
   protected bindHashes(hashes: string[], schema: SchemaString[], account?: XyoAccount) {
@@ -172,7 +174,9 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
 
   protected bindResultInternal(payloads: XyoPayload[], account?: XyoAccount): ModuleQueryResult {
     const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
-    return [(account ? builder.witness(account) : builder).build()[0], payloads]
+    const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
   protected bindResult(payloads: XyoPayload[], account?: XyoAccount): PromiseEx<ModuleQueryResult, XyoAccount> {
@@ -190,7 +194,9 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     account?: XyoAccount,
   ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
-    return (account ? builder.witness(account) : builder).build()
+    const result = (account ? builder.witness(account) : builder).build()
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(

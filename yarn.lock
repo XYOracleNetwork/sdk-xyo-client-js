@@ -4322,6 +4322,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    "@xyo-network/shared": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     lodash: ^4.17.21
     tslib: ^2.4.0
@@ -5095,7 +5096,6 @@ __metadata:
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/packages/witnesses"
   dependencies:
     "@xylabs/delay": ^2.6.9
-    "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"

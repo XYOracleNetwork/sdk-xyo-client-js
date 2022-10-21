@@ -1,15 +1,13 @@
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoWitness } from '@xyo-network/witness'
 
-import { XyoDomainWitnessConfig } from './Config'
+import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
 import { XyoDomainPayload } from './Payload'
 import { XyoDomainSchema } from './Schema'
 
 export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoDomainWitnessConfig> {
   static override async create(params?: XyoModuleParams<XyoDomainWitnessConfig>): Promise<XyoDomainWitness> {
-    const module = new XyoDomainWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoDomainWitness
   }
 
   override async observe(_payload: Partial<XyoDomainPayload>[]): Promise<XyoDomainPayload[]> {
@@ -20,4 +18,7 @@ export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoDomainWitn
   public static generateDmarc(domain: string) {
     return `${XyoDomainWitness.dmarc}.${domain}`
   }
+
+  static override configSchema = XyoDomainWitnessConfigSchema
+  static override targetSchema = XyoDomainSchema
 }

@@ -49,6 +49,10 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
     return null
   }
 
+  public get schema() {
+    return this.payload.schema
+  }
+
   public static override parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to PayloadWrapper')
     switch (typeof obj) {

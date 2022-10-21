@@ -10,6 +10,7 @@ import { XyoCryptoMarketAssetPayload } from './Payload'
 
 export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
   static override async create(params?: XyoModuleParams<XyoDivinerConfig>): Promise<XyoCryptoMarketAssetDiviner> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const module = new XyoCryptoMarketAssetDiviner(params)
     await module.start()
     return module

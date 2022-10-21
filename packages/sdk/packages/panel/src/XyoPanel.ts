@@ -60,42 +60,17 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
     return this._witnesses
   }
 
-  private async generatePayload(
-    witness: XyoWitnessWrapper,
-    onError?: (witness: XyoWitnessWrapper, error: Error) => void,
-  ): Promise<[XyoPayload[] | null, Error?]> {
-    this.config?.onWitnessReportStart?.(witness)
-    try {
-      const result = await witness.observe()
-      return [result]
-    } catch (ex) {
-      const error = ex as Error
-      console.error(error)
-      onError?.(witness, error)
-      return [null, error]
-    }
-  }
-
-  private async generatePayloads(
-    witnesses: XyoWitnessWrapper[],
-    onError?: (witness: XyoWitnessWrapper, error: Error) => void,
-  ): Promise<XyoPayload[]> {
-    const payloads = await Promise.all(
-      witnesses.map(async (witness) => {
-        this.config?.onWitnessReportStart?.(witness)
-        const [payload, error] = await this.generatePayload(witness, onError)
-        this.config?.onWitnessReportEnd?.(witness, error)
-        return payload
-      }),
-    )
-    return compact(payloads.flat())
+  private async generatePayloads(witnesses: XyoWitnessWrapper[]): Promise<XyoPayload[]> {
+    return (await Promise.allSettled(witnesses?.map(async (witness) => await witness.observe())))
+      .map((settled) => (settled.status === 'fulfilled' ? settled.value : []))
+      .flat()
   }
 
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {
     const errors: Error[] = []
     this.config?.onReportStart?.()
     const allWitnesses = [...adhocWitnesses.map((adhoc) => new XyoWitnessWrapper(adhoc)), ...this.witnesses]
-    const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
+    const payloads = compact(await this.generatePayloads(allWitnesses))
     const [newBoundWitness] = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
     const bwList = (await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))).flat()

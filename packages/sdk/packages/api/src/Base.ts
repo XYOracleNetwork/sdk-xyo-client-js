@@ -1,4 +1,4 @@
-import { Axios, AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
+import { Axios, AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import { gzip } from 'pako'
 
 import {
@@ -22,12 +22,11 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
     this.axios = new Axios(this.axiosConfig())
   }
 
-  private axiosHeaders(): AxiosRequestHeaders {
-    return {
-      ...this.headers,
-      Accept: 'application/json, text/plain, *.*',
-      'Content-Type': 'application/json',
-    }
+  private axiosHeaders(): RawAxiosRequestHeaders {
+    const axiosHeaders: RawAxiosRequestHeaders = { ...this.headers }
+    axiosHeaders['Accept'] = 'application/json, text/plain, *.*'
+    axiosHeaders['Content-Type'] = 'application/json'
+    return axiosHeaders
   }
 
   private axiosConfig(): AxiosRequestConfig {

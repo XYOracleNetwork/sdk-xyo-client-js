@@ -37,7 +37,7 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArch
     this.throwErrors(query, result)
   }
 
-  public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
+  public async get(hashes: string[]): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])

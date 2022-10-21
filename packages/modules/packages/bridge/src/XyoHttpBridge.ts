@@ -84,7 +84,7 @@ export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeCo
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
     const queryAccount = new XyoAccount()
-    const resultPayloads: (XyoPayload | null)[] = []
+    const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schema) {
         case XyoBridgeConnectQuerySchema: {

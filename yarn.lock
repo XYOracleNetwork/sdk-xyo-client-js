@@ -4262,6 +4262,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
   dependencies:
+    "@types/lodash": ^4.14.186
     "@types/pako": ^2.0.0
     "@xylabs/assert": ^2.6.9
     "@xylabs/delay": ^2.6.9
@@ -4273,9 +4274,12 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
-    axios: ^0.27.2
-    pako: ^2.0.4
+    lodash: ^4.17.21
     tslib: ^2.4.0
+  peerDependencies:
+    axios: ^0.27.2
+    lodash: ^4.17.21
+    pako: ^2.0.4
   languageName: unknown
   linkType: soft
 
@@ -4492,9 +4496,12 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    axios: ^0.27.2
     lodash: ^4.17.21
     tslib: ^2.4.0
+  peerDependencies:
+    axios: ^0.27.2
+    lodash: ^4.17.21
+    pako: ^2.0.4
   languageName: unknown
   linkType: soft
 
@@ -4758,6 +4765,7 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
+    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4811,6 +4819,7 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
+    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4913,6 +4922,7 @@ __metadata:
     typescript: ^4.8.4
   peerDependencies:
     axios: ^0.27.2
+    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4961,6 +4971,7 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
+    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -5046,6 +5057,7 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
+    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft

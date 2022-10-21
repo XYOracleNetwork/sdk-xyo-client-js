@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { XyoDivinerConfig } from './Config'
@@ -11,7 +11,7 @@ import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 export type XyoDivinerParams = XyoModuleParams
 
 export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoModule<TConfig> implements DivinerModule {
-  abstract divine(payloads?: XyoPayloads): Promisable<XyoPayloads>
+  abstract divine(payloads?: XyoPayload[]): Promisable<XyoPayload[]>
 
   public override queries(): string[] {
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
@@ -27,7 +27,7 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
 
     const queryAccount = new XyoAccount()
 
-    const resultPayloads: XyoPayloads = []
+    const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schemaName) {
         case XyoDivinerDivineQuerySchema:

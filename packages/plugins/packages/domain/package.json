@@ -18,12 +18,16 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "axios": "^0.27.2",
-    "lodash": "^4.17.21",
     "tslib": "^2.4.0"
   },
+  "peerDependencies": {
+    "axios": "^0.27.2",
+    "lodash": "^4.17.21",
+    "pako": "^2.0.4"
+  },
   "devDependencies": {
-    "@types/lodash": "^4.14.186"
+    "@types/lodash": "^4.14.186",
+    "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

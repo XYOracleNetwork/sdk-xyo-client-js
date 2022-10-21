@@ -3,7 +3,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
-import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
 import { PayloadArchivist } from './Archivist'
@@ -66,7 +66,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     }
   }
 
-  abstract get(hashes: string[]): NullablePromisableArray<XyoPayload>
+  abstract get(hashes: string[]): PromisableArray<XyoPayload>
 
   abstract insert(item: XyoPayload[]): PromisableArray<XyoBoundWitness>
 
@@ -78,7 +78,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
-    const resultPayloads: (XyoPayload | null)[] = []
+    const resultPayloads: XyoPayload[] = []
     const queryAccount = new XyoAccount()
     try {
       switch (typedQuery.schema) {

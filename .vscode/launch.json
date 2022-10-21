@@ -10,7 +10,7 @@
           "--inspect-brk",
           "${workspaceRoot}/node_modules/.bin/jest",
           "--runInBand",
-          "packages/modules/packages/archivist/src/XyoStorageArchivist.spec.ts"
+          "packages/sdk/packages/api/src/Archivist/Payload/Schema/Api.spec.ts"
         ]
       },
       "windows": {

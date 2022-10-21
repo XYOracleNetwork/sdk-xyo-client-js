@@ -3,7 +3,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistWrapper, XyoMemoryArchivist } from '@xyo-network/archivist'
 import { Module, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
 
 import { NodeConfig } from './Config'
 import { NodeModule } from './NodeModule'
@@ -55,7 +55,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()
-    const resultPayloads: XyoPayloads = []
+    const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schema) {
         case XyoNodeAttachQuerySchema: {

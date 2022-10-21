@@ -1,3 +1,3 @@
 import { XyoPayload } from './models'
 
-export type XyoPayloads<T extends XyoPayload = XyoPayload> = (T | null)[]
+export type XyoPayloads<T extends XyoPayload = XyoPayload> = T[]

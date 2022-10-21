@@ -139,7 +139,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     }
   }
 
-  public async get(hashes: string[]): Promise<(XyoPayload | null)[]> {
+  public async get(hashes: string[]): Promise<XyoPayload[]> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {

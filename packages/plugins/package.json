@@ -24,6 +24,7 @@
   },
   "peerDependencies": {
     "axios": "^0.27.2",
+    "lodash": "^4.17.21",
     "pako": "^2.0.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

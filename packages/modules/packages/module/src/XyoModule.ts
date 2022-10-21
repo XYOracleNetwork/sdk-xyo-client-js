@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
-import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
 
@@ -170,12 +170,12 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return promise
   }
 
-  protected bindResultInternal(payloads: XyoPayloads, account?: XyoAccount): ModuleQueryResult {
+  protected bindResultInternal(payloads: XyoPayload[], account?: XyoAccount): ModuleQueryResult {
     const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
     return [(account ? builder.witness(account) : builder).build()[0], payloads]
   }
 
-  protected bindResult(payloads: XyoPayloads, account?: XyoAccount): PromiseEx<ModuleQueryResult, XyoAccount> {
+  protected bindResult(payloads: XyoPayload[], account?: XyoAccount): PromiseEx<ModuleQueryResult, XyoAccount> {
     const promise = new PromiseEx<ModuleQueryResult, XyoAccount>((resolve) => {
       const result = this.bindResultInternal(payloads, account)
       resolve?.(result)

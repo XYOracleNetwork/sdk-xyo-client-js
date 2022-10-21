@@ -3,6 +3,7 @@ import { XyoArchivist, XyoArchivistFindQuerySchema } from '@xyo-network/archivis
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
+import compact from 'lodash/compact'
 
 import { RemoteArchivistError } from './RemoteArchivistError'
 import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
@@ -27,23 +28,25 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     return this.config?.archive
   }
 
-  public async get(hashes: string[]) {
-    return await Promise.all(
-      hashes.map(async (hash) => {
-        try {
-          const [payloads, response, error] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
-          if (error?.status >= 400) {
-            throw new RemoteArchivistError('get', `${error.statusText} [${error.status}]`)
+  public async get(hashes: string[]): Promise<XyoPayload[]> {
+    return compact(
+      await Promise.all(
+        hashes.map(async (hash) => {
+          try {
+            const [payloads, response, error] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
+            if (error?.status >= 400) {
+              throw new RemoteArchivistError('get', `${error.statusText} [${error.status}]`)
+            }
+            if (response?.error?.length) {
+              throw new RemoteArchivistError('get', response?.error)
+            }
+            return payloads?.pop()
+          } catch (ex) {
+            console.error(ex)
+            throw ex
           }
-          if (response?.error?.length) {
-            throw new RemoteArchivistError('get', response?.error)
-          }
-          return payloads?.pop() ?? null
-        } catch (ex) {
-          console.error(ex)
-          throw ex
-        }
-      }),
+        }),
+      ),
     )
   }
 

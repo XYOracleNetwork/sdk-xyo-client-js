@@ -8,12 +8,12 @@ export interface LocationQueryCreationRequest<
   TSchema extends LocationQuerySchema = LocationQuerySchema,
   TQuery extends Record<string, unknown> = Record<string, unknown>,
 > {
-  sourceArchivist: XyoApiConfig
-  sourceArchive: string
-  resultArchivist: XyoApiConfig
-  resultArchive: string
-  schema: TSchema
   query: TQuery
+  resultArchive: string
+  resultArchivist: XyoApiConfig
+  schema: TSchema
+  sourceArchive: string
+  sourceArchivist: XyoApiConfig
 }
 
 export type LocationTimeRangeQueryCreationRequest = LocationQueryCreationRequest<LocationTimeRangeQuerySchema, LocationTimeRangeQuery>

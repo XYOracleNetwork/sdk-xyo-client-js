@@ -1,3 +1,4 @@
+import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoApiConfig } from '../models'
@@ -25,4 +26,8 @@ test('XyoRemoteArchivist', async () => {
   console.log(`getResult: ${JSON.stringify(getResult)}`)
   expect(getResult.length).toBe(1)
   expect(getResult[0]?.schema).toBe(payload.schema)
+
+  const wrapper = new XyoArchivistWrapper(archivist)
+  const findResult = await wrapper.find()
+  expect(findResult.length).toBe(20)
 })

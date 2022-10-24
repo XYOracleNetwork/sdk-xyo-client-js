@@ -22,12 +22,11 @@ export class XyoPanelIntervalAutomationWrapper<
     return this.payload.remaining ?? Infinity
   }
 
-  protected consumeRemaining(count = 1) {
-    this.payload.remaining = this.remaining - count
-
-    if (this.payload.remaining <= 0) {
-      this.payload.start = Infinity
-    }
+  public next() {
+    this.payload.start = this.payload.start + this.frequencyMillis
+    this.consumeRemaining()
+    this.checkEnd()
+    return this
   }
 
   protected checkEnd() {
@@ -36,10 +35,11 @@ export class XyoPanelIntervalAutomationWrapper<
     }
   }
 
-  public next() {
-    this.payload.start = this.payload.start + this.frequencyMillis
-    this.consumeRemaining()
-    this.checkEnd()
-    return this
+  protected consumeRemaining(count = 1) {
+    this.payload.remaining = this.remaining - count
+
+    if (this.payload.remaining <= 0) {
+      this.payload.start = Infinity
+    }
   }
 }

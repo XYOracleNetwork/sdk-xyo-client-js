@@ -3626,10 +3626,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.3, @types/node@npm:^18.8.2":
-  version: 18.11.3
-  resolution: "@types/node@npm:18.11.3"
-  checksum: 3a2a9142d891a90a195c296149bf64a69cc0abcc42f543be911ab22b2e0ead85ff077f90af92f0f13f6e3e5e72501469200fd753dfd1101825d4646a89d3ee47
+"@types/node@npm:*, @types/node@npm:^18.11.4, @types/node@npm:^18.8.2":
+  version: 18.11.4
+  resolution: "@types/node@npm:18.11.4"
+  checksum: 1de782b4eef4a5115396ae62137f248390ee5d1d9e9eeb49599714554cce1328af43da31bc28e7bab5a0ef859538a584a907b26163a59b42bc87b8317dc00bb8
   languageName: node
   linkType: hard
 
@@ -4720,7 +4720,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-cli@workspace:packages/modules/packages/node-cli"
   dependencies:
-    "@types/node": ^18.11.3
+    "@types/node": ^18.11.4
     "@types/terminal-kit": ^2.5.0
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -4746,7 +4746,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    systeminformation: ^5.12.7
+    systeminformation: ^5.12.9
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -15316,12 +15316,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.12.7":
-  version: 5.12.7
-  resolution: "systeminformation@npm:5.12.7"
+"systeminformation@npm:^5.12.9":
+  version: 5.12.9
+  resolution: "systeminformation@npm:5.12.9"
   bin:
     systeminformation: lib/cli.js
-  checksum: 8b0443d128d3254279ba2082eb20e42501ec121bca0b44f87533df237a90e6086f4c31c6ec10720f16bc220ba5e0e7f458badb47eb4079bc6a08db026b4a8b3b
+  checksum: c77ffbd9be92eb5b356c43756d04e3135b2c5c93966bede799ecca45cd5c4876eec9f14141d6cb8fbc6f3dbbae5eef35c835c91b3db2654f583ede192c675e73
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

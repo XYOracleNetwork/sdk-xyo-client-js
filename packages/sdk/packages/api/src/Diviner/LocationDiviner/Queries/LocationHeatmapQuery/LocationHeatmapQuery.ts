@@ -7,9 +7,9 @@ export type LocationHeatmapAnswerSchema = 'network.xyo.location.heatmap.answer'
 export const locationHeatmapAnswerSchema: LocationHeatmapAnswerSchema = 'network.xyo.location.heatmap.answer'
 
 export type LocationHeatmapQuery = {
+  schema: LocationWitnessSchema
   startTime?: string
   stopTime?: string
-  schema: LocationWitnessSchema
 }
 
 export const isLocationHeatmapQuery = (query: Record<string, unknown>): query is LocationHeatmapQuery => {

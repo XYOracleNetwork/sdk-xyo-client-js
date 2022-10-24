@@ -33,10 +33,7 @@ export type XyoStorageArchivistConfig = XyoArchivistConfig<{
 
 export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig> {
   static override async create(params?: XyoModuleParams<XyoStorageArchivistConfig>): Promise<XyoStorageArchivist> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoStorageArchivist(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoStorageArchivist
   }
 
   public get type() {
@@ -219,4 +216,5 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       throw ex
     }
   }
+  static override configSchema = XyoStorageArchivistConfigSchema
 }

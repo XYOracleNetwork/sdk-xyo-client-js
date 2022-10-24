@@ -54,6 +54,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   }
 
   protected start(_timeout?: number): Promisable<typeof this> {
+    this.validateConfig()
     this.initializeAllowedAddressSets()
     this._started = true
     return this
@@ -217,6 +218,31 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     const actualParams: XyoModuleParams<XyoModuleConfig> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
     return await new this(actualParams).start()
+  }
+
+  protected validateConfig(config?: unknown, parents: string[] = []): boolean {
+    return Object.entries(config ?? this.config ?? {}).reduce((valid, [key, value]) => {
+      switch (typeof value) {
+        case 'function':
+          this.logger?.warn(`Fields of type function not allowed in config [${parents?.join('.')}.${key}]`)
+          return false
+        case 'object':
+          if (Array.isArray(value)) {
+            return (
+              value.reduce((valid, value) => {
+                return this.validateConfig(value, [...parents, key]) && valid
+              }, true) && valid
+            )
+          }
+          if (value.__proto__) {
+            this.logger?.warn(`Fields of type class not allowed in config [${parents?.join('.')}.${key}]`)
+            return false
+          }
+          return this.validateConfig(value, [...parents, key]) && valid
+        default:
+          return valid
+      }
+    }, true)
   }
 
   static defaultLogger?: Logger

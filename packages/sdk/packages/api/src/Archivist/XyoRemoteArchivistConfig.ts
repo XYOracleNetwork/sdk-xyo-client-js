@@ -9,6 +9,7 @@ export const XyoRemoteArchivistConfigSchema: XyoRemoteArchivistConfigSchema = 'n
 export type XyoRemoteArchivistConfig<T extends XyoPayload = XyoPayload> = XyoArchivistConfig<
   {
     schema: XyoRemoteArchivistConfigSchema
+    /** @deprecated pass api in params instead */
     api?: XyoArchivistApi
     archive?: string
   } & T

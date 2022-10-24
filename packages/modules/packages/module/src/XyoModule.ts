@@ -214,7 +214,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   }
 
   protected static async create(params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoModule> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const actualParams: XyoModuleParams<XyoModuleConfig> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
     return await new this(actualParams).start()

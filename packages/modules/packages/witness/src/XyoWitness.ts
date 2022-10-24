@@ -13,7 +13,7 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
   implements Witness<TTarget>
 {
   static override async create(params?: XyoModuleParams<XyoWitnessConfig>): Promise<XyoWitness> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const actualParams: XyoModuleParams<XyoWitnessConfig> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
     return (await super.create(actualParams)) as XyoWitness

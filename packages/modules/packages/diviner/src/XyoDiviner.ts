@@ -12,7 +12,7 @@ export type XyoDivinerParams = XyoModuleParams
 
 export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoModule<TConfig> implements DivinerModule {
   static override async create(params?: XyoModuleParams<XyoDivinerConfig>): Promise<XyoDiviner> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const actualParams: XyoModuleParams<XyoDivinerConfig> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
     return (await super.create(actualParams)) as XyoDiviner

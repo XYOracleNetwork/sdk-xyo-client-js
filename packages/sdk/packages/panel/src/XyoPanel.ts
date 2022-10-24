@@ -55,7 +55,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
   }
 
   static override async create(params?: XyoModuleParams<XyoPanelConfig>): Promise<XyoPanel> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
+    params?.logger?.debug(`params.config: ${JSON.stringify(params.config, null, 2)}`)
     const module = new XyoPanel(params)
     await module.start()
     return module

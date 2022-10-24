@@ -14,7 +14,7 @@ export type XyoRemoteArchivistParams = XyoModuleParams<XyoRemoteArchivistConfig>
 export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
   protected _api?: XyoArchivistApi
 
-  static override async create(params?: XyoModuleParams<XyoRemoteArchivistConfig>): Promise<XyoRemoteArchivist> {
+  static override async create(params?: XyoRemoteArchivistParams): Promise<XyoRemoteArchivist> {
     return (await super.create(params)) as XyoRemoteArchivist
   }
 

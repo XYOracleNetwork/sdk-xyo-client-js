@@ -7,13 +7,11 @@ import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketSchema } from '@xy
 
 import { divinePrices } from './lib'
 import { XyoCryptoMarketAssetPayload } from './Payload'
+import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetSchema } from './Schema'
 
 export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
-  static override async create(params?: XyoModuleParams<XyoDivinerConfig>): Promise<XyoCryptoMarketAssetDiviner> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoCryptoMarketAssetDiviner(params)
-    await module.start()
-    return module
+  static override async create(params?: XyoModuleParams<XyoDivinerConfig>) {
+    return (await super.create(params)) as XyoCryptoMarketAssetDiviner
   }
 
   override queries() {
@@ -26,4 +24,7 @@ export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
     const result: XyoCryptoMarketAssetPayload = divinePrices(coinGeckoPayload, uniswapPayload)
     return [result]
   }
+
+  static override configSchema = XyoCryptoMarketAssetDivinerConfigSchema
+  static override targetSchema = XyoCryptoMarketAssetSchema
 }

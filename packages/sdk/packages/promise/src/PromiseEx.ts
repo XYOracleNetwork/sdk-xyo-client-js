@@ -3,8 +3,8 @@ export type PromiseExFunc<T> = (resolve?: PromiseExSubFunc<T, void>, reject?: Pr
 export type PromiseExValueFunc<V> = (value?: V) => boolean
 
 export class PromiseEx<T, V = void> extends Promise<T> {
-  private _value?: V
   public cancelled?: boolean
+  private _value?: V
 
   constructor(func: PromiseExFunc<T>, value?: V) {
     super(func)

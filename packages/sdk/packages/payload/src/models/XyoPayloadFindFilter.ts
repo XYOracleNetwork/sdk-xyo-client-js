@@ -11,9 +11,9 @@ export interface XyoPayloadFindFilterHashOffset {
 export type XyoPayloadFindFilterOffset = XyoPayloadFindFilterTimeOffset | XyoPayloadFindFilterHashOffset
 
 export type XyoPayloadFindFilter = {
+  limit?: number
   order?: 'desc' | 'asc'
+  schema?: string | string[]
   /** @deprecated use offset instead */
   timestamp?: number
-  limit?: number
-  schema?: string | string[]
 } & XyoPayloadFindFilterOffset

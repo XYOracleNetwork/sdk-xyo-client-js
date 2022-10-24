@@ -1,20 +1,17 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 
 import { RemoteDivinerError } from '../RemoteDivinerError'
-import { XyoRemoteDivinerConfig } from '../XyoRemoteDivinerConfig'
+import { XyoRemoteDivinerConfig, XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
 import { AddressHistoryDiviner, isAddressHistoryQueryPayload } from './AddressHistoryDiviner'
 
 /** @description Diviner Context that connects to a remote Diviner using the API */
 export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerConfig> implements AddressHistoryDiviner {
-  static override async create(params?: XyoModuleParams<XyoRemoteDivinerConfig>): Promise<XyoRemoteAddressHistoryDiviner> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoRemoteAddressHistoryDiviner(params)
-    await module.start()
-    return module
+  static override async create(params?: XyoModuleParams<XyoRemoteDivinerConfig>) {
+    return (await super.create(params)) as XyoRemoteAddressHistoryDiviner
   }
 
   public get api() {
@@ -50,4 +47,7 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
       throw ex
     }
   }
+
+  static override configSchema = XyoRemoteDivinerConfigSchema
+  static override targetSchema = XyoBoundWitnessSchema
 }

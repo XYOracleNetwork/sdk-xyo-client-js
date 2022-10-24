@@ -16,14 +16,11 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
     params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
     const actualParams: XyoModuleParams<XyoWitnessConfig> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
-    const module = new this(actualParams)
-    await module.start()
-    return module
+    return (await super.create(actualParams)) as XyoWitness
   }
 
   static targetSchema: string
-
-  static configSchema: string
+  static override configSchema: string
 
   public get targetSchema() {
     return this.config?.targetSchema

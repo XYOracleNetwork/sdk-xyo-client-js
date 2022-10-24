@@ -22,7 +22,7 @@ export interface XyoModuleParams<TConfig extends XyoModuleConfig = XyoModuleConf
   config?: TConfig
 }
 
-export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
+export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
   protected _started = false
   protected config?: TConfig
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
@@ -212,9 +212,13 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return promise
   }
 
-  static create(_params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoModule> {
-    throw Error('Can not create base XyoModule')
+  protected static async create(params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoModule> {
+    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
+    const actualParams: XyoModuleParams<XyoModuleConfig> = params ?? {}
+    actualParams.config = params?.config ?? { schema: this.configSchema }
+    return await new this(actualParams).start()
   }
 
   static defaultLogger?: Logger
+  static configSchema: string
 }

@@ -39,7 +39,7 @@ const physicalLocationToOpenElevationLocation = (location: PhysicalLocation, zoo
       ? Quadkey.fromBase10String((location as QuadkeyPhysicalLocation).quadkey)
       : Quadkey.fromLngLat({ lat: (location as LngLatPhysicalLocation).latitude, lng: (location as LngLatPhysicalLocation).longitude }, zoom),
   )
-  const center = quadkey.toCenter()
+  const center = quadkey.center
   return { latitude: center.lat, longitude: center?.lng }
 }
 

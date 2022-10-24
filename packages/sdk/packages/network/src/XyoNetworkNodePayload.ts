@@ -7,12 +7,12 @@ export const XyoNetworkNodeSchema: XyoNetworkNodeSchema = 'network.xyo.network.n
 
 export type XyoNetworkNodePayload = XyoPayload<
   {
-    type: XyoNetworkNodeType
-    slug: string
+    docs?: string
     name?: string
+    slug: string
+    type: XyoNetworkNodeType
     uri: string
     web?: string
-    docs?: string
   },
   XyoNetworkNodeSchema
 >

@@ -6,10 +6,10 @@ export type XyoNetworkSchema = 'network.xyo.network'
 export const XyoNetworkSchema = 'network.xyo.network'
 
 export type XyoNetworkPayload = XyoPayload<{
-  schema: XyoNetworkSchema
-  slug: string
   name?: string
   nodes?: XyoNetworkNodePayload[]
+  schema: XyoNetworkSchema
+  slug: string
 }>
 
 /** @deprecated use XyoNetworkPayload instead */

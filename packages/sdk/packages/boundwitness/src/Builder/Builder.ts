@@ -11,8 +11,8 @@ import { BoundWitnessWrapper } from '../Wrapper'
 export interface BoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
   readonly inlinePayloads?: boolean
-  readonly timestamp?: boolean
   readonly meta?: boolean
+  readonly timestamp?: boolean
 }
 
 /** @deprecated use BoundWitnessBuilderConfig instead */
@@ -23,9 +23,9 @@ export class BoundWitnessBuilder<
   TPayload extends XyoPayload = XyoPayload,
 > {
   private _accounts: XyoAccount[] = []
-  private _payloads: TPayload[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
+  private _payloads: TPayload[] = []
   private _timestamp = Date.now()
 
   constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
@@ -46,71 +46,6 @@ export class BoundWitnessBuilder<
         return assertEx(payload.schema)
       })
     )
-  }
-
-  public witness(account: XyoAccount) {
-    this._accounts?.push(account)
-    return this
-  }
-
-  public payloads(payloads?: (TPayload | null)[]) {
-    payloads?.forEach((payload) => {
-      if (payload !== null) {
-        this.payload(payload)
-      }
-    })
-    return this
-  }
-
-  public hashes(hashes: string[], schema: string[]) {
-    assertEx(this.payloads.length === 0, 'Can not set hashes when payloads already set')
-    this._payloadHashes = hashes
-    this._payloadSchemas = schema
-    return this
-  }
-
-  public payload(payload?: TPayload) {
-    assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
-    if (payload) {
-      this._payloads.push(assertEx(sortFields<TPayload>(payload)))
-    }
-    return this
-  }
-
-  public hashableFields(): TBoundWitness {
-    const addresses = this._accounts.map((account) => account.addressValue.hex)
-    const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
-    const result: TBoundWitness = {
-      addresses: assertEx(addresses, 'Missing addresses'),
-      payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
-      payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
-      previous_hashes,
-      schema: XyoBoundWitnessSchema,
-    } as TBoundWitness
-
-    assertEx(result.payload_hashes?.length === result.payload_schemas?.length, 'Payload hash/schema mismatch')
-
-    assertEx(!result.payload_hashes.reduce((inValid, hash) => inValid || !hash, false), 'nulls found in hashes')
-
-    assertEx(!result.payload_schemas.reduce((inValid, schema) => inValid || !schema, false), 'nulls found in schemas')
-
-    if (this.config.timestamp ?? true) {
-      result.timestamp = this._timestamp
-    }
-    return result
-  }
-
-  protected signatures(_hash: string) {
-    return this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
-  }
-
-  private inlinePayloads() {
-    return this._payloads.map<TPayload>((payload, index) => {
-      return {
-        ...payload,
-        schema: this._payload_schemas[index],
-      }
-    })
   }
 
   public build(): [TBoundWitness, TPayload[]] {
@@ -137,6 +72,71 @@ export class BoundWitnessBuilder<
       anyRet._payloads = this.inlinePayloads()
     }
     return [ret, this._payloads]
+  }
+
+  public hashableFields(): TBoundWitness {
+    const addresses = this._accounts.map((account) => account.addressValue.hex)
+    const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
+    const result: TBoundWitness = {
+      addresses: assertEx(addresses, 'Missing addresses'),
+      payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
+      payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
+      previous_hashes,
+      schema: XyoBoundWitnessSchema,
+    } as TBoundWitness
+
+    assertEx(result.payload_hashes?.length === result.payload_schemas?.length, 'Payload hash/schema mismatch')
+
+    assertEx(!result.payload_hashes.reduce((inValid, hash) => inValid || !hash, false), 'nulls found in hashes')
+
+    assertEx(!result.payload_schemas.reduce((inValid, schema) => inValid || !schema, false), 'nulls found in schemas')
+
+    if (this.config.timestamp ?? true) {
+      result.timestamp = this._timestamp
+    }
+    return result
+  }
+
+  public hashes(hashes: string[], schema: string[]) {
+    assertEx(this.payloads.length === 0, 'Can not set hashes when payloads already set')
+    this._payloadHashes = hashes
+    this._payloadSchemas = schema
+    return this
+  }
+
+  public payload(payload?: TPayload) {
+    assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
+    if (payload) {
+      this._payloads.push(assertEx(sortFields<TPayload>(payload)))
+    }
+    return this
+  }
+
+  public payloads(payloads?: (TPayload | null)[]) {
+    payloads?.forEach((payload) => {
+      if (payload !== null) {
+        this.payload(payload)
+      }
+    })
+    return this
+  }
+
+  public witness(account: XyoAccount) {
+    this._accounts?.push(account)
+    return this
+  }
+
+  protected signatures(_hash: string) {
+    return this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
+  }
+
+  private inlinePayloads() {
+    return this._payloads.map<TPayload>((payload, index) => {
+      return {
+        ...payload,
+        schema: this._payload_schemas[index],
+      }
+    })
   }
 }
 

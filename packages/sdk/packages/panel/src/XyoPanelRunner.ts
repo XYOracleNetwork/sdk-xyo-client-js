@@ -6,12 +6,16 @@ import { XyoPanelIntervalAutomationWrapper } from './XyoAutomationWrapper'
 import { XyoPanel } from './XyoPanel'
 
 export class XyoPanelRunner {
-  protected panel: XyoPanel
   protected _automations: Record<string, XyoPanelAutomationPayload> = {}
+  protected panel: XyoPanel
   protected timeoutId?: NodeJS.Timer
   constructor(panel: XyoPanel, automations?: XyoPanelAutomationPayload[]) {
     this.panel = panel
     automations?.forEach((automation) => this.add(automation))
+  }
+
+  public get automations() {
+    return this._automations
   }
 
   private get next() {
@@ -22,12 +26,29 @@ export class XyoPanelRunner {
     }, undefined)
   }
 
-  private async trigger(automation: XyoPanelIntervalAutomationPayload) {
-    const wrapper = new XyoPanelIntervalAutomationWrapper(automation)
-    await this.remove(wrapper.hash, false)
-    wrapper.next()
-    await this.add(wrapper.payload, false)
-    await this.panel.report()
+  public async add(automation: XyoPanelAutomationPayload, restart = true) {
+    const hash = new PayloadWrapper(automation).hash
+    this._automations[hash] = automation
+    if (restart) await this.restart()
+    return hash
+  }
+
+  public find(hash: string) {
+    Object.entries(this._automations).find(([key]) => key === hash)
+  }
+
+  public async remove(hash: string, restart = true) {
+    delete this._automations[hash]
+    if (restart) await this.restart()
+  }
+
+  public removeAll() {
+    this.stop()
+    this._automations = {}
+  }
+
+  public async restart() {
+    this.stop()
     await this.start()
   }
 
@@ -51,12 +72,11 @@ export class XyoPanelRunner {
     }
   }
 
-  public find(hash: string) {
-    Object.entries(this._automations).find(([key]) => key === hash)
-  }
-
-  public get automations() {
-    return this._automations
+  public stop() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = undefined
+    }
   }
 
   public async update(hash: string, automation: XyoPanelAutomationPayload, restart = true) {
@@ -65,32 +85,12 @@ export class XyoPanelRunner {
     if (restart) await this.restart()
   }
 
-  public stop() {
-    if (this.timeoutId) {
-      clearTimeout(this.timeoutId)
-      this.timeoutId = undefined
-    }
-  }
-
-  public async restart() {
-    this.stop()
+  private async trigger(automation: XyoPanelIntervalAutomationPayload) {
+    const wrapper = new XyoPanelIntervalAutomationWrapper(automation)
+    await this.remove(wrapper.hash, false)
+    wrapper.next()
+    await this.add(wrapper.payload, false)
+    await this.panel.report()
     await this.start()
-  }
-
-  public async add(automation: XyoPanelAutomationPayload, restart = true) {
-    const hash = new PayloadWrapper(automation).hash
-    this._automations[hash] = automation
-    if (restart) await this.restart()
-    return hash
-  }
-
-  public async remove(hash: string, restart = true) {
-    delete this._automations[hash]
-    if (restart) await this.restart()
-  }
-
-  public removeAll() {
-    this.stop()
-    this._automations = {}
   }
 }

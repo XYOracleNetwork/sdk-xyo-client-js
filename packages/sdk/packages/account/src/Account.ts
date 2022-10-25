@@ -6,8 +6,8 @@ import { XyoKeyPair, XyoPublicKey } from './Key'
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
 export interface XyoAccountConfig {
-  privateKey?: XyoDataLike
   phrase?: string
+  privateKey?: XyoDataLike
 }
 
 export class XyoAccount extends XyoKeyPair {
@@ -42,15 +42,6 @@ export class XyoAccount extends XyoKeyPair {
     return this.public
   }
 
-  public sign(hash: Uint8Array | string) {
-    this._previousHash = new XyoData(32, hash)
-    return this.private.sign(hash)
-  }
-
-  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
-    return this.public.address.verify(msg, signature)
-  }
-
   static fromPhrase(phrase: string) {
     const privateKey = shajs('sha256').update(phrase).digest('hex')
     return XyoAccount.fromPrivateKey(privateKey)
@@ -61,12 +52,21 @@ export class XyoAccount extends XyoKeyPair {
     return new XyoAccount({ privateKey })
   }
 
+  static isXyoWallet(value: unknown) {
+    return (value as XyoAccount)._isXyoWallet
+  }
+
   static random() {
     return new XyoAccount()
   }
 
-  static isXyoWallet(value: unknown) {
-    return (value as XyoAccount)._isXyoWallet
+  public sign(hash: Uint8Array | string) {
+    this._previousHash = new XyoData(32, hash)
+    return this.private.sign(hash)
+  }
+
+  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+    return this.public.address.verify(msg, signature)
   }
 }
 

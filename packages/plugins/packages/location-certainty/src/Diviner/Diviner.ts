@@ -15,9 +15,8 @@ import { LocationCertaintySchema } from '../Schema'
 import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Config'
 
 export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
-  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>) {
-    return (await super.create(params)) as LocationCertaintyDiviner
-  }
+  static override configSchema = LocationCertaintyDivinerConfigSchema
+  static override targetSchema = LocationCertaintySchema
 
   get jobs(): Job[] {
     return [
@@ -27,6 +26,10 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
         task: async () => await this.divineElevationBatch(),
       },
     ]
+  }
+
+  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>) {
+    return (await super.create(params)) as LocationCertaintyDiviner
   }
 
   /* Given an array of numbers, find the min/max/mean */
@@ -106,7 +109,4 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
     await Promise.resolve()
     this.logger?.log('LocationCertaintyDiviner.DivineElevationBatch: Divined elevations for batch')
   }
-
-  static override configSchema = LocationCertaintyDivinerConfigSchema
-  static override targetSchema = LocationCertaintySchema
 }

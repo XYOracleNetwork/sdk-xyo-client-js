@@ -13,6 +13,9 @@ export type XyoCryptoCardsGameWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoCryptoCardsGameWitness extends XyoWitness<XyoCryptoCardsGamePayload, XyoCryptoCardsGameWitnessConfig> {
+  static override configSchema = XyoCryptoCardsGameWitnessConfigSchema
+  static override targetSchema = XyoCryptoCardsGameSchema
+
   static override async create(params?: XyoModuleParams<XyoCryptoCardsGameWitnessConfig>): Promise<XyoCryptoCardsGameWitness> {
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const module = new XyoCryptoCardsGameWitness(params)
@@ -23,7 +26,4 @@ export class XyoCryptoCardsGameWitness extends XyoWitness<XyoCryptoCardsGamePayl
   override observe(payloads: XyoCryptoCardsGamePayload[]): Promisable<XyoCryptoCardsGamePayload[]> {
     return super.observe(payloads)
   }
-
-  static override configSchema = XyoCryptoCardsGameWitnessConfigSchema
-  static override targetSchema = XyoCryptoCardsGameSchema
 }

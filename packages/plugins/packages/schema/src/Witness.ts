@@ -11,6 +11,9 @@ export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'netwo
 export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayload, { schema: XyoSchemaWitnessConfigSchema }>
 
 export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
+  static override configSchema = XyoSchemaWitnessConfigSchema
+  static override targetSchema = XyoSchemaSchema
+
   static override async create(params?: XyoModuleParams<XyoSchemaWitnessConfig>): Promise<XyoSchemaWitness> {
     return (await super.create(params)) as XyoSchemaWitness
   }
@@ -19,7 +22,4 @@ export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitn
     await delay(0)
     throw new Error('Method not implemented.')
   }
-
-  static override configSchema = XyoSchemaWitnessConfigSchema
-  static override targetSchema = XyoSchemaSchema
 }

@@ -10,12 +10,11 @@ import { XyoCryptoMarketAssetPayload } from './Payload'
 import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetSchema } from './Schema'
 
 export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
+  static override configSchema = XyoCryptoMarketAssetDivinerConfigSchema
+  static override targetSchema = XyoCryptoMarketAssetSchema
+
   static override async create(params?: XyoModuleParams<XyoDivinerConfig>) {
     return (await super.create(params)) as XyoCryptoMarketAssetDiviner
-  }
-
-  override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
   public override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
@@ -25,6 +24,7 @@ export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
     return [result]
   }
 
-  static override configSchema = XyoCryptoMarketAssetDivinerConfigSchema
-  static override targetSchema = XyoCryptoMarketAssetSchema
+  override queries() {
+    return [XyoDivinerDivineQuerySchema, ...super.queries()]
+  }
 }

@@ -11,6 +11,9 @@ export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload 
   TPayload,
   XyoNodeSystemInfoWitnessConfig
 > {
+  static override configSchema = XyoNodeSystemInfoWitnessConfigSchema
+  static override targetSchema = XyoNodeSystemInfoSchema
+
   static override async create(params?: XyoModuleParams<XyoNodeSystemInfoWitnessConfig>): Promise<XyoNodeSystemInfoWitness> {
     return (await super.create(params)) as XyoNodeSystemInfoWitness
   }
@@ -19,7 +22,4 @@ export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload 
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
     return await super.observe([{ ...node, ...fields?.[0] }])
   }
-
-  static override configSchema = XyoNodeSystemInfoWitnessConfigSchema
-  static override targetSchema = XyoNodeSystemInfoSchema
 }

@@ -11,18 +11,21 @@ export const XyoIdWitnessConfigSchema: XyoIdWitnessConfigSchema = 'network.xyo.i
 export type XyoIdWitnessConfig = XyoWitnessConfig<
   XyoIdPayload,
   {
-    schema: XyoIdWitnessConfigSchema
     salt: string
+    schema: XyoIdWitnessConfigSchema
   }
 >
 
 export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
-  static override async create(params?: XyoModuleParams<XyoIdWitnessConfig>): Promise<XyoIdWitness> {
-    return (await super.create(params)) as XyoIdWitness
-  }
+  static override configSchema = XyoIdWitnessConfigSchema
+  static override targetSchema = XyoIdSchema
 
   public get salt() {
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
+  }
+
+  static override async create(params?: XyoModuleParams<XyoIdWitnessConfig>): Promise<XyoIdWitness> {
+    return (await super.create(params)) as XyoIdWitness
   }
 
   override async observe(fields: Partial<XyoIdPayload>[]): Promise<XyoIdPayload[]> {
@@ -35,7 +38,4 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
       }),
     )
   }
-
-  static override targetSchema = XyoIdSchema
-  static override configSchema = XyoIdWitnessConfigSchema
 }

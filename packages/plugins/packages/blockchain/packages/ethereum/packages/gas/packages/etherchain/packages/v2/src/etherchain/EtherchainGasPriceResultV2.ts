@@ -1,11 +1,11 @@
 export interface EtherchainGasPriceResultV2 {
   code: number
   data: {
-    rapid: number
     fast: number
-    standard: number
-    slow: number
-    timestamp: number
     priceUSD: number
+    rapid: number
+    slow: number
+    standard: number
+    timestamp: number
   }
 }

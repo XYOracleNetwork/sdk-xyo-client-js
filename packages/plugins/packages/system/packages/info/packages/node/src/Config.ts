@@ -8,7 +8,7 @@ export const XyoNodeSystemInfoWitnessConfigSchema: XyoNodeSystemInfoWitnessConfi
 export type XyoNodeSystemInfoWitnessConfig = XyoWitnessConfig<
   XyoNodeSystemInfoPayload,
   {
-    schema: XyoNodeSystemInfoWitnessConfigSchema
     nodeValues?: Record<string, string>
+    schema: XyoNodeSystemInfoWitnessConfigSchema
   }
 >

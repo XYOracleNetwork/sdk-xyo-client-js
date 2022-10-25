@@ -6,16 +6,8 @@ export class EthersUniswap3PoolSlot0Wrapper {
     this.values = values
   }
 
-  get sqrtPriceX96() {
-    return this.values[0]
-  }
-
-  get tick() {
-    return this.values[1]
-  }
-
-  get observationIndex() {
-    return this.values[2]
+  get feeProtocol() {
+    return this.values[5]
   }
 
   get observationCardinality() {
@@ -26,8 +18,16 @@ export class EthersUniswap3PoolSlot0Wrapper {
     return this.values[4]
   }
 
-  get feeProtocol() {
-    return this.values[5]
+  get observationIndex() {
+    return this.values[2]
+  }
+
+  get sqrtPriceX96() {
+    return this.values[0]
+  }
+
+  get tick() {
+    return this.values[1]
   }
 
   get unlocked() {

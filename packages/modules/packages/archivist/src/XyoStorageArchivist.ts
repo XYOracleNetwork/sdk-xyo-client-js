@@ -23,25 +23,23 @@ export type XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivi
 export const XyoStorageArchivistConfigSchema: XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 
 export type XyoStorageArchivistConfig = XyoArchivistConfig<{
-  schema: XyoStorageArchivistConfigSchema
-  type?: 'local' | 'session' | 'page'
-  namespace?: string
   maxEntries?: number
   maxEntrySize?: number
+  namespace?: string
   persistAccount?: boolean
+  schema: XyoStorageArchivistConfigSchema
+  type?: 'local' | 'session' | 'page'
 }>
 
 export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig> {
-  static override async create(params?: XyoModuleParams<XyoStorageArchivistConfig>): Promise<XyoStorageArchivist> {
-    return (await super.create(params)) as XyoStorageArchivist
-  }
+  static override configSchema = XyoStorageArchivistConfigSchema
 
-  public get type() {
-    return this.config?.type ?? 'local'
-  }
+  private _privateStorage: StoreBase | undefined
+  private _storage: StoreBase | undefined
 
-  public get namespace() {
-    return this.config?.namespace ?? 'xyo-archivist'
+  constructor(params?: XyoModuleParams<XyoStorageArchivistConfig>) {
+    super(params)
+    this.loadAccount()
   }
 
   public get maxEntries() {
@@ -52,77 +50,38 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     return this.config?.maxEntries ?? 16000
   }
 
+  public get namespace() {
+    return this.config?.namespace ?? 'xyo-archivist'
+  }
+
   public get persistAccount() {
     return this.config?.persistAccount ?? false
   }
 
-  public override queries() {
-    return [
-      XyoArchivistAllQuerySchema,
-      XyoArchivistDeleteQuerySchema,
-      XyoArchivistClearQuerySchema,
-      XyoArchivistFindQuerySchema,
-      XyoArchivistCommitQuerySchema,
-      ...super.queries(),
-    ]
+  public get type() {
+    return this.config?.type ?? 'local'
   }
 
   /* This has to be a getter so that it can access it during construction */
-  private _storage: StoreBase | undefined
-  private get storage(): StoreBase {
-    this._storage = this._storage ?? store[this.type].namespace(this.namespace)
-    return this._storage
-  }
-
-  /* This has to be a getter so that it can access it during construction */
-  private _privateStorage: StoreBase | undefined
   private get privateStorage(): StoreBase {
     this._privateStorage = this._storage ?? store[this.type].namespace(`${this.namespace}|private`)
     return this._privateStorage
   }
 
-  constructor(params?: XyoModuleParams<XyoStorageArchivistConfig>) {
-    super(params)
-    this.loadAccount()
+  /* This has to be a getter so that it can access it during construction */
+  private get storage(): StoreBase {
+    this._storage = this._storage ?? store[this.type].namespace(this.namespace)
+    return this._storage
   }
 
-  override async start() {
-    await super.start()
-    this.saveAccount()
-    return this
+  static override async create(params?: XyoModuleParams<XyoStorageArchivistConfig>): Promise<XyoStorageArchivist> {
+    return (await super.create(params)) as XyoStorageArchivist
   }
 
-  protected override loadAccount() {
-    if (this.persistAccount) {
-      const privateKey = this.privateStorage.get('privateKey')
-      if (privateKey) {
-        try {
-          const account = new XyoAccount({ privateKey })
-          this.logger?.log(account.addressValue.hex)
-          return account
-        } catch (ex) {
-          console.error(`Error reading Account from storage [${this.type}, ${ex}] - Recreating Account`)
-          this.privateStorage.remove('privateKey')
-        }
-      }
-    }
-    return super.loadAccount()
-  }
-
-  protected saveAccount() {
-    if (this.persistAccount) {
-      this.logger?.log(this.account.addressValue.hex)
-      this.privateStorage.set('privateKey', this.account.private.hex)
-    }
-  }
-
-  public override delete(hashes: string[]): PromisableArray<boolean> {
-    this.logger?.log(`hashes.length: ${hashes.length}`)
+  public override all(): PromisableArray<XyoPayload> {
+    this.logger?.log(`this.storage.length: ${this.storage.length}`)
     try {
-      return hashes.map((hash) => {
-        this.storage.remove(hash)
-        return true
-      })
+      return Object.entries(this.storage.getAll()).map(([, value]) => value)
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -133,6 +92,48 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     try {
       this.storage.clear()
+    } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      throw ex
+    }
+  }
+
+  public override async commit(): Promise<XyoBoundWitness[]> {
+    this.logger?.log(`this.storage.length: ${this.storage.length}`)
+    try {
+      const payloads = await this.all()
+      assertEx(payloads.length > 0, 'Nothing to commit')
+      const settled = await Promise.allSettled(
+        compact(
+          Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
+            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
+              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
+              schema: XyoArchivistInsertQuerySchema,
+            })
+            const query = await this.bindQuery(queryPayload)
+            return (await parent?.query(query[0], query[1]))?.[0]
+          }),
+        ),
+      )
+      await this.clear()
+      return compact(
+        settled.map((result) => {
+          return result.status === 'fulfilled' ? result.value : null
+        }),
+      )
+    } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      throw ex
+    }
+  }
+
+  public override delete(hashes: string[]): PromisableArray<boolean> {
+    this.logger?.log(`hashes.length: ${hashes.length}`)
+    try {
+      return hashes.map((hash) => {
+        this.storage.remove(hash)
+        return true
+      })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -178,43 +179,44 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     }
   }
 
-  public override all(): PromisableArray<XyoPayload> {
-    this.logger?.log(`this.storage.length: ${this.storage.length}`)
-    try {
-      return Object.entries(this.storage.getAll()).map(([, value]) => value)
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+  public override queries() {
+    return [
+      XyoArchivistAllQuerySchema,
+      XyoArchivistDeleteQuerySchema,
+      XyoArchivistClearQuerySchema,
+      XyoArchivistFindQuerySchema,
+      XyoArchivistCommitQuerySchema,
+      ...super.queries(),
+    ]
   }
 
-  public override async commit(): Promise<XyoBoundWitness[]> {
-    this.logger?.log(`this.storage.length: ${this.storage.length}`)
-    try {
-      const payloads = await this.all()
-      assertEx(payloads.length > 0, 'Nothing to commit')
-      const settled = await Promise.allSettled(
-        compact(
-          Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
-              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
-              schema: XyoArchivistInsertQuerySchema,
-            })
-            const query = await this.bindQuery(queryPayload)
-            return (await parent?.query(query[0], query[1]))?.[0]
-          }),
-        ),
-      )
-      await this.clear()
-      return compact(
-        settled.map((result) => {
-          return result.status === 'fulfilled' ? result.value : null
-        }),
-      )
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
+  override async start() {
+    await super.start()
+    this.saveAccount()
+    return this
+  }
+
+  protected override loadAccount() {
+    if (this.persistAccount) {
+      const privateKey = this.privateStorage.get('privateKey')
+      if (privateKey) {
+        try {
+          const account = new XyoAccount({ privateKey })
+          this.logger?.log(account.addressValue.hex)
+          return account
+        } catch (ex) {
+          console.error(`Error reading Account from storage [${this.type}, ${ex}] - Recreating Account`)
+          this.privateStorage.remove('privateKey')
+        }
+      }
+    }
+    return super.loadAccount()
+  }
+
+  protected saveAccount() {
+    if (this.persistAccount) {
+      this.logger?.log(this.account.addressValue.hex)
+      this.privateStorage.set('privateKey', this.account.private.hex)
     }
   }
-  static override configSchema = XyoStorageArchivistConfigSchema
 }

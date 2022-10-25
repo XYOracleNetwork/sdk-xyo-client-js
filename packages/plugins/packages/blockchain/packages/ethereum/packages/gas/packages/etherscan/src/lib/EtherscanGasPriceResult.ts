@@ -1,12 +1,13 @@
 export interface EtherscanGasPriceResult {
-  status: string
   message: string
+
   result: {
-    LastBlock: string
-    SafeGasPrice: string
-    ProposeGasPrice: string
     FastGasPrice: string
-    suggestBaseFee: string
+    LastBlock: string
+    ProposeGasPrice: string
+    SafeGasPrice: string
     gasUsedRatio: string
+    suggestBaseFee: string
   }
+  status: string
 }

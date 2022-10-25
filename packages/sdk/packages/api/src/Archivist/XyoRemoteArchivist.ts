@@ -12,11 +12,8 @@ export type XyoRemoteArchivistParams = XyoModuleParams<XyoRemoteArchivistConfig>
 
 /** @description Archivist Context that connects to a remote archivist using the API */
 export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
+  static override configSchema = XyoRemoteArchivistConfigSchema
   protected _api?: XyoArchivistApi
-
-  static override async create(params?: XyoRemoteArchivistParams): Promise<XyoRemoteArchivist> {
-    return (await super.create(params)) as XyoRemoteArchivist
-  }
 
   constructor(params?: XyoRemoteArchivistParams) {
     super(params)
@@ -36,12 +33,35 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     throw Error('No api specified')
   }
 
-  public override queries() {
-    return [XyoArchivistFindQuerySchema, ...super.queries()]
-  }
-
   public get archive() {
     return this.config?.archive
+  }
+
+  static override async create(params?: XyoRemoteArchivistParams): Promise<XyoRemoteArchivist> {
+    return (await super.create(params)) as XyoRemoteArchivist
+  }
+
+  public override async find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): Promise<R[]> {
+    try {
+      const [payloads = [], payloadEnvelope, payloadResponse] = await this.api.archive(this.archive).payload.find(filter, 'tuple')
+      if (payloadEnvelope?.error?.length) {
+        throw new RemoteArchivistError('find', payloadEnvelope.error.shift(), 'payloads')
+      }
+      if (payloadResponse?.status >= 300) {
+        throw new RemoteArchivistError('find', `Invalid payload status [${payloadResponse.status}]`, 'payloads')
+      }
+      const [blocks = [], blockEnvelope, blockResponse] = await this.api.archive(this.archive).block.find(filter, 'tuple')
+      if (blockEnvelope?.error?.length) {
+        throw new RemoteArchivistError('find', blockEnvelope.error.shift(), 'payloads')
+      }
+      if (blockResponse?.status >= 300) {
+        throw new RemoteArchivistError('find', `Invalid block status [${blockResponse.status}]`, 'payloads')
+      }
+      return payloads.concat(blocks) as R[]
+    } catch (ex) {
+      console.error(ex)
+      throw ex
+    }
   }
 
   public async get(hashes: string[]): Promise<XyoPayload[]> {
@@ -96,27 +116,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     }
   }
 
-  public override async find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): Promise<R[]> {
-    try {
-      const [payloads = [], payloadEnvelope, payloadResponse] = await this.api.archive(this.archive).payload.find(filter, 'tuple')
-      if (payloadEnvelope?.error?.length) {
-        throw new RemoteArchivistError('find', payloadEnvelope.error.shift(), 'payloads')
-      }
-      if (payloadResponse?.status >= 300) {
-        throw new RemoteArchivistError('find', `Invalid payload status [${payloadResponse.status}]`, 'payloads')
-      }
-      const [blocks = [], blockEnvelope, blockResponse] = await this.api.archive(this.archive).block.find(filter, 'tuple')
-      if (blockEnvelope?.error?.length) {
-        throw new RemoteArchivistError('find', blockEnvelope.error.shift(), 'payloads')
-      }
-      if (blockResponse?.status >= 300) {
-        throw new RemoteArchivistError('find', `Invalid block status [${blockResponse.status}]`, 'payloads')
-      }
-      return payloads.concat(blocks) as R[]
-    } catch (ex) {
-      console.error(ex)
-      throw ex
-    }
+  public override queries() {
+    return [XyoArchivistFindQuerySchema, ...super.queries()]
   }
-  static override configSchema = XyoRemoteArchivistConfigSchema
 }

@@ -7,6 +7,9 @@ import { XyoCoingeckoCryptoMarketPayload } from './Payload'
 import { XyoCoingeckoCryptoMarketSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 
 export class XyoCoingeckoCryptoMarketWitness extends XyoWitness<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfig> {
+  static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema
+  static override targetSchema = XyoCoingeckoCryptoMarketSchema
+
   static override async create(params?: XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>): Promise<XyoCoingeckoCryptoMarketWitness> {
     return (await super.create(params)) as XyoCoingeckoCryptoMarketWitness
   }
@@ -20,7 +23,4 @@ export class XyoCoingeckoCryptoMarketWitness extends XyoWitness<XyoCoingeckoCryp
 
     return super.observe([payload])
   }
-
-  static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema
-  static override targetSchema = XyoCoingeckoCryptoMarketSchema
 }

@@ -7,7 +7,7 @@ export interface XyoModuleInstanceQueryConfig {
 }
 
 export type XyoModuleInstancePayload = XyoPayload<{
-  schema: XyoModuleInstanceSchema
   address: string
   queries?: Record<string, XyoModuleInstanceQueryConfig>
+  schema: XyoModuleInstanceSchema
 }>

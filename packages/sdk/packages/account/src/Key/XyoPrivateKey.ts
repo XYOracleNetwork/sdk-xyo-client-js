@@ -33,6 +33,10 @@ export class XyoPrivateKey extends XyoEllipticKey {
     return this._public
   }
 
+  public static isXyoPrivateKey(value: unknown) {
+    return (value as XyoPrivateKey)._isXyoPrivateKey
+  }
+
   public sign(hash: XyoDataLike) {
     const arrayHash = toUint8Array(hash)
     const signature = this._keyPair.sign(arrayHash)
@@ -59,8 +63,4 @@ export class XyoPrivateKey extends XyoEllipticKey {
     return signature.toDER('hex').substring(2)
   }
   */
-
-  public static isXyoPrivateKey(value: unknown) {
-    return (value as XyoPrivateKey)._isXyoPrivateKey
-  }
 }

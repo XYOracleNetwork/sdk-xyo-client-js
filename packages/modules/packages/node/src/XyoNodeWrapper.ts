@@ -23,16 +23,13 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
     return this._archivist
   }
 
-  register(_module: Module): void {
-    throw Error('Not implemented')
-  }
-  async registered(): Promise<string[]> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
+  async attach(address: string): Promise<void> {
+    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, schema: XyoNodeAttachQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)
-    return compact(result[1].map((payload) => payload?.schema))
   }
+
   async attached(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeAttachedQuery>({ schema: XyoNodeAttachedQuerySchema })
     const query = await this.bindQuery(queryPayload)
@@ -40,12 +37,12 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
     this.throwErrors(query, result)
     return compact(result[1].map((payload) => payload?.schema))
   }
-  async attach(address: string): Promise<void> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, schema: XyoNodeAttachQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
+
+  async attachedModules(): Promise<XyoModule[]> {
+    const addresses = await this.attached()
+    return compact(await this.resolve(addresses))
   }
+
   async detach(address: string): Promise<void> {
     const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ address, schema: XyoNodeDetachQuerySchema })
     const query = await this.bindQuery(queryPayload)
@@ -53,12 +50,20 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
     this.throwErrors(query, result)
   }
 
+  register(_module: Module): void {
+    throw Error('Not implemented')
+  }
+
+  async registered(): Promise<string[]> {
+    const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
+    const query = await this.bindQuery(queryPayload)
+    const result = await this.module.query(query[0], query[1])
+    this.throwErrors(query, result)
+    return compact(result[1].map((payload) => payload?.schema))
+  }
+
   async registeredModules(): Promise<XyoModule[]> {
     const addresses = await this.registered()
-    return compact(await this.resolve(addresses))
-  }
-  async attachedModules(): Promise<XyoModule[]> {
-    const addresses = await this.attached()
     return compact(await this.resolve(addresses))
   }
 

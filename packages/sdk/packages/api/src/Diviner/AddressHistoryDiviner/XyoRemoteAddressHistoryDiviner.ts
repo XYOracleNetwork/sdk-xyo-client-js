@@ -3,7 +3,7 @@ import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 
-import { XyoArchivistApi } from '../../Archivist'
+import { XyoArchivistApi } from '../../Api'
 import { RemoteDivinerError } from '../RemoteDivinerError'
 import { XyoRemoteDivinerConfig, XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
 import { AddressHistoryDiviner, isAddressHistoryQueryPayload } from './AddressHistoryDiviner'
@@ -14,11 +14,10 @@ export type XyoRemoteAddressHistoryDivinerParams = XyoModuleParams<XyoRemoteDivi
 
 /** @description Diviner Context that connects to a remote Diviner using the API */
 export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerConfig> implements AddressHistoryDiviner {
-  protected _api?: XyoArchivistApi
+  static override configSchema = XyoRemoteDivinerConfigSchema
+  static override targetSchema = XyoBoundWitnessSchema
 
-  static override async create(params?: XyoRemoteAddressHistoryDivinerParams) {
-    return (await super.create(params)) as XyoRemoteAddressHistoryDiviner
-  }
+  protected _api?: XyoArchivistApi
 
   protected constructor(params?: XyoRemoteAddressHistoryDivinerParams) {
     super(params)
@@ -38,8 +37,8 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
     throw Error('No api specified')
   }
 
-  public override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
+  static override async create(params?: XyoRemoteAddressHistoryDivinerParams) {
+    return (await super.create(params)) as XyoRemoteAddressHistoryDiviner
   }
 
   public override async divine(payloads?: XyoPayloads): Promise<XyoBoundWitness[]> {
@@ -68,6 +67,7 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
     }
   }
 
-  static override configSchema = XyoRemoteDivinerConfigSchema
-  static override targetSchema = XyoBoundWitnessSchema
+  public override queries() {
+    return [XyoDivinerDivineQuerySchema, ...super.queries()]
+  }
 }

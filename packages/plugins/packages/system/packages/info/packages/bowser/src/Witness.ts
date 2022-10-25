@@ -11,20 +11,20 @@ export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = X
   T,
   XyoBowserSystemInfoWitnessConfig
 > {
+  static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
+  static override targetSchema = XyoBowserSystemInfoSchema
+
   protected get bowser() {
     // we do this to fix importing in node-esm
     // eslint-disable-next-line import/no-named-as-default-member
     return Bowser.parse(window.navigator.userAgent)
   }
 
-  override observe(fields?: Partial<T>[]) {
-    return super.observe([merge({ bowser: this.bowser }, fields?.[0])])
-  }
-
   static override async create(params?: XyoModuleParams<XyoBowserSystemInfoWitnessConfig>): Promise<XyoBowserSystemInfoWitness> {
     return (await super.create(params)) as XyoBowserSystemInfoWitness
   }
 
-  static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
-  static override targetSchema = XyoBowserSystemInfoSchema
+  override observe(fields?: Partial<T>[]) {
+    return super.observe([merge({ bowser: this.bowser }, fields?.[0])])
+  }
 }

@@ -8,9 +8,9 @@ import { QueryBoundWitnessWrapper, XyoError, XyoErrorSchema, XyoQueryBoundWitnes
 import { XyoModule, XyoModuleParams } from './XyoModule'
 
 export interface WrapperError extends Error {
+  errors: (XyoError | null)[]
   query: [XyoQueryBoundWitness, XyoPayloads]
   result: ModuleQueryResult
-  errors: (XyoError | null)[]
 }
 
 export interface XyoModuleWrapperParams<TModule extends Module = Module, TConfig extends XyoModuleConfig = XyoModuleConfig>
@@ -25,18 +25,20 @@ export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends X
     this.module = module
   }
 
-  protected throwErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult) {
-    const errors = this.filterErrors(query, result)
-    if (errors?.length > 0) {
-      const error: WrapperError = {
-        errors,
-        message: errors.reduce((message, error) => `${message}${message.length > 0 ? '|' : ''}${error?.message}`, ''),
-        name: 'XyoError',
-        query,
-        result,
-      }
-      throw error
-    }
+  override get address() {
+    return this.module.address
+  }
+
+  override queries(): string[] {
+    return this.module.queries()
+  }
+
+  override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promisable<ModuleQueryResult> {
+    return this.module.query(query, payloads)
+  }
+
+  override queryable(schema: string, addresses?: string[]) {
+    return this.module.queryable(schema, addresses)
   }
 
   protected filterErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult): (XyoError | null)[] {
@@ -49,19 +51,17 @@ export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends X
     }) ?? []) as XyoError[]
   }
 
-  override get address() {
-    return this.module.address
-  }
-
-  override queries(): string[] {
-    return this.module.queries()
-  }
-
-  override queryable(schema: string, addresses?: string[]) {
-    return this.module.queryable(schema, addresses)
-  }
-
-  override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promisable<ModuleQueryResult> {
-    return this.module.query(query, payloads)
+  protected throwErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult) {
+    const errors = this.filterErrors(query, result)
+    if (errors?.length > 0) {
+      const error: WrapperError = {
+        errors,
+        message: errors.reduce((message, error) => `${message}${message.length > 0 ? '|' : ''}${error?.message}`, ''),
+        name: 'XyoError',
+        query,
+        result,
+      }
+      throw error
+    }
   }
 }

@@ -3,8 +3,9 @@ import { XyoDataLike } from '@xyo-network/core'
 import { XyoPrivateKey } from './XyoPrivateKey'
 
 export class XyoKeyPair {
-  private _private?: XyoPrivateKey
   private _isXyoKeyPair = true
+  private _private?: XyoPrivateKey
+
   constructor(privateKeyData?: XyoDataLike) {
     this._private = new XyoPrivateKey(privateKeyData)
   }

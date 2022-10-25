@@ -22,42 +22,31 @@ export type XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivis
 export const XyoMemoryArchivistConfigSchema: XyoMemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 
 export type XyoMemoryArchivistConfig = XyoArchivistConfig<{
-  schema: XyoMemoryArchivistConfigSchema
   max?: number
+  schema: XyoMemoryArchivistConfigSchema
 }>
 
 export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMemoryArchivistConfig> extends XyoArchivist<TConfig> {
-  static override async create(params?: XyoModuleParams<XyoMemoryArchivistConfig>): Promise<XyoMemoryArchivist> {
-    return (await super.create(params)) as XyoMemoryArchivist
-  }
-
-  public get max() {
-    return this.config?.max ?? 10000
-  }
+  static override configSchema = XyoMemoryArchivistConfigSchema
 
   private cache: LruCache<string, XyoPayload>
-
-  public override queries() {
-    return [
-      XyoArchivistAllQuerySchema,
-      XyoArchivistDeleteQuerySchema,
-      XyoArchivistClearQuerySchema,
-      XyoArchivistFindQuerySchema,
-      XyoArchivistCommitQuerySchema,
-      ...super.queries(),
-    ]
-  }
 
   protected constructor(params?: XyoModuleParams<TConfig>) {
     super(params)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
 
-  public override delete(hashes: string[]): PromisableArray<boolean> {
+  public get max() {
+    return this.config?.max ?? 10000
+  }
+
+  static override async create(params?: XyoModuleParams<XyoMemoryArchivistConfig>): Promise<XyoMemoryArchivist> {
+    return (await super.create(params)) as XyoMemoryArchivist
+  }
+
+  public override all(): PromisableArray<XyoPayload> {
     try {
-      return hashes.map((hash) => {
-        return this.cache.delete(hash)
-      })
+      return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -67,6 +56,44 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
   public override clear(): void | Promise<void> {
     try {
       this.cache.clear()
+    } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      throw ex
+    }
+  }
+
+  public override async commit(): Promise<XyoBoundWitness[]> {
+    try {
+      const payloads = assertEx(await this.all(), 'Nothing to commit')
+      const settled = await Promise.allSettled(
+        compact(
+          Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
+            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
+              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
+              schema: XyoArchivistInsertQuerySchema,
+            })
+            const query = await this.bindQuery(queryPayload)
+            return (await parent?.query(query[0], query[1]))?.[0]
+          }),
+        ),
+      )
+      await this.clear()
+      return compact(
+        settled.map((result) => {
+          return result.status === 'fulfilled' ? result.value : null
+        }),
+      )
+    } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      throw ex
+    }
+  }
+
+  public override delete(hashes: string[]): PromisableArray<boolean> {
+    try {
+      return hashes.map((hash) => {
+        return this.cache.delete(hash)
+      })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -112,40 +139,14 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
     }
   }
 
-  public override all(): PromisableArray<XyoPayload> {
-    try {
-      return this.cache.dump().map((value) => value[1].value)
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+  public override queries() {
+    return [
+      XyoArchivistAllQuerySchema,
+      XyoArchivistDeleteQuerySchema,
+      XyoArchivistClearQuerySchema,
+      XyoArchivistFindQuerySchema,
+      XyoArchivistCommitQuerySchema,
+      ...super.queries(),
+    ]
   }
-
-  public override async commit(): Promise<XyoBoundWitness[]> {
-    try {
-      const payloads = assertEx(await this.all(), 'Nothing to commit')
-      const settled = await Promise.allSettled(
-        compact(
-          Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
-              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
-              schema: XyoArchivistInsertQuerySchema,
-            })
-            const query = await this.bindQuery(queryPayload)
-            return (await parent?.query(query[0], query[1]))?.[0]
-          }),
-        ),
-      )
-      await this.clear()
-      return compact(
-        settled.map((result) => {
-          return result.status === 'fulfilled' ? result.value : null
-        }),
-      )
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
-  }
-  static override configSchema = XyoMemoryArchivistConfigSchema
 }

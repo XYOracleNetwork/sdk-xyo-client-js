@@ -1,110 +1,109 @@
 declare module 'node-screenlogic' {
   declare class EventEmitter {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    once<T>(event: string, func: (data: T) => void)
+    eventNames(): string[]
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     on<T>(event: string, func: (data: T) => void)
 
-    eventNames(): string[]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    once<T>(event: string, func: (data: T) => void)
   }
 
   declare class FindUnits extends EventEmitter {
     constructor()
 
-    search()
+    close()
 
     foundServer(msg, remote)
 
-    sendServerBroadcast()
+    search()
 
-    close()
+    sendServerBroadcast()
   }
 
   declare class RemoteLogin extends EventEmitter {
     constructor(systemName)
+    close()
 
     connect()
 
-    onConnected()
-
     onClientMessage(msg)
 
-    close()
+    onConnected()
   }
 
   declare class UnitConnection extends EventEmitter {
-    constructor(server, address?, password?)
-
-    //this is an arbritrary field added in code
+    //this is an arbitrary field added in code
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     gatewayName: any
+
+    constructor(server, address?, password?)
+
+    addClient(clientId, senderId?)
+
+    addNewScheduleEvent(scheduleType, senderId?)
+
+    cancelDelay(senderId?)
 
     close()
 
     connect()
 
-    onConnected()
-
-    login()
-
-    processData(msg)
-
-    getPoolStatus()
-
-    getControllerConfig(senderId?)
-
-    getChemicalData(senderId?)
-
-    getSaltCellConfig(senderId?)
-
-    getVersion(senderId?)
-
-    getEquipmentConfiguration(senderId?)
-
-    setCircuitState(controllerId, circuitId, circuitState, senderId?)
-
-    setSetPoint(controllerId, bodyType, temperature, senderId?)
-
-    setHeatMode(controllerId, bodyType, heatMode, senderId?)
-
-    sendLightCommand(controllerId, command, senderId?)
-
-    setSaltCellOutput(controllerId, poolOutput, spaOutput, senderId?)
-
-    getScheduleData(scheduleType, senderId?)
-
-    addNewScheduleEvent(scheduleType, senderId?)
-
     deleteScheduleEventById(scheduleId, senderId?)
-
-    setScheduleEventById(scheduleId, circuitId, startTime, stopTime, dayMask, flags, heatCmd, heatSetPoint, senderId?)
-
-    setCircuitRuntimebyId(circuitId, runTime, senderId?)
-
-    getPumpStatus(pumpId, senderId?)
-
-    setPumpFlow(pumpId, circuitId, setPoint, isRPMs, senderId?)
-
-    cancelDelay(senderId?)
-
-    addClient(clientId, senderId?)
-
-    removeClient(clientId, senderId?)
-
-    getSystemTime(senderId?)
-
-    setSystemTime(date, shouldAdjustForDST, senderId?)
-
-    getHistoryData(fromTime, toTime, senderId?)
 
     getChemHistoryData(fromTime, toTime, senderId?)
 
+    getChemicalData(senderId?)
+
+    getControllerConfig(senderId?)
+
+    getEquipmentConfiguration(senderId?)
+
+    getHistoryData(fromTime, toTime, senderId?)
+
+    getPoolStatus()
+
+    getPumpStatus(pumpId, senderId?)
+
+    getSaltCellConfig(senderId?)
+
+    getScheduleData(scheduleType, senderId?)
+
+    getSystemTime(senderId?)
+
+    getVersion(senderId?)
+
     getWeatherForecast(senderId?)
+
+    login()
+
+    onClientMessage(msg)
+
+    onConnected()
 
     pingServer(senderId?)
 
-    onClientMessage(msg)
+    processData(msg)
+
+    removeClient(clientId, senderId?)
+
+    sendLightCommand(controllerId, command, senderId?)
+
+    setCircuitRuntimebyId(circuitId, runTime, senderId?)
+
+    setCircuitState(controllerId, circuitId, circuitState, senderId?)
+
+    setHeatMode(controllerId, bodyType, heatMode, senderId?)
+
+    setPumpFlow(pumpId, circuitId, setPoint, isRPMs, senderId?)
+
+    setSaltCellOutput(controllerId, poolOutput, spaOutput, senderId?)
+
+    setScheduleEventById(scheduleId, circuitId, startTime, stopTime, dayMask, flags, heatCmd, heatSetPoint, senderId?)
+
+    setSetPoint(controllerId, bodyType, temperature, senderId?)
+
+    setSystemTime(date, shouldAdjustForDST, senderId?)
   }
 
   declare const HEAT_MODE_DONTCHANGE

@@ -8,8 +8,17 @@ export class XyoAddressValue extends XyoEllipticKey {
     super(20, XyoAddressValue.addressFromAddressOrPublicKey(address))
   }
 
-  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
-    return XyoAddressValue.verify(msg, signature, this.bytes)
+  public static addressFromAddressOrPublicKey(bytes: XyoDataLike) {
+    const bytesArray = toUint8Array(bytes)
+    return bytesArray.length === 20 ? bytesArray : XyoAddressValue.addressFromPublicKey(bytesArray)
+  }
+
+  public static addressFromPublicKey(key: XyoDataLike) {
+    return new XyoData(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
+  }
+
+  public static isXyoAddress(value: unknown) {
+    return (value as XyoAddressValue)._isXyoAddress
   }
 
   //there has to be a better way to do this other than trying all four numbers
@@ -37,16 +46,7 @@ export class XyoAddressValue extends XyoEllipticKey {
     return valid
   }
 
-  public static addressFromPublicKey(key: XyoDataLike) {
-    return new XyoData(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
-  }
-
-  public static addressFromAddressOrPublicKey(bytes: XyoDataLike) {
-    const bytesArray = toUint8Array(bytes)
-    return bytesArray.length === 20 ? bytesArray : XyoAddressValue.addressFromPublicKey(bytesArray)
-  }
-
-  public static isXyoAddress(value: unknown) {
-    return (value as XyoAddressValue)._isXyoAddress
+  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+    return XyoAddressValue.verify(msg, signature, this.bytes)
   }
 }

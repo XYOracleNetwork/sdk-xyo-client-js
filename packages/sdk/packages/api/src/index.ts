@@ -1,4 +1,4 @@
-export * from './Archivist'
+export * from './Api'
 export * from './Base'
 export * from './Diviner'
 export * from './models'

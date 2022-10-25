@@ -10,11 +10,11 @@ export interface XyoModuleSubscribeFilter {
 
 //requests notification when a boundwitness is added to the modules chain that meets the filter criteria
 export type XyoModuleSubscribeQuery = XyoQuery<{
-  schema: XyoModuleSubscribeQuerySchema
   /** @field The address that will receive notifications */
   address: string
   /** @field A subscribe with a null for filter is an unsubscribe */
   filter?: XyoModuleSubscribeFilter | null
   /** @field The maximum events queued per send [may increase frequency] */
   maxQueue?: number
+  schema: XyoModuleSubscribeQuerySchema
 }>

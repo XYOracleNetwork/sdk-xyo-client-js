@@ -7,8 +7,8 @@ import { XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 export type XyoCoingeckoCryptoMarketWitnessConfig = XyoWitnessConfig<
   XyoCoingeckoCryptoMarketPayload,
   {
-    schema: XyoCoingeckoCryptoMarketWitnessConfigSchema
     coins: XyoCryptoAsset[]
     currencies: XyoCryptoAsset[]
+    schema: XyoCoingeckoCryptoMarketWitnessConfigSchema
   }
 >

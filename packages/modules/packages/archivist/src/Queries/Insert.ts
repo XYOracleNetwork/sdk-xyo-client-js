@@ -4,6 +4,6 @@ export type XyoArchivistInsertQuerySchema = 'network.xyo.query.archivist.insert'
 export const XyoArchivistInsertQuerySchema: XyoArchivistInsertQuerySchema = 'network.xyo.query.archivist.insert'
 
 export type XyoArchivistInsertQuery = XyoQuery<{
-  schema: XyoArchivistInsertQuerySchema
   payloads: string[]
+  schema: XyoArchivistInsertQuerySchema
 }>

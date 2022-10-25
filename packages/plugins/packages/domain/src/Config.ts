@@ -8,7 +8,7 @@ export const XyoDomainWitnessConfigSchema = 'network.xyo.domain.witness.config'
 export type XyoDomainWitnessConfig = XyoWitnessConfig<
   XyoDomainPayload,
   {
-    schema: XyoDomainWitnessConfigSchema
     domain: string
+    schema: XyoDomainWitnessConfigSchema
   }
 >

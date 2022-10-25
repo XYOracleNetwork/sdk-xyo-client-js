@@ -3,7 +3,7 @@ import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xy
 import { XyoDivinerWrapper } from '@xyo-network/diviner'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
-import { XyoArchivistApi } from '../../Archivist'
+import { XyoArchivistApi } from '../../Api'
 import { XyoApiConfig } from '../../models'
 import { XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
 import { AddressHistoryQuerySchema } from './AddressHistoryDiviner'

@@ -1,8 +1,8 @@
 export interface EtherchainGasPriceResultV1 {
-  safeLow: number
-  standard: number
+  currentBaseFee: number
   fast: number
   fastest: number
-  currentBaseFee: number
   recommendedBaseFee: number
+  safeLow: number
+  standard: number
 }

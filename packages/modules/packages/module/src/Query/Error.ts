@@ -3,11 +3,11 @@ import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 export type XyoErrorSchema = 'network.xyo.error'
 export const XyoErrorSchema: XyoErrorSchema = 'network.xyo.error'
 
-export type XyoError = XyoPayload<{ schema: XyoErrorSchema; sources: string[]; message?: string }>
+export type XyoError = XyoPayload<{ message?: string; schema: XyoErrorSchema; sources: string[] }>
 
 export class XyoErrorBuilder extends XyoPayloadBuilder {
-  sources: string[]
   message?: string
+  sources: string[]
   constructor(sources: string[], message?: string) {
     super({ schema: XyoErrorSchema })
     this.sources = sources

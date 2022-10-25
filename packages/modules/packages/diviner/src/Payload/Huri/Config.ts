@@ -8,7 +8,7 @@ export const XyoHuriPayloadDivinerConfigSchema: XyoHuriPayloadDivinerConfigSchem
 export type XyoHuriPayloadDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
   XyoPayload,
   T & {
-    schema: XyoHuriPayloadDivinerConfigSchema
     options?: HuriOptions
+    schema: XyoHuriPayloadDivinerConfigSchema
   }
 >

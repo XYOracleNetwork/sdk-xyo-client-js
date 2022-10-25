@@ -9,7 +9,15 @@ import { XyoSchemaStatsApiDivinerConfig, XyoSchemaStatsApiDivinerConfigSchema } 
 export type XyoSchemaStatsApiDivinerParams = XyoModuleParams<XyoSchemaStatsApiDivinerConfig> & { api: XyoArchivistApi }
 
 export class SchemaStatsApiDiviner extends XyoDiviner<XyoSchemaStatsApiDivinerConfig> {
+  static override configSchema = XyoSchemaStatsApiDivinerConfigSchema
+  static override targetSchema = SchemaStatsSchema
+
   protected readonly api: XyoArchivistApi
+
+  protected constructor(params: XyoSchemaStatsApiDivinerParams) {
+    super(params)
+    this.api = params.api
+  }
 
   get archive() {
     return assertEx(this.config?.archive, `config required [${this.config}]`)
@@ -17,20 +25,6 @@ export class SchemaStatsApiDiviner extends XyoDiviner<XyoSchemaStatsApiDivinerCo
 
   static override async create(params: XyoSchemaStatsApiDivinerParams): Promise<SchemaStatsApiDiviner> {
     return (await super.create(params)) as SchemaStatsApiDiviner
-  }
-
-  protected constructor(params: XyoSchemaStatsApiDivinerParams) {
-    super(params)
-    this.api = params.api
-  }
-
-  override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
-  }
-
-  protected override async start() {
-    await super.start()
-    return this
   }
 
   public async divine(): Promise<SchemaStats[]> {
@@ -44,6 +38,12 @@ export class SchemaStatsApiDiviner extends XyoDiviner<XyoSchemaStatsApiDivinerCo
     return result
   }
 
-  static override configSchema = XyoSchemaStatsApiDivinerConfigSchema
-  static override targetSchema = SchemaStatsSchema
+  override queries() {
+    return [XyoDivinerDivineQuerySchema, ...super.queries()]
+  }
+
+  protected override async start() {
+    await super.start()
+    return this
+  }
 }

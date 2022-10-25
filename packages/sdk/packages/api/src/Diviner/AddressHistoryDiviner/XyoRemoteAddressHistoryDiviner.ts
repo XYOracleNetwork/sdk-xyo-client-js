@@ -3,7 +3,7 @@ import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 
-import { XyoArchivistApi } from '../../Archivist'
+import { XyoArchivistApi } from '../../Api'
 import { RemoteDivinerError } from '../RemoteDivinerError'
 import { XyoRemoteDivinerConfig, XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
 import { AddressHistoryDiviner, isAddressHistoryQueryPayload } from './AddressHistoryDiviner'

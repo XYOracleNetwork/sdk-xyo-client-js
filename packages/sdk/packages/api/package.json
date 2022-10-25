@@ -11,6 +11,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.9",
     "@xylabs/delay": "^2.6.9",
+    "@xylabs/sdk-js": "^2.6.9",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",

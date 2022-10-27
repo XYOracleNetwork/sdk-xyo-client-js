@@ -58,7 +58,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return await new this(actualParams).start()
   }
 
-  public discover(_queryAccount?: XyoAccount) {
+  public discover(_queryAccount?: XyoAccount): Promisable<XyoPayload[]> {
     return compact([this.config])
   }
 
@@ -66,7 +66,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return [XyoModuleDiscoverQuerySchema, XyoModuleSubscribeQuerySchema]
   }
 
-  public query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promisable<ModuleQueryResult> {
+  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
     const typedQuery = wrapper.query.payload
@@ -79,7 +79,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     try {
       switch (typedQuery.schema) {
         case XyoModuleDiscoverQuerySchema: {
-          resultPayloads.push(...this.discover(queryAccount))
+          resultPayloads.push(...(await this.discover(queryAccount)))
           break
         }
         case XyoModuleSubscribeQuerySchema: {

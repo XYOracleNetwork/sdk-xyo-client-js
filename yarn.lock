@@ -5001,20 +5001,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/sdk-xyo-typechain@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@xyo-network/sdk-xyo-typechain@npm:2.0.3"
-  dependencies:
-    "@openzeppelin/contracts": ^4.7.3
-    "@xyo-network/solidity": ^2.0.3
-    "@xyo-network/typechain": ^2.0.3
-    "@xyo-network/uniswap-solidity": ^2.0.3
-    "@xyo-network/uniswap-typechain": ^2.0.3
-    ethers: ^5.7.2
-  checksum: 85dcac70ec4dc4d77416f4c677168f0ee3c795e6ed605dfab3f7fb7d613056f6c0dc33f8cfba4eef417849612e41dc10acdcc1ac64995676f22b29c455afb33b
-  languageName: node
-  linkType: hard
-
 "@xyo-network/sdk@workspace:^, @xyo-network/sdk@workspace:packages/sdk":
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk@workspace:packages/sdk"
@@ -5122,9 +5108,16 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/sdk-xyo-typechain": ^2.0.3
+    "@xyo-network/typechain": ^2.0.3
+    "@xyo-network/uniswap-typechain": ^2.0.3
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.0
+  peerDependencies:
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.1.0
+    "@uniswap/v3-sdk": ^3.9.0
+    "@xyo-network/typechain": ^2.0.3
+    "@xyo-network/uniswap-typechain": ^2.0.3
   languageName: unknown
   linkType: soft
 

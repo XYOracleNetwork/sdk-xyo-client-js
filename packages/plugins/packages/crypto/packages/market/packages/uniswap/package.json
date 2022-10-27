@@ -32,6 +32,13 @@
     "@xyo-network/typechain": "^2.0.3",
     "@xyo-network/uniswap-typechain": "^2.0.3"
   },
+  "devDependencies": {
+    "@uniswap/sdk": "^3.0.3",
+    "@uniswap/sdk-core": "^3.1.0",
+    "@uniswap/v3-sdk": "^3.9.0",
+    "@xyo-network/typechain": "^2.0.3",
+    "@xyo-network/uniswap-typechain": "^2.0.3"
+  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

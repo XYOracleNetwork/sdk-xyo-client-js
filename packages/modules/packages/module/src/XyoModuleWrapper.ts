@@ -1,9 +1,10 @@
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { XyoModuleConfig } from './Config'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
+import { XyoModuleDiscoverQuery } from './Queries'
 import { QueryBoundWitnessWrapper, XyoError, XyoErrorSchema, XyoQueryBoundWitness } from './Query'
 import { XyoModule, XyoModuleParams } from './XyoModule'
 
@@ -29,12 +30,20 @@ export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends X
     return this.module.address
   }
 
+  override async discover(): Promise<XyoPayload[]> {
+    const queryPayload = PayloadWrapper.parse<XyoModuleDiscoverQuery>({})
+    const query = await this.bindQuery(queryPayload)
+    const result = await this.module.query(query[0], query[1])
+    this.throwErrors(query, result)
+    return result[1]
+  }
+
   override queries(): string[] {
     return this.module.queries()
   }
 
-  override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promisable<ModuleQueryResult> {
-    return this.module.query(query, payloads)
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+    return await this.module.query(query, payloads)
   }
 
   override queryable(schema: string, addresses?: string[]) {

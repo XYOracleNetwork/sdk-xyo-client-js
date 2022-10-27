@@ -7,7 +7,7 @@ export const XyoSchemaListApiDivinerConfigSchema: XyoSchemaListApiDivinerConfigS
 export type XyoSchemaListApiDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
   XyoPayload,
   T & {
-    schema: XyoSchemaListApiDivinerConfigSchema
     archive: string
+    schema: XyoSchemaListApiDivinerConfigSchema
   }
 >

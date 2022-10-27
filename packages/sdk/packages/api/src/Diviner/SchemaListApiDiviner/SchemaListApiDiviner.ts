@@ -21,7 +21,7 @@ export class SchemaListApiDiviner extends XyoDiviner<XyoSchemaListApiDivinerConf
   }
 
   get archive() {
-    return assertEx(this.config?.archive, `config required [${this.config}]`)
+    return assertEx(this.config?.archive, `SchemaListApiDiviner config.archive required [${JSON.stringify(this.config)}]`)
   }
 
   static override async create(params: XyoSchemaListApiDivinerParams): Promise<SchemaListApiDiviner> {

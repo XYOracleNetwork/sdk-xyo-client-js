@@ -4,6 +4,7 @@ import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
+import compact from 'lodash/compact'
 
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { Logging } from './Logging'
@@ -58,7 +59,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   }
 
   public discover(_queryAccount?: XyoAccount) {
-    return
+    return compact([this.config])
   }
 
   public queries(): string[] {
@@ -78,7 +79,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     try {
       switch (typedQuery.schema) {
         case XyoModuleDiscoverQuerySchema: {
-          this.discover(queryAccount)
+          resultPayloads.push(...this.discover(queryAccount))
           break
         }
         case XyoModuleSubscribeQuerySchema: {

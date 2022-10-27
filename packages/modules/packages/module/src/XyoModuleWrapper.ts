@@ -1,10 +1,9 @@
-import { XyoDivinerConfigSchema } from '@xyo-network/diviner'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
 import { XyoModuleConfig } from './Config'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
-import { XyoModuleDiscoverQuery } from './Queries'
+import { XyoModuleDiscoverQuery, XyoModuleDiscoverQuerySchema } from './Queries'
 import { QueryBoundWitnessWrapper, XyoError, XyoErrorSchema, XyoQueryBoundWitness } from './Query'
 import { XyoModule, XyoModuleParams } from './XyoModule'
 
@@ -31,7 +30,7 @@ export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends X
   }
 
   override async discover(): Promise<XyoPayload[]> {
-    const queryPayload = PayloadWrapper.parse<XyoModuleDiscoverQuery>({ schema: XyoDivinerConfigSchema })
+    const queryPayload = PayloadWrapper.parse<XyoModuleDiscoverQuery>({ schema: XyoModuleDiscoverQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)

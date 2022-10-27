@@ -4749,6 +4749,8 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     tslib: ^2.4.0
+  peerDependencies:
+    lodash: ^4.17.21
   languageName: unknown
   linkType: soft
 

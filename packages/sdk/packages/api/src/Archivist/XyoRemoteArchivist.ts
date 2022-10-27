@@ -4,7 +4,7 @@ import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
-import { XyoArchivistApi } from './Api'
+import { XyoArchivistApi } from '../Api'
 import { RemoteArchivistError } from './RemoteArchivistError'
 import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
 

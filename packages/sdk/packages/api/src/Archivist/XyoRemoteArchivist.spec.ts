@@ -1,8 +1,8 @@
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { PayloadWrapper } from '@xyo-network/payload'
 
+import { XyoArchivistApi } from '../Api'
 import { XyoApiConfig } from '../models'
-import { XyoArchivistApi } from './Api'
 import { XyoRemoteArchivist } from './XyoRemoteArchivist'
 import { XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
 

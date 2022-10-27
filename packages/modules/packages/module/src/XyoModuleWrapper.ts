@@ -1,5 +1,4 @@
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promise'
 
 import { XyoModuleConfig } from './Config'
 import { Module } from './Module'

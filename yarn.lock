@@ -4340,7 +4340,6 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
-    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4563,7 +4562,6 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
-    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4748,9 +4746,8 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/shared": "workspace:^"
-    tslib: ^2.4.0
-  peerDependencies:
     lodash: ^4.17.21
+    tslib: ^2.4.0
   languageName: unknown
   linkType: soft
 
@@ -4830,7 +4827,6 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
-    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4884,7 +4880,6 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
-    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4982,12 +4977,12 @@ __metadata:
     eslint: ^8.26.0
     jest: ^29.2.2
     jest-extended: ^3.1.0
+    lodash: ^4.17.21
     pako: ^2.0.4
     ts-jest: ^29.0.3
     typescript: ^4.8.4
   peerDependencies:
     axios: ^0.27.2
-    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -5160,7 +5155,6 @@ __metadata:
     tslib: ^2.4.0
   peerDependencies:
     axios: ^0.27.2
-    lodash: ^4.17.21
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -10567,7 +10561,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
+"lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7

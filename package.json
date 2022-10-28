@@ -14,7 +14,8 @@
   "dependencies": {
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/payload-plugins": "workspace:^",
-    "@xyo-network/sdk": "workspace:^"
+    "@xyo-network/sdk": "workspace:^",
+    "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
@@ -31,13 +32,11 @@
   },
   "peerDependencies": {
     "axios": "^0.27.2",
-    "lodash": "^4.17.21",
     "pako": "^2.0.4"
   },
   "resolutions": {
     "@uniswap/v3-periphery": "1.4.1",
-    "bn.js": "^5.2.1",
-    "lodash": "^4.17.21"
+    "bn.js": "^5.2.1"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

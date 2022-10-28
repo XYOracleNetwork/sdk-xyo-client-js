@@ -17,10 +17,8 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/shared": "workspace:^",
+    "lodash": "^4.17.21",
     "tslib": "^2.4.0"
-  },
-  "peerDependencies": {
-    "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

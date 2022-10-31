@@ -4901,7 +4901,6 @@ __metadata:
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module-instance-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/pentair-payload-plugin": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/system-payload-plugins": "workspace:^"
     tslib: ^2.4.0
@@ -4924,7 +4923,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/pentair-payload-plugin@workspace:^, @xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair":
+"@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair":
   version: 0.0.0-use.local
   resolution: "@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair"
   dependencies:

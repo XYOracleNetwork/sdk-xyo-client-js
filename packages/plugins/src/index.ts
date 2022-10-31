@@ -6,7 +6,6 @@ export * from '@xyo-network/id-payload-plugin'
 export * from '@xyo-network/location-certainty-payload-plugin'
 export * from '@xyo-network/location-payload-plugin'
 export * from '@xyo-network/module-instance-payload-plugin'
-export * from '@xyo-network/pentair-payload-plugin'
 export * from '@xyo-network/schema-payload-plugin'
 export * from '@xyo-network/system-payload-plugins'
 
@@ -19,7 +18,6 @@ import { LocationCertaintyPayloadPlugin } from '@xyo-network/location-certainty-
 import { XyoLocationPayloadPlugin } from '@xyo-network/location-payload-plugin'
 import { XyoModuleInstancePayloadPlugin } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
-import { XyoPentairScreenlogicPayloadPlugin } from '@xyo-network/pentair-payload-plugin'
 import { XyoSchemaPayloadPlugin } from '@xyo-network/schema-payload-plugin'
 import { XyoSystemPayloadPlugins } from '@xyo-network/system-payload-plugins'
 
@@ -32,7 +30,6 @@ export const XyoPayloadPlugins: XyoPayloadPluginFunc[] = [
   XyoIdPayloadPlugin,
   XyoLocationPayloadPlugin,
   XyoModuleInstancePayloadPlugin,
-  XyoPentairScreenlogicPayloadPlugin,
   XyoSchemaPayloadPlugin,
   LocationCertaintyPayloadPlugin,
 ]

@@ -11,20 +11,18 @@ import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 export type XyoDivinerParams = XyoModuleParams
 
 export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoModule<TConfig> implements DivinerModule {
-  static override async create(params?: XyoModuleParams<XyoDivinerConfig>): Promise<XyoDiviner> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const actualParams: XyoModuleParams<XyoDivinerConfig> = params ?? {}
-    actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
-    return (await super.create(actualParams)) as XyoDiviner
-  }
-
-  abstract divine(payloads?: XyoPayload[]): Promisable<XyoPayload[]>
-
-  static targetSchema: string
   static override configSchema: string
+  static targetSchema: string
 
   public get targetSchema() {
     return this.config?.targetSchema
+  }
+
+  static override async create(params?: XyoModuleParams<XyoDivinerConfig>): Promise<XyoDiviner> {
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
+    const actualParams: XyoModuleParams<XyoDivinerConfig> = params ?? {}
+    actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
+    return (await super.create(actualParams)) as XyoDiviner
   }
 
   public override queries(): string[] {
@@ -56,6 +54,8 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
     }
     return await this.bindResult(resultPayloads, queryAccount)
   }
+
+  abstract divine(payloads?: XyoPayload[]): Promisable<XyoPayload[]>
 }
 
 export abstract class XyoTimestampDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoDiviner<TConfig> {}

@@ -2,17 +2,11 @@ import { ModuleResolver, ModuleResolverEventFunc } from './ModuleResolver'
 import { XyoModule } from './XyoModule'
 
 export class XyoModuleResolver implements ModuleResolver {
-  private modules: Record<string, XyoModule> = {}
   private handlers: ModuleResolverEventFunc<XyoModule>[] = []
+  private modules: Record<string, XyoModule> = {}
 
   public get isModuleResolver() {
     return true
-  }
-
-  private addSingleModule(module?: XyoModule) {
-    if (module) {
-      this.modules[module.address] = module
-    }
   }
 
   add(module?: XyoModule | XyoModule[]) {
@@ -20,21 +14,6 @@ export class XyoModuleResolver implements ModuleResolver {
       module.forEach((module) => this.addSingleModule(module))
     } else {
       this.addSingleModule(module)
-    }
-    return this
-  }
-
-  private removeSingleModule(module?: XyoModule) {
-    if (module) {
-      delete this.modules[module.address]
-    }
-  }
-
-  remove(module?: XyoModule | XyoModule[]) {
-    if (Array.isArray(module)) {
-      module.forEach((module) => this.removeSingleModule(module))
-    } else {
-      this.removeSingleModule(module)
     }
     return this
   }
@@ -47,6 +26,15 @@ export class XyoModuleResolver implements ModuleResolver {
     return Object.values(this.modules).filter((module) => schema.reduce((prev, schema) => prev && module.queryable(schema), true))
   }
 
+  remove(module?: XyoModule | XyoModule[]) {
+    if (Array.isArray(module)) {
+      module.forEach((module) => this.removeSingleModule(module))
+    } else {
+      this.removeSingleModule(module)
+    }
+    return this
+  }
+
   subscribe(handler: ModuleResolverEventFunc): void {
     this.unsubscribe(handler)
     this.handlers.push(handler)
@@ -54,5 +42,17 @@ export class XyoModuleResolver implements ModuleResolver {
 
   unsubscribe(handler: ModuleResolverEventFunc): void {
     this.handlers = this.handlers.filter((item) => item !== handler)
+  }
+
+  private addSingleModule(module?: XyoModule) {
+    if (module) {
+      this.modules[module.address] = module
+    }
+  }
+
+  private removeSingleModule(module?: XyoModule) {
+    if (module) {
+      delete this.modules[module.address]
+    }
   }
 }

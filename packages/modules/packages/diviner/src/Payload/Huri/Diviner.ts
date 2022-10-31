@@ -9,19 +9,15 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoHuriPayloadDivinerConfig } from './Config'
 
 export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig> {
-  static override async create(params?: XyoModuleParams<XyoHuriPayloadDivinerConfig>): Promise<XyoHuriPayloadDiviner> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoHuriPayloadDiviner(params)
-    await module.start()
-    return module
-  }
-
   protected get options() {
     return this.config?.options
   }
 
-  override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
+  static override async create(params?: XyoModuleParams<XyoHuriPayloadDivinerConfig>): Promise<XyoHuriPayloadDiviner> {
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
+    const module = new XyoHuriPayloadDiviner(params)
+    await module.start()
+    return module
   }
 
   override async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
@@ -33,5 +29,9 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivin
 
     const settled = await Promise.allSettled(huriList.map((huri) => huri.fetch()))
     return compact(settled.map((settle) => (settle.status === 'fulfilled' ? settle.value : null)))
+  }
+
+  override queries() {
+    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 }

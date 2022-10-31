@@ -10,11 +10,13 @@ export const XyoPentairScreenlogicWitnessConfigSchema: XyoPentairScreenlogicWitn
 
 export interface PentairServer {
   address: string
-  type: number
-  port: number
-  gatewayType: number
-  gatewaySubtype: number
+
   gatewayName: string
+  gatewaySubtype: number
+  gatewayType: number
+
+  port: number
+  type: number
 }
 
 export type XyoPentairScreenlogicWitnessConfig = XyoWitnessConfig<
@@ -25,19 +27,19 @@ export type XyoPentairScreenlogicWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoPentairScreenlogicWitness extends XyoWitness<XyoPentairScreenlogicPayload, XyoPentairScreenlogicWitnessConfig> {
+  static override configSchema = XyoPentairScreenlogicWitnessConfigSchema
+  static override targetSchema = XyoPentairScreenlogicSchema
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected controller = new Controller()
+
+  static override async create(params?: XyoModuleParams<XyoPentairScreenlogicWitnessConfig>): Promise<XyoPentairScreenlogicWitness> {
+    return (await super.create(params)) as XyoPentairScreenlogicWitness
+  }
 
   override async observe(_fields?: Partial<XyoPentairScreenlogicPayload>[]): Promise<XyoPentairScreenlogicPayload[]> {
     const config = await this.controller.getPoolConfig()
     const status = await this.controller.getPoolStatus()
     return await super.observe([{ config, status }] as XyoPentairScreenlogicPayload[])
   }
-
-  static override async create(params?: XyoModuleParams<XyoPentairScreenlogicWitnessConfig>): Promise<XyoPentairScreenlogicWitness> {
-    return (await super.create(params)) as XyoPentairScreenlogicWitness
-  }
-
-  static override configSchema = XyoPentairScreenlogicWitnessConfigSchema
-  static override targetSchema = XyoPentairScreenlogicSchema
 }

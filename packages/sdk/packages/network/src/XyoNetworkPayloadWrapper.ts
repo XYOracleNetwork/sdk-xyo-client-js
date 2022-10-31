@@ -6,20 +6,16 @@ import { XyoNetworkNodeType } from './XyoNetworkNodePayload'
 import { XyoNetworkPayload } from './XyoNetworkPayload'
 
 export class XyoNetworkPayloadWrapper extends PayloadWrapper<XyoNetworkPayload> {
-  public filterNodesByType(type: XyoNetworkNodeType) {
-    return this.payload.nodes?.filter((node) => node.type === type)
-  }
-
   public get archivists() {
     return this.filterNodesByType('archivist')
   }
 
-  public get diviners() {
-    return this.filterNodesByType('diviner')
-  }
-
   public get bridges() {
     return this.filterNodesByType('bridge')
+  }
+
+  public get diviners() {
+    return this.filterNodesByType('diviner')
   }
 
   public get sentinels() {
@@ -32,6 +28,10 @@ export class XyoNetworkPayloadWrapper extends PayloadWrapper<XyoNetworkPayload> 
       'Unknown network',
     )
     return new XyoNetworkPayloadWrapper(payload)
+  }
+
+  public filterNodesByType(type: XyoNetworkNodeType) {
+    return this.payload.nodes?.filter((node) => node.type === type)
   }
 }
 

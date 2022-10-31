@@ -6,9 +6,9 @@ import { XyoQuery } from './Payload'
 import { XyoQueryBoundWitness } from './XyoQueryBoundWitness'
 
 export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends BoundWitnessWrapper<XyoQueryBoundWitness> {
-  private isQueryBoundWitnessWrapper = true
-
   private _query: PayloadWrapper<T> | undefined
+
+  private isQueryBoundWitnessWrapper = true
 
   public get query() {
     return assertEx(

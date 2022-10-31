@@ -15,6 +15,10 @@ import { XyoArchivistNodeApi } from './Node'
 
 export class XyoArchivistApi extends XyoApiBase {
   private _addresses?: XyoAddressesApi
+  private _archives?: XyoArchivistArchivesApi
+  private _stats?: XyoApiSimple<unknown[]>
+  private _user?: XyoUserApi
+
   public get addresses(): XyoAddressesApi {
     this._addresses =
       this._addresses ??
@@ -25,7 +29,6 @@ export class XyoArchivistApi extends XyoApiBase {
     return this._addresses
   }
 
-  private _archives?: XyoArchivistArchivesApi
   public get archives(): XyoArchivistArchivesApi {
     this._archives =
       this._archives ??
@@ -36,7 +39,6 @@ export class XyoArchivistApi extends XyoApiBase {
     return this._archives
   }
 
-  private _stats?: XyoApiSimple<unknown[]>
   public get stats() {
     this._stats =
       this._stats ??
@@ -47,7 +49,6 @@ export class XyoArchivistApi extends XyoApiBase {
     return this._stats
   }
 
-  private _user?: XyoUserApi
   public get user(): XyoUserApi {
     this._user =
       this._user ??
@@ -58,6 +59,13 @@ export class XyoArchivistApi extends XyoApiBase {
     return this._user
   }
 
+  public account(address: XyoDataLike) {
+    return new XyoAccountApi({
+      ...this.config,
+      root: `${this.root}wallet/${new XyoAddressValue(address).hex}/`,
+    })
+  }
+
   public archive(archive = 'temp') {
     const pureArchive = archive.toLowerCase()
     return new XyoArchivistArchiveApi({
@@ -66,16 +74,21 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
-  /** @deprecated use account instead */
-  public wallet(address: XyoDataLike) {
-    return this.account(address)
-  }
-
-  public account(address: XyoDataLike) {
-    return new XyoAccountApi({
-      ...this.config,
-      root: `${this.root}wallet/${new XyoAddressValue(address).hex}/`,
-    })
+  /** @deprecated use huri(huri) instead */
+  public async get(huri: Huri | string): Promise<XyoApiResponseBody<XyoPayload>>
+  /** @deprecated use huri(huri) instead */
+  public async get(huri: Huri | string, responseType?: 'body'): Promise<XyoApiResponseBody<XyoPayload>>
+  /** @deprecated use huri(huri) instead */
+  public async get(huri: Huri | string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<XyoPayload>>
+  /** @deprecated use huri(huri) instead */
+  public async get(huri: Huri | string, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<XyoPayload>> {
+    const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
+    switch (responseType) {
+      case 'tuple':
+        return await this.getEndpoint(huriObj.href, 'tuple')
+      default:
+        return await this.getEndpoint(huriObj.href, 'body')
+    }
   }
 
   public huri(huri: Huri | string) {
@@ -98,20 +111,8 @@ export class XyoArchivistApi extends XyoApiBase {
     })
   }
 
-  /** @deprecated use huri(huri) instead */
-  public async get(huri: Huri | string): Promise<XyoApiResponseBody<XyoPayload>>
-  /** @deprecated use huri(huri) instead */
-  public async get(huri: Huri | string, responseType?: 'body'): Promise<XyoApiResponseBody<XyoPayload>>
-  /** @deprecated use huri(huri) instead */
-  public async get(huri: Huri | string, responseType?: 'tuple'): Promise<XyoApiResponseTuple<XyoPayload>>
-  /** @deprecated use huri(huri) instead */
-  public async get(huri: Huri | string, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<XyoPayload>> {
-    const huriObj = typeof huri === 'string' ? new Huri(huri) : huri
-    switch (responseType) {
-      case 'tuple':
-        return await this.getEndpoint(huriObj.href, 'tuple')
-      default:
-        return await this.getEndpoint(huriObj.href, 'body')
-    }
+  /** @deprecated use account instead */
+  public wallet(address: XyoDataLike) {
+    return this.account(address)
   }
 }

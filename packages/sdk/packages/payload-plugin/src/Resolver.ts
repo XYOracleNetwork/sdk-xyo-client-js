@@ -6,9 +6,11 @@ import { XyoPayloadPlugin } from './Plugin'
 import { XyoPayloadPluginParams } from './XyoPayloadPluginConfigs'
 
 export class XyoPayloadPluginResolver {
+  public schema = XyoPayloadSchema
+
   protected _plugins: Record<string, XyoPayloadPlugin> = {}
-  protected params: Record<string, XyoPayloadPluginParams> = {}
   protected defaultPlugin: XyoPayloadPlugin
+  protected params: Record<string, XyoPayloadPluginParams> = {}
 
   constructor(
     /** @param plugins The initial set of plugins */
@@ -20,34 +22,6 @@ export class XyoPayloadPluginResolver {
   ) {
     plugins?.forEach((plugin) => this.register(plugin))
     this.defaultPlugin = defaultPlugin
-  }
-  schema = XyoPayloadSchema
-
-  public register<TPlugin extends XyoPayloadPlugin = XyoPayloadPlugin, TParams extends TPlugin['params'] = TPlugin['params']>(
-    plugin: TPlugin,
-    params?: TParams,
-  ) {
-    this._plugins[plugin.schema] = plugin
-    this.params[plugin.schema] = params ?? {}
-    return this
-  }
-
-  public resolve(schema?: string): XyoPayloadPlugin
-  public resolve(payload: XyoPayload): XyoPayloadPlugin
-  public resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin {
-    return value ? this._plugins[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin : this.defaultPlugin
-  }
-
-  public validate(payload: XyoPayload): XyoValidator<XyoPayload> | undefined {
-    return this.resolve(payload).validate?.(payload)
-  }
-
-  public wrap(payload: XyoPayload): PayloadWrapper<XyoPayload> | undefined {
-    return this.resolve(payload).wrap?.(payload)
-  }
-
-  public async witness(schema: string) {
-    return await this._plugins[schema]?.witness?.(this.params[schema]?.witness)
   }
 
   public async diviner(schema: string) {
@@ -69,6 +43,21 @@ export class XyoPayloadPluginResolver {
     return result
   }
 
+  public register<TPlugin extends XyoPayloadPlugin = XyoPayloadPlugin, TParams extends TPlugin['params'] = TPlugin['params']>(
+    plugin: TPlugin,
+    params?: TParams,
+  ) {
+    this._plugins[plugin.schema] = plugin
+    this.params[plugin.schema] = params ?? {}
+    return this
+  }
+
+  public resolve(schema?: string): XyoPayloadPlugin
+  public resolve(payload: XyoPayload): XyoPayloadPlugin
+  public resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin {
+    return value ? this._plugins[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin : this.defaultPlugin
+  }
+
   /** @description Create list of schema, optionally filtered by ability to witness/divine */
   public schemas(type?: 'witness' | 'diviner') {
     const result: string[] = []
@@ -82,5 +71,17 @@ export class XyoPayloadPluginResolver {
       result.push(value.schema)
     })
     return result
+  }
+
+  public validate(payload: XyoPayload): XyoValidator<XyoPayload> | undefined {
+    return this.resolve(payload).validate?.(payload)
+  }
+
+  public async witness(schema: string) {
+    return await this._plugins[schema]?.witness?.(this.params[schema]?.witness)
+  }
+
+  public wrap(payload: XyoPayload): PayloadWrapper<XyoPayload> | undefined {
+    return this.resolve(payload).wrap?.(payload)
   }
 }

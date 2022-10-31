@@ -7,8 +7,24 @@ import { XyoPayload } from '../models'
 import { PayloadValidator } from '../Validator'
 
 export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayload> extends Hasher<TPayload> {
+  public get body() {
+    return deepOmitUnderscoreFields<TPayload>(this.obj)
+  }
+
+  get errors() {
+    return new PayloadValidator(this.payload).validate()
+  }
+
   public get payload() {
     return assertEx(this.obj, 'Missing payload object')
+  }
+
+  public get previousHash() {
+    return null
+  }
+
+  public get schema() {
+    return this.payload.schema
   }
 
   //intentionally not naming this 'schema' so that the wrapper is not confused for a XyoPayload
@@ -16,16 +32,8 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
     return assertEx(this.obj.schema, 'Missing payload schema')
   }
 
-  public get body() {
-    return deepOmitUnderscoreFields<TPayload>(this.obj)
-  }
-
   get valid() {
     return this.errors.length === 0
-  }
-
-  get errors() {
-    return new PayloadValidator(this.payload).validate()
   }
 
   public static load(_address: XyoDataLike | Huri): Promisable<PayloadWrapperBase | null> {
@@ -43,14 +51,6 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
   public static override async load(address: XyoDataLike | Huri) {
     const payload = await new Huri(address).fetch()
     return payload ? new PayloadWrapper(payload) : null
-  }
-
-  public get previousHash() {
-    return null
-  }
-
-  public get schema() {
-    return this.payload.schema
   }
 
   public static override parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {

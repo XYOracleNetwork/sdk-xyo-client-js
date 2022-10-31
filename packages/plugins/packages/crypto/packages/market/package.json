@@ -11,9 +11,34 @@
   },
   "dependencies": {
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
+    "@xyo-network/crypto-asset-payload-plugin": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "@uniswap/sdk": "^3.0.3",
+    "@uniswap/sdk-core": "^3.1.0",
+    "@uniswap/v3-sdk": "^3.9.0",
+    "@xyo-network/typechain": "^2.0.3",
+    "@xyo-network/uniswap-typechain": "^2.0.3"
+  },
+  "peerDependenciesMeta": {
+    "@uniswap/sdk": {
+      "optional": true
+    },
+    "@uniswap/sdk-core": {
+      "optional": true
+    },
+    "@uniswap/v3-sdk": {
+      "optional": true
+    },
+    "@xyo-network/typechain": {
+      "optional": true
+    },
+    "@xyo-network/uniswap-typechain": {
+      "optional": true
+    }
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

@@ -6,7 +6,7 @@ import { XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
 export type XyoUniswapCryptoMarketWitnessConfig = XyoWitnessConfig<
   XyoUniswapCryptoMarketPayload,
   {
-    schema: XyoUniswapCryptoMarketWitnessConfigSchema
     pools: string[]
+    schema: XyoUniswapCryptoMarketWitnessConfigSchema
   }
 >

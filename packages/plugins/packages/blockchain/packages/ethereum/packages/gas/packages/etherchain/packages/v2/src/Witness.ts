@@ -10,6 +10,9 @@ export class XyoEtherchainEthereumGasWitnessV2 extends XyoTimestampWitness<
   XyoEthereumGasEtherchainV2Payload,
   XyoEthereumGasEtherchainV2WitnessConfig
 > {
+  static override configSchema = XyoEthereumGasEtherchainV2WitnessConfigSchema
+  static override targetSchema = XyoEthereumGasEtherchainV2Schema
+
   static override async create(params?: XyoModuleParams<XyoEthereumGasEtherchainV2WitnessConfig>): Promise<XyoEtherchainEthereumGasWitnessV2> {
     return (await super.create(params)) as XyoEtherchainEthereumGasWitnessV2
   }
@@ -17,7 +20,4 @@ export class XyoEtherchainEthereumGasWitnessV2 extends XyoTimestampWitness<
   override async observe(): Promise<XyoEthereumGasEtherchainV2Payload[]> {
     return super.observe([await getV2GasFromEtherchain()])
   }
-
-  static override configSchema = XyoEthereumGasEtherchainV2WitnessConfigSchema
-  static override targetSchema = XyoEthereumGasEtherchainV2Schema
 }

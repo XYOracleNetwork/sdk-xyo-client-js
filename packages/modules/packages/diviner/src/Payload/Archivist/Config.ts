@@ -8,7 +8,7 @@ export const XyoArchivistPayloadDivinerConfigSchema: XyoArchivistPayloadDivinerC
 export type XyoArchivistPayloadDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
   XyoPayload,
   T & {
-    schema: XyoArchivistPayloadDivinerConfigSchema
     archivist?: string
+    schema: XyoArchivistPayloadDivinerConfigSchema
   }
 >

@@ -18,14 +18,14 @@ export type XyoPayloadPlugin<
   TWitnessParams extends XyoModuleParams<XyoWitnessConfig> = XyoModuleParams<XyoWitnessConfig>,
   TDivinerParams extends XyoModuleParams<XyoDivinerConfig> = XyoModuleParams<XyoDivinerConfig>,
 > = {
+  auto?: boolean
+  diviner?: <TParams extends TDivinerParams>(params?: TParams) => Promisable<XyoDiviner>
   params?: XyoPayloadPluginParams<TWitnessParams, TDivinerParams>
   schema: TPayload['schema']
-  auto?: boolean
   template?: () => Partial<TPayload>
   validate?: (payload: XyoPayload) => XyoValidator
-  wrap?: (payload: XyoPayload) => PayloadWrapper
   witness?: <TParams extends TWitnessParams>(params?: TParams) => Promisable<XyoWitness>
-  diviner?: <TParams extends TDivinerParams>(params?: TParams) => Promisable<XyoDiviner>
+  wrap?: (payload: XyoPayload) => PayloadWrapper
 }
 
 /* Note: We use PartialWitnessConfig to allow people to config witnesses without having to pass in all the schema info*/

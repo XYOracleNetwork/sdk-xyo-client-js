@@ -22,27 +22,18 @@ export type XyoCookieArchivistConfigSchema = 'network.xyo.module.config.archivis
 export const XyoCookieArchivistConfigSchema: XyoCookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
 
 export type XyoCookieArchivistConfig = XyoArchivistConfig<{
-  schema: XyoCookieArchivistConfigSchema
   domain?: string
   maxEntries?: number
   maxEntrySize?: number
   namespace?: string
+  schema: XyoCookieArchivistConfigSchema
 }>
 
 export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
-  static override async create(params?: XyoModuleParams<XyoCookieArchivistConfig>): Promise<XyoCookieArchivist> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoCookieArchivist(params)
-    await module.start()
-    return module
-  }
+  static override configSchema = XyoCookieArchivistConfigSchema
 
   public get domain() {
     return this.config?.domain
-  }
-
-  public get namespace() {
-    return this.config?.namespace ?? 'xyoarch'
   }
 
   public get maxEntries() {
@@ -55,27 +46,19 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     return this.config?.maxEntrySize ?? 4000
   }
 
-  public override queries() {
-    return [
-      XyoArchivistAllQuerySchema,
-      XyoArchivistDeleteQuerySchema,
-      XyoArchivistClearQuerySchema,
-      XyoArchivistFindQuerySchema,
-      XyoArchivistCommitQuerySchema,
-      ...super.queries(),
-    ]
+  public get namespace() {
+    return this.config?.namespace ?? 'xyoarch'
   }
 
-  private keyFromHash(hash: string) {
-    return `${this.namespace}-${hash}`
+  static override async create(params?: XyoModuleParams<XyoCookieArchivistConfig>): Promise<XyoCookieArchivist> {
+    return (await super.create(params)) as XyoCookieArchivist
   }
 
-  public override delete(hashes: string[]): PromisableArray<boolean> {
+  public override all(): PromisableArray<XyoPayload> {
     try {
-      return hashes.map((hash) => {
-        Cookies.remove(this.keyFromHash(hash))
-        return true
-      })
+      return Object.entries(Cookies.get())
+        .filter(([key]) => key.startsWith(`${this.namespace}-`))
+        .map(([, value]) => JSON.parse(value))
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -88,6 +71,46 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
         if (key.startsWith(`${this.namespace}-`)) {
           Cookies.remove(key)
         }
+      })
+    } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      throw ex
+    }
+  }
+
+  public override async commit(): Promise<XyoBoundWitness[]> {
+    try {
+      const payloads = await this.all()
+      assertEx(payloads.length > 0, 'Nothing to commit')
+      const settled = await Promise.allSettled(
+        compact(
+          Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
+            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
+              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
+              schema: XyoArchivistInsertQuerySchema,
+            })
+            const query = await this.bindQuery(queryPayload)
+            return (await parent?.query(query[0], query[1]))?.[0]
+          }),
+        ),
+      )
+      await this.clear()
+      return compact(
+        settled.map((result) => {
+          return result.status === 'fulfilled' ? result.value : null
+        }),
+      )
+    } catch (ex) {
+      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
+      throw ex
+    }
+  }
+
+  public override delete(hashes: string[]): PromisableArray<boolean> {
+    try {
+      return hashes.map((hash) => {
+        Cookies.remove(this.keyFromHash(hash))
+        return true
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
@@ -132,42 +155,18 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     }
   }
 
-  public override all(): PromisableArray<XyoPayload> {
-    try {
-      return Object.entries(Cookies.get())
-        .filter(([key]) => key.startsWith(`${this.namespace}-`))
-        .map(([, value]) => JSON.parse(value))
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+  public override queries() {
+    return [
+      XyoArchivistAllQuerySchema,
+      XyoArchivistDeleteQuerySchema,
+      XyoArchivistClearQuerySchema,
+      XyoArchivistFindQuerySchema,
+      XyoArchivistCommitQuerySchema,
+      ...super.queries(),
+    ]
   }
 
-  public override async commit(): Promise<XyoBoundWitness[]> {
-    try {
-      const payloads = await this.all()
-      assertEx(payloads.length > 0, 'Nothing to commit')
-      const settled = await Promise.allSettled(
-        compact(
-          Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
-              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
-              schema: XyoArchivistInsertQuerySchema,
-            })
-            const query = await this.bindQuery(queryPayload)
-            return (await parent?.query(query[0], query[1]))?.[0]
-          }),
-        ),
-      )
-      await this.clear()
-      return compact(
-        settled.map((result) => {
-          return result.status === 'fulfilled' ? result.value : null
-        }),
-      )
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+  private keyFromHash(hash: string) {
+    return `${this.namespace}-${hash}`
   }
 }

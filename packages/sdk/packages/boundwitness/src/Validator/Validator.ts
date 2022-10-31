@@ -15,22 +15,14 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return new Hasher(this.obj).hash
   }
 
-  public signatures() {
-    return [
-      ...validateArraysSameLength(this.obj._signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
-      ...this.obj.addresses.reduce<Error[]>((errors, address, index) => {
-        errors.push(...BoundWitnessValidator.validateSignature(this.hash, address, this.obj._signatures?.[index]))
-        return errors
-      }, []),
-    ]
-  }
-
-  public addressesUniqueness() {
-    const errors: Error[] = []
-    const { addresses } = this.obj
-    const uniqAddresses = uniq(addresses)
-    if (addresses?.length !== uniqAddresses?.length) errors.push(new Error('addresses must be unique'))
-    return errors
+  static validateSignature(hash: string, address: string, signature?: string) {
+    if (!signature) {
+      return [Error(`Missing signature [${address}]`)]
+    }
+    if (!new XyoAddressValue(address).verify(hash, signature)) {
+      return [Error(`Invalid signature [${address}] [${signature}]`)]
+    }
+    return []
   }
 
   public addresses() {
@@ -41,42 +33,11 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
-  private validateArrayLength(fieldName: string, compareArrayName: string) {
+  public addressesUniqueness() {
     const errors: Error[] = []
-
-    const [array, arrayErrors] = validateType('array', this.stringKeyObj[fieldName] as [], true)
-    const [compareArray, compareArrayErrors] = validateType('array', this.stringKeyObj[compareArrayName] as [], true)
-
-    if (array?.length !== compareArray?.length) {
-      errors.push(new Error(`${fieldName}/${compareArrayName} count mismatch [${array?.length} !== ${compareArray?.length}]`))
-    }
-
-    return [...arrayErrors, ...compareArrayErrors, ...errors]
-  }
-
-  public validatePayloadHashesLength() {
-    const errors: Error[] = []
-    errors.push(...this.validateArrayLength('payload_hashes', 'payload_schemas'))
-    return errors
-  }
-
-  public validateArrayLengths() {
-    const errors: Error[] = []
-    errors.push(...this.validatePayloadHashesLength())
-    return errors
-  }
-
-  public schemas() {
-    const errors: Error[] = []
-    const Schemas = this.obj.payload_schemas
-    if (Schemas) {
-      const schemaValidators: XyoSchemaNameValidator[] = Schemas.map((schema: string) => {
-        return new XyoSchemaNameValidator(schema)
-      })
-      schemaValidators.forEach((validator) => {
-        errors.push(...validator.all())
-      })
-    }
+    const { addresses } = this.obj
+    const uniqAddresses = uniq(addresses)
+    if (addresses?.length !== uniqAddresses?.length) errors.push(new Error('addresses must be unique'))
     return errors
   }
 
@@ -94,6 +55,30 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
+  public schemas() {
+    const errors: Error[] = []
+    const Schemas = this.obj.payload_schemas
+    if (Schemas) {
+      const schemaValidators: XyoSchemaNameValidator[] = Schemas.map((schema: string) => {
+        return new XyoSchemaNameValidator(schema)
+      })
+      schemaValidators.forEach((validator) => {
+        errors.push(...validator.all())
+      })
+    }
+    return errors
+  }
+
+  public signatures() {
+    return [
+      ...validateArraysSameLength(this.obj._signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
+      ...this.obj.addresses.reduce<Error[]>((errors, address, index) => {
+        errors.push(...BoundWitnessValidator.validateSignature(this.hash, address, this.obj._signatures?.[index]))
+        return errors
+      }, []),
+    ]
+  }
+
   public override validate() {
     return [
       ...this.signatures(),
@@ -106,14 +91,29 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     ]
   }
 
-  static validateSignature(hash: string, address: string, signature?: string) {
-    if (!signature) {
-      return [Error(`Missing signature [${address}]`)]
+  public validateArrayLengths() {
+    const errors: Error[] = []
+    errors.push(...this.validatePayloadHashesLength())
+    return errors
+  }
+
+  public validatePayloadHashesLength() {
+    const errors: Error[] = []
+    errors.push(...this.validateArrayLength('payload_hashes', 'payload_schemas'))
+    return errors
+  }
+
+  private validateArrayLength(fieldName: string, compareArrayName: string) {
+    const errors: Error[] = []
+
+    const [array, arrayErrors] = validateType('array', this.stringKeyObj[fieldName] as [], true)
+    const [compareArray, compareArrayErrors] = validateType('array', this.stringKeyObj[compareArrayName] as [], true)
+
+    if (array?.length !== compareArray?.length) {
+      errors.push(new Error(`${fieldName}/${compareArrayName} count mismatch [${array?.length} !== ${compareArray?.length}]`))
     }
-    if (!new XyoAddressValue(address).verify(hash, signature)) {
-      return [Error(`Invalid signature [${address}] [${signature}]`)]
-    }
-    return []
+
+    return [...arrayErrors, ...compareArrayErrors, ...errors]
   }
 }
 

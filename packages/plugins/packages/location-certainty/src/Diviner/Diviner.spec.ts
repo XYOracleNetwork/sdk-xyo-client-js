@@ -6,6 +6,69 @@ import { LocationCertaintyPayload } from '../Payload'
 import { LocationCertaintySchema } from '../Schema'
 import { LocationCertaintyDiviner } from './Diviner'
 
+const sample1: XyoLocationPayload[] = [
+  {
+    altitude: -5,
+    latitude: 32.71664,
+    longitude: -117.12033,
+    schema: XyoLocationSchema,
+  },
+  {
+    altitude: -9,
+    latitude: 32.7174,
+    longitude: -117.11674,
+    schema: XyoLocationSchema,
+  },
+  {
+    altitude: -11,
+    latitude: 32.71788,
+    longitude: -117.11377,
+    schema: XyoLocationSchema,
+  },
+]
+
+const sample2: XyoLocationPayload[] = [
+  {
+    altitude: 50,
+    latitude: 32.71664,
+    longitude: -117.12033,
+    schema: XyoLocationSchema,
+  },
+  {
+    altitude: 53,
+    latitude: 32.7174,
+    longitude: -117.11674,
+    schema: XyoLocationSchema,
+  },
+  {
+    altitude: 55,
+    latitude: 32.71788,
+    longitude: -117.11377,
+    schema: XyoLocationSchema,
+  },
+]
+
+const sample3: XyoLocationPayload[] = [
+  {
+    altitude: 151,
+    latitude: 32.71664,
+    longitude: -117.12033,
+    schema: XyoLocationSchema,
+  },
+  {
+    altitude: 163,
+    latitude: 32.7174,
+    longitude: -117.11674,
+    schema: XyoLocationSchema,
+  },
+  {
+    altitude: 168,
+    latitude: 32.71788,
+    longitude: -117.11377,
+    schema: XyoLocationSchema,
+  },
+]
+
 describe('MongoDBLocationCertaintyDiviner', () => {
   let payloadsArchivist: XyoArchivist
   let sut: LocationCertaintyDiviner
@@ -28,6 +91,14 @@ describe('MongoDBLocationCertaintyDiviner', () => {
         const actual = locationsResult[0] as LocationCertaintyPayload
         expect(actual).toBeObject()
         expect(actual.schema).toBe(LocationCertaintySchema)
+
+        const locationsResult1 = await sut.divine(sample1)
+        const locationsResult2 = await sut.divine(sample2)
+        const locationsResult3 = await sut.divine(sample3)
+
+        console.log(JSON.stringify(locationsResult1, null, 2))
+        console.log(JSON.stringify(locationsResult2, null, 2))
+        console.log(JSON.stringify(locationsResult3, null, 2))
       })
     })
   })

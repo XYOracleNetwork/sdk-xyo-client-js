@@ -11,18 +11,21 @@ export const XyoLocationWitnessConfigSchema: XyoLocationWitnessConfigSchema = 'n
 export type XyoLocationWitnessConfig = XyoWitnessConfig<
   XyoLocationPayload,
   {
-    schema: XyoLocationWitnessConfigSchema
     geolocation: Geolocation
+    schema: XyoLocationWitnessConfigSchema
   }
 >
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
-  static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {
-    return (await super.create(params)) as XyoLocationWitness
-  }
+  static override configSchema = XyoLocationWitnessConfigSchema
+  static override targetSchema = XyoLocationSchema
 
   public get geolocation() {
     return this.config?.geolocation
+  }
+
+  static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {
+    return (await super.create(params)) as XyoLocationWitness
   }
 
   public getCurrentPosition() {
@@ -55,7 +58,4 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
     }
     return super.observe([payload])
   }
-
-  static override configSchema = XyoLocationWitnessConfigSchema
-  static override targetSchema = XyoLocationSchema
 }

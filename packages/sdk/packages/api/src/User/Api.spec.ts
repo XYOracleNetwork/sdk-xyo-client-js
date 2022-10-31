@@ -1,6 +1,6 @@
 import { typeOf } from '@xyo-network/typeof'
 
-import { XyoArchivistApi } from '../Archivist'
+import { XyoArchivistApi } from '../Api'
 import { XyoApiConfig, XyoApiError } from '../models'
 import { XyoUserApi } from './Api'
 

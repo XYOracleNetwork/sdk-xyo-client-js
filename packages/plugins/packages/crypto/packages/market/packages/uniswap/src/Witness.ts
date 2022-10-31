@@ -13,6 +13,9 @@ export interface XyoUniswapCryptoMarketWitnessParams extends XyoModuleParams<Xyo
 }
 
 export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfig> {
+  static override configSchema = XyoUniswapCryptoMarketWitnessConfigSchema
+  static override targetSchema = XyoUniswapCryptoMarketSchema
+
   protected pairs?: EthersUniSwap3Pair[]
   protected provider?: Provider
   protected constructor(params?: XyoUniswapCryptoMarketWitnessParams) {
@@ -41,7 +44,4 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
     this.pairs = createUniswapPoolContracts(assertEx(this.provider, 'Provider Required'), this.config?.pools ?? UniswapPoolContracts)
     return await super.start()
   }
-
-  static override configSchema = XyoUniswapCryptoMarketWitnessConfigSchema
-  static override targetSchema = XyoUniswapCryptoMarketSchema
 }

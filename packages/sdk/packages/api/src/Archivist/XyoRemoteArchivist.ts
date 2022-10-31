@@ -1,32 +1,67 @@
-import { assertEx } from '@xylabs/assert'
 import { XyoArchivist, XyoArchivistFindQuerySchema } from '@xyo-network/archivist'
 import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
+import { XyoArchivistApi } from '../Api'
 import { RemoteArchivistError } from './RemoteArchivistError'
-import { XyoRemoteArchivistConfig } from './XyoRemoteArchivistConfig'
+import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
+
+export type XyoRemoteArchivistParams = XyoModuleParams<XyoRemoteArchivistConfig> & { api?: XyoArchivistApi }
 
 /** @description Archivist Context that connects to a remote archivist using the API */
 export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
-  static override async create(params?: XyoModuleParams<XyoRemoteArchivistConfig>): Promise<XyoRemoteArchivist> {
-    params?.logger?.debug(`params: ${JSON.stringify(params, null, 2)}`)
-    const module = new XyoRemoteArchivist(params)
-    await module.start()
-    return module
+  static override configSchema = XyoRemoteArchivistConfigSchema
+  protected _api?: XyoArchivistApi
+
+  constructor(params?: XyoRemoteArchivistParams) {
+    super(params)
+    this._api = params?.api
   }
 
   public get api() {
-    return assertEx(this.config?.api, 'API not defined')
-  }
-
-  public override queries() {
-    return [XyoArchivistFindQuerySchema, ...super.queries()]
+    if (this._api) {
+      return this._api
+    }
+    // eslint-disable-next-line deprecation/deprecation
+    if (this.config?.api) {
+      this.logger?.warn('api specified in config but should be specified in params')
+      // eslint-disable-next-line deprecation/deprecation
+      return this.config?.api
+    }
+    throw Error('No api specified')
   }
 
   public get archive() {
     return this.config?.archive
+  }
+
+  static override async create(params?: XyoRemoteArchivistParams): Promise<XyoRemoteArchivist> {
+    return (await super.create(params)) as XyoRemoteArchivist
+  }
+
+  public override async find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): Promise<R[]> {
+    try {
+      const [payloads = [], payloadEnvelope, payloadResponse] = await this.api.archive(this.archive).payload.find(filter, 'tuple')
+      if (payloadEnvelope?.error?.length) {
+        throw new RemoteArchivistError('find', payloadEnvelope.error.shift(), 'payloads')
+      }
+      if (payloadResponse?.status >= 300) {
+        throw new RemoteArchivistError('find', `Invalid payload status [${payloadResponse.status}]`, 'payloads')
+      }
+      const [blocks = [], blockEnvelope, blockResponse] = await this.api.archive(this.archive).block.find(filter, 'tuple')
+      if (blockEnvelope?.error?.length) {
+        throw new RemoteArchivistError('find', blockEnvelope.error.shift(), 'payloads')
+      }
+      if (blockResponse?.status >= 300) {
+        throw new RemoteArchivistError('find', `Invalid block status [${blockResponse.status}]`, 'payloads')
+      }
+      return payloads.concat(blocks) as R[]
+    } catch (ex) {
+      console.error(ex)
+      throw ex
+    }
   }
 
   public async get(hashes: string[]): Promise<XyoPayload[]> {
@@ -81,23 +116,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
     }
   }
 
-  public override async find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): Promise<R[]> {
-    try {
-      const [payloads = [], { error: payloadError }] = await this.api.archive(this.archive).payload.find(filter, 'tuple')
-      if (payloadError?.length) {
-        throw new RemoteArchivistError('find', payloadError, 'payloads')
-      }
-      const [blocks = [], response, error] = await this.api.archive(this.archive).block.find(filter, 'tuple')
-      if (error?.status >= 400) {
-        throw new RemoteArchivistError('find', `${error.statusText} [${error.status}]`)
-      }
-      if (response?.error?.length) {
-        throw new RemoteArchivistError('find', response?.error)
-      }
-      return payloads.concat(blocks) as R[]
-    } catch (ex) {
-      console.error(ex)
-      throw ex
-    }
+  public override queries() {
+    return [XyoArchivistFindQuerySchema, ...super.queries()]
   }
 }

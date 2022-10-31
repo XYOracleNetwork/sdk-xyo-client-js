@@ -14,7 +14,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node": "workspace:^",
     "terminal-kit": "^3.0.0",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "yargs": "^17.6.0"
   },
   "bin": {

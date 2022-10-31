@@ -16,7 +16,7 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "pako": "^2.0.4",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "peerDependencies": {
     "axios": "^0.27.2"

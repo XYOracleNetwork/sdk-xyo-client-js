@@ -16,7 +16,7 @@
     "@xyo-network/payload": "workspace:^",
     "bip39": "^3.0.4",
     "sha.js": "^2.4.11",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

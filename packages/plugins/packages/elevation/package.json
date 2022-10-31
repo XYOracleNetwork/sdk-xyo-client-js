@@ -19,7 +19,7 @@
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "peerDependencies": {
     "axios": "^0.27.2",

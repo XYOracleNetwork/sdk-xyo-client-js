@@ -16,7 +16,7 @@
     "@xyo-network/witness": "workspace:^",
     "bowser": "^2.11.0",
     "lodash": "^4.17.21",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.186"

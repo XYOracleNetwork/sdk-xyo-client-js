@@ -1,11 +1,12 @@
-import { XyoMemoryArchivist } from '@xyo-network/archivist'
+import { Archivist, XyoArchivist, XyoMemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
-import { XyoModuleResolver } from '@xyo-network/module'
+import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
 import { PayloadWrapper, XyoPayloadSchema } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
+import { mock, MockProxy } from 'jest-mock-extended'
 
 import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from './XyoPanel'
 
@@ -73,5 +74,32 @@ describe('XyoPanel', () => {
     expect(report2.prev(panel.address)).toBe(report1.hash)
     expect(report1.valid).toBe(true)
     expect(report2.valid).toBe(true)
+  })
+  describe('report', () => {
+    let witnessA: MockProxy<XyoWitness>
+    let witnessB: MockProxy<XyoWitness>
+    let archivistA: XyoArchivist
+    let archivistB: XyoArchivist
+    beforeEach(async () => {
+      witnessA = mock<XyoWitness>()
+      witnessB = mock<XyoWitness>()
+      archivistA = await XyoMemoryArchivist.create()
+      archivistB = await XyoMemoryArchivist.create()
+    })
+    it('reports', async () => {
+      const resolver = new XyoModuleResolver()
+      resolver.add([witnessA, witnessB, archivistA, archivistB])
+      const params: XyoModuleParams<XyoPanelConfig> = {
+        config: {
+          archivists: [archivistA.address, archivistB.address],
+          schema: 'network.xyo.panel.config',
+          witnesses: [witnessA.address, witnessB.address],
+        },
+        resolver,
+      }
+      const panel = await XyoPanel.create(params)
+      const result = await panel.report()
+      expect(result).toBeArray()
+    })
   })
 })

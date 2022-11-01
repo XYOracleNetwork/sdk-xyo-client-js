@@ -99,8 +99,7 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report()
-        assertPanelReportShape(result)
-        await assertArchivistState([archivistA, archivistB])
+        await assertPostTestState(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {
         const resolver = new XyoModuleResolver()
@@ -115,8 +114,7 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report([witnessB])
-        assertPanelReportShape(result)
-        await assertArchivistState([archivistA, archivistB])
+        await assertPostTestState(result, [archivistA, archivistB])
       })
       it('inline', async () => {
         const resolver = new XyoModuleResolver()
@@ -131,23 +129,24 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report([witnessA, witnessB])
-        assertPanelReportShape(result)
-        await assertArchivistState([archivistA, archivistB])
+        await assertPostTestState(result, [archivistA, archivistB])
       })
     })
   })
 })
 
-const assertPanelReportShape = (result: [XyoBoundWitness[], XyoPayload[]]) => {
+const assertPostTestState = async (result: [XyoBoundWitness[], XyoPayload[]], archivists: Archivist[]) => {
   expect(result).toBeArrayOfSize(2)
-  const [bws, payloads] = result
+  const [bws, panelPayloads] = result
   expect(bws).toBeArrayOfSize(4)
-  expect(payloads).toBeArrayOfSize(3)
-}
-
-const assertArchivistState = async (archivists: Archivist[]) => {
+  expect(panelPayloads).toBeArrayOfSize(3)
   for (const archivist of archivists) {
-    const payloads = await archivist.all?.()
-    expect(payloads).toBeArrayOfSize(3)
+    const archivistPayloads = await archivist.all?.()
+    expect(archivistPayloads).toBeArrayOfSize(3)
+    const panelPayloadsForEquivalence = panelPayloads.map((payload) => {
+      const wrapped = new PayloadWrapper(payload)
+      return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
+    })
+    expect(archivistPayloads).toContainValues(panelPayloadsForEquivalence)
   }
 }

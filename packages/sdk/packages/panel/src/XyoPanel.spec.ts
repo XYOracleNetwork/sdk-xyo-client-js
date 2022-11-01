@@ -1,12 +1,11 @@
 import { XyoArchivist, XyoMemoryArchivist } from '@xyo-network/archivist'
-import { BoundWitnessWrapper, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoIdPayload, XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
+import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
-import { PayloadWrapper, XyoPayloadSchema } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
-import { mock, MockProxy } from 'jest-mock-extended'
 
 import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from './XyoPanel'
 
@@ -100,10 +99,7 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report()
-        expect(result).toBeArrayOfSize(2)
-        const [bws, payloads] = result
-        expect(bws).toBeArrayOfSize(4)
-        expect(payloads).toBeArrayOfSize(3)
+        assertPanelReportShape(result)
       })
       it('config & inline', async () => {
         const resolver = new XyoModuleResolver()
@@ -118,10 +114,7 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report([witnessB])
-        expect(result).toBeArrayOfSize(2)
-        const [bws, payloads] = result
-        expect(bws).toBeArrayOfSize(4)
-        expect(payloads).toBeArrayOfSize(3)
+        assertPanelReportShape(result)
       })
       it('inline', async () => {
         const resolver = new XyoModuleResolver()
@@ -136,11 +129,15 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report([witnessA, witnessB])
-        expect(result).toBeArrayOfSize(2)
-        const [bws, payloads] = result
-        expect(bws).toBeArrayOfSize(4)
-        expect(payloads).toBeArrayOfSize(3)
+        assertPanelReportShape(result)
       })
     })
   })
 })
+
+const assertPanelReportShape = (result: [XyoBoundWitness[], XyoPayload[]]) => {
+  expect(result).toBeArrayOfSize(2)
+  const [bws, payloads] = result
+  expect(bws).toBeArrayOfSize(4)
+  expect(payloads).toBeArrayOfSize(3)
+}

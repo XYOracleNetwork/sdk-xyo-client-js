@@ -1,4 +1,4 @@
-import { Archivist, XyoArchivist, XyoMemoryArchivist } from '@xyo-network/archivist'
+import { XyoArchivist, XyoMemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'

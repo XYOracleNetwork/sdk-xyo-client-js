@@ -1,6 +1,6 @@
 import { XyoArchivist, XyoMemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
+import { XyoIdPayload, XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
 import { PayloadWrapper, XyoPayloadSchema } from '@xyo-network/payload'
@@ -76,33 +76,71 @@ describe('XyoPanel', () => {
     expect(report2.valid).toBe(true)
   })
   describe('report', () => {
-    let witnessA: MockProxy<XyoWitness>
-    let witnessB: MockProxy<XyoWitness>
+    let witnessA: XyoWitness
+    let witnessB: XyoWitness
     let archivistA: XyoArchivist
     let archivistB: XyoArchivist
     beforeEach(async () => {
-      witnessA = mock<XyoWitness>()
-      witnessB = mock<XyoWitness>()
+      witnessA = await XyoIdWitness.create({ config: { salt: 'witnessA', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
+      witnessB = await XyoIdWitness.create({ config: { salt: 'witnessB', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
       archivistA = await XyoMemoryArchivist.create()
       archivistB = await XyoMemoryArchivist.create()
     })
-    it('reports', async () => {
-      const resolver = new XyoModuleResolver()
-      resolver.add([witnessA, witnessB, archivistA, archivistB])
-      const params: XyoModuleParams<XyoPanelConfig> = {
-        config: {
-          archivists: [archivistA.address, archivistB.address],
-          schema: 'network.xyo.panel.config',
-          witnesses: [witnessA.address, witnessB.address],
-        },
-        resolver,
-      }
-      const panel = await XyoPanel.create(params)
-      const result = await panel.report()
-      expect(result).toBeArrayOfSize(2)
-      const [bws, payloads] = result
-      expect(bws).toBeArrayOfSize(4)
-      expect(payloads).toBeArrayOfSize(1)
+    describe('reports witnesses when supplied in', () => {
+      it('config', async () => {
+        const resolver = new XyoModuleResolver()
+        resolver.add([witnessA, witnessB, archivistA, archivistB])
+        const params: XyoModuleParams<XyoPanelConfig> = {
+          config: {
+            archivists: [archivistA.address, archivistB.address],
+            schema: 'network.xyo.panel.config',
+            witnesses: [witnessA.address, witnessB.address],
+          },
+          resolver,
+        }
+        const panel = await XyoPanel.create(params)
+        const result = await panel.report()
+        expect(result).toBeArrayOfSize(2)
+        const [bws, payloads] = result
+        expect(bws).toBeArrayOfSize(4)
+        expect(payloads).toBeArrayOfSize(3)
+      })
+      it('config & inline', async () => {
+        const resolver = new XyoModuleResolver()
+        resolver.add([witnessA, archivistA, archivistB])
+        const params: XyoModuleParams<XyoPanelConfig> = {
+          config: {
+            archivists: [archivistA.address, archivistB.address],
+            schema: 'network.xyo.panel.config',
+            witnesses: [witnessA.address],
+          },
+          resolver,
+        }
+        const panel = await XyoPanel.create(params)
+        const result = await panel.report([witnessB])
+        expect(result).toBeArrayOfSize(2)
+        const [bws, payloads] = result
+        expect(bws).toBeArrayOfSize(4)
+        expect(payloads).toBeArrayOfSize(3)
+      })
+      it('inline', async () => {
+        const resolver = new XyoModuleResolver()
+        resolver.add([archivistA, archivistB])
+        const params: XyoModuleParams<XyoPanelConfig> = {
+          config: {
+            archivists: [archivistA.address, archivistB.address],
+            schema: 'network.xyo.panel.config',
+            witnesses: [],
+          },
+          resolver,
+        }
+        const panel = await XyoPanel.create(params)
+        const result = await panel.report([witnessA, witnessB])
+        expect(result).toBeArrayOfSize(2)
+        const [bws, payloads] = result
+        expect(bws).toBeArrayOfSize(4)
+        expect(payloads).toBeArrayOfSize(3)
+      })
     })
   })
 })

@@ -135,18 +135,18 @@ describe('XyoPanel', () => {
   })
 })
 
-const assertPostTestState = async (result: [XyoBoundWitness[], XyoPayload[]], archivists: Archivist[]) => {
-  expect(result).toBeArrayOfSize(2)
-  const [bws, panelPayloads] = result
+const assertPostTestState = async (panelReport: [XyoBoundWitness[], XyoPayload[]], archivists: Archivist[]) => {
+  expect(panelReport).toBeArrayOfSize(2)
+  const [bws, payloads] = panelReport
   expect(bws).toBeArrayOfSize(4)
-  expect(panelPayloads).toBeArrayOfSize(3)
+  expect(payloads).toBeArrayOfSize(3)
   for (const archivist of archivists) {
     const archivistPayloads = await archivist.all?.()
     expect(archivistPayloads).toBeArrayOfSize(3)
-    const panelPayloadsForEquivalence = panelPayloads.map((payload) => {
+    const panelPayloads = payloads.map((payload) => {
       const wrapped = new PayloadWrapper(payload)
       return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
     })
-    expect(archivistPayloads).toContainValues(panelPayloadsForEquivalence)
+    expect(archivistPayloads).toContainValues(panelPayloads)
   }
 }

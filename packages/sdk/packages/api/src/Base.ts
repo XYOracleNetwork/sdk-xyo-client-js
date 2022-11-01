@@ -1,6 +1,3 @@
-import { Axios, AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import { gzip } from 'pako'
-
 import {
   XyoApiConfig,
   XyoApiEnvelope,
@@ -11,7 +8,9 @@ import {
   XyoApiResponseTuple,
   XyoApiResponseTupleOrBody,
   XyoApiResponseType,
-} from './models'
+} from '@xyo-network/api-models'
+import { Axios, AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
+import { gzip } from 'pako'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApiReportable {
   public readonly config: C

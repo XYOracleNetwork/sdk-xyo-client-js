@@ -1,6 +1,7 @@
 releases:
   "@xyo-network/account": minor
   "@xyo-network/api": minor
+  "@xyo-network/api-models": minor
   "@xyo-network/archivist": minor
   "@xyo-network/blockchain-payload-plugins": minor
   "@xyo-network/boundwitness": minor

@@ -99,7 +99,10 @@ describe('XyoPanel', () => {
       }
       const panel = await XyoPanel.create(params)
       const result = await panel.report()
-      expect(result).toBeArray()
+      expect(result).toBeArrayOfSize(2)
+      const [bws, payloads] = result
+      expect(bws).toBeArrayOfSize(4)
+      expect(payloads).toBeArrayOfSize(1)
     })
   })
 })

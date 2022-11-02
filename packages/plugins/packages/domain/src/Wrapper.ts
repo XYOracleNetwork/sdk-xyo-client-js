@@ -1,4 +1,4 @@
-import { XyoApiEnvelope } from '@xyo-network/api'
+import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { DnsRecordType, domainResolve, isBrowser } from '@xyo-network/core'
 import { XyoNetworkPayload, XyoNetworkPayloadWrapper } from '@xyo-network/network'
 import { Huri, HuriOptions, PayloadWrapper, XyoFetchedPayload } from '@xyo-network/payload'

@@ -1,7 +1,7 @@
+import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '@xyo-network/api-models'
 import { XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 
 import { XyoApiBase } from './Base'
-import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from './models'
 import { objToQuery } from './objToQuery'
 
 export type XyoApiSimpleQuery = XyoPayloadFindFilter

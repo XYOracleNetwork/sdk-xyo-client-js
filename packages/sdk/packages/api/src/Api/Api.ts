@@ -1,10 +1,10 @@
 import { XyoAddressValue } from '@xyo-network/account'
+import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '@xyo-network/api-models'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoDataLike } from '@xyo-network/core'
 import { Huri, XyoPayload } from '@xyo-network/payload'
 
 import { XyoApiBase } from '../Base'
-import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '../models'
 import { XyoApiSimple } from '../Simple'
 import { XyoUserApi } from '../User'
 import { XyoAccountApi } from './Account'

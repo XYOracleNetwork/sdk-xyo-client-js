@@ -8,12 +8,15 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "description": "Primary SDK for using XYO Protocol 2.0",
-  "browser": "dist/esm/index.js",
-  "docs": "dist/docs.json",
   "dependencies": {
     "tslib": "^2.4.1"
   },
+  "peerDependencies": {
+    "axios": "^1.1.3"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "browser": "dist/esm/index.js",
+  "docs": "dist/docs.json",
   "exports": {
     ".": {
       "node": {
@@ -35,7 +38,7 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/promise",
+  "name": "@xyo-network/api-models",
   "publishConfig": {
     "access": "public"
   },

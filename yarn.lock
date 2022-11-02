@@ -2996,9 +2996,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/providers@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "@metamask/providers@npm:10.0.0"
+"@metamask/providers@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "@metamask/providers@npm:10.1.0"
   dependencies:
     "@metamask/object-multiplex": ^1.1.0
     "@metamask/safe-event-emitter": ^2.0.0
@@ -3009,10 +3009,10 @@ __metadata:
     fast-deep-equal: ^2.0.1
     is-stream: ^2.0.0
     json-rpc-engine: ^6.1.0
-    json-rpc-middleware-stream: ^4.0.0
+    json-rpc-middleware-stream: ^4.1.0
     pump: ^3.0.0
     webextension-polyfill-ts: ^0.25.0
-  checksum: 7b1908f8dee1ed7a73eb1f4bf9fe8344dfa948786d88c5fec6a4f3042cffede96a761267434d588a41e8b200e2ce243af857fe9fd22d456fcc64f883bf6c2e51
+  checksum: 849687c87795f338345a4e49ccff94d8b4e68ae96e8645c7156a89ad704f677bcee123b9dea64537218aa7a7fb574beb28bbbba8e35b090a70d336caa90f234c
   languageName: node
   linkType: hard
 
@@ -3617,10 +3617,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.5, @types/node@npm:^18.11.7":
-  version: 18.11.7
-  resolution: "@types/node@npm:18.11.7"
-  checksum: 69d630825cf6fbf580d08d76a4d4836ef8c34ed4fe0842221ade87d275f517099cbfabe8e22397208e564bd24926db97699ab9db5c091383269a432b336665e2
+"@types/node@npm:*, @types/node@npm:^18.11.5, @types/node@npm:^18.11.8":
+  version: 18.11.8
+  resolution: "@types/node@npm:18.11.8"
+  checksum: 60b358f97c1a029722dc785811b217615ef20249c3fbde60a65869cfd7a5cd5b1872ee95c79c187ef70e5a078f4ac7670d2129803985268b1f021ad6e8040af8
   languageName: node
   linkType: hard
 
@@ -4315,11 +4315,21 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     elliptic: ^6.5.4
     sha.js: ^2.4.11
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
-"@xyo-network/api@workspace:^, @xyo-network/api@workspace:packages/sdk/packages/api":
+"@xyo-network/api-models@workspace:^, @xyo-network/api-models@workspace:packages/sdk/packages/api-models":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/api-models@workspace:packages/sdk/packages/api-models"
+  dependencies:
+    tslib: ^2.4.1
+  peerDependencies:
+    axios: ^1.1.3
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/api@workspace:packages/sdk/packages/api":
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
   dependencies:
@@ -4329,6 +4339,7 @@ __metadata:
     "@xylabs/delay": ^2.6.9
     "@xylabs/sdk-js": ^2.6.9
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
@@ -4337,9 +4348,9 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4359,7 +4370,7 @@ __metadata:
     lodash: ^4.17.21
     lru-cache: ^7.14.0
     store2: ^2.14.2
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4369,7 +4380,7 @@ __metadata:
   dependencies:
     "@xyo-network/ethereum-blockchain-payload-plugins": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4386,7 +4397,7 @@ __metadata:
     "@xyo-network/shared": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4401,7 +4412,7 @@ __metadata:
     "@xyo-network/witness": "workspace:^"
     bowser: ^2.11.0
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4415,9 +4426,9 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     pako: ^2.0.4
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
   languageName: unknown
   linkType: soft
 
@@ -4430,7 +4441,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ^1.1.3
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4450,7 +4461,7 @@ __metadata:
     keccak256: ^1.0.6
     lodash: ^4.17.21
     sha.js: ^2.4.11
-    tslib: ^2.4.0
+    tslib: ^2.4.1
     uuid: ^9.0.0
   languageName: unknown
   linkType: soft
@@ -4467,7 +4478,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.1.0
@@ -4486,7 +4497,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4499,7 +4510,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4510,7 +4521,7 @@ __metadata:
     "@xyo-network/crypto-cards-game-payload-plugin": "workspace:^"
     "@xyo-network/crypto-cards-move-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4522,7 +4533,7 @@ __metadata:
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.1.0
@@ -4550,7 +4561,7 @@ __metadata:
     "@xyo-network/crypto-cards-payload-plugins": "workspace:^"
     "@xyo-network/crypto-market-payload-plugins": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4565,7 +4576,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4575,7 +4586,7 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.186
     "@xylabs/assert": ^2.6.9
-    "@xyo-network/api": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/network": "workspace:^"
@@ -4583,9 +4594,9 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4609,9 +4620,9 @@ __metadata:
     "@xyo-network/utils": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4625,7 +4636,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ^1.1.3
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4638,7 +4649,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ^1.1.3
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4649,7 +4660,7 @@ __metadata:
     "@xyo-network/etherchain-ethereum-gas-v1-payload-plugin": "workspace:^"
     "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4659,7 +4670,7 @@ __metadata:
   dependencies:
     "@xyo-network/gas-ethereum-blockchain-payload-plugins": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4673,7 +4684,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ^1.1.3
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4684,7 +4695,7 @@ __metadata:
     "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^"
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4697,7 +4708,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4708,7 +4719,7 @@ __metadata:
     "@xyo-network/bowser-system-info-payload-plugin": "workspace:^"
     "@xyo-network/node-system-info-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4723,9 +4734,9 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4739,7 +4750,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/quadkey": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4752,9 +4763,9 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4771,7 +4782,7 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4785,9 +4796,9 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4798,7 +4809,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.6.9
     "@xyo-network/payload": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4806,18 +4817,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-cli@workspace:packages/modules/packages/node-cli"
   dependencies:
-    "@types/node": ^18.11.7
+    "@types/node": ^18.11.8
     "@types/terminal-kit": ^2.5.0
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     terminal-kit: ^3.0.0
     ts-node: ^10.9.1
-    tslib: ^2.4.0
+    tslib: ^2.4.1
     typescript: ^4.8.4
     yargs: ^17.6.0
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   bin:
     xyo: dist/cjs/index.js
@@ -4833,7 +4844,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     systeminformation: ^5.12.11
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4849,9 +4860,9 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4869,7 +4880,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4884,7 +4895,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4901,12 +4912,11 @@ __metadata:
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module-instance-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/pentair-payload-plugin": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/system-payload-plugins": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -4920,11 +4930,11 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     axios: ^1.1.3
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
-"@xyo-network/pentair-payload-plugin@workspace:^, @xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair":
+"@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair":
   version: 0.0.0-use.local
   resolution: "@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair"
   dependencies:
@@ -4933,7 +4943,7 @@ __metadata:
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     node-screenlogic: ^1.10.1
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4941,7 +4951,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/promisable@workspace:packages/sdk/packages/promisable"
   dependencies:
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4949,7 +4959,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/promise@workspace:packages/sdk/packages/promise"
   dependencies:
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4963,7 +4973,7 @@ __metadata:
     "@xylabs/sdk-js": ^2.6.9
     "@xyo-network/sdk-geo": ^2.7.0
     mapbox-gl: ^2.10.0
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -4976,7 +4986,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -5008,7 +5018,7 @@ __metadata:
     ts-jest: ^29.0.3
     typescript: ^4.8.4
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -5029,7 +5039,7 @@ __metadata:
   resolution: "@xyo-network/sdk@workspace:packages/sdk"
   dependencies:
     "@xyo-network/account": "workspace:^"
-    "@xyo-network/api": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/network": "workspace:^"
@@ -5043,9 +5053,9 @@ __metadata:
     "@xyo-network/utils": "workspace:^"
     "@xyo-network/wallet": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -5054,18 +5064,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/shared@workspace:packages/sdk/packages/shared"
   dependencies:
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
-"@xyo-network/solidity@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@xyo-network/solidity@npm:2.0.3"
+"@xyo-network/solidity@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@xyo-network/solidity@npm:2.0.4"
   dependencies:
     "@openzeppelin/contracts": ^4.7.3
     "@uniswap/v3-core": ^1.0.1
     ethers: ^5.7.2
-  checksum: 20ae446400798d1ac5401f9a7f944765fad371a67879b256b60854f59d59c2f1471c01f7549a6edc390f95dbc66e4277b5f27f28c83a795398fadb4cff35418e
+  checksum: baa5ab8bde42a9ea10eb37d8dcb1575368457dbf6af4ca94a116e03165b573784943fb0dbaa041b8529643a945b19fef3e1e22e7bb95bc213eab01dd6b68c350
   languageName: node
   linkType: hard
 
@@ -5079,7 +5089,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.9
     mongodb: ^4.11.0
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -5089,17 +5099,17 @@ __metadata:
   dependencies:
     "@xyo-network/info-system-payload-plugins": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
-"@xyo-network/typechain@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@xyo-network/typechain@npm:2.0.3"
+"@xyo-network/typechain@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@xyo-network/typechain@npm:2.0.4"
   dependencies:
-    "@xyo-network/solidity": ^2.0.3
+    "@xyo-network/solidity": ^2.0.4
     ethers: ^5.7.2
-  checksum: eccfb0d51a7a177145c1e1f8791df9235cafd06feb1bc37a501b067da34b0cdf2f62e681677c536efaef118a6676b6f1202fcab1029c3d2fb2ac8d0030bc4ae3
+  checksum: b5c936b0ed41db5a9f60f2e1eb4d7063a88dea1b768531514d87264fb93dae538d773b64fcd6c6299e65e380df56f6a568d574c0da54a09c053f02bb7015a6d6
   languageName: node
   linkType: hard
 
@@ -5107,7 +5117,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/sdk/packages/typeof"
   dependencies:
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -5130,10 +5140,10 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/typechain": ^2.0.3
-    "@xyo-network/uniswap-typechain": ^2.0.3
+    "@xyo-network/typechain": ^2.0.4
+    "@xyo-network/uniswap-typechain": ^2.0.4
     "@xyo-network/witness": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.1.0
@@ -5143,24 +5153,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/uniswap-solidity@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@xyo-network/uniswap-solidity@npm:2.0.3"
+"@xyo-network/uniswap-solidity@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@xyo-network/uniswap-solidity@npm:2.0.4"
   dependencies:
     "@openzeppelin/contracts": ^4.7.3
     "@uniswap/v3-core": ^1.0.1
     ethers: ^5.7.2
-  checksum: 93fa71f8e2c7d55e6d282c7d5f65bad36bd7b92f9760b2634e860d010a249d552d99609af1bc6ae5f4aa7e6e8b75731824570b8fc15d62002745ca46b8b3f709
+  checksum: 157d8f65c1ef6799edf3c1cdb8c125c0ca6189be827e1afa8516154b75d63fa0242941cc8201f4d62d0e96c171043dbd53b6968cc6764fa76d2b26425db1f5e5
   languageName: node
   linkType: hard
 
-"@xyo-network/uniswap-typechain@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@xyo-network/uniswap-typechain@npm:2.0.3"
+"@xyo-network/uniswap-typechain@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@xyo-network/uniswap-typechain@npm:2.0.4"
   dependencies:
-    "@xyo-network/uniswap-solidity": ^2.0.3
+    "@xyo-network/uniswap-solidity": ^2.0.4
     ethers: ^5.7.2
-  checksum: 2798efbd1024f0fc03830c9bc33171c6744c10e197fb344744a535018ba0ba73f1473644e915848f951626cc0f7e9f16b74f9c8c176e4c791ccddc75bc560634
+  checksum: ab876d534c4b4d6cda7f5a329a1f834a75eecf251ef045e4273752e690b6bd011cfab56e161d4def6add478de5bad2244404b767e45571f641da08784e92a970
   languageName: node
   linkType: hard
 
@@ -5169,7 +5179,7 @@ __metadata:
   resolution: "@xyo-network/utils@workspace:packages/sdk/packages/utils"
   dependencies:
     "@ethersproject/providers": ^5.7.2
-    "@metamask/providers": ^10.0.0
+    "@metamask/providers": ^10.1.0
     "@types/lru-cache": ^7.10.10
     "@xylabs/delay": ^2.6.9
     "@xyo-network/domain-payload-plugin": "workspace:^"
@@ -5177,9 +5187,9 @@ __metadata:
     "@xyo-network/schema-payload-plugin": "workspace:^"
     ajv: ^8.11.0
     lru-cache: ^7.14.0
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   peerDependencies:
-    axios: ^0.27.2
+    axios: ^1.1.3
     pako: ^2.0.4
   languageName: unknown
   linkType: soft
@@ -5195,7 +5205,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     bip39: ^3.0.4
     sha.js: ^2.4.11
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -5208,7 +5218,7 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -5222,7 +5232,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     lodash: ^4.17.21
-    tslib: ^2.4.0
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
@@ -10294,13 +10304,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-rpc-middleware-stream@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "json-rpc-middleware-stream@npm:4.0.0"
+"json-rpc-middleware-stream@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "json-rpc-middleware-stream@npm:4.1.0"
   dependencies:
     "@metamask/safe-event-emitter": ^2.0.0
     readable-stream: ^2.3.3
-  checksum: 7ef6dcf89ee821305d566866ee544cd6800c2da62c2f48f62ddf1b662836907c208b3d03908c19cae09ecdadc88f37156351c5bedb4df8515ad529f20fa97ba4
+  checksum: b0ac848b1dc0a7a562d3ea6d9d7c5831762aa3a1be4054451236f276ed4233c05a4b2b7c0a1fb43c623256e5bc0e52e834d415b131d657b73cce8f5ba8725e43
   languageName: node
   linkType: hard
 
@@ -15875,10 +15885,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.3.1, tslib@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "tslib@npm:2.4.0"
-  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
+"tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "tslib@npm:2.4.1"
+  checksum: 19480d6e0313292bd6505d4efe096a6b31c70e21cf08b5febf4da62e95c265c8f571f7b36fcc3d1a17e068032f59c269fab3459d6cd3ed6949eafecf64315fca
   languageName: node
   linkType: hard
 

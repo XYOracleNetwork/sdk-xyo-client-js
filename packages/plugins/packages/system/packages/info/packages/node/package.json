@@ -15,7 +15,7 @@
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "systeminformation": "^5.12.11",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -50,5 +50,6 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.38.27"
+  "version": "2.39.0",
+  "stableVersion": "2.38.8"
 }

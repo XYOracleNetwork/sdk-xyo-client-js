@@ -47,7 +47,7 @@ describe('XyoAdhocWitness', () => {
         expect(observation?.[0]?.schema).toBe(config.targetSchema)
       })
       it('with payload supplied to observe uses payload schema', async () => {
-        const observed = new XyoPayloadBuilder({ schema: 'network.xyo.observation' }).build()
+        const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
         const config: XyoAdhocWitnessConfig = { payload, schema: XyoAdhocWitnessConfigSchema, targetSchema: 'network.xyo.schema.target' }
         const params: XyoModuleParams<XyoAdhocWitnessConfig> = { config }
         const witness = await XyoAdhocWitness.create(params)

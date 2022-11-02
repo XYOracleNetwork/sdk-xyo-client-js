@@ -79,6 +79,21 @@ describe('XyoPanel', () => {
     let witnessB: XyoWitness
     let archivistA: XyoArchivist
     let archivistB: XyoArchivist
+    const assertArchivistPostTestState = async (panelReport: [XyoBoundWitness[], XyoPayload[]], archivists: Archivist[]) => {
+      expect(panelReport).toBeArrayOfSize(2)
+      const [bws, payloads] = panelReport
+      expect(bws).toBeArrayOfSize(4)
+      expect(payloads).toBeArrayOfSize(3)
+      for (const archivist of archivists) {
+        const archivistPayloads = await archivist.all?.()
+        expect(archivistPayloads).toBeArrayOfSize(3)
+        const panelPayloads = payloads.map((payload) => {
+          const wrapped = new PayloadWrapper(payload)
+          return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
+        })
+        expect(archivistPayloads).toContainValues(panelPayloads)
+      }
+    }
     beforeEach(async () => {
       witnessA = await XyoIdWitness.create({ config: { salt: 'witnessA', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
       witnessB = await XyoIdWitness.create({ config: { salt: 'witnessB', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
@@ -99,7 +114,7 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report()
-        await assertPostTestState(result, [archivistA, archivistB])
+        await assertArchivistPostTestState(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {
         const resolver = new XyoModuleResolver()
@@ -114,7 +129,7 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report([witnessB])
-        await assertPostTestState(result, [archivistA, archivistB])
+        await assertArchivistPostTestState(result, [archivistA, archivistB])
       })
       it('inline', async () => {
         const resolver = new XyoModuleResolver()
@@ -129,24 +144,8 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const result = await panel.report([witnessA, witnessB])
-        await assertPostTestState(result, [archivistA, archivistB])
+        await assertArchivistPostTestState(result, [archivistA, archivistB])
       })
     })
   })
 })
-
-const assertPostTestState = async (panelReport: [XyoBoundWitness[], XyoPayload[]], archivists: Archivist[]) => {
-  expect(panelReport).toBeArrayOfSize(2)
-  const [bws, payloads] = panelReport
-  expect(bws).toBeArrayOfSize(4)
-  expect(payloads).toBeArrayOfSize(3)
-  for (const archivist of archivists) {
-    const archivistPayloads = await archivist.all?.()
-    expect(archivistPayloads).toBeArrayOfSize(3)
-    const panelPayloads = payloads.map((payload) => {
-      const wrapped = new PayloadWrapper(payload)
-      return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
-    })
-    expect(archivistPayloads).toContainValues(panelPayloads)
-  }
-}

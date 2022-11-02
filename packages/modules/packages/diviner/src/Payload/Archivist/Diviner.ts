@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
 import { XyoModuleParams } from '@xyo-network/module'
-import { Huri, PayloadWrapper, XyoPayloads } from '@xyo-network/payload'
+import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
@@ -9,13 +9,29 @@ import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoArchivistPayloadDivinerConfig } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
+  protected archivist?: PayloadArchivist | null
+
   static override async create(params?: XyoModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<XyoArchivistPayloadDiviner> {
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const module = new XyoArchivistPayloadDiviner(params)
     await module.start()
     return module
   }
 
-  protected archivist?: PayloadArchivist | null
+  public async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+    const huriPayloads = assertEx(
+      payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
+      `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
+    )
+    const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
+    const activeArchivist = this.archivist
+    if (activeArchivist) {
+      const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
+      const query = await this.bindQuery(queryPayload)
+      return (await activeArchivist.query(query[0], query[1]))[1]
+    }
+    return []
+  }
 
   override queries() {
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
@@ -33,20 +49,5 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
       }
     }
     return this
-  }
-
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
-    const huriPayloads = assertEx(
-      payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
-      `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
-    )
-    const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
-    const activeArchivist = this.archivist
-    if (activeArchivist) {
-      const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
-      const query = await this.bindQuery(queryPayload)
-      return (await activeArchivist.query(query[0], query[1]))[1]
-    }
-    return []
   }
 }

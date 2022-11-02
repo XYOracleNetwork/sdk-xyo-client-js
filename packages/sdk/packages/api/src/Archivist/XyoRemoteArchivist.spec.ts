@@ -1,9 +1,10 @@
+import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { PayloadWrapper } from '@xyo-network/payload'
 
+import { XyoArchivistApi } from '../Api'
 import { XyoApiConfig } from '../models'
-import { XyoArchivistApi } from './Api'
 import { XyoRemoteArchivist } from './XyoRemoteArchivist'
-import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
+import { XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
 
 const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
@@ -14,7 +15,7 @@ const configData: XyoApiConfig = {
 
 test('XyoRemoteArchivist', async () => {
   const api = new XyoArchivistApi(configData)
-  const archivist = await XyoRemoteArchivist.create({ config: { api, schema: XyoRemoteArchivistConfigSchema } as XyoRemoteArchivistConfig })
+  const archivist = await XyoRemoteArchivist.create({ config: { api, schema: XyoRemoteArchivistConfigSchema } })
   const payload = {
     salt: `${Math.random() * 10000}`,
     schema: 'network.xyo.id',
@@ -25,4 +26,8 @@ test('XyoRemoteArchivist', async () => {
   console.log(`getResult: ${JSON.stringify(getResult)}`)
   expect(getResult.length).toBe(1)
   expect(getResult[0]?.schema).toBe(payload.schema)
+
+  const wrapper = new XyoArchivistWrapper(archivist)
+  const findResult = await wrapper.find()
+  expect(findResult.length).toBe(20)
 })

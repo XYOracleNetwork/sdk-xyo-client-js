@@ -7,9 +7,10 @@ export type LocationTimeRangeAnswerSchema = 'network.xyo.location.range.answer'
 export const LocationTimeRangeAnswerSchema: LocationTimeRangeAnswerSchema = 'network.xyo.location.range.answer'
 
 export type LocationTimeRangeQuery = {
+  schema: LocationWitnessSchema
   startTime?: string
   stopTime?: string
-  schema: LocationWitnessSchema
+
   // TODO: Bounding rectangle, etc.
 }
 

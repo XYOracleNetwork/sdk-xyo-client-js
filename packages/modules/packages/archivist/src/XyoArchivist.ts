@@ -3,7 +3,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
-import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
 import { PayloadArchivist } from './Archivist'
@@ -22,18 +22,25 @@ import {
 import { XyoArchivistWrapper } from './XyoArchivistWrapper'
 
 export interface XyoArchivistParentWrappers {
+  commit?: Record<string, XyoArchivistWrapper>
   read?: Record<string, XyoArchivistWrapper>
   write?: Record<string, XyoArchivistWrapper>
-  commit?: Record<string, XyoArchivistWrapper>
 }
 
 export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig> extends XyoModule<TConfig> implements PayloadArchivist {
-  public override queries() {
-    return [XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, ...super.queries()]
-  }
+  private _parents?: XyoArchivistParentWrappers
 
   protected get cacheParentReads() {
     return !!this.config?.cacheParentReads
+  }
+
+  protected get parents() {
+    this._parents = this._parents ?? {
+      commit: this.resolveArchivists(this.config?.parents?.commit),
+      read: this.resolveArchivists(this.config?.parents?.read),
+      write: this.resolveArchivists(this.config?.parents?.write),
+    }
+    return assertEx(this._parents)
   }
 
   protected get writeThrough() {
@@ -66,9 +73,9 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     }
   }
 
-  abstract get(hashes: string[]): NullablePromisableArray<XyoPayload>
-
-  abstract insert(item: XyoPayload[]): PromisableArray<XyoBoundWitness>
+  public override queries() {
+    return [XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, ...super.queries()]
+  }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
     query: T,
@@ -78,7 +85,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
-    const resultPayloads: (XyoPayload | null)[] = []
+    const resultPayloads: XyoPayload[] = []
     const queryAccount = new XyoAccount()
     try {
       switch (typedQuery.schema) {
@@ -119,21 +126,6 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  private resolveArchivists(archivists?: string[]) {
-    const resolvedWrappers: Record<string, XyoArchivistWrapper> = {}
-    if (archivists) {
-      archivists.map((archivist) => {
-        if (resolvedWrappers[archivist] === undefined) {
-          const module = this.resolver?.fromAddress([archivist]).shift()
-          if (module) {
-            resolvedWrappers[archivist] = new XyoArchivistWrapper(module)
-          }
-        }
-      })
-    }
-    return resolvedWrappers
-  }
-
   protected async getFromParents(hash: string) {
     return compact(
       await Promise.all(
@@ -168,13 +160,22 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     ).flat()
   }
 
-  private _parents?: XyoArchivistParentWrappers
-  protected get parents() {
-    this._parents = this._parents ?? {
-      commit: this.resolveArchivists(this.config?.parents?.commit),
-      read: this.resolveArchivists(this.config?.parents?.read),
-      write: this.resolveArchivists(this.config?.parents?.write),
+  private resolveArchivists(archivists?: string[]) {
+    const resolvedWrappers: Record<string, XyoArchivistWrapper> = {}
+    if (archivists) {
+      archivists.map((archivist) => {
+        if (resolvedWrappers[archivist] === undefined) {
+          const module = this.resolver?.fromAddress([archivist]).shift()
+          if (module) {
+            resolvedWrappers[archivist] = new XyoArchivistWrapper(module)
+          }
+        }
+      })
     }
-    return assertEx(this._parents)
+    return resolvedWrappers
   }
+
+  abstract get(hashes: string[]): PromisableArray<XyoPayload>
+
+  abstract insert(item: XyoPayload[]): PromisableArray<XyoBoundWitness>
 }

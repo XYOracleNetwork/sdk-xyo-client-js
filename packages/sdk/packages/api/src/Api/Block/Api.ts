@@ -1,7 +1,7 @@
+import { XyoApiConfig } from '@xyo-network/api-models'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoApiConfig } from '../../models'
 import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
 import { XyoArchivistPayloadApi } from '../Payload'

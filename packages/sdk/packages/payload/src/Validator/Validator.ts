@@ -4,11 +4,12 @@ import { XyoPayload } from '../models'
 import { XyoSchemaNameValidator } from '../SchemaNameValidator'
 
 export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoValidatorBase<T> implements XyoValidator<T> {
+  private _schemaValidator?: XyoSchemaNameValidator
+
   constructor(payload: T) {
     super(payload)
   }
 
-  private _schemaValidator?: XyoSchemaNameValidator
   get schemaValidator() {
     this._schemaValidator = this._schemaValidator ?? new XyoSchemaNameValidator(this.obj.schema ?? '')
     return this._schemaValidator

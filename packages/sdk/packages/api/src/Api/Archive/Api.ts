@@ -8,6 +8,10 @@ import { XyoArchivistArchiveSettingsApi } from './Settings'
 
 export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
   private _block?: XyoArchivistArchiveBlockApi
+  private _payload?: XyoArchivistPayloadApi
+  private _schemas?: XyoArchivistArchiveSchemasApi
+  private _settings?: XyoArchivistArchiveSettingsApi
+
   public get block(): XyoArchivistArchiveBlockApi {
     this._block =
       this._block ??
@@ -18,7 +22,6 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
     return this._block
   }
 
-  private _payload?: XyoArchivistPayloadApi
   public get payload(): XyoArchivistPayloadApi {
     this._payload =
       this._payload ??
@@ -29,18 +32,6 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
     return this._payload
   }
 
-  private _settings?: XyoArchivistArchiveSettingsApi
-  public get settings(): XyoArchivistArchiveSettingsApi {
-    this._settings =
-      this._settings ??
-      new XyoArchivistArchiveSettingsApi({
-        ...this.config,
-        root: `${this.root}settings/`,
-      })
-    return this._settings
-  }
-
-  private _schemas?: XyoArchivistArchiveSchemasApi
   public get schemas(): XyoArchivistArchiveSchemasApi {
     this._schemas =
       this._schemas ??
@@ -49,6 +40,16 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
         root: `${this.root}schema/`,
       })
     return this._schemas
+  }
+
+  public get settings(): XyoArchivistArchiveSettingsApi {
+    this._settings =
+      this._settings ??
+      new XyoArchivistArchiveSettingsApi({
+        ...this.config,
+        root: `${this.root}settings/`,
+      })
+    return this._settings
   }
 
   public schema(schema: string): XyoArchivistArchiveSchemaApi {

@@ -7,17 +7,19 @@ import { XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema } from './Queries'
 import { XyoNode } from './XyoNode'
 
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends XyoNode<TConfig, TModule> {
-  private registeredModuleMap = new Map<string, TModule>()
   private attachedModuleMap = new Map<string, TModule>()
+  private registeredModuleMap = new Map<string, TModule>()
 
   static override async create(params?: XyoModuleParams<NodeConfig>): Promise<MemoryNode> {
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const module = new MemoryNode(params)
     await module.start()
     return module
   }
 
-  public override queries(): string[] {
-    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, ...super.queries()]
+  override attach(address: string) {
+    const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
+    this.attachedModuleMap.set(address, module)
   }
 
   override attached() {
@@ -26,15 +28,27 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     })
   }
 
-  override registered() {
-    return Array.from(this.registeredModuleMap.keys()).map((key) => {
-      return key
-    })
-  }
-
   override attachedModules() {
     return Array.from(this.attachedModuleMap.values()).map((value) => {
       return value
+    })
+  }
+
+  override detach(address: string) {
+    this.attachedModuleMap.delete(address)
+  }
+
+  public override queries(): string[] {
+    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, ...super.queries()]
+  }
+
+  override register(module: TModule) {
+    this.registeredModuleMap.set(module.address, module)
+  }
+
+  override registered() {
+    return Array.from(this.registeredModuleMap.keys()).map((key) => {
+      return key
     })
   }
 
@@ -53,18 +67,5 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
       }
       return this.attachedModuleMap?.get(address) ?? null
     })
-  }
-
-  override register(module: TModule) {
-    this.registeredModuleMap.set(module.address, module)
-  }
-
-  override attach(address: string) {
-    const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
-    this.attachedModuleMap.set(address, module)
-  }
-
-  override detach(address: string) {
-    this.attachedModuleMap.delete(address)
   }
 }

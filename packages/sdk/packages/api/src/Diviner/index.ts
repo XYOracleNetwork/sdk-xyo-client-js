@@ -1,2 +1,6 @@
 export * from './AddressHistoryDiviner'
+export * from './ArchiveListApiDiviner'
 export * from './LocationDiviner'
+export * from './SchemaListApiDiviner'
+export * from './SchemaStatsApiDiviner'
+export * from './XyoRemoteDivinerConfig'

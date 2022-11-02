@@ -4,6 +4,6 @@ import { Parser } from 'bowser'
 import { XyoBowserSystemInfoSchema } from './Schema'
 
 export type XyoBowserSystemInfoPayload = XyoPayload<{
-  schema: XyoBowserSystemInfoSchema
   bowser?: Parser.ParsedResult
+  schema: XyoBowserSystemInfoSchema
 }>

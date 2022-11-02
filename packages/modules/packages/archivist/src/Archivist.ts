@@ -4,14 +4,14 @@ import { XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
-  get(ids: TId[]): NullablePromisableArray<TReadResponse>
   all?(): PromisableArray<TReadResponse>
+  get(ids: TId[]): NullablePromisableArray<TReadResponse>
 }
 
 export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {
-  insert(item: TWrite[]): PromisableArray<TWriteResponse>
-  delete?(ids: TId[]): PromisableArray<boolean>
   clear?(): Promisable<void>
+  delete?(ids: TId[]): PromisableArray<boolean>
+  insert(item: TWrite[]): PromisableArray<TWriteResponse>
 }
 
 export interface FindArchivist<TReadResponse, TFindResponse = TReadResponse, TFindFilter = unknown> {

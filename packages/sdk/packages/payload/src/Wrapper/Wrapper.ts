@@ -7,25 +7,33 @@ import { XyoPayload } from '../models'
 import { PayloadValidator } from '../Validator'
 
 export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayload> extends Hasher<TPayload> {
-  public get payload() {
-    return this.obj
-  }
-
-  //intentionally not naming this 'schema' so that the wrapper is not confused for a XyoPayload
-  public get schemaName() {
-    return this.obj.schema
-  }
-
   public get body() {
     return deepOmitUnderscoreFields<TPayload>(this.obj)
   }
 
-  get valid() {
-    return this.errors.length === 0
-  }
-
   get errors() {
     return new PayloadValidator(this.payload).validate()
+  }
+
+  public get payload() {
+    return assertEx(this.obj, 'Missing payload object')
+  }
+
+  public get previousHash() {
+    return null
+  }
+
+  public get schema() {
+    return this.payload.schema
+  }
+
+  //intentionally not naming this 'schema' so that the wrapper is not confused for a XyoPayload
+  public get schemaName() {
+    return assertEx(this.obj.schema, 'Missing payload schema')
+  }
+
+  get valid() {
+    return this.errors.length === 0
   }
 
   public static load(_address: XyoDataLike | Huri): Promisable<PayloadWrapperBase | null> {
@@ -45,16 +53,15 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
     return payload ? new PayloadWrapper(payload) : null
   }
 
-  public get previousHash() {
-    return null
-  }
-
   public static override parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to PayloadWrapper')
     switch (typeof obj) {
       case 'object': {
         const castWrapper = obj as PayloadWrapper<T>
-        return castWrapper?.isPayloadWrapper ? castWrapper : new PayloadWrapper(obj as T)
+        return assertEx(
+          castWrapper?.isPayloadWrapper ? castWrapper : (obj as XyoPayload).schema ? new PayloadWrapper(obj as T) : null,
+          'Unable to parse payload object',
+        )
       }
     }
     throw Error(`Unable to parse [${typeof obj}]`)

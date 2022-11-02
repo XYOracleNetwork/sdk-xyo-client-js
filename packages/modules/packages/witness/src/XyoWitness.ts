@@ -8,33 +8,36 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
-export type XyoWitnessParams = XyoModuleParams
-
 export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>>
   extends XyoModule<TConfig>
   implements Witness<TTarget>
 {
-  static override async create(params?: XyoModuleParams<XyoWitnessConfig>): Promise<XyoWitness> {
-    const module = new XyoWitness(params)
-    await module.start()
-    return module
-  }
+  static override configSchema: string
+  static targetSchema: string
 
   public get targetSchema() {
     return this.config?.targetSchema
   }
 
-  override queries() {
-    return [XyoWitnessObserveQuerySchema, ...super.queries()]
+  static override async create(params?: XyoModuleParams<XyoWitnessConfig>): Promise<XyoWitness> {
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
+    const actualParams: XyoModuleParams<XyoWitnessConfig> = params ?? {}
+    actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
+    return (await super.create(actualParams)) as XyoWitness
   }
 
   public observe(fields?: Partial<XyoPayload>[]): Promisable<TTarget[]> {
     this.started('throw')
-    return (
+    const result =
       fields?.map((fieldsItem) => {
         return { ...fieldsItem, schema: this.targetSchema } as TTarget
       }) ?? []
-    )
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
+  }
+
+  override queries() {
+    return [XyoWitnessObserveQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {

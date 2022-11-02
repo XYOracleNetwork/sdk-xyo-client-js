@@ -15,9 +15,10 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
+    "@xyo-network/shared": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "lodash": "^4.17.21",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
@@ -55,6 +56,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.38.0-rc.12",
-  "stableVersion": "2.37.6"
+  "version": "2.39.1"
 }

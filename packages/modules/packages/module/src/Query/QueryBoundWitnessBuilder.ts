@@ -10,13 +10,14 @@ export class QueryBoundWitnessBuilder<
   TQuery extends XyoQuery = XyoQuery,
 > extends BoundWitnessBuilder<TBoundWitness> {
   private _query: PayloadWrapper<TQuery> | undefined
+
+  public override hashableFields(): TBoundWitness {
+    return { ...super.hashableFields(), query: assertEx(this._query?.hash, 'No Query Specified') }
+  }
+
   public query<T extends TQuery | PayloadWrapper<TQuery>>(query: T) {
     this._query = PayloadWrapper.parse(query)
     this.payload(this._query.payload)
     return this
-  }
-
-  public override hashableFields(): TBoundWitness {
-    return { ...super.hashableFields(), query: assertEx(this._query?.hash, 'No Query Specified') }
   }
 }

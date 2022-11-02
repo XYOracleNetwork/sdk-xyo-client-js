@@ -3,7 +3,6 @@ import {
   XyoLocationElevationPayload,
   XyoLocationElevationSchema,
   XyoLocationElevationWitness,
-  XyoLocationElevationWitnessConfig,
   XyoLocationElevationWitnessConfigSchema,
 } from '@xyo-network/elevation-payload-plugin'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
@@ -13,14 +12,11 @@ import { Job, JobProvider } from '@xyo-network/shared'
 
 import { LocationCertaintyHeuristic, LocationCertaintyPayload } from '../Payload'
 import { LocationCertaintySchema } from '../Schema'
-import { LocationCertaintyDivinerConfig } from './Config'
+import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Config'
 
 export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
-  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>): Promise<LocationCertaintyDiviner> {
-    const module = new LocationCertaintyDiviner(params)
-    await module.start()
-    return module
-  }
+  static override configSchema = LocationCertaintyDivinerConfigSchema
+  static override targetSchema = LocationCertaintySchema
 
   get jobs(): Job[] {
     return [
@@ -30,6 +26,10 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
         task: async () => await this.divineElevationBatch(),
       },
     ]
+  }
+
+  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>) {
+    return (await super.create(params)) as LocationCertaintyDiviner
   }
 
   /* Given an array of numbers, find the min/max/mean */
@@ -82,7 +82,7 @@ export class LocationCertaintyDiviner extends XyoDiviner<LocationCertaintyDivine
           locations,
           schema: XyoLocationElevationWitnessConfigSchema,
           targetSchema: XyoLocationElevationSchema,
-        } as XyoLocationElevationWitnessConfig,
+        },
       })
       const elevations = await elevationWitness.observe()
 

@@ -3,7 +3,7 @@ import { Promisable } from '@xyo-network/promise'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoCryptoCardsMovePayload } from './Payload'
-import { XyoCryptoCardsMoveWitnessConfigSchema } from './Schema'
+import { XyoCryptoCardsMoveSchema, XyoCryptoCardsMoveWitnessConfigSchema } from './Schema'
 
 export type XyoCryptoCardsMoveWitnessConfig = XyoWitnessConfig<
   XyoCryptoCardsMovePayload,
@@ -13,7 +13,11 @@ export type XyoCryptoCardsMoveWitnessConfig = XyoWitnessConfig<
 >
 
 export class XyoCryptoCardsMoveWitness extends XyoWitness<XyoCryptoCardsMovePayload, XyoCryptoCardsMoveWitnessConfig> {
+  static override configSchema = XyoCryptoCardsMoveWitnessConfigSchema
+  static override targetSchema = XyoCryptoCardsMoveSchema
+
   static override async create(params?: XyoModuleParams<XyoCryptoCardsMoveWitnessConfig>): Promise<XyoCryptoCardsMoveWitness> {
+    params?.logger?.debug(`params.config: ${JSON.stringify(params.config, null, 2)}`)
     const module: XyoCryptoCardsMoveWitness = new XyoCryptoCardsMoveWitness(params)
     await module.start()
     return module

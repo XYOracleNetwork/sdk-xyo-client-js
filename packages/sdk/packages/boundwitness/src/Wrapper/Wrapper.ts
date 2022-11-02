@@ -3,6 +3,7 @@ import { XyoDataLike } from '@xyo-network/core'
 import { Huri, PayloadWrapper, PayloadWrapperBase, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
+import { isXyoBoundWitnessPayload } from '../isXyoPayloadOfSchemaType'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 import { BoundWitnessValidator } from '../Validator'
 
@@ -10,6 +11,7 @@ export class BoundWitnessWrapper<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
   TPayload extends XyoPayload = XyoPayload,
 > extends PayloadWrapperBase<TBoundWitness> {
+  protected _payloads: Record<string, PayloadWrapper<TPayload>> | undefined
   private isBoundWitnessWrapper = true
 
   constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | null)[]) {
@@ -17,7 +19,30 @@ export class BoundWitnessWrapper<
     this.payloads = payloads ? compact(payloads) : undefined
   }
 
-  protected _payloads: Record<string, PayloadWrapper<TPayload>> | undefined
+  public get addresses() {
+    return this.boundwitness.addresses
+  }
+
+  public get boundwitness() {
+    return this.obj
+  }
+
+  override get errors() {
+    return new BoundWitnessValidator(this.boundwitness).validate()
+  }
+
+  public get missingPayloads() {
+    return this.payloadHashes.filter((hash) => !this.payloads[hash])
+  }
+
+  public get payloadHashes() {
+    return this.boundwitness.payload_hashes
+  }
+
+  public get payloadSchemas() {
+    return this.boundwitness.payload_schemas
+  }
+
   public get payloads(): Record<string, PayloadWrapper<TPayload>> {
     return this._payloads ?? {}
   }
@@ -38,44 +63,29 @@ export class BoundWitnessWrapper<
     return Object.values(this._payloads ?? {})
   }
 
-  public get payloadHashes() {
-    return this.boundwitness.payload_hashes
-  }
-
   public get previousHashes() {
     return this.boundwitness.previous_hashes
   }
 
-  public get addresses() {
-    return this.boundwitness.addresses
+  public static override async load(address: XyoDataLike | Huri) {
+    const payload = await new Huri(address).fetch()
+    assertEx(payload && isXyoBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
+
+    const boundWitness: XyoBoundWitness | undefined = payload && isXyoBoundWitnessPayload(payload) ? payload : undefined
+    return boundWitness ? new BoundWitnessWrapper(boundWitness) : null
   }
 
-  public get payloadSchemas() {
-    return this.boundwitness.payload_schemas
-  }
-
-  public get missingPayloads() {
-    return this.payloadHashes.filter((hash) => !this.payloads[hash])
-  }
-
-  public get boundwitness() {
-    return this.obj
-  }
-
-  public prev(address: string) {
-    return this.previousHashes[this.addresses.findIndex((addr) => address === addr)]
-  }
-
-  public payloadsBySchema(schema: string) {
-    return Object.values(this.payloads)?.filter((payload) => payload.schemaName === schema)
-  }
-
-  override get errors() {
-    return new BoundWitnessValidator(this.boundwitness).validate()
-  }
-
-  public toResult() {
-    return [this.boundwitness, this.payloadsArray.map((payload) => payload.body)]
+  public static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
+    obj: unknown,
+  ): BoundWitnessWrapper<T, P> {
+    assertEx(!Array.isArray(obj), 'Array can not be converted to BoundWitnessWrapper')
+    switch (typeof obj) {
+      case 'object': {
+        const castWrapper = obj as BoundWitnessWrapper<T, P>
+        return castWrapper?.isBoundWitnessWrapper ? castWrapper : new BoundWitnessWrapper(obj as T)
+      }
+    }
+    throw Error(`Unable to parse [${typeof obj}]`)
   }
 
   public dig(depth?: number): BoundWitnessWrapper<TBoundWitness> {
@@ -99,24 +109,16 @@ export class BoundWitnessWrapper<
     return this
   }
 
-  public static override async load(address: XyoDataLike | Huri) {
-    const payload = await new Huri(address).fetch()
-    assertEx(payload?.schema === XyoBoundWitnessSchema, 'Attempt to load non-boundwitness')
-
-    return payload ? new BoundWitnessWrapper(payload as XyoBoundWitness) : null
+  public payloadsBySchema(schema: string) {
+    return Object.values(this.payloads)?.filter((payload) => payload.schemaName === schema)
   }
 
-  public static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
-    obj: unknown,
-  ): BoundWitnessWrapper<T, P> {
-    assertEx(!Array.isArray(obj), 'Array can not be converted to BoundWitnessWrapper')
-    switch (typeof obj) {
-      case 'object': {
-        const castWrapper = obj as BoundWitnessWrapper<T, P>
-        return castWrapper?.isBoundWitnessWrapper ? castWrapper : new BoundWitnessWrapper(obj as T)
-      }
-    }
-    throw Error(`Unable to parse [${typeof obj}]`)
+  public prev(address: string) {
+    return this.previousHashes[this.addresses.findIndex((addr) => address === addr)]
+  }
+
+  public toResult() {
+    return [this.boundwitness, this.payloadsArray.map((payload) => payload.body)]
   }
 }
 

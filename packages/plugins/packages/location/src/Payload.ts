@@ -3,9 +3,9 @@ import { XyoPayload } from '@xyo-network/payload'
 import { XyoLocationSchema } from './Schema'
 
 export interface LngLatPhysicalLocation {
+  accuracy?: number
   latitude: number
   longitude: number
-  accuracy?: number
 }
 
 export interface QuadkeyPhysicalLocation {

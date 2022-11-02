@@ -1,7 +1,7 @@
+import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '@xyo-network/api-models'
 import { XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 
 import { XyoApiBase } from './Base'
-import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from './models'
 import { objToQuery } from './objToQuery'
 
 export type XyoApiSimpleQuery = XyoPayloadFindFilter
@@ -12,15 +12,15 @@ export class XyoApiSimple<
   Q extends XyoApiSimpleQuery = XyoApiSimpleQuery,
   C extends XyoApiConfig = XyoApiConfig,
 > extends XyoApiBase<C> {
-  public async get(): Promise<XyoApiResponseBody<T>>
-  public async get(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  public async get(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  public async get(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  public async delete(): Promise<XyoApiResponseBody<T>>
+  public async delete(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
+  public async delete(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  public async delete(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
-        return await this.getEndpoint(undefined, 'tuple')
+        return await this.deleteEndpoint(undefined, 'tuple')
       default:
-        return await this.getEndpoint(undefined)
+        return await this.deleteEndpoint(undefined)
     }
   }
 
@@ -33,6 +33,18 @@ export class XyoApiSimple<
         return await this.getEndpoint(objToQuery(query), 'tuple')
       default:
         return await this.getEndpoint(objToQuery(query))
+    }
+  }
+
+  public async get(): Promise<XyoApiResponseBody<T>>
+  public async get(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
+  public async get(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  public async get(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+    switch (responseType) {
+      case 'tuple':
+        return await this.getEndpoint(undefined, 'tuple')
+      default:
+        return await this.getEndpoint(undefined)
     }
   }
 
@@ -57,18 +69,6 @@ export class XyoApiSimple<
         return await this.putEndpoint(undefined, data, 'tuple')
       default:
         return await this.putEndpoint(undefined, data)
-    }
-  }
-
-  public async delete(): Promise<XyoApiResponseBody<T>>
-  public async delete(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  public async delete(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  public async delete(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
-    switch (responseType) {
-      case 'tuple':
-        return await this.deleteEndpoint(undefined, 'tuple')
-      default:
-        return await this.deleteEndpoint(undefined)
     }
   }
 }

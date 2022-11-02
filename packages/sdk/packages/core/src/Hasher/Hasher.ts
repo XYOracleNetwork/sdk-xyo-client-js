@@ -6,26 +6,20 @@ import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
 
 export class Hasher<T extends EmptyObject = EmptyObject> extends XyoObjectWrapper<T> {
-  get hashFields() {
-    return Hasher.hashFields(this.obj)
+  public get hash() {
+    return Hasher.hash(this.obj)
   }
 
-  /** @deprecated use stringified instead */
-  public sortedStringify() {
-    return this.stringified
+  public get hashFields() {
+    return Hasher.hashFields(this.obj)
   }
 
   public get stringified() {
     return Hasher.stringify(this.obj)
   }
 
-  /** @deprecated use hash instead */
-  public sortedHash() {
-    return this.hash
-  }
-
-  public get hash() {
-    return Hasher.hash(this.obj)
+  public static hash<T extends EmptyObject>(obj: T) {
+    return this.sortedHashData(obj).toString('hex')
   }
 
   public static hashFields<T extends EmptyObject>(obj: T) {
@@ -40,7 +34,13 @@ export class Hasher<T extends EmptyObject = EmptyObject> extends XyoObjectWrappe
     return shajs('sha256').update(this.stringify(obj)).digest()
   }
 
-  public static hash<T extends EmptyObject>(obj: T) {
-    return this.sortedHashData(obj).toString('hex')
+  /** @deprecated use hash instead */
+  public sortedHash() {
+    return this.hash
+  }
+
+  /** @deprecated use stringified instead */
+  public sortedStringify() {
+    return this.stringified
   }
 }

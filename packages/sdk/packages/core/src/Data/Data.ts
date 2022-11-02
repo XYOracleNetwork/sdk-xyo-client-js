@@ -20,23 +20,9 @@ export class XyoData extends XyoAbstractData {
     this._length = length
   }
 
-  private checkLength() {
-    assertEx(this.bytes.length === this._length, `Length Mismatch: ${this.bytes.length} !== ${this._length}`)
-  }
-
-  public get hex() {
-    this.checkLength()
-    return base16.encode(this.bytes).toLowerCase()
-  }
-
   public get base58() {
     this.checkLength()
     return base58.encode(this.bytes)
-  }
-
-  public get buffer() {
-    this.checkLength()
-    return Buffer.from(this.bytes)
   }
 
   public get bn() {
@@ -44,13 +30,27 @@ export class XyoData extends XyoAbstractData {
     return new BigNumber(this.bytes)
   }
 
+  public get buffer() {
+    this.checkLength()
+    return Buffer.from(this.bytes)
+  }
+
   public get bytes() {
     return assertEx(this._bytes, 'XyoData uninitialized')
+  }
+
+  public get hex() {
+    this.checkLength()
+    return base16.encode(this.bytes).toLowerCase()
   }
 
   public get keccak256() {
     bufferPolyfill()
     this.checkLength()
     return Buffer.from(keccak256(`0x${this.buffer.toString('hex')}`))
+  }
+
+  private checkLength() {
+    assertEx(this.bytes.length === this._length, `Length Mismatch: ${this.bytes.length} !== ${this._length}`)
   }
 }

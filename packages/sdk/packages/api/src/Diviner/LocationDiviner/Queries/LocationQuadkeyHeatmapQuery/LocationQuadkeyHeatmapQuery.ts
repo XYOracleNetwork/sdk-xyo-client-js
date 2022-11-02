@@ -5,9 +5,9 @@ export const locationQuadkeyHeatmapQuerySchema: LocationQuadkeyHeatmapQuerySchem
 export type LocationQuadkeyHeatmapAnswerSchema = 'network.xyo.location.heatmap.quadkey.answer'
 export const locationQuadkeyHeatmapAnswerSchema: LocationQuadkeyHeatmapAnswerSchema = 'network.xyo.location.heatmap.quadkey.answer'
 export type LocationQuadkeyHeatmapQuery = {
+  schema: LocationWitnessSchema
   startTime?: string
   stopTime?: string
-  schema: LocationWitnessSchema
 }
 
 export const isLocationQuadkeyHeatmapQuery = (query: Record<string, unknown>): query is LocationQuadkeyHeatmapQuery => {

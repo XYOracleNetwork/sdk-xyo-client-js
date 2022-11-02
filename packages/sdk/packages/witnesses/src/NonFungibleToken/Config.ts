@@ -31,20 +31,20 @@ export type XyoContractPayload<T extends EmptyObject = EmptyObject> = XyoPayload
 >
 
 export type XyoNonFungibleTokenMintPayload = XyoContractPayload<{
-  schema: 'network.xyo.nft.minter'
+  minters?: string[]
   name: string
+  schema: 'network.xyo.nft.minter'
   symbol: string
   /** @field array of XyoContractTermPayload hashes */
   terms?: string[]
-  minters?: string[]
 }>
 
 export type XyoNonFungibleTokenMinterWitnessConfig = XyoWitnessConfig<
   XyoNonFungibleTokenPayload,
   {
-    schema: 'network.xyo.nft.minter.query'
     mint: string
     mintToken?: XyoNonFungibleTokenPayload
+    schema: 'network.xyo.nft.minter.query'
   }
 >
 

@@ -6,24 +6,25 @@ import { XyoWitness } from '@xyo-network/witness'
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 import { XyoUniswapCryptoMarketPayload } from './Payload'
+import { XyoUniswapCryptoMarketSchema, XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
 
 export interface XyoUniswapCryptoMarketWitnessParams extends XyoModuleParams<XyoUniswapCryptoMarketWitnessConfig> {
   provider: Provider
 }
 
 export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfig> {
+  static override configSchema = XyoUniswapCryptoMarketWitnessConfigSchema
+  static override targetSchema = XyoUniswapCryptoMarketSchema
+
   protected pairs?: EthersUniSwap3Pair[]
-  protected provider: Provider
-  constructor(params: XyoUniswapCryptoMarketWitnessParams) {
+  protected provider?: Provider
+  protected constructor(params?: XyoUniswapCryptoMarketWitnessParams) {
     super(params)
-    this.provider = params.provider
+    this.provider = params?.provider
   }
 
-  static override async create(params?: XyoUniswapCryptoMarketWitnessParams): Promise<XyoUniswapCryptoMarketWitness>
-  static override async create(params?: XyoModuleParams): Promise<XyoUniswapCryptoMarketWitness> {
-    const module = new XyoUniswapCryptoMarketWitness(params as XyoUniswapCryptoMarketWitnessParams)
-    await module.start()
-    return module
+  static override async create(params?: XyoUniswapCryptoMarketWitnessParams): Promise<XyoUniswapCryptoMarketWitness> {
+    return (await super.create(params)) as XyoUniswapCryptoMarketWitness
   }
 
   override async observe(): Promise<XyoUniswapCryptoMarketPayload[]> {
@@ -40,7 +41,7 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
   }
 
   override async start() {
-    this.pairs = createUniswapPoolContracts(this.provider, this.config?.pools ?? UniswapPoolContracts)
+    this.pairs = createUniswapPoolContracts(assertEx(this.provider, 'Provider Required'), this.config?.pools ?? UniswapPoolContracts)
     return await super.start()
   }
 }

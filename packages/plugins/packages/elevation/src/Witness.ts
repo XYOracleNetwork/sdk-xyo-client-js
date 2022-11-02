@@ -16,9 +16,9 @@ export const XyoLocationElevationWitnessConfigSchema: XyoLocationElevationWitnes
 interface OpenElevationResult {
   results: [
     {
-      longitude: number
       elevation: number
       latitude: number
+      longitude: number
     },
   ]
 }
@@ -26,10 +26,10 @@ interface OpenElevationResult {
 export type XyoLocationElevationWitnessConfig = XyoWitnessConfig<
   XyoLocationElevationPayload,
   {
+    locations?: XyoLocationPayload[]
     schema: XyoLocationElevationWitnessConfigSchema
     uri?: string
     zoom?: number
-    locations?: XyoLocationPayload[]
   }
 >
 
@@ -39,15 +39,20 @@ const physicalLocationToOpenElevationLocation = (location: PhysicalLocation, zoo
       ? Quadkey.fromBase10String((location as QuadkeyPhysicalLocation).quadkey)
       : Quadkey.fromLngLat({ lat: (location as LngLatPhysicalLocation).latitude, lng: (location as LngLatPhysicalLocation).longitude }, zoom),
   )
-  const center = quadkey.toCenter()
+  const center = quadkey.center
   return { latitude: center.lat, longitude: center?.lng }
 }
 
 export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevationPayload, XyoLocationElevationWitnessConfig> {
-  static override async create(params?: XyoModuleParams<XyoLocationElevationWitnessConfig>): Promise<XyoLocationElevationWitness> {
-    const module = new XyoLocationElevationWitness(params)
-    await module.start()
-    return module
+  static override configSchema = XyoLocationElevationWitnessConfigSchema
+  static override targetSchema = XyoLocationElevationSchema
+
+  public get locations() {
+    return compact(
+      this.config?.locations?.map((location) => {
+        return physicalLocationToOpenElevationLocation(location, this.zoom)
+      }),
+    )
   }
 
   public get uri() {
@@ -58,12 +63,8 @@ export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevation
     return this.config?.zoom ?? 24
   }
 
-  public get locations() {
-    return compact(
-      this.config?.locations?.map((location) => {
-        return physicalLocationToOpenElevationLocation(location, this.zoom)
-      }),
-    )
+  static override async create(params?: XyoModuleParams<XyoLocationElevationWitnessConfig>): Promise<XyoLocationElevationWitness> {
+    return (await super.create(params)) as XyoLocationElevationWitness
   }
 
   override async observe(fields?: Partial<XyoLocationElevationPayload>[]): Promise<XyoLocationElevationPayload[]> {
@@ -74,6 +75,4 @@ export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevation
     const results = result.data?.results
     return super.observe(results?.map((result, index) => merge({}, result, fields?.[index])))
   }
-
-  static schema: XyoLocationElevationSchema = XyoLocationElevationSchema
 }

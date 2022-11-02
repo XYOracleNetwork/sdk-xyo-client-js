@@ -2,9 +2,9 @@ import { Web3Provider } from '@ethersproject/providers'
 import { MetaMaskInpageProvider } from '@metamask/providers'
 
 class XyoMetaMaskConnector {
+  private account = ''
   private ethereum = window.ethereum as MetaMaskInpageProvider
   private provider: Web3Provider | undefined
-  private account = ''
 
   constructor(provider?: Web3Provider) {
     if (provider) {
@@ -17,18 +17,6 @@ class XyoMetaMaskConnector {
 
   get currentAccount() {
     return this.ethereum?.selectedAddress
-  }
-
-  isMetaMaskInstalled() {
-    return this.ethereum && this.ethereum.isMetaMask
-  }
-
-  isWalletIsConnected = () => {
-    if (this.currentAccount) {
-      console.log('Found an authorized account: ', this.ethereum?.selectedAddress)
-      return true
-    }
-    return false
   }
 
   async connectWallet() {
@@ -45,6 +33,18 @@ class XyoMetaMaskConnector {
     } else {
       console.log('No authorized account found.')
     }
+  }
+
+  isMetaMaskInstalled() {
+    return this.ethereum && this.ethereum.isMetaMask
+  }
+
+  isWalletIsConnected = () => {
+    if (this.currentAccount) {
+      console.log('Found an authorized account: ', this.ethereum?.selectedAddress)
+      return true
+    }
+    return false
   }
 
   async signMessage(message: string) {

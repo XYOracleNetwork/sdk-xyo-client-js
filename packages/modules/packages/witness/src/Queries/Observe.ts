@@ -5,6 +5,6 @@ export type XyoWitnessObserveQuerySchema = 'network.xyo.query.witness.observe'
 export const XyoWitnessObserveQuerySchema: XyoWitnessObserveQuerySchema = 'network.xyo.query.witness.observe'
 
 export type XyoWitnessObserveQuery<T extends XyoPayload = XyoPayload> = XyoQuery<{
-  schema: XyoWitnessObserveQuerySchema
   payload?: Partial<T>
+  schema: XyoWitnessObserveQuerySchema
 }>

@@ -7,8 +7,8 @@ export type ExpirationWindow = 'create' | 'read'
 export interface XyoAccessControl {
   access?: Record<AccessType, AccessLevel>
   expiration?: {
-    window?: ExpirationWindow
     delay?: number
+    window?: ExpirationWindow
   }
 }
 
@@ -23,6 +23,6 @@ export interface XyoAccessControls {
 }
 
 export interface XyoArchive extends XyoArchivePath {
-  user?: string
   accessControl?: XyoAccessControl | boolean
+  user?: string
 }

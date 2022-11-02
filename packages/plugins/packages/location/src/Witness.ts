@@ -11,20 +11,21 @@ export const XyoLocationWitnessConfigSchema: XyoLocationWitnessConfigSchema = 'n
 export type XyoLocationWitnessConfig = XyoWitnessConfig<
   XyoLocationPayload,
   {
-    schema: XyoLocationWitnessConfigSchema
     geolocation: Geolocation
+    schema: XyoLocationWitnessConfigSchema
   }
 >
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
-  static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {
-    const module = new XyoLocationWitness(params)
-    await module.start()
-    return module
-  }
+  static override configSchema = XyoLocationWitnessConfigSchema
+  static override targetSchema = XyoLocationSchema
 
   public get geolocation() {
     return this.config?.geolocation
+  }
+
+  static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {
+    return (await super.create(params)) as XyoLocationWitness
   }
 
   public getCurrentPosition() {
@@ -50,13 +51,11 @@ export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocati
       heading: location.coords.heading ?? undefined,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      quadkey: quadkey?.toBase4Hash(),
+      quadkey: quadkey?.base4Hash,
       schema: XyoLocationSchema,
       speed: location.coords.speed ?? undefined,
       time: Date.now(),
     }
     return super.observe([payload])
   }
-
-  static schema: XyoLocationSchema = XyoLocationSchema
 }

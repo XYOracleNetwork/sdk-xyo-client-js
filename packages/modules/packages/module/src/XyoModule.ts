@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
-import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
+import compact from 'lodash/compact'
 
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { Logging } from './Logging'
@@ -16,33 +17,22 @@ import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoErrorBuilder, Xy
 export type SortedPipedAddressesString = string
 
 export interface XyoModuleParams<TConfig extends XyoModuleConfig = XyoModuleConfig> {
-  resolver?: ModuleResolver
-  logger?: Logger
   account?: XyoAccount
   config?: TConfig
+  logger?: Logger
+  resolver?: ModuleResolver
 }
 
-export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
+export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
+  static configSchema: string
+  static defaultLogger?: Logger
+
   protected _started = false
-  protected config?: TConfig
-  protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected account: XyoAccount
-  protected resolver?: ModuleResolver
+  protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
+  protected config?: TConfig
   protected readonly logger?: Logging
-
-  public get disallowedAddresses() {
-    return this.config?.security?.disallowed
-  }
-
-  private initializeAllowedAddressSets() {
-    if (this.config?.security?.allowed) {
-      const allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
-      Object.entries(this.config.security.allowed).forEach(([schema, addressesList]) => {
-        allowedAddressSets[schema] = addressesList.map((addresses) => addresses.sort().join('|'))
-      })
-      this.allowedAddressSets = allowedAddressSets
-    }
-  }
+  protected resolver?: ModuleResolver
 
   protected constructor(params?: XyoModuleParams<TConfig>) {
     this.resolver = params?.resolver
@@ -53,20 +43,66 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
   }
 
-  protected start(_timeout?: number): Promisable<typeof this> {
-    this.initializeAllowedAddressSets()
-    this._started = true
-    return this
+  public get address() {
+    return this.account.addressValue.hex
   }
 
-  protected stop(_timeout?: number): Promisable<typeof this> {
-    this.allowedAddressSets = undefined
-    this._started = false
-    return this
+  public get disallowedAddresses() {
+    return this.config?.security?.disallowed
   }
 
-  protected loadAccount(account?: XyoAccount) {
-    return account ?? new XyoAccount()
+  protected static async create(params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoModule> {
+    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
+    const actualParams: XyoModuleParams<XyoModuleConfig> = params ?? {}
+    actualParams.config = params?.config ?? { schema: this.configSchema }
+    return await new this(actualParams).start()
+  }
+
+  public discover(_queryAccount?: XyoAccount): Promisable<XyoPayload[]> {
+    return compact([this.config])
+  }
+
+  public queries(): string[] {
+    return [XyoModuleDiscoverQuerySchema, XyoModuleSubscribeQuerySchema]
+  }
+
+  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+    this.started('throw')
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
+    const typedQuery = wrapper.query.payload
+    assertEx(this.queryable(query.schema, wrapper.addresses))
+
+    this.logger?.log(wrapper.schemaName)
+
+    const resultPayloads: XyoPayload[] = []
+    const queryAccount = new XyoAccount()
+    try {
+      switch (typedQuery.schema) {
+        case XyoModuleDiscoverQuerySchema: {
+          resultPayloads.push(...(await this.discover(queryAccount)))
+          break
+        }
+        case XyoModuleSubscribeQuerySchema: {
+          this.subscribe(queryAccount)
+          break
+        }
+        default:
+          console.error(`Unsupported Query [${query.schema}]`)
+      }
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
+    }
+
+    return this.bindResult(resultPayloads, queryAccount)
+  }
+
+  public queryable(schema: SchemaString, addresses?: AddressString[]): boolean {
+    return this.started('warn')
+      ? !!this.queries().includes(schema) && addresses
+        ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true
+        : true
+      : false
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
@@ -90,75 +126,8 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return this._started
   }
 
-  public get address() {
-    return this.account.addressValue.hex
-  }
-
-  private queryAllowed(schema: SchemaString, addresses: AddressString[]) {
-    return this?.allowedAddressSets?.[schema]?.includes(addresses.sort().join('|'))
-  }
-
-  private queryDisallowed(schema: SchemaString, addresses: AddressString[]) {
-    return addresses.reduce<boolean | undefined>(
-      (previousValue, address) => previousValue || this?.disallowedAddresses?.[schema]?.includes(address),
-      undefined,
-    )
-  }
-
-  public queryable(schema: SchemaString, addresses?: AddressString[]): boolean {
-    return this.started('warn')
-      ? !!this.queries().includes(schema) && addresses
-        ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true
-        : true
-      : false
-  }
-
-  public queries(): string[] {
-    return [XyoModuleDiscoverQuerySchema, XyoModuleSubscribeQuerySchema]
-  }
-
-  public query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promisable<ModuleQueryResult> {
-    this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
-    const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query.schema, wrapper.addresses))
-
-    this.logger?.log(wrapper.schemaName)
-
-    const resultPayloads: XyoPayload[] = []
-    const queryAccount = new XyoAccount()
-    try {
-      switch (typedQuery.schema) {
-        case XyoModuleDiscoverQuerySchema: {
-          this.discover(queryAccount)
-          break
-        }
-        case XyoModuleSubscribeQuerySchema: {
-          this.subscribe(queryAccount)
-          break
-        }
-        default:
-          console.error(`Unsupported Query [${query.schema}]`)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
-    }
-
-    return this.bindResult(resultPayloads, queryAccount)
-  }
-
-  public discover(_queryAccount?: XyoAccount) {
-    return
-  }
-
   public subscribe(_queryAccount?: XyoAccount) {
     return
-  }
-
-  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: XyoAccount): XyoBoundWitness {
-    const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
-    return (account ? builder.witness(account) : builder).build()[0]
   }
 
   protected bindHashes(hashes: string[], schema: SchemaString[], account?: XyoAccount) {
@@ -170,27 +139,11 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return promise
   }
 
-  protected bindResultInternal(payloads: XyoPayloads, account?: XyoAccount): ModuleQueryResult {
-    const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
-    return [(account ? builder.witness(account) : builder).build()[0], payloads]
-  }
-
-  protected bindResult(payloads: XyoPayloads, account?: XyoAccount): PromiseEx<ModuleQueryResult, XyoAccount> {
-    const promise = new PromiseEx<ModuleQueryResult, XyoAccount>((resolve) => {
-      const result = this.bindResultInternal(payloads, account)
-      resolve?.(result)
-      return result
-    }, account)
-    return promise
-  }
-
-  protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
-    query: T,
-    payloads?: XyoPayload[],
-    account?: XyoAccount,
-  ): [XyoQueryBoundWitness, XyoPayload[]] {
-    const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
-    return (account ? builder.witness(account) : builder).build()
+  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: XyoAccount): XyoBoundWitness {
+    const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
+    const result = (account ? builder.witness(account) : builder).build()[0]
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
@@ -206,9 +159,93 @@ export abstract class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfi
     return promise
   }
 
-  static create(_params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoModule> {
-    throw Error('Can not create base XyoModule')
+  protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
+    query: T,
+    payloads?: XyoPayload[],
+    account?: XyoAccount,
+  ): [XyoQueryBoundWitness, XyoPayload[]] {
+    const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
+    const result = (account ? builder.witness(account) : builder).build()
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
-  static defaultLogger?: Logger
+  protected bindResult(payloads: XyoPayload[], account?: XyoAccount): PromiseEx<ModuleQueryResult, XyoAccount> {
+    const promise = new PromiseEx<ModuleQueryResult, XyoAccount>((resolve) => {
+      const result = this.bindResultInternal(payloads, account)
+      resolve?.(result)
+      return result
+    }, account)
+    return promise
+  }
+
+  protected bindResultInternal(payloads: XyoPayload[], account?: XyoAccount): ModuleQueryResult {
+    const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
+    const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
+    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    return result
+  }
+
+  protected loadAccount(account?: XyoAccount) {
+    return account ?? new XyoAccount()
+  }
+
+  protected start(_timeout?: number): Promisable<typeof this> {
+    this.validateConfig()
+    this.initializeAllowedAddressSets()
+    this._started = true
+    return this
+  }
+
+  protected stop(_timeout?: number): Promisable<typeof this> {
+    this.allowedAddressSets = undefined
+    this._started = false
+    return this
+  }
+
+  protected validateConfig(config?: unknown, parents: string[] = []): boolean {
+    return Object.entries(config ?? this.config ?? {}).reduce((valid, [key, value]) => {
+      switch (typeof value) {
+        case 'function':
+          this.logger?.warn(`Fields of type function not allowed in config [${parents?.join('.')}.${key}]`)
+          return false
+        case 'object':
+          if (Array.isArray(value)) {
+            return (
+              value.reduce((valid, value) => {
+                return this.validateConfig(value, [...parents, key]) && valid
+              }, true) && valid
+            )
+          }
+          if (value.__proto__) {
+            this.logger?.warn(`Fields of type class not allowed in config [${parents?.join('.')}.${key}]`)
+            return false
+          }
+          return this.validateConfig(value, [...parents, key]) && valid
+        default:
+          return valid
+      }
+    }, true)
+  }
+
+  private initializeAllowedAddressSets() {
+    if (this.config?.security?.allowed) {
+      const allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
+      Object.entries(this.config.security.allowed).forEach(([schema, addressesList]) => {
+        allowedAddressSets[schema] = addressesList.map((addresses) => addresses.sort().join('|'))
+      })
+      this.allowedAddressSets = allowedAddressSets
+    }
+  }
+
+  private queryAllowed(schema: SchemaString, addresses: AddressString[]) {
+    return this?.allowedAddressSets?.[schema]?.includes(addresses.sort().join('|'))
+  }
+
+  private queryDisallowed(schema: SchemaString, addresses: AddressString[]) {
+    return addresses.reduce<boolean | undefined>(
+      (previousValue, address) => previousValue || this?.disallowedAddresses?.[schema]?.includes(address),
+      undefined,
+    )
+  }
 }

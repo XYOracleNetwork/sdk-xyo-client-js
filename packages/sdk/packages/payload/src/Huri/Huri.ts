@@ -24,16 +24,16 @@ export interface HuriOptions {
 }
 
 export interface XyoFetchedPayload<T extends XyoPayload = XyoPayload> {
-  payload: T
   huri?: Huri
+  payload: T
 }
 
 export class Huri<T extends XyoPayload = XyoPayload> {
+  public archive?: string
+  public archivist?: string
+  public hash: string
   public originalHref: string
   public protocol?: string
-  public archivist?: string
-  public archive?: string
-  public hash: string
 
   private isHuri = true
 
@@ -55,6 +55,66 @@ export class Huri<T extends XyoPayload = XyoPayload> {
     }
 
     this.validateParse()
+  }
+
+  /*
+  The full href or the hash
+  */
+  public get href() {
+    const parts: string[] = []
+    if (this.protocol) {
+      parts.push(`${this.protocol}:/`)
+    }
+    if (this.archive) {
+      parts.push(`${this.archive}`)
+    }
+    if (this.archivist) {
+      parts.push(`${this.archivist}`)
+    }
+    parts.push(this.hash)
+    return parts.join('/')
+  }
+
+  static async fetch<T extends XyoPayload = XyoPayload>(huri: Huri): Promise<T | undefined> {
+    return (await axios.get<T>(huri.href)).data
+  }
+
+  public static isHuri(value: unknown) {
+    if (typeof value === 'object') {
+      return (value as Huri).isHuri ? (value as Huri) : undefined
+    }
+    return undefined
+  }
+
+  private static parsePath(huri: string) {
+    const protocolSplit = huri.split('//')
+    assertEx(protocolSplit.length <= 2, `Invalid format [${huri}]`)
+    if (protocolSplit.length === 1) {
+      return huri
+    }
+    if (protocolSplit.length === 2) {
+      return protocolSplit[1]
+    }
+  }
+
+  private static parseProtocol(huri: string) {
+    const protocolSplit = huri.split('//')
+    assertEx(protocolSplit.length <= 2, `Invalid second protocol [${protocolSplit[2]}]`)
+    const rawProtocol = protocolSplit.length === 2 ? protocolSplit.shift() : undefined
+    if (rawProtocol) {
+      const protocolParts = rawProtocol?.split(':')
+      assertEx(protocolParts.length === 2, `Invalid protocol format [${rawProtocol}]`)
+      assertEx(protocolParts[1].length === 0, `Invalid protocol format (post :) [${rawProtocol}]`)
+      return protocolParts.shift()
+    }
+  }
+
+  public async fetch(): Promise<T | undefined> {
+    return await Huri.fetch<T>(this)
+  }
+
+  public toString() {
+    return this.href
   }
 
   private parsePath(path: string, hasProtocol: boolean) {
@@ -90,66 +150,5 @@ export class Huri<T extends XyoPayload = XyoPayload> {
 
     //the archive should not be set if the archivist is not set
     assertEx(!(this.archive && !this.archivist), 'If specifying archive, archivist is also required')
-  }
-
-  /*
-  The full href or the hash
-  */
-
-  public get href() {
-    const parts: string[] = []
-    if (this.protocol) {
-      parts.push(`${this.protocol}:/`)
-    }
-    if (this.archive) {
-      parts.push(`${this.archive}`)
-    }
-    if (this.archivist) {
-      parts.push(`${this.archivist}`)
-    }
-    parts.push(this.hash)
-    return parts.join('/')
-  }
-
-  public toString() {
-    return this.href
-  }
-
-  public async fetch(): Promise<T | undefined> {
-    return await Huri.fetch<T>(this)
-  }
-
-  static async fetch<T extends XyoPayload = XyoPayload>(huri: Huri): Promise<T | undefined> {
-    return (await axios.get<T>(huri.href)).data
-  }
-
-  private static parseProtocol(huri: string) {
-    const protocolSplit = huri.split('//')
-    assertEx(protocolSplit.length <= 2, `Invalid second protocol [${protocolSplit[2]}]`)
-    const rawProtocol = protocolSplit.length === 2 ? protocolSplit.shift() : undefined
-    if (rawProtocol) {
-      const protocolParts = rawProtocol?.split(':')
-      assertEx(protocolParts.length === 2, `Invalid protocol format [${rawProtocol}]`)
-      assertEx(protocolParts[1].length === 0, `Invalid protocol format (post :) [${rawProtocol}]`)
-      return protocolParts.shift()
-    }
-  }
-
-  private static parsePath(huri: string) {
-    const protocolSplit = huri.split('//')
-    assertEx(protocolSplit.length <= 2, `Invalid format [${huri}]`)
-    if (protocolSplit.length === 1) {
-      return huri
-    }
-    if (protocolSplit.length === 2) {
-      return protocolSplit[1]
-    }
-  }
-
-  public static isHuri(value: unknown) {
-    if (typeof value === 'object') {
-      return (value as Huri).isHuri ? (value as Huri) : undefined
-    }
-    return undefined
   }
 }

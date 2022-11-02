@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModule, XyoModuleConfig, XyoModuleParams } from '@xyo-network/module'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 
@@ -10,25 +10,20 @@ export type XyoPanelConfigSchema = 'network.xyo.panel.config'
 export const XyoPanelConfigSchema: XyoPanelConfigSchema = 'network.xyo.panel.config'
 
 export type XyoPanelConfig = XyoModuleConfig<{
-  schema: XyoPanelConfigSchema
   archivists?: string[]
-  witnesses: string[]
-  onReportStart?: () => void
   onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
-  onWitnessReportStart?: (witness: XyoWitnessWrapper) => void
+  onReportStart?: () => void
   onWitnessReportEnd?: (witness: XyoWitnessWrapper, error?: Error) => void
+  onWitnessReportStart?: (witness: XyoWitnessWrapper) => void
+  schema: XyoPanelConfigSchema
+  witnesses: string[]
 }>
 
 export class XyoPanel extends XyoModule<XyoPanelConfig> {
   public history: XyoPayload[] = []
-
-  static override async create(params?: XyoModuleParams<XyoPanelConfig>): Promise<XyoPanel> {
-    const module = new XyoPanel(params)
-    await module.start()
-    return module
-  }
-
   private _archivists: XyoArchivistWrapper[] | undefined
+  private _witnesses: XyoWitnessWrapper[] | undefined
+
   public get archivists() {
     this._archivists =
       this._archivists ||
@@ -44,7 +39,6 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
     return this._archivists
   }
 
-  private _witnesses: XyoWitnessWrapper[] | undefined
   public get witnesses() {
     this._witnesses =
       this._witnesses ||
@@ -60,44 +54,29 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
     return this._witnesses
   }
 
-  private async generatePayload(
-    witness: XyoWitnessWrapper,
-    onError?: (witness: XyoWitnessWrapper, error: Error) => void,
-  ): Promise<[XyoPayloads | null, Error?]> {
-    this.config?.onWitnessReportStart?.(witness)
-    try {
-      const result = await witness.observe()
-      return [result]
-    } catch (ex) {
-      const error = ex as Error
-      console.error(error)
-      onError?.(witness, error)
-      return [null, error]
-    }
-  }
-
-  private async generatePayloads(witnesses: XyoWitnessWrapper[], onError?: (witness: XyoWitnessWrapper, error: Error) => void) {
-    const payloads = await Promise.all(
-      witnesses.map(async (witness) => {
-        this.config?.onWitnessReportStart?.(witness)
-        const [payload, error] = await this.generatePayload(witness, onError)
-        this.config?.onWitnessReportEnd?.(witness, error)
-        return payload
-      }),
-    )
-    return payloads.flat()
+  static override async create(params?: XyoModuleParams<XyoPanelConfig>): Promise<XyoPanel> {
+    params?.logger?.debug(`params.config: ${JSON.stringify(params.config, null, 2)}`)
+    const module = new XyoPanel(params)
+    await module.start()
+    return module
   }
 
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {
     const errors: Error[] = []
     this.config?.onReportStart?.()
     const allWitnesses = [...adhocWitnesses.map((adhoc) => new XyoWitnessWrapper(adhoc)), ...this.witnesses]
-    const payloads = compact(await this.generatePayloads(allWitnesses, (_, error) => errors.push(error)))
+    const payloads = compact(await this.generatePayloads(allWitnesses))
     const [newBoundWitness] = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
     const bwList = (await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))).flat()
     this.history.push(assertEx(bwList.at(-1)))
     this.config?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
     return [bwList, [newBoundWitness, ...payloads]]
+  }
+
+  private async generatePayloads(witnesses: XyoWitnessWrapper[]): Promise<XyoPayload[]> {
+    return (await Promise.allSettled(witnesses?.map(async (witness) => await witness.observe())))
+      .map((settled) => (settled.status === 'fulfilled' ? settled.value : []))
+      .flat()
   }
 }

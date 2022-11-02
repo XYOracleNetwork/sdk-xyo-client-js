@@ -1,4 +1,4 @@
 export interface GetLocationQueryResponse {
-  queryHash: string
   answerHash?: string
+  queryHash: string
 }

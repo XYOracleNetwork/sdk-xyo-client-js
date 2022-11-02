@@ -6,20 +6,15 @@ export const XyoAutomationSchema = 'network.xyo.automation'
 
 export type XyoPanelBaseAutomationPayload<T extends EmptyObject = EmptyObject> = XyoPayload<
   T & {
+    schema: XyoAutomationSchema
+    type?: 'interval' | 'change'
     /** @field The list of witnesses to invoke [all if undefined] */
     witnesses?: string[]
-    type?: 'interval' | 'change'
-    schema: XyoAutomationSchema
   }
 >
 
 export type XyoPanelIntervalAutomationPayload = XyoPanelBaseAutomationPayload<{
-  type: 'interval'
-
-  /** @field epoch of the next trigger */
-  start: number
-
-  /** @field epoch after which any reoccurance stops */
+  /** @field epoch after which any reoccurrence stops */
   end?: number
 
   /** @field time between triggers [non-repeating if undefined] */
@@ -30,6 +25,11 @@ export type XyoPanelIntervalAutomationPayload = XyoPanelBaseAutomationPayload<{
 
   /** @field remaining triggers [infinite if undefined] */
   remaining?: number
+
+  /** @field epoch of the next trigger */
+  start: number
+
+  type: 'interval'
 }>
 
 export type XyoPanelChangeAutomationPayload = XyoPanelBaseAutomationPayload<{

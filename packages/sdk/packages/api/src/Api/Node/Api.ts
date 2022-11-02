@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
+import { XyoApiConfig, XyoApiResponseTuple } from '@xyo-network/api-models'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 
-import { XyoApiConfig, XyoApiResponseTuple } from '../../models'
 import { XyoApiSimple, XyoApiSimpleQuery } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
 
@@ -24,15 +24,17 @@ export class XyoArchivistNodeApi<
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoApiSimple<string[][], D, XyoApiSimpleQuery, C> {
   /**
-   * Get the result of a previously issued query (if available)
-   * @param queryId Query ID from a previously issued query
-   * @returns The result of the query (if available)
+   * Issue the supplied query and wait (non-blocking) for the result
+   * @param data The query to issue
+   * @param timeout The max time to wait for the query results
+   * @param retryInterval The interval to poll for query results
+   * @returns The result for the issued query
    */
-  public result<T extends XyoPayload = XyoPayload>(queryId: string): XyoApiSimple<XyoPayload> {
-    return new XyoApiSimple<T>({
-      ...this.config,
-      root: `/query/${queryId}/`,
-    })
+  public async perform<T extends Partial<XyoPayload>>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
+    const payload = new XyoPayloadBuilder({ schema }).fields(data).build()
+    const [query] = new BoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build()
+    const result = await this.performTransaction(query as D, timeout, retryInterval)
+    return result?.[0]?.[0]
   }
 
   /**
@@ -62,16 +64,14 @@ export class XyoArchivistNodeApi<
   }
 
   /**
-   * Issue the supplied query and wait (non-blocking) for the result
-   * @param data The query to issue
-   * @param timeout The max time to wait for the query results
-   * @param retryInterval The interval to poll for query results
-   * @returns The result for the issued query
+   * Get the result of a previously issued query (if available)
+   * @param queryId Query ID from a previously issued query
+   * @returns The result of the query (if available)
    */
-  public async perform<T extends Partial<XyoPayload>>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
-    const payload = new XyoPayloadBuilder({ schema }).fields(data).build()
-    const [query] = new BoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build()
-    const result = await this.performTransaction(query as D, timeout, retryInterval)
-    return result?.[0]?.[0]
+  public result<T extends XyoPayload = XyoPayload>(queryId: string): XyoApiSimple<XyoPayload> {
+    return new XyoApiSimple<T>({
+      ...this.config,
+      root: `/query/${queryId}/`,
+    })
   }
 }

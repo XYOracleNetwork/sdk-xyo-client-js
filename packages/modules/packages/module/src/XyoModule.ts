@@ -7,6 +7,7 @@ import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
+import { serializable } from './lib'
 import { Logging } from './Logging'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
@@ -217,8 +218,8 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
               }, true) && valid
             )
           }
-          if (value.__proto__) {
-            this.logger?.warn(`Fields of type class not allowed in config [${parents?.join('.')}.${key}]`)
+          if (!serializable(value)) {
+            this.logger?.warn(`Fields that are not serializable to JSON are not allowed in config [${parents?.join('.')}.${key}]`)
             return false
           }
           return this.validateConfig(value, [...parents, key]) && valid

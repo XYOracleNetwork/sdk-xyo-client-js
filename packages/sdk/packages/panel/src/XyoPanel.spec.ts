@@ -64,10 +64,10 @@ describe('XyoPanel', () => {
     const report1Result = await panel.report([adhocWitness])
     const report1 = BoundWitnessWrapper.parse(report1Result[1][0])
     expect(report1.schemaName).toBe(XyoBoundWitnessSchema)
-    expect(report1.payloadHashes.length).toBe(3)
+    expect(report1.payloadHashes.length).toBe(2)
     const report2 = BoundWitnessWrapper.parse((await panel.report())[1][0])
     expect(report2.schemaName).toBeDefined()
-    expect(report2.payloadHashes.length).toBe(2)
+    expect(report2.payloadHashes.length).toBe(1)
     expect(report2.hash !== report1.hash).toBe(true)
     expect(report2.prev(panel.address)).toBeDefined()
     expect(report2.prev(panel.address)).toBe(report1.hash)
@@ -84,10 +84,10 @@ describe('XyoPanel', () => {
         expect(panelReport).toBeArrayOfSize(2)
         const [bws, payloads] = panelReport
         expect(bws).toBeArrayOfSize(4)
-        expect(payloads).toBeArrayOfSize(3)
+        expect(payloads).toBeArrayOfSize(1)
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
-          expect(archivistPayloads).toBeArrayOfSize(3)
+          expect(archivistPayloads).toBeArrayOfSize(1)
           const panelPayloads = payloads.map((payload) => {
             const wrapped = new PayloadWrapper(payload)
             return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }

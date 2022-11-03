@@ -1,6 +1,7 @@
 const generateJestConfig = ({ esModules }) => {
   const esModulesList = Array.isArray(esModules) ? esModules.join('|') : esModules
   return {
+    coveragePathIgnorePatterns: ['<rootDir>/(.*)/dist'],
     moduleNameMapper: {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },

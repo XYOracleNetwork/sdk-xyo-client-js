@@ -1,4 +1,5 @@
-import { XyoApiConfig } from '../../../models'
+import { XyoApiConfig } from '@xyo-network/api-models'
+
 import { XyoArchivistApi } from '../../Api'
 
 const config: XyoApiConfig = {

@@ -1,7 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
+import { XyoApiConfig, XyoApiError } from '@xyo-network/api-models'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 
-import { XyoApiConfig, XyoApiError } from '../../models'
 import { XyoArchivistApi } from '../Api'
 import { getNewArchive, getTimestampMinutesFromNow } from '../ApiUtil.spec'
 

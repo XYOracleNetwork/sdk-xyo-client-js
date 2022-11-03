@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { XyoWitnessConfig } from './Config'
@@ -44,12 +44,13 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoWitnessQuery<TTarget>>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
-
+    // Remove the query payload from the arguments passed to us so we don't observe it
+    const filteredObservation = payloads?.filter((p) => new PayloadWrapper(p).hash !== query.query) || []
     const queryAccount = new XyoAccount()
     try {
       switch (typedQuery.schema) {
         case XyoWitnessObserveQuerySchema: {
-          const resultPayloads = await this.observe(payloads)
+          const resultPayloads = await this.observe(filteredObservation)
           return this.bindResult(resultPayloads, queryAccount)
         }
 

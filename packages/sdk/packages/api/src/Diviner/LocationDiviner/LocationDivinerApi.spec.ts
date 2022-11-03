@@ -1,6 +1,6 @@
+import { XyoApiConfig } from '@xyo-network/api-models'
 import { AxiosError } from 'axios'
 
-import { XyoApiConfig } from '../../models'
 import { ApiConfig } from './ApiConfig'
 import { XyoLocationDivinerApi } from './LocationDivinerApi'
 import {

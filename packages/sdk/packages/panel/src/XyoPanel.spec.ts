@@ -37,8 +37,8 @@ describe('XyoPanel', () => {
     witnesses.forEach((witness) => resolver.add(witness))
 
     const panel = await XyoPanel.create({ config, resolver })
-    expect(panel.archivists.length).toBe(1)
-    expect(panel.witnesses.length).toBe(2)
+    expect(panel.archivists).toBeArrayOfSize(1)
+    expect(panel.witnesses).toBeArrayOfSize(2)
     const adhocWitness = await XyoAdhocWitness.create({
       config: {
         payload: {
@@ -64,10 +64,10 @@ describe('XyoPanel', () => {
     const report1Result = await panel.report([adhocWitness])
     const report1 = BoundWitnessWrapper.parse(report1Result[1][0])
     expect(report1.schemaName).toBe(XyoBoundWitnessSchema)
-    expect(report1.payloadHashes.length).toBe(2)
+    expect(report1.payloadHashes).toBeArrayOfSize(2)
     const report2 = BoundWitnessWrapper.parse((await panel.report())[1][0])
     expect(report2.schemaName).toBeDefined()
-    expect(report2.payloadHashes.length).toBe(1)
+    expect(report2.payloadHashes).toBeArrayOfSize(1)
     expect(report2.hash !== report1.hash).toBe(true)
     expect(report2.prev(panel.address)).toBeDefined()
     expect(report2.prev(panel.address)).toBe(report1.hash)

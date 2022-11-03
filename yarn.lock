@@ -4561,14 +4561,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-market-payload-plugins@workspace:packages/plugins/packages/crypto/packages/market"
   dependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.1
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/solidity": ^5.7.0
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
@@ -4576,17 +4568,6 @@ __metadata:
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/uniswap-typechain": ^2.0.4
     tslib: ^2.4.1
-  peerDependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.0
-    "@ethersproject/providers": ^5.7.0
-    "@ethersproject/solidity": ^5.7.0
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
-    "@xyo-network/typechain": ^2.0.3
-    "@xyo-network/uniswap-typechain": ^2.0.3
   peerDependenciesMeta:
     "@uniswap/sdk":
       optional: true

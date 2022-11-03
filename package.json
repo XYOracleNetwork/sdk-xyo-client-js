@@ -74,6 +74,7 @@
     "displayName": "Root Package"
   },
   "scripts": {
+    "coverage": "yarn jest --coverage",
     "lint-pkg": "npmPkgJsonLint .",
     "xyo": "yarn workspace @xyo-network/node-cli xyo",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"

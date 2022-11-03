@@ -34,7 +34,7 @@ export class XyoAdhocWitness<T extends XyoPayload = WithAdditional<XyoPayload>> 
     const result: T[] = await super.observe([merge({}, this.payload, fields?.[0])])
 
     return result.map((payload, index) => {
-      return { ...payload, schema: fields?.[index].schema ?? payload.schema }
+      return { ...payload, schema: fields?.[index]?.schema ?? payload.schema }
     })
   }
 }

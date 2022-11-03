@@ -10,6 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@ethersproject/address": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/networks": "^5.7.1",
+    "@ethersproject/providers": "^5.7.2",
+    "@ethersproject/solidity": "^5.7.0",
+    "@uniswap/sdk": "^3.0.3",
+    "@uniswap/sdk-core": "^3.1.0",
+    "@uniswap/v3-sdk": "^3.9.0",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
@@ -17,23 +26,6 @@
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/uniswap-typechain": "^2.0.4",
     "tslib": "^2.4.1"
-  },
-  "peerDependenciesMeta": {
-    "@uniswap/sdk": {
-      "optional": true
-    },
-    "@uniswap/sdk-core": {
-      "optional": true
-    },
-    "@uniswap/v3-sdk": {
-      "optional": true
-    },
-    "@xyo-network/typechain": {
-      "optional": true
-    },
-    "@xyo-network/uniswap-typechain": {
-      "optional": true
-    }
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -68,5 +60,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.39.3"
+  "version": "2.39.4"
 }

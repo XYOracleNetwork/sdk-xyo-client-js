@@ -49,6 +49,8 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
     try {
       switch (typedQuery.schema) {
         case XyoWitnessObserveQuerySchema: {
+          // TODO: We're observing the query payload sent into us here
+          // not the payloads of query payload (payloads[0].payloads)
           const resultPayloads = await this.observe(payloads)
           return this.bindResult(resultPayloads, queryAccount)
         }

@@ -68,5 +68,5 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/esm/index.d.ts",
-  "version": "2.39.2"
+  "version": "2.39.3"
 }

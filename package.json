@@ -34,8 +34,7 @@
     "pako": "^2.0.4"
   },
   "resolutions": {
-    "@uniswap/v3-periphery": "1.4.1",
-    "bn.js": "^5.2.1"
+    "bn.js": "^5"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

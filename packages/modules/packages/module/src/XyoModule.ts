@@ -222,7 +222,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
             this.logger?.warn(`Fields that are not serializable to JSON are not allowed in config [${parents?.join('.')}.${key}]`)
             return false
           }
-          return this.validateConfig(value, [...parents, key]) && valid
+          return value ? this.validateConfig(value, [...parents, key]) && valid : true
         default:
           return valid
       }

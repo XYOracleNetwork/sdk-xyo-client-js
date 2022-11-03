@@ -4562,7 +4562,6 @@ __metadata:
   resolution: "@xyo-network/crypto-market-payload-plugins@workspace:packages/plugins/packages/crypto/packages/market"
   dependencies:
     "@ethersproject/address": ^5.7.0
-    "@ethersproject/bignumber": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
     "@ethersproject/networks": ^5.7.1
     "@ethersproject/providers": ^5.7.2

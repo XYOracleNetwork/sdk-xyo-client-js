@@ -1,10 +1,10 @@
 import { XyoAccount } from '@xyo-network/account'
+import { XyoApiConfig } from '@xyo-network/api-models'
 import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoDivinerWrapper } from '@xyo-network/diviner'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../../Api'
-import { XyoApiConfig } from '../../models'
 import { XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
 import { AddressHistoryQuerySchema } from './AddressHistoryDiviner'
 import { XyoRemoteAddressHistoryDiviner } from './XyoRemoteAddressHistoryDiviner'

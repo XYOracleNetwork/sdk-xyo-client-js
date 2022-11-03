@@ -1,1 +1,1 @@
-export * from './isSerializable'
+export * from './serializable'

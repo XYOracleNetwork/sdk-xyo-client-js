@@ -10,8 +10,8 @@ import isString from 'lodash/isString'
 import isUndefined from 'lodash/isUndefined'
 import overSome from 'lodash/overSome'
 
-export function isSerializable(obj: unknown): boolean {
-  const nestedSerializable = (obj: unknown) => (isPlainObject(obj) || isArray(obj)) && every(obj as object, isSerializable)
+export function serializable(obj: unknown): boolean {
+  const nestedSerializable = (obj: unknown) => (isPlainObject(obj) || isArray(obj)) && every(obj as object, serializable)
 
   return overSome([isUndefined, isNull, isBoolean, isNumber, isString, nestedSerializable])(obj)
 }

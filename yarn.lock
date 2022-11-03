@@ -4568,17 +4568,6 @@ __metadata:
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/uniswap-typechain": ^2.0.4
     tslib: ^2.4.1
-  peerDependenciesMeta:
-    "@uniswap/sdk":
-      optional: true
-    "@uniswap/sdk-core":
-      optional: true
-    "@uniswap/v3-sdk":
-      optional: true
-    "@xyo-network/typechain":
-      optional: true
-    "@xyo-network/uniswap-typechain":
-      optional: true
   languageName: unknown
   linkType: soft
 

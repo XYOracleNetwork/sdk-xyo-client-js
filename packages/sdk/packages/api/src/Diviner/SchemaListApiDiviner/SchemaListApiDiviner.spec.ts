@@ -1,5 +1,6 @@
+import { XyoApiConfig } from '@xyo-network/api-models'
+
 import { XyoArchivistApi } from '../../Api'
-import { XyoApiConfig } from '../../models'
 import { SchemaListApiDiviner } from './SchemaListApiDiviner'
 import { XyoSchemaListApiDivinerConfigSchema } from './SchemaListApiDivinerConfig'
 

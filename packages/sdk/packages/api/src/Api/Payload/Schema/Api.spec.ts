@@ -1,8 +1,8 @@
 import { XyoAccount } from '@xyo-network/account'
+import { XyoApiConfig } from '@xyo-network/api-models'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
-import { XyoApiConfig } from '../../../models'
 import { XyoArchivistApi } from '../../Api'
 import { getNewArchive, getSchemaName } from '../../ApiUtil.spec'
 

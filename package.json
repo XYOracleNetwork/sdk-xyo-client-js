@@ -34,8 +34,7 @@
     "pako": "^2.0.4"
   },
   "resolutions": {
-    "@uniswap/v3-periphery": "1.4.1",
-    "bn.js": "^5.2.1"
+    "bn.js": "^5"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -74,13 +73,13 @@
     "displayName": "Root Package"
   },
   "scripts": {
+    "coverage": "yarn jest --coverage",
     "lint-pkg": "npmPkgJsonLint .",
     "xyo": "yarn workspace @xyo-network/node-cli xyo",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.39.0",
-  "packageManager": "yarn@3.2.4",
-  "stableVersion": "2.38.8"
+  "version": "2.39.6",
+  "packageManager": "yarn@3.2.4"
 }

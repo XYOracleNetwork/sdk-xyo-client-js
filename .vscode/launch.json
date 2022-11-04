@@ -10,7 +10,7 @@
           "--inspect-brk",
           "${workspaceRoot}/node_modules/.bin/jest",
           "--runInBand",
-          "packages/plugins/packages/elevation/src/Witness.spec.ts"
+          "packages/sdk/packages/panel/src/XyoPanel.spec.ts"
         ]
       },
       "windows": {

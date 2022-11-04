@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/panel",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -21,7 +22,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lodash": "^4.14.186"
+    "@types/lodash": "^4.14.187"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -46,7 +47,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/panel",
   "publishConfig": {
     "access": "public"
   },
@@ -56,6 +56,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.39.0",
-  "stableVersion": "2.38.8"
+  "version": "2.39.6"
 }

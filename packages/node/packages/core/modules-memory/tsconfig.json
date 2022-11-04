@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "@types/jest",
+      "@types/node",
+      "jest-extended",
+      "jest-sorted",
+      "jest",
+      "node",
+      "reflect-metadata"
+    ]
+  },
+  "exclude": [
+    "dist/**/*"
+  ],
+  "extends": "@xylabs/tsconfig"
+}

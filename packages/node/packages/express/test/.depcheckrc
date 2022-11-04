@@ -1,0 +1,4 @@
+ignores: [
+  "@xylabs/forget",
+  "tslib"
+]

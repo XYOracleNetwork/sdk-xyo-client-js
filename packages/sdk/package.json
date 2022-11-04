@@ -15,7 +15,6 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/network": "workspace:^",
-    "@xyo-network/panel": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/promise": "workspace:^",

@@ -4828,6 +4828,7 @@ __metadata:
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
+    "@xyo-network/panel": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ^1.1.3
     pako: ^2.0.4
@@ -4906,9 +4907,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/panel@workspace:^, @xyo-network/panel@workspace:packages/sdk/packages/panel":
+"@xyo-network/panel@workspace:^, @xyo-network/panel@workspace:packages/modules/packages/panel":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/panel@workspace:packages/sdk/packages/panel"
+  resolution: "@xyo-network/panel@workspace:packages/modules/packages/panel"
   dependencies:
     "@types/lodash": ^4.14.187
     "@xylabs/assert": ^2.6.9
@@ -5084,7 +5085,6 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/network": "workspace:^"
-    "@xyo-network/panel": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/promise": "workspace:^"

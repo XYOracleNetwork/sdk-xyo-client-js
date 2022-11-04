@@ -7,7 +7,7 @@ import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
-import { serializable } from './lib'
+import { serializableField } from './lib'
 import { Logging } from './Logging'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
@@ -204,7 +204,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return this
   }
 
-  protected validateConfig(config?: unknown, parents: string[] = [], objectDepth = 100): boolean {
+  protected validateConfig(config?: unknown, parents: string[] = []): boolean {
     return Object.entries(config ?? this.config ?? {}).reduce((valid, [key, value]) => {
       switch (typeof value) {
         case 'function':
@@ -219,14 +219,9 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
             )
           }
 
-          const serializeCheck = serializable(value, objectDepth)
-          if (serializeCheck === false) {
+          if (!serializableField(value)) {
             this.logger?.warn(`Fields that are not serializable to JSON are not allowed in config [${parents?.join('.')}.${key}]`)
             return false
-          }
-          if (serializeCheck === null) {
-            this.logger?.warn(`depth of ${objectDepth} exceeded when checking JSON serialization`)
-            return true
           }
           return value ? this.validateConfig(value, [...parents, key]) && valid : true
         }

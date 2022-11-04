@@ -1,6 +1,6 @@
 import { EmptyObject } from '@xyo-network/core'
 
-import { SortDirection } from '..'
+import { SortDirection } from '../sortDirection'
 
 /* Note: Added Omit to XyoPayloadFindDiviner for offset until we support hash based offsets */
 

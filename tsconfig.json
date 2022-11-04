@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "declaration": true,
     "declarationMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "noImplicitOverride": false,
     "typeRoots": ["./node_modules/@types", "**/src/types"],
     "types": [

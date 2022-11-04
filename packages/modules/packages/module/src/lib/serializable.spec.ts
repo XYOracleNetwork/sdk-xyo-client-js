@@ -97,4 +97,10 @@ describe('serializable', () => {
       ]),
     ).toBeFalse
   })
+
+  it('maximum depth', () => {
+    const complexObj = { p: { p: { p: { p: { p: { p: 'foo' } } } } } }
+    expect(serializable(complexObj, 6)).toBeNull()
+    expect(serializable(complexObj, 7)).toBeTrue()
+  })
 })

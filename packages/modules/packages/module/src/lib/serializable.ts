@@ -10,8 +10,25 @@ import isString from 'lodash/isString'
 import isUndefined from 'lodash/isUndefined'
 import overSome from 'lodash/overSome'
 
-export function serializable(obj: unknown): boolean {
-  const nestedSerializable = (obj: unknown) => (isPlainObject(obj) || isArray(obj)) && every(obj as object, serializable)
+export function serializable(obj: unknown, depth?: number): boolean | null {
+  let depthExceeded = false
+  const decrementDepth = () => (depth ? depth-- : undefined)
 
-  return overSome([isUndefined, isNull, isBoolean, isNumber, isString, nestedSerializable])(obj)
+  const recursiveSerializable = (obj: unknown) => {
+    if (depth !== undefined && depth < 1) {
+      depthExceeded = true
+      return false
+    }
+
+    // decrement during every recursion
+    decrementDepth()
+
+    const nestedSerializable = (obj: unknown): boolean => (isPlainObject(obj) || isArray(obj)) && every(obj as object, recursiveSerializable)
+
+    return overSome([isUndefined, isNull, isBoolean, isNumber, isString, nestedSerializable])(obj)
+  }
+
+  const valid = recursiveSerializable(obj)
+
+  return depthExceeded ? null : valid
 }

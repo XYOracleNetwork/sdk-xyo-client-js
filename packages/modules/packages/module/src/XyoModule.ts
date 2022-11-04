@@ -204,13 +204,13 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return this
   }
 
-  protected validateConfig(config?: unknown, parents: string[] = []): boolean {
+  protected validateConfig(config?: unknown, parents: string[] = [], objectDepth = 100): boolean {
     return Object.entries(config ?? this.config ?? {}).reduce((valid, [key, value]) => {
       switch (typeof value) {
         case 'function':
           this.logger?.warn(`Fields of type function not allowed in config [${parents?.join('.')}.${key}]`)
           return false
-        case 'object':
+        case 'object': {
           if (Array.isArray(value)) {
             return (
               value.reduce((valid, value) => {
@@ -218,11 +218,18 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
               }, true) && valid
             )
           }
-          if (!serializable(value)) {
+
+          const serializeCheck = serializable(value, objectDepth)
+          if (serializeCheck === false) {
             this.logger?.warn(`Fields that are not serializable to JSON are not allowed in config [${parents?.join('.')}.${key}]`)
             return false
           }
+          if (serializeCheck === null) {
+            this.logger?.warn(`depth of ${objectDepth} exceeded when checking JSON serialization`)
+            return true
+          }
           return value ? this.validateConfig(value, [...parents, key]) && valid : true
+        }
         default:
           return valid
       }

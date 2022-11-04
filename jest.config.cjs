@@ -2,6 +2,7 @@ const generateJestConfig = ({ esModules }) => {
   const esModulesList = Array.isArray(esModules) ? esModules.join('|') : esModules
   return {
     coveragePathIgnorePatterns: ['<rootDir>/(.*)/dist'],
+    globalSetup: './packages/node/packages/express/test/src/globalSetup.ts',
     moduleNameMapper: {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },

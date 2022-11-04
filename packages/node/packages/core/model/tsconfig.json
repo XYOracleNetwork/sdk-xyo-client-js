@@ -2,6 +2,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "noImplicitOverride": false,
     "outDir": "dist",
     "typeRoots": [
       "./node_modules/@types"

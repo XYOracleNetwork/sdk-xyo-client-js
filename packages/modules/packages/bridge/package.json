@@ -15,7 +15,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "pako": "^2.0.4",
+    "pako": "^2.1.0",
     "tslib": "^2.4.1"
   },
   "devDependencies": {

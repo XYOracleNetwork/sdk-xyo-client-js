@@ -88,7 +88,10 @@
     "import/no-internal-modules": [
       "warn", {
         "allow": [
-          "lodash/*"
+          "source-map-support/*",
+          "lodash/*",
+          "aws-sdk/**/*",
+          "types/*"
         ]
       }
     ]

@@ -2,9 +2,19 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "noImplicitOverride": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitOverride": false,
     "typeRoots": ["./node_modules/@types", "**/src/types"],
-    "types": ["jest", "node", "@types/jest", "jest-sorted", "jest-extended", "json-schema"]
+    "types": [
+      "@types/jest",
+      "@types/node",
+      "jest-extended",
+      "jest-sorted",
+      "jest",
+      "node",
+      "reflect-metadata"
+    ]
   },
   "exclude": ["**/dist", "**/node_modules"],
   "extends": "@xylabs/tsconfig"

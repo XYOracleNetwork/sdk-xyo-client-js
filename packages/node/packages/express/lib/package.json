@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json.schemastore.org/package.json",
+  "name": "@xyo-network/express-node-lib",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "2.40.0-rc.2",
+  "description": "XYO Express Node Lib",
+  "sideeffects": false,
+  "engines": {
+    "node": ">=16 <17"
+  },
+  "esm5": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "esm5": "./dist/esm/index.js",
+      "node": {
+        "import": "./dist/cjs/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "author": "Arie Trouw",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "@xylabs/sdk-api-express-ecs": "^1.2.5",
+    "@xyo-network/api": "workspace:^",
+    "@xyo-network/node-core-model": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "express": "^4.18.2",
+    "passport": "^0.6.0"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.14",
+    "@types/passport": "^1.0.11"
+  },
+  "types": "dist/esm/index.d.ts",
+  "stableVersion": "2.39.6"
+}

@@ -8,7 +8,7 @@ import { XyoPayload } from '@xyo-network/payload'
 import { NodeConfig } from './Config'
 import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
-export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
+export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends XyoModule<TConfig>
   implements NodeModule
 {

@@ -31,7 +31,7 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
 
   private cache: LruCache<string, XyoPayload>
 
-  protected constructor(params?: XyoModuleParams<TConfig>) {
+  protected constructor(params: XyoModuleParams<TConfig>) {
     super(params)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }

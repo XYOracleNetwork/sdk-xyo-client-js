@@ -2,26 +2,21 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import {
-  XyoArchivistConfig,
-  XyoArchivistFindQuerySchema,
-  XyoArchivistGetQuerySchema,
-  XyoArchivistInsertQuerySchema,
-  XyoArchivistQuery,
-} from '@xyo-network/archivist'
+import { XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, XyoArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { injectable } from 'inversify'
 
 import { XyoBoundWitnessWithPartialMeta } from '../BoundWitness'
+import { ArchiveModuleConfig, ArchiveModuleConfigSchema } from './ArchiveModuleConfig'
 import { BoundWitnessArchivist } from './BoundWitnessArchivist'
 import { XyoBoundWitnessFilterPredicate } from './XyoBoundWitnessFilterPredicate'
 
 @injectable()
-export abstract class AbstractBoundWitnessArchivist extends XyoModule<XyoArchivistConfig> implements BoundWitnessArchivist {
-  constructor(protected readonly account: XyoAccount) {
-    super({ account })
+export abstract class AbstractBoundWitnessArchivist extends XyoModule<ArchiveModuleConfig> implements BoundWitnessArchivist {
+  constructor(protected readonly account: XyoAccount, config?: ArchiveModuleConfig) {
+    super({ account, config: config ?? { archive: 'temp', schema: ArchiveModuleConfigSchema } })
   }
 
   public override queries() {

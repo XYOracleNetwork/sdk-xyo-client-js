@@ -23,7 +23,7 @@ export class MongoDBArchivePayloadsArchivist extends AbstractPayloadArchivist<Xy
   constructor(
     @inject(TYPES.Account) protected readonly account: XyoAccount,
     @inject(MONGO_TYPES.PayloadSdkMongo) protected sdk: BaseMongoSdk<XyoPayloadWithMeta>,
-    protected readonly config: ArchiveModuleConfig,
+    config: ArchiveModuleConfig,
   ) {
     super(account, config)
   }

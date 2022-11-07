@@ -24,7 +24,7 @@ export class MongoDBArchivePermissionsPayloadPayloadArchivist
     @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
     @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>,
     @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
-    protected readonly config: ArchiveModuleConfig,
+    config: ArchiveModuleConfig,
   ) {
     super(account, payloads, boundWitnesses, config)
   }

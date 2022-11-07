@@ -6,18 +6,17 @@ import compact from 'lodash/compact'
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
-import { XyoHuriPayloadDivinerConfig } from './Config'
+import { XyoHuriPayloadDivinerConfig, XyoHuriPayloadDivinerConfigSchema } from './Config'
 
 export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig> {
+  static override configSchema: XyoHuriPayloadDivinerConfigSchema
+
   protected get options() {
     return this.config?.options
   }
 
-  static override async create(params?: XyoModuleParams<XyoHuriPayloadDivinerConfig>): Promise<XyoHuriPayloadDiviner> {
-    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const module = new XyoHuriPayloadDiviner(params)
-    await module.start()
-    return module
+  static override async create(params?: Partial<XyoModuleParams<XyoHuriPayloadDivinerConfig>>): Promise<XyoHuriPayloadDiviner> {
+    return (await super.create(params)) as XyoHuriPayloadDiviner
   }
 
   override async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {

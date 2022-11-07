@@ -93,5 +93,6 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 
   abstract attach(_address: string): void
   abstract detach(_address: string): void
+  abstract find(_schema: string[]): (TModule | null)[]
   abstract resolve(_address: string[]): (TModule | null)[]
 }

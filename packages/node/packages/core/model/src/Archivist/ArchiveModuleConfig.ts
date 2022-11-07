@@ -1,3 +1,6 @@
-import { XyoModuleConfigBase } from '@xyo-network/module'
+import { XyoModuleConfig } from '@xyo-network/module'
 
-export type ArchiveModuleConfig = XyoModuleConfigBase<{ archive: string }>
+export const ArchiveModuleConfigSchema = 'network.xyo.archivist.archive.config'
+export type ArchiveModuleConfigSchema = 'network.xyo.archivist.archive.config'
+
+export type ArchiveModuleConfig = XyoModuleConfig<{ archive: string; schema: ArchiveModuleConfigSchema }>

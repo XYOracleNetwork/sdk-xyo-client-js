@@ -3,6 +3,7 @@ import { XyoModuleConfigSchema } from '@xyo-network/module'
 import {
   ArchiveBoundWitnessArchivist,
   ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
   ArchivePayloadsArchivist,
   ArchivePermissionsArchivist,
   SetArchivePermissionsPayload,
@@ -57,7 +58,7 @@ export const ArchivistFactoryContainerModule = new ContainerModule((bind: interf
 const getBoundWitnessArchivist = (context: interfaces.Context, archive: string) => {
   const cached = boundWitnessArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema: XyoModuleConfigSchema }
+  const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const account = context.container.get<XyoAccount>(TYPES.Account)
   const sdk = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdkMongo)
   const archivist = new MongoDBArchiveBoundWitnessArchivist(account, sdk, config)
@@ -68,7 +69,7 @@ const getBoundWitnessArchivist = (context: interfaces.Context, archive: string) 
 const getPayloadArchivist = (context: interfaces.Context, archive: string) => {
   const cached = payloadArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema: XyoModuleConfigSchema }
+  const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const account = context.container.get<XyoAccount>(TYPES.Account)
   const sdk = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdkMongo)
   const archivist = new MongoDBArchivePayloadsArchivist(account, sdk, config)
@@ -79,7 +80,7 @@ const getPayloadArchivist = (context: interfaces.Context, archive: string) => {
 const getArchivePermissionsArchivist = (context: interfaces.Context, archive: string) => {
   const cached = archivePermissionsArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema: XyoModuleConfigSchema }
+  const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const account = context.container.getNamed<XyoAccount>(TYPES.Account, 'root')
   const payloads = context.container.get<BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>>(MONGO_TYPES.PayloadSdkMongo)
   const bw = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdkMongo)

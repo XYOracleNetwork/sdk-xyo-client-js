@@ -30,14 +30,17 @@ const valid = (bw: XyoBoundWitness) => {
 }
 
 @injectable()
-export abstract class AbstractMongoDBPayloadArchivist<T extends EmptyObject = EmptyObject> extends AbstractPayloadArchivist<T> {
+export abstract class AbstractMongoDBPayloadArchivist<
+  T extends EmptyObject = EmptyObject,
+  TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,
+> extends AbstractPayloadArchivist<T, TConfig> {
   protected readonly witnessedPayloads: LruCache<string, XyoPayloadWithMeta<T>> = new LruCache({ max: 1, ttl: 10000 })
 
   public constructor(
     @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
     @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>,
     @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
-    protected readonly config?: ArchiveModuleConfig,
+    config?: TConfig,
   ) {
     super(account, config)
   }

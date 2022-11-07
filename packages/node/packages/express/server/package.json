@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json.schemastore.org/package.json",
+  "name": "@xyo-network/express-node-server",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "2.40.0-rc.2",
+  "description": "XYO Express Node Server",
+  "sideeffects": false,
+  "engines": {
+    "node": ">=16 <17"
+  },
+  "esm5": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "esm5": "./dist/esm/index.js",
+      "node": {
+        "import": "./dist/cjs/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "author": "Arie Trouw",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "@xylabs/assert": "^2.6.9",
+    "@xylabs/delay": "^2.6.9",
+    "@xylabs/exists": "^2.6.9",
+    "@xylabs/sdk-api-express-ecs": "^1.2.5",
+    "@xyo-network/express-node-dependencies": "workspace:^",
+    "@xyo-network/express-node-lib": "workspace:^",
+    "@xyo-network/express-node-middleware": "workspace:^",
+    "@xyo-network/express-node-routes": "workspace:^",
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/node-core-model": "workspace:^",
+    "@xyo-network/node-core-query-handlers": "workspace:^",
+    "@xyo-network/node-core-types": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/shared": "workspace:^",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "inversify": "^6.0.1",
+    "passport": "^0.6.0",
+    "reflect-metadata": "^0.1.13",
+    "uuid": "^9.0.0"
+  },
+  "peerDependencies": {
+    "axios": "*",
+    "pako": "*"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "4.17.14",
+    "@types/passport": "^1.0.11",
+    "@types/uuid": "^8.3.4"
+  },
+  "types": "dist/esm/index.d.ts",
+  "stableVersion": "2.39.6"
+}

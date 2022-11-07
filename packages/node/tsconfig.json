@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "ES2022",
+    "outDir": "./dist/esm",
+    "target": "ES2022",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "@types/jest",
+      "@types/node",
+      "jest-extended",
+      "jest-sorted",
+      "jest",
+      "node",
+      "reflect-metadata"
+    ]
+  },
+  "exclude": [
+    "dist/**/*"
+  ],
+  "extends": "@xylabs/tsconfig"
+}

@@ -6,7 +6,7 @@
     ".DS_Store": true,
     "**/node_modules": true,
     "**/build": true,
-    "**/dist": false,
+    "**/dist": true,
     ".webpack": true,
     ".serverless": true,
     ".rollup.cache": true,
@@ -55,6 +55,7 @@
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
+    "autogen",
     "automations",
     "bignumber",
     "bowser",
@@ -63,6 +64,7 @@
     "edns",
     "Etherchain",
     "IERC",
+    "inversify",
     "mapbox",
     "onvalue",
     "pako",
@@ -70,6 +72,7 @@
     "Screenlogic",
     "scure",
     "shajs",
+    "sideeffects",
     "systeminformation",
     "typechain",
     "userid"

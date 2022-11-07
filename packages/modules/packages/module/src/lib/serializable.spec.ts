@@ -1,45 +1,47 @@
-import { serializable } from './serializable'
+import { serializable, serializableField } from './serializable'
 
-describe('serializable', () => {
+describe('serializableField', () => {
   it('string', () => {
-    expect(serializable('HI')).toBeTrue()
+    expect(serializableField('HI')).toBeTrue()
   })
 
   it('number', () => {
-    expect(serializable(23454)).toBeTrue()
+    expect(serializableField(23454)).toBeTrue()
   })
 
   it('null', () => {
-    expect(serializable(null)).toBeTrue()
+    expect(serializableField(null)).toBeTrue()
   })
 
   it('undefined', () => {
-    expect(serializable(undefined)).toBeTrue()
+    expect(serializableField(undefined)).toBeTrue()
   })
 
   it('Class', () => {
     class TestClass {
       foo = 'foo'
     }
-    expect(serializable(new TestClass())).toBeFalse()
+    expect(serializableField(new TestClass())).toBeFalse()
   })
 
   it('Map', () => {
-    expect(serializable(new Map())).toBeFalse()
+    expect(serializableField(new Map())).toBeFalse()
   })
 
   it('Symbol', () => {
-    expect(serializable(Symbol())).toBeFalse()
+    expect(serializableField(Symbol())).toBeFalse()
   })
 
   it('Set', () => {
-    expect(serializable(new Set())).toBeFalse()
+    expect(serializableField(new Set())).toBeFalse()
   })
 
   it('plain obj', () => {
-    expect(serializable({ p: 1, p2: 'hi' })).toBeTrue()
+    expect(serializableField({ p: 1, p2: 'hi' })).toBeTrue()
   })
+})
 
+describe('serializable', () => {
   it('plain obj with func', () => {
     expect(
       serializable({
@@ -68,10 +70,6 @@ describe('serializable', () => {
     ).toBeFalse()
   })
 
-  it('array', () => {
-    expect(serializable([1, 2, 3, 5])).toBeTrue()
-  })
-
   it('array with func', () => {
     expect(serializable([1, 2, 3, () => false])).toBeFalse()
   })
@@ -96,5 +94,11 @@ describe('serializable', () => {
         },
       ]),
     ).toBeFalse
+  })
+
+  it('maximum depth', () => {
+    const complexObj = { p: { p: { p: { p: { p: { p: 'foo' } } } } } }
+    expect(serializable(complexObj, 6)).toBeNull()
+    expect(serializable(complexObj, 7)).toBeTrue()
   })
 })

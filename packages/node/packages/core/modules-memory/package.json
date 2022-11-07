@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json.schemastore.org/package.json",
+  "name": "@xyo-network/node-core-modules-memory",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "2.40.0-rc.2",
+  "description": "XYO Archivist",
+  "sideeffects": false,
+  "engines": {
+    "node": ">=16 <17"
+  },
+  "esm5": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "esm5": "./dist/esm/index.js",
+      "node": {
+        "import": "./dist/cjs/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "author": "Arie Trouw",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/node-core-model": "workspace:^",
+    "lru-cache": "^7.14.1",
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {
+    "@types/source-map-support": "0.5.6",
+    "jest": "^29.3.0",
+    "jest-extended": "^3.1.0",
+    "jest-mock-extended": "^3.0.1",
+    "typescript": "^4.8.4",
+    "uuid": "^9.0.0"
+  },
+  "types": "dist/esm/index.d.ts",
+  "stableVersion": "2.39.6"
+}

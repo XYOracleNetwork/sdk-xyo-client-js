@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "no-restricted-imports": ["error", {
+      "paths": ["express"]
+    }]
+  }
+}

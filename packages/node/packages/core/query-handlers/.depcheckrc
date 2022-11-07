@@ -1,0 +1,6 @@
+ignores: [
+  "jest",
+  "jest-mock-extended",
+  "tslib",
+  "typescript"
+]

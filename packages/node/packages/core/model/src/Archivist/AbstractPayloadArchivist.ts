@@ -2,13 +2,7 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import {
-  XyoArchivistConfig,
-  XyoArchivistFindQuerySchema,
-  XyoArchivistGetQuerySchema,
-  XyoArchivistInsertQuerySchema,
-  XyoArchivistQuery,
-} from '@xyo-network/archivist'
+import { XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, XyoArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery } from '@xyo-network/module'
@@ -16,17 +10,17 @@ import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { injectable } from 'inversify'
 
 import { XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '../Payload'
-import { ArchiveModuleConfig } from './ArchiveModuleConfig'
+import { ArchiveModuleConfig, ArchiveModuleConfigSchema } from './ArchiveModuleConfig'
 import { PayloadArchivist } from './PayloadArchivist'
 import { XyoPayloadFilterPredicate } from './XyoPayloadFilterPredicate'
 
 @injectable()
-export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObject>
-  extends XyoModule<XyoArchivistConfig>
+export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extends ArchiveModuleConfig = ArchiveModuleConfig>
+  extends XyoModule<TConfig>
   implements PayloadArchivist<T>
 {
-  constructor(protected readonly account: XyoAccount, protected readonly config?: ArchiveModuleConfig) {
-    super({ account, config })
+  constructor(protected readonly account: XyoAccount, config?: TConfig) {
+    super({ account, config: config ?? ({ archive: 'temp', schema: ArchiveModuleConfigSchema } as TConfig) })
   }
 
   override queries() {

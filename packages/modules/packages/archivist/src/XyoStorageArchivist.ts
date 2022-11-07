@@ -37,7 +37,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
   private _privateStorage: StoreBase | undefined
   private _storage: StoreBase | undefined
 
-  constructor(params?: XyoModuleParams<XyoStorageArchivistConfig>) {
+  constructor(params: XyoModuleParams<XyoStorageArchivistConfig>) {
     super(params)
     this.loadAccount()
   }

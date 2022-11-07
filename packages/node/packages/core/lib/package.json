@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.40.0-rc.2",
+  "version": "2.40.0",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -48,6 +48,5 @@
     "typescript": "^4.8.4",
     "uuid": "^9.0.0"
   },
-  "types": "dist/esm/index.d.ts",
-  "stableVersion": "2.39.6"
+  "types": "dist/esm/index.d.ts"
 }

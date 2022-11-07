@@ -18,11 +18,8 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
     return this.config?.targetSchema
   }
 
-  static override async create(params?: XyoModuleParams<XyoDivinerConfig>): Promise<XyoDiviner> {
-    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const actualParams: XyoModuleParams<XyoDivinerConfig> = params ?? {}
-    actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
-    return (await super.create(actualParams)) as XyoDiviner
+  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<XyoDiviner> {
+    return (await super.create(params)) as XyoDiviner
   }
 
   public override queries(): string[] {

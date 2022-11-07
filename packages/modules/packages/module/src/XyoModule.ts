@@ -19,7 +19,7 @@ export type SortedPipedAddressesString = string
 
 export interface XyoModuleParams<TConfig extends XyoModuleConfig = XyoModuleConfig> {
   account?: XyoAccount
-  config?: TConfig
+  config: TConfig
   logger?: Logger
   resolver?: ModuleResolver
 }
@@ -28,16 +28,17 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   static configSchema: string
   static defaultLogger?: Logger
 
+  public config: TConfig
+
   protected _started = false
   protected account: XyoAccount
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
-  protected config?: TConfig
   protected readonly logger?: Logging
   protected resolver?: ModuleResolver
 
-  protected constructor(params?: XyoModuleParams<TConfig>) {
-    this.resolver = params?.resolver
-    this.config = params?.config
+  protected constructor(params: XyoModuleParams<TConfig>) {
+    this.resolver = params.resolver
+    this.config = params.config
     this.account = this.loadAccount(params?.account)
     const activeLogger = params?.logger ?? XyoModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
@@ -52,11 +53,11 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return this.config?.security?.disallowed
   }
 
-  protected static async create(params?: XyoModuleParams<XyoModuleConfig>): Promise<XyoModule> {
+  protected static async create(params?: Partial<XyoModuleParams<XyoModuleConfig>>): Promise<XyoModule> {
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const actualParams: XyoModuleParams<XyoModuleConfig> = params ?? {}
+    const actualParams: Partial<XyoModuleParams<XyoModuleConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
-    return await new this(actualParams).start()
+    return await new this(actualParams as XyoModuleParams<XyoModuleConfig>).start()
   }
 
   public discover(_queryAccount?: XyoAccount): Promisable<XyoPayload[]> {

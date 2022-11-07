@@ -17,10 +17,7 @@ export class XyoCryptoCardsGameWitness extends XyoWitness<XyoCryptoCardsGamePayl
   static override targetSchema = XyoCryptoCardsGameSchema
 
   static override async create(params?: XyoModuleParams<XyoCryptoCardsGameWitnessConfig>): Promise<XyoCryptoCardsGameWitness> {
-    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const module = new XyoCryptoCardsGameWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoCryptoCardsGameWitness
   }
 
   override observe(payloads: XyoCryptoCardsGamePayload[]): Promisable<XyoCryptoCardsGamePayload[]> {

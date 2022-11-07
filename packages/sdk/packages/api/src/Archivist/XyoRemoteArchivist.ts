@@ -15,7 +15,7 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
   static override configSchema = XyoRemoteArchivistConfigSchema
   protected _api?: XyoArchivistApi
 
-  constructor(params?: XyoRemoteArchivistParams) {
+  constructor(params: XyoRemoteArchivistParams) {
     super(params)
     this._api = params?.api
   }

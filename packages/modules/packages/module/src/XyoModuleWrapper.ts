@@ -1,11 +1,10 @@
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
-import { XyoModuleConfig } from './Config'
 import { Module } from './Module'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { XyoModuleDiscoverQuery, XyoModuleDiscoverQuerySchema } from './Queries'
 import { QueryBoundWitnessWrapper, XyoError, XyoErrorSchema, XyoQueryBoundWitness } from './Query'
-import { XyoModule, XyoModuleParams } from './XyoModule'
+import { XyoModule } from './XyoModule'
 
 export interface WrapperError extends Error {
   errors: (XyoError | null)[]
@@ -13,15 +12,11 @@ export interface WrapperError extends Error {
   result: ModuleQueryResult
 }
 
-export interface XyoModuleWrapperParams<TModule extends Module = Module, TConfig extends XyoModuleConfig = XyoModuleConfig>
-  extends XyoModuleParams<TConfig> {
-  module: TModule
-}
-export class XyoModuleWrapper<TModule extends Module = Module, TConfig extends XyoModuleConfig = XyoModuleConfig> extends XyoModule<TConfig> {
+export class XyoModuleWrapper<TModule extends Module = Module> extends XyoModule<Module['config']> {
   public module: TModule
 
   constructor(module: TModule) {
-    super()
+    super({ config: module.config })
     this.module = module
   }
 

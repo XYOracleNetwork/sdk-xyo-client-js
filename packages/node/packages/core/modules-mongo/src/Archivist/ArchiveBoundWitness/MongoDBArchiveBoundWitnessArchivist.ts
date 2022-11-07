@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
-import { XyoModuleConfigSchema } from '@xyo-network/module'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
   AbstractBoundWitnessArchivist,
@@ -28,9 +27,9 @@ export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArc
   constructor(
     @inject(TYPES.Account) protected readonly account: XyoAccount,
     @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>,
-    protected readonly config: ArchiveModuleConfig = { archive: '', schema: XyoModuleConfigSchema },
+    config?: ArchiveModuleConfig,
   ) {
-    super(account)
+    super(account, config)
   }
 
   async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta<EmptyObject, XyoPayloadWithPartialMeta<EmptyObject>>[]> {

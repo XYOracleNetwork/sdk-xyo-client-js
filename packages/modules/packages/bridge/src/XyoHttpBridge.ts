@@ -52,10 +52,7 @@ export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeCo
   }
 
   static override async create(params: XyoHttpBridgeParams): Promise<XyoHttpBridge> {
-    params?.logger?.debug(`config: ${JSON.stringify(params?.config, null, 2)}`)
-    const module = new XyoHttpBridge(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoHttpBridge
   }
 
   connect(): Promisable<boolean> {

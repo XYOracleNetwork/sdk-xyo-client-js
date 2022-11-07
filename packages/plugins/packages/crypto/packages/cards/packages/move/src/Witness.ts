@@ -17,10 +17,7 @@ export class XyoCryptoCardsMoveWitness extends XyoWitness<XyoCryptoCardsMovePayl
   static override targetSchema = XyoCryptoCardsMoveSchema
 
   static override async create(params?: XyoModuleParams<XyoCryptoCardsMoveWitnessConfig>): Promise<XyoCryptoCardsMoveWitness> {
-    params?.logger?.debug(`params.config: ${JSON.stringify(params.config, null, 2)}`)
-    const module: XyoCryptoCardsMoveWitness = new XyoCryptoCardsMoveWitness(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoCryptoCardsMoveWitness
   }
 
   override observe(payloads: XyoCryptoCardsMovePayload[]): Promisable<XyoCryptoCardsMovePayload[]> {

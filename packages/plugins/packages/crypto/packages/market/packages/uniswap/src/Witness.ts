@@ -18,7 +18,7 @@ export class XyoUniswapCryptoMarketWitness extends XyoWitness<XyoUniswapCryptoMa
 
   protected pairs?: EthersUniSwap3Pair[]
   protected provider?: Provider
-  protected constructor(params?: XyoUniswapCryptoMarketWitnessParams) {
+  protected constructor(params: XyoUniswapCryptoMarketWitnessParams) {
     super(params)
     this.provider = params?.provider
   }

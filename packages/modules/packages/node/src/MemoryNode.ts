@@ -11,10 +11,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   private registeredModuleMap = new Map<string, TModule>()
 
   static override async create(params?: XyoModuleParams<NodeConfig>): Promise<MemoryNode> {
-    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const module = new MemoryNode(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as MemoryNode
   }
 
   override attach(address: string) {
@@ -36,6 +33,17 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
 
   override detach(address: string) {
     this.attachedModuleMap.delete(address)
+  }
+
+  override find(schema: string[]): (TModule | null)[] {
+    return schema.map((schema) => {
+      this.logger?.log(`Finding in MemoryNode: ${schema}`)
+      if (schema === 'network.xyo.archivist') {
+        this.logger?.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)
+        return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
+      }
+      return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
+    })
   }
 
   public override queries(): string[] {
@@ -60,11 +68,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
 
   override resolve(addresses: string[]): (TModule | null)[] {
     return addresses.map((address) => {
-      console.log(`Resolving in MemoryNode: ${address}`)
-      if (address === 'archivist') {
-        console.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)
-        return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
-      }
+      this.logger?.log(`Resolving in MemoryNode: ${address}`)
       return this.attachedModuleMap?.get(address) ?? null
     })
   }

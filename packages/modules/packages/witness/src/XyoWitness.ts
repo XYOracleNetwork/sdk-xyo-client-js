@@ -19,9 +19,8 @@ export class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends
     return this.config?.targetSchema
   }
 
-  static override async create(params?: XyoModuleParams<XyoWitnessConfig>): Promise<XyoWitness> {
-    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const actualParams: XyoModuleParams<XyoWitnessConfig> = params ?? {}
+  static override async create(params?: Partial<XyoModuleParams<XyoWitnessConfig>>): Promise<XyoWitness> {
+    const actualParams: Partial<XyoModuleParams<XyoWitnessConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
     return (await super.create(actualParams)) as XyoWitness
   }

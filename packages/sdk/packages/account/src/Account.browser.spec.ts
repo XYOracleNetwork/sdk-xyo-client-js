@@ -34,67 +34,90 @@ const testAddress = '2a260a110bc7b03f19c40a0bd04ff2c5dcb57594'
   q: '04779dd197a5df977ed2cf6cb31d82d43328b790dc6b3b7d4437a427bd5847dfcde94b724a555b6d017bb7607c3e3281daf5b1699d6ef4124975c9237b917d426f',
 }*/
 
-test('Address from Phrase', () => {
-  const wallet = XyoAccount.fromPhrase('test')
-  expect(wallet.private).toHaveLength(32)
-  expect(wallet.public).toHaveLength(64)
-  expect(wallet.addressValue).toHaveLength(20)
-  expect(wallet.private.hex).toEqual(testPrivateKey)
-  expect(wallet.public.hex).toEqual(testPublicKey)
-  expect(wallet.addressValue.hex).toEqual(testAddress)
-})
+describe('XyoAccount', () => {
+  test('Address from Phrase', () => {
+    const wallet = XyoAccount.fromPhrase('test')
+    expect(wallet.private).toHaveLength(32)
+    expect(wallet.public).toHaveLength(64)
+    expect(wallet.addressValue).toHaveLength(20)
+    expect(wallet.private.hex).toEqual(testPrivateKey)
+    expect(wallet.public.hex).toEqual(testPublicKey)
+    expect(wallet.addressValue.hex).toEqual(testAddress)
+  })
 
-test('Address from Key', () => {
-  const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
-  expect(wallet.private).toHaveLength(32)
-  expect(wallet.public).toHaveLength(64)
-  expect(wallet.addressValue).toHaveLength(20)
-  expect(wallet.private.hex).toEqual(testVectorPrivateKey)
-  expect(wallet.public.hex).toEqual(testVectorPublicKey)
-  expect(wallet.addressValue.hex).toEqual(testVectorAddress)
-})
+  test('Address from Key', () => {
+    const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
+    expect(wallet.private).toHaveLength(32)
+    expect(wallet.public).toHaveLength(64)
+    expect(wallet.addressValue).toHaveLength(20)
+    expect(wallet.private.hex).toEqual(testVectorPrivateKey)
+    expect(wallet.public.hex).toEqual(testVectorPublicKey)
+    expect(wallet.addressValue.hex).toEqual(testVectorAddress)
+  })
 
-test('Sign-fromPrivateKey', () => {
-  const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
-  const signature = wallet.sign('1234567890abcdef')
-  const valid = wallet.verify('1234567890abcdef', signature)
-  expect(valid).toBeTruthy()
-})
+  test('Sign-fromPrivateKey', () => {
+    const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
+    const signature = wallet.sign('1234567890abcdef')
+    const valid = wallet.verify('1234567890abcdef', signature)
+    expect(valid).toBeTruthy()
+  })
 
-test('Sign-fromPhrase', () => {
-  const wallet = XyoAccount.fromPhrase('test')
-  const signature = wallet.sign('1234567890abcdef')
-  const valid = wallet.verify('1234567890abcdef', signature)
-  expect(valid).toBeTruthy()
-})
+  test('Sign-fromPhrase', () => {
+    const wallet = XyoAccount.fromPhrase('test')
+    const signature = wallet.sign('1234567890abcdef')
+    const valid = wallet.verify('1234567890abcdef', signature)
+    expect(valid).toBeTruthy()
+  })
 
-test('Sign-testVectors', () => {
-  const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
-  const signature = Buffer.from(wallet.sign(toUint8Array(testVectorHash))).toString('hex')
-  const expectedSignature = testVectorSignature
+  test('Sign-testVectors', () => {
+    const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
+    const signature = Buffer.from(wallet.sign(toUint8Array(testVectorHash))).toString('hex')
+    const expectedSignature = testVectorSignature
 
-  expect(signature).toEqual(expectedSignature)
-  expect(signature.length).toEqual(128)
-  const valid = wallet.verify(testVectorHash, signature)
-  expect(valid).toBeTruthy()
-})
+    expect(signature).toEqual(expectedSignature)
+    expect(signature.length).toEqual(128)
+    const valid = wallet.verify(testVectorHash, signature)
+    expect(valid).toBeTruthy()
+  })
 
-test('Constructor', () => {
-  const wallet1 = new XyoAccount()
-  const wallet2 = new XyoAccount({ privateKey: wallet1.private.bytes })
-  expect(wallet1.public.hex).toEqual(wallet2.public.hex)
-  expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
-})
+  test('Constructor', () => {
+    const wallet1 = new XyoAccount()
+    const wallet2 = new XyoAccount({ privateKey: wallet1.private.bytes })
+    expect(wallet1.public.hex).toEqual(wallet2.public.hex)
+    expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
+  })
 
-test('Sign-random-string', () => {
-  const wallet = XyoAccount.random()
-  const signature = wallet.sign('1234567890abcdef')
-  const signaturePrime = toUint8Array(signature)
-  expect(signature.length).toBe(signaturePrime.length)
-  for (let i = 0; i < signature.length; i++) {
-    expect(signature[i]).toBe(signaturePrime[i])
-  }
-  const valid = wallet.verify('1234567890abcdef', signature)
-  expect(valid).toBeTruthy()
-  expect(wallet.private.bytes.length === 32)
+  test('Sign-random-string', () => {
+    const wallet = XyoAccount.random()
+    const signature = wallet.sign('1234567890abcdef')
+    const signaturePrime = toUint8Array(signature)
+    expect(signature.length).toBe(signaturePrime.length)
+    for (let i = 0; i < signature.length; i++) {
+      expect(signature[i]).toBe(signaturePrime[i])
+    }
+    const valid = wallet.verify('1234567890abcdef', signature)
+    expect(valid).toBeTruthy()
+    expect(wallet.private.bytes.length === 32)
+  })
+
+  describe('fromMnemonic', () => {
+    const mnemonics = [
+      'music snack noble scheme invest off disease pulp mountain sting present uncover steak visual bachelor wait please wreck dwarf lecture car excuse seminar educate',
+      'another royal picture transfer yard point lecture carpet tonight sister diesel body yard clarify cream mom current margin unit fan ladder wisdom exercise feed',
+      'quantum pumpkin robot candy doctor brass plate giggle squeeze vanish purpose depend',
+      'satoshi cake access cannon feed source art oblige turtle perfect turtle dolphin',
+      'food cream bacon divorce bring gravity employ taste hub fish tennis put',
+    ]
+    const paths = ['m/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]
+    it.each(mnemonics)('generates account from mnemonic', (mnemonic: string) => {
+      const account = XyoAccount.fromMnemonic(mnemonic)
+      expect(account).toBeObject()
+      expect(account.addressValue.hex).toBeString()
+    })
+    it.each(paths)('generates account from mnemonic & path', (path: string) => {
+      const account = XyoAccount.fromMnemonic(mnemonics[0], path)
+      expect(account).toBeObject()
+      expect(account.addressValue.hex).toBeString()
+    })
+  })
 })

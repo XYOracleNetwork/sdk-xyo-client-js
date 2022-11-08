@@ -13,7 +13,6 @@ import { inject, named } from 'inversify'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
 import { AbstractMongoDBPayloadArchivist } from '../AbstractArchivist'
 
 export class MongoDBArchivePermissionsPayloadPayloadArchivist
@@ -25,7 +24,7 @@ export class MongoDBArchivePermissionsPayloadPayloadArchivist
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>> = getBaseMongoSdk<
       XyoPayloadWithMeta<SetArchivePermissionsPayload>
     >(COLLECTIONS.Payloads),
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
+    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     config: ArchiveModuleConfig,
   ) {
     super(account, payloads, boundWitnesses, config)

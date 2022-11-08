@@ -22,7 +22,6 @@ import { ExplainVerbosity, Filter, OptionalUnlessRequiredId, WithoutId } from 'm
 import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
 
 const builderConfig: BoundWitnessBuilderConfig = { inlinePayloads: false }
 
@@ -40,7 +39,7 @@ export abstract class AbstractMongoDBPayloadArchivist<
   public constructor(
     @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>> = getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads),
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
+    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     config?: TConfig,
   ) {
     super(account, config)

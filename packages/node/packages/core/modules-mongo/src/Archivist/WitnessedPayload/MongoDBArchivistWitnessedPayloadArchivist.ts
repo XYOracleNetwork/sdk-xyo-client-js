@@ -19,7 +19,6 @@ import { inject, injectable, named } from 'inversify'
 import { COLLECTIONS } from '../../collections'
 import { DefaultLimit } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
 
 const unique = <T>(value: T, index: number, self: T[]) => {
   return self.indexOf(value) === index
@@ -34,7 +33,7 @@ export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadAr
   constructor(
     @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
+    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
   ) {
     super(account)
   }

@@ -1,27 +1,19 @@
 import 'reflect-metadata'
 
-import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
 import { Initializable, isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
+import { Job, JobProvider } from '@xyo-network/shared'
 import { Filter, SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-@injectable()
 export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner, Initializable, JobProvider {
-  constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) account: XyoAccount,
-    protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
-  ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
+  constructor(protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)) {
+    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
   }
   get jobs(): Job[] {
     return []

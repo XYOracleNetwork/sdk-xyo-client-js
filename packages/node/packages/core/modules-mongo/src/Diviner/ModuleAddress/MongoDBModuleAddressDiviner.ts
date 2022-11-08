@@ -1,7 +1,6 @@
 import 'reflect-metadata'
 
 import { delay } from '@xylabs/delay'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
 import {
   ArchiveArchivist,
@@ -17,7 +16,7 @@ import {
 import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
+import { Job, JobProvider } from '@xyo-network/shared'
 import { inject, injectable } from 'inversify'
 
 import { COLLECTIONS } from '../../collections'
@@ -26,13 +25,11 @@ import { getBaseMongoSdk } from '../../Mongo'
 @injectable()
 export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, Initializable, JobProvider {
   constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) protected readonly account: XyoAccount,
     @inject(TYPES.ArchiveArchivist) protected readonly archives: ArchiveArchivist,
     protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
   ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
+    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
   }
 
   get jobs(): Job[] {

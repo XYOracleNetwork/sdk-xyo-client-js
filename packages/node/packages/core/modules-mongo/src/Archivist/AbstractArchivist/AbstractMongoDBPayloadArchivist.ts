@@ -19,8 +19,9 @@ import { inject, injectable, named } from 'inversify'
 import LruCache from 'lru-cache'
 import { ExplainVerbosity, Filter, OptionalUnlessRequiredId, WithoutId } from 'mongodb'
 
+import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
-import { removeId } from '../../Mongo'
+import { getBaseMongoSdk, removeId } from '../../Mongo'
 import { MONGO_TYPES } from '../../types'
 
 const builderConfig: BoundWitnessBuilderConfig = { inlinePayloads: false }
@@ -38,7 +39,7 @@ export abstract class AbstractMongoDBPayloadArchivist<
 
   public constructor(
     @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>,
+    protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>> = getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads),
     @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
     config?: TConfig,
   ) {

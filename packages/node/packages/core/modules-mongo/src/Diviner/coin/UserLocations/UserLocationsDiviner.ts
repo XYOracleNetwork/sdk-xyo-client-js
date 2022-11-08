@@ -12,7 +12,8 @@ import { Job, JobProvider, Logger } from '@xyo-network/shared'
 import { inject, injectable } from 'inversify'
 import compact from 'lodash/compact'
 
-import { MONGO_TYPES } from '../../../types'
+import { COLLECTIONS } from '../../../collections'
+import { getBaseMongoSdk } from '../../../Mongo'
 
 export type CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
 export const CoinCurrentUserWitnessSchema: CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
@@ -48,7 +49,7 @@ export class CoinUserLocationsDiviner extends XyoDiviner implements CoinUserLoca
     @inject(TYPES.Account) protected readonly account: XyoAccount,
     @inject(TYPES.PayloadArchivist) protected readonly payloads: PayloadArchivist,
     @inject(TYPES.BoundWitnessArchivist) protected readonly bws: BoundWitnessesArchivist,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>,
+    protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
   ) {
     super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
   }

@@ -16,8 +16,9 @@ import { XyoPayloadFindFilter, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { inject, injectable, named } from 'inversify'
 
+import { COLLECTIONS } from '../../collections'
 import { DefaultLimit } from '../../defaults'
-import { removeId } from '../../Mongo'
+import { getBaseMongoSdk, removeId } from '../../Mongo'
 import { MONGO_TYPES } from '../../types'
 
 const unique = <T>(value: T, index: number, self: T[]) => {
@@ -32,7 +33,7 @@ const valid = (bw: XyoBoundWitness) => {
 export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements WitnessedPayloadArchivist {
   constructor(
     @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>,
+    protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
     @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
   ) {
     super(account)

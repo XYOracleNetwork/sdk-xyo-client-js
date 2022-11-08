@@ -6,10 +6,10 @@ import { ModuleQueryResult } from '@xyo-network/module'
 import { UpsertResult, User, UserArchivist, UserWithoutId } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { inject, injectable } from 'inversify'
 import { ObjectId, WithId } from 'mongodb'
 
-import { MONGO_TYPES } from '../../types'
+import { COLLECTIONS } from '../../collections'
+import { getBaseMongoSdk } from '../../Mongo'
 
 interface IUpsertFilter {
   $or: {
@@ -18,9 +18,8 @@ interface IUpsertFilter {
   }[]
 }
 
-@injectable()
 export class MongoDBUserArchivist implements UserArchivist {
-  constructor(@inject(MONGO_TYPES.UserSdkMongo) protected readonly db: BaseMongoSdk<User>) {}
+  constructor(protected readonly db: BaseMongoSdk<User> = getBaseMongoSdk<User>(COLLECTIONS.Users)) {}
   get address(): string {
     throw new Error('Module query not implemented for MongoDBUserArchivist')
   }

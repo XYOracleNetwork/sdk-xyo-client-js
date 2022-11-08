@@ -17,6 +17,7 @@
     "Hasher",
     "hdnode",
     "huri",
+    "jsdom",
     "keccak",
     "pako",
     "Promisable",
@@ -24,6 +25,7 @@
     "snyk",
     "systeminfo",
     "Trouw",
+    "typedoc",
     "xylabs",
     "yarnpkg"
   ]

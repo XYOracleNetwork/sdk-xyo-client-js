@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
+import { BcryptPasswordHasher } from '@xyo-network/node-core-lib'
 import { Identifiable, PasswordHasher, UpsertResult, User, UserManager, UserWithoutId, Web2User, Web3User } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { inject, injectable } from 'inversify'
 import { OptionalId } from 'mongodb'
 
@@ -31,7 +31,7 @@ const toDbEntity = (user: UserWithoutId) => {
 export class MongoDBUserManager implements UserManager {
   constructor(
     @inject(MongoDBUserArchivist) protected readonly mongo: MongoDBUserArchivist,
-    @inject(TYPES.PasswordHasher) protected readonly passwordHasher: PasswordHasher<User>,
+    protected readonly passwordHasher: PasswordHasher<User> = BcryptPasswordHasher,
   ) {}
   async create(user: UserWithoutId, password?: string): Promise<Identifiable & Partial<Web2User> & Partial<Web3User> & UpsertResult> {
     if (password) {

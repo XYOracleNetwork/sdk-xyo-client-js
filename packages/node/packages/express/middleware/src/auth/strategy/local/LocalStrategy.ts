@@ -1,5 +1,6 @@
 import 'reflect-metadata'
 
+import { BcryptPasswordHasher } from '@xyo-network/node-core-lib'
 import { PasswordHasher, User, UserManager } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Request } from 'express'
@@ -16,7 +17,7 @@ const strategyOptions: IStrategyOptionsWithRequest = {
 export class LocalStrategy extends Strategy {
   constructor(
     @inject(TYPES.UserManager) public readonly userManager: UserManager,
-    @inject(TYPES.PasswordHasher) public readonly passwordHasher: PasswordHasher<User>,
+    public readonly passwordHasher: PasswordHasher<User> = BcryptPasswordHasher,
   ) {
     super(strategyOptions, async (req: Request, email, providedPassword, done) => {
       try {

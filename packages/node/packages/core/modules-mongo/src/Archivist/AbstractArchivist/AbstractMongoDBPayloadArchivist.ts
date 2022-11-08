@@ -37,7 +37,7 @@ export abstract class AbstractMongoDBPayloadArchivist<
   protected readonly witnessedPayloads: LruCache<string, XyoPayloadWithMeta<T>> = new LruCache({ max: 1, ttl: 10000 })
 
   public constructor(
-    @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
+    protected readonly account: XyoAccount = new XyoAccount({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>> = getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads),
     protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     config?: TConfig,

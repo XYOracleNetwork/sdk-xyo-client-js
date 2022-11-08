@@ -13,19 +13,16 @@ import {
   XyoPayloadMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { inject, injectable } from 'inversify'
 import { Filter, SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-@injectable()
 export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArchivist implements BoundWitnessArchivist {
   constructor(
-    @inject(TYPES.Account) protected readonly account: XyoAccount,
+    protected readonly account: XyoAccount = new XyoAccount(),
     protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     config?: ArchiveModuleConfig,
   ) {

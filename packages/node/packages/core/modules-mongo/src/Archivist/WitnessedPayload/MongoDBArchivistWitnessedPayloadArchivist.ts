@@ -31,7 +31,7 @@ const valid = (bw: XyoBoundWitness) => {
 @injectable()
 export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements WitnessedPayloadArchivist {
   constructor(
-    @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
+    protected readonly account: XyoAccount = new XyoAccount({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
     protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
   ) {

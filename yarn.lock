@@ -5267,6 +5267,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/sdk/packages/account"
   dependencies:
+    "@ethersproject/hdnode": ^5.7.0
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
     "@xyo-network/core": "workspace:^"

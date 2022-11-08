@@ -9,7 +9,6 @@ import {
   XyoBoundWitnessWithMeta,
   XyoPayloadMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'

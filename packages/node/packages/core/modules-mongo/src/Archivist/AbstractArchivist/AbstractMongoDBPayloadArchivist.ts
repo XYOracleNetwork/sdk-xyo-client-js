@@ -12,10 +12,8 @@ import {
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { inject, injectable, named } from 'inversify'
 import LruCache from 'lru-cache'
 import { ExplainVerbosity, Filter, OptionalUnlessRequiredId, WithoutId } from 'mongodb'
 
@@ -29,7 +27,6 @@ const valid = (bw: XyoBoundWitness) => {
   return new BoundWitnessValidator(bw).validate().length === 0
 }
 
-@injectable()
 export abstract class AbstractMongoDBPayloadArchivist<
   T extends EmptyObject = EmptyObject,
   TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,

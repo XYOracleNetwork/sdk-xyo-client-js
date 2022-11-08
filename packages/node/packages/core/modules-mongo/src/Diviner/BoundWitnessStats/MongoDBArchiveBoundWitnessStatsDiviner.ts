@@ -13,11 +13,9 @@ import {
   isBoundWitnessStatsQueryPayload,
   XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
@@ -33,7 +31,6 @@ interface Stats {
   }
 }
 
-@injectable()
 export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implements BoundWitnessStatsDiviner, Initializable, JobProvider {
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
@@ -42,7 +39,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implement
   protected resumeAfter: ResumeToken | undefined = undefined
 
   constructor(
-    @inject(TYPES.ArchiveArchivist) protected readonly archiveArchivist: ArchiveArchivist,
+    protected readonly archiveArchivist: ArchiveArchivist,
     protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
   ) {
     super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })

@@ -13,19 +13,16 @@ import {
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
 
-@injectable()
 export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, Initializable, JobProvider {
   constructor(
-    @inject(TYPES.ArchiveArchivist) protected readonly archives: ArchiveArchivist,
+    protected readonly archives: ArchiveArchivist,
     protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
   ) {

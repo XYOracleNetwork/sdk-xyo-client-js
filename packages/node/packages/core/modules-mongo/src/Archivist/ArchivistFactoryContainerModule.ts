@@ -1,5 +1,4 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoModuleConfigSchema } from '@xyo-network/module'
 import {
   ArchiveBoundWitnessArchivist,
   ArchiveModuleConfig,

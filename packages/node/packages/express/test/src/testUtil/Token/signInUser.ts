@@ -1,4 +1,4 @@
-import { Wallet } from 'ethers'
+import { Wallet } from '@ethersproject/wallet'
 import { StatusCodes } from 'http-status-codes'
 
 import { TestWeb2User, TestWeb3User } from '../Model'

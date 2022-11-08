@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@ethersproject/hdnode": "^5.7.0",
     "@xyo-network/core": "workspace:^",
     "elliptic": "^6.5.4",
     "sha.js": "^2.4.11",
@@ -52,5 +53,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.40.0"
+  "version": "2.40.2"
 }

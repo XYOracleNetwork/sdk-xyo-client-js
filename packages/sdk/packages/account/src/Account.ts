@@ -1,3 +1,4 @@
+import { HDNode } from '@ethersproject/hdnode'
 import { toUint8Array, XyoData, XyoDataLike } from '@xyo-network/core'
 import shajs from 'sha.js'
 
@@ -40,6 +41,13 @@ export class XyoAccount extends XyoKeyPair {
   /** @deprecated use public instead */
   public get publicKey() {
     return this.public
+  }
+
+  static fromMnemonic = (mnemonic: string, path?: string): XyoAccount => {
+    const node = HDNode.fromMnemonic(mnemonic)
+    const wallet = path ? node.derivePath(path) : node
+    const privateKey = wallet.privateKey
+    return new XyoAccount({ privateKey })
   }
 
   static fromPhrase(phrase: string) {

@@ -23,7 +23,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk } from '../../Mongo'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -46,7 +46,7 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
     @inject(TYPES.Logger) logger: Logger,
     @inject(TYPES.Account) account: XyoAccount,
     @inject(TYPES.ArchiveArchivist) protected archiveArchivist: ArchiveArchivist,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected sdk: BaseMongoSdk<XyoPayload>,
+    protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads),
   ) {
     super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
   }

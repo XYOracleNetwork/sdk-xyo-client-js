@@ -10,16 +10,16 @@ import { Job, JobProvider, Logger } from '@xyo-network/shared'
 import { inject, injectable } from 'inversify'
 import { Filter, SortDirection } from 'mongodb'
 
+import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
-import { removeId } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 @injectable()
 export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner, Initializable, JobProvider {
   constructor(
     @inject(TYPES.Logger) logger: Logger,
     @inject(TYPES.Account) account: XyoAccount,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>,
+    protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
   ) {
     super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
   }

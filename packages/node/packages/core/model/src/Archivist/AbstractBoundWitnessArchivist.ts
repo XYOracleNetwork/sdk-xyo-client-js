@@ -15,7 +15,7 @@ import { XyoBoundWitnessFilterPredicate } from './XyoBoundWitnessFilterPredicate
 
 @injectable()
 export abstract class AbstractBoundWitnessArchivist extends XyoModule<ArchiveModuleConfig> implements BoundWitnessArchivist {
-  constructor(protected readonly account: XyoAccount, config?: ArchiveModuleConfig) {
+  constructor(protected readonly account: XyoAccount = new XyoAccount(), config?: ArchiveModuleConfig) {
     super({ account, config: config ?? { archive: 'temp', schema: ArchiveModuleConfigSchema } })
   }
 

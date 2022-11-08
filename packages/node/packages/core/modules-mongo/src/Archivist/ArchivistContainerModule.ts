@@ -17,21 +17,21 @@ import { MongoDBUserArchivist } from './User'
 import { MongoDBArchivistWitnessedPayloadArchivist } from './WitnessedPayload'
 
 export const ArchivistContainerModule = new ContainerModule((bind: interfaces.Bind) => {
-  bind(MongoDBArchiveArchivist).to(MongoDBArchiveArchivist).inSingletonScope()
+  bind(MongoDBArchiveArchivist).toConstantValue(new MongoDBArchiveArchivist())
   bind<ArchiveArchivist>(TYPES.ArchiveArchivist).toService(MongoDBArchiveArchivist)
 
-  bind(MongoDBArchiveKeyArchivist).to(MongoDBArchiveKeyArchivist).inSingletonScope()
+  bind(MongoDBArchiveKeyArchivist).toConstantValue(new MongoDBArchiveKeyArchivist())
   bind<ArchiveKeyArchivist>(TYPES.ArchiveKeyArchivist).toService(MongoDBArchiveKeyArchivist)
 
-  bind(MongoDBBoundWitnessArchivist).to(MongoDBBoundWitnessArchivist).inSingletonScope()
+  bind(MongoDBBoundWitnessArchivist).toConstantValue(new MongoDBBoundWitnessArchivist())
   bind<BoundWitnessesArchivist>(TYPES.BoundWitnessArchivist).toService(MongoDBBoundWitnessArchivist)
 
-  bind(MongoDBPayloadArchivist).to(MongoDBPayloadArchivist).inSingletonScope()
+  bind(MongoDBPayloadArchivist).toConstantValue(new MongoDBPayloadArchivist())
   bind<PayloadArchivist>(TYPES.PayloadArchivist).toService(MongoDBPayloadArchivist)
 
-  bind(MongoDBUserArchivist).to(MongoDBUserArchivist).inSingletonScope()
+  bind(MongoDBUserArchivist).toConstantValue(new MongoDBUserArchivist())
   bind<UserArchivist>(TYPES.UserArchivist).toService(MongoDBUserArchivist)
 
-  bind(MongoDBArchivistWitnessedPayloadArchivist).to(MongoDBArchivistWitnessedPayloadArchivist).inSingletonScope()
+  bind(MongoDBArchivistWitnessedPayloadArchivist).toConstantValue(new MongoDBArchivistWitnessedPayloadArchivist())
   bind<WitnessedPayloadArchivist>(TYPES.WitnessedPayloadArchivist).toService(MongoDBArchivistWitnessedPayloadArchivist)
 })

@@ -1,4 +1,4 @@
-import { Wallet } from 'ethers'
+import { Wallet } from '@ethersproject/wallet'
 import { v4 } from 'uuid'
 
 import { TestWeb2User, TestWeb3User } from '../Model'

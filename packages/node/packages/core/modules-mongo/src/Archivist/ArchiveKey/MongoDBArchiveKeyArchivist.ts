@@ -4,7 +4,6 @@ import { XyoArchivistQuery } from '@xyo-network/archivist'
 import { ModuleQueryResult } from '@xyo-network/module'
 import { ArchiveKeyArchivist } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { injectable } from 'inversify'
 import { Collection, WithId } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'

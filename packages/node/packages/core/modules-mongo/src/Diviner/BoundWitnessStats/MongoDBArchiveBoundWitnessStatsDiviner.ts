@@ -23,7 +23,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk } from '../../Mongo'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -46,7 +46,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implement
     @inject(TYPES.Logger) logger: Logger,
     @inject(TYPES.Account) account: XyoAccount,
     @inject(TYPES.ArchiveArchivist) protected archiveArchivist: ArchiveArchivist,
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>,
+    protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
   ) {
     super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
   }

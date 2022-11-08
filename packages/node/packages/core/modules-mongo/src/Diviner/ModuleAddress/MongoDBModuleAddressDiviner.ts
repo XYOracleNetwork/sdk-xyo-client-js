@@ -22,7 +22,6 @@ import { inject, injectable } from 'inversify'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
 
 @injectable()
 export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, Initializable, JobProvider {
@@ -30,7 +29,7 @@ export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAdd
     @inject(TYPES.Logger) logger: Logger,
     @inject(TYPES.Account) protected readonly account: XyoAccount,
     @inject(TYPES.ArchiveArchivist) protected readonly archives: ArchiveArchivist,
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
+    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
   ) {
     super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })

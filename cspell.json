@@ -15,6 +15,7 @@
     "ethersproject",
     "hashable",
     "Hasher",
+    "hdnode",
     "huri",
     "keccak",
     "pako",

@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.40.0-rc.2",
+  "version": "2.40.1",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -27,6 +27,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
+    "@ethersproject/wallet": "^5.7.0",
     "@xylabs/assert": "^2.6.9",
     "@xylabs/forget": "^2.6.9",
     "@xyo-network/account": "workspace:^",
@@ -38,7 +39,6 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "dotenv": "^16.0.3",
-    "ethers": "^5.7.2",
     "express": "^4.18.2",
     "http-status-codes": "^2.2.0",
     "uuid": "^9.0.0"
@@ -50,8 +50,7 @@
   "devDependencies": {
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
-    "supertest": "^6.3.0"
+    "supertest": "^6.3.1"
   },
-  "types": "dist/esm/index.d.ts",
-  "stableVersion": "2.39.6"
+  "types": "dist/esm/index.d.ts"
 }

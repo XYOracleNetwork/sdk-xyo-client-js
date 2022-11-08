@@ -16,10 +16,12 @@ export type XyoPanelConfig = XyoModuleConfig<{
   onWitnessReportEnd?: (witness: XyoWitnessWrapper, error?: Error) => void
   onWitnessReportStart?: (witness: XyoWitnessWrapper) => void
   schema: XyoPanelConfigSchema
-  witnesses: string[]
+  witnesses?: string[]
 }>
 
 export class XyoPanel extends XyoModule<XyoPanelConfig> {
+  static override configSchema: XyoPanelConfigSchema
+
   public history: XyoPayload[] = []
   private _archivists: XyoArchivistWrapper[] | undefined
   private _witnesses: XyoWitnessWrapper[] | undefined
@@ -54,11 +56,8 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
     return this._witnesses
   }
 
-  static override async create(params?: XyoModuleParams<XyoPanelConfig>): Promise<XyoPanel> {
-    params?.logger?.debug(`params.config: ${JSON.stringify(params.config, null, 2)}`)
-    const module = new XyoPanel(params)
-    await module.start()
-    return module
+  static override async create(params?: Partial<XyoModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
+    return (await super.create(params)) as XyoPanel
   }
 
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {

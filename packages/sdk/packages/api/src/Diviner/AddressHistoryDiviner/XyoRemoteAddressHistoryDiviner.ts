@@ -19,7 +19,7 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
 
   protected _api?: XyoArchivistApi
 
-  protected constructor(params?: XyoRemoteAddressHistoryDivinerParams) {
+  protected constructor(params: XyoRemoteAddressHistoryDivinerParams) {
     super(params)
     this._api = params?.api
   }

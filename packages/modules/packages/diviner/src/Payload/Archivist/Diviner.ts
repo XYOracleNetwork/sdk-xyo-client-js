@@ -6,16 +6,15 @@ import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
-import { XyoArchivistPayloadDivinerConfig } from './Config'
+import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
 
 export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
+  static override configSchema: XyoArchivistPayloadDivinerConfigSchema
+
   protected archivist?: PayloadArchivist | null
 
   static override async create(params?: XyoModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<XyoArchivistPayloadDiviner> {
-    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const module = new XyoArchivistPayloadDiviner(params)
-    await module.start()
-    return module
+    return (await super.create(params)) as XyoArchivistPayloadDiviner
   }
 
   public async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {

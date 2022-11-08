@@ -2,7 +2,6 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
 import {
   ArchiveArchivist,
@@ -17,7 +16,7 @@ import {
 import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayload, XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
+import { Job, JobProvider } from '@xyo-network/shared'
 import { inject, injectable } from 'inversify'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
@@ -78,12 +77,10 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
   protected resumeAfter: ResumeToken | undefined = undefined
 
   constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) account: XyoAccount,
     @inject(TYPES.ArchiveArchivist) protected archiveArchivist: ArchiveArchivist,
     protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads),
   ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
+    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
   }
 
   get jobs(): Job[] {

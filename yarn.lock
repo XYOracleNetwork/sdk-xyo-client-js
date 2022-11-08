@@ -5706,7 +5706,6 @@ __metadata:
   resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/middleware"
   dependencies:
     "@ethersproject/wallet": ^5.7.0
-    "@types/bcrypt": ^5.0.0
     "@types/express": 4.17.14
     "@types/express-mung": ^0.5.2
     "@types/jsonwebtoken": ^8.5.9
@@ -5726,7 +5725,6 @@ __metadata:
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/shared": "workspace:^"
-    bcrypt: ^5.1.0
     express: ^4.18.2
     express-mung: ^0.5.1
     http-status-codes: ^2.2.0
@@ -6022,6 +6020,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-core-lib@workspace:packages/node/packages/core/lib"
   dependencies:
+    "@types/bcrypt": ^5.0.0
     "@types/source-map-support": 0.5.6
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -6030,6 +6029,7 @@ __metadata:
     "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/utils": "workspace:^"
     ajv: ^8.11.0
+    bcrypt: ^5.1.0
     jest: ^29.3.0
     jest-extended: ^3.1.0
     jest-mock-extended: ^3.0.1

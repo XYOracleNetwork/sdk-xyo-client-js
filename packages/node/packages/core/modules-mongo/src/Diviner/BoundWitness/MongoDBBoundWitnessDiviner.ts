@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoArchivistPayloadDivinerConfig, XyoDiviner } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import {
   BoundWitnessDiviner,
@@ -31,7 +31,7 @@ export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitne
     ]
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<MongoDBBoundWitnessDiviner> {
+  static override async create(params?: Partial<XyoModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBBoundWitnessDiviner> {
     return (await super.create(params)) as MongoDBBoundWitnessDiviner
   }
 

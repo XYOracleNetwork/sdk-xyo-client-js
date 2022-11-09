@@ -1,4 +1,5 @@
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoArchivistPayloadDivinerConfig, XyoDiviner } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import { Initializable, isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -10,11 +11,14 @@ import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner, Initializable, JobProvider {
-  constructor(protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)) {
-    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
-  }
+  protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+
   get jobs(): Job[] {
     return []
+  }
+
+  static override async create(params?: Partial<XyoModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBPayloadDiviner> {
+    return (await super.create(params)) as MongoDBPayloadDiviner
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoPayload>> {

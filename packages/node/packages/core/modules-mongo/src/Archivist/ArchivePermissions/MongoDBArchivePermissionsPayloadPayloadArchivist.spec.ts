@@ -1,6 +1,12 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoModuleConfigSchema } from '@xyo-network/module'
-import { SetArchivePermissionsPayload, XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import {
+  ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
+  SetArchivePermissionsPayload,
+  XyoBoundWitnessWithMeta,
+  XyoPayloadWithMeta,
+} from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'
@@ -20,7 +26,7 @@ describe('MongoDBArchivePermissionsPayloadPayloadArchivist', () => {
           XyoPayloadWithMeta<SetArchivePermissionsPayload>
         >(COLLECTIONS.Payloads)
         const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-        const config = { archive, schema: XyoModuleConfigSchema }
+        const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
         sut = new MongoDBArchivePermissionsPayloadPayloadArchivist(account, payloads, boundWitnesses, config)
       })
       it('returns no permissions for the archive', async () => {
@@ -43,7 +49,7 @@ describe('MongoDBArchivePermissionsPayloadPayloadArchivist', () => {
           XyoPayloadWithMeta<SetArchivePermissionsPayload>
         >(COLLECTIONS.Payloads)
         const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-        const config = { archive, schema: XyoModuleConfigSchema }
+        const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
         sut = new MongoDBArchivePermissionsPayloadPayloadArchivist(account, payloads, boundWitnesses, config)
       })
       it('returns permissions for the archive', async () => {

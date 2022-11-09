@@ -1,7 +1,14 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
-import { XyoModuleConfigSchema } from '@xyo-network/module'
-import { DebugPayload, DebugPayloadWithMeta, DebugSchema, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import {
+  ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
+  DebugPayload,
+  DebugPayloadWithMeta,
+  DebugSchema,
+  XyoPayloadFilterPredicate,
+  XyoPayloadWithMeta,
+} from '@xyo-network/node-core-model'
 import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
 import { v4 } from 'uuid'
 
@@ -28,7 +35,8 @@ describe('MongoDBArchivePayloadsArchivist', () => {
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const account = XyoAccount.random()
   const archive = `test-${v4()}`
-  const sut = new MongoDBArchivePayloadsArchivist(account, sdk, { archive, schema: XyoModuleConfigSchema })
+  const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
+  const sut = new MongoDBArchivePayloadsArchivist(account, sdk, config)
   const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
   const hashes: string[] = payloads.map((p) => new PayloadWrapper(p).hash)
   const payload = payloads[0]

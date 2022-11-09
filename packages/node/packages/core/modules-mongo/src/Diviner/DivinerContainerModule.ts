@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { Module } from '@xyo-network/module'
 import {
   AddressHistoryDiviner,
@@ -31,6 +31,7 @@ let mongoDBBoundWitnessDiviner: MongoDBBoundWitnessDiviner
 let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBArchiveBoundWitnessStatsDiviner
 let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
 let mongoDBModuleAddressDiviner: MongoDBModuleAddressDiviner
+let mongoDBPayloadDiviner: MongoDBPayloadDiviner
 
 const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
@@ -42,7 +43,7 @@ const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
 const getMongoDBBoundWitnessDiviner = async (context: interfaces.Context) => {
   if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
   const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-  const params = { config: { archiveArchivist, schema: XyoDivinerConfigSchema } }
+  const params = { config: { archiveArchivist, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
   return mongoDBBoundWitnessDiviner
 }
@@ -64,6 +65,12 @@ const getMongoDBModuleAddressDiviner = async (context: interfaces.Context) => {
   const params = { config: { archiveArchivist, schema: MongoDBModuleAddressDivinerConfigSchema } }
   mongoDBModuleAddressDiviner = await MongoDBModuleAddressDiviner.create(params)
   return mongoDBModuleAddressDiviner
+}
+const getMongoDBPayloadDiviner = async () => {
+  if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
+  const params = { config: { schema: XyoArchivistPayloadDivinerConfigSchema } }
+  mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
+  return mongoDBPayloadDiviner
 }
 
 export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind) => {
@@ -97,11 +104,11 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBModuleAddressDiviner)
   bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBModuleAddressDiviner)
 
-  bind(MongoDBPayloadDiviner).toConstantValue(new MongoDBPayloadDiviner())
-  bind<PayloadDiviner>(TYPES.PayloadDiviner).toService(MongoDBPayloadDiviner)
-  bind<JobProvider>(TYPES.JobProvider).toService(MongoDBPayloadDiviner)
-  bind<Module>(TYPES.Module).toService(MongoDBPayloadDiviner)
-  bind<Initializable>(TYPES.Initializable).toService(MongoDBPayloadDiviner)
+  bind(MongoDBPayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner)
+  bind<PayloadDiviner>(TYPES.PayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner)
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadDiviner)
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBPayloadDiviner)
+  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBPayloadDiviner)
 
   bind(MongoDBArchivePayloadStatsDiviner).toDynamicValue((context) => {
     const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)

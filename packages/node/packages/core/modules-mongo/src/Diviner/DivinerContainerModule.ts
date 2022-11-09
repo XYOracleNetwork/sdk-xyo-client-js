@@ -56,6 +56,9 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
       return await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
     }
   })
+  // NOTE: Commenting out for debug but we need to get this working or we'll miss
+  // registration of our Jobs, Initialization, etc.
+  // TODO: Handle the following registrations properly
   // bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchiveBoundWitnessStatsDiviner)
   // bind<Module>(TYPES.Module).toService(MongoDBArchiveBoundWitnessStatsDiviner)
   // bind<Initializable>(TYPES.Initializable).toService(MongoDBArchiveBoundWitnessStatsDiviner)

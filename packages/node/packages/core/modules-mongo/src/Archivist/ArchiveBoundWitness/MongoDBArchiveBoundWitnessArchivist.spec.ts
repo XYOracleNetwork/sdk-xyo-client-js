@@ -4,6 +4,8 @@ import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { XyoModuleConfigSchema } from '@xyo-network/module'
 import {
+  ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
   DebugPayload,
   DebugPayloadWithMeta,
   DebugSchema,
@@ -46,7 +48,7 @@ describe('MongoDBArchiveBoundWitnessArchivist', () => {
   const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const account = XyoAccount.random()
   const archive = `test-${v4()}`
-  const config = { archive, schema: XyoModuleConfigSchema }
+  const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const sut = new MongoDBArchiveBoundWitnessArchivist(account, sdk, config)
   const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
   const boundWitnesses = payloads

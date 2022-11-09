@@ -80,8 +80,10 @@
     "displayName": "Root Package"
   },
   "scripts": {
-    "coverage": "yarn jest --coverage",
+    "coverage": "yarn jest --coverage --forceExit",
     "lint-pkg": "npmPkgJsonLint .",
+    "test": "jest --no-cache --forceExit",
+    "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "xyo": "yarn workspace @xyo-network/node-cli xyo",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"
   },

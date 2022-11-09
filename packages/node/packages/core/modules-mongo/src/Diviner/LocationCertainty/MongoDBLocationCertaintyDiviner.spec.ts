@@ -1,20 +1,12 @@
-import { XyoAccount } from '@xyo-network/account'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
 import { LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/node-core-model'
-import { Logger } from '@xyo-network/shared'
-import { mock, MockProxy } from 'jest-mock-extended'
 
 import { MongoDBLocationCertaintyDiviner } from './MongoDBLocationCertaintyDiviner'
 
 describe('MongoDBLocationCertaintyDiviner', () => {
-  let logger: MockProxy<Logger>
-  let account: XyoAccount
   let sut: MongoDBLocationCertaintyDiviner
   beforeEach(() => {
-    logger = mock<Logger>()
-    account = XyoAccount.random()
-
-    sut = new MongoDBLocationCertaintyDiviner(logger, account)
+    sut = new MongoDBLocationCertaintyDiviner()
   })
   describe('divine', () => {
     describe('with valid query', () => {

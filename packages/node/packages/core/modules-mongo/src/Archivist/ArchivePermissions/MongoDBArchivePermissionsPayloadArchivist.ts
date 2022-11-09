@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import {
   ArchiveModuleConfig,
@@ -7,9 +8,7 @@ import {
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { inject, named } from 'inversify'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
@@ -20,7 +19,7 @@ export class MongoDBArchivePermissionsPayloadPayloadArchivist
   implements ArchivePermissionsArchivist
 {
   public constructor(
-    @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
+    protected readonly account: XyoAccount = new XyoAccount({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>> = getBaseMongoSdk<
       XyoPayloadWithMeta<SetArchivePermissionsPayload>
     >(COLLECTIONS.Payloads),

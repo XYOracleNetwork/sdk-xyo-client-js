@@ -19,6 +19,7 @@
     "hdnode",
     "huri",
     "Initializable",
+    "initializables",
     "jsdom",
     "keccak",
     "pako",

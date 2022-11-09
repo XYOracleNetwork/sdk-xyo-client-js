@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
   Initializable,
@@ -29,18 +30,30 @@ interface Stats {
   }
 }
 
+export type MongoDBArchivePayloadStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.payload'
+export const MongoDBArchivePayloadStatsDivinerConfigSchema: MongoDBArchivePayloadStatsDivinerConfigSchema =
+  'network.xyo.module.config.diviner.stats.payload'
+
+export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+  XyoPayload,
+  T & {
+    archiveArchivist: ArchiveArchivist // TODO: This is a stateful object and doesn't belong here
+    schema: MongoDBArchivePayloadStatsDivinerConfigSchema
+  }
+>
+
 export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements PayloadStatsDiviner, Initializable, JobProvider {
+  protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
+  protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  constructor(
-    protected readonly archiveArchivist: ArchiveArchivist,
-    protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads),
-  ) {
-    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
+  protected constructor(params: XyoModuleParams<MongoDBArchivePayloadStatsDivinerConfig>) {
+    super(params)
+    this.archiveArchivist = params.config.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -59,6 +72,12 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
         task: async () => await this.divineArchivesBatch(),
       },
     ]
+  }
+
+  static override async create(
+    params?: Partial<XyoModuleParams<MongoDBArchivePayloadStatsDivinerConfig>>,
+  ): Promise<MongoDBArchivePayloadStatsDiviner> {
+    return (await super.create(params)) as MongoDBArchivePayloadStatsDiviner
   }
 
   public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
@@ -101,7 +120,7 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
 
   private divineArchivesBatch = async () => {
     this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    const result = await this.archiveArchivist.find({ limit: this.batchLimit, offset: this.nextOffset })
+    const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
     const archives = result.map((archive) => archive?.archive).filter(exists)
     this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
     this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit

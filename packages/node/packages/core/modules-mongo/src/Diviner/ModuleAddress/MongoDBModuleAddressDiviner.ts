@@ -12,31 +12,20 @@ import {
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayload, XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
 
-export type MongoDBModuleAddressDivinerConfigSchema = 'network.xyo.module.config.diviner.module.address'
-export const MongoDBModuleAddressDivinerConfigSchema: MongoDBModuleAddressDivinerConfigSchema = 'network.xyo.module.config.diviner.module.address'
-
-export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
-  XyoPayload,
-  T & {
-    archiveArchivist: ArchiveArchivist // TODO: This is a stateful object and doesn't belong here
-    schema: MongoDBModuleAddressDivinerConfigSchema
-  }
->
 export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, Initializable, JobProvider {
   protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 
-  protected constructor(params: XyoModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig>) {
+  protected constructor(params: XyoModuleParams<XyoDivinerConfig>) {
     super(params)
-    this.archiveArchivist = params.config.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -49,9 +38,7 @@ export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAdd
     ]
   }
 
-  static override async create(
-    params?: Partial<XyoModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig>>,
-  ): Promise<MongoDBModuleAddressDiviner> {
+  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<MongoDBModuleAddressDiviner> {
     return (await super.create(params)) as MongoDBModuleAddressDiviner
   }
 

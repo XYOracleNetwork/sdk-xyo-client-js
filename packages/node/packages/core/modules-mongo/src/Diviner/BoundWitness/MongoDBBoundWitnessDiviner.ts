@@ -1,6 +1,7 @@
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import {
   BoundWitnessDiviner,
   BoundWitnessQueryPayload,
@@ -18,9 +19,7 @@ import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitnessDiviner, Initializable, JobProvider {
-  constructor(protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)) {
-    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
-  }
+  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   get jobs(): Job[] {
     return [
@@ -30,6 +29,10 @@ export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitne
       //   task: async () => await this.divineArchivesBatch(),
       // },
     ]
+  }
+
+  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<MongoDBBoundWitnessDiviner> {
+    return (await super.create(params)) as MongoDBBoundWitnessDiviner
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {

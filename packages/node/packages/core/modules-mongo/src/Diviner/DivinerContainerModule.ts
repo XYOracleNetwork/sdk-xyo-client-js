@@ -27,6 +27,7 @@ import { MongoDBArchivePayloadStatsDiviner } from './PayloadStats'
 import { MongoDBArchiveSchemaStatsDiviner } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
+let mongoDBBoundWitnessDiviner: MongoDBBoundWitnessDiviner
 let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBArchiveBoundWitnessStatsDiviner
 let mongoDBModuleAddressDiviner: MongoDBModuleAddressDiviner
 
@@ -36,6 +37,13 @@ const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
   const params = { config: { archiveArchivist, schema: XyoDivinerConfigSchema } }
   mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
   return mongoDBAddressHistoryDiviner
+}
+const getMongoDBBoundWitnessDiviner = async (context: interfaces.Context) => {
+  if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
+  const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
+  const params = { config: { archiveArchivist, schema: XyoDivinerConfigSchema } }
+  mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
+  return mongoDBBoundWitnessDiviner
 }
 const getMongoDBArchiveBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
@@ -59,11 +67,11 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBAddressHistoryDiviner)
   bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBAddressHistoryDiviner)
 
-  bind(MongoDBBoundWitnessDiviner).toConstantValue(new MongoDBBoundWitnessDiviner())
-  bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toService(MongoDBBoundWitnessDiviner)
-  bind<JobProvider>(TYPES.JobProvider).toService(MongoDBBoundWitnessDiviner)
-  bind<Module>(TYPES.Module).toService(MongoDBBoundWitnessDiviner)
-  bind<Initializable>(TYPES.Initializable).toService(MongoDBBoundWitnessDiviner)
+  bind(MongoDBBoundWitnessDiviner).toDynamicValue(getMongoDBBoundWitnessDiviner)
+  bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toDynamicValue(getMongoDBBoundWitnessDiviner)
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBBoundWitnessDiviner)
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBBoundWitnessDiviner)
+  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBBoundWitnessDiviner)
 
   bind(MongoDBArchiveBoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner)
   bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner)

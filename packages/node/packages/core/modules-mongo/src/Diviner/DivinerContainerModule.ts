@@ -18,7 +18,7 @@ import { ContainerModule, interfaces } from 'inversify'
 
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
-import { MongoDBArchiveBoundWitnessStatsDiviner } from './BoundWitnessStats'
+import { MongoDBArchiveBoundWitnessStatsDiviner, MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBModuleAddressDiviner } from './ModuleAddress'
 import { MongoDBPayloadDiviner } from './Payload'
@@ -38,9 +38,12 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<Module>(TYPES.Module).toService(MongoDBBoundWitnessDiviner)
   bind<Initializable>(TYPES.Initializable).toService(MongoDBBoundWitnessDiviner)
 
-  bind(MongoDBArchiveBoundWitnessStatsDiviner).toDynamicValue((context) => {
-    const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-    return new MongoDBArchiveBoundWitnessStatsDiviner(archiveArchivist)
+  bind(MongoDBArchiveBoundWitnessStatsDiviner).toProvider((context) => {
+    return async () => {
+      const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
+      const params = { config: { archiveArchivist, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
+      return await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
+    }
   })
   bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toService(MongoDBArchiveBoundWitnessStatsDiviner)
   bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchiveBoundWitnessStatsDiviner)

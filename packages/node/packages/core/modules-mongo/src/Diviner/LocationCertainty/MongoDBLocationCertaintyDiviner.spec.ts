@@ -5,8 +5,8 @@ import { MongoDBLocationCertaintyDiviner } from './MongoDBLocationCertaintyDivin
 
 describe('MongoDBLocationCertaintyDiviner', () => {
   let sut: MongoDBLocationCertaintyDiviner
-  beforeEach(() => {
-    sut = new MongoDBLocationCertaintyDiviner()
+  beforeEach(async () => {
+    sut = await MongoDBLocationCertaintyDiviner.create()
   })
   describe('divine', () => {
     describe('with valid query', () => {

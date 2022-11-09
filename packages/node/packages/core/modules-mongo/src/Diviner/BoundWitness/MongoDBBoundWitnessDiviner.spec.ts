@@ -1,21 +1,12 @@
-import {
-  BoundWitnessQueryPayload,
-  BoundWitnessQuerySchema,
-  XyoBoundWitnessWithMeta,
-  XyoBoundWitnessWithPartialMeta,
-} from '@xyo-network/node-core-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { BoundWitnessQueryPayload, BoundWitnessQuerySchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 
-import { COLLECTIONS } from '../../collections'
-import { getBaseMongoSdk } from '../../Mongo'
 import { MongoDBBoundWitnessDiviner } from './MongoDBBoundWitnessDiviner'
 
 describe('MongoDBBoundWitnessDiviner', () => {
-  let sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   let sut: MongoDBBoundWitnessDiviner
-  beforeEach(() => {
-    sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-    sut = new MongoDBBoundWitnessDiviner(sdk)
+  beforeEach(async () => {
+    sut = await MongoDBBoundWitnessDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
   })
   describe('divine', () => {
     describe('with valid query', () => {

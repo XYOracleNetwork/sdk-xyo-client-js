@@ -1,16 +1,12 @@
-import { PayloadQueryPayload, PayloadQuerySchema, XyoBoundWitnessWithPartialMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { PayloadQueryPayload, PayloadQuerySchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 
-import { COLLECTIONS } from '../../collections'
-import { getBaseMongoSdk } from '../../Mongo'
 import { MongoDBPayloadDiviner } from './MongoDBPayloadDiviner'
 
 describe('MongoDBPayloadDiviner', () => {
-  let sdk: BaseMongoSdk<XyoPayloadWithMeta>
   let sut: MongoDBPayloadDiviner
-  beforeEach(() => {
-    sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
-    sut = new MongoDBPayloadDiviner(sdk)
+  beforeEach(async () => {
+    sut = await MongoDBPayloadDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
   })
   describe('divine', () => {
     describe('with valid query', () => {

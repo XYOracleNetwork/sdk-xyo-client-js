@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { XyoAccount } from '@xyo-network/account'

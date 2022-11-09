@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import { delay } from '@xylabs/delay'
 import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
 import {

@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'

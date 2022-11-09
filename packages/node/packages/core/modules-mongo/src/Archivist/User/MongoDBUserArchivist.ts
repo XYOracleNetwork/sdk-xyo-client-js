@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistQuery } from '@xyo-network/archivist'
 import { ModuleQueryResult } from '@xyo-network/module'

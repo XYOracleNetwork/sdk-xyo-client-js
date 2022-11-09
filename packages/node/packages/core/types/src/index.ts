@@ -6,7 +6,6 @@ export const TYPES = {
   ...ARCHIVIST_TYPES,
   ...DIVINER_TYPES,
   ...MODULE_TYPES,
-  Account: Symbol('Account'),
   ApiKey: Symbol('ApiKey'),
   JobProvider: Symbol('JobProvider'),
   JobQueue: Symbol('JobQueue'),

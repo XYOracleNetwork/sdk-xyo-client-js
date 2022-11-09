@@ -6,8 +6,6 @@ import {
   XyoBoundWitnessWithPartialMeta,
 } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Logger } from '@xyo-network/shared'
-import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
@@ -16,15 +14,11 @@ import { MongoDBAddressHistoryDiviner } from './MongoDBAddressHistoryDiviner'
 describe('MongoDBAddressHistoryDiviner', () => {
   const phrase = process.env.ACCOUNT_SEED
   const address = new XyoAccount({ phrase }).addressValue.hex
-  let logger: MockProxy<Logger>
-  let account: XyoAccount
   let sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   let sut: MongoDBAddressHistoryDiviner
   beforeEach(() => {
-    logger = mock<Logger>()
-    account = XyoAccount.random()
     sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-    sut = new MongoDBAddressHistoryDiviner(logger, account, sdk)
+    sut = new MongoDBAddressHistoryDiviner(sdk)
   })
   describe('divine', () => {
     describe('with valid query', () => {

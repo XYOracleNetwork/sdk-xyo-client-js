@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, XyoArchivistQuery } from '@xyo-network/archivist'
@@ -7,14 +5,12 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
-import { injectable } from 'inversify'
 
 import { XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '../Payload'
 import { ArchiveModuleConfig, ArchiveModuleConfigSchema } from './ArchiveModuleConfig'
 import { PayloadArchivist } from './PayloadArchivist'
 import { XyoPayloadFilterPredicate } from './XyoPayloadFilterPredicate'
 
-@injectable()
 export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extends ArchiveModuleConfig = ArchiveModuleConfig>
   extends XyoModule<TConfig>
   implements PayloadArchivist<T>

@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
   BoundWitnessStatsDiviner,
@@ -11,7 +12,7 @@ import {
   isBoundWitnessStatsQueryPayload,
   XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
@@ -29,18 +30,30 @@ interface Stats {
   }
 }
 
+export type MongoDBArchiveBoundWitnessStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.boundwitness'
+export const MongoDBArchiveBoundWitnessStatsDivinerConfigSchema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema =
+  'network.xyo.module.config.diviner.stats.boundwitness'
+
+export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+  XyoPayload,
+  T & {
+    archiveArchivist: ArchiveArchivist // TODO: This is a stateful object and doesn't belong here
+    schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
+  }
+>
+
 export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implements BoundWitnessStatsDiviner, Initializable, JobProvider {
+  protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
+  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
-  constructor(
-    protected readonly archiveArchivist: ArchiveArchivist,
-    protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
-  ) {
-    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
+  protected constructor(params: XyoModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig>) {
+    super(params)
+    this.archiveArchivist = params.config.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -59,6 +72,12 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implement
         task: async () => await this.divineArchivesBatch(),
       },
     ]
+  }
+
+  static override async create(
+    params?: Partial<XyoModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig>>,
+  ): Promise<MongoDBArchiveBoundWitnessStatsDiviner> {
+    return (await super.create(params)) as MongoDBArchiveBoundWitnessStatsDiviner
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<BoundWitnessStatsPayload>> {
@@ -101,7 +120,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implement
 
   private divineArchivesBatch = async () => {
     this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    const result = await this.archiveArchivist.find({ limit: this.batchLimit, offset: this.nextOffset })
+    const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
     const archives = result.map((archive) => archive?.archive).filter(exists)
     this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
     this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit

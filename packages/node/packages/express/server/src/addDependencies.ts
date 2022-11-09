@@ -37,7 +37,6 @@ export const addDependencies = async (app: Application) => {
 }
 
 const addArchivists = (app: Application) => {
-  app.addressHistoryDiviner = assertEx(dependencies.get<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner), 'Missing AddressHistoryDiviner')
   app.archiveArchivist = assertEx(dependencies.get<ArchiveArchivist>(TYPES.ArchiveArchivist), 'Missing ArchiveArchivist')
   app.archiveBoundWitnessArchivistFactory = assertEx(
     dependencies.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory),
@@ -62,6 +61,10 @@ const addArchivists = (app: Application) => {
 }
 
 const addDiviners = async (app: Application) => {
+  app.addressHistoryDiviner = assertEx(
+    await dependencies.getAsync<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner),
+    'Missing AddressHistoryDiviner',
+  )
   app.boundWitnessDiviner = assertEx(await dependencies.getAsync<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner), 'Missing BoundWitnessDiviner')
   app.boundWitnessStatsDiviner = assertEx(
     await dependencies.getAsync<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner),

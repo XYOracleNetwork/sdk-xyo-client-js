@@ -22,18 +22,19 @@ describe('XyoAdhocWitness', () => {
   })
   describe('observe', () => {
     const payload = new XyoPayloadBuilder({ schema: 'network.xyo.debug' }).build()
+    const config: XyoAdhocWitnessConfig = { payload, schema: XyoAdhocWitnessConfigSchema, targetSchema: 'network.xyo.debug' }
     describe('with no payload supplied in config', () => {
       it('with payload supplied to observe observes payload schema', async () => {
-        const witness = await XyoAdhocWitness.create({})
+        const witness = await XyoAdhocWitness.create({ config })
         const observation = await witness.observe([payload])
         expect(observation?.[0]?.schema).toBe(payload.schema)
       })
       it.skip('with empty array supplied to observe brings down Jest', async () => {
-        const witness = await XyoAdhocWitness.create({})
+        const witness = await XyoAdhocWitness.create({ config })
         expect(async () => await witness.observe([])).toThrowError()
       })
       it('with no payload supplied to observe observes undefined schema', async () => {
-        const witness = await XyoAdhocWitness.create({})
+        const witness = await XyoAdhocWitness.create({ config })
         const observation = await witness.observe()
         expect(observation?.[0]?.schema).toBe(undefined)
       })

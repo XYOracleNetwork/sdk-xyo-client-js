@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
   Initializable,
@@ -35,20 +36,37 @@ interface Stats {
   }
 }
 
+export type MongoDBArchiveSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
+export const MongoDBArchiveSchemaStatsDivinerConfigSchema: MongoDBArchiveSchemaStatsDivinerConfigSchema =
+  'network.xyo.module.config.diviner.stats.schema'
+
+export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+  XyoPayload,
+  T & {
+    archiveArchivist: ArchiveArchivist // TODO: This is a stateful object and doesn't belong here
+    schema: MongoDBArchiveSchemaStatsDivinerConfigSchema
+  }
+>
+
 export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements SchemaStatsDiviner, Initializable, JobProvider {
   /**
    * The max number of records to search during the aggregate query
    */
   protected readonly aggregateLimit = 5_000_000
+
   /**
    * The max number of iterations of aggregate queries to allow when
    * divining the schema stats within an archive
    */
   protected readonly aggregateMaxIterations = 10_000
+
   /**
    * The amount of time to allow the aggregate query to execute
    */
   protected readonly aggregateTimeoutMs = 10_000
+
+  protected archiveArchivist: ArchiveArchivist | undefined
+
   /**
    * The max number of simultaneous archives to divine at once
    */
@@ -71,11 +89,11 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
    */
   protected resumeAfter: ResumeToken | undefined = undefined
 
-  constructor(
-    protected readonly archiveArchivist: ArchiveArchivist,
-    protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads),
-  ) {
-    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
+  protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
+
+  protected constructor(params: XyoModuleParams<MongoDBArchiveSchemaStatsDivinerConfig>) {
+    super(params)
+    this.archiveArchivist = params.config.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -94,6 +112,10 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
         task: async () => await this.divineArchivesBatch(),
       },
     ]
+  }
+
+  static override async create(params?: Partial<XyoModuleParams<MongoDBArchiveSchemaStatsDivinerConfig>>): Promise<MongoDBArchiveSchemaStatsDiviner> {
+    return (await super.create(params)) as MongoDBArchiveSchemaStatsDiviner
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<SchemaStatsPayload>> {
@@ -168,7 +190,7 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
 
   private divineArchivesBatch = async () => {
     this.logger?.log(`MongoDBArchiveSchemaStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    const result = await this.archiveArchivist.find({ limit: this.batchLimit, offset: this.nextOffset })
+    const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
     const archives = result.map((archive) => archive?.archive).filter(exists)
     this.logger?.log(`MongoDBArchiveSchemaStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
     this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit

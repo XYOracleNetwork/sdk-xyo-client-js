@@ -27,6 +27,13 @@ import { MongoDBArchiveSchemaStatsDiviner } from './SchemaStats'
 
 let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBArchiveBoundWitnessStatsDiviner
 
+const getMongoDBArchiveBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
+  if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
+  const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
+  const params = { config: { archiveArchivist, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
+  return await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
+}
+
 export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   bind(MongoDBAddressHistoryDiviner).toConstantValue(new MongoDBAddressHistoryDiviner())
   bind<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner).toService(MongoDBAddressHistoryDiviner)
@@ -40,28 +47,11 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<Module>(TYPES.Module).toService(MongoDBBoundWitnessDiviner)
   bind<Initializable>(TYPES.Initializable).toService(MongoDBBoundWitnessDiviner)
 
-  bind(MongoDBArchiveBoundWitnessStatsDiviner).toProvider((context) => {
-    return async () => {
-      if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
-      const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-      const params = { config: { archiveArchivist, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
-      return await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
-    }
-  })
-  bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toProvider((context) => {
-    return async () => {
-      if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
-      const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-      const params = { config: { archiveArchivist, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
-      return await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
-    }
-  })
-  // NOTE: Commenting out for debug but we need to get this working or we'll miss
-  // registration of our Jobs, Initialization, etc.
-  // TODO: Handle the following registrations properly
-  // bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchiveBoundWitnessStatsDiviner)
-  // bind<Module>(TYPES.Module).toService(MongoDBArchiveBoundWitnessStatsDiviner)
-  // bind<Initializable>(TYPES.Initializable).toService(MongoDBArchiveBoundWitnessStatsDiviner)
+  bind(MongoDBArchiveBoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner)
+  bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner)
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner)
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner)
+  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner)
 
   bind(MongoDBLocationCertaintyDiviner).toConstantValue(new MongoDBLocationCertaintyDiviner())
   bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toService(MongoDBLocationCertaintyDiviner)

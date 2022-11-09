@@ -1,5 +1,6 @@
 /* eslint-disable max-statements */
-import { Module } from '@xyo-network/module'
+import { XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { Module, XyoModuleConfigSchema } from '@xyo-network/module'
 import {
   AddressHistoryDiviner,
   ArchiveArchivist,
@@ -25,9 +26,17 @@ import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBArchivePayloadStatsDiviner } from './PayloadStats'
 import { MongoDBArchiveSchemaStatsDiviner } from './SchemaStats'
 
+let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
 let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBArchiveBoundWitnessStatsDiviner
 let mongoDBModuleAddressDiviner: MongoDBModuleAddressDiviner
 
+const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
+  if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
+  const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
+  const params = { config: { archiveArchivist, schema: XyoDivinerConfigSchema } }
+  mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
+  return mongoDBAddressHistoryDiviner
+}
 const getMongoDBArchiveBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
   const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
@@ -44,11 +53,11 @@ const getMongoDBModuleAddressDiviner = async (context: interfaces.Context) => {
 }
 
 export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind) => {
-  bind(MongoDBAddressHistoryDiviner).toConstantValue(new MongoDBAddressHistoryDiviner())
-  bind<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner).toService(MongoDBAddressHistoryDiviner)
-  bind<JobProvider>(TYPES.JobProvider).toService(MongoDBAddressHistoryDiviner)
-  bind<Module>(TYPES.Module).toService(MongoDBAddressHistoryDiviner)
-  bind<Initializable>(TYPES.Initializable).toService(MongoDBAddressHistoryDiviner)
+  bind(MongoDBAddressHistoryDiviner).toDynamicValue(getMongoDBAddressHistoryDiviner)
+  bind<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner).toDynamicValue(getMongoDBAddressHistoryDiviner)
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBAddressHistoryDiviner)
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBAddressHistoryDiviner)
+  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBAddressHistoryDiviner)
 
   bind(MongoDBBoundWitnessDiviner).toConstantValue(new MongoDBBoundWitnessDiviner())
   bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toService(MongoDBBoundWitnessDiviner)

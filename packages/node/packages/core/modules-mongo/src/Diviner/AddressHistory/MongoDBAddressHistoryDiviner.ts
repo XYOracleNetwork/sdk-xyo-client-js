@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import {
   AddressHistoryDiviner,
   AddressHistoryQueryPayload,
@@ -19,12 +20,14 @@ import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export class MongoDBAddressHistoryDiviner extends XyoDiviner implements AddressHistoryDiviner, Initializable, JobProvider {
-  constructor(protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)) {
-    super({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
-  }
+  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   get jobs(): Job[] {
     return []
+  }
+
+  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<MongoDBAddressHistoryDiviner> {
+    return (await super.create(params)) as MongoDBAddressHistoryDiviner
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {

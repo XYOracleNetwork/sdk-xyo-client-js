@@ -26,13 +26,14 @@ import {
 import { TYPES } from '@xyo-network/node-core-types'
 import { Logger } from '@xyo-network/shared'
 import { Application } from 'express'
+import { interfaces } from 'inversify'
 
-export const addDependencies = (app: Application) => {
+export const addDependencies = async (app: Application) => {
   app.logger = assertEx(dependencies.get<Logger>(TYPES.Logger), 'Missing Logger')
   app.moduleRegistry = assertEx(dependencies.get<ModuleRegistry>(TYPES.ModuleRegistry), 'Missing ModuleRegistry')
   app.userManager = assertEx(dependencies.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
   addArchivists(app)
-  addDiviners(app)
+  await addDiviners(app)
   addQueryProcessing(app)
 }
 
@@ -61,12 +62,12 @@ const addArchivists = (app: Application) => {
   app.payloadArchivist = assertEx(dependencies.get<PayloadArchivist>(TYPES.PayloadArchivist), 'Missing PayloadArchivist')
 }
 
-const addDiviners = (app: Application) => {
+const addDiviners = async (app: Application) => {
   app.boundWitnessDiviner = assertEx(dependencies.get<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner), 'Missing BoundWitnessDiviner')
-  app.boundWitnessStatsDiviner = assertEx(
-    dependencies.get<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner),
-    'Missing BoundWitnessStatsDiviner',
-  )
+  const boundWitnessStatsDiviner = (await dependencies.get<interfaces.Provider<BoundWitnessStatsDiviner>>(
+    TYPES.BoundWitnessStatsDiviner,
+  )()) as BoundWitnessStatsDiviner
+  app.boundWitnessStatsDiviner = assertEx(boundWitnessStatsDiviner, 'Missing BoundWitnessStatsDiviner')
   app.moduleAddressDiviner = assertEx(dependencies.get<ModuleAddressDiviner>(TYPES.ModuleAddressDiviner), 'Missing ModuleAddressDiviner')
   app.payloadDiviner = assertEx(dependencies.get<PayloadDiviner>(TYPES.PayloadDiviner), 'Missing PayloadDiviner')
   app.payloadStatsDiviner = assertEx(dependencies.get<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner), 'Missing PayloadStatsDiviner')

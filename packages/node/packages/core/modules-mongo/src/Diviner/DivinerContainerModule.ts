@@ -25,6 +25,8 @@ import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBArchivePayloadStatsDiviner } from './PayloadStats'
 import { MongoDBArchiveSchemaStatsDiviner } from './SchemaStats'
 
+let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBArchiveBoundWitnessStatsDiviner
+
 export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   bind(MongoDBAddressHistoryDiviner).toConstantValue(new MongoDBAddressHistoryDiviner())
   bind<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner).toService(MongoDBAddressHistoryDiviner)
@@ -40,15 +42,23 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
 
   bind(MongoDBArchiveBoundWitnessStatsDiviner).toProvider((context) => {
     return async () => {
+      if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
       const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
       const params = { config: { archiveArchivist, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
       return await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
     }
   })
-  bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toService(MongoDBArchiveBoundWitnessStatsDiviner)
-  bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchiveBoundWitnessStatsDiviner)
-  bind<Module>(TYPES.Module).toService(MongoDBArchiveBoundWitnessStatsDiviner)
-  bind<Initializable>(TYPES.Initializable).toService(MongoDBArchiveBoundWitnessStatsDiviner)
+  bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toProvider((context) => {
+    return async () => {
+      if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
+      const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
+      const params = { config: { archiveArchivist, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
+      return await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
+    }
+  })
+  // bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchiveBoundWitnessStatsDiviner)
+  // bind<Module>(TYPES.Module).toService(MongoDBArchiveBoundWitnessStatsDiviner)
+  // bind<Initializable>(TYPES.Initializable).toService(MongoDBArchiveBoundWitnessStatsDiviner)
 
   bind(MongoDBLocationCertaintyDiviner).toConstantValue(new MongoDBLocationCertaintyDiviner())
   bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toService(MongoDBLocationCertaintyDiviner)

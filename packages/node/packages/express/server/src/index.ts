@@ -27,7 +27,7 @@ export const getApp = async (): Promise<Express> => {
   app.use(cors())
   app.use(compression())
 
-  addDependencies(app)
+  await addDependencies(app)
   await initializeModules()
   addMiddleware(app)
   addAuth(app)

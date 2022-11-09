@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoArchivistPayloadDivinerConfig, XyoDiviner } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import {
   AddressHistoryDiviner,
@@ -26,7 +26,7 @@ export class MongoDBAddressHistoryDiviner extends XyoDiviner implements AddressH
     return []
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<MongoDBAddressHistoryDiviner> {
+  static override async create(params?: Partial<XyoModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBAddressHistoryDiviner> {
     return (await super.create(params)) as MongoDBAddressHistoryDiviner
   }
 

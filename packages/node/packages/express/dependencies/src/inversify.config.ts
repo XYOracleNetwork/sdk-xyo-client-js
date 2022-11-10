@@ -33,8 +33,6 @@ export const configureDependencies = async () => {
   if (configured) return
   configured = true
 
-  await Promise.resolve('TODO: Async init of Modules via await Module.create()')
-
   const apiKey = assertEx(process.env.API_KEY, 'API_KEY ENV VAR required to create Archivist')
   const jwtSecret = assertEx(process.env.JWT_SECRET, 'JWT_SECRET ENV VAR required to create Archivist')
   const verbosity: LoggerVerbosity = (process.env.VERBOSITY as LoggerVerbosity) ?? process.env.NODE_ENV === 'test' ? 'error' : 'info'
@@ -50,7 +48,7 @@ export const configureDependencies = async () => {
     // const config = { defaultMeta }
     return service ? logger : logger
   })
-  addMongo(dependencies)
+  await addMongo(dependencies)
   addAuth(dependencies)
   addPayloadHandlers(dependencies)
   addInMemoryModuleRegistry(dependencies)

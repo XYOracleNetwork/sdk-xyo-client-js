@@ -1,14 +1,14 @@
 import { Container } from 'inversify'
 
 import { ArchivistContainerModule, ArchivistFactoryContainerModule } from './Archivist'
-import { DivinerContainerModule } from './Diviner'
+import { getDivinerContainerModule } from './Diviner'
 import { JobQueueContainerModule } from './JobQueue'
 import { ManagerContainerModule } from './Manager'
 
-export const addMongo = (container: Container) => {
+export const addMongo = async (container: Container) => {
   container.load(ArchivistContainerModule)
   container.load(ArchivistFactoryContainerModule)
-  container.load(DivinerContainerModule)
+  container.load(await getDivinerContainerModule(container))
   container.load(ManagerContainerModule)
   container.load(JobQueueContainerModule)
 }

@@ -12,7 +12,7 @@
   "dependencies": {
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/archivist": "workspace:^",
-    "@xyo-network/express-node": "workspace:^",
+    "@xyo-network/express-node-server": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node": "workspace:^",
     "dotenv": "^16.0.3",

@@ -1,12 +1,18 @@
-ignores: [
-  "@xylabs/tsconfig",
-  "@xylabs/ts-scripts-yarn3",
-  "jest",
-  "jest-environment-jsdom",
-  "jest-extended",
-  "typedoc",
-  "@babel/core",
-  "@babel/preset-env",
-  "ts-jest",
-  "typescript"
-]
+ignores:
+  [
+    "@babel/core",
+    "@babel/preset-env",
+    "@types/node",
+    "@xylabs/ts-scripts-yarn3",
+    "@xylabs/tsconfig",
+    "babel-jest",
+    "dotenv",
+    "jest-environment-jsdom",
+    "jest-extended",
+    "jest-sorted",
+    "jest",
+    "ts-jest",
+    "ts-node",
+    "typedoc",
+    "typescript",
+  ]

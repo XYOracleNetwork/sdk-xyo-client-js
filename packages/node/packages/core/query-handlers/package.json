@@ -37,7 +37,8 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "@xyo-network/utils": "workspace:^",
-    "inversify": "^6.0.1"
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13"
   },
   "peerDependencies": {
     "axios": "*",

@@ -65,7 +65,7 @@ export const getDivinerContainerModule = async (container: Container) => {
     bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toService(MongoDBArchiveBoundWitnessStatsDiviner)
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchiveBoundWitnessStatsDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBArchiveBoundWitnessStatsDiviner)
-    bind<Initializable>(TYPES.Initializable).toService(MongoDBArchiveBoundWitnessStatsDiviner)
+    // bind<Initializable>(TYPES.Initializable).toService(MongoDBArchiveBoundWitnessStatsDiviner)
 
     bind(MongoDBLocationCertaintyDiviner).toConstantValue(mongoDBLocationCertaintyDiviner)
     bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toService(MongoDBLocationCertaintyDiviner)
@@ -89,12 +89,12 @@ export const getDivinerContainerModule = async (container: Container) => {
     bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toService(MongoDBArchivePayloadStatsDiviner)
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchivePayloadStatsDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBArchivePayloadStatsDiviner)
-    bind<Initializable>(TYPES.Initializable).toService(MongoDBArchivePayloadStatsDiviner)
+    // bind<Initializable>(TYPES.Initializable).toService(MongoDBArchivePayloadStatsDiviner)
 
     bind(MongoDBArchiveSchemaStatsDiviner).toConstantValue(mongoDBArchiveSchemaStatsDiviner)
     bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toService(MongoDBArchiveSchemaStatsDiviner)
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchiveSchemaStatsDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBArchiveSchemaStatsDiviner)
-    bind<Initializable>(TYPES.Initializable).toService(MongoDBArchiveSchemaStatsDiviner)
+    // bind<Initializable>(TYPES.Initializable).toService(MongoDBArchiveSchemaStatsDiviner)
   })
 }

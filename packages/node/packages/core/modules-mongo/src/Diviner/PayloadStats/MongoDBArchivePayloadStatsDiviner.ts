@@ -37,10 +37,14 @@ export const MongoDBArchivePayloadStatsDivinerConfigSchema: MongoDBArchivePayloa
 export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
   XyoPayload,
   T & {
-    archiveArchivist: ArchiveArchivist // TODO: This is a stateful object and doesn't belong here
     schema: MongoDBArchivePayloadStatsDivinerConfigSchema
   }
 >
+
+export interface MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload>
+  extends XyoModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>> {
+  archiveArchivist: ArchiveArchivist
+}
 
 export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements PayloadStatsDiviner, Initializable, JobProvider {
   protected archiveArchivist: ArchiveArchivist | undefined
@@ -51,9 +55,9 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
   protected resumeAfter: ResumeToken | undefined = undefined
   protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  protected constructor(params: XyoModuleParams<MongoDBArchivePayloadStatsDivinerConfig>) {
+  protected constructor(params: MongoDBArchivePayloadStatsDivinerParams) {
     super(params)
-    this.archiveArchivist = params.config.archiveArchivist
+    this.archiveArchivist = params.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -74,9 +78,7 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
     ]
   }
 
-  static override async create(
-    params?: Partial<XyoModuleParams<MongoDBArchivePayloadStatsDivinerConfig>>,
-  ): Promise<MongoDBArchivePayloadStatsDiviner> {
+  static override async create(params: MongoDBArchivePayloadStatsDivinerParams): Promise<MongoDBArchivePayloadStatsDiviner> {
     return (await super.create(params)) as MongoDBArchivePayloadStatsDiviner
   }
 

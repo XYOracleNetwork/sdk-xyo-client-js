@@ -74,7 +74,7 @@ const getMongoDBPayloadDiviner = async () => {
 const getMongoDBArchivePayloadStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBArchivePayloadStatsDiviner) return mongoDBArchivePayloadStatsDiviner
   const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-  const params = { config: { archiveArchivist, schema: MongoDBArchivePayloadStatsDivinerConfigSchema } }
+  const params = { archiveArchivist, config: { schema: MongoDBArchivePayloadStatsDivinerConfigSchema } }
   mongoDBArchivePayloadStatsDiviner = await MongoDBArchivePayloadStatsDiviner.create(params)
   return mongoDBArchivePayloadStatsDiviner
 }

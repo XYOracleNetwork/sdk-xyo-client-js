@@ -4,7 +4,6 @@ import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
-  Initializable,
   isSchemaStatsQueryPayload,
   SchemaStatsDiviner,
   SchemaStatsPayload,
@@ -52,7 +51,7 @@ export interface MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = X
   archiveArchivist: ArchiveArchivist
 }
 
-export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements SchemaStatsDiviner, Initializable, JobProvider {
+export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements SchemaStatsDiviner, JobProvider {
   /**
    * The max number of records to search during the aggregate query
    */
@@ -127,10 +126,6 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
     const archive = query?.archive
     const count = archive ? await this.divineArchive(archive) : await this.divineAllArchives()
     return [new XyoPayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build()]
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 
   protected override async start(): Promise<typeof this> {

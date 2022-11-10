@@ -4,7 +4,6 @@ import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
-  Initializable,
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,
   PayloadStatsPayload,
@@ -46,7 +45,7 @@ export interface MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = 
   archiveArchivist: ArchiveArchivist
 }
 
-export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements PayloadStatsDiviner, Initializable, JobProvider {
+export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements PayloadStatsDiviner, JobProvider {
   protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
@@ -87,10 +86,6 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
     const archive = query?.archive
     const count = archive ? await this.divineArchive(archive) : await this.divineAllArchives()
     return [new XyoPayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build()]
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 
   protected override async start(): Promise<typeof this> {

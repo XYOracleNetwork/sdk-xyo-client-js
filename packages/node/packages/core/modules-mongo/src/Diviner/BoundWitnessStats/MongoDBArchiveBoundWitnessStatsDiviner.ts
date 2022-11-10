@@ -8,7 +8,6 @@ import {
   BoundWitnessStatsPayload,
   BoundWitnessStatsQueryPayload,
   BoundWitnessStatsSchema,
-  Initializable,
   isBoundWitnessStatsQueryPayload,
   XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
@@ -45,7 +44,7 @@ export interface MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPaylo
   archiveArchivist: ArchiveArchivist
 }
 
-export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implements BoundWitnessStatsDiviner, Initializable, JobProvider {
+export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implements BoundWitnessStatsDiviner, JobProvider {
   protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
@@ -86,10 +85,6 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implement
     const archive = query?.archive
     const count = archive ? await this.divineArchive(archive) : await this.divineAllArchives()
     return [new XyoPayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build()]
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 
   protected override async start(): Promise<typeof this> {

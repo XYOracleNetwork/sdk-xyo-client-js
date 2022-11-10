@@ -7,7 +7,8 @@ describe('XyoAdhocWitness', () => {
   describe('targetSchema', () => {
     it('with no config supplied uses default', async () => {
       const payload = new XyoPayloadBuilder({ schema: 'network.xyo.debug' }).build()
-      const witness = await XyoAdhocWitness.create({})
+      const config: XyoAdhocWitnessConfig = { payload, schema: XyoAdhocWitnessConfigSchema, targetSchema: 'network.xyo.debug' }
+      const witness = await XyoAdhocWitness.create({ config })
       const observation = await witness.observe([payload])
       expect(observation?.[0]?.schema).toBe(payload.schema)
     })

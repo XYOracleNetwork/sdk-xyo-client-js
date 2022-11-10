@@ -50,7 +50,7 @@ const getMongoDBBoundWitnessDiviner = async () => {
 const getMongoDBArchiveBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
   const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-  const params = { config: { archiveArchivist, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
+  const params = { archiveArchivist, config: { schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
   mongoDBArchiveBoundWitnessStatsDiviner = await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
   return mongoDBArchiveBoundWitnessStatsDiviner
 }

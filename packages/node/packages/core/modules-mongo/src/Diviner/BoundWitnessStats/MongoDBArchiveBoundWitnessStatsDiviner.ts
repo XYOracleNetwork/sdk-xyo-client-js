@@ -37,10 +37,13 @@ export const MongoDBArchiveBoundWitnessStatsDivinerConfigSchema: MongoDBArchiveB
 export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
   XyoPayload,
   T & {
-    archiveArchivist: ArchiveArchivist // TODO: This is a stateful object and doesn't belong here
     schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
   }
 >
+export interface MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload>
+  extends XyoModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig<T>> {
+  archiveArchivist: ArchiveArchivist
+}
 
 export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implements BoundWitnessStatsDiviner, Initializable, JobProvider {
   protected archiveArchivist: ArchiveArchivist | undefined
@@ -51,9 +54,9 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implement
   protected resumeAfter: ResumeToken | undefined = undefined
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
-  protected constructor(params: XyoModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig>) {
+  protected constructor(params: MongoDBArchiveBoundWitnessStatsDivinerParams) {
     super(params)
-    this.archiveArchivist = params.config.archiveArchivist
+    this.archiveArchivist = params.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -74,9 +77,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implement
     ]
   }
 
-  static override async create(
-    params?: Partial<XyoModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig>>,
-  ): Promise<MongoDBArchiveBoundWitnessStatsDiviner> {
+  static override async create(params: MongoDBArchiveBoundWitnessStatsDivinerParams): Promise<MongoDBArchiveBoundWitnessStatsDiviner> {
     return (await super.create(params)) as MongoDBArchiveBoundWitnessStatsDiviner
   }
 

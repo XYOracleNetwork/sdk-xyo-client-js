@@ -29,12 +29,12 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   static defaultLogger?: Logger
 
   public config: TConfig
+  public resolver?: ModuleResolver
 
   protected _started = false
   protected account: XyoAccount
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected readonly logger?: Logging
-  protected resolver?: ModuleResolver
 
   protected constructor(params: XyoModuleParams<TConfig>) {
     this.resolver = params.resolver

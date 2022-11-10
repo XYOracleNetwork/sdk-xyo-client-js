@@ -1,5 +1,5 @@
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
-import { Module, XyoModule, XyoModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleFilter, XyoModule, XyoModuleWrapper } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -50,6 +50,10 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
     this.throwErrors(query, result)
   }
 
+  find(_filter: ModuleFilter): Promisable<XyoModule[]> {
+    throw Error('Not implemented')
+  }
+
   register(_module: Module): void {
     throw Error('Not implemented')
   }
@@ -67,7 +71,11 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
     return compact(await this.resolve(addresses))
   }
 
-  resolve(_address: string[]): Promisable<(XyoModule | null)[]> {
+  resolve(_address: string[]): Promisable<XyoModule[]> {
+    throw Error('Not implemented')
+  }
+
+  unregister(_module: Module): void {
     throw Error('Not implemented')
   }
 }

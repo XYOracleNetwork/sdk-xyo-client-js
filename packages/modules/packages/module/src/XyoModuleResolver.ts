@@ -1,15 +1,19 @@
-import { ModuleResolver, ModuleResolverEventFunc } from './ModuleResolver'
+import { Promisable } from '@xyo-network/promise'
+import compact from 'lodash/compact'
+import flatten from 'lodash/flatten'
+
+import { ModuleFilter } from './Module'
+import { ModuleResolver } from './ModuleResolver'
 import { XyoModule } from './XyoModule'
 
-export class XyoModuleResolver implements ModuleResolver {
-  private handlers: ModuleResolverEventFunc<XyoModule>[] = []
-  private modules: Record<string, XyoModule> = {}
+export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements ModuleResolver {
+  private modules: Record<string, TModule> = {}
 
   public get isModuleResolver() {
     return true
   }
 
-  add(module?: XyoModule | XyoModule[]) {
+  add(module?: TModule | TModule[]) {
     if (Array.isArray(module)) {
       module.forEach((module) => this.addSingleModule(module))
     } else {
@@ -18,41 +22,45 @@ export class XyoModuleResolver implements ModuleResolver {
     return this
   }
 
-  fromAddress(addresses: string[]): (XyoModule | null)[] {
-    return addresses.map((address) => this.modules[address] ?? null)
-  }
-
-  fromQuery(schema: string[]): XyoModule[] {
-    return Object.values(this.modules).filter((module) => schema.reduce((prev, schema) => prev && module.queryable(schema), true))
-  }
-
-  remove(module?: XyoModule | XyoModule[]) {
-    if (Array.isArray(module)) {
-      module.forEach((module) => this.removeSingleModule(module))
+  remove(address?: string | string[]) {
+    if (Array.isArray(address)) {
+      address.forEach((address) => this.removeSingleModule(address))
     } else {
-      this.removeSingleModule(module)
+      this.removeSingleModule(address)
     }
     return this
   }
 
-  subscribe(handler: ModuleResolverEventFunc): void {
-    this.unsubscribe(handler)
-    this.handlers.push(handler)
+  resolve(filter?: ModuleFilter): Promisable<TModule[]> {
+    const filteredByConfigSchema =
+      compact(
+        flatten(
+          filter?.config?.map((schema) => {
+            return Object.values(this.modules).filter((module) => module.config.schema === schema)
+          }),
+        ),
+      ) ?? Object.values(this.modules)
+
+    return compact(
+      filteredByConfigSchema.filter((module) =>
+        filter?.query?.map((queryList) => {
+          return queryList.reduce((supported, query) => {
+            return supported && module.queryable(query)
+          }, true)
+        }),
+      ),
+    )
   }
 
-  unsubscribe(handler: ModuleResolverEventFunc): void {
-    this.handlers = this.handlers.filter((item) => item !== handler)
-  }
-
-  private addSingleModule(module?: XyoModule) {
+  private addSingleModule(module?: TModule) {
     if (module) {
       this.modules[module.address] = module
     }
   }
 
-  private removeSingleModule(module?: XyoModule) {
-    if (module) {
-      delete this.modules[module.address]
+  private removeSingleModule(address?: string) {
+    if (address) {
+      delete this.modules[address]
     }
   }
 }

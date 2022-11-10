@@ -34,15 +34,6 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     return !!this.config?.cacheParentReads
   }
 
-  protected get parents() {
-    this._parents = this._parents ?? {
-      commit: this.resolveArchivists(this.config?.parents?.commit),
-      read: this.resolveArchivists(this.config?.parents?.read),
-      write: this.resolveArchivists(this.config?.parents?.write),
-    }
-    return assertEx(this._parents)
-  }
-
   protected get writeThrough() {
     return !!this.config?.writeThrough
   }
@@ -127,9 +118,10 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
   }
 
   protected async getFromParents(hash: string) {
+    const parents = await this.parents()
     return compact(
       await Promise.all(
-        Object.values(this.parents?.read ?? {}).map(async (parent) => {
+        Object.values(parents.read ?? {}).map(async (parent) => {
           const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes: [hash], schema: XyoArchivistGetQuerySchema })
           const query = await this.bindQuery(queryPayload)
           const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
@@ -144,34 +136,39 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
     )[0]
   }
 
+  protected async parents() {
+    this._parents = this._parents ?? {
+      commit: await this.resolveArchivists(this.config?.parents?.commit),
+      read: await this.resolveArchivists(this.config?.parents?.read),
+      write: await this.resolveArchivists(this.config?.parents?.write),
+    }
+    return assertEx(this._parents)
+  }
+
   protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
     const wrapper = new XyoArchivistWrapper(parent)
     return await wrapper.insert(payloads)
   }
 
   protected async writeToParents(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
-    this.logger?.log(this.parents?.write?.length ?? 0)
+    const parents = await this.parents()
+    this.logger?.log(parents.write?.length ?? 0)
     return compact(
       await Promise.all(
-        Object.values(this.parents?.write ?? {}).map(async (parent) => {
+        Object.values(parents.write ?? {}).map(async (parent) => {
           return parent ? await this.writeToParent(parent, payloads) : undefined
         }),
       ),
     ).flat()
   }
 
-  private resolveArchivists(archivists?: string[]) {
+  private async resolveArchivists(archivists?: string[]) {
     const resolvedWrappers: Record<string, XyoArchivistWrapper> = {}
-    if (archivists) {
-      archivists.map((archivist) => {
-        if (resolvedWrappers[archivist] === undefined) {
-          const module = this.resolver?.fromAddress([archivist]).shift()
-          if (module) {
-            resolvedWrappers[archivist] = new XyoArchivistWrapper(module)
-          }
-        }
-      })
-    }
+    const modules = (await this.resolver?.resolve({ address: archivists })) ?? []
+    modules.forEach((module) => {
+      const wrapper = new XyoArchivistWrapper(module)
+      resolvedWrappers[wrapper.address] = wrapper
+    })
     return resolvedWrappers
   }
 

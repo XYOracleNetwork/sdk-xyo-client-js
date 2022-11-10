@@ -2,13 +2,7 @@ import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoArchivistPayloadDivinerConfig, XyoDiviner } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
-import {
-  BoundWitnessDiviner,
-  BoundWitnessQueryPayload,
-  Initializable,
-  isBoundWitnessQueryPayload,
-  XyoBoundWitnessWithMeta,
-} from '@xyo-network/node-core-model'
+import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
@@ -18,7 +12,7 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitnessDiviner, Initializable, JobProvider {
+export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitnessDiviner, JobProvider {
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   get jobs(): Job[] {
@@ -61,10 +55,6 @@ export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitne
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }
     if (payload_schemas?.length) filter.payload_schemas = { $in: payload_schemas }
     return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 }
 

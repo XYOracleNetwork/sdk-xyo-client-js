@@ -4,7 +4,7 @@ import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
-import { BoundWitnessesArchivist, Initializable, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessesArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
@@ -40,7 +40,7 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
 
 export const isLocationPayload = (x?: XyoPayload | null): x is XyoLocationPayload => x?.schema === XyoLocationSchema
 
-export class CoinUserLocationsDiviner extends XyoDiviner implements CoinUserLocationsDiviner, Initializable, JobProvider {
+export class CoinUserLocationsDiviner extends XyoDiviner implements CoinUserLocationsDiviner, JobProvider {
   constructor(
     protected readonly account: XyoAccount = new XyoAccount(),
     protected readonly payloads: PayloadArchivist,
@@ -88,10 +88,6 @@ export class CoinUserLocationsDiviner extends XyoDiviner implements CoinUserLoca
     }
     // else return empty response
     return []
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 
   private divineUserLocationsBatch = async () => {

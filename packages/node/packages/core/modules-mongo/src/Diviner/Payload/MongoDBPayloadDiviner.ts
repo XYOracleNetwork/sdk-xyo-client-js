@@ -1,6 +1,6 @@
 import { XyoArchivistPayloadDivinerConfig, XyoDiviner } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
-import { Initializable, isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
@@ -10,7 +10,7 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner, Initializable, JobProvider {
+export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner, JobProvider {
   protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 
   get jobs(): Job[] {
@@ -41,9 +41,5 @@ export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner,
     // TODO: Optimize for single schema supplied too
     if (schemas?.length) filter.schema = { $in: schemas }
     return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 }

@@ -6,7 +6,6 @@ import {
   ArchiveArchivist,
   BoundWitnessDiviner,
   BoundWitnessStatsDiviner,
-  Initializable,
   LocationCertaintyDiviner,
   ModuleAddressDiviner,
   PayloadDiviner,
@@ -53,13 +52,11 @@ export const getDivinerContainerModule = async (container: Container) => {
     bind<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner).toService(MongoDBAddressHistoryDiviner)
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBAddressHistoryDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBAddressHistoryDiviner)
-    bind<Initializable>(TYPES.Initializable).toService(MongoDBAddressHistoryDiviner)
 
     bind(MongoDBBoundWitnessDiviner).toConstantValue(mongoDBBoundWitnessDiviner)
     bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toService(MongoDBBoundWitnessDiviner)
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBBoundWitnessDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBBoundWitnessDiviner)
-    bind<Initializable>(TYPES.Initializable).toService(MongoDBBoundWitnessDiviner)
 
     bind(MongoDBArchiveBoundWitnessStatsDiviner).toConstantValue(mongoDBArchiveBoundWitnessStatsDiviner)
     bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toService(MongoDBArchiveBoundWitnessStatsDiviner)
@@ -70,19 +67,16 @@ export const getDivinerContainerModule = async (container: Container) => {
     bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toService(MongoDBLocationCertaintyDiviner)
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBLocationCertaintyDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBLocationCertaintyDiviner)
-    bind<Initializable>(TYPES.Initializable).toService(MongoDBLocationCertaintyDiviner)
 
     bind(MongoDBModuleAddressDiviner).toConstantValue(mongoDBModuleAddressDiviner)
     bind<ModuleAddressDiviner>(TYPES.ModuleAddressDiviner).toService(MongoDBModuleAddressDiviner)
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBModuleAddressDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBModuleAddressDiviner)
-    bind<Initializable>(TYPES.Initializable).toService(MongoDBModuleAddressDiviner)
 
     bind(MongoDBPayloadDiviner).toConstantValue(mongoDBPayloadDiviner)
     bind<PayloadDiviner>(TYPES.PayloadDiviner).toService(MongoDBPayloadDiviner)
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBPayloadDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBPayloadDiviner)
-    bind<Initializable>(TYPES.Initializable).toService(MongoDBPayloadDiviner)
 
     bind(MongoDBArchivePayloadStatsDiviner).toConstantValue(mongoDBArchivePayloadStatsDiviner)
     bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toService(MongoDBArchivePayloadStatsDiviner)

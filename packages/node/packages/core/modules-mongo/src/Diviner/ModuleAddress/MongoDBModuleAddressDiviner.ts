@@ -3,7 +3,6 @@ import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
-  Initializable,
   isModuleAddressQueryPayload,
   ModuleAddressDiviner,
   ModuleAddressPayload,
@@ -19,7 +18,7 @@ import { Job, JobProvider } from '@xyo-network/shared'
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
 
-export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, Initializable, JobProvider {
+export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, JobProvider {
   protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
@@ -55,10 +54,6 @@ export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAdd
     }
     // else return empty response
     return []
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 
   private divineModuleAddressBatch = async () => {

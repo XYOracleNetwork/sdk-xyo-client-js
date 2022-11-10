@@ -6,7 +6,6 @@ import {
   ArchiveArchivist,
   BoundWitnessDiviner,
   BoundWitnessStatsDiviner,
-  Initializable,
   LocationCertaintyDiviner,
   ModuleAddressDiviner,
   PayloadDiviner,
@@ -91,13 +90,11 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner).toDynamicValue(getMongoDBAddressHistoryDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBAddressHistoryDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBAddressHistoryDiviner).inSingletonScope()
-  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBAddressHistoryDiviner).inSingletonScope()
 
   bind(MongoDBBoundWitnessDiviner).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
   bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
-  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
 
   bind(MongoDBArchiveBoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
   bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
@@ -108,19 +105,16 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
-  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
 
   bind(MongoDBModuleAddressDiviner).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
   bind<ModuleAddressDiviner>(TYPES.ModuleAddressDiviner).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
-  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
 
   bind(MongoDBPayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
   bind<PayloadDiviner>(TYPES.PayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
-  bind<Initializable>(TYPES.Initializable).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
 
   bind(MongoDBArchivePayloadStatsDiviner).toDynamicValue(getMongoDBArchivePayloadStatsDiviner).inSingletonScope()
   bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toDynamicValue(getMongoDBArchivePayloadStatsDiviner).inSingletonScope()

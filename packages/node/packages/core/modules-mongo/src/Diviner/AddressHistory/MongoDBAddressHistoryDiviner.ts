@@ -6,7 +6,6 @@ import { XyoModuleParams } from '@xyo-network/module'
 import {
   AddressHistoryDiviner,
   AddressHistoryQueryPayload,
-  Initializable,
   isAddressHistoryQueryPayload,
   XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
@@ -19,7 +18,7 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export class MongoDBAddressHistoryDiviner extends XyoDiviner implements AddressHistoryDiviner, Initializable, JobProvider {
+export class MongoDBAddressHistoryDiviner extends XyoDiviner implements AddressHistoryDiviner, JobProvider {
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   get jobs(): Job[] {
@@ -42,10 +41,6 @@ export class MongoDBAddressHistoryDiviner extends XyoDiviner implements AddressH
     const hash: string = offset as string
     const blocks = await this.getBlocks(hash, addresses, limit || DefaultLimit)
     return blocks.map(removeId)
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 
   private getBlocks = async (hash: string, address: string, limit: number): Promise<XyoBoundWitnessWithMeta[]> => {

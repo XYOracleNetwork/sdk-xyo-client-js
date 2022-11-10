@@ -30,6 +30,11 @@ describe('XyoUniswapCryptoMarketWitness', () => {
   test('observe [no config]', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
     const witness = await XyoUniswapCryptoMarketWitness.create({
+      config: {
+        pools: UniswapPoolContracts,
+        schema: XyoUniswapCryptoMarketWitnessConfigSchema,
+        targetSchema: XyoUniswapCryptoMarketSchema,
+      },
       provider,
     })
     const [observation] = await witness.observe()

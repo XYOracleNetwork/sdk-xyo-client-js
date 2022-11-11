@@ -1,5 +1,5 @@
 import { Module, XyoModule, XyoModuleParams } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoWitnessConfig, XyoWitnessConfigSchema } from './Config'
 import { Witness } from './Witness'
@@ -9,28 +9,31 @@ import { XyoWitnessWrapper } from './XyoWitnessWrapper'
 const targetSchema = 'network.xyo.schema.target'
 
 describe('XyoWitness', () => {
-  test('types', async () => {
-    const schema = 'network.xyo.debug'
-    const witness = await XyoWitness.create({
-      config: { schema: XyoWitnessConfigSchema, targetSchema },
+  const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema, targetSchema }
+  const params: XyoModuleParams<XyoWitnessConfig> = { config }
+  const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
+
+  describe('fulfills type of', () => {
+    it('Module', async () => {
+      const witness: Module = await XyoWitness.create(params)
+      expect(witness).toBeObject()
+      const wrapper = new XyoWitnessWrapper(witness)
+      expect(wrapper).toBeObject()
     })
-    const payload = new XyoPayloadBuilder({ schema }).build()
-    const witnessAsModule: Module = witness
-    const witnessAsWitness: Witness = witness
-    const witnessAsXyoModule: XyoModule = witness
-    const wrapper = new XyoWitnessWrapper(witnessAsModule ?? witnessAsXyoModule ?? witnessAsWitness)
-
-    const payloads = await wrapper.observe([payload])
-    expect(payloads).toBeArray()
-    expect(payloads.length).toBeGreaterThan(0)
-    const answerWrapper = new PayloadWrapper(payloads[0])
-
-    expect(answerWrapper.schema).toBe(schema)
-    expect(answerWrapper.valid).toBe(true)
+    it('XyoModule', async () => {
+      const witness: XyoModule = await XyoWitness.create(params)
+      expect(witness).toBeObject()
+      const wrapper = new XyoWitnessWrapper(witness)
+      expect(wrapper).toBeObject()
+    })
+    it('Witness', async () => {
+      const witness: Witness = await XyoWitness.create(params)
+      expect(witness).toBeObject()
+      const wrapper = new XyoWitnessWrapper(witness)
+      expect(wrapper).toBeObject()
+    })
   })
   describe('observe', () => {
-    const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema, targetSchema }
-    const params: XyoModuleParams<XyoWitnessConfig> = { config }
     describe('with no payload supplied to observe', () => {
       describe('returns empty array', () => {
         it('when module queried directly', async () => {
@@ -48,7 +51,6 @@ describe('XyoWitness', () => {
     })
     describe('with payload supplied to observe', () => {
       describe('returns payloads with targetSchema', () => {
-        const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
         it('when module queried directly', async () => {
           const witness = await XyoWitness.create(params)
           const observation = await witness.observe([observed])

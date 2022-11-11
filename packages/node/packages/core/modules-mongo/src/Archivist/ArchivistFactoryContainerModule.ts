@@ -1,5 +1,5 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoModuleConfigSchema } from '@xyo-network/module'
 import {
   ArchiveBoundWitnessArchivist,
   ArchiveModuleConfig,
@@ -11,11 +11,11 @@ import {
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { ContainerModule, interfaces } from 'inversify'
 import LruCache from 'lru-cache'
 
-import { MONGO_TYPES } from '../types'
+import { COLLECTIONS } from '../collections'
+import { getBaseMongoSdk } from '../Mongo'
 import { MongoDBArchiveBoundWitnessArchivist } from './ArchiveBoundWitness'
 import { MongoDBArchivePayloadsArchivist } from './ArchivePayloads'
 import { MongoDBArchivePermissionsPayloadPayloadArchivist } from './ArchivePermissions'
@@ -59,8 +59,8 @@ const getBoundWitnessArchivist = (context: interfaces.Context, archive: string) 
   const cached = boundWitnessArchivistCache?.get?.(archive)
   if (cached) return cached
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-  const account = context.container.get<XyoAccount>(TYPES.Account)
-  const sdk = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdkMongo)
+  const account = new XyoAccount()
+  const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const archivist = new MongoDBArchiveBoundWitnessArchivist(account, sdk, config)
   boundWitnessArchivistCache?.set(archive, archivist)
   return archivist
@@ -70,8 +70,8 @@ const getPayloadArchivist = (context: interfaces.Context, archive: string) => {
   const cached = payloadArchivistCache?.get?.(archive)
   if (cached) return cached
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-  const account = context.container.get<XyoAccount>(TYPES.Account)
-  const sdk = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdkMongo)
+  const account = new XyoAccount()
+  const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const archivist = new MongoDBArchivePayloadsArchivist(account, sdk, config)
   payloadArchivistCache?.set(archive, archivist)
   return archivist
@@ -81,9 +81,10 @@ const getArchivePermissionsArchivist = (context: interfaces.Context, archive: st
   const cached = archivePermissionsArchivistCache?.get?.(archive)
   if (cached) return cached
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-  const account = context.container.getNamed<XyoAccount>(TYPES.Account, 'root')
-  const payloads = context.container.get<BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>>(MONGO_TYPES.PayloadSdkMongo)
-  const bw = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdkMongo)
+  const phrase = assertEx(process.env.ACCOUNT_SEED)
+  const account = new XyoAccount({ phrase })
+  const payloads = getBaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>(COLLECTIONS.Payloads)
+  const bw = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const archivist = new MongoDBArchivePermissionsPayloadPayloadArchivist(account, payloads, bw, config)
   archivePermissionsArchivistCache?.set(archive, archivist)
   return archivist

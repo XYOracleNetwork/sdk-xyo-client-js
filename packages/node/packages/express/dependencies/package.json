@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.40.2",
+  "version": "2.41.0",
   "description": "XYO Express Node Dependencies",
   "sideeffects": false,
   "engines": {
@@ -29,7 +29,6 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.9",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",
     "@xyo-network/express-node-middleware": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",

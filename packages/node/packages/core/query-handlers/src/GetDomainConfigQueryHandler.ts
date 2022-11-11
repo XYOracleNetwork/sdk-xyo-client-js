@@ -1,6 +1,10 @@
+import 'reflect-metadata'
+
 import { XyoDomainPayload, XyoDomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import { GetDomainConfigQuery, Optional, QueryHandler, XyoPartialPayloadMeta } from '@xyo-network/node-core-model'
+import { injectable } from 'inversify'
 
+@injectable()
 export class GetDomainConfigQueryHandler implements QueryHandler<GetDomainConfigQuery, XyoDomainPayload> {
   async handle(query: GetDomainConfigQuery): Promise<Optional<XyoPartialPayloadMeta<XyoDomainPayload>>> {
     const config: XyoDomainPayloadWrapper<XyoPartialPayloadMeta<XyoDomainPayload>> | undefined = query.payload.proxy

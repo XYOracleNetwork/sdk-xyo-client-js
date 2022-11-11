@@ -1,36 +1,19 @@
-import 'reflect-metadata'
-
 import { exists } from '@xylabs/exists'
-import { XyoAccount } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
-import {
-  BoundWitnessDiviner,
-  BoundWitnessQueryPayload,
-  Initializable,
-  isBoundWitnessQueryPayload,
-  XyoBoundWitnessWithMeta,
-} from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
+import { XyoArchivistPayloadDivinerConfig, XyoDiviner } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
+import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
+import { Job, JobProvider } from '@xyo-network/shared'
 import { Filter, SortDirection } from 'mongodb'
 
+import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
-import { removeId } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-@injectable()
-export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitnessDiviner, Initializable, JobProvider {
-  constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) account: XyoAccount,
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>,
-  ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
-  }
+export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitnessDiviner, JobProvider {
+  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   get jobs(): Job[] {
     return [
@@ -40,6 +23,10 @@ export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitne
       //   task: async () => await this.divineArchivesBatch(),
       // },
     ]
+  }
+
+  static override async create(params?: Partial<XyoModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBBoundWitnessDiviner> {
+    return (await super.create(params)) as MongoDBBoundWitnessDiviner
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
@@ -68,10 +55,6 @@ export class MongoDBBoundWitnessDiviner extends XyoDiviner implements BoundWitne
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }
     if (payload_schemas?.length) filter.payload_schemas = { $in: payload_schemas }
     return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 }
 

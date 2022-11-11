@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { DebugPayload, DebugQuery, DebugSchema, QueryHandler } from '@xyo-network/node-core-model'

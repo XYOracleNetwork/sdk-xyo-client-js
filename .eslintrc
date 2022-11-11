@@ -6,7 +6,8 @@
   "ignorePatterns": [
     "**/dist",
     "**/node_modules",
-    "coverage"
+    "coverage",
+    "swagger.json"
   ],
   "rules": {
     "@typescript-eslint/member-ordering": [

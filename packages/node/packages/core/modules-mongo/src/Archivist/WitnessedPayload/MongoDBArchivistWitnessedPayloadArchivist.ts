@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { XyoAccount } from '@xyo-network/account'
@@ -11,14 +9,12 @@ import {
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayloadFindFilter, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { inject, injectable, named } from 'inversify'
 
+import { COLLECTIONS } from '../../collections'
 import { DefaultLimit } from '../../defaults'
-import { removeId } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 const unique = <T>(value: T, index: number, self: T[]) => {
   return self.indexOf(value) === index
@@ -28,12 +24,11 @@ const valid = (bw: XyoBoundWitness) => {
   return new BoundWitnessValidator(bw).validate().length === 0
 }
 
-@injectable()
 export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements WitnessedPayloadArchivist {
   constructor(
-    @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>,
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
+    protected readonly account: XyoAccount = new XyoAccount({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
+    protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
+    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
   ) {
     super(account)
   }

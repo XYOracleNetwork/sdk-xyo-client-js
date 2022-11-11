@@ -31,6 +31,7 @@
     "jest": "^29.3.1",
     "jest-extended": "^3.1.0",
     "jest-sorted": "^1.0.14",
+    "nodemon": "^2.0.20",
     "pako": "^2.1.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
@@ -80,13 +81,17 @@
     "displayName": "Root Package"
   },
   "scripts": {
-    "coverage": "yarn jest --coverage",
+    "coverage": "yarn jest --coverage --forceExit",
     "lint-pkg": "npmPkgJsonLint .",
+    "start": "nodemon",
+    "test": "jest --no-cache --forceExit",
+    "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "xyo": "yarn workspace @xyo-network/node-cli xyo",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.40.2",
-  "packageManager": "yarn@3.2.4"
+  "version": "2.41.0-rc.1",
+  "packageManager": "yarn@3.2.4",
+  "stableVersion": "2.40.2"
 }

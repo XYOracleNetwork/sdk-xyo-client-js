@@ -1,11 +1,8 @@
-import 'reflect-metadata'
-
 import { delay } from '@xylabs/delay'
-import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
-  Initializable,
   isModuleAddressQueryPayload,
   ModuleAddressDiviner,
   ModuleAddressPayload,
@@ -14,24 +11,20 @@ import {
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
+import { Job, JobProvider } from '@xyo-network/shared'
 
-import { MONGO_TYPES } from '../../types'
+import { COLLECTIONS } from '../../collections'
+import { getBaseMongoSdk } from '../../Mongo'
 
-@injectable()
-export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, Initializable, JobProvider {
-  constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) protected readonly account: XyoAccount,
-    @inject(TYPES.ArchiveArchivist) protected readonly archives: ArchiveArchivist,
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>,
-  ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
+export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, JobProvider {
+  protected archiveArchivist: ArchiveArchivist | undefined
+  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+
+  protected constructor(params: XyoModuleParams<XyoDivinerConfig>) {
+    super(params)
   }
 
   get jobs(): Job[] {
@@ -42,6 +35,10 @@ export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAdd
         task: async () => await this.divineModuleAddressBatch(),
       },
     ]
+  }
+
+  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<MongoDBModuleAddressDiviner> {
+    return (await super.create(params)) as MongoDBModuleAddressDiviner
   }
 
   public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {
@@ -57,10 +54,6 @@ export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAdd
     }
     // else return empty response
     return []
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 
   private divineModuleAddressBatch = async () => {

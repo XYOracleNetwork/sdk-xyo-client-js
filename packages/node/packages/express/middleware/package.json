@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.40.4",
+  "version": "2.41.0",
   "description": "XYO Express Node Middleware",
   "sideeffects": false,
   "engines": {

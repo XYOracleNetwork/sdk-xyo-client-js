@@ -6164,7 +6164,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    systeminformation: ^5.12.13
+    systeminformation: ^5.12.14
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -17885,12 +17885,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.12.13":
-  version: 5.12.13
-  resolution: "systeminformation@npm:5.12.13"
+"systeminformation@npm:^5.12.14":
+  version: 5.12.14
+  resolution: "systeminformation@npm:5.12.14"
   bin:
     systeminformation: lib/cli.js
-  checksum: 85bdc5461a82c6c7bfb3c300275ed604258b069b97ec658ef632cffe0e9fcb1261c881e7bd1dc5836a43c5c21eec410f75ad214503a180b959d0f6492094f1a8
+  checksum: 22c4a023076fdec7a284a2b66aea8f971349164ac8f324f7dad10da0ba4bc971f47ede8fe1bdeea19409c7ee6212f7669e0d87f48278beedbda196406c2c7cc0
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

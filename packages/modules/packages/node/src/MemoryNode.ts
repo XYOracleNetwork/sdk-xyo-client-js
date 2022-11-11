@@ -1,7 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { ModuleFilter, XyoModule, XyoModuleParams } from '@xyo-network/module'
-import compact from 'lodash/compact'
-import flatten from 'lodash/flatten'
 
 import { NodeConfig } from './Config'
 import { XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema } from './Queries'
@@ -45,25 +43,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   }
 
   override async resolve(filter: ModuleFilter): Promise<TModule[]> {
-    const attachedModules = await this.attachedModules()
-    const filteredByConfigSchema =
-      compact(
-        flatten(
-          filter.config?.map((schema) => {
-            return attachedModules.filter((module) => module.config.schema === schema)
-          }),
-        ),
-      ) ?? this.attachedModules()
-
-    return compact(
-      filteredByConfigSchema.filter((module) =>
-        filter.query?.map((queryList) => {
-          return queryList.reduce((supported, query) => {
-            return supported && module.queryable(query)
-          }, true)
-        }),
-      ),
-    )
+    return (await this.internalResolver.resolve(filter)) ?? (await this.resolver?.resolve(filter)) ?? []
   }
 
   override unregister(module: TModule) {

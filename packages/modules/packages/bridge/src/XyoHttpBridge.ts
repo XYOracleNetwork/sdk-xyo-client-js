@@ -66,7 +66,6 @@ export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeCo
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
     const queryAccount = new XyoAccount()
     const resultPayloads: XyoPayload[] = []
     try {

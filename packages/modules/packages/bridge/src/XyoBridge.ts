@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
@@ -16,7 +15,6 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()
 

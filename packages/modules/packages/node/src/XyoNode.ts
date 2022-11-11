@@ -14,7 +14,7 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
-import { PayloadFields, SchemaFields, XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'

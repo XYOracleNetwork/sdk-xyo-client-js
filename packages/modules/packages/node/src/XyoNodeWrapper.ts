@@ -40,7 +40,7 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
 
   async attachedModules(): Promise<XyoModule[]> {
     const addresses = await this.attached()
-    return compact(await this.resolve(addresses))
+    return compact(await this.resolve({ address: addresses }))
   }
 
   async detach(address: string): Promise<void> {
@@ -68,10 +68,10 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
 
   async registeredModules(): Promise<XyoModule[]> {
     const addresses = await this.registered()
-    return compact(await this.resolve(addresses))
+    return compact(await this.resolve({ address: addresses }))
   }
 
-  resolve(_address: string[]): Promisable<XyoModule[]> {
+  resolve(_filter: ModuleFilter): Promisable<XyoModule[]> {
     throw Error('Not implemented')
   }
 

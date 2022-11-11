@@ -5840,7 +5840,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/express-node@workspace:^, @xyo-network/express-node@workspace:packages/node":
+"@xyo-network/express-node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node@workspace:packages/node"
   dependencies:
@@ -5999,7 +5999,6 @@ __metadata:
     "@types/terminal-kit": ^2.5.0
     "@xylabs/sdk-api-express-ecs": ^1.2.5
     "@xyo-network/archivist": "workspace:^"
-    "@xyo-network/express-node": "workspace:^"
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"

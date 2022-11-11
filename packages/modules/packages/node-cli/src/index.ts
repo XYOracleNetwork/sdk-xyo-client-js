@@ -1,5 +1,5 @@
 import { XyoMemoryArchivist } from '@xyo-network/archivist'
-import { ModuleResolver, ModuleResolverEventFunc, SchemaString, XyoModule } from '@xyo-network/module'
+import { ModuleResolver, XyoModule } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import yargs from 'yargs'
 // eslint-disable-next-line import/no-internal-modules
@@ -47,27 +47,10 @@ const xyo = async () => {
 
       node.register(await XyoMemoryArchivist.create())
 
-      const resolver: ModuleResolver = {
-        fromAddress: (address: string[]) => {
-          console.log(`Resolving: ${address}`)
-          return node.resolve(address)
-        },
-        fromQuery: (_schema: SchemaString[]) => {
-          throw Error('Not implemented')
-        },
-        isModuleResolver: true,
-        subscribe: (_handler: ModuleResolverEventFunc) => {
-          throw Error('Not implemented')
-        },
-        unsubscribe: (_handler: ModuleResolverEventFunc) => {
-          throw Error('Not implemented')
-        },
-      }
-
       await Promise.all(
         modules.map(async (module) => {
           const [pkg, name] = module.split('.')
-          const instance = await loadModule(pkg, name, resolver)
+          const instance = await loadModule(pkg, name, node)
           console.log(`Arg: ${instance.address}`)
           node.register(instance)
           node.attach(instance.address)

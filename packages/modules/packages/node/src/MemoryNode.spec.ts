@@ -28,7 +28,7 @@ test('Create Node', async () => {
   node.attach(diviner.address)
   expect((await node.registered()).length).toBe(2)
   expect((await node.attached()).length).toBe(2)
-  const foundArchivist = (await node.resolve([archivist.address])).shift()
+  const foundArchivist = (await node.resolve({ address: [archivist.address] })).shift()
   expect(foundArchivist).toBeDefined()
   expect(foundArchivist?.address).toBe(archivist.address)
   const testPayload = new XyoPayloadBuilder<XyoPayload<{ schema: XyoPayloadSchema; test: boolean }>>({ schema: XyoPayloadSchema })
@@ -47,7 +47,7 @@ test('Create Node', async () => {
   if (payloads && payloads[0]) {
     const huri = new PayloadWrapper(payloads[0]).hash
     const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
-    const module = (await node.resolve([diviner.address])).shift() as DivinerModule
+    const module = (await node.resolve({ address: [diviner.address] })).shift() as DivinerModule
     const foundDiviner = module ? new XyoDivinerWrapper(module) : null
     expect(foundDiviner).toBeDefined()
     if (foundDiviner) {

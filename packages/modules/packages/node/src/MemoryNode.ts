@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
-import { Module, XyoModuleParams } from '@xyo-network/module'
+import { ModuleFilter, XyoModule, XyoModuleParams } from '@xyo-network/module'
+import compact from 'lodash/compact'
+import flatten from 'lodash/flatten'
 
 import { NodeConfig } from './Config'
 import { XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema } from './Queries'
 import { XyoNode } from './XyoNode'
 
-export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends XyoNode<TConfig, TModule> {
-  private attachedModuleMap = new Map<string, TModule>()
+export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends XyoNode<TConfig, TModule> {
   private registeredModuleMap = new Map<string, TModule>()
 
   static override async create(params?: XyoModuleParams<NodeConfig>): Promise<MemoryNode> {
@@ -16,34 +16,11 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
 
   override attach(address: string) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
-    this.attachedModuleMap.set(address, module)
-  }
-
-  override attached() {
-    return Array.from(this.attachedModuleMap.keys()).map((key) => {
-      return key
-    })
-  }
-
-  override attachedModules() {
-    return Array.from(this.attachedModuleMap.values()).map((value) => {
-      return value
-    })
+    this.internalResolver.add(module)
   }
 
   override detach(address: string) {
-    this.attachedModuleMap.delete(address)
-  }
-
-  override find(schema: string[]): (TModule | null)[] {
-    return schema.map((schema) => {
-      this.logger?.log(`Finding in MemoryNode: ${schema}`)
-      if (schema === 'network.xyo.archivist') {
-        this.logger?.log(`attachedModules: ${JSON.stringify(this.attachedModules(), null, 2)}`)
-        return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
-      }
-      return this.attachedModules().find((module) => module.queryable(XyoArchivistGetQuerySchema)) ?? null
-    })
+    this.internalResolver.remove(address)
   }
 
   public override queries(): string[] {
@@ -51,6 +28,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   }
 
   override register(module: TModule) {
+    module.resolver = this.internalResolver
     this.registeredModuleMap.set(module.address, module)
   }
 
@@ -66,10 +44,29 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     })
   }
 
-  override resolve(addresses: string[]): (TModule | null)[] {
-    return addresses.map((address) => {
-      this.logger?.log(`Resolving in MemoryNode: ${address}`)
-      return this.attachedModuleMap?.get(address) ?? null
-    })
+  override async resolve(filter: ModuleFilter): Promise<TModule[]> {
+    const attachedModules = await this.attachedModules()
+    const filteredByConfigSchema =
+      compact(
+        flatten(
+          filter.config?.map((schema) => {
+            return attachedModules.filter((module) => module.config.schema === schema)
+          }),
+        ),
+      ) ?? this.attachedModules()
+
+    return compact(
+      filteredByConfigSchema.filter((module) =>
+        filter.query?.map((queryList) => {
+          return queryList.reduce((supported, query) => {
+            return supported && module.queryable(query)
+          }, true)
+        }),
+      ),
+    )
+  }
+
+  override unregister(module: TModule) {
+    this.registeredModuleMap.delete(module.address)
   }
 }

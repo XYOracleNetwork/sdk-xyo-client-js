@@ -105,7 +105,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       assertEx(payloads.length > 0, 'Nothing to commit')
       const settled = await Promise.allSettled(
         compact(
-          Object.values(this.parents?.commit ?? [])?.map(async (parent) => {
+          Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
             const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
               schema: XyoArchivistInsertQuerySchema,

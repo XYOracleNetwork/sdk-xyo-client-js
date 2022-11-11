@@ -26,48 +26,58 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
   private _archivists: XyoArchivistWrapper[] | undefined
   private _witnesses: XyoWitnessWrapper[] | undefined
 
-  public get archivists() {
+  static override async create(params?: Partial<XyoModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
+    return (await super.create(params)) as XyoPanel
+  }
+
+  public async getArchivists() {
+    const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
     this._archivists =
       this._archivists ||
       compact(
-        compact((Array.isArray(this.config?.archivists) ? this.config?.archivists : [this.config?.archivists]) ?? []).map((archivist) => {
-          const module = this.resolver?.fromAddress([archivist]).shift()
-          if (module) {
-            return new XyoArchivistWrapper(module)
-          }
-          throw Error(`Archivist not found: ${archivist}`)
-        }),
+        compact(
+          await Promise.all(
+            addresses.map(async (address) => {
+              const module = ((await this.resolver?.resolve({ address: [address] })) ?? []).shift()
+              if (module) {
+                return new XyoArchivistWrapper(module)
+              }
+              throw Error(`Archivist not found: ${address}`)
+            }),
+          ),
+        ),
       )
     return this._archivists
   }
 
-  public get witnesses() {
+  public async getWitnesses() {
+    const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
     this._witnesses =
       this._witnesses ||
       compact(
-        compact((Array.isArray(this.config?.witnesses) ? this.config?.witnesses : [this.config?.witnesses]) ?? []).map((witness) => {
-          const module = this.resolver?.fromAddress([witness]).shift()
-          if (module) {
-            return new XyoWitnessWrapper(module)
-          }
-          throw Error(`Witness not found: ${witness}`)
-        }),
+        compact(
+          await Promise.all(
+            addresses.map(async (address) => {
+              const module = ((await this.resolver?.resolve({ address: [address] })) ?? []).shift()
+              if (module) {
+                return new XyoWitnessWrapper(module)
+              }
+              throw Error(`Witness not found: ${address}`)
+            }),
+          ),
+        ),
       )
     return this._witnesses
-  }
-
-  static override async create(params?: Partial<XyoModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
-    return (await super.create(params)) as XyoPanel
   }
 
   public async report(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {
     const errors: Error[] = []
     this.config?.onReportStart?.()
-    const allWitnesses = [...adhocWitnesses.map((adhoc) => new XyoWitnessWrapper(adhoc)), ...this.witnesses]
+    const allWitnesses = [...adhocWitnesses.map((adhoc) => new XyoWitnessWrapper(adhoc)), ...(await this.getWitnesses())]
     const payloads = compact(await this.generatePayloads(allWitnesses))
     const [newBoundWitness] = new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()
 
-    const bwList = (await Promise.all(this.archivists.map((archivist) => archivist.insert([newBoundWitness, ...payloads])))).flat()
+    const bwList = (await Promise.all((await this.getArchivists()).map((archivist) => archivist.insert([newBoundWitness, ...payloads])))).flat()
     this.history.push(assertEx(bwList.at(-1)))
     this.config?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
     return [bwList, [newBoundWitness, ...payloads]]

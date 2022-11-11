@@ -32,7 +32,7 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
     const typedQuery = wrapper.query
-    assertEx(this.queryable(query.schema, wrapper.addresses))
+    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const queryAccount = new XyoAccount()
 

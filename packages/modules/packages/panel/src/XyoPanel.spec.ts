@@ -37,8 +37,8 @@ describe('XyoPanel', () => {
     witnesses.forEach((witness) => resolver.add(witness))
 
     const panel = await XyoPanel.create({ config, resolver })
-    expect(panel.archivists).toBeArrayOfSize(1)
-    expect(panel.witnesses).toBeArrayOfSize(2)
+    expect(await panel.getArchivists()).toBeArrayOfSize(1)
+    expect(await panel.getWitnesses()).toBeArrayOfSize(2)
     const adhocWitness = await XyoAdhocWitness.create({
       config: {
         payload: {

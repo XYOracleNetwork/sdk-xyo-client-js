@@ -32,24 +32,42 @@ export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements
   }
 
   resolve(filter?: ModuleFilter): Promisable<TModule[]> {
-    const filteredByConfigSchema =
-      compact(
-        flatten(
-          filter?.config?.map((schema) => {
-            return Object.values(this.modules).filter((module) => module.config.schema === schema)
-          }),
-        ),
-      ) ?? Object.values(this.modules)
+    const filteredByAddress = filter?.address
+      ? compact(
+          flatten(
+            filter?.address?.map((address) => {
+              return this.modules[address]
+            }),
+          ),
+        )
+      : Object.values(this.modules)
 
-    return compact(
-      filteredByConfigSchema.filter((module) =>
-        filter?.query?.map((queryList) => {
-          return queryList.reduce((supported, query) => {
-            return supported && module.queryable(query)
-          }, true)
-        }),
-      ),
-    )
+    const filteredByConfigSchema = filter?.config
+      ? compact(
+          flatten(
+            filter?.config?.map((schema) => {
+              return filteredByAddress.filter((module) => module.config.schema === schema)
+            }),
+          ),
+        )
+      : filteredByAddress
+
+    const filteredByQuery = filter?.query
+      ? compact(
+          filteredByConfigSchema.filter((module) =>
+            filter?.query?.reduce((supported, queryList) => {
+              return (
+                queryList.reduce((supported, query) => {
+                  const queryable = module.queryable(query)
+                  return supported && queryable
+                }, true) || supported
+              )
+            }, false),
+          ),
+        )
+      : filteredByConfigSchema
+
+    return filteredByQuery
   }
 
   private addSingleModule(module?: TModule) {

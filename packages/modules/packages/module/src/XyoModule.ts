@@ -101,9 +101,11 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
 
   public queryable(schema: SchemaString, addresses?: AddressString[]): boolean {
     return this.started('warn')
-      ? !!this.queries().includes(schema) && addresses
-        ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true
-        : true
+      ? (() => {
+          const includesQuery = !!this.queries().includes(schema)
+          const allowed = addresses ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true : true
+          return includesQuery && allowed
+        })()
       : false
   }
 

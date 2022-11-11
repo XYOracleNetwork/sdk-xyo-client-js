@@ -72,7 +72,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query.schema, wrapper.addresses))
+    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     this.logger?.log(wrapper.schemaName)
 

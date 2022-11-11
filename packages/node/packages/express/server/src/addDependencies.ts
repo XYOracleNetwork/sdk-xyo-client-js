@@ -27,17 +27,16 @@ import { TYPES } from '@xyo-network/node-core-types'
 import { Logger } from '@xyo-network/shared'
 import { Application } from 'express'
 
-export const addDependencies = (app: Application) => {
+export const addDependencies = async (app: Application) => {
   app.logger = assertEx(dependencies.get<Logger>(TYPES.Logger), 'Missing Logger')
   app.moduleRegistry = assertEx(dependencies.get<ModuleRegistry>(TYPES.ModuleRegistry), 'Missing ModuleRegistry')
   app.userManager = assertEx(dependencies.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
   addArchivists(app)
-  addDiviners(app)
+  await addDiviners(app)
   addQueryProcessing(app)
 }
 
 const addArchivists = (app: Application) => {
-  app.addressHistoryDiviner = assertEx(dependencies.get<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner), 'Missing AddressHistoryDiviner')
   app.archiveArchivist = assertEx(dependencies.get<ArchiveArchivist>(TYPES.ArchiveArchivist), 'Missing ArchiveArchivist')
   app.archiveBoundWitnessArchivistFactory = assertEx(
     dependencies.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory),
@@ -61,16 +60,20 @@ const addArchivists = (app: Application) => {
   app.payloadArchivist = assertEx(dependencies.get<PayloadArchivist>(TYPES.PayloadArchivist), 'Missing PayloadArchivist')
 }
 
-const addDiviners = (app: Application) => {
-  app.boundWitnessDiviner = assertEx(dependencies.get<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner), 'Missing BoundWitnessDiviner')
+const addDiviners = async (app: Application) => {
+  app.addressHistoryDiviner = assertEx(
+    await dependencies.getAsync<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner),
+    'Missing AddressHistoryDiviner',
+  )
+  app.boundWitnessDiviner = assertEx(await dependencies.getAsync<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner), 'Missing BoundWitnessDiviner')
   app.boundWitnessStatsDiviner = assertEx(
-    dependencies.get<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner),
+    await dependencies.getAsync<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner),
     'Missing BoundWitnessStatsDiviner',
   )
-  app.moduleAddressDiviner = assertEx(dependencies.get<ModuleAddressDiviner>(TYPES.ModuleAddressDiviner), 'Missing ModuleAddressDiviner')
-  app.payloadDiviner = assertEx(dependencies.get<PayloadDiviner>(TYPES.PayloadDiviner), 'Missing PayloadDiviner')
-  app.payloadStatsDiviner = assertEx(dependencies.get<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner), 'Missing PayloadStatsDiviner')
-  app.schemaStatsDiviner = assertEx(dependencies.get<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner), 'Missing SchemaStatsDiviner')
+  app.moduleAddressDiviner = assertEx(await dependencies.getAsync<ModuleAddressDiviner>(TYPES.ModuleAddressDiviner), 'Missing ModuleAddressDiviner')
+  app.payloadDiviner = assertEx(await dependencies.getAsync<PayloadDiviner>(TYPES.PayloadDiviner), 'Missing PayloadDiviner')
+  app.payloadStatsDiviner = assertEx(await dependencies.getAsync<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner), 'Missing PayloadStatsDiviner')
+  app.schemaStatsDiviner = assertEx(await dependencies.getAsync<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner), 'Missing SchemaStatsDiviner')
 }
 
 const addQueryProcessing = (app: Application) => {

@@ -4,10 +4,10 @@ import { XyoArchivistQuery } from '@xyo-network/archivist'
 import { ModuleQueryResult } from '@xyo-network/module'
 import { ArchiveKeyArchivist } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { inject, injectable } from 'inversify'
 import { Collection, WithId } from 'mongodb'
 
-import { MONGO_TYPES } from '../../types'
+import { COLLECTIONS } from '../../collections'
+import { getBaseMongoSdk } from '../../Mongo'
 
 const fromDb = (k: WithId<XyoArchiveKey>) => {
   return {
@@ -17,9 +17,8 @@ const fromDb = (k: WithId<XyoArchiveKey>) => {
   }
 }
 
-@injectable()
 export class MongoDBArchiveKeyArchivist implements ArchiveKeyArchivist {
-  constructor(@inject(MONGO_TYPES.ArchiveKeySdkMongo) protected readonly keys: BaseMongoSdk<XyoArchiveKey>) {}
+  constructor(protected readonly keys: BaseMongoSdk<XyoArchiveKey> = getBaseMongoSdk<XyoArchiveKey>(COLLECTIONS.ArchiveKeys)) {}
   get address(): string {
     throw new Error('Module query not implemented for MongoDBArchiveKeyArchivist')
   }

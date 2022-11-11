@@ -4,6 +4,7 @@ import { XyoModuleResolver } from '@xyo-network/module'
 
 import { LocationCertaintyPayload } from '../Payload'
 import { LocationCertaintySchema } from '../Schema'
+import { LocationCertaintyDivinerConfigSchema } from './Config'
 import { LocationCertaintyDiviner } from './Diviner'
 
 const sample1: XyoLocationPayload[] = [
@@ -74,7 +75,11 @@ describe('MongoDBLocationCertaintyDiviner', () => {
   let sut: LocationCertaintyDiviner
   beforeEach(async () => {
     payloadsArchivist = await XyoMemoryArchivist.create()
-    sut = await LocationCertaintyDiviner.create({ resolver: new XyoModuleResolver().add(payloadsArchivist) })
+    const params = {
+      config: { schema: LocationCertaintyDivinerConfigSchema, targetSchema: LocationCertaintySchema },
+      resolver: new XyoModuleResolver().add(payloadsArchivist),
+    }
+    sut = await LocationCertaintyDiviner.create(params)
   })
   describe('divine', () => {
     describe('with valid query', () => {

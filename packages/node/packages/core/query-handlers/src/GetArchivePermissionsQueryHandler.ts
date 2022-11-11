@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
 import { WithAdditional } from '@xyo-network/core'

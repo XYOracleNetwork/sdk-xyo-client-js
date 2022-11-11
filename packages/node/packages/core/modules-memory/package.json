@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.40.2",
+  "version": "2.41.0",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/source-map-support": "0.5.6",
-    "jest": "^29.3.0",
+    "jest": "^29.3.1",
     "jest-extended": "^3.1.0",
     "jest-mock-extended": "^3.0.1",
     "typescript": "^4.8.4",

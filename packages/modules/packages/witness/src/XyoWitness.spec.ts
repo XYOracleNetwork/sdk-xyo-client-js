@@ -1,22 +1,70 @@
-import { Module, XyoModule } from '@xyo-network/module'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { Module, XyoModule, XyoModuleParams } from '@xyo-network/module'
+import { XyoPayloadBuilder } from '@xyo-network/payload'
 
+import { XyoWitnessConfig, XyoWitnessConfigSchema } from './Config'
 import { Witness } from './Witness'
 import { XyoWitness } from './XyoWitness'
 import { XyoWitnessWrapper } from './XyoWitnessWrapper'
 
-test('XyoWitness', async () => {
-  const witness = await XyoWitness.create({
-    config: { schema: 'xyo.network.test.witness.config', targetSchema: 'xyo.network.test' },
+const targetSchema = 'network.xyo.schema.target'
+
+describe('XyoWitness', () => {
+  const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema, targetSchema }
+  const params: XyoModuleParams<XyoWitnessConfig> = { config }
+  const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
+
+  describe('fulfills type of', () => {
+    it('Module', async () => {
+      const witness: Module = await XyoWitness.create(params)
+      expect(witness).toBeObject()
+      const wrapper = new XyoWitnessWrapper(witness)
+      expect(wrapper).toBeObject()
+    })
+    it('XyoModule', async () => {
+      const witness: XyoModule = await XyoWitness.create(params)
+      expect(witness).toBeObject()
+      const wrapper = new XyoWitnessWrapper(witness)
+      expect(wrapper).toBeObject()
+    })
+    it('Witness', async () => {
+      const witness: Witness = await XyoWitness.create(params)
+      expect(witness).toBeObject()
+      const wrapper = new XyoWitnessWrapper(witness)
+      expect(wrapper).toBeObject()
+    })
   })
-  const witnessAsModule: Module = witness
-  const witnessAsWitness: Witness = witness
-  const witnessAsXyoModule: XyoModule = witness
-  const wrapper = new XyoWitnessWrapper(witnessAsModule ?? witnessAsXyoModule ?? witnessAsWitness)
-
-  const payloads = await wrapper.observe()
-  const answerWrapper = new PayloadWrapper(payloads[0])
-
-  expect(answerWrapper.schema).toBe('xyo.network.test')
-  expect(answerWrapper.valid).toBe(true)
+  describe('observe', () => {
+    describe('with no payload supplied to observe', () => {
+      describe('returns empty array', () => {
+        it('when module queried directly', async () => {
+          const witness = await XyoWitness.create(params)
+          const observation = await witness.observe()
+          expect(observation).toBeArrayOfSize(0)
+        })
+        it('when module queried with XyoWitnessWrapper', async () => {
+          const witness = await XyoWitness.create(params)
+          const wrapper = new XyoWitnessWrapper(witness)
+          const observation = await wrapper.observe()
+          expect(observation).toBeArrayOfSize(0)
+        })
+      })
+    })
+    describe('with payload supplied to observe', () => {
+      describe('returns payloads with targetSchema', () => {
+        it('when module queried directly', async () => {
+          const witness = await XyoWitness.create(params)
+          const observation = await witness.observe([observed])
+          expect(observation).toBeArrayOfSize(1)
+          expect(observation?.[0]?.schema).toBe(targetSchema)
+        })
+        it('when module queried with XyoWitnessWrapper', async () => {
+          const witness = await XyoWitness.create(params)
+          const wrapper = new XyoWitnessWrapper(witness)
+          const observation = await wrapper.observe([observed])
+          expect(observation).toBeArrayOfSize(1)
+          expect(observation?.[0]?.schema).toBe(targetSchema)
+        })
+      })
+    })
+  })
 })

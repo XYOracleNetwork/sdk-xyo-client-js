@@ -42,7 +42,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     })
   }
 
-  override async resolve(filter: ModuleFilter): Promise<TModule[]> {
+  override async resolve(filter?: ModuleFilter): Promise<TModule[]> {
     return (await this.internalResolver.resolve(filter)) ?? (await this.resolver?.resolve(filter)) ?? []
   }
 

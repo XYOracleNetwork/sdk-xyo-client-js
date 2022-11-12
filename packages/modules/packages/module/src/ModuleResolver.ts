@@ -4,5 +4,5 @@ import { Module, ModuleFilter } from './Module'
 
 export interface ModuleResolver {
   isModuleResolver: boolean
-  resolve(filter: ModuleFilter): Promisable<Module[]>
+  resolve(filter?: ModuleFilter): Promisable<Module[]>
 }

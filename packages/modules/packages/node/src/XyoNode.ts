@@ -122,5 +122,5 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 
   abstract attach(_address: string): void
   abstract detach(_address: string): void
-  abstract resolve(_filter: ModuleFilter): Promisable<TModule[]>
+  abstract resolve(_filter?: ModuleFilter): Promisable<TModule[]>
 }

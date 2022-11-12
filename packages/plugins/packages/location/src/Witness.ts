@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
 import { Quadkey } from '@xyo-network/quadkey'
 import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
@@ -11,17 +12,25 @@ export const XyoLocationWitnessConfigSchema: XyoLocationWitnessConfigSchema = 'n
 export type XyoLocationWitnessConfig = XyoWitnessConfig<
   XyoLocationPayload,
   {
-    geolocation: Geolocation
     schema: XyoLocationWitnessConfigSchema
   }
 >
+
+export type XyoLocationWitnessParams = XyoModuleParams<XyoLocationWitnessConfig> & { geolocation: Geolocation }
 
 export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
   static override configSchema = XyoLocationWitnessConfigSchema
   static override targetSchema = XyoLocationSchema
 
-  public get geolocation() {
-    return this.config?.geolocation
+  private _geolocation: Geolocation
+
+  constructor(params: XyoLocationWitnessParams) {
+    super(params)
+    this._geolocation = params?.geolocation
+  }
+
+  public get geolocation(): Geolocation {
+    return assertEx(this._geolocation, 'No geolocation provided')
   }
 
   static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {

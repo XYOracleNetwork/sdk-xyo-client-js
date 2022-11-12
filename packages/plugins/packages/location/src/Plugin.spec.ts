@@ -13,10 +13,10 @@ describe('XyoLocationPayloadPlugin', () => {
     const resolver = new XyoPayloadPluginResolver().register(XyoLocationPayloadPlugin(), {
       witness: {
         config: {
-          geolocation: navigator.geolocation,
           schema: XyoLocationWitnessConfigSchema,
           targetSchema: XyoLocationSchema,
         },
+        geolocation: navigator.geolocation,
       },
     })
     expect(resolver.resolve({ schema: XyoLocationSchema })).toBeObject()

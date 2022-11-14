@@ -1,6 +1,7 @@
 import { Promisable } from '@xyo-network/promise'
 
-import { Module, ModuleFilter } from './Module'
+import { Module } from './Module'
+import { ModuleFilter } from './ModuleFilter'
 
 export interface ModuleResolver {
   isModuleResolver: boolean

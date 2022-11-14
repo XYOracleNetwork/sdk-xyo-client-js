@@ -69,14 +69,21 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
       await Promise.all(
         hashes.map(async (hash) => {
           try {
-            const [payloads, response, error] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
-            if (error?.status >= 400) {
-              throw new RemoteArchivistError('get', `${error.statusText} [${error.status}]`)
+            const [payloads = [], payloadEnvelope, payloadResponse] = await this.api.archive(this.archive).payload.hash(hash).get('tuple')
+            if (payloadResponse?.status >= 400) {
+              throw new RemoteArchivistError('get', `Invalid payload status [${payloadResponse.status}]`, 'payloads')
             }
-            if (response?.error?.length) {
-              throw new RemoteArchivistError('get', response?.error)
+            if (payloadEnvelope?.error?.length) {
+              throw new RemoteArchivistError('get', payloadEnvelope.error.shift(), 'payloads')
             }
-            return payloads?.pop()
+            const [blocks = [], blockEnvelope, blockResponse] = await this.api.archive(this.archive).block.hash(hash).get('tuple')
+            if (blockResponse?.status >= 400) {
+              throw new RemoteArchivistError('get', `Invalid block status [${blockResponse.status}]`, 'payloads')
+            }
+            if (blockEnvelope?.error?.length) {
+              throw new RemoteArchivistError('get', blockEnvelope.error.shift(), 'blocks')
+            }
+            return payloads?.[0] ?? blocks?.[0]
           } catch (ex) {
             console.error(ex)
             throw ex

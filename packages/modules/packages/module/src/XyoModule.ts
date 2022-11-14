@@ -134,6 +134,10 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return
   }
 
+  public toJSON(): string {
+    throw new Error('toJSON Not Implemented')
+  }
+
   protected bindHashes(hashes: string[], schema: SchemaString[], account?: XyoAccount) {
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)

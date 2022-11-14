@@ -12,4 +12,5 @@ export interface Module<TConfig extends XyoPayload = XyoPayload> {
   query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) => Promisable<ModuleQueryResult>
   queryable: (schema: string, addresses?: string[]) => boolean
   resolver?: ModuleResolver
+  toJSON: () => string
 }

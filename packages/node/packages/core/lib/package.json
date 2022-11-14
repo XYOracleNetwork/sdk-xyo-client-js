@@ -33,7 +33,7 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "@xyo-network/utils": "workspace:^",
-    "ajv": "^8.11.0",
+    "ajv": "^8.11.2",
     "bcrypt": "^5.1.0",
     "source-map-support": "^0.5.21"
   },

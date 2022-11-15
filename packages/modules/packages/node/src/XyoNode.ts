@@ -127,7 +127,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
     await new XyoArchivistWrapper(await this.getArchivist()).insert([bw, payload])
   }
 
-  abstract attach(_address: string): void
-  abstract detach(_address: string): void
-  abstract resolve(_filter?: ModuleFilter): Promisable<TModule[]>
+  abstract attach(address: string): void
+  abstract detach(address: string): void
+  abstract resolve(filter?: ModuleFilter): Promisable<TModule[]>
 }

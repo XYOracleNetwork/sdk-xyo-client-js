@@ -149,8 +149,25 @@ describe('MemoryNode', () => {
       node.detach('4a15a6c96665931b76c1d2a587ea1132dbfdc266')
     })
   })
-  describe('detached', () => {
-    // TODO:
+  describe('registeredModules', () => {
+    let module: XyoModule
+    beforeEach(async () => {
+      module = await XyoMemoryArchivist.create()
+    })
+    describe('with no modules registered', () => {
+      it('returns empty array', () => {
+        const modules = node.registeredModules()
+        expect(modules).toBeArrayOfSize(0)
+      })
+    })
+    describe('with modules registered', () => {
+      it('returns registered modules', () => {
+        node.register(module)
+        const modules = node.registeredModules()
+        expect(modules).toBeArrayOfSize(1)
+        expect(modules).toContain(module)
+      })
+    })
   })
   describe('description', () => {
     const archivistConfig = { schema: XyoMemoryArchivistConfigSchema }

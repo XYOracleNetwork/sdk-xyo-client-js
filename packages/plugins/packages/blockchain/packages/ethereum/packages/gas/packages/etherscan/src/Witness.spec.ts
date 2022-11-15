@@ -31,15 +31,9 @@ describe('XyoEtherscanEthereumGasWitness', () => {
     expect(answerWrapper.valid).toBe(true)
   })
 
-  test('observe [no params]', async () => {
-    const didThrow = async () => {
-      try {
-        await XyoEtherscanEthereumGasWitness.create()
-        return false
-      } catch {
-        return true
-      }
-    }
-    expect(await didThrow()).toBe(true)
+  describe('create', () => {
+    it('throws if no params provided', async () => {
+      await expect(XyoEtherscanEthereumGasWitness.create()).toReject()
+    })
   })
 })

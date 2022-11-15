@@ -67,6 +67,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('description', () => {
+    const testNodeAccount = new XyoAccount({ phrase: 'testPhrase1' })
     let node: MemoryNode
     const validateModuleDescription = (description: ModuleDescription) => {
       expect(description).toBeObject()
@@ -76,28 +77,30 @@ describe('MemoryNode', () => {
         expect(query).toBeString()
       })
     }
-
     describe('node without children', () => {
       beforeAll(async () => {
-        node = await MemoryNode.create()
+        node = await MemoryNode.create({ account: testNodeAccount, config: { schema: NodeConfigSchema } })
       })
       it('describes node alone', async () => {
         const description = await node.description()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(0)
       })
+      it('serializes to JSON consistently', async () => {
+        const description = await node.description()
+        expect(JSON.stringify(description)).toMatchSnapshot()
+      })
     })
     describe('node with children', () => {
-      const testAccount1 = new XyoAccount({ phrase: 'testPhrase1' })
-      const testAccount2 = new XyoAccount({ phrase: 'testPhrase2' })
-      const testAccount3 = new XyoAccount({ phrase: 'testPhrase3' })
+      const testArchivistAccount1 = new XyoAccount({ phrase: 'testPhrase2' })
+      const testArchivistAccount2 = new XyoAccount({ phrase: 'testPhrase3' })
       let modules: XyoModule[]
       beforeAll(async () => {
-        node = await MemoryNode.create({ config: { schema: NodeConfigSchema } })
+        node = await MemoryNode.create({ account: testNodeAccount, config: { schema: NodeConfigSchema } })
         const config = { schema: XyoMemoryArchivistConfigSchema }
         modules = await Promise.all([
-          await XyoMemoryArchivist.create({ account: testAccount2, config }),
-          await XyoMemoryArchivist.create({ account: testAccount3, config }),
+          await XyoMemoryArchivist.create({ account: testArchivistAccount1, config }),
+          await XyoMemoryArchivist.create({ account: testArchivistAccount2, config }),
         ])
         modules.map((archivist) => {
           node.register(archivist)
@@ -109,6 +112,10 @@ describe('MemoryNode', () => {
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(modules.length)
         description.children?.map(validateModuleDescription)
+      })
+      it('serializes to JSON consistently', async () => {
+        const description = await node.description()
+        expect(JSON.stringify(description)).toMatchSnapshot()
       })
     })
   })

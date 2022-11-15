@@ -93,7 +93,7 @@ describe('MemoryNode', () => {
       })
       it('serializes to JSON consistently', async () => {
         const description = await rootNode.description()
-        expect(JSON.stringify(description)).toMatchSnapshot()
+        expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
     describe('node with children', () => {
@@ -116,7 +116,7 @@ describe('MemoryNode', () => {
       })
       it('serializes to JSON consistently', async () => {
         const description = await rootNode.description()
-        expect(JSON.stringify(description)).toMatchSnapshot()
+        expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
     describe('node with nested node and children', () => {
@@ -143,8 +143,12 @@ describe('MemoryNode', () => {
       })
       it('serializes to JSON consistently', async () => {
         const description = await rootNode.description()
-        expect(JSON.stringify(description)).toMatchSnapshot()
+        expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
   })
 })
+
+const prettyPrintDescription = (description: ModuleDescription) => {
+  return JSON.stringify(description, null, 2)
+}

@@ -169,6 +169,15 @@ describe('MemoryNode', () => {
       })
     })
   })
+  describe('unregister', () => {
+    it('un-registers module', async () => {
+      const module = await XyoMemoryArchivist.create()
+      node.register(module)
+      expect(node.registeredModules()).toContain(module)
+      node.unregister(module)
+      expect(node.registeredModules()).not.toContain(module)
+    })
+  })
   describe('description', () => {
     const archivistConfig = { schema: XyoMemoryArchivistConfigSchema }
     const validateModuleDescription = (description: ModuleDescription) => {

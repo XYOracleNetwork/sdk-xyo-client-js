@@ -50,6 +50,10 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return this.account.addressValue.hex
   }
 
+  public get description(): ModuleDescription {
+    return { address: this.address, queries: this.queries() }
+  }
+
   public get disallowedAddresses() {
     return this.config?.security?.disallowed
   }
@@ -59,10 +63,6 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     const actualParams: Partial<XyoModuleParams<XyoModuleConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
     return await new this(actualParams as XyoModuleParams<XyoModuleConfig>).start()
-  }
-
-  public description(): ModuleDescription {
-    return { address: this.address, queries: this.queries() }
   }
 
   public discover(_queryAccount?: XyoAccount): Promisable<XyoPayload[]> {

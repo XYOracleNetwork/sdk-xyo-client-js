@@ -26,7 +26,7 @@ const handler: RequestHandler<AddressPathParams, ModuleDescription> = (req, res,
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
     const mod = activeModules[normalizedAddress]
     if (mod) {
-      res.json(mod.description())
+      res.json(mod.description)
       return
     }
   }

@@ -7,6 +7,6 @@ export interface NodeModule<TModule extends Module = Module> extends Node, Modul
   attachedModules(): PromisableArray<TModule>
   register(module: TModule): Promisable<void>
   registeredModules(): PromisableArray<TModule>
-  resolve(filter?: ModuleFilter): Promisable<TModule[]>
+  resolve(filter?: ModuleFilter): PromisableArray<TModule>
   unregister(module: TModule): Promisable<void>
 }

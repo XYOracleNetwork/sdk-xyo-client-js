@@ -1,5 +1,6 @@
-import { ModuleDescription } from '../Module'
-
-export interface NodeInfo extends ModuleDescription {
+// TODO: Extend ModuleDescription
+export interface NodeInfo {
+  address: string
+  queries: string[]
   url: string
 }

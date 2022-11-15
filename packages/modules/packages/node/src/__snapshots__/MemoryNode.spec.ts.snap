@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MemoryNode description node with children serializes to JSON consistently 1`] = `
+exports[`MemoryNode description node with child modules serializes to JSON consistently 1`] = `
 "{
   "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
   "queries": [
@@ -42,7 +42,7 @@ exports[`MemoryNode description node with children serializes to JSON consistent
 }"
 `;
 
-exports[`MemoryNode description node with nested node and children serializes to JSON consistently 1`] = `
+exports[`MemoryNode description node with nested nodes and modules serializes to JSON consistently 1`] = `
 "{
   "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
   "queries": [
@@ -95,7 +95,7 @@ exports[`MemoryNode description node with nested node and children serializes to
 }"
 `;
 
-exports[`MemoryNode description node without children serializes to JSON consistently 1`] = `
+exports[`MemoryNode description node without child modules serializes to JSON consistently 1`] = `
 "{
   "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
   "queries": [

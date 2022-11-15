@@ -23,7 +23,7 @@ describe('MemoryNode', () => {
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeEach(async () => {
-    node = await MemoryNode.create({ config: nodeConfig })
+    node = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
   })
   describe('create', () => {
     it('Creates MemoryNode', async () => {
@@ -154,7 +154,6 @@ describe('MemoryNode', () => {
   })
   describe('description', () => {
     const archivistConfig = { schema: XyoMemoryArchivistConfigSchema }
-    let rootNode: MemoryNode
     const validateModuleDescription = (description: ModuleDescription) => {
       expect(description).toBeObject()
       expect(description.address).toBeString()
@@ -163,46 +162,41 @@ describe('MemoryNode', () => {
         expect(query).toBeString()
       })
     }
-    describe('node without children', () => {
-      beforeAll(async () => {
-        rootNode = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
-      })
+    describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const description = await rootNode.description()
+        const description = await node.description()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await rootNode.description()
+        const description = await node.description()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
-    describe('node with children', () => {
-      beforeAll(async () => {
-        rootNode = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
+    describe('node with child modules', () => {
+      beforeEach(async () => {
         const modules = await Promise.all([
           await XyoMemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
           await XyoMemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
         modules.map((mod) => {
-          rootNode.register(mod)
-          rootNode.attach(mod.address)
+          node.register(mod)
+          node.attach(mod.address)
         })
       })
-      it('describes node and children', async () => {
-        const description = await rootNode.description()
+      it('describes node and child modules', async () => {
+        const description = await node.description()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
         description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await rootNode.description()
+        const description = await node.description()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
-    describe('node with nested node and children', () => {
-      beforeAll(async () => {
-        rootNode = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
+    describe('node with nested nodes and modules', () => {
+      beforeEach(async () => {
         const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
         const nestedModules = await Promise.all([await XyoMemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
         nestedModules.map((mod) => {
@@ -212,18 +206,18 @@ describe('MemoryNode', () => {
         const rootModules: XyoModule[] = await Promise.all([await XyoMemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
         rootModules.map((mod) => {
-          rootNode.register(mod)
-          rootNode.attach(mod.address)
+          node.register(mod)
+          node.attach(mod.address)
         })
       })
-      it('describes all nested nodes and children', async () => {
-        const description = await rootNode.description()
+      it('describes node and all nested nodes and child modules', async () => {
+        const description = await node.description()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
         description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await rootNode.description()
+        const description = await node.description()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })

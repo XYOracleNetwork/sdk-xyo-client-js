@@ -57,7 +57,6 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
   public async getArchivist(): Promise<Module> {
     if (!this._archivist) {
       this._archivist =
-        this._archivist ??
         (this.config?.archivist ? ((await this.resolver?.resolve({ address: [this.config?.archivist] })) ?? []).shift() : undefined) ??
         (await XyoMemoryArchivist.create())
     }

@@ -199,14 +199,14 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return account ?? new XyoAccount()
   }
 
-  protected start(_timeout?: number): Promisable<typeof this> {
+  protected start(_timeout?: number): Promisable<this> {
     this.validateConfig()
     this.initializeAllowedAddressSets()
     this._started = true
     return this
   }
 
-  protected stop(_timeout?: number): Promisable<typeof this> {
+  protected stop(_timeout?: number): Promisable<this> {
     this.allowedAddressSets = undefined
     this._started = false
     return this

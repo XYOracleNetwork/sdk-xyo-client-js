@@ -88,12 +88,12 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
     return [new XyoPayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build()]
   }
 
-  protected override async start(): Promise<typeof this> {
+  protected override async start(): Promise<this> {
     await this.registerWithChangeStream()
     return await super.start()
   }
 
-  protected override async stop(): Promise<typeof this> {
+  protected override async stop(): Promise<this> {
     await this.changeStream?.close()
     return await super.stop()
   }

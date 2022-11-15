@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { XyoArchivistWrapper, XyoMemoryArchivist } from '@xyo-network/archivist'
+import { XyoArchivistWrapper, XyoMemoryArchivist, XyoMemoryArchivistConfigSchema } from '@xyo-network/archivist'
 import {
   DivinerModule,
   XyoArchivistPayloadDiviner,
@@ -9,8 +9,9 @@ import {
   XyoHuriSchema,
 } from '@xyo-network/diviner'
 import { ModuleDescription, XyoModule, XyoModuleResolver } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
+import { PayloadWrapper, XyoAccount, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
 
+import { NodeConfigSchema } from './Config'
 import { MemoryNode } from './MemoryNode'
 import { NodeModule } from './NodeModule'
 
@@ -75,29 +76,40 @@ describe('MemoryNode', () => {
         expect(query).toBeString()
       })
     }
-    beforeEach(async () => {
-      node = await MemoryNode.create()
-    })
-    it('describes a node without children', async () => {
-      const description = await node.description()
-      validateModuleDescription(description)
-      expect(description.children).toBeArrayOfSize(0)
-    })
-    it('describes a node with children', async () => {
-      const archivists = await Promise.all([
-        await XyoMemoryArchivist.create(),
-        await XyoMemoryArchivist.create(),
-        await XyoMemoryArchivist.create(),
-        await XyoMemoryArchivist.create(),
-      ])
-      archivists.map((archivist) => {
-        node.register(archivist)
-        node.attach(archivist.address)
+
+    describe('node without children', () => {
+      beforeAll(async () => {
+        node = await MemoryNode.create()
       })
-      const description = await node.description()
-      validateModuleDescription(description)
-      expect(description.children).toBeArrayOfSize(4)
-      description.children?.map(validateModuleDescription)
+      it('describes node alone', async () => {
+        const description = await node.description()
+        validateModuleDescription(description)
+        expect(description.children).toBeArrayOfSize(0)
+      })
+    })
+    describe('node with children', () => {
+      const testAccount1 = new XyoAccount({ phrase: 'testPhrase1' })
+      const testAccount2 = new XyoAccount({ phrase: 'testPhrase2' })
+      const testAccount3 = new XyoAccount({ phrase: 'testPhrase3' })
+      let modules: XyoModule[]
+      beforeAll(async () => {
+        node = await MemoryNode.create({ config: { schema: NodeConfigSchema } })
+        const config = { schema: XyoMemoryArchivistConfigSchema }
+        modules = await Promise.all([
+          await XyoMemoryArchivist.create({ account: testAccount2, config }),
+          await XyoMemoryArchivist.create({ account: testAccount3, config }),
+        ])
+        modules.map((archivist) => {
+          node.register(archivist)
+          node.attach(archivist.address)
+        })
+      })
+      it('describes node and children', async () => {
+        const description = await node.description()
+        validateModuleDescription(description)
+        expect(description.children).toBeArrayOfSize(modules.length)
+        description.children?.map(validateModuleDescription)
+      })
     })
   })
 })

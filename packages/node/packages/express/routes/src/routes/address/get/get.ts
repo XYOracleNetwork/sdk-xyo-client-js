@@ -1,7 +1,6 @@
 // import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { Module } from '@xyo-network/module'
-import { getModuleDescription, trimAddressPrefix } from '@xyo-network/node-core-lib'
-import { ModuleDescription } from '@xyo-network/node-core-model'
+import { Module, ModuleDescription } from '@xyo-network/module'
+import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { Request, RequestHandler } from 'express'
 
 import { AddressPathParams } from '../AddressPathParams'
@@ -27,7 +26,7 @@ const handler: RequestHandler<AddressPathParams, ModuleDescription> = (req, res,
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
     const mod = activeModules[normalizedAddress]
     if (mod) {
-      res.json(getModuleDescription(mod))
+      res.json(mod.description())
       return
     }
   }

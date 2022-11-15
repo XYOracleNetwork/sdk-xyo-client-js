@@ -16,6 +16,43 @@ import { MemoryNode } from './MemoryNode'
 import { NodeModule } from './NodeModule'
 
 describe('MemoryNode', () => {
+  describe('register', () => {
+    it('registers module', async () => {
+      const node: NodeModule = await MemoryNode.create()
+      const module = await XyoMemoryArchivist.create()
+      await node.register(module)
+    })
+  })
+  describe('registered', () => {
+    it('lists registered modules', async () => {
+      const node: NodeModule = await MemoryNode.create()
+      const module = await XyoMemoryArchivist.create()
+      await node.register(module)
+      const result = await node.registered()
+      expect(result).toBeArrayOfSize(1)
+      expect(result).toEqual([module.address])
+    })
+  })
+  describe('attach', () => {
+    it('attaches module', async () => {
+      // TODO:
+    })
+    it('attaches modules', () => {
+      // TODO:
+    })
+    it('handles empty modules', () => {
+      // TODO:
+    })
+  })
+  describe('attached', () => {
+    // TODO:
+  })
+  describe('detach', () => {
+    // TODO:
+  })
+  describe('detached', () => {
+    // TODO:
+  })
   describe('create', () => {
     it('Creates MemoryNode', async () => {
       const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist

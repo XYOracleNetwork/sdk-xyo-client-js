@@ -13,7 +13,6 @@ import {
   BoundWitnessStatsDiviner,
   IdentifiableHuri,
   ModuleAddressDiviner,
-  ModuleRegistry,
   PayloadArchivist,
   PayloadDiviner,
   PayloadStatsDiviner,
@@ -29,7 +28,6 @@ import { Application } from 'express'
 
 export const addDependencies = async (app: Application) => {
   app.logger = assertEx(dependencies.get<Logger>(TYPES.Logger), 'Missing Logger')
-  app.moduleRegistry = assertEx(dependencies.get<ModuleRegistry>(TYPES.ModuleRegistry), 'Missing ModuleRegistry')
   app.userManager = assertEx(dependencies.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
   addArchivists(app)
   await addDiviners(app)

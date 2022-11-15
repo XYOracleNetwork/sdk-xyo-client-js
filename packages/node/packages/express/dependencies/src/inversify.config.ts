@@ -8,7 +8,6 @@ import { config } from 'dotenv'
 import { Container } from 'inversify'
 
 import { addAuth } from './addAuth'
-import { addInMemoryModuleRegistry } from './addInMemoryModuleRegistry'
 import { addInMemoryQueueing } from './addInMemoryQueueing'
 import { addPayloadHandlers } from './addPayloadHandlers'
 import { addQueryConverterRegistry } from './addQueryConverterRegistry'
@@ -51,7 +50,6 @@ export const configureDependencies = async () => {
   await addMongo(dependencies)
   addAuth(dependencies)
   addPayloadHandlers(dependencies)
-  addInMemoryModuleRegistry(dependencies)
   addInMemoryQueueing(dependencies)
   addQueryConverterRegistry(dependencies)
   addQueryProcessorRegistry(dependencies)

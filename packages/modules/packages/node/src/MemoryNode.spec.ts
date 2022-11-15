@@ -16,6 +16,15 @@ import { MemoryNode } from './MemoryNode'
 import { NodeModule } from './NodeModule'
 
 describe('MemoryNode', () => {
+  const testAccount1 = new XyoAccount({ phrase: 'testPhrase1' })
+  const testAccount2 = new XyoAccount({ phrase: 'testPhrase2' })
+  const testAccount3 = new XyoAccount({ phrase: 'testPhrase3' })
+  const testAccount4 = new XyoAccount({ phrase: 'testPhrase4' })
+  const nodeConfig = { schema: NodeConfigSchema }
+  let node: MemoryNode
+  beforeEach(async () => {
+    node = await MemoryNode.create({ config: nodeConfig })
+  })
   describe('create', () => {
     it('Creates MemoryNode', async () => {
       const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
@@ -68,24 +77,24 @@ describe('MemoryNode', () => {
   })
   describe('register', () => {
     it('registers module', async () => {
-      const node = await MemoryNode.create()
       const module = await XyoMemoryArchivist.create()
       node.register(module)
     })
   })
   describe('registered', () => {
     describe('with no modules registered', () => {
-      it('returns empty array', async () => {
-        const node = await MemoryNode.create()
+      it('returns empty array', () => {
         const result = node.registered()
         expect(result).toBeArrayOfSize(0)
       })
     })
     describe('with modules registered', () => {
-      it('lists addresses of registered modules', async () => {
-        const node = await MemoryNode.create()
-        const module = await XyoMemoryArchivist.create()
+      let module: XyoModule
+      beforeEach(async () => {
+        module = await XyoMemoryArchivist.create()
         node.register(module)
+      })
+      it('lists addresses of registered modules', () => {
         const result = node.registered()
         expect(result).toBeArrayOfSize(1)
         expect(result).toEqual([module.address])
@@ -93,47 +102,57 @@ describe('MemoryNode', () => {
     })
   })
   describe('attach', () => {
-    it('attaches module', async () => {
-      const node = await MemoryNode.create()
-      const module = await XyoMemoryArchivist.create()
+    let module: XyoModule
+    beforeEach(async () => {
+      module = await XyoMemoryArchivist.create()
       node.register(module)
+    })
+    it('attaches module', () => {
       node.attach(module.address)
     })
   })
   describe('attached', () => {
+    let module: XyoModule
+    beforeEach(async () => {
+      module = await XyoMemoryArchivist.create()
+      node.register(module)
+    })
     describe('with no modules attached', () => {
       it('returns empty array', async () => {
-        const node = await MemoryNode.create()
-        const module = await XyoMemoryArchivist.create()
-        node.register(module)
         const result = await node.attached()
         expect(result).toBeArrayOfSize(0)
       })
     })
     describe('with modules attached', () => {
-      it('lists addresses of attached modules', async () => {
-        const node = await MemoryNode.create()
-        const module = await XyoMemoryArchivist.create()
-        node.register(module)
+      beforeEach(() => {
         node.attach(module.address)
-        const result = node.registered()
+      })
+      it('lists addresses of attached modules', async () => {
+        node.attach(module.address)
+        const result = await node.attached()
         expect(result).toBeArrayOfSize(1)
         expect(result).toEqual([module.address])
       })
     })
   })
   describe('detach', () => {
-    // TODO:
+    let module: XyoModule
+    beforeEach(async () => {
+      module = await XyoMemoryArchivist.create()
+      node.register(module)
+      node.attach(module.address)
+    })
+    it('deregisters existing module', () => {
+      node.detach(module.address)
+    })
+    it('allows deregistering non-existent module', () => {
+      node.detach('4a15a6c96665931b76c1d2a587ea1132dbfdc266')
+    })
   })
   describe('detached', () => {
     // TODO:
   })
   describe('description', () => {
-    const testAccount1 = new XyoAccount({ phrase: 'testPhrase1' })
-    const testAccount2 = new XyoAccount({ phrase: 'testPhrase2' })
-    const testAccount3 = new XyoAccount({ phrase: 'testPhrase3' })
-    const testAccount4 = new XyoAccount({ phrase: 'testPhrase4' })
-    const nodeConfig = { schema: NodeConfigSchema }
     const archivistConfig = { schema: XyoMemoryArchivistConfigSchema }
     let rootNode: MemoryNode
     const validateModuleDescription = (description: ModuleDescription) => {

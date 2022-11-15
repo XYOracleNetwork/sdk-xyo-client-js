@@ -1,6 +1,5 @@
-// TODO: Extend ModuleDescription
-export interface NodeInfo {
-  address: string
-  queries: string[]
+import { ModuleDescription } from '@xyo-network/module'
+
+export interface NodeInfo extends ModuleDescription {
   url: string
 }

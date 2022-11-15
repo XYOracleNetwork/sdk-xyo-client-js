@@ -3,6 +3,7 @@ import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistWrapper, XyoMemoryArchivist } from '@xyo-network/archivist'
 import {
   Module,
+  ModuleDescription,
   ModuleFilter,
   ModuleQueryResult,
   ModuleResolver,
@@ -45,6 +46,12 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 
   async attachedModules(): Promise<TModule[]> {
     return await (this.internalResolver.resolve() ?? [])
+  }
+
+  override async description(): Promise<ModuleDescription> {
+    const desc = await super.description()
+    const children = await Promise.all((await this.attachedModules()).map((mod) => mod.description()))
+    return { ...desc, children }
   }
 
   public async getArchivist(): Promise<Module> {

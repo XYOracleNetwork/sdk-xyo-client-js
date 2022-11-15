@@ -61,7 +61,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return await new this(actualParams as XyoModuleParams<XyoModuleConfig>).start()
   }
 
-  public description(): ModuleDescription {
+  public description(): Promisable<ModuleDescription> {
     return { address: this.address, queries: this.queries() }
   }
 

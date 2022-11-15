@@ -27,9 +27,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xyo-network/module": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
-    "lru-cache": "^7.14.1",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {

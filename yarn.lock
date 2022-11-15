@@ -5670,6 +5670,7 @@ __metadata:
     "@xylabs/sdk-api-express-ecs": ^1.2.5
     "@xyo-network/express-node-lib": "workspace:^"
     "@xyo-network/express-node-middleware": "workspace:^"
+    "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-modules-memory": "workspace:^"
     "@xyo-network/node-core-modules-mongo": "workspace:^"
@@ -5923,6 +5924,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-payload-plugin@workspace:packages/plugins/packages/location"
   dependencies:
+    "@xylabs/assert": ^2.6.9
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
@@ -6076,12 +6078,10 @@ __metadata:
   resolution: "@xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/modules-memory"
   dependencies:
     "@types/source-map-support": 0.5.6
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     jest: ^29.3.1
     jest-extended: ^3.1.0
     jest-mock-extended: ^3.0.1
-    lru-cache: ^7.14.1
     source-map-support: ^0.5.21
     typescript: ^4.8.4
     uuid: ^9.0.0

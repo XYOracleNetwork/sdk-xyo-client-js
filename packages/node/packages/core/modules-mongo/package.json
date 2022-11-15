@@ -58,7 +58,7 @@
     "pako": "*"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.188",
+    "@types/lodash": "^4.14.189",
     "uuid": "^9.0.0"
   },
   "types": "dist/esm/index.d.ts"

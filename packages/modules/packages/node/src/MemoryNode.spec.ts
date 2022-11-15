@@ -9,7 +9,7 @@ import {
   XyoHuriSchema,
 } from '@xyo-network/diviner'
 import { ModuleDescription, XyoModule, XyoModuleResolver } from '@xyo-network/module'
-import { PayloadWrapper, XyoAccount, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/sdk'
+import { PayloadWrapper, XyoAccount, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { NodeConfigSchema } from './Config'
 import { MemoryNode } from './MemoryNode'

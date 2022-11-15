@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 
-import { XyoAccount } from '@xyo-network/account'
+import { XyoAccount, XyoAddressValue } from '@xyo-network/account'
 import { Hasher, StringKeyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 

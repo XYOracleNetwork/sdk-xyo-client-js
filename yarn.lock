@@ -5531,7 +5531,6 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
-    "@xyo-network/module-instance-payload-plugin": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     axios: ^1.1.3

@@ -10,6 +10,7 @@ import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
 import { Module } from './Module'
+import { ModuleDescription } from './ModuleDescription'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { ModuleResolver } from './ModuleResolver'
 import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
@@ -58,6 +59,10 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     const actualParams: Partial<XyoModuleParams<XyoModuleConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
     return await new this(actualParams as XyoModuleParams<XyoModuleConfig>).start()
+  }
+
+  public description(): ModuleDescription {
+    return { address: this.address, queries: this.queries() }
   }
 
   public discover(_queryAccount?: XyoAccount): Promisable<XyoPayload[]> {
@@ -132,10 +137,6 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
 
   public subscribe(_queryAccount?: XyoAccount) {
     return
-  }
-
-  public toJSON(): string {
-    throw new Error('toJSON Not Implemented')
   }
 
   protected bindHashes(hashes: string[], schema: SchemaString[], account?: XyoAccount) {

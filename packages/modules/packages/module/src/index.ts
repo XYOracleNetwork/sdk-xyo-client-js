@@ -1,5 +1,6 @@
 export * from './Config'
 export * from './Module'
+export * from './ModuleDescription'
 export * from './ModuleFilter'
 export * from './ModuleQueryResult'
 export * from './ModuleResolver'

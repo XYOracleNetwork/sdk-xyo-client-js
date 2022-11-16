@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "@xylabs/exists": "^2.6.9",
-    "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^",
+    "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "tslib": "^2.4.1"
   },
   "devDependencies": {

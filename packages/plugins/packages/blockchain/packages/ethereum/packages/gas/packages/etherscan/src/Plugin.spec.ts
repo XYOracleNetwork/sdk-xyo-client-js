@@ -1,15 +1,19 @@
 import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { XyoEthereumGasPayloadPlugin } from './Plugin'
-import { XyoEthereumGasSchema } from './Schema'
-import { XyoEthereumGasWitness } from './Witness'
+import { XyoEthereumGasEtherscanPayloadPlugin } from './Plugin'
+import { XyoEthereumGasEtherscanSchema } from './Schema'
+import { XyoEthereumGasEtherscanWitness } from './Witness'
 
-describe('XyoEthereumGasPayloadPlugin', () => {
-  test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasPayloadPlugin(), {
-      witness: { config: { apiKey, schema: XyoEthereumGasWitness.configSchema, targetSchema: XyoEthereumGasWitness.targetSchema } },
+const apiKey = process.env.ETHERSCAN_API_KEY || ''
+
+const testIf = (condition: string | undefined) => (condition ? it : it.skip)
+
+describe('XyoEthereumGasEtherscanPayloadPlugin', () => {
+  testIf(apiKey)('Add to Resolver', () => {
+    const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasEtherscanPayloadPlugin(), {
+      witness: { config: { apiKey, schema: XyoEthereumGasEtherscanWitness.configSchema, targetSchema: XyoEthereumGasEtherscanWitness.targetSchema } },
     })
-    expect(resolver.resolve({ schema: XyoEthereumGasSchema })).toBeObject()
-    expect(resolver.witness(XyoEthereumGasSchema)).toBeObject()
+    expect(resolver.resolve({ schema: XyoEthereumGasEtherscanSchema })).toBeObject()
+    expect(resolver.witness(XyoEthereumGasEtherscanSchema)).toBeObject()
   })
 })

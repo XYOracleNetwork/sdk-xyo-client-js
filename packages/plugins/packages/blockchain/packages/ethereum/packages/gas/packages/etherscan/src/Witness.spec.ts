@@ -1,15 +1,15 @@
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoEthereumGasEtherscanSchema, XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
-import { XyoEtherscanEthereumGasWitness } from './Witness'
+import { XyoEthereumGasEtherscanWitness } from './Witness'
 
 const apiKey = process.env.ETHERSCAN_API_KEY || ''
 
 const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 
-describe('XyoEtherscanEthereumGasWitness', () => {
+describe('XyoEthereumGasEtherscanWitness', () => {
   testIf(apiKey)('returns observation', async () => {
-    const sut = await XyoEtherscanEthereumGasWitness.create({
+    const sut = await XyoEthereumGasEtherscanWitness.create({
       config: {
         apiKey,
         schema: XyoEthereumGasEtherscanWitnessConfigSchema,
@@ -33,7 +33,7 @@ describe('XyoEtherscanEthereumGasWitness', () => {
 
   describe('create', () => {
     it('throws if no params provided', async () => {
-      await expect(XyoEtherscanEthereumGasWitness.create()).toReject()
+      await expect(XyoEthereumGasEtherscanWitness.create()).toReject()
     })
   })
 })

@@ -4,13 +4,13 @@ import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 import { XyoEthereumGasEtherscanWitnessConfig } from './Config'
 import { XyoEthereumGasEtherscanPayload } from './Payload'
 import { XyoEthereumGasEtherscanSchema } from './Schema'
-import { XyoEtherscanEthereumGasWitness } from './Witness'
+import { XyoEthereumGasEtherscanWitness } from './Witness'
 
 export const XyoEthereumGasEtherscanPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoEthereumGasEtherscanPayload, XyoModuleParams<XyoEthereumGasEtherscanWitnessConfig>>({
     auto: true,
     schema: XyoEthereumGasEtherscanSchema,
     witness: async (params) => {
-      return await XyoEtherscanEthereumGasWitness.create(params)
+      return await XyoEthereumGasEtherscanWitness.create(params)
     },
   })

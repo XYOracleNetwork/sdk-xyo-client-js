@@ -7,13 +7,13 @@ import { getGasFromEtherscan } from './lib'
 import { XyoEthereumGasEtherscanPayload } from './Payload'
 import { XyoEthereumGasEtherscanSchema, XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 
-export class XyoEtherscanEthereumGasWitness extends XyoTimestampWitness<XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanWitnessConfig> {
+export class XyoEthereumGasEtherscanWitness extends XyoTimestampWitness<XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanWitnessConfig> {
   static override configSchema = XyoEthereumGasEtherscanWitnessConfigSchema
   static override targetSchema = XyoEthereumGasEtherscanSchema
 
-  static override async create(params?: XyoModuleParams<XyoEthereumGasEtherscanWitnessConfig>): Promise<XyoEtherscanEthereumGasWitness> {
+  static override async create(params?: XyoModuleParams<XyoEthereumGasEtherscanWitnessConfig>): Promise<XyoEthereumGasEtherscanWitness> {
     assertEx(params?.config?.apiKey, 'apiKey is required')
-    return (await super.create(params)) as XyoEtherscanEthereumGasWitness
+    return (await super.create(params)) as XyoEthereumGasEtherscanWitness
   }
 
   override async observe(): Promise<XyoEthereumGasEtherscanPayload[]> {

@@ -1,2 +1,2 @@
-export * from './sampleCoinGecko'
-export * from './sampleUniswap'
+export * from './etherchain'
+export * from './sampleEtherscanGas'

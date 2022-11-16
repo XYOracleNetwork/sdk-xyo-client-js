@@ -2,9 +2,11 @@ import { XyoEthereumGasEtherchainV1Schema, XyoEthereumGasEtherchainV2Schema } fr
 import { XyoEthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
+import { transformGasFromEtherscan } from './transforms'
+
 export const divineGas = (payloads: XyoPayloads): XyoPayload => {
   const etherChainV1 = payloads.filter((p) => p.schema === XyoEthereumGasEtherchainV1Schema)
   const etherChainV2 = payloads.filter((p) => p.schema === XyoEthereumGasEtherchainV2Schema)
-  const etherscan = payloads.filter((p) => p.schema === XyoEthereumGasEtherscanSchema)
+  const etherscan = payloads.filter((p) => p.schema === XyoEthereumGasEtherscanSchema).map(transformGasFromEtherscan)
   throw new Error('Not Implemented')
 }

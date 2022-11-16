@@ -3,7 +3,7 @@ import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
-import { divinePrices } from './lib'
+import { divineGas } from './lib'
 import { XyoEthereumGasPayload } from './Payload'
 import { XyoEthereumGasDivinerConfigSchema, XyoEthereumGasSchema } from './Schema'
 
@@ -16,7 +16,7 @@ export class XyoEthereumGasDiviner extends XyoDiviner {
   }
 
   public override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
-    const cost = divinePrices()
+    const cost = divineGas()
     return [cost]
   }
 

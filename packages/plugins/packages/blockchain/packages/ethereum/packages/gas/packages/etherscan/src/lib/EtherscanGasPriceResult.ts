@@ -1,6 +1,5 @@
 export interface EtherscanGasPriceResult {
   message: string
-
   result: {
     FastGasPrice: string
     LastBlock: string

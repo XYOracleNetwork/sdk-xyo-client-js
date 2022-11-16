@@ -1,17 +1,16 @@
-import { EtherscanGasPriceResult } from './EtherscanGasPriceResult'
+import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
+
 import { transformGasFromEtherscan } from './transformGasFromEtherscan'
 
-const testGasResult: EtherscanGasPriceResult = {
-  message: 'OK',
-  result: {
-    FastGasPrice: '14',
-    LastBlock: '15104985',
-    ProposeGasPrice: '14',
-    SafeGasPrice: '13',
-    gasUsedRatio: '0.470762306044819,0.0495756568995755,0.277106417265312,0.177710966485911,0.810219668615072',
-    suggestBaseFee: '12.929815536',
-  },
-  status: '1',
+const testGasResult: XyoEthereumGasEtherscanPayload = {
+  FastGasPrice: '14',
+  LastBlock: '15104985',
+  ProposeGasPrice: '14',
+  SafeGasPrice: '13',
+  gasUsedRatio: '0.470762306044819,0.0495756568995755,0.277106417265312,0.177710966485911,0.810219668615072',
+  schema: XyoEthereumGasEtherscanSchema,
+  suggestBaseFee: '12.929815536',
+  timestamp: 0,
 }
 
 describe('transformGasFromEtherscan', () => {

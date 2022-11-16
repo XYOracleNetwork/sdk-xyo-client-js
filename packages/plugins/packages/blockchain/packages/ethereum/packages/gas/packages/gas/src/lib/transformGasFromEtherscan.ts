@@ -1,6 +1,6 @@
-import { EtherscanGasPriceResult } from './EtherscanGasPriceResult'
+import { XyoEthereumGasEtherscanPayload } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 
-export const transformGasFromEtherscan = (response: EtherscanGasPriceResult) => {
+export const transformGasFromEtherscan = (payload: XyoEthereumGasEtherscanPayload) => {
   const {
     FastGasPrice,
     LastBlock,
@@ -8,7 +8,7 @@ export const transformGasFromEtherscan = (response: EtherscanGasPriceResult) => 
     SafeGasPrice,
     gasUsedRatio: unparsedGasUsedRatio,
     suggestBaseFee: unparsedSuggestBaseFee,
-  } = response.result
+  } = payload
   const fastGasPrice: number = parseInt(FastGasPrice, 10)
   const lastBlock: number = parseInt(LastBlock, 10)
   const proposeGasPrice: number = parseInt(ProposeGasPrice, 10)

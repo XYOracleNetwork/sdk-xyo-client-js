@@ -2,10 +2,13 @@ import { exists } from '@xylabs/exists'
 
 import { TransactionCosts } from '../Model'
 
-export const average = (...input: (TransactionCosts | undefined)[]): TransactionCosts => {
+export const average = (input?: (TransactionCosts | undefined)[]): TransactionCosts => {
   // Get all the assets represented
-  const filtered = input.filter(exists)
+  const filtered = input?.filter(exists) || []
   const count = filtered.length
+  if (count < 1) {
+    throw new Error('Unable to compute average on empty list')
+  }
   const sum: TransactionCosts = filtered.reduce((a, b) => {
     return {
       baseFee: {

@@ -3141,9 +3141,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/providers@npm:^10.2.0":
-  version: 10.2.0
-  resolution: "@metamask/providers@npm:10.2.0"
+"@metamask/providers@npm:^10.2.1":
+  version: 10.2.1
+  resolution: "@metamask/providers@npm:10.2.1"
   dependencies:
     "@metamask/object-multiplex": ^1.1.0
     "@metamask/safe-event-emitter": ^2.0.0
@@ -3154,10 +3154,10 @@ __metadata:
     fast-deep-equal: ^2.0.1
     is-stream: ^2.0.0
     json-rpc-engine: ^6.1.0
-    json-rpc-middleware-stream: ^4.2.0
+    json-rpc-middleware-stream: ^4.2.1
     pump: ^3.0.0
     webextension-polyfill-ts: ^0.25.0
-  checksum: a20b637281ca1bfdb20fdf2886148fb40ffca4c6aa07194753ea92f5beb4f91961834440173c8ccfc3f1eb172d1dfb441c6825d1332bca5163007fabfaca3bcd
+  checksum: e88b2db8c4673cc6a7e47d9f0531df3fac73f05f8e9ff6d02c3420dfb3c7a82335d9c44876f2d472c44eac36d66491d2022be4f39600bee561d5de8ad59c5b07
   languageName: node
   linkType: hard
 
@@ -5508,7 +5508,7 @@ __metadata:
     inversify: ^6.0.1
     lodash: ^4.17.21
     lru-cache: ^7.14.1
-    mongodb: ^4.11.0
+    mongodb: ^4.12.0
     reflect-metadata: ^0.1.13
     uuid: ^9.0.0
   peerDependencies:
@@ -5556,7 +5556,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    systeminformation: ^5.12.14
+    systeminformation: ^5.12.15
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5818,7 +5818,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.9
-    mongodb: ^4.11.0
+    mongodb: ^4.12.0
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5909,7 +5909,7 @@ __metadata:
   resolution: "@xyo-network/utils@workspace:packages/sdk/packages/utils"
   dependencies:
     "@ethersproject/providers": ^5.7.2
-    "@metamask/providers": ^10.2.0
+    "@metamask/providers": ^10.2.1
     "@types/lru-cache": ^7.10.10
     "@xylabs/delay": ^2.6.9
     "@xyo-network/domain-payload-plugin": "workspace:^"
@@ -7904,13 +7904,6 @@ __metadata:
   version: 1.0.0
   resolution: "delegates@npm:1.0.0"
   checksum: a51744d9b53c164ba9c0492471a1a2ffa0b6727451bdc89e31627fdf4adda9d51277cfcbfb20f0a6f08ccb3c436f341df3e92631a3440226d93a8971724771fd
-  languageName: node
-  linkType: hard
-
-"denque@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "denque@npm:2.1.0"
-  checksum: 1d4ae1d05e59ac3a3481e7b478293f4b4c813819342273f3d5b826c7ffa9753c520919ba264f377e09108d24ec6cf0ec0ac729a5686cbb8f32d797126c5dae74
   languageName: node
   linkType: hard
 
@@ -11551,13 +11544,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-rpc-middleware-stream@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "json-rpc-middleware-stream@npm:4.2.0"
+"json-rpc-middleware-stream@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "json-rpc-middleware-stream@npm:4.2.1"
   dependencies:
     "@metamask/safe-event-emitter": ^2.0.0
     readable-stream: ^2.3.3
-  checksum: eccdac47843f2cf6bb0344d2e509791307c2f2e6358ac5b78a7a14c0a079deb0851ed41b68d6126b7ed413a7ff364bb6e98907dcd06f3cf4a032246865e41c59
+  checksum: 207c34ba2c55ff072864422ba48b03f49dd1bc488f0d9c017c7474d3f2514bd4b1cc14daf5324f96887cdaf8e5c1018701960f55fb45e9c3224e3d7db9f70765
   languageName: node
   linkType: hard
 
@@ -12917,13 +12910,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.1.0, mongodb@npm:^4.11.0, mongodb@npm:^4.8.0":
-  version: 4.11.0
-  resolution: "mongodb@npm:4.11.0"
+"mongodb@npm:^4.1.0, mongodb@npm:^4.12.0, mongodb@npm:^4.8.0":
+  version: 4.12.0
+  resolution: "mongodb@npm:4.12.0"
   dependencies:
     "@aws-sdk/credential-providers": ^3.186.0
     bson: ^4.7.0
-    denque: ^2.1.0
     mongodb-connection-string-url: ^2.5.4
     saslprep: ^1.0.3
     socks: ^2.7.1
@@ -12932,7 +12924,7 @@ __metadata:
       optional: true
     saslprep:
       optional: true
-  checksum: 3080c2f58dc712ca6d0a34b0f4101c3ca66fbf86360b2a5ea2b64a9f757b4a0d7b77851688657fc3240ac748ddcd69c21ec2f7c785f10cb7d41e00e863f415ec
+  checksum: 002a92eecfeb160d07aa83f8f9e4fa33a06816635606a85312713150eba41cb17abf92b785ca1ecc7c8de40519ef119d372896f2a1cd4902f92447d26a80b000
   languageName: node
   linkType: hard
 
@@ -17325,12 +17317,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.12.14":
-  version: 5.12.14
-  resolution: "systeminformation@npm:5.12.14"
+"systeminformation@npm:^5.12.15":
+  version: 5.12.15
+  resolution: "systeminformation@npm:5.12.15"
   bin:
     systeminformation: lib/cli.js
-  checksum: 22c4a023076fdec7a284a2b66aea8f971349164ac8f324f7dad10da0ba4bc971f47ede8fe1bdeea19409c7ee6212f7669e0d87f48278beedbda196406c2c7cc0
+  checksum: 0936d44e943808a15415a54860dbd212c7135a450b2c11df0b9a84f521c34c7f0384a6e835e7964e25c6866ec7eb257989868654f483a289986d6b4a12c87f58
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

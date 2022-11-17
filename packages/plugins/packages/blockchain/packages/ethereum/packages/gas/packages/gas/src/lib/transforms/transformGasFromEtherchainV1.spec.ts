@@ -43,7 +43,7 @@ describe('transformGasFromEtherchainV1', () => {
         veryHigh: 4000000000,
       },
       priorityFee: {
-        medium: 45.6,
+        medium: 45600000000,
       },
     })
   })

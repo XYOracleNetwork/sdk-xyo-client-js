@@ -1,9 +1,11 @@
 import { XyoPayload } from '@xyo-network/payload'
 
+import { TransactionCosts } from './Model'
 import { XyoEthereumGasSchema } from './Schema'
 
-export interface XyoEthereumGasPayload extends XyoPayload {
-  price: string
-  schema: XyoEthereumGasSchema
-  timestamp: number
-}
+export type XyoEthereumGasPayload = XyoPayload<
+  TransactionCosts & {
+    schema: XyoEthereumGasSchema
+    timestamp: number
+  }
+>

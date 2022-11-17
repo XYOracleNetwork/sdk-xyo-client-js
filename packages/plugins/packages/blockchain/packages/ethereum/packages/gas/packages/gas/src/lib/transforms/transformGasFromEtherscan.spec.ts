@@ -19,15 +19,19 @@ const testGasResult: XyoEthereumGasEtherscanPayload = {
 
 describe('transformGasFromEtherscan', () => {
   test('returns string results transformed to numeric values', () => {
-    const actual = transformGasFromEtherscan(testGasResult)
-    expect(actual).toBeObject
-    expect(actual.fastGasPrice).toBeNumber()
-    expect(actual.gasUsedRatio).toBeArray()
-    expect(actual.gasUsedRatio.length).toBeGreaterThan(0)
-    actual.gasUsedRatio.map((x) => expect(x).toBeNumber())
-    expect(actual.lastBlock).toBeNumber()
-    expect(actual.proposeGasPrice).toBeNumber()
-    expect(actual.safeGasPrice).toBeNumber()
-    expect(actual.suggestBaseFee).toBeNumber()
+    const result = transformGasFromEtherscan(testGasResult)
+    expect(result).toBeObject()
+
+    expect(result.gas).toBeObject()
+    expect(result.gas.low).toBeNumber()
+    expect(result.gas.medium).toBeNumber()
+    expect(result.gas.high).toBeNumber()
+    expect(result.gas.veryHigh).toBeNumber()
+
+    expect(result.baseFee).toBeObject()
+    expect(result.baseFee.medium).toBeNumber()
+
+    expect(result.priorityFee).toBeObject()
+    expect(result.priorityFee.medium).toBeNumber()
   })
 })

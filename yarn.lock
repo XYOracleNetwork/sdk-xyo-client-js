@@ -5504,7 +5504,7 @@ __metadata:
     "@xyo-network/sdk-xyo-mongo-js": ^2.2.9
     "@xyo-network/shared": "workspace:^"
     "@xyo-network/storage": "workspace:^"
-    agenda: ^4.4.0
+    agenda: ^5.0.0
     inversify: ^6.0.1
     lodash: ^4.17.21
     lru-cache: ^7.14.1
@@ -6043,17 +6043,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"agenda@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "agenda@npm:4.4.0"
+"agenda@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "agenda@npm:5.0.0"
   dependencies:
-    cron-parser: ^3.0.0
+    cron-parser: ^3.5.0
     date.js: ~0.3.3
-    debug: ~4.3.0
-    human-interval: ~2.0.0
+    debug: ~4.3.4
+    human-interval: ~2.0.1
     moment-timezone: ~0.5.37
-    mongodb: ^4.1.0
-  checksum: 52cc5a429a5493cc341f6e509c12fc3ebcf7c8d3aefa70fe30db3e03fb361ecdb4b0b76ff733911bad84395425f1575e33560e1b2130ca45340e940ed63bca12
+    mongodb: ^4.11.0
+  checksum: 3dfa4f4b770d66dab9e2a0841eb81d8d1ce2ba6c9e540463058cee136200ba610a54c734446be924e40c48c146ecfee2220b4da6348b9b879e4d59a94dbbedb2
   languageName: node
   linkType: hard
 
@@ -7600,7 +7600,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron-parser@npm:^3.0.0":
+"cron-parser@npm:^3.5.0":
   version: 3.5.0
   resolution: "cron-parser@npm:3.5.0"
   dependencies:
@@ -7711,7 +7711,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:~4.3.0":
+"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:~4.3.4":
   version: 4.3.4
   resolution: "debug@npm:4.3.4"
   dependencies:
@@ -10033,7 +10033,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"human-interval@npm:~2.0.0":
+"human-interval@npm:~2.0.1":
   version: 2.0.1
   resolution: "human-interval@npm:2.0.1"
   dependencies:
@@ -12910,7 +12910,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.1.0, mongodb@npm:^4.12.0, mongodb@npm:^4.8.0":
+"mongodb@npm:^4.11.0, mongodb@npm:^4.12.0, mongodb@npm:^4.8.0":
   version: 4.12.0
   resolution: "mongodb@npm:4.12.0"
   dependencies:

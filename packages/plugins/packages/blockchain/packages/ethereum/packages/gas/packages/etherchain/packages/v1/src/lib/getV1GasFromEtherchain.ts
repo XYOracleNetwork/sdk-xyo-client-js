@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-import { EtherchainGasPriceResultV1 } from './EtherchainGasPriceResultV1'
+import { EthereumGasEtherchainV1Response } from '../Payload'
 
-export const getV1GasFromEtherchain = async (): Promise<EtherchainGasPriceResultV1> => {
-  const etherchainGasPrices = (await axios.get<EtherchainGasPriceResultV1>('https://www.etherchain.org/api/gasPriceOracle')).data
+export const getV1GasFromEtherchain = async (): Promise<EthereumGasEtherchainV1Response> => {
+  const etherchainGasPrices = (await axios.get<EthereumGasEtherchainV1Response>('https://www.etherchain.org/api/gasPriceOracle')).data
   return etherchainGasPrices
 }

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@metamask/providers": "^10.2.0",
+    "@metamask/providers": "^10.2.1",
     "@xylabs/delay": "^2.6.9",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",

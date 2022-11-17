@@ -25,6 +25,8 @@
     "initializables",
     "jsdom",
     "keccak",
+    "microether",
+    "milliether",
     "pako",
     "Promisable",
     "satoshi",

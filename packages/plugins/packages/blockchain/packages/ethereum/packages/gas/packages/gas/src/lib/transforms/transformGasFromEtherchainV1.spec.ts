@@ -3,10 +3,10 @@ import { XyoEthereumGasEtherchainV1Payload, XyoEthereumGasEtherchainV1Schema } f
 import { transformGasFromEtherchainV1 } from './transformGasFromEtherchainV1'
 
 const testGasResult: XyoEthereumGasEtherchainV1Payload = {
-  currentBaseFee: 16.1,
-  fast: 1,
-  fastest: 1,
-  recommendedBaseFee: 32.7,
+  currentBaseFee: 12.3,
+  fast: 3,
+  fastest: 4,
+  recommendedBaseFee: 45.6,
   safeLow: 0.1,
   schema: XyoEthereumGasEtherchainV1Schema,
   standard: 0.2,
@@ -29,5 +29,22 @@ describe('transformGasFromEtherchainV1', () => {
 
     expect(result.priorityFee).toBeObject()
     expect(result.priorityFee.medium).toBeNumber()
+  })
+  it('', () => {
+    const result = transformGasFromEtherchainV1(testGasResult)
+    expect(result).toMatchObject({
+      baseFee: {
+        medium: 12300000000,
+      },
+      gas: {
+        high: 3000000000,
+        low: 100000000,
+        medium: 200000000,
+        veryHigh: 4000000000,
+      },
+      priorityFee: {
+        medium: 45.6,
+      },
+    })
   })
 })

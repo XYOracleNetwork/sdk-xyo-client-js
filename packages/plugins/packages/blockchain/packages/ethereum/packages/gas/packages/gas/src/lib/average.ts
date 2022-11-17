@@ -21,10 +21,11 @@ export const average = (input?: (TransactionCosts | undefined)[]): TransactionCo
         veryHigh: a.gas.veryHigh + b.gas.veryHigh,
       },
       priorityFee: {
+        low: a.priorityFee.low + b.priorityFee.low,
         medium: a.priorityFee.medium + b.priorityFee.medium,
       },
     }
-  })
+  }, filtered[0])
   const average: TransactionCosts = {
     baseFee: {
       medium: sum.baseFee.medium / count,
@@ -36,6 +37,7 @@ export const average = (input?: (TransactionCosts | undefined)[]): TransactionCo
       veryHigh: sum.gas.veryHigh / count,
     },
     priorityFee: {
+      low: sum.priorityFee.low / count,
       medium: sum.priorityFee.medium / count,
     },
   }

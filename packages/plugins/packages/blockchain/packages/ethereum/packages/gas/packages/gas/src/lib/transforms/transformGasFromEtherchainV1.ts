@@ -2,6 +2,7 @@ import { parseUnits } from '@ethersproject/units'
 import { XyoEthereumGasEtherchainV1Payload } from '@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins'
 
 import { BaseFeeRange, GasRange, PriorityFeeRange, TransactionCosts } from '../../Model'
+import { MinPriorityFee } from './PriorityFeeConstants'
 
 const getGasRange = (payload: XyoEthereumGasEtherchainV1Payload): GasRange => {
   const { fast, fastest, safeLow, standard } = payload
@@ -18,10 +19,16 @@ const getBaseFeeRange = (payload: XyoEthereumGasEtherchainV1Payload): BaseFeeRan
   return { medium }
 }
 
+const getPriorityFeeRange = (payload: XyoEthereumGasEtherchainV1Payload): PriorityFeeRange => {
+  const { recommendedBaseFee } = payload
+  const low = MinPriorityFee
+  const medium = Math.max(parseUnits(recommendedBaseFee.toString(), 'gwei').toNumber(), low)
+  return { low, medium }
+}
+
 export const transformGasFromEtherchainV1 = (payload: XyoEthereumGasEtherchainV1Payload): TransactionCosts => {
-  const { currentBaseFee, recommendedBaseFee } = payload
   const gas = getGasRange(payload)
   const baseFee = getBaseFeeRange(payload)
-  const priorityFee: PriorityFeeRange = { medium: Math.max(recommendedBaseFee - currentBaseFee, currentBaseFee) }
+  const priorityFee = getPriorityFeeRange(payload)
   return { baseFee, gas, priorityFee }
 }

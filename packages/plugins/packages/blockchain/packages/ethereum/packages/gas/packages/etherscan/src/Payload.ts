@@ -1,10 +1,22 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { EtherscanGasPriceResult } from './lib'
 import { XyoEthereumGasEtherscanSchema } from './Schema'
 
+export interface EthereumGasEtherscanResponse {
+  message: string
+  result: {
+    FastGasPrice: string
+    LastBlock: string
+    ProposeGasPrice: string
+    SafeGasPrice: string
+    gasUsedRatio: string
+    suggestBaseFee: string
+  }
+  status: string
+}
+
 export type XyoEthereumGasEtherscanPayload = XyoPayload<
-  EtherscanGasPriceResult['result'] & {
+  EthereumGasEtherscanResponse['result'] & {
     schema: XyoEthereumGasEtherscanSchema
     timestamp: number
   }

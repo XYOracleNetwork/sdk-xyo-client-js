@@ -1,6 +1,6 @@
 export interface GasRange {
-  average: number
   high: number
   low: number
+  medium: number
   veryHigh: number
 }

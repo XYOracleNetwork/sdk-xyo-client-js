@@ -16,7 +16,7 @@ export interface EthereumGasEtherscanResponse {
 }
 
 export type XyoEthereumGasEtherscanPayload = XyoPayload<
-  EthereumGasEtherscanResponse['result'] & {
+  EthereumGasEtherscanResponse & {
     schema: XyoEthereumGasEtherscanSchema
     timestamp: number
   }

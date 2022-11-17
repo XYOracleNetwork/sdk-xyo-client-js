@@ -8,7 +8,7 @@ export const transformGasFromEtherscan = (payload: XyoEthereumGasEtherscanPayloa
     SafeGasPrice,
     gasUsedRatio: unparsedGasUsedRatio,
     suggestBaseFee: unparsedSuggestBaseFee,
-  } = payload
+  } = payload.result
   const fastGasPrice: number = parseInt(FastGasPrice, 10)
   const lastBlock: number = parseInt(LastBlock, 10)
   const proposeGasPrice: number = parseInt(ProposeGasPrice, 10)

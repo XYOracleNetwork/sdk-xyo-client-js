@@ -3,14 +3,18 @@ import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@
 import { transformGasFromEtherscan } from './transformGasFromEtherscan'
 
 const testGasResult: XyoEthereumGasEtherscanPayload = {
-  FastGasPrice: '14',
-  LastBlock: '15104985',
-  ProposeGasPrice: '14',
-  SafeGasPrice: '13',
-  gasUsedRatio: '0.470762306044819,0.0495756568995755,0.277106417265312,0.177710966485911,0.810219668615072',
+  message: 'OK',
+  result: {
+    FastGasPrice: '13',
+    LastBlock: '15986476',
+    ProposeGasPrice: '13',
+    SafeGasPrice: '12',
+    gasUsedRatio: '0.345005466666667,0.391415466666667,0.424558733333333,0.513428133333333,0.428615366666667',
+    suggestBaseFee: '11.744544475',
+  },
   schema: XyoEthereumGasEtherscanSchema,
-  suggestBaseFee: '12.929815536',
-  timestamp: 0,
+  status: '1',
+  timestamp: 1668648728013,
 }
 
 describe('transformGasFromEtherscan', () => {

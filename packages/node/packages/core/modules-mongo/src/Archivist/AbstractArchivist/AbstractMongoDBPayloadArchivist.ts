@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig, BoundWitnessValidator, XyoBoundWitness } from '@xyo-network/boundwitness'
@@ -12,16 +10,14 @@ import {
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { inject, injectable, named } from 'inversify'
 import LruCache from 'lru-cache'
 import { ExplainVerbosity, Filter, OptionalUnlessRequiredId, WithoutId } from 'mongodb'
 
+import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
-import { removeId } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 const builderConfig: BoundWitnessBuilderConfig = { inlinePayloads: false }
 
@@ -29,7 +25,6 @@ const valid = (bw: XyoBoundWitness) => {
   return new BoundWitnessValidator(bw).validate().length === 0
 }
 
-@injectable()
 export abstract class AbstractMongoDBPayloadArchivist<
   T extends EmptyObject = EmptyObject,
   TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,
@@ -37,9 +32,9 @@ export abstract class AbstractMongoDBPayloadArchivist<
   protected readonly witnessedPayloads: LruCache<string, XyoPayloadWithMeta<T>> = new LruCache({ max: 1, ttl: 10000 })
 
   public constructor(
-    @inject(TYPES.Account) @named('root') protected readonly account: XyoAccount,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>,
-    @inject(MONGO_TYPES.BoundWitnessSdkMongo) protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>,
+    protected readonly account: XyoAccount = new XyoAccount({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
+    protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>> = getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads),
+    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     config?: TConfig,
   ) {
     super(account, config)

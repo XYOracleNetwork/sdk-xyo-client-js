@@ -19,3 +19,5 @@ dist
 !.yarn/versions
 
 coverage
+
+swagger.json

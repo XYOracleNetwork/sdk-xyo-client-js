@@ -4,15 +4,14 @@ import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
 import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
-import { BoundWitnessesArchivist, Initializable, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
+import { BoundWitnessesArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
+import { Job, JobProvider } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
-import { MONGO_TYPES } from '../../../types'
+import { COLLECTIONS } from '../../../collections'
+import { getBaseMongoSdk } from '../../../Mongo'
 
 export type CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
 export const CoinCurrentUserWitnessSchema: CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
@@ -41,16 +40,14 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
 
 export const isLocationPayload = (x?: XyoPayload | null): x is XyoLocationPayload => x?.schema === XyoLocationSchema
 
-@injectable()
-export class CoinUserLocationsDiviner extends XyoDiviner implements CoinUserLocationsDiviner, Initializable, JobProvider {
+export class CoinUserLocationsDiviner extends XyoDiviner implements CoinUserLocationsDiviner, JobProvider {
   constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) protected readonly account: XyoAccount,
-    @inject(TYPES.PayloadArchivist) protected readonly payloads: PayloadArchivist,
-    @inject(TYPES.BoundWitnessArchivist) protected readonly bws: BoundWitnessesArchivist,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>,
+    protected readonly account: XyoAccount = new XyoAccount(),
+    protected readonly payloads: PayloadArchivist,
+    protected readonly bws: BoundWitnessesArchivist,
+    protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
   ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
+    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
   }
 
   get jobs(): Job[] {
@@ -91,10 +88,6 @@ export class CoinUserLocationsDiviner extends XyoDiviner implements CoinUserLoca
     }
     // else return empty response
     return []
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 
   private divineUserLocationsBatch = async () => {

@@ -1,58 +1,126 @@
-import { ModuleResolver, ModuleResolverEventFunc } from './ModuleResolver'
+import { assertEx } from '@xylabs/assert'
+import { Promisable } from '@xyo-network/promise'
+import compact from 'lodash/compact'
+import flatten from 'lodash/flatten'
+
+import { ModuleFilter } from './ModuleFilter'
+import { ModuleResolver } from './ModuleResolver'
 import { XyoModule } from './XyoModule'
 
-export class XyoModuleResolver implements ModuleResolver {
-  private handlers: ModuleResolverEventFunc<XyoModule>[] = []
-  private modules: Record<string, XyoModule> = {}
+export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements ModuleResolver {
+  private addressToName: Record<string, string> = {}
+  private modules: Record<string, TModule> = {}
+  private nameToAddress: Record<string, string> = {}
 
   public get isModuleResolver() {
     return true
   }
 
-  add(module?: XyoModule | XyoModule[]) {
+  add(module: TModule, name?: string): ModuleResolver
+  add(module: TModule[], name?: string[]): ModuleResolver
+  add(module: TModule | TModule[], name?: string | string[]) {
     if (Array.isArray(module)) {
-      module.forEach((module) => this.addSingleModule(module))
+      const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
+      assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
+      module.forEach((module, index) => this.addSingleModule(module, nameArray?.[index]))
     } else {
-      this.addSingleModule(module)
+      this.addSingleModule(module, typeof name === 'string' ? name : undefined)
     }
     return this
   }
 
-  fromAddress(addresses: string[]): (XyoModule | null)[] {
-    return addresses.map((address) => this.modules[address] ?? null)
-  }
-
-  fromQuery(schema: string[]): XyoModule[] {
-    return Object.values(this.modules).filter((module) => schema.reduce((prev, schema) => prev && module.queryable(schema), true))
-  }
-
-  remove(module?: XyoModule | XyoModule[]) {
-    if (Array.isArray(module)) {
-      module.forEach((module) => this.removeSingleModule(module))
+  remove(name: string | string[]): XyoModuleResolver
+  remove(address: string | string[]): XyoModuleResolver {
+    if (Array.isArray(address)) {
+      address.forEach((address) => this.removeSingleModule(address))
     } else {
-      this.removeSingleModule(module)
+      this.removeSingleModule(address)
     }
     return this
   }
 
-  subscribe(handler: ModuleResolverEventFunc): void {
-    this.unsubscribe(handler)
-    this.handlers.push(handler)
+  resolve(filter?: ModuleFilter): Promisable<TModule[]> {
+    const filteredByName: TModule[] = this.resolveByName(Object.values(this.modules), filter?.name)
+
+    const filteredByAddress = this.resolveByAddress(filteredByName, filter?.address)
+
+    const filteredByConfigSchema = this.resolveByConfigSchema(filteredByAddress, filter?.config)
+
+    const filteredByQuery = this.resolveByQuery(filteredByConfigSchema, filter?.query)
+
+    return filteredByQuery
   }
 
-  unsubscribe(handler: ModuleResolverEventFunc): void {
-    this.handlers = this.handlers.filter((item) => item !== handler)
-  }
-
-  private addSingleModule(module?: XyoModule) {
+  private addSingleModule(module?: TModule, name?: string) {
     if (module) {
       this.modules[module.address] = module
+      if (name) {
+        this.nameToAddress[name] = module.address
+        this.addressToName[module.address] = name
+      }
     }
   }
 
-  private removeSingleModule(module?: XyoModule) {
-    if (module) {
-      delete this.modules[module.address]
+  private removeSingleModule(addressOrName: string) {
+    const resolvedAddress = this.modules[addressOrName] ? addressOrName : this.nameToAddress[addressOrName]
+    if (resolvedAddress) {
+      if (this.modules[resolvedAddress]) {
+        delete this.modules[resolvedAddress]
+        const name = this.addressToName[resolvedAddress]
+        if (name) {
+          delete this.nameToAddress[name]
+          delete this.addressToName[resolvedAddress]
+        }
+      }
     }
+  }
+
+  private resolveByAddress(modules: TModule[], address?: string[]): TModule[] {
+    return address
+      ? compact(
+          flatten(
+            address?.map((address) => {
+              return modules.filter((module) => module.address === address)
+            }),
+          ),
+        )
+      : modules
+  }
+
+  private resolveByConfigSchema(modules: TModule[], schema?: string[]): TModule[] {
+    return schema
+      ? compact(
+          flatten(
+            schema?.map((schema) => {
+              return modules.filter((module) => module.config.schema === schema)
+            }),
+          ),
+        )
+      : modules
+  }
+
+  private resolveByName(modules: TModule[], name?: string[]) {
+    if (name) {
+      const address = name.map((name) => assertEx(this.nameToAddress[name], 'name not found'))
+      return this.resolveByAddress(modules, address)
+    }
+    return modules
+  }
+
+  private resolveByQuery(modules: TModule[], query?: string[][]) {
+    return query
+      ? compact(
+          modules.filter((module) =>
+            query?.reduce((supported, queryList) => {
+              return (
+                queryList.reduce((supported, query) => {
+                  const queryable = module.queryable(query)
+                  return supported && queryable
+                }, true) || supported
+              )
+            }, false),
+          ),
+        )
+      : modules
   }
 }

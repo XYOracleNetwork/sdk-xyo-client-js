@@ -10,7 +10,7 @@
           "--inspect-brk",
           "${workspaceRoot}/node_modules/.bin/jest",
           "--runInBand",
-          "packages/sdk/packages/panel/src/XyoPanel.spec.ts"
+          "${workspaceRoot}/packages/modules/src/XyoModuleResolver.spec.ts"
         ]
       },
       "windows": {
@@ -31,10 +31,10 @@
       "type": "node",
       "request": "launch",
       "osx": {
-        "program": "${workspaceRoot}/node_modules/.bin/jest",
+        "program": "${workspaceRoot}/node_modules/.bin/jest"
       },
       "windows": {
-        "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+        "program": "${workspaceRoot}/node_modules/jest/bin/jest.js"
       },
       "args": [
         "--forceExit",

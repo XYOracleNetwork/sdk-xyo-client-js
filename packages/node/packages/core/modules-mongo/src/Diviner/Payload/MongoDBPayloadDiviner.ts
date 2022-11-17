@@ -1,30 +1,24 @@
-import 'reflect-metadata'
-
-import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
-import { Initializable, isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
+import { XyoArchivistPayloadDivinerConfig, XyoDiviner } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
+import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
+import { Job, JobProvider } from '@xyo-network/shared'
 import { Filter, SortDirection } from 'mongodb'
 
+import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
-import { removeId } from '../../Mongo'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-@injectable()
-export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner, Initializable, JobProvider {
-  constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) account: XyoAccount,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>,
-  ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
-  }
+export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner, JobProvider {
+  protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+
   get jobs(): Job[] {
     return []
+  }
+
+  static override async create(params?: Partial<XyoModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBPayloadDiviner> {
+    return (await super.create(params)) as MongoDBPayloadDiviner
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoPayload>> {
@@ -47,9 +41,5 @@ export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner,
     // TODO: Optimize for single schema supplied too
     if (schemas?.length) filter.schema = { $in: schemas }
     return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
-  }
-
-  async initialize(): Promise<void> {
-    await this.start()
   }
 }

@@ -1,35 +1,54 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistWrapper, XyoMemoryArchivist } from '@xyo-network/archivist'
-import { Module, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
-import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
+import {
+  Module,
+  ModuleDescription,
+  ModuleFilter,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoModule,
+  XyoModuleParams,
+  XyoModuleResolver,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
+import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
 import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
-export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
+
+export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
   extends XyoModule<TConfig>
   implements NodeModule
 {
+  public isModuleResolver = true
+
+  protected internalResolver: XyoModuleResolver<TModule>
   private _archivist?: Module
 
-  attached(): string[] {
-    throw new Error('Method not implemented.')
+  protected constructor(params: XyoModuleParams<TConfig>, internalResolver?: XyoModuleResolver<TModule>) {
+    super(params)
+    this.internalResolver = internalResolver ?? new XyoModuleResolver<TModule>()
   }
 
-  attachedModules(): TModule[] {
-    throw new Error('Method not implemented.')
+  static override async create(params?: Partial<XyoModuleParams<NodeConfig>>): Promise<XyoNode> {
+    return (await super.create(params)) as XyoNode
   }
 
-  public async getArchivist(): Promise<Module> {
-    if (!this._archivist) {
-      this._archivist =
-        this._archivist ??
-        (this.config?.archivist ? this.resolver?.fromAddress([this.config?.archivist]).shift() : undefined) ??
-        (await XyoMemoryArchivist.create())
-    }
-    return this._archivist
+  async attached(): Promise<string[]> {
+    return (await this.attachedModules()).map((module) => module.address)
+  }
+
+  async attachedModules(): Promise<TModule[]> {
+    return await (this.internalResolver.resolve() ?? [])
+  }
+
+  override async description(): Promise<ModuleDescription> {
+    const desc = await super.description()
+    const children = await Promise.all((await this.attachedModules()).map((mod) => mod.description()))
+    return { ...desc, children }
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
@@ -50,7 +69,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
           break
         }
         case XyoNodeAttachedQuerySchema: {
-          this.attached()
+          await this.attached()
           break
         }
         case XyoNodeRegisteredQuerySchema: {
@@ -81,18 +100,14 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 
   override async start() {
     await super.start()
-    await this.storeInstanceData()
     return this
   }
 
-  private async storeInstanceData() {
-    const payload = { address: this.address, queries: this.queries, schema: XyoModuleInstanceSchema }
-    const [bw] = await this.bindResult([payload])
-    await new XyoArchivistWrapper(await this.getArchivist()).insert([bw, payload])
+  unregister(_module: TModule): void {
+    throw new Error('Method not implemented.')
   }
 
-  abstract attach(_address: string): void
-  abstract detach(_address: string): void
-  abstract find(_schema: string[]): (TModule | null)[]
-  abstract resolve(_address: string[]): (TModule | null)[]
+  abstract attach(address: string): void
+  abstract detach(address: string): void
+  abstract resolve(filter?: ModuleFilter): Promisable<TModule[]>
 }

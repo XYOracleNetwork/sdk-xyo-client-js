@@ -1,16 +1,14 @@
-import 'reflect-metadata'
-
 import { assertEx } from '@xylabs/assert'
 import { XyoArchive } from '@xyo-network/api'
 import { XyoArchivistQuery } from '@xyo-network/archivist'
 import { ModuleQueryResult } from '@xyo-network/module'
-import { ArchiveArchivist, UpsertResult, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
+import { ArchiveArchivist, EntityArchive, UpsertResult, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { inject, injectable } from 'inversify'
 import { Filter, SortDirection, WithId } from 'mongodb'
 
+import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk } from '../../Mongo'
 
 interface UpsertFilter {
   $and: [
@@ -23,35 +21,34 @@ interface UpsertFilter {
   ]
 }
 
-@injectable()
 export class MongoDBArchiveArchivist implements ArchiveArchivist {
-  constructor(@inject(MONGO_TYPES.ArchiveSdkMongo) protected archives: BaseMongoSdk<Required<XyoArchive>>) {}
+  constructor(protected readonly archives: BaseMongoSdk<EntityArchive> = getBaseMongoSdk<EntityArchive>(COLLECTIONS.Archives)) {}
 
   get address(): string {
     throw new Error('Module query not implemented for MongoDBArchiveArchivist')
   }
 
-  async find(predicate?: XyoPayloadFilterPredicate<XyoArchive>): Promise<Required<XyoArchive>[]> {
+  async find(predicate?: XyoPayloadFilterPredicate<XyoArchive>): Promise<EntityArchive[]> {
     if (!predicate) return []
     const { archives, limit, offset, order, user } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { $natural: parsedOrder === 'asc' ? 1 : -1 }
-    const filter: Filter<Required<XyoArchive>> = {}
+    const filter: Filter<EntityArchive> = {}
     if (archives?.length) filter.archive = { $in: archives }
     if (user) filter.user = user
     const skip = offset && offset > 0 ? offset : 0
     return (await this.archives.find(filter)).sort(sort).limit(parsedLimit).skip(skip).maxTimeMS(2000).toArray()
   }
 
-  async get(archives: string[]): Promise<Array<Required<XyoArchive> | null>> {
+  async get(archives: string[]): Promise<Array<EntityArchive | null>> {
     assertEx(archives.length === 1, 'Retrieval of multiple archives not supported')
     const archive = assertEx(archives.pop(), 'Missing archive')
     const result = await this.archives.findOne({ archive })
     return [result]
   }
 
-  async insert(items: Required<XyoArchive>[]): Promise<(WithId<Required<XyoArchive>> & UpsertResult)[]> {
+  async insert(items: EntityArchive[]): Promise<(WithId<EntityArchive> & UpsertResult)[]> {
     return await this.archives.useCollection(async (collection) => {
       assertEx(items.length === 1, 'Insertion of multiple archives not supported')
       const item = assertEx(items.pop(), 'Missing archive')

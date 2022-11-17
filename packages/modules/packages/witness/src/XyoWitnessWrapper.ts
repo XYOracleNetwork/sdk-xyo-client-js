@@ -5,11 +5,11 @@ import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Queries'
 import { Witness } from './Witness'
 
 export class XyoWitnessWrapper extends XyoModuleWrapper implements Witness {
-  async observe(payloads?: Partial<XyoPayload>[]): Promise<XyoPayloads> {
-    const queryPayload = PayloadWrapper.parse<XyoWitnessObserveQuery>({ payloads, schema: XyoWitnessObserveQuerySchema })
-    const query = await this.bindQuery(queryPayload)
+  async observe(payloads?: XyoPayload[]): Promise<XyoPayloads> {
+    const queryPayload = PayloadWrapper.parse<XyoWitnessObserveQuery>({ schema: XyoWitnessObserveQuerySchema })
+    const query = await this.bindQuery(queryPayload, payloads)
     const queryBoundWitness: XyoQueryBoundWitness = query[0]
-    const result = await this.module.query(queryBoundWitness, [queryPayload.payload])
+    const result = await this.module.query(queryBoundWitness, [queryPayload.payload, ...(payloads ?? [])])
     this.throwErrors(query, result)
     return result[1]
   }

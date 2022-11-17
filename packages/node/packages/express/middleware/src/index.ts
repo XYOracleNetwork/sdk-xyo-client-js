@@ -11,7 +11,6 @@ import {
   BoundWitnessStatsDiviner,
   IdentifiableHuri,
   ModuleAddressDiviner,
-  ModuleRegistry,
   PayloadArchivist,
   PayloadDiviner,
   PayloadStatsDiviner,
@@ -55,7 +54,6 @@ declare global {
       boundWitnessStatsDiviner: BoundWitnessStatsDiviner
       logger: Logger
       moduleAddressDiviner: ModuleAddressDiviner
-      moduleRegistry: ModuleRegistry
       payloadArchivist: PayloadArchivist
       payloadDiviner: PayloadDiviner
       payloadStatsDiviner: PayloadStatsDiviner
@@ -74,7 +72,6 @@ export * from './auth'
 export * from './doc'
 export * from './LoggingErrorHandler'
 export * from './nodeEnv'
-export * from './PasswordHasher'
 export * from './QueryProcessor'
 export * from './RequestToQueryConverter'
 export * from './standardResponses'

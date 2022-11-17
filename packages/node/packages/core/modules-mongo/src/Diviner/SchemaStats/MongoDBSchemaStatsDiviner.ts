@@ -1,12 +1,9 @@
-import 'reflect-metadata'
-
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
-  Initializable,
   isSchemaStatsQueryPayload,
   SchemaStatsDiviner,
   SchemaStatsPayload,
@@ -14,16 +11,14 @@ import {
   SchemaStatsSchema,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayload, XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
+import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk } from '../../Mongo'
 import { fromDbProperty, toDbProperty } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
@@ -40,21 +35,41 @@ interface Stats {
   }
 }
 
-@injectable()
-export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements SchemaStatsDiviner, Initializable, JobProvider {
+export type MongoDBArchiveSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
+export const MongoDBArchiveSchemaStatsDivinerConfigSchema: MongoDBArchiveSchemaStatsDivinerConfigSchema =
+  'network.xyo.module.config.diviner.stats.schema'
+
+export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+  XyoPayload,
+  T & {
+    schema: MongoDBArchiveSchemaStatsDivinerConfigSchema
+  }
+>
+
+export interface MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload>
+  extends XyoModuleParams<MongoDBArchiveSchemaStatsDivinerConfig<T>> {
+  archiveArchivist: ArchiveArchivist
+}
+
+export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements SchemaStatsDiviner, JobProvider {
   /**
    * The max number of records to search during the aggregate query
    */
   protected readonly aggregateLimit = 5_000_000
+
   /**
    * The max number of iterations of aggregate queries to allow when
    * divining the schema stats within an archive
    */
   protected readonly aggregateMaxIterations = 10_000
+
   /**
    * The amount of time to allow the aggregate query to execute
    */
   protected readonly aggregateTimeoutMs = 10_000
+
+  protected archiveArchivist: ArchiveArchivist | undefined
+
   /**
    * The max number of simultaneous archives to divine at once
    */
@@ -77,13 +92,11 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
    */
   protected resumeAfter: ResumeToken | undefined = undefined
 
-  constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) account: XyoAccount,
-    @inject(TYPES.ArchiveArchivist) protected archiveArchivist: ArchiveArchivist,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected sdk: BaseMongoSdk<XyoPayload>,
-  ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
+  protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
+
+  protected constructor(params: MongoDBArchiveSchemaStatsDivinerParams) {
+    super(params)
+    this.archiveArchivist = params.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -104,6 +117,10 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
     ]
   }
 
+  static override async create(params: MongoDBArchiveSchemaStatsDivinerParams): Promise<MongoDBArchiveSchemaStatsDiviner> {
+    return (await super.create(params)) as MongoDBArchiveSchemaStatsDiviner
+  }
+
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<SchemaStatsPayload>> {
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
     const archive = query?.archive
@@ -111,16 +128,12 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
     return [new XyoPayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build()]
   }
 
-  async initialize(): Promise<void> {
-    await this.start()
-  }
-
-  protected override async start(): Promise<typeof this> {
+  protected override async start(): Promise<this> {
     await this.registerWithChangeStream()
     return await super.start()
   }
 
-  protected override async stop(): Promise<typeof this> {
+  protected override async stop(): Promise<this> {
     await this.changeStream?.close()
     return await super.stop()
   }
@@ -176,7 +189,7 @@ export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements Sche
 
   private divineArchivesBatch = async () => {
     this.logger?.log(`MongoDBArchiveSchemaStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    const result = await this.archiveArchivist.find({ limit: this.batchLimit, offset: this.nextOffset })
+    const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
     const archives = result.map((archive) => archive?.archive).filter(exists)
     this.logger?.log(`MongoDBArchiveSchemaStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
     this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit

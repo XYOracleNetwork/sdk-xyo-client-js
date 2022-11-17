@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import { GetSchemaQuery, QueryHandler } from '@xyo-network/node-core-model'
 import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 import { XyoSchemaCache } from '@xyo-network/utils'

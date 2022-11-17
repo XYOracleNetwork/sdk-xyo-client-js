@@ -3,5 +3,5 @@ import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 export interface Witness<TTarget extends XyoPayload = XyoPayload> extends Module {
-  observe: (fields?: Partial<TTarget>[]) => Promisable<(TTarget | null)[]>
+  observe: (payloads?: TTarget[]) => Promisable<(TTarget | null)[]>
 }

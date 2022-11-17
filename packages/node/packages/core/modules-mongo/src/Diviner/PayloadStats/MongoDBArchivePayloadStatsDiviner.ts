@@ -1,12 +1,9 @@
-import 'reflect-metadata'
-
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
-  Initializable,
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,
   PayloadStatsPayload,
@@ -14,16 +11,14 @@ import {
   PayloadStatsSchema,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayload, XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider, Logger } from '@xyo-network/shared'
-import { inject, injectable } from 'inversify'
+import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { MONGO_TYPES } from '../../types'
+import { getBaseMongoSdk } from '../../Mongo'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -34,21 +29,34 @@ interface Stats {
   }
 }
 
-@injectable()
-export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements PayloadStatsDiviner, Initializable, JobProvider {
+export type MongoDBArchivePayloadStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.payload'
+export const MongoDBArchivePayloadStatsDivinerConfigSchema: MongoDBArchivePayloadStatsDivinerConfigSchema =
+  'network.xyo.module.config.diviner.stats.payload'
+
+export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+  XyoPayload,
+  T & {
+    schema: MongoDBArchivePayloadStatsDivinerConfigSchema
+  }
+>
+
+export interface MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload>
+  extends XyoModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>> {
+  archiveArchivist: ArchiveArchivist
+}
+
+export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements PayloadStatsDiviner, JobProvider {
+  protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
+  protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  constructor(
-    @inject(TYPES.Logger) logger: Logger,
-    @inject(TYPES.Account) account: XyoAccount,
-    @inject(TYPES.ArchiveArchivist) protected archiveArchivist: ArchiveArchivist,
-    @inject(MONGO_TYPES.PayloadSdkMongo) protected sdk: BaseMongoSdk<XyoPayload>,
-  ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema }, logger })
+  protected constructor(params: MongoDBArchivePayloadStatsDivinerParams) {
+    super(params)
+    this.archiveArchivist = params.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -69,6 +77,10 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
     ]
   }
 
+  static override async create(params: MongoDBArchivePayloadStatsDivinerParams): Promise<MongoDBArchivePayloadStatsDiviner> {
+    return (await super.create(params)) as MongoDBArchivePayloadStatsDiviner
+  }
+
   public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     const archive = query?.archive
@@ -76,16 +88,12 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
     return [new XyoPayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build()]
   }
 
-  async initialize(): Promise<void> {
-    await this.start()
-  }
-
-  protected override async start(): Promise<typeof this> {
+  protected override async start(): Promise<this> {
     await this.registerWithChangeStream()
     return await super.start()
   }
 
-  protected override async stop(): Promise<typeof this> {
+  protected override async stop(): Promise<this> {
     await this.changeStream?.close()
     return await super.stop()
   }
@@ -109,7 +117,7 @@ export class MongoDBArchivePayloadStatsDiviner extends XyoDiviner implements Pay
 
   private divineArchivesBatch = async () => {
     this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    const result = await this.archiveArchivist.find({ limit: this.batchLimit, offset: this.nextOffset })
+    const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
     const archives = result.map((archive) => archive?.archive).filter(exists)
     this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
     this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit

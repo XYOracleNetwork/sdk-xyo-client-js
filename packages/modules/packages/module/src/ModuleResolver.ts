@@ -1,12 +1,9 @@
-import { AddressString, SchemaString } from './Config'
-import { Module } from './Module'
+import { Promisable } from '@xyo-network/promise'
 
-export type ModuleResolverEventFunc<TModule extends Module = Module> = (event: 'add' | 'remove', module: TModule) => void
+import { Module } from './Module'
+import { ModuleFilter } from './ModuleFilter'
 
 export interface ModuleResolver {
   isModuleResolver: boolean
-  fromAddress(address: AddressString[]): (Module | null)[]
-  fromQuery(schema: SchemaString[]): Module[]
-  subscribe(handler: ModuleResolverEventFunc): void
-  unsubscribe(handler: ModuleResolverEventFunc): void
+  resolve(filter?: ModuleFilter): Promisable<Module[]>
 }

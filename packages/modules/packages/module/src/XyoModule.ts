@@ -10,6 +10,7 @@ import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
 import { Module } from './Module'
+import { ModuleDescription } from './ModuleDescription'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { ModuleResolver } from './ModuleResolver'
 import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
@@ -29,12 +30,12 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   static defaultLogger?: Logger
 
   public config: TConfig
+  public resolver?: ModuleResolver
 
   protected _started = false
   protected account: XyoAccount
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected readonly logger?: Logging
-  protected resolver?: ModuleResolver
 
   protected constructor(params: XyoModuleParams<TConfig>) {
     this.resolver = params.resolver
@@ -60,6 +61,10 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return await new this(actualParams as XyoModuleParams<XyoModuleConfig>).start()
   }
 
+  public description(): Promisable<ModuleDescription> {
+    return { address: this.address, queries: this.queries() }
+  }
+
   public discover(_queryAccount?: XyoAccount): Promisable<XyoPayload[]> {
     return compact([this.config])
   }
@@ -72,7 +77,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query.schema, wrapper.addresses))
+    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     this.logger?.log(wrapper.schemaName)
 
@@ -101,9 +106,11 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
 
   public queryable(schema: SchemaString, addresses?: AddressString[]): boolean {
     return this.started('warn')
-      ? !!this.queries().includes(schema) && addresses
-        ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true
-        : true
+      ? (() => {
+          const includesQuery = !!this.queries().includes(schema)
+          const allowed = addresses ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true : true
+          return includesQuery && allowed
+        })()
       : false
   }
 
@@ -192,14 +199,14 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return account ?? new XyoAccount()
   }
 
-  protected start(_timeout?: number): Promisable<typeof this> {
+  protected start(_timeout?: number): Promisable<this> {
     this.validateConfig()
     this.initializeAllowedAddressSets()
     this._started = true
     return this
   }
 
-  protected stop(_timeout?: number): Promisable<typeof this> {
+  protected stop(_timeout?: number): Promisable<this> {
     this.allowedAddressSets = undefined
     this._started = false
     return this

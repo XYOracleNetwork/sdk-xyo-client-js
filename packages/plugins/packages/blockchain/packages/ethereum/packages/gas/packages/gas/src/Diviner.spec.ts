@@ -16,10 +16,10 @@ describe('Diviner', () => {
     expect(payloads.length).toBe(1)
     payloads.map((payload) => {
       if (payload?.schema === XyoEthereumGasSchema) {
-        const assetPayload = payload as XyoEthereumGasPayload
-        expect(assetPayload).toBeObject()
-        expect(assetPayload?.schema).toBe(XyoEthereumGasSchema)
-        expect(assetPayload?.timestamp).toBeNumber()
+        const gasPayload = payload as XyoEthereumGasPayload
+        expect(gasPayload).toBeObject()
+        expect(gasPayload.schema).toBe(XyoEthereumGasSchema)
+        expect(gasPayload.timestamp).toBeNumber()
       }
     })
   })

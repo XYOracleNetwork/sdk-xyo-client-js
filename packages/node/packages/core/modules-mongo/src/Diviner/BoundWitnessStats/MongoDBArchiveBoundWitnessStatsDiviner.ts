@@ -87,12 +87,12 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implement
     return [new XyoPayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build()]
   }
 
-  protected override async start(): Promise<typeof this> {
+  protected override async start(): Promise<this> {
     await this.registerWithChangeStream()
     return await super.start()
   }
 
-  protected override async stop(): Promise<typeof this> {
+  protected override async stop(): Promise<this> {
     await this.changeStream?.close()
     return await super.stop()
   }

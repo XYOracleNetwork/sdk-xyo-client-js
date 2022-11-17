@@ -11,7 +11,6 @@ export const TYPES = {
   JobQueue: Symbol('JobQueue'),
   JwtSecret: Symbol('JwtSecret'),
   Logger: Symbol('Logger'),
-  ModuleRegistry: Symbol('ModuleRegistry'),
   PasswordHasher: Symbol('PasswordHasher'),
   PayloadToQueryConverterRegistry: Symbol('PayloadToQueryConverterRegistry'),
   QueryQueue: Symbol('QueryQueue'),

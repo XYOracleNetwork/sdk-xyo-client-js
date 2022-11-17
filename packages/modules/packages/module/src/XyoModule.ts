@@ -10,6 +10,7 @@ import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
 import { Module } from './Module'
+import { ModuleDescription } from './ModuleDescription'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { ModuleResolver } from './ModuleResolver'
 import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
@@ -58,6 +59,10 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     const actualParams: Partial<XyoModuleParams<XyoModuleConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
     return await new this(actualParams as XyoModuleParams<XyoModuleConfig>).start()
+  }
+
+  public description(): Promisable<ModuleDescription> {
+    return { address: this.address, queries: this.queries() }
   }
 
   public discover(_queryAccount?: XyoAccount): Promisable<XyoPayload[]> {
@@ -194,14 +199,14 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return account ?? new XyoAccount()
   }
 
-  protected start(_timeout?: number): Promisable<typeof this> {
+  protected start(_timeout?: number): Promisable<this> {
     this.validateConfig()
     this.initializeAllowedAddressSets()
     this._started = true
     return this
   }
 
-  protected stop(_timeout?: number): Promisable<typeof this> {
+  protected stop(_timeout?: number): Promisable<this> {
     this.allowedAddressSets = undefined
     this._started = false
     return this

@@ -12,9 +12,9 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     return (await super.create(params)) as MemoryNode
   }
 
-  override attach(address: string) {
+  override attach(address: string, name?: string) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
-    this.internalResolver.add(module)
+    this.internalResolver.add(module, name)
   }
 
   override detach(address: string) {

@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/boundwitness",
+  "name": "@xyo-network/protocol",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,20 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.6.9",
-    "@xylabs/buffer": "^2.6.9",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/shared": "workspace:^",
-    "@xyo-network/typeof": "workspace:^",
-    "lodash": "^4.17.21",
     "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@types/lodash": "^4.14.188"
-  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {

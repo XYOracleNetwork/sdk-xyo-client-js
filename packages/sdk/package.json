@@ -10,17 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
-    "@xyo-network/core": "workspace:^",
     "@xyo-network/network": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/promise": "workspace:^",
-    "@xyo-network/shared": "workspace:^",
     "@xyo-network/storage": "workspace:^",
-    "@xyo-network/typeof": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witnesses": "workspace:^",

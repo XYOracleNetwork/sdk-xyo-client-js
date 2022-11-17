@@ -14,6 +14,7 @@ import {
 } from '@xyo-network/sdk-geo'
 import { LngLat, LngLatLike } from 'mapbox-gl'
 
+import { RelativeDirectionConstantLookup } from './RelativeDirectionConstantLookup'
 import { bitShiftLeft, bitShiftRight, padHex } from './utils'
 
 export * from './utils'
@@ -21,13 +22,6 @@ export * from './utils'
 const MAX_ZOOM = 124
 
 export const isQuadkey = (obj: { type: string }) => obj?.type === Quadkey.type
-
-const RelativeDirectionConstantLookup: Record<string, number> = {
-  e: 1,
-  n: -2,
-  s: 2,
-  w: -1,
-}
 
 export class Quadkey {
   static Zero = Quadkey.from(0, Buffer.alloc(31, 0))

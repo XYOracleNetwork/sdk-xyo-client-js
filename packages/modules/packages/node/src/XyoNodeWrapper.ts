@@ -17,14 +17,17 @@ import {
 } from './Queries'
 
 export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
+  public isModuleResolver = true
+
   private _archivist?: XyoArchivistWrapper
+
   public get archivist() {
     this._archivist = this._archivist ?? new XyoArchivistWrapper(this.module)
     return this._archivist
   }
 
-  async attach(address: string): Promise<void> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, schema: XyoNodeAttachQuerySchema })
+  async attach(address: string, name?: string): Promise<void> {
+    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, name, schema: XyoNodeAttachQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)

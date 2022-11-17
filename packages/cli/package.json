@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/core",
+  "name": "@xyo-network/cli",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,24 +10,32 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@scure/base": "^1.1.1",
-    "@xylabs/assert": "^2.6.9",
-    "@xylabs/bignumber": "^2.6.9",
-    "@xylabs/buffer": "^2.6.9",
-    "@xyo-network/typeof": "workspace:^",
-    "axios": "^1.1.3",
-    "keccak256": "^1.0.6",
-    "lodash": "^4.17.21",
-    "sha.js": "^2.4.11",
+    "@xylabs/sdk-api-express-ecs": "^1.2.5",
+    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/express-node-server": "workspace:^",
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/node": "workspace:^",
+    "dotenv": "^16.0.3",
+    "terminal-kit": "^3.0.0",
     "tslib": "^2.4.1",
-    "uuid": "^9.0.0"
+    "yargs": "^17.6.2"
+  },
+  "bin": {
+    "xyo": "dist/cjs/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@types/terminal-kit": "^2.5.0",
+    "axios": "^1.1.3",
+    "pako": "^2.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  },
+  "peerDependencies": {
+    "axios": "^1.1.3",
+    "pako": "^2.1.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@types/lodash": "^4.14.188",
-    "@types/sha.js": "^2.4.0",
-    "@types/uuid": "^8.3.4"
-  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
@@ -59,6 +67,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
+  "scripts": {
+    "xyo-ts": "ts-node src/index.ts"
+  },
   "types": "dist/esm/index.d.ts",
   "version": "2.41.3"
 }

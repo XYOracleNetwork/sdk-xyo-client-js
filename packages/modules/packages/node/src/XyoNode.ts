@@ -1,11 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistWrapper, XyoMemoryArchivist } from '@xyo-network/archivist'
 import {
   Module,
+  ModuleDescription,
   ModuleFilter,
   ModuleQueryResult,
-  ModuleResolver,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
   XyoModule,
@@ -13,7 +12,6 @@ import {
   XyoModuleResolver,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -23,7 +21,7 @@ import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuer
 
 export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
   extends XyoModule<TConfig>
-  implements NodeModule, ModuleResolver
+  implements NodeModule
 {
   public isModuleResolver = true
 
@@ -47,14 +45,10 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
     return await (this.internalResolver.resolve() ?? [])
   }
 
-  public async getArchivist(): Promise<Module> {
-    if (!this._archivist) {
-      this._archivist =
-        this._archivist ??
-        (this.config?.archivist ? ((await this.resolver?.resolve({ address: [this.config?.archivist] })) ?? []).shift() : undefined) ??
-        (await XyoMemoryArchivist.create())
-    }
-    return this._archivist
+  override async description(): Promise<ModuleDescription> {
+    const desc = await super.description()
+    const children = await Promise.all((await this.attachedModules()).map((mod) => mod.description()))
+    return { ...desc, children }
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
@@ -106,7 +100,6 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
 
   override async start() {
     await super.start()
-    await this.storeInstanceData()
     return this
   }
 
@@ -114,13 +107,7 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
     throw new Error('Method not implemented.')
   }
 
-  private async storeInstanceData() {
-    const payload = { address: this.address, queries: this.queries, schema: XyoModuleInstanceSchema }
-    const [bw] = await this.bindResult([payload])
-    await new XyoArchivistWrapper(await this.getArchivist()).insert([bw, payload])
-  }
-
-  abstract attach(_address: string): void
-  abstract detach(_address: string): void
-  abstract resolve(_filter?: ModuleFilter): Promisable<TModule[]>
+  abstract attach(address: string): void
+  abstract detach(address: string): void
+  abstract resolve(filter?: ModuleFilter): Promisable<TModule[]>
 }

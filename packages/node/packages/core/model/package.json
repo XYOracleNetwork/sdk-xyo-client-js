@@ -36,6 +36,7 @@
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
+    "@xyo-network/shared": "workspace:^",
     "ajv": "^8.11.2"
   },
   "devDependencies": {

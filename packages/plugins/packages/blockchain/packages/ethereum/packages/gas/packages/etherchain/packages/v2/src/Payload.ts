@@ -17,5 +17,6 @@ export interface EthereumGasEtherchainV2Response {
 export type XyoEthereumGasEtherchainV2Payload = XyoPayload<
   EthereumGasEtherchainV2Response & {
     schema: XyoEthereumGasEtherchainV2Schema
+    timestamp: number
   }
 >

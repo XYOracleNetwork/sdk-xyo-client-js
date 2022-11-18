@@ -20,19 +20,19 @@ export interface FeeData {
    * target, and decreasing when blocks are below the gas target. The
    * base fee per gas is burned.
    */
-  baseFee: BaseFee
+  baseFee: Partial<BaseFee>
   /**
    * Transactions also specify the maximum fee per gas they are
    * willing to pay total (aka: max fee), which covers both the
    * priority fee and the block's network fee per gas (aka: base fee)
    */
-  feePerGas: FeePerGas
+  feePerGas: Partial<FeePerGas>
   /**
    * Transactions specify the maximum fee per gas they are willing to
    * give to miners to incentivize them to include their transaction
    * (aka: priority fee).
    */
-  priorityFeePerGas: PriorityFeePerGas
+  priorityFeePerGas: Partial<PriorityFeePerGas>
 
   // Legacy
   gasPrice?: string

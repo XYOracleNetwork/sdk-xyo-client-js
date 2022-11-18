@@ -2,7 +2,7 @@ import { XyoModuleParams } from '@xyo-network/module'
 import { XyoTimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherchainV1WitnessConfig } from './Config'
-import { getV1GasFromEtherchain } from './etherchain'
+import { getV1GasFromEtherchain } from './lib'
 import { XyoEthereumGasEtherchainV1Payload } from './Payload'
 import { XyoEthereumGasEtherchainV1Schema, XyoEthereumGasEtherchainV1WitnessConfigSchema } from './Schema'
 

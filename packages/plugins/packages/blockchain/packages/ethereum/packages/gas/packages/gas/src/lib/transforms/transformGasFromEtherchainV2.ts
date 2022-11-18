@@ -4,7 +4,7 @@ import { XyoEthereumGasEtherchainV2Payload } from '@xyo-network/etherchain-gas-e
 import { BaseFee, FeeData, FeePerGas, PriorityFeePerGas } from '../../Model'
 import { MinPriorityFee } from './PriorityFeeConstants'
 
-const getGasRange = (payload: XyoEthereumGasEtherchainV2Payload): FeePerGas => {
+const getGasRange = (payload: XyoEthereumGasEtherchainV2Payload): Partial<FeePerGas> => {
   const { slow, standard, fast, rapid } = payload.data
   const low = parseUnits(slow.toString(), 'wei').toNumber()
   const medium = parseUnits(standard.toString(), 'wei').toNumber()
@@ -13,12 +13,12 @@ const getGasRange = (payload: XyoEthereumGasEtherchainV2Payload): FeePerGas => {
   return { high, low, medium, veryHigh }
 }
 
-const getBaseFeeRange = (payload: XyoEthereumGasEtherchainV2Payload): BaseFee => {
+const getBaseFeeRange = (payload: XyoEthereumGasEtherchainV2Payload): Partial<BaseFee> => {
   const medium = parseUnits('0', 'wei').toNumber()
   return { medium }
 }
 
-const getPriorityFeeRange = (payload: XyoEthereumGasEtherchainV2Payload): PriorityFeePerGas => {
+const getPriorityFeeRange = (payload: XyoEthereumGasEtherchainV2Payload): Partial<PriorityFeePerGas> => {
   const low = MinPriorityFee
   const medium = Math.max(parseUnits('0', 'wei').toNumber(), low)
   return { low, medium }

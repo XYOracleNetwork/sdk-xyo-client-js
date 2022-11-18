@@ -5,7 +5,7 @@ import { linear } from 'regression'
 import { BaseFee, FeeData, FeePerGas, PriorityFeePerGas } from '../../Model'
 import { MinPriorityFee } from './PriorityFeeConstants'
 
-const getFeePerGas = (payload: XyoEthereumGasEtherscanPayload): FeePerGas => {
+const getFeePerGas = (payload: XyoEthereumGasEtherscanPayload): Partial<FeePerGas> => {
   const { FastGasPrice, ProposeGasPrice, SafeGasPrice } = payload.result
   const low = parseUnits(SafeGasPrice, 'gwei').toNumber()
   const medium = parseUnits(ProposeGasPrice, 'gwei').toNumber()
@@ -19,13 +19,13 @@ const getFeePerGas = (payload: XyoEthereumGasEtherscanPayload): FeePerGas => {
   return { high, low, medium, veryHigh }
 }
 
-const getBaseFeeRange = (payload: XyoEthereumGasEtherscanPayload): BaseFee => {
+const getBaseFeeRange = (payload: XyoEthereumGasEtherscanPayload): Partial<BaseFee> => {
   const { suggestBaseFee } = payload.result
   const medium = parseUnits(suggestBaseFee, 'gwei').toNumber()
   return { medium }
 }
 
-const getPriorityFeePerGas = (payload: XyoEthereumGasEtherscanPayload): PriorityFeePerGas => {
+const getPriorityFeePerGas = (payload: XyoEthereumGasEtherscanPayload): Partial<PriorityFeePerGas> => {
   const { suggestBaseFee } = payload.result
   const low = MinPriorityFee
   const medium = Math.max(parseUnits(suggestBaseFee, 'gwei').toNumber(), low)

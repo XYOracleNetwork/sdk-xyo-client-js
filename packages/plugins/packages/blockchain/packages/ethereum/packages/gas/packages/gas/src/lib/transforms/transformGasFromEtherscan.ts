@@ -1,5 +1,6 @@
 import { parseUnits } from '@ethersproject/units'
 import { XyoEthereumGasEtherscanPayload } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
+import { linear } from 'regression'
 
 import { BaseFee, FeeData, FeePerGas, PriorityFeePerGas } from '../../Model'
 import { MinPriorityFee } from './PriorityFeeConstants'
@@ -9,7 +10,12 @@ const getFeePerGas = (payload: XyoEthereumGasEtherscanPayload): FeePerGas => {
   const low = parseUnits(SafeGasPrice, 'gwei').toNumber()
   const medium = parseUnits(ProposeGasPrice, 'gwei').toNumber()
   const high = parseUnits(FastGasPrice, 'gwei').toNumber()
-  const veryHigh = parseUnits(FastGasPrice, 'gwei').toNumber()
+  // Use linear regression to calculate very high range
+  const veryHigh = linear([
+    [0, low],
+    [1, medium],
+    [2, high],
+  ]).predict(3)[1]
   return { high, low, medium, veryHigh }
 }
 

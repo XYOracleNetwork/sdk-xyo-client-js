@@ -16,8 +16,8 @@ export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements
     return true
   }
 
-  add(module: TModule, name?: string): ModuleResolver
-  add(module: TModule[], name?: string[]): ModuleResolver
+  add(module: TModule, name?: string): XyoModuleResolver
+  add(module: TModule[], name?: string[]): XyoModuleResolver
   add(module: TModule | TModule[], name?: string | string[]) {
     if (Array.isArray(module)) {
       const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined

@@ -1,9 +1,9 @@
-import { TransactionCosts } from '../Model'
+import { FeeData } from '../Model'
 import { sampleEtherscanGas } from '../test'
 import { average } from './average'
 import { transformGasFromEtherscan } from './transforms'
 
-const results: TransactionCosts[] = [transformGasFromEtherscan(sampleEtherscanGas)]
+const results: FeeData[] = [transformGasFromEtherscan(sampleEtherscanGas)]
 
 describe('average', () => {
   it('averages payloads', () => {

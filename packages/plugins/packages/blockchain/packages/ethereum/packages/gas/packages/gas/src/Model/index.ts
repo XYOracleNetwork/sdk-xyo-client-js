@@ -1,4 +1,4 @@
-export * from './BaseFeeRange'
-export * from './GasRange'
+export * from './BaseFee'
+export * from './FeeData'
+export * from './FeePerGas'
 export * from './PriorityFeePerGas'
-export * from './TransactionCosts'

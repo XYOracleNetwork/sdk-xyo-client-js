@@ -19,6 +19,7 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/promise": "workspace:^",
+    "regression": "^2.0.1",
     "tslib": "^2.4.1"
   },
   "devDependencies": {
@@ -27,6 +28,7 @@
     "@ethersproject/networks": "^5.7.1",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/solidity": "^5.7.0",
+    "@types/regression": "^2.0.2",
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",

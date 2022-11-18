@@ -3949,6 +3949,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/regression@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@types/regression@npm:2.0.2"
+  checksum: 28ae464c5ffda1698cecf1b1c2e21ed016ae1d71623c7f40bc5404aa55569cca03ac33d29737805059851cc734946027b006858d13a642e12240267c96d49299
+  languageName: node
+  linkType: hard
+
 "@types/semver@npm:^7.3.12":
   version: 7.3.13
   resolution: "@types/semver@npm:7.3.13"
@@ -5267,6 +5274,7 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@ethersproject/solidity": ^5.7.0
     "@ethersproject/units": 5.7.0
+    "@types/regression": ^2.0.2
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.1.0
     "@uniswap/v3-sdk": ^3.9.0
@@ -5280,6 +5288,7 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/typechain": ^2.0.4
     "@xyo-network/uniswap-typechain": ^2.0.4
+    regression: ^2.0.1
     tslib: ^2.4.1
   peerDependencies:
     "@ethersproject/address": ^5.7.0
@@ -14736,6 +14745,13 @@ __metadata:
   bin:
     regjsparser: bin/parser
   checksum: 5e1b76afe8f1d03c3beaf9e0d935dd467589c3625f6d65fb8ffa14f224d783a0fed4bf49c2c1b8211043ef92b6117313419edf055a098ed8342e340586741afc
+  languageName: node
+  linkType: hard
+
+"regression@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "regression@npm:2.0.1"
+  checksum: 2afb76ed65c87f22ef25dffb19fa95d70cded586ee9fcd5239f61d40993f5904bab0aae8fece73a8dddd35e19956a027004e727385ee4b4e7f800229a50edfb5
   languageName: node
   linkType: hard
 

@@ -17,30 +17,28 @@ describe('transformGasFromEtherchainV1', () => {
   test('returns string results transformed to numeric values', () => {
     const result = transformGasFromEtherchainV1(testGasResult)
     expect(result).toBeObject()
-
-    expect(result.feePerGas).toBeObject()
-    expect(result.feePerGas.low).toBeNumber()
-    expect(result.feePerGas.medium).toBeNumber()
-    expect(result.feePerGas.high).toBeNumber()
-    expect(result.feePerGas.veryHigh).toBeNumber()
-
     expect(result.baseFee).toBeNumber()
-
+    expect(result.feePerGas).toBeObject()
+    expect(result.feePerGas.low).toBeUndefined()
+    expect(result.feePerGas.medium).toBeUndefined()
+    expect(result.feePerGas.high).toBeUndefined()
+    expect(result.feePerGas.veryHigh).toBeUndefined()
     expect(result.priorityFeePerGas).toBeObject()
+    expect(result.priorityFeePerGas.low).toBeNumber()
     expect(result.priorityFeePerGas.medium).toBeNumber()
+    expect(result.priorityFeePerGas.high).toBeNumber()
+    expect(result.priorityFeePerGas.veryHigh).toBeNumber()
   })
   it('matches expected output', () => {
     const result = transformGasFromEtherchainV1(testGasResult)
     expect(result).toMatchObject({
       baseFee: 12300000000,
-      feePerGas: {
+      feePerGas: {},
+      priorityFeePerGas: {
         high: 3000000000,
         low: 100000000,
         medium: 200000000,
         veryHigh: 4000000000,
-      },
-      priorityFeePerGas: {
-        medium: 45600000000,
       },
     })
   })

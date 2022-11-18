@@ -1,9 +1,14 @@
 import { parseUnits } from '@ethersproject/units'
 import { XyoEthereumGasEtherchainV1Payload } from '@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins'
 
-import { FeeData, FeePerGas, PriorityFeePerGas } from '../../Model'
+import { FeeData, PriorityFeePerGas } from '../../Model'
 
-const getFeePerGas = (payload: XyoEthereumGasEtherchainV1Payload): Partial<FeePerGas> => {
+const getBaseFee = (payload: XyoEthereumGasEtherchainV1Payload): number | undefined => {
+  const { currentBaseFee } = payload
+  return parseUnits(currentBaseFee.toString(), 'gwei').toNumber()
+}
+
+const getPriorityFeePerGas = (payload: XyoEthereumGasEtherchainV1Payload): Partial<PriorityFeePerGas> => {
   const { fast, fastest, safeLow, standard } = payload
   const low = parseUnits(safeLow.toString(), 'gwei').toNumber()
   const medium = parseUnits(standard.toString(), 'gwei').toNumber()
@@ -12,21 +17,9 @@ const getFeePerGas = (payload: XyoEthereumGasEtherchainV1Payload): Partial<FeePe
   return { high, low, medium, veryHigh }
 }
 
-const getBaseFee = (payload: XyoEthereumGasEtherchainV1Payload): number | undefined => {
-  const { currentBaseFee } = payload
-  return parseUnits(currentBaseFee.toString(), 'gwei').toNumber()
-}
-
-const getPriorityFeePerGas = (payload: XyoEthereumGasEtherchainV1Payload): Partial<PriorityFeePerGas> => {
-  const { recommendedBaseFee } = payload
-  // TODO: This probably isn't what this means
-  const medium = parseUnits(recommendedBaseFee.toString(), 'gwei').toNumber()
-  return { medium }
-}
-
 export const transformGasFromEtherchainV1 = (payload: XyoEthereumGasEtherchainV1Payload): FeeData => {
   const baseFee = getBaseFee(payload)
-  const feePerGas = getFeePerGas(payload)
+  const feePerGas = {}
   const priorityFeePerGas = getPriorityFeePerGas(payload)
   return { baseFee, feePerGas, priorityFeePerGas }
 }

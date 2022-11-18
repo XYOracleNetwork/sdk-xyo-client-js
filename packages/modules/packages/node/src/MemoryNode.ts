@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { ModuleFilter, XyoModule, XyoModuleParams } from '@xyo-network/module'
+import { ModuleFilter, XyoModule, XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
 
 import { NodeConfig } from './Config'
 import { XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema } from './Queries'
@@ -8,8 +8,10 @@ import { XyoNode } from './XyoNode'
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends XyoNode<TConfig, TModule> {
   private registeredModuleMap = new Map<string, TModule>()
 
-  static override async create(params?: XyoModuleParams<NodeConfig>): Promise<MemoryNode> {
-    return (await super.create(params)) as MemoryNode
+  static override async create(params?: XyoModuleParams<NodeConfig>, internalResolver?: XyoModuleResolver): Promise<MemoryNode> {
+    const instance = (await super.create(params)) as MemoryNode
+    instance.internalResolver = internalResolver ?? new XyoModuleResolver()
+    return instance
   }
 
   override attach(address: string, name?: string) {

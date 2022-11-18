@@ -248,6 +248,21 @@ describe('MemoryNode', () => {
       })
     })
   })
+  describe('custom resolver', () => {
+    it('uses supplied resolver', async () => {
+      const internalResolver = new XyoModuleResolver()
+      const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
+      const archivist = await XyoMemoryArchivist.create()
+      internalResolver.add(archivist)
+
+      const node = await MemoryNode.create(undefined, internalResolver)
+      node.register(archivist)
+      node.attach(archivist.address)
+
+      expect(node['internalResolver']).toEqual(internalResolver)
+      expect(await node.resolve()).toEqual([archivist])
+    })
+  })
 })
 
 const prettyPrintDescription = (description: ModuleDescription) => {

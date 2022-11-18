@@ -10,9 +10,9 @@ const averageProperty = (data: FeeData[], propertyExpression: (x: FeeData) => nu
 
 export const average = (input?: (FeeData | undefined)[]): FeeData => {
   const data = input?.filter(exists) || []
-  if (data.length < 1) {
-    throw new Error('Unable to compute average on empty list')
-  }
+  // if (data.length < 1) {
+  //   throw new Error('Unable to compute average on empty list')
+  // }
   const averaged: FeeData = {
     baseFee: averageProperty(data, (x) => x.baseFee),
     feePerGas: {

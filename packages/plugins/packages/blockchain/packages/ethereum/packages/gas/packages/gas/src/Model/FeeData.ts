@@ -38,5 +38,5 @@ export interface FeeData {
   gasPrice?: string
 
   // The timestamp associated with the result
-  timestamp?: string
+  timestamp?: number
 }

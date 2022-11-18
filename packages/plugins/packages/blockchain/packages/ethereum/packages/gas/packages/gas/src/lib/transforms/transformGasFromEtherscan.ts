@@ -1,7 +1,7 @@
 import { parseUnits } from '@ethersproject/units'
 import { XyoEthereumGasEtherscanPayload } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 
-import { BaseFeeRange, GasRange, PriorityFeeRange, TransactionCosts } from '../../Model'
+import { BaseFeeRange, GasRange, PriorityFeePerGas, TransactionCosts } from '../../Model'
 import { MinPriorityFee } from './PriorityFeeConstants'
 
 const getGasRange = (payload: XyoEthereumGasEtherscanPayload): GasRange => {
@@ -19,7 +19,7 @@ const getBaseFeeRange = (payload: XyoEthereumGasEtherscanPayload): BaseFeeRange 
   return { medium }
 }
 
-const getPriorityFeeRange = (payload: XyoEthereumGasEtherscanPayload): PriorityFeeRange => {
+const getPriorityFeeRange = (payload: XyoEthereumGasEtherscanPayload): PriorityFeePerGas => {
   const { suggestBaseFee } = payload.result
   const low = MinPriorityFee
   const medium = Math.max(parseUnits(suggestBaseFee, 'gwei').toNumber(), low)

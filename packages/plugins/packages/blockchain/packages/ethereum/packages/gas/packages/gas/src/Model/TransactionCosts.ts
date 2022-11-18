@@ -1,9 +1,9 @@
 import { BaseFeeRange } from './BaseFeeRange'
 import { GasRange } from './GasRange'
-import { PriorityFeeRange } from './PriorityFeeRange'
+import { PriorityFeePerGas } from './PriorityFeePerGas'
 
 export interface TransactionCosts {
   baseFee: BaseFeeRange
   gas: GasRange
-  priorityFee: PriorityFeeRange
+  priorityFee: PriorityFeePerGas
 }

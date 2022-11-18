@@ -20,7 +20,7 @@ export interface FeeData {
    * target, and decreasing when blocks are below the gas target. The
    * base fee per gas is burned.
    */
-  baseFee: Partial<BaseFee>
+  baseFee?: number
   /**
    * Transactions also specify the maximum fee per gas they are
    * willing to pay total (aka: max fee), which covers both the

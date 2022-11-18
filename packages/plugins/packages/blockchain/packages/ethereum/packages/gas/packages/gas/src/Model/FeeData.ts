@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { BaseFee } from './BaseFee'
 import { FeePerGas } from './FeePerGas'
 import { PriorityFeePerGas } from './PriorityFeePerGas'
 

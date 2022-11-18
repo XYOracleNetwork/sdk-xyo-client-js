@@ -14,9 +14,7 @@ export const average = (input?: (FeeData | undefined)[]): FeeData => {
     throw new Error('Unable to compute average on empty list')
   }
   const averaged: FeeData = {
-    baseFee: {
-      medium: averageProperty(data, (x) => x.baseFee.medium),
-    },
+    baseFee: averageProperty(data, (x) => x.baseFee),
     feePerGas: {
       high: averageProperty(data, (x) => x.feePerGas.high),
       low: averageProperty(data, (x) => x.feePerGas.low),

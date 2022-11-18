@@ -28,10 +28,9 @@ describe('transformGasFromEtherscan', () => {
     expect(result.feePerGas.high).toBeNumber()
     expect(result.feePerGas.veryHigh).toBeNumber()
 
-    expect(result.baseFee).toBeObject()
-    expect(result.baseFee.medium).toBeNumber()
+    expect(result.baseFee).toBeNumber()
 
     expect(result.priorityFeePerGas).toBeObject()
-    expect(result.priorityFeePerGas.medium).toBeNumber()
+    expect(result.priorityFeePerGas.medium).toBeUndefined()
   })
 })

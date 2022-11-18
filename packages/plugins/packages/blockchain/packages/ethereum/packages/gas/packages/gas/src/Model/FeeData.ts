@@ -4,8 +4,10 @@ import { FeePerGas } from './FeePerGas'
 import { PriorityFeePerGas } from './PriorityFeePerGas'
 
 export interface FeeData {
-  // Legacy
-  gasPrice?: string
+  /**
+   * The block number associated with the result
+   */
+  blockNumber?: string
 
   // EIP-1559
   // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1559.md
@@ -31,4 +33,10 @@ export interface FeeData {
    * (aka: priority fee).
    */
   priorityFeePerGas: PriorityFeePerGas
+
+  // Legacy
+  gasPrice?: string
+
+  // The timestamp associated with the result
+  timestamp?: string
 }

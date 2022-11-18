@@ -18,17 +18,17 @@ describe('transformGasFromEtherchainV1', () => {
     const result = transformGasFromEtherchainV1(testGasResult)
     expect(result).toBeObject()
 
-    expect(result.gas).toBeObject()
-    expect(result.gas.low).toBeNumber()
-    expect(result.gas.medium).toBeNumber()
-    expect(result.gas.high).toBeNumber()
-    expect(result.gas.veryHigh).toBeNumber()
+    expect(result.feePerGas).toBeObject()
+    expect(result.feePerGas.low).toBeNumber()
+    expect(result.feePerGas.medium).toBeNumber()
+    expect(result.feePerGas.high).toBeNumber()
+    expect(result.feePerGas.veryHigh).toBeNumber()
 
     expect(result.baseFee).toBeObject()
     expect(result.baseFee.medium).toBeNumber()
 
-    expect(result.priorityFee).toBeObject()
-    expect(result.priorityFee.medium).toBeNumber()
+    expect(result.priorityFeePerGas).toBeObject()
+    expect(result.priorityFeePerGas.medium).toBeNumber()
   })
   it('', () => {
     const result = transformGasFromEtherchainV1(testGasResult)

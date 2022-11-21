@@ -78,6 +78,10 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
     throw Error('Not implemented')
   }
 
+  tryResolve(_filter: ModuleFilter): Promisable<XyoModule[]> {
+    throw Error('Not implemented')
+  }
+
   unregister(_module: Module): void {
     throw Error('Not implemented')
   }

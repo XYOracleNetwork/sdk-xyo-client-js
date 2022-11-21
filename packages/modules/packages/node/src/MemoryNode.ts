@@ -46,6 +46,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     return (await this.internalResolver.resolve(filter)) ?? (await this.resolver?.resolve(filter)) ?? []
   }
 
+  override async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
+    return (await this.internalResolver.tryResolve(filter)) ?? (await this.resolver?.tryResolve(filter)) ?? []
+  }
+
   override unregister(module: TModule) {
     this.registeredModuleMap.delete(module.address)
   }

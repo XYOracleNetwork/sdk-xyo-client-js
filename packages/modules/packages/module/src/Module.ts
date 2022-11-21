@@ -9,6 +9,7 @@ import { XyoQueryBoundWitness } from './Query'
 export interface ModuleResolver {
   isModuleResolver: boolean
   resolve(filter?: ModuleFilter): Promisable<Module[]>
+  tryResolve(filter?: ModuleFilter): Promisable<Module[]>
 }
 
 export interface Module<TConfig extends XyoPayload = XyoPayload> {

@@ -51,6 +51,14 @@ export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements
     return filteredByQuery
   }
 
+  async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
+    try {
+      return await this.resolve(filter)
+    } catch (ex) {
+      return []
+    }
+  }
+
   private addSingleModule(module?: TModule, name?: string) {
     if (module) {
       this.modules[module.address] = module

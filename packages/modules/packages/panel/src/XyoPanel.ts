@@ -83,6 +83,16 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> {
     return [bwList, [newBoundWitness, ...payloads]]
   }
 
+  public async tryReport(adhocWitnesses: XyoWitness<XyoPayload>[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {
+    try {
+      return await this.report(adhocWitnesses)
+    } catch (ex) {
+      const error = ex as Error
+      this.logger?.warn(`report failed [${error.message}]`)
+      return [[], []]
+    }
+  }
+
   private async generatePayloads(witnesses: XyoWitnessWrapper[]): Promise<XyoPayload[]> {
     return (await Promise.allSettled(witnesses?.map(async (witness) => await witness.observe())))
       .map((settled) => (settled.status === 'fulfilled' ? settled.value : []))

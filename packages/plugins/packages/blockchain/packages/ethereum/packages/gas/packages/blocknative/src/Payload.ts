@@ -22,26 +22,16 @@ export interface BlockPrice {
   estimatedTransactionCount: number
 }
 
+export type PendingBlockNumber = 'pending+1' | 'pending+2' | 'pending+3' | 'pending+4' | 'pending+5'
+
+export type EstimatedBaseFee = {
+  [key in PendingBlockNumber]: [WithConfidence<BaseFee>]
+}
+
 export interface EthereumGasBlocknativeResponse {
   blockPrices: BlockPrice[]
   currentBlockNumber: number
-  estimatedBaseFees: [
-    {
-      'pending+1': WithConfidence<BaseFee>[]
-    },
-    {
-      'pending+2': WithConfidence<BaseFee>[]
-    },
-    {
-      'pending+3': WithConfidence<BaseFee>[]
-    },
-    {
-      'pending+4': WithConfidence<BaseFee>[]
-    },
-    {
-      'pending+5': WithConfidence<BaseFee>[]
-    },
-  ]
+  estimatedBaseFees: EstimatedBaseFee[]
   maxPrice: number
   msSinceLastBlock: number
   network: 'main'

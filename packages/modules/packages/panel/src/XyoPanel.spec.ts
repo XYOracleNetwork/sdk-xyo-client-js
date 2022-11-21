@@ -58,10 +58,9 @@ describe('XyoPanel', () => {
       },
     })
 
-    const [adhocObserved] = await adhocWitness.observe()
-    expect(new PayloadWrapper(adhocObserved).valid).toBe(true)
+    const adhocObserved = await adhocWitness.observe()
 
-    const report1Result = await panel.report([adhocWitness])
+    const report1Result = await panel.report(adhocObserved)
     const report1 = BoundWitnessWrapper.parse(report1Result[1][0])
     expect(report1.schemaName).toBe(XyoBoundWitnessSchema)
     expect(report1.payloadHashes).toBeArrayOfSize(2)
@@ -128,7 +127,8 @@ describe('XyoPanel', () => {
           resolver,
         }
         const panel = await XyoPanel.create(params)
-        const result = await panel.report([witnessB])
+        const observed = await witnessB.observe()
+        const result = await panel.report(observed)
         await assertArchivistPostTestState(result, [archivistA, archivistB])
       })
       it('inline', async () => {
@@ -143,7 +143,9 @@ describe('XyoPanel', () => {
           resolver,
         }
         const panel = await XyoPanel.create(params)
-        const result = await panel.report([witnessA, witnessB])
+        const observedA = await witnessA.observe()
+        const observedB = await witnessB.observe()
+        const result = await panel.report([...observedA, ...observedB])
         await assertArchivistPostTestState(result, [archivistA, archivistB])
       })
     })
@@ -173,7 +175,7 @@ describe('XyoPanel', () => {
         expect(result).toBeArrayOfSize(2)
         const [bws, payloads] = result
         expect(bws).toBeArrayOfSize(4)
-        expect(payloads).toBeArrayOfSize(2)
+        expect(payloads).toBeArrayOfSize(1)
         const [bw, panelPayload] = payloads
         expect(bw.schema).toBe(XyoBoundWitnessSchema)
         expect(panelPayload.schema).toBe(payload.schema)

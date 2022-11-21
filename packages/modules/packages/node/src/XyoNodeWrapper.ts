@@ -16,7 +16,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
+export class NodeWrapper extends XyoModuleWrapper implements NodeModule {
   public isModuleResolver = true
 
   private _archivist?: XyoArchivistWrapper
@@ -86,3 +86,6 @@ export class XyoNodeWrapper extends XyoModuleWrapper implements NodeModule {
     throw Error('Not implemented')
   }
 }
+
+/** @deprecated use NodeWrapper instead */
+export class XyoNodeWrapper extends NodeWrapper {}

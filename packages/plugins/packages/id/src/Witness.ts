@@ -28,7 +28,7 @@ export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
     return (await super.create(params)) as XyoIdWitness
   }
 
-  override async observe(fields: Partial<XyoIdPayload>[]): Promise<XyoIdPayload[]> {
+  override async observe(fields: Partial<XyoIdPayload>[] = []): Promise<XyoIdPayload[]> {
     return await super.observe(
       fields.map((fieldItems) => {
         return {

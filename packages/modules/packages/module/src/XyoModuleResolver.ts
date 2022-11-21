@@ -3,8 +3,8 @@ import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
+import { ModuleResolver } from './Module'
 import { ModuleFilter } from './ModuleFilter'
-import { ModuleResolver } from './ModuleResolver'
 import { XyoModule } from './XyoModule'
 
 export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements ModuleResolver {

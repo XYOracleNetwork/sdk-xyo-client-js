@@ -14,7 +14,7 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "systeminformation": "^5.12.15",
+    "systeminformation": "^5.14.4",
     "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

@@ -2,9 +2,14 @@ import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { ModuleDescription } from './ModuleDescription'
+import { ModuleFilter } from './ModuleFilter'
 import { ModuleQueryResult } from './ModuleQueryResult'
-import { ModuleResolver } from './ModuleResolver'
 import { XyoQueryBoundWitness } from './Query'
+
+export interface ModuleResolver {
+  isModuleResolver: boolean
+  resolve(filter?: ModuleFilter): Promisable<Module[]>
+}
 
 export interface Module<TConfig extends XyoPayload = XyoPayload> {
   address: string

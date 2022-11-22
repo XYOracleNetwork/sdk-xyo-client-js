@@ -1,36 +1,34 @@
-import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
-
+/* eslint-disable sort-keys-fix/sort-keys-fix */
+import { sampleEtherscanGas } from '../../test'
 import { transformGasFromEtherscan } from './transformGasFromEtherscan'
 
-const testGasResult: XyoEthereumGasEtherscanPayload = {
-  message: 'OK',
-  result: {
-    FastGasPrice: '13',
-    LastBlock: '15986476',
-    ProposeGasPrice: '13',
-    SafeGasPrice: '12',
-    gasUsedRatio: '0.345005466666667,0.391415466666667,0.424558733333333,0.513428133333333,0.428615366666667',
-    suggestBaseFee: '11.744544475',
-  },
-  schema: XyoEthereumGasEtherscanSchema,
-  status: '1',
-  timestamp: 1668648728013,
-}
-
 describe('transformGasFromEtherscan', () => {
-  test('returns string results transformed to numeric values', () => {
-    const result = transformGasFromEtherscan(testGasResult)
+  it('returns values in the expected format', () => {
+    const result = transformGasFromEtherscan(sampleEtherscanGas)
     expect(result).toBeObject()
-
+    expect(result.baseFee).toBeNumber()
     expect(result.feePerGas).toBeObject()
     expect(result.feePerGas.low).toBeNumber()
     expect(result.feePerGas.medium).toBeNumber()
     expect(result.feePerGas.high).toBeNumber()
     expect(result.feePerGas.veryHigh).toBeNumber()
-
-    expect(result.baseFee).toBeNumber()
-
     expect(result.priorityFeePerGas).toBeObject()
+    expect(result.priorityFeePerGas.low).toBeUndefined()
     expect(result.priorityFeePerGas.medium).toBeUndefined()
+    expect(result.priorityFeePerGas.high).toBeUndefined()
+    expect(result.priorityFeePerGas.veryHigh).toBeUndefined()
+  })
+  it('matches expected output', () => {
+    const result = transformGasFromEtherscan(sampleEtherscanGas)
+    expect(result).toMatchObject({
+      baseFee: 27616709247,
+      feePerGas: {
+        low: 28000000000,
+        medium: 29000000000,
+        high: 30000000000,
+        veryHigh: 31000000000,
+      },
+      priorityFeePerGas: {},
+    })
   })
 })

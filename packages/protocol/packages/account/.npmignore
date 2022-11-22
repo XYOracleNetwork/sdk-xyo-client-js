@@ -1,10 +1,17 @@
 .*
+.env
+.eslintcache
+.example.env
 tsconfig*
-rollup.config.ts
 jest.config.js
 rollup.config.ts
 yarn.lock
 
+.github
 .pnp.*
+.vscode
 .yarn/*
+coverage
+node_modules
+swagger.json
 packages

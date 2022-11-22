@@ -18,20 +18,27 @@ const getFeePerGas = (payload: XyoEthereumGasBlocknativePayload): Partial<FeePer
     [4, payload.blockPrices?.[0].estimatedPrices?.[4].price],
   ])
   const feePerGas: FeePerGas = {
-    low: trend.predict(0.5)[1],
-    medium: trend.predict(1.5)[1],
-    high: trend.predict(2.5)[1],
-    veryHigh: trend.predict(3.5)[1],
+    veryHigh: trend.predict(0.5)[1],
+    high: trend.predict(1.5)[1],
+    medium: trend.predict(2.5)[1],
+    low: trend.predict(3.5)[1],
   }
   return feePerGas
 }
 
 const getPriorityFeePerGas = (payload: XyoEthereumGasBlocknativePayload): Partial<PriorityFeePerGas> => {
+  const trend = linear([
+    [0, payload.blockPrices?.[0].estimatedPrices?.[0].maxPriorityFeePerGas],
+    [1, payload.blockPrices?.[0].estimatedPrices?.[1].maxPriorityFeePerGas],
+    [2, payload.blockPrices?.[0].estimatedPrices?.[2].maxPriorityFeePerGas],
+    [3, payload.blockPrices?.[0].estimatedPrices?.[3].maxPriorityFeePerGas],
+    [4, payload.blockPrices?.[0].estimatedPrices?.[4].maxPriorityFeePerGas],
+  ])
   const priorityFeePerGas: PriorityFeePerGas = {
-    low: payload?.blockPrices?.[0]?.estimatedPrices?.[1].maxPriorityFeePerGas,
-    medium: payload?.blockPrices?.[0]?.estimatedPrices?.[2].maxPriorityFeePerGas,
-    high: payload?.blockPrices?.[0]?.estimatedPrices?.[3].maxPriorityFeePerGas,
-    veryHigh: payload?.blockPrices?.[0]?.estimatedPrices?.[4].maxPriorityFeePerGas,
+    veryHigh: trend.predict(0.5)[1],
+    high: trend.predict(1.5)[1],
+    medium: trend.predict(2.5)[1],
+    low: trend.predict(3.5)[1],
   }
   return priorityFeePerGas
 }

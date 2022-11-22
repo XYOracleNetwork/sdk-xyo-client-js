@@ -15,6 +15,7 @@ import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 
+import { PanelModule } from './Panel'
 import { XyoPanelQuery, XyoPanelReportQuerySchema } from './Queries'
 
 export type XyoPanelConfigSchema = 'network.xyo.panel.config'
@@ -30,7 +31,7 @@ export type XyoPanelConfig = XyoModuleConfig<{
   witnesses?: string[]
 }>
 
-export class XyoPanel extends XyoModule<XyoPanelConfig> {
+export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
   static override configSchema: XyoPanelConfigSchema
 
   public history: XyoBoundWitness[] = []

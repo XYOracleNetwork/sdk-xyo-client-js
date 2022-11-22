@@ -10,7 +10,11 @@ const testIf = (condition: boolean | string | null | undefined) => (condition ? 
 describe('getGasFromEthers', () => {
   testIf(projectId && projectSecret)('returns prices', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
-    const gas = await getGasFromEthers(provider)
-    expect(gas).toBeTruthy()
+    const result = await getGasFromEthers(provider)
+    expect(result).toBeObject()
+    expect(result.gasPrice).toBeNumber()
+    expect(result.lastBaseFeePerGas).toBeNumber()
+    expect(result.maxFeePerGas).toBeNumber()
+    expect(result.maxPriorityFeePerGas).toBeNumber()
   })
 })

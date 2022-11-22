@@ -4706,7 +4706,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/blocknative-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative":
+"@xyo-network/blocknative-ethereum-gas-payload-plugin@workspace:^, @xyo-network/blocknative-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative":
   version: 0.0.0-use.local
   resolution: "@xyo-network/blocknative-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative"
   dependencies:
@@ -5049,7 +5049,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/ethers-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethers":
+"@xyo-network/ethers-ethereum-gas-payload-plugin@workspace:^, @xyo-network/ethers-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethers":
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethers-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethers"
   dependencies:
@@ -5077,7 +5077,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/ethgasstation-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation":
+"@xyo-network/ethgasstation-ethereum-gas-payload-plugin@workspace:^, @xyo-network/ethgasstation-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation":
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethgasstation-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation"
   dependencies:
@@ -5319,9 +5319,12 @@ __metadata:
     "@uniswap/sdk-core": ^3.1.0
     "@uniswap/v3-sdk": ^3.9.0
     "@xylabs/exists": ^2.6.9
+    "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^"
+    "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^"
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^"
+    "@xyo-network/ethgasstation-ethereum-gas-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"

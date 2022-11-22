@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys-fix/sort-keys-fix */
 import { sampleBlocknativeGas } from '../../test'
 import { transformGasFromBlocknative } from './transformGasFromBlocknative'
 
@@ -19,5 +20,23 @@ describe('transformGasFromEtherscan', () => {
     expect(result.priorityFeePerGas.medium).toBeNumber()
     expect(result.priorityFeePerGas.high).toBeNumber()
     expect(result.priorityFeePerGas.veryHigh).toBeNumber()
+  })
+  it('matches expected output', () => {
+    const result = transformGasFromBlocknative(sampleBlocknativeGas)
+    expect(result).toMatchObject({
+      baseFee: 13.691764456,
+      feePerGas: {
+        low: 12.95,
+        medium: 13.25,
+        high: 13.55,
+        veryHigh: 13.85,
+      },
+      priorityFeePerGas: {
+        low: 0.13,
+        medium: 0.36,
+        high: 0.6,
+        veryHigh: 0.83,
+      },
+    })
   })
 })

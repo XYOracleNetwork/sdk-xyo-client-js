@@ -6,7 +6,6 @@ import { XyoEthereumGasEthersWitnessConfigSchema } from './Schema'
 export type XyoEthereumGasEthersWitnessConfig = XyoWitnessConfig<
   XyoEthereumGasEthersPayload,
   {
-    apiKey: string
     schema: XyoEthereumGasEthersWitnessConfigSchema
   }
 >

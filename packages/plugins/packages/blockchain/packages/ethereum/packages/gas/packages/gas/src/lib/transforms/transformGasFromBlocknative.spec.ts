@@ -32,8 +32,8 @@ describe('transformGasFromEtherscan', () => {
         veryHigh: 13.85,
       },
       priorityFeePerGas: {
-        low: 0.13,
-        medium: 0.36,
+        low: 0.14,
+        medium: 0.37,
         high: 0.6,
         veryHigh: 0.83,
       },

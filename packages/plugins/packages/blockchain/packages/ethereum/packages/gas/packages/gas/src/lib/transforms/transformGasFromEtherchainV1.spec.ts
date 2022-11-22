@@ -21,13 +21,13 @@ describe('transformGasFromEtherchainV1', () => {
   it('matches expected output', () => {
     const result = transformGasFromEtherchainV1(sampleEtherchainGasV1)
     expect(result).toMatchObject({
-      baseFee: 19500000000,
+      baseFee: 19.5,
       feePerGas: {},
       priorityFeePerGas: {
-        low: 100000000,
-        medium: 200000000,
-        high: 300000000,
-        veryHigh: 1500000000,
+        low: 0.1,
+        medium: 0.2,
+        high: 0.3,
+        veryHigh: 1.5,
       },
     })
   })

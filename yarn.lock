@@ -5063,6 +5063,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/ethgasstation-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/ethgasstation-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation"
+  dependencies:
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    axios: ^1.1.3
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/express-node-dependencies@workspace:^, @xyo-network/express-node-dependencies@workspace:packages/node/packages/express/dependencies":
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-dependencies@workspace:packages/node/packages/express/dependencies"

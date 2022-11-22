@@ -16,5 +16,6 @@ yarn.lock
 .vscode
 .yarn/*
 coverage
+cspell.json
 node_modules
 swagger.json

@@ -5060,7 +5060,6 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    axios: ^1.1.3
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft

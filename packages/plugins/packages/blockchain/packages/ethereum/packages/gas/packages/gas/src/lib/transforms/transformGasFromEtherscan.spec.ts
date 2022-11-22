@@ -21,12 +21,12 @@ describe('transformGasFromEtherscan', () => {
   it('matches expected output', () => {
     const result = transformGasFromEtherscan(sampleEtherscanGas)
     expect(result).toMatchObject({
-      baseFee: 27616709247,
+      baseFee: 27.616709247,
       feePerGas: {
-        low: 28000000000,
-        medium: 29000000000,
-        high: 30000000000,
-        veryHigh: 31000000000,
+        low: 28,
+        medium: 29,
+        high: 30,
+        veryHigh: 31,
       },
       priorityFeePerGas: {},
     })

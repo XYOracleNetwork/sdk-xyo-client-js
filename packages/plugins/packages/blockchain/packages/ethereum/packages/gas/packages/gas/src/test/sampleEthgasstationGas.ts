@@ -1,15 +1,15 @@
 import { XyoEthereumGasEthgasstationPayload, XyoEthereumGasEthgasstationSchema } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
 
 export const sampleEthgasstationGas: XyoEthereumGasEthgasstationPayload = {
-  baseFee: 14,
-  blockNumber: 16026136,
+  baseFee: 10,
+  blockNumber: 16028883,
   blockTime: 11.88,
   gasPrice: {
-    fast: 23,
-    instant: 24,
-    standard: 19,
+    fast: 12,
+    instant: 13,
+    standard: 12,
   },
-  nextBaseFee: 14,
+  nextBaseFee: 10,
   priorityFee: {
     fast: 2,
     instant: 2,

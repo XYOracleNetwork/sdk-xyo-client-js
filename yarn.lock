@@ -2634,7 +2634,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/units@npm:5.7.0, @ethersproject/units@npm:^5.7.0":
+"@ethersproject/units@npm:5.7.0":
   version: 5.7.0
   resolution: "@ethersproject/units@npm:5.7.0"
   dependencies:
@@ -5054,7 +5054,6 @@ __metadata:
   resolution: "@xyo-network/ethers-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/blockchain/packages/ethereum/packages/gas/packages/ethers"
   dependencies:
     "@ethersproject/providers": ^5.7.2
-    "@ethersproject/units": ^5.7.0
     "@xylabs/assert": ^2.6.9
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"

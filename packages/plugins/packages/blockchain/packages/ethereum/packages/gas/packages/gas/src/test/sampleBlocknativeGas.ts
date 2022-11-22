@@ -7,49 +7,49 @@ import {
 export const sampleBlocknativeGas: XyoEthereumGasBlocknativePayload = {
   blockPrices: [
     {
-      baseFeePerGas: 15.848298687,
-      blockNumber: 16026117,
+      baseFeePerGas: 13.691764456,
+      blockNumber: 16028191,
       estimatedPrices: [
         {
           confidence: 99,
-          maxFeePerGas: 25.15,
-          maxPriorityFeePerGas: 1.04,
-          price: 16,
+          maxFeePerGas: 22.04,
+          maxPriorityFeePerGas: 1.09,
+          price: 14,
         },
         {
           confidence: 95,
-          maxFeePerGas: 24.68,
-          maxPriorityFeePerGas: 0.57,
-          price: 16,
+          maxFeePerGas: 21.58,
+          maxPriorityFeePerGas: 0.63,
+          price: 14,
         },
         {
           confidence: 90,
-          maxFeePerGas: 24.38,
-          maxPriorityFeePerGas: 0.27,
-          price: 16,
+          maxFeePerGas: 21.25,
+          maxPriorityFeePerGas: 0.3,
+          price: 13,
         },
         {
           confidence: 80,
-          maxFeePerGas: 24.3,
-          maxPriorityFeePerGas: 0.19,
-          price: 16,
+          maxFeePerGas: 21.16,
+          maxPriorityFeePerGas: 0.21,
+          price: 13,
         },
         {
           confidence: 70,
-          maxFeePerGas: 24.27,
-          maxPriorityFeePerGas: 0.16,
-          price: 16,
+          maxFeePerGas: 21.12,
+          maxPriorityFeePerGas: 0.17,
+          price: 13,
         },
       ],
-      estimatedTransactionCount: 72,
+      estimatedTransactionCount: 69,
     },
   ],
-  currentBlockNumber: 16026116,
+  currentBlockNumber: 16028190,
   estimatedBaseFees: [
     {
       'pending+1': [
         {
-          baseFee: 17.83,
+          baseFee: 15.41,
           confidence: 99,
         },
       ],
@@ -57,7 +57,7 @@ export const sampleBlocknativeGas: XyoEthereumGasBlocknativePayload = {
     {
       'pending+2': [
         {
-          baseFee: 20.06,
+          baseFee: 17.32,
           confidence: 99,
         },
       ],
@@ -65,7 +65,7 @@ export const sampleBlocknativeGas: XyoEthereumGasBlocknativePayload = {
     {
       'pending+3': [
         {
-          baseFee: 22.12,
+          baseFee: 19.17,
           confidence: 99,
         },
       ],
@@ -73,7 +73,7 @@ export const sampleBlocknativeGas: XyoEthereumGasBlocknativePayload = {
     {
       'pending+4': [
         {
-          baseFee: 23.6,
+          baseFee: 20.12,
           confidence: 99,
         },
       ],
@@ -81,14 +81,14 @@ export const sampleBlocknativeGas: XyoEthereumGasBlocknativePayload = {
     {
       'pending+5': [
         {
-          baseFee: 24.11,
+          baseFee: 20.95,
           confidence: 99,
         },
       ],
     },
   ] as unknown as EstimatedBaseFee[],
-  maxPrice: 100,
-  msSinceLastBlock: 3204,
+  maxPrice: 36,
+  msSinceLastBlock: 3643,
   network: 'main',
   schema: XyoEthereumGasBlocknativeSchema,
   system: 'ethereum',

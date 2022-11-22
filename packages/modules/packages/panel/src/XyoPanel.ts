@@ -14,6 +14,7 @@ import {
 import { XyoPayload } from '@xyo-network/payload'
 import { XyoWitness, XyoWitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
+import uniq from 'lodash/uniq'
 
 import { PanelModule } from './Panel'
 import { XyoPanelQuery, XyoPanelReportQuerySchema } from './Queries'
@@ -40,6 +41,16 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
 
   static override async create(params?: Partial<XyoModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
     return (await super.create(params)) as XyoPanel
+  }
+
+  public addArchivist(address: string[]) {
+    this.config.archivists = uniq([...address, ...(this.config.archivists ?? [])])
+    this._archivists = undefined
+  }
+
+  public addWitness(address: string[]) {
+    this.config.witnesses = uniq([...address, ...(this.config.witnesses ?? [])])
+    this._witnesses = undefined
   }
 
   public async getArchivists() {
@@ -89,6 +100,16 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
       resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
     return await this.bindResult(resultPayloads, queryAccount)
+  }
+
+  public removeArchivist(address: string[]) {
+    this.config.archivists = (this.config.archivists ?? []).filter((archivist) => !address.includes(archivist))
+    this._archivists = undefined
+  }
+
+  public removeWitness(address: string[]) {
+    this.config.witnesses = (this.config.witnesses ?? []).filter((witness) => !address.includes(witness))
+    this._witnesses = undefined
   }
 
   public async report(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {

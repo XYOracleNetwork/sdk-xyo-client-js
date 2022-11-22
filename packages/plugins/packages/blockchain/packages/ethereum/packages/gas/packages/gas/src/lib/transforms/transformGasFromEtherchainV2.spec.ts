@@ -23,10 +23,10 @@ describe('transformGasFromEtherchainV2', () => {
     expect(result).toMatchObject({
       baseFee: undefined,
       feePerGas: {
-        low: 11200000000,
-        medium: 12000000000,
-        high: 19803047330,
-        veryHigh: 29714286170,
+        low: 11.2,
+        medium: 12.0,
+        high: 19.80304733,
+        veryHigh: 29.71428617,
       },
       priorityFeePerGas: {},
     })

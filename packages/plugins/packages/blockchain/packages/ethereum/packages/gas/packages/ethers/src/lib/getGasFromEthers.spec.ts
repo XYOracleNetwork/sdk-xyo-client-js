@@ -1,21 +1,16 @@
+import { InfuraProvider } from '@ethersproject/providers'
+
 import { getGasFromEthers } from './getGasFromEthers'
 
-const apiKey = process.env.ETHERSCAN_API_KEY || ''
+const projectId = process.env.INFURA_PROJECT_ID || ''
+const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
 
 const testIf = (condition: boolean | string | null | undefined) => (condition ? it : it.skip)
 
 describe('getGasFromEthers', () => {
-  testIf(apiKey)('returns prices', async () => {
-    const gas = await getGasFromEthers(apiKey)
+  testIf(projectId && projectSecret)('returns prices', async () => {
+    const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
+    const gas = await getGasFromEthers(provider)
     expect(gas).toBeTruthy()
-    expect(gas.status).toEqual('1')
-    expect(gas.message).toEqual('OK')
-    expect(gas.result).toBeObject()
-    expect(gas.result.FastGasPrice).toBeString()
-    expect(gas.result.LastBlock).toBeString()
-    expect(gas.result.ProposeGasPrice).toBeString()
-    expect(gas.result.SafeGasPrice).toBeString()
-    expect(gas.result.gasUsedRatio).toBeString()
-    expect(gas.result.suggestBaseFee).toBeString()
   })
 })

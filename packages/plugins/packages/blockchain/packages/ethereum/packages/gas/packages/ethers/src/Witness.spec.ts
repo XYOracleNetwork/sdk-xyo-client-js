@@ -25,10 +25,4 @@ describe('XyoEthereumGasEthersWitness', () => {
     const answerWrapper = new PayloadWrapper(actual)
     expect(answerWrapper.valid).toBe(true)
   })
-
-  describe('create', () => {
-    it('throws if no params provided', async () => {
-      await expect(XyoEthereumGasEthersWitness.create()).toReject()
-    })
-  })
 })

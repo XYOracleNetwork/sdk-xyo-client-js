@@ -8,7 +8,7 @@ import { getGasFromEthers } from './lib'
 import { XyoEthereumGasEthersPayload } from './Payload'
 import { XyoEthereumGasEthersSchema, XyoEthereumGasEthersWitnessConfigSchema } from './Schema'
 
-export interface XyoEthereumGasEthersWitnessParam extends XyoModuleParams<XyoEthereumGasEthersWitnessConfig> {
+export interface XyoEthereumGasEthersWitnessParams extends XyoModuleParams<XyoEthereumGasEthersWitnessConfig> {
   provider: Provider
 }
 
@@ -17,12 +17,12 @@ export class XyoEthereumGasEthersWitness extends XyoTimestampWitness<XyoEthereum
   static override targetSchema = XyoEthereumGasEthersSchema
   protected provider?: Provider
 
-  protected constructor(params: XyoEthereumGasEthersWitnessParam) {
+  protected constructor(params: XyoEthereumGasEthersWitnessParams) {
     super(params)
     this.provider = params?.provider
   }
 
-  static override async create(params?: XyoModuleParams<XyoEthereumGasEthersWitnessConfig>): Promise<XyoEthereumGasEthersWitness> {
+  static override async create(params?: XyoEthereumGasEthersWitnessParams): Promise<XyoEthereumGasEthersWitness> {
     return (await super.create(params)) as XyoEthereumGasEthersWitness
   }
 

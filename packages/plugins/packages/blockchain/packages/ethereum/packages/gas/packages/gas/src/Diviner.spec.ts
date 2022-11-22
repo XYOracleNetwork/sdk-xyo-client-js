@@ -3,14 +3,28 @@ import { XyoDivinerWrapper } from '@xyo-network/diviner'
 import { XyoEthereumGasDiviner } from './Diviner'
 import { XyoEthereumGasPayload } from './Payload'
 import { XyoEthereumGasSchema } from './Schema'
-import { sampleEtherchainGasV1, sampleEtherchainGasV2, sampleEtherscanGas } from './test'
+import {
+  sampleBlocknativeGas,
+  sampleEtherchainGasV1,
+  sampleEtherchainGasV2,
+  sampleEtherscanGas,
+  sampleEthersGas,
+  sampleEthgasstationGas,
+} from './test'
 
 describe('Diviner', () => {
   test('returns divined gas price', async () => {
     const module = await XyoEthereumGasDiviner.create()
     const wrapper = new XyoDivinerWrapper(module)
 
-    const payloads = await wrapper.divine([sampleEtherchainGasV1, sampleEtherchainGasV2, sampleEtherscanGas])
+    const payloads = await wrapper.divine([
+      sampleBlocknativeGas,
+      sampleEtherchainGasV1,
+      sampleEtherchainGasV2,
+      sampleEtherscanGas,
+      sampleEthersGas,
+      sampleEthgasstationGas,
+    ])
 
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)

@@ -14,7 +14,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "axios": "^1.1.3",
+    "axios": "^1.2.0",
     "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

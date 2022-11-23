@@ -3,7 +3,7 @@ import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xy
 import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
-import { PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 import { XyoWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 

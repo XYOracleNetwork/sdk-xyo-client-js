@@ -149,37 +149,5 @@ describe('XyoPanel', () => {
         await assertArchivistPostTestState(result, [archivistA, archivistB])
       })
     })
-    describe('with AdHoc Witness', () => {
-      let witness: XyoAdhocWitness
-      const payload: XyoPayload = new XyoPayloadBuilder({ schema: 'network.xyo.debug' }).fields({ a: 'a', one: 1 }).build()
-      beforeEach(async () => {
-        witness = await XyoAdhocWitness.create({
-          config: { payload, schema: XyoAdhocWitnessConfigSchema, targetSchema: payload.schema },
-        })
-        archivistA = await XyoMemoryArchivist.create()
-        archivistB = await XyoMemoryArchivist.create()
-      })
-      it('uses schema from Witnessed Payload', async () => {
-        const resolver = new XyoModuleResolver()
-        resolver.add([witness, archivistA, archivistB])
-        const params: XyoModuleParams<XyoPanelConfig> = {
-          config: {
-            archivists: [archivistA.address, archivistB.address],
-            schema: 'network.xyo.panel.config',
-            witnesses: [witness.address],
-          },
-          resolver,
-        }
-        const panel = await XyoPanel.create(params)
-        const result = await panel.report()
-        expect(result).toBeArrayOfSize(2)
-        const [bws, payloads] = result
-        expect(bws).toBeArrayOfSize(4)
-        expect(payloads).toBeArrayOfSize(1)
-        const [bw, panelPayload] = payloads
-        expect(bw.schema).toBe(XyoBoundWitnessSchema)
-        expect(panelPayload.schema).toBe(payload.schema)
-      })
-    })
   })
 })

@@ -1,5 +1,5 @@
 import { XyoArchivistWrapper } from '@xyo-network/archivist'
-import { Module, ModuleFilter, XyoModule, XyoModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleFilter, ModuleWrapper, XyoModule } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -16,7 +16,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper extends XyoModuleWrapper implements NodeModule {
+export class NodeWrapper extends ModuleWrapper implements NodeModule {
   public isModuleResolver = true
 
   private _archivist?: XyoArchivistWrapper
@@ -48,9 +48,7 @@ export class NodeWrapper extends XyoModuleWrapper implements NodeModule {
 
   async detach(address: string): Promise<void> {
     const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ address, schema: XyoNodeDetachQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
+    await this.sendQuery(queryPayload)
   }
 
   find(_filter: ModuleFilter): Promisable<XyoModule[]> {
@@ -63,9 +61,7 @@ export class NodeWrapper extends XyoModuleWrapper implements NodeModule {
 
   async registered(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
+    const result = await this.sendQuery(queryPayload)
     return compact(result[1].map((payload) => payload?.schema))
   }
 

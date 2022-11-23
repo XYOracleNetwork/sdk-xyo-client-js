@@ -5327,7 +5327,6 @@ __metadata:
     "@ethersproject/networks": ^5.7.1
     "@ethersproject/providers": ^5.7.2
     "@ethersproject/solidity": ^5.7.0
-    "@ethersproject/units": 5.7.0
     "@types/regression": ^2.0.2
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.1.0

@@ -10,7 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/units": "5.7.0",
     "@xylabs/exists": "^2.6.9",
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",

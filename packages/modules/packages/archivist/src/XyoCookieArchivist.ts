@@ -161,6 +161,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       XyoArchivistDeleteQuerySchema,
       XyoArchivistClearQuerySchema,
       XyoArchivistFindQuerySchema,
+      XyoArchivistInsertQuerySchema,
       XyoArchivistCommitQuerySchema,
       ...super.queries(),
     ]

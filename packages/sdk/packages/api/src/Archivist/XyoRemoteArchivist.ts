@@ -1,4 +1,4 @@
-import { XyoArchivist, XyoArchivistFindQuerySchema } from '@xyo-network/archivist'
+import { XyoArchivist, XyoArchivistFindQuerySchema, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
@@ -124,6 +124,6 @@ export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
   }
 
   public override queries() {
-    return [XyoArchivistFindQuerySchema, ...super.queries()]
+    return [XyoArchivistFindQuerySchema, XyoArchivistInsertQuerySchema, ...super.queries()]
   }
 }

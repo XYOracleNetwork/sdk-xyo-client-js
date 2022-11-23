@@ -75,8 +75,4 @@ describe('divineGas', () => {
       expect(result.timestamp).toBeNumber()
     })
   })
-  test.skip('diviner calibration', () => {
-    // NOTE: This test is for obtaining concurrent witnessed
-    // results for diviner weighting/calibration
-  })
 })

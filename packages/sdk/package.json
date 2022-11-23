@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/api-models": "workspace:^",
+    "@xyo-network/axios": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/storage": "workspace:^",

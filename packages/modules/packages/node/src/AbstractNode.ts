@@ -19,7 +19,7 @@ import { NodeConfig } from './Config'
 import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
+export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
   extends XyoModule<TConfig>
   implements NodeModule
 {
@@ -33,8 +33,8 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
     this.internalResolver = internalResolver ?? new XyoModuleResolver<TModule>()
   }
 
-  static override async create(params?: Partial<XyoModuleParams<NodeConfig>>): Promise<XyoNode> {
-    return (await super.create(params)) as XyoNode
+  static override async create(params?: Partial<XyoModuleParams<NodeConfig>>): Promise<AbstractNode> {
+    return (await super.create(params)) as AbstractNode
   }
 
   async attached(): Promise<string[]> {
@@ -110,4 +110,11 @@ export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule e
   abstract attach(address: string): void
   abstract detach(address: string): void
   abstract resolve(filter?: ModuleFilter): Promisable<TModule[]>
+  abstract tryResolve(filter?: ModuleFilter): Promisable<TModule[]>
 }
+
+/** @deprecated use AbstractNode instead */
+export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends AbstractNode<
+  TConfig,
+  TModule
+> {}

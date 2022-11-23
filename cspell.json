@@ -17,6 +17,7 @@
     "deregisters",
     "dotenv",
     "ethersproject",
+    "ethgasstation",
     "hashable",
     "Hasher",
     "hdnode",

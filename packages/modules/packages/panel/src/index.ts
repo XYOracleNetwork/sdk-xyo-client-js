@@ -1,4 +1,5 @@
 export * from './Automation'
+export * from './Panel'
 export * from './XyoAutomationWrapper'
 export * from './XyoPanel'
 export * from './XyoPanelRunner'

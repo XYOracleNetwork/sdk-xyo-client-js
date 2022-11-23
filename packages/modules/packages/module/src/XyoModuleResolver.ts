@@ -3,8 +3,8 @@ import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
+import { ModuleResolver } from './Module'
 import { ModuleFilter } from './ModuleFilter'
-import { ModuleResolver } from './ModuleResolver'
 import { XyoModule } from './XyoModule'
 
 export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements ModuleResolver {
@@ -49,6 +49,14 @@ export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements
     const filteredByQuery = this.resolveByQuery(filteredByConfigSchema, filter?.query)
 
     return filteredByQuery
+  }
+
+  async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
+    try {
+      return await this.resolve(filter)
+    } catch (ex) {
+      return []
+    }
   }
 
   private addSingleModule(module?: TModule, name?: string) {

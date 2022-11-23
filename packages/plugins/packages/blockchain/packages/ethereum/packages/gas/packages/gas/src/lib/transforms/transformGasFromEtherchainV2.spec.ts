@@ -1,32 +1,34 @@
-import { XyoEthereumGasEtherchainV1Payload, XyoEthereumGasEtherchainV1Schema } from '@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins'
+/* eslint-disable sort-keys-fix/sort-keys-fix */
+import { sampleEtherchainGasV2 } from '../../test'
+import { transformGasFromEtherchainV2 } from './transformGasFromEtherchainV2'
 
-import { transformGasFromEtherchainV1 } from './transformGasFromEtherchainV1'
-
-const testGasResult: XyoEthereumGasEtherchainV1Payload = {
-  currentBaseFee: 16.1,
-  fast: 1,
-  fastest: 1,
-  recommendedBaseFee: 32.7,
-  safeLow: 0.1,
-  schema: XyoEthereumGasEtherchainV1Schema,
-  standard: 0.2,
-  timestamp: 1668648728013,
-}
-
-describe('transformGasFromEtherchainV1', () => {
-  test('returns string results transformed to numeric values', () => {
-    const result = transformGasFromEtherchainV1(testGasResult)
+describe('transformGasFromEtherchainV2', () => {
+  it('returns values in the expected format', () => {
+    const result = transformGasFromEtherchainV2(sampleEtherchainGasV2)
     expect(result).toBeObject()
-    expect(result.baseFee).toBeNumber()
+    expect(result.baseFee).toBeUndefined()
     expect(result.feePerGas).toBeObject()
-    expect(result.feePerGas.low).toBeUndefined()
-    expect(result.feePerGas.medium).toBeUndefined()
-    expect(result.feePerGas.high).toBeUndefined()
-    expect(result.feePerGas.veryHigh).toBeUndefined()
+    expect(result.feePerGas.low).toBeNumber()
+    expect(result.feePerGas.medium).toBeNumber()
+    expect(result.feePerGas.high).toBeNumber()
+    expect(result.feePerGas.veryHigh).toBeNumber()
     expect(result.priorityFeePerGas).toBeObject()
-    expect(result.priorityFeePerGas.low).toBeNumber()
-    expect(result.priorityFeePerGas.medium).toBeNumber()
-    expect(result.priorityFeePerGas.high).toBeNumber()
-    expect(result.priorityFeePerGas.veryHigh).toBeNumber()
+    expect(result.priorityFeePerGas.low).toBeUndefined()
+    expect(result.priorityFeePerGas.medium).toBeUndefined()
+    expect(result.priorityFeePerGas.high).toBeUndefined()
+    expect(result.priorityFeePerGas.veryHigh).toBeUndefined()
+  })
+  it('matches expected output', () => {
+    const result = transformGasFromEtherchainV2(sampleEtherchainGasV2)
+    expect(result).toMatchObject({
+      baseFee: undefined,
+      feePerGas: {
+        low: 11.2,
+        medium: 12.0,
+        high: 19.80304733,
+        veryHigh: 29.71428617,
+      },
+      priorityFeePerGas: {},
+    })
   })
 })

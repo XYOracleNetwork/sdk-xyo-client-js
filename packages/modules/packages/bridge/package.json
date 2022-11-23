@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.9",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/axios": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",

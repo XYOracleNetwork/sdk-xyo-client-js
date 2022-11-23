@@ -17,9 +17,9 @@ exports[`MemoryNode description node with child modules serializes to JSON consi
         "network.xyo.query.archivist.delete",
         "network.xyo.query.archivist.clear",
         "network.xyo.query.archivist.find",
+        "network.xyo.query.archivist.insert",
         "network.xyo.query.archivist.commit",
         "network.xyo.query.archivist.get",
-        "network.xyo.query.archivist.insert",
         "network.xyo.query.module.discover",
         "network.xyo.query.module.subscribe"
       ]
@@ -31,9 +31,9 @@ exports[`MemoryNode description node with child modules serializes to JSON consi
         "network.xyo.query.archivist.delete",
         "network.xyo.query.archivist.clear",
         "network.xyo.query.archivist.find",
+        "network.xyo.query.archivist.insert",
         "network.xyo.query.archivist.commit",
         "network.xyo.query.archivist.get",
-        "network.xyo.query.archivist.insert",
         "network.xyo.query.module.discover",
         "network.xyo.query.module.subscribe"
       ]
@@ -59,9 +59,9 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
         "network.xyo.query.archivist.delete",
         "network.xyo.query.archivist.clear",
         "network.xyo.query.archivist.find",
+        "network.xyo.query.archivist.insert",
         "network.xyo.query.archivist.commit",
         "network.xyo.query.archivist.get",
-        "network.xyo.query.archivist.insert",
         "network.xyo.query.module.discover",
         "network.xyo.query.module.subscribe"
       ]
@@ -82,9 +82,9 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
             "network.xyo.query.archivist.delete",
             "network.xyo.query.archivist.clear",
             "network.xyo.query.archivist.find",
+            "network.xyo.query.archivist.insert",
             "network.xyo.query.archivist.commit",
             "network.xyo.query.archivist.get",
-            "network.xyo.query.archivist.insert",
             "network.xyo.query.module.discover",
             "network.xyo.query.module.subscribe"
           ]

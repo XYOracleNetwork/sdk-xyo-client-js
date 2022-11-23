@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { dependencies } from '@xyo-network/express-node-dependencies'
 import { SchemaToQueryProcessorRegistry, XyoPayloadToQueryConverterRegistry } from '@xyo-network/express-node-middleware'
+import { AddressHistoryDiviner } from '@xyo-network/modules'
 import {
-  AddressHistoryDiviner,
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
   ArchiveKeyArchivist,

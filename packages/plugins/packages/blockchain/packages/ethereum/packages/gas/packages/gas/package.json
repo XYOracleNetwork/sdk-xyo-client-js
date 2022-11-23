@@ -10,11 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/units": "5.7.0",
     "@xylabs/exists": "^2.6.9",
+    "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^",
+    "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^",
+    "@xyo-network/ethgasstation-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",

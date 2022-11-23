@@ -12,7 +12,7 @@ export interface WrapperError extends Error {
   result: ModuleQueryResult
 }
 
-export class XyoModuleWrapper<TModule extends Module = Module> extends XyoModule<Module['config']> {
+export class ModuleWrapper<TModule extends Module = Module> extends XyoModule<Module['config']> {
   public module: TModule
 
   constructor(module: TModule) {
@@ -54,6 +54,13 @@ export class XyoModuleWrapper<TModule extends Module = Module> extends XyoModule
     }) ?? []) as XyoError[]
   }
 
+  protected async sendQuery(queryPayload: PayloadWrapper) {
+    const query = await this.bindQuery(queryPayload)
+    const result = await this.module.query(query[0], query[1])
+    this.throwErrors(query, result)
+    return result
+  }
+
   protected throwErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult) {
     const errors = this.filterErrors(query, result)
     if (errors?.length > 0) {
@@ -68,3 +75,7 @@ export class XyoModuleWrapper<TModule extends Module = Module> extends XyoModule
     }
   }
 }
+
+/** @deprecated use ModuleWrapper instead */
+
+export class XyoModuleWrapper<TModule extends Module = Module> extends ModuleWrapper<TModule> {}

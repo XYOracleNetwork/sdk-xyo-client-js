@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.9",
+    "@xyo-network/axios": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/quadkey": "workspace:^",
-    "@xyo-network/utils": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21",
     "tslib": "^2.4.1"

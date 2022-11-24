@@ -1,8 +1,7 @@
 /* eslint-disable max-statements */
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressHistoryDiviner, XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
 import { Module } from '@xyo-network/module'
 import {
-  AddressHistoryDiviner,
   ArchiveArchivist,
   BoundWitnessDiviner,
   BoundWitnessStatsDiviner,

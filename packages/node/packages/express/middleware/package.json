@@ -32,6 +32,7 @@
     "@xylabs/exists": "^2.6.9",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/diviner": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",

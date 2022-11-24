@@ -185,6 +185,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
       XyoArchivistDeleteQuerySchema,
       XyoArchivistClearQuerySchema,
       XyoArchivistFindQuerySchema,
+      XyoArchivistInsertQuerySchema,
       XyoArchivistCommitQuerySchema,
       ...super.queries(),
     ]

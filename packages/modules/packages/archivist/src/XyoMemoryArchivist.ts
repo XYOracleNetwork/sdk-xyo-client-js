@@ -145,6 +145,7 @@ export class XyoMemoryArchivist<TConfig extends XyoMemoryArchivistConfig = XyoMe
       XyoArchivistDeleteQuerySchema,
       XyoArchivistClearQuerySchema,
       XyoArchivistFindQuerySchema,
+      XyoArchivistInsertQuerySchema,
       XyoArchivistCommitQuerySchema,
       ...super.queries(),
     ]

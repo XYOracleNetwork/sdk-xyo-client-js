@@ -1,6 +1,6 @@
+import { AddressHistoryDiviner } from '@xyo-network/diviner'
 import { QueryConverterRegistry, UserCreationAuthInfo } from '@xyo-network/express-node-lib'
 import {
-  AddressHistoryDiviner,
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
   ArchiveKeyArchivist,

@@ -1,3 +1,4 @@
+export * from './AddressHistory'
 export * from './Config'
 export * from './Diviner'
 export * from './Payload'

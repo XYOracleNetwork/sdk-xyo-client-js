@@ -65,7 +65,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
   }
 
   public override queries() {
-    return [XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, ...super.queries()]
+    return [XyoArchivistGetQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(

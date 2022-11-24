@@ -1,4 +1,3 @@
-export * from './AddressHistoryDiviner'
 export * from './ArchiveQueryPayload'
 export * from './BoundWitnessDiviner'
 export * from './BoundWitnessStatsDiviner'

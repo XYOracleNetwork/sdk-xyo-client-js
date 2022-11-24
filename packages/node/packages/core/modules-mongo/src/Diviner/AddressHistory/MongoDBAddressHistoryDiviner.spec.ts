@@ -1,6 +1,6 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
-import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
+import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 
 import { MongoDBAddressHistoryDiviner } from './MongoDBAddressHistoryDiviner'
 

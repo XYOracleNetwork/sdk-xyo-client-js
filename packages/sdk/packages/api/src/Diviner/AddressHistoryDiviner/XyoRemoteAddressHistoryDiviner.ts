@@ -1,12 +1,12 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { AddressHistoryDiviner, isAddressHistoryQueryPayload, XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../../Api'
 import { RemoteDivinerError } from '../RemoteDivinerError'
 import { XyoRemoteDivinerConfig, XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
-import { AddressHistoryDiviner, isAddressHistoryQueryPayload } from './AddressHistoryDiviner'
 
 export type XyoRemoteAddressHistoryDivinerParams = XyoModuleParams<XyoRemoteDivinerConfig> & {
   api?: XyoArchivistApi
@@ -47,13 +47,14 @@ export class XyoRemoteAddressHistoryDiviner extends XyoDiviner<XyoRemoteDivinerC
       const query = payloads.find(isAddressHistoryQueryPayload)
       if (!query) return []
       const { address, limit, offset } = query
+      const singleAddress = assertEx(Array.isArray(address) ? address[0] : address, 'At least one address required')
       const find: { limit?: number; offset?: string } = {}
       if (limit) find.limit = limit
       if (offset) find.offset = `${offset}`
       const [data, body, response] =
         Object.keys(find).length > 0
-          ? await this.api.addresses.address(address).boundWitnesses.find(find, 'tuple')
-          : await this.api.addresses.address(address).boundWitnesses.get('tuple')
+          ? await this.api.addresses.address(singleAddress).boundWitnesses.find(find, 'tuple')
+          : await this.api.addresses.address(singleAddress).boundWitnesses.get('tuple')
       if (response?.status >= 400) {
         throw new RemoteDivinerError('divine', `${response.statusText} [${response.status}]`)
       }

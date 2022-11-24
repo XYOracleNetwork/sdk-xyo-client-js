@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { scrubBoundWitnesses } from '@xyo-network/node-core-lib'
 import { RequestHandler } from 'express'
@@ -12,7 +12,7 @@ const handler: RequestHandler<BlockHashPathParams, XyoBoundWitness[]> = async (r
   const { archive, hash } = req.params
   const { archiveBoundWitnessArchivistFactory } = req.app
 
-  const wrapper = new XyoArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
+  const wrapper = new ArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
   const result = await wrapper.get([hash])
   const block = result?.[0] as XyoBoundWitness
   res.json(scrubBoundWitnesses(block ? [block] : []))

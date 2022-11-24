@@ -2,12 +2,12 @@ import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
 import {
-  XyoArchivist,
+  AbstractArchivist,
+  MemoryArchivist,
   XyoArchivistAllQuerySchema,
   XyoArchivistCommitQuerySchema,
   XyoArchivistConfig,
   XyoArchivistFindQuerySchema,
-  XyoMemoryArchivist,
 } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
@@ -29,10 +29,10 @@ export type FilesystemArchivistConfig = XyoArchivistConfig<{
 /** @description Currently only a read-only archivist that loads payloads from filesystem
  * but allows for future expansion to read/write
  */
-export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = FilesystemArchivistConfig> extends XyoArchivist<TConfig> {
+export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = FilesystemArchivistConfig> extends AbstractArchivist<TConfig> {
   static override configSchema = FilesystemArchivistConfigSchema
 
-  private _memoryArchivist?: XyoMemoryArchivist
+  private _memoryArchivist?: MemoryArchivist
 
   protected constructor(params: XyoModuleParams<TConfig>) {
     super(params)
@@ -94,7 +94,7 @@ export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = Fil
   }
 
   protected async loadFromFile() {
-    this._memoryArchivist = await XyoMemoryArchivist.create()
+    this._memoryArchivist = await MemoryArchivist.create()
     try {
       const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
       await this._memoryArchivist.insert(data.payloads)

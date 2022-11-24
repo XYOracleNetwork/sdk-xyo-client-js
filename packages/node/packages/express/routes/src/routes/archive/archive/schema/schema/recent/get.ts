@@ -2,7 +2,7 @@ import 'source-map-support/register'
 
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler, tryParseInt } from '@xylabs/sdk-api-express-ecs'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { ArchivePayloadsArchivist, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
 import { RequestHandler } from 'express'
 
@@ -12,7 +12,7 @@ const getRecentPayloadsOfSchemaForArchive = async (archivist: ArchivePayloadsArc
   const order = 'desc'
   const filter: XyoPayloadFilterPredicate = { limit, order, schema }
 
-  const wrapper = new XyoArchivistWrapper(archivist)
+  const wrapper = new ArchivistWrapper(archivist)
 
   return await wrapper.find(filter)
 }

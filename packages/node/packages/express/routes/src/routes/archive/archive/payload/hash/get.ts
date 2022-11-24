@@ -2,7 +2,7 @@ import 'source-map-support/register'
 
 import { exists } from '@xylabs/exists'
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { RequestHandler } from 'express'
 
@@ -12,7 +12,7 @@ const handler: RequestHandler<PayloadHashPathParams, XyoPayload[]> = async (req,
   const { archive, hash } = req.params
   const { archivePayloadsArchivistFactory } = req.app
 
-  const wrapper = new XyoArchivistWrapper(archivePayloadsArchivistFactory(archive))
+  const wrapper = new ArchivistWrapper(archivePayloadsArchivistFactory(archive))
   const result = await wrapper.get([hash])
 
   const payload = result?.filter(exists).map((payload) => new PayloadWrapper(payload).body)?.[0]

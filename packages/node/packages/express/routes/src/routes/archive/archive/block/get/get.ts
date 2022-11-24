@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { asyncHandler, NoReqBody, NoReqQuery, tryParseInt } from '@xylabs/sdk-api-express-ecs'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner'
 import { scrubBoundWitnesses } from '@xyo-network/node-core-lib'
 import { ArchiveLocals, ArchivePathParams, BoundWitnessQueryPayload, BoundWitnessQuerySchema, SortDirection } from '@xyo-network/node-core-model'
 import { RequestHandler } from 'express'
@@ -46,7 +46,7 @@ const handler: RequestHandler<
   if (address) {
     query.address = address as string | [string]
   }
-  const boundWitness = ((await new XyoDivinerWrapper(boundWitnessDiviner).divine([query])) as (XyoBoundWitness | null)[]).filter(exists)
+  const boundWitness = ((await new DivinerWrapper(boundWitnessDiviner).divine([query])) as (XyoBoundWitness | null)[]).filter(exists)
   if (boundWitness) {
     res.json(scrubBoundWitnesses(boundWitness))
   } else {

@@ -1,4 +1,4 @@
-import { XyoDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner'
 
 import { XyoCryptoMarketAssetDiviner } from './Diviner'
 import { XyoCryptoMarketAssetPayload } from './Payload'
@@ -11,7 +11,7 @@ const uniswapPayload = sampleUniswapPayload
 describe('Diviner', () => {
   test('returns observation', async () => {
     const module = await XyoCryptoMarketAssetDiviner.create()
-    const wrapper = new XyoDivinerWrapper(module)
+    const wrapper = new DivinerWrapper(module)
 
     const payloads = await wrapper.divine([coinGeckoPayload, uniswapPayload])
     expect(payloads).toBeArray()

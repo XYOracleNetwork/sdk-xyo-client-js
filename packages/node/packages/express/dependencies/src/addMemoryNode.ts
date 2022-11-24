@@ -1,4 +1,4 @@
-import { MemoryNode, NodeConfigSchema, XyoModule, XyoNode } from '@xyo-network/modules'
+import { AbstractNode, MemoryNode, NodeConfigSchema, XyoModule } from '@xyo-network/modules'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
@@ -11,5 +11,5 @@ export const addMemoryNode = async (container: Container) => {
     node.register(mod)
     node.attach(mod.address)
   })
-  container.bind<XyoNode>(TYPES.Node).toConstantValue(node)
+  container.bind<AbstractNode>(TYPES.Node).toConstantValue(node)
 }

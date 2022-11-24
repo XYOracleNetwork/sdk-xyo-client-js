@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/sdk-js'
-import { XyoDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { AbstractDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
@@ -9,7 +9,7 @@ import { XyoSchemaListApiDivinerConfig, XyoSchemaListApiDivinerConfigSchema } fr
 
 export type XyoSchemaListApiDivinerParams = XyoModuleParams<XyoSchemaListApiDivinerConfig> & { api: XyoArchivistApi }
 
-export class SchemaListApiDiviner extends XyoDiviner<XyoSchemaListApiDivinerConfig> {
+export class SchemaListApiDiviner extends AbstractDiviner<XyoSchemaListApiDivinerConfig> {
   static override configSchema = XyoSchemaListApiDivinerConfigSchema
   static override targetSchema = XyoSchemaSchema
 

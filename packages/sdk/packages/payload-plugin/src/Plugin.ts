@@ -1,5 +1,5 @@
 import { XyoValidator } from '@xyo-network/core'
-import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
@@ -10,16 +10,16 @@ import { XyoPayloadPluginParams } from './XyoPayloadPluginConfigs'
 export type XyoPayloadPluginFunc<
   TPayload extends XyoPayload = XyoPayload,
   TWitnessParams extends XyoModuleParams<XyoWitnessConfig> = XyoModuleParams<XyoWitnessConfig>,
-  TDivinerParams extends XyoModuleParams<XyoDivinerConfig> = XyoModuleParams<XyoDivinerConfig>,
+  TDivinerParams extends XyoModuleParams<DivinerConfig> = XyoModuleParams<DivinerConfig>,
 > = () => XyoPayloadPlugin<TPayload, TWitnessParams, TDivinerParams>
 
 export type XyoPayloadPlugin<
   TPayload extends XyoPayload = XyoPayload,
   TWitnessParams extends XyoModuleParams<XyoWitnessConfig> = XyoModuleParams<XyoWitnessConfig>,
-  TDivinerParams extends XyoModuleParams<XyoDivinerConfig> = XyoModuleParams<XyoDivinerConfig>,
+  TDivinerParams extends XyoModuleParams<DivinerConfig> = XyoModuleParams<DivinerConfig>,
 > = {
   auto?: boolean
-  diviner?: <TParams extends TDivinerParams>(params?: TParams) => Promisable<XyoDiviner>
+  diviner?: <TParams extends TDivinerParams>(params?: TParams) => Promisable<AbstractDiviner>
   params?: XyoPayloadPluginParams<TWitnessParams, TDivinerParams>
   schema: TPayload['schema']
   template?: () => Partial<TPayload>

@@ -1,4 +1,4 @@
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { Module, ModuleFilter, ModuleWrapper, XyoModule } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
@@ -19,10 +19,10 @@ import {
 export class NodeWrapper extends ModuleWrapper implements NodeModule {
   public isModuleResolver = true
 
-  private _archivist?: XyoArchivistWrapper
+  private _archivist?: ArchivistWrapper
 
   public get archivist() {
-    this._archivist = this._archivist ?? new XyoArchivistWrapper(this.module)
+    this._archivist = this._archivist ?? new ArchivistWrapper(this.module)
     return this._archivist
   }
 

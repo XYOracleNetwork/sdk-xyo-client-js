@@ -1,4 +1,4 @@
-import { XyoMemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist'
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoModuleInstanceSchema } from './Schema'
@@ -6,7 +6,7 @@ import { XyoModuleInstanceWitness, XyoModuleInstanceWitnessConfigSchema } from '
 
 describe('XyoModuleInstanceWitness', () => {
   test('Witnessing', async () => {
-    const module = await XyoMemoryArchivist.create()
+    const module = await MemoryArchivist.create()
     const witness = await XyoModuleInstanceWitness.create({
       config: { module, schema: XyoModuleInstanceWitnessConfigSchema, targetSchema: XyoModuleInstanceSchema },
     })

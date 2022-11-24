@@ -4,10 +4,10 @@ import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { BridgeModule } from './Bridge'
-import { XyoBridgeConfig } from './Config'
+import { BridgeConfig } from './Config'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
-export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
+export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
   override queries() {
     return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries()]
   }
@@ -47,3 +47,6 @@ export abstract class XyoBridge<TConfig extends XyoBridgeConfig = XyoBridgeConfi
 
   abstract forward(query: XyoQuery): Promise<ModuleQueryResult>
 }
+
+/** @deprecated use AbstractBridge instead */
+export abstract class XyoBridge<TConfig extends BridgeConfig = BridgeConfig> extends AbstractBridge<TConfig> {}

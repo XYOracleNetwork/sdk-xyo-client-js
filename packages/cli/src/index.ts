@@ -1,4 +1,4 @@
-import { XyoMemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist'
 import { ModuleResolver, XyoModule } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import yargs from 'yargs'
@@ -32,7 +32,7 @@ const loadModule = async (pkg: string, name?: string, resolver?: ModuleResolver)
 
 const xyo = async () => {
   const node = await MemoryNode.create()
-  node.register(await XyoMemoryArchivist.create())
+  node.register(await MemoryArchivist.create())
   await parseOptions().command(
     'node',
     'Start an XYO Node',
@@ -45,7 +45,7 @@ const xyo = async () => {
       const modules = Array.isArray(module) ? module : [module]
       if (verbose) console.info('Starting Node')
 
-      node.register(await XyoMemoryArchivist.create())
+      node.register(await MemoryArchivist.create())
 
       await Promise.all(
         modules.map(async (module) => {

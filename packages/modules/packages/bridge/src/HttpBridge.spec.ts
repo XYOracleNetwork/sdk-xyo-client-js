@@ -1,9 +1,9 @@
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { uuid } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Axios } from 'axios'
 
-import { XyoHttpBridge, XyoHttpBridgeConfigSchema } from './XyoHttpBridge'
+import { HttpBridgeConfigSchema, XyoHttpBridge } from './HttpBridge'
 
 test('XyoHttpBridge', async () => {
   const nodeUri = `${process.env.API_DOMAIN}` ?? 'https://beta.api.archivist.xyo.network'
@@ -11,9 +11,9 @@ test('XyoHttpBridge', async () => {
 
   const bridge = await XyoHttpBridge.create({
     axios: new Axios(),
-    config: { nodeUri, schema: XyoHttpBridgeConfigSchema, targetAddress },
+    config: { nodeUri, schema: HttpBridgeConfigSchema, targetAddress },
   })
-  const wrapper = new XyoArchivistWrapper(bridge)
+  const wrapper = new ArchivistWrapper(bridge)
   const debugPayload = {
     nonce: uuid(),
     schema: 'network.xyo.debug',

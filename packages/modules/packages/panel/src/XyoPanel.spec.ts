@@ -1,4 +1,4 @@
-import { Archivist, XyoArchivist, XyoMemoryArchivist } from '@xyo-network/archivist'
+import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
@@ -11,7 +11,7 @@ import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from './XyoPanel'
 
 describe('XyoPanel', () => {
   test('all [simple panel send]', async () => {
-    const archivist = await XyoMemoryArchivist.create()
+    const archivist = await MemoryArchivist.create()
 
     const witnesses: XyoWitness[] = [
       await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } }),
@@ -74,8 +74,8 @@ describe('XyoPanel', () => {
     expect(report2.valid).toBe(true)
   })
   describe('report', () => {
-    let archivistA: XyoArchivist
-    let archivistB: XyoArchivist
+    let archivistA: AbstractArchivist
+    let archivistB: AbstractArchivist
     describe('reports witnesses when supplied in', () => {
       let witnessA: XyoWitness
       let witnessB: XyoWitness
@@ -97,8 +97,8 @@ describe('XyoPanel', () => {
       beforeEach(async () => {
         witnessA = await XyoIdWitness.create({ config: { salt: 'witnessA', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
         witnessB = await XyoIdWitness.create({ config: { salt: 'witnessB', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
-        archivistA = await XyoMemoryArchivist.create()
-        archivistB = await XyoMemoryArchivist.create()
+        archivistA = await MemoryArchivist.create()
+        archivistB = await MemoryArchivist.create()
       })
       it('config', async () => {
         const resolver = new XyoModuleResolver()

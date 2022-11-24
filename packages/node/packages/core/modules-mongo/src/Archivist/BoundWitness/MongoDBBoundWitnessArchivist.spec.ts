@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 import {
   DebugPayload,
@@ -57,7 +57,7 @@ describe('MongoDBBoundWitnessArchivist', () => {
   const hash = assertEx(hashes.at(-1))
 
   beforeAll(async () => {
-    const wrapper = new XyoArchivistWrapper(sut)
+    const wrapper = new ArchivistWrapper(sut)
     const result = await wrapper.insert(boundWitnesses)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)
@@ -74,7 +74,7 @@ describe('MongoDBBoundWitnessArchivist', () => {
   describe('find', () => {
     it('finds boundWitnesses by hash', async () => {
       const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const wrapper = new XyoArchivistWrapper(sut)
+      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([boundWitness].map(removePayloads))
@@ -82,7 +82,7 @@ describe('MongoDBBoundWitnessArchivist', () => {
     it('finds boundWitnesses by address', async () => {
       const addresses = [`${account.addressValue.hex}`]
       const filter: XyoBoundWitnessFilterPredicate = { addresses, limit }
-      const wrapper = new XyoArchivistWrapper(sut)
+      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([boundWitness].map(removePayloads))
@@ -90,7 +90,7 @@ describe('MongoDBBoundWitnessArchivist', () => {
   })
   describe('get', () => {
     it('gets boundWitnesses by hashes', async () => {
-      const wrapper = new XyoArchivistWrapper(sut)
+      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.get(hashes)
       expect(result).toBeArrayOfSize(count)
       expect(result).toContainValues([boundWitness].map(removePayloads))

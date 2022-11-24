@@ -1,5 +1,5 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import {
   ArchivePayloadsArchivist,
   XyoBoundWitnessWithPartialMeta,
@@ -15,7 +15,7 @@ const getPayloadsByHashes = async (archivist: ArchivePayloadsArchivist, archive:
   const map: Record<string, XyoPayloadWithPartialMeta[]> = {}
   const payloads: (XyoPayloadWithPartialMeta | undefined)[] = []
   for (const hash of hashes) {
-    const wrapper = new XyoArchivistWrapper(archivist)
+    const wrapper = new ArchivistWrapper(archivist)
     const result = await wrapper.get([hash])
     const payload = (result?.[0] as XyoPayloadWithPartialMeta) || undefined
     payloads.push(payload)
@@ -31,7 +31,7 @@ const getPayloadsByHashes = async (archivist: ArchivePayloadsArchivist, archive:
 const handler: RequestHandler<BlockHashPathParams, XyoPartialPayloadMeta[][]> = async (req, res, next) => {
   const { archive, hash } = req.params
   const { archivePayloadsArchivistFactory, archiveBoundWitnessArchivistFactory } = req.app
-  const wrapper = new XyoArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
+  const wrapper = new ArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
   const result = await wrapper.get([hash])
   const block = (result?.[0] as XyoBoundWitnessWithPartialMeta) || undefined
   if (block) {

@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { XyoDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner'
 import {
   ArchivePathParams,
   PayloadStatsPayload,
@@ -21,7 +21,7 @@ const handler: RequestHandler<ArchivePathParams, ArchivePayloadStats> = async (r
   const { archive } = req.params
   const { payloadStatsDiviner: diviner } = req.app
   const payloads: PayloadStatsQueryPayload[] = [{ archive, schema: PayloadStatsQuerySchema }]
-  const wrapper = new XyoDivinerWrapper(diviner)
+  const wrapper = new DivinerWrapper(diviner)
   const result = await wrapper.divine(payloads)
 
   const answer = (result?.[0] as PayloadStatsPayload) || unknownCount

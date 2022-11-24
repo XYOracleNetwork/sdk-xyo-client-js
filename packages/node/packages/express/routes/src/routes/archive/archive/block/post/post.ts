@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { getRequestMeta } from '@xyo-network/express-node-lib'
 import { prepareBoundWitnesses, validatePayloadSchema } from '@xyo-network/node-core-lib'
 import { ArchivePathParams, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
@@ -20,7 +20,7 @@ const handler: RequestHandler<ArchivePathParams, XyoBoundWitnessWithMeta[], XyoB
   const body: XyoBoundWitnessWithMeta[] = Array.isArray(req.body) ? req.body : [req.body]
   const { payloads, sanitized } = prepareBoundWitnesses(body, boundWitnessMeta, payloadMeta)
 
-  const wrapper = new XyoArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
+  const wrapper = new ArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
   await wrapper.insert(sanitized)
 
   if (payloads.length) {
@@ -31,7 +31,7 @@ const handler: RequestHandler<ArchivePathParams, XyoBoundWitnessWithMeta[], XyoB
         payloadWithExtraMeta._schemaValid = false
       }
     })
-    const wrapper = new XyoArchivistWrapper(archivePayloadsArchivistFactory(archive))
+    const wrapper = new ArchivistWrapper(archivePayloadsArchivistFactory(archive))
     await wrapper.insert(payloads)
   }
   res.json(sanitized)

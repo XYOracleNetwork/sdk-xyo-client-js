@@ -3,9 +3,10 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
-import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
+import LruCache from 'lru-cache'
 
+import { AbstractArchivist } from './AbstractArchivist'
 import { XyoArchivistConfig } from './Config'
 import {
   XyoArchivistAllQuerySchema,
@@ -16,49 +17,45 @@ import {
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
 } from './Queries'
-import { XyoArchivist } from './XyoArchivist'
 
-export type XyoCookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
-export const XyoCookieArchivistConfigSchema: XyoCookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
+export type MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
+export const MemoryArchivistConfigSchema: MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 
-export type XyoCookieArchivistConfig = XyoArchivistConfig<{
-  domain?: string
-  maxEntries?: number
-  maxEntrySize?: number
-  namespace?: string
-  schema: XyoCookieArchivistConfigSchema
+/** @deprecated use MemoryArchivistConfigSchema instead */
+export type XyoMemoryArchivistConfigSchema = MemoryArchivistConfigSchema
+
+/** @deprecated use MemoryArchivistConfigSchema instead */
+export const XyoMemoryArchivistConfigSchema = MemoryArchivistConfigSchema
+
+export type MemoryArchivistConfig = XyoArchivistConfig<{
+  max?: number
+  schema: MemoryArchivistConfigSchema
 }>
 
-export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
-  static override configSchema = XyoCookieArchivistConfigSchema
+/** @deprecated use MemoryArchivistConfig instead */
+export type XyoMemoryArchivistConfig = MemoryArchivistConfig
 
-  public get domain() {
-    return this.config?.domain
+export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchivistConfig> extends AbstractArchivist<TConfig> {
+  static override configSchema = MemoryArchivistConfigSchema
+
+  private cache: LruCache<string, XyoPayload>
+
+  protected constructor(params: XyoModuleParams<TConfig>) {
+    super(params)
+    this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
 
-  public get maxEntries() {
-    //all browsers support at least 60 cookies
-    return this.config?.maxEntries ?? 60
+  public get max() {
+    return this.config?.max ?? 10000
   }
 
-  public get maxEntrySize() {
-    //all browsers support at least 4000 length per cookie
-    return this.config?.maxEntrySize ?? 4000
-  }
-
-  public get namespace() {
-    return this.config?.namespace ?? 'xyoarch'
-  }
-
-  static override async create(params?: XyoModuleParams<XyoCookieArchivistConfig>): Promise<XyoCookieArchivist> {
-    return (await super.create(params)) as XyoCookieArchivist
+  static override async create(params?: XyoModuleParams<MemoryArchivistConfig>): Promise<MemoryArchivist> {
+    return (await super.create(params)) as MemoryArchivist
   }
 
   public override all(): PromisableArray<XyoPayload> {
     try {
-      return Object.entries(Cookies.get())
-        .filter(([key]) => key.startsWith(`${this.namespace}-`))
-        .map(([, value]) => JSON.parse(value))
+      return this.cache.dump().map((value) => value[1].value)
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -67,11 +64,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
 
   public override clear(): void | Promise<void> {
     try {
-      Object.entries(Cookies.get()).map(([key]) => {
-        if (key.startsWith(`${this.namespace}-`)) {
-          Cookies.remove(key)
-        }
-      })
+      this.cache.clear()
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -80,8 +73,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
 
   public override async commit(): Promise<XyoBoundWitness[]> {
     try {
-      const payloads = await this.all()
-      assertEx(payloads.length > 0, 'Nothing to commit')
+      const payloads = assertEx(await this.all(), 'Nothing to commit')
       const settled = await Promise.allSettled(
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
@@ -109,8 +101,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
   public override delete(hashes: string[]): PromisableArray<boolean> {
     try {
       return hashes.map((hash) => {
-        Cookies.remove(this.keyFromHash(hash))
-        return true
+        return this.cache.delete(hash)
       })
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
@@ -122,8 +113,11 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {
-          const cookieString = Cookies.get(this.keyFromHash(hash))
-          return cookieString ? JSON.parse(cookieString) : (await this.getFromParents(hash)) ?? null
+          const payload = this.cache.get(hash) ?? (await this.getFromParents(hash)) ?? null
+          if (this.cacheParentReads) {
+            this.cache.set(hash, payload)
+          }
+          return payload
         }),
       )
     } catch (ex) {
@@ -134,19 +128,18 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     try {
-      const storedPayloads: XyoPayload[] = payloads.map((payload) => {
+      payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
-        const key = this.keyFromHash(wrapper.hash)
-        const value = JSON.stringify(wrapper.payload)
-        assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hash}, ${value.length}]`)
-        Cookies.set(key, JSON.stringify(wrapper.payload))
-        return wrapper.payload
+        const payloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+        this.cache.set(payloadWithMeta._hash, payloadWithMeta)
+        return payloadWithMeta
       })
-      const result = await this.bindResult([...storedPayloads])
+
+      const result = await this.bindResult([...payloads])
       const parentBoundWitnesses: XyoBoundWitness[] = []
       if (this.writeThrough) {
         //we store the child bw also
-        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...storedPayloads])))
+        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
       }
       return [result[0], ...parentBoundWitnesses]
     } catch (ex) {
@@ -166,8 +159,7 @@ export class XyoCookieArchivist extends XyoArchivist<XyoCookieArchivistConfig> {
       ...super.queries(),
     ]
   }
-
-  private keyFromHash(hash: string) {
-    return `${this.namespace}-${hash}`
-  }
 }
+
+/** @deprecated use MemoryArchivist instead */
+export class XyoMemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchivistConfig> extends MemoryArchivist<TConfig> {}

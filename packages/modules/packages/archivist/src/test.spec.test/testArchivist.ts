@@ -7,10 +7,10 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
-import { XyoArchivist } from '../XyoArchivist'
-import { XyoArchivistWrapper } from '../XyoArchivistWrapper'
+import { AbstractArchivist } from '../AbstractArchivist'
+import { ArchivistWrapper } from '../ArchivistWrapper'
 
-export const testArchivistRoundTrip = (archivist: Promisable<XyoArchivist>, name: string) => {
+export const testArchivistRoundTrip = (archivist: Promisable<AbstractArchivist>, name: string) => {
   test(`XyoArchivist RoundTrip [${name}]`, async () => {
     const idPayload: XyoPayload<{ salt: string }> = {
       salt: Date.now().toString(),
@@ -18,7 +18,7 @@ export const testArchivistRoundTrip = (archivist: Promisable<XyoArchivist>, name
     }
     const payloadWrapper = new PayloadWrapper(idPayload)
 
-    const archivistWrapper = new XyoArchivistWrapper(await archivist)
+    const archivistWrapper = new ArchivistWrapper(await archivist)
     const insertResult = await archivistWrapper.insert([idPayload])
     const insertResultWrappers = insertResult.map((bw) => new BoundWitnessWrapper(bw))
     const insertResultPayload = insertResultWrappers.pop() as BoundWitnessWrapper
@@ -36,13 +36,13 @@ export const testArchivistRoundTrip = (archivist: Promisable<XyoArchivist>, name
   })
 }
 
-export const testArchivistAll = (archivist: Promisable<XyoArchivist>, name: string) => {
+export const testArchivistAll = (archivist: Promisable<AbstractArchivist>, name: string) => {
   test(`XyoArchivist All [${name}]`, async () => {
     const idPayload = {
       salt: Date.now().toString(),
       schema: 'network.xyo.id',
     }
-    const archivistWrapper = new XyoArchivistWrapper(await archivist)
+    const archivistWrapper = new ArchivistWrapper(await archivist)
     for (let x = 0; x < 10; x++) {
       await archivistWrapper.insert([idPayload])
       await delay(10)

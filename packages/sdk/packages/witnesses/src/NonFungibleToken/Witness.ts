@@ -1,9 +1,9 @@
 import { EmptyObject } from '@xyo-network/core'
-import { XyoWitness, XyoWitnessConfigSchema } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfigSchema } from '@xyo-network/witness'
 
 import { XyoNonFungibleTokenPayload } from './Config'
 
-export class XyoNonFungibleTokenWitness extends XyoWitness<XyoNonFungibleTokenPayload> {
+export class XyoNonFungibleTokenWitness extends AbstractWitness<XyoNonFungibleTokenPayload> {
   static override configSchema = XyoWitnessConfigSchema
   static override targetSchema = 'network.xyo.nft'
 

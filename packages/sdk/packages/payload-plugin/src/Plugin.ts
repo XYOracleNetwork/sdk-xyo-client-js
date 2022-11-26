@@ -3,7 +3,7 @@ import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoPayloadPluginParams } from './XyoPayloadPluginConfigs'
 
@@ -24,7 +24,7 @@ export type XyoPayloadPlugin<
   schema: TPayload['schema']
   template?: () => Partial<TPayload>
   validate?: (payload: XyoPayload) => XyoValidator
-  witness?: <TParams extends TWitnessParams>(params?: TParams) => Promisable<XyoWitness>
+  witness?: <TParams extends TWitnessParams>(params?: TParams) => Promisable<AbstractWitness>
   wrap?: (payload: XyoPayload) => PayloadWrapper
 }
 

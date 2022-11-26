@@ -1,10 +1,10 @@
 import { delay } from '@xylabs/delay'
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness, XyoWitnessConfig, XyoWitnessConfigSchema } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig, XyoWitnessConfigSchema } from '@xyo-network/witness'
 
 import { XyoNonFungibleTokenMetaPayload } from './MetaPayload'
 
-export class XyoNonFungibleTokenMetaWitness extends XyoWitness<XyoNonFungibleTokenMetaPayload> {
+export class XyoNonFungibleTokenMetaWitness extends AbstractWitness<XyoNonFungibleTokenMetaPayload> {
   static override configSchema = XyoWitnessConfigSchema
   static override targetSchema = 'network.xyo.nft.meta'
 

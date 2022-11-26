@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
 import { XyoIdSchema } from './Schema'
@@ -16,7 +16,7 @@ export type XyoIdWitnessConfig = XyoWitnessConfig<
   }
 >
 
-export class XyoIdWitness extends XyoWitness<XyoIdPayload, XyoIdWitnessConfig> {
+export class XyoIdWitness extends AbstractWitness<XyoIdPayload, XyoIdWitnessConfig> {
   static override configSchema = XyoIdWitnessConfigSchema
   static override targetSchema = XyoIdSchema
 

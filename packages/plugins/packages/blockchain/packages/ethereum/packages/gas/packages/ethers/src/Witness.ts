@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoTimestampWitness } from '@xyo-network/witness'
+import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEthersWitnessConfig } from './Config'
 import { getGasFromEthers } from './lib'
@@ -12,7 +12,7 @@ export interface XyoEthereumGasEthersWitnessParams extends XyoModuleParams<XyoEt
   provider: Provider
 }
 
-export class XyoEthereumGasEthersWitness extends XyoTimestampWitness<XyoEthereumGasEthersPayload, XyoEthereumGasEthersWitnessConfig> {
+export class XyoEthereumGasEthersWitness extends TimestampWitness<XyoEthereumGasEthersPayload, XyoEthereumGasEthersWitnessConfig> {
   static override configSchema = XyoEthereumGasEthersWitnessConfigSchema
   static override targetSchema = XyoEthereumGasEthersSchema
   protected provider?: Provider

@@ -1,15 +1,12 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoTimestampWitness } from '@xyo-network/witness'
+import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherchainV1WitnessConfig } from './Config'
 import { getV1GasFromEtherchain } from './lib'
 import { XyoEthereumGasEtherchainV1Payload } from './Payload'
 import { XyoEthereumGasEtherchainV1Schema, XyoEthereumGasEtherchainV1WitnessConfigSchema } from './Schema'
 
-export class XyoEtherchainEthereumGasWitnessV1 extends XyoTimestampWitness<
-  XyoEthereumGasEtherchainV1Payload,
-  XyoEthereumGasEtherchainV1WitnessConfig
-> {
+export class XyoEtherchainEthereumGasWitnessV1 extends TimestampWitness<XyoEthereumGasEtherchainV1Payload, XyoEthereumGasEtherchainV1WitnessConfig> {
   static override configSchema = XyoEthereumGasEtherchainV1WitnessConfigSchema
   static override targetSchema = XyoEthereumGasEtherchainV1Schema
 

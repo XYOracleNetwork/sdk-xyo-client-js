@@ -1,5 +1,5 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness } from '@xyo-network/witness'
+import { AbstractWitness } from '@xyo-network/witness'
 import Bowser from 'bowser'
 import merge from 'lodash/merge'
 
@@ -7,7 +7,7 @@ import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchem
 import { XyoBowserSystemInfoPayload } from './Payload'
 import { XyoBowserSystemInfoSchema } from './Schema'
 
-export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = XyoBowserSystemInfoPayload> extends XyoWitness<
+export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = XyoBowserSystemInfoPayload> extends AbstractWitness<
   T,
   XyoBowserSystemInfoWitnessConfig
 > {

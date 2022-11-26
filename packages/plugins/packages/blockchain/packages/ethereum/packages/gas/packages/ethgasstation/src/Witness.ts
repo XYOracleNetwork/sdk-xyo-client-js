@@ -1,12 +1,12 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoTimestampWitness } from '@xyo-network/witness'
+import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEthgasstationWitnessConfig } from './Config'
 import { getGasFromEthgasstation } from './lib'
 import { XyoEthereumGasEthgasstationPayload } from './Payload'
 import { XyoEthereumGasEthgasstationSchema, XyoEthereumGasEthgasstationWitnessConfigSchema } from './Schema'
 
-export class XyoEthereumGasEthgasstationWitness extends XyoTimestampWitness<
+export class XyoEthereumGasEthgasstationWitness extends TimestampWitness<
   XyoEthereumGasEthgasstationPayload,
   XyoEthereumGasEthgasstationWitnessConfig
 > {

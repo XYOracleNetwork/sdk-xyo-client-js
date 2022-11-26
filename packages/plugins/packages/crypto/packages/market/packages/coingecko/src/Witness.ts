@@ -1,12 +1,12 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness } from '@xyo-network/witness'
+import { AbstractWitness } from '@xyo-network/witness'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
 import { pricesFromCoingecko } from './lib'
 import { XyoCoingeckoCryptoMarketPayload } from './Payload'
 import { XyoCoingeckoCryptoMarketSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 
-export class XyoCoingeckoCryptoMarketWitness extends XyoWitness<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfig> {
+export class XyoCoingeckoCryptoMarketWitness extends AbstractWitness<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfig> {
   static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema
   static override targetSchema = XyoCoingeckoCryptoMarketSchema
 

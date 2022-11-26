@@ -3,7 +3,7 @@ import { AxiosJson } from '@xyo-network/axios'
 import { LngLatPhysicalLocation, PhysicalLocation, QuadkeyPhysicalLocation, XyoLocationPayload } from '@xyo-network/location-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { Quadkey } from '@xyo-network/quadkey'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 import merge from 'lodash/merge'
 
@@ -43,7 +43,7 @@ const physicalLocationToOpenElevationLocation = (location: PhysicalLocation, zoo
   return { latitude: center.lat, longitude: center?.lng }
 }
 
-export class XyoLocationElevationWitness extends XyoWitness<XyoLocationElevationPayload, XyoLocationElevationWitnessConfig> {
+export class XyoLocationElevationWitness extends AbstractWitness<XyoLocationElevationPayload, XyoLocationElevationWitnessConfig> {
   static override configSchema = XyoLocationElevationWitnessConfigSchema
   static override targetSchema = XyoLocationElevationSchema
 

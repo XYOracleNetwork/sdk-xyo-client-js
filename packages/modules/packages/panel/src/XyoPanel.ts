@@ -12,7 +12,7 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
-import { WitnessWrapper, XyoWitness } from '@xyo-network/witness'
+import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
 
@@ -65,7 +65,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
   public async getWitnesses() {
     const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
     this._witnesses =
-      this._witnesses || ((await this.resolver?.resolve({ address: addresses })) as XyoWitness[]).map((witness) => new WitnessWrapper(witness))
+      this._witnesses || ((await this.resolver?.resolve({ address: addresses })) as AbstractWitness[]).map((witness) => new WitnessWrapper(witness))
 
     return this._witnesses
   }

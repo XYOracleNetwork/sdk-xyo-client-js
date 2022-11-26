@@ -4,7 +4,7 @@ import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-networ
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
 import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
-import { XyoWitness } from '@xyo-network/witness'
+import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from './XyoPanel'
@@ -13,7 +13,7 @@ describe('XyoPanel', () => {
   test('all [simple panel send]', async () => {
     const archivist = await MemoryArchivist.create()
 
-    const witnesses: XyoWitness[] = [
+    const witnesses: AbstractWitness[] = [
       await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } }),
       await XyoNodeSystemInfoWitness.create({
         config: {
@@ -77,8 +77,8 @@ describe('XyoPanel', () => {
     let archivistA: AbstractArchivist
     let archivistB: AbstractArchivist
     describe('reports witnesses when supplied in', () => {
-      let witnessA: XyoWitness
-      let witnessB: XyoWitness
+      let witnessA: AbstractWitness
+      let witnessB: AbstractWitness
       const assertArchivistPostTestState = async (panelReport: [XyoBoundWitness[], XyoPayload[]], archivists: Archivist[]) => {
         expect(panelReport).toBeArrayOfSize(2)
         const [bws, payloads] = panelReport

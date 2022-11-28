@@ -1,5 +1,5 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../Api'
@@ -20,12 +20,12 @@ const payload = {
 
 describe('XyoRemoteArchivist', () => {
   let archivist: XyoRemoteArchivist
-  let wrapper: XyoArchivistWrapper
+  let wrapper: ArchivistWrapper
 
   beforeEach(async () => {
     const api = new XyoArchivistApi(configData)
     archivist = await XyoRemoteArchivist.create({ config: { api, schema: XyoRemoteArchivistConfigSchema } })
-    wrapper = new XyoArchivistWrapper(archivist)
+    wrapper = new ArchivistWrapper(archivist)
   })
 
   it('get return payloads', async () => {

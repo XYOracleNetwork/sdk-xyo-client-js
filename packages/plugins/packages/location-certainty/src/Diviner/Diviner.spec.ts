@@ -1,4 +1,4 @@
-import { XyoArchivist, XyoMemoryArchivist } from '@xyo-network/archivist'
+import { AbstractArchivist, MemoryArchivist } from '@xyo-network/archivist'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
 import { XyoModuleResolver } from '@xyo-network/module'
 
@@ -71,10 +71,10 @@ const sample3: XyoLocationPayload[] = [
 ]
 
 describe('MongoDBLocationCertaintyDiviner', () => {
-  let payloadsArchivist: XyoArchivist
+  let payloadsArchivist: AbstractArchivist
   let sut: LocationCertaintyDiviner
   beforeEach(async () => {
-    payloadsArchivist = await XyoMemoryArchivist.create()
+    payloadsArchivist = await MemoryArchivist.create()
     const params = {
       config: { schema: LocationCertaintyDivinerConfigSchema, targetSchema: LocationCertaintySchema },
       resolver: new XyoModuleResolver().add(payloadsArchivist),

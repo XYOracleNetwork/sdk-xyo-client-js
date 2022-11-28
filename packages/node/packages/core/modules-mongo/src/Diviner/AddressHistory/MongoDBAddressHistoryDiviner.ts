@@ -2,11 +2,11 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import {
+  AbstractDiviner,
   AddressHistoryDiviner,
   AddressHistoryQueryPayload,
   isAddressHistoryQueryPayload,
   XyoArchivistPayloadDivinerConfig,
-  XyoDiviner,
 } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
@@ -19,7 +19,7 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export class MongoDBAddressHistoryDiviner extends XyoDiviner implements AddressHistoryDiviner, JobProvider {
+export class MongoDBAddressHistoryDiviner extends AbstractDiviner implements AddressHistoryDiviner, JobProvider {
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   get jobs(): Job[] {

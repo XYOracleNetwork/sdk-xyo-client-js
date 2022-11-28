@@ -1,4 +1,4 @@
-import { XyoDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner } from '@xyo-network/diviner'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { ArchiveQueryPayload } from './ArchiveQueryPayload'
@@ -31,4 +31,4 @@ export type BoundWitnessStatsQueryPayload = ArchiveQueryPayload<{ schema: BoundW
 export const isBoundWitnessStatsQueryPayload = (x?: XyoPayload | null): x is BoundWitnessStatsQueryPayload =>
   x?.schema === BoundWitnessStatsQuerySchema
 
-export type BoundWitnessStatsDiviner = XyoDiviner
+export type BoundWitnessStatsDiviner = AbstractDiviner

@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
@@ -18,12 +18,12 @@ import { Job, JobProvider } from '@xyo-network/shared'
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
 
-export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAddressDiviner, JobProvider {
+export class MongoDBModuleAddressDiviner extends AbstractDiviner implements ModuleAddressDiviner, JobProvider {
   protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 
-  protected constructor(params: XyoModuleParams<XyoDivinerConfig>) {
+  protected constructor(params: XyoModuleParams<DivinerConfig>) {
     super(params)
   }
 
@@ -37,7 +37,7 @@ export class MongoDBModuleAddressDiviner extends XyoDiviner implements ModuleAdd
     ]
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<MongoDBModuleAddressDiviner> {
+  static override async create(params?: Partial<XyoModuleParams<DivinerConfig>>): Promise<MongoDBModuleAddressDiviner> {
     return (await super.create(params)) as MongoDBModuleAddressDiviner
   }
 

@@ -1,5 +1,5 @@
 import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
-import { XyoDiviner, XyoDivinerConfig, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
@@ -9,11 +9,11 @@ import { divinePrices } from './lib'
 import { XyoCryptoMarketAssetPayload } from './Payload'
 import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetSchema } from './Schema'
 
-export class XyoCryptoMarketAssetDiviner extends XyoDiviner {
+export class XyoCryptoMarketAssetDiviner extends AbstractDiviner {
   static override configSchema = XyoCryptoMarketAssetDivinerConfigSchema
   static override targetSchema = XyoCryptoMarketAssetSchema
 
-  static override async create(params?: XyoModuleParams<XyoDivinerConfig>) {
+  static override async create(params?: XyoModuleParams<DivinerConfig>) {
     return (await super.create(params)) as XyoCryptoMarketAssetDiviner
   }
 

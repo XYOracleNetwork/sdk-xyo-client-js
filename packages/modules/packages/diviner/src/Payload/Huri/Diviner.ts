@@ -4,19 +4,19 @@ import { Huri, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
+import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
-import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoHuriPayloadDivinerConfig, XyoHuriPayloadDivinerConfigSchema } from './Config'
 
-export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivinerConfig> {
+export class HuriPayloadDiviner extends AbstractPayloadDiviner<XyoHuriPayloadDivinerConfig> {
   static override configSchema: XyoHuriPayloadDivinerConfigSchema
 
   protected get options() {
     return this.config?.options
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoHuriPayloadDivinerConfig>>): Promise<XyoHuriPayloadDiviner> {
-    return (await super.create(params)) as XyoHuriPayloadDiviner
+  static override async create(params?: Partial<XyoModuleParams<XyoHuriPayloadDivinerConfig>>): Promise<HuriPayloadDiviner> {
+    return (await super.create(params)) as HuriPayloadDiviner
   }
 
   override async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
@@ -34,3 +34,6 @@ export class XyoHuriPayloadDiviner extends XyoPayloadDiviner<XyoHuriPayloadDivin
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 }
+
+/** @deprecated use HuriPayloadDiviner instead */
+export class XyoHuriPayloadDiviner extends HuriPayloadDiviner {}

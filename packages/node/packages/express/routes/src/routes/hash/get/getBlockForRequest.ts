@@ -1,5 +1,5 @@
 import { exists } from '@xylabs/exists'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { requestCanAccessArchive } from '@xyo-network/express-node-lib'
 import { PayloadPointerPayload, payloadPointerSchema, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload'
@@ -11,12 +11,12 @@ const findByHash = async (req: Request, hash: string) => {
   const { payloadArchivist, boundWitnessArchivist } = req.app
   const payloadFilter: XyoPayloadFilterPredicate = { hash }
 
-  const payloadWrapper = new XyoArchivistWrapper(payloadArchivist)
+  const payloadWrapper = new ArchivistWrapper(payloadArchivist)
   const payloads = (await payloadWrapper.find(payloadFilter)).filter(exists)
 
   if (payloads.length) return payloads
 
-  const boundWitnessWrapper = new XyoArchivistWrapper(boundWitnessArchivist)
+  const boundWitnessWrapper = new ArchivistWrapper(boundWitnessArchivist)
   return (await boundWitnessWrapper.find({ ...payloadFilter, schema: 'network.xyo.boundwitness' })).filter(exists)
 }
 

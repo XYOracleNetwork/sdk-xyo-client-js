@@ -1,5 +1,5 @@
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import {
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
@@ -43,7 +43,7 @@ describe('MongoDBArchivePayloadsArchivist', () => {
   const hash = hashes[0]
 
   beforeAll(async () => {
-    const wrapper = new XyoArchivistWrapper(sut)
+    const wrapper = new ArchivistWrapper(sut)
     const result = await wrapper.insert(payloads)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)
@@ -60,14 +60,14 @@ describe('MongoDBArchivePayloadsArchivist', () => {
   describe('find', () => {
     it('finds payloads by schema', async () => {
       const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { limit, schema }
-      const wrapper = new XyoArchivistWrapper(sut)
+      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result?.[0]?.schema).toEqual(schema)
     })
     it('finds payloads by hash', async () => {
       const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const wrapper = new XyoArchivistWrapper(sut)
+      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([payload])
@@ -75,7 +75,7 @@ describe('MongoDBArchivePayloadsArchivist', () => {
   })
   describe('get', () => {
     it('gets payloads by hashes', async () => {
-      const wrapper = new XyoArchivistWrapper(sut)
+      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.get(hashes)
       expect(result).toBeArrayOfSize(count)
       expect(result).toContainValues(payloads)

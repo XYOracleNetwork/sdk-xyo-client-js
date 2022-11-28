@@ -7,6 +7,7 @@ import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
 
+import { AbstractArchivist } from './AbstractArchivist'
 import { XyoArchivistConfig } from './Config'
 import {
   XyoArchivistAllQuerySchema,
@@ -17,27 +18,34 @@ import {
   XyoArchivistInsertQuery,
   XyoArchivistInsertQuerySchema,
 } from './Queries'
-import { XyoArchivist } from './XyoArchivist'
 
-export type XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
-export const XyoStorageArchivistConfigSchema: XyoStorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
+export type StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
+export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 
-export type XyoStorageArchivistConfig = XyoArchivistConfig<{
+/** @deprecated use StorageArchivistConfigSchema instead */
+export type XyoStorageArchivistConfigSchema = StorageArchivistConfigSchema
+
+/** @deprecated use StorageArchivistConfigSchema instead */
+export const XyoStorageArchivistConfigSchema = StorageArchivistConfigSchema
+
+export type StorageArchivistConfig = XyoArchivistConfig<{
   maxEntries?: number
   maxEntrySize?: number
   namespace?: string
   persistAccount?: boolean
-  schema: XyoStorageArchivistConfigSchema
+  schema: StorageArchivistConfigSchema
   type?: 'local' | 'session' | 'page'
 }>
 
-export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig> {
-  static override configSchema = XyoStorageArchivistConfigSchema
+/** @deprecated use StorageArchivistConfig instead */
+export type XyoStorageArchivistConfig = StorageArchivistConfig
+export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfig> {
+  static override configSchema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined
   private _storage: StoreBase | undefined
 
-  constructor(params: XyoModuleParams<XyoStorageArchivistConfig>) {
+  constructor(params: XyoModuleParams<StorageArchivistConfig>) {
     super(params)
     this.loadAccount()
   }
@@ -74,7 +82,7 @@ export class XyoStorageArchivist extends XyoArchivist<XyoStorageArchivistConfig>
     return this._storage
   }
 
-  static override async create(params?: XyoModuleParams<XyoStorageArchivistConfig>): Promise<XyoStorageArchivist> {
+  static override async create(params?: XyoModuleParams<StorageArchivistConfig>): Promise<XyoStorageArchivist> {
     return (await super.create(params)) as XyoStorageArchivist
   }
 

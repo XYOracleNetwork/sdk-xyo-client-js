@@ -1,4 +1,4 @@
-import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoQuery } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
@@ -8,7 +8,7 @@ export const ModuleAddressSchema: ModuleAddressSchema = 'network.xyo.module.addr
 export type ModuleAddressDivinerConfigSchema = 'network.xyo.module.address.config'
 export const ModuleAddressDivinerConfigSchema: ModuleAddressDivinerConfigSchema = 'network.xyo.module.address.config'
 
-export type ModuleAddressDivinerConfig<S extends string = string, T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+export type ModuleAddressDivinerConfig<S extends string = string, T extends XyoPayload = XyoPayload> = DivinerConfig<
   T & {
     schema: S
   }
@@ -23,4 +23,4 @@ export const isModuleAddressPayload = (x?: XyoPayload | null): x is ModuleAddres
 export type ModuleAddressQueryPayload = XyoQuery<{ schema: ModuleAddressQuerySchema }>
 export const isModuleAddressQueryPayload = (x?: XyoPayload | null): x is ModuleAddressQueryPayload => x?.schema === ModuleAddressQuerySchema
 
-export type ModuleAddressDiviner = XyoDiviner
+export type ModuleAddressDiviner = AbstractDiviner

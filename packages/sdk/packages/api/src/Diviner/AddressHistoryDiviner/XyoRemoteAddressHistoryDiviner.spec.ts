@@ -1,7 +1,7 @@
 import { XyoAccount } from '@xyo-network/account'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { AddressHistoryQuerySchema, XyoDivinerWrapper } from '@xyo-network/diviner'
+import { AddressHistoryQuerySchema, DivinerWrapper } from '@xyo-network/diviner'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../../Api'
@@ -27,7 +27,7 @@ describe('XyoRemoteAddressHistoryDiviner', () => {
     let result: XyoBoundWitness[]
     beforeAll(async () => {
       const source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).fields({ address }).build()
-      result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
+      result = (await new DivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
       expect(result.length).toBeGreaterThan(0)
     })
     it('array of Bound Witnesses', () => {
@@ -47,11 +47,11 @@ describe('XyoRemoteAddressHistoryDiviner', () => {
     let hash: string
     beforeAll(async () => {
       let source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).fields({ address }).build()
-      result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
+      result = (await new DivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
       expect(result.length).toBeGreaterThan(0)
       hash = new BoundWitnessWrapper(result?.[0]).hash
       source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).fields({ address, offset: hash }).build()
-      result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
+      result = (await new DivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
       expect(result.length).toBeGreaterThan(0)
     })
     it('results starting at hash', () => {
@@ -63,7 +63,7 @@ describe('XyoRemoteAddressHistoryDiviner', () => {
     let result: XyoBoundWitness[]
     beforeAll(async () => {
       const source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).fields({ address, limit }).build()
-      result = (await new XyoDivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
+      result = (await new DivinerWrapper(diviner).divine([source])) as XyoBoundWitness[]
       expect(result.length).toBeGreaterThan(0)
     })
     it('number of results specified by the limit', () => {
@@ -73,7 +73,7 @@ describe('XyoRemoteAddressHistoryDiviner', () => {
   describe('with non-existent address', () => {
     it('returns empty array', async () => {
       const source = new XyoPayloadBuilder({ schema: AddressHistoryQuerySchema }).fields({ address: 'foo' }).build()
-      const result = await new XyoDivinerWrapper(diviner).divine([source])
+      const result = await new DivinerWrapper(diviner).divine([source])
       expect(result.length).toBe(0)
     })
   })

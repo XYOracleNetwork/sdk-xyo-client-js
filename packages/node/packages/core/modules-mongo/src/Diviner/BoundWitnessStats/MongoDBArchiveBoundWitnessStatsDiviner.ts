@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
@@ -33,7 +33,7 @@ export type MongoDBArchiveBoundWitnessStatsDivinerConfigSchema = 'network.xyo.mo
 export const MongoDBArchiveBoundWitnessStatsDivinerConfigSchema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema =
   'network.xyo.module.config.diviner.stats.boundwitness'
 
-export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
   XyoPayload,
   T & {
     schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
@@ -44,7 +44,7 @@ export interface MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPaylo
   archiveArchivist: ArchiveArchivist
 }
 
-export class MongoDBArchiveBoundWitnessStatsDiviner extends XyoDiviner implements BoundWitnessStatsDiviner, JobProvider {
+export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner implements BoundWitnessStatsDiviner, JobProvider {
   protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined

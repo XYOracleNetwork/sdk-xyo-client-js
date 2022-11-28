@@ -1,5 +1,5 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoPentairScreenlogicPayload } from './Payload'
 import { XyoPentairScreenlogicSchema } from './Schema'
@@ -26,7 +26,7 @@ export type XyoPentairScreenlogicWitnessConfig = XyoWitnessConfig<
   }
 >
 
-export class XyoPentairScreenlogicWitness extends XyoWitness<XyoPentairScreenlogicPayload, XyoPentairScreenlogicWitnessConfig> {
+export class XyoPentairScreenlogicWitness extends AbstractWitness<XyoPentairScreenlogicPayload, XyoPentairScreenlogicWitnessConfig> {
   static override configSchema = XyoPentairScreenlogicWitnessConfigSchema
   static override targetSchema = XyoPentairScreenlogicSchema
 

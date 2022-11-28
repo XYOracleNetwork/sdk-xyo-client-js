@@ -1,5 +1,5 @@
 import { PartialModuleConfig } from '@xyo-network/module'
 
-import { XyoDivinerConfig } from './Config'
+import { DivinerConfig } from './Config'
 
-export type PartiaDivinerConfig<T extends XyoDivinerConfig> = PartialModuleConfig<T>
+export type PartialDivinerConfig<T extends DivinerConfig> = PartialModuleConfig<T>

@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { XyoDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner'
 import {
   ArchivePathParams,
   BoundWitnessStatsPayload,
@@ -20,7 +20,7 @@ export interface GetArchiveBlockStats {
 const handler: RequestHandler<ArchivePathParams, GetArchiveBlockStats> = async (req, res) => {
   const { archive } = req.params
   const { boundWitnessStatsDiviner: diviner } = req.app
-  const wrapper = new XyoDivinerWrapper(diviner)
+  const wrapper = new DivinerWrapper(diviner)
   const payloads: BoundWitnessStatsQueryPayload[] = [{ archive, schema: BoundWitnessStatsQuerySchema }]
   const result = await wrapper.divine(payloads)
 

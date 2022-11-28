@@ -4,13 +4,15 @@ import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
-import { XyoDivinerConfig } from './Config'
+import { DivinerConfig } from './Config'
 import { DivinerModule } from './Diviner'
 import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 
-export type XyoDivinerParams = XyoModuleParams
+export type DivinerParams = XyoModuleParams
 
-export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoModule<TConfig> implements DivinerModule {
+/** @deprecated use DivinerParams instead */
+export type XyoDivinerParams = DivinerParams
+export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerConfig> extends XyoModule<TConfig> implements DivinerModule {
   static override configSchema: string
   static targetSchema: string
 
@@ -18,8 +20,8 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
     return this.config?.targetSchema
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoDivinerConfig>>): Promise<XyoDiviner> {
-    return (await super.create(params)) as XyoDiviner
+  static override async create(params?: Partial<XyoModuleParams<DivinerConfig>>): Promise<AbstractDiviner> {
+    return (await super.create(params)) as AbstractDiviner
   }
 
   public override queries(): string[] {
@@ -55,10 +57,14 @@ export abstract class XyoDiviner<TConfig extends XyoDivinerConfig = XyoDivinerCo
   abstract divine(payloads?: XyoPayload[]): Promisable<XyoPayload[]>
 }
 
-export abstract class XyoTimestampDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoDiviner<TConfig> {}
+/** @deprecated use AbstractDiviner instead*/
+export abstract class XyoTimestampDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractDiviner<TConfig> {}
 
-/** @deprecated use XyoDiviner instead*/
-export abstract class XyoAbstractDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoDiviner<TConfig> {}
+/** @deprecated use AbstractDiviner instead*/
+export abstract class XyoAbstractDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractDiviner<TConfig> {}
 
-/** @deprecated use XyoDiviner instead*/
-export abstract class XyoAbstractTimestampDiviner<TConfig extends XyoDivinerConfig = XyoDivinerConfig> extends XyoTimestampDiviner<TConfig> {}
+/** @deprecated use AbstractDiviner instead*/
+export abstract class XyoDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractDiviner<TConfig> {}
+
+/** @deprecated use AbstractDiviner instead*/
+export abstract class XyoAbstractTimestampDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractDiviner<TConfig> {}

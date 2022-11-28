@@ -1,4 +1,4 @@
-import { XyoArchivistPayloadDivinerConfig, XyoDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner, XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
@@ -10,7 +10,7 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export class MongoDBPayloadDiviner extends XyoDiviner implements PayloadDiviner, JobProvider {
+export class MongoDBPayloadDiviner extends AbstractDiviner implements PayloadDiviner, JobProvider {
   protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 
   get jobs(): Job[] {

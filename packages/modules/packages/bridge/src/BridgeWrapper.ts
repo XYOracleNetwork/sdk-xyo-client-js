@@ -1,10 +1,10 @@
-import { XyoModuleWrapper } from '@xyo-network/module'
+import { ModuleWrapper } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { Bridge } from './Bridge'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
-export class XyoBridgeWrapper extends XyoModuleWrapper implements Bridge {
+export class BridgeWrapper extends ModuleWrapper implements Bridge {
   async connect(uri?: string): Promise<boolean> {
     const queryPayload = PayloadWrapper.parse<XyoBridgeQuery>({ schema: XyoBridgeConnectQuerySchema, uri })
     const query = await this.bindQuery(queryPayload)
@@ -19,3 +19,6 @@ export class XyoBridgeWrapper extends XyoModuleWrapper implements Bridge {
     return true
   }
 }
+
+/** @deprecated use BridgeWrapper instead */
+export class XyoBridgeWrapper extends BridgeWrapper {}

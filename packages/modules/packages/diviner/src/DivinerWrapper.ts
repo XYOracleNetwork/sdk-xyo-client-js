@@ -1,10 +1,10 @@
-import { XyoModuleWrapper } from '@xyo-network/module'
+import { ModuleWrapper } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
 import { Diviner } from './Diviner'
 import { XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from './Queries'
 
-export class XyoDivinerWrapper extends XyoModuleWrapper implements Diviner {
+export class DivinerWrapper extends ModuleWrapper implements Diviner {
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoDivinerDivineQuery>({ schema: XyoDivinerDivineQuerySchema })
     const query = await this.bindQuery(queryPayload, payloads)
@@ -13,3 +13,6 @@ export class XyoDivinerWrapper extends XyoModuleWrapper implements Diviner {
     return result[1]
   }
 }
+
+/** @deprecated use DivinerWrapper instead */
+export class XyoDivinerWrapper extends DivinerWrapper {}

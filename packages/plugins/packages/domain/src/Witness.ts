@@ -1,11 +1,11 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness } from '@xyo-network/witness'
+import { AbstractWitness } from '@xyo-network/witness'
 
 import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
 import { XyoDomainPayload } from './Payload'
 import { XyoDomainSchema } from './Schema'
 
-export class XyoDomainWitness extends XyoWitness<XyoDomainPayload, XyoDomainWitnessConfig> {
+export class XyoDomainWitness extends AbstractWitness<XyoDomainPayload, XyoDomainWitnessConfig> {
   static override configSchema = XyoDomainWitnessConfigSchema
   public static dmarc = '_xyo'
   static override targetSchema = XyoDomainSchema

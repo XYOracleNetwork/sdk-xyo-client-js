@@ -1,6 +1,6 @@
 import { delay } from '@xylabs/delay'
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaSchema } from './Schema'
@@ -10,7 +10,7 @@ export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'netwo
 
 export type XyoSchemaWitnessConfig = XyoWitnessConfig<XyoSchemaPayload, { schema: XyoSchemaWitnessConfigSchema }>
 
-export class XyoSchemaWitness extends XyoWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
+export class XyoSchemaWitness extends AbstractWitness<XyoSchemaPayload, XyoSchemaWitnessConfig> {
   static override configSchema = XyoSchemaWitnessConfigSchema
   static override targetSchema = XyoSchemaSchema
 

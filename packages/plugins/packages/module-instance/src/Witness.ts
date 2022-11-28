@@ -1,5 +1,5 @@
 import { XyoModule, XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
 import { XyoModuleInstancePayload } from './Payload'
@@ -16,7 +16,7 @@ export type XyoModuleInstanceWitnessConfig = XyoWitnessConfig<
   }
 >
 
-export class XyoModuleInstanceWitness extends XyoWitness<XyoModuleInstancePayload, XyoModuleInstanceWitnessConfig> {
+export class XyoModuleInstanceWitness extends AbstractWitness<XyoModuleInstancePayload, XyoModuleInstanceWitnessConfig> {
   static override configSchema = XyoModuleInstanceWitnessConfigSchema
   static override targetSchema = XyoModuleInstanceSchema
 

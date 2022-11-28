@@ -1,10 +1,10 @@
-import { XyoModuleWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { ModuleWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
 import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Queries'
 import { Witness } from './Witness'
 
-export class XyoWitnessWrapper extends XyoModuleWrapper implements Witness {
+export class WitnessWrapper extends ModuleWrapper implements Witness {
   async observe(payloads?: XyoPayload[]): Promise<XyoPayloads> {
     const queryPayload = PayloadWrapper.parse<XyoWitnessObserveQuery>({ schema: XyoWitnessObserveQuerySchema })
     const query = await this.bindQuery(queryPayload, payloads)
@@ -14,3 +14,6 @@ export class XyoWitnessWrapper extends XyoModuleWrapper implements Witness {
     return result[1]
   }
 }
+
+/** @deprecated use WitnessWrapper instead */
+export class XyoWitnessWrapper extends WitnessWrapper {}

@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivistPayloadDivinerConfigSchema, XyoDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
 import { BoundWitnessesArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
@@ -40,7 +40,7 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
 
 export const isLocationPayload = (x?: XyoPayload | null): x is XyoLocationPayload => x?.schema === XyoLocationSchema
 
-export class CoinUserLocationsDiviner extends XyoDiviner implements CoinUserLocationsDiviner, JobProvider {
+export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUserLocationsDiviner, JobProvider {
   constructor(
     protected readonly account: XyoAccount = new XyoAccount(),
     protected readonly payloads: PayloadArchivist,

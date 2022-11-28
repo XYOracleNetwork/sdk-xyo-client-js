@@ -8,7 +8,7 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
-export abstract class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>>
+export abstract class AbstractWitness<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>>
   extends XyoModule<TConfig>
   implements Witness<TTarget>
 {
@@ -19,10 +19,10 @@ export abstract class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfi
     return this.config?.targetSchema
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoWitnessConfig>>): Promise<XyoWitness> {
+  static override async create(params?: Partial<XyoModuleParams<XyoWitnessConfig>>): Promise<AbstractWitness> {
     const actualParams: Partial<XyoModuleParams<XyoWitnessConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema, targetSchema: this.targetSchema }
-    return (await super.create(actualParams)) as XyoWitness
+    return (await super.create(actualParams)) as AbstractWitness
   }
 
   public observe(fields?: Partial<XyoPayload>[]): Promisable<TTarget[]> {
@@ -63,3 +63,9 @@ export abstract class XyoWitness<TTarget extends XyoPayload = XyoPayload, TConfi
     }
   }
 }
+
+/** @deprecated use AbstractWitness instead */
+export abstract class XyoWitness<
+  TTarget extends XyoPayload = XyoPayload,
+  TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>,
+> extends AbstractWitness<TTarget, TConfig> {}

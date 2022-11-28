@@ -1,20 +1,20 @@
 import { assertEx } from '@xylabs/assert'
-import { PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema, XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper, PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
 import { XyoModuleParams } from '@xyo-network/module'
 import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
+import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
-import { XyoPayloadDiviner } from '../XyoPayloadDiviner'
 import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
 
-export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
+export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
   static override configSchema: XyoArchivistPayloadDivinerConfigSchema
 
   protected archivist?: PayloadArchivist | null
 
-  static override async create(params?: XyoModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<XyoArchivistPayloadDiviner> {
-    return (await super.create(params)) as XyoArchivistPayloadDiviner
+  static override async create(params?: XyoModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<ArchivistPayloadDiviner> {
+    return (await super.create(params)) as ArchivistPayloadDiviner
   }
 
   public async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
@@ -44,9 +44,12 @@ export class XyoArchivistPayloadDiviner extends XyoPayloadDiviner<XyoArchivistPa
         ? (this.resolver?.resolve({ address: [configArchivistAddress] }) as unknown as PayloadArchivist[]).shift() ?? null
         : null
       if (resolvedArchivist) {
-        this.archivist = resolvedArchivist ? new XyoArchivistWrapper(resolvedArchivist) : null
+        this.archivist = resolvedArchivist ? new ArchivistWrapper(resolvedArchivist) : null
       }
     }
     return this
   }
 }
+
+/** @deprecated use ArchivistPayloadDiviner instead */
+export class XyoArchivistPayloadDiviner extends ArchivistPayloadDiviner {}

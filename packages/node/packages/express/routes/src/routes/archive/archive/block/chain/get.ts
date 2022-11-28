@@ -2,7 +2,7 @@ import 'source-map-support/register'
 
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler, tryParseInt } from '@xylabs/sdk-api-express-ecs'
-import { XyoArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ArchiveBoundWitnessArchivist } from '@xyo-network/node-core-model'
 import { RequestHandler } from 'express'
@@ -10,7 +10,7 @@ import { RequestHandler } from 'express'
 import { BlockChainPathParams } from './blockChainPathParams'
 
 const getBlocks = async (archivist: ArchiveBoundWitnessArchivist, hash: string, address: string, blocks: XyoBoundWitness[], limit: number) => {
-  const wrapper = new XyoArchivistWrapper(archivist)
+  const wrapper = new ArchivistWrapper(archivist)
   const result = await wrapper.get([hash])
   const block = result?.[0] as XyoBoundWitness
   if (block) {

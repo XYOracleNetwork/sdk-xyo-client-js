@@ -124,7 +124,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
     ).flat()
     this.history.push(assertEx(newBoundWitness))
     this.config?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
-    return [archivistBoundWitnesses, [newBoundWitness, ...payloads]]
+    return [archivistBoundWitnesses, [newBoundWitness, ...allPayloads]]
   }
 
   public async tryReport(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {

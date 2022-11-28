@@ -140,6 +140,7 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const observed = await witnessB.observe()
+        expect(observed).toBeArrayOfSize(1)
         const result = await panel.report(observed)
         assertPanelReport(result)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])

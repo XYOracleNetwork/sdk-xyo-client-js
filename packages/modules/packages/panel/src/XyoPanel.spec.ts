@@ -83,10 +83,10 @@ describe('XyoPanel', () => {
         expect(panelReport).toBeArrayOfSize(2)
         const [bws, payloads] = panelReport
         expect(bws).toBeArrayOfSize(4)
-        expect(payloads).toBeArrayOfSize(1)
+        expect(payloads).toBeArrayOfSize(3)
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
-          expect(archivistPayloads).toBeArrayOfSize(1)
+          expect(archivistPayloads).toBeArrayOfSize(payloads.length - 1)
           const panelPayloads = payloads.map((payload) => {
             const wrapped = new PayloadWrapper(payload)
             return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
@@ -95,8 +95,15 @@ describe('XyoPanel', () => {
         }
       }
       beforeEach(async () => {
-        witnessA = await XyoIdWitness.create({ config: { salt: 'witnessA', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
-        witnessB = await XyoIdWitness.create({ config: { salt: 'witnessB', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
+        const params = {
+          config: {
+            payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+            schema: XyoAdhocWitnessConfigSchema,
+            targetSchema: XyoPayloadSchema,
+          },
+        }
+        witnessA = await XyoAdhocWitness.create(params)
+        witnessB = await XyoAdhocWitness.create(params)
         archivistA = await MemoryArchivist.create()
         archivistB = await MemoryArchivist.create()
       })
@@ -144,7 +151,9 @@ describe('XyoPanel', () => {
         }
         const panel = await XyoPanel.create(params)
         const observedA = await witnessA.observe()
+        expect(observedA).toBeArrayOfSize(1)
         const observedB = await witnessB.observe()
+        expect(observedB).toBeArrayOfSize(1)
         const result = await panel.report([...observedA, ...observedB])
         await assertArchivistPostTestState(result, [archivistA, archivistB])
       })

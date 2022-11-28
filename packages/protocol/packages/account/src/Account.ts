@@ -1,4 +1,5 @@
 import { HDNode } from '@ethersproject/hdnode'
+import { assertEx } from '@xylabs/assert'
 import { toUint8Array, XyoData, XyoDataLike } from '@xyo-network/core'
 import shajs from 'sha.js'
 
@@ -16,7 +17,12 @@ export class XyoAccount extends XyoKeyPair {
   private _previousHash?: XyoData
 
   constructor({ privateKey, phrase }: XyoAccountConfig = {}) {
-    const privateKeyToUse = privateKey ? toUint8Array(privateKey) : phrase ? toUint8Array(shajs('sha256').update(phrase).digest('hex')) : undefined
+    const privateKeyToUse = privateKey
+      ? toUint8Array(privateKey)
+      : phrase
+      ? toUint8Array(shajs('sha256').update(phrase).digest('hex').padStart(64, '0'))
+      : undefined
+    assertEx(privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
   }
 
@@ -46,17 +52,17 @@ export class XyoAccount extends XyoKeyPair {
   static fromMnemonic = (mnemonic: string, path?: string): XyoAccount => {
     const node = HDNode.fromMnemonic(mnemonic)
     const wallet = path ? node.derivePath(path) : node
-    const privateKey = wallet.privateKey
+    const privateKey = wallet.privateKey.padStart(64, '0')
     return new XyoAccount({ privateKey })
   }
 
   static fromPhrase(phrase: string) {
-    const privateKey = shajs('sha256').update(phrase).digest('hex')
+    const privateKey = shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
     return XyoAccount.fromPrivateKey(privateKey)
   }
 
   static fromPrivateKey(key: Uint8Array | string) {
-    const privateKey = toUint8Array(key)
+    const privateKey = typeof key === 'string' ? toUint8Array(key.padStart(64, '0')) : key
     return new XyoAccount({ privateKey })
   }
 

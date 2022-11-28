@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoTimestampWitness } from '@xyo-network/witness'
+import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherscanWitnessConfig } from './Config'
 import { getGasFromEtherscan } from './lib'
 import { XyoEthereumGasEtherscanPayload } from './Payload'
 import { XyoEthereumGasEtherscanSchema, XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 
-export class XyoEthereumGasEtherscanWitness extends XyoTimestampWitness<XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanWitnessConfig> {
+export class XyoEthereumGasEtherscanWitness extends TimestampWitness<XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanWitnessConfig> {
   static override configSchema = XyoEthereumGasEtherscanWitnessConfigSchema
   static override targetSchema = XyoEthereumGasEtherscanSchema
 

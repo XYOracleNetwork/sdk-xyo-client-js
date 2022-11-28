@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
 import { Quadkey } from '@xyo-network/quadkey'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoLocationPayload } from './Payload'
 import { XyoLocationSchema } from './Schema'
@@ -18,7 +18,7 @@ export type XyoLocationWitnessConfig = XyoWitnessConfig<
 
 export type XyoLocationWitnessParams = XyoModuleParams<XyoLocationWitnessConfig> & { geolocation: Geolocation }
 
-export class XyoLocationWitness extends XyoWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
+export class XyoLocationWitness extends AbstractWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
   static override configSchema = XyoLocationWitnessConfigSchema
   static override targetSchema = XyoLocationSchema
 

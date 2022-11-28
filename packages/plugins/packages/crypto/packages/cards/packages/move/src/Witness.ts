@@ -1,6 +1,6 @@
 import { XyoModuleParams } from '@xyo-network/module'
 import { Promisable } from '@xyo-network/promise'
-import { XyoWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoCryptoCardsMovePayload } from './Payload'
 import { XyoCryptoCardsMoveSchema, XyoCryptoCardsMoveWitnessConfigSchema } from './Schema'
@@ -12,7 +12,7 @@ export type XyoCryptoCardsMoveWitnessConfig = XyoWitnessConfig<
   }
 >
 
-export class XyoCryptoCardsMoveWitness extends XyoWitness<XyoCryptoCardsMovePayload, XyoCryptoCardsMoveWitnessConfig> {
+export class XyoCryptoCardsMoveWitness extends AbstractWitness<XyoCryptoCardsMovePayload, XyoCryptoCardsMoveWitnessConfig> {
   static override configSchema = XyoCryptoCardsMoveWitnessConfigSchema
   static override targetSchema = XyoCryptoCardsMoveSchema
 

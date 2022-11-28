@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler, NoReqBody, tryParseInt } from '@xylabs/sdk-api-express-ecs'
-import { XyoDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner'
 import { ArchiveLocals, ArchivePathParams, PayloadQueryPayload, PayloadQuerySchema } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload'
 import { RequestHandler } from 'express'
@@ -34,7 +34,7 @@ const handler: RequestHandler<ArchivePathParams, (XyoPayload | null)[], NoReqBod
     timestamp: timestampNumber,
   }
   if (schema) filter.schemas = [schema]
-  const wrapper = new XyoDivinerWrapper(payloadDiviner)
+  const wrapper = new DivinerWrapper(payloadDiviner)
   const payloads = await wrapper.divine([filter])
   if (payloads) {
     res.json(payloads)

@@ -7,6 +7,7 @@ import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
 import { PayloadArchivist } from './Archivist'
+import { ArchivistWrapper } from './ArchivistWrapper'
 import { XyoArchivistConfig } from './Config'
 import {
   XyoArchivistAllQuerySchema,
@@ -19,15 +20,17 @@ import {
   XyoArchivistInsertQuerySchema,
   XyoArchivistQuery,
 } from './Queries'
-import { XyoArchivistWrapper } from './XyoArchivistWrapper'
 
 export interface XyoArchivistParentWrappers {
-  commit?: Record<string, XyoArchivistWrapper>
-  read?: Record<string, XyoArchivistWrapper>
-  write?: Record<string, XyoArchivistWrapper>
+  commit?: Record<string, ArchivistWrapper>
+  read?: Record<string, ArchivistWrapper>
+  write?: Record<string, ArchivistWrapper>
 }
 
-export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig> extends XyoModule<TConfig> implements PayloadArchivist {
+export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig>
+  extends XyoModule<TConfig>
+  implements PayloadArchivist
+{
   private _parents?: XyoArchivistParentWrappers
 
   protected get cacheParentReads() {
@@ -146,7 +149,7 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
   }
 
   protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
-    const wrapper = new XyoArchivistWrapper(parent)
+    const wrapper = new ArchivistWrapper(parent)
     return await wrapper.insert(payloads)
   }
 
@@ -163,10 +166,10 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
   }
 
   private async resolveArchivists(archivists?: string[]) {
-    const resolvedWrappers: Record<string, XyoArchivistWrapper> = {}
+    const resolvedWrappers: Record<string, ArchivistWrapper> = {}
     const modules = (await this.resolver?.resolve({ address: archivists })) ?? []
     modules.forEach((module) => {
-      const wrapper = new XyoArchivistWrapper(module)
+      const wrapper = new ArchivistWrapper(module)
       resolvedWrappers[wrapper.address] = wrapper
     })
     return resolvedWrappers
@@ -176,3 +179,6 @@ export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchi
 
   abstract insert(item: XyoPayload[]): PromisableArray<XyoBoundWitness>
 }
+
+/** @deprecated use AbstractArchivist instead */
+export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig> extends AbstractArchivist<TConfig> {}

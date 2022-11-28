@@ -1,5 +1,5 @@
 import { PartialModuleConfig } from '@xyo-network/module'
 
-import { XyoBridgeConfig } from './Config'
+import { BridgeConfig } from './Config'
 
-export type PartialBridgeConfig<T extends XyoBridgeConfig> = PartialModuleConfig<T>
+export type PartialBridgeConfig<T extends BridgeConfig> = PartialModuleConfig<T>

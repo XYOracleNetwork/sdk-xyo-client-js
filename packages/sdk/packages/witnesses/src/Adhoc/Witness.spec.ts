@@ -1,6 +1,6 @@
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
-import { XyoWitnessWrapper } from '@xyo-network/witness'
+import { WitnessWrapper } from '@xyo-network/witness'
 
 import { XyoAdhocWitness, XyoAdhocWitnessConfig, XyoAdhocWitnessConfigSchema } from './Witness'
 
@@ -20,7 +20,7 @@ describe('XyoAdhocWitness', () => {
       })
       it('uses targetSchema with XyoWitnessWrapper', async () => {
         const witness = await XyoAdhocWitness.create(params)
-        const wrapper = new XyoWitnessWrapper(witness)
+        const wrapper = new WitnessWrapper(witness)
         const observation = await wrapper.observe()
         expect(observation).toBeArrayOfSize(1)
         expect(observation?.[0]?.schema).toBe(config.targetSchema)
@@ -36,7 +36,7 @@ describe('XyoAdhocWitness', () => {
       })
       it('uses payload schema with XyoWitnessWrapper', async () => {
         const witness = await XyoAdhocWitness.create(params)
-        const wrapper = new XyoWitnessWrapper(witness)
+        const wrapper = new WitnessWrapper(witness)
         const observation = await wrapper.observe([observed])
         expect(observation).toBeArrayOfSize(1)
         expect(observation?.[0]?.schema).toBe(observed.schema)

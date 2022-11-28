@@ -1,5 +1,5 @@
 import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoModuleWrapper } from '@xyo-network/module'
+import { ModuleWrapper } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
@@ -21,7 +21,7 @@ import {
   XyoArchivistInsertQuerySchema,
 } from './Queries'
 
-export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArchivist {
+export class ArchivistWrapper extends ModuleWrapper implements PayloadArchivist {
   public async all(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistAllQuery>({ schema: XyoArchivistAllQuerySchema })
     const query = await this.bindQuery(queryPayload)
@@ -82,3 +82,6 @@ export class XyoArchivistWrapper extends XyoModuleWrapper implements PayloadArch
     return [result[0], ...innerBoundWitnesses]
   }
 }
+
+/** @deprecated use ArchivistWrapper instead */
+export class XyoArchivistWrapper extends ArchivistWrapper {}

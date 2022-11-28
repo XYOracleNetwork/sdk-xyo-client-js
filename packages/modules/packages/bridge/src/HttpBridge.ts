@@ -15,26 +15,35 @@ import { Promisable } from '@xyo-network/promise'
 import { Axios, AxiosError, AxiosRequestHeaders } from 'axios'
 
 import { BridgeModule } from './Bridge'
-import { XyoBridgeConfig } from './Config'
+import { BridgeConfig } from './Config'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
-export type XyoHttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
-export const XyoHttpBridgeConfigSchema: XyoHttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
+export type HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
+export const HttpBridgeConfigSchema: HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
 
-export type XyoHttpBridgeConfig = XyoBridgeConfig<{
+/** @deprecated use HttpBridgeConfigSchema instead */
+export type XyoHttpBridgeConfigSchema = HttpBridgeConfigSchema
+
+/** @deprecated use HttpBridgeConfigSchema instead */
+export const XyoHttpBridgeConfigSchema = HttpBridgeConfigSchema
+
+export type HttpBridgeConfig = BridgeConfig<{
   axios?: AxiosJsonRequestConfig
   headers?: AxiosRequestHeaders
-  schema: XyoHttpBridgeConfigSchema
+  schema: HttpBridgeConfigSchema
 }>
 
-export interface XyoHttpBridgeParams<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeConfig> extends XyoModuleParams<TConfig> {
+/** @deprecated use HttpBridgeConfig instead */
+export type XyoHttpBridgeConfig = HttpBridgeConfig
+
+export interface XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends XyoModuleParams<TConfig> {
   axios: Axios
 }
 
-export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
+export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
   private axios: AxiosJson
 
-  private constructor(params: XyoHttpBridgeParams<TConfig>) {
+  protected constructor(params: XyoHttpBridgeParams<TConfig>) {
     super(params)
     this.axios = new AxiosJson(this.config?.axios)
   }
@@ -105,3 +114,5 @@ export class XyoHttpBridge<TConfig extends XyoHttpBridgeConfig = XyoHttpBridgeCo
     }
   }
 }
+
+export class XyoHttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends HttpBridge<TConfig> {}

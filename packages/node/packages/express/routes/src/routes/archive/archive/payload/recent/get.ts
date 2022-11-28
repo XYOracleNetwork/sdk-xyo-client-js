@@ -3,7 +3,7 @@ import 'source-map-support/register'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { asyncHandler, tryParseInt } from '@xylabs/sdk-api-express-ecs'
-import { XyoDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner'
 import { PayloadQueryPayload, PayloadQuerySchema } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload'
 import { RequestHandler } from 'express'
@@ -21,7 +21,7 @@ const handler: RequestHandler<PayloadRecentPathParams, (XyoPayload | null)[]> = 
     order: 'desc',
     schema: PayloadQuerySchema,
   }
-  const payloads = (await new XyoDivinerWrapper(payloadDiviner).divine([query])).filter(exists)
+  const payloads = (await new DivinerWrapper(payloadDiviner).divine([query])).filter(exists)
   res.json(payloads)
 }
 

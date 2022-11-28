@@ -4,7 +4,7 @@ import {
   XyoEthereumGasBlocknativeWitness,
   XyoEthereumGasBlocknativeWitnessConfigSchema,
 } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
-import { XyoDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner'
 import {
   XyoEtherchainEthereumGasWitnessV1,
   XyoEtherchainEthereumGasWitnessV2,
@@ -45,7 +45,7 @@ import {
 describe('Diviner', () => {
   test('returns divined gas price', async () => {
     const module = await XyoEthereumGasDiviner.create()
-    const wrapper = new XyoDivinerWrapper(module)
+    const wrapper = new DivinerWrapper(module)
 
     const payloads = await wrapper.divine([
       sampleBlocknativeGas,
@@ -138,7 +138,7 @@ describe('Diviner', () => {
     const observations: XyoPayload[] = [blocknativeGas, etherchainGasV1, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
 
     const module = await XyoEthereumGasDiviner.create()
-    const wrapper = new XyoDivinerWrapper(module)
+    const wrapper = new DivinerWrapper(module)
 
     const payloads = await wrapper.divine(observations)
 

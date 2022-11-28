@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoAccount } from '@xyo-network/account'
-import { XyoArchivist, XyoArchivistWrapper } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import {
   ModuleQueryResult,
@@ -12,7 +12,7 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
-import { XyoWitness, XyoWitnessWrapper } from '@xyo-network/witness'
+import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
 
@@ -26,8 +26,8 @@ export type XyoPanelConfig = XyoModuleConfig<{
   archivists?: string[]
   onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
   onReportStart?: () => void
-  onWitnessReportEnd?: (witness: XyoWitnessWrapper, error?: Error) => void
-  onWitnessReportStart?: (witness: XyoWitnessWrapper) => void
+  onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
+  onWitnessReportStart?: (witness: WitnessWrapper) => void
   schema: XyoPanelConfigSchema
   witnesses?: string[]
 }>
@@ -36,8 +36,8 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
   static override configSchema: XyoPanelConfigSchema
 
   public history: XyoBoundWitness[] = []
-  private _archivists: XyoArchivistWrapper[] | undefined
-  private _witnesses: XyoWitnessWrapper[] | undefined
+  private _archivists: ArchivistWrapper[] | undefined
+  private _witnesses: WitnessWrapper[] | undefined
 
   static override async create(params?: Partial<XyoModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
     return (await super.create(params)) as XyoPanel
@@ -57,7 +57,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
     const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
     this._archivists =
       this._archivists ||
-      ((await this.resolver?.resolve({ address: addresses })) as XyoArchivist[]).map((witness) => new XyoArchivistWrapper(witness))
+      ((await this.resolver?.resolve({ address: addresses })) as AbstractArchivist[]).map((witness) => new ArchivistWrapper(witness))
 
     return this._archivists
   }
@@ -65,7 +65,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
   public async getWitnesses() {
     const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
     this._witnesses =
-      this._witnesses || ((await this.resolver?.resolve({ address: addresses })) as XyoWitness[]).map((witness) => new XyoWitnessWrapper(witness))
+      this._witnesses || ((await this.resolver?.resolve({ address: addresses })) as AbstractWitness[]).map((witness) => new WitnessWrapper(witness))
 
     return this._witnesses
   }
@@ -124,7 +124,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
     ).flat()
     this.history.push(assertEx(newBoundWitness))
     this.config?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
-    return [archivistBoundWitnesses, [newBoundWitness, ...payloads]]
+    return [archivistBoundWitnesses, [newBoundWitness, ...allPayloads]]
   }
 
   public async tryReport(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness[], XyoPayload[]]> {
@@ -137,7 +137,7 @@ export class XyoPanel extends XyoModule<XyoPanelConfig> implements PanelModule {
     }
   }
 
-  private async generatePayloads(witnesses: XyoWitnessWrapper[]): Promise<XyoPayload[]> {
+  private async generatePayloads(witnesses: WitnessWrapper[]): Promise<XyoPayload[]> {
     return (await Promise.allSettled(witnesses?.map(async (witness) => await witness.observe())))
       .map((settled) => (settled.status === 'fulfilled' ? settled.value : []))
       .flat()

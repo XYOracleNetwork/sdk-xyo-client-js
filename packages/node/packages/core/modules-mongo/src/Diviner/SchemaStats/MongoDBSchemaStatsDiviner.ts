@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoDiviner, XyoDivinerConfig } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
@@ -39,7 +39,7 @@ export type MongoDBArchiveSchemaStatsDivinerConfigSchema = 'network.xyo.module.c
 export const MongoDBArchiveSchemaStatsDivinerConfigSchema: MongoDBArchiveSchemaStatsDivinerConfigSchema =
   'network.xyo.module.config.diviner.stats.schema'
 
-export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = XyoDivinerConfig<
+export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
   XyoPayload,
   T & {
     schema: MongoDBArchiveSchemaStatsDivinerConfigSchema
@@ -51,7 +51,7 @@ export interface MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = X
   archiveArchivist: ArchiveArchivist
 }
 
-export class MongoDBArchiveSchemaStatsDiviner extends XyoDiviner implements SchemaStatsDiviner, JobProvider {
+export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements SchemaStatsDiviner, JobProvider {
   /**
    * The max number of records to search during the aggregate query
    */

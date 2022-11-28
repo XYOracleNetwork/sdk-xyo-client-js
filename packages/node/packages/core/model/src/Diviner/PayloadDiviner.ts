@@ -1,4 +1,4 @@
-import { XyoDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner } from '@xyo-network/diviner'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { ArchiveQueryPayload } from './ArchiveQueryPayload'
@@ -19,4 +19,4 @@ export const isPayloadPayload = (x?: XyoPayload | null): x is PayloadPayload => 
 export type PayloadQueryPayload = ArchiveQueryPayload<{ schema: PayloadQuerySchema } & XyoPayloadDivinerPredicate>
 export const isPayloadQueryPayload = (x?: XyoPayload | null): x is PayloadQueryPayload => x?.schema === PayloadQuerySchema
 
-export type PayloadDiviner = XyoDiviner
+export type PayloadDiviner = AbstractDiviner

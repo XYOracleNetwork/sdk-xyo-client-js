@@ -1,10 +1,10 @@
 /* eslint-disable max-statements */
-import { XyoArchivistWrapper, XyoMemoryArchivist, XyoMemoryArchivistConfigSchema } from '@xyo-network/archivist'
+import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
 import {
+  ArchivistPayloadDiviner,
   DivinerModule,
-  XyoArchivistPayloadDiviner,
+  DivinerWrapper,
   XyoArchivistPayloadDivinerConfigSchema,
-  XyoDivinerWrapper,
   XyoHuriPayload,
   XyoHuriSchema,
 } from '@xyo-network/diviner'
@@ -27,10 +27,10 @@ describe('MemoryNode', () => {
   })
   describe('create', () => {
     it('Creates MemoryNode', async () => {
-      const XyoMemoryArchivist = (await import('@xyo-network/archivist')).XyoMemoryArchivist
+      const XyoMemoryArchivist = (await import('@xyo-network/archivist')).MemoryArchivist
       const node: NodeModule = await MemoryNode.create()
       const archivist = await XyoMemoryArchivist.create()
-      const diviner: XyoModule = await XyoArchivistPayloadDiviner.create({
+      const diviner: XyoModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
         resolver: new XyoModuleResolver().add(archivist),
       })
@@ -47,7 +47,7 @@ describe('MemoryNode', () => {
         .fields({ test: true })
         .build()
 
-      const foundArchivistWrapper = foundArchivist ? new XyoArchivistWrapper(foundArchivist) : undefined
+      const foundArchivistWrapper = foundArchivist ? new ArchivistWrapper(foundArchivist) : undefined
       await foundArchivistWrapper?.insert([testPayload])
 
       /*const subscribeQuery: XyoModuleSubscribeQuery = { payloads: [testPayload], schema: XyoModuleSubscribeQuerySchema }
@@ -60,10 +60,10 @@ describe('MemoryNode', () => {
         const huri = new PayloadWrapper(payloads[0]).hash
         const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
         const module = (await node.resolve({ address: [diviner.address] })).shift() as DivinerModule
-        const foundDiviner = module ? new XyoDivinerWrapper(module) : null
+        const foundDiviner = module ? new DivinerWrapper(module) : null
         expect(foundDiviner).toBeDefined()
         if (foundDiviner) {
-          const foundDivinerWrapper = new XyoDivinerWrapper(foundDiviner)
+          const foundDivinerWrapper = new DivinerWrapper(foundDiviner)
           const payloads = await foundDivinerWrapper.divine([huriPayload])
           // console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
           expect(payloads?.length).toBe(1)
@@ -77,7 +77,7 @@ describe('MemoryNode', () => {
   })
   describe('register', () => {
     it('registers module', async () => {
-      const module = await XyoMemoryArchivist.create()
+      const module = await MemoryArchivist.create()
       node.register(module)
     })
   })
@@ -91,7 +91,7 @@ describe('MemoryNode', () => {
     describe('with modules registered', () => {
       let module: XyoModule
       beforeEach(async () => {
-        module = await XyoMemoryArchivist.create()
+        module = await MemoryArchivist.create()
         node.register(module)
       })
       it('lists addresses of registered modules', () => {
@@ -104,7 +104,7 @@ describe('MemoryNode', () => {
   describe('attach', () => {
     let module: XyoModule
     beforeEach(async () => {
-      module = await XyoMemoryArchivist.create()
+      module = await MemoryArchivist.create()
       node.register(module)
     })
     it('attaches module', () => {
@@ -114,7 +114,7 @@ describe('MemoryNode', () => {
   describe('attached', () => {
     let module: XyoModule
     beforeEach(async () => {
-      module = await XyoMemoryArchivist.create()
+      module = await MemoryArchivist.create()
       node.register(module)
     })
     describe('with no modules attached', () => {
@@ -138,7 +138,7 @@ describe('MemoryNode', () => {
   describe('detach', () => {
     let module: XyoModule
     beforeEach(async () => {
-      module = await XyoMemoryArchivist.create()
+      module = await MemoryArchivist.create()
       node.register(module)
       node.attach(module.address)
     })
@@ -152,7 +152,7 @@ describe('MemoryNode', () => {
   describe('registeredModules', () => {
     let module: XyoModule
     beforeEach(async () => {
-      module = await XyoMemoryArchivist.create()
+      module = await MemoryArchivist.create()
     })
     describe('with no modules registered', () => {
       it('returns empty array', () => {
@@ -171,7 +171,7 @@ describe('MemoryNode', () => {
   })
   describe('unregister', () => {
     it('un-registers module', async () => {
-      const module = await XyoMemoryArchivist.create()
+      const module = await MemoryArchivist.create()
       node.register(module)
       expect(node.registeredModules()).toContain(module)
       node.unregister(module)
@@ -179,7 +179,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('description', () => {
-    const archivistConfig = { schema: XyoMemoryArchivistConfigSchema }
+    const archivistConfig = { schema: MemoryArchivistConfigSchema }
     const validateModuleDescription = (description: ModuleDescription) => {
       expect(description).toBeObject()
       expect(description.address).toBeString()
@@ -202,8 +202,8 @@ describe('MemoryNode', () => {
     describe('node with child modules', () => {
       beforeEach(async () => {
         const modules = await Promise.all([
-          await XyoMemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
-          await XyoMemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
+          await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
+          await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
         modules.map((mod) => {
           node.register(mod)
@@ -224,12 +224,12 @@ describe('MemoryNode', () => {
     describe('node with nested nodes and modules', () => {
       beforeEach(async () => {
         const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
-        const nestedModules = await Promise.all([await XyoMemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
+        const nestedModules = await Promise.all([await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
         nestedModules.map((mod) => {
           nestedNode.register(mod)
           nestedNode.attach(mod.address)
         })
-        const rootModules: XyoModule[] = await Promise.all([await XyoMemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
+        const rootModules: XyoModule[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
         rootModules.map((mod) => {
           node.register(mod)

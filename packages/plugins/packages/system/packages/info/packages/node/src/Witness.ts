@@ -1,5 +1,5 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { XyoWitness } from '@xyo-network/witness'
+import { AbstractWitness } from '@xyo-network/witness'
 import { get } from 'systeminformation'
 
 import { XyoNodeSystemInfoWitnessConfig, XyoNodeSystemInfoWitnessConfigSchema } from './Config'
@@ -7,7 +7,7 @@ import { XyoNodeSystemInfoPayload } from './Payload'
 import { XyoNodeSystemInfoSchema } from './Schema'
 import { defaultSystemInfoConfig } from './Template'
 
-export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload = XyoNodeSystemInfoPayload> extends XyoWitness<
+export class XyoNodeSystemInfoWitness<TPayload extends XyoNodeSystemInfoPayload = XyoNodeSystemInfoPayload> extends AbstractWitness<
   TPayload,
   XyoNodeSystemInfoWitnessConfig
 > {

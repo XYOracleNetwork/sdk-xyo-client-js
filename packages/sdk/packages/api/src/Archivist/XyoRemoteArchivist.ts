@@ -1,4 +1,4 @@
-import { XyoArchivist, XyoArchivistFindQuerySchema, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
+import { AbstractArchivist, XyoArchivistFindQuerySchema, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
@@ -11,7 +11,7 @@ import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from './XyoR
 export type XyoRemoteArchivistParams = XyoModuleParams<XyoRemoteArchivistConfig> & { api?: XyoArchivistApi }
 
 /** @description Archivist Context that connects to a remote archivist using the API */
-export class XyoRemoteArchivist extends XyoArchivist<XyoRemoteArchivistConfig> {
+export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConfig> {
   static override configSchema = XyoRemoteArchivistConfigSchema
   protected _api?: XyoArchivistApi
 

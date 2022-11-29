@@ -4050,10 +4050,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^8.3.4":
-  version: 8.3.4
-  resolution: "@types/uuid@npm:8.3.4"
-  checksum: 6f11f3ff70f30210edaa8071422d405e9c1d4e53abbe50fdce365150d3c698fe7bbff65c1e71ae080cbfb8fded860dbb5e174da96fdbbdfcaa3fb3daa474d20f
+"@types/uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@types/uuid@npm:9.0.0"
+  checksum: 59ae56d9547c8758588659da2a2b4c97cce79c2aae1798c892bb29452ef08e87859dea2ec3a66bfa88d0d2153147520be2b1893be920f9f0bc9c53a3207ea6aa
   languageName: node
   linkType: hard
 
@@ -4833,7 +4833,7 @@ __metadata:
     "@scure/base": ^1.1.1
     "@types/lodash": ^4.14.190
     "@types/sha.js": ^2.4.0
-    "@types/uuid": ^8.3.4
+    "@types/uuid": ^9.0.0
     "@xylabs/assert": ^2.6.9
     "@xylabs/bignumber": ^2.6.9
     "@xylabs/buffer": ^2.6.9
@@ -5166,7 +5166,7 @@ __metadata:
     "@types/passport-local": ^1.0.34
     "@types/source-map-support": 0.5.6
     "@types/swagger-ui-express": ^4.1.3
-    "@types/uuid": ^8.3.4
+    "@types/uuid": ^9.0.0
     "@xylabs/assert": ^2.6.9
     "@xylabs/exists": ^2.6.9
     "@xylabs/sdk-api-express-ecs": ^1.2.5
@@ -5203,7 +5203,7 @@ __metadata:
   dependencies:
     "@types/express": 4.17.14
     "@types/source-map-support": 0.5.6
-    "@types/uuid": ^8.3.4
+    "@types/uuid": ^9.0.0
     "@xylabs/assert": ^2.6.9
     "@xylabs/exists": ^2.6.9
     "@xylabs/sdk-api-express-ecs": ^1.2.5
@@ -5238,7 +5238,7 @@ __metadata:
     "@types/cors": ^2.8.12
     "@types/express": 4.17.14
     "@types/passport": ^1.0.11
-    "@types/uuid": ^8.3.4
+    "@types/uuid": ^9.0.0
     "@xylabs/assert": ^2.6.9
     "@xylabs/delay": ^2.6.9
     "@xylabs/exists": ^2.6.9
@@ -5273,7 +5273,7 @@ __metadata:
   dependencies:
     "@ethersproject/wallet": ^5.7.0
     "@types/supertest": ^2.0.12
-    "@types/uuid": ^8.3.4
+    "@types/uuid": ^9.0.0
     "@xylabs/assert": ^2.6.9
     "@xylabs/forget": ^2.6.9
     "@xyo-network/account": "workspace:^"
@@ -5652,7 +5652,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    systeminformation: ^5.14.4
+    systeminformation: ^5.15.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -17416,12 +17416,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.14.4":
-  version: 5.14.4
-  resolution: "systeminformation@npm:5.14.4"
+"systeminformation@npm:^5.15.1":
+  version: 5.15.1
+  resolution: "systeminformation@npm:5.15.1"
   bin:
     systeminformation: lib/cli.js
-  checksum: 6ec87c701b7e9e5917fc4f4807ca8f78c1ec7c7cab486db867e9284c0328c66680ab3ab4c6653b1c3db0927ad7b560c6e6006c8fc5b8192e06db90ea49aa5e41
+  checksum: fa0bb6b0475e45348b0b0f44f987be140152c9a726aa74ea590eb5df48e89b1809d68bc6780cc8e7b95c9a77fc3fc14187e1e83bbfe054c8060fc3291c789dab
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

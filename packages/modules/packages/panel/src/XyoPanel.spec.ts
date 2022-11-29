@@ -1,5 +1,6 @@
 import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessValidator, BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { Hasher } from '@xyo-network/core'
 import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
@@ -89,7 +90,7 @@ describe('XyoPanel', () => {
         const [, payloads] = panelReport
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
-          expect(archivistPayloads).toBeArrayOfSize(payloads.length - 1)
+          expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
           const panelPayloads = payloads.map((payload) => {
             const wrapped = new PayloadWrapper(payload)
             return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
@@ -98,15 +99,22 @@ describe('XyoPanel', () => {
         }
       }
       beforeEach(async () => {
-        const params = {
+        const paramsA = {
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
             schema: XyoAdhocWitnessConfigSchema,
             targetSchema: XyoPayloadSchema,
           },
         }
-        witnessA = await XyoAdhocWitness.create(params)
-        witnessB = await XyoAdhocWitness.create(params)
+        const paramsB = {
+          config: {
+            payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+            schema: XyoAdhocWitnessConfigSchema,
+            targetSchema: XyoPayloadSchema,
+          },
+        }
+        witnessA = await XyoAdhocWitness.create(paramsA)
+        witnessB = await XyoAdhocWitness.create(paramsB)
         archivistA = await MemoryArchivist.create()
         archivistB = await MemoryArchivist.create()
       })
@@ -162,6 +170,10 @@ describe('XyoPanel', () => {
         expect(observedB).toBeArrayOfSize(1)
         const result = await panel.report([...observedA, ...observedB])
         assertPanelReport(result)
+        expect((await archivistA.get([Hasher.hash(observedA)])).length).toBe(1)
+        expect((await archivistA.get([Hasher.hash(observedB)])).length).toBe(1)
+        expect((await archivistB.get([Hasher.hash(observedA)])).length).toBe(1)
+        expect((await archivistB.get([Hasher.hash(observedB)])).length).toBe(1)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
     })

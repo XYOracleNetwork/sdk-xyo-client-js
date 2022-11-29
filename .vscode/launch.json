@@ -39,6 +39,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
+        "packages/modules/packages/panel/src/XyoPanel.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

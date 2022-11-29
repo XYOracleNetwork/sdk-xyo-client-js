@@ -61,10 +61,10 @@ describe('XyoPanel', () => {
     const adhocObserved = await adhocWitness.observe()
 
     const report1Result = await panel.report(adhocObserved)
-    const report1 = BoundWitnessWrapper.parse(report1Result[1][0])
+    const report1 = BoundWitnessWrapper.parse(report1Result[0])
     expect(report1.schemaName).toBe(XyoBoundWitnessSchema)
     expect(report1.payloadHashes).toBeArrayOfSize(2)
-    const report2 = BoundWitnessWrapper.parse((await panel.report())[1][0])
+    const report2 = BoundWitnessWrapper.parse((await panel.report())[0])
     expect(report2.schemaName).toBeDefined()
     expect(report2.payloadHashes).toBeArrayOfSize(1)
     expect(report2.hash !== report1.hash).toBe(true)
@@ -79,14 +79,13 @@ describe('XyoPanel', () => {
       let archivistB: AbstractArchivist
       let witnessA: AbstractWitness
       let witnessB: AbstractWitness
-      const assertPanelReport = (panelReport: [XyoBoundWitness[], XyoPayload[]]) => {
+      const assertPanelReport = (panelReport: [XyoBoundWitness, XyoPayload[]]) => {
         expect(panelReport).toBeArrayOfSize(2)
-        const [bws, payloads] = panelReport
-        expect(bws).toBeArrayOfSize(4)
-        bws.map((bw) => expect(new BoundWitnessValidator(bw).validate()).toBeArrayOfSize(0))
-        expect(payloads).toBeArrayOfSize(3)
+        const [bw, payloads] = panelReport
+        expect(new BoundWitnessValidator(bw).validate()).toBeArrayOfSize(0)
+        expect(payloads).toBeArrayOfSize(2)
       }
-      const assertArchivistStateMatchesPanelReport = async (panelReport: [XyoBoundWitness[], XyoPayload[]], archivists: Archivist[]) => {
+      const assertArchivistStateMatchesPanelReport = async (panelReport: [XyoBoundWitness, XyoPayload[]], archivists: Archivist[]) => {
         const [, payloads] = panelReport
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()

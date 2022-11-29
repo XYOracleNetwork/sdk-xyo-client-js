@@ -103,7 +103,7 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     this.config?.onReportStart?.()
     const allWitnesses = [...(await this.getWitnesses())]
     const allPayloads = [...compact(await this.generatePayloads(allWitnesses)), ...payloads]
-    const [newBoundWitness] = new BoundWitnessBuilder().payloads(allPayloads).witness(this.account).build()
+    const [newBoundWitness] = await this.bindResult(allPayloads)
 
     this.history.push(assertEx(newBoundWitness))
     this.config?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)

@@ -58,6 +58,7 @@
     "autogen",
     "automations",
     "bignumber",
+    "boundwitness",
     "bowser",
     "dmarc",
     "DNSSEC",
@@ -75,6 +76,7 @@
     "sideeffects",
     "systeminformation",
     "typechain",
-    "userid"
+    "userid",
+    "xylabs"
   ]
 }

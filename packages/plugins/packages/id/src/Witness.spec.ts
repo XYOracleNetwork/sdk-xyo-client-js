@@ -6,7 +6,7 @@ import { XyoIdWitness, XyoIdWitnessConfigSchema } from './Witness'
 
 describe('XyoIdWitness', () => {
   describe('observe', () => {
-    const inlineSalt = 'inline salt'
+    const payloadSalt = 'payload salt'
     describe('with config', () => {
       const configSalt = 'config salt'
       const config = {
@@ -22,12 +22,12 @@ describe('XyoIdWitness', () => {
           const [observation] = observations
           expect(observation.salt).toBe(witness.config.salt)
         })
-        it('with salt uses inline salt', async () => {
+        it('with salt uses payload salt', async () => {
           const witness = await XyoIdWitness.create({ config })
-          const observations = await witness.observe([{ salt: inlineSalt }])
+          const observations = await witness.observe([{ salt: payloadSalt }])
           validateObservationShape(observations)
           const [observation] = observations
-          expect(observation.salt).toBe(inlineSalt)
+          expect(observation.salt).toBe(payloadSalt)
         })
       })
       describe('with no payloads supplied to observe', () => {
@@ -49,12 +49,12 @@ describe('XyoIdWitness', () => {
           const [observation] = observations
           expect(parseInt(observation.salt)).toBeInteger()
         })
-        it('with salt uses inline salt', async () => {
+        it('with salt uses payload salt', async () => {
           const witness = await XyoIdWitness.create()
-          const observations = await witness.observe([{ salt: inlineSalt }])
+          const observations = await witness.observe([{ salt: payloadSalt }])
           validateObservationShape(observations)
           const [observation] = observations
-          expect(observation.salt).toBe(inlineSalt)
+          expect(observation.salt).toBe(payloadSalt)
         })
       })
       describe('with no payloads supplied to observe', () => {

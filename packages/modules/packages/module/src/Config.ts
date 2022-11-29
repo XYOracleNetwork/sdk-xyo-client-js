@@ -9,10 +9,6 @@ export type SchemaString = string
 
 export type XyoModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayload<
   {
-    // the archivists that every query result is stored to
-    // it is required for these to be resolvable by the resolver
-    archivists?: string[]
-
     //if both allowed and disallowed is specified, then disallowed takes priority
     security?: {
       //if schema in record, then only these address sets can access query

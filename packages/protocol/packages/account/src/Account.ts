@@ -22,7 +22,7 @@ export class XyoAccount extends XyoKeyPair {
       : phrase
       ? toUint8Array(shajs('sha256').update(phrase).digest('hex').padStart(64, '0'))
       : undefined
-    assertEx(privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
+    assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
   }
 

@@ -1,4 +1,5 @@
 export * from './AbstractArchivist'
+export * from './ArchivingModule'
 export * from './Archivist'
 export * from './ArchivistWrapper'
 export * from './Config'

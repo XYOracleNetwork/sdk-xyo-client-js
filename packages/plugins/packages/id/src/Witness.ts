@@ -33,7 +33,7 @@ export class XyoIdWitness extends AbstractWitness<XyoIdPayload, XyoIdWitnessConf
       fields.map((fieldItems) => {
         return {
           salt: assertEx(fieldItems?.salt ?? this.salt, 'Missing salt'),
-          schema: 'network.xyo.id',
+          schema: XyoIdSchema,
         }
       }),
     )

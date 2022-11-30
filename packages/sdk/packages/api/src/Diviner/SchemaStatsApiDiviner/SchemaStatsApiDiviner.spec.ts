@@ -5,7 +5,7 @@ import { SchemaStatsApiDiviner } from './SchemaStatsApiDiviner'
 import { XyoSchemaStatsApiDivinerConfigSchema } from './SchemaStatsApiDivinerConfig'
 
 const configData: XyoApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
+  apiDomain: process.env.API_DOMAIN || 'http://locahost:8080',
 }
 
 test('SchemaStatsApiDiviner', async () => {

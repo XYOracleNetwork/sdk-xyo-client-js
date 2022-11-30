@@ -1,5 +1,3 @@
-import { ModuleDescription } from './ModuleDescription'
+import { ModuleDescription } from '@xyo-network/module'
 
-export interface NodeModuleDescription extends ModuleDescription {
-  url: string
-}
+export type NodeModuleDescription = ModuleDescription

@@ -49,13 +49,13 @@ declare global {
       archivePayloadsArchivistFactory: ArchivePayloadsArchivistFactory
       archivePermissionsArchivistFactory: ArchivePermissionsArchivistFactory
       archivistWitnessedPayloadArchivist: WitnessedPayloadArchivist
-      boundWitnessArchivist: BoundWitnessArchivist
+      // boundWitnessArchivist: BoundWitnessArchivist
       boundWitnessDiviner: BoundWitnessDiviner
       boundWitnessStatsDiviner: BoundWitnessStatsDiviner
       logger: Logger
       moduleAddressDiviner: ModuleAddressDiviner
       node: AbstractNode
-      payloadArchivist: PayloadArchivist
+      // payloadArchivist: PayloadArchivist
       payloadDiviner: PayloadDiviner
       payloadStatsDiviner: PayloadStatsDiviner
       queryConverters: QueryConverterRegistry

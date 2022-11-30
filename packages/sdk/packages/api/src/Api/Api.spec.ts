@@ -11,10 +11,16 @@ const configData: XyoApiConfig = {
 
 describe('XyoArchivistApi', () => {
   describe('get', () => {
-    it('returns Node Description', () => {
+    it('returns Node Description', async () => {
       const api = new XyoArchivistApi(configData)
       expect(api).toBeDefined()
-      throw new Error('TODO: GET here')
+      const response = await api.get()
+      expect(response).toBeObject()
+      expect(response?.address).toBeString()
+      expect(response?.queries).toBeArray()
+      expect(response?.queries?.length).toBeGreaterThan(0)
+      expect(response?.children).toBeArray()
+      expect(response?.children?.length).toBeGreaterThan(0)
     })
   })
 })

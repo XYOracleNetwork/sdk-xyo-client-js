@@ -4,6 +4,7 @@ import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }
 
+// TODO: Grab from actual type lists (which are not yet exported)
 const archivists = [
   // TYPES.ArchiveArchivist,
   // TYPES.ArchiveBoundWitnessArchivistFactory,
@@ -42,7 +43,8 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
   await Promise.all(
     types.map(async (type) => {
       const mod = await container.getAsync<XyoModule>(type)
-      node.attach(mod.address, type.description)
+      const address: string | undefined = mod?.address
+      if (address) node.attach(address, type.description)
     }),
   )
 }

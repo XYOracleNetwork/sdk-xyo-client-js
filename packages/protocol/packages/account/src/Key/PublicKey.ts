@@ -1,11 +1,11 @@
-import { XyoDataLike } from '@xyo-network/core'
+import { DataLike } from '@xyo-network/core'
 
 import { AddressValue } from './AddressValue'
 import { EllipticKey } from './EllipticKey'
 
 export class PublicKey extends EllipticKey {
   private _isXyoPublicKey = true
-  constructor(bytes: XyoDataLike) {
+  constructor(bytes: DataLike) {
     super(64, bytes)
   }
 

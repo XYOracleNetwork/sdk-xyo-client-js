@@ -1,7 +1,7 @@
 import { EmptyObject } from './EmptyObject'
 import { StringKeyObject } from './StringKeyObject'
 
-export abstract class XyoObjectWrapper<T extends EmptyObject = EmptyObject> {
+export abstract class ObjectWrapper<T extends EmptyObject = EmptyObject> {
   public readonly obj: T
   constructor(obj: T) {
     this.obj = obj
@@ -10,3 +10,5 @@ export abstract class XyoObjectWrapper<T extends EmptyObject = EmptyObject> {
     return this.obj as StringKeyObject
   }
 }
+
+export class XyoObjectWrapper extends ObjectWrapper {}

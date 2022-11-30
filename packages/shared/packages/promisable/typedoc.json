@@ -4,7 +4,7 @@
     "XyoPayload",
     "XyoPayloadFull",
     "XyoBoundWitness",
-    "XyoDataLike",
+    "DataLike",
     "Huri",
     "XyoSchemaPayload"
   ]

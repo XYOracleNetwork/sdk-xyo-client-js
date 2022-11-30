@@ -1,19 +1,19 @@
-import { toUint8Array, XyoData, XyoDataLike } from '@xyo-network/core'
+import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
 
 import { EllipticKey } from './EllipticKey'
 
 export class AddressValue extends EllipticKey {
   private _isXyoAddress = true
-  constructor(address: XyoDataLike) {
+  constructor(address: DataLike) {
     super(20, AddressValue.addressFromAddressOrPublicKey(address))
   }
 
-  public static addressFromAddressOrPublicKey(bytes: XyoDataLike) {
+  public static addressFromAddressOrPublicKey(bytes: DataLike) {
     const bytesArray = toUint8Array(bytes)
     return bytesArray.length === 20 ? bytesArray : AddressValue.addressFromPublicKey(bytesArray)
   }
 
-  public static addressFromPublicKey(key: XyoDataLike) {
+  public static addressFromPublicKey(key: DataLike) {
     return new XyoData(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
   }
 
@@ -23,7 +23,7 @@ export class AddressValue extends EllipticKey {
 
   //there has to be a better way to do this other than trying all four numbers
   //maybe we can get the number from the address more easily
-  public static verify(msg: Uint8Array | string, signature: Uint8Array | string, address: XyoDataLike) {
+  public static verify(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
     let valid = false
     const sigArray = toUint8Array(signature)
     const r = sigArray.slice(0, 32)

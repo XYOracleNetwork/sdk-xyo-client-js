@@ -1,4 +1,4 @@
-import { toUint8Array, XyoDataLike } from '@xyo-network/core'
+import { DataLike, toUint8Array } from '@xyo-network/core'
 import EC from 'elliptic'
 
 import { EllipticKey } from './EllipticKey'
@@ -9,7 +9,7 @@ export class PrivateKey extends EllipticKey {
   private _keyPair: EC.ec.KeyPair
   private _public?: XyoPublicKey
 
-  constructor(value?: XyoDataLike) {
+  constructor(value?: DataLike) {
     super(32)
     if (value) {
       this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate(toUint8Array(value), 'array')
@@ -37,7 +37,7 @@ export class PrivateKey extends EllipticKey {
     return (value as XyoPrivateKey)._isXyoPrivateKey
   }
 
-  public sign(hash: XyoDataLike) {
+  public sign(hash: DataLike) {
     const arrayHash = toUint8Array(hash)
     const signature = this._keyPair.sign(arrayHash)
     return toUint8Array(signature.r.toString('hex', 64) + signature.s.toString('hex', 64))

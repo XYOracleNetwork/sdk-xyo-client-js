@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoDataLike } from '@xyo-network/core'
+import { DataLike } from '@xyo-network/core'
 import { Huri, PayloadWrapper, PayloadWrapperBase, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
@@ -67,7 +67,7 @@ export class BoundWitnessWrapper<
     return this.boundwitness.previous_hashes
   }
 
-  public static override async load(address: XyoDataLike | Huri) {
+  public static override async load(address: DataLike | Huri) {
     const payload = await new Huri(address).fetch()
     assertEx(payload && isXyoBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
 

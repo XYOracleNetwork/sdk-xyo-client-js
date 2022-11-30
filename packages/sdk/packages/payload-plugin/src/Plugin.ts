@@ -1,4 +1,4 @@
-import { XyoValidator } from '@xyo-network/core'
+import { Validator } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
@@ -23,7 +23,7 @@ export type XyoPayloadPlugin<
   params?: XyoPayloadPluginParams<TWitnessParams, TDivinerParams>
   schema: TPayload['schema']
   template?: () => Partial<TPayload>
-  validate?: (payload: XyoPayload) => XyoValidator
+  validate?: (payload: XyoPayload) => Validator
   witness?: <TParams extends TWitnessParams>(params?: TParams) => Promisable<AbstractWitness>
   wrap?: (payload: XyoPayload) => PayloadWrapper
 }

@@ -1,6 +1,6 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
-import { toUint8Array, XyoData, XyoDataLike } from '@xyo-network/core'
+import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
 import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
@@ -9,7 +9,7 @@ export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
 export interface AccountConfig {
   phrase?: string
-  privateKey?: XyoDataLike
+  privateKey?: DataLike
 }
 
 export class Account extends KeyPair {

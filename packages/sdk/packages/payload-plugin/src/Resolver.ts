@@ -1,4 +1,4 @@
-import { XyoValidator } from '@xyo-network/core'
+import { Validator } from '@xyo-network/core'
 import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 
 import { createXyoPayloadPlugin } from './createPlugin'
@@ -73,7 +73,7 @@ export class XyoPayloadPluginResolver {
     return result
   }
 
-  public validate(payload: XyoPayload): XyoValidator<XyoPayload> | undefined {
+  public validate(payload: XyoPayload): Validator<XyoPayload> | undefined {
     return this.resolve(payload).validate?.(payload)
   }
 

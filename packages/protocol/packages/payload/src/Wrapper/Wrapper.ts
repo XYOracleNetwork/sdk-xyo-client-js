@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { deepOmitUnderscoreFields, Hasher, XyoDataLike } from '@xyo-network/core'
+import { DataLike, deepOmitUnderscoreFields, Hasher } from '@xyo-network/core'
 import { Promisable } from '@xyo-network/promise'
 
 import { Huri } from '../Huri'
@@ -36,7 +36,7 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
     return this.errors.length === 0
   }
 
-  public static load(_address: XyoDataLike | Huri): Promisable<PayloadWrapperBase | null> {
+  public static load(_address: DataLike | Huri): Promisable<PayloadWrapperBase | null> {
     throw Error('Not implemented')
   }
 
@@ -48,7 +48,7 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
 export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends PayloadWrapperBase<TPayload> {
   private isPayloadWrapper = true
 
-  public static override async load(address: XyoDataLike | Huri) {
+  public static override async load(address: DataLike | Huri) {
     const payload = await new Huri(address).fetch()
     return payload ? new PayloadWrapper(payload) : null
   }

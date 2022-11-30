@@ -1,16 +1,16 @@
 import { toUint8Array, XyoData, XyoDataLike } from '@xyo-network/core'
 
-import { XyoEllipticKey } from './XyoEllipticKey'
+import { EllipticKey } from './EllipticKey'
 
-export class XyoAddressValue extends XyoEllipticKey {
+export class AddressValue extends EllipticKey {
   private _isXyoAddress = true
   constructor(address: XyoDataLike) {
-    super(20, XyoAddressValue.addressFromAddressOrPublicKey(address))
+    super(20, AddressValue.addressFromAddressOrPublicKey(address))
   }
 
   public static addressFromAddressOrPublicKey(bytes: XyoDataLike) {
     const bytesArray = toUint8Array(bytes)
-    return bytesArray.length === 20 ? bytesArray : XyoAddressValue.addressFromPublicKey(bytesArray)
+    return bytesArray.length === 20 ? bytesArray : AddressValue.addressFromPublicKey(bytesArray)
   }
 
   public static addressFromPublicKey(key: XyoDataLike) {
@@ -18,7 +18,7 @@ export class XyoAddressValue extends XyoEllipticKey {
   }
 
   public static isXyoAddress(value: unknown) {
-    return (value as XyoAddressValue)._isXyoAddress
+    return (value as AddressValue)._isXyoAddress
   }
 
   //there has to be a better way to do this other than trying all four numbers
@@ -29,15 +29,15 @@ export class XyoAddressValue extends XyoEllipticKey {
     const r = sigArray.slice(0, 32)
     const s = sigArray.slice(32, 64)
 
-    const expectedAddress = new XyoAddressValue(address).hex
+    const expectedAddress = new AddressValue(address).hex
 
     for (let i = 0; i < 4; i++) {
       try {
-        const publicKey = XyoAddressValue.ecContext
-          .keyFromPublic(XyoAddressValue.ecContext.recoverPubKey(toUint8Array(msg), { r, s }, i))
+        const publicKey = AddressValue.ecContext
+          .keyFromPublic(AddressValue.ecContext.recoverPubKey(toUint8Array(msg), { r, s }, i))
           .getPublic('hex')
           .slice(2)
-        const recoveredAddress = XyoAddressValue.addressFromPublicKey(publicKey)
+        const recoveredAddress = AddressValue.addressFromPublicKey(publicKey)
         valid = valid || recoveredAddress === expectedAddress
       } catch (ex) {
         null
@@ -47,6 +47,9 @@ export class XyoAddressValue extends XyoEllipticKey {
   }
 
   public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
-    return XyoAddressValue.verify(msg, signature, this.bytes)
+    return AddressValue.verify(msg, signature, this.bytes)
   }
 }
+
+/** @deprecated use AddressValue instead */
+export class XyoAddressValue extends AddressValue {}

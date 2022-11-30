@@ -1,8 +1,8 @@
 import { XyoDataLike } from '@xyo-network/core'
 
-import { XyoPrivateKey } from './XyoPrivateKey'
+import { XyoPrivateKey } from './PrivateKey'
 
-export class XyoKeyPair {
+export class KeyPair {
   private _isXyoKeyPair = true
   private _private?: XyoPrivateKey
 
@@ -20,6 +20,9 @@ export class XyoKeyPair {
   }
 
   public static isXyoKeyPair(value: unknown) {
-    return (value as XyoKeyPair)._isXyoKeyPair
+    return (value as KeyPair)._isXyoKeyPair
   }
 }
+
+/** @deprecated use KeyPair instead */
+export class XyoKeyPair extends KeyPair {}

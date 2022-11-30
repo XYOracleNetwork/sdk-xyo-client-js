@@ -3,7 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import { toUint8Array, XyoData, XyoDataLike } from '@xyo-network/core'
 import shajs from 'sha.js'
 
-import { XyoKeyPair, XyoPublicKey } from './Key'
+import { KeyPair, XyoPublicKey } from './Key'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
@@ -12,7 +12,7 @@ export interface XyoAccountConfig {
   privateKey?: XyoDataLike
 }
 
-export class XyoAccount extends XyoKeyPair {
+export class XyoAccount extends KeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 

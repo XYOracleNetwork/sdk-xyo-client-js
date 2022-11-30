@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 
-import { XyoAccount, XyoAddressValue } from '@xyo-network/account'
+import { AddressValue, XyoAccount } from '@xyo-network/account'
 import { Hasher, StringKeyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
@@ -55,9 +55,9 @@ describe('BoundWitnessBuilder', () => {
         expect(Hasher.hash(actual)).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')
 
         if (actual._signatures) {
-          const addr = new XyoAddressValue(actual.addresses[0])
+          const addr = new AddressValue(actual.addresses[0])
           expect(addr.hex).toBe(actual.addresses[0])
-          const verify = new XyoAddressValue(actual.addresses[0]).verify(Hasher.hash(actual), actual._signatures[0])
+          const verify = new AddressValue(actual.addresses[0]).verify(Hasher.hash(actual), actual._signatures[0])
           expect(verify).toBe(true)
         }
       })

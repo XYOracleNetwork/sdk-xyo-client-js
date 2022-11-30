@@ -1,4 +1,4 @@
-import { XyoAddressValue } from '@xyo-network/account'
+import { AddressValue } from '@xyo-network/account'
 import { XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '@xyo-network/api-models'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoDataLike } from '@xyo-network/core'
@@ -62,7 +62,7 @@ export class XyoArchivistApi extends XyoApiBase {
   public account(address: XyoDataLike) {
     return new XyoAccountApi({
       ...this.config,
-      root: `${this.root}wallet/${new XyoAddressValue(address).hex}/`,
+      root: `${this.root}wallet/${new AddressValue(address).hex}/`,
     })
   }
 

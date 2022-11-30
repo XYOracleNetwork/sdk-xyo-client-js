@@ -1,10 +1,10 @@
 import { toUint8Array, XyoDataLike } from '@xyo-network/core'
 import EC from 'elliptic'
 
-import { XyoEllipticKey } from './XyoEllipticKey'
-import { XyoPublicKey } from './XyoPublicKey'
+import { EllipticKey } from './EllipticKey'
+import { XyoPublicKey } from './PublicKey'
 
-export class XyoPrivateKey extends XyoEllipticKey {
+export class PrivateKey extends EllipticKey {
   private _isXyoPrivateKey = true
   private _keyPair: EC.ec.KeyPair
   private _public?: XyoPublicKey
@@ -64,3 +64,5 @@ export class XyoPrivateKey extends XyoEllipticKey {
   }
   */
 }
+
+export class XyoPrivateKey extends PrivateKey {}

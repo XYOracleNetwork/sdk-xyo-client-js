@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAddressValue } from '@xyo-network/account'
+import { AddressValue } from '@xyo-network/account'
 import { XyoDataLike } from '@xyo-network/core'
 import axios from 'axios'
 
@@ -38,7 +38,7 @@ export class Huri<T extends XyoPayload = XyoPayload> {
   private isHuri = true
 
   constructor(huri: XyoDataLike | Huri, { archivistUri }: HuriOptions = {}) {
-    const huriString = Huri.isHuri(huri)?.href ?? typeof huri === 'string' ? (huri as string) : new XyoAddressValue(huri as XyoDataLike).hex
+    const huriString = Huri.isHuri(huri)?.href ?? typeof huri === 'string' ? (huri as string) : new AddressValue(huri as XyoDataLike).hex
     this.originalHref = huriString
 
     const protocol = Huri.parseProtocol(huriString)

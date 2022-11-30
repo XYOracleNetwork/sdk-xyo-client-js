@@ -13,14 +13,14 @@ const findByHash = async (req: Request, hash: string) => {
   const { node } = req.app
   const payloadFilter: XyoPayloadFilterPredicate = { hash }
 
-  const payloadArchivists = await node.tryResolve({ name: [assertEx(TYPES.PayloadArchivist.description)] })
+  const payloadArchivists = await node.resolve({ name: [assertEx(TYPES.PayloadArchivist.description)] })
   const payloadArchivist = assertEx(payloadArchivists[0])
   const payloadWrapper = new ArchivistWrapper(payloadArchivist)
   const payloads = (await payloadWrapper.find(payloadFilter)).filter(exists)
 
   if (payloads.length) return payloads
 
-  const boundWitnessArchivists = await node.tryResolve({ name: [assertEx(TYPES.BoundWitnessArchivist.description)] })
+  const boundWitnessArchivists = await node.resolve({ name: [assertEx(TYPES.BoundWitnessArchivist.description)] })
   const boundWitnessArchivist = assertEx(boundWitnessArchivists[0])
   const boundWitnessWrapper = new ArchivistWrapper(boundWitnessArchivist)
   return (await boundWitnessWrapper.find({ ...payloadFilter, schema: 'network.xyo.boundwitness' })).filter(exists)

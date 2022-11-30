@@ -14,9 +14,9 @@ export const resolvePayloadPointer = async (req: Request, pointer: PayloadPointe
   const accessibleArchives = await requestAccessibleArchives(req, searchCriteria.archives)
   if (!accessibleArchives.length) return undefined
   searchCriteria.archives = accessibleArchives
-  const payloadArchivists = await node.tryResolve({ name: [assertEx(TYPES.PayloadArchivist.description)] })
+  const payloadArchivists = await node.resolve({ name: [assertEx(TYPES.PayloadArchivist.description)] })
   const payloadArchivist = assertEx(payloadArchivists[0]) as PayloadArchivist
-  const boundWitnessArchivists = await node.tryResolve({ name: [assertEx(TYPES.BoundWitnessArchivist.description)] })
+  const boundWitnessArchivists = await node.resolve({ name: [assertEx(TYPES.BoundWitnessArchivist.description)] })
   const boundWitnessArchivist = assertEx(boundWitnessArchivists[0]) as BoundWitnessesArchivist
   return findPayload(boundWitnessArchivist, payloadArchivist, searchCriteria)
 }

@@ -1,19 +1,11 @@
-import { XyoApiConfig, XyoApiError } from '@xyo-network/api-models'
+import { XyoApiError } from '@xyo-network/api-models'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 
-import { XyoArchivistApi } from '../Api'
-import { getNewArchive, getTimestampMinutesFromNow } from '../ApiUtil.spec'
-
-const configData: XyoApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'http://locahost:8080',
-  onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) => response, //console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
-  onSuccess: (response) => response, //console.log(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
-}
+import { getApi, getNewArchive, getTimestampMinutesFromNow } from '../ApiUtil.spec'
 
 describe('XyoArchivistPayloadApi', () => {
   describe('find', () => {
-    const api = new XyoArchivistApi(configData)
+    const api = getApi()
     let archive = ''
     beforeEach(async () => {
       archive = await getNewArchive(api)

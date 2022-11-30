@@ -1,22 +1,14 @@
-import { XyoApiConfig, XyoApiError } from '@xyo-network/api-models'
+import { XyoApiError } from '@xyo-network/api-models'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 
 import { testPayload } from '../../Test'
-import { XyoArchivistApi } from '../Api'
-import { getNewArchive } from '../ApiUtil.spec'
-
-const configData: XyoApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
-  onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) => response,
-  onSuccess: (response) => response,
-}
+import { getApi, getNewArchive } from '../ApiUtil.spec'
 
 describe('XyoArchivistArchiveBlockApi', () => {
+  const api = getApi()
   describe('post', function () {
     it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
       const builder = new BoundWitnessBuilder({ inlinePayloads }).payload(testPayload)
-      const api = new XyoArchivistApi(configData)
       const [boundWitness] = builder.build()
       try {
         const response = await api.archives.archive().block.post([boundWitness])
@@ -29,7 +21,6 @@ describe('XyoArchivistArchiveBlockApi', () => {
     })
     it.each([true, false])('posts multiple bound witnesses', async (inlinePayloads) => {
       const builder = new BoundWitnessBuilder({ inlinePayloads }).payload(testPayload)
-      const api = new XyoArchivistApi(configData)
       const [json] = builder.build()
       const boundWitnesses: XyoBoundWitness[] = [json, json]
       //TODO: We are casting the result here since the server has not yet been updated to return the actual saved data
@@ -45,9 +36,7 @@ describe('XyoArchivistArchiveBlockApi', () => {
   })
   describe('stats', () => {
     it('returns stats for boundwitness', async () => {
-      let api = new XyoArchivistApi(configData)
       try {
-        api = new XyoArchivistApi({ ...configData })
         const stats = await api.archives.archive().block.stats.get()
         expect(stats?.count).toBeGreaterThan(0)
       } catch (ex) {
@@ -60,9 +49,7 @@ describe('XyoArchivistArchiveBlockApi', () => {
   describe('find', () => {
     describe('findBoundWitnessesBefore', function () {
       it('returns bound witnesses from before the timestamp', async () => {
-        let api = new XyoArchivistApi(configData)
         try {
-          api = new XyoArchivistApi({ ...configData })
           const [boundWitness] = new BoundWitnessBuilder().build()
           await api.archives.archive().block.post([boundWitness])
           const timestamp = Date.now() + 10000
@@ -79,10 +66,8 @@ describe('XyoArchivistArchiveBlockApi', () => {
 
     describe('findBoundWitnessesAfter', function () {
       it('returns bound witnesses from before the timestamp', async () => {
-        let api = new XyoArchivistApi(configData)
         try {
           const archive = await getNewArchive(api)
-          api = new XyoArchivistApi({ ...configData })
           const [boundWitness] = new BoundWitnessBuilder().build()
           await api.archives.archive(archive).block.post([boundWitness])
           const timestamp = Date.now() - 10000

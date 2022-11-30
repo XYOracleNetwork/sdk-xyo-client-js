@@ -1,16 +1,9 @@
-import { XyoApiConfig, XyoApiError } from '@xyo-network/api-models'
+import { XyoApiError } from '@xyo-network/api-models'
 
-import { XyoArchivistApi } from '../Api'
-import { getRandomArchiveName } from '../ApiUtil.spec'
-
-const configData: XyoApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
-  onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) => response,
-  onSuccess: (response) => response,
-}
+import { getApi, getRandomArchiveName } from '../ApiUtil.spec'
 
 describe('XyoArchivistArchiveApi', () => {
+  const api = getApi()
   describe('get', function () {
     let archive = ''
     beforeEach(() => {
@@ -18,7 +11,6 @@ describe('XyoArchivistArchiveApi', () => {
     })
     describe('get', function () {
       it('gets the archive', async () => {
-        const api = new XyoArchivistApi(configData)
         try {
           await api.archives.archive(archive).get()
           const response = await api.archives.archive(archive).get()
@@ -32,7 +24,6 @@ describe('XyoArchivistArchiveApi', () => {
     })
     describe('put', function () {
       it('creates the archive', async () => {
-        const api = new XyoArchivistApi(configData)
         try {
           const response = await api.archives.archive(archive).put()
           expect(response?.archive).toEqual(archive)

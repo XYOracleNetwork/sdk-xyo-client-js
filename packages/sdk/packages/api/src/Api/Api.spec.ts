@@ -1,18 +1,9 @@
-import { XyoApiConfig } from '@xyo-network/api-models'
-
-import { XyoArchivistApi } from './Api'
-
-const configData: XyoApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
-  onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) => response, //console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
-  onSuccess: (response) => response, //console.log(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
-}
+import { getApi } from './ApiUtil.spec'
 
 describe('XyoArchivistApi', () => {
   describe('get', () => {
     it('returns Node Description', async () => {
-      const api = new XyoArchivistApi(configData)
+      const api = getApi()
       expect(api).toBeDefined()
       const response = await api.get()
       expect(response).toBeObject()

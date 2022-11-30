@@ -1,14 +1,6 @@
-import { XyoApiConfig, XyoApiError } from '@xyo-network/api-models'
+import { XyoApiError } from '@xyo-network/api-models'
 
-import { XyoArchivistApi } from '../../../Api'
-import { getRandomArchiveName } from '../../../ApiUtil.spec'
-
-const configData: XyoApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
-  onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) => response,
-  onSuccess: (response) => response,
-}
+import { getApi, getRandomArchiveName } from '../../../ApiUtil.spec'
 
 describe('XyoArchivistArchiveSettingsKeyApi', () => {
   let archive = ''
@@ -18,7 +10,7 @@ describe('XyoArchivistArchiveSettingsKeyApi', () => {
   describe('get', function () {
     it('Returns the keys for the archive', async () => {
       try {
-        const api = new XyoArchivistApi({ ...configData })
+        const api = getApi()
         const archiveApi = api.archives.archive(archive)
         await archiveApi.put()
         const key = await archiveApi.settings.key.post()
@@ -36,7 +28,7 @@ describe('XyoArchivistArchiveSettingsKeyApi', () => {
   describe('post', function () {
     it('Creates an archive key', async () => {
       try {
-        const api = new XyoArchivistApi({ ...configData })
+        const api = getApi()
         const archiveApi = api.archives.archive(archive)
         await archiveApi.put()
         const response = await archiveApi.settings.key.post()

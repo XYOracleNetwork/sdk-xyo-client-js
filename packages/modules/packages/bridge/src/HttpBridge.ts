@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { AxiosJson, AxiosJsonRequestConfig } from '@xyo-network/axios'
 import {
   ModuleQueryResult,
@@ -75,7 +75,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
     const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schema) {

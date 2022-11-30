@@ -1,4 +1,4 @@
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import {
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
@@ -14,7 +14,7 @@ import { MongoDBArchivePermissionsPayloadPayloadArchivist } from './MongoDBArchi
 
 describe('MongoDBArchivePermissionsPayloadPayloadArchivist', () => {
   const phrase = process.env.ACCOUNT_SEED
-  const account = new XyoAccount({ phrase })
+  const account = new Account({ phrase })
   let archive = ''
   let sut: MongoDBArchivePermissionsPayloadPayloadArchivist
   describe('get', () => {

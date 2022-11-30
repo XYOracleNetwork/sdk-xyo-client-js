@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
@@ -80,7 +80,7 @@ export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = Xyo
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const resultPayloads: XyoPayload[] = []
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
         case XyoArchivistAllQuerySchema:

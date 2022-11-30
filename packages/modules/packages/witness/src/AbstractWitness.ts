@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
@@ -45,7 +45,7 @@ export abstract class AbstractWitness<TTarget extends XyoPayload = XyoPayload, T
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
     // Remove the query payload from the arguments passed to us so we don't observe it
     const filteredObservation = payloads?.filter((p) => new PayloadWrapper(p).hash !== query.query) || []
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
         case XyoWitnessObserveQuerySchema: {

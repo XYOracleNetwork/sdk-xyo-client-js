@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder, BoundWitnessValidator, XyoBoundWitness } from '@xyo-network/boundwitness'
 import {
   AbstractPayloadArchivist,
@@ -26,7 +26,7 @@ const valid = (bw: XyoBoundWitness) => {
 
 export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements WitnessedPayloadArchivist {
   constructor(
-    protected readonly account: XyoAccount = new XyoAccount({ phrase: assertEx(process.env.ACCOUNT_SEED, 'Missing ACCOUNT_SEED ENV Variable') }),
+    protected readonly account: Account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED, 'Missing ACCOUNT_SEED ENV Variable') }),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
     protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
   ) {

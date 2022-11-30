@@ -1,4 +1,4 @@
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { AddressHistoryQuerySchema, DivinerWrapper } from '@xyo-network/diviner'
@@ -16,7 +16,7 @@ const configData: XyoApiConfig = {
 }
 
 describe('XyoRemoteAddressHistoryDiviner', () => {
-  const address = new XyoAccount({ phrase: 'test' }).addressValue.hex
+  const address = new Account({ phrase: 'test' }).addressValue.hex
   const api = new XyoArchivistApi(configData)
   let diviner: XyoRemoteAddressHistoryDiviner
   beforeAll(async () => {

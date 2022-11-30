@@ -1,4 +1,4 @@
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { DebugPayload, DebugPayloadWithMeta, DebugSchema, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
@@ -25,7 +25,7 @@ const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta<DebugPayloa
 
 describe('MongoDBPayloadArchivist', () => {
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
-  const account = XyoAccount.random()
+  const account = Account.random()
   const sut = new MongoDBPayloadArchivist(account, sdk)
   const archive = `test-${v4()}`
   const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)

@@ -1,4 +1,4 @@
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 
@@ -6,7 +6,7 @@ import { MongoDBAddressHistoryDiviner } from './MongoDBAddressHistoryDiviner'
 
 describe('MongoDBAddressHistoryDiviner', () => {
   const phrase = process.env.ACCOUNT_SEED
-  const address = new XyoAccount({ phrase }).addressValue.hex
+  const address = new Account({ phrase }).addressValue.hex
   let sut: MongoDBAddressHistoryDiviner
   beforeEach(async () => {
     sut = await MongoDBAddressHistoryDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })

@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import shajs from 'sha.js'
 
 import { Words } from '../../Words'
@@ -29,6 +29,6 @@ export class XyoWalletBase {
       .update(`${index}${this._phrase}${salt ?? ''}`)
       .digest()
       .toString('hex')
-    return new XyoAccount({ privateKey: hash })
+    return new Account({ privateKey: hash })
   }
 }

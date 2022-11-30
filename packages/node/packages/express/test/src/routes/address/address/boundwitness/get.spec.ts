@@ -1,4 +1,4 @@
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder, BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { StatusCodes } from 'http-status-codes'
 
@@ -19,7 +19,7 @@ const getAddressHistory = async (address: string, limit?: number, offset?: strin
 }
 
 describe('/address/:address/boundwitness', () => {
-  const account = XyoAccount.random()
+  const account = Account.random()
   const address = account.addressValue.hex
   const blocksToPost = defaultReturnLength + 5
   let token = ''

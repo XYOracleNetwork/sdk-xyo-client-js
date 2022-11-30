@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig, ArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
@@ -68,7 +68,7 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     const typedQuery = wrapper.query
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
 
     const resultPayloads: XyoPayload[] = []
     try {

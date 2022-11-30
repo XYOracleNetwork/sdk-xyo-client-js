@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import {
   ArchiveModuleConfig,
   ArchivePermissionsArchivist,
@@ -19,7 +19,7 @@ export class MongoDBArchivePermissionsPayloadPayloadArchivist
   implements ArchivePermissionsArchivist
 {
   public constructor(
-    protected readonly account: XyoAccount = new XyoAccount({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
+    protected readonly account: Account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>> = getBaseMongoSdk<
       XyoPayloadWithMeta<SetArchivePermissionsPayload>
     >(COLLECTIONS.Payloads),

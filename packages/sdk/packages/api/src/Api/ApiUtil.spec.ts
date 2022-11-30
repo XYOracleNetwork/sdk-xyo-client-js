@@ -1,6 +1,6 @@
 import { Wallet } from '@ethersproject/wallet'
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { uuid } from '@xyo-network/core'
 
 import { XyoArchivistApi } from './Api'
@@ -15,7 +15,7 @@ export const getRandomArchiveName = (): string => {
 }
 
 export const getTokenForNewUser = async (api: XyoArchivistApi): Promise<string> => {
-  const account = XyoAccount.random()
+  const account = Account.random()
   const address = new Wallet(account.private.bytes)
   const challenge = await api.account(account.public).challenge.post()
   const message = assertEx(challenge?.state, 'Missing state from login challenge')

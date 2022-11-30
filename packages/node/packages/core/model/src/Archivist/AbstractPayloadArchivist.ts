@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, XyoArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
@@ -15,7 +15,7 @@ export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObje
   extends XyoModule<TConfig>
   implements PayloadArchivist<T>
 {
-  constructor(protected readonly account: XyoAccount = new XyoAccount(), config?: TConfig) {
+  constructor(protected readonly account: Account = new Account(), config?: TConfig) {
     super({ account, config: config ?? ({ archive: 'temp', schema: ArchiveModuleConfigSchema } as TConfig) })
   }
 
@@ -28,7 +28,7 @@ export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObje
     // assertEx(this.queryable(query.schema, wrapper.addresses))
 
     const result: XyoPayload[] = []
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
     switch (typedQuery.schema) {
       case XyoArchivistFindQuerySchema:
         if (typedQuery.filter) {

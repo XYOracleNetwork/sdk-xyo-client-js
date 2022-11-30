@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, XyoArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery } from '@xyo-network/module'
@@ -11,7 +11,7 @@ import { BoundWitnessArchivist } from './BoundWitnessArchivist'
 import { XyoBoundWitnessFilterPredicate } from './XyoBoundWitnessFilterPredicate'
 
 export abstract class AbstractBoundWitnessArchivist extends XyoModule<ArchiveModuleConfig> implements BoundWitnessArchivist {
-  constructor(protected readonly account: XyoAccount = new XyoAccount(), config?: ArchiveModuleConfig) {
+  constructor(protected readonly account: Account = new Account(), config?: ArchiveModuleConfig) {
     super({ account, config: config ?? { archive: 'temp', schema: ArchiveModuleConfigSchema } })
   }
 
@@ -25,7 +25,7 @@ export abstract class AbstractBoundWitnessArchivist extends XyoModule<ArchiveMod
     // assertEx(this.queryable(query.schema, wrapper.addresses))
 
     const result: XyoPayload[] = []
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
     switch (typedQuery.schema) {
       case XyoArchivistFindQuerySchema:
         if (typedQuery.filter) result.push(...(await this.find(typedQuery.filter as XyoBoundWitnessFilterPredicate)))

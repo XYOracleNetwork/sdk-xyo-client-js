@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 
-import { AddressValue, XyoAccount } from '@xyo-network/account'
+import { Account, AddressValue } from '@xyo-network/account'
 import { Hasher, StringKeyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
@@ -41,7 +41,7 @@ describe('BoundWitnessBuilder', () => {
   describe('build', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', (payload) => {
-        const address = XyoAccount.fromPhrase('test1')
+        const address = Account.fromPhrase('test1')
         let builder = new BoundWitnessBuilder({ timestamp: false })
         expect(builder).toBeDefined()
         builder = builder.witness(address)
@@ -64,7 +64,7 @@ describe('BoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads true', () => {
       it('contains the _payloads field', () => {
-        const address = XyoAccount.fromPhrase('test2')
+        const address = Account.fromPhrase('test2')
         const builder = new BoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
 
         const [actual] = builder.build()
@@ -74,7 +74,7 @@ describe('BoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads false', () => {
       it('omits the _payloads field', () => {
-        const address = XyoAccount.fromPhrase('test3')
+        const address = Account.fromPhrase('test3')
         const builder = new BoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
 
         const [actual] = builder.build()

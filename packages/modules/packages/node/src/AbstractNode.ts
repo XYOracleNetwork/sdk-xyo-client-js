@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import {
   Module,
   ModuleDescription,
@@ -56,7 +56,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
     const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schema) {

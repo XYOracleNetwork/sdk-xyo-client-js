@@ -3,20 +3,20 @@ import { assertEx } from '@xylabs/assert'
 import { toUint8Array, XyoData, XyoDataLike } from '@xyo-network/core'
 import shajs from 'sha.js'
 
-import { KeyPair, XyoPublicKey } from './Key'
+import { KeyPair } from './Key'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
-export interface XyoAccountConfig {
+export interface AccountConfig {
   phrase?: string
   privateKey?: XyoDataLike
 }
 
-export class XyoAccount extends KeyPair {
+export class Account extends KeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 
-  constructor({ privateKey, phrase }: XyoAccountConfig = {}) {
+  constructor({ privateKey, phrase }: AccountConfig = {}) {
     const privateKeyToUse = privateKey
       ? toUint8Array(privateKey)
       : phrase
@@ -49,29 +49,29 @@ export class XyoAccount extends KeyPair {
     return this.public
   }
 
-  static fromMnemonic = (mnemonic: string, path?: string): XyoAccount => {
+  static fromMnemonic = (mnemonic: string, path?: string): Account => {
     const node = HDNode.fromMnemonic(mnemonic)
     const wallet = path ? node.derivePath(path) : node
     const privateKey = wallet.privateKey.padStart(64, '0')
-    return new XyoAccount({ privateKey })
+    return new Account({ privateKey })
   }
 
   static fromPhrase(phrase: string) {
     const privateKey = shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
-    return XyoAccount.fromPrivateKey(privateKey)
+    return Account.fromPrivateKey(privateKey)
   }
 
   static fromPrivateKey(key: Uint8Array | string) {
     const privateKey = typeof key === 'string' ? toUint8Array(key.padStart(64, '0')) : key
-    return new XyoAccount({ privateKey })
+    return new Account({ privateKey })
   }
 
   static isXyoWallet(value: unknown) {
-    return (value as XyoAccount)._isXyoWallet
+    return (value as Account)._isXyoWallet
   }
 
   static random() {
-    return new XyoAccount()
+    return new Account()
   }
 
   public sign(hash: Uint8Array | string) {
@@ -84,16 +84,5 @@ export class XyoAccount extends KeyPair {
   }
 }
 
-/** @deprecated use XyoWallet instead */
-export class XyoAddress extends XyoAccount {
-  public get previousHashString() {
-    return this.previousHash?.hex
-  }
-
-  static verifyAddress(msg: Uint8Array | string, signature: Uint8Array | string, address: XyoDataLike) {
-    return new XyoPublicKey(address).verify(msg, signature)
-  }
-}
-
-/** @deprecated use XyoAccount instead */
-export class XyoWallet extends XyoAccount {}
+/** @deprecated use Account instead */
+export class XyoAccount extends Account {}

@@ -59,7 +59,6 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/sdk/packages/api/src/Api/Archive/Settings/Key/Api.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

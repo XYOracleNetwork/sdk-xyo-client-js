@@ -34,22 +34,13 @@ export const addMemoryNode = async (container: Container) => {
     node.attach(mod.address)
   })
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
-  await addArchivists(container, node)
-  await addDiviners(container, node)
+  await addDependenciesToNodeByType(container, node, archivists)
+  await addDependenciesToNodeByType(container, node, diviners)
 }
 
-const addArchivists = async (container: Container, node: MemoryNode) => {
+const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {
   await Promise.all(
-    archivists.map(async (type) => {
-      const mod = await container.getAsync<XyoModule>(type)
-      node.attach(mod.address, type.description)
-    }),
-  )
-}
-
-const addDiviners = async (container: Container, node: MemoryNode) => {
-  await Promise.all(
-    diviners.map(async (type) => {
+    types.map(async (type) => {
       const mod = await container.getAsync<XyoModule>(type)
       node.attach(mod.address, type.description)
     }),

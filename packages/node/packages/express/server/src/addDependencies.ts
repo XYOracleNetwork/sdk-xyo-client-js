@@ -55,8 +55,6 @@ const addArchivists = (app: Application) => {
     dependencies.get<WitnessedPayloadArchivist>(TYPES.WitnessedPayloadArchivist),
     'Missing ArchivistWitnessedPayloadArchivist',
   )
-  app.boundWitnessArchivist = assertEx(dependencies.get<BoundWitnessArchivist>(TYPES.BoundWitnessArchivist), 'Missing BoundWitnessArchivist')
-  app.payloadArchivist = assertEx(dependencies.get<PayloadArchivist>(TYPES.PayloadArchivist), 'Missing PayloadArchivist')
 }
 
 const addDiviners = async (app: Application) => {

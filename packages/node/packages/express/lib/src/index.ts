@@ -24,4 +24,5 @@ declare global {
 }
 
 export * from './Archive'
+export * from './Node'
 export * from './Query'

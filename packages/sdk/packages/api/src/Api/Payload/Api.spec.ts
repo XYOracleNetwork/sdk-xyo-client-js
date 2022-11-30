@@ -1,4 +1,3 @@
-import { XyoApiError } from '@xyo-network/api-models'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 
 import { getApi, getNewArchive, getTimestampMinutesFromNow } from '../ApiUtil.spec'

@@ -13,34 +13,22 @@ describe('XyoArchivistPayloadApi', () => {
     })
     describe('when order is ascending', () => {
       it('returns payloads greater than or equal to timestamp', async () => {
-        try {
-          const timestamp = getTimestampMinutesFromNow(-1)
-          const [boundWitness] = new BoundWitnessBuilder().build()
-          const blockResult = await api.archive(archive).block.post([boundWitness])
-          expect(blockResult?.length).toBe(1)
-          const response = await api.archive(archive).block.find({ order: 'asc', timestamp })
-          expect(response?.length).toBe(1)
-        } catch (ex) {
-          const error = ex as XyoApiError
-          console.log(JSON.stringify(error.response?.data, null, 2))
-          expect(error === undefined)
-        }
+        const timestamp = getTimestampMinutesFromNow(-1)
+        const [boundWitness] = new BoundWitnessBuilder().build()
+        const blockResult = await api.archive(archive).block.post([boundWitness])
+        expect(blockResult?.length).toBe(1)
+        const response = await api.archive(archive).block.find({ order: 'asc', timestamp })
+        expect(response?.length).toBe(1)
       })
     })
     describe('when order is descending', () => {
       it('returns payloads less than or equal to timestamp', async () => {
-        try {
-          const [boundWitness] = new BoundWitnessBuilder().build()
-          const blockResult = await api.archive(archive).block.post([boundWitness])
-          expect(blockResult?.length).toBe(1)
-          const timestamp = getTimestampMinutesFromNow(1)
-          const response = await api.archive(archive).block.find({ order: 'desc', timestamp })
-          expect(response?.length).toBe(1)
-        } catch (ex) {
-          const error = ex as XyoApiError
-          console.log(JSON.stringify(error.response?.data, null, 2))
-          expect(error === undefined)
-        }
+        const [boundWitness] = new BoundWitnessBuilder().build()
+        const blockResult = await api.archive(archive).block.post([boundWitness])
+        expect(blockResult?.length).toBe(1)
+        const timestamp = getTimestampMinutesFromNow(1)
+        const response = await api.archive(archive).block.find({ order: 'desc', timestamp })
+        expect(response?.length).toBe(1)
       })
     })
   })

@@ -10,15 +10,8 @@ const configData: XyoApiConfig = {
 
 test('SchemaStatsApiDiviner', async () => {
   const api = new XyoArchivistApi(configData)
-  const diviner = await SchemaStatsApiDiviner.create({
-    api,
-    config: { archive: 'temp', schema: XyoSchemaStatsApiDivinerConfigSchema },
-    logger: console,
-  })
-
+  const diviner = await SchemaStatsApiDiviner.create({ api, config: { archive: 'temp', schema: XyoSchemaStatsApiDivinerConfigSchema } })
   expect(diviner).toBeDefined()
-
   const result = await diviner.divine()
-
   expect(result.length).toBeGreaterThan(0)
 })

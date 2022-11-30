@@ -10,16 +10,9 @@ const configData: XyoApiConfig = {
 
 test('ArchiveListApiDiviner', async () => {
   const api = new XyoArchivistApi(configData)
-  const diviner = await ArchiveListApiDiviner.create({
-    api,
-    config: { schema: XyoArchiveListApiDivinerConfigSchema },
-    logger: console,
-  })
-
+  const diviner = await ArchiveListApiDiviner.create({ api, config: { schema: XyoArchiveListApiDivinerConfigSchema } })
   expect(diviner).toBeDefined()
-
   const result = await diviner.divine()
-
   expect(result.length).toBeGreaterThan(0)
   expect(result[0].schema).toBe(XyoArchiveSchema)
 })

@@ -19,7 +19,6 @@ describe('XyoArchivistArchiveSettingsKeyApi', () => {
         expect(response?.[0]).toEqual(key)
       } catch (ex) {
         const error = ex as XyoApiError
-        console.log(JSON.stringify(error.response?.data, null, 2))
         expect(error === undefined)
       }
     })
@@ -35,7 +34,6 @@ describe('XyoArchivistArchiveSettingsKeyApi', () => {
         expect(response?.keys.length).toBe(1)
       } catch (ex) {
         const error = ex as XyoApiError
-        console.log(JSON.stringify(error.response?.data, null, 2))
         expect(error === undefined)
       }
     })

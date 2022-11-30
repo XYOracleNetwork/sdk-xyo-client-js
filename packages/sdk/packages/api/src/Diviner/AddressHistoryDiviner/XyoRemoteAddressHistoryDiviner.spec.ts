@@ -10,9 +10,9 @@ import { XyoRemoteAddressHistoryDiviner } from './XyoRemoteAddressHistoryDiviner
 
 const configData: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'http://locahost:8080',
-  onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) => response, //console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
-  onSuccess: (response) => response, //console.log(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
+  onError: (error) => error,
+  onFailure: (response) => response,
+  onSuccess: (response) => response,
 }
 
 describe('XyoRemoteAddressHistoryDiviner', () => {

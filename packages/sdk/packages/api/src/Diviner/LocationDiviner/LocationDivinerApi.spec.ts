@@ -72,7 +72,6 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
         expect(response.queryHash).toBe(locationQuery.hash)
       } catch (ex) {
         const error = ex as AxiosError
-        console.log(JSON.stringify(error.response?.data, null, 2))
         expect(error === undefined)
       }
     })
@@ -84,7 +83,6 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
         expect(response.queryHash).toBe(locationQuery.hash)
       } catch (ex) {
         const error = ex as AxiosError
-        console.log(JSON.stringify(error.response?.data, null, 2))
         expect(error === undefined)
       }
     })
@@ -98,7 +96,6 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
         expect(response.queryHash).toBe(locationQuery.hash)
       } catch (ex) {
         const error = ex as AxiosError
-        console.log(JSON.stringify(error.response?.data, null, 2))
         expect(error === undefined)
       }
     })

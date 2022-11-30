@@ -66,38 +66,23 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
   describe('postLocationQuery', () => {
     it('posts a location heatmap query', async () => {
       const api = new XyoLocationDivinerApi(config)
-      try {
-        const locationQuery = await api.postLocationQuery(getLocationHeatmapQueryCreationRequest())
-        const response = await api.getLocationQuery(locationQuery.hash)
-        expect(response.queryHash).toBe(locationQuery.hash)
-      } catch (ex) {
-        const error = ex as AxiosError
-        expect(error === undefined)
-      }
+      const locationQuery = await api.postLocationQuery(getLocationHeatmapQueryCreationRequest())
+      const response = await api.getLocationQuery(locationQuery.hash)
+      expect(response.queryHash).toBe(locationQuery.hash)
     })
     it('posts a location time range query', async () => {
       const api = new XyoLocationDivinerApi(config)
-      try {
-        const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
-        const response = await api.getLocationQuery(locationQuery.hash)
-        expect(response.queryHash).toBe(locationQuery.hash)
-      } catch (ex) {
-        const error = ex as AxiosError
-        expect(error === undefined)
-      }
+      const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
+      const response = await api.getLocationQuery(locationQuery.hash)
+      expect(response.queryHash).toBe(locationQuery.hash)
     })
   })
   describe('getLocationQuery', function () {
     it('gets the status of a previously posted location query', async () => {
       const api = new XyoLocationDivinerApi(config)
-      try {
-        const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
-        const response = await api.getLocationQuery(locationQuery.hash)
-        expect(response.queryHash).toBe(locationQuery.hash)
-      } catch (ex) {
-        const error = ex as AxiosError
-        expect(error === undefined)
-      }
+      const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
+      const response = await api.getLocationQuery(locationQuery.hash)
+      expect(response.queryHash).toBe(locationQuery.hash)
     })
   })
 })

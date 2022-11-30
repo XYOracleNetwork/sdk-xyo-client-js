@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { dependencies } from '@xyo-network/express-node-dependencies'
 import { SchemaToQueryProcessorRegistry, XyoPayloadToQueryConverterRegistry } from '@xyo-network/express-node-middleware'
-import { AddressHistoryDiviner } from '@xyo-network/modules'
+import { AbstractNode, AddressHistoryDiviner } from '@xyo-network/modules'
 import {
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
@@ -28,6 +28,7 @@ import { Application } from 'express'
 
 export const addDependencies = async (app: Application) => {
   app.logger = assertEx(dependencies.get<Logger>(TYPES.Logger), 'Missing Logger')
+  app.node = assertEx(dependencies.get<AbstractNode>(TYPES.Node), 'Missing AbstractNode')
   app.userManager = assertEx(dependencies.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
   addArchivists(app)
   await addDiviners(app)

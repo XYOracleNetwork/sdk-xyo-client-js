@@ -5173,6 +5173,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/express-node-lib": "workspace:^"
+    "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-lib": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
@@ -5394,7 +5395,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/packages/id"
   dependencies:
-    "@xylabs/assert": ^2.6.9
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"

@@ -27,14 +27,12 @@ describe('XyoBowserSystemInfo', () => {
       },
     })
     const [observation] = await witness.observe()
-    console.log(JSON.stringify(observation, null, 2))
     expect(observation.schema).toBe(XyoBowserSystemInfoSchema)
     expect(new PayloadWrapper(observation).valid).toBe(true)
   })
   test('observe [no config]', async () => {
     const witness = await XyoBowserSystemInfoWitness.create()
     const [observation] = await witness.observe()
-    console.log(JSON.stringify(observation, null, 2))
     expect(observation.schema).toBe(XyoBowserSystemInfoSchema)
     expect(new PayloadWrapper(observation).valid).toBe(true)
   })

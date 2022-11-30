@@ -10,21 +10,13 @@ describe('XyoModuleInstanceWitness', () => {
     const witness = await XyoModuleInstanceWitness.create({
       config: { module, schema: XyoModuleInstanceWitnessConfigSchema, targetSchema: XyoModuleInstanceSchema },
     })
-
     const [result] = await witness.observe()
-
-    console.log(`Module: ${JSON.stringify(result, null, 2)}`)
-
     expect(new PayloadWrapper(result).valid).toBe(true)
   })
 
   test('Witnessing [no config]', async () => {
     const witness = await XyoModuleInstanceWitness.create()
-
     const [result] = await witness.observe()
-
-    console.log(`Module: ${JSON.stringify(result, null, 2)}`)
-
     expect(new PayloadWrapper(result).valid).toBe(true)
   })
 })

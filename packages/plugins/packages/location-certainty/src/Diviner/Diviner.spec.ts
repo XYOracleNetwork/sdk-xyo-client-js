@@ -76,7 +76,10 @@ describe('MongoDBLocationCertaintyDiviner', () => {
   beforeEach(async () => {
     payloadsArchivist = await MemoryArchivist.create()
     const params = {
-      config: { schema: LocationCertaintyDivinerConfigSchema, targetSchema: LocationCertaintySchema },
+      config: {
+        schema: LocationCertaintyDivinerConfigSchema,
+        targetSchema: LocationCertaintySchema,
+      },
       resolver: new XyoModuleResolver().add(payloadsArchivist),
     }
     sut = await LocationCertaintyDiviner.create(params)
@@ -97,14 +100,30 @@ describe('MongoDBLocationCertaintyDiviner', () => {
         expect(actual).toBeObject()
         expect(actual.schema).toBe(LocationCertaintySchema)
 
-        const locationsResult1 = await sut.divine(sample1)
-        const locationsResult2 = await sut.divine(sample2)
-        const locationsResult3 = await sut.divine(sample3)
-
-        console.log(JSON.stringify(locationsResult1, null, 2))
-        console.log(JSON.stringify(locationsResult2, null, 2))
-        console.log(JSON.stringify(locationsResult3, null, 2))
+        const locationsResult1 = (await sut.divine(sample1)) as LocationCertaintyPayload[]
+        const locationsResult2 = (await sut.divine(sample2)) as LocationCertaintyPayload[]
+        const locationsResult3 = (await sut.divine(sample3)) as LocationCertaintyPayload[]
+        ;[locationsResult1, locationsResult2, locationsResult3].map(validateLocationResult)
       })
     })
   })
 })
+
+const validateLocationResult = (results: LocationCertaintyPayload[]) => {
+  expect(results).toBeArrayOfSize(1)
+  const [result] = results
+  expect(result).toBeObject()
+  expect(result.schema).toBe(LocationCertaintySchema)
+  expect(result.altitude).toBeObject()
+  expect(result.altitude.max).toBeNumber()
+  expect(result.altitude.mean).toBeNumber()
+  expect(result.altitude.min).toBeNumber()
+  expect(result.elevation).toBeObject()
+  expect(result.elevation.max).toBeNumber()
+  expect(result.elevation.mean).toBeNumber()
+  expect(result.elevation.min).toBeNumber()
+  expect(result.variance).toBeObject()
+  expect(result.variance.max).toBeNumber()
+  expect(result.variance.mean).toBeNumber()
+  expect(result.variance.min).toBeNumber()
+}

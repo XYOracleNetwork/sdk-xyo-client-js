@@ -1,5 +1,6 @@
 import { AddressHistoryDiviner } from '@xyo-network/diviner'
 import { QueryConverterRegistry, UserCreationAuthInfo } from '@xyo-network/express-node-lib'
+import { AbstractNode } from '@xyo-network/modules'
 import {
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
@@ -25,7 +26,6 @@ import {
 import { Logger } from '@xyo-network/shared'
 // NOTE: Required import since passport types (which we need to extend) extend Express
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import passport from 'passport'
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/commit/91c229dbdb653dbf0da91992f525905893cbeb91#r34812715
 declare global {
@@ -54,6 +54,7 @@ declare global {
       boundWitnessStatsDiviner: BoundWitnessStatsDiviner
       logger: Logger
       moduleAddressDiviner: ModuleAddressDiviner
+      node: AbstractNode
       payloadArchivist: PayloadArchivist
       payloadDiviner: PayloadDiviner
       payloadStatsDiviner: PayloadStatsDiviner

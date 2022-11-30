@@ -10,8 +10,10 @@ import {
 } from './Queries'
 import { LocationWitnessSchema } from './Witnesses'
 
-const config: ApiConfig = {
-  apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082',
+const getLocationApiConfig = (): ApiConfig => {
+  return {
+    apiDomain: process.env.LOCATION_API_DOMAIN || 'http://localhost:8082',
+  }
 }
 
 const getArchiveConfig = (): XyoApiConfig => {
@@ -58,19 +60,19 @@ const describeSkipIfNoDiviner = process.env.LOCATION_API_DOMAIN ? describe : des
 describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
   describe('constructor', () => {
     it('returns a new XyoLocationDivinerApi', () => {
-      const api = new XyoLocationDivinerApi(config)
+      const api = new XyoLocationDivinerApi(getLocationApiConfig())
       expect(api).toBeDefined()
     })
   })
   describe('postLocationQuery', () => {
     it('posts a location heatmap query', async () => {
-      const api = new XyoLocationDivinerApi(config)
+      const api = new XyoLocationDivinerApi(getLocationApiConfig())
       const locationQuery = await api.postLocationQuery(getLocationHeatmapQueryCreationRequest())
       const response = await api.getLocationQuery(locationQuery.hash)
       expect(response.queryHash).toBe(locationQuery.hash)
     })
     it('posts a location time range query', async () => {
-      const api = new XyoLocationDivinerApi(config)
+      const api = new XyoLocationDivinerApi(getLocationApiConfig())
       const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
       const response = await api.getLocationQuery(locationQuery.hash)
       expect(response.queryHash).toBe(locationQuery.hash)
@@ -78,7 +80,7 @@ describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
   })
   describe('getLocationQuery', function () {
     it('gets the status of a previously posted location query', async () => {
-      const api = new XyoLocationDivinerApi(config)
+      const api = new XyoLocationDivinerApi(getLocationApiConfig())
       const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
       const response = await api.getLocationQuery(locationQuery.hash)
       expect(response.queryHash).toBe(locationQuery.hash)

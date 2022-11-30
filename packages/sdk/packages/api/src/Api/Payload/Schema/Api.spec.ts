@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
@@ -24,7 +23,7 @@ describe('XyoArchivistArchiveSchemaApi', () => {
   let archive = ''
   beforeAll(async () => {
     archive = await getNewArchive(api)
-    const [boundWitness] = new BoundWitnessBuilder({ inlinePayloads: true }).witness(Account.random()).payload(payload).build()
+    const [boundWitness] = new BoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build()
     await api.archives.archive(archive).block.post([boundWitness])
   })
   describe('get', () => {

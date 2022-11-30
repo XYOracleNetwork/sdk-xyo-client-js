@@ -5,7 +5,7 @@ import { ArchiveListApiDiviner } from './ArchiveListApiDiviner'
 import { XyoArchiveListApiDivinerConfigSchema, XyoArchiveSchema } from './ArchiveListApiDivinerConfig'
 
 const configData: XyoApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
+  apiDomain: process.env.API_DOMAIN || 'http://locahost:8080',
 }
 
 test('ArchiveListApiDiviner', async () => {

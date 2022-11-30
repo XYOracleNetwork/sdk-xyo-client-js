@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { StatusCodes } from 'http-status-codes'
 
 import { claimArchive, createArchiveKey, getArchiveKeys, getTokenForUnitTestUser, request } from '../../../../../../testUtil'
@@ -20,14 +21,16 @@ describe('/archive/:archive/settings/key', () => {
     })
     it('supports API Key', async () => {
       const createKeyResponse = await createArchiveKey(token, archive)
-      await (await request()).get(`/archive/${archive}/settings/key`).set('x-api-key', createKeyResponse.key).expect(StatusCodes.OK)
+      const key = assertEx(createKeyResponse?.[0]).key
+      await (await request()).get(`/archive/${archive}/settings/key`).set('x-api-key', key).expect(StatusCodes.OK)
     })
   })
   it('Returns the keys for the archive', async () => {
     const createKeyResponse = await createArchiveKey(token, archive)
+    const key = assertEx(createKeyResponse?.[0]).key
     const response = await getArchiveKeys(token, archive)
     expect(response.length).toEqual(1)
-    expect(response[0].key).toEqual(createKeyResponse.key)
+    expect(response[0].key).toEqual(key)
   })
   it('Returns any empty array if there are no keys for the archive', async () => {
     const response = await getArchiveKeys(token, archive)

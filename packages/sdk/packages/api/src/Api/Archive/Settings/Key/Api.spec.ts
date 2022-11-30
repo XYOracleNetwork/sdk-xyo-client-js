@@ -17,14 +17,18 @@ describe('XyoArchivistArchiveSettingsKeyApi', () => {
   describe('post', () => {
     it('Creates an archive key', async () => {
       const response = await api.archives.archive(archive).settings.key.post()
-      expect(response).toBeObject()
+      expect(response).toBeArrayOfSize(1)
+      const key = response?.[0]
+      expect(key).toBeObject()
+      expect(key?.archive).toBeString()
+      expect(key?.key).toBeString()
     })
   })
   describe('get', () => {
     let key: XyoArchiveKey
     beforeEach(async () => {
       const response = await api.archives.archive(archive).settings.key.post()
-      key = response as unknown as XyoArchiveKey
+      key = assertEx(response?.[0])
     })
     it('Returns the keys for the archive', async () => {
       const response = await api.archives.archive(archive).settings.key.get()

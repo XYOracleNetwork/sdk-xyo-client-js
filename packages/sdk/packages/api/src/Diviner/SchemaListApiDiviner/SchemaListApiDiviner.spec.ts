@@ -13,7 +13,6 @@ test('SchemaListApiDiviner', async () => {
   const diviner = await SchemaListApiDiviner.create({
     api,
     config: { archive: 'temp', schema: XyoSchemaListApiDivinerConfigSchema },
-    logger: console,
   })
   expect(diviner).toBeDefined()
   const result = await diviner.divine()

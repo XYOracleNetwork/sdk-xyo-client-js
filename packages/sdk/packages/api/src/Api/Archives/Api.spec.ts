@@ -11,7 +11,6 @@ describe('XyoArchivistArchivesApi', () => {
         throw new Error('Assert response here')
       } catch (ex) {
         const error = ex as XyoApiError
-        console.log(JSON.stringify(error.response?.data, null, 2))
         expect(error === undefined)
       }
     })

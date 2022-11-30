@@ -15,7 +15,6 @@ describe('XyoArchivistArchiveBlockApi', () => {
         expect(response?.length).toEqual(1)
       } catch (ex) {
         const error = ex as XyoApiError
-        console.log(JSON.stringify(error.response?.data, null, 2))
         expect(error === undefined)
       }
     })
@@ -29,7 +28,6 @@ describe('XyoArchivistArchiveBlockApi', () => {
         expect(response?.length).toEqual(2)
       } catch (ex) {
         const error = ex as XyoApiError
-        console.log(JSON.stringify(error, null, 2))
         expect(error === undefined)
       }
     })
@@ -58,7 +56,6 @@ describe('XyoArchivistArchiveBlockApi', () => {
           expect(response?.length).toBe(1)
         } catch (ex) {
           const error = ex as XyoApiError
-          console.log(JSON.stringify(error.response?.data, null, 2))
           expect(error === undefined)
         }
       })
@@ -75,7 +72,6 @@ describe('XyoArchivistArchiveBlockApi', () => {
           expect(response?.length).toBe(1)
         } catch (ex) {
           const error = ex as XyoApiError
-          console.log(JSON.stringify(error.response?.data, null, 2))
           expect(error === undefined)
         }
       })

@@ -17,7 +17,6 @@ describe('XyoArchivistArchiveApi', () => {
           expect(response?.archive).toBe(archive)
         } catch (ex) {
           const error = ex as XyoApiError
-          console.log(JSON.stringify(error.response?.data, null, 2))
           expect(error === undefined)
         }
       })
@@ -29,7 +28,6 @@ describe('XyoArchivistArchiveApi', () => {
           expect(response?.archive).toEqual(archive)
         } catch (ex) {
           const error = ex as XyoApiError
-          console.log(JSON.stringify(error.response?.data, null, 2))
           expect(error === undefined)
         }
       })

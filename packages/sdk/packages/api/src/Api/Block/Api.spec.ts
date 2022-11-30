@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { XyoApiConfig, XyoApiError } from '@xyo-network/api-models'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 
@@ -16,7 +15,7 @@ const configData: XyoApiConfig = {
 describe('XyoArchivistArchiveBlockApi', () => {
   describe('post', function () {
     it.each([true, false])('posts a single bound witness', async (inlinePayloads) => {
-      const builder = new BoundWitnessBuilder({ inlinePayloads }).witness(Account.random()).payload(testPayload)
+      const builder = new BoundWitnessBuilder({ inlinePayloads }).payload(testPayload)
       const api = new XyoArchivistApi(configData)
       const [boundWitness] = builder.build()
       try {
@@ -29,7 +28,7 @@ describe('XyoArchivistArchiveBlockApi', () => {
       }
     })
     it.each([true, false])('posts multiple bound witnesses', async (inlinePayloads) => {
-      const builder = new BoundWitnessBuilder({ inlinePayloads }).witness(Account.random()).payload(testPayload)
+      const builder = new BoundWitnessBuilder({ inlinePayloads }).payload(testPayload)
       const api = new XyoArchivistApi(configData)
       const [json] = builder.build()
       const boundWitnesses: XyoBoundWitness[] = [json, json]
@@ -64,7 +63,7 @@ describe('XyoArchivistArchiveBlockApi', () => {
         let api = new XyoArchivistApi(configData)
         try {
           api = new XyoArchivistApi({ ...configData })
-          const [boundWitness] = new BoundWitnessBuilder().witness(Account.random()).build()
+          const [boundWitness] = new BoundWitnessBuilder().build()
           await api.archives.archive().block.post([boundWitness])
           const timestamp = Date.now() + 10000
           // eslint-disable-next-line deprecation/deprecation
@@ -84,7 +83,7 @@ describe('XyoArchivistArchiveBlockApi', () => {
         try {
           const archive = await getNewArchive(api)
           api = new XyoArchivistApi({ ...configData })
-          const [boundWitness] = new BoundWitnessBuilder().witness(Account.random()).build()
+          const [boundWitness] = new BoundWitnessBuilder().build()
           await api.archives.archive(archive).block.post([boundWitness])
           const timestamp = Date.now() - 10000
           const response = await api.archives.archive(archive).block.find({ order: 'asc', timestamp })

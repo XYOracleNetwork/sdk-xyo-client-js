@@ -35,6 +35,7 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/express-node-server": "workspace:^",
+    "@xyo-network/modules": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",

@@ -16,6 +16,7 @@
         "default": {
           "memberTypes": [
             "signature",
+            "call-signature",
             "public-static-field",
             "protected-static-field",
             "private-static-field",
@@ -27,7 +28,6 @@
             "private-instance-field",
             "public-abstract-field",
             "protected-abstract-field",
-            "private-abstract-field",
             "public-field",
             "protected-field",
             "private-field",
@@ -51,7 +51,6 @@
             ["private-instance-get", "private-instance-set"],
             ["public-abstract-get", "public-abstract-set"],
             ["protected-abstract-get", "protected-abstract-set"],
-            ["private-abstract-get", "private-abstract-set"],
             ["public-get", "public-set"],
             ["protected-get", "protected-set"],
             ["private-get", "private-set"],
@@ -72,7 +71,6 @@
             "private-instance-method",
             "public-abstract-method",
             "protected-abstract-method",
-            "private-abstract-method",
             "public-method",
             "protected-method",
             "private-method",

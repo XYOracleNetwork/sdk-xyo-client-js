@@ -24,7 +24,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lodash": "^4.14.190"
+    "@types/lodash": "^4.14.191"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

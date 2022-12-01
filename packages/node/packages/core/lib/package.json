@@ -28,7 +28,6 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "@xyo-network/boundwitness": "workspace:^",
-    "@xyo-network/module": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",

@@ -2,17 +2,18 @@ import { AddressValue } from '@xyo-network/account'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { DataLike } from '@xyo-network/core'
+import { ModuleDescription } from '@xyo-network/module'
 import { Huri, XyoPayload } from '@xyo-network/payload'
 
 import { XyoApiSimple } from '../Simple'
 import { XyoUserApi } from '../User'
 import { XyoAccountApi } from './Account'
-import { NodeModuleDescription, XyoAddressesApi } from './Addresses'
+import { XyoAddressesApi } from './Addresses'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
 import { XyoArchivistNodeApi } from './Node'
 
-export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<NodeModuleDescription, C> {
+export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<ModuleDescription, C> {
   private _addresses?: XyoAddressesApi
   private _archives?: XyoArchivistArchivesApi
   private _stats?: XyoApiSimple<unknown[]>

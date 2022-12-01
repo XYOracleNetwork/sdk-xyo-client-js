@@ -2,6 +2,7 @@ import { XyoApiConfig } from '@xyo-network/api-models'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { PayloadWrapper } from '@xyo-network/payload'
+import { XyoIdSchema } from '@xyo-network/payload-plugins'
 
 import { XyoArchivistApi } from '../Api'
 import { XyoRemoteArchivist } from './XyoRemoteArchivist'
@@ -16,7 +17,7 @@ const configData: XyoApiConfig = {
 
 const payload = {
   salt: `${Math.random() * 10000}`,
-  schema: 'network.xyo.id',
+  schema: XyoIdSchema,
 }
 
 describe('XyoRemoteArchivist', () => {
@@ -43,7 +44,7 @@ describe('XyoRemoteArchivist', () => {
   it('get returns boundwitness', async () => {
     const payload = {
       payload_hashes: ['123456'],
-      payload_schemas: ['network.xyo.id'],
+      payload_schemas: [XyoIdSchema],
       schema: XyoBoundWitnessSchema,
     }
 

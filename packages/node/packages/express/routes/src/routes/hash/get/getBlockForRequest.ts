@@ -1,7 +1,7 @@
-import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { requestCanAccessArchive } from '@xyo-network/express-node-lib'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { requestCanAccessArchive, resolveBySymbol } from '@xyo-network/express-node-lib'
 import { PayloadPointerPayload, payloadPointerSchema, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayload } from '@xyo-network/payload'
@@ -12,18 +12,15 @@ import { resolvePayloadPointer } from './resolvePayloadPointer'
 const findByHash = async (req: Request, hash: string) => {
   const { node } = req.app
   const payloadFilter: XyoPayloadFilterPredicate = { hash }
-
-  const payloadArchivists = await node.resolve({ name: [assertEx(TYPES.PayloadArchivist.description)] })
-  const payloadArchivist = assertEx(payloadArchivists[0])
+  const payloadArchivist = await resolveBySymbol(node, TYPES.PayloadArchivist)
   const payloadWrapper = new ArchivistWrapper(payloadArchivist)
   const payloads = (await payloadWrapper.find(payloadFilter)).filter(exists)
 
   if (payloads.length) return payloads
 
-  const boundWitnessArchivists = await node.resolve({ name: [assertEx(TYPES.BoundWitnessArchivist.description)] })
-  const boundWitnessArchivist = assertEx(boundWitnessArchivists[0])
+  const boundWitnessArchivist = await resolveBySymbol(node, TYPES.BoundWitnessArchivist)
   const boundWitnessWrapper = new ArchivistWrapper(boundWitnessArchivist)
-  return (await boundWitnessWrapper.find({ ...payloadFilter, schema: 'network.xyo.boundwitness' })).filter(exists)
+  return (await boundWitnessWrapper.find({ ...payloadFilter, schema: XyoBoundWitnessSchema })).filter(exists)
 }
 
 export const getBlockForRequest = async (req: Request, hash: string): Promise<XyoPayload | undefined> => {

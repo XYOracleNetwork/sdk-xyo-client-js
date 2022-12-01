@@ -1,5 +1,4 @@
-import { assertEx } from '@xylabs/assert'
-import { requestAccessibleArchives } from '@xyo-network/express-node-lib'
+import { requestAccessibleArchives, resolveBySymbol } from '@xyo-network/express-node-lib'
 import { BoundWitnessesArchivist, PayloadArchivist, PayloadPointerPayload } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { XyoPayload } from '@xyo-network/payload'
@@ -14,9 +13,7 @@ export const resolvePayloadPointer = async (req: Request, pointer: PayloadPointe
   const accessibleArchives = await requestAccessibleArchives(req, searchCriteria.archives)
   if (!accessibleArchives.length) return undefined
   searchCriteria.archives = accessibleArchives
-  const payloadArchivists = await node.resolve({ name: [assertEx(TYPES.PayloadArchivist.description)] })
-  const payloadArchivist = assertEx(payloadArchivists[0]) as PayloadArchivist
-  const boundWitnessArchivists = await node.resolve({ name: [assertEx(TYPES.BoundWitnessArchivist.description)] })
-  const boundWitnessArchivist = assertEx(boundWitnessArchivists[0]) as BoundWitnessesArchivist
+  const payloadArchivist = await resolveBySymbol<PayloadArchivist>(node, TYPES.PayloadArchivist)
+  const boundWitnessArchivist = await resolveBySymbol<BoundWitnessesArchivist>(node, TYPES.BoundWitnessArchivist)
   return findPayload(boundWitnessArchivist, payloadArchivist, searchCriteria)
 }

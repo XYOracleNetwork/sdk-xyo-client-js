@@ -5139,8 +5139,10 @@ __metadata:
   dependencies:
     "@types/express": 4.17.14
     "@types/passport": ^1.0.11
+    "@xylabs/assert": ^2.6.9
     "@xylabs/sdk-api-express-ecs": ^1.2.5
     "@xyo-network/api": "workspace:^"
+    "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     axios: ~1.1.3

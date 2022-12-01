@@ -1,6 +1,5 @@
 export * from './Address'
 export * from './Archive'
-export * from './Node'
 export * from './PasswordHasher'
 export * from './Payload'
 export * from './schema'

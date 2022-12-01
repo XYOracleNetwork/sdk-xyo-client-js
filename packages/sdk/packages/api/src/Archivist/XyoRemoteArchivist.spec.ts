@@ -1,5 +1,6 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { ArchivistWrapper } from '@xyo-network/archivist'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../Api'
@@ -43,11 +44,11 @@ describe('XyoRemoteArchivist', () => {
     const payload = {
       payload_hashes: ['123456'],
       payload_schemas: ['network.xyo.id'],
-      schema: 'network.xyo.boundwitness',
+      schema: XyoBoundWitnessSchema,
     }
 
     await archivist.insert([payload])
     const getResult = await archivist.get([new PayloadWrapper(payload).hash])
-    expect(getResult?.[0].schema).toBe('network.xyo.boundwitness')
+    expect(getResult?.[0].schema).toBe(XyoBoundWitnessSchema)
   })
 })

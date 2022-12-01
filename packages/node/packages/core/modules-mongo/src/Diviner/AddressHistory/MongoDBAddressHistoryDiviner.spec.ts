@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 
@@ -19,7 +20,7 @@ describe('MongoDBAddressHistoryDiviner', () => {
         expect(result).toBeArrayOfSize(1)
         const actual = result[0] as XyoBoundWitnessWithPartialMeta
         expect(actual).toBeObject()
-        expect(actual.schema).toBe('network.xyo.boundwitness')
+        expect(actual.schema).toBe(XyoBoundWitnessSchema)
       })
     })
   })

@@ -1,4 +1,3 @@
-import { AddressHistoryDiviner } from '@xyo-network/diviner'
 import { QueryConverterRegistry, UserCreationAuthInfo } from '@xyo-network/express-node-lib'
 import { AbstractNode } from '@xyo-network/modules'
 import {
@@ -7,16 +6,10 @@ import {
   ArchiveKeyArchivist,
   ArchivePayloadsArchivistFactory,
   ArchivePermissionsArchivistFactory,
-  BoundWitnessDiviner,
-  BoundWitnessStatsDiviner,
   IdentifiableHuri,
-  ModuleAddressDiviner,
-  PayloadDiviner,
-  PayloadStatsDiviner,
   Query,
   QueryProcessorRegistry,
   Queue,
-  SchemaStatsDiviner,
   UserManager,
   UserWithoutId,
   WitnessedPayloadArchivist,
@@ -40,27 +33,18 @@ declare global {
     interface AuthInfo extends UserCreationAuthInfo {}
 
     interface Application {
-      addressHistoryDiviner: AddressHistoryDiviner
       archiveArchivist: ArchiveArchivist
       archiveBoundWitnessArchivistFactory: ArchiveBoundWitnessArchivistFactory
       archiveKeyArchivist: ArchiveKeyArchivist
       archivePayloadsArchivistFactory: ArchivePayloadsArchivistFactory
       archivePermissionsArchivistFactory: ArchivePermissionsArchivistFactory
       archivistWitnessedPayloadArchivist: WitnessedPayloadArchivist
-      // boundWitnessArchivist: BoundWitnessArchivist
-      boundWitnessDiviner: BoundWitnessDiviner
-      boundWitnessStatsDiviner: BoundWitnessStatsDiviner
       logger: Logger
-      moduleAddressDiviner: ModuleAddressDiviner
       node: AbstractNode
-      // payloadArchivist: PayloadArchivist
-      payloadDiviner: PayloadDiviner
-      payloadStatsDiviner: PayloadStatsDiviner
       queryConverters: QueryConverterRegistry
       queryProcessors: QueryProcessorRegistry
       queryQueue: Queue<Query>
       responseQueue: Queue<IdentifiableHuri>
-      schemaStatsDiviner: SchemaStatsDiviner
       userManager: UserManager
     }
   }

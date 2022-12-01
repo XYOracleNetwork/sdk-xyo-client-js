@@ -1,4 +1,4 @@
-import { NodeInfo } from '@xyo-network/node-core-model'
+import { ModuleDescription } from '@xyo-network/modules'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import { request } from '../../testUtil'
@@ -7,8 +7,12 @@ describe('/:address', () => {
   let url = ''
   beforeAll(async () => {
     const result = await (await request()).get('/')
-    const modules: NodeInfo = result.body.data
-    const address = modules?.address
+    const node: ModuleDescription = result.body.data
+    expect(node).toBeObject()
+    expect(node.children).toBeArray()
+    expect(node.children?.length).toBeGreaterThan(0)
+    const address = node?.children?.[0]?.address
+    expect(address).toBeString()
     url = `/${address}`
   })
   it(`returns ${ReasonPhrases.OK}`, async () => {

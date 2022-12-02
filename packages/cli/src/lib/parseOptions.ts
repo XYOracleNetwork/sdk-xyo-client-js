@@ -2,17 +2,10 @@ import yargs from 'yargs'
 // eslint-disable-next-line import/no-internal-modules
 import { hideBin } from 'yargs/helpers'
 
+import { options } from './options'
+
 export const parseOptions = () => {
-  return yargs(hideBin(process.argv))
-    .option('verbose', {
-      alias: 'v',
-      default: false,
-      description: 'Run with verbose logging',
-      type: 'boolean',
-    })
-    .option('module', {
-      alias: 'm',
-      description: 'Modules to load',
-      type: 'string',
-    })
+  const opt = yargs(hideBin(process.argv))
+  options.forEach((option) => opt.option(...option))
+  return opt
 }

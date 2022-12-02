@@ -1,34 +1,8 @@
 import { MemoryArchivist } from '@xyo-network/archivist'
-import { ModuleResolver, XyoModule } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
-import yargs from 'yargs'
-// eslint-disable-next-line import/no-internal-modules
-import { hideBin } from 'yargs/helpers'
 
+import { loadModule, parseOptions } from './lib'
 import { startTerminal } from './terminal'
-
-const parseOptions = () => {
-  return yargs(hideBin(process.argv))
-    .option('verbose', {
-      alias: 'v',
-      default: false,
-      description: 'Run with verbose logging',
-      type: 'boolean',
-    })
-    .option('module', {
-      alias: 'm',
-
-      description: 'Modules to load',
-      type: 'string',
-    })
-}
-
-const loadModule = async (pkg: string, name?: string, resolver?: ModuleResolver): Promise<XyoModule> => {
-  const loadedPkg = await import(pkg)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const ModuleConstructor: any = name ? loadedPkg[name] : loadedPkg
-  return new ModuleConstructor(undefined, undefined, resolver)
-}
 
 const xyo = async () => {
   const node = await MemoryNode.create()
@@ -54,7 +28,6 @@ const xyo = async () => {
           console.log(`Arg: ${instance.address}`)
           node.register(instance)
           node.attach(instance.address)
-
           console.log(`Module Loaded: ${instance.address}`)
         }),
       )

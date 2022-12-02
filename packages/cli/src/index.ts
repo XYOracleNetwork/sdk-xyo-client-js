@@ -1,13 +1,13 @@
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { MemoryNode } from '@xyo-network/node'
 
-import { loadModule, parseOptions } from './lib'
+import { getOptionsParser, loadModule } from './lib'
 import { startTerminal } from './terminal'
 
 const xyo = async () => {
   const node = await MemoryNode.create()
   node.register(await MemoryArchivist.create())
-  const args = await parseOptions()
+  const args = await getOptionsParser()
     .command(
       'node',
       'Start an XYO Node',

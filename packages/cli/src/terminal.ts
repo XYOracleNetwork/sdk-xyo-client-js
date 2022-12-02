@@ -2,7 +2,7 @@ import { XyoModuleConfig } from '@xyo-network/module'
 import { MemoryNode, Node } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { readFileDeep } from './readFileDeep'
+import { readFileDeep } from './lib'
 
 interface TerminalItem {
   slug: string

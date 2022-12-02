@@ -1,45 +1,32 @@
 import { XyoModuleConfig } from '@xyo-network/module'
 import { MemoryNode, Node } from '@xyo-network/node'
-import { readFileSync } from 'fs'
-import path from 'path'
 import { terminal } from 'terminal-kit'
 
-function terminate() {
-  terminal.grabInput(false)
-  terminal.clear()
-  terminal.green('\n\nXYO Node Shutdown - Bye\n\n')
-  setTimeout(function () {
-    process.exit()
-  }, 100)
+import { readFileDeep } from './readFileDeep'
+
+interface TerminalItem {
+  slug: string
+  text: string
 }
 
-const readFileDeep = (names: string[]) => {
-  let depth = 0
-  let result: string | undefined
-  let filename
-  let resolvedPath
-  while (depth < 10 && result === undefined) {
-    names.forEach((name) => {
-      if (result === undefined) {
-        filename = name
-        for (let i = 0; i < depth; i++) {
-          filename = `../${filename}`
-        }
-        resolvedPath = path.resolve(filename)
-        try {
-          result = readFileSync(resolvedPath, { encoding: 'utf8' })
-        } catch (ex) {
-          const error = ex as NodeJS.ErrnoException
-          if (error.code !== 'ENOENT') {
-            terminal.red(`${JSON.stringify(error)}\n`)
-          }
-        }
-      }
-    })
-    depth++
+const terminalCommands = [
+  'Register Module',
+  'Unregister Module',
+  'List Registered Modules',
+  'Attach Module',
+  'Detach Module',
+  'List Attached Modules',
+  'Show Config',
+  'Status',
+  'Exit',
+]
+
+const items: TerminalItem[] = terminalCommands.map((item, index) => {
+  return {
+    slug: item.toLowerCase().replaceAll(' ', '-'),
+    text: `${index + 1}. ${item}`,
   }
-  return [result, resolvedPath]
-}
+})
 
 const getCommand = (node: Node): Promise<boolean> => {
   return new Promise((resolve) => {
@@ -51,23 +38,6 @@ const getCommand = (node: Node): Promise<boolean> => {
         resolve(false)
       }
     })
-    const items = [
-      'Register Module',
-      'Unregister Module',
-      'List Registered Modules',
-      'Attach Module',
-      'Detach Module',
-      'List Attached Modules',
-      'Show Config',
-      'Status',
-      'Exit',
-    ].map((item, index) => {
-      return {
-        slug: item.toLowerCase().replaceAll(' ', '-'),
-        text: `${index + 1}. ${item}`,
-      }
-    })
-    //terminal.clear()
     terminal.green('\nXYO Node Running\n')
     terminal.singleColumnMenu(
       items.map((item) => item.text),
@@ -111,11 +81,19 @@ const getCommand = (node: Node): Promise<boolean> => {
   })
 }
 
+function terminate() {
+  terminal.grabInput(false)
+  terminal.clear()
+  terminal.green('\n\nXYO Node Shutdown - Bye\n\n')
+  setTimeout(function () {
+    process.exit()
+  }, 100)
+}
+
 export const startTerminal = async (node: MemoryNode) => {
   let running = true
   while (running) {
     running = await getCommand(node)
   }
-
   terminate()
 }

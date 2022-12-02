@@ -1,2 +1,2 @@
 export * from './loadModule'
-export * from './parseOptions'
+export * from './optionsParser'

@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/archivist-interface",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,22 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.6.9",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
-    "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "js-cookie": "^3.0.1",
-    "lodash": "^4.17.21",
-    "lru-cache": "^7.14.1",
-    "store2": "^2.14.2",
     "tslib": "^2.4.1"
-  },
-  "devDependencies": {
-    "@types/js-cookie": "^3.0.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -50,7 +40,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/archivist",
   "publishConfig": {
     "access": "public"
   },

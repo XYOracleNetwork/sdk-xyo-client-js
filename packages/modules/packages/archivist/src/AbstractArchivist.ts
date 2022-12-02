@@ -1,25 +1,25 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
-import { Promisable, PromisableArray } from '@xyo-network/promise'
-import compact from 'lodash/compact'
-
-import { PayloadArchivist } from './Archivist'
-import { ArchivistWrapper } from './ArchivistWrapper'
-import { XyoArchivistConfig } from './Config'
 import {
+  PayloadArchivist,
   XyoArchivistAllQuerySchema,
   XyoArchivistClearQuerySchema,
   XyoArchivistCommitQuerySchema,
+  XyoArchivistConfig,
   XyoArchivistDeleteQuerySchema,
   XyoArchivistFindQuerySchema,
   XyoArchivistGetQuery,
   XyoArchivistGetQuerySchema,
   XyoArchivistInsertQuerySchema,
   XyoArchivistQuery,
-} from './Queries'
+} from '@xyo-network/archivist-interface'
+import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
+import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
+import compact from 'lodash/compact'
+
+import { ArchivistWrapper } from './ArchivistWrapper'
 
 export interface XyoArchivistParentWrappers {
   commit?: Record<string, ArchivistWrapper>

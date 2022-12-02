@@ -4680,6 +4680,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/archivist-interface@workspace:^, @xyo-network/archivist-interface@workspace:packages/modules/packages/archivist/packages/interface":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-interface@workspace:packages/modules/packages/archivist/packages/interface"
+  dependencies:
+    "@xyo-network/boundwitness": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/archivist@workspace:^, @xyo-network/archivist@workspace:packages/modules/packages/archivist":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist@workspace:packages/modules/packages/archivist"
@@ -4687,6 +4699,7 @@ __metadata:
     "@types/js-cookie": ^3.0.2
     "@xylabs/assert": ^2.6.9
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/archivist-interface": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module": "workspace:^"

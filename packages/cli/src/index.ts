@@ -35,6 +35,9 @@ const xyo = async () => {
       },
     )
     .help().argv
+  if (args.daemon) {
+    console.log('TODO: Running Node as daemon')
+  }
   return node
 }
 

@@ -3561,10 +3561,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cors@npm:^2.8.12":
-  version: 2.8.12
-  resolution: "@types/cors@npm:2.8.12"
-  checksum: 8c45f112c7d1d2d831b4b266f2e6ed33a1887a35dcbfe2a18b28370751fababb7cd045e745ef84a523c33a25932678097bf79afaa367c6cb3fa0daa7a6438257
+"@types/cors@npm:^2.8.13":
+  version: 2.8.13
+  resolution: "@types/cors@npm:2.8.13"
+  dependencies:
+    "@types/node": "*"
+  checksum: 7ef197ea19d2e5bf1313b8416baa6f3fd6dd887fd70191da1f804f557395357dafd8bc8bed0ac60686923406489262a7c8a525b55748f7b2b8afa686700de907
   languageName: node
   linkType: hard
 
@@ -3792,12 +3794,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mapbox-gl@npm:^2.7.8":
-  version: 2.7.9
-  resolution: "@types/mapbox-gl@npm:2.7.9"
+"@types/mapbox-gl@npm:^2.7.10":
+  version: 2.7.10
+  resolution: "@types/mapbox-gl@npm:2.7.10"
   dependencies:
     "@types/geojson": "*"
-  checksum: c035ef36218238be95ce1b87bba4dbb2746a1e0353c73d3e59625f90af6ebae431f62ba8f3584ff1f87f4c8fd628b8da2d5afebcff8c11f56f58de42c780e1e2
+  checksum: 0ee433fa7510733fd7744796d8b04c9bbc6e087a3b46a114433528bd7f64b2b475a245bda3598d7cd1db5a9cf5ea93567d234594b7cd3106d32b0c9cbe333888
   languageName: node
   linkType: hard
 
@@ -5251,7 +5253,7 @@ __metadata:
   resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/server"
   dependencies:
     "@types/compression": ^1.7.2
-    "@types/cors": ^2.8.12
+    "@types/cors": ^2.8.13
     "@types/express": 4.17.14
     "@types/passport": ^1.0.11
     "@types/uuid": ^9.0.0
@@ -5303,7 +5305,7 @@ __metadata:
     dotenv: ^16.0.3
     express: ^4.18.2
     http-status-codes: ^2.2.0
-    supertest: ^6.3.1
+    supertest: ^6.3.2
     uuid: ^9.0.0
   peerDependencies:
     axios: "*"
@@ -5666,7 +5668,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    systeminformation: ^5.16.0
+    systeminformation: ^5.16.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5809,7 +5811,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/quadkey@workspace:packages/sdk/packages/quadkey"
   dependencies:
-    "@types/mapbox-gl": ^2.7.8
+    "@types/mapbox-gl": ^2.7.10
     "@xylabs/bignumber": ^2.6.9
     "@xylabs/buffer": ^2.6.9
     "@xylabs/sdk-js": ^2.6.9
@@ -5858,7 +5860,7 @@ __metadata:
     axios: ~1.1.3
     babel-jest: ^29.3.1
     dotenv: ^16.0.3
-    eslint: ^8.28.0
+    eslint: ^8.29.0
     jest: ^29.3.1
     jest-extended: ^3.2.0
     jest-sorted: ^1.0.14
@@ -8765,9 +8767,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.26.0, eslint@npm:^8.28.0":
-  version: 8.28.0
-  resolution: "eslint@npm:8.28.0"
+"eslint@npm:^8.26.0, eslint@npm:^8.29.0":
+  version: 8.29.0
+  resolution: "eslint@npm:8.29.0"
   dependencies:
     "@eslint/eslintrc": ^1.3.3
     "@humanwhocodes/config-array": ^0.11.6
@@ -8810,7 +8812,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 1b793486b2ec80f0602d75fff7116f7c39a3286f523608a999eead9bec4154a06841785d2b4fb87f8292a94cf85778c1dbfaec727772a09c4d604fdb9ff0809a
+  checksum: e05204b05907b82d910983995cb946e0ba62ca514eb2b6791c43f623333b143564a2eee0139909d31c10935c21877d815b1f76dd674a59cb91c471064325c4ab
   languageName: node
   linkType: hard
 
@@ -17329,13 +17331,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supertest@npm:^6.3.1":
-  version: 6.3.1
-  resolution: "supertest@npm:6.3.1"
+"supertest@npm:^6.3.2":
+  version: 6.3.2
+  resolution: "supertest@npm:6.3.2"
   dependencies:
     methods: ^1.1.2
     superagent: ^8.0.3
-  checksum: 024d10e305bbaf926efff3d2dc68d339ae8d8650917a82ad121886c4a3a70707af92fdd1a1fd139054235d65ddab842ec54d48bb7161f6969bf98ef29eea3740
+  checksum: 97f6834df65c2837e08f448742d5956df7bd89f77021a6f11344f226247d67855f6b0d92324f8aa14994b0acf79b3f3fb28ad9ce7854f18e51926609ef8d9083
   languageName: node
   linkType: hard
 
@@ -17420,12 +17422,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.16.0":
-  version: 5.16.0
-  resolution: "systeminformation@npm:5.16.0"
+"systeminformation@npm:^5.16.1":
+  version: 5.16.1
+  resolution: "systeminformation@npm:5.16.1"
   bin:
     systeminformation: lib/cli.js
-  checksum: 4aee4018cf6b0522157d1441be9171a45c948e2a7dd73a1e21546fd20c530a8dbd7b989253a102c5a95282232184555786e026e0550100cd121ce614936ac6bd
+  checksum: 6f2d5ba02957a19d22737f491d7511f63abb76cdfa7ca0c53e3ca8883422764fb06bc9b4c6a2b5ce9691642a6bc119e6c3837a44adc71c85da2498cbc04d2a85
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

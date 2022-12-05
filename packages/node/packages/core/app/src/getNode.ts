@@ -1,9 +1,11 @@
 import { AbstractNode, MemoryNode } from '@xyo-network/node'
 
-import { addTransports } from './registration'
+import { registerTransports } from './registration'
 
 export const getNode = async (): Promise<AbstractNode> => {
+  // TODO: Get ENV, AWS Secrets, config
+  // nconf?
   const node = await MemoryNode.create()
-  await addTransports(node)
+  await registerTransports(node)
   return node
 }

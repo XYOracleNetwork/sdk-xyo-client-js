@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AbstractDiviner, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
-import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
+import { GeographicCoordinateSystemLocationPayload, GeographicCoordinateSystemLocationSchema } from '@xyo-network/location-payload-plugin'
 import { BoundWitnessesArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -38,7 +38,8 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
   speedKph: number
 }>
 
-export const isLocationPayload = (x?: XyoPayload | null): x is XyoLocationPayload => x?.schema === XyoLocationSchema
+export const isLocationPayload = (x?: XyoPayload | null): x is GeographicCoordinateSystemLocationPayload =>
+  x?.schema === GeographicCoordinateSystemLocationSchema
 
 export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUserLocationsDiviner, JobProvider {
   constructor(
@@ -60,7 +61,7 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
     ]
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoLocationPayload>> {
+  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<GeographicCoordinateSystemLocationPayload>> {
     const user = payloads?.find<CoinCurrentUserWitnessPayload>(
       (payload): payload is CoinCurrentUserWitnessPayload => payload?.schema === CoinCurrentUserWitnessSchema,
     )
@@ -82,7 +83,7 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
           return locations
         })
         .flat()
-      const locations = compact(await this.payloads.get(locationHashes)) as unknown as XyoLocationPayload[]
+      const locations = compact(await this.payloads.get(locationHashes)) as unknown as GeographicCoordinateSystemLocationPayload[]
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processed query')
       return locations
     }

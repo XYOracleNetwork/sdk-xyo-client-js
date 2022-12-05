@@ -6,18 +6,18 @@ export type Acceleration = {
   acceleration: number
 }
 
-export type Direction = {
-  direction: number
+export type Heading = {
+  heading: number
 }
 
 export type Speed = {
   speed: number
 }
 
-export type Velocity = Direction & Speed
+export type Velocity = Heading & Speed
 
 export type Motion = Velocity & Partial<Acceleration>
 
-export type LocationHeading = Motion | Direction
+export type LocationHeading = Motion | Heading
 
 export type LocationHeadingPayload = XyoPayload<LocationHeading, LocationHeadingSchema>

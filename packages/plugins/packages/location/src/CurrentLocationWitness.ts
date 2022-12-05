@@ -1,27 +1,28 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
-import { Quadkey } from '@xyo-network/quadkey'
+import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+
+import { GeographicCoordinateSystemLocationPayload } from './GeographicCoordinateSystemLocationPayload'
+import { GeographicCoordinateSystemLocationSchema } from './GeographicCoordinateSystemLocationSchema'
+import { LocationHeadingPayload } from './HeadingPayload'
+import { LocationHeadingSchema } from './HeadingSchema'
 
 export type CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'
 export const CurrentLocationWitnessConfigSchema: CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'
 
-export type CurrentLocationWitnessConfig = XyoWitnessConfig<
-  CurrentLocationPayloadSet,
-  {
-    schema: CurrentLocationWitnessConfigSchema
-  }
->
+export type CurrentLocationWitnessConfig = XyoWitnessConfig<{
+  schema: CurrentLocationWitnessConfigSchema
+}>
 
-export type XyoLocationWitnessParams = XyoModuleParams<XyoLocationWitnessConfig> & { geolocation: Geolocation }
+export type CurrentLocationWitnessParams = XyoModuleParams<CurrentLocationWitnessConfig> & { geolocation: Geolocation }
 
-export class XyoLocationWitness extends AbstractWitness<XyoLocationPayload, XyoLocationWitnessConfig> {
-  static override configSchema = XyoLocationWitnessConfigSchema
-  static override targetSchema = XyoLocationSchema
+export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitnessConfig> {
+  static override configSchema = CurrentLocationWitnessConfigSchema
 
   private _geolocation: Geolocation
 
-  constructor(params: XyoLocationWitnessParams) {
+  constructor(params: CurrentLocationWitnessParams) {
     super(params)
     this._geolocation = params?.geolocation
   }
@@ -30,8 +31,8 @@ export class XyoLocationWitness extends AbstractWitness<XyoLocationPayload, XyoL
     return assertEx(this._geolocation, 'No geolocation provided')
   }
 
-  static override async create(params?: XyoModuleParams<XyoLocationWitnessConfig>): Promise<XyoLocationWitness> {
-    return (await super.create(params)) as XyoLocationWitness
+  static override async create(params?: XyoModuleParams<CurrentLocationWitnessConfig>): Promise<CurrentLocationWitness> {
+    return (await super.create(params)) as CurrentLocationWitness
   }
 
   public getCurrentPosition() {
@@ -47,21 +48,24 @@ export class XyoLocationWitness extends AbstractWitness<XyoLocationPayload, XyoL
     })
   }
 
-  override async observe(_fields: Partial<XyoLocationPayload>[]): Promise<XyoLocationPayload[]> {
+  override async observe(_fields: XyoPayload[]): Promise<XyoPayload[]> {
     const location = await this.getCurrentPosition()
-    const quadkey = Quadkey.fromLngLat({ lat: location.coords.latitude, lng: location.coords.longitude }, 32)
-    const payload: XyoLocationPayload = {
-      accuracy: location.coords.accuracy,
+    const gcsLocation: GeographicCoordinateSystemLocationPayload = {
       altitude: location.coords.altitude ?? undefined,
       altitudeAccuracy: location.coords.altitudeAccuracy ?? undefined,
-      heading: location.coords.heading ?? undefined,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      quadkey: quadkey?.base4Hash,
-      schema: XyoLocationSchema,
-      speed: location.coords.speed ?? undefined,
-      time: Date.now(),
+      schema: GeographicCoordinateSystemLocationSchema,
     }
-    return super.observe([payload])
+    const heading: LocationHeadingPayload[] = location.coords.heading
+      ? [
+          {
+            heading: location.coords.heading ?? undefined,
+            schema: LocationHeadingSchema,
+            speed: location.coords.speed ?? undefined,
+          },
+        ]
+      : []
+    return super.observe([gcsLocation, ...heading])
   }
 }

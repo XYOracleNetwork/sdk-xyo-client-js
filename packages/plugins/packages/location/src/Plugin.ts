@@ -1,15 +1,15 @@
 import { XyoModuleParams } from '@xyo-network/module'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { XyoLocationWitness, XyoLocationWitnessConfig } from './CurrentLocationWitness'
-import { XyoLocationPayloadTemplate } from './Template'
+import { CurrentLocationWitness, CurrentLocationWitnessConfig } from './CurrentLocationWitness'
+import { GeographicCoordinateSystemLocationPayload } from './GeographicCoordinateSystemLocationPayload'
+import { GeographicCoordinateSystemLocationSchema } from './GeographicCoordinateSystemLocationSchema'
 
-export const XyoLocationPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoLocationPayload, XyoModuleParams<XyoLocationWitnessConfig>>({
+export const GeographicCoordinateSystemLocationPayloadPlugin = () =>
+  createXyoPayloadPlugin<GeographicCoordinateSystemLocationPayload, XyoModuleParams<CurrentLocationWitnessConfig>>({
     auto: true,
-    schema: XyoLocationSchema,
-    template: XyoLocationPayloadTemplate,
+    schema: GeographicCoordinateSystemLocationSchema,
     witness: async (params) => {
-      return await XyoLocationWitness.create(params)
+      return await CurrentLocationWitness.create(params)
     },
   })

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xyo-network/axios'
-import { LngLatPhysicalLocation, PhysicalLocation, QuadkeyPhysicalLocation, XyoLocationPayload } from '@xyo-network/location-payload-plugin'
+import { GeographicCoordinateSystemLocation, GeographicCoordinateSystemLocationPayload } from '@xyo-network/location-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Quadkey } from '@xyo-network/quadkey'
@@ -24,18 +24,14 @@ interface OpenElevationResult {
 }
 
 export type XyoLocationElevationWitnessConfig = XyoWitnessConfig<{
-  locations?: XyoLocationPayload[]
+  locations?: GeographicCoordinateSystemLocationPayload[]
   schema: XyoLocationElevationWitnessConfigSchema
   uri?: string
   zoom?: number
 }>
 
-const physicalLocationToOpenElevationLocation = (location: PhysicalLocation, zoom: number) => {
-  const quadkey = assertEx(
-    (location as QuadkeyPhysicalLocation).quadkey
-      ? Quadkey.fromBase10String((location as QuadkeyPhysicalLocation).quadkey)
-      : Quadkey.fromLngLat({ lat: (location as LngLatPhysicalLocation).latitude, lng: (location as LngLatPhysicalLocation).longitude }, zoom),
-  )
+const physicalLocationToOpenElevationLocation = (location: GeographicCoordinateSystemLocation, zoom: number) => {
+  const quadkey = assertEx(Quadkey.fromLngLat({ lat: location.latitude, lng: location.longitude }, zoom))
   const center = quadkey.center
   return { latitude: center.lat, longitude: center?.lng }
 }
@@ -65,7 +61,9 @@ export class XyoLocationElevationWitness extends AbstractWitness<XyoLocationElev
 
   override async observe(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const request = {
-      locations: payloads?.map((location) => physicalLocationToOpenElevationLocation(location as PhysicalLocation, this.zoom)) ?? this.locations,
+      locations:
+        payloads?.map((location) => physicalLocationToOpenElevationLocation(location as GeographicCoordinateSystemLocationPayload, this.zoom)) ??
+        this.locations,
     }
     const result = await new AxiosJson().post<OpenElevationResult>('https://api.open-elevation.com/api/v1/lookup', request)
     const results = result.data?.results

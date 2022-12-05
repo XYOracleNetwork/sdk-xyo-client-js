@@ -1,14 +1,14 @@
-import { GeographicLocationSchema } from './GeographicLocationSchema'
+import { PayloadSetPayload, PayloadSetSchema } from '@xyo-network/payload'
+
+import { GeographicCoordinateSystemLocationSchema } from './GeographicCoordinateSystemLocationSchema'
 import { LocationHeadingSchema } from './HeadingSchema'
-import { PayloadSetPayload } from './PayloadSetPayload'
-import { PayloadSetSchema } from './PayloadSetSchema'
 
 export const CurrentLocationPayloadSet: PayloadSetPayload = {
   optional: {
     [LocationHeadingSchema]: 1,
   },
   required: {
-    [GeographicLocationSchema]: 1,
+    [GeographicCoordinateSystemLocationSchema]: 1,
   },
   schema: PayloadSetSchema,
 }

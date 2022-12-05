@@ -1,8 +1,8 @@
-import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { schema } from './schema'
 
-export const knownPayload = new XyoPayloadBuilder({ schema })
+export const knownPayload = new XyoPayloadBuilder<XyoPayload<Record<string, unknown>>>({ schema })
   .fields({
     balance: 10000.0,
     daysOld: 1,

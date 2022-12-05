@@ -1,5 +1,3 @@
-import { AbstractNode, MemoryNode } from '@xyo-network/node'
+import { getNode } from './getNode'
 
-export const getNode = async (): Promise<AbstractNode> => {
-  return await MemoryNode.create()
-}
+void getNode()

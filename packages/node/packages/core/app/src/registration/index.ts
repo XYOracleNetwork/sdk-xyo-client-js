@@ -1,1 +1,1 @@
-export * from './addTransports'
+export * from './registerTransports'

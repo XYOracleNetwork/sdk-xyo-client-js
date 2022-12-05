@@ -3,16 +3,13 @@ import { XyoModuleParams } from '@xyo-network/module'
 import { Quadkey } from '@xyo-network/quadkey'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
-import { XyoLocationPayload } from './Payload'
-import { XyoLocationSchema } from './Schema'
+export type CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'
+export const CurrentLocationWitnessConfigSchema: CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'
 
-export type XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
-export const XyoLocationWitnessConfigSchema: XyoLocationWitnessConfigSchema = 'network.xyo.location.config'
-
-export type XyoLocationWitnessConfig = XyoWitnessConfig<
-  XyoLocationPayload,
+export type CurrentLocationWitnessConfig = XyoWitnessConfig<
+  CurrentLocationPayloadSet,
   {
-    schema: XyoLocationWitnessConfigSchema
+    schema: CurrentLocationWitnessConfigSchema
   }
 >
 

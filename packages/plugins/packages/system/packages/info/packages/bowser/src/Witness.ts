@@ -7,12 +7,10 @@ import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchem
 import { XyoBowserSystemInfoPayload } from './Payload'
 import { XyoBowserSystemInfoSchema } from './Schema'
 
-export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = XyoBowserSystemInfoPayload> extends AbstractWitness<
-  T,
-  XyoBowserSystemInfoWitnessConfig
-> {
+export class XyoBowserSystemInfoWitness<
+  T extends XyoBowserSystemInfoPayload = XyoBowserSystemInfoPayload,
+> extends AbstractWitness<XyoBowserSystemInfoWitnessConfig> {
   static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
-  static override targetSchema = XyoBowserSystemInfoSchema
 
   protected get bowser() {
     // we do this to fix importing in node-esm
@@ -24,7 +22,7 @@ export class XyoBowserSystemInfoWitness<T extends XyoBowserSystemInfoPayload = X
     return (await super.create(params)) as XyoBowserSystemInfoWitness
   }
 
-  override observe(fields?: Partial<T>[]) {
-    return super.observe([merge({ bowser: this.bowser }, fields?.[0])])
+  override observe(payloads?: T[]) {
+    return super.observe([merge({ bowser: this.bowser }, payloads?.[0], { schema: XyoBowserSystemInfoSchema })])
   }
 }

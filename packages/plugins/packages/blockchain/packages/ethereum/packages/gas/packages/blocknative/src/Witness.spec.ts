@@ -8,7 +8,6 @@ describe('XyoEthereumGasBlocknativeWitness', () => {
     const sut = await XyoEthereumGasBlocknativeWitness.create({
       config: {
         schema: XyoEthereumGasBlocknativeWitnessConfigSchema,
-        targetSchema: XyoEthereumGasBlocknativeSchema,
       },
     })
     const [actual] = await sut.observe()

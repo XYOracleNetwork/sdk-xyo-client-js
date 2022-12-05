@@ -1,4 +1,4 @@
-import { XyoLocationPayload } from './Payload'
+import { XyoLocationPayload } from './HeadingPayload'
 import { XyoLocationSchema } from './Schema'
 
 export const XyoLocationPayloadTemplate = (): Partial<XyoLocationPayload> => {

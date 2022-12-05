@@ -1,4 +1,5 @@
 import { XyoModuleParams } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoPentairScreenlogicPayload } from './Payload'
@@ -19,16 +20,12 @@ export interface PentairServer {
   type: number
 }
 
-export type XyoPentairScreenlogicWitnessConfig = XyoWitnessConfig<
-  XyoPentairScreenlogicPayload,
-  {
-    schema: XyoPentairScreenlogicWitnessConfigSchema
-  }
->
+export type XyoPentairScreenlogicWitnessConfig = XyoWitnessConfig<{
+  schema: XyoPentairScreenlogicWitnessConfigSchema
+}>
 
-export class XyoPentairScreenlogicWitness extends AbstractWitness<XyoPentairScreenlogicPayload, XyoPentairScreenlogicWitnessConfig> {
+export class XyoPentairScreenlogicWitness extends AbstractWitness<XyoPentairScreenlogicWitnessConfig> {
   static override configSchema = XyoPentairScreenlogicWitnessConfigSchema
-  static override targetSchema = XyoPentairScreenlogicSchema
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected controller = new Controller()
@@ -37,9 +34,9 @@ export class XyoPentairScreenlogicWitness extends AbstractWitness<XyoPentairScre
     return (await super.create(params)) as XyoPentairScreenlogicWitness
   }
 
-  override async observe(_fields?: Partial<XyoPentairScreenlogicPayload>[]): Promise<XyoPentairScreenlogicPayload[]> {
+  override async observe(_payloads?: Partial<XyoPayload>[]): Promise<XyoPayload[]> {
     const config = await this.controller.getPoolConfig()
     const status = await this.controller.getPoolStatus()
-    return await super.observe([{ config, status }] as XyoPentairScreenlogicPayload[])
+    return await super.observe([{ config, schema: XyoPentairScreenlogicSchema, status }] as XyoPentairScreenlogicPayload[])
   }
 }

@@ -8,7 +8,7 @@ describe('XyoEthereumGasBlocknativePayloadPlugin', () => {
   test('Add to Resolver', () => {
     const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasBlocknativePayloadPlugin(), {
       witness: {
-        config: { schema: XyoEthereumGasBlocknativeWitness.configSchema, targetSchema: XyoEthereumGasBlocknativeWitness.targetSchema },
+        config: { schema: XyoEthereumGasBlocknativeWitness.configSchema },
       },
     })
     expect(resolver.resolve({ schema: XyoEthereumGasBlocknativeSchema })).toBeObject()

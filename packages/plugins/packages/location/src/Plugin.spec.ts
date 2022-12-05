@@ -4,9 +4,9 @@
 
 import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
 
+import { XyoLocationWitnessConfigSchema } from './CurrentLocationWitness'
 import { XyoLocationPayloadPlugin } from './Plugin'
 import { XyoLocationSchema } from './Schema'
-import { XyoLocationWitnessConfigSchema } from './Witness'
 
 describe('XyoLocationPayloadPlugin', () => {
   test('Add to Resolver', () => {

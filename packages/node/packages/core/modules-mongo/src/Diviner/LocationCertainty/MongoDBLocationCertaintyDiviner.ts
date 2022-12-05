@@ -5,7 +5,7 @@ import { JobProvider } from '@xyo-network/shared'
 import merge from 'lodash/merge'
 
 const defaultParams = {
-  config: { schema: LocationCertaintyDivinerConfigSchema, targetSchema: LocationCertaintySchema },
+  config: { schema: LocationCertaintyDivinerConfigSchema },
 }
 
 export class MongoDBLocationCertaintyDiviner extends LocationCertaintyDiviner implements LocationCertaintyDiviner, JobProvider {

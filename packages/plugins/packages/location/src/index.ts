@@ -1,9 +1,9 @@
 import { XyoLocationPayloadPlugin } from './Plugin'
 
-export * from './Payload'
+export * from './CurrentLocationWitness'
+export * from './HeadingPayload'
 export * from './Schema'
 export * from './Template'
-export * from './Witness'
 
 export { XyoLocationPayloadPlugin }
 

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json.schemastore.org/package.json",
+  "name": "@xyo-network/node-app",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "2.41.11",
+  "description": "XYO Node App",
+  "sideeffects": false,
+  "engines": {
+    "node": ">=16 <17"
+  },
+  "esm5": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "esm5": "./dist/esm/index.js",
+      "node": {
+        "import": "./dist/cjs/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@xyo-network/node": "workspace:^"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "author": "Arie Trouw",
+  "license": "LGPL-3.0",
+  "types": "dist/esm/index.d.ts"
+}

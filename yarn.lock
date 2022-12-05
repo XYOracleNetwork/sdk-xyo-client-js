@@ -5528,6 +5528,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/node-app@workspace:packages/node/packages/core/app":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/app"
+  dependencies:
+    "@xyo-network/node": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/node-core-lib@workspace:^, @xyo-network/node-core-lib@workspace:packages/node/packages/core/lib":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-core-lib@workspace:packages/node/packages/core/lib"

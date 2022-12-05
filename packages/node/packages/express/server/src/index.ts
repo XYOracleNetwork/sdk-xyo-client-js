@@ -1,7 +1,9 @@
+import { assertEx } from '@xylabs/assert'
 import { Logger } from '@xylabs/sdk-api-express-ecs'
 import { configureDependencies, dependencies } from '@xyo-network/express-node-dependencies'
 import { configureDoc } from '@xyo-network/express-node-middleware'
 import { addRoutes } from '@xyo-network/express-node-routes'
+import { AbstractNode } from '@xyo-network/modules'
 import { TYPES } from '@xyo-network/node-core-types'
 import compression from 'compression'
 import cors from 'cors'
@@ -17,25 +19,40 @@ import { addQueryProcessors } from './addQueryProcessors'
 import { configureEnvironment } from './configureEnvironment'
 import { initializeJobs } from './initializeJobs'
 
+export abstract class PayloadTransport {
+  constructor(protected readonly node: AbstractNode) {}
+}
+export class ExpressPayloadTransport extends PayloadTransport {
+  private _app: Express = express()
+  constructor(node: AbstractNode) {
+    super(node)
+    this.app.set('etag', false)
+    this.app.use(cors())
+    this.app.use(compression())
+    addDependencies(this.app)
+    addMiddleware(this.app)
+    addAuth(this.app)
+    addQueryProcessors(this.app)
+    addRoutes(this.app)
+    addErrorHandlers(this.app)
+  }
+  public get app(): Express {
+    return this._app
+  }
+  public set app(v: Express) {
+    this._app = v
+  }
+}
+
 export const getApp = async (): Promise<Express> => {
   await configureEnvironment()
   await configureDependencies()
-
-  const app = express()
-  app.set('etag', false)
-  app.use(cors())
-  app.use(compression())
-
-  addDependencies(app)
-  addMiddleware(app)
-  addAuth(app)
+  const node = assertEx(dependencies.get<AbstractNode>(TYPES.Node))
+  const transport = new ExpressPayloadTransport(node)
   addQueryConverters()
-  addQueryProcessors(app)
   addQueryProcessing()
   await initializeJobs()
-  addRoutes(app)
-  addErrorHandlers(app)
-  return app
+  return transport.app
 }
 
 export const server = async (port = 80) => {

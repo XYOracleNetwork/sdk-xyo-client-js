@@ -3,8 +3,8 @@ import { terminal } from 'terminal-kit'
 
 export const listAttachedModules = async (node: MemoryNode) => {
   terminal.yellow('\nList Attached Modules\n')
-  const attachedModules = await node.attachedModules()
-  attachedModules.forEach((module) => {
-    terminal(`0x${module}`)
+  const mods = await node.attachedModules()
+  mods.forEach((mod) => {
+    terminal(`0x${mod.address}`)
   })
 }

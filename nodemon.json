@@ -2,7 +2,7 @@
   "env": {
     "NODE_ENV": "development"
   },
-  "exec": "node -r ts-node/register ./packages/cli/src/server.ts",
+  "exec": "node -r ts-node/register ./packages/node/packages/core/app/src/app.ts",
   "ext": ".ts",
   "ignore": ["**/*.spec.ts"],
   "watch": ["./src"]

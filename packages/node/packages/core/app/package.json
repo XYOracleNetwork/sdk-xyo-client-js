@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
+    "@xyo-network/express-node-server": "workspace:^",
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/node": "workspace:^",
     "dotenv": "^16.0.3"

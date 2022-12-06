@@ -35,7 +35,7 @@
     "@xyo-network/express-node-middleware": "workspace:^",
     "@xyo-network/express-node-routes": "workspace:^",
     "@xyo-network/express-node-server": "workspace:^",
-    "axios": "~1.1.3",
+    "axios": "~1.2.1",
     "pako": "^2.1.0",
     "tslib": "^2.4.1"
   },

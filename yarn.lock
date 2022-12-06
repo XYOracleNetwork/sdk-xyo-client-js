@@ -4812,6 +4812,7 @@ __metadata:
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
+    "@xyo-network/node-app": "workspace:^"
     axios: ~1.2.1
     dotenv: ^16.0.3
     pako: ^2.1.0
@@ -5528,7 +5529,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-app@workspace:packages/node/packages/core/app":
+"@xyo-network/node-app@workspace:^, @xyo-network/node-app@workspace:packages/node/packages/core/app":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/app"
   dependencies:

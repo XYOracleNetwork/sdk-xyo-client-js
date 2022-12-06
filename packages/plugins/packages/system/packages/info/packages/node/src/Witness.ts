@@ -4,6 +4,7 @@ import { get } from 'systeminformation'
 
 import { XyoNodeSystemInfoWitnessConfig, XyoNodeSystemInfoWitnessConfigSchema } from './Config'
 import { XyoNodeSystemInfoPayload } from './Payload'
+import { XyoNodeSystemInfoSchema } from './Schema'
 import { defaultSystemInfoConfig } from './Template'
 
 export class XyoNodeSystemInfoWitness<
@@ -17,6 +18,6 @@ export class XyoNodeSystemInfoWitness<
 
   override async observe(payloads?: TPayload[]) {
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
-    return await super.observe([{ ...node, ...payloads?.[0] }])
+    return await super.observe([{ ...node, ...payloads?.[0], schema: XyoNodeSystemInfoSchema }])
   }
 }

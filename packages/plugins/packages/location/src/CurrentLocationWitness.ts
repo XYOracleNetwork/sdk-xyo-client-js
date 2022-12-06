@@ -3,8 +3,8 @@ import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
-import { GeographicCoordinateSystemLocationPayload } from './GeographicCoordinateSystemLocationPayload'
-import { GeographicCoordinateSystemLocationSchema } from './GeographicCoordinateSystemLocationSchema'
+import { LocationPayload } from './GeographicCoordinateSystemLocationPayload'
+import { LocationSchema } from './GeographicCoordinateSystemLocationSchema'
 import { LocationHeadingPayload } from './HeadingPayload'
 import { LocationHeadingSchema } from './HeadingSchema'
 
@@ -50,12 +50,12 @@ export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitne
 
   override async observe(_fields: XyoPayload[]): Promise<XyoPayload[]> {
     const location = await this.getCurrentPosition()
-    const gcsLocation: GeographicCoordinateSystemLocationPayload = {
+    const locationPayload: LocationPayload = {
       altitude: location.coords.altitude ?? undefined,
       altitudeAccuracy: location.coords.altitudeAccuracy ?? undefined,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      schema: GeographicCoordinateSystemLocationSchema,
+      schema: LocationSchema,
     }
     const heading: LocationHeadingPayload[] = location.coords.heading
       ? [
@@ -66,6 +66,6 @@ export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitne
           },
         ]
       : []
-    return super.observe([gcsLocation, ...heading])
+    return super.observe([locationPayload, ...heading])
   }
 }

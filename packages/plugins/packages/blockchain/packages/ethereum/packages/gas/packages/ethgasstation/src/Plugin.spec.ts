@@ -8,7 +8,7 @@ describe('XyoEthereumGasEthgasstationPayloadPlugin', () => {
   test('Add to Resolver', () => {
     const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasEthgasstationPayloadPlugin(), {
       witness: {
-        config: { schema: XyoEthereumGasEthgasstationWitness.configSchema, targetSchema: XyoEthereumGasEthgasstationWitness.targetSchema },
+        config: { schema: XyoEthereumGasEthgasstationWitness.configSchema },
       },
     })
     expect(resolver.resolve({ schema: XyoEthereumGasEthgasstationSchema })).toBeObject()

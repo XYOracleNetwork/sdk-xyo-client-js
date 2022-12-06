@@ -17,14 +17,14 @@ describe('XyoIdWitness', () => {
       describe('with payloads supplied to observe', () => {
         it('without salt uses config salt', async () => {
           const witness = await XyoIdWitness.create({ config })
-          const observations = await witness.observe([{ schema: XyoIdSchema }])
+          const observations = (await witness.observe()) as XyoIdPayload[]
           validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(witness.config.salt)
         })
         it('with salt uses payload salt', async () => {
           const witness = await XyoIdWitness.create({ config })
-          const observations = await witness.observe([{ salt: payloadSalt }])
+          const observations = (await witness.observe([{ salt: payloadSalt, schema: XyoIdSchema }])) as XyoIdPayload[]
           validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(payloadSalt)
@@ -33,7 +33,7 @@ describe('XyoIdWitness', () => {
       describe('with no payloads supplied to observe', () => {
         it('uses config salt', async () => {
           const witness = await XyoIdWitness.create({ config })
-          const observations = await witness.observe()
+          const observations = (await witness.observe()) as XyoIdPayload[]
           validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(witness.config.salt)
@@ -44,14 +44,14 @@ describe('XyoIdWitness', () => {
       describe('with payloads supplied to observe', () => {
         it('without salt uses random numeric string', async () => {
           const witness = await XyoIdWitness.create()
-          const observations = await witness.observe([{ schema: XyoIdSchema }])
+          const observations = (await witness.observe()) as XyoIdPayload[]
           validateObservationShape(observations)
           const [observation] = observations
           expect(parseInt(observation.salt)).toBeInteger()
         })
         it('with salt uses payload salt', async () => {
           const witness = await XyoIdWitness.create()
-          const observations = await witness.observe([{ salt: payloadSalt }])
+          const observations = (await witness.observe([{ salt: payloadSalt, schema: XyoIdSchema }])) as XyoIdPayload[]
           validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(payloadSalt)
@@ -60,7 +60,7 @@ describe('XyoIdWitness', () => {
       describe('with no payloads supplied to observe', () => {
         it('uses random numeric string', async () => {
           const witness = await XyoIdWitness.create()
-          const observations = await witness.observe()
+          const observations = (await witness.observe()) as XyoIdPayload[]
           validateObservationShape(observations)
           const [observation] = observations
           expect(parseInt(observation.salt)).toBeInteger()

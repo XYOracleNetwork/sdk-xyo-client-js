@@ -1,4 +1,4 @@
-import { GeographicCoordinateSystemLocationPayloadPlugin } from './Plugin'
+import { LocationPayloadPlugin } from './Plugin'
 
 export * from './CurrentLocationPayloadSet'
 export * from './CurrentLocationWitness'
@@ -8,7 +8,7 @@ export * from './HeadingPayload'
 export * from './HeadingSchema'
 export * from './Schema'
 
-export { GeographicCoordinateSystemLocationPayloadPlugin }
+export { LocationPayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default GeographicCoordinateSystemLocationPayloadPlugin
+export default LocationPayloadPlugin

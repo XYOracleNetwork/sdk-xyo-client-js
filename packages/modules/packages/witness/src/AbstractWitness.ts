@@ -21,10 +21,11 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
     return (await super.create(actualParams)) as AbstractWitness
   }
 
-  public observe(payloads: XyoPayload[] = []): Promisable<XyoPayload[]> {
+  public observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
     this.started('throw')
+    payloads?.forEach((payload) => assertEx(payload.schema, 'Missing Schema'))
     this.logger?.debug(`result: ${JSON.stringify(payloads, null, 2)}`)
-    return payloads
+    return payloads ?? []
   }
 
   override queries() {

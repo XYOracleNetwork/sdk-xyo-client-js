@@ -5,12 +5,12 @@
 import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
 
 import { CurrentLocationWitnessConfigSchema } from './CurrentLocationWitness'
-import { GeographicCoordinateSystemLocationPayloadPlugin } from './Plugin'
+import { LocationPayloadPlugin } from './Plugin'
 import { CurrentLocationSchema } from './Schema'
 
-describe('GeographicCoordinateSystemLocationPayloadPlugin', () => {
+describe('LocationPayloadPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(GeographicCoordinateSystemLocationPayloadPlugin(), {
+    const resolver = new XyoPayloadPluginResolver().register(LocationPayloadPlugin(), {
       witness: {
         config: {
           schema: CurrentLocationWitnessConfigSchema,

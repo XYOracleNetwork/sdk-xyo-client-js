@@ -11,7 +11,6 @@ describe('XyoCoingeckoCryptoMarketWitness', () => {
         coins: defaultCoins,
         currencies: defaultCurrencies,
         schema: XyoCoingeckoCryptoMarketWitnessConfigSchema,
-        targetSchema: XyoCoingeckoCryptoMarketSchema,
       },
     })
     const [actual] = await sut.observe()

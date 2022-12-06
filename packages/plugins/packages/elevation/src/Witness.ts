@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xyo-network/axios'
-import { GeographicCoordinateSystemLocation, GeographicCoordinateSystemLocationPayload } from '@xyo-network/location-payload-plugin'
+import { GeographicCoordinateSystemLocation, Location, LocationPayload, QuadkeyLocation } from '@xyo-network/location-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Quadkey } from '@xyo-network/quadkey'
@@ -24,14 +24,21 @@ interface OpenElevationResult {
 }
 
 export type XyoLocationElevationWitnessConfig = XyoWitnessConfig<{
-  locations?: GeographicCoordinateSystemLocationPayload[]
+  locations?: LocationPayload[]
   schema: XyoLocationElevationWitnessConfigSchema
   uri?: string
   zoom?: number
 }>
 
-const physicalLocationToOpenElevationLocation = (location: GeographicCoordinateSystemLocation, zoom: number) => {
-  const quadkey = assertEx(Quadkey.fromLngLat({ lat: location.latitude, lng: location.longitude }, zoom))
+const physicalLocationToOpenElevationLocation = (location: Location, zoom: number) => {
+  const quadkey = assertEx(
+    (location as QuadkeyLocation).quadkey
+      ? Quadkey.fromBase10String((location as QuadkeyLocation).quadkey)
+      : Quadkey.fromLngLat(
+          { lat: (location as GeographicCoordinateSystemLocation).latitude, lng: (location as GeographicCoordinateSystemLocation).longitude },
+          zoom,
+        ),
+  )
   const center = quadkey.center
   return { latitude: center.lat, longitude: center?.lng }
 }
@@ -59,15 +66,12 @@ export class XyoLocationElevationWitness extends AbstractWitness<XyoLocationElev
     return (await super.create(params)) as XyoLocationElevationWitness
   }
 
-  override async observe(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  override async observe(payloads?: LocationPayload[]): Promise<XyoPayload[]> {
     const request = {
-      locations:
-        payloads?.map((location) => physicalLocationToOpenElevationLocation(location as GeographicCoordinateSystemLocationPayload, this.zoom)) ??
-        this.locations,
+      locations: payloads?.map((location) => physicalLocationToOpenElevationLocation(location as Location, this.zoom)) ?? this.locations,
     }
     const result = await new AxiosJson().post<OpenElevationResult>('https://api.open-elevation.com/api/v1/lookup', request)
     const results = result.data?.results
-    const resultPayloads = results?.map((result, index) => merge({}, result, payloads?.[index], { schema: XyoLocationElevationSchema }))
-    return super.observe(resultPayloads)
+    return super.observe(results?.map((result, index) => merge({}, result, payloads?.[index], { schema: XyoLocationElevationSchema })))
   }
 }

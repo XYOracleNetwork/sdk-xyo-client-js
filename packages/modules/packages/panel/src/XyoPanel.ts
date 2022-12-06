@@ -121,8 +121,6 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
   }
 
   private async generatePayloads(witnesses: WitnessWrapper[]): Promise<XyoPayload[]> {
-    return (await Promise.allSettled(witnesses?.map(async (witness) => await witness.observe())))
-      .map((settled) => (settled.status === 'fulfilled' ? settled.value : []))
-      .flat()
+    return (await Promise.all(witnesses?.map(async (witness) => await witness.observe()))).flat()
   }
 }

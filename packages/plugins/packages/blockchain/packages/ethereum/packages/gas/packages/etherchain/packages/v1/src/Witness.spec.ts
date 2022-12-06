@@ -1,14 +1,15 @@
 import { PayloadWrapper } from '@xyo-network/payload'
 
+import { XyoEthereumGasEtherchainV1Payload } from './Payload'
 import { XyoEthereumGasEtherchainV1Schema, XyoEthereumGasEtherchainV1WitnessConfigSchema } from './Schema'
 import { XyoEtherchainEthereumGasWitnessV1 } from './Witness'
 
 describe('XyoEtherchainEthereumGasWitnessV1', () => {
   test('returns observation', async () => {
     const sut = await XyoEtherchainEthereumGasWitnessV1.create({
-      config: { schema: XyoEthereumGasEtherchainV1WitnessConfigSchema, targetSchema: XyoEthereumGasEtherchainV1Schema },
+      config: { schema: XyoEthereumGasEtherchainV1WitnessConfigSchema },
     })
-    const [actual] = await sut.observe()
+    const [actual] = (await sut.observe()) as XyoEthereumGasEtherchainV1Payload[]
     expect(actual).toBeObject()
     expect(actual.currentBaseFee).toBeNumber()
     expect(actual.fast).toBeNumber()
@@ -26,7 +27,7 @@ describe('XyoEtherchainEthereumGasWitnessV1', () => {
 
   test('returns observation [no config]', async () => {
     const sut = await XyoEtherchainEthereumGasWitnessV1.create()
-    const [actual] = await sut.observe()
+    const [actual] = (await sut.observe()) as XyoEthereumGasEtherchainV1Payload[]
     expect(actual).toBeObject()
     expect(actual.currentBaseFee).toBeNumber()
     expect(actual.fast).toBeNumber()

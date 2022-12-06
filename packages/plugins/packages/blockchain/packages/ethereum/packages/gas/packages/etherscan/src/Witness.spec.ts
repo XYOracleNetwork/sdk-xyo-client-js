@@ -1,5 +1,6 @@
 import { PayloadWrapper } from '@xyo-network/payload'
 
+import { XyoEthereumGasEtherscanPayload } from './Payload'
 import { XyoEthereumGasEtherscanSchema, XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 import { XyoEthereumGasEtherscanWitness } from './Witness'
 
@@ -13,10 +14,9 @@ describe('XyoEthereumGasEtherscanWitness', () => {
       config: {
         apiKey,
         schema: XyoEthereumGasEtherscanWitnessConfigSchema,
-        targetSchema: XyoEthereumGasEtherscanSchema,
       },
     })
-    const [actual] = await sut.observe()
+    const [actual] = (await sut.observe()) as XyoEthereumGasEtherscanPayload[]
     expect(actual.result).toBeObject()
     expect(actual.result.FastGasPrice).toBeString()
     expect(actual.result.gasUsedRatio).toBeString()

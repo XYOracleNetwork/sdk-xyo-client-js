@@ -15,7 +15,7 @@ import { XyoDomainPayloadPlugin } from '@xyo-network/domain-payload-plugin'
 import { XyoLocationElevationPayloadPlugin } from '@xyo-network/elevation-payload-plugin'
 import { XyoIdPayloadPlugin } from '@xyo-network/id-payload-plugin'
 import { LocationCertaintyPayloadPlugin } from '@xyo-network/location-certainty-payload-plugin'
-import { GeographicCoordinateSystemLocationPayloadPlugin } from '@xyo-network/location-payload-plugin'
+import { LocationPayloadPlugin } from '@xyo-network/location-payload-plugin'
 import { XyoModuleInstancePayloadPlugin } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 import { XyoSchemaPayloadPlugin } from '@xyo-network/schema-payload-plugin'
@@ -28,7 +28,7 @@ export const XyoPayloadPlugins: XyoPayloadPluginFunc[] = [
   XyoDomainPayloadPlugin,
   XyoLocationElevationPayloadPlugin,
   XyoIdPayloadPlugin,
-  GeographicCoordinateSystemLocationPayloadPlugin,
+  LocationPayloadPlugin,
   XyoModuleInstancePayloadPlugin,
   XyoSchemaPayloadPlugin,
   LocationCertaintyPayloadPlugin,

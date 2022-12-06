@@ -1,8 +1,18 @@
-import { XyoModuleConfig } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { readFileDeep, terminate } from '../lib'
+import { terminate } from '../lib'
+import {
+  attachModule,
+  describeNode,
+  detachModule,
+  listAttachedModules,
+  listRegisteredModules,
+  registerModule,
+  showConfig,
+  status,
+  unregisterModule,
+} from './commands'
 import { terminalItems } from './terminalItems'
 
 const getCommand = (node: MemoryNode): Promise<boolean> => {
@@ -19,40 +29,36 @@ const getCommand = (node: MemoryNode): Promise<boolean> => {
           terminal.red(`Error: ${error}`)
         }
         switch (terminalItems[response.selectedIndex].slug) {
+          case 'attach-module':
+            await attachModule(node)
+            break
+          case 'describe-node':
+            await describeNode(node)
+            break
+          case 'detach-module':
+            await detachModule(node)
+            break
           case 'exit':
             resolve(false)
             break
-          case 'list-registered-modules': {
-            terminal.yellow('\nList Registered Modules\n')
-            const registered = await node?.registered()
-            registered.forEach((module) => {
-              terminal(`0x${module}`)
-            })
+          case 'list-attached-modules':
+            await listAttachedModules(node)
             break
-          }
+          case 'list-registered-modules':
+            await listRegisteredModules(node)
+            break
           case 'register-module':
-            terminal.yellow('\nRegister Module\n')
+            await registerModule(node)
             break
-          case 'show-config': {
-            const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
-            let configObj: XyoModuleConfig | undefined
-            terminal.yellow(`\nConfig found at: ${path}\n`)
-            if (config) {
-              if (path?.endsWith('.json')) {
-                configObj = JSON.parse(config) as XyoModuleConfig
-              } else if (path?.endsWith('.cjs') || path?.endsWith('.js')) {
-                configObj = (await import(path)) as XyoModuleConfig
-              }
-            }
-            terminal(JSON.stringify(configObj ?? {}))
+          case 'status':
+            await status(node)
             break
-          }
-          case 'describe-node': {
-            terminal.yellow('\nDescribe Node\n')
-            const description = (await node.description()) ?? {}
-            terminal(JSON.stringify(description, undefined, 2))
+          case 'show-config':
+            await showConfig()
             break
-          }
+          case 'unregister-module':
+            await unregisterModule(node)
+            break
         }
         resolve(true)
       },

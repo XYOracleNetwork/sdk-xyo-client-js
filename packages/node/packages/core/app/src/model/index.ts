@@ -1,1 +1,1 @@
-export * from './NodeRegistrationFunction'
+export * from './NodeConfigurationFunction'

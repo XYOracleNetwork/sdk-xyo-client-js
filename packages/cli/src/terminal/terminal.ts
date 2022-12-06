@@ -1,11 +1,11 @@
 import { XyoModuleConfig } from '@xyo-network/module'
-import { MemoryNode, Node } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
 import { readFileDeep, terminate } from '../lib'
 import { terminalItems } from './terminalItems'
 
-const getCommand = (node: Node): Promise<boolean> => {
+const getCommand = (node: MemoryNode): Promise<boolean> => {
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') resolve(true)
@@ -45,6 +45,12 @@ const getCommand = (node: Node): Promise<boolean> => {
               }
             }
             terminal(JSON.stringify(configObj ?? {}))
+            break
+          }
+          case 'describe-node': {
+            terminal.yellow('\nDescribe Node\n')
+            const description = (await node.description()) ?? {}
+            terminal(JSON.stringify(description, undefined, 2))
             break
           }
         }

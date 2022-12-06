@@ -55,8 +55,8 @@ const getCommand = (node: Node): Promise<boolean> => {
 }
 
 export const startTerminal = async (node: MemoryNode) => {
-  // const shrink = { height: 35, width: 35 }
-  // await terminal.drawImage('./packages/cli/src/xyo_logo_white.png', { shrink })
+  const shrink = { height: terminal.height, width: terminal.width }
+  await terminal.drawImage('./packages/cli/src/xyo_logo_full_color.png', { shrink })
   let running = true
   while (running) {
     running = await getCommand(node)

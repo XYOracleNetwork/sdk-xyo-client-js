@@ -2,50 +2,23 @@ import { XyoModuleConfig } from '@xyo-network/module'
 import { MemoryNode, Node } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { readFileDeep } from './lib'
-
-interface TerminalItem {
-  slug: string
-  text: string
-}
-
-const terminalCommands = [
-  'Register Module',
-  'Unregister Module',
-  'List Registered Modules',
-  'Attach Module',
-  'Detach Module',
-  'List Attached Modules',
-  'Show Config',
-  'Status',
-  'Exit',
-]
-
-const items: TerminalItem[] = terminalCommands.map((item, index) => {
-  return {
-    slug: item.toLowerCase().replaceAll(' ', '-'),
-    text: `${index + 1}. ${item}`,
-  }
-})
+import { readFileDeep, terminate } from './lib'
+import { terminalItems } from './terminalItems'
 
 const getCommand = (node: Node): Promise<boolean> => {
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
-      if (name === 'ESCAPE') {
-        resolve(true)
-      }
-      if (name === 'CTRL_C') {
-        resolve(false)
-      }
+      if (name === 'ESCAPE') resolve(true)
+      if (name === 'CTRL_C') resolve(false)
     })
     terminal.green('\nXYO Node Running\n')
     terminal.singleColumnMenu(
-      items.map((item) => item.text),
+      terminalItems.map((item) => item.text),
       async (error, response) => {
         if (error) {
           terminal.red(`Error: ${error}`)
         }
-        switch (items[response.selectedIndex].slug) {
+        switch (terminalItems[response.selectedIndex].slug) {
           case 'exit':
             resolve(false)
             break
@@ -81,17 +54,9 @@ const getCommand = (node: Node): Promise<boolean> => {
   })
 }
 
-function terminate() {
-  terminal.grabInput(false)
-  terminal.clear()
-  terminal.green('\n\nXYO Node Shutdown - Bye\n\n')
-  setTimeout(function () {
-    process.exit()
-  }, 100)
-}
-
 export const startTerminal = async (node: MemoryNode) => {
   let running = true
+  await terminal.drawImage('./packages/cli/src/xyo_logo_full_white.png', { shrink: { height: 10, width: 10 } })
   while (running) {
     running = await getCommand(node)
   }

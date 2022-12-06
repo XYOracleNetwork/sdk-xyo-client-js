@@ -5533,7 +5533,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/app"
   dependencies:
+    "@xylabs/sdk-api-express-ecs": ^1.2.5
+    "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
+    dotenv: ^16.0.3
   languageName: unknown
   linkType: soft
 

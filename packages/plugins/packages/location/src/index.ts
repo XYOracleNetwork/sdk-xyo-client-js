@@ -1,11 +1,14 @@
-import { XyoLocationPayloadPlugin } from './Plugin'
+import { LocationPlugin } from './Plugin'
 
-export * from './Payload'
+export * from './CurrentLocationPayloadSet'
+export * from './CurrentLocationWitness'
+export * from './GeographicCoordinateSystemLocationPayload'
+export * from './GeographicCoordinateSystemLocationSchema'
+export * from './HeadingPayload'
+export * from './HeadingSchema'
 export * from './Schema'
-export * from './Template'
-export * from './Witness'
 
-export { XyoLocationPayloadPlugin }
+export { LocationPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoLocationPayloadPlugin
+export default LocationPlugin

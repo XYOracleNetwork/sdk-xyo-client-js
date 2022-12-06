@@ -2,6 +2,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug",
+      "program": "${workspaceFolder}/packages/cli/src/server.ts",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "runtimeArgs": [
+        "--max-old-space-size=8192",
+        "--experimental-specifier-resolution=node",
+        "--loader=ts-node/esm"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**"
+      ],
+      "pauseForSourceMap": true,
+    },
+    {
       "name": "Build & Debug Jest Tests",
       "type": "node",
       "request": "launch",
@@ -9,8 +29,7 @@
         "runtimeArgs": [
           "--inspect-brk",
           "${workspaceRoot}/node_modules/.bin/jest",
-          "--runInBand",
-          "${workspaceRoot}/packages/modules/src/XyoModuleResolver.spec.ts"
+          "--runInBand"
         ]
       },
       "windows": {
@@ -39,7 +58,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/panel/src/XyoPanel.spec.ts"
+        "packages/plugins/packages/location-certainty/src/Diviner/Diviner.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

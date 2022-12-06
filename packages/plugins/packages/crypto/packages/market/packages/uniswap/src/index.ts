@@ -1,4 +1,4 @@
-import { XyoUniswapCryptoMarketPayloadPlugin } from './Plugin'
+import { XyoUniswapCryptoMarketPlugin } from './Plugin'
 
 export * from './Config'
 export * from './lib'
@@ -7,7 +7,7 @@ export * from './Schema'
 export * from './Template'
 export * from './Witness'
 
-export { XyoUniswapCryptoMarketPayloadPlugin }
+export { XyoUniswapCryptoMarketPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoUniswapCryptoMarketPayloadPlugin
+export default XyoUniswapCryptoMarketPlugin

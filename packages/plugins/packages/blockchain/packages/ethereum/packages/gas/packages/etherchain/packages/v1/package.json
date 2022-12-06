@@ -12,9 +12,9 @@
   "dependencies": {
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "axios": "~1.1.3",
+    "axios": "~1.2.1",
     "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

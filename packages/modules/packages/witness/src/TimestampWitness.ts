@@ -4,11 +4,8 @@ import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness } from './AbstractWitness'
 import { XyoWitnessConfig } from './Config'
 
-export abstract class TimestampWitness<
-  T extends XyoPayload = XyoPayload,
-  C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>,
-> extends AbstractWitness<T, C> {
-  public override observe(fields?: Partial<T>[] | undefined): Promisable<T[]> {
+export abstract class TimestampWitness<C extends XyoWitnessConfig = XyoWitnessConfig> extends AbstractWitness<C> {
+  public override observe(fields?: XyoPayload[] | undefined): Promisable<XyoPayload[]> {
     return super.observe(
       fields?.map((fieldItem) => {
         return { ...fieldItem, timestamp: Date.now() }
@@ -16,9 +13,3 @@ export abstract class TimestampWitness<
     )
   }
 }
-
-/** @deprecated use TimestampWitness instead */
-export abstract class XyoTimestampWitness<
-  T extends XyoPayload = XyoPayload,
-  C extends XyoWitnessConfig<T> = XyoWitnessConfig<T>,
-> extends TimestampWitness<T, C> {}

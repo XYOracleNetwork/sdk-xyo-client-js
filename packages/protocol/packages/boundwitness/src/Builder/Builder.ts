@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Buffer } from '@xylabs/buffer'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 import { Logger } from '@xyo-network/shared'
@@ -22,7 +22,7 @@ export class BoundWitnessBuilder<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
   TPayload extends XyoPayload = XyoPayload,
 > {
-  private _accounts: XyoAccount[] = []
+  private _accounts: Account[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
   private _payloads: TPayload[] = []
@@ -43,7 +43,7 @@ export class BoundWitnessBuilder<
     return (
       this._payloadSchemas ??
       this._payloads.map((payload) => {
-        return assertEx(payload.schema)
+        return assertEx(payload.schema, 'Missing Schema')
       })
     )
   }
@@ -121,7 +121,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  public witness(account: XyoAccount) {
+  public witness(account: Account) {
     this._accounts?.push(account)
     return this
   }

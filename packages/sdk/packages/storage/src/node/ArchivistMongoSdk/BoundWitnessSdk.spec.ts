@@ -1,7 +1,7 @@
 /* eslint-disable deprecation/deprecation */
 /* eslint-disable import/no-deprecated */
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder, BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { uuid } from '@xyo-network/core'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
@@ -10,7 +10,7 @@ import dotenv from 'dotenv'
 import { XyoArchivistBoundWitnessMongoSdk } from './BoundWitnessSdk'
 
 const schema = 'network.xyo.temp'
-const address = XyoAccount.fromPhrase('test')
+const address = Account.fromPhrase('test')
 
 const getMongoSdk = (archive: string) => {
   // eslint-disable-next-line import/no-named-as-default-member

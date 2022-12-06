@@ -1,4 +1,4 @@
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 
-export const unitTestSigningAccount = new XyoAccount({ phrase: 'test' })
-export const otherUnitTestSigningAccount = new XyoAccount({ phrase: 'other' })
+export const unitTestSigningAccount = new Account({ phrase: 'test' })
+export const otherUnitTestSigningAccount = new Account({ phrase: 'other' })

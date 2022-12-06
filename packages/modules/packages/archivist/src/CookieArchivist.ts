@@ -1,4 +1,14 @@
 import { assertEx } from '@xylabs/assert'
+import {
+  XyoArchivistAllQuerySchema,
+  XyoArchivistClearQuerySchema,
+  XyoArchivistCommitQuerySchema,
+  XyoArchivistConfig,
+  XyoArchivistDeleteQuerySchema,
+  XyoArchivistFindQuerySchema,
+  XyoArchivistInsertQuery,
+  XyoArchivistInsertQuerySchema,
+} from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
@@ -7,16 +17,6 @@ import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
 
 import { AbstractArchivist } from './AbstractArchivist'
-import { XyoArchivistConfig } from './Config'
-import {
-  XyoArchivistAllQuerySchema,
-  XyoArchivistClearQuerySchema,
-  XyoArchivistCommitQuerySchema,
-  XyoArchivistDeleteQuerySchema,
-  XyoArchivistFindQuerySchema,
-  XyoArchivistInsertQuery,
-  XyoArchivistInsertQuerySchema,
-} from './Queries'
 
 export type CookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
 export const CookieArchivistConfigSchema: CookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'

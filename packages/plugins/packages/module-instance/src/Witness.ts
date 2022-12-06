@@ -1,24 +1,20 @@
 import { XyoModule, XyoModuleParams } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
-import { XyoModuleInstancePayload } from './Payload'
 import { XyoModuleInstanceSchema } from './Schema'
 
 export type XyoModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
 export const XyoModuleInstanceWitnessConfigSchema: XyoModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
 
-export type XyoModuleInstanceWitnessConfig = XyoWitnessConfig<
-  XyoModuleInstancePayload,
-  {
-    module?: XyoModule
-    schema: XyoModuleInstanceWitnessConfigSchema
-  }
->
+export type XyoModuleInstanceWitnessConfig = XyoWitnessConfig<{
+  module?: XyoModule
+  schema: XyoModuleInstanceWitnessConfigSchema
+}>
 
-export class XyoModuleInstanceWitness extends AbstractWitness<XyoModuleInstancePayload, XyoModuleInstanceWitnessConfig> {
+export class XyoModuleInstanceWitness extends AbstractWitness<XyoModuleInstanceWitnessConfig> {
   static override configSchema = XyoModuleInstanceWitnessConfigSchema
-  static override targetSchema = XyoModuleInstanceSchema
 
   protected get module() {
     return this.config?.module
@@ -28,7 +24,7 @@ export class XyoModuleInstanceWitness extends AbstractWitness<XyoModuleInstanceP
     return (await super.create(params)) as XyoModuleInstanceWitness
   }
 
-  override async observe(fields?: Partial<XyoModuleInstancePayload>[]): Promise<XyoModuleInstancePayload[]> {
-    return await super.observe([merge({ queries: this.module?.queries }, fields?.[0])])
+  override async observe(payloads?: Partial<XyoPayload>[]): Promise<XyoPayload[]> {
+    return await super.observe([merge({ queries: this.module?.queries }, payloads?.[0], { schema: XyoModuleInstanceSchema })])
   }
 }

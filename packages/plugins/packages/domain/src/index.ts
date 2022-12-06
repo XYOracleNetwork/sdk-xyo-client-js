@@ -1,4 +1,4 @@
-import { XyoDomainPayloadPlugin } from './Plugin'
+import { XyoDomainPlugin } from './Plugin'
 
 export * from './Config'
 export * from './Payload'
@@ -7,7 +7,7 @@ export * from './Template'
 export * from './Witness'
 export * from './Wrapper'
 
-export { XyoDomainPayloadPlugin }
+export { XyoDomainPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoDomainPayloadPlugin
+export default XyoDomainPlugin

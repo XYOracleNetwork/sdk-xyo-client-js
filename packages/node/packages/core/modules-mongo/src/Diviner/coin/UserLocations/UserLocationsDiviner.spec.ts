@@ -1,4 +1,4 @@
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BoundWitnessArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
@@ -8,13 +8,13 @@ import { getBaseMongoSdk } from '../../../Mongo'
 import { CoinCurrentUserWitnessPayload, CoinCurrentUserWitnessSchema, CoinUserLocationsDiviner } from './UserLocationsDiviner'
 
 describe('CoinUserLocationsDiviner', () => {
-  let account: XyoAccount
+  let account: Account
   let sdk: BaseMongoSdk<XyoPayloadWithMeta>
   let payloadsArchivist: MockProxy<PayloadArchivist>
   let bwArchivist: MockProxy<BoundWitnessArchivist>
   let sut: CoinUserLocationsDiviner
   beforeEach(() => {
-    account = XyoAccount.random()
+    account = Account.random()
     payloadsArchivist = mock<PayloadArchivist>()
     bwArchivist = mock<BoundWitnessArchivist>()
     sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)

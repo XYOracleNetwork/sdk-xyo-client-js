@@ -1,13 +1,13 @@
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { DnsRecordType, domainResolve, isBrowser } from '@xyo-network/core'
 import { XyoNetworkPayload, XyoNetworkPayloadWrapper } from '@xyo-network/network'
-import { Huri, HuriOptions, PayloadWrapper, XyoFetchedPayload } from '@xyo-network/payload'
+import { FetchedPayload, Huri, HuriOptions, PayloadWrapper } from '@xyo-network/payload'
 import axios, { AxiosError } from 'axios'
 import reverse from 'lodash/reverse'
 
 import { XyoAlias, XyoDomainPayload } from './Payload'
 
-export interface XyoFetchedAlias extends XyoFetchedPayload {
+export interface XyoFetchedAlias extends FetchedPayload {
   alias: XyoAlias
 }
 

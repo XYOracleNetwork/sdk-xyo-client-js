@@ -1,9 +1,9 @@
 export * from '@xyo-network/ethereum-blockchain-payload-plugins'
 
-import { XyoEthereumPayloadPlugins } from '@xyo-network/ethereum-blockchain-payload-plugins'
-import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { XyoEthereumPlugins } from '@xyo-network/ethereum-blockchain-payload-plugins'
+import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
 
-export const XyoBlockchainPayloadPlugins: XyoPayloadPluginFunc[] = [...XyoEthereumPayloadPlugins]
+export const XyoBlockchainPlugins: PayloadSetPluginFunc[] = [...XyoEthereumPlugins]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoBlockchainPayloadPlugins
+export default XyoBlockchainPlugins

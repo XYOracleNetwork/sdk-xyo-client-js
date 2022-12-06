@@ -1,17 +1,17 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoLocationElevationPayload } from './Payload'
 import { XyoLocationElevationSchema } from './Schema'
-import { XyoLocationElevationPayloadTemplate } from './Template'
 import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfig } from './Witness'
 
-export const XyoLocationElevationPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoLocationElevationPayload, XyoModuleParams<XyoLocationElevationWitnessConfig>>({
-    auto: true,
-    schema: XyoLocationElevationSchema,
-    template: XyoLocationElevationPayloadTemplate,
-    witness: async (params) => {
-      return await XyoLocationElevationWitness.create(params)
+export const XyoLocationElevationPlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoModuleParams<XyoLocationElevationWitnessConfig>>>(
+    { required: { [XyoLocationElevationSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoLocationElevationWitness.create(params)
+        return result
+      },
     },
-  })
+  )

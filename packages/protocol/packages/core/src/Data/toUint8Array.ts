@@ -5,7 +5,7 @@ import { Buffer } from '@xylabs/buffer'
 import { ifTypeOf } from '@xyo-network/typeof'
 
 import { XyoAbstractData } from './AbstractData'
-import { XyoDataLike } from './XyoDataLike'
+import { DataLike } from './DataLike'
 
 const stringToUint8Array = (value: string, base = 16) => {
   switch (base) {
@@ -31,11 +31,11 @@ const xyoDataToUint8Array = (value: XyoAbstractData) => {
   return value.bytes
 }
 
-export const toUint8ArrayOptional = (value?: XyoDataLike, padLength?: number, base?: number): Uint8Array | undefined => {
+export const toUint8ArrayOptional = (value?: DataLike, padLength?: number, base?: number): Uint8Array | undefined => {
   return value ? toUint8Array(value, padLength, base) : undefined
 }
 
-export const toUint8Array = (value: XyoDataLike, padLength?: number, base?: number): Uint8Array => {
+export const toUint8Array = (value: DataLike, padLength?: number, base?: number): Uint8Array => {
   let result: Uint8Array | undefined =
     ifTypeOf<string, Uint8Array>('string', value as string, (value) => stringToUint8Array(value, base)) ??
     ifTypeOf<BigNumber, Uint8Array | undefined>('object', value as BigNumber, bigNumberToUint8Array, BigNumber.isBN) ??

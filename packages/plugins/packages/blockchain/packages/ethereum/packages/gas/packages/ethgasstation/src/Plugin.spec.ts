@@ -1,17 +1,18 @@
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoEthereumGasEthgasstationPayloadPlugin } from './Plugin'
+import { XyoEthereumGasEthgasstationPlugin } from './Plugin'
 import { XyoEthereumGasEthgasstationSchema } from './Schema'
 import { XyoEthereumGasEthgasstationWitness } from './Witness'
 
-describe('XyoEthereumGasEthgasstationPayloadPlugin', () => {
+describe('XyoEthereumGasEthgasstationPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasEthgasstationPayloadPlugin(), {
+    const plugin = XyoEthereumGasEthgasstationPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: {
-        config: { schema: XyoEthereumGasEthgasstationWitness.configSchema, targetSchema: XyoEthereumGasEthgasstationWitness.targetSchema },
+        config: { schema: XyoEthereumGasEthgasstationWitness.configSchema },
       },
     })
-    expect(resolver.resolve({ schema: XyoEthereumGasEthgasstationSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoEthereumGasEthgasstationSchema)).toBeObject()
   })
 })

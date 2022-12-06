@@ -9,17 +9,17 @@ import {
   XyoHuriSchema,
 } from '@xyo-network/diviner'
 import { ModuleDescription, XyoModule, XyoModuleResolver } from '@xyo-network/module'
-import { PayloadWrapper, XyoAccount, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
+import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { NodeConfigSchema } from './Config'
 import { MemoryNode } from './MemoryNode'
 import { NodeModule } from './NodeModule'
 
 describe('MemoryNode', () => {
-  const testAccount1 = new XyoAccount({ phrase: 'testPhrase1' })
-  const testAccount2 = new XyoAccount({ phrase: 'testPhrase2' })
-  const testAccount3 = new XyoAccount({ phrase: 'testPhrase3' })
-  const testAccount4 = new XyoAccount({ phrase: 'testPhrase4' })
+  const testAccount1 = new Account({ phrase: 'testPhrase1' })
+  const testAccount2 = new Account({ phrase: 'testPhrase2' })
+  const testAccount3 = new Account({ phrase: 'testPhrase3' })
+  const testAccount4 = new Account({ phrase: 'testPhrase4' })
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeEach(async () => {

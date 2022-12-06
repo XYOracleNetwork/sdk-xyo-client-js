@@ -8,7 +8,7 @@ import { StatusCodes } from 'http-status-codes'
 
 import { generateArchiveKey } from './generateArchiveKey'
 
-const handler: RequestHandler<ArchivePathParams, XyoArchiveKey> = async (req, res, next) => {
+const handler: RequestHandler<ArchivePathParams, XyoArchiveKey[]> = async (req, res, next) => {
   const { user } = req
   const { archiveKeyArchivist } = req.app
   if (!user || !user?.id) {
@@ -24,7 +24,7 @@ const handler: RequestHandler<ArchivePathParams, XyoArchiveKey> = async (req, re
 
   const result = await archiveKeyArchivist.insert([generateArchiveKey(archive)])
   const key = assertEx(result.pop(), 'Error inserting key')
-  res.json(key)
+  res.json([key])
 }
 
 export const postArchiveSettingsKeys = asyncHandler(handler)

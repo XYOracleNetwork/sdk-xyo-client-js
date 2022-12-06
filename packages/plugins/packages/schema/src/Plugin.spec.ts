@@ -1,12 +1,13 @@
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoSchemaPayloadPlugin } from './Plugin'
+import { XyoSchemaPlugin } from './Plugin'
 import { XyoSchemaSchema } from './Schema'
 
-describe('XyoSchemaPayloadPlugin', () => {
+describe('XyoSchemaPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoSchemaPayloadPlugin())
-    expect(resolver.resolve({ schema: XyoSchemaSchema })).toBeObject()
+    const plugin = XyoSchemaPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin)
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoSchemaSchema)).toBeObject()
   })
 })

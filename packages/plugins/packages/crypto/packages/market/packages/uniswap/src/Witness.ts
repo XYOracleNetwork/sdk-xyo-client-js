@@ -1,6 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
@@ -12,9 +13,8 @@ export interface XyoUniswapCryptoMarketWitnessParams extends XyoModuleParams<Xyo
   provider: Provider
 }
 
-export class XyoUniswapCryptoMarketWitness extends AbstractWitness<XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfig> {
+export class XyoUniswapCryptoMarketWitness extends AbstractWitness<XyoUniswapCryptoMarketWitnessConfig> {
   static override configSchema = XyoUniswapCryptoMarketWitnessConfigSchema
-  static override targetSchema = XyoUniswapCryptoMarketSchema
 
   protected pairs?: EthersUniSwap3Pair[]
   protected provider?: Provider
@@ -27,13 +27,14 @@ export class XyoUniswapCryptoMarketWitness extends AbstractWitness<XyoUniswapCry
     return (await super.create(params)) as XyoUniswapCryptoMarketWitness
   }
 
-  override async observe(): Promise<XyoUniswapCryptoMarketPayload[]> {
+  override async observe(): Promise<XyoPayload[]> {
     this.started('throw')
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()
 
-    const payload: Partial<XyoUniswapCryptoMarketPayload> = {
+    const payload: XyoUniswapCryptoMarketPayload = {
       pairs,
+      schema: XyoUniswapCryptoMarketSchema,
       timestamp,
     }
 

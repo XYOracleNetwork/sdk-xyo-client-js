@@ -6,7 +6,8 @@ import { InfuraProvider } from '@ethersproject/providers'
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { UniswapPoolContracts } from './lib'
-import { XyoUniswapCryptoMarketSchema, XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
+import { XyoUniswapCryptoMarketPayload } from './Payload'
+import { XyoUniswapCryptoMarketWitnessConfigSchema } from './Schema'
 import { XyoUniswapCryptoMarketWitness } from './Witness'
 
 describe('XyoUniswapCryptoMarketWitness', () => {
@@ -16,11 +17,10 @@ describe('XyoUniswapCryptoMarketWitness', () => {
       config: {
         pools: UniswapPoolContracts,
         schema: XyoUniswapCryptoMarketWitnessConfigSchema,
-        targetSchema: XyoUniswapCryptoMarketSchema,
       },
       provider,
     })
-    const [observation] = await witness.observe()
+    const [observation] = (await witness.observe()) as XyoUniswapCryptoMarketPayload[]
     expect(observation.pairs.length).toBeGreaterThan(1)
     expect(observation.timestamp).toBe(+now)
 
@@ -33,11 +33,10 @@ describe('XyoUniswapCryptoMarketWitness', () => {
       config: {
         pools: UniswapPoolContracts,
         schema: XyoUniswapCryptoMarketWitnessConfigSchema,
-        targetSchema: XyoUniswapCryptoMarketSchema,
       },
       provider,
     })
-    const [observation] = await witness.observe()
+    const [observation] = (await witness.observe()) as XyoUniswapCryptoMarketPayload[]
     expect(observation.pairs.length).toBeGreaterThan(1)
     expect(observation.timestamp).toBe(+now)
 

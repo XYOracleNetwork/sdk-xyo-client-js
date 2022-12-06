@@ -15,7 +15,6 @@ describe('XyoEthereumGasEthersWitness', () => {
     const sut = await XyoEthereumGasEthersWitness.create({
       config: {
         schema: XyoEthereumGasEthersWitnessConfigSchema,
-        targetSchema: XyoEthereumGasEthersSchema,
       },
       provider,
     })

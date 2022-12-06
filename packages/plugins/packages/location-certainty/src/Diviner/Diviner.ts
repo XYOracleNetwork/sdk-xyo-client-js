@@ -1,11 +1,10 @@
 import { AbstractDiviner } from '@xyo-network/diviner'
 import {
   XyoLocationElevationPayload,
-  XyoLocationElevationSchema,
   XyoLocationElevationWitness,
   XyoLocationElevationWitnessConfigSchema,
 } from '@xyo-network/elevation-payload-plugin'
-import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
+import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { Job, JobProvider } from '@xyo-network/shared'
@@ -54,7 +53,7 @@ export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyD
   }
 
   /* Given elevation and location payloads, generate heuristic arrays */
-  private static locationsToHeuristics(elevations: XyoLocationElevationPayload[], locations: XyoLocationPayload[]) {
+  private static locationsToHeuristics(elevations: XyoLocationElevationPayload[], locations: LocationPayload[]) {
     const heuristics = elevations.reduce<{ altitude: (number | null)[]; elevation: number[]; variance: (number | null)[] }>(
       (prev, elev, index) => {
         const elevation = elev.elevation
@@ -74,17 +73,16 @@ export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyD
 
   /** @description Given a set of locations, get the expected elevations (witness if needed), and return score/variance */
   public async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
-    const locations = payloads?.filter<XyoLocationPayload>((payload): payload is XyoLocationPayload => payload?.schema === XyoLocationSchema)
+    const locations = payloads?.filter<LocationPayload>((payload): payload is LocationPayload => payload?.schema === LocationSchema)
     // If this is a query we support
     if (locations && locations?.length > 0) {
       const elevationWitness = await XyoLocationElevationWitness.create({
         config: {
           locations,
           schema: XyoLocationElevationWitnessConfigSchema,
-          targetSchema: XyoLocationElevationSchema,
         },
       })
-      const elevations = await elevationWitness.observe()
+      const elevations = (await elevationWitness.observe()) as XyoLocationElevationPayload[]
 
       const heuristics = LocationCertaintyDiviner.locationsToHeuristics(elevations, locations)
 

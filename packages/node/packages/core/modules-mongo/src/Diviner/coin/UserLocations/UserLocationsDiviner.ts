@@ -1,9 +1,9 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { AbstractDiviner, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
-import { XyoLocationPayload, XyoLocationSchema } from '@xyo-network/location-payload-plugin'
+import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { BoundWitnessesArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -38,11 +38,11 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
   speedKph: number
 }>
 
-export const isLocationPayload = (x?: XyoPayload | null): x is XyoLocationPayload => x?.schema === XyoLocationSchema
+export const isLocationPayload = (x?: XyoPayload | null): x is LocationPayload => x?.schema === LocationSchema
 
 export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUserLocationsDiviner, JobProvider {
   constructor(
-    protected readonly account: XyoAccount = new XyoAccount(),
+    protected readonly account: Account = new Account(),
     protected readonly payloads: PayloadArchivist,
     protected readonly bws: BoundWitnessesArchivist,
     protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
@@ -60,7 +60,7 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
     ]
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoLocationPayload>> {
+  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<LocationPayload>> {
     const user = payloads?.find<CoinCurrentUserWitnessPayload>(
       (payload): payload is CoinCurrentUserWitnessPayload => payload?.schema === CoinCurrentUserWitnessSchema,
     )
@@ -82,7 +82,7 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
           return locations
         })
         .flat()
-      const locations = compact(await this.payloads.get(locationHashes)) as unknown as XyoLocationPayload[]
+      const locations = compact(await this.payloads.get(locationHashes)) as unknown as LocationPayload[]
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processed query')
       return locations
     }

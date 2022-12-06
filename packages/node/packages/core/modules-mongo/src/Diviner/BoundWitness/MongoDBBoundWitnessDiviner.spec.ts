@@ -1,3 +1,4 @@
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { BoundWitnessQueryPayload, BoundWitnessQuerySchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 
@@ -16,7 +17,7 @@ describe('MongoDBBoundWitnessDiviner', () => {
         expect(result).toBeArrayOfSize(1)
         const actual = result[0] as XyoBoundWitnessWithPartialMeta
         expect(actual).toBeObject()
-        expect(actual.schema).toBe('network.xyo.boundwitness')
+        expect(actual.schema).toBe(XyoBoundWitnessSchema)
       })
     })
   })

@@ -1,32 +1,19 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { Module, ModuleDescription } from '@xyo-network/module'
+import { ModuleDescription } from '@xyo-network/module'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
-import { Request, RequestHandler } from 'express'
+import { RequestHandler } from 'express'
 
 import { AddressPathParams } from '../AddressPathParams'
-import { isModule } from './isModule'
-
-const activeModules: Record<string, Module> = {}
-
-let enumerated = false
-
-const enumerateStaticModules = (req: Request) => {
-  Object.values(req.app)
-    .filter(isModule)
-    .forEach((mod) => {
-      activeModules[mod.address] = mod
-    })
-  enumerated = true
-}
 
 const handler: RequestHandler<AddressPathParams, ModuleDescription> = async (req, res, next) => {
-  if (!enumerated) enumerateStaticModules(req)
   const { address } = req.params
+  const { node } = req.app
   if (address) {
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
-    const mod = activeModules[normalizedAddress]
-    if (mod) {
-      res.json(await mod.description())
+    const mod = await node.tryResolve({ address: [normalizedAddress] })
+    if (mod.length) {
+      const description = await mod[0].description()
+      res.json(description)
       return
     }
   }

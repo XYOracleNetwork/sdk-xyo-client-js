@@ -5,16 +5,16 @@ import { Buffer, bufferPolyfill } from '@xylabs/buffer'
 import keccak256 from 'keccak256'
 
 import { XyoAbstractData } from './AbstractData'
+import { DataLike } from './DataLike'
 import { toUint8ArrayOptional } from './toUint8Array'
-import { XyoDataLike } from './XyoDataLike'
 
 export class XyoData extends XyoAbstractData {
   private _bytes?: Uint8Array
   private _length: number
 
-  constructor(length: number, bytes?: XyoDataLike)
+  constructor(length: number, bytes?: DataLike)
   constructor(length: number, bytes: string, base?: number)
-  constructor(length: number, bytes?: XyoDataLike, base?: number) {
+  constructor(length: number, bytes?: DataLike, base?: number) {
     super()
     this._bytes = toUint8ArrayOptional(bytes, length, base)
     this._length = length

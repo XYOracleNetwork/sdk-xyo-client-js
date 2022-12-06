@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
 import { BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
+import { ModuleDescription } from '@xyo-network/module'
 
 import { XyoApiSimple } from '../../../Simple'
 import { XyoArchivistApi } from '../../Api'
 import { XyoAddressesApi } from '../Api'
-import { ModuleDescription } from '../ModuleDescription'
 import { XyoAddressApi } from './Api'
 
 const config: XyoApiConfig = {
@@ -18,7 +18,7 @@ describe('XyoAddressApi', () => {
     let api: XyoAddressApi
     let result: XyoApiResponseBody<ModuleDescription>
     beforeAll(async () => {
-      const address = assertEx((await new XyoAddressesApi(config).get())?.pop()?.address)
+      const address = assertEx((await new XyoAddressesApi(config).get())?.children?.pop()?.address)
       api = new XyoArchivistApi(config).addresses.address(address)
       result = await api.get()
       expect(result).toBeObject()
@@ -46,11 +46,10 @@ describe('XyoAddressApi', () => {
     let api: XyoApiSimple<XyoBoundWitness[]>
     let history: XyoBoundWitness[]
     beforeAll(async () => {
-      address = new XyoAccount({ phrase: 'test' }).addressValue.hex
+      address = new Account({ phrase: 'test' }).addressValue.hex
       api = new XyoArchivistApi(config).addresses.address(address).boundWitnesses
       const result = await api.get()
       expect(result).toBeArray()
-      expect(result?.length).toBeGreaterThan(0)
       history = assertEx(result)
     })
     it('method exists', () => {

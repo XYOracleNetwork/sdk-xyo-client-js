@@ -1,23 +1,16 @@
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { XyoModuleParams } from '@xyo-network/module'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetDivinerPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoCryptoMarketAssetDiviner } from './Diviner'
-import { XyoCryptoMarketAssetPayload } from './Payload'
-import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetSchema } from './Schema'
-import { XyoCryptoMarketAssetPayloadTemplate } from './Template'
+import { XyoCryptoMarketAssetDiviner, XyoCryptoMarketAssetDivinerConfig } from './Diviner'
+import { XyoCryptoMarketAssetSchema } from './Schema'
 
-export const XyoCryptoMarketAssetPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoCryptoMarketAssetPayload>({
-    auto: true,
-    diviner: async (config) => {
-      const diviner = await XyoCryptoMarketAssetDiviner.create({
-        config: {
-          ...config,
-          schema: XyoCryptoMarketAssetDivinerConfigSchema,
-          targetSchema: XyoCryptoMarketAssetSchema,
-        },
-      })
-      return diviner
+export const XyoCryptoMarketAssetPlugin = () =>
+  createPayloadSetPlugin<PayloadSetDivinerPlugin<XyoModuleParams<XyoCryptoMarketAssetDivinerConfig>>>(
+    { required: { [XyoCryptoMarketAssetSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      diviner: async (params) => {
+        return await XyoCryptoMarketAssetDiviner.create(params)
+      },
     },
-    schema: XyoCryptoMarketAssetSchema,
-    template: XyoCryptoMarketAssetPayloadTemplate,
-  })
+  )

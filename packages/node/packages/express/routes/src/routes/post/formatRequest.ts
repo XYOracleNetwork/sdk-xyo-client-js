@@ -1,4 +1,4 @@
-import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, BoundWitnessBuilderConfig, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { getRequestMeta } from '@xyo-network/express-node-lib'
 import { augmentWithMetadata } from '@xyo-network/node-core-lib'
 import { XyoBoundWitnessWithMeta, XyoBoundWitnessWithPartialMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
@@ -13,7 +13,7 @@ export const formatRequest = (req: PostNodeRequest): XyoBoundWitnessWithMeta[] =
   const requestArray = (Array.isArray(req.body) ? req.body : [req.body]) as XyoPayloadWithPartialMeta[] | XyoBoundWitnessWithPartialMeta[]
   // Make what we received BoundWitnesses
   const boundWitnesses: XyoBoundWitnessWithPartialMeta[] = requestArray.map<XyoBoundWitnessWithPartialMeta>((x) => {
-    return x.schema === 'network.xyo.boundwitness'
+    return x.schema === XyoBoundWitnessSchema
       ? (x as XyoBoundWitnessWithPartialMeta)
       : // NOTE: This is potentially inefficient as we could just be able
         // to process payloads. We're witnessing them here as the pipeline

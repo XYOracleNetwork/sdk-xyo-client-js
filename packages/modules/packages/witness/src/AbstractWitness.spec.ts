@@ -6,10 +6,8 @@ import { XyoWitnessConfig, XyoWitnessConfigSchema } from './Config'
 import { Witness } from './Witness'
 import { WitnessWrapper } from './WitnessWrapper'
 
-const targetSchema = 'network.xyo.schema.target'
-
 describe('XyoWitness', () => {
-  const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema, targetSchema }
+  const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema }
   const params: XyoModuleParams<XyoWitnessConfig> = { config }
   const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
 
@@ -50,19 +48,17 @@ describe('XyoWitness', () => {
       })
     })
     describe('with payload supplied to observe', () => {
-      describe('returns payloads with targetSchema', () => {
+      describe('returns payloads', () => {
         it('when module queried directly', async () => {
           const witness = await AbstractWitness.create(params)
           const observation = await witness.observe([observed])
           expect(observation).toBeArrayOfSize(1)
-          expect(observation?.[0]?.schema).toBe(targetSchema)
         })
         it('when module queried with XyoWitnessWrapper', async () => {
           const witness = await AbstractWitness.create(params)
           const wrapper = new WitnessWrapper(witness)
           const observation = await wrapper.observe([observed])
           expect(observation).toBeArrayOfSize(1)
-          expect(observation?.[0]?.schema).toBe(targetSchema)
         })
       })
     })

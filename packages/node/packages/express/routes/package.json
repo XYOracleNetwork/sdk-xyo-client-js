@@ -41,6 +41,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
+    "@xyo-network/node-core-types": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "express": "^4.18.2",

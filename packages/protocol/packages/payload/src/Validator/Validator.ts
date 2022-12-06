@@ -1,9 +1,9 @@
-import { XyoValidator, XyoValidatorBase } from '@xyo-network/core'
+import { Validator, XyoValidatorBase } from '@xyo-network/core'
 
 import { XyoPayload } from '../models'
 import { XyoSchemaNameValidator } from '../SchemaNameValidator'
 
-export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoValidatorBase<T> implements XyoValidator<T> {
+export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoValidatorBase<T> implements Validator<T> {
   private _schemaValidator?: XyoSchemaNameValidator
 
   constructor(payload: T) {

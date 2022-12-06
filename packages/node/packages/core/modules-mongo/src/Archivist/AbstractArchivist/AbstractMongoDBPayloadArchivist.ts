@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig, BoundWitnessValidator, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
 import {
@@ -32,7 +32,7 @@ export abstract class AbstractMongoDBPayloadArchivist<
   protected readonly witnessedPayloads: LruCache<string, XyoPayloadWithMeta<T>> = new LruCache({ max: 1, ttl: 10000 })
 
   public constructor(
-    protected readonly account: XyoAccount = new XyoAccount({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
+    protected readonly account: Account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
     protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>> = getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads),
     protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     config?: TConfig,

@@ -1,14 +1,17 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoSchemaPayload } from './Payload'
 import { XyoSchemaSchema } from './Schema'
 import { XyoSchemaWitness, XyoSchemaWitnessConfig } from './Witness'
 
-export const XyoSchemaPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoSchemaPayload, XyoModuleParams<XyoSchemaWitnessConfig>>({
-    schema: XyoSchemaSchema,
-    witness: async (params) => {
-      return await XyoSchemaWitness.create(params)
+export const XyoSchemaPlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoModuleParams<XyoSchemaWitnessConfig>>>(
+    { required: { [XyoSchemaSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoSchemaWitness.create(params)
+        return result
+      },
     },
-  })
+  )

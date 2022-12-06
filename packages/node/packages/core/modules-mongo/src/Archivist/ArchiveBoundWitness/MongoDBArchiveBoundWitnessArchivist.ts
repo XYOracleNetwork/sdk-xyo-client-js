@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
@@ -22,7 +22,7 @@ import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArchivist implements BoundWitnessArchivist {
   constructor(
-    protected readonly account: XyoAccount = new XyoAccount(),
+    protected readonly account: Account = new Account(),
     protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
     config?: ArchiveModuleConfig,
   ) {

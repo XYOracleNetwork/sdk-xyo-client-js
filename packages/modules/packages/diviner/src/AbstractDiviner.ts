@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
@@ -36,7 +36,7 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
     const typedQuery = wrapper.query
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
 
     const resultPayloads: XyoPayload[] = []
     try {

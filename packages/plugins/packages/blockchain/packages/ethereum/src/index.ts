@@ -1,9 +1,9 @@
 export * from '@xyo-network/gas-ethereum-blockchain-payload-plugins'
 
-import { XyoEthereumGasPayloadPlugins } from '@xyo-network/gas-ethereum-blockchain-payload-plugins'
-import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { XyoEthereumGasPlugins } from '@xyo-network/gas-ethereum-blockchain-payload-plugins'
+import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
 
-export const XyoEthereumPayloadPlugins: XyoPayloadPluginFunc[] = [...XyoEthereumGasPayloadPlugins]
+export const XyoEthereumPlugins: PayloadSetPluginFunc[] = [...XyoEthereumGasPlugins]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoEthereumPayloadPlugins
+export default XyoEthereumPlugins

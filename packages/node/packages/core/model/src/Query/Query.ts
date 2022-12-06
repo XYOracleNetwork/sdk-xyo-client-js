@@ -1,10 +1,10 @@
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { XyoPayload } from '@xyo-network/payload'
 
 import { XyoPayloadWithPartialMeta } from '../Payload'
 
 export abstract class Query<T extends XyoPayload = XyoPayload> {
-  protected account: XyoAccount = XyoAccount.random()
+  protected account: Account = Account.random()
 
   constructor(public readonly payload: XyoPayloadWithPartialMeta<T>) {}
   /**

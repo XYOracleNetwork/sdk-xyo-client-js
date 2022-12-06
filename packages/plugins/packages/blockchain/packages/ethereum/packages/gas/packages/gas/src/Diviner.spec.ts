@@ -1,30 +1,15 @@
 import { InfuraProvider } from '@ethersproject/providers'
-import {
-  XyoEthereumGasBlocknativeSchema,
-  XyoEthereumGasBlocknativeWitness,
-  XyoEthereumGasBlocknativeWitnessConfigSchema,
-} from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
+import { XyoEthereumGasBlocknativeWitness, XyoEthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 import { DivinerWrapper } from '@xyo-network/diviner'
 import {
   XyoEtherchainEthereumGasWitnessV1,
   XyoEtherchainEthereumGasWitnessV2,
-  XyoEthereumGasEtherchainV1Schema,
   XyoEthereumGasEtherchainV1WitnessConfigSchema,
-  XyoEthereumGasEtherchainV2Schema,
   XyoEthereumGasEtherchainV2WitnessConfigSchema,
 } from '@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins'
+import { XyoEthereumGasEthersWitness, XyoEthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
+import { XyoEthereumGasEtherscanWitness, XyoEthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 import {
-  XyoEthereumGasEthersSchema,
-  XyoEthereumGasEthersWitness,
-  XyoEthereumGasEthersWitnessConfigSchema,
-} from '@xyo-network/ethers-ethereum-gas-payload-plugin'
-import {
-  XyoEthereumGasEtherscanSchema,
-  XyoEthereumGasEtherscanWitness,
-  XyoEthereumGasEtherscanWitnessConfigSchema,
-} from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
-import {
-  XyoEthereumGasEthgasstationSchema,
   XyoEthereumGasEthgasstationWitness,
   XyoEthereumGasEthgasstationWitnessConfigSchema,
 } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
@@ -75,7 +60,6 @@ describe('Diviner', () => {
         await XyoEthereumGasBlocknativeWitness.create({
           config: {
             schema: XyoEthereumGasBlocknativeWitnessConfigSchema,
-            targetSchema: XyoEthereumGasBlocknativeSchema,
           },
         })
       ).observe()
@@ -85,7 +69,6 @@ describe('Diviner', () => {
         await XyoEtherchainEthereumGasWitnessV1.create({
           config: {
             schema: XyoEthereumGasEtherchainV1WitnessConfigSchema,
-            targetSchema: XyoEthereumGasEtherchainV1Schema,
           },
         })
       ).observe()
@@ -95,7 +78,6 @@ describe('Diviner', () => {
         await XyoEtherchainEthereumGasWitnessV2.create({
           config: {
             schema: XyoEthereumGasEtherchainV2WitnessConfigSchema,
-            targetSchema: XyoEthereumGasEtherchainV2Schema,
           },
         })
       ).observe()
@@ -106,7 +88,6 @@ describe('Diviner', () => {
           config: {
             apiKey: process.env.ETHERSCAN_API_KEY || '',
             schema: XyoEthereumGasEtherscanWitnessConfigSchema,
-            targetSchema: XyoEthereumGasEtherscanSchema,
           },
         })
       ).observe()
@@ -116,7 +97,6 @@ describe('Diviner', () => {
         await XyoEthereumGasEthersWitness.create({
           config: {
             schema: XyoEthereumGasEthersWitnessConfigSchema,
-            targetSchema: XyoEthereumGasEthersSchema,
           },
           provider: new InfuraProvider('homestead', {
             projectId: process.env.INFURA_PROJECT_ID,
@@ -130,7 +110,6 @@ describe('Diviner', () => {
         await XyoEthereumGasEthgasstationWitness.create({
           config: {
             schema: XyoEthereumGasEthgasstationWitnessConfigSchema,
-            targetSchema: XyoEthereumGasEthgasstationSchema,
           },
         })
       ).observe()

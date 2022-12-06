@@ -8,7 +8,6 @@ describe('XyoEthereumGasEthgasstationWitness', () => {
     const sut = await XyoEthereumGasEthgasstationWitness.create({
       config: {
         schema: XyoEthereumGasEthgasstationWitnessConfigSchema,
-        targetSchema: XyoEthereumGasEthgasstationSchema,
       },
     })
     const [actual] = await sut.observe()

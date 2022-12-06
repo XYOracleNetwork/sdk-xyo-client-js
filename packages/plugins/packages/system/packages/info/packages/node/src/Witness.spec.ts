@@ -1,13 +1,12 @@
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { XyoNodeSystemInfoWitnessConfigSchema } from './Config'
-import { XyoNodeSystemInfoSchema } from './Schema'
 import { XyoNodeSystemInfoWitness } from './Witness'
 
 describe('XyoSystemInfoWitness', () => {
   test('observe', async () => {
     const witness = await XyoNodeSystemInfoWitness.create({
-      config: { schema: XyoNodeSystemInfoWitnessConfigSchema, targetSchema: XyoNodeSystemInfoSchema },
+      config: { schema: XyoNodeSystemInfoWitnessConfigSchema },
     })
 
     const [observation] = await witness.observe()

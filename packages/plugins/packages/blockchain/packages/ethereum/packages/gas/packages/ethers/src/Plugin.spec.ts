@@ -14,7 +14,7 @@ describe('XyoEthereumGasEthersPayloadPlugin', () => {
   testIf(projectId && projectSecret)('Add to Resolver', () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
     const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasEthersPayloadPlugin(), {
-      witness: { config: { schema: XyoEthereumGasEthersWitness.configSchema, targetSchema: XyoEthereumGasEthersWitness.targetSchema }, provider },
+      witness: { config: { schema: XyoEthereumGasEthersWitness.configSchema }, provider },
     })
     expect(resolver.resolve({ schema: XyoEthereumGasEthersSchema })).toBeObject()
     expect(resolver.witness(XyoEthereumGasEthersSchema)).toBeObject()

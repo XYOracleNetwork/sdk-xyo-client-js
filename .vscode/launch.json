@@ -29,8 +29,7 @@
         "runtimeArgs": [
           "--inspect-brk",
           "${workspaceRoot}/node_modules/.bin/jest",
-          "--runInBand",
-          "${workspaceRoot}/packages/modules/src/XyoModuleResolver.spec.ts"
+          "--runInBand"
         ]
       },
       "windows": {
@@ -59,7 +58,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/sdk/packages/api/src/Api/Addresses/Address/Api.spec.ts"
+        "packages/plugins/packages/location-certainty/src/Diviner/Diviner.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

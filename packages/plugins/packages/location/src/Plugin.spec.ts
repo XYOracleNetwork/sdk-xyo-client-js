@@ -4,22 +4,21 @@
 
 import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { XyoLocationPayloadPlugin } from './Plugin'
-import { XyoLocationSchema } from './Schema'
-import { XyoLocationWitnessConfigSchema } from './Witness'
+import { CurrentLocationWitnessConfigSchema } from './CurrentLocationWitness'
+import { LocationPayloadPlugin } from './Plugin'
+import { CurrentLocationSchema } from './Schema'
 
-describe('XyoLocationPayloadPlugin', () => {
+describe('LocationPayloadPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoLocationPayloadPlugin(), {
+    const resolver = new XyoPayloadPluginResolver().register(LocationPayloadPlugin(), {
       witness: {
         config: {
-          schema: XyoLocationWitnessConfigSchema,
-          targetSchema: XyoLocationSchema,
+          schema: CurrentLocationWitnessConfigSchema,
         },
         geolocation: navigator.geolocation,
       },
     })
-    expect(resolver.resolve({ schema: XyoLocationSchema })).toBeObject()
-    expect(resolver.witness(XyoLocationSchema)).toBeObject()
+    expect(resolver.resolve({ schema: CurrentLocationSchema })).toBeObject()
+    expect(resolver.witness(CurrentLocationSchema)).toBeObject()
   })
 })

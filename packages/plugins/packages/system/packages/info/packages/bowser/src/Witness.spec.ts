@@ -23,7 +23,6 @@ describe('XyoBowserSystemInfo', () => {
     const witness = await XyoBowserSystemInfoWitness.create({
       config: {
         schema: XyoBowserSystemInfoWitnessConfigSchema,
-        targetSchema: XyoBowserSystemInfoSchema,
       },
     })
     const [observation] = await witness.observe()

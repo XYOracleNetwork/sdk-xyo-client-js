@@ -43,7 +43,7 @@ export class BoundWitnessBuilder<
     return (
       this._payloadSchemas ??
       this._payloads.map((payload) => {
-        return assertEx(payload.schema)
+        return assertEx(payload.schema, 'Missing Schema')
       })
     )
   }

@@ -1,5 +1,4 @@
 import { XyoDomainWitnessConfigSchema } from './Config'
-import { XyoDomainSchema } from './Schema'
 import { XyoDomainWitness } from './Witness'
 
 describe('XyoDomainConfigWitness', () => {
@@ -8,14 +7,13 @@ describe('XyoDomainConfigWitness', () => {
       config: {
         domain: 'xyo.network',
         schema: XyoDomainWitnessConfigSchema,
-        targetSchema: XyoDomainSchema,
       },
     })
     expect(witness).toBeTruthy()
     expect(XyoDomainWitness.dmarc).toBe('_xyo')
   })
 
-  test('generatesDemarc', () => {
+  test('generatesDmarc', () => {
     expect(XyoDomainWitness.generateDmarc('foo')).toBe('_xyo.foo')
   })
 })

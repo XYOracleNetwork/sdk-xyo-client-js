@@ -1,4 +1,5 @@
 import { XyoModuleParams } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
@@ -6,18 +7,18 @@ import { pricesFromCoingecko } from './lib'
 import { XyoCoingeckoCryptoMarketPayload } from './Payload'
 import { XyoCoingeckoCryptoMarketSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 
-export class XyoCoingeckoCryptoMarketWitness extends AbstractWitness<XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketWitnessConfig> {
+export class XyoCoingeckoCryptoMarketWitness extends AbstractWitness<XyoCoingeckoCryptoMarketWitnessConfig> {
   static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema
-  static override targetSchema = XyoCoingeckoCryptoMarketSchema
 
   static override async create(params?: XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>): Promise<XyoCoingeckoCryptoMarketWitness> {
     return (await super.create(params)) as XyoCoingeckoCryptoMarketWitness
   }
 
-  override async observe(): Promise<XyoCoingeckoCryptoMarketPayload[]> {
+  override async observe(): Promise<XyoPayload[]> {
     const assets: XyoCoingeckoCryptoMarketPayload['assets'] = await pricesFromCoingecko(this.config?.coins ?? [], this.config?.currencies ?? [])
-    const payload: Partial<XyoCoingeckoCryptoMarketPayload> = {
+    const payload: XyoCoingeckoCryptoMarketPayload = {
       assets,
+      schema: XyoCoingeckoCryptoMarketSchema,
       timestamp: Date.now(),
     }
 

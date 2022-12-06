@@ -14,7 +14,6 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/quadkey": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "tslib": "^2.4.1"
   },

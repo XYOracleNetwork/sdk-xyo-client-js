@@ -1,13 +1,13 @@
 /* eslint-disable import/no-internal-modules */
 import { MemoryArchivist, XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
-import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
+import { XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
 import { XyoModule, XyoModuleResolver } from '@xyo-network/module'
 import { XyoWitnessObserveQuerySchema } from '@xyo-network/witness'
 
 describe('XyoModuleResolver', () => {
   test('simple by address', async () => {
     const archivist: XyoModule = await MemoryArchivist.create()
-    const witness = await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
+    const witness = await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema } })
 
     const resolver = new XyoModuleResolver()
     resolver.add(archivist)
@@ -18,7 +18,7 @@ describe('XyoModuleResolver', () => {
   })
   test('simple by config', async () => {
     const archivist: XyoModule = await MemoryArchivist.create()
-    const witness = await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
+    const witness = await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema } })
 
     const resolver = new XyoModuleResolver()
     resolver.add(archivist)
@@ -29,7 +29,7 @@ describe('XyoModuleResolver', () => {
   })
   test('simple by query', async () => {
     const archivist: XyoModule = await MemoryArchivist.create()
-    const witness = await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } })
+    const witness = await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema } })
 
     const resolver = new XyoModuleResolver()
     resolver.add(archivist)

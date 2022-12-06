@@ -1,4 +1,5 @@
 import { XyoModuleParams } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoIdPayload } from './Payload'
@@ -7,17 +8,13 @@ import { XyoIdSchema } from './Schema'
 export type XyoIdWitnessConfigSchema = 'network.xyo.id.witness.config'
 export const XyoIdWitnessConfigSchema: XyoIdWitnessConfigSchema = 'network.xyo.id.witness.config'
 
-export type XyoIdWitnessConfig = XyoWitnessConfig<
-  XyoIdPayload,
-  {
-    salt: string
-    schema: XyoIdWitnessConfigSchema
-  }
->
+export type XyoIdWitnessConfig = XyoWitnessConfig<{
+  salt: string
+  schema: XyoIdWitnessConfigSchema
+}>
 
-export class XyoIdWitness extends AbstractWitness<XyoIdPayload, XyoIdWitnessConfig> {
+export class XyoIdWitness extends AbstractWitness<XyoIdWitnessConfig> {
   static override configSchema = XyoIdWitnessConfigSchema
-  static override targetSchema = XyoIdSchema
 
   public get salt() {
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
@@ -27,10 +24,10 @@ export class XyoIdWitness extends AbstractWitness<XyoIdPayload, XyoIdWitnessConf
     return (await super.create(params)) as XyoIdWitness
   }
 
-  override async observe(fields?: Partial<XyoIdPayload>[]): Promise<XyoIdPayload[]> {
+  override async observe(payloads: XyoIdPayload[] = []): Promise<XyoPayload[]> {
     return await super.observe(
-      fields
-        ? fields.map((fieldItems) => {
+      payloads.length > 0
+        ? payloads.map((fieldItems) => {
             return {
               salt: fieldItems?.salt ?? this.salt,
               schema: XyoIdSchema,

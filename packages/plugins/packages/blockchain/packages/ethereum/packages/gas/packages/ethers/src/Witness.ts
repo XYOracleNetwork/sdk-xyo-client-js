@@ -1,6 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { XyoModuleParams } from '@xyo-network/module'
+import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEthersWitnessConfig } from './Config'
@@ -12,9 +13,9 @@ export interface XyoEthereumGasEthersWitnessParams extends XyoModuleParams<XyoEt
   provider: Provider
 }
 
-export class XyoEthereumGasEthersWitness extends TimestampWitness<XyoEthereumGasEthersPayload, XyoEthereumGasEthersWitnessConfig> {
+export class XyoEthereumGasEthersWitness extends TimestampWitness<XyoEthereumGasEthersWitnessConfig> {
   static override configSchema = XyoEthereumGasEthersWitnessConfigSchema
-  static override targetSchema = XyoEthereumGasEthersSchema
+
   protected provider?: Provider
 
   protected constructor(params: XyoEthereumGasEthersWitnessParams) {
@@ -26,7 +27,10 @@ export class XyoEthereumGasEthersWitness extends TimestampWitness<XyoEthereumGas
     return (await super.create(params)) as XyoEthereumGasEthersWitness
   }
 
-  override async observe(): Promise<XyoEthereumGasEthersPayload[]> {
-    return super.observe([await getGasFromEthers(assertEx(this.provider, 'Provider Required'))])
+  override async observe(): Promise<XyoPayload[]> {
+    const payload = new XyoPayloadBuilder<XyoEthereumGasEthersPayload>({ schema: XyoEthereumGasEthersSchema })
+      .fields(await getGasFromEthers(assertEx(this.provider, 'Provider Required')))
+      .build()
+    return super.observe([payload])
   }
 }

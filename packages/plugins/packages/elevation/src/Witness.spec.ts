@@ -1,20 +1,20 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoLocationSchema } from '@xyo-network/location-payload-plugin'
+import { LocationSchema } from '@xyo-network/location-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Quadkey } from '@xyo-network/quadkey'
 
-import { XyoLocationElevationSchema } from './Schema'
+import { XyoLocationElevationPayload } from './Payload'
 import { XyoLocationElevationWitness, XyoLocationElevationWitnessConfigSchema } from './Witness'
 
 describe('XyoLocationElevationWitness', () => {
   test('Witnessing via Observe', async () => {
     const witness = await XyoLocationElevationWitness.create()
 
-    const result = await witness.observe([
-      { quadkey: Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.base10String },
-      { quadkey: Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)?.base10String },
-      { quadkey: Quadkey.fromLngLat({ lat: 33, lng: 118 }, 24)?.base10String },
-    ])
+    const result = (await witness.observe([
+      { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)).base10String, schema: LocationSchema },
+      { quadkey: assertEx(Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)).base10String, schema: LocationSchema },
+      { quadkey: assertEx(Quadkey.fromLngLat({ lat: 33, lng: 118 }, 24)).base10String, schema: LocationSchema },
+    ])) as XyoLocationElevationPayload[]
 
     expect(result[0].elevation).toBeDefined()
     expect(result[1].elevation).toBeDefined()
@@ -31,16 +31,15 @@ describe('XyoLocationElevationWitness', () => {
     const witness = await XyoLocationElevationWitness.create({
       config: {
         locations: [
-          { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.base10String), schema: XyoLocationSchema },
-          { quadkey: assertEx(Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)?.base10String), schema: XyoLocationSchema },
-          { quadkey: assertEx(Quadkey.fromLngLat({ lat: 33, lng: 118 }, 24)?.base10String), schema: XyoLocationSchema },
+          { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.base10String), schema: LocationSchema },
+          { quadkey: assertEx(Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)?.base10String), schema: LocationSchema },
+          { quadkey: assertEx(Quadkey.fromLngLat({ lat: 33, lng: 118 }, 24)?.base10String), schema: LocationSchema },
         ],
         schema: XyoLocationElevationWitnessConfigSchema,
-        targetSchema: XyoLocationElevationSchema,
       },
     })
 
-    const result = await witness.observe()
+    const result = (await witness.observe()) as XyoLocationElevationPayload[]
 
     expect(result[0].elevation).toBeDefined()
     expect(result[1].elevation).toBeDefined()

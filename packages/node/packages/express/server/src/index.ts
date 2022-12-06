@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { Logger } from '@xylabs/sdk-api-express-ecs'
 import { configureDependencies, dependencies } from '@xyo-network/express-node-dependencies'
 import { configureDoc } from '@xyo-network/express-node-middleware'
@@ -45,10 +44,10 @@ export class ExpressPayloadTransport extends PayloadTransport {
 }
 
 export const getApp = async (node?: MemoryNode): Promise<Express> => {
+  node = node ?? (await MemoryNode.create())
   await configureEnvironment()
   await configureDependencies(node)
-  const n = node ?? assertEx(dependencies.get<AbstractNode>(TYPES.Node))
-  const transport = new ExpressPayloadTransport(n)
+  const transport = new ExpressPayloadTransport(node)
   addQueryConverters()
   addQueryProcessing()
   await initializeJobs()
@@ -56,6 +55,7 @@ export const getApp = async (node?: MemoryNode): Promise<Express> => {
 }
 
 export const server = async (port = 80, node?: MemoryNode) => {
+  node = node ?? (await MemoryNode.create())
   const app = await getApp(node)
   const logger = dependencies.get<Logger>(TYPES.Logger)
   const host = process.env.PUBLIC_ORIGIN || `http://localhost:${port}`

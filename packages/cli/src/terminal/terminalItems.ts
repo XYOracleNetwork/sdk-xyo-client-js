@@ -10,6 +10,7 @@ export const terminalCommands = [
   'Attach Module',
   'Detach Module',
   'List Attached Modules',
+  'Describe Node',
   'Show Config',
   'Status',
   'Exit',

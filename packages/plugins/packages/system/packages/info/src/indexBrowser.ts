@@ -1,9 +1,9 @@
 export * from '@xyo-network/bowser-system-info-payload-plugin'
 
-import { XyoBowserSystemInfoPayloadPlugin } from '@xyo-network/bowser-system-info-payload-plugin'
-import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { XyoBowserSystemInfoPlugin } from '@xyo-network/bowser-system-info-payload-plugin'
+import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
 
-export const XyoSystemInfoPayloadPlugins: XyoPayloadPluginFunc[] = [XyoBowserSystemInfoPayloadPlugin]
+export const XyoSystemInfoPlugins: PayloadSetPluginFunc[] = [XyoBowserSystemInfoPlugin]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoSystemInfoPayloadPlugins
+export default XyoSystemInfoPlugins

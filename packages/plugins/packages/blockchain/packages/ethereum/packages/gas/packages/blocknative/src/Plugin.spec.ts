@@ -1,12 +1,12 @@
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoEthereumGasBlocknativePayloadPlugin } from './Plugin'
+import { XyoEthereumGasBlocknativePlugin } from './Plugin'
 import { XyoEthereumGasBlocknativeSchema } from './Schema'
 import { XyoEthereumGasBlocknativeWitness } from './Witness'
 
-describe('XyoEthereumGasBlocknativePayloadPlugin', () => {
+describe('XyoEthereumGasBlocknativePlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasBlocknativePayloadPlugin(), {
+    const resolver = new PayloadSetPluginResolver().register(XyoEthereumGasBlocknativePlugin(), {
       witness: {
         config: { schema: XyoEthereumGasBlocknativeWitness.configSchema },
       },

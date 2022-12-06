@@ -2,15 +2,15 @@
  * @jest-environment jsdom
  */
 
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoModuleInstancePayloadPlugin } from './Plugin'
+import { XyoModuleInstancePlugin } from './Plugin'
 import { XyoModuleInstanceSchema } from './Schema'
 import { XyoModuleInstanceWitnessConfigSchema } from './Witness'
 
-describe('XyoModuleInstancePayloadPlugin', () => {
+describe('XyoModuleInstancePlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoModuleInstancePayloadPlugin(), {
+    const resolver = new PayloadSetPluginResolver().register(XyoModuleInstancePlugin(), {
       witness: {
         config: { schema: XyoModuleInstanceWitnessConfigSchema, targetSchema: XyoModuleInstanceSchema },
       },

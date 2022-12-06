@@ -1,17 +1,16 @@
-import { assertEx } from '@xylabs/assert'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoUniswapCryptoMarketPayload } from './Payload'
 import { XyoUniswapCryptoMarketSchema } from './Schema'
-import { XyoUniswapCryptoMarketPayloadTemplate } from './Template'
 import { XyoUniswapCryptoMarketWitness, XyoUniswapCryptoMarketWitnessParams } from './Witness'
 
-export const XyoUniswapCryptoMarketPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessParams>({
-    auto: true,
-    schema: XyoUniswapCryptoMarketSchema,
-    template: XyoUniswapCryptoMarketPayloadTemplate,
-    witness: async (params) => {
-      return await XyoUniswapCryptoMarketWitness.create(assertEx(params))
+export const XyoUniswapCryptoMarketPlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoUniswapCryptoMarketWitnessParams>>(
+    { required: { [XyoUniswapCryptoMarketSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoUniswapCryptoMarketWitness.create(params)
+        return result
+      },
     },
-  })
+  )

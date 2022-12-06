@@ -1,7 +1,7 @@
 import { InfuraProvider } from '@ethersproject/providers'
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoEthereumGasEthersPayloadPlugin } from './Plugin'
+import { XyoEthereumGasEthersPlugin } from './Plugin'
 import { XyoEthereumGasEthersSchema } from './Schema'
 import { XyoEthereumGasEthersWitness } from './Witness'
 
@@ -10,10 +10,10 @@ const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
 
 const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 
-describe('XyoEthereumGasEthersPayloadPlugin', () => {
+describe('XyoEthereumGasEthersPlugin', () => {
   testIf(projectId && projectSecret)('Add to Resolver', () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
-    const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasEthersPayloadPlugin(), {
+    const resolver = new PayloadSetPluginResolver().register(XyoEthereumGasEthersPlugin(), {
       witness: { config: { schema: XyoEthereumGasEthersWitness.configSchema }, provider },
     })
     expect(resolver.resolve({ schema: XyoEthereumGasEthersSchema })).toBeObject()

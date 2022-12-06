@@ -2,15 +2,15 @@
  * @jest-environment jsdom
  */
 
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
 import { CurrentLocationWitnessConfigSchema } from './CurrentLocationWitness'
-import { LocationPayloadPlugin } from './Plugin'
+import { LocationPlugin } from './Plugin'
 import { CurrentLocationSchema } from './Schema'
 
-describe('LocationPayloadPlugin', () => {
+describe('LocationPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(LocationPayloadPlugin(), {
+    const resolver = new PayloadSetPluginResolver().register(LocationPlugin(), {
       witness: {
         config: {
           schema: CurrentLocationWitnessConfigSchema,

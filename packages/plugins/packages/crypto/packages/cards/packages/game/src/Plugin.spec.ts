@@ -1,11 +1,11 @@
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoCryptoCardsGamePayloadPlugin } from './Plugin'
+import { XyoCryptoCardsGamePlugin } from './Plugin'
 import { XyoCryptoCardsGameSchema } from './Schema'
 
-describe('XyoCryptoCardsGamePayloadPlugin', () => {
+describe('XyoCryptoCardsGamePlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoCryptoCardsGamePayloadPlugin())
+    const resolver = new PayloadSetPluginResolver().register(XyoCryptoCardsGamePlugin())
     expect(resolver.resolve({ schema: XyoCryptoCardsGameSchema })).toBeObject()
     expect(resolver.witness(XyoCryptoCardsGameSchema)).toBeObject()
   })

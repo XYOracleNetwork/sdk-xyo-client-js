@@ -2,15 +2,15 @@
  * @jest-environment jsdom
  */
 
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoPentairScreenlogicPayloadPlugin } from './Plugin'
+import { XyoPentairScreenlogicPlugin } from './Plugin'
 import { XyoPentairScreenlogicSchema } from './Schema'
 import { XyoPentairScreenlogicWitnessConfigSchema } from './Witness'
 
-describe('XyoPentairScreenlogicPayloadPlugin', () => {
+describe('XyoPentairScreenlogicPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoPentairScreenlogicPayloadPlugin(), {
+    const resolver = new PayloadSetPluginResolver().register(XyoPentairScreenlogicPlugin(), {
       witness: {
         config: {
           schema: XyoPentairScreenlogicWitnessConfigSchema,

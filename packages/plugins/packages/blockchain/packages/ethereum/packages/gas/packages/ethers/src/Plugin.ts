@@ -1,15 +1,16 @@
-import { assertEx } from '@xylabs/assert'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoEthereumGasEthersPayload } from './Payload'
 import { XyoEthereumGasEthersSchema } from './Schema'
 import { XyoEthereumGasEthersWitness, XyoEthereumGasEthersWitnessParams } from './Witness'
 
-export const XyoEthereumGasEthersPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoEthereumGasEthersPayload, XyoEthereumGasEthersWitnessParams>({
-    auto: true,
-    schema: XyoEthereumGasEthersSchema,
-    witness: async (params) => {
-      return await XyoEthereumGasEthersWitness.create(assertEx(params))
+export const XyoEthereumGasEthersPlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoEthereumGasEthersWitnessParams>>(
+    { required: { [XyoEthereumGasEthersSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoEthereumGasEthersWitness.create(params)
+        return result
+      },
     },
-  })
+  )

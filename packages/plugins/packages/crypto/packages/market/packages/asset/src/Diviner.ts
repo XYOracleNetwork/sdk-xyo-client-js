@@ -9,11 +9,13 @@ import { divinePrices } from './lib'
 import { XyoCryptoMarketAssetPayload } from './Payload'
 import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetSchema } from './Schema'
 
+export type XyoCryptoMarketAssetDivinerConfig = DivinerConfig<{ schema: XyoCryptoMarketAssetDivinerConfigSchema }>
+
 export class XyoCryptoMarketAssetDiviner extends AbstractDiviner {
   static override configSchema = XyoCryptoMarketAssetDivinerConfigSchema
   static override targetSchema = XyoCryptoMarketAssetSchema
 
-  static override async create(params?: XyoModuleParams<DivinerConfig>) {
+  static override async create(params?: XyoModuleParams<XyoCryptoMarketAssetDivinerConfig>) {
     return (await super.create(params)) as XyoCryptoMarketAssetDiviner
   }
 

@@ -1,11 +1,11 @@
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoNodeSystemInfoPayloadPlugin } from './Plugin'
+import { XyoNodeSystemInfoPlugin } from './Plugin'
 import { XyoNodeSystemInfoSchema } from './Schema'
 
-describe('XyoBowserSystemInfoPayloadPlugin', () => {
+describe('XyoBowserSystemInfoPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoNodeSystemInfoPayloadPlugin())
+    const resolver = new PayloadSetPluginResolver().register(XyoNodeSystemInfoPlugin())
     expect(resolver.resolve({ schema: XyoNodeSystemInfoSchema })).toBeObject()
     expect(resolver.witness(XyoNodeSystemInfoSchema)).toBeObject()
   })

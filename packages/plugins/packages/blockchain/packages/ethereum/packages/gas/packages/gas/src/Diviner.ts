@@ -6,11 +6,13 @@ import { Promisable } from '@xyo-network/promise'
 import { divineGas } from './lib'
 import { XyoEthereumGasDivinerConfigSchema, XyoEthereumGasSchema } from './Schema'
 
+export type XyoEthereumGasDivinerConfig = DivinerConfig<{ schema: XyoEthereumGasDivinerConfigSchema }>
+
 export class XyoEthereumGasDiviner extends AbstractDiviner {
   static override configSchema = XyoEthereumGasDivinerConfigSchema
   static override targetSchema = XyoEthereumGasSchema
 
-  static override async create(params?: XyoModuleParams<DivinerConfig>) {
+  static override async create(params?: XyoModuleParams<XyoEthereumGasDivinerConfig>) {
     return (await super.create(params)) as XyoEthereumGasDiviner
   }
 

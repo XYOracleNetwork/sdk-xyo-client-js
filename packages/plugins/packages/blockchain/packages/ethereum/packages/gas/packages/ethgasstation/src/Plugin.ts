@@ -1,16 +1,18 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoEthereumGasEthgasstationWitnessConfig } from './Config'
-import { XyoEthereumGasEthgasstationPayload } from './Payload'
 import { XyoEthereumGasEthgasstationSchema } from './Schema'
 import { XyoEthereumGasEthgasstationWitness } from './Witness'
 
-export const XyoEthereumGasEthgasstationPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoEthereumGasEthgasstationPayload, XyoModuleParams<XyoEthereumGasEthgasstationWitnessConfig>>({
-    auto: true,
-    schema: XyoEthereumGasEthgasstationSchema,
-    witness: async (params) => {
-      return await XyoEthereumGasEthgasstationWitness.create(params)
+export const XyoEthereumGasEthgasstationPlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoModuleParams<XyoEthereumGasEthgasstationWitnessConfig>>>(
+    { required: { [XyoEthereumGasEthgasstationSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoEthereumGasEthgasstationWitness.create(params)
+        return result
+      },
     },
-  })
+  )

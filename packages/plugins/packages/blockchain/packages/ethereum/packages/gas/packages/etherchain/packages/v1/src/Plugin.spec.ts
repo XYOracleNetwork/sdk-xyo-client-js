@@ -1,11 +1,11 @@
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoEthereumGasEtherchainV1PayloadPlugin } from './Plugin'
+import { XyoEthereumGasEtherchainV1Plugin } from './Plugin'
 import { XyoEthereumGasEtherchainV1Schema } from './Schema'
 
-describe('XyoEthereumGasEtherchainV1PayloadPlugin', () => {
+describe('XyoEthereumGasEtherchainV1Plugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoEthereumGasEtherchainV1PayloadPlugin())
+    const resolver = new PayloadSetPluginResolver().register(XyoEthereumGasEtherchainV1Plugin())
     expect(resolver.resolve({ schema: XyoEthereumGasEtherchainV1Schema })).toBeObject()
     expect(resolver.witness(XyoEthereumGasEtherchainV1Schema)).toBeObject()
   })

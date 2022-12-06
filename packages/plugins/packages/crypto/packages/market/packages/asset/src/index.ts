@@ -1,4 +1,4 @@
-import { XyoCryptoMarketAssetPayloadPlugin } from './Plugin'
+import { XyoCryptoMarketAssetPlugin } from './Plugin'
 
 export * from './Diviner'
 export * from './Model'
@@ -6,7 +6,7 @@ export * from './Payload'
 export * from './Schema'
 export * from './Template'
 
-export { XyoCryptoMarketAssetPayloadPlugin }
+export { XyoCryptoMarketAssetPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoCryptoMarketAssetPayloadPlugin
+export default XyoCryptoMarketAssetPlugin

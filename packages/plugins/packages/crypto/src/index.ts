@@ -1,11 +1,11 @@
 export * from '@xyo-network/crypto-cards-payload-plugins'
 export * from '@xyo-network/crypto-market-payload-plugins'
 
-import { XyoCryptoCardsPayloadPlugins } from '@xyo-network/crypto-cards-payload-plugins'
-import { XyoCryptoMarketPayloadPlugins } from '@xyo-network/crypto-market-payload-plugins'
-import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { XyoCryptoCardsPlugins } from '@xyo-network/crypto-cards-payload-plugins'
+import { XyoCryptoMarketPlugins } from '@xyo-network/crypto-market-payload-plugins'
+import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
 
-export const XyoCryptoPayloadPlugins: XyoPayloadPluginFunc[] = [...XyoCryptoCardsPayloadPlugins, ...XyoCryptoMarketPayloadPlugins]
+export const XyoCryptoPlugins: PayloadSetPluginFunc[] = [...XyoCryptoCardsPlugins, ...XyoCryptoMarketPlugins]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoCryptoPayloadPlugins
+export default XyoCryptoPlugins

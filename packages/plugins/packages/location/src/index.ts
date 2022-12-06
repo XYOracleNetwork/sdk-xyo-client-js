@@ -1,4 +1,4 @@
-import { LocationPayloadPlugin } from './Plugin'
+import { LocationPlugin } from './Plugin'
 
 export * from './CurrentLocationPayloadSet'
 export * from './CurrentLocationWitness'
@@ -8,7 +8,7 @@ export * from './HeadingPayload'
 export * from './HeadingSchema'
 export * from './Schema'
 
-export { LocationPayloadPlugin }
+export { LocationPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default LocationPayloadPlugin
+export default LocationPlugin

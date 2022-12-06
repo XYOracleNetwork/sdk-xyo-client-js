@@ -1,10 +1,10 @@
-import { XyoPentairScreenlogicPayloadPlugin } from './Plugin'
+import { XyoPentairScreenlogicPlugin } from './Plugin'
 
 export * from './Payload'
 export * from './Schema'
 export * from './Witness'
 
-export { XyoPentairScreenlogicPayloadPlugin }
+export { XyoPentairScreenlogicPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoPentairScreenlogicPayloadPlugin
+export default XyoPentairScreenlogicPlugin

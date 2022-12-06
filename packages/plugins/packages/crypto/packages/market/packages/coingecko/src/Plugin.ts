@@ -1,18 +1,18 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
-import { XyoCoingeckoCryptoMarketPayload } from './Payload'
 import { XyoCoingeckoCryptoMarketSchema } from './Schema'
-import { XyoCoingeckoCryptoMarketPayloadTemplate } from './Template'
 import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
-export const XyoCoingeckoCryptoMarketPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoCoingeckoCryptoMarketPayload, XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>>({
-    auto: true,
-    schema: XyoCoingeckoCryptoMarketSchema,
-    template: XyoCoingeckoCryptoMarketPayloadTemplate,
-    witness: async (params) => {
-      return await XyoCoingeckoCryptoMarketWitness.create(params)
+export const XyoCoingeckoCryptoMarketPlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>>>(
+    { required: { [XyoCoingeckoCryptoMarketSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoCoingeckoCryptoMarketWitness.create(params)
+        return result
+      },
     },
-  })
+  )

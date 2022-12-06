@@ -1,11 +1,11 @@
-import { LocationCertaintyPayloadPlugin } from './Plugin'
+import { LocationCertaintyPlugin } from './Plugin'
 
 export * from './Diviner'
 export * from './Payload'
 export * from './Schema'
 export * from './Template'
 
-export { LocationCertaintyPayloadPlugin }
+export { LocationCertaintyPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default LocationCertaintyPayloadPlugin
+export default LocationCertaintyPlugin

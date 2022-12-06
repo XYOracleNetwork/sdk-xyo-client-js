@@ -4650,7 +4650,7 @@ __metadata:
     axios: ~1.2.1
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
   languageName: unknown
   linkType: soft
 
@@ -4677,7 +4677,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -4723,7 +4723,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -4797,7 +4797,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
   languageName: unknown
   linkType: soft
 
@@ -4822,7 +4822,7 @@ __metadata:
     typescript: ^4.9.3
     yargs: ^17.6.2
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   bin:
     xyo: dist/cjs/index.js
@@ -5004,7 +5004,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5032,7 +5032,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5166,7 +5166,7 @@ __metadata:
     pako: ^2.1.0
     passport: ^0.6.0
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5447,7 +5447,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5478,7 +5478,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5514,7 +5514,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5584,7 +5584,7 @@ __metadata:
     axios: ~1.2.1
     pako: ^2.1.0
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5700,7 +5700,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5758,7 +5758,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5882,7 +5882,7 @@ __metadata:
     ts-node: ^10.9.1
     typescript: ^4.9.3
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -5914,7 +5914,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -6050,7 +6050,7 @@ __metadata:
     pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.1.3
+    axios: ~1.2.1
     pako: ^2.1.0
   languageName: unknown
   linkType: soft

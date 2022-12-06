@@ -1,18 +1,18 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoBowserSystemInfoWitnessConfig } from './Config'
-import { XyoBowserSystemInfoPayload } from './Payload'
 import { XyoBowserSystemInfoSchema } from './Schema'
-import { XyoBowserSystemInfoPayloadTemplate } from './Template'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
-export const XyoBowserSystemInfoPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoBowserSystemInfoPayload, XyoModuleParams<XyoBowserSystemInfoWitnessConfig>>({
-    auto: true,
-    schema: XyoBowserSystemInfoSchema,
-    template: XyoBowserSystemInfoPayloadTemplate,
-    witness: async (params) => {
-      return await XyoBowserSystemInfoWitness.create(params)
+export const XyoBowserSystemInfoPlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoModuleParams<XyoBowserSystemInfoWitnessConfig>>>(
+    { required: { [XyoBowserSystemInfoSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoBowserSystemInfoWitness.create(params)
+        return result
+      },
     },
-  })
+  )

@@ -1,17 +1,17 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoCryptoCardsMovePayload } from './Payload'
 import { XyoCryptoCardsMoveSchema } from './Schema'
-import { XyoXyoCryptoCardsMovePayloadTemplate } from './Template'
 import { XyoCryptoCardsMoveWitness, XyoCryptoCardsMoveWitnessConfig } from './Witness'
 
-export const XyoCryptoCardsMovePayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoCryptoCardsMovePayload, XyoModuleParams<XyoCryptoCardsMoveWitnessConfig>>({
-    auto: true,
-    schema: XyoCryptoCardsMoveSchema,
-    template: XyoXyoCryptoCardsMovePayloadTemplate,
-    witness: async (params) => {
-      return await XyoCryptoCardsMoveWitness.create(params)
+export const XyoCryptoCardsMovePlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoModuleParams<XyoCryptoCardsMoveWitnessConfig>>>(
+    { required: { [XyoCryptoCardsMoveSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoCryptoCardsMoveWitness.create(params)
+        return result
+      },
     },
-  })
+  )

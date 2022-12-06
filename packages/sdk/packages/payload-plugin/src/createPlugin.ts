@@ -1,8 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { DivinerConfig } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadValidator, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
-import { XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoPayloadPlugin } from './Plugin'
 
@@ -17,13 +14,7 @@ export const defaultXyoPayloadPluginFunctions = <T extends XyoPayload>() => {
   }
 }
 
-export const createXyoPayloadPlugin = <
-  TPayload extends XyoPayload = XyoPayload,
-  TWitnessParams extends XyoModuleParams<XyoWitnessConfig> = XyoModuleParams<XyoWitnessConfig>,
-  TDivinerParams extends XyoModuleParams<DivinerConfig> = XyoModuleParams<DivinerConfig>,
->(
-  plugin: XyoPayloadPlugin<TPayload, TWitnessParams, TDivinerParams> & { schema: string },
-): XyoPayloadPlugin<TPayload, TWitnessParams, TDivinerParams> => {
+export const createXyoPayloadPlugin = <TPayload extends XyoPayload = XyoPayload>(plugin: XyoPayloadPlugin<TPayload>): XyoPayloadPlugin<TPayload> => {
   return {
     ...defaultXyoPayloadPluginFunctions(),
     ...plugin,

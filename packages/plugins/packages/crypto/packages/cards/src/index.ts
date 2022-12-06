@@ -1,11 +1,11 @@
 export * from '@xyo-network/crypto-cards-game-payload-plugin'
 export * from '@xyo-network/crypto-cards-move-payload-plugin'
 
-import { XyoCryptoCardsGamePayloadPlugin } from '@xyo-network/crypto-cards-game-payload-plugin'
-import { XyoCryptoCardsMovePayloadPlugin } from '@xyo-network/crypto-cards-move-payload-plugin'
-import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { XyoCryptoCardsGamePlugin } from '@xyo-network/crypto-cards-game-payload-plugin'
+import { XyoCryptoCardsMovePlugin } from '@xyo-network/crypto-cards-move-payload-plugin'
+import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
 
-export const XyoCryptoCardsPayloadPlugins: XyoPayloadPluginFunc[] = [XyoCryptoCardsGamePayloadPlugin, XyoCryptoCardsMovePayloadPlugin]
+export const XyoCryptoCardsPlugins: PayloadSetPluginFunc[] = [XyoCryptoCardsGamePlugin, XyoCryptoCardsMovePlugin]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoCryptoCardsPayloadPlugins
+export default XyoCryptoCardsPlugins

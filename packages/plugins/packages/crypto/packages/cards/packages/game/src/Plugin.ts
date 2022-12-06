@@ -1,17 +1,17 @@
 import { XyoModuleParams } from '@xyo-network/module'
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoCryptoCardsGamePayload } from './Payload'
 import { XyoCryptoCardsGameSchema } from './Schema'
-import { XyoCryptoCardsGamePayloadTemplate } from './Template'
 import { XyoCryptoCardsGameWitness, XyoCryptoCardsGameWitnessConfig } from './Witness'
 
-export const XyoCryptoCardsGamePayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoCryptoCardsGamePayload, XyoModuleParams<XyoCryptoCardsGameWitnessConfig>>({
-    auto: true,
-    schema: XyoCryptoCardsGameSchema,
-    template: XyoCryptoCardsGamePayloadTemplate,
-    witness: async (params) => {
-      return await XyoCryptoCardsGameWitness.create(params)
+export const XyoCryptoCardsGamePlugin = () =>
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoModuleParams<XyoCryptoCardsGameWitnessConfig>>>(
+    { required: { [XyoCryptoCardsGameSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      witness: async (params) => {
+        const result = await XyoCryptoCardsGameWitness.create(params)
+        return result
+      },
     },
-  })
+  )

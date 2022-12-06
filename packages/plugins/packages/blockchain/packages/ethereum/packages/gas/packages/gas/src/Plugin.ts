@@ -1,23 +1,16 @@
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { XyoModuleParams } from '@xyo-network/module'
+import { PayloadSetSchema } from '@xyo-network/payload'
+import { createPayloadSetPlugin, PayloadSetDivinerPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoEthereumGasDiviner } from './Diviner'
-import { XyoEthereumGasPayload } from './Payload'
-import { XyoEthereumGasDivinerConfigSchema, XyoEthereumGasSchema } from './Schema'
-import { XyoEthereumGasPayloadTemplate } from './Template'
+import { XyoEthereumGasDiviner, XyoEthereumGasDivinerConfig } from './Diviner'
+import { XyoEthereumGasSchema } from './Schema'
 
-export const XyoEthereumGasPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoEthereumGasPayload>({
-    auto: true,
-    diviner: async (config) => {
-      const diviner = await XyoEthereumGasDiviner.create({
-        config: {
-          ...config,
-          schema: XyoEthereumGasDivinerConfigSchema,
-          targetSchema: XyoEthereumGasSchema,
-        },
-      })
-      return diviner
+export const XyoEthereumGasPlugin = () =>
+  createPayloadSetPlugin<PayloadSetDivinerPlugin<XyoModuleParams<XyoEthereumGasDivinerConfig>>>(
+    { required: { [XyoEthereumGasSchema]: 1 }, schema: PayloadSetSchema },
+    {
+      diviner: async (params) => {
+        return await XyoEthereumGasDiviner.create(params)
+      },
     },
-    schema: XyoEthereumGasSchema,
-    template: XyoEthereumGasPayloadTemplate,
-  })
+  )

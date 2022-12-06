@@ -1,4 +1,4 @@
-import { XyoCoingeckoCryptoMarketPayloadPlugin } from './Plugin'
+import { XyoCoingeckoCryptoMarketPlugin } from './Plugin'
 
 export * from './Config'
 export * from './lib'
@@ -7,7 +7,7 @@ export * from './Schema'
 export * from './Template'
 export * from './Witness'
 
-export { XyoCoingeckoCryptoMarketPayloadPlugin }
+export { XyoCoingeckoCryptoMarketPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoCoingeckoCryptoMarketPayloadPlugin
+export default XyoCoingeckoCryptoMarketPlugin

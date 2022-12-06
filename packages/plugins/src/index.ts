@@ -9,30 +9,30 @@ export * from '@xyo-network/module-instance-payload-plugin'
 export * from '@xyo-network/schema-payload-plugin'
 export * from '@xyo-network/system-payload-plugins'
 
-import { XyoBlockchainPayloadPlugins } from '@xyo-network/blockchain-payload-plugins'
-import { XyoCryptoPayloadPlugins } from '@xyo-network/crypto-payload-plugins'
-import { XyoDomainPayloadPlugin } from '@xyo-network/domain-payload-plugin'
-import { XyoLocationElevationPayloadPlugin } from '@xyo-network/elevation-payload-plugin'
-import { XyoIdPayloadPlugin } from '@xyo-network/id-payload-plugin'
-import { LocationCertaintyPayloadPlugin } from '@xyo-network/location-certainty-payload-plugin'
-import { LocationPayloadPlugin } from '@xyo-network/location-payload-plugin'
-import { XyoModuleInstancePayloadPlugin } from '@xyo-network/module-instance-payload-plugin'
-import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
-import { XyoSchemaPayloadPlugin } from '@xyo-network/schema-payload-plugin'
-import { XyoSystemPayloadPlugins } from '@xyo-network/system-payload-plugins'
+import { XyoBlockchainPlugins } from '@xyo-network/blockchain-payload-plugins'
+import { XyoCryptoPlugins } from '@xyo-network/crypto-payload-plugins'
+import { XyoDomainPlugin } from '@xyo-network/domain-payload-plugin'
+import { XyoLocationElevationPlugin } from '@xyo-network/elevation-payload-plugin'
+import { XyoIdPlugin } from '@xyo-network/id-payload-plugin'
+import { LocationCertaintyPlugin } from '@xyo-network/location-certainty-payload-plugin'
+import { LocationPlugin } from '@xyo-network/location-payload-plugin'
+import { XyoModuleInstancePlugin } from '@xyo-network/module-instance-payload-plugin'
+import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
+import { XyoSchemaPlugin } from '@xyo-network/schema-payload-plugin'
+import { XyoSystemPlugins } from '@xyo-network/system-payload-plugins'
 
-export const XyoPayloadPlugins: XyoPayloadPluginFunc[] = [
-  ...XyoSystemPayloadPlugins,
-  ...XyoBlockchainPayloadPlugins,
-  ...XyoCryptoPayloadPlugins,
-  XyoDomainPayloadPlugin,
-  XyoLocationElevationPayloadPlugin,
-  XyoIdPayloadPlugin,
-  LocationPayloadPlugin,
-  XyoModuleInstancePayloadPlugin,
-  XyoSchemaPayloadPlugin,
-  LocationCertaintyPayloadPlugin,
+export const XyoPlugins: PayloadSetPluginFunc[] = [
+  ...XyoSystemPlugins,
+  ...XyoBlockchainPlugins,
+  ...XyoCryptoPlugins,
+  XyoDomainPlugin,
+  XyoLocationElevationPlugin,
+  XyoIdPlugin,
+  LocationPlugin,
+  XyoModuleInstancePlugin,
+  XyoSchemaPlugin,
+  LocationCertaintyPlugin,
 ]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoPayloadPlugins
+export default XyoPlugins

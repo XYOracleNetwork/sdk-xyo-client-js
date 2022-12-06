@@ -2,16 +2,16 @@ export * from '@xyo-network/coingecko-crypto-market-payload-plugin'
 export * from '@xyo-network/crypto-asset-payload-plugin'
 export * from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
-import { XyoCoingeckoCryptoMarketPayloadPlugin } from '@xyo-network/coingecko-crypto-market-payload-plugin'
-import { XyoCryptoMarketAssetPayloadPlugin } from '@xyo-network/crypto-asset-payload-plugin'
-import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
-import { XyoUniswapCryptoMarketPayloadPlugin } from '@xyo-network/uniswap-crypto-market-payload-plugin'
+import { XyoCoingeckoCryptoMarketPlugin } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { XyoCryptoMarketAssetPlugin } from '@xyo-network/crypto-asset-payload-plugin'
+import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
+import { XyoUniswapCryptoMarketPlugin } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
-export const XyoCryptoMarketPayloadPlugins: XyoPayloadPluginFunc[] = [
-  XyoCoingeckoCryptoMarketPayloadPlugin,
-  XyoUniswapCryptoMarketPayloadPlugin,
-  XyoCryptoMarketAssetPayloadPlugin,
+export const XyoCryptoMarketPlugins: PayloadSetPluginFunc[] = [
+  XyoCoingeckoCryptoMarketPlugin,
+  XyoUniswapCryptoMarketPlugin,
+  XyoCryptoMarketAssetPlugin,
 ]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoCryptoMarketPayloadPlugins
+export default XyoCryptoMarketPlugins

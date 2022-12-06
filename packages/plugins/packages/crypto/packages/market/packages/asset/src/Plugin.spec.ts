@@ -1,11 +1,11 @@
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoCryptoMarketAssetPayloadPlugin } from './Plugin'
-import { XyoCryptoMarketAssetSchema } from './Schema'
+import { XyoCryptoMarketAssetPlugin } from './Plugin'
 
-describe('XyoCryptoMarketCoinGeckoPayloadPlugin', () => {
+describe('XyoCryptoMarketCoinGeckoPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoCryptoMarketAssetPayloadPlugin())
-    expect(resolver.resolve({ schema: XyoCryptoMarketAssetSchema })).toBeDefined()
+    const plugin = XyoCryptoMarketAssetPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin)
+    expect(resolver.resolve(plugin.set)).toBeDefined()
   })
 })

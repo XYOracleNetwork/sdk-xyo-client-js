@@ -2,20 +2,21 @@
  * @jest-environment jsdom
  */
 
-import { XyoPayloadPluginResolver } from '@xyo-network/payload-plugin'
+import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoModuleInstancePayloadPlugin } from './Plugin'
+import { XyoModuleInstancePlugin } from './Plugin'
 import { XyoModuleInstanceSchema } from './Schema'
 import { XyoModuleInstanceWitnessConfigSchema } from './Witness'
 
-describe('XyoModuleInstancePayloadPlugin', () => {
+describe('XyoModuleInstancePlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new XyoPayloadPluginResolver().register(XyoModuleInstancePayloadPlugin(), {
+    const plugin = XyoModuleInstancePlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: {
         config: { schema: XyoModuleInstanceWitnessConfigSchema, targetSchema: XyoModuleInstanceSchema },
       },
     })
-    expect(resolver.resolve({ schema: XyoModuleInstanceSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoModuleInstanceSchema)).toBeObject()
   })
 })

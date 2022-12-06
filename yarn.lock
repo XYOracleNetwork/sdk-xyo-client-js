@@ -4807,14 +4807,11 @@ __metadata:
   dependencies:
     "@types/node": ^18.11.11
     "@types/terminal-kit": ^2.5.1
-    "@xylabs/sdk-api-express-ecs": ^1.2.5
     "@xyo-network/archivist": "workspace:^"
-    "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/node-app": "workspace:^"
     axios: ~1.2.1
-    dotenv: ^16.0.3
     pako: ^2.1.0
     terminal-kit: ^3.0.0
     ts-node: ^10.9.1

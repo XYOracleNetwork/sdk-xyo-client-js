@@ -23,7 +23,10 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@xyo-network/node": "workspace:^"
+    "@xylabs/sdk-api-express-ecs": "^1.2.5",
+    "@xyo-network/modules": "workspace:^",
+    "@xyo-network/node": "workspace:^",
+    "dotenv": "^16.0.3"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

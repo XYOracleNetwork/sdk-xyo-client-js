@@ -2,6 +2,7 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { getLogger, Logger, LoggerVerbosity } from '@xylabs/sdk-api-express-ecs'
+import { MemoryNode } from '@xyo-network/modules'
 import { addMongo } from '@xyo-network/node-core-modules-mongo'
 import { TYPES } from '@xyo-network/node-core-types'
 import { config } from 'dotenv'
@@ -29,7 +30,7 @@ export const dependencies = new Container({
 
 let configured = false
 
-export const configureDependencies = async () => {
+export const configureDependencies = async (node?: MemoryNode) => {
   if (configured) return
   configured = true
 
@@ -54,5 +55,5 @@ export const configureDependencies = async () => {
   addInMemoryQueueing(dependencies)
   addQueryConverterRegistry(dependencies)
   addQueryProcessorRegistry(dependencies)
-  await addMemoryNode(dependencies)
+  await addMemoryNode(dependencies, node)
 }

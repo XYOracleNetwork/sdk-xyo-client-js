@@ -1,9 +1,9 @@
-import { AbstractNode } from '@xyo-network/modules'
+import { MemoryNode } from '@xyo-network/modules'
 
 import { NodeConfigurationFunction } from '../../model'
 import { configureEnvironmentFromAWSSecret, configureEnvironmentFromDotEnv } from './providers'
 
-export const configureEnvironment: NodeConfigurationFunction = async (node: AbstractNode) => {
+export const configureEnvironment: NodeConfigurationFunction = async (node: MemoryNode) => {
   await configureEnvironmentFromDotEnv(node)
   await configureEnvironmentFromAWSSecret(node)
 }

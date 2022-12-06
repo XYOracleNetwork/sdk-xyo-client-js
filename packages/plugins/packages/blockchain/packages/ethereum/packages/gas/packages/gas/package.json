@@ -19,7 +19,7 @@
     "@xyo-network/ethgasstation-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "regression": "^2.0.1",
     "tslib": "^2.4.1"

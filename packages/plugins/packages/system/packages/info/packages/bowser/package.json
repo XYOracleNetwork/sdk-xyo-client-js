@@ -12,7 +12,7 @@
   "dependencies": {
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "bowser": "^2.11.0",
     "lodash": "^4.17.21",

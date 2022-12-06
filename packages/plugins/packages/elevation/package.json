@@ -15,7 +15,7 @@
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/quadkey": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21",

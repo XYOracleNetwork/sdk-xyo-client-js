@@ -27,14 +27,14 @@ const diviners = [
   TYPES.SchemaStatsDiviner,
 ]
 
-export const addMemoryNode = async (container: Container) => {
-  const node = await MemoryNode.create({ config: config })
+export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
+  const node = memoryNode ?? (await MemoryNode.create({ config }))
+  container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   const modules = container.getAll<XyoModule>(TYPES.Module)
   modules.map((mod) => {
     node.register(mod)
     node.attach(mod.address)
   })
-  container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
 }

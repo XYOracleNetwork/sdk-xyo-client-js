@@ -3,7 +3,7 @@ import { Logger } from '@xylabs/sdk-api-express-ecs'
 import { configureDependencies, dependencies } from '@xyo-network/express-node-dependencies'
 import { configureDoc } from '@xyo-network/express-node-middleware'
 import { addRoutes } from '@xyo-network/express-node-routes'
-import { AbstractNode } from '@xyo-network/modules'
+import { AbstractNode, MemoryNode } from '@xyo-network/modules'
 import { TYPES } from '@xyo-network/node-core-types'
 import compression from 'compression'
 import cors from 'cors'
@@ -44,19 +44,19 @@ export class ExpressPayloadTransport extends PayloadTransport {
   }
 }
 
-export const getApp = async (): Promise<Express> => {
+export const getApp = async (node?: MemoryNode): Promise<Express> => {
   await configureEnvironment()
-  await configureDependencies()
-  const node = assertEx(dependencies.get<AbstractNode>(TYPES.Node))
-  const transport = new ExpressPayloadTransport(node)
+  await configureDependencies(node)
+  const n = node ?? assertEx(dependencies.get<AbstractNode>(TYPES.Node))
+  const transport = new ExpressPayloadTransport(n)
   addQueryConverters()
   addQueryProcessing()
   await initializeJobs()
   return transport.app
 }
 
-export const server = async (port = 80) => {
-  const app = await getApp()
+export const server = async (port = 80, node?: MemoryNode) => {
+  const app = await getApp(node)
   const logger = dependencies.get<Logger>(TYPES.Logger)
   const host = process.env.PUBLIC_ORIGIN || `http://localhost:${port}`
   await configureDoc(app, { host })

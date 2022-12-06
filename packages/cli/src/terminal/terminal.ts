@@ -2,7 +2,7 @@ import { XyoModuleConfig } from '@xyo-network/module'
 import { MemoryNode, Node } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { readFileDeep, terminate } from './lib'
+import { readFileDeep, terminate } from '../lib'
 import { terminalItems } from './terminalItems'
 
 const getCommand = (node: Node): Promise<boolean> => {

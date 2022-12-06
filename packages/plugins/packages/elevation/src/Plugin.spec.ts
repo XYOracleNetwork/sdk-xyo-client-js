@@ -10,12 +10,13 @@ import { XyoLocationElevationWitnessConfigSchema } from './Witness'
 
 describe('XyoLocationElevationPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoLocationElevationPlugin(), {
+    const plugin = XyoLocationElevationPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: {
         config: { schema: XyoLocationElevationWitnessConfigSchema, targetSchema: XyoLocationElevationSchema },
       },
     })
-    expect(resolver.resolve({ schema: XyoLocationElevationSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoLocationElevationSchema)).toBeObject()
   })
 })

@@ -6,12 +6,13 @@ import { XyoEthereumGasEthgasstationWitness } from './Witness'
 
 describe('XyoEthereumGasEthgasstationPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoEthereumGasEthgasstationPlugin(), {
+    const plugin = XyoEthereumGasEthgasstationPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: {
         config: { schema: XyoEthereumGasEthgasstationWitness.configSchema },
       },
     })
-    expect(resolver.resolve({ schema: XyoEthereumGasEthgasstationSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoEthereumGasEthgasstationSchema)).toBeObject()
   })
 })

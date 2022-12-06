@@ -5,8 +5,9 @@ import { XyoDomainSchema } from './Schema'
 
 describe('XyoDomainPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoDomainPlugin())
-    expect(resolver.resolve({ schema: XyoDomainSchema })).toBeObject()
+    const plugin = XyoDomainPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin)
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoDomainSchema)).toBeObject()
   })
 })

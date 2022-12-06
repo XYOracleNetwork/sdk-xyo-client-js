@@ -1,5 +1,5 @@
 import { Validator } from '@xyo-network/core'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 
 import { PayloadSetPluginParams } from './Configs'
 import { isPayloadSetDivinerPlugin, isPayloadSetWitnessPlugin, PayloadSetPlugin } from './Plugin'
@@ -37,10 +37,8 @@ export class PayloadSetPluginResolver {
     return this
   }
 
-  public resolve(schema?: string): PayloadSetPlugin
-  public resolve(payload: XyoPayload): PayloadSetPlugin
-  public resolve(value: XyoPayload | string | undefined): PayloadSetPlugin | undefined {
-    return value ? this._plugins[typeof value === 'string' ? value : value.schema] ?? undefined : undefined
+  public resolve(set?: string): PayloadSetPlugin | undefined {
+    return set ? this._plugins[set] ?? undefined : undefined
   }
 
   public sets() {
@@ -51,15 +49,15 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  public validate(payload: XyoPayload): Validator<XyoPayload> | undefined {
-    return this.resolve(payload).validate?.(payload)
+  public validate(boundwitness: XyoQueryBoundWitness): Validator<XyoQueryBoundWitness> | undefined {
+    return this.resolve(boundwitness.resultSet)?.validate?.(boundwitness)
   }
 
   public async witness(set: string) {
     return await isPayloadSetWitnessPlugin(this._plugins[set])?.witness?.(this.params[set]?.diviner)
   }
 
-  public wrap(payload: XyoPayload): PayloadWrapper<XyoPayload> | undefined {
-    return this.resolve(payload).wrap?.(payload)
+  public wrap(boundwitness: XyoQueryBoundWitness): QueryBoundWitnessWrapper | undefined {
+    return this.resolve(boundwitness.resultSet)?.wrap?.(boundwitness)
   }
 }

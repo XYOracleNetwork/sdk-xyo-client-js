@@ -13,10 +13,11 @@ const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 describe('XyoEthereumGasEthersPlugin', () => {
   testIf(projectId && projectSecret)('Add to Resolver', () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
-    const resolver = new PayloadSetPluginResolver().register(XyoEthereumGasEthersPlugin(), {
+    const plugin = XyoEthereumGasEthersPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: { config: { schema: XyoEthereumGasEthersWitness.configSchema }, provider },
     })
-    expect(resolver.resolve({ schema: XyoEthereumGasEthersSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoEthereumGasEthersSchema)).toBeObject()
   })
 })

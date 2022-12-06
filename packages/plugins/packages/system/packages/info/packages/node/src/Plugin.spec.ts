@@ -5,8 +5,9 @@ import { XyoNodeSystemInfoSchema } from './Schema'
 
 describe('XyoBowserSystemInfoPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoNodeSystemInfoPlugin())
-    expect(resolver.resolve({ schema: XyoNodeSystemInfoSchema })).toBeObject()
+    const plugin = XyoNodeSystemInfoPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin)
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoNodeSystemInfoSchema)).toBeObject()
   })
 })

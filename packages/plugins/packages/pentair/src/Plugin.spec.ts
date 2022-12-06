@@ -10,7 +10,8 @@ import { XyoPentairScreenlogicWitnessConfigSchema } from './Witness'
 
 describe('XyoPentairScreenlogicPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoPentairScreenlogicPlugin(), {
+    const plugin = XyoPentairScreenlogicPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: {
         config: {
           schema: XyoPentairScreenlogicWitnessConfigSchema,
@@ -18,7 +19,7 @@ describe('XyoPentairScreenlogicPlugin', () => {
         },
       },
     })
-    expect(resolver.resolve({ schema: XyoPentairScreenlogicSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoPentairScreenlogicSchema)).toBeObject()
   })
 })

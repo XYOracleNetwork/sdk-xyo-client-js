@@ -5,8 +5,9 @@ import { XyoCryptoCardsMoveSchema } from './Schema'
 
 describe('XyoCryptoCardsMovePlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoCryptoCardsMovePlugin())
-    expect(resolver.resolve({ schema: XyoCryptoCardsMoveSchema })).toBeObject()
+    const plugin = XyoCryptoCardsMovePlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin)
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoCryptoCardsMoveSchema)).toBeObject()
   })
 })

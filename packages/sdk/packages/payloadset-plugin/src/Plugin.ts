@@ -1,7 +1,6 @@
 import { Validator } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { QueryBoundWitnessWrapper, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -20,8 +19,8 @@ export type PayloadSetWitnessField<TWitnessParams extends XyoModuleParams<XyoWit
 export type PayloadSetPluginShared<TParams extends XyoModuleParams = XyoModuleParams> = {
   params?: PayloadSetPluginParams<TParams>
   set: string
-  validate?: (payload: XyoPayload) => Validator
-  wrap?: (payload: XyoPayload) => PayloadWrapper
+  validate?: (boundwitness: XyoQueryBoundWitness) => Validator
+  wrap?: (boundwitness: XyoQueryBoundWitness) => QueryBoundWitnessWrapper
 }
 
 export type PayloadSetWitnessPlugin<TWitnessParams extends XyoModuleParams<XyoWitnessConfig> = XyoModuleParams<XyoWitnessConfig>> =
@@ -33,7 +32,7 @@ export type PayloadSetDivinerPlugin<TDivinerParams extends XyoModuleParams<Divin
 export type PayloadSetPlugin = PayloadSetWitnessPlugin | PayloadSetDivinerPlugin
 
 export const isPayloadSetWitnessPlugin = <T extends PayloadSetWitnessPlugin>(payloadSetPlugin: PayloadSetPlugin) => {
-  return ((payloadSetPlugin: PayloadSetPlugin): payloadSetPlugin is T => (payloadSetPlugin as PayloadSetWitnessPlugin).witness !== undefined)(
+  return ((payloadSetPlugin: PayloadSetPlugin): payloadSetPlugin is T => (payloadSetPlugin as PayloadSetWitnessPlugin)?.witness !== undefined)(
     payloadSetPlugin,
   )
     ? payloadSetPlugin
@@ -41,7 +40,7 @@ export const isPayloadSetWitnessPlugin = <T extends PayloadSetWitnessPlugin>(pay
 }
 
 export const isPayloadSetDivinerPlugin = <T extends PayloadSetDivinerPlugin>(payloadSetPlugin: PayloadSetPlugin) => {
-  return ((payloadSetPlugin: PayloadSetPlugin): payloadSetPlugin is T => (payloadSetPlugin as PayloadSetDivinerPlugin).diviner !== undefined)(
+  return ((payloadSetPlugin: PayloadSetPlugin): payloadSetPlugin is T => (payloadSetPlugin as PayloadSetDivinerPlugin)?.diviner !== undefined)(
     payloadSetPlugin,
   )
     ? payloadSetPlugin

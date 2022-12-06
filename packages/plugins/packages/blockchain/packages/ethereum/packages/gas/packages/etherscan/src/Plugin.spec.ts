@@ -10,10 +10,11 @@ const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 
 describe('XyoEthereumGasEtherscanPlugin', () => {
   testIf(apiKey)('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoEthereumGasEtherscanPlugin(), {
+    const plugin = XyoEthereumGasEtherscanPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: { config: { apiKey, schema: XyoEthereumGasEtherscanWitness.configSchema } },
     })
-    expect(resolver.resolve({ schema: XyoEthereumGasEtherscanSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoEthereumGasEtherscanSchema)).toBeObject()
   })
 })

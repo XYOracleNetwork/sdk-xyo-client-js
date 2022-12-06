@@ -10,12 +10,13 @@ import { XyoModuleInstanceWitnessConfigSchema } from './Witness'
 
 describe('XyoModuleInstancePlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoModuleInstancePlugin(), {
+    const plugin = XyoModuleInstancePlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: {
         config: { schema: XyoModuleInstanceWitnessConfigSchema, targetSchema: XyoModuleInstanceSchema },
       },
     })
-    expect(resolver.resolve({ schema: XyoModuleInstanceSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoModuleInstanceSchema)).toBeObject()
   })
 })

@@ -5,8 +5,9 @@ import { XyoCryptoCardsGameSchema } from './Schema'
 
 describe('XyoCryptoCardsGamePlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoCryptoCardsGamePlugin())
-    expect(resolver.resolve({ schema: XyoCryptoCardsGameSchema })).toBeObject()
+    const plugin = XyoCryptoCardsGamePlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin)
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoCryptoCardsGameSchema)).toBeObject()
   })
 })

@@ -7,7 +7,7 @@ describe('XyoBowserSystemInfoPlugin', () => {
   test('Add to Resolver', () => {
     const plugin = XyoBowserSystemInfoPlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin)
-    expect(resolver.resolve({ schema: XyoBowserSystemInfoSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoBowserSystemInfoSchema)).toBeObject()
   })
 })

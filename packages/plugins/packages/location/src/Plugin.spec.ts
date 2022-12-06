@@ -10,7 +10,8 @@ import { CurrentLocationSchema } from './Schema'
 
 describe('LocationPlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(LocationPlugin(), {
+    const plugin = LocationPlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: {
         config: {
           schema: CurrentLocationWitnessConfigSchema,
@@ -18,7 +19,7 @@ describe('LocationPlugin', () => {
         geolocation: navigator.geolocation,
       },
     })
-    expect(resolver.resolve({ schema: CurrentLocationSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(CurrentLocationSchema)).toBeObject()
   })
 })

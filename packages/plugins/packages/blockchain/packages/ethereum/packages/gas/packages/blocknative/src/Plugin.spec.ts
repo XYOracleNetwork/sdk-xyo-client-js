@@ -6,12 +6,13 @@ import { XyoEthereumGasBlocknativeWitness } from './Witness'
 
 describe('XyoEthereumGasBlocknativePlugin', () => {
   test('Add to Resolver', () => {
-    const resolver = new PayloadSetPluginResolver().register(XyoEthereumGasBlocknativePlugin(), {
+    const plugin = XyoEthereumGasBlocknativePlugin()
+    const resolver = new PayloadSetPluginResolver().register(plugin, {
       witness: {
         config: { schema: XyoEthereumGasBlocknativeWitness.configSchema },
       },
     })
-    expect(resolver.resolve({ schema: XyoEthereumGasBlocknativeSchema })).toBeObject()
+    expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoEthereumGasBlocknativeSchema)).toBeObject()
   })
 })

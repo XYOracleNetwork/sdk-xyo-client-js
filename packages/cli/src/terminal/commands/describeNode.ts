@@ -1,13 +1,9 @@
 import { MemoryNode } from '@xyo-network/node'
-import { terminal } from 'terminal-kit'
 
-import { newline } from '../../lib'
+import { printLine, printTitle } from '../../lib'
 
 export const describeNode = async (node: MemoryNode) => {
-  newline()
-  terminal.yellow('Describe Node')
-  newline()
+  printTitle('Describe Node')
   const description = (await node.description()) ?? {}
-  terminal(JSON.stringify(description, undefined, 2))
-  newline()
+  printLine(JSON.stringify(description, undefined, 2))
 }

@@ -1,13 +1,9 @@
 import { MemoryNode } from '@xyo-network/node'
-import { terminal } from 'terminal-kit'
 
-import { newline } from '../../../lib'
+import { printError, printTitle } from '../../../lib'
 
 export const detachModule = (_node: MemoryNode) => {
-  newline()
-  terminal.yellow('Detach Module')
-  newline()
-  terminal.red('TODO')
-  newline()
+  printTitle('Detach Module')
+  printError('TODO')
   return Promise.resolve()
 }

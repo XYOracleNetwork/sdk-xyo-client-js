@@ -1,15 +1,11 @@
 import { MemoryNode } from '@xyo-network/node'
-import { terminal } from 'terminal-kit'
 
-import { newline } from '../../../lib'
+import { printLine, printTitle } from '../../../lib'
 
 export const listAttachedModules = async (node: MemoryNode) => {
-  newline()
-  terminal.yellow('List Attached Modules')
-  newline()
+  printTitle('List Attached Modules')
   const mods = await node.attachedModules()
   mods.forEach((mod) => {
-    terminal(`0x${mod.address}`)
-    newline()
+    printLine(`0x${mod.address}`)
   })
 }

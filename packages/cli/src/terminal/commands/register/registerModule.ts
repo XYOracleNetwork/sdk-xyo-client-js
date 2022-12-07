@@ -1,13 +1,9 @@
 import { MemoryNode } from '@xyo-network/node'
-import { terminal } from 'terminal-kit'
 
-import { newline } from '../../../lib'
+import { printError, printTitle } from '../../../lib'
 
 export const registerModule = (_node: MemoryNode) => {
-  newline()
-  terminal.yellow('Register Module')
-  newline()
-  terminal.red('TODO')
-  newline()
+  printTitle('Register Module')
+  printError('TODO')
   return Promise.resolve()
 }

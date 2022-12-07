@@ -1,14 +1,11 @@
 import { XyoModuleConfig } from '@xyo-network/module'
-import { terminal } from 'terminal-kit'
 
-import { newline, readFileDeep } from '../../lib'
+import { printLine, printTitle, readFileDeep } from '../../lib'
 
 export const showConfig = async () => {
   const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
   let configObj: XyoModuleConfig | undefined
-  newline()
-  terminal.yellow(`Config found at: ${path}`)
-  newline()
+  printTitle(`Config found at: ${path}`)
   if (config) {
     if (path?.endsWith('.json')) {
       configObj = JSON.parse(config) as XyoModuleConfig
@@ -16,6 +13,5 @@ export const showConfig = async () => {
       configObj = (await import(path)) as XyoModuleConfig
     }
   }
-  terminal(JSON.stringify(configObj ?? {}))
-  newline()
+  printLine(JSON.stringify(configObj ?? {}))
 }

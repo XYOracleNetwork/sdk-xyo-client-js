@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/payload-plugins",
+  "name": "@xyo-network/domain-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -11,16 +11,17 @@
   },
   "dependencies": {
     "@xyo-network/domain-payload-plugin": "workspace:^",
-    "@xyo-network/location-payload-plugin": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/pentair-payload-plugin": "workspace:^",
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
     "tslib": "^2.4.1"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },
-  "peerDependencies": {
+  "devDependencies": {
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

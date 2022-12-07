@@ -1,6 +1,6 @@
 export * from '@xyo-network/blockchain-payload-plugins'
 export * from '@xyo-network/crypto-payload-plugins'
-export * from '@xyo-network/domain-payload-plugin'
+export * from '@xyo-network/domain-plugin'
 export * from '@xyo-network/elevation-payload-plugin'
 export * from '@xyo-network/id-payload-plugin'
 export * from '@xyo-network/location-certainty-payload-plugin'
@@ -12,7 +12,7 @@ export * from '@xyo-network/system-payload-plugins'
 
 import { XyoBlockchainPlugins } from '@xyo-network/blockchain-payload-plugins'
 import { XyoCryptoPlugins } from '@xyo-network/crypto-payload-plugins'
-import { XyoDomainPlugin } from '@xyo-network/domain-payload-plugin'
+import { DomainPlugin } from '@xyo-network/domain-plugin'
 import { XyoLocationElevationPlugin } from '@xyo-network/elevation-payload-plugin'
 import { XyoIdPlugin } from '@xyo-network/id-payload-plugin'
 import { LocationCertaintyPlugin } from '@xyo-network/location-certainty-payload-plugin'
@@ -27,7 +27,7 @@ export const PayloadSetPlugins: PayloadSetPluginFunc[] = [
   ...XyoSystemPlugins,
   ...XyoBlockchainPlugins,
   ...XyoCryptoPlugins,
-  XyoDomainPlugin,
+  DomainPlugin,
   XyoLocationElevationPlugin,
   XyoIdPlugin,
   XyoPentairScreenlogicPlugin,

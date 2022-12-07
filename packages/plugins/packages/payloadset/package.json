@@ -12,7 +12,7 @@
   "dependencies": {
     "@xyo-network/blockchain-payload-plugins": "workspace:^",
     "@xyo-network/crypto-payload-plugins": "workspace:^",
-    "@xyo-network/domain-payload-plugin": "workspace:^",
+    "@xyo-network/domain-plugin": "workspace:^",
     "@xyo-network/elevation-payload-plugin": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/location-certainty-payload-plugin": "workspace:^",

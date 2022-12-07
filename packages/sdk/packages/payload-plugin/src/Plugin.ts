@@ -5,6 +5,7 @@ export type XyoPayloadPluginFunc<TPayload extends XyoPayload = XyoPayload> = () 
 
 export type XyoPayloadPlugin<TPayload extends XyoPayload = XyoPayload> = {
   build?: () => XyoPayloadBuilder
+  jsonSchema?: object
   schema: TPayload['schema']
   template?: () => Partial<TPayload>
   validate?: (payload: XyoPayload) => Validator

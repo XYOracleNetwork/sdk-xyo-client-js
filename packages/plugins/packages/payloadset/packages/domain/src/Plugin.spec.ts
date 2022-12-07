@@ -1,11 +1,11 @@
+import { XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoDomainPlugin } from './Plugin'
-import { XyoDomainSchema } from './Schema'
+import { DomainPlugin } from './Plugin'
 
-describe('XyoDomainPlugin', () => {
+describe('DomainPlugin', () => {
   test('Add to Resolver', () => {
-    const plugin = XyoDomainPlugin()
+    const plugin = DomainPlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoDomainSchema)).toBeObject()

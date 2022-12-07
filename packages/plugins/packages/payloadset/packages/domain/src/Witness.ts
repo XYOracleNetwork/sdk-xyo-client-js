@@ -1,10 +1,9 @@
+import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
-import { XyoDomainPayload } from './Payload'
-import { XyoDomainSchema } from './Schema'
 
 export class XyoDomainWitness extends AbstractWitness<XyoDomainWitnessConfig> {
   static override configSchema = XyoDomainWitnessConfigSchema

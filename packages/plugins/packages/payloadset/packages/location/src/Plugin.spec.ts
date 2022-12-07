@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { CurrentLocationSchema } from '@xyo-network/location-payload-plugin'
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 

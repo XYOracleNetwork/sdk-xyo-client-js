@@ -1,7 +1,7 @@
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
+import { XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
 
 import { XyoPentairScreenlogicPlugin } from './Plugin'
-import { XyoPentairScreenlogicSchema } from './Schema'
 import { XyoPentairScreenlogicWitnessConfigSchema } from './Witness'
 
 describe('XyoPentairScreenlogicPlugin', () => {

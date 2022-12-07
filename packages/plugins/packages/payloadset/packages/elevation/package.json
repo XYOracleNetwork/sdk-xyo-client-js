@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/payloadset-plugins",
+  "name": "@xyo-network/elevation-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,18 +10,16 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/blockchain-payload-plugins": "workspace:^",
-    "@xyo-network/crypto-payload-plugins": "workspace:^",
-    "@xyo-network/domain-plugin": "workspace:^",
-    "@xyo-network/elevation-plugin": "workspace:^",
-    "@xyo-network/id-payload-plugin": "workspace:^",
-    "@xyo-network/location-certainty-payload-plugin": "workspace:^",
-    "@xyo-network/location-plugin": "workspace:^",
-    "@xyo-network/module-instance-payload-plugin": "workspace:^",
+    "@xylabs/assert": "^2.6.9",
+    "@xyo-network/axios": "workspace:^",
+    "@xyo-network/elevation-payload-plugin": "workspace:^",
+    "@xyo-network/location-payload-plugin": "workspace:^",
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/pentair-plugin": "workspace:^",
-    "@xyo-network/schema-payload-plugin": "workspace:^",
-    "@xyo-network/system-payload-plugins": "workspace:^",
+    "@xyo-network/quadkey": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
+    "lodash": "^4.17.21",
     "tslib": "^2.4.1"
   },
   "devDependencies": {

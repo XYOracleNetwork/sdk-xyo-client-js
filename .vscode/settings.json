@@ -6,11 +6,11 @@
     ".DS_Store": true,
     "**/node_modules": true,
     "**/build": true,
-    "**/dist": true,
+    "**/dist": false,
     ".webpack": true,
     ".serverless": true,
     ".rollup.cache": true,
-    "**/.tsconfig.*": true
+    "**/.tsconfig.*": false
   },
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {

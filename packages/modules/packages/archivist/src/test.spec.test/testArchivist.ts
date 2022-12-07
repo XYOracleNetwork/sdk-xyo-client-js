@@ -5,7 +5,7 @@
 import { delay } from '@xylabs/delay'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
-import { XyoIdSchema } from '@xyo-network/payload-plugins'
+import { XyoIdSchema } from '@xyo-network/plugins'
 import { Promisable } from '@xyo-network/promise'
 
 import { AbstractArchivist } from '../AbstractArchivist'

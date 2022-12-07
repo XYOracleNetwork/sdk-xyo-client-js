@@ -1,9 +1,6 @@
 import { AbstractDiviner } from '@xyo-network/diviner'
-import {
-  XyoLocationElevationPayload,
-  XyoLocationElevationWitness,
-  XyoLocationElevationWitnessConfigSchema,
-} from '@xyo-network/elevation-payload-plugin'
+import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
+import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/elevation-plugin'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
@@ -53,7 +50,7 @@ export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyD
   }
 
   /* Given elevation and location payloads, generate heuristic arrays */
-  private static locationsToHeuristics(elevations: XyoLocationElevationPayload[], locations: LocationPayload[]) {
+  private static locationsToHeuristics(elevations: ElevationPayload[], locations: LocationPayload[]) {
     const heuristics = elevations.reduce<{ altitude: (number | null)[]; elevation: number[]; variance: (number | null)[] }>(
       (prev, elev, index) => {
         const elevation = elev.elevation
@@ -76,13 +73,13 @@ export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyD
     const locations = payloads?.filter<LocationPayload>((payload): payload is LocationPayload => payload?.schema === LocationSchema)
     // If this is a query we support
     if (locations && locations?.length > 0) {
-      const elevationWitness = await XyoLocationElevationWitness.create({
+      const elevationWitness = await ElevationWitness.create({
         config: {
           locations,
-          schema: XyoLocationElevationWitnessConfigSchema,
+          schema: ElevationWitnessConfigSchema,
         },
       })
-      const elevations = (await elevationWitness.observe()) as XyoLocationElevationPayload[]
+      const elevations = (await elevationWitness.observe()) as ElevationPayload[]
 
       const heuristics = LocationCertaintyDiviner.locationsToHeuristics(elevations, locations)
 

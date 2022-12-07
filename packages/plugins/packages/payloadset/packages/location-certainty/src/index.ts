@@ -1,9 +1,6 @@
 import { LocationCertaintyPlugin } from './Plugin'
 
 export * from './Diviner'
-export * from './Payload'
-export * from './Schema'
-export * from './Template'
 
 export { LocationCertaintyPlugin }
 

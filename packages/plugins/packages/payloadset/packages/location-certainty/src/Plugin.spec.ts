@@ -2,11 +2,11 @@
  * @jest-environment jsdom
  */
 
+import { LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
 import { LocationCertaintyDivinerConfigSchema } from './Diviner'
 import { LocationCertaintyPlugin } from './Plugin'
-import { LocationCertaintySchema } from './Schema'
 
 describe('LocationCertaintyPlugin', () => {
   test('Add to Resolver', () => {

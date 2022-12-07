@@ -5466,14 +5466,35 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/location-certainty-payload-plugin@workspace:^, @xyo-network/location-certainty-payload-plugin@workspace:packages/plugins/packages/location-certainty":
+"@xyo-network/location-certainty-payload-plugin@workspace:^, @xyo-network/location-certainty-payload-plugin@workspace:packages/plugins/packages/payload/packages/location-certainty":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/location-certainty-payload-plugin@workspace:packages/plugins/packages/location-certainty"
+  resolution: "@xyo-network/location-certainty-payload-plugin@workspace:packages/plugins/packages/payload/packages/location-certainty"
   dependencies:
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/elevation-payload-plugin": "workspace:^"
     "@xyo-network/elevation-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/shared": "workspace:^"
+    axios: ~1.2.1
+    pako: ^2.1.0
+    tslib: ^2.4.1
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/location-certainty-plugin@workspace:^, @xyo-network/location-certainty-plugin@workspace:packages/plugins/packages/payloadset/packages/location-certainty":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/location-certainty-plugin@workspace:packages/plugins/packages/payloadset/packages/location-certainty"
+  dependencies:
+    "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/elevation-payload-plugin": "workspace:^"
+    "@xyo-network/elevation-plugin": "workspace:^"
+    "@xyo-network/location-certainty-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
@@ -5664,7 +5685,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/location-certainty-payload-plugin": "workspace:^"
+    "@xyo-network/location-certainty-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node-core-lib": "workspace:^"
@@ -5787,6 +5808,7 @@ __metadata:
   dependencies:
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/id-payload-plugin": "workspace:^"
+    "@xyo-network/location-certainty-payload-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/pentair-payload-plugin": "workspace:^"
@@ -5835,7 +5857,7 @@ __metadata:
     "@xyo-network/domain-plugin": "workspace:^"
     "@xyo-network/elevation-plugin": "workspace:^"
     "@xyo-network/id-plugin": "workspace:^"
-    "@xyo-network/location-certainty-payload-plugin": "workspace:^"
+    "@xyo-network/location-certainty-plugin": "workspace:^"
     "@xyo-network/location-plugin": "workspace:^"
     "@xyo-network/module-instance-payload-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"

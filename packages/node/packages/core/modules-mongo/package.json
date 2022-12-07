@@ -36,7 +36,7 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
-    "@xyo-network/location-certainty-payload-plugin": "workspace:^",
+    "@xyo-network/location-certainty-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",

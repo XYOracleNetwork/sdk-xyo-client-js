@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
+    "@xyo-network/location-certainty-payload-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/pentair-payload-plugin": "workspace:^",

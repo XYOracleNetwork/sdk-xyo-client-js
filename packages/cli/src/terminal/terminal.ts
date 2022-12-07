@@ -21,7 +21,6 @@ const getCommand = (node: MemoryNode): Promise<boolean> => {
       if (name === 'ESCAPE') resolve(true)
       if (name === 'CTRL_C') resolve(false)
     })
-    printLine('XYO Node Running', 'green')
     terminal.singleColumnMenu(
       terminalItems.map((item) => item.text),
       async (error, response) => {
@@ -70,6 +69,7 @@ export const startTerminal = async (node: MemoryNode) => {
   const shrink = { height: terminal.height, width: terminal.width }
   await terminal.drawImage('./packages/cli/src/xyo_logo_full_color.png', { shrink })
   let running = true
+  printLine('XYO Node Running', 'green')
   while (running) {
     running = await getCommand(node)
   }

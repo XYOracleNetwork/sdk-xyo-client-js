@@ -1,7 +1,7 @@
 import { MemoryNode } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { printLine, terminate } from '../lib'
+import { daemonizeNode, printLine, terminate } from '../lib'
 import {
   attachModule,
   describeNode,
@@ -69,6 +69,7 @@ export const startTerminal = async (node: MemoryNode) => {
   const shrink = { height: terminal.height, width: terminal.width }
   await terminal.drawImage('./packages/cli/src/xyo_logo_full_color.png', { shrink })
   let running = true
+  daemonizeNode()
   printLine('XYO Node Running', 'green')
   while (running) {
     running = await getCommand(node)

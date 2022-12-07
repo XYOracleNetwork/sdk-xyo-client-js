@@ -1,8 +1,8 @@
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadSetSchema } from '@xyo-network/payload'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
+import { XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
 
-import { XyoPentairScreenlogicSchema } from './Schema'
 import { XyoPentairScreenlogicWitness, XyoPentairScreenlogicWitnessConfig } from './Witness'
 
 export const XyoPentairScreenlogicPlugin = () =>

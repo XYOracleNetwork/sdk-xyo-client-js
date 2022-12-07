@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/plugins",
+  "name": "@xyo-network/pentair-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,17 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/payload-plugins": "workspace:^",
-    "@xyo-network/payloadset-plugins": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-plugin": "workspace:^",
+    "node-screenlogic": "^1.10.1",
     "tslib": "^2.4.1"
-  },
-  "devDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
-  },
-  "peerDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

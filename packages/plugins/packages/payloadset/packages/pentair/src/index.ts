@@ -1,7 +1,5 @@
 import { XyoPentairScreenlogicPlugin } from './Plugin'
 
-export * from './Payload'
-export * from './Schema'
 export * from './Witness'
 
 export { XyoPentairScreenlogicPlugin }

@@ -1,9 +1,8 @@
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
+import { XyoPentairScreenlogicPayload, XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
-import { XyoPentairScreenlogicPayload } from './Payload'
-import { XyoPentairScreenlogicSchema } from './Schema'
 import { Controller } from './screenlogic'
 
 export type XyoPentairScreenlogicWitnessConfigSchema = 'network.xyo.pentair.screenlogic.witness.config'

@@ -5731,9 +5731,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-plugins@workspace:^, @xyo-network/payload-plugins@workspace:packages/plugins":
+"@xyo-network/payload-plugins@workspace:^, @xyo-network/payload-plugins@workspace:packages/plugins/packages/payload":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/payload-plugins@workspace:packages/plugins"
+  resolution: "@xyo-network/payload-plugins@workspace:packages/plugins/packages/payload"
   dependencies:
     "@xyo-network/blockchain-payload-plugins": "workspace:^"
     "@xyo-network/crypto-payload-plugins": "workspace:^"
@@ -5743,7 +5743,8 @@ __metadata:
     "@xyo-network/location-certainty-payload-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module-instance-payload-plugin": "workspace:^"
-    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/pentair-payload-plugin": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/system-payload-plugins": "workspace:^"
     axios: ~1.2.1
@@ -5782,16 +5783,68 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair":
+"@xyo-network/payloadset-plugins@workspace:^, @xyo-network/payloadset-plugins@workspace:packages/plugins/packages/payloadset":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/pentair"
+  resolution: "@xyo-network/payloadset-plugins@workspace:packages/plugins/packages/payloadset"
+  dependencies:
+    "@xyo-network/blockchain-payload-plugins": "workspace:^"
+    "@xyo-network/crypto-payload-plugins": "workspace:^"
+    "@xyo-network/domain-payload-plugin": "workspace:^"
+    "@xyo-network/elevation-payload-plugin": "workspace:^"
+    "@xyo-network/id-payload-plugin": "workspace:^"
+    "@xyo-network/location-certainty-payload-plugin": "workspace:^"
+    "@xyo-network/location-payload-plugin": "workspace:^"
+    "@xyo-network/module-instance-payload-plugin": "workspace:^"
+    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/pentair-plugin": "workspace:^"
+    "@xyo-network/schema-payload-plugin": "workspace:^"
+    "@xyo-network/system-payload-plugins": "workspace:^"
+    axios: ~1.2.1
+    pako: ^2.1.0
+    tslib: ^2.4.1
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/pentair-payload-plugin@workspace:^, @xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/payload/packages/pentair":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/payload/packages/pentair"
+  dependencies:
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    node-screenlogic: ^1.10.1
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/pentair-plugin@workspace:^, @xyo-network/pentair-plugin@workspace:packages/plugins/packages/payloadset/packages/pentair":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/pentair-plugin@workspace:packages/plugins/packages/payloadset/packages/pentair"
   dependencies:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/pentair-payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     node-screenlogic: ^1.10.1
     tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/plugins@workspace:^, @xyo-network/plugins@workspace:packages/plugins":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/plugins@workspace:packages/plugins"
+  dependencies:
+    "@xyo-network/payload-plugins": "workspace:^"
+    "@xyo-network/payloadset-plugins": "workspace:^"
+    axios: ~1.2.1
+    pako: ^2.1.0
+    tslib: ^2.4.1
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -5873,7 +5926,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.7.24
     "@xylabs/tsconfig": ^2.7.24
     "@xyo-network/modules": "workspace:^"
-    "@xyo-network/payload-plugins": "workspace:^"
+    "@xyo-network/plugins": "workspace:^"
     "@xyo-network/sdk": "workspace:^"
     axios: ~1.2.1
     babel-jest: ^29.3.1

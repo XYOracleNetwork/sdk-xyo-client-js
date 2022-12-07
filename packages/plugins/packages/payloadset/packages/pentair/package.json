@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/pentair-payload-plugin",
+  "name": "@xyo-network/pentair-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -13,6 +13,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/pentair-payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "node-screenlogic": "^1.10.1",
     "tslib": "^2.4.1"

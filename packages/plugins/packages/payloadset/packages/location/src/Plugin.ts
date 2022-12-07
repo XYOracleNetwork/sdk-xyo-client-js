@@ -1,9 +1,9 @@
+import { LocationSchema } from '@xyo-network/location-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadSetSchema } from '@xyo-network/payload'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { CurrentLocationWitness, CurrentLocationWitnessConfig } from './CurrentLocationWitness'
-import { LocationSchema } from './GeographicCoordinateSystemLocationSchema'
 
 export const LocationPlugin = () =>
   createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoModuleParams<CurrentLocationWitnessConfig>>>(

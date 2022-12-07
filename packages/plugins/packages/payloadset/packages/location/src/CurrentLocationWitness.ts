@@ -1,12 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import { LocationHeadingPayload, LocationHeadingSchema, LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
-
-import { LocationPayload } from './GeographicCoordinateSystemLocationPayload'
-import { LocationSchema } from './GeographicCoordinateSystemLocationSchema'
-import { LocationHeadingPayload } from './HeadingPayload'
-import { LocationHeadingSchema } from './HeadingSchema'
 
 export type CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'
 export const CurrentLocationWitnessConfigSchema: CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'

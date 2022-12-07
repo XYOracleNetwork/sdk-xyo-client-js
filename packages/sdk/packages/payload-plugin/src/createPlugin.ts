@@ -1,11 +1,14 @@
 import { assertEx } from '@xylabs/assert'
-import { PayloadValidator, PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
+import { PayloadValidator, PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { XyoPayloadPlugin } from './Plugin'
 
-export const defaultXyoPayloadPluginFunctions = <T extends XyoPayload>(): XyoPayloadPlugin<T> => {
+export const defaultXyoPayloadPluginFunctions = <T extends XyoPayload>(schema: string): XyoPayloadPlugin<T> => {
   return {
-    schema: XyoPayloadSchema,
+    build: (): XyoPayloadBuilder<T> => {
+      return new XyoPayloadBuilder<T>({ schema })
+    },
+    schema,
     validate: (payload: XyoPayload): PayloadValidator<T> => {
       return new PayloadValidator<T>(payload as T)
     },
@@ -17,8 +20,7 @@ export const defaultXyoPayloadPluginFunctions = <T extends XyoPayload>(): XyoPay
 
 export const createXyoPayloadPlugin = <TPayload extends XyoPayload = XyoPayload>(plugin: XyoPayloadPlugin<TPayload>): XyoPayloadPlugin<TPayload> => {
   return {
-    ...defaultXyoPayloadPluginFunctions<TPayload>(),
+    ...defaultXyoPayloadPluginFunctions<TPayload>(assertEx(plugin.schema, 'schema field required to create plugin')),
     ...plugin,
-    schema: assertEx(plugin.schema, 'schema field required to create plugin'),
   }
 }

@@ -1,7 +1,7 @@
 import { MemoryNode } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { newline, terminate } from '../lib'
+import { printLine, terminate } from '../lib'
 import {
   attachModule,
   describeNode,
@@ -21,14 +21,12 @@ const getCommand = (node: MemoryNode): Promise<boolean> => {
       if (name === 'ESCAPE') resolve(true)
       if (name === 'CTRL_C') resolve(false)
     })
-    newline()
-    terminal.green('XYO Node Running')
-    newline()
+    printLine('XYO Node Running', 'green')
     terminal.singleColumnMenu(
       terminalItems.map((item) => item.text),
       async (error, response) => {
         if (error) {
-          terminal.red(`Error: ${error}`)
+          printLine(`Error: ${error}`, 'red')
         }
         switch (terminalItems[response.selectedIndex].slug) {
           case 'attach-module':

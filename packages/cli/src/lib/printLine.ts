@@ -2,17 +2,20 @@ import { terminal } from 'terminal-kit'
 
 import { newline } from './newline'
 
-export type TextColor = 'yellow' | 'red' | 'default'
+export type TextColor = 'green' | 'yellow' | 'red' | 'default'
 
 export const printLine = (text?: string | undefined, color: TextColor = 'default') => {
   switch (color) {
-    case 'red':
-      terminal.red(text)
+    case 'green':
+      terminal.green(text)
       break
     case 'yellow':
       terminal.yellow(text)
       break
-    default:
+    case 'red':
+      terminal.red(text)
+      break
+    case 'default':
       terminal(text)
   }
   newline()

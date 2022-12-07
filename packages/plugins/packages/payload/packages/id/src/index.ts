@@ -1,11 +1,10 @@
-import { XyoIdPlugin } from './Plugin'
+import { IdPayloadPlugin } from './Plugin'
 
 export * from './Payload'
 export * from './Schema'
 export * from './Template'
-export * from './Witness'
 
-export { XyoIdPlugin }
+export { IdPayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoIdPlugin
+export default IdPayloadPlugin

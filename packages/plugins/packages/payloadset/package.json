@@ -14,7 +14,7 @@
     "@xyo-network/crypto-payload-plugins": "workspace:^",
     "@xyo-network/domain-plugin": "workspace:^",
     "@xyo-network/elevation-plugin": "workspace:^",
-    "@xyo-network/id-payload-plugin": "workspace:^",
+    "@xyo-network/id-plugin": "workspace:^",
     "@xyo-network/location-certainty-payload-plugin": "workspace:^",
     "@xyo-network/location-plugin": "workspace:^",
     "@xyo-network/module-instance-payload-plugin": "workspace:^",

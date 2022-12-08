@@ -4,7 +4,7 @@ import { getNode } from '@xyo-network/node-app'
 import { getOptionsParser, loadModule } from './lib'
 import { startTerminal } from './terminal'
 
-const xyo = async () => {
+const createNode = async () => {
   const node = await getNode()
   const args = await getOptionsParser()
     .command(
@@ -40,11 +40,11 @@ const xyo = async () => {
   return node
 }
 
-const start = async () => {
-  await startTerminal(await xyo())
+const main = async () => {
+  await startTerminal(await createNode())
 }
 
-start()
+main()
   .then(() => {
     console.log('Finishing,...')
   })

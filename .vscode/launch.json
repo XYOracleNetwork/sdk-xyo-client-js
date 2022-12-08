@@ -4,8 +4,28 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug",
+      "name": "Debug: Node",
       "program": "${workspaceFolder}/packages/node/packages/core/app/src/app.ts",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "runtimeArgs": [
+        "--max-old-space-size=8192",
+        "--experimental-specifier-resolution=node",
+        "--loader=ts-node/esm"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**"
+      ],
+      "pauseForSourceMap": true,
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug: Terminal App",
+      "program": "${workspaceFolder}/packages/cli/src/index.ts",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],

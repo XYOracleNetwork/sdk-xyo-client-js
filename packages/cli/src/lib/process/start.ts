@@ -11,7 +11,7 @@ import { setPid } from './pid'
  */
 export const start = async (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = false): Promise<number | undefined> => {
   // NOTE: Sync FD here because async warns about closing
-  // when we background
+  // when we background process as daemon
   const out = getOutFileDescriptor()
   const err = getErrFileDescriptor()
   const daemon = spawn(bin, args, {

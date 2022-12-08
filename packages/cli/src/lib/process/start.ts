@@ -12,6 +12,8 @@ import { setPid } from './pid'
  */
 export const start = async (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = false): Promise<number | undefined> => {
   // TODO: Create if not exists but only open in append mode
+  // TODO: Clear log files when appropriate (restarting?)
+  // NOTE: Sync here because async warns about closing when we background
   const out = openSync(outFile, 'a+')
   const err = openSync(errFile, 'a+')
   const daemon = spawn(bin, args, {

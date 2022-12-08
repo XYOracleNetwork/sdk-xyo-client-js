@@ -1,9 +1,14 @@
 import { MemoryNode } from '@xyo-network/node'
 
-import { printError, printTitle } from '../../../lib'
+import { getProcessInfo, isRunning, printLine, printTitle } from '../../../lib'
 
-export const status = (_node: MemoryNode) => {
+export const status = async (_node: MemoryNode) => {
   printTitle('Status')
-  printError('TODO')
-  return Promise.resolve()
+  const running = await isRunning()
+  if (running) {
+    printLine('Node Running')
+  } else {
+    printLine('Node Not Running')
+  }
+  printLine(JSON.stringify(await getProcessInfo(), undefined, 2))
 }

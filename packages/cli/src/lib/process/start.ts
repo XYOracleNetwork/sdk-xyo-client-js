@@ -9,7 +9,7 @@ import { setPid } from './pid'
 /**
  * The path to the script to run the Node
  */
-const runNodeScriptPath = join(__dirname, '..', '..', '..', 'runNode.js')
+const runNodeScriptPath = join(__dirname, '..', '..', '..', 'cjs', 'runNode.js')
 
 /**
  * Runs the XYO Node process
@@ -17,7 +17,7 @@ const runNodeScriptPath = join(__dirname, '..', '..', '..', 'runNode.js')
  * @param args The arguments to pass to the process
  * @returns The process ID of the Node
  */
-export const start = async (bin = 'node', args: ReadonlyArray<string> = [runNodeScriptPath], daemonize = false): Promise<MemoryNode> => {
+export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray<string> = [runNodeScriptPath]): Promise<MemoryNode> => {
   // NOTE: Sync FD here because async warns about closing
   // when we background process as daemon
   const out = getOutFileDescriptor()

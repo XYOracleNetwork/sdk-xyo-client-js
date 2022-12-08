@@ -1,7 +1,7 @@
 import { MemoryNode } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { daemonizeNode, printLine, terminate } from '../lib'
+import { daemonizeNode, printLine } from '../lib'
 import {
   attachModule,
   describeNode,
@@ -11,9 +11,10 @@ import {
   registerModule,
   showConfig,
   status,
+  terminalItems,
   unregisterModule,
 } from './commands'
-import { terminalItems } from './terminalItems'
+import { terminate } from './terminate'
 
 const getCommand = (node: MemoryNode): Promise<boolean> => {
   return new Promise((resolve) => {

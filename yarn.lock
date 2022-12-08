@@ -6470,6 +6470,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/transport@workspace:packages/modules/packages/transport":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/transport@workspace:packages/modules/packages/transport"
+  dependencies:
+    "@xylabs/assert": ^2.6.9
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/node": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/typechain@npm:^2.0.4":
   version: 2.0.4
   resolution: "@xyo-network/typechain@npm:2.0.4"

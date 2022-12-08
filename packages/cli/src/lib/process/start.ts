@@ -2,6 +2,7 @@ import { spawn } from 'child_process'
 import { openSync } from 'fs'
 
 import { errFile, outFile } from './files'
+import { setPid } from './pid'
 
 /**
  * Runs the XYO Node process
@@ -9,7 +10,7 @@ import { errFile, outFile } from './files'
  * @param args The arguments to pass to the process
  * @returns The process ID of the Node
  */
-export const startNode = (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = false): number | undefined => {
+export const start = async (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = false): Promise<number | undefined> => {
   // TODO: Create if not exists but only open in append mode
   const out = openSync(outFile, 'a+')
   const err = openSync(errFile, 'a+')
@@ -21,6 +22,7 @@ export const startNode = (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'pa
   if (daemonize) {
     daemon.unref()
   }
+  await setPid(daemon.pid)
   return daemon.pid
 }
 

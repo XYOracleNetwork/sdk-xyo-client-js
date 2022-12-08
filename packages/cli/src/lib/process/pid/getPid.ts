@@ -1,6 +1,6 @@
 import { readFile, stat } from 'fs/promises'
 
-import { pidFile } from '../files'
+import { pidFile } from './files'
 
 const encoding = 'utf-8'
 

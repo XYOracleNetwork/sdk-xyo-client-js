@@ -1,5 +1,4 @@
-export * from './loadModule'
+export * from './file'
 export * from './optionsParser'
 export * from './process'
-export * from './readFileDeep'
 export * from './terminal'

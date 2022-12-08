@@ -1,3 +1,5 @@
+export * from './getProcessInfo'
+export * from './isRunning'
 export * from './restart'
 export * from './start'
 export * from './stop'

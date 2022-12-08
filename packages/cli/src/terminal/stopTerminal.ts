@@ -1,8 +1,10 @@
 import { terminal } from 'terminal-kit'
 
-export const terminate = () => {
+import { printLine } from '../lib'
+
+export const stopTerminal = () => {
   terminal.grabInput(false)
   terminal.clear()
-  terminal.green('\n\nXYO Node Shutdown - Bye\n\n')
+  printLine('XYO Node Shutdown - Bye', 'green')
   setTimeout(() => process.exit(), 100)
 }

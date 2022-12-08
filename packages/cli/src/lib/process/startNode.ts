@@ -9,7 +9,7 @@ import { errFile, outFile } from './files'
  * @param args The arguments to pass to the process
  * @returns The process ID of the Node
  */
-export const daemonizeNode = (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = true): number | undefined => {
+export const startNode = (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = false): number | undefined => {
   // TODO: Create if not exists but only open in append mode
   const out = openSync(outFile, 'a+')
   const err = openSync(errFile, 'a+')

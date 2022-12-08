@@ -1,3 +1,5 @@
+import { MemoryNode } from '@xyo-network/node'
+import { getNode } from '@xyo-network/node-app'
 import { spawn } from 'child_process'
 
 import { getErrFileDescriptor, getOutFileDescriptor } from './logs'
@@ -9,11 +11,15 @@ import { setPid } from './pid'
  * @param args The arguments to pass to the process
  * @returns The process ID of the Node
  */
-export const start = async (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = false): Promise<number | undefined> => {
+export const start = async (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = false): Promise<MemoryNode> => {
   // NOTE: Sync FD here because async warns about closing
   // when we background process as daemon
   const out = getOutFileDescriptor()
   const err = getErrFileDescriptor()
+  // TODO: Actually create node via process
+  // NOTE: Simulate node creation/proxy via process
+  // by creating a Node in memory for now
+  const node = await getNode()
   const daemon = spawn(bin, args, {
     detached: true,
     env: process.env,
@@ -24,5 +30,5 @@ export const start = async (bin = 'tail', args: ReadonlyArray<string> = ['-f', '
   }
   const { pid } = daemon
   await setPid(pid)
-  return pid
+  return node
 }

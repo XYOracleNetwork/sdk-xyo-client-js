@@ -13,7 +13,7 @@ export interface WrapperError extends Error {
 }
 
 export class ModuleWrapper<TModule extends Module = Module> extends XyoModule<Module['config']> {
-  public module: TModule
+  protected module: TModule
 
   constructor(module: TModule) {
     super({ config: module.config })

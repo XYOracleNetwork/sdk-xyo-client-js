@@ -1,7 +1,7 @@
 import { MemoryNode } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { daemonizeNode, printLine } from '../lib'
+import { printLine } from '../lib'
 import {
   attachModule,
   describeNode,
@@ -14,9 +14,8 @@ import {
   terminalItems,
   unregisterModule,
 } from './commands'
-import { terminate } from './terminate'
 
-const getCommand = (node: MemoryNode): Promise<boolean> => {
+export const getCommand = (node: MemoryNode): Promise<boolean> => {
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') resolve(true)
@@ -64,16 +63,4 @@ const getCommand = (node: MemoryNode): Promise<boolean> => {
       },
     )
   })
-}
-
-export const startTerminal = async (node: MemoryNode) => {
-  const shrink = { height: 12, width: 54 }
-  await terminal.drawImage('./packages/cli/src/cli-art-simple.png', { shrink })
-  let running = true
-  daemonizeNode()
-  printLine('XYO Node Running', 'green')
-  while (running) {
-    running = await getCommand(node)
-  }
-  terminate()
 }

@@ -20,20 +20,26 @@ export const errFile = join(tmpdir(), 'xyo.stderr.txt')
  */
 export const pidFile = join(tmpdir(), 'xyo.pid')
 
-export const daemonizeNode = (): number | undefined => {
+/**
+ * Runs the XYO Node process
+ * @param bin The process to run
+ * @param args The arguments to pass to the process
+ * @returns The process ID of the Node
+ */
+export const daemonizeNode = (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = true): number | undefined => {
   // TODO: Create if not exists but only open in append mode
   const out = openSync(outFile, 'a+')
   const err = openSync(errFile, 'a+')
-  const bin = 'tail'
-  const args: ReadonlyArray<string> = ['-f', 'package.json']
   const daemon = spawn(bin, args, {
     detached: true,
     env: process.env,
     stdio: ['ignore', out, err],
   })
-  daemon.unref()
+  if (daemonize) {
+    daemon.unref()
+  }
   return daemon.pid
 }
 
-// TODO: Restart process
+// TODO: Start/Stop/Restart methods
 // TODO: If already running do something smart

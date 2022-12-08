@@ -20,7 +20,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
-    "@types/node": "^18.11.11",
+    "@types/node": "^18.11.12",
     "@xylabs/eslint-config": "^2.7.26",
     "@xylabs/ts-scripts-yarn3": "^2.7.26",
     "@xylabs/tsconfig": "^2.7.26",

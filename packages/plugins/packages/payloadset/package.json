@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/blockchain-payload-plugins": "workspace:^",
-    "@xyo-network/crypto-payload-plugins": "workspace:^",
+    "@xyo-network/crypto-plugins": "workspace:^",
     "@xyo-network/domain-plugin": "workspace:^",
     "@xyo-network/elevation-plugin": "workspace:^",
     "@xyo-network/id-plugin": "workspace:^",

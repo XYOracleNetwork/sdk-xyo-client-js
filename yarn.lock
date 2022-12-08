@@ -4816,7 +4816,7 @@ __metadata:
     terminal-kit: ^3.0.0
     ts-node: ^10.9.1
     tslib: ^2.4.1
-    typescript: ^4.9.3
+    typescript: ^4.9.4
     yargs: ^17.6.2
   peerDependencies:
     axios: ~1.2.1
@@ -4826,9 +4826,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/coingecko-crypto-market-payload-plugin@workspace:^, @xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko":
+"@xyo-network/coingecko-crypto-market-payload-plugin@workspace:^, @xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/coingecko":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/coingecko"
+  resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/coingecko"
+  dependencies:
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    axios: ~1.2.1
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/coingecko-crypto-market-plugin@workspace:^, @xyo-network/coingecko-crypto-market-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/coingecko":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/coingecko-crypto-market-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/coingecko"
   dependencies:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -4860,9 +4873,46 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-asset-payload-plugin@workspace:^, @xyo-network/crypto-asset-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/asset":
+"@xyo-network/crypto-asset-payload-plugin@workspace:^, @xyo-network/crypto-asset-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/asset":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-asset-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/asset"
+  resolution: "@xyo-network/crypto-asset-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/asset"
+  dependencies:
+    "@ethersproject/address": ^5.7.0
+    "@ethersproject/contracts": ^5.7.0
+    "@ethersproject/networks": ^5.7.1
+    "@ethersproject/providers": ^5.7.2
+    "@ethersproject/solidity": ^5.7.0
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.1.0
+    "@uniswap/v3-sdk": ^3.9.0
+    "@xylabs/exists": ^2.6.9
+    "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
+    "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/typechain": ^2.0.4
+    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
+    "@xyo-network/uniswap-typechain": ^2.0.4
+    tslib: ^2.4.1
+  peerDependencies:
+    "@ethersproject/address": ^5.7.0
+    "@ethersproject/contracts": ^5.7.0
+    "@ethersproject/networks": ^5.7.0
+    "@ethersproject/providers": ^5.7.0
+    "@ethersproject/solidity": ^5.7.0
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.1.0
+    "@uniswap/v3-sdk": ^3.9.0
+    "@xyo-network/typechain": ^2.0.3
+    "@xyo-network/uniswap-typechain": ^2.0.3
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/crypto-asset-plugin@workspace:^, @xyo-network/crypto-asset-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/asset":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/crypto-asset-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/asset"
   dependencies:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
@@ -4897,9 +4947,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-cards-game-payload-plugin@workspace:^, @xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game":
+"@xyo-network/crypto-cards-game-payload-plugin@workspace:^, @xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards/packages/game":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/game"
+  resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards/packages/game"
+  dependencies:
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/crypto-cards-game-plugin@workspace:^, @xyo-network/crypto-cards-game-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards/packages/game":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/crypto-cards-game-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards/packages/game"
   dependencies:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -4910,9 +4973,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-cards-move-payload-plugin@workspace:^, @xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/move":
+"@xyo-network/crypto-cards-move-payload-plugin@workspace:^, @xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards/packages/move":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/crypto/packages/cards/packages/move"
+  resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards/packages/move"
+  dependencies:
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/crypto-cards-move-plugin@workspace:^, @xyo-network/crypto-cards-move-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards/packages/move":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/crypto-cards-move-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards/packages/move"
   dependencies:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -4923,20 +4999,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-cards-payload-plugins@workspace:^, @xyo-network/crypto-cards-payload-plugins@workspace:packages/plugins/packages/crypto/packages/cards":
+"@xyo-network/crypto-cards-payload-plugins@workspace:^, @xyo-network/crypto-cards-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-cards-payload-plugins@workspace:packages/plugins/packages/crypto/packages/cards"
+  resolution: "@xyo-network/crypto-cards-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards"
   dependencies:
     "@xyo-network/crypto-cards-game-payload-plugin": "workspace:^"
     "@xyo-network/crypto-cards-move-payload-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/crypto-cards-plugins@workspace:^, @xyo-network/crypto-cards-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/crypto-cards-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards"
+  dependencies:
+    "@xyo-network/crypto-cards-game-plugin": "workspace:^"
+    "@xyo-network/crypto-cards-move-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-market-payload-plugins@workspace:^, @xyo-network/crypto-market-payload-plugins@workspace:packages/plugins/packages/crypto/packages/market":
+"@xyo-network/crypto-market-payload-plugins@workspace:^, @xyo-network/crypto-market-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto/packages/market":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-market-payload-plugins@workspace:packages/plugins/packages/crypto/packages/market"
+  resolution: "@xyo-network/crypto-market-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto/packages/market"
   dependencies:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
@@ -4948,7 +5035,7 @@ __metadata:
     "@uniswap/v3-sdk": ^3.9.0
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
-    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/typechain": ^2.0.4
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/uniswap-typechain": ^2.0.4
@@ -4956,12 +5043,45 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-payload-plugins@workspace:^, @xyo-network/crypto-payload-plugins@workspace:packages/plugins/packages/crypto":
+"@xyo-network/crypto-market-plugins@workspace:^, @xyo-network/crypto-market-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-payload-plugins@workspace:packages/plugins/packages/crypto"
+  resolution: "@xyo-network/crypto-market-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market"
+  dependencies:
+    "@ethersproject/address": ^5.7.0
+    "@ethersproject/contracts": ^5.7.0
+    "@ethersproject/networks": ^5.7.1
+    "@ethersproject/providers": ^5.7.2
+    "@ethersproject/solidity": ^5.7.0
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.1.0
+    "@uniswap/v3-sdk": ^3.9.0
+    "@xyo-network/coingecko-crypto-market-plugin": "workspace:^"
+    "@xyo-network/crypto-asset-plugin": "workspace:^"
+    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/typechain": ^2.0.4
+    "@xyo-network/uniswap-crypto-market-plugin": "workspace:^"
+    "@xyo-network/uniswap-typechain": ^2.0.4
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/crypto-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/crypto-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto"
   dependencies:
     "@xyo-network/crypto-cards-payload-plugins": "workspace:^"
     "@xyo-network/crypto-market-payload-plugins": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/crypto-plugins@workspace:^, @xyo-network/crypto-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/crypto-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto"
+  dependencies:
+    "@xyo-network/crypto-cards-plugins": "workspace:^"
+    "@xyo-network/crypto-market-plugins": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
@@ -5329,7 +5449,7 @@ __metadata:
     dotenv: ^16.0.3
     express: ^4.18.2
     http-status-codes: ^2.2.0
-    supertest: ^6.3.2
+    supertest: ^6.3.3
     uuid: ^9.0.0
   peerDependencies:
     axios: "*"
@@ -5352,7 +5472,7 @@ __metadata:
     axios: ~1.2.1
     pako: ^2.1.0
     tslib: ^2.4.1
-    typescript: ^4.9.3
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -5471,12 +5591,11 @@ __metadata:
   resolution: "@xyo-network/location-certainty-payload-plugin@workspace:packages/plugins/packages/payload/packages/location-certainty"
   dependencies:
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/elevation-payload-plugin": "workspace:^"
     "@xyo-network/elevation-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     axios: ~1.2.1
     pako: ^2.1.0
@@ -5495,6 +5614,7 @@ __metadata:
     "@xyo-network/elevation-payload-plugin": "workspace:^"
     "@xyo-network/elevation-plugin": "workspace:^"
     "@xyo-network/location-certainty-payload-plugin": "workspace:^"
+    "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
@@ -5625,7 +5745,7 @@ __metadata:
     jest-extended: ^3.2.0
     jest-mock-extended: ^3.0.1
     source-map-support: ^0.5.21
-    typescript: ^4.9.3
+    typescript: ^4.9.4
     uuid: ^9.0.0
   peerDependencies:
     axios: "*"
@@ -5666,7 +5786,7 @@ __metadata:
     jest-extended: ^3.2.0
     jest-mock-extended: ^3.0.1
     source-map-support: ^0.5.21
-    typescript: ^4.9.3
+    typescript: ^4.9.4
     uuid: ^9.0.0
   languageName: unknown
   linkType: soft
@@ -5726,7 +5846,7 @@ __metadata:
     jest: ^29.3.1
     jest-mock-extended: ^3.0.1
     reflect-metadata: ^0.1.13
-    typescript: ^4.9.3
+    typescript: ^4.9.4
   peerDependencies:
     axios: "*"
     pako: "*"
@@ -5853,7 +5973,7 @@ __metadata:
   resolution: "@xyo-network/payloadset-plugins@workspace:packages/plugins/packages/payloadset"
   dependencies:
     "@xyo-network/blockchain-payload-plugins": "workspace:^"
-    "@xyo-network/crypto-payload-plugins": "workspace:^"
+    "@xyo-network/crypto-plugins": "workspace:^"
     "@xyo-network/domain-plugin": "workspace:^"
     "@xyo-network/elevation-plugin": "workspace:^"
     "@xyo-network/id-plugin": "workspace:^"
@@ -6004,7 +6124,7 @@ __metadata:
     pako: ^2.1.0
     ts-jest: ^29.0.3
     ts-node: ^10.9.1
-    typescript: ^4.9.3
+    typescript: ^4.9.4
   peerDependencies:
     axios: ~1.2.1
     pako: ^2.1.0
@@ -6105,9 +6225,41 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/uniswap-crypto-market-payload-plugin@workspace:^, @xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/uniswap":
+"@xyo-network/uniswap-crypto-market-payload-plugin@workspace:^, @xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/uniswap":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/packages/crypto/packages/market/packages/uniswap"
+  resolution: "@xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/uniswap"
+  dependencies:
+    "@ethersproject/address": ^5.7.0
+    "@ethersproject/bignumber": ^5.7.0
+    "@ethersproject/contracts": ^5.7.0
+    "@ethersproject/networks": ^5.7.1
+    "@ethersproject/providers": ^5.7.2
+    "@ethersproject/solidity": ^5.7.0
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.1.0
+    "@uniswap/v3-sdk": ^3.9.0
+    "@xylabs/assert": ^2.6.9
+    "@xylabs/bignumber": ^2.6.9
+    "@xylabs/delay": ^2.6.9
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/typechain": ^2.0.4
+    "@xyo-network/uniswap-typechain": ^2.0.4
+    "@xyo-network/witness": "workspace:^"
+    tslib: ^2.4.1
+  peerDependencies:
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.1.0
+    "@uniswap/v3-sdk": ^3.9.0
+    "@xyo-network/typechain": ^2.0.3
+    "@xyo-network/uniswap-typechain": ^2.0.3
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/uniswap-crypto-market-plugin@workspace:^, @xyo-network/uniswap-crypto-market-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/uniswap":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/uniswap-crypto-market-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/uniswap"
   dependencies:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/bignumber": ^5.7.0
@@ -6125,6 +6277,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/typechain": ^2.0.4
+    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/uniswap-typechain": ^2.0.4
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.1
@@ -9552,7 +9705,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"formidable@npm:^2.0.1":
+"formidable@npm:^2.1.1":
   version: 2.1.2
   resolution: "formidable@npm:2.1.2"
   dependencies:
@@ -17451,21 +17604,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superagent@npm:^8.0.3":
-  version: 8.0.5
-  resolution: "superagent@npm:8.0.5"
+"superagent@npm:^8.0.5":
+  version: 8.0.6
+  resolution: "superagent@npm:8.0.6"
   dependencies:
     component-emitter: ^1.3.0
     cookiejar: ^2.1.3
     debug: ^4.3.4
     fast-safe-stringify: ^2.1.1
     form-data: ^4.0.0
-    formidable: ^2.0.1
+    formidable: ^2.1.1
     methods: ^1.1.2
     mime: 2.6.0
     qs: ^6.11.0
     semver: ^7.3.8
-  checksum: 24d56047811b0664727d07117c5ae9cf17d9b074f1636447d511e8027b1ebd61116a78edb2628e9ef5ef330b1bf2afff72b5418e30b9a83a22de435ef569bc4d
+  checksum: 2dfe44b74acd37da34cb44617919927ebf689570f46f89234be3a0b8e89cae5afca8e28adae6b6be77a3cd06661f47cf5c4c872e9d98ba184e8f12fcb041a29d
   languageName: node
   linkType: hard
 
@@ -17478,13 +17631,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supertest@npm:^6.3.2":
-  version: 6.3.2
-  resolution: "supertest@npm:6.3.2"
+"supertest@npm:^6.3.3":
+  version: 6.3.3
+  resolution: "supertest@npm:6.3.3"
   dependencies:
     methods: ^1.1.2
-    superagent: ^8.0.3
-  checksum: 97f6834df65c2837e08f448742d5956df7bd89f77021a6f11344f226247d67855f6b0d92324f8aa14994b0acf79b3f3fb28ad9ce7854f18e51926609ef8d9083
+    superagent: ^8.0.5
+  checksum: 38239e517f7ba62b7a139a79c5c48d55f8d67b5ff4b6e51d5b07732ca8bbc4a28ffa1b10916fbb403dd013a054dbf028edc5850057d9a43aecbff439d494673e
   languageName: node
   linkType: hard
 
@@ -18136,23 +18289,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.3":
-  version: 4.9.3
-  resolution: "typescript@npm:4.9.3"
+"typescript@npm:^4.9.3, typescript@npm:^4.9.4":
+  version: 4.9.4
+  resolution: "typescript@npm:4.9.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 17b8f816050b412403e38d48eef0e893deb6be522d6dc7caf105e54a72e34daf6835c447735fd2b28b66784e72bfbf87f627abb4818a8e43d1fa8106396128dc
+  checksum: e782fb9e0031cb258a80000f6c13530288c6d63f1177ed43f770533fdc15740d271554cdae86701c1dd2c83b082cea808b07e97fd68b38a172a83dbf9e0d0ef9
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>":
-  version: 4.9.3
-  resolution: "typescript@patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=701156"
+"typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.4#~builtin<compat/typescript>":
+  version: 4.9.4
+  resolution: "typescript@patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ef65c22622d864497d0a0c5db693523329b3284c15fe632e93ad9aa059e8dc38ef3bd767d6f26b1e5ecf9446f49bd0f6c4e5714a2eeaf352805dc002479843d1
+  checksum: 37f6e2c3c5e2aa5934b85b0fddbf32eeac8b1bacf3a5b51d01946936d03f5377fe86255d4e5a4ae628fd0cd553386355ad362c57f13b4635064400f3e8e05b9d
   languageName: node
   linkType: hard
 

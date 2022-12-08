@@ -14,6 +14,7 @@
     "@xyo-network/elevation-payload-plugin": "workspace:^",
     "@xyo-network/elevation-plugin": "workspace:^",
     "@xyo-network/location-certainty-payload-plugin": "workspace:^",
+    "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",

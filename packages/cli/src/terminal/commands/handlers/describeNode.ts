@@ -1,6 +1,6 @@
 import { MemoryNode } from '@xyo-network/node'
 
-import { printLine, printTitle } from '../../lib'
+import { printLine, printTitle } from '../../../lib'
 
 export const describeNode = async (node: MemoryNode) => {
   printTitle('Describe Node')

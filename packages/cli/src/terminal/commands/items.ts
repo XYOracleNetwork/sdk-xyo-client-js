@@ -1,20 +1,9 @@
+import { terminalCommands } from './commands'
+
 interface TerminalItem {
   slug: string
   text: string
 }
-
-export const terminalCommands = [
-  'Register Module',
-  'Unregister Module',
-  'List Registered Modules',
-  'Attach Module',
-  'Detach Module',
-  'List Attached Modules',
-  'Describe Node',
-  'Show Config',
-  'Status',
-  'Exit',
-]
 
 export const terminalItems: TerminalItem[] = terminalCommands.map((item, index) => {
   return {

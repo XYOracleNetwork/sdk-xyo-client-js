@@ -1,6 +1,6 @@
 import { MemoryNode } from '@xyo-network/node'
 
-import { printError, printTitle } from '../../../lib'
+import { printError, printTitle } from '../../../../lib'
 
 export const detachModule = (_node: MemoryNode) => {
   printTitle('Detach Module')

@@ -1,7 +1,6 @@
 import { spawn } from 'child_process'
-import { openSync } from 'fs'
 
-import { errFile, outFile } from './files'
+import { getErrFileDescriptor, getOutFileDescriptor } from './logs'
 import { setPid } from './pid'
 
 /**
@@ -11,11 +10,10 @@ import { setPid } from './pid'
  * @returns The process ID of the Node
  */
 export const start = async (bin = 'tail', args: ReadonlyArray<string> = ['-f', 'package.json'], daemonize = false): Promise<number | undefined> => {
-  // TODO: Create if not exists but only open in append mode
-  // TODO: Clear log files when appropriate (restarting?)
-  // NOTE: Sync here because async warns about closing when we background
-  const out = openSync(outFile, 'a+')
-  const err = openSync(errFile, 'a+')
+  // NOTE: Sync FD here because async warns about closing
+  // when we background
+  const out = getOutFileDescriptor()
+  const err = getErrFileDescriptor()
   const daemon = spawn(bin, args, {
     detached: true,
     env: process.env,
@@ -24,9 +22,7 @@ export const start = async (bin = 'tail', args: ReadonlyArray<string> = ['-f', '
   if (daemonize) {
     daemon.unref()
   }
-  await setPid(daemon.pid)
-  return daemon.pid
+  const { pid } = daemon
+  await setPid(pid)
+  return pid
 }
-
-// TODO: Start/Stop/Restart methods
-// TODO: If already running do something smart

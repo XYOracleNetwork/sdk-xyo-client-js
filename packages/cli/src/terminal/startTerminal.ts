@@ -7,7 +7,7 @@ import { stopTerminal } from './stopTerminal'
 
 export const startTerminal = async (node: MemoryNode) => {
   await printLogo()
-  start()
+  await start()
   printLine('XYO Node Running', 'green')
   let running = true
   while (running) {

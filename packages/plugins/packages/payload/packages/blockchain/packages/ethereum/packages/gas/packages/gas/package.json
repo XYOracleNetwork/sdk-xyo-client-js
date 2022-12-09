@@ -1,0 +1,85 @@
+{
+  "name": "@xyo-network/gas-price-payload-plugin",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xylabs/exists": "^2.6.9",
+    "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:^",
+    "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^",
+    "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^",
+    "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^",
+    "@xyo-network/ethgasstation-ethereum-gas-payload-plugin": "workspace:^",
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
+    "regression": "^2.0.1",
+    "tslib": "^2.4.1"
+  },
+  "devDependencies": {
+    "@ethersproject/address": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/networks": "^5.7.1",
+    "@ethersproject/providers": "^5.7.2",
+    "@ethersproject/solidity": "^5.7.0",
+    "@uniswap/sdk": "^3.0.3",
+    "@uniswap/sdk-core": "^3.1.0",
+    "@uniswap/v3-sdk": "^3.9.0",
+    "@xyo-network/typechain": "^2.0.4",
+    "@xyo-network/uniswap-typechain": "^2.0.4"
+  },
+  "peerDependencies": {
+    "@ethersproject/address": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/networks": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
+    "@ethersproject/solidity": "^5.7.0",
+    "@uniswap/sdk": "^3.0.3",
+    "@uniswap/sdk-core": "^3.1.0",
+    "@uniswap/v3-sdk": "^3.9.0",
+    "@xyo-network/typechain": "^2.0.3",
+    "@xyo-network/uniswap-typechain": "^2.0.3"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "browser": "dist/esm/index.js",
+  "docs": "dist/docs.json",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "types": "dist/esm/index.d.ts",
+  "version": "2.41.11"
+}

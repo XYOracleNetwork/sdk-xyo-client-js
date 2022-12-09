@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": true,
+    "rootDir": "./src"
+  },
+  "extends": "../../tsconfig.json"
+}

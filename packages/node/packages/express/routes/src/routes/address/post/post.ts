@@ -10,7 +10,7 @@ const handler: RequestHandler<AddressPathParams, ModuleQueryResult> = async (req
   const { node } = req.app
   if (address) {
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
-    const modules = await node.tryResolve({ address: [normalizedAddress] })
+    const modules = node.address === normalizedAddress ? [node] : await node.tryResolve({ address: [normalizedAddress] })
     if (modules.length) {
       const mod = modules[0]
       const queryResult = await mod.query(req.body)

@@ -3,7 +3,6 @@ import { ModuleFilter, XyoModule, XyoModuleParams } from '@xyo-network/module'
 
 import { AbstractNode } from './AbstractNode'
 import { NodeConfig } from './Config'
-import { XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema } from './Queries'
 
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends AbstractNode<TConfig, TModule> {
   private registeredModuleMap = new Map<string, TModule>()
@@ -19,10 +18,6 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
 
   override detach(address: string) {
     this.internalResolver.remove(address)
-  }
-
-  public override queries(): string[] {
-    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, ...super.queries()]
   }
 
   override register(module: TModule) {

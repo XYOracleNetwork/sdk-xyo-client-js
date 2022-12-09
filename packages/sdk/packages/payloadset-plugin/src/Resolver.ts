@@ -1,5 +1,6 @@
-import { Validator } from '@xyo-network/core'
+import { Hasher, Validator } from '@xyo-network/core'
 import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { PayloadSetPayload } from '@xyo-network/payload'
 
 import { PayloadSetPluginParams } from './Configs'
 import { isPayloadSetDivinerPlugin, isPayloadSetWitnessPlugin, PayloadSetPlugin } from './Plugin'
@@ -32,17 +33,21 @@ export class PayloadSetPluginResolver {
     plugin: TPlugin,
     params?: TParams,
   ) {
-    this._plugins[plugin.set] = plugin
-    this.params[plugin.set] = params ?? {}
+    const setHash = Hasher.hash(plugin.set)
+    this._plugins[setHash] = plugin
+    this.params[setHash] = params ?? {}
     return this
   }
 
-  public resolve(set?: string): PayloadSetPlugin | undefined {
-    return set ? this._plugins[set] ?? undefined : undefined
+  public resolve(set?: PayloadSetPayload): PayloadSetPlugin | undefined
+  public resolve(set?: string): PayloadSetPlugin | undefined
+  public resolve(set?: string | PayloadSetPayload): PayloadSetPlugin | undefined {
+    const setHash = typeof set === 'string' ? set : set ? Hasher.hash(set) : undefined
+    return setHash ? this._plugins[setHash] ?? undefined : undefined
   }
 
   public sets() {
-    const result: string[] = []
+    const result: PayloadSetPayload[] = []
     Object.values(this._plugins).forEach((value) => {
       result.push(value.set)
     })

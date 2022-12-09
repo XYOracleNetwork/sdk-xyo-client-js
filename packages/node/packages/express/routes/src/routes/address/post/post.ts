@@ -11,7 +11,7 @@ export type PostAddressRequestBody = [XyoQueryBoundWitness, undefined | XyoPaylo
 const handler: RequestHandler<AddressPathParams, ModuleQueryResult, PostAddressRequestBody> = async (req, res, next) => {
   const { address } = req.params
   const { node } = req.app
-  const [bw, payloads] = req.body
+  const [bw, payloads] = Array.isArray(req.body) ? req.body : []
   if (address && bw) {
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
     const modules = node.address === normalizedAddress ? [node] : await node.tryResolve({ address: [normalizedAddress] })

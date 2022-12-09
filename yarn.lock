@@ -4754,11 +4754,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/blocknative-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ~1.2.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -4798,12 +4795,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/bowser"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
     bowser: ^2.11.0
-    lodash: ^4.17.21
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -4872,11 +4866,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/coingecko"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ~1.2.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -4920,36 +4911,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-asset-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/asset"
   dependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.1
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/solidity": ^5.7.0
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/exists": ^2.6.9
-    "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
-    "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
-    "@xyo-network/typechain": ^2.0.4
-    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
-    "@xyo-network/uniswap-typechain": ^2.0.4
     tslib: ^2.4.1
-  peerDependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.0
-    "@ethersproject/providers": ^5.7.0
-    "@ethersproject/solidity": ^5.7.0
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
-    "@xyo-network/typechain": ^2.0.3
-    "@xyo-network/uniswap-typechain": ^2.0.3
   languageName: unknown
   linkType: soft
 
@@ -4995,11 +4959,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards/packages/game"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5022,11 +4983,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards/packages/move"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5071,20 +5030,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-market-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto/packages/market"
   dependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.1
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/solidity": ^5.7.0
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/typechain": ^2.0.4
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
-    "@xyo-network/uniswap-typechain": ^2.0.4
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5230,11 +5179,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-ethereum-gas-v1-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v1"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ~1.2.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5257,11 +5203,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v2"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ~1.2.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5326,12 +5269,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethers-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/ethers"
   dependencies:
-    "@ethersproject/providers": ^5.7.2
-    "@xylabs/assert": ^2.6.9
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5355,12 +5294,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherscan-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherscan"
   dependencies:
-    "@xylabs/assert": ^2.6.9
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ~1.2.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5384,11 +5319,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethgasstation-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ~1.2.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5664,40 +5596,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/gas-price-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/gas"
   dependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.1
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/solidity": ^5.7.0
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/exists": ^2.6.9
-    "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:^"
-    "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^"
-    "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^"
-    "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^"
-    "@xyo-network/ethgasstation-ethereum-gas-payload-plugin": "workspace:^"
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
-    "@xyo-network/typechain": ^2.0.4
-    "@xyo-network/uniswap-typechain": ^2.0.4
     regression: ^2.0.1
     tslib: ^2.4.1
-  peerDependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.0
-    "@ethersproject/providers": ^5.7.0
-    "@ethersproject/solidity": ^5.7.0
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
-    "@xyo-network/typechain": ^2.0.3
-    "@xyo-network/uniswap-typechain": ^2.0.3
   languageName: unknown
   linkType: soft
 
@@ -5794,19 +5696,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-certainty-payload-plugin@workspace:packages/plugins/packages/payload/packages/location-certainty"
   dependencies:
-    "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/elevation-plugin": "workspace:^"
-    "@xyo-network/location-payload-plugin": "workspace:^"
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/shared": "workspace:^"
-    axios: ~1.2.1
-    pako: ^2.1.0
     tslib: ^2.4.1
-  peerDependencies:
-    axios: ~1.2.1
-    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -5860,17 +5752,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-instance-payload-plugin@workspace:packages/plugins/packages/payload/packages/module-instance"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    axios: ~1.2.1
-    lodash: ^4.17.21
-    pako: ^2.1.0
     tslib: ^2.4.1
-  peerDependencies:
-    axios: ~1.2.1
-    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6086,11 +5970,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/node"
   dependencies:
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-    systeminformation: ^5.16.5
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -6172,12 +6053,7 @@ __metadata:
     "@xyo-network/module-instance-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/pentair-payload-plugin": "workspace:^"
-    axios: ~1.2.1
-    pako: ^2.1.0
     tslib: ^2.4.1
-  peerDependencies:
-    axios: ~1.2.1
-    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6321,11 +6197,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/payload/packages/schema"
   dependencies:
-    "@xylabs/delay": ^2.6.9
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -6508,31 +6381,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/uniswap"
   dependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/bignumber": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.1
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/solidity": ^5.7.0
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/assert": ^2.6.9
-    "@xylabs/bignumber": ^2.6.9
-    "@xylabs/delay": ^2.6.9
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/typechain": ^2.0.4
-    "@xyo-network/uniswap-typechain": ^2.0.4
-    "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.1
-  peerDependencies:
-    "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.1.0
-    "@uniswap/v3-sdk": ^3.9.0
-    "@xyo-network/typechain": ^2.0.3
-    "@xyo-network/uniswap-typechain": ^2.0.3
   languageName: unknown
   linkType: soft
 

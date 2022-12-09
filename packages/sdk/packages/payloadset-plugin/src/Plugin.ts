@@ -1,6 +1,7 @@
 import { Validator } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { QueryBoundWitnessWrapper, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
+import { PayloadSetPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -18,7 +19,7 @@ export type PayloadSetWitnessField<TWitnessParams extends XyoModuleParams<XyoWit
 
 export type PayloadSetPluginShared<TParams extends XyoModuleParams = XyoModuleParams> = {
   params?: PayloadSetPluginParams<TParams>
-  set: string
+  set: PayloadSetPayload
   validate?: (boundwitness: XyoQueryBoundWitness) => Validator
   wrap?: (boundwitness: XyoQueryBoundWitness) => QueryBoundWitnessWrapper
 }

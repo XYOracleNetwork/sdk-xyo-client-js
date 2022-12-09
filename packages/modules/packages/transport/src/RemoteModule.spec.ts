@@ -16,7 +16,7 @@ describe('RemoteModule', () => {
       const sut = new RemoteModule(api, address)
       const queryPayload = new XyoPayloadBuilder({ schema: XyoNodeRegisteredQuerySchema }).build()
       const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
-      const response = await sut.query(query[0], query[1])
+      const response = await sut.query(query[0], [...query[1]])
       expect(response).toBeTruthy()
     })
   })

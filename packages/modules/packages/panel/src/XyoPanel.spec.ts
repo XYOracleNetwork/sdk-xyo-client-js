@@ -1,8 +1,9 @@
 import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessValidator, BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoIdSchema, XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
+import { Hasher } from '@xyo-network/core'
+import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
-import { XyoNodeSystemInfoSchema, XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
+import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
@@ -14,14 +15,13 @@ describe('XyoPanel', () => {
     const archivist = await MemoryArchivist.create()
 
     const witnesses: AbstractWitness[] = [
-      await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema, targetSchema: XyoIdSchema } }),
+      await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } }),
       await XyoNodeSystemInfoWitness.create({
         config: {
           nodeValues: {
             osInfo: '*',
           },
           schema: XyoNodeSystemInfoWitnessConfigSchema,
-          targetSchema: XyoNodeSystemInfoSchema,
         },
       }),
     ]
@@ -54,19 +54,18 @@ describe('XyoPanel', () => {
           testUndefined: undefined,
         },
         schema: XyoAdhocWitnessConfigSchema,
-        targetSchema: XyoPayloadSchema,
       },
     })
 
-    const adhocObserved = await adhocWitness.observe()
+    const adhocObserved = await adhocWitness.observe([adhocWitness.config.payload])
 
     const report1Result = await panel.report(adhocObserved)
     const report1 = BoundWitnessWrapper.parse(report1Result[0])
     expect(report1.schemaName).toBe(XyoBoundWitnessSchema)
-    expect(report1.payloadHashes).toBeArrayOfSize(2)
+    expect(report1.payloadHashes).toBeArrayOfSize(3)
     const report2 = BoundWitnessWrapper.parse((await panel.report())[0])
     expect(report2.schemaName).toBeDefined()
-    expect(report2.payloadHashes).toBeArrayOfSize(1)
+    expect(report2.payloadHashes).toBeArrayOfSize(2)
     expect(report2.hash !== report1.hash).toBe(true)
     expect(report2.prev(panel.address)).toBeDefined()
     expect(report2.prev(panel.address)).toBe(report1.hash)
@@ -89,7 +88,7 @@ describe('XyoPanel', () => {
         const [, payloads] = panelReport
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
-          expect(archivistPayloads).toBeArrayOfSize(payloads.length - 1)
+          expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
           const panelPayloads = payloads.map((payload) => {
             const wrapped = new PayloadWrapper(payload)
             return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
@@ -98,15 +97,22 @@ describe('XyoPanel', () => {
         }
       }
       beforeEach(async () => {
-        const params = {
+        const paramsA = {
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
             schema: XyoAdhocWitnessConfigSchema,
             targetSchema: XyoPayloadSchema,
           },
         }
-        witnessA = await XyoAdhocWitness.create(params)
-        witnessB = await XyoAdhocWitness.create(params)
+        const paramsB = {
+          config: {
+            payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+            schema: XyoAdhocWitnessConfigSchema,
+            targetSchema: XyoPayloadSchema,
+          },
+        }
+        witnessA = await XyoAdhocWitness.create(paramsA)
+        witnessB = await XyoAdhocWitness.create(paramsB)
         archivistA = await MemoryArchivist.create()
         archivistB = await MemoryArchivist.create()
       })
@@ -162,6 +168,10 @@ describe('XyoPanel', () => {
         expect(observedB).toBeArrayOfSize(1)
         const result = await panel.report([...observedA, ...observedB])
         assertPanelReport(result)
+        expect((await archivistA.get([Hasher.hash(observedA)])).length).toBe(1)
+        expect((await archivistA.get([Hasher.hash(observedB)])).length).toBe(1)
+        expect((await archivistB.get([Hasher.hash(observedA)])).length).toBe(1)
+        expect((await archivistB.get([Hasher.hash(observedB)])).length).toBe(1)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
     })

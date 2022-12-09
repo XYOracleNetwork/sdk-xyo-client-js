@@ -1,21 +1,23 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { ArchivistWrapper } from '@xyo-network/archivist'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { PayloadWrapper } from '@xyo-network/payload'
+import { IdSchema } from '@xyo-network/plugins'
 
 import { XyoArchivistApi } from '../Api'
 import { XyoRemoteArchivist } from './XyoRemoteArchivist'
 import { XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
 
 const configData: XyoApiConfig = {
-  apiDomain: process.env.API_DOMAIN || 'https://beta.api.archivist.xyo.network',
-  onError: (error) => console.error(`Error: ${JSON.stringify(error)}`),
-  onFailure: (response) => response, //console.error(`Failure: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
-  onSuccess: (response) => response, //console.log(`Success: ${response.statusText} [${response.status}] [${JSON.stringify(response.data)}]`),
+  apiDomain: process.env.API_DOMAIN || 'http://locahost:8080',
+  onError: (error) => error,
+  onFailure: (response) => response,
+  onSuccess: (response) => response,
 }
 
 const payload = {
   salt: `${Math.random() * 10000}`,
-  schema: 'network.xyo.id',
+  schema: IdSchema,
 }
 
 describe('XyoRemoteArchivist', () => {
@@ -42,12 +44,12 @@ describe('XyoRemoteArchivist', () => {
   it('get returns boundwitness', async () => {
     const payload = {
       payload_hashes: ['123456'],
-      payload_schemas: ['network.xyo.id'],
-      schema: 'network.xyo.boundwitness',
+      payload_schemas: [IdSchema],
+      schema: XyoBoundWitnessSchema,
     }
 
     await archivist.insert([payload])
     const getResult = await archivist.get([new PayloadWrapper(payload).hash])
-    expect(getResult?.[0].schema).toBe('network.xyo.boundwitness')
+    expect(getResult?.[0].schema).toBe(XyoBoundWitnessSchema)
   })
 })

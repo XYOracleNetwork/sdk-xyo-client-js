@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
@@ -18,7 +18,7 @@ import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoErrorBuilder, Xy
 export type SortedPipedAddressesString = string
 
 export interface XyoModuleParams<TConfig extends XyoModuleConfig = XyoModuleConfig> {
-  account?: XyoAccount
+  account?: Account
   config: TConfig
   logger?: Logger
   resolver?: ModuleResolver
@@ -32,7 +32,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   public resolver?: ModuleResolver
 
   protected _started = false
-  protected account: XyoAccount
+  protected account: Account
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected readonly logger?: Logging
 
@@ -64,7 +64,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return { address: this.address, queries: this.queries() }
   }
 
-  public discover(_queryAccount?: XyoAccount): Promisable<XyoPayload[]> {
+  public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
     return compact([this.config])
   }
 
@@ -72,16 +72,16 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return [XyoModuleDiscoverQuerySchema, XyoModuleSubscribeQuerySchema]
   }
 
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     this.logger?.log(wrapper.schemaName)
 
     const resultPayloads: XyoPayload[] = []
-    const queryAccount = new XyoAccount()
+    const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
         case XyoModuleDiscoverQuerySchema: {
@@ -134,11 +134,11 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return this._started
   }
 
-  public subscribe(_queryAccount?: XyoAccount) {
+  public subscribe(_queryAccount?: Account) {
     return
   }
 
-  protected bindHashes(hashes: string[], schema: SchemaString[], account?: XyoAccount) {
+  protected bindHashes(hashes: string[], schema: SchemaString[], account?: Account) {
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
       resolve?.(result)
@@ -147,7 +147,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return promise
   }
 
-  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: XyoAccount): XyoBoundWitness {
+  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: Account): XyoBoundWitness {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (account ? builder.witness(account) : builder).build()[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
@@ -157,9 +157,9 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account?: XyoAccount,
-  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], XyoAccount> {
-    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], XyoAccount>((resolve) => {
+    account?: Account,
+  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account> {
+    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
@@ -170,7 +170,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account?: XyoAccount,
+    account?: Account,
   ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     const result = (account ? builder.witness(account) : builder).build()
@@ -178,8 +178,8 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return result
   }
 
-  protected bindResult(payloads: XyoPayload[], account?: XyoAccount): PromiseEx<ModuleQueryResult, XyoAccount> {
-    const promise = new PromiseEx<ModuleQueryResult, XyoAccount>((resolve) => {
+  protected bindResult(payloads: XyoPayload[], account?: Account): PromiseEx<ModuleQueryResult, Account> {
+    const promise = new PromiseEx<ModuleQueryResult, Account>((resolve) => {
       const result = this.bindResultInternal(payloads, account)
       resolve?.(result)
       return result
@@ -187,15 +187,15 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return promise
   }
 
-  protected bindResultInternal(payloads: XyoPayload[], account?: XyoAccount): ModuleQueryResult {
+  protected bindResultInternal(payloads: XyoPayload[], account?: Account): ModuleQueryResult {
     const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
     const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
 
-  protected loadAccount(account?: XyoAccount) {
-    return account ?? new XyoAccount()
+  protected loadAccount(account?: Account) {
+    return account ?? new Account()
   }
 
   protected start(_timeout?: number): Promisable<this> {

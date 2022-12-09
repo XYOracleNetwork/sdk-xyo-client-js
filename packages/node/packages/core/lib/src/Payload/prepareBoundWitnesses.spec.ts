@@ -1,4 +1,4 @@
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoBoundWitnessMeta, XyoBoundWitnessWithPartialMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { v4 } from 'uuid'
@@ -62,7 +62,7 @@ const validateBeforeSanitization = (boundWitnesses: Array<XyoBoundWitnessWithPar
     expect(Array.isArray(bw.payload_hashes)).toBeTruthy()
     expect(bw.payload_schemas).toBeDefined()
     expect(Array.isArray(bw.payload_schemas)).toBeTruthy()
-    expect(bw.schema).toBe('network.xyo.boundwitness')
+    expect(bw.schema).toBe(XyoBoundWitnessSchema)
     bw?._payloads?.map((p) => {
       expect(p._archive).toBeUndefined()
       expect(p._client).toBe(_client)
@@ -90,7 +90,7 @@ const validateAfterSanitization = (actual: PrepareBoundWitnessesResult) => {
     expect(Array.isArray(bw.payload_hashes)).toBeTruthy()
     expect(bw.payload_schemas).toBeDefined()
     expect(Array.isArray(bw.payload_schemas)).toBeTruthy()
-    expect(bw.schema).toBe('network.xyo.boundwitness')
+    expect(bw.schema).toBe(XyoBoundWitnessSchema)
   })
   actual.payloads.map((p) => {
     expect(p._archive).toBe(_archive)

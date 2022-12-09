@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { EmptyObject } from '@xyo-network/core'
 import {
   AbstractPayloadArchivist,
@@ -18,7 +18,7 @@ import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export class MongoDBArchivePayloadsArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements ArchivePayloadsArchivist {
   constructor(
-    protected readonly account: XyoAccount = new XyoAccount(),
+    protected readonly account: Account = new Account(),
     protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
     config: ArchiveModuleConfig,
   ) {

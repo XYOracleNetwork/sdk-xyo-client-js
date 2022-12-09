@@ -1,4 +1,4 @@
-import { XyoAddressValue } from '@xyo-network/account'
+import { AddressValue } from '@xyo-network/account'
 import { Hasher } from '@xyo-network/core'
 import { PayloadValidator, XyoSchemaNameValidator } from '@xyo-network/payload'
 import { validateType } from '@xyo-network/typeof'
@@ -19,7 +19,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     if (!signature) {
       return [Error(`Missing signature [${address}]`)]
     }
-    if (!new XyoAddressValue(address).verify(hash, signature)) {
+    if (!new AddressValue(address).verify(hash, signature)) {
       return [Error(`Invalid signature [${address}] [${signature}]`)]
     }
     return []

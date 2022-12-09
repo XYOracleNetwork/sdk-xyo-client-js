@@ -4,6 +4,7 @@
     "declarationMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "incremental": true,
     "noImplicitOverride": false,
     "typeRoots": ["./node_modules/@types", "**/src/types"],
     "types": [

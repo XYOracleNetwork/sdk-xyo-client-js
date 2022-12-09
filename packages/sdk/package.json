@@ -14,6 +14,7 @@
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
@@ -21,11 +22,11 @@
     "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "axios": "~1.1.3",
+    "axios": "~1.2.1",
     "pako": "^2.1.0"
   },
   "peerDependencies": {
-    "axios": "~1.1.3",
+    "axios": "~1.2.1",
     "pako": "^2.1.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -61,5 +62,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.41.10"
+  "version": "2.41.12"
 }

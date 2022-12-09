@@ -3,7 +3,7 @@
 
 import { toUint8Array } from '@xyo-network/core'
 
-import { XyoAccount } from './Account'
+import { Account } from './Account'
 
 //test vectors: https://tools.ietf.org/html/rfc8032
 //test tool: https://asecuritysite.com/encryption/ethadd
@@ -32,7 +32,7 @@ const testAddress = '2a260a110bc7b03f19c40a0bd04ff2c5dcb57594'
 
 describe('XyoAccount', () => {
   test('Address from Phrase', () => {
-    const wallet = XyoAccount.fromPhrase('test')
+    const wallet = Account.fromPhrase('test')
     expect(wallet.private).toHaveLength(32)
     expect(wallet.public).toHaveLength(64)
     expect(wallet.addressValue).toHaveLength(20)
@@ -42,7 +42,7 @@ describe('XyoAccount', () => {
   })
 
   test('Address from Key', () => {
-    const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
+    const wallet = Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.private).toHaveLength(32)
     expect(wallet.public).toHaveLength(64)
     expect(wallet.addressValue).toHaveLength(20)
@@ -52,7 +52,7 @@ describe('XyoAccount', () => {
   })
 
   test('Sign-fromPrivateKey', () => {
-    const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
+    const wallet = Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.public).toBeDefined()
     expect(wallet.addressValue.hex).toBeDefined()
     const signature = wallet.sign('1234567890abcdef')
@@ -61,14 +61,14 @@ describe('XyoAccount', () => {
   })
 
   test('Sign-fromPhrase', () => {
-    const wallet = XyoAccount.fromPhrase('test')
+    const wallet = Account.fromPhrase('test')
     const signature = wallet.sign('1234567890abcdef')
     const valid = wallet.verify('1234567890abcdef', signature)
     expect(valid).toBeTruthy()
   })
 
   test('Sign-testVectors', () => {
-    const wallet = XyoAccount.fromPrivateKey(testVectorPrivateKey)
+    const wallet = Account.fromPrivateKey(testVectorPrivateKey)
     const signature = Buffer.from(wallet.sign(toUint8Array(testVectorHash))).toString('hex')
     const expectedSignature = testVectorSignature
 
@@ -79,14 +79,14 @@ describe('XyoAccount', () => {
   })
 
   test('Constructor', () => {
-    const wallet1 = new XyoAccount()
-    const wallet2 = new XyoAccount({ privateKey: wallet1.private.bytes })
+    const wallet1 = new Account()
+    const wallet2 = new Account({ privateKey: wallet1.private.bytes })
     expect(wallet1.public.hex).toEqual(wallet2.public.hex)
     expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
   })
 
   test('Sign-random-string', () => {
-    const wallet = XyoAccount.random()
+    const wallet = Account.random()
     const signature = wallet.sign('1234567890abcdef')
     const signaturePrime = toUint8Array(signature)
     expect(signature.length).toBe(signaturePrime.length)
@@ -107,12 +107,12 @@ describe('XyoAccount', () => {
     ]
     const paths = ['m/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]
     it.each(mnemonics)('generates account from mnemonic', (mnemonic: string) => {
-      const account = XyoAccount.fromMnemonic(mnemonic)
+      const account = Account.fromMnemonic(mnemonic)
       expect(account).toBeObject()
       expect(account.addressValue.hex).toBeString()
     })
     it.each(paths)('generates account from mnemonic & path', (path: string) => {
-      const account = XyoAccount.fromMnemonic(mnemonics[0], path)
+      const account = Account.fromMnemonic(mnemonics[0], path)
       expect(account).toBeObject()
       expect(account.addressValue.hex).toBeString()
     })

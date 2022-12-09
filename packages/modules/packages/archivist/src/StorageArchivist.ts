@@ -1,5 +1,15 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
+import {
+  XyoArchivistAllQuerySchema,
+  XyoArchivistClearQuerySchema,
+  XyoArchivistCommitQuerySchema,
+  XyoArchivistConfig,
+  XyoArchivistDeleteQuerySchema,
+  XyoArchivistFindQuerySchema,
+  XyoArchivistInsertQuery,
+  XyoArchivistInsertQuerySchema,
+} from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
@@ -8,16 +18,6 @@ import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
 
 import { AbstractArchivist } from './AbstractArchivist'
-import { XyoArchivistConfig } from './Config'
-import {
-  XyoArchivistAllQuerySchema,
-  XyoArchivistClearQuerySchema,
-  XyoArchivistCommitQuerySchema,
-  XyoArchivistDeleteQuerySchema,
-  XyoArchivistFindQuerySchema,
-  XyoArchivistInsertQuery,
-  XyoArchivistInsertQuerySchema,
-} from './Queries'
 
 export type StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
@@ -210,7 +210,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
       const privateKey = this.privateStorage.get('privateKey')
       if (privateKey) {
         try {
-          const account = new XyoAccount({ privateKey })
+          const account = new Account({ privateKey })
           this.logger?.log(account.addressValue.hex)
           return account
         } catch (ex) {

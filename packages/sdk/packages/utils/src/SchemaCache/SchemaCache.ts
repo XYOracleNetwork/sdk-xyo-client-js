@@ -1,5 +1,5 @@
 import { XyoDomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
-import { XyoFetchedPayload } from '@xyo-network/payload'
+import { FetchedPayload } from '@xyo-network/payload'
 import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 import Ajv, { SchemaObject } from 'ajv'
 import LRU from 'lru-cache'
@@ -13,7 +13,7 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
   }
 }
 
-export type XyoSchemaCacheEntry = XyoFetchedPayload<XyoSchemaPayload>
+export type XyoSchemaCacheEntry = FetchedPayload<XyoSchemaPayload>
 
 export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
   private static _instance?: XyoSchemaCache
@@ -75,7 +75,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
     }
   }
 
-  private cacheSchemas(aliasEntries?: XyoFetchedPayload[] | null) {
+  private cacheSchemas(aliasEntries?: FetchedPayload[] | null) {
     aliasEntries
       ?.filter((entry) => entry.payload.schema === XyoSchemaSchema)
       .forEach((entry) => {

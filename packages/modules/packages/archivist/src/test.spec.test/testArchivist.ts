@@ -5,6 +5,7 @@
 import { delay } from '@xylabs/delay'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { IdSchema } from '@xyo-network/plugins'
 import { Promisable } from '@xyo-network/promise'
 
 import { AbstractArchivist } from '../AbstractArchivist'
@@ -14,7 +15,7 @@ export const testArchivistRoundTrip = (archivist: Promisable<AbstractArchivist>,
   test(`XyoArchivist RoundTrip [${name}]`, async () => {
     const idPayload: XyoPayload<{ salt: string }> = {
       salt: Date.now().toString(),
-      schema: 'network.xyo.id',
+      schema: IdSchema,
     }
     const payloadWrapper = new PayloadWrapper(idPayload)
 
@@ -40,7 +41,7 @@ export const testArchivistAll = (archivist: Promisable<AbstractArchivist>, name:
   test(`XyoArchivist All [${name}]`, async () => {
     const idPayload = {
       salt: Date.now().toString(),
-      schema: 'network.xyo.id',
+      schema: IdSchema,
     }
     const archivistWrapper = new ArchivistWrapper(await archivist)
     for (let x = 0; x < 10; x++) {

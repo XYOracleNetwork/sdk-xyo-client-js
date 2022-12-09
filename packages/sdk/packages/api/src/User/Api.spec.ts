@@ -1,4 +1,4 @@
-import { XyoApiConfig, XyoApiError } from '@xyo-network/api-models'
+import { XyoApiConfig } from '@xyo-network/api-models'
 import { typeOf } from '@xyo-network/typeof'
 
 import { XyoArchivistApi } from '../Api'
@@ -21,15 +21,9 @@ describe('XyoAuthApi', () => {
       'returns a nonce',
       async () => {
         const api = new XyoArchivistApi(config)
-        try {
-          const response = await api.account('0xfEf40940e776A3686Cb29eC712d60859EA9f99F7').challenge.post()
-          expect(response?.state).toBeDefined()
-          expect(typeOf(response?.state)).toBe('string')
-        } catch (ex) {
-          const error = ex as XyoApiError
-          console.log(JSON.stringify(error.response?.data, null, 2))
-          expect(error === undefined)
-        }
+        const response = await api.account('0xfEf40940e776A3686Cb29eC712d60859EA9f99F7').challenge.post()
+        expect(response?.state).toBeDefined()
+        expect(typeOf(response?.state)).toBe('string')
       },
       timeout,
     )

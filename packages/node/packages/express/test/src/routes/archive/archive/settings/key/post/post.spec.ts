@@ -16,10 +16,10 @@ describe('/archive/:archive/settings/key', () => {
   })
   it('Creates a key for the archive', async () => {
     const response = await createArchiveKey(token, archive)
-
-    expect(response).toBeTruthy()
-
-    const { created, key } = response
+    expect(response).toBeArrayOfSize(1)
+    const [result] = response
+    expect(result).toBeObject()
+    const { created, key } = result
 
     expect(key).toBeTruthy()
     expect(validate(key)).toBeTruthy()

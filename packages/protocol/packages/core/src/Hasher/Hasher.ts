@@ -1,11 +1,11 @@
 import shajs from 'sha.js'
 
-import { EmptyObject, XyoObjectWrapper } from '../lib'
+import { EmptyObject, ObjectWrapper } from '../lib'
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
 
-export class Hasher<T extends EmptyObject = EmptyObject> extends XyoObjectWrapper<T> {
+export class Hasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
   public get hash() {
     return Hasher.hash(this.obj)
   }

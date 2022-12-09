@@ -1,7 +1,7 @@
 import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
+import { ModuleDescription } from '@xyo-network/module'
 
 import { XyoAddressesApi } from './Api'
-import { NodeModuleDescription } from './NodeModuleDescription'
 
 const config: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
@@ -16,12 +16,14 @@ describe('XyoAddressesApi', () => {
     })
     describe('returns modules in use on the node with their', () => {
       let api: XyoAddressesApi
-      let result: XyoApiResponseBody<NodeModuleDescription[]>
+      let result: XyoApiResponseBody<ModuleDescription[]>
       beforeAll(async () => {
         api = new XyoAddressesApi(config)
-        result = await api.get()
-        expect(result).toBeArray()
-        expect(result?.length).toBeGreaterThan(0)
+        const response = await api.get()
+        expect(response).toBeObject()
+        expect(response?.children).toBeArray()
+        expect(response?.children?.length).toBeGreaterThan(0)
+        result = response?.children || []
       })
       it('address', () => {
         result?.map((module) => {
@@ -36,11 +38,11 @@ describe('XyoAddressesApi', () => {
           })
         })
       })
-      it('mount point', () => {
-        result?.map((module) => {
-          expect(module.url).toBeString
-        })
-      })
+      // it.skip('mount point', () => {
+      //   result?.map((module) => {
+      //     expect(module?.url).toBeString
+      //   })
+      // })
     })
   })
 })

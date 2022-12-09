@@ -3,7 +3,6 @@
 # sdk-xyo-client-js
 
 [![main-build][]][main-build-link]
-[![beta-build][]][beta-build-link]
 [![npm-badge][]][npm-link]
 [![bch-badge][]][bch-link]
 [![codacy-badge][]][codacy-link]
@@ -61,9 +60,6 @@ yarn add @xyo-network/sdk-xyo-client-js
 
 [main-build]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build-main.yml/badge.svg
 [main-build-link]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build-main.yml
-
-[beta-build]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build-beta.yml/badge.svg
-[beta-build-link]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build-beta.yml
 
 [npm-badge]: https://img.shields.io/npm/v/@xyo-network/sdk-xyo-client-js.svg
 [npm-link]: https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js

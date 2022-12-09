@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.41.10",
+  "version": "2.41.12",
   "description": "XYO Express Node Routes",
   "sideeffects": false,
   "engines": {
@@ -41,6 +41,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
+    "@xyo-network/node-core-types": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "express": "^4.18.2",
@@ -55,7 +56,7 @@
   "devDependencies": {
     "@types/express": "4.17.14",
     "@types/source-map-support": "0.5.6",
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^9.0.0"
   },
   "types": "dist/esm/index.d.ts"
 }

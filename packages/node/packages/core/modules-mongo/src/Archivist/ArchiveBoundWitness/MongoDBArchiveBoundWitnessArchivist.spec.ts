@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import {
@@ -45,7 +45,7 @@ const removePayloads = (boundWitness: XyoBoundWitnessWithPartialMeta) => {
 
 describe('MongoDBArchiveBoundWitnessArchivist', () => {
   const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  const account = XyoAccount.random()
+  const account = Account.random()
   const archive = `test-${v4()}`
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const sut = new MongoDBArchiveBoundWitnessArchivist(account, sdk, config)

@@ -2,32 +2,47 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Build & Debug Jest Tests",
       "type": "node",
       "request": "launch",
-      "osx": {
-        "runtimeArgs": [
-          "--inspect-brk",
-          "${workspaceRoot}/node_modules/.bin/jest",
-          "--runInBand",
-          "${workspaceRoot}/packages/modules/src/XyoModuleResolver.spec.ts"
-        ]
-      },
-      "windows": {
-        "runtimeArgs": [
-          "--inspect-brk",
-          "${workspaceRoot}/node_modules/jest/bin/jest.js",
-          "--runInBand"
-        ]
-      },
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "cwd": "${workspaceFolder}",
+      "name": "MemoryNode",
+      "program": "${workspaceFolder}/packages/node/packages/core/app/src/app.ts",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "runtimeArgs": [
+        "--max-old-space-size=8192",
+        "--experimental-specifier-resolution=node",
+        "--loader=ts-node/esm"
+      ],
       "envFile": "${workspaceFolder}/.env",
-      "preLaunchTask": "build"
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**"
+      ],
+      "pauseForSourceMap": true,
     },
     {
-      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "name": "CLI",
+      "program": "${workspaceFolder}/packages/cli/src/index.ts",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "runtimeArgs": [
+        "--max-old-space-size=8192",
+        "--experimental-specifier-resolution=node",
+        "--loader=ts-node/esm"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**"
+      ],
+      "pauseForSourceMap": true,
+    },
+    {
+      "name": "Jest",
       "type": "node",
       "request": "launch",
       "osx": {
@@ -39,7 +54,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/panel/src/XyoPanel.spec.ts"
+        "packages/modules/packages/transport/src/RemoteModule.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

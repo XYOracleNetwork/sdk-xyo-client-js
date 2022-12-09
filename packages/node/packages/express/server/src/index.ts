@@ -2,6 +2,7 @@ import { Logger } from '@xylabs/sdk-api-express-ecs'
 import { configureDependencies, dependencies } from '@xyo-network/express-node-dependencies'
 import { configureDoc } from '@xyo-network/express-node-middleware'
 import { addRoutes } from '@xyo-network/express-node-routes'
+import { AbstractNode, MemoryNode } from '@xyo-network/modules'
 import { TYPES } from '@xyo-network/node-core-types'
 import compression from 'compression'
 import cors from 'cors'
@@ -17,29 +18,45 @@ import { addQueryProcessors } from './addQueryProcessors'
 import { configureEnvironment } from './configureEnvironment'
 import { initializeJobs } from './initializeJobs'
 
-export const getApp = async (): Promise<Express> => {
-  await configureEnvironment()
-  await configureDependencies()
-
-  const app = express()
-  app.set('etag', false)
-  app.use(cors())
-  app.use(compression())
-
-  await addDependencies(app)
-  addMiddleware(app)
-  addAuth(app)
-  addQueryConverters()
-  addQueryProcessors(app)
-  addQueryProcessing()
-  await initializeJobs()
-  addRoutes(app)
-  addErrorHandlers(app)
-  return app
+export abstract class PayloadTransport {
+  constructor(protected readonly node: AbstractNode) {}
+}
+export class ExpressPayloadTransport extends PayloadTransport {
+  private _app: Express = express()
+  constructor(node: AbstractNode) {
+    super(node)
+    this.app.set('etag', false)
+    this.app.use(cors())
+    this.app.use(compression())
+    addDependencies(this.app)
+    addMiddleware(this.app)
+    addAuth(this.app)
+    addQueryProcessors(this.app)
+    addRoutes(this.app)
+    addErrorHandlers(this.app)
+  }
+  public get app(): Express {
+    return this._app
+  }
+  public set app(v: Express) {
+    this._app = v
+  }
 }
 
-export const server = async (port = 80) => {
-  const app = await getApp()
+export const getApp = async (node?: MemoryNode): Promise<Express> => {
+  node = node ?? (await MemoryNode.create())
+  await configureEnvironment()
+  await configureDependencies(node)
+  const transport = new ExpressPayloadTransport(node)
+  addQueryConverters()
+  addQueryProcessing()
+  await initializeJobs()
+  return transport.app
+}
+
+export const server = async (port = 80, node?: MemoryNode) => {
+  node = node ?? (await MemoryNode.create())
+  const app = await getApp(node)
   const logger = dependencies.get<Logger>(TYPES.Logger)
   const host = process.env.PUBLIC_ORIGIN || `http://localhost:${port}`
   await configureDoc(app, { host })

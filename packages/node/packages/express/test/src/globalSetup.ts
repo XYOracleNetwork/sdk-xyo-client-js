@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 config()
 import { assertEx } from '@xylabs/assert'
-import { XyoAccount } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { XyoArchive } from '@xyo-network/api'
 
 import { claimArchive, getArchive, setArchiveAccessControl, signInUser } from './testUtil'
@@ -20,7 +20,7 @@ module.exports = async () => {
     let archive: XyoArchive
     const { name, accessControl } = testArchive
     const phrase = process.env.ACCOUNT_SEED
-    const account = new XyoAccount({ phrase })
+    const account = new Account({ phrase })
     const token = await signInUser({
       address: account.addressValue.bn.toString('hex'),
       privateKey: account.private.bn.toString('hex'),

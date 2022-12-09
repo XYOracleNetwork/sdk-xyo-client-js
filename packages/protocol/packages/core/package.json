@@ -15,7 +15,7 @@
     "@xylabs/bignumber": "^2.6.9",
     "@xylabs/buffer": "^2.6.9",
     "@xyo-network/typeof": "workspace:^",
-    "axios": "~1.1.3",
+    "axios": "~1.2.1",
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",
     "sha.js": "^2.4.11",
@@ -24,9 +24,9 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lodash": "^4.14.190",
+    "@types/lodash": "^4.14.191",
     "@types/sha.js": "^2.4.0",
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^9.0.0"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -60,5 +60,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.41.10"
+  "version": "2.41.12"
 }

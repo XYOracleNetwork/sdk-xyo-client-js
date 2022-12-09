@@ -4809,9 +4809,11 @@ __metadata:
   dependencies:
     "@types/node": ^18.11.12
     "@types/terminal-kit": ^2.5.1
+    "@xyo-network/api": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/node-app": "workspace:^"
+    "@xyo-network/transport": "workspace:^"
     axios: ~1.2.1
     pako: ^2.1.0
     terminal-kit: ^3.0.0
@@ -6208,7 +6210,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/transport@workspace:packages/modules/packages/transport":
+"@xyo-network/transport@workspace:^, @xyo-network/transport@workspace:packages/modules/packages/transport":
   version: 0.0.0-use.local
   resolution: "@xyo-network/transport@workspace:packages/modules/packages/transport"
   dependencies:

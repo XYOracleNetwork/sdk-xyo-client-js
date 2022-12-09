@@ -21,3 +21,7 @@ export interface Module<TConfig extends XyoPayload = XyoPayload> {
   queryable: (schema: string, addresses?: string[]) => boolean
   resolver?: ModuleResolver
 }
+
+export interface Creatable<T, TParams> {
+  create(params?: TParams): Promise<T>
+}

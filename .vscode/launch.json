@@ -4,7 +4,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug: Node",
+      "name": "MemoryNode",
       "program": "${workspaceFolder}/packages/node/packages/core/app/src/app.ts",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
@@ -24,7 +24,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug: Terminal App",
+      "name": "CLI",
       "program": "${workspaceFolder}/packages/cli/src/index.ts",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
@@ -42,31 +42,7 @@
       "pauseForSourceMap": true,
     },
     {
-      "name": "Build & Debug Jest Tests",
-      "type": "node",
-      "request": "launch",
-      "osx": {
-        "runtimeArgs": [
-          "--inspect-brk",
-          "${workspaceRoot}/node_modules/.bin/jest",
-          "--runInBand"
-        ]
-      },
-      "windows": {
-        "runtimeArgs": [
-          "--inspect-brk",
-          "${workspaceRoot}/node_modules/jest/bin/jest.js",
-          "--runInBand"
-        ]
-      },
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "cwd": "${workspaceFolder}",
-      "envFile": "${workspaceFolder}/.env",
-      "preLaunchTask": "build"
-    },
-    {
-      "name": "Debug Jest Tests",
+      "name": "Jest",
       "type": "node",
       "request": "launch",
       "osx": {

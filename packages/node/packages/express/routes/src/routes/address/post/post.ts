@@ -18,6 +18,7 @@ const handler: RequestHandler<AddressPathParams, ModuleQueryResult> = async (req
       return
     }
   }
+  // TODO: Return 404 instead?
   next('route')
 }
 

@@ -23,7 +23,12 @@ export interface Module<TConfig extends XyoPayload = XyoPayload> {
   resolver?: ModuleResolver
 }
 
-export interface ModuleStatic<T extends Module = Module, TParams extends XyoModuleParams = XyoModuleParams> {
-  new (): T
+export interface Creatable<T extends Module = Module, TParams extends XyoModuleParams = XyoModuleParams> {
   create(params?: TParams): Promise<T>
+}
+
+export function staticImplements<T>() {
+  return <U extends T>(constructor: U) => {
+    constructor
+  }
 }

@@ -9,7 +9,7 @@ import compact from 'lodash/compact'
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
-import { Module, ModuleResolver } from './Module'
+import { Creatable, Module, ModuleResolver, staticImplements } from './Module'
 import { ModuleDescription } from './ModuleDescription'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
@@ -24,6 +24,7 @@ export interface XyoModuleParams<TConfig extends XyoModuleConfig = XyoModuleConf
   resolver?: ModuleResolver
 }
 
+@staticImplements<Creatable>()
 export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
   static configSchema: string
   static defaultLogger?: Logger
@@ -53,7 +54,7 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return this.config?.security?.disallowed
   }
 
-  protected static async create(params?: Partial<XyoModuleParams<XyoModuleConfig>>): Promise<XyoModule> {
+  static async create(params?: Partial<XyoModuleParams<XyoModuleConfig>>): Promise<XyoModule> {
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const actualParams: Partial<XyoModuleParams<XyoModuleConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }

@@ -5,6 +5,7 @@ import { ModuleDescription } from './ModuleDescription'
 import { ModuleFilter } from './ModuleFilter'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { XyoQueryBoundWitness } from './Query'
+import { XyoModuleParams } from './XyoModule'
 
 export interface ModuleResolver {
   isModuleResolver: boolean
@@ -22,6 +23,7 @@ export interface Module<TConfig extends XyoPayload = XyoPayload> {
   resolver?: ModuleResolver
 }
 
-export interface Creatable<T, TParams> {
+export interface ModuleStatic<T extends Module = Module, TParams extends XyoModuleParams = XyoModuleParams> {
+  new (): T
   create(params?: TParams): Promise<T>
 }

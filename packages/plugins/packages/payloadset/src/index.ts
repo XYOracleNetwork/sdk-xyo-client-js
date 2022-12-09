@@ -7,8 +7,8 @@ export * from '@xyo-network/location-certainty-plugin'
 export * from '@xyo-network/location-plugin'
 export * from '@xyo-network/module-instance-plugin'
 export * from '@xyo-network/pentair-plugin'
-export * from '@xyo-network/schema-payload-plugin'
-export * from '@xyo-network/system-payload-plugins'
+export * from '@xyo-network/schema-plugin'
+export * from '@xyo-network/system-plugins'
 
 import { XyoBlockchainPlugins } from '@xyo-network/blockchain-plugins'
 import { XyoCryptoPlugins } from '@xyo-network/crypto-plugins'
@@ -20,8 +20,8 @@ import { LocationPlugin } from '@xyo-network/location-plugin'
 import { XyoModuleInstancePlugin } from '@xyo-network/module-instance-plugin'
 import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
 import { XyoPentairScreenlogicPlugin } from '@xyo-network/pentair-plugin'
-import { XyoSchemaPlugin } from '@xyo-network/schema-payload-plugin'
-import { XyoSystemPlugins } from '@xyo-network/system-payload-plugins'
+import { XyoSchemaPlugin } from '@xyo-network/schema-plugin'
+import { XyoSystemPlugins } from '@xyo-network/system-plugins'
 
 export const PayloadSetPlugins: PayloadSetPluginFunc[] = [
   ...XyoSystemPlugins,

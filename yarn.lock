@@ -4794,11 +4794,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/bowser-system-info-payload-plugin@workspace:^, @xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser":
+"@xyo-network/bowser-system-info-payload-plugin@workspace:^, @xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/bowser":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/bowser"
+  resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/bowser"
+  dependencies:
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    bowser: ^2.11.0
+    lodash: ^4.17.21
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/bowser-system-info-plugin@workspace:^, @xyo-network/bowser-system-info-plugin@workspace:packages/plugins/packages/payloadset/packages/system/packages/info/packages/bowser":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bowser-system-info-plugin@workspace:packages/plugins/packages/payloadset/packages/system/packages/info/packages/bowser"
   dependencies:
     "@types/lodash": ^4.14.191
+    "@xyo-network/bowser-system-info-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
@@ -4992,6 +5007,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-game-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards/packages/game"
   dependencies:
+    "@xyo-network/crypto-cards-game-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
@@ -5018,6 +5034,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-move-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards/packages/move"
   dependencies:
+    "@xyo-network/crypto-cards-move-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
@@ -5749,12 +5766,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/info-system-payload-plugins@workspace:^, @xyo-network/info-system-payload-plugins@workspace:packages/plugins/packages/system/packages/info":
+"@xyo-network/info-system-payload-plugins@workspace:^, @xyo-network/info-system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system/packages/info":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/info-system-payload-plugins@workspace:packages/plugins/packages/system/packages/info"
+  resolution: "@xyo-network/info-system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system/packages/info"
   dependencies:
     "@xyo-network/bowser-system-info-payload-plugin": "workspace:^"
     "@xyo-network/node-system-info-payload-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/info-system-plugins@workspace:^, @xyo-network/info-system-plugins@workspace:packages/plugins/packages/payloadset/packages/system/packages/info":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/info-system-plugins@workspace:packages/plugins/packages/payloadset/packages/system/packages/info"
+  dependencies:
+    "@xyo-network/bowser-system-info-payload-plugin": "workspace:^"
+    "@xyo-network/bowser-system-info-plugin": "workspace:^"
+    "@xyo-network/node-system-info-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
@@ -6052,11 +6081,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-system-info-payload-plugin@workspace:^, @xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/node":
+"@xyo-network/node-system-info-payload-plugin@workspace:^, @xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/node":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/system/packages/info/packages/node"
+  resolution: "@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/node"
   dependencies:
     "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    systeminformation: ^5.16.3
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/node-system-info-plugin@workspace:^, @xyo-network/node-system-info-plugin@workspace:packages/plugins/packages/payloadset/packages/system/packages/info/packages/node":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/node-system-info-plugin@workspace:packages/plugins/packages/payloadset/packages/system/packages/info/packages/node"
+  dependencies:
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/node-system-info-payload-plugin": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
@@ -6178,8 +6221,8 @@ __metadata:
     "@xyo-network/module-instance-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/pentair-plugin": "workspace:^"
-    "@xyo-network/schema-payload-plugin": "workspace:^"
-    "@xyo-network/system-payload-plugins": "workspace:^"
+    "@xyo-network/schema-plugin": "workspace:^"
+    "@xyo-network/system-plugins": "workspace:^"
     axios: ~1.2.1
     pako: ^2.1.0
     tslib: ^2.4.1
@@ -6273,14 +6316,28 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@workspace:^, @xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/schema":
+"@xyo-network/schema-payload-plugin@workspace:^, @xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/payload/packages/schema":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/schema"
+  resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/payload/packages/schema"
+  dependencies:
+    "@xylabs/delay": ^2.6.9
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/schema-plugin@workspace:^, @xyo-network/schema-plugin@workspace:packages/plugins/packages/payloadset/packages/schema":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/schema-plugin@workspace:packages/plugins/packages/payloadset/packages/schema"
   dependencies:
     "@xylabs/delay": ^2.6.9
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
@@ -6393,11 +6450,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/system-payload-plugins@workspace:^, @xyo-network/system-payload-plugins@workspace:packages/plugins/packages/system":
+"@xyo-network/system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/system-payload-plugins@workspace:packages/plugins/packages/system"
+  resolution: "@xyo-network/system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system"
   dependencies:
     "@xyo-network/info-system-payload-plugins": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/system-plugins@workspace:^, @xyo-network/system-plugins@workspace:packages/plugins/packages/payloadset/packages/system":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/system-plugins@workspace:packages/plugins/packages/payloadset/packages/system"
+  dependencies:
+    "@xyo-network/info-system-plugins": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown

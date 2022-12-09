@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/payloadset-plugins",
+  "name": "@xyo-network/node-system-info-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,27 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/blockchain-plugins": "workspace:^",
-    "@xyo-network/crypto-plugins": "workspace:^",
-    "@xyo-network/domain-plugin": "workspace:^",
-    "@xyo-network/elevation-plugin": "workspace:^",
-    "@xyo-network/id-plugin": "workspace:^",
-    "@xyo-network/location-certainty-plugin": "workspace:^",
-    "@xyo-network/location-plugin": "workspace:^",
-    "@xyo-network/module-instance-plugin": "workspace:^",
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/node-system-info-payload-plugin": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/pentair-plugin": "workspace:^",
-    "@xyo-network/schema-plugin": "workspace:^",
-    "@xyo-network/system-plugins": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
+    "systeminformation": "^5.16.3",
     "tslib": "^2.4.1"
-  },
-  "devDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
-  },
-  "peerDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

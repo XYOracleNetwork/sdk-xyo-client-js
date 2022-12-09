@@ -78,7 +78,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/plugins/packages/location-certainty/src/Diviner/Diviner.spec.ts"
+        "packages/modules/packages/transport/src/RemoteModule.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

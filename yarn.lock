@@ -6476,6 +6476,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.6.9
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/api": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/payload": "workspace:^"

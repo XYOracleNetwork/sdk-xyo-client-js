@@ -77,6 +77,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
           break
         }
         case XyoNodeRegisteredQuerySchema: {
+          // TODO: Make address payload, return array of them via BW
           this.registered()
           break
         }

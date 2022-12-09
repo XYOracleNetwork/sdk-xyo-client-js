@@ -6,6 +6,8 @@ import { PayloadFields, SchemaFields, XyoPayload } from '@xyo-network/payload'
 export class RemoteModule implements Module {
   constructor(protected readonly _api: XyoArchivistApi, protected readonly _address: string) {}
 
+  // TODO: async create (without XyoModule)
+
   public get address(): string {
     return this._address
   }

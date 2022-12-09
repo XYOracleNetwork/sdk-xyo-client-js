@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/module-instance-payload-plugin",
+  "name": "@xyo-network/module-instance-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/module": "workspace:^",
+    "@xyo-network/module-instance-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",

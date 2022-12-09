@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 
+import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
 import { XyoModuleInstancePlugin } from './Plugin'
-import { XyoModuleInstanceSchema } from './Schema'
 import { XyoModuleInstanceWitnessConfigSchema } from './Witness'
 
 describe('XyoModuleInstancePlugin', () => {

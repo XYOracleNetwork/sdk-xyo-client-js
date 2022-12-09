@@ -1,8 +1,8 @@
 import { XyoModuleParams } from '@xyo-network/module'
+import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { PayloadSetSchema } from '@xyo-network/payload'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoModuleInstanceSchema } from './Schema'
 import { XyoModuleInstanceWitness, XyoModuleInstanceWitnessConfig } from './Witness'
 
 export const XyoModuleInstancePlugin = () =>

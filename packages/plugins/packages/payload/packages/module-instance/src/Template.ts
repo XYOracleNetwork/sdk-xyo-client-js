@@ -1,7 +1,7 @@
 import { XyoModuleInstancePayload } from './Payload'
 import { XyoModuleInstanceSchema } from './Schema'
 
-export const XyoModuleInstancePayloadTemplate = (): Partial<XyoModuleInstancePayload> => {
+export const moduleInstancePayloadTemplate = (): Partial<XyoModuleInstancePayload> => {
   return {
     address: undefined,
     queries: undefined,

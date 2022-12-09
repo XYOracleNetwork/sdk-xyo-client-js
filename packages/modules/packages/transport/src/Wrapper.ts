@@ -1,21 +1,16 @@
 import { XyoArchivistApi } from '@xyo-network/api'
-import { Module, ModuleDescription, ModuleQueryResult, ModuleResolver, ModuleWrapper, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
+import { Module, ModuleDescription, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadFields, SchemaFields, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
-export class RemoteModule<TModule extends Module = Module> implements Module {
-  protected constructor(protected readonly _api: XyoArchivistApi) {
-    // TODO: API
-  }
+export class RemoteModule implements Module {
+  constructor(protected readonly _api: XyoArchivistApi, protected readonly _address: string) {}
 
   public get address(): string {
-    throw new Error('Not Implemented')
+    return this._address
   }
   public get api(): XyoArchivistApi {
-    if (this._api) {
-      return this._api
-    }
-    throw Error('No API specified')
+    return this._api
   }
   public get config(): SchemaFields & PayloadFields & { schema: string } {
     throw new Error('Not Implemented')
@@ -27,10 +22,13 @@ export class RemoteModule<TModule extends Module = Module> implements Module {
     return [] as string[]
   }
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    await Promise.resolve()
-    throw new Error('Not Implemented')
+    const data: XyoPayload[] = [query]
+    if (payloads?.length) data.push(...payloads)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await this._api.addresses.address(this.address).post(data as any)
+    return response as unknown as ModuleQueryResult
   }
-  public queryable(schema: string, addresses?: string[] | undefined) {
-    return false
+  public queryable(_schema: string, _addresses?: string[] | undefined) {
+    return true
   }
 }

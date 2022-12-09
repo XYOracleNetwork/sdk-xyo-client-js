@@ -4809,7 +4809,6 @@ __metadata:
   dependencies:
     "@types/node": ^18.11.12
     "@types/terminal-kit": ^2.5.1
-    "@xyo-network/archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/node-app": "workspace:^"

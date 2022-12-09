@@ -1,9 +1,6 @@
 import { XyoCoingeckoCryptoMarketPayload } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { AssetInfo, XyoCryptoMarketAssetPayload, XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
-
-import { AssetInfo } from '../Model'
-import { XyoCryptoMarketAssetPayload } from '../Payload'
-import { XyoCryptoMarketAssetSchema } from '../Schema'
 
 const schema = XyoCryptoMarketAssetSchema
 

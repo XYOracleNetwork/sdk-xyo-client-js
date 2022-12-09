@@ -5,7 +5,7 @@ import { CryptoCardsGamePayloadPlugin } from '@xyo-network/crypto-cards-game-pay
 import { CryptoCardsMovePayloadPlugin } from '@xyo-network/crypto-cards-move-payload-plugin'
 import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 
-export const XyoCryptoCardsPlugins: XyoPayloadPluginFunc[] = [CryptoCardsGamePayloadPlugin, CryptoCardsMovePayloadPlugin]
+export const XyoCryptoCardsPayloadPlugins: XyoPayloadPluginFunc[] = [CryptoCardsGamePayloadPlugin, CryptoCardsMovePayloadPlugin]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoCryptoCardsPlugins
+export default XyoCryptoCardsPayloadPlugins

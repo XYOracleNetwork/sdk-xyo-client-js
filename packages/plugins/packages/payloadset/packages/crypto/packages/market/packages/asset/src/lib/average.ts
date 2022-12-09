@@ -1,7 +1,5 @@
 import { exists } from '@xylabs/exists'
-
-import { AssetInfo, Currency, Token } from '../Model'
-import { XyoCryptoMarketAssetPayload } from '../Payload'
+import { AssetInfo, Currency, Token, XyoCryptoMarketAssetPayload } from '@xyo-network/crypto-asset-payload-plugin'
 
 const isNumber = (val: number | undefined): val is number => {
   return val !== undefined

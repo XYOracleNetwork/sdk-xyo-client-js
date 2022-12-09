@@ -1,4 +1,5 @@
 import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { XyoCryptoMarketAssetPayload, XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { AbstractDiviner, DivinerConfig, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
@@ -6,8 +7,7 @@ import { Promisable } from '@xyo-network/promise'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 import { divinePrices } from './lib'
-import { XyoCryptoMarketAssetPayload } from './Payload'
-import { XyoCryptoMarketAssetDivinerConfigSchema, XyoCryptoMarketAssetSchema } from './Schema'
+import { XyoCryptoMarketAssetDivinerConfigSchema } from './Schema'
 
 export type XyoCryptoMarketAssetDivinerConfig = DivinerConfig<{ schema: XyoCryptoMarketAssetDivinerConfigSchema }>
 

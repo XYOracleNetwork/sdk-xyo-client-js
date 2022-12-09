@@ -1,8 +1,8 @@
+import { XyoCryptoCardsMoveSchema } from '@xyo-network/crypto-cards-move-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadSetSchema } from '@xyo-network/payload'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoCryptoCardsMoveSchema } from './Schema'
 import { XyoCryptoCardsMoveWitness, XyoCryptoCardsMoveWitnessConfig } from './Witness'
 
 export const XyoCryptoCardsMovePlugin = () =>

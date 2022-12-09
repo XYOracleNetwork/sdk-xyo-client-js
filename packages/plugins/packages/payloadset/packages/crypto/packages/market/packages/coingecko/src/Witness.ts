@@ -1,11 +1,11 @@
+import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
 import { pricesFromCoingecko } from './lib'
-import { XyoCoingeckoCryptoMarketPayload } from './Payload'
-import { XyoCoingeckoCryptoMarketSchema, XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
+import { XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 
 export class XyoCoingeckoCryptoMarketWitness extends AbstractWitness<XyoCoingeckoCryptoMarketWitnessConfig> {
   static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema

@@ -1,7 +1,7 @@
+import { XyoCryptoCardsGameSchema } from '@xyo-network/crypto-cards-game-payload-plugin'
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
 import { XyoCryptoCardsGamePlugin } from './Plugin'
-import { XyoCryptoCardsGameSchema } from './Schema'
 
 describe('XyoCryptoCardsGamePlugin', () => {
   test('Add to Resolver', () => {

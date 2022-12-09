@@ -1,10 +1,14 @@
 import { exists } from '@xylabs/exists'
+import {
+  AssetInfo,
+  Currency,
+  Token,
+  ValueBasis,
+  XyoCryptoMarketAssetPayload,
+  XyoCryptoMarketAssetSchema,
+} from '@xyo-network/crypto-asset-payload-plugin'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoPair, XyoUniswapCryptoToken } from '@xyo-network/uniswap-crypto-market-payload-plugin'
-
-import { AssetInfo, Currency, Token, ValueBasis } from '../Model'
-import { XyoCryptoMarketAssetPayload } from '../Payload'
-import { XyoCryptoMarketAssetSchema } from '../Schema'
 
 const schema = XyoCryptoMarketAssetSchema
 

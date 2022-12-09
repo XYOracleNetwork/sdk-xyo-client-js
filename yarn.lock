@@ -4735,7 +4735,7 @@ __metadata:
   resolution: "@xyo-network/blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain"
   dependencies:
     "@xyo-network/ethereum-blockchain-payload-plugins": "workspace:^"
-    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -4869,6 +4869,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/coingecko-crypto-market-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/coingecko"
   dependencies:
+    "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
@@ -4950,6 +4951,7 @@ __metadata:
     "@uniswap/v3-sdk": ^3.9.0
     "@xylabs/exists": ^2.6.9
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
+    "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -5830,7 +5832,7 @@ __metadata:
   dependencies:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ~1.2.1
     lodash: ^4.17.21
@@ -5842,14 +5844,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/module-instance-plugin@workspace:packages/plugins/packages/payloadset/packages/module-instance":
+"@xyo-network/module-instance-plugin@workspace:^, @xyo-network/module-instance-plugin@workspace:packages/plugins/packages/payloadset/packages/module-instance":
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-instance-plugin@workspace:packages/plugins/packages/payloadset/packages/module-instance"
   dependencies:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-instance-payload-plugin": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ~1.2.1
     lodash: ^4.17.21
@@ -6173,7 +6175,7 @@ __metadata:
     "@xyo-network/id-plugin": "workspace:^"
     "@xyo-network/location-certainty-plugin": "workspace:^"
     "@xyo-network/location-plugin": "workspace:^"
-    "@xyo-network/module-instance-payload-plugin": "workspace:^"
+    "@xyo-network/module-instance-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/pentair-plugin": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"

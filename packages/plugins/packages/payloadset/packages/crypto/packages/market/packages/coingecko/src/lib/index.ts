@@ -1,6 +1,3 @@
-export * from './AssetSymbol'
 export * from './coinGeckoCoinToAssetMap'
 export * from './defaults'
 export * from './pricesFromCoingecko'
-export * from './XyoCryptoAsset'
-export * from './XyoCryptoAssets'

@@ -1,8 +1,7 @@
+import { XyoCryptoMarketAssetPayload, XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { DivinerWrapper } from '@xyo-network/diviner'
 
 import { XyoCryptoMarketAssetDiviner } from './Diviner'
-import { XyoCryptoMarketAssetPayload } from './Payload'
-import { XyoCryptoMarketAssetSchema } from './Schema'
 import { sampleCoinGeckoPayload, sampleUniswapPayload } from './test'
 
 const coinGeckoPayload = sampleCoinGeckoPayload

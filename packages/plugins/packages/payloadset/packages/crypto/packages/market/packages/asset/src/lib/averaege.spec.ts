@@ -1,8 +1,6 @@
+import { AssetInfo, XyoCryptoMarketAssetPayload, XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
-import { AssetInfo } from '../Model'
-import { XyoCryptoMarketAssetPayload } from '../Payload'
-import { XyoCryptoMarketAssetSchema } from '../Schema'
 import { average } from './average'
 
 const schema = XyoCryptoMarketAssetSchema

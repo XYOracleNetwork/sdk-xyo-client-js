@@ -1,7 +1,7 @@
+import { XyoCryptoCardsMoveSchema } from '@xyo-network/crypto-cards-move-payload-plugin'
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
 import { XyoCryptoCardsMovePlugin } from './Plugin'
-import { XyoCryptoCardsMoveSchema } from './Schema'
 
 describe('XyoCryptoCardsMovePlugin', () => {
   test('Add to Resolver', () => {

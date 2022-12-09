@@ -1,9 +1,13 @@
+export * from '@xyo-network/blockchain-payload-plugins'
+export * from '@xyo-network/crypto-payload-plugins'
 export * from '@xyo-network/domain-payload-plugin'
 export * from '@xyo-network/id-payload-plugin'
 export * from '@xyo-network/location-certainty-payload-plugin'
 export * from '@xyo-network/location-payload-plugin'
 export * from '@xyo-network/pentair-payload-plugin'
 
+import { XyoBlockchainPayloadPlugins } from '@xyo-network/blockchain-payload-plugins'
+import { CryptoPayloadPlugins } from '@xyo-network/crypto-payload-plugins'
 import { DomainPayloadPlugin } from '@xyo-network/domain-payload-plugin'
 import { IdPayloadPlugin } from '@xyo-network/id-payload-plugin'
 import { LocationCertaintyPayloadPlugin } from '@xyo-network/location-certainty-payload-plugin'
@@ -19,6 +23,8 @@ export const PayloadPlugins: XyoPayloadPluginFunc[] = [
   DomainPayloadPlugin,
   IdPayloadPlugin,
   ModuleInstancePayloadPlugin,
+  ...XyoBlockchainPayloadPlugins,
+  ...CryptoPayloadPlugins,
 ]
 
 // eslint-disable-next-line import/no-default-export

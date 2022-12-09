@@ -1,9 +1,9 @@
+import { XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadSetSchema } from '@xyo-network/payload'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
-import { XyoCoingeckoCryptoMarketSchema } from './Schema'
 import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
 export const XyoCoingeckoCryptoMarketPlugin = () =>

@@ -1,9 +1,7 @@
+import { AssetSymbol, XyoCryptoAsset, XyoCryptoAssetPrices } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import axios from 'axios'
 
-import { AssetSymbol } from './AssetSymbol'
 import { coingeckoCoinToAssetMap } from './coinGeckoCoinToAssetMap'
-import { XyoCryptoAsset } from './XyoCryptoAsset'
-import { XyoCryptoAssetPrices } from './XyoCryptoAssets'
 
 type CoinGeckoSimplePrice = Partial<Record<AssetSymbol, number>>
 type CoinGeckoSimplePrices = Record<string, CoinGeckoSimplePrice>

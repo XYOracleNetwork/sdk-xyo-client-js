@@ -1,8 +1,8 @@
+import { XyoCryptoCardsGameSchema } from '@xyo-network/crypto-cards-game-payload-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { PayloadSetSchema } from '@xyo-network/payload'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
-import { XyoCryptoCardsGameSchema } from './Schema'
 import { XyoCryptoCardsGameWitness, XyoCryptoCardsGameWitnessConfig } from './Witness'
 
 export const XyoCryptoCardsGamePlugin = () =>

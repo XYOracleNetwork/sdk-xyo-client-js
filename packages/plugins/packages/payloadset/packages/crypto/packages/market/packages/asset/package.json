@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/exists": "^2.6.9",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
+    "@xyo-network/crypto-asset-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",

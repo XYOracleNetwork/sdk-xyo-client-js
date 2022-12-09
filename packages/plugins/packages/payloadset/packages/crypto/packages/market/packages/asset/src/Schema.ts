@@ -3,6 +3,3 @@ export const XyoCryptoMarketAssetDivinerQuerySchema: XyoCryptoMarketAssetDiviner
 
 export type XyoCryptoMarketAssetDivinerConfigSchema = 'network.xyo.crypto.asset.diviner.config'
 export const XyoCryptoMarketAssetDivinerConfigSchema: XyoCryptoMarketAssetDivinerConfigSchema = 'network.xyo.crypto.asset.diviner.config'
-
-export type XyoCryptoMarketAssetSchema = 'network.xyo.crypto.asset'
-export const XyoCryptoMarketAssetSchema: XyoCryptoMarketAssetSchema = 'network.xyo.crypto.asset'

@@ -22,8 +22,7 @@ export class RemoteModule implements Module {
     return [] as string[]
   }
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    const data: XyoPayload[] = [query]
-    if (payloads?.length) data.push(...payloads)
+    const data = payloads?.length ? [query, payloads] : [query]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await this._api.addresses.address(this.address).post(data as any)
     return response as unknown as ModuleQueryResult

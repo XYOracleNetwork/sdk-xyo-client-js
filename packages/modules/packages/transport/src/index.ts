@@ -1,2 +1,2 @@
 export * from './Config'
-export * from './Wrapper'
+export * from './RemoteModule'

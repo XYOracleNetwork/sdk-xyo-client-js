@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { BoundWitnessBuilder, XyoBoundWitnessBuilder } from '@xyo-network/boundwitness'
-import { QueryBoundWitnessBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import { QueryBoundWitnessBuilder } from '@xyo-network/module'
+import { XyoNodeRegisteredQuerySchema } from '@xyo-network/node'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
-import { XyoNodeRegisteredQuerySchema } from '../../node/dist/esm'
 import { RemoteModule } from './RemoteModule'
 
 describe('RemoteModule', () => {
@@ -18,6 +17,7 @@ describe('RemoteModule', () => {
       const queryPayload = new XyoPayloadBuilder({ schema: XyoNodeRegisteredQuerySchema }).build()
       const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
       const response = await sut.query(query[0], query[1])
+      expect(response).toBeTruthy()
     })
   })
 })

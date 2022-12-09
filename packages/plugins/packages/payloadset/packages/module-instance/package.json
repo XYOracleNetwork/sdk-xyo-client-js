@@ -1,0 +1,63 @@
+{
+  "name": "@xyo-network/module-instance-plugin",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xyo-network/module": "workspace:^",
+    "@xyo-network/module-instance-payload-plugin": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/witness": "workspace:^",
+    "lodash": "^4.17.21",
+    "tslib": "^2.4.1"
+  },
+  "devDependencies": {
+    "axios": "~1.2.1",
+    "pako": "^2.1.0"
+  },
+  "peerDependencies": {
+    "axios": "~1.2.1",
+    "pako": "^2.1.0"
+  },
+  "description": "Contains the information about a module instance",
+  "browser": "dist/esm/index.js",
+  "docs": "dist/docs.json",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "types": "dist/esm/index.d.ts",
+  "version": "2.41.12"
+}

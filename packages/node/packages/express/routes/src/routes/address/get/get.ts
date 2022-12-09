@@ -10,9 +10,10 @@ const handler: RequestHandler<AddressPathParams, ModuleDescription> = async (req
   const { node } = req.app
   if (address) {
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
-    const mod = await node.tryResolve({ address: [normalizedAddress] })
-    if (mod.length) {
-      const description = await mod[0].description()
+    const modules = node.address === normalizedAddress ? [node] : await node.tryResolve({ address: [normalizedAddress] })
+    if (modules.length) {
+      const mod = modules[0]
+      const description = await mod.description()
       res.json(description)
       return
     }

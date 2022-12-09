@@ -51,8 +51,12 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     return { ...desc, children }
   }
 
+  public override queries() {
+    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries()]
+  }
+
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
@@ -73,6 +77,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
           break
         }
         case XyoNodeRegisteredQuerySchema: {
+          // TODO: Make address payload, return array of them via BW
           this.registered()
           break
         }

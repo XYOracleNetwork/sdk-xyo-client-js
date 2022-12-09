@@ -1,9 +1,9 @@
 import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessValidator, BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { Hasher } from '@xyo-network/core'
-import { XyoIdWitness, XyoIdWitnessConfigSchema } from '@xyo-network/id-payload-plugin'
+import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
-import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-payload-plugin'
+import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
@@ -15,7 +15,7 @@ describe('XyoPanel', () => {
     const archivist = await MemoryArchivist.create()
 
     const witnesses: AbstractWitness[] = [
-      await XyoIdWitness.create({ config: { salt: 'test', schema: XyoIdWitnessConfigSchema } }),
+      await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } }),
       await XyoNodeSystemInfoWitness.create({
         config: {
           nodeValues: {

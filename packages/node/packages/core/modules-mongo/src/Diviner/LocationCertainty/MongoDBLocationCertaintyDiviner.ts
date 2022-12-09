@@ -1,4 +1,4 @@
-import { LocationCertaintyDiviner } from '@xyo-network/location-certainty-payload-plugin'
+import { LocationCertaintyDiviner } from '@xyo-network/location-certainty-plugin'
 import { XyoModuleParams } from '@xyo-network/module'
 import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema, LocationCertaintySchema } from '@xyo-network/node-core-model'
 import { JobProvider } from '@xyo-network/shared'

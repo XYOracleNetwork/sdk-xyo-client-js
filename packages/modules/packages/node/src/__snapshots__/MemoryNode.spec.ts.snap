@@ -6,6 +6,8 @@ exports[`MemoryNode description node with child modules serializes to JSON consi
   "queries": [
     "network.xyo.query.node.attach",
     "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
     "network.xyo.query.module.discover",
     "network.xyo.query.module.subscribe"
   ],
@@ -48,6 +50,8 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
   "queries": [
     "network.xyo.query.node.attach",
     "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
     "network.xyo.query.module.discover",
     "network.xyo.query.module.subscribe"
   ],
@@ -71,6 +75,8 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
       "queries": [
         "network.xyo.query.node.attach",
         "network.xyo.query.node.detach",
+        "network.xyo.query.node.attached",
+        "network.xyo.query.node.registered",
         "network.xyo.query.module.discover",
         "network.xyo.query.module.subscribe"
       ],
@@ -101,6 +107,8 @@ exports[`MemoryNode description node without child modules serializes to JSON co
   "queries": [
     "network.xyo.query.node.attach",
     "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
     "network.xyo.query.module.discover",
     "network.xyo.query.module.subscribe"
   ],

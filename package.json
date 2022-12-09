@@ -13,17 +13,17 @@
   ],
   "dependencies": {
     "@xyo-network/modules": "workspace:^",
-    "@xyo-network/payload-plugins": "workspace:^",
+    "@xyo-network/plugins": "workspace:^",
     "@xyo-network/sdk": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
-    "@types/node": "^18.11.11",
-    "@xylabs/eslint-config": "^2.7.24",
-    "@xylabs/ts-scripts-yarn3": "^2.7.24",
-    "@xylabs/tsconfig": "^2.7.24",
+    "@types/node": "^18.11.12",
+    "@xylabs/eslint-config": "^2.7.27",
+    "@xylabs/ts-scripts-yarn3": "^2.7.27",
+    "@xylabs/tsconfig": "^2.7.27",
     "axios": "~1.2.1",
     "babel-jest": "^29.3.1",
     "dotenv": "^16.0.3",
@@ -35,7 +35,7 @@
     "pako": "^2.1.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.4"
   },
   "peerDependencies": {
     "axios": "~1.2.1",
@@ -92,5 +92,5 @@
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "version": "2.41.12",
-  "packageManager": "yarn@3.2.4"
+  "packageManager": "yarn@3.3.0"
 }

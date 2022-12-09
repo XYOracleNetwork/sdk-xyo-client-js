@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { Module, ModuleDescription, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadFields, SchemaFields, XyoPayload } from '@xyo-network/payload'
@@ -15,8 +16,8 @@ export class RemoteModule implements Module {
   public get config(): SchemaFields & PayloadFields & { schema: string } {
     throw new Error('Not Implemented')
   }
-  public description(): Promisable<ModuleDescription, never> {
-    throw new Error('Not Implemented')
+  public async description(): Promise<ModuleDescription> {
+    return assertEx(await this._api.addresses.address(this.address).get())
   }
   public queries() {
     return [] as string[]

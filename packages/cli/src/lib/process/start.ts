@@ -1,8 +1,10 @@
+import { XyoArchivistApi } from '@xyo-network/api'
 import { MemoryNode } from '@xyo-network/node'
-import { getNode } from '@xyo-network/node-app'
+import { RemoteModule } from '@xyo-network/transport'
 import { spawn } from 'child_process'
 import { join } from 'path'
 
+import { printError } from '../print'
 import { getErrFileDescriptor, getOutFileDescriptor } from './logs'
 import { setPid } from './pid'
 
@@ -25,7 +27,6 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
   // TODO: Actually create node via process
   // NOTE: Simulate node creation/proxy via process
   // by creating a Node in memory for now
-  const node = await getNode()
   const daemon = spawn(bin, args, {
     detached: true,
     env: process.env,
@@ -36,5 +37,15 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
   }
   const { pid } = daemon
   await setPid(pid)
+  // const node = await getNode()
+  // TODO: AbstractNode instead of MemoryNode
+  // TODO: Don't want to cast here
+  const api = new XyoArchivistApi({ apiDomain: 'http://localhost:8080' })
+  const address = (await api.get())?.address
+  if (!address) {
+    printError('Error retrieving address from Node')
+    throw new Error('Error retrieving address from Node')
+  }
+  const node = new RemoteModule(api, address) as unknown as MemoryNode
   return node
 }

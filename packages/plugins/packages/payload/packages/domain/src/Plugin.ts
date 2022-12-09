@@ -8,7 +8,6 @@ import { XyoDomainPayloadWrapper } from './Wrapper'
 
 export const DomainPayloadPlugin = () =>
   createXyoPayloadPlugin<XyoDomainPayload>({
-    jsonSchema: require('./schema.json'),
     schema: XyoDomainSchema,
     template: domainConfigTemplate,
     wrap: (payload: XyoPayload) => new XyoDomainPayloadWrapper(payload as XyoDomainPayload),

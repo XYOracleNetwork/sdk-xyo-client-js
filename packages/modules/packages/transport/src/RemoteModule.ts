@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { Module, ModuleDescription, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadFields, SchemaFields, XyoPayload } from '@xyo-network/payload'
-import { Promisable } from '@xyo-network/promise'
 
 export class RemoteModule implements Module {
   constructor(protected readonly _api: XyoArchivistApi, protected readonly _address: string) {}

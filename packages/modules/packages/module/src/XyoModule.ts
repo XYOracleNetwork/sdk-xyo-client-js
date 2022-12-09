@@ -72,9 +72,9 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return [XyoModuleDiscoverQuerySchema, XyoModuleSubscribeQuerySchema]
   }
 
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, _payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 

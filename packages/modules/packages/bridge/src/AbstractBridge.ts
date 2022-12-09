@@ -13,7 +13,7 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
 
     const queryAccount = new Account()

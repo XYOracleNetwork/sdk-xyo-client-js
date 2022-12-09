@@ -12,7 +12,6 @@
   "dependencies": {
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "regression": "^2.0.1",
     "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

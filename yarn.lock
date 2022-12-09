@@ -4985,7 +4985,6 @@ __metadata:
   dependencies:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5598,7 +5597,6 @@ __metadata:
   dependencies:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    regression: ^2.0.1
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -5831,7 +5829,9 @@ __metadata:
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
+    axios: ~1.2.1
     dotenv: ^16.0.3
+    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 

@@ -10,7 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node": "workspace:^",
     "@xyo-network/node-app": "workspace:^",

@@ -9,7 +9,7 @@ import compact from 'lodash/compact'
 import { AddressString, SchemaString, XyoModuleConfig } from './Config'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
-import { CreatableModule, Module, ModuleResolver, staticImplements } from './Module'
+import { creatable, CreatableModule, Module, ModuleResolver, staticImplements } from './Module'
 import { ModuleDescription } from './ModuleDescription'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
@@ -24,7 +24,7 @@ export interface XyoModuleParams<TConfig extends XyoModuleConfig = XyoModuleConf
   resolver?: ModuleResolver
 }
 
-@staticImplements<CreatableModule>()
+@creatable()
 export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
   static configSchema: string
   static defaultLogger?: Logger

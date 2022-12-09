@@ -1,7 +1,7 @@
 import { MemoryNode } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
-import { printLine } from '../lib'
+import { printLine, stop } from '../lib'
 import {
   attachModule,
   describeNode,
@@ -51,6 +51,9 @@ export const getCommand = (node: MemoryNode): Promise<boolean> => {
             break
           case 'status':
             await status(node)
+            break
+          case 'stop-node':
+            await stop()
             break
           case 'show-config':
             await showConfig()

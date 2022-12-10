@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { QueryBoundWitnessBuilder } from '@xyo-network/module'
+import { QueryBoundWitnessBuilder, XyoModuleConfigSchema } from '@xyo-network/module'
 import { XyoNodeRegisteredQuerySchema } from '@xyo-network/node'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
@@ -13,7 +13,7 @@ describe('RemoteModule', () => {
       apiDomain: 'http://localhost:8080',
     })
     const address = assertEx((await api.get())?.address)
-    sut = await RemoteModule.create({ address, api, config: { schema: 'network.xyo.test' } })
+    sut = await RemoteModule.create({ address, api, config: { schema: XyoModuleConfigSchema } })
   })
   describe('description', () => {
     it('returns module description', async () => {

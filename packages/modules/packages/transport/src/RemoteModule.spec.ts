@@ -42,4 +42,14 @@ describe('RemoteModule', () => {
       expect(response.length).toBeGreaterThan(0)
     })
   })
+  describe('queryable', () => {
+    it('returns true for supported queries', () => {
+      const response = sut.queryable(XyoModuleDiscoverQuerySchema)
+      expect(response).toBeTrue()
+    })
+    it('returns false for unsupported queries', () => {
+      const response = sut.queryable('foo.bar.baz')
+      expect(response).toBeFalse()
+    })
+  })
 })

@@ -26,10 +26,13 @@ export class RemoteModule implements Module {
     return this._config
   }
 
-  static create(params: RemoteModuleParams): Promise<RemoteModule> {
+  static async create(params: RemoteModuleParams): Promise<RemoteModule> {
     const { address, api } = params
-    // TODO: Hydrate config/queries/etc
-    return Promise.resolve(new this(api, address))
+    const instance = new this(api, address)
+    const description = assertEx(await api.addresses.address(address).get())
+    instance._queries = description.queries
+    // TODO: Discover query to get config
+    return instance
   }
 
   public async description(): Promise<ModuleDescription> {

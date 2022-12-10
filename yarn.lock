@@ -5107,13 +5107,14 @@ __metadata:
     "@xyo-network/network": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    axios: ~1.2.1
+    axios: ^1.2.1
     lodash: ^4.17.21
-    pako: ^2.1.0
     tslib: ^2.4.1
   peerDependencies:
-    axios: ~1.2.1
-    pako: ^2.1.0
+    axios: ^1.2.1
+  peerDependenciesMeta:
+    axios:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -6064,8 +6065,13 @@ __metadata:
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module-instance-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    "@xyo-network/pentair-payload-plugin": "workspace:^"
+    "@xyo-network/schema-payload-plugin": "workspace:^"
     tslib: ^2.4.1
+  peerDependencies:
+    axios: ^1.2.1
+  peerDependenciesMeta:
+    axios:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -6109,7 +6115,6 @@ __metadata:
     "@xyo-network/location-plugin": "workspace:^"
     "@xyo-network/module-instance-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
-    "@xyo-network/pentair-plugin": "workspace:^"
     "@xyo-network/schema-plugin": "workspace:^"
     "@xyo-network/system-plugins": "workspace:^"
     axios: ~1.2.1
@@ -6132,7 +6137,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/pentair-plugin@workspace:^, @xyo-network/pentair-plugin@workspace:packages/plugins/packages/payloadset/packages/pentair":
+"@xyo-network/pentair-plugin@workspace:packages/plugins/packages/payloadset/packages/pentair":
   version: 0.0.0-use.local
   resolution: "@xyo-network/pentair-plugin@workspace:packages/plugins/packages/payloadset/packages/pentair"
   dependencies:
@@ -6959,7 +6964,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:~1.2.1":
+"axios@npm:^1.2.1, axios@npm:~1.2.1":
   version: 1.2.1
   resolution: "axios@npm:1.2.1"
   dependencies:

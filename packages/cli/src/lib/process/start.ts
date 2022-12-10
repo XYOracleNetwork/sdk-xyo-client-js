@@ -1,7 +1,7 @@
 import { XyoArchivistApi } from '@xyo-network/api'
+import { HttpProxyModule } from '@xyo-network/http-proxy-module'
 import { XyoModuleConfigSchema } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
-import { HttpProxyModule } from '@xyo-network/transport'
 import { spawn } from 'child_process'
 import { join } from 'path'
 

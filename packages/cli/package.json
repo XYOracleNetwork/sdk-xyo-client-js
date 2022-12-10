@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@xyo-network/api": "workspace:^",
+    "@xyo-network/http-proxy-module": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node": "workspace:^",
     "@xyo-network/node-app": "workspace:^",
-    "@xyo-network/transport": "workspace:^",
     "terminal-kit": "^3.0.0",
     "tslib": "^2.4.1",
     "yargs": "^17.6.2"

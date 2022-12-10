@@ -18,14 +18,10 @@ export class RemoteModule implements Module {
   public get address(): string {
     return this._address
   }
-  public get api(): XyoArchivistApi {
-    return this._api
-  }
   public get config(): XyoModuleConfig {
     if (!this._config) throw new Error('Missing config')
     return this._config
   }
-
   static async create(params: RemoteModuleParams): Promise<RemoteModule> {
     const { address, api } = params
     const instance = new this(api, address)
@@ -34,7 +30,6 @@ export class RemoteModule implements Module {
     // TODO: Discover query to get config
     return instance
   }
-
   public async description(): Promise<ModuleDescription> {
     return assertEx(await this._api.addresses.address(this.address).get())
   }

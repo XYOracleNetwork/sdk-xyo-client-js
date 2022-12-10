@@ -4,16 +4,16 @@ import { QueryBoundWitnessBuilder, XyoModuleConfigSchema, XyoModuleDiscoverQuery
 import { XyoNodeRegisteredQuerySchema } from '@xyo-network/node'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
-import { RemoteModule } from './RemoteModule'
+import { HttpProxyModule } from './HttpProxyModule'
 
-describe('RemoteModule', () => {
-  let sut: RemoteModule
+describe('HttpProxyModule', () => {
+  let sut: HttpProxyModule
   beforeAll(async () => {
     const api: XyoArchivistApi = new XyoArchivistApi({
       apiDomain: 'http://localhost:8080',
     })
     const address = assertEx((await api.get())?.address)
-    sut = await RemoteModule.create({ address, api, config: { schema: XyoModuleConfigSchema } })
+    sut = await HttpProxyModule.create({ address, api, config: { schema: XyoModuleConfigSchema } })
   })
   describe('address', () => {
     it('returns module address', () => {

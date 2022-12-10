@@ -54,7 +54,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/transport/src/HttpProxyModule.spec.ts"
+        "packages/modules/packages/http/src/HttpProxyModule.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

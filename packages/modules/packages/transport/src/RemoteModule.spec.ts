@@ -13,7 +13,7 @@ describe('RemoteModule', () => {
       apiDomain: 'http://localhost:8080',
     })
     const address = assertEx((await api.get())?.address)
-    sut = new RemoteModule(api, address)
+    sut = await RemoteModule.create({ address, api, config: { schema: 'network.xyo.test' } })
   })
   describe('description', () => {
     it('returns module description', async () => {

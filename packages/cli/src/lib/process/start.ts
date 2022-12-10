@@ -1,6 +1,7 @@
 import { XyoArchivistApi } from '@xyo-network/api'
+import { XyoModuleConfigSchema } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
-import { RemoteModule } from '@xyo-network/transport'
+import { HttpProxyModule } from '@xyo-network/transport'
 import { spawn } from 'child_process'
 import { join } from 'path'
 
@@ -12,6 +13,8 @@ import { setPid } from './pid'
  * The path to the script to run the Node
  */
 const runNodeScriptPath = join(__dirname, '..', '..', '..', 'cjs', 'runNode.js')
+
+const config = { schema: XyoModuleConfigSchema }
 
 /**
  * Runs the XYO Node process
@@ -46,6 +49,6 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
     printError('Error retrieving address from Node')
     throw new Error('Error retrieving address from Node')
   }
-  const node = new RemoteModule(api, address) as unknown as MemoryNode
+  const node = (await HttpProxyModule.create({ address, api, config })) as unknown as MemoryNode
   return node
 }

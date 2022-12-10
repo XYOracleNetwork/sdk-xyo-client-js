@@ -1,12 +1,19 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { Module, ModuleDescription, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
-import { PayloadFields, SchemaFields, XyoPayload } from '@xyo-network/payload'
+import { creatable, Module, ModuleDescription, ModuleQueryResult, XyoModuleConfig, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
 
+export interface RemoteModuleParams extends XyoModuleParams {
+  address: string
+  api: XyoArchivistApi
+}
+
+@creatable()
 export class RemoteModule implements Module {
-  constructor(protected readonly _api: XyoArchivistApi, protected readonly _address: string) {}
+  protected _config: XyoModuleConfig | undefined
+  protected _queries: string[] | undefined
 
-  // TODO: async create (without XyoModule)
+  protected constructor(protected readonly _api: XyoArchivistApi, protected readonly _address: string) {}
 
   public get address(): string {
     return this._address
@@ -14,14 +21,23 @@ export class RemoteModule implements Module {
   public get api(): XyoArchivistApi {
     return this._api
   }
-  public get config(): SchemaFields & PayloadFields & { schema: string } {
-    throw new Error('Not Implemented')
+  public get config(): XyoModuleConfig {
+    if (!this._config) throw new Error('Missing config')
+    return this._config
   }
+
+  static create(params: RemoteModuleParams): Promise<RemoteModule> {
+    const { address, api } = params
+    // TODO: Hydrate config/queries/etc
+    return Promise.resolve(new this(api, address))
+  }
+
   public async description(): Promise<ModuleDescription> {
     return assertEx(await this._api.addresses.address(this.address).get())
   }
   public queries(): string[] {
-    return []
+    if (!this._queries) throw new Error('Missing queries')
+    return this._queries
   }
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const data = payloads?.length ? [query, payloads] : [query]

@@ -1,9 +1,9 @@
 import { XyoModuleConfig } from '@xyo-network/module'
 
-export type XyoRemoteModuleConfigSchema = 'network.xyo.module.remote.config'
-export const XyoRemoteModuleConfigSchema: XyoRemoteModuleConfigSchema = 'network.xyo.module.remote.config'
+export type HttpProxyModuleConfigSchema = 'network.xyo.module.remote.config'
+export const HttpProxyModuleConfigSchema: HttpProxyModuleConfigSchema = 'network.xyo.module.remote.config'
 
-export type XyoRemoteModuleConfig = XyoModuleConfig & {
+export type HttpProxyModuleConfig = XyoModuleConfig & {
   archive?: string
-  schema: XyoRemoteModuleConfigSchema
+  schema: HttpProxyModuleConfigSchema
 }

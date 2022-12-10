@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { QueryBoundWitnessBuilder, XyoModuleConfigSchema } from '@xyo-network/module'
+import { QueryBoundWitnessBuilder, XyoModuleConfigSchema, XyoModuleDiscoverQuerySchema } from '@xyo-network/module'
 import { XyoNodeRegisteredQuerySchema } from '@xyo-network/node'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
@@ -22,6 +22,14 @@ describe('RemoteModule', () => {
       expect(response.address).toBeString()
       expect(response.queries).toBeArray()
       expect(response.queries.length).toBeGreaterThan(0)
+    })
+  })
+  describe('queries', () => {
+    it('returns supported module queries', () => {
+      const queries = sut.queries()
+      expect(queries).toBeArray()
+      expect(queries.length).toBeGreaterThan(0)
+      expect(queries).toContain(XyoModuleDiscoverQuerySchema)
     })
   })
   describe('query', () => {

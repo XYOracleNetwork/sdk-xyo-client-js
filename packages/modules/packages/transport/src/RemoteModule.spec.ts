@@ -15,13 +15,18 @@ describe('RemoteModule', () => {
     const address = assertEx((await api.get())?.address)
     sut = await RemoteModule.create({ address, api, config: { schema: XyoModuleConfigSchema } })
   })
+  describe('address', () => {
+    it('returns module address', () => {
+      expect(sut.address).toBeString()
+    })
+  })
   describe('description', () => {
     it('returns module description', async () => {
-      const response = await sut.description()
-      expect(response).toBeObject()
-      expect(response.address).toBeString()
-      expect(response.queries).toBeArray()
-      expect(response.queries.length).toBeGreaterThan(0)
+      const description = await sut.description()
+      expect(description).toBeObject()
+      expect(description.address).toBeString()
+      expect(description.queries).toBeArray()
+      expect(description.queries.length).toBeGreaterThan(0)
     })
   })
   describe('queries', () => {

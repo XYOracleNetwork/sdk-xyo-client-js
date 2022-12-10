@@ -48,7 +48,7 @@ export class RemoteModule implements Module {
     const response = await this._api.addresses.address(this.address).post(data as any)
     return response as unknown as ModuleQueryResult
   }
-  public queryable(_schema: string, _addresses?: string[] | undefined) {
-    return true
+  public queryable(schema: string, _addresses?: string[] | undefined) {
+    return this.queries().includes(schema)
   }
 }

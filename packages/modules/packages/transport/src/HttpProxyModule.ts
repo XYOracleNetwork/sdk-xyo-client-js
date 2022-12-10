@@ -3,13 +3,13 @@ import { XyoArchivistApi } from '@xyo-network/api'
 import { creatable, Module, ModuleDescription, ModuleQueryResult, XyoModuleConfig, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
-export interface RemoteModuleParams extends XyoModuleParams {
+export interface HttpProxyModuleParams extends XyoModuleParams {
   address: string
   api: XyoArchivistApi
 }
 
 @creatable()
-export class RemoteModule implements Module {
+export class HttpProxyModule implements Module {
   protected _config: XyoModuleConfig | undefined
   protected _queries: string[] | undefined
 
@@ -22,7 +22,7 @@ export class RemoteModule implements Module {
     if (!this._config) throw new Error('Missing config')
     return this._config
   }
-  static async create(params: RemoteModuleParams): Promise<RemoteModule> {
+  static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
     const { address, api } = params
     const instance = new this(api, address)
     const description = assertEx(await api.addresses.address(address).get())

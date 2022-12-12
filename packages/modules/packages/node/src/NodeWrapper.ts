@@ -62,7 +62,7 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
   async registered(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
     const result = await this.sendQuery(queryPayload)
-    return compact(result[1].map((payload) => payload?.schema))
+    return compact(result.map((payload) => payload?.schema))
   }
 
   async registeredModules(): Promise<XyoModule[]> {

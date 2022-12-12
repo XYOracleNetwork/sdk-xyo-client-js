@@ -90,11 +90,11 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
     }) ?? []) as XyoError[]
   }
 
-  protected async sendQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(queryPayload: T, payloads?: XyoPayloads) {
+  protected async sendQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(queryPayload: T, payloads?: XyoPayloads): Promise<XyoPayload[]> {
     const query = await this.bindQuery(queryPayload, payloads)
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)
-    return result
+    return result[1]
   }
 
   protected throwErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult) {

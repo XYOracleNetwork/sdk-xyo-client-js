@@ -23,25 +23,19 @@ import compact from 'lodash/compact'
 export class ArchivistWrapper extends ModuleWrapper implements PayloadArchivist {
   public async all(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistAllQuery>({ schema: XyoArchivistAllQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
-    return compact(result[1])
+    const result = await this.sendQuery(queryPayload)
+    return compact(result)
   }
 
   public async clear(): Promise<void> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistClearQuery>({ schema: XyoArchivistClearQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
+    await this.sendQuery(queryPayload)
   }
 
   public async commit(): Promise<XyoBoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistCommitQuery>({ schema: XyoArchivistCommitQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
-    return result[1].filter(isXyoBoundWitnessPayload)
+    const result = await this.sendQuery(queryPayload)
+    return result.filter(isXyoBoundWitnessPayload)
   }
 
   public async delete(hashes: string[]) {
@@ -54,18 +48,14 @@ export class ArchivistWrapper extends ModuleWrapper implements PayloadArchivist 
 
   public async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistFindQuery>({ filter, schema: XyoArchivistFindQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], [queryPayload.payload])
-    this.throwErrors(query, result)
-    return compact(result[1])
+    const result = await this.sendQuery(queryPayload)
+    return compact(result)
   }
 
   public async get(hashes: string[]): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
-    return result[1]
+    const result = await this.sendQuery(queryPayload)
+    return result
   }
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {

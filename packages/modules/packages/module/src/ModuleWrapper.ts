@@ -1,10 +1,12 @@
+import { Account } from '@xyo-network/account'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { Promisable, PromiseEx } from '@xyo-network/promise'
 
-import { Module } from './Module'
+import { Module, ModuleResolver } from './Module'
+import { ModuleDescription } from './ModuleDescription'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { XyoModuleDiscoverQuery, XyoModuleDiscoverQuerySchema } from './Queries'
-import { QueryBoundWitnessWrapper, XyoError, XyoErrorSchema, XyoQueryBoundWitness } from './Query'
-import { XyoModule } from './XyoModule'
+import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoError, XyoErrorSchema, XyoQuery, XyoQueryBoundWitness } from './Query'
 
 export interface WrapperError extends Error {
   errors: (XyoError | null)[]
@@ -12,19 +14,30 @@ export interface WrapperError extends Error {
   result: ModuleQueryResult
 }
 
-export class ModuleWrapper<TModule extends Module = Module> extends XyoModule<Module['config']> {
+export class ModuleWrapper<TModule extends Module = Module> implements Module {
   protected module: TModule
 
   constructor(module: TModule) {
-    super({ config: module.config })
     this.module = module
   }
 
-  override get address() {
+  get address() {
     return this.module.address
   }
+  get config(): XyoPayload {
+    // TODO: Config listed in Discovery query
+    // issue discover query and then return
+    // appropriate result
+    throw new Error('Not Implemented')
+  }
+  get resolver(): ModuleResolver | undefined {
+    return undefined
+  }
+  public description(): Promisable<ModuleDescription> {
+    throw new Error('Not Implemented')
+  }
 
-  override async discover(): Promise<XyoPayload[]> {
+  async discover(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoModuleDiscoverQuery>({ schema: XyoModuleDiscoverQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
@@ -32,16 +45,39 @@ export class ModuleWrapper<TModule extends Module = Module> extends XyoModule<Mo
     return result[1]
   }
 
-  override queries(): string[] {
+  queries(): string[] {
     return this.module.queries()
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     return await this.module.query(query, payloads)
   }
 
-  override queryable(schema: string, addresses?: string[]) {
+  queryable(schema: string, addresses?: string[]) {
     return this.module.queryable(schema, addresses)
+  }
+
+  protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
+    query: T,
+    payloads?: XyoPayload[],
+    account?: Account,
+  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account> {
+    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account>((resolve) => {
+      const result = this.bindQueryInternal(query, payloads, account)
+      resolve?.(result)
+      return result
+    }, account)
+    return promise
+  }
+
+  protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
+    query: T,
+    payloads?: XyoPayload[],
+    account?: Account,
+  ): [XyoQueryBoundWitness, XyoPayload[]] {
+    const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
+    const result = (account ? builder.witness(account) : builder).build()
+    return result
   }
 
   protected filterErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult): (XyoError | null)[] {
@@ -54,8 +90,8 @@ export class ModuleWrapper<TModule extends Module = Module> extends XyoModule<Mo
     }) ?? []) as XyoError[]
   }
 
-  protected async sendQuery(queryPayload: PayloadWrapper) {
-    const query = await this.bindQuery(queryPayload)
+  protected async sendQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(queryPayload: T, payloads?: XyoPayloads) {
+    const query = await this.bindQuery(queryPayload, payloads)
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)
     return result

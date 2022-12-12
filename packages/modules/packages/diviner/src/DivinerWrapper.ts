@@ -7,9 +7,7 @@ import { XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from './Queries'
 export class DivinerWrapper extends ModuleWrapper implements Diviner {
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoDivinerDivineQuery>({ schema: XyoDivinerDivineQuerySchema })
-    const query = await this.bindQuery(queryPayload, payloads)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
+    const result = await this.sendQuery(queryPayload, payloads)
     return result[1]
   }
 }

@@ -29,9 +29,7 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
   // when we background process as daemon
   const out = getOutFileDescriptor()
   const err = getErrFileDescriptor()
-  // TODO: Actually create node via process
-  // NOTE: Simulate node creation/proxy via process
-  // by creating a Node in memory for now
+  // Create node via process
   const daemon = spawn(bin, args, {
     detached: true,
     env: process.env,
@@ -51,5 +49,6 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
     throw new Error(nodeAddressErrorMsg)
   }
   const node = (await HttpProxyModule.create({ address, api, config })) as unknown as MemoryNode
+  printLine(`Connected to Node with Address: ${address}`)
   return node
 }

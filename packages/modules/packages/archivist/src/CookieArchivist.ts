@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import {
-  XyoArchivistAllQuerySchema,
-  XyoArchivistClearQuerySchema,
-  XyoArchivistCommitQuerySchema,
-  XyoArchivistConfig,
-  XyoArchivistDeleteQuerySchema,
-  XyoArchivistFindQuerySchema,
-  XyoArchivistInsertQuery,
-  XyoArchivistInsertQuerySchema,
+  ArchivistAllQuerySchema,
+  ArchivistClearQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistConfig,
+  ArchivistDeleteQuerySchema,
+  ArchivistFindQuerySchema,
+  ArchivistInsertQuery,
+  ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleParams } from '@xyo-network/module'
@@ -26,7 +26,7 @@ export type XyoCookieArchivistConfigSchema = CookieArchivistConfigSchema
 /** @deprecated use CookieArchivistConfigSchema instead */
 export const XyoCookieArchivistConfigSchema = CookieArchivistConfigSchema
 
-export type CookieArchivistConfig = XyoArchivistConfig<{
+export type CookieArchivistConfig = ArchivistConfig<{
   domain?: string
   maxEntries?: number
   maxEntrySize?: number
@@ -93,9 +93,9 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
       const settled = await Promise.allSettled(
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
+            const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
-              schema: XyoArchivistInsertQuerySchema,
+              schema: ArchivistInsertQuerySchema,
             })
             const query = await this.bindQuery(queryPayload)
             return (await parent?.query(query[0], query[1]))?.[0]
@@ -165,12 +165,12 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
 
   public override queries() {
     return [
-      XyoArchivistAllQuerySchema,
-      XyoArchivistDeleteQuerySchema,
-      XyoArchivistClearQuerySchema,
-      XyoArchivistFindQuerySchema,
-      XyoArchivistInsertQuerySchema,
-      XyoArchivistCommitQuerySchema,
+      ArchivistAllQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistFindQuerySchema,
+      ArchivistInsertQuerySchema,
+      ArchivistCommitQuerySchema,
       ...super.queries(),
     ]
   }

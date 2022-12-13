@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, XyoArchivistQuery } from '@xyo-network/archivist'
+import { ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
 import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQuery } from '@xyo-network/module'
@@ -20,26 +20,26 @@ export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObje
   }
 
   override queries() {
-    return [XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema]
+    return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema]
   }
   override async query<Q extends XyoQuery = XyoQuery>(query: Q, payloads?: XyoPayloads): Promise<ModuleQueryResult<XyoPayload>> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoArchivistQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     // assertEx(this.queryable(query.schema, wrapper.addresses))
 
     const result: XyoPayload[] = []
     const queryAccount = new Account()
     switch (typedQuery.schema) {
-      case XyoArchivistFindQuerySchema:
+      case ArchivistFindQuerySchema:
         if (typedQuery.filter) {
           const typedFilter = typedQuery.filter as XyoPayloadFilterPredicate
           result.push(...(await this.find(typedFilter)))
         }
         break
-      case XyoArchivistGetQuerySchema:
+      case ArchivistGetQuerySchema:
         result.push(...(await this.get(typedQuery.hashes)))
         break
-      case XyoArchivistInsertQuerySchema: {
+      case ArchivistInsertQuerySchema: {
         const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []
         assertEx(typedQuery.payloads, `Missing payloads: ${JSON.stringify(typedQuery, null, 2)}`)
         const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))

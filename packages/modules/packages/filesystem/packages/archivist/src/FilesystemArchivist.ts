@@ -3,11 +3,11 @@ import { readFile } from 'node:fs/promises'
 import { assertEx } from '@xylabs/assert'
 import {
   AbstractArchivist,
+  ArchivistAllQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistConfig,
+  ArchivistFindQuerySchema,
   MemoryArchivist,
-  XyoArchivistAllQuerySchema,
-  XyoArchivistCommitQuerySchema,
-  XyoArchivistConfig,
-  XyoArchivistFindQuerySchema,
 } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleParams } from '@xyo-network/module'
@@ -21,7 +21,7 @@ export interface FileSystemArchivistData {
 export type FilesystemArchivistConfigSchema = 'network.xyo.module.config.archivist.filesystem'
 export const FilesystemArchivistConfigSchema: FilesystemArchivistConfigSchema = 'network.xyo.module.config.archivist.filesystem'
 
-export type FilesystemArchivistConfig = XyoArchivistConfig<{
+export type FilesystemArchivistConfig = ArchivistConfig<{
   filePath: string
   schema: FilesystemArchivistConfigSchema
 }>
@@ -90,7 +90,7 @@ export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = Fil
   }
 
   public override queries() {
-    return [XyoArchivistAllQuerySchema, XyoArchivistFindQuerySchema, XyoArchivistCommitQuerySchema, ...super.queries()]
+    return [ArchivistAllQuerySchema, ArchivistFindQuerySchema, ArchivistCommitQuerySchema, ...super.queries()]
   }
 
   protected async loadFromFile() {

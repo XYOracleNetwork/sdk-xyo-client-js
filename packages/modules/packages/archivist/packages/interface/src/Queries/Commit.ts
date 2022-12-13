@@ -1,8 +1,8 @@
 import { XyoQuery } from '@xyo-network/module'
 
-export type XyoArchivistCommitQuerySchema = 'network.xyo.query.archivist.commit'
-export const XyoArchivistCommitQuerySchema: XyoArchivistCommitQuerySchema = 'network.xyo.query.archivist.commit'
+export type ArchivistCommitQuerySchema = 'network.xyo.query.archivist.commit'
+export const ArchivistCommitQuerySchema: ArchivistCommitQuerySchema = 'network.xyo.query.archivist.commit'
 
-export type XyoArchivistCommitQuery = XyoQuery<{
-  schema: XyoArchivistCommitQuerySchema
+export type ArchivistCommitQuery = XyoQuery<{
+  schema: ArchivistCommitQuerySchema
 }>

@@ -1,19 +1,19 @@
 /** @deprecated use offset as a string (hash) instead */
-export interface XyoPayloadFindFilterTimeOffset {
+export interface PayloadFindFilterTimeOffset {
   offset?: number
 }
 
-export interface XyoPayloadFindFilterHashOffset {
+export interface PayloadFindFilterHashOffset {
   offset?: string
 }
 
 // eslint-disable-next-line deprecation/deprecation
-export type XyoPayloadFindFilterOffset = XyoPayloadFindFilterTimeOffset | XyoPayloadFindFilterHashOffset
+export type PayloadFindFilterOffset = PayloadFindFilterTimeOffset | PayloadFindFilterHashOffset
 
-export type XyoPayloadFindFilter = {
+export type PayloadFindFilter = {
   limit?: number
   order?: 'desc' | 'asc'
   schema?: string | string[]
   /** @deprecated use offset instead */
   timestamp?: number
-} & XyoPayloadFindFilterOffset
+} & PayloadFindFilterOffset

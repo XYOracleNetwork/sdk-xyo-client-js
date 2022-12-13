@@ -1,4 +1,3 @@
-import { MemoryNode } from '@xyo-network/node'
 import { spawn } from 'child_process'
 import { join } from 'path'
 

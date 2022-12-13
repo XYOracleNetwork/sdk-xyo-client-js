@@ -1,9 +1,9 @@
 import { XyoQuery } from '@xyo-network/module'
 
-export type XyoArchivistGetQuerySchema = 'network.xyo.query.archivist.get'
-export const XyoArchivistGetQuerySchema: XyoArchivistGetQuerySchema = 'network.xyo.query.archivist.get'
+export type ArchivistGetQuerySchema = 'network.xyo.query.archivist.get'
+export const ArchivistGetQuerySchema: ArchivistGetQuerySchema = 'network.xyo.query.archivist.get'
 
-export type XyoArchivistGetQuery = XyoQuery<{
+export type ArchivistGetQuery = XyoQuery<{
   hashes: string[]
-  schema: XyoArchivistGetQuerySchema
+  schema: ArchivistGetQuerySchema
 }>

@@ -1,5 +1,6 @@
 import { LocationPlugin } from './Plugin'
 
+export * from './Config'
 export * from './CurrentLocationPayloadSet'
 export * from './CurrentLocationWitness'
 

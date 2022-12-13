@@ -10,7 +10,7 @@ import {
   XyoArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
@@ -58,7 +58,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     return this.config?.namespace ?? 'xyoarch'
   }
 
-  static override async create(params?: XyoModuleParams<CookieArchivistConfig>): Promise<CookieArchivist> {
+  static override async create(params?: ModuleParams<CookieArchivistConfig>): Promise<CookieArchivist> {
     return (await super.create(params)) as CookieArchivist
   }
 

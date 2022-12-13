@@ -1,10 +1,10 @@
 import { DivinerConfig } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoWitnessConfig } from '@xyo-network/witness'
 
 export interface PayloadSetPluginParams<
-  TWitnessParams extends XyoModuleParams<XyoWitnessConfig> = XyoModuleParams<XyoWitnessConfig>,
-  TDivinerParams extends XyoModuleParams<DivinerConfig> = XyoModuleParams<DivinerConfig>,
+  TWitnessParams extends ModuleParams<XyoWitnessConfig> = ModuleParams<XyoWitnessConfig>,
+  TDivinerParams extends ModuleParams<DivinerConfig> = ModuleParams<DivinerConfig>,
 > {
   diviner?: TDivinerParams
   witness?: TWitnessParams

@@ -2,7 +2,7 @@ import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/arch
 import { BoundWitnessValidator, BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { Hasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
+import { AbstractModuleResolver, ModuleParams } from '@xyo-network/module'
 import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
@@ -32,7 +32,7 @@ describe('XyoPanel', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const resolver = new XyoModuleResolver()
+    const resolver = new AbstractModuleResolver()
     resolver.add(archivist)
     witnesses.forEach((witness) => resolver.add(witness))
 
@@ -117,9 +117,9 @@ describe('XyoPanel', () => {
         archivistB = await MemoryArchivist.create()
       })
       it('config', async () => {
-        const resolver = new XyoModuleResolver()
+        const resolver = new AbstractModuleResolver()
         resolver.add([witnessA, witnessB, archivistA, archivistB])
-        const params: XyoModuleParams<XyoPanelConfig> = {
+        const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
             schema: 'network.xyo.panel.config',
@@ -133,9 +133,9 @@ describe('XyoPanel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {
-        const resolver = new XyoModuleResolver()
+        const resolver = new AbstractModuleResolver()
         resolver.add([witnessA, archivistA, archivistB])
-        const params: XyoModuleParams<XyoPanelConfig> = {
+        const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
             schema: 'network.xyo.panel.config',
@@ -151,9 +151,9 @@ describe('XyoPanel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('inline', async () => {
-        const resolver = new XyoModuleResolver()
+        const resolver = new AbstractModuleResolver()
         resolver.add([archivistA, archivistB])
-        const params: XyoModuleParams<XyoPanelConfig> = {
+        const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
             schema: 'network.xyo.panel.config',

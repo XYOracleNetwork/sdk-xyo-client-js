@@ -1,7 +1,7 @@
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { AbstractDiviner, XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -25,7 +25,7 @@ export class MongoDBBoundWitnessDiviner extends AbstractDiviner implements Bound
     ]
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBBoundWitnessDiviner> {
+  static override async create(params?: Partial<ModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBBoundWitnessDiviner> {
     return (await super.create(params)) as MongoDBBoundWitnessDiviner
   }
 

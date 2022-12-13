@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, XyoArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery } from '@xyo-network/module'
+import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQuery } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
 import { XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '../Payload'
@@ -12,7 +12,7 @@ import { PayloadArchivist } from './PayloadArchivist'
 import { XyoPayloadFilterPredicate } from './XyoPayloadFilterPredicate'
 
 export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extends ArchiveModuleConfig = ArchiveModuleConfig>
-  extends XyoModule<TConfig>
+  extends AbstractModule<TConfig>
   implements PayloadArchivist<T>
 {
   constructor(protected readonly account: Account = new Account(), config?: TConfig) {

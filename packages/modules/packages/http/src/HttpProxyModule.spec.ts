@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { QueryBoundWitnessBuilder, XyoModuleConfigSchema, XyoModuleDiscoverQuerySchema } from '@xyo-network/module'
+import { AbstractModuleConfigSchema, AbstractModuleDiscoverQuerySchema, QueryBoundWitnessBuilder } from '@xyo-network/module'
 import { XyoNodeRegisteredQuerySchema } from '@xyo-network/node'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
@@ -13,7 +13,7 @@ describe('HttpProxyModule', () => {
       apiDomain: 'http://localhost:8080',
     })
     const address = assertEx((await api.get())?.address)
-    sut = await HttpProxyModule.create({ address, api, config: { schema: XyoModuleConfigSchema } })
+    sut = await HttpProxyModule.create({ address, api, config: { schema: AbstractModuleConfigSchema } })
   })
   describe('address', () => {
     it('returns module address', () => {
@@ -34,7 +34,7 @@ describe('HttpProxyModule', () => {
       const queries = sut.queries()
       expect(queries).toBeArray()
       expect(queries.length).toBeGreaterThan(0)
-      expect(queries).toContain(XyoModuleDiscoverQuerySchema)
+      expect(queries).toContain(AbstractModuleDiscoverQuerySchema)
     })
   })
   describe('query', () => {
@@ -49,7 +49,7 @@ describe('HttpProxyModule', () => {
   })
   describe('queryable', () => {
     it('returns true for supported queries', () => {
-      const response = sut.queryable(XyoModuleDiscoverQuerySchema)
+      const response = sut.queryable(AbstractModuleDiscoverQuerySchema)
       expect(response).toBeTrue()
     })
     it('returns false for unsupported queries', () => {

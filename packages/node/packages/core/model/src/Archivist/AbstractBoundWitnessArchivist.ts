@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { XyoArchivistFindQuerySchema, XyoArchivistGetQuerySchema, XyoArchivistInsertQuerySchema, XyoArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoModule, XyoQuery } from '@xyo-network/module'
+import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQuery } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 
 import { XyoBoundWitnessWithPartialMeta } from '../BoundWitness'
@@ -10,7 +10,7 @@ import { ArchiveModuleConfig, ArchiveModuleConfigSchema } from './ArchiveModuleC
 import { BoundWitnessArchivist } from './BoundWitnessArchivist'
 import { XyoBoundWitnessFilterPredicate } from './XyoBoundWitnessFilterPredicate'
 
-export abstract class AbstractBoundWitnessArchivist extends XyoModule<ArchiveModuleConfig> implements BoundWitnessArchivist {
+export abstract class AbstractBoundWitnessArchivist extends AbstractModule<ArchiveModuleConfig> implements BoundWitnessArchivist {
   constructor(protected readonly account: Account = new Account(), config?: ArchiveModuleConfig) {
     super({ account, config: config ?? { archive: 'temp', schema: ArchiveModuleConfigSchema } })
   }

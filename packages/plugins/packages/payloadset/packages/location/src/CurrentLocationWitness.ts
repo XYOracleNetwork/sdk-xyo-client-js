@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { LocationHeadingPayload, LocationHeadingSchema, LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 
@@ -20,7 +20,7 @@ export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitne
     return assertEx(this._geolocation, 'No geolocation provided')
   }
 
-  static override async create(params?: XyoModuleParams<CurrentLocationWitnessConfig>): Promise<CurrentLocationWitness> {
+  static override async create(params?: ModuleParams<CurrentLocationWitnessConfig>): Promise<CurrentLocationWitness> {
     return (await super.create(params)) as CurrentLocationWitness
   }
 

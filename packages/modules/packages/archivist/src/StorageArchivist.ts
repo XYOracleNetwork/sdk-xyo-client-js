@@ -11,7 +11,7 @@ import {
   XyoArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -45,7 +45,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
   private _privateStorage: StoreBase | undefined
   private _storage: StoreBase | undefined
 
-  constructor(params: XyoModuleParams<StorageArchivistConfig>) {
+  constructor(params: ModuleParams<StorageArchivistConfig>) {
     super(params)
     this.loadAccount()
   }
@@ -82,7 +82,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     return this._storage
   }
 
-  static override async create(params?: XyoModuleParams<StorageArchivistConfig>): Promise<XyoStorageArchivist> {
+  static override async create(params?: ModuleParams<StorageArchivistConfig>): Promise<XyoStorageArchivist> {
     return (await super.create(params)) as XyoStorageArchivist
   }
 

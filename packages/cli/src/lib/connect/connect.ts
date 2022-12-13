@@ -1,11 +1,11 @@
 import { XyoArchivistApi } from '@xyo-network/api'
 import { HttpProxyModule } from '@xyo-network/http-proxy-module'
-import { XyoModuleConfigSchema } from '@xyo-network/module'
+import { AbstractModuleConfigSchema } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 
 import { printError, printLine } from '../print'
 
-const config = { schema: XyoModuleConfigSchema }
+const config = { schema: AbstractModuleConfigSchema }
 
 const nodeAddressErrorMsg = 'Error retrieving address from Node'
 

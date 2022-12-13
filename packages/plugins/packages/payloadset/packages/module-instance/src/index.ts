@@ -1,8 +1,8 @@
-import { XyoModuleInstancePlugin } from './Plugin'
+import { AbstractModuleInstancePlugin } from './Plugin'
 
 export * from './Witness'
 
-export { XyoModuleInstancePlugin }
+export { AbstractModuleInstancePlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoModuleInstancePlugin
+export default AbstractModuleInstancePlugin

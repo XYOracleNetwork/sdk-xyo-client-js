@@ -1,4 +1,4 @@
-import { MemoryNode, NodeConfigSchema, XyoModule } from '@xyo-network/modules'
+import { AbstractModule, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
@@ -30,7 +30,7 @@ const diviners = [
 export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? (await MemoryNode.create({ config }))
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
-  const modules = container.getAll<XyoModule>(TYPES.Module)
+  const modules = container.getAll<AbstractModule>(TYPES.Module)
   modules.map((mod) => {
     node.register(mod)
     node.attach(mod.address)
@@ -42,7 +42,7 @@ export const addMemoryNode = async (container: Container, memoryNode?: MemoryNod
 const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {
   await Promise.all(
     types.map(async (type) => {
-      const mod = await container.getAsync<XyoModule>(type)
+      const mod = await container.getAsync<AbstractModule>(type)
       const address: string | undefined = mod?.address
       if (address) node.attach(address, type.description)
     }),

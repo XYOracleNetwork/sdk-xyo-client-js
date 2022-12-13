@@ -1,14 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { AbstractDiviner, AddressHistoryDiviner, isAddressHistoryQueryPayload, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload'
 
 import { XyoArchivistApi } from '../../Api'
 import { RemoteDivinerError } from '../RemoteDivinerError'
 import { XyoRemoteDivinerConfig, XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'
 
-export type XyoRemoteAddressHistoryDivinerParams = XyoModuleParams<XyoRemoteDivinerConfig> & {
+export type XyoRemoteAddressHistoryDivinerParams = ModuleParams<XyoRemoteDivinerConfig> & {
   api?: XyoArchivistApi
 }
 

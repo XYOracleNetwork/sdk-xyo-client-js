@@ -10,7 +10,7 @@ import {
   XyoArchivistFindQuerySchema,
 } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 
@@ -34,7 +34,7 @@ export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = Fil
 
   private _memoryArchivist?: MemoryArchivist
 
-  protected constructor(params: XyoModuleParams<TConfig>) {
+  protected constructor(params: ModuleParams<TConfig>) {
     super(params)
   }
 
@@ -46,7 +46,7 @@ export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = Fil
     return assertEx(this._memoryArchivist)
   }
 
-  static override async create(params?: XyoModuleParams<FilesystemArchivistConfig>): Promise<FilesystemArchivist> {
+  static override async create(params?: ModuleParams<FilesystemArchivistConfig>): Promise<FilesystemArchivist> {
     const instance = (await super.create(params)) as FilesystemArchivist
     await instance.loadFromFile()
     return instance

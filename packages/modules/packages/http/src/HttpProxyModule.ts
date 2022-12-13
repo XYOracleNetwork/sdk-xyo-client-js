@@ -1,16 +1,24 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { creatable, Module, ModuleDescription, ModuleQueryResult, XyoModuleConfig, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AbstractModuleConfig,
+  creatable,
+  Module,
+  ModuleDescription,
+  ModuleParams,
+  ModuleQueryResult,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
-export interface HttpProxyModuleParams extends XyoModuleParams {
+export interface HttpProxyModuleParams extends ModuleParams {
   address: string
   api: XyoArchivistApi
 }
 
 @creatable()
 export class HttpProxyModule implements Module {
-  protected _config: XyoModuleConfig | undefined
+  protected _config: AbstractModuleConfig | undefined
   protected _queries: string[] | undefined
 
   protected constructor(protected readonly _api: XyoArchivistApi, protected readonly _address: string) {}
@@ -18,7 +26,7 @@ export class HttpProxyModule implements Module {
   public get address(): string {
     return this._address
   }
-  public get config(): XyoModuleConfig {
+  public get config(): AbstractModuleConfig {
     if (!this._config) throw new Error('Missing config')
     return this._config
   }

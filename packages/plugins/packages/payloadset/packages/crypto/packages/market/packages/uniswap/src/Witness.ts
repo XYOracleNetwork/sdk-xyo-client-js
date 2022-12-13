@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import {
   XyoUniswapCryptoMarketPayload,
@@ -12,7 +12,7 @@ import { AbstractWitness } from '@xyo-network/witness'
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 
-export interface XyoUniswapCryptoMarketWitnessParams extends XyoModuleParams<XyoUniswapCryptoMarketWitnessConfig> {
+export interface XyoUniswapCryptoMarketWitnessParams extends ModuleParams<XyoUniswapCryptoMarketWitnessConfig> {
   provider: Provider
 }
 

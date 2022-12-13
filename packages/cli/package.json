@@ -23,7 +23,7 @@
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
-    "@types/node": "^18.11.13",
+    "@types/node": "^18.11.15",
     "@types/terminal-kit": "^2.5.1",
     "axios": "~1.2.1",
     "pako": "^2.1.0",

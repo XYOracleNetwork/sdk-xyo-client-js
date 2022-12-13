@@ -1,4 +1,4 @@
-import { XyoModuleQuery, XyoQuery } from '@xyo-network/module'
+import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module'
 
 import { XyoArchivistAllQuery } from './All'
 import { XyoArchivistClearQuery } from './Clear'
@@ -17,6 +17,6 @@ export type XyoArchivistQueryRoot =
   | XyoArchivistGetQuery
   | XyoArchivistInsertQuery
 
-export type XyoArchivistQuery<TQuery extends XyoQuery | void = void> = XyoModuleQuery<
+export type XyoArchivistQuery<TQuery extends XyoQuery | void = void> = AbstractModuleQuery<
   TQuery extends XyoQuery ? XyoArchivistQueryRoot | TQuery : XyoArchivistQueryRoot
 >

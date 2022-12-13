@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xyo-network/axios'
 import { ElevationSchema } from '@xyo-network/elevation-payload-plugin'
 import { GeographicCoordinateSystemLocation, Location, LocationPayload, QuadkeyLocation } from '@xyo-network/location-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Quadkey } from '@xyo-network/quadkey'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
@@ -61,7 +61,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
     return this.config?.zoom ?? 24
   }
 
-  static override async create(params?: XyoModuleParams<ElevationWitnessConfig>): Promise<ElevationWitness> {
+  static override async create(params?: ModuleParams<ElevationWitnessConfig>): Promise<ElevationWitness> {
     return (await super.create(params)) as ElevationWitness
   }
 

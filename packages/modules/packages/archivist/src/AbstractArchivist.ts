@@ -14,7 +14,7 @@ import {
   XyoArchivistQuery,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -28,7 +28,7 @@ export interface XyoArchivistParentWrappers {
 }
 
 export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig>
-  extends XyoModule<TConfig>
+  extends AbstractModule<TConfig>
   implements PayloadArchivist
 {
   private _parents?: XyoArchivistParentWrappers

@@ -2,8 +2,8 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig, ArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
@@ -30,7 +30,7 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
   private _archivists: ArchivistWrapper[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 
-  static override async create(params?: Partial<XyoModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
+  static override async create(params?: Partial<ModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
     return (await super.create(params)) as XyoPanel
   }
 

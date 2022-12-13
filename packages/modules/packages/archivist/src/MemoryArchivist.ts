@@ -10,7 +10,7 @@ import {
   XyoArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -40,7 +40,7 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
 
   private cache: LruCache<string, XyoPayload>
 
-  protected constructor(params: XyoModuleParams<TConfig>) {
+  protected constructor(params: ModuleParams<TConfig>) {
     super(params)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
@@ -49,7 +49,7 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
     return this.config?.max ?? 10000
   }
 
-  static override async create(params?: XyoModuleParams<MemoryArchivistConfig>): Promise<MemoryArchivist> {
+  static override async create(params?: ModuleParams<MemoryArchivistConfig>): Promise<MemoryArchivist> {
     return (await super.create(params)) as MemoryArchivist
   }
 

@@ -1,13 +1,13 @@
 import { XyoPayload } from '@xyo-network/payload'
 
-import { XyoModuleInstanceSchema } from './Schema'
+import { AbstractModuleInstanceSchema } from './Schema'
 
-export interface XyoModuleInstanceQueryConfig {
+export interface AbstractModuleInstanceQueryConfig {
   cost?: string
 }
 
-export type XyoModuleInstancePayload = XyoPayload<{
+export type AbstractModuleInstancePayload = XyoPayload<{
   address: string
-  queries?: Record<string, XyoModuleInstanceQueryConfig>
-  schema: XyoModuleInstanceSchema
+  queries?: Record<string, AbstractModuleInstanceQueryConfig>
+  schema: AbstractModuleInstanceSchema
 }>

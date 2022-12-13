@@ -1,10 +1,10 @@
-import { XyoModuleInstancePayload } from './Payload'
-import { XyoModuleInstanceSchema } from './Schema'
+import { AbstractModuleInstancePayload } from './Payload'
+import { AbstractModuleInstanceSchema } from './Schema'
 
-export const moduleInstancePayloadTemplate = (): Partial<XyoModuleInstancePayload> => {
+export const moduleInstancePayloadTemplate = (): Partial<AbstractModuleInstancePayload> => {
   return {
     address: undefined,
     queries: undefined,
-    schema: XyoModuleInstanceSchema,
+    schema: AbstractModuleInstanceSchema,
   }
 }

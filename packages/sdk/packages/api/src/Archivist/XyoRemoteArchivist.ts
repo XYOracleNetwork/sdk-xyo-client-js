@@ -1,6 +1,6 @@
 import { AbstractArchivist, XyoArchivistFindQuerySchema, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
@@ -8,7 +8,7 @@ import { XyoArchivistApi } from '../Api'
 import { RemoteArchivistError } from './RemoteArchivistError'
 import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
 
-export type XyoRemoteArchivistParams = XyoModuleParams<XyoRemoteArchivistConfig> & { api?: XyoArchivistApi }
+export type XyoRemoteArchivistParams = ModuleParams<XyoRemoteArchivistConfig> & { api?: XyoArchivistApi }
 
 /** @description Archivist Context that connects to a remote archivist using the API */
 export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConfig> {

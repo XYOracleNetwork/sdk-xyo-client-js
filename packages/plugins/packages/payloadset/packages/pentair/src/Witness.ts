@@ -1,4 +1,4 @@
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { XyoPentairScreenlogicPayload, XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
@@ -29,7 +29,7 @@ export class XyoPentairScreenlogicWitness extends AbstractWitness<XyoPentairScre
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected controller = new Controller()
 
-  static override async create(params?: XyoModuleParams<XyoPentairScreenlogicWitnessConfig>): Promise<XyoPentairScreenlogicWitness> {
+  static override async create(params?: ModuleParams<XyoPentairScreenlogicWitnessConfig>): Promise<XyoPentairScreenlogicWitness> {
     return (await super.create(params)) as XyoPentairScreenlogicWitness
   }
 

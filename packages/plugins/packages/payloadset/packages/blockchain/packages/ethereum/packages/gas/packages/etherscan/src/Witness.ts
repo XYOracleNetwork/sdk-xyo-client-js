@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { TimestampWitness } from '@xyo-network/witness'
 
@@ -11,7 +11,7 @@ import { XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 export class XyoEthereumGasEtherscanWitness extends TimestampWitness<XyoEthereumGasEtherscanWitnessConfig> {
   static override configSchema = XyoEthereumGasEtherscanWitnessConfigSchema
 
-  static override async create(params?: XyoModuleParams<XyoEthereumGasEtherscanWitnessConfig>): Promise<XyoEthereumGasEtherscanWitness> {
+  static override async create(params?: ModuleParams<XyoEthereumGasEtherscanWitnessConfig>): Promise<XyoEthereumGasEtherscanWitness> {
     assertEx(params?.config?.apiKey, 'apiKey is required')
     return (await super.create(params)) as XyoEthereumGasEtherscanWitness
   }

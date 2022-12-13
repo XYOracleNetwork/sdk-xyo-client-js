@@ -2,10 +2,10 @@ import { Account } from '@xyo-network/account'
 import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 
-import { Module, ModuleResolver } from './Module'
+import { Module, ModuleResolver } from './model'
 import { ModuleDescription } from './ModuleDescription'
 import { ModuleQueryResult } from './ModuleQueryResult'
-import { XyoModuleDiscoverQuery, XyoModuleDiscoverQuerySchema } from './Queries'
+import { AbstractModuleDiscoverQuery, AbstractModuleDiscoverQuerySchema } from './Queries'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoError, XyoErrorSchema, XyoQuery, XyoQueryBoundWitness } from './Query'
 
 export interface WrapperError extends Error {
@@ -38,7 +38,7 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
   }
 
   async discover(): Promise<XyoPayload[]> {
-    const queryPayload = PayloadWrapper.parse<XyoModuleDiscoverQuery>({ schema: XyoModuleDiscoverQuerySchema })
+    const queryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)
@@ -114,4 +114,4 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
 
 /** @deprecated use ModuleWrapper instead */
 
-export class XyoModuleWrapper<TModule extends Module = Module> extends ModuleWrapper<TModule> {}
+export class AbstractModuleWrapper<TModule extends Module = Module> extends ModuleWrapper<TModule> {}

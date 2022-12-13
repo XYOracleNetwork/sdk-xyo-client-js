@@ -3871,10 +3871,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.11":
-  version: 18.11.13
-  resolution: "@types/node@npm:18.11.13"
-  checksum: b0c1aa3bd2f5df8240e61096a49d6d4be600109b824d23408ec4ba1ec057dc0c60588e09f73b8a60455ad26d367e9c5562fad8403099f885cbc7b4cace83ec4c
+"@types/node@npm:*, @types/node@npm:^18.11.11, @types/node@npm:^18.11.15":
+  version: 18.11.15
+  resolution: "@types/node@npm:18.11.15"
+  checksum: cae8692a5cee0316f93ee0342237eb921f70c51afb37c661c711a925a4642654ae7e404c5a80899d481c0cfaff3a6891ef04bacd330a2e72734192bfc91dc2d8
   languageName: node
   linkType: hard
 
@@ -4856,6 +4856,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/cli@workspace:packages/cli"
   dependencies:
+    "@types/node": ^18.11.15
     "@types/terminal-kit": ^2.5.1
     "@xyo-network/api": "workspace:^"
     "@xyo-network/http-proxy-module": "workspace:^"
@@ -6268,6 +6269,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.5
     "@babel/preset-env": ^7.20.2
+    "@types/node": ^18.11.15
     "@xylabs/eslint-config": ^2.7.27
     "@xylabs/ts-scripts-yarn3": ^2.7.27
     "@xylabs/tsconfig": ^2.7.27

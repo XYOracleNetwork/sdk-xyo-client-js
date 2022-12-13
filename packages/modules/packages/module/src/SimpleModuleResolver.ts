@@ -3,11 +3,10 @@ import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
-import { AbstractModule } from './AbstractModule'
-import { ModuleResolver } from './model'
+import { Module, ModuleResolver } from './model'
 import { ModuleFilter } from './ModuleFilter'
 
-export class SimpleModuleResolver<TModule extends AbstractModule = AbstractModule> implements ModuleResolver {
+export class SimpleModuleResolver<TModule extends Module = Module> implements ModuleResolver {
   private addressToName: Record<string, string> = {}
   private modules: Record<string, TModule> = {}
   private nameToAddress: Record<string, string> = {}

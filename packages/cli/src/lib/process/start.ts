@@ -41,6 +41,7 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
   }
   const { pid } = daemon
   await setPid(pid)
+  printLine('Started Node')
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   printLine(`Connecting to Node at: ${apiDomain}`)
   const api = new XyoArchivistApi({ apiDomain })

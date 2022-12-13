@@ -1,7 +1,7 @@
 import { EmptyObject } from '@xyo-network/core'
-import { XyoPayloadFindFilter } from '@xyo-network/payload'
+import { PayloadFindFilter } from '@xyo-network/payload'
 
-/* Note: Added Omit to XyoPayloadFindFilter for offset until we support hash based offsets */
+/* Note: Added Omit to PayloadFindFilter for offset until we support hash based offsets */
 
 export type XyoPayloadFilterPredicate<T extends EmptyObject = EmptyObject> = Partial<{
   archives: string[]
@@ -9,5 +9,5 @@ export type XyoPayloadFilterPredicate<T extends EmptyObject = EmptyObject> = Par
   offset: number
   schemas: string[]
 }> &
-  Omit<XyoPayloadFindFilter, 'offset'> &
+  Omit<PayloadFindFilter, 'offset'> &
   Partial<T>

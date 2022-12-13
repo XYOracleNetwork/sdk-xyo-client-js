@@ -1,10 +1,10 @@
 import { XyoQuery } from '@xyo-network/module'
-import { XyoPayloadFindFilter } from '@xyo-network/payload'
+import { PayloadFindFilter } from '@xyo-network/payload'
 
-export type XyoArchivistFindQuerySchema = 'network.xyo.query.archivist.find'
-export const XyoArchivistFindQuerySchema: XyoArchivistFindQuerySchema = 'network.xyo.query.archivist.find'
+export type ArchivistFindQuerySchema = 'network.xyo.query.archivist.find'
+export const ArchivistFindQuerySchema: ArchivistFindQuerySchema = 'network.xyo.query.archivist.find'
 
-export type XyoArchivistFindQuery = XyoQuery<{
-  filter?: XyoPayloadFindFilter
-  schema: XyoArchivistFindQuerySchema
+export type ArchivistFindQuery = XyoQuery<{
+  filter?: PayloadFindFilter
+  schema: ArchivistFindQuerySchema
 }>

@@ -7,15 +7,13 @@ import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQ
 export class BridgeWrapper extends ModuleWrapper implements Bridge {
   async connect(uri?: string): Promise<boolean> {
     const queryPayload = PayloadWrapper.parse<XyoBridgeQuery>({ schema: XyoBridgeConnectQuerySchema, uri })
-    const query = await this.bindQuery(queryPayload)
-    await this.module.query(query[0], query[1])
+    await this.sendQuery(queryPayload)
     return true
   }
 
   async disconnect(uri?: string): Promise<boolean> {
     const queryPayload = PayloadWrapper.parse<XyoBridgeQuery>({ schema: XyoBridgeDisconnectQuerySchema, uri })
-    const query = await this.bindQuery(queryPayload)
-    await this.module.query(query[0], query[1])
+    await this.sendQuery(queryPayload)
     return true
   }
 }

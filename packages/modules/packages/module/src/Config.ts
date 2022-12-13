@@ -1,13 +1,13 @@
 import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload'
 
-export type XyoModuleConfigSchema = 'network.xyo.module.config'
-export const XyoModuleConfigSchema: XyoModuleConfigSchema = 'network.xyo.module.config'
+export type AbstractModuleConfigSchema = 'network.xyo.module.config'
+export const AbstractModuleConfigSchema: AbstractModuleConfigSchema = 'network.xyo.module.config'
 
 export type AddressString = string
 export type SchemaString = string
 
-export type XyoModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayload<
+export type AbstractModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayload<
   {
     //if both allowed and disallowed is specified, then disallowed takes priority
     security?: {
@@ -19,4 +19,4 @@ export type XyoModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayloa
   } & T
 >
 
-export type XyoModuleConfig<TConfig extends XyoPayload = XyoPayload> = XyoModuleConfigBase<TConfig>
+export type AbstractModuleConfig<TConfig extends XyoPayload = XyoPayload> = AbstractModuleConfigBase<TConfig>

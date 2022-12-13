@@ -1,17 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { LocationHeadingPayload, LocationHeadingSchema, LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness } from '@xyo-network/witness'
 
-export type CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'
-export const CurrentLocationWitnessConfigSchema: CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'
-
-export type CurrentLocationWitnessConfig = XyoWitnessConfig<{
-  schema: CurrentLocationWitnessConfigSchema
-}>
-
-export type CurrentLocationWitnessParams = XyoModuleParams<CurrentLocationWitnessConfig> & { geolocation: Geolocation }
+import { CurrentLocationWitnessConfig, CurrentLocationWitnessConfigSchema, CurrentLocationWitnessParams } from './Config'
 
 export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitnessConfig> {
   static override configSchema = CurrentLocationWitnessConfigSchema
@@ -27,7 +20,7 @@ export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitne
     return assertEx(this._geolocation, 'No geolocation provided')
   }
 
-  static override async create(params?: XyoModuleParams<CurrentLocationWitnessConfig>): Promise<CurrentLocationWitness> {
+  static override async create(params?: ModuleParams<CurrentLocationWitnessConfig>): Promise<CurrentLocationWitness> {
     return (await super.create(params)) as CurrentLocationWitness
   }
 
@@ -44,7 +37,7 @@ export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitne
     })
   }
 
-  override async observe(_fields: XyoPayload[]): Promise<XyoPayload[]> {
+  override async observe(): Promise<XyoPayload[]> {
     const location = await this.getCurrentPosition()
     const locationPayload: LocationPayload = {
       altitude: location.coords.altitude ?? undefined,

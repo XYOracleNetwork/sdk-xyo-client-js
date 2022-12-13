@@ -1,8 +1,11 @@
-import { start } from './lib'
+import { connect, printLogo, start } from './lib'
 import { startTerminal } from './terminal'
 
 const main = async () => {
-  await startTerminal(await start())
+  await printLogo()
+  await start()
+  const connection = await connect()
+  await startTerminal(connection)
 }
 
 main()

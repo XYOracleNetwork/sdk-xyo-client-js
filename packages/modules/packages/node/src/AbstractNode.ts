@@ -1,15 +1,15 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
+  AbstractModule,
   Module,
   ModuleDescription,
   ModuleFilter,
+  ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
+  SimpleModuleResolver,
   XyoErrorBuilder,
-  XyoModule,
-  XyoModuleParams,
-  XyoModuleResolver,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
@@ -19,21 +19,21 @@ import { NodeConfig } from './Config'
 import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule>
-  extends XyoModule<TConfig>
+export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends AbstractModule = AbstractModule>
+  extends AbstractModule<TConfig>
   implements NodeModule
 {
   public isModuleResolver = true
 
-  protected internalResolver: XyoModuleResolver<TModule>
+  protected internalResolver: SimpleModuleResolver<TModule>
   private _archivist?: Module
 
-  protected constructor(params: XyoModuleParams<TConfig>, internalResolver?: XyoModuleResolver<TModule>) {
+  protected constructor(params: ModuleParams<TConfig>, internalResolver?: SimpleModuleResolver<TModule>) {
     super(params)
-    this.internalResolver = internalResolver ?? new XyoModuleResolver<TModule>()
+    this.internalResolver = internalResolver ?? new SimpleModuleResolver<TModule>()
   }
 
-  static override async create(params?: Partial<XyoModuleParams<NodeConfig>>): Promise<AbstractNode> {
+  static override async create(params?: Partial<ModuleParams<NodeConfig>>): Promise<AbstractNode> {
     return (await super.create(params)) as AbstractNode
   }
 
@@ -119,7 +119,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
 }
 
 /** @deprecated use AbstractNode instead */
-export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends AbstractNode<
+export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends AbstractModule = AbstractModule> extends AbstractNode<
   TConfig,
   TModule
 > {}

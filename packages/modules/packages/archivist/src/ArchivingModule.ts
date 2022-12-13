@@ -1,20 +1,20 @@
 import { Account } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { EmptyObject } from '@xyo-network/core'
-import { Module, ModuleQueryResult, XyoModule, XyoModuleConfig } from '@xyo-network/module'
+import { AbstractModule, AbstractModuleConfig, Module, ModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { PromiseEx } from '@xyo-network/promise'
 
 import { ArchivistWrapper } from './ArchivistWrapper'
 
-export type ArchivingModuleConfig<T extends EmptyObject = EmptyObject> = XyoModuleConfig<
+export type ArchivingModuleConfig<T extends EmptyObject = EmptyObject> = AbstractModuleConfig<
   {
     archivists?: string[]
     schema: string
   } & T
 >
 
-export class ArchivingModule<TConfig extends ArchivingModuleConfig = ArchivingModuleConfig> extends XyoModule<TConfig> implements Module {
+export class ArchivingModule<TConfig extends ArchivingModuleConfig = ArchivingModuleConfig> extends AbstractModule<TConfig> implements Module {
   protected bindResult(payloads: XyoPayload[], account?: Account): PromiseEx<ModuleQueryResult, Account> {
     const promise = new PromiseEx<ModuleQueryResult, Account>(async (resolve) => {
       const result = this.bindResultInternal(payloads, account)

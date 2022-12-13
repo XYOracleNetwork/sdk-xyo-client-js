@@ -1,5 +1,5 @@
 import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 
@@ -9,7 +9,7 @@ export class XyoDomainWitness extends AbstractWitness<XyoDomainWitnessConfig> {
   static override configSchema = XyoDomainWitnessConfigSchema
   public static dmarc = '_xyo'
 
-  static override async create(params?: XyoModuleParams<XyoDomainWitnessConfig>): Promise<XyoDomainWitness> {
+  static override async create(params?: ModuleParams<XyoDomainWitnessConfig>): Promise<XyoDomainWitness> {
     return (await super.create(params)) as XyoDomainWitness
   }
 

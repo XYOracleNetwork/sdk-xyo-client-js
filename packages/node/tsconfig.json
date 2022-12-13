@@ -10,7 +10,6 @@
     ],
     "types": [
       "@types/jest",
-      "@types/node",
       "jest-extended",
       "jest-sorted",
       "jest",

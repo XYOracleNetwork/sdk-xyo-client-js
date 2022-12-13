@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AbstractModule, ModuleParams, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -8,15 +8,15 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { Witness } from './Witness'
 
-export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitnessConfig> extends XyoModule<TConfig> implements Witness {
+export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitnessConfig> extends AbstractModule<TConfig> implements Witness {
   static override configSchema: string
 
   public get targetSet() {
     return this.config?.targetSet
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoWitnessConfig>>): Promise<AbstractWitness> {
-    const actualParams: Partial<XyoModuleParams<XyoWitnessConfig>> = params ?? {}
+  static override async create(params?: Partial<ModuleParams<XyoWitnessConfig>>): Promise<AbstractWitness> {
+    const actualParams: Partial<ModuleParams<XyoWitnessConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
     return (await super.create(actualParams)) as AbstractWitness
   }

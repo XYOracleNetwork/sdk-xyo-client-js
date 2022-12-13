@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
@@ -7,7 +7,7 @@ import { BridgeModule } from './Bridge'
 import { BridgeConfig } from './Config'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
-export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig> extends XyoModule<TConfig> implements BridgeModule {
+export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig> extends AbstractModule<TConfig> implements BridgeModule {
   override queries() {
     return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries()]
   }

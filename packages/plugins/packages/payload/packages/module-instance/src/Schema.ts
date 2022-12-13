@@ -1,2 +1,2 @@
-export type XyoModuleInstanceSchema = 'network.xyo.module.instance'
-export const XyoModuleInstanceSchema: XyoModuleInstanceSchema = 'network.xyo.module.instance'
+export type AbstractModuleInstanceSchema = 'network.xyo.module.instance'
+export const AbstractModuleInstanceSchema: AbstractModuleInstanceSchema = 'network.xyo.module.instance'

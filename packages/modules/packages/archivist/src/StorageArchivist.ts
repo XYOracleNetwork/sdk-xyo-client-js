@@ -1,17 +1,17 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
-  XyoArchivistAllQuerySchema,
-  XyoArchivistClearQuerySchema,
-  XyoArchivistCommitQuerySchema,
-  XyoArchivistConfig,
-  XyoArchivistDeleteQuerySchema,
-  XyoArchivistFindQuerySchema,
-  XyoArchivistInsertQuery,
-  XyoArchivistInsertQuerySchema,
+  ArchivistAllQuerySchema,
+  ArchivistClearQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistConfig,
+  ArchivistDeleteQuerySchema,
+  ArchivistFindQuerySchema,
+  ArchivistInsertQuery,
+  ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -28,7 +28,7 @@ export type XyoStorageArchivistConfigSchema = StorageArchivistConfigSchema
 /** @deprecated use StorageArchivistConfigSchema instead */
 export const XyoStorageArchivistConfigSchema = StorageArchivistConfigSchema
 
-export type StorageArchivistConfig = XyoArchivistConfig<{
+export type StorageArchivistConfig = ArchivistConfig<{
   maxEntries?: number
   maxEntrySize?: number
   namespace?: string
@@ -45,7 +45,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
   private _privateStorage: StoreBase | undefined
   private _storage: StoreBase | undefined
 
-  constructor(params: XyoModuleParams<StorageArchivistConfig>) {
+  constructor(params: ModuleParams<StorageArchivistConfig>) {
     super(params)
     this.loadAccount()
   }
@@ -82,7 +82,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     return this._storage
   }
 
-  static override async create(params?: XyoModuleParams<StorageArchivistConfig>): Promise<XyoStorageArchivist> {
+  static override async create(params?: ModuleParams<StorageArchivistConfig>): Promise<XyoStorageArchivist> {
     return (await super.create(params)) as XyoStorageArchivist
   }
 
@@ -114,9 +114,9 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
       const settled = await Promise.allSettled(
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
+            const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
-              schema: XyoArchivistInsertQuerySchema,
+              schema: ArchivistInsertQuerySchema,
             })
             const query = await this.bindQuery(queryPayload)
             return (await parent?.query(query[0], query[1]))?.[0]
@@ -189,12 +189,12 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
 
   public override queries() {
     return [
-      XyoArchivistAllQuerySchema,
-      XyoArchivistDeleteQuerySchema,
-      XyoArchivistClearQuerySchema,
-      XyoArchivistFindQuerySchema,
-      XyoArchivistInsertQuerySchema,
-      XyoArchivistCommitQuerySchema,
+      ArchivistAllQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistFindQuerySchema,
+      ArchivistInsertQuerySchema,
+      ArchivistCommitQuerySchema,
       ...super.queries(),
     ]
   }

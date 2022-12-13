@@ -1,9 +1,9 @@
 import { XyoQuery } from '@xyo-network/module'
 
-export type XyoArchivistDeleteQuerySchema = 'network.xyo.query.archivist.delete'
-export const XyoArchivistDeleteQuerySchema: XyoArchivistDeleteQuerySchema = 'network.xyo.query.archivist.delete'
+export type ArchivistDeleteQuerySchema = 'network.xyo.query.archivist.delete'
+export const ArchivistDeleteQuerySchema: ArchivistDeleteQuerySchema = 'network.xyo.query.archivist.delete'
 
-export type XyoArchivistDeleteQuery = XyoQuery<{
+export type ArchivistDeleteQuery = XyoQuery<{
   hashes: string[]
-  schema: XyoArchivistDeleteQuerySchema
+  schema: ArchivistDeleteQuerySchema
 }>

@@ -1,9 +1,9 @@
 import { XyoQuery } from '@xyo-network/module'
 
-export type XyoArchivistInsertQuerySchema = 'network.xyo.query.archivist.insert'
-export const XyoArchivistInsertQuerySchema: XyoArchivistInsertQuerySchema = 'network.xyo.query.archivist.insert'
+export type ArchivistInsertQuerySchema = 'network.xyo.query.archivist.insert'
+export const ArchivistInsertQuerySchema: ArchivistInsertQuerySchema = 'network.xyo.query.archivist.insert'
 
-export type XyoArchivistInsertQuery = XyoQuery<{
+export type ArchivistInsertQuery = XyoQuery<{
   payloads: string[]
-  schema: XyoArchivistInsertQuerySchema
+  schema: ArchivistInsertQuerySchema
 }>

@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -11,7 +11,7 @@ export type XyoSchemaWitnessConfig = XyoWitnessConfig<{ schema: XyoSchemaWitness
 export class XyoSchemaWitness extends AbstractWitness<XyoSchemaWitnessConfig> {
   static override configSchema = XyoSchemaWitnessConfigSchema
 
-  static override async create(params?: XyoModuleParams<XyoSchemaWitnessConfig>): Promise<XyoSchemaWitness> {
+  static override async create(params?: ModuleParams<XyoSchemaWitnessConfig>): Promise<XyoSchemaWitness> {
     return (await super.create(params)) as XyoSchemaWitness
   }
 

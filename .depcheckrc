@@ -2,7 +2,6 @@ ignores:
   [
     "@babel/core",
     "@babel/preset-env",
-    "@types/node",
     "@xylabs/ts-scripts-yarn3",
     "@xylabs/tsconfig",
     "babel-jest",

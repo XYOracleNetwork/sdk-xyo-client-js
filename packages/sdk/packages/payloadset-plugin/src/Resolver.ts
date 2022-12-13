@@ -3,7 +3,7 @@ import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/mod
 import { PayloadSetPayload } from '@xyo-network/payload'
 
 import { PayloadSetPluginParams } from './Configs'
-import { isPayloadSetDivinerPlugin, isPayloadSetWitnessPlugin, PayloadSetPlugin } from './Plugin'
+import { isPayloadSetDivinerPlugin, isPayloadSetWitnessPlugin, PayloadSetDivinerPlugin, PayloadSetPlugin, PayloadSetWitnessPlugin } from './Plugin'
 
 export class PayloadSetPluginResolver {
   protected _plugins: Record<string, PayloadSetPlugin> = {}
@@ -20,7 +20,17 @@ export class PayloadSetPluginResolver {
     return await isPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this.params[set]?.diviner)
   }
 
-  /** @description Create list of plugins */
+  public diviners() {
+    const result: PayloadSetDivinerPlugin[] = []
+    Object.values(this._plugins).forEach((plugin) => {
+      const diviner = isPayloadSetDivinerPlugin(plugin)
+      if (diviner) {
+        result.push(diviner)
+      }
+    })
+    return result
+  }
+
   public plugins() {
     const result: PayloadSetPlugin[] = []
     Object.values(this._plugins).forEach((value) => {
@@ -60,6 +70,17 @@ export class PayloadSetPluginResolver {
 
   public async witness(set: string) {
     return await isPayloadSetWitnessPlugin(this._plugins[set])?.witness?.(this.params[set]?.diviner)
+  }
+
+  public witnesses() {
+    const result: PayloadSetWitnessPlugin[] = []
+    Object.values(this._plugins).forEach((plugin) => {
+      const witness = isPayloadSetWitnessPlugin(plugin)
+      if (witness) {
+        result.push(witness)
+      }
+    })
+    return result
   }
 
   public wrap(boundwitness: XyoQueryBoundWitness): QueryBoundWitnessWrapper | undefined {

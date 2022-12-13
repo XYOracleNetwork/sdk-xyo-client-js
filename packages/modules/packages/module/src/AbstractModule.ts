@@ -6,25 +6,20 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
-import { AddressString, SchemaString, XyoModuleConfig } from './Config'
+import { AbstractModuleConfig, AddressString, SchemaString } from './Config'
+import { creatable } from './CreatableModule'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
-import { Module, ModuleResolver } from './Module'
+import { Module, ModuleParams, ModuleResolver } from './model'
 import { ModuleDescription } from './ModuleDescription'
 import { ModuleQueryResult } from './ModuleQueryResult'
-import { XyoModuleDiscoverQuerySchema, XyoModuleQuery, XyoModuleSubscribeQuerySchema } from './Queries'
+import { AbstractModuleDiscoverQuerySchema, AbstractModuleQuery, AbstractModuleSubscribeQuerySchema } from './Queries'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQuery, XyoQueryBoundWitness } from './Query'
 
 export type SortedPipedAddressesString = string
 
-export interface XyoModuleParams<TConfig extends XyoModuleConfig = XyoModuleConfig> {
-  account?: Account
-  config: TConfig
-  logger?: Logger
-  resolver?: ModuleResolver
-}
-
-export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implements Module {
+@creatable()
+export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {
   static configSchema: string
   static defaultLogger?: Logger
 
@@ -36,11 +31,11 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected readonly logger?: Logging
 
-  protected constructor(params: XyoModuleParams<TConfig>) {
+  protected constructor(params: ModuleParams<TConfig>) {
     this.resolver = params.resolver
     this.config = params.config
     this.account = this.loadAccount(params?.account)
-    const activeLogger = params?.logger ?? XyoModule.defaultLogger
+    const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
   }
@@ -53,11 +48,11 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     return this.config?.security?.disallowed
   }
 
-  protected static async create(params?: Partial<XyoModuleParams<XyoModuleConfig>>): Promise<XyoModule> {
+  static async create(params?: Partial<ModuleParams<AbstractModuleConfig>>): Promise<AbstractModule> {
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const actualParams: Partial<XyoModuleParams<XyoModuleConfig>> = params ?? {}
+    const actualParams: Partial<ModuleParams<AbstractModuleConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
-    return await new this(actualParams as XyoModuleParams<XyoModuleConfig>).start()
+    return await new this(actualParams as ModuleParams<AbstractModuleConfig>).start()
   }
 
   public description(): Promisable<ModuleDescription> {
@@ -69,12 +64,12 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
   }
 
   public queries(): string[] {
-    return [XyoModuleDiscoverQuerySchema, XyoModuleSubscribeQuerySchema]
+    return [AbstractModuleDiscoverQuerySchema, AbstractModuleSubscribeQuerySchema]
   }
 
   public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoModuleQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
@@ -84,11 +79,11 @@ export class XyoModule<TConfig extends XyoModuleConfig = XyoModuleConfig> implem
     const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
-        case XyoModuleDiscoverQuerySchema: {
+        case AbstractModuleDiscoverQuerySchema: {
           resultPayloads.push(...(await this.discover(queryAccount)))
           break
         }
-        case XyoModuleSubscribeQuerySchema: {
+        case AbstractModuleSubscribeQuerySchema: {
           this.subscribe(queryAccount)
           break
         }

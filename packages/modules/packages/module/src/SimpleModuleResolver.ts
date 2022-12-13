@@ -3,11 +3,11 @@ import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
-import { ModuleResolver } from './Module'
+import { AbstractModule } from './AbstractModule'
+import { ModuleResolver } from './model'
 import { ModuleFilter } from './ModuleFilter'
-import { XyoModule } from './XyoModule'
 
-export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements ModuleResolver {
+export class SimpleModuleResolver<TModule extends AbstractModule = AbstractModule> implements ModuleResolver {
   private addressToName: Record<string, string> = {}
   private modules: Record<string, TModule> = {}
   private nameToAddress: Record<string, string> = {}
@@ -16,8 +16,8 @@ export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements
     return true
   }
 
-  add(module: TModule, name?: string): XyoModuleResolver
-  add(module: TModule[], name?: string[]): XyoModuleResolver
+  add(module: TModule, name?: string): SimpleModuleResolver
+  add(module: TModule[], name?: string[]): SimpleModuleResolver
   add(module: TModule | TModule[], name?: string | string[]) {
     if (Array.isArray(module)) {
       const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
@@ -29,8 +29,8 @@ export class XyoModuleResolver<TModule extends XyoModule = XyoModule> implements
     return this
   }
 
-  remove(name: string | string[]): XyoModuleResolver
-  remove(address: string | string[]): XyoModuleResolver {
+  remove(name: string | string[]): SimpleModuleResolver
+  remove(address: string | string[]): SimpleModuleResolver {
     if (Array.isArray(address)) {
       address.forEach((address) => this.removeSingleModule(address))
     } else {

@@ -1,5 +1,5 @@
 import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
 
@@ -10,7 +10,7 @@ import { XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 export class XyoCoingeckoCryptoMarketWitness extends AbstractWitness<XyoCoingeckoCryptoMarketWitnessConfig> {
   static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema
 
-  static override async create(params?: XyoModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>): Promise<XyoCoingeckoCryptoMarketWitness> {
+  static override async create(params?: ModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>): Promise<XyoCoingeckoCryptoMarketWitness> {
     return (await super.create(params)) as XyoCoingeckoCryptoMarketWitness
   }
 

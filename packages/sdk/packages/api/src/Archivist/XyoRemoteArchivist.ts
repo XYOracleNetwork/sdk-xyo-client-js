@@ -1,14 +1,14 @@
-import { AbstractArchivist, XyoArchivistFindQuerySchema, XyoArchivistInsertQuerySchema } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleParams } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
+import { ModuleParams } from '@xyo-network/module'
+import { PayloadFindFilter, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
 import { XyoArchivistApi } from '../Api'
 import { RemoteArchivistError } from './RemoteArchivistError'
 import { XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from './XyoRemoteArchivistConfig'
 
-export type XyoRemoteArchivistParams = XyoModuleParams<XyoRemoteArchivistConfig> & { api?: XyoArchivistApi }
+export type XyoRemoteArchivistParams = ModuleParams<XyoRemoteArchivistConfig> & { api?: XyoArchivistApi }
 
 /** @description Archivist Context that connects to a remote archivist using the API */
 export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConfig> {
@@ -41,7 +41,7 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
     return (await super.create(params)) as XyoRemoteArchivist
   }
 
-  public override async find<R extends XyoPayload = XyoPayload>(filter: XyoPayloadFindFilter): Promise<R[]> {
+  public override async find<R extends XyoPayload = XyoPayload>(filter: PayloadFindFilter): Promise<R[]> {
     try {
       const [payloads = [], payloadEnvelope, payloadResponse] = await this.api.archive(this.archive).payload.find(filter, 'tuple')
       if (payloadEnvelope?.error?.length) {
@@ -124,6 +124,6 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
   }
 
   public override queries() {
-    return [XyoArchivistFindQuerySchema, XyoArchivistInsertQuerySchema, ...super.queries()]
+    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
   }
 }

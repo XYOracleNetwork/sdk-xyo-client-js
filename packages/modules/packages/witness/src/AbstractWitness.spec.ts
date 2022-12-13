@@ -1,4 +1,4 @@
-import { Module, XyoModule, XyoModuleParams } from '@xyo-network/module'
+import { AbstractModule, Module, ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { AbstractWitness } from './AbstractWitness'
@@ -8,7 +8,7 @@ import { WitnessWrapper } from './WitnessWrapper'
 
 describe('XyoWitness', () => {
   const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema }
-  const params: XyoModuleParams<XyoWitnessConfig> = { config }
+  const params: ModuleParams<XyoWitnessConfig> = { config }
   const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
 
   describe('fulfills type of', () => {
@@ -18,8 +18,8 @@ describe('XyoWitness', () => {
       const wrapper = new WitnessWrapper(witness)
       expect(wrapper).toBeObject()
     })
-    it('XyoModule', async () => {
-      const witness: XyoModule = await AbstractWitness.create(params)
+    it('AbstractModule', async () => {
+      const witness: AbstractModule = await AbstractWitness.create(params)
       expect(witness).toBeObject()
       const wrapper = new WitnessWrapper(witness)
       expect(wrapper).toBeObject()

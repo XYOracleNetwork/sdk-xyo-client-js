@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistWrapper, PayloadArchivist, XyoArchivistGetQuery, XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ArchivistGetQuery, ArchivistGetQuerySchema, ArchivistWrapper, PayloadArchivist } from '@xyo-network/archivist'
+import { ModuleParams } from '@xyo-network/module'
 import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
@@ -13,7 +13,7 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
 
   protected archivist?: PayloadArchivist | null
 
-  static override async create(params?: XyoModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<ArchivistPayloadDiviner> {
+  static override async create(params?: ModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<ArchivistPayloadDiviner> {
     return (await super.create(params)) as ArchivistPayloadDiviner
   }
 
@@ -25,7 +25,7 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
     const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
     const activeArchivist = this.archivist
     if (activeArchivist) {
-      const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes, schema: XyoArchivistGetQuerySchema })
+      const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
       const query = await this.bindQuery(queryPayload)
       return (await activeArchivist.query(query[0], query[1]))[1]
     }

@@ -25,6 +25,7 @@ const nodeAddressErrorMsg = 'Error retrieving address from Node'
  * @returns The process ID of the Node
  */
 export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray<string> = [runNodeScriptPath]): Promise<MemoryNode> => {
+  printLine('Starting Node')
   // NOTE: Sync FD here because async warns about closing
   // when we background process as daemon
   const out = getOutFileDescriptor()

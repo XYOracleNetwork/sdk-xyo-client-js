@@ -5,7 +5,7 @@ import { MemoryNode } from '@xyo-network/node'
 import { spawn } from 'child_process'
 import { join } from 'path'
 
-import { printError } from '../print'
+import { printError, printLine } from '../print'
 import { getErrFileDescriptor, getOutFileDescriptor } from './logs'
 import { setPid } from './pid'
 
@@ -15,6 +15,8 @@ import { setPid } from './pid'
 const runNodeScriptPath = join(__dirname, '..', '..', '..', 'cjs', 'runNode.js')
 
 const config = { schema: XyoModuleConfigSchema }
+
+const nodeAddressErrorMsg = 'Error retrieving address from Node'
 
 /**
  * Runs the XYO Node process
@@ -40,14 +42,13 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
   }
   const { pid } = daemon
   await setPid(pid)
-  // const node = await getNode()
-  // TODO: AbstractNode instead of MemoryNode
-  // TODO: Don't want to cast here
-  const api = new XyoArchivistApi({ apiDomain: 'http://localhost:8080' })
+  const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
+  printLine(`Connecting to Node at: ${apiDomain}`)
+  const api = new XyoArchivistApi({ apiDomain })
   const address = (await api.get())?.address
   if (!address) {
-    printError('Error retrieving address from Node')
-    throw new Error('Error retrieving address from Node')
+    printError(nodeAddressErrorMsg)
+    throw new Error(nodeAddressErrorMsg)
   }
   const node = (await HttpProxyModule.create({ address, api, config })) as unknown as MemoryNode
   return node

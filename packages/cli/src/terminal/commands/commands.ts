@@ -9,5 +9,6 @@ export const terminalCommands = [
   'Show Config',
   'Status',
   'Stop Node',
+  'Restart Node',
   'Exit',
 ]

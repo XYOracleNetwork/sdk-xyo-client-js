@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@xylabs/assert": "^2.6.9",
+    "@xylabs/assert": "^2.6.10",
     "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",

@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/delay": "^2.6.9",
+    "@xylabs/delay": "^2.6.10",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",

@@ -174,6 +174,39 @@ describe('XyoPanel', () => {
         expect((await archivistB.get([Hasher.hash(observedB)])).length).toBe(1)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
+      it('reports errors', async () => {
+        const paramsA = {
+          config: {
+            payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+            schema: XyoAdhocWitnessConfigSchema,
+          },
+        }
+        class FailingWitness extends XyoAdhocWitness {
+          override async observe(): Promise<XyoPayload[]> {
+            await Promise.reject(Error('observation failed'))
+            return [{ schema: 'fake.result' }]
+          }
+        }
+        const witnessA = await FailingWitness.create(paramsA)
+
+        const resolver = new XyoModuleResolver()
+        resolver.add([witnessA, witnessB, archivistA, archivistB])
+        const params: XyoModuleParams<XyoPanelConfig> = {
+          config: {
+            archivists: [archivistA.address, archivistB.address],
+            onReportEnd(_, errors) {
+              expect(errors?.length).toBe(1)
+              expect(errors?.[0]?.message).toBe('observation failed')
+            },
+            schema: 'network.xyo.panel.config',
+            witnesses: [witnessA.address, witnessB.address],
+          },
+          resolver,
+        }
+        const panel = await XyoPanel.create(params)
+        await panel.report()
+        return
+      })
     })
   })
 })

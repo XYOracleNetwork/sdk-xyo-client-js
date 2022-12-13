@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig, ArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
@@ -102,9 +102,17 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     const errors: Error[] = []
     this.config?.onReportStart?.()
     const allWitnesses = [...(await this.getWitnesses())]
-    const allPayloads = [...compact(await this.generatePayloads(allWitnesses)), ...payloads]
-    const [newBoundWitness] = await this.bindResult(allPayloads)
+    const allPayloads: XyoPayload[] = []
 
+    try {
+      const generatedPayloads = compact(await this.generatePayloads(allWitnesses))
+      const combinedPayloads = [...generatedPayloads, ...payloads]
+      allPayloads.push(...combinedPayloads)
+    } catch (e) {
+      errors.push(e as Error)
+    }
+
+    const [newBoundWitness] = await this.bindResult(allPayloads)
     this.history.push(assertEx(newBoundWitness))
     this.config?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
     return [newBoundWitness, allPayloads]

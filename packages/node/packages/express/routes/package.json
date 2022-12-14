@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.6",
+  "version": "2.42.7",
   "description": "XYO Express Node Routes",
   "sideeffects": false,
   "engines": {

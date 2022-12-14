@@ -47,7 +47,7 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/assert": "^2.6.9",
+    "@xylabs/assert": "^2.6.10",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
@@ -88,7 +88,7 @@
     "@babel/preset-env": "^7.20.2",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",
-    "@types/express": "4.17.14"
+    "@types/express": "4.17.15"
   },
   "packageManager": "yarn@3.2.3",
   "volta": {

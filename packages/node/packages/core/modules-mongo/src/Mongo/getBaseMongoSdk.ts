@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { Document } from 'mongodb'
 
 import { getMongoDBConfig } from './getMongoDBConfig'
 
-export const getBaseMongoSdk = <T>(collection: string) => {
+export const getBaseMongoSdk = <T extends Document>(collection: string) => {
   const env = getMongoDBConfig()
   return new BaseMongoSdk<T>({
     collection,

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "ES2022",
+    "outDir": "dist",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
+    "types": [
+      "./types",
+      "jest",
+      "node",
+      "@types/jest",
+      "jest-sorted",
+      "jest-extended"
+    ]
+  },
+  "exclude": [
+    "dist/**/*"
+  ],
+  "extends": "../../tsconfig.json",
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    },
+    "files": true,
+    "transpileOnly": true
+  }
+}

@@ -13,7 +13,7 @@
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:^",
     "mongodb": "^4.12.1",
     "tslib": "^2.4.1"
   },

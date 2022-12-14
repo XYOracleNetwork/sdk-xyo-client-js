@@ -1,0 +1,25 @@
+{
+  "dictionaries": [],
+  "dictionaryDefinitions": [],
+  "ignorePaths": [],
+  "ignoreWords": [],
+  "import": [],
+  "version": "0.2",
+  "words": [
+    "Arie",
+    "arrayify",
+    "BUILDKIT",
+    "buildx",
+    "cryptomarket",
+    "Etherchain",
+    "ethersproject",
+    "Ethgasstation",
+    "hdnode",
+    "pako",
+    "satoshi",
+    "Trouw",
+    "typechain",
+    "xylabs",
+    "yarnpkg"
+  ]
+}

@@ -3562,6 +3562,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/config@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "@types/config@npm:3.3.0"
+  checksum: d9485041cfa05864d3b8095cf7b44fae910887f6782dc43ab1ba4ea78d9cdf4a8c9d697557318ede2b4b63a05b7f91e8571b8dbe048ad024e709d9e51e0487d8
+  languageName: node
+  linkType: hard
+
 "@types/connect@npm:*":
   version: 3.4.35
   resolution: "@types/connect@npm:3.4.35"
@@ -5484,6 +5491,7 @@ __metadata:
   resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/server"
   dependencies:
     "@types/compression": ^1.7.2
+    "@types/config": ^3.3.0
     "@types/cors": ^2.8.13
     "@types/express": 4.17.14
     "@types/passport": ^1.0.11
@@ -5504,6 +5512,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     compression: ^1.7.4
+    config: ^3.3.8
     cors: ^2.8.5
     express: ^4.18.2
     inversify: ^6.0.1
@@ -7951,6 +7960,15 @@ __metadata:
     ini: ^1.3.4
     proto-list: ~1.2.1
   checksum: 828137a28e7c2fc4b7fb229bd0cd6c1397bcf83434de54347e608154008f411749041ee392cbe42fab6307e02de4c12480260bf769b7d44b778fdea3839eafab
+  languageName: node
+  linkType: hard
+
+"config@npm:^3.3.8":
+  version: 3.3.8
+  resolution: "config@npm:3.3.8"
+  dependencies:
+    json5: ^2.2.1
+  checksum: 8ae3b1a073eb32b8b8e8079f4f8874d170bed291df6e3d50d0333ef1524714e6fe051593298de565daa603dc11abda21dd480c9134dbf977caddb9821816c439
   languageName: node
   linkType: hard
 

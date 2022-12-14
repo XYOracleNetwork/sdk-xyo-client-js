@@ -29,9 +29,9 @@ const supportedEnvVars = [
   'NEO4J_USERNAME',
 ]
 
-export const getConfig = async (): Promise<XyoPayload[]> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getConfig = async (): Promise<any> => {
   // eslint-disable-next-line import/no-named-as-default-member
   const config = nconf.argv().env(supportedEnvVars).defaults(defaults).use('memory')
-  const bar = config.get()
-  return await Promise.resolve([])
+  return await Promise.resolve(config.get())
 }

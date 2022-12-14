@@ -1,1 +1,1 @@
-export * from './testUtil.spec'
+export * from './testUtil'

@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.0.96",
+  "version": "2.42.7",
   "description": "XYO Automation Witness",
   "sideeffects": false,
   "engines": {
@@ -24,14 +24,6 @@
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "scripts": {
-    "start": "nodemon",
-    "launch": "node --max-old-space-size=8192 --experimental-specifier-resolution=node ./dist/cjs/index.js",
-    "test": "jest ./src",
-    "test:hash": "jest ./src/hash",
-    "test:domain": "jest ./src/domain",
-    "test:schema": "jest ./src/schema"
-  },
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
@@ -47,7 +39,7 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/assert": "^2.6.9",
+    "@xylabs/assert": "^2.6.10",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
@@ -88,9 +80,9 @@
     "@babel/preset-env": "^7.20.2",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",
-    "@types/express": "4.17.14"
+    "@types/express": "4.17.15"
   },
-  "packageManager": "yarn@3.2.3",
+  "types": "dist/esm/index.d.ts",
   "volta": {
     "node": "16.15.1",
     "yarn": "1.22.19"

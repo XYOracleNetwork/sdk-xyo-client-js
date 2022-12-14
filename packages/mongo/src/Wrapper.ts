@@ -3,16 +3,31 @@ import { Mutex } from 'async-mutex'
 import { MongoClient } from 'mongodb'
 
 export class MongoClientWrapper {
+  static clients = new Map<string, MongoClientWrapper>()
+
+  private checkFrequency = 100
   private client: MongoClient
-  private connectionMutex = new Mutex()
-  private delayedCloseMutex = new Mutex()
-  private connections = 0
+  private closeDelay = 1000
   private connected = false
+  private connectionMutex = new Mutex()
+  private connections = 0
+  private delayCount = 0
+  private delayedCloseMutex = new Mutex()
+
   private uri: string
 
   constructor(uri: string, maxPoolSize?: number) {
     this.uri = uri
     this.client = new MongoClient(uri, { maxPoolSize })
+  }
+
+  static get(uri: string, poolSize?: number) {
+    let client = this.clients.get(uri)
+    if (!client) {
+      client = new MongoClientWrapper(uri, poolSize)
+      this.clients.set(uri, client)
+    }
+    return client
   }
 
   async connect() {
@@ -26,18 +41,16 @@ export class MongoClientWrapper {
     })
   }
 
-  private async close() {
-    return await this.connectionMutex.runExclusive(async () => {
-      assertEx(this.connected, 'Unexpected close')
-      this.connected = false
-      await this.client.close()
-      MongoClientWrapper.clients.delete(this.uri)
+  async disconnect() {
+    return await this.connectionMutex.runExclusive(() => {
+      assertEx(this.connections > 0, 'Unexpected disconnect')
+      this.connections -= 1
+      if (this.connections === 0) {
+        forget(this.initiateClose())
+      }
+      return this.connections
     })
   }
-
-  private checkFrequency = 100
-  private closeDelay = 1000
-  private delayCount = 0
 
   async initiateClose() {
     const alreadyStarted = await this.delayedCloseMutex.runExclusive(() => {
@@ -64,25 +77,12 @@ export class MongoClientWrapper {
     }
   }
 
-  async disconnect() {
-    return await this.connectionMutex.runExclusive(() => {
-      assertEx(this.connections > 0, 'Unexpected disconnect')
-      this.connections -= 1
-      if (this.connections === 0) {
-        forget(this.initiateClose())
-      }
-      return this.connections
+  private async close() {
+    return await this.connectionMutex.runExclusive(async () => {
+      assertEx(this.connected, 'Unexpected close')
+      this.connected = false
+      await this.client.close()
+      MongoClientWrapper.clients.delete(this.uri)
     })
-  }
-
-  static clients = new Map<string, MongoClientWrapper>()
-
-  static get(uri: string, poolSize?: number) {
-    let client = this.clients.get(uri)
-    if (!client) {
-      client = new MongoClientWrapper(uri, poolSize)
-      this.clients.set(uri, client)
-    }
-    return client
   }
 }

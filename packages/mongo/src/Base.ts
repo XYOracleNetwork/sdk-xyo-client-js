@@ -18,20 +18,9 @@ export class BaseMongoSdk<T extends Document> {
     )
   }
 
-  public async useMongo<R>(func: (client: MongoClient) => Promise<R> | R) {
-    const wrapper = MongoClientWrapper.get(this.uri, this.config.maxPoolSize)
-    const connection = await wrapper.connect()
-    assertEx(connection, 'Connection failed')
-    try {
-      return await func(connection)
-    } finally {
-      await wrapper.disconnect()
-    }
-  }
-
-  public async useCollection<R>(func: (collection: Collection<T>) => Promise<R> | R) {
-    return await this.useMongo<R>(async (client: MongoClient) => {
-      return await func(client.db(this.config.dbName).collection<T>(this.config.collection))
+  public async find(filter: Filter<T>) {
+    return await this.useCollection<FindCursor<WithId<T>>>((collection: Collection<T>) => {
+      return collection.find(filter)
     })
   }
 
@@ -41,21 +30,15 @@ export class BaseMongoSdk<T extends Document> {
     })
   }
 
-  public async find(filter: Filter<T>) {
-    return await this.useCollection<FindCursor<WithId<T>>>((collection: Collection<T>) => {
-      return collection.find(filter)
+  public async insertMany(items: OptionalUnlessRequiredId<T>[]) {
+    return await this.useCollection(async (collection: Collection<T>) => {
+      return await collection.insertMany(items)
     })
   }
 
   public async insertOne(item: OptionalUnlessRequiredId<T>) {
     return await this.useCollection(async (collection: Collection<T>) => {
       return await collection.insertOne(item)
-    })
-  }
-
-  public async insertMany(items: OptionalUnlessRequiredId<T>[]) {
-    return await this.useCollection(async (collection: Collection<T>) => {
-      return await collection.insertMany(items)
     })
   }
 
@@ -70,5 +53,22 @@ export class BaseMongoSdk<T extends Document> {
     return await this.useCollection(async (collection: Collection<T>) => {
       return await collection.updateOne(filter, fields, { upsert: true })
     })
+  }
+
+  public async useCollection<R>(func: (collection: Collection<T>) => Promise<R> | R) {
+    return await this.useMongo<R>(async (client: MongoClient) => {
+      return await func(client.db(this.config.dbName).collection<T>(this.config.collection))
+    })
+  }
+
+  public async useMongo<R>(func: (client: MongoClient) => Promise<R> | R) {
+    const wrapper = MongoClientWrapper.get(this.uri, this.config.maxPoolSize)
+    const connection = await wrapper.connect()
+    assertEx(connection, 'Connection failed')
+    try {
+      return await func(connection)
+    } finally {
+      await wrapper.disconnect()
+    }
   }
 }

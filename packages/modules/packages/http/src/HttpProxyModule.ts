@@ -5,6 +5,9 @@ import { XyoPayload } from '@xyo-network/payload'
 
 export interface HttpProxyModuleParams extends XyoModuleParams {
   address: string
+  // NOTE: Just pass in XyoApiSimple instead to allow for
+  // alternative pre-configured endpoints that match the
+  // GET info/POST payload paradigm?
   api: XyoArchivistApi
 }
 

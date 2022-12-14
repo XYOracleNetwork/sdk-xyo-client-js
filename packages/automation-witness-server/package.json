@@ -10,15 +10,26 @@
   "engines": {
     "node": ">=16 <17"
   },
-  "esm5": "dist/esm/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "browser": "dist/esm/index.js",
+  "docs": "dist/docs.json",
   "exports": {
     ".": {
-      "esm5": "./dist/esm/index.js",
       "node": {
-        "import": "./dist/cjs/index.js",
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
     },
     "./package.json": "./package.json"
   },

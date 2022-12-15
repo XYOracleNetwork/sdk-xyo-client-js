@@ -4924,6 +4924,7 @@ __metadata:
   dependencies:
     "@types/node": ^18.11.15
     "@types/terminal-kit": ^2.5.1
+    "@xylabs/delay": ^2.6.10
     "@xyo-network/api": "workspace:^"
     "@xyo-network/http-proxy-module": "workspace:^"
     "@xyo-network/module": "workspace:^"

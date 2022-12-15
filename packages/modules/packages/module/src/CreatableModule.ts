@@ -1,6 +1,7 @@
 import { Module, ModuleParams } from './model'
 
 export interface CreatableModule<T extends Module = Module, TParams extends ModuleParams = ModuleParams> {
+  configSchema: string
   create(params: TParams): Promise<T>
 }
 

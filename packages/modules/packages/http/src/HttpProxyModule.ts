@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
 import {
   AbstractModuleConfig,
+  AbstractModuleConfigSchema,
   creatable,
   Module,
   ModuleDescription,
@@ -22,6 +23,7 @@ export interface HttpProxyModuleParams extends ModuleParams {
 
 @creatable()
 export class HttpProxyModule implements Module {
+  static configSchema = AbstractModuleConfigSchema
   protected _config: AbstractModuleConfig | undefined
   protected _queries: string[] | undefined
 

@@ -51,7 +51,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   static async create(params?: Partial<ModuleParams<AbstractModuleConfig>>): Promise<AbstractModule> {
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const actualParams: Partial<ModuleParams<AbstractModuleConfig>> = params ?? {}
-    actualParams.config = params?.config ?? { schema: this.configSchema }
+    actualParams.config = params?.config ?? { schema: assertEx(this.configSchema) }
     return await new this(actualParams as ModuleParams<AbstractModuleConfig>).start()
   }
 

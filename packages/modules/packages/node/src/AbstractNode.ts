@@ -15,7 +15,7 @@ import {
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
-import { NodeConfig } from './Config'
+import { NodeConfig, NodeConfigSchema } from './Config'
 import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
@@ -23,6 +23,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
   extends AbstractModule<TConfig>
   implements NodeModule
 {
+  static configSchema = NodeConfigSchema
   public isModuleResolver = true
 
   protected internalResolver: SimpleModuleResolver<TModule>

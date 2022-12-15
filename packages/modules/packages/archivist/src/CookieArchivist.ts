@@ -21,11 +21,6 @@ import { AbstractArchivist } from './AbstractArchivist'
 export type CookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
 export const CookieArchivistConfigSchema: CookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
 
-/** @deprecated use CookieArchivistConfigSchema instead */
-export type XyoCookieArchivistConfigSchema = CookieArchivistConfigSchema
-/** @deprecated use CookieArchivistConfigSchema instead */
-export const XyoCookieArchivistConfigSchema = CookieArchivistConfigSchema
-
 export type CookieArchivistConfig = ArchivistConfig<{
   domain?: string
   maxEntries?: number
@@ -33,9 +28,6 @@ export type CookieArchivistConfig = ArchivistConfig<{
   namespace?: string
   schema: CookieArchivistConfigSchema
 }>
-
-/** @deprecated use CookieArchivistConfig instead */
-export type XyoCookieArchivistConfig = CookieArchivistConfig
 
 export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
   static override configSchema = CookieArchivistConfigSchema
@@ -179,6 +171,3 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     return `${this.namespace}-${hash}`
   }
 }
-
-/** @deprecated use CookieArchivist instead */
-export class XyoCookieArchivist extends CookieArchivist {}

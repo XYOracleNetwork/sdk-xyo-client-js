@@ -34,6 +34,3 @@ export class HuriPayloadDiviner extends AbstractPayloadDiviner<XyoHuriPayloadDiv
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 }
-
-/** @deprecated use HuriPayloadDiviner instead */
-export class XyoHuriPayloadDiviner extends HuriPayloadDiviner {}

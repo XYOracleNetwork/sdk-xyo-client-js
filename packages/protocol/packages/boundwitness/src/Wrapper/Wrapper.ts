@@ -121,6 +121,3 @@ export class BoundWitnessWrapper<
     return [this.boundwitness, this.payloadsArray.map((payload) => payload.body)]
   }
 }
-
-/** @deprecated use BoundWitnessWrapper instead*/
-export class XyoBoundWitnessWrapper<T extends XyoBoundWitness> extends BoundWitnessWrapper<T> {}

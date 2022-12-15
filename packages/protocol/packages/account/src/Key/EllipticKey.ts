@@ -6,6 +6,3 @@ export class EllipticKey extends XyoData {
   // eslint-disable-next-line import/no-named-as-default-member
   protected static ecContext = new EC.ec('secp256k1')
 }
-
-/** @deprecated use EllipticKey instead */
-export class XyoEllipticKey extends EllipticKey {}

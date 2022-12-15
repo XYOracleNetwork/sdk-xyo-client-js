@@ -20,6 +20,13 @@ describe('HttpProxyModule', () => {
       expect(sut.address).toBeString()
     })
   })
+  describe('config', () => {
+    it('returns module config', () => {
+      const config = sut.config
+      expect(config).toBeObject()
+      expect(config.schema).toBeString()
+    })
+  })
   describe('description', () => {
     it('returns module description', async () => {
       const description = await sut.description()

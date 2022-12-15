@@ -67,6 +67,3 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
     throw Error(`Unable to parse [${typeof obj}]`)
   }
 }
-
-/** @deprecated use PayloadWrapper instead */
-export class XyoPayloadWrapper<T extends XyoPayload = XyoPayload> extends PayloadWrapperBase<T> {}

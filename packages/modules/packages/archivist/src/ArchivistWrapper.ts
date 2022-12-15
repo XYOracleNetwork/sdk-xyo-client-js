@@ -71,6 +71,3 @@ export class ArchivistWrapper extends ModuleWrapper implements PayloadArchivist 
     return [result[0], ...innerBoundWitnesses]
   }
 }
-
-/** @deprecated use ArchivistWrapper instead */
-export class XyoArchivistWrapper extends ArchivistWrapper {}

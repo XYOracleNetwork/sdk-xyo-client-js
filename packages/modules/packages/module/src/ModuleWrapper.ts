@@ -34,15 +34,12 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
     return undefined
   }
   public description(): Promisable<ModuleDescription> {
-    throw new Error('Not Implemented')
+    return this.module.description()
   }
 
-  async discover(): Promise<XyoPayload[]> {
+  discover(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
-    return result[1]
+    return this.sendQuery(queryPayload)
   }
 
   queries(): string[] {
@@ -111,7 +108,3 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
     }
   }
 }
-
-/** @deprecated use ModuleWrapper instead */
-
-export class AbstractModuleWrapper<TModule extends Module = Module> extends ModuleWrapper<TModule> {}

@@ -17,6 +17,3 @@ export class BridgeWrapper extends ModuleWrapper implements Bridge {
     return true
   }
 }
-
-/** @deprecated use BridgeWrapper instead */
-export class XyoBridgeWrapper extends BridgeWrapper {}

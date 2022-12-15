@@ -8,7 +8,7 @@ import {
   XyoHuriPayload,
   XyoHuriSchema,
 } from '@xyo-network/diviner'
-import { AbstractModule, AbstractModuleResolver, ModuleDescription } from '@xyo-network/module'
+import { AbstractModule, ModuleDescription, SimpleModuleResolver } from '@xyo-network/module'
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { NodeConfigSchema } from './Config'
@@ -32,7 +32,7 @@ describe('MemoryNode', () => {
       const archivist = await XyoMemoryArchivist.create()
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
-        resolver: new AbstractModuleResolver().add(archivist),
+        resolver: new SimpleModuleResolver().add(archivist),
       })
       await node.register(archivist)
       node.attach(archivist.address)

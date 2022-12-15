@@ -1,4 +1,3 @@
-import { XyoPayload } from '@xyo-network/payload'
 import nconf from 'nconf'
 
 const defaults = {

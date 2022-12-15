@@ -1,4 +1,4 @@
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
@@ -12,7 +12,7 @@ export type XyoCryptoCardsGameWitnessConfig = XyoWitnessConfig<{
 export class XyoCryptoCardsGameWitness extends AbstractWitness<XyoCryptoCardsGameWitnessConfig> {
   static override configSchema = XyoCryptoCardsGameWitnessConfigSchema
 
-  static override async create(params?: XyoModuleParams<XyoCryptoCardsGameWitnessConfig>): Promise<XyoCryptoCardsGameWitness> {
+  static override async create(params?: ModuleParams<XyoCryptoCardsGameWitnessConfig>): Promise<XyoCryptoCardsGameWitness> {
     return (await super.create(params)) as XyoCryptoCardsGameWitness
   }
 

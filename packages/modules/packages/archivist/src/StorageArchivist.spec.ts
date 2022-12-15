@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { XyoModuleResolver } from '@xyo-network/module'
+import { SimpleModuleResolver } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload'
 
 import { MemoryArchivist } from './MemoryArchivist'
@@ -64,7 +64,7 @@ test('XyoArchivist Parent Write Through', async () => {
       schema: StorageArchivistConfigSchema,
       type: 'local',
     },
-    resolver: new XyoModuleResolver().add(memory),
+    resolver: new SimpleModuleResolver().add(memory),
   })
   await storage.start()
 

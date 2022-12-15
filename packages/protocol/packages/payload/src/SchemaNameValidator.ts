@@ -118,9 +118,3 @@ export class XyoSchemaNameValidator {
       .join('.')
   }
 }
-
-/** @deprecated use XyoSchemaNameValidator instead */
-export class SchemaValidator extends XyoSchemaNameValidator {}
-
-/** @deprecated use XyoSchemaNameValidator instead */
-export class XyoSchemaValidator extends XyoSchemaNameValidator {}

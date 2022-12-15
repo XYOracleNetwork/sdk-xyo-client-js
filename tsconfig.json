@@ -9,7 +9,6 @@
     "typeRoots": ["./node_modules/@types", "**/src/types"],
     "types": [
       "@types/jest",
-      "@types/node",
       "jest-extended",
       "jest-sorted",
       "jest",

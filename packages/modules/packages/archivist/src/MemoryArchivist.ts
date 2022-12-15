@@ -1,16 +1,16 @@
 import { assertEx } from '@xylabs/assert'
 import {
-  XyoArchivistAllQuerySchema,
-  XyoArchivistClearQuerySchema,
-  XyoArchivistCommitQuerySchema,
-  XyoArchivistConfig,
-  XyoArchivistDeleteQuerySchema,
-  XyoArchivistFindQuerySchema,
-  XyoArchivistInsertQuery,
-  XyoArchivistInsertQuerySchema,
+  ArchivistAllQuerySchema,
+  ArchivistClearQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistConfig,
+  ArchivistDeleteQuerySchema,
+  ArchivistFindQuerySchema,
+  ArchivistInsertQuery,
+  ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -21,26 +21,17 @@ import { AbstractArchivist } from './AbstractArchivist'
 export type MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 export const MemoryArchivistConfigSchema: MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 
-/** @deprecated use MemoryArchivistConfigSchema instead */
-export type XyoMemoryArchivistConfigSchema = MemoryArchivistConfigSchema
-
-/** @deprecated use MemoryArchivistConfigSchema instead */
-export const XyoMemoryArchivistConfigSchema = MemoryArchivistConfigSchema
-
-export type MemoryArchivistConfig = XyoArchivistConfig<{
+export type MemoryArchivistConfig = ArchivistConfig<{
   max?: number
   schema: MemoryArchivistConfigSchema
 }>
-
-/** @deprecated use MemoryArchivistConfig instead */
-export type XyoMemoryArchivistConfig = MemoryArchivistConfig
 
 export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchivistConfig> extends AbstractArchivist<TConfig> {
   static override configSchema = MemoryArchivistConfigSchema
 
   private cache: LruCache<string, XyoPayload>
 
-  protected constructor(params: XyoModuleParams<TConfig>) {
+  protected constructor(params: ModuleParams<TConfig>) {
     super(params)
     this.cache = new LruCache<string, XyoPayload>({ max: this.max })
   }
@@ -49,7 +40,7 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
     return this.config?.max ?? 10000
   }
 
-  static override async create(params?: XyoModuleParams<MemoryArchivistConfig>): Promise<MemoryArchivist> {
+  static override async create(params?: ModuleParams<MemoryArchivistConfig>): Promise<MemoryArchivist> {
     return (await super.create(params)) as MemoryArchivist
   }
 
@@ -77,9 +68,9 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
       const settled = await Promise.allSettled(
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<XyoArchivistInsertQuery>({
+            const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
-              schema: XyoArchivistInsertQuerySchema,
+              schema: ArchivistInsertQuerySchema,
             })
             const query = await this.bindQuery(queryPayload)
             return (await parent?.query(query[0], query[1]))?.[0]
@@ -150,16 +141,13 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
 
   public override queries() {
     return [
-      XyoArchivistAllQuerySchema,
-      XyoArchivistDeleteQuerySchema,
-      XyoArchivistClearQuerySchema,
-      XyoArchivistFindQuerySchema,
-      XyoArchivistInsertQuerySchema,
-      XyoArchivistCommitQuerySchema,
+      ArchivistAllQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistFindQuerySchema,
+      ArchivistInsertQuerySchema,
+      ArchivistCommitQuerySchema,
       ...super.queries(),
     ]
   }
 }
-
-/** @deprecated use MemoryArchivist instead */
-export class XyoMemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchivistConfig> extends MemoryArchivist<TConfig> {}

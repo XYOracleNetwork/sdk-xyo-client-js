@@ -1,0 +1,57 @@
+{
+  "name": "@xyo-network/sdk-xyo-mongo-js",
+  "version": "2.42.8",
+  "homepage": "https://xyo.network",
+  "bugs": {
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js/issues",
+    "email": "support@xyo.network"
+  },
+  "description": "Base functionality used throughout XYO TypeScript/JavaScript libraries that access Mongo DB",
+  "author": {
+    "name": "XYO Development Team",
+    "url": "https://xyo.network",
+    "email": "support@xyo.network"
+  },
+  "license": "LGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js.git"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "browser": {
+    "mongodb": false
+  },
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "xyo",
+    "utility",
+    "typescript",
+    "mongo"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@xylabs/sdk-js": "^2.6.10",
+    "async-mutex": "^0.4.0",
+    "mongodb": "^4.12.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "axios": "^1.2.1"
+  },
+  "packageManager": "yarn@3.1.1"
+}

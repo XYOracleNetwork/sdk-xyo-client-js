@@ -1,6 +1,6 @@
 import { kill as sendSignalToProcess } from 'process'
 
-import { getPid } from './pid'
+import { clearPid, getPid } from './pid'
 
 /**
  * Signal to send to process to check for existence
@@ -33,6 +33,8 @@ export const isRunning = async (): Promise<boolean> => {
       sendSignalToProcess(pid, existsSignal)
       return true
     } catch {
+      // Remove PID file here since it's outdated/invalid
+      await clearPid()
       return false
     }
   }

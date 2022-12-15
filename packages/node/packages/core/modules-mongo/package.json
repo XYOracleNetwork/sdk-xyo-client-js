@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.0",
+  "version": "2.42.8",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -27,9 +27,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.9",
-    "@xylabs/delay": "^2.6.9",
-    "@xylabs/exists": "^2.6.9",
+    "@xylabs/assert": "^2.6.10",
+    "@xylabs/delay": "^2.6.10",
+    "@xylabs/exists": "^2.6.10",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
@@ -43,7 +43,7 @@
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "agenda": "^5.0.0",

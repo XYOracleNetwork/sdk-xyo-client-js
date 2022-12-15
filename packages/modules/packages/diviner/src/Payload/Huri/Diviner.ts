@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { Huri, XyoPayload } from '@xyo-network/payload'
 import compact from 'lodash/compact'
 
@@ -15,7 +15,7 @@ export class HuriPayloadDiviner extends AbstractPayloadDiviner<XyoHuriPayloadDiv
     return this.config?.options
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoHuriPayloadDivinerConfig>>): Promise<HuriPayloadDiviner> {
+  static override async create(params?: Partial<ModuleParams<XyoHuriPayloadDivinerConfig>>): Promise<HuriPayloadDiviner> {
     return (await super.create(params)) as HuriPayloadDiviner
   }
 
@@ -34,6 +34,3 @@ export class HuriPayloadDiviner extends AbstractPayloadDiviner<XyoHuriPayloadDiv
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 }
-
-/** @deprecated use HuriPayloadDiviner instead */
-export class XyoHuriPayloadDiviner extends HuriPayloadDiviner {}

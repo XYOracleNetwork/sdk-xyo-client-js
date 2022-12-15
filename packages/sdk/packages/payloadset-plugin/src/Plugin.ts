@@ -1,6 +1,7 @@
 import { Validator } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { QueryBoundWitnessWrapper, XyoModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
+import { ModuleParams, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { PayloadSetPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -8,25 +9,25 @@ import { PayloadSetPluginParams } from './Configs'
 
 export type PayloadSetPluginFunc = () => PayloadSetPlugin
 
-export type PayloadSetDivinerField<TDivinerParams extends XyoModuleParams<DivinerConfig> = XyoModuleParams<DivinerConfig>> = {
+export type PayloadSetDivinerField<TDivinerParams extends ModuleParams<DivinerConfig> = ModuleParams<DivinerConfig>> = {
   diviner: <TParams extends TDivinerParams>(params?: TParams) => Promisable<AbstractDiviner>
 }
 
-export type PayloadSetWitnessField<TWitnessParams extends XyoModuleParams<XyoWitnessConfig> = XyoModuleParams<XyoWitnessConfig>> = {
+export type PayloadSetWitnessField<TWitnessParams extends ModuleParams<XyoWitnessConfig> = ModuleParams<XyoWitnessConfig>> = {
   witness: <TParams extends TWitnessParams>(params?: TParams) => Promisable<AbstractWitness>
 }
 
-export type PayloadSetPluginShared<TParams extends XyoModuleParams = XyoModuleParams> = {
+export type PayloadSetPluginShared<TParams extends ModuleParams = ModuleParams> = {
   params?: PayloadSetPluginParams<TParams>
-  set: string
+  set: PayloadSetPayload
   validate?: (boundwitness: XyoQueryBoundWitness) => Validator
   wrap?: (boundwitness: XyoQueryBoundWitness) => QueryBoundWitnessWrapper
 }
 
-export type PayloadSetWitnessPlugin<TWitnessParams extends XyoModuleParams<XyoWitnessConfig> = XyoModuleParams<XyoWitnessConfig>> =
+export type PayloadSetWitnessPlugin<TWitnessParams extends ModuleParams<XyoWitnessConfig> = ModuleParams<XyoWitnessConfig>> =
   PayloadSetPluginShared<TWitnessParams> & PayloadSetWitnessField<TWitnessParams>
 
-export type PayloadSetDivinerPlugin<TDivinerParams extends XyoModuleParams<DivinerConfig> = XyoModuleParams<DivinerConfig>> =
+export type PayloadSetDivinerPlugin<TDivinerParams extends ModuleParams<DivinerConfig> = ModuleParams<DivinerConfig>> =
   PayloadSetPluginShared<TDivinerParams> & PayloadSetDivinerField<TDivinerParams>
 
 export type PayloadSetPlugin = PayloadSetWitnessPlugin | PayloadSetDivinerPlugin

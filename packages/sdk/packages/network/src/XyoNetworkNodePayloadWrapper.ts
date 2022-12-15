@@ -15,6 +15,3 @@ export class XyoNetworkNodePayloadWrapper<T extends XyoNetworkNodePayload = XyoN
     return new XyoNetworkNodePayloadWrapper(config)
   }
 }
-
-/** @deprecated use XyoNodePayloadWrapper instead */
-export const XyoNodeConfigWrapper = XyoNetworkNodePayloadWrapper

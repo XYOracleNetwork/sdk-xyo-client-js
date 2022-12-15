@@ -8,7 +8,7 @@ import {
   isAddressHistoryQueryPayload,
   XyoArchivistPayloadDivinerConfig,
 } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -26,7 +26,7 @@ export class MongoDBAddressHistoryDiviner extends AbstractDiviner implements Add
     return []
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBAddressHistoryDiviner> {
+  static override async create(params?: Partial<ModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBAddressHistoryDiviner> {
     return (await super.create(params)) as MongoDBAddressHistoryDiviner
   }
 

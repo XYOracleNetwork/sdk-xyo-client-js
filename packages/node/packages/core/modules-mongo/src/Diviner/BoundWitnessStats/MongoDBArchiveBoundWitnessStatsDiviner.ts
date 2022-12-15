@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
   BoundWitnessStatsDiviner,
@@ -40,7 +40,7 @@ export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = 
   }
 >
 export interface MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload>
-  extends XyoModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig<T>> {
+  extends ModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig<T>> {
   archiveArchivist: ArchiveArchivist
 }
 

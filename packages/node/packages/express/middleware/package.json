@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.0",
+  "version": "2.42.8",
   "description": "XYO Express Node Middleware",
   "sideeffects": false,
   "engines": {
@@ -28,8 +28,8 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "@ethersproject/wallet": "^5.7.0",
-    "@xylabs/assert": "^2.6.9",
-    "@xylabs/exists": "^2.6.9",
+    "@xylabs/assert": "^2.6.10",
+    "@xylabs/exists": "^2.6.10",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",
@@ -58,7 +58,7 @@
     "pako": "*"
   },
   "devDependencies": {
-    "@types/express": "4.17.14",
+    "@types/express": "4.17.15",
     "@types/express-mung": "^0.5.2",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/passport": "^1.0.11",

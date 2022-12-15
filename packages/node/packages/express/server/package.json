@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.0",
+  "version": "2.42.8",
   "description": "XYO Express Node Server",
   "sideeffects": false,
   "engines": {
@@ -27,9 +27,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.9",
-    "@xylabs/delay": "^2.6.9",
-    "@xylabs/exists": "^2.6.9",
+    "@xylabs/assert": "^2.6.10",
+    "@xylabs/delay": "^2.6.10",
+    "@xylabs/exists": "^2.6.10",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/express-node-dependencies": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",
@@ -46,6 +46,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "inversify": "^6.0.1",
+    "nconf": "^0.12.0",
     "passport": "^0.6.0",
     "reflect-metadata": "^0.1.13",
     "uuid": "^9.0.0"
@@ -57,7 +58,8 @@
   "devDependencies": {
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",
-    "@types/express": "4.17.14",
+    "@types/express": "4.17.15",
+    "@types/nconf": "^0.10.3",
     "@types/passport": "^1.0.11",
     "@types/uuid": "^9.0.0"
   },

@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.1",
-    "@xylabs/assert": "^2.6.9",
-    "@xylabs/bignumber": "^2.6.9",
-    "@xylabs/buffer": "^2.6.9",
+    "@xylabs/assert": "^2.6.10",
+    "@xylabs/bignumber": "^2.6.10",
+    "@xylabs/buffer": "^2.6.10",
     "@xyo-network/typeof": "workspace:^",
     "axios": "~1.2.1",
     "keccak256": "^1.0.6",
@@ -60,5 +60,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.0"
+  "version": "2.42.8"
 }

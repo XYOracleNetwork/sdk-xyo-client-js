@@ -9,7 +9,7 @@ import {
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayloadFindFilter, XyoPayloads } from '@xyo-network/payload'
+import { PayloadFindFilter, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'
@@ -32,7 +32,7 @@ export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadAr
   ) {
     super(account)
   }
-  find(_filter: XyoPayloadFindFilter): Promise<XyoPayloadWithMeta[]> {
+  find(_filter: PayloadFindFilter): Promise<XyoPayloadWithMeta[]> {
     throw new Error('Not implemented')
   }
   async get(hashes: string[]): Promise<XyoPayloadWithMeta[]> {

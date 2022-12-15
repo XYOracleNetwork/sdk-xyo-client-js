@@ -2,7 +2,7 @@ import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/arch
 import { BoundWitnessValidator, BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { Hasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { XyoModuleParams, XyoModuleResolver } from '@xyo-network/module'
+import { ModuleParams, SimpleModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
 import { AbstractWitness } from '@xyo-network/witness'
@@ -32,7 +32,7 @@ describe('XyoPanel', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const resolver = new XyoModuleResolver()
+    const resolver = new SimpleModuleResolver()
     resolver.add(archivist)
     witnesses.forEach((witness) => resolver.add(witness))
 
@@ -117,9 +117,9 @@ describe('XyoPanel', () => {
         archivistB = await MemoryArchivist.create()
       })
       it('config', async () => {
-        const resolver = new XyoModuleResolver()
+        const resolver = new SimpleModuleResolver()
         resolver.add([witnessA, witnessB, archivistA, archivistB])
-        const params: XyoModuleParams<XyoPanelConfig> = {
+        const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
             schema: 'network.xyo.panel.config',
@@ -133,9 +133,9 @@ describe('XyoPanel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {
-        const resolver = new XyoModuleResolver()
+        const resolver = new SimpleModuleResolver()
         resolver.add([witnessA, archivistA, archivistB])
-        const params: XyoModuleParams<XyoPanelConfig> = {
+        const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
             schema: 'network.xyo.panel.config',
@@ -151,9 +151,9 @@ describe('XyoPanel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('inline', async () => {
-        const resolver = new XyoModuleResolver()
+        const resolver = new SimpleModuleResolver()
         resolver.add([archivistA, archivistB])
-        const params: XyoModuleParams<XyoPanelConfig> = {
+        const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
             schema: 'network.xyo.panel.config',
@@ -173,6 +173,39 @@ describe('XyoPanel', () => {
         expect((await archivistB.get([Hasher.hash(observedA)])).length).toBe(1)
         expect((await archivistB.get([Hasher.hash(observedB)])).length).toBe(1)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
+      })
+      it('reports errors', async () => {
+        const paramsA = {
+          config: {
+            payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+            schema: XyoAdhocWitnessConfigSchema,
+          },
+        }
+        class FailingWitness extends XyoAdhocWitness {
+          override async observe(): Promise<XyoPayload[]> {
+            await Promise.reject(Error('observation failed'))
+            return [{ schema: 'fake.result' }]
+          }
+        }
+        const witnessA = await FailingWitness.create(paramsA)
+
+        const resolver = new SimpleModuleResolver()
+        resolver.add([witnessA, witnessB, archivistA, archivistB])
+        const params: ModuleParams<XyoPanelConfig> = {
+          config: {
+            archivists: [archivistA.address, archivistB.address],
+            onReportEnd(_, errors) {
+              expect(errors?.length).toBe(1)
+              expect(errors?.[0]?.message).toBe('observation failed')
+            },
+            schema: 'network.xyo.panel.config',
+            witnesses: [witnessA.address, witnessB.address],
+          },
+          resolver,
+        }
+        const panel = await XyoPanel.create(params)
+        await panel.report()
+        return
       })
     })
   })

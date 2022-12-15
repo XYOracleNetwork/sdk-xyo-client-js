@@ -11,6 +11,3 @@ export type XyoNetworkPayload = XyoPayload<{
   schema: XyoNetworkSchema
   slug: string
 }>
-
-/** @deprecated use XyoNetworkPayload instead */
-export type XyoNetworkConfig = XyoNetworkPayload

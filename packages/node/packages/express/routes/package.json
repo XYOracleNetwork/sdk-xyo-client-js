@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.0",
+  "version": "2.42.8",
   "description": "XYO Express Node Routes",
   "sideeffects": false,
   "engines": {
@@ -27,8 +27,8 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.9",
-    "@xylabs/exists": "^2.6.9",
+    "@xylabs/assert": "^2.6.10",
+    "@xylabs/exists": "^2.6.10",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
@@ -54,7 +54,7 @@
     "pako": "*"
   },
   "devDependencies": {
-    "@types/express": "4.17.14",
+    "@types/express": "4.17.15",
     "@types/source-map-support": "0.5.6",
     "@types/uuid": "^9.0.0"
   },

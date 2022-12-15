@@ -3,7 +3,7 @@ import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
 import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/elevation-plugin'
 import { LocationCertaintyHeuristic, LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
 import { Job, JobProvider } from '@xyo-network/shared'
 
@@ -23,7 +23,7 @@ export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyD
     ]
   }
 
-  static override async create(params?: XyoModuleParams<LocationCertaintyDivinerConfig>) {
+  static override async create(params?: ModuleParams<LocationCertaintyDivinerConfig>) {
     return (await super.create(params)) as LocationCertaintyDiviner
   }
 

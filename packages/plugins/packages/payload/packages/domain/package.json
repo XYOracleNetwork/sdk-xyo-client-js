@@ -18,14 +18,17 @@
     "lodash": "^4.17.21",
     "tslib": "^2.4.1"
   },
-  "peerDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
-  },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
+    "axios": "^1.2.1"
+  },
+  "peerDependencies": {
+    "axios": "^1.2.1"
+  },
+  "peerDependenciesMeta": {
+    "axios": {
+      "optional": true
+    }
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -60,5 +63,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.0"
+  "version": "2.42.8"
 }

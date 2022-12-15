@@ -1,8 +1,8 @@
 import { XyoQuery } from '@xyo-network/module'
 
-export type XyoArchivistClearQuerySchema = 'network.xyo.query.archivist.clear'
-export const XyoArchivistClearQuerySchema: XyoArchivistClearQuerySchema = 'network.xyo.query.archivist.clear'
+export type ArchivistClearQuerySchema = 'network.xyo.query.archivist.clear'
+export const ArchivistClearQuerySchema: ArchivistClearQuerySchema = 'network.xyo.query.archivist.clear'
 
-export type XyoArchivistClearQuery = XyoQuery<{
-  schema: XyoArchivistClearQuerySchema
+export type ArchivistClearQuery = XyoQuery<{
+  schema: ArchivistClearQuerySchema
 }>

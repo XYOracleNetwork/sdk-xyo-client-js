@@ -1,10 +1,7 @@
-import { XyoArchivistApi } from '@xyo-network/api'
-import { MemoryNode } from '@xyo-network/node'
-import { RemoteModule } from '@xyo-network/transport'
 import { spawn } from 'child_process'
 import { join } from 'path'
 
-import { printError } from '../print'
+import { printLine } from '../print'
 import { getErrFileDescriptor, getOutFileDescriptor } from './logs'
 import { setPid } from './pid'
 
@@ -19,14 +16,13 @@ const runNodeScriptPath = join(__dirname, '..', '..', '..', 'cjs', 'runNode.js')
  * @param args The arguments to pass to the process
  * @returns The process ID of the Node
  */
-export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray<string> = [runNodeScriptPath]): Promise<MemoryNode> => {
+export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray<string> = [runNodeScriptPath]) => {
+  printLine('Starting Node')
   // NOTE: Sync FD here because async warns about closing
   // when we background process as daemon
   const out = getOutFileDescriptor()
   const err = getErrFileDescriptor()
-  // TODO: Actually create node via process
-  // NOTE: Simulate node creation/proxy via process
-  // by creating a Node in memory for now
+  // Create node via process
   const daemon = spawn(bin, args, {
     detached: true,
     env: process.env,
@@ -37,15 +33,5 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
   }
   const { pid } = daemon
   await setPid(pid)
-  // const node = await getNode()
-  // TODO: AbstractNode instead of MemoryNode
-  // TODO: Don't want to cast here
-  const api = new XyoArchivistApi({ apiDomain: 'http://localhost:8080' })
-  const address = (await api.get())?.address
-  if (!address) {
-    printError('Error retrieving address from Node')
-    throw new Error('Error retrieving address from Node')
-  }
-  const node = new RemoteModule(api, address) as unknown as MemoryNode
-  return node
+  printLine('Started Node')
 }

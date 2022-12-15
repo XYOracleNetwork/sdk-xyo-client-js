@@ -1,13 +1,17 @@
 import { assertEx } from '@xylabs/assert'
-import { ModuleFilter, XyoModule, XyoModuleParams } from '@xyo-network/module'
+import { AbstractModule, ModuleFilter, ModuleParams } from '@xyo-network/module'
 
 import { AbstractNode } from './AbstractNode'
-import { NodeConfig } from './Config'
+import { NodeConfig, NodeConfigSchema } from './Config'
 
-export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends XyoModule = XyoModule> extends AbstractNode<TConfig, TModule> {
+export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends AbstractModule = AbstractModule> extends AbstractNode<
+  TConfig,
+  TModule
+> {
+  static configSchema = NodeConfigSchema
   private registeredModuleMap = new Map<string, TModule>()
 
-  static override async create(params?: XyoModuleParams<NodeConfig>): Promise<MemoryNode> {
+  static override async create(params?: ModuleParams<NodeConfig>): Promise<MemoryNode> {
     return (await super.create(params)) as MemoryNode
   }
 

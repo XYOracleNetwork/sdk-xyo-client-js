@@ -5,8 +5,5 @@ import { terminal } from 'terminal-kit'
  * @param title The title, defaults to 'XYO'
  */
 export const setTerminalTitle = (title = 'XYO') => {
-  // NOTE: String-building here because escape
-  // sequences are not allowed in template strings
-  // in strict mode
-  terminal('\x1B]0;' + title + '\x07')
+  terminal(`\x1B]0;${title}\x07`)
 }

@@ -10,7 +10,7 @@ export const printLogo = async () => {
   try {
     const image = [fileRelativePath, projectRelativePath].find(existsSync)
     if (image?.length) {
-      await terminal.drawImage(image[0], { shrink })
+      await terminal.drawImage(image, { shrink })
     }
   } catch (err) {
     // Stat throws if image doesn't exist

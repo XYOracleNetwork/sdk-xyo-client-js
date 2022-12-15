@@ -32,7 +32,7 @@ export class HttpProxyModule implements Module {
   public get address(): string {
     return this._address
   }
-  public get config(): AbstractModuleConfig {
+  public get config(): XyoPayload {
     if (!this._config) throw new Error('Missing config')
     return this._config
   }
@@ -41,7 +41,7 @@ export class HttpProxyModule implements Module {
     const instance = new this(api, address)
     const description = assertEx(await api.addresses.address(address).get())
     instance._queries = description.queries
-    const config = await new ModuleWrapper(instance).discover()
+    instance._config = (await new ModuleWrapper(instance).discover())[0]
     return instance
   }
   public async description(): Promise<ModuleDescription> {

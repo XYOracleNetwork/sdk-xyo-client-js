@@ -12,7 +12,9 @@ const main = async () => {
 main()
   .then(() => {
     console.log('Finishing,...')
+    process.exit(0)
   })
   .catch(() => {
     console.log('Excepting,...')
+    process.exit(1)
   })

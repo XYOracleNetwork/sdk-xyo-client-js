@@ -11,7 +11,7 @@ const config = { schema: AbstractModuleConfigSchema }
 const nodeAddressErrorMsg = 'Error retrieving address from Node'
 const nodeConnectionErrorMsg = 'Error connecting to Node'
 
-export const connect = async (attempts = 5, interval = 500) => {
+export const connect = async (attempts = 10, interval = 500) => {
   // TODO: Configurable via config or dynamically determined
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   printLine(`Connecting to Node at: ${apiDomain}`)

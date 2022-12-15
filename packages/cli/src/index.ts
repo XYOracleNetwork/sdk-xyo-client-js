@@ -6,10 +6,9 @@ const main = async () => {
   await printLogo()
   await restart()
   const connection = await connect()
+  setTerminalTitle('XYO (Connected)')
   await startTerminal(connection)
 }
-
-const status = 0
 
 main()
   .then(async () => {

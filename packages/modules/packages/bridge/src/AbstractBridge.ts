@@ -47,6 +47,3 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
 
   abstract forward(query: XyoQuery): Promise<ModuleQueryResult>
 }
-
-/** @deprecated use AbstractBridge instead */
-export abstract class XyoBridge<TConfig extends BridgeConfig = BridgeConfig> extends AbstractBridge<TConfig> {}

@@ -116,6 +116,3 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return [...arrayErrors, ...compareArrayErrors, ...errors]
   }
 }
-
-/** @deprecated use BoundWitnessValidator instead  */
-export class XyoBoundWitnessValidator<T extends XyoBoundWitness = XyoBoundWitness> extends BoundWitnessValidator<T> {}

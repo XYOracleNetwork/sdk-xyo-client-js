@@ -50,6 +50,3 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
     return this
   }
 }
-
-/** @deprecated use ArchivistPayloadDiviner instead */
-export class XyoArchivistPayloadDiviner extends ArchivistPayloadDiviner {}

@@ -95,6 +95,3 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     return hash ? this.payload.networks?.find((value) => new XyoNetworkPayloadWrapper(value).hash === hash) : this.payload.networks?.[0]
   }
 }
-
-/** @deprecated use XyoDomainPayloadWrapper instead */
-export type XyoDomainConfigWrapper = XyoDomainPayloadWrapper

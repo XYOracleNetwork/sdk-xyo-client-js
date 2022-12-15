@@ -16,6 +16,3 @@ export type XyoNetworkNodePayload = XyoPayload<
   },
   XyoNetworkNodeSchema
 >
-
-/** @deprecated use XyoNodePayload instead */
-export type XyoNodeConfig = XyoNetworkNodePayload

@@ -34,6 +34,3 @@ export class XyoNetworkPayloadWrapper extends PayloadWrapper<XyoNetworkPayload> 
     return this.payload.nodes?.filter((node) => node.type === type)
   }
 }
-
-/** @deprecated use XyoNetworkPayloadWrapper instead */
-export const XyoNetworkConfigWrapper = XyoNetworkPayloadWrapper

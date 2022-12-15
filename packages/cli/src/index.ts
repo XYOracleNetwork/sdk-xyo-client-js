@@ -1,4 +1,4 @@
-import { connect, printLogo, restart, setTerminalTitle, start, stop } from './lib'
+import { connect, printLogo, restart, setTerminalTitle, stop } from './lib'
 import { startTerminal } from './terminal'
 
 const main = async () => {
@@ -10,14 +10,17 @@ const main = async () => {
   await startTerminal(connection)
 }
 
+let exitStatus = 0
+
 main()
-  .then(async () => {
+  .then(() => {
     console.log('Finishing,...')
-    await stop()
-    process.exit(0)
   })
-  .catch(async () => {
+  .catch(() => {
     console.log('Excepting,...')
+    exitStatus = 1
+  })
+  .finally(async () => {
     await stop()
-    process.exit(1)
+    process.exit(exitStatus)
   })

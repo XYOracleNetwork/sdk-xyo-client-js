@@ -111,7 +111,3 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
     }
   }
 }
-
-/** @deprecated use ModuleWrapper instead */
-
-export class AbstractModuleWrapper<TModule extends Module = Module> extends ModuleWrapper<TModule> {}

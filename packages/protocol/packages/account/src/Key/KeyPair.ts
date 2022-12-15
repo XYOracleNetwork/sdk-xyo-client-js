@@ -23,6 +23,3 @@ export class KeyPair {
     return (value as KeyPair)._isXyoKeyPair
   }
 }
-
-/** @deprecated use KeyPair instead */
-export class XyoKeyPair extends KeyPair {}

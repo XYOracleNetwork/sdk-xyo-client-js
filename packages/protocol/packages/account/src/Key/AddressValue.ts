@@ -50,6 +50,3 @@ export class AddressValue extends EllipticKey {
     return AddressValue.verify(msg, signature, this.bytes)
   }
 }
-
-/** @deprecated use AddressValue instead */
-export class XyoAddressValue extends AddressValue {}

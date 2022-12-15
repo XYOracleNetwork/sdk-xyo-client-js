@@ -33,14 +33,4 @@ export class Hasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T
   private static sortedHashData<T extends EmptyObject>(obj: T) {
     return shajs('sha256').update(this.stringify(obj)).digest()
   }
-
-  /** @deprecated use hash instead */
-  public sortedHash() {
-    return this.hash
-  }
-
-  /** @deprecated use stringified instead */
-  public sortedStringify() {
-    return this.stringified
-  }
 }

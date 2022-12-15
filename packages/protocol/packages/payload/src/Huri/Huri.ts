@@ -28,9 +28,6 @@ export interface FetchedPayload<T extends XyoPayload = XyoPayload> {
   payload: T
 }
 
-/** @deprecated use FetchedPayload instead */
-export type XyoFetchedPayload<T extends XyoPayload = XyoPayload> = FetchedPayload<T>
-
 export class Huri<T extends XyoPayload = XyoPayload> {
   public archive?: string
   public archivist?: string

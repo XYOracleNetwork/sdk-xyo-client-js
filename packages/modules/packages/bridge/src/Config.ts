@@ -10,6 +10,3 @@ export type BridgeConfig<TConfig extends XyoPayload = XyoPayload> = AbstractModu
     targetAddress?: string
   } & TConfig
 >
-
-/** @deprecated use BridgeConfig instead */
-export type XyoBridgeConfig<TConfig extends XyoPayload = XyoPayload> = BridgeConfig<TConfig>

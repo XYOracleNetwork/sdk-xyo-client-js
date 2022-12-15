@@ -10,8 +10,6 @@ import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 
 export type DivinerParams = ModuleParams
 
-/** @deprecated use DivinerParams instead */
-export type XyoDivinerParams = DivinerParams
 export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractModule<TConfig> implements DivinerModule {
   static override configSchema: string
   static targetSchema: string
@@ -56,15 +54,3 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
 
   abstract divine(payloads?: XyoPayload[]): Promisable<XyoPayload[]>
 }
-
-/** @deprecated use AbstractDiviner instead*/
-export abstract class XyoTimestampDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractDiviner<TConfig> {}
-
-/** @deprecated use AbstractDiviner instead*/
-export abstract class XyoAbstractDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractDiviner<TConfig> {}
-
-/** @deprecated use AbstractDiviner instead*/
-export abstract class XyoDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractDiviner<TConfig> {}
-
-/** @deprecated use AbstractDiviner instead*/
-export abstract class XyoAbstractTimestampDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractDiviner<TConfig> {}

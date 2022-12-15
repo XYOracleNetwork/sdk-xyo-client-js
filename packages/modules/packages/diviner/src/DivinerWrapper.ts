@@ -10,6 +10,3 @@ export class DivinerWrapper extends ModuleWrapper implements Diviner {
     return this.sendQuery(queryPayload, payloads)
   }
 }
-
-/** @deprecated use DivinerWrapper instead */
-export class XyoDivinerWrapper extends DivinerWrapper {}

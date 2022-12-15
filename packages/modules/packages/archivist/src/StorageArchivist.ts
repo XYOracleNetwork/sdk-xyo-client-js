@@ -22,12 +22,6 @@ import { AbstractArchivist } from './AbstractArchivist'
 export type StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 
-/** @deprecated use StorageArchivistConfigSchema instead */
-export type XyoStorageArchivistConfigSchema = StorageArchivistConfigSchema
-
-/** @deprecated use StorageArchivistConfigSchema instead */
-export const XyoStorageArchivistConfigSchema = StorageArchivistConfigSchema
-
 export type StorageArchivistConfig = ArchivistConfig<{
   maxEntries?: number
   maxEntrySize?: number
@@ -37,8 +31,6 @@ export type StorageArchivistConfig = ArchivistConfig<{
   type?: 'local' | 'session' | 'page'
 }>
 
-/** @deprecated use StorageArchivistConfig instead */
-export type XyoStorageArchivistConfig = StorageArchivistConfig
 export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfig> {
   static override configSchema = StorageArchivistConfigSchema
 

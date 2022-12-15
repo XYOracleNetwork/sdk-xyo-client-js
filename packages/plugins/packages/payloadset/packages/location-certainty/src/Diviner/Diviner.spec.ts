@@ -1,7 +1,7 @@
 import { AbstractArchivist, MemoryArchivist } from '@xyo-network/archivist'
 import { LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { AbstractModuleResolver } from '@xyo-network/module'
+import { SimpleModuleResolver } from '@xyo-network/module'
 
 import { LocationCertaintyDivinerConfigSchema } from './Config'
 import { LocationCertaintyDiviner } from './Diviner'
@@ -79,7 +79,7 @@ describe('MongoDBLocationCertaintyDiviner', () => {
         schema: LocationCertaintyDivinerConfigSchema,
         targetSchema: LocationCertaintySchema,
       },
-      resolver: new AbstractModuleResolver().add(payloadsArchivist),
+      resolver: new SimpleModuleResolver().add(payloadsArchivist),
     }
     sut = await LocationCertaintyDiviner.create(params)
   })

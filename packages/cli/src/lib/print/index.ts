@@ -1,5 +1,7 @@
 export * from './newline'
 export * from './printError'
+export * from './printFile'
 export * from './printLine'
 export * from './printLogo'
 export * from './printTitle'
+export * from './setTerminalTitle'

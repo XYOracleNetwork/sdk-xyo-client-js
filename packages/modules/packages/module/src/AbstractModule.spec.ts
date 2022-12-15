@@ -1,5 +1,7 @@
 import { AbstractModule } from './AbstractModule'
+import { AbstractModuleConfigSchema } from './Config'
 export class TestAbstractModule extends AbstractModule {
+  static configSchema = AbstractModuleConfigSchema
   static override async create(params?: object) {
     return await super.create(params)
   }

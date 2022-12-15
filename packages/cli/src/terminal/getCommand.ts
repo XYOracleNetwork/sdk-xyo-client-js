@@ -8,6 +8,7 @@ import {
   detachModule,
   listAttachedModules,
   listRegisteredModules,
+  nodeLogs,
   registerModule,
   restartNode,
   showConfig,
@@ -47,6 +48,9 @@ export const getCommand = (node: MemoryNode): Promise<boolean> => {
             break
           case 'list-registered-modules':
             await listRegisteredModules(node)
+            break
+          case 'node-logs':
+            await nodeLogs(node)
             break
           case 'register-module':
             await registerModule(node)

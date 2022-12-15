@@ -7,6 +7,7 @@ import {
   ModuleDescription,
   ModuleParams,
   ModuleQueryResult,
+  ModuleWrapper,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
@@ -38,7 +39,7 @@ export class HttpProxyModule implements Module {
     const instance = new this(api, address)
     const description = assertEx(await api.addresses.address(address).get())
     instance._queries = description.queries
-    // TODO: Discover query to get config
+    const config = await new ModuleWrapper(instance).discover()
     return instance
   }
   public async description(): Promise<ModuleDescription> {

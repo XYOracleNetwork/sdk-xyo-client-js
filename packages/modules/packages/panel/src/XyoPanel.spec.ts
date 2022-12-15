@@ -189,9 +189,9 @@ describe('XyoPanel', () => {
         }
         const witnessA = await FailingWitness.create(paramsA)
 
-        const resolver = new XyoModuleResolver()
+        const resolver = new SimpleModuleResolver()
         resolver.add([witnessA, witnessB, archivistA, archivistB])
-        const params: XyoModuleParams<XyoPanelConfig> = {
+        const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
             onReportEnd(_, errors) {

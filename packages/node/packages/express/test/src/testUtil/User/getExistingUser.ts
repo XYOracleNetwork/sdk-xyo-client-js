@@ -1,6 +1,3 @@
-/* eslint-disable deprecation/deprecation */
-/* eslint-disable import/no-deprecated */
-
 import { StatusCodes } from 'http-status-codes'
 
 import { TestWeb3User } from '../Model'

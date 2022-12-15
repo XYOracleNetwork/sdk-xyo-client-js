@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
+import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload'
 
 import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
@@ -13,7 +13,7 @@ export interface XyoPayloadStats {
 export class XyoArchivistPayloadApi<
   T extends XyoPayload = XyoPayload,
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
-> extends XyoApiSimple<T[], T[], XyoPayloadFindFilter, C> {
+> extends XyoApiSimple<T[], T[], PayloadFindFilter, C> {
   private _stats?: XyoApiSimple<XyoPayloadStats>
   public get schema(): XyoArchivistArchivePayloadSchemaApi {
     return new XyoArchivistArchivePayloadSchemaApi({

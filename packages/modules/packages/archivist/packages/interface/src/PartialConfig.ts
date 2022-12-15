@@ -1,5 +1,5 @@
 import { PartialModuleConfig } from '@xyo-network/module'
 
-import { XyoArchivistConfig } from './Config'
+import { ArchivistConfig } from './Config'
 
-export type PartialArchivistConfig<T extends XyoArchivistConfig> = PartialModuleConfig<T>
+export type PartialArchivistConfig<T extends ArchivistConfig> = PartialModuleConfig<T>

@@ -1,21 +1,21 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
+  ArchivistAllQuerySchema,
+  ArchivistClearQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistConfig,
+  ArchivistDeleteQuerySchema,
+  ArchivistFindQuerySchema,
+  ArchivistGetQuery,
+  ArchivistGetQuerySchema,
+  ArchivistInsertQuerySchema,
+  ArchivistQuery,
   PayloadArchivist,
-  XyoArchivistAllQuerySchema,
-  XyoArchivistClearQuerySchema,
-  XyoArchivistCommitQuerySchema,
-  XyoArchivistConfig,
-  XyoArchivistDeleteQuerySchema,
-  XyoArchivistFindQuerySchema,
-  XyoArchivistGetQuery,
-  XyoArchivistGetQuerySchema,
-  XyoArchivistInsertQuerySchema,
-  XyoArchivistQuery,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoModule, XyoQueryBoundWitness } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload, XyoPayloadFindFilter } from '@xyo-network/payload'
+import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import { PayloadFindFilter, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
@@ -27,8 +27,8 @@ export interface XyoArchivistParentWrappers {
   write?: Record<string, ArchivistWrapper>
 }
 
-export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig>
-  extends XyoModule<TConfig>
+export abstract class AbstractArchivist<TConfig extends ArchivistConfig = ArchivistConfig>
+  extends AbstractModule<TConfig>
   implements PayloadArchivist
 {
   private _parents?: XyoArchivistParentWrappers
@@ -57,7 +57,7 @@ export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = Xyo
     throw Error('Not implemented')
   }
 
-  public async find(filter?: XyoPayloadFindFilter): Promise<XyoPayload[]> {
+  public async find(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
     try {
       const filterSchemaList = filter?.schema ? (Array.isArray(filter.schema) ? filter.schema : [filter.schema]) : []
       return (await this.all()).filter((payload) => filterSchemaList.includes(payload.schema))
@@ -68,14 +68,14 @@ export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = Xyo
   }
 
   public override queries() {
-    return [XyoArchivistGetQuerySchema, ...super.queries()]
+    return [ArchivistGetQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
     query: T,
     payloads?: XyoPayload[],
   ): Promise<ModuleQueryResult<XyoPayload>> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoArchivistQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
@@ -83,25 +83,25 @@ export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = Xyo
     const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
-        case XyoArchivistAllQuerySchema:
+        case ArchivistAllQuerySchema:
           resultPayloads.push(...(await this.all()))
           break
-        case XyoArchivistClearQuerySchema:
+        case ArchivistClearQuerySchema:
           await this.clear()
           break
-        case XyoArchivistCommitQuerySchema:
+        case ArchivistCommitQuerySchema:
           resultPayloads.push(...(await this.commit()))
           break
-        case XyoArchivistDeleteQuerySchema:
+        case ArchivistDeleteQuerySchema:
           await this.delete(typedQuery.hashes)
           break
-        case XyoArchivistFindQuerySchema:
+        case ArchivistFindQuerySchema:
           resultPayloads.push(...(await this.find(typedQuery.filter)))
           break
-        case XyoArchivistGetQuerySchema:
+        case ArchivistGetQuerySchema:
           resultPayloads.push(...(await this.get(typedQuery.hashes)))
           break
-        case XyoArchivistInsertQuerySchema: {
+        case ArchivistInsertQuerySchema: {
           const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []
           assertEx(typedQuery.payloads, `Missing payloads: ${JSON.stringify(typedQuery, null, 2)}`)
           const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
@@ -125,7 +125,7 @@ export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = Xyo
     return compact(
       await Promise.all(
         Object.values(parents.read ?? {}).map(async (parent) => {
-          const queryPayload = PayloadWrapper.parse<XyoArchivistGetQuery>({ hashes: [hash], schema: XyoArchivistGetQuerySchema })
+          const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
           const query = await this.bindQuery(queryPayload)
           const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
           const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
@@ -179,6 +179,3 @@ export abstract class AbstractArchivist<TConfig extends XyoArchivistConfig = Xyo
 
   abstract insert(item: XyoPayload[]): PromisableArray<XyoBoundWitness>
 }
-
-/** @deprecated use AbstractArchivist instead */
-export abstract class XyoArchivist<TConfig extends XyoArchivistConfig = XyoArchivistConfig> extends AbstractArchivist<TConfig> {}

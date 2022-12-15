@@ -1,5 +1,5 @@
 import { XyoEthereumGasBlocknativePayload, XyoEthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { TimestampWitness } from '@xyo-network/witness'
 
@@ -10,7 +10,7 @@ import { XyoEthereumGasBlocknativeWitnessConfigSchema } from './Schema'
 export class XyoEthereumGasBlocknativeWitness extends TimestampWitness<XyoEthereumGasBlocknativeWitnessConfig> {
   static override configSchema = XyoEthereumGasBlocknativeWitnessConfigSchema
 
-  static override async create(params?: XyoModuleParams<XyoEthereumGasBlocknativeWitnessConfig>): Promise<XyoEthereumGasBlocknativeWitness> {
+  static override async create(params?: ModuleParams<XyoEthereumGasBlocknativeWitnessConfig>): Promise<XyoEthereumGasBlocknativeWitness> {
     return (await super.create(params)) as XyoEthereumGasBlocknativeWitness
   }
 

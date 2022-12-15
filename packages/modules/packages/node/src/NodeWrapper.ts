@@ -1,5 +1,5 @@
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { Module, ModuleFilter, ModuleWrapper, XyoModule } from '@xyo-network/module'
+import { AbstractModule, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -41,7 +41,7 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
     return compact(result[1].map((payload) => payload?.schema))
   }
 
-  async attachedModules(): Promise<XyoModule[]> {
+  async attachedModules(): Promise<AbstractModule[]> {
     const addresses = await this.attached()
     return compact(await this.resolve({ address: addresses }))
   }
@@ -51,7 +51,7 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
     await this.sendQuery(queryPayload)
   }
 
-  find(_filter: ModuleFilter): Promisable<XyoModule[]> {
+  find(_filter: ModuleFilter): Promisable<AbstractModule[]> {
     throw Error('Not implemented')
   }
 
@@ -65,16 +65,16 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
     return compact(result.map((payload) => payload?.schema))
   }
 
-  async registeredModules(): Promise<XyoModule[]> {
+  async registeredModules(): Promise<AbstractModule[]> {
     const addresses = await this.registered()
     return compact(await this.resolve({ address: addresses }))
   }
 
-  resolve(_filter: ModuleFilter): Promisable<XyoModule[]> {
+  resolve(_filter: ModuleFilter): Promisable<AbstractModule[]> {
     throw Error('Not implemented')
   }
 
-  tryResolve(_filter: ModuleFilter): Promisable<XyoModule[]> {
+  tryResolve(_filter: ModuleFilter): Promisable<AbstractModule[]> {
     throw Error('Not implemented')
   }
 

@@ -1,22 +1,22 @@
-import { XyoModuleQuery, XyoQuery } from '@xyo-network/module'
+import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module'
 
-import { XyoArchivistAllQuery } from './All'
-import { XyoArchivistClearQuery } from './Clear'
-import { XyoArchivistCommitQuery } from './Commit'
-import { XyoArchivistDeleteQuery } from './Delete'
-import { XyoArchivistFindQuery } from './Find'
-import { XyoArchivistGetQuery } from './Get'
-import { XyoArchivistInsertQuery } from './Insert'
+import { ArchivistAllQuery } from './All'
+import { ArchivistClearQuery } from './Clear'
+import { ArchivistCommitQuery } from './Commit'
+import { ArchivistDeleteQuery } from './Delete'
+import { ArchivistFindQuery } from './Find'
+import { ArchivistGetQuery } from './Get'
+import { ArchivistInsertQuery } from './Insert'
 
-export type XyoArchivistQueryRoot =
-  | XyoArchivistAllQuery
-  | XyoArchivistClearQuery
-  | XyoArchivistCommitQuery
-  | XyoArchivistDeleteQuery
-  | XyoArchivistFindQuery
-  | XyoArchivistGetQuery
-  | XyoArchivistInsertQuery
+export type ArchivistQueryRoot =
+  | ArchivistAllQuery
+  | ArchivistClearQuery
+  | ArchivistCommitQuery
+  | ArchivistDeleteQuery
+  | ArchivistFindQuery
+  | ArchivistGetQuery
+  | ArchivistInsertQuery
 
-export type XyoArchivistQuery<TQuery extends XyoQuery | void = void> = XyoModuleQuery<
-  TQuery extends XyoQuery ? XyoArchivistQueryRoot | TQuery : XyoArchivistQueryRoot
+export type ArchivistQuery<TQuery extends XyoQuery | void = void> = AbstractModuleQuery<
+  TQuery extends XyoQuery ? ArchivistQueryRoot | TQuery : ArchivistQueryRoot
 >

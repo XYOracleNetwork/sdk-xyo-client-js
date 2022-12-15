@@ -1,29 +1,29 @@
-import { XyoModule, XyoModuleParams } from '@xyo-network/module'
-import { XyoModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
+import { AbstractModule, ModuleParams } from '@xyo-network/module'
+import { AbstractModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayload } from '@xyo-network/payload'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
-export type XyoModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
-export const XyoModuleInstanceWitnessConfigSchema: XyoModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
+export type AbstractModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
+export const AbstractModuleInstanceWitnessConfigSchema: AbstractModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
 
-export type XyoModuleInstanceWitnessConfig = XyoWitnessConfig<{
-  module?: XyoModule
-  schema: XyoModuleInstanceWitnessConfigSchema
+export type AbstractModuleInstanceWitnessConfig = XyoWitnessConfig<{
+  module?: AbstractModule
+  schema: AbstractModuleInstanceWitnessConfigSchema
 }>
 
-export class XyoModuleInstanceWitness extends AbstractWitness<XyoModuleInstanceWitnessConfig> {
-  static override configSchema = XyoModuleInstanceWitnessConfigSchema
+export class AbstractModuleInstanceWitness extends AbstractWitness<AbstractModuleInstanceWitnessConfig> {
+  static override configSchema = AbstractModuleInstanceWitnessConfigSchema
 
   protected get module() {
     return this.config?.module
   }
 
-  static override async create(params?: XyoModuleParams<XyoModuleInstanceWitnessConfig>): Promise<XyoModuleInstanceWitness> {
-    return (await super.create(params)) as XyoModuleInstanceWitness
+  static override async create(params?: ModuleParams<AbstractModuleInstanceWitnessConfig>): Promise<AbstractModuleInstanceWitness> {
+    return (await super.create(params)) as AbstractModuleInstanceWitness
   }
 
   override async observe(payloads?: Partial<XyoPayload>[]): Promise<XyoPayload[]> {
-    return await super.observe([merge({ queries: this.module?.queries }, payloads?.[0], { schema: XyoModuleInstanceSchema })])
+    return await super.observe([merge({ queries: this.module?.queries }, payloads?.[0], { schema: AbstractModuleInstanceSchema })])
   }
 }

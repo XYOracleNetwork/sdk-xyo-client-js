@@ -1,4 +1,5 @@
 {
+  "files.eol": "\n",
   "files.exclude": {
     ".git": true,
     ".svn": true,
@@ -6,7 +7,7 @@
     ".DS_Store": true,
     "**/node_modules": true,
     "**/build": true,
-    "**/dist": true,
+    "**/dist": false,
     ".webpack": true,
     ".serverless": true,
     ".rollup.cache": true,
@@ -60,6 +61,7 @@
     "bignumber",
     "boundwitness",
     "bowser",
+    "copyfiles",
     "dmarc",
     "DNSSEC",
     "edns",
@@ -71,6 +73,7 @@
     "pako",
     "payloadset",
     "quadkey",
+    "rollbar",
     "Screenlogic",
     "scure",
     "shajs",

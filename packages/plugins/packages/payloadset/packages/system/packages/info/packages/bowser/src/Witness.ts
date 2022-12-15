@@ -1,5 +1,5 @@
 import { XyoBowserSystemInfoPayload, XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { AbstractWitness } from '@xyo-network/witness'
 import Bowser from 'bowser'
 import merge from 'lodash/merge'
@@ -17,7 +17,7 @@ export class XyoBowserSystemInfoWitness<
     return Bowser.parse(window.navigator.userAgent)
   }
 
-  static override async create(params?: XyoModuleParams<XyoBowserSystemInfoWitnessConfig>): Promise<XyoBowserSystemInfoWitness> {
+  static override async create(params?: ModuleParams<XyoBowserSystemInfoWitnessConfig>): Promise<XyoBowserSystemInfoWitness> {
     return (await super.create(params)) as XyoBowserSystemInfoWitness
   }
 

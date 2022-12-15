@@ -1,5 +1,5 @@
-import { XyoModuleConfig } from './Config'
+import { AbstractModuleConfig } from './Config'
 
-export type PartialModuleConfig<T extends XyoModuleConfig> = Omit<T, 'schema'> & {
+export type PartialModuleConfig<T extends AbstractModuleConfig> = Omit<T, 'schema'> & {
   schema?: T['schema']
 }

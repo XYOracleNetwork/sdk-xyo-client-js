@@ -24,7 +24,7 @@
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
-    "@types/node": "^18.11.13",
+    "@types/node": "^18.11.15",
     "@types/terminal-kit": "^2.5.1",
     "axios": "~1.2.1",
     "pako": "^2.1.0",
@@ -71,5 +71,5 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.3"
+  "version": "2.42.8"
 }

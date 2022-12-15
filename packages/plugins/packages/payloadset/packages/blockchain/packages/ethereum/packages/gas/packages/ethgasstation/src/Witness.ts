@@ -3,7 +3,7 @@ import {
   XyoEthereumGasEthgasstationSchema,
   XyoEthereumGasEthgasstationWitnessConfigSchema,
 } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { TimestampWitness } from '@xyo-network/witness'
 
@@ -13,7 +13,7 @@ import { getGasFromEthgasstation } from './lib'
 export class XyoEthereumGasEthgasstationWitness extends TimestampWitness<XyoEthereumGasEthgasstationWitnessConfig> {
   static override configSchema = XyoEthereumGasEthgasstationWitnessConfigSchema
 
-  static override async create(params?: XyoModuleParams<XyoEthereumGasEthgasstationWitnessConfig>): Promise<XyoEthereumGasEthgasstationWitness> {
+  static override async create(params?: ModuleParams<XyoEthereumGasEthgasstationWitnessConfig>): Promise<XyoEthereumGasEthgasstationWitness> {
     return (await super.create(params)) as XyoEthereumGasEthgasstationWitness
   }
 

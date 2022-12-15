@@ -1,19 +1,19 @@
-import { XyoModule } from './XyoModule'
-export class XyoTestModule extends XyoModule {
+import { AbstractModule } from './AbstractModule'
+export class TestAbstractModule extends AbstractModule {
   static override async create(params?: object) {
     return await super.create(params)
   }
 }
 
-describe('XyoModule', () => {
+describe('AbstractModule', () => {
   it('should instantiate', async () => {
-    const module = await XyoTestModule.create()
+    const module = await TestAbstractModule.create()
     expect(module).toBeTruthy()
   })
 
   it('should validate config', async () => {
     class TestClass {}
-    const testModule = await XyoTestModule.create()
+    const testModule = await TestAbstractModule.create()
 
     const invalidConfig = {
       config: {

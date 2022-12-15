@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistWrapper, XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
+import { ArchivistGetQuerySchema, ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoPayload } from '@xyo-network/payload'
 
@@ -19,7 +19,7 @@ export class MemoryAddressHistoryDiviner extends AbstractDiviner implements Addr
     const singleAddress = assertEx((Array.isArray(assertedAddress) ? assertedAddress : [assertedAddress]).shift())
 
     const archivists =
-      (await this.resolver?.resolve({ query: [[XyoArchivistGetQuerySchema]] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
+      (await this.resolver?.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
     const bwLists = (
       await Promise.all(
         archivists.map((archivist) => {

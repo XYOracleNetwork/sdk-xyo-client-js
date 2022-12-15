@@ -1,7 +1,7 @@
 /* eslint-disable import/no-internal-modules */
 import { MemoryArchivist, XyoArchivistGetQuerySchema } from '@xyo-network/archivist'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { XyoModule, XyoModuleResolver } from '@xyo-network/module'
+import { AbstractModule, AbstractModuleResolver } from '@xyo-network/module'
 import { XyoWitnessObserveQuerySchema } from '@xyo-network/witness'
 
 describe('XyoModuleResolver', () => {
@@ -20,6 +20,7 @@ describe('XyoModuleResolver', () => {
     expect((await resolver.resolve({ address: [witness.address] })).length).toBe(1)
   })
   test('simple by config', async () => {
+
     expect((await resolver.resolve({ config: [MemoryArchivist.configSchema] })).length).toBe(1)
     expect((await resolver.resolve({ config: [IdWitness.configSchema] })).length).toBe(1)
   })

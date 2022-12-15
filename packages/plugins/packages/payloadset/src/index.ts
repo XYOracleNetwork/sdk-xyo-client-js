@@ -16,7 +16,7 @@ import { ElevationPlugin } from '@xyo-network/elevation-plugin'
 import { IdPlugin } from '@xyo-network/id-plugin'
 import { LocationCertaintyPlugin } from '@xyo-network/location-certainty-plugin'
 import { LocationPlugin } from '@xyo-network/location-plugin'
-import { XyoModuleInstancePlugin } from '@xyo-network/module-instance-plugin'
+import { AbstractModuleInstancePlugin } from '@xyo-network/module-instance-plugin'
 import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
 import { XyoSchemaPlugin } from '@xyo-network/schema-plugin'
 import { XyoSystemPlugins } from '@xyo-network/system-plugins'
@@ -29,7 +29,7 @@ export const PayloadSetPlugins: PayloadSetPluginFunc[] = [
   ElevationPlugin,
   IdPlugin,
   LocationPlugin,
-  XyoModuleInstancePlugin,
+  AbstractModuleInstancePlugin,
   XyoSchemaPlugin,
   LocationCertaintyPlugin,
 ]

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchiveKey } from '@xyo-network/api'
-import { XyoArchivistQuery } from '@xyo-network/archivist'
+import { ArchivistQuery } from '@xyo-network/archivist'
 import { ModuleQueryResult } from '@xyo-network/module'
 import { ArchiveKeyArchivist } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -52,7 +52,7 @@ export class MongoDBArchiveKeyArchivist implements ArchiveKeyArchivist {
   queries(): string[] {
     throw new Error('Module query not implemented for MongoDBArchiveKeyArchivist')
   }
-  query(_query: XyoArchivistQuery): Promise<ModuleQueryResult> {
+  query(_query: ArchivistQuery): Promise<ModuleQueryResult> {
     throw new Error('Module query not implemented for MongoDBArchiveKeyArchivist')
   }
   queryable(_schema: string): boolean {

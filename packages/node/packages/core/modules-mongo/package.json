@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.3",
+  "version": "2.42.8",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -43,7 +43,7 @@
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/sdk-xyo-mongo-js": "^2.2.9",
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "agenda": "^5.0.0",

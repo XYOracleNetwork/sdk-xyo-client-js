@@ -1,17 +1,17 @@
-import { AddressString, XyoModuleConfig } from '@xyo-network/module'
+import { AbstractModuleConfig, AddressString } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
-export interface XyoArchivistParents {
+export interface ArchivistParents {
   commit?: AddressString[]
   read?: AddressString[]
   write?: AddressString[]
 }
 
-export type XyoArchivistConfig<TConfig extends XyoPayload = XyoPayload> = XyoModuleConfig<
+export type ArchivistConfig<TConfig extends XyoPayload = XyoPayload> = AbstractModuleConfig<
   {
     cacheParentReads?: boolean
     /** @field address of one or more parent archivists to read from */
-    parents?: XyoArchivistParents
+    parents?: ArchivistParents
 
     /** @field address of archivist to write through to */
     writeThrough?: string

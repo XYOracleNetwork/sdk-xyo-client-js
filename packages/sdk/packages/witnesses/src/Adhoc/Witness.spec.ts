@@ -1,4 +1,4 @@
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 import { WitnessWrapper } from '@xyo-network/witness'
 
@@ -8,7 +8,7 @@ describe('XyoAdhocWitness', () => {
   describe('observe', () => {
     const payload = new XyoPayloadBuilder({ schema: 'network.xyo.debug' }).build()
     const config: XyoAdhocWitnessConfig = { payload, schema: XyoAdhocWitnessConfigSchema }
-    const params: XyoModuleParams<XyoAdhocWitnessConfig> = { config }
+    const params: ModuleParams<XyoAdhocWitnessConfig> = { config }
     describe('with payload supplied to observe', () => {
       const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
       it('uses payload schema', async () => {

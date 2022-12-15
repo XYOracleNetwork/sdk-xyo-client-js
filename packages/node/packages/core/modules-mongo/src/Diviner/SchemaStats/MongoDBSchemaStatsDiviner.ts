@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import {
   ArchiveArchivist,
   isSchemaStatsQueryPayload,
@@ -47,7 +47,7 @@ export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPay
 >
 
 export interface MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload>
-  extends XyoModuleParams<MongoDBArchiveSchemaStatsDivinerConfig<T>> {
+  extends ModuleParams<MongoDBArchiveSchemaStatsDivinerConfig<T>> {
   archiveArchivist: ArchiveArchivist
 }
 

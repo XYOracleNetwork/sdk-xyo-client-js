@@ -1,5 +1,5 @@
 import { AbstractDiviner, XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
-import { XyoModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
 import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -17,7 +17,7 @@ export class MongoDBPayloadDiviner extends AbstractDiviner implements PayloadDiv
     return []
   }
 
-  static override async create(params?: Partial<XyoModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBPayloadDiviner> {
+  static override async create(params?: Partial<ModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBPayloadDiviner> {
     return (await super.create(params)) as MongoDBPayloadDiviner
   }
 

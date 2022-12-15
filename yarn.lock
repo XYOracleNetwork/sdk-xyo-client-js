@@ -3631,7 +3631,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-serve-static-core@npm:^4.17.18":
+"@types/express-serve-static-core@npm:^4.17.31":
   version: 4.17.31
   resolution: "@types/express-serve-static-core@npm:4.17.31"
   dependencies:
@@ -3642,15 +3642,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:*, @types/express@npm:4.17.14":
-  version: 4.17.14
-  resolution: "@types/express@npm:4.17.14"
+"@types/express@npm:*, @types/express@npm:4.17.15":
+  version: 4.17.15
+  resolution: "@types/express@npm:4.17.15"
   dependencies:
     "@types/body-parser": "*"
-    "@types/express-serve-static-core": ^4.17.18
+    "@types/express-serve-static-core": ^4.17.31
     "@types/qs": "*"
     "@types/serve-static": "*"
-  checksum: 15c1af46d02de834e4a225eccaa9d85c0370fdbb3ed4e1bc2d323d24872309961542b993ae236335aeb3e278630224a6ea002078d39e651d78a3b0356b1eaa79
+  checksum: b4acd8a836d4f6409cdf79b12d6e660485249b62500cccd61e7997d2f520093edf77d7f8498ca79d64a112c6434b6de5ca48039b8fde2c881679eced7e96979b
   languageName: node
   linkType: hard
 
@@ -3878,10 +3878,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.11, @types/node@npm:^18.11.13":
-  version: 18.11.13
-  resolution: "@types/node@npm:18.11.13"
-  checksum: b0c1aa3bd2f5df8240e61096a49d6d4be600109b824d23408ec4ba1ec057dc0c60588e09f73b8a60455ad26d367e9c5562fad8403099f885cbc7b4cace83ec4c
+"@types/node@npm:*, @types/node@npm:^18.11.11, @types/node@npm:^18.11.15":
+  version: 18.11.15
+  resolution: "@types/node@npm:18.11.15"
+  checksum: cae8692a5cee0316f93ee0342237eb921f70c51afb37c661c711a925a4642654ae7e404c5a80899d481c0cfaff3a6891ef04bacd330a2e72734192bfc91dc2d8
   languageName: node
   linkType: hard
 
@@ -4550,7 +4550,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-js@npm:^2.5.9, @xylabs/sdk-js@npm:^2.6.10":
+"@xylabs/sdk-js@npm:^2.6.10":
   version: 2.6.10
   resolution: "@xylabs/sdk-js@npm:2.6.10"
   dependencies:
@@ -4740,6 +4740,65 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/automation-witness-server@workspace:packages/automation-witness-server":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/automation-witness-server@workspace:packages/automation-witness-server"
+  dependencies:
+    "@babel/core": ^7.20.5
+    "@babel/preset-env": ^7.20.2
+    "@ethersproject/address": ^5.7.0
+    "@ethersproject/bytes": ^5.7.0
+    "@ethersproject/contracts": ^5.7.0
+    "@ethersproject/hdnode": ^5.7.0
+    "@ethersproject/networks": ^5.7.1
+    "@ethersproject/providers": ^5.7.2
+    "@ethersproject/sha2": ^5.7.0
+    "@ethersproject/solidity": ^5.7.0
+    "@ethersproject/strings": ^5.7.0
+    "@types/compression": ^1.7.2
+    "@types/cors": ^2.8.13
+    "@types/express": 4.17.15
+    "@uniswap/sdk": ^3.0.3
+    "@uniswap/sdk-core": ^3.1.0
+    "@uniswap/v3-sdk": ^3.9.0
+    "@xylabs/assert": ^2.6.10
+    "@xylabs/sdk-api-express-ecs": ^1.2.5
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/api": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
+    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/blocknative-ethereum-gas-plugin": "workspace:^"
+    "@xyo-network/coingecko-crypto-market-plugin": "workspace:^"
+    "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
+    "@xyo-network/crypto-asset-plugin": "workspace:^"
+    "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/etherchain-ethereum-gas-v1-plugin": "workspace:^"
+    "@xyo-network/etherchain-ethereum-gas-v2-plugin": "workspace:^"
+    "@xyo-network/ethers-ethereum-gas-plugin": "workspace:^"
+    "@xyo-network/etherscan-ethereum-gas-plugin": "workspace:^"
+    "@xyo-network/ethgasstation-ethereum-gas-plugin": "workspace:^"
+    "@xyo-network/gas-price-payload-plugin": "workspace:^"
+    "@xyo-network/gas-price-plugin": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/node-core-model": "workspace:^"
+    "@xyo-network/panel": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/shared": "workspace:^"
+    "@xyo-network/typechain": ^2.0.4
+    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
+    "@xyo-network/uniswap-crypto-market-plugin": "workspace:^"
+    "@xyo-network/uniswap-typechain": ^2.0.4
+    "@xyo-network/witness": "workspace:^"
+    "@xyo-network/witnesses": "workspace:^"
+    agenda: ^5.0.0
+    axios: ~1.2.1
+    compression: ^1.7.4
+    cors: ^2.8.5
+    express: ^4.18.2
+    pako: ^2.1.0
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/axios@workspace:^, @xyo-network/axios@workspace:packages/sdk/packages/axios":
   version: 0.0.0-use.local
   resolution: "@xyo-network/axios@workspace:packages/sdk/packages/axios"
@@ -4783,7 +4842,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/blocknative-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative":
+"@xyo-network/blocknative-ethereum-gas-plugin@workspace:^, @xyo-network/blocknative-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative":
   version: 0.0.0-use.local
   resolution: "@xyo-network/blocknative-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative"
   dependencies:
@@ -4863,7 +4922,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/cli@workspace:packages/cli"
   dependencies:
-    "@types/node": ^18.11.13
+    "@types/node": ^18.11.15
     "@types/terminal-kit": ^2.5.1
     "@xyo-network/api": "workspace:^"
     "@xyo-network/http-proxy-module": "workspace:^"
@@ -5298,7 +5357,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/ethers-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethers":
+"@xyo-network/ethers-ethereum-gas-plugin@workspace:^, @xyo-network/ethers-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethers":
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethers-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethers"
   dependencies:
@@ -5348,7 +5407,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/ethgasstation-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation":
+"@xyo-network/ethgasstation-ethereum-gas-plugin@workspace:^, @xyo-network/ethgasstation-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation":
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethgasstation-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation"
   dependencies:
@@ -5390,7 +5449,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-lib@workspace:packages/node/packages/express/lib"
   dependencies:
-    "@types/express": 4.17.14
+    "@types/express": 4.17.15
     "@types/passport": ^1.0.11
     "@xylabs/assert": ^2.6.10
     "@xylabs/sdk-api-express-ecs": ^1.2.5
@@ -5413,7 +5472,7 @@ __metadata:
   resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/middleware"
   dependencies:
     "@ethersproject/wallet": ^5.7.0
-    "@types/express": 4.17.14
+    "@types/express": 4.17.15
     "@types/express-mung": ^0.5.2
     "@types/jsonwebtoken": ^8.5.9
     "@types/passport": ^1.0.11
@@ -5456,7 +5515,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-routes@workspace:packages/node/packages/express/routes"
   dependencies:
-    "@types/express": 4.17.14
+    "@types/express": 4.17.15
     "@types/source-map-support": 0.5.6
     "@types/uuid": ^9.0.0
     "@xylabs/assert": ^2.6.10
@@ -5492,7 +5551,7 @@ __metadata:
   dependencies:
     "@types/compression": ^1.7.2
     "@types/cors": ^2.8.13
-    "@types/express": 4.17.14
+    "@types/express": 4.17.15
     "@types/nconf": ^0.10.3
     "@types/passport": ^1.0.11
     "@types/uuid": ^9.0.0
@@ -5627,7 +5686,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/gas-price-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/gas":
+"@xyo-network/gas-price-plugin@workspace:^, @xyo-network/gas-price-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/gas":
   version: 0.0.0-use.local
   resolution: "@xyo-network/gas-price-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/gas"
   dependencies:
@@ -5957,7 +6016,7 @@ __metadata:
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/sdk-xyo-mongo-js": ^2.2.9
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     "@xyo-network/storage": "workspace:^"
     agenda: ^5.0.0
@@ -6278,7 +6337,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.5
     "@babel/preset-env": ^7.20.2
-    "@types/node": ^18.11.13
+    "@types/node": ^18.11.15
     "@xylabs/eslint-config": ^2.7.27
     "@xylabs/ts-scripts-yarn3": ^2.7.27
     "@xylabs/tsconfig": ^2.7.27
@@ -6303,16 +6362,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sdk-xyo-mongo-js@npm:^2.2.9":
-  version: 2.2.9
-  resolution: "@xyo-network/sdk-xyo-mongo-js@npm:2.2.9"
+"@xyo-network/sdk-xyo-mongo-js@workspace:^, @xyo-network/sdk-xyo-mongo-js@workspace:packages/mongo":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/sdk-xyo-mongo-js@workspace:packages/mongo"
   dependencies:
-    "@xylabs/sdk-js": ^2.5.9
-    async-mutex: ^0.3.2
-    mongodb: ^4.8.0
-  checksum: f81114226f0e822c9ac7b321b5a788e8066ab31717dcf41acc9ad475b6c5d188faee523725ca2d602a5ed3d7e7e4e1b09d5a01b398413cdfe1bd34851349009c
-  languageName: node
-  linkType: hard
+    "@babel/core": ^7.20.5
+    "@babel/preset-env": ^7.20.2
+    "@xylabs/sdk-js": ^2.6.10
+    async-mutex: ^0.4.0
+    axios: ^1.2.1
+    mongodb: ^4.12.1
+  languageName: unknown
+  linkType: soft
 
 "@xyo-network/sdk@workspace:^, @xyo-network/sdk@workspace:packages/sdk":
   version: 0.0.0-use.local
@@ -6363,7 +6424,7 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
-    "@xyo-network/sdk-xyo-mongo-js": ^2.2.9
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
     mongodb: ^4.12.1
     tslib: ^2.4.1
   languageName: unknown
@@ -6950,12 +7011,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async-mutex@npm:^0.3.2":
-  version: 0.3.2
-  resolution: "async-mutex@npm:0.3.2"
+"async-mutex@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "async-mutex@npm:0.4.0"
   dependencies:
-    tslib: ^2.3.1
-  checksum: 620b771dfdea1cad0a6b712915c31a1e3ca880a8cf1eae92b4590f435995e0260929c6ebaae0b9126b1456790ea498064b5bb9a506948cda760f48d3d0dcc4c8
+    tslib: ^2.4.0
+  checksum: 813a71728b35a4fbfd64dba719f04726d9133c67b577fcd951b7028c4a675a13ee34e69beb82d621f87bf81f5d4f135c4c44be0448550c7db728547244ef71fc
   languageName: node
   linkType: hard
 
@@ -7535,9 +7596,9 @@ __metadata:
   linkType: hard
 
 "camelcase@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "camelcase@npm:7.0.0"
-  checksum: 162d59607b3b46e910af151348d5e40af579048a5d07f3c06370b096ca0d42ba4a88bd92cf4e3482645ba1ffdd6f744d8273c1b9594e493fc10883d54adf7cbe
+  version: 7.0.1
+  resolution: "camelcase@npm:7.0.1"
+  checksum: 86ab8f3ebf08bcdbe605a211a242f00ed30d8bfb77dab4ebb744dd36efbc84432d1c4adb28975ba87a1b8be40a80fbd1e60e2f06565315918fa7350011a26d3d
   languageName: node
   linkType: hard
 
@@ -10027,7 +10088,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-intrinsic@npm:^1.0.2, get-intrinsic@npm:^1.1.0, get-intrinsic@npm:^1.1.1, get-intrinsic@npm:^1.1.3":
+"get-intrinsic@npm:^1.0.2, get-intrinsic@npm:^1.1.1, get-intrinsic@npm:^1.1.3":
   version: 1.1.3
   resolution: "get-intrinsic@npm:1.1.3"
   dependencies:
@@ -10799,13 +10860,13 @@ __metadata:
   linkType: hard
 
 "internal-slot@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "internal-slot@npm:1.0.3"
+  version: 1.0.4
+  resolution: "internal-slot@npm:1.0.4"
   dependencies:
-    get-intrinsic: ^1.1.0
+    get-intrinsic: ^1.1.3
     has: ^1.0.3
     side-channel: ^1.0.4
-  checksum: 1944f92e981e47aebc98a88ff0db579fd90543d937806104d0b96557b10c1f170c51fb777b97740a8b6ddeec585fca8c39ae99fd08a8e058dfc8ab70937238bf
+  checksum: 8974588d06bab4f675573a3b52975370facf6486df51bc0567a982c7024fa29495f10b76c0d4dc742dd951d1b72024fdc1e31bb0bedf1678dc7aacacaf5a4f73
   languageName: node
   linkType: hard
 
@@ -12854,8 +12915,8 @@ __metadata:
   linkType: hard
 
 "mdast-util-to-markdown@npm:^1.0.0":
-  version: 1.3.0
-  resolution: "mdast-util-to-markdown@npm:1.3.0"
+  version: 1.4.0
+  resolution: "mdast-util-to-markdown@npm:1.4.0"
   dependencies:
     "@types/mdast": ^3.0.0
     "@types/unist": ^2.0.0
@@ -12864,7 +12925,7 @@ __metadata:
     micromark-util-decode-string: ^1.0.0
     unist-util-visit: ^4.0.0
     zwitch: ^2.0.0
-  checksum: 0ea4fc11b7a49b15d400d50044429c45222cb9bc583553288c7c54704d051f25049233817129ba56a6f581f1e20916e5c540870a80987318747a95b44a36ba3e
+  checksum: 68fb241ab63a4120e5b20ea2aa03342758235f3a833b3e248d52b6a6b2e4693ad04297b9d0cd558899e340b1bf74a4e3f503a8b6037c4d407d744ac6bce75a42
   languageName: node
   linkType: hard
 
@@ -13484,7 +13545,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.11.0, mongodb@npm:^4.12.1, mongodb@npm:^4.8.0":
+"mongodb@npm:^4.11.0, mongodb@npm:^4.12.1":
   version: 4.12.1
   resolution: "mongodb@npm:4.12.1"
   dependencies:
@@ -13753,9 +13814,9 @@ __metadata:
   linkType: hard
 
 "node-releases@npm:^2.0.6":
-  version: 2.0.6
-  resolution: "node-releases@npm:2.0.6"
-  checksum: e86a926dc9fbb3b41b4c4a89d998afdf140e20a4e8dbe6c0a807f7b2948b42ea97d7fd3ad4868041487b6e9ee98409829c6e4d84a734a4215dff060a7fbeb4bf
+  version: 2.0.7
+  resolution: "node-releases@npm:2.0.7"
+  checksum: d1c5af091d788b7f9dfce5aa77cbf76c28e8e326b891fe64a05b96943a90cd6ba19eae94ef32777c23f5898a7b00d9cf8266adba33d61ebe6611cca74ccfc0b1
   languageName: node
   linkType: hard
 
@@ -15081,12 +15142,12 @@ __metadata:
   linkType: hard
 
 "read-package-json-fast@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "read-package-json-fast@npm:3.0.1"
+  version: 3.0.2
+  resolution: "read-package-json-fast@npm:3.0.2"
   dependencies:
     json-parse-even-better-errors: ^3.0.0
     npm-normalize-package-bin: ^3.0.0
-  checksum: b2e249c9bba4e0f188bea06dd57a7cfe0d76e272e8de14d1d71bcee894f48f576a9884a5890786a4a97990d196b86461c8b7e43024dca00b091081effcfd7ea0
+  checksum: 8d406869f045f1d76e2a99865a8fd1c1af9c1dc06200b94d2b07eef87ed734b22703a8d72e1cd36ea36cc48e22020bdd187f88243c7dd0563f72114d38c17072
   languageName: node
   linkType: hard
 
@@ -18438,9 +18499,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^3.2.0":
-  version: 3.3.0
-  resolution: "type-fest@npm:3.3.0"
-  checksum: 6f260466dd1847048bca4481412f39c32fbb69abbe6daf1ead67e682529adfe8ab8f150a9937eddd065fa544eaf92c15e35ebad0f45f46feadcfbd3a87ae5a2d
+  version: 3.4.0
+  resolution: "type-fest@npm:3.4.0"
+  checksum: 37e8559f07778b6a24a1d01f285d9b6904537cfde49f6231f080f146c6ff753ea12a9163bcbe8e9bcd24f72529cf4d3baf69874b9a6e1d2da47046c41e4567f6
   languageName: node
   linkType: hard
 

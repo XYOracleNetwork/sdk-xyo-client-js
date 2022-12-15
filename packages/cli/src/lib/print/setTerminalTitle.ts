@@ -5,5 +5,5 @@ import { terminal } from 'terminal-kit'
  * @param title The title, defaults to 'XYO'
  */
 export const setTerminalTitle = (title = 'XYO') => {
-  terminal(`\x1B]0;${title}\x07`)
+  terminal.windowTitle(title)
 }

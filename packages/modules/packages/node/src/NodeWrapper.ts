@@ -1,10 +1,11 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { AbstractModule, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
-import { isXyoPayloadOfSchemaType, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { AbstractModule, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { isXyoPayloadOfSchemaType, PayloadWrapper } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
+import { AbstractNode } from './AbstractNode'
 import { NodeModule } from './NodeModule'
 import {
   XyoNodeAttachedQuery,
@@ -17,7 +18,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper extends ModuleWrapper implements NodeModule {
+export class NodeWrapper<TModule extends AbstractNode = AbstractNode> extends ModuleWrapper<TModule> implements NodeModule {
   public isModuleResolver = true
 
   private _archivist?: ArchivistWrapper
@@ -48,12 +49,8 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
     await this.sendQuery(queryPayload)
   }
 
-  find(_filter: ModuleFilter): Promisable<AbstractModule[]> {
-    throw Error('Not implemented')
-  }
-
-  register(_module: Module): void {
-    throw Error('Not implemented')
+  register(mod: AbstractModule): void {
+    return this.module.register(mod)
   }
 
   async registered(): Promise<string[]> {
@@ -63,20 +60,19 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
   }
 
   async registeredModules(): Promise<AbstractModule[]> {
-    const addresses = await this.registered()
-    return compact(await this.resolve({ address: addresses }))
+    return await this.module.registeredModules()
   }
 
-  resolve(_filter: ModuleFilter): Promisable<AbstractModule[]> {
-    throw Error('Not implemented')
+  resolve(filter: ModuleFilter): Promisable<AbstractModule[]> {
+    return this.module.resolve(filter)
   }
 
-  tryResolve(_filter: ModuleFilter): Promisable<AbstractModule[]> {
-    throw Error('Not implemented')
+  tryResolve(filter: ModuleFilter): Promisable<AbstractModule[]> {
+    return this.module.tryResolve(filter)
   }
 
-  unregister(_module: Module): void {
-    throw Error('Not implemented')
+  unregister(mod: AbstractModule): void {
+    return this.module.unregister(mod)
   }
 }
 

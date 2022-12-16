@@ -1,6 +1,7 @@
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { AbstractModule, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { isXyoPayloadOfSchemaType, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
@@ -28,17 +29,13 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
 
   async attach(address: string, name?: string): Promise<void> {
     const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, name, schema: XyoNodeAttachQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
+    await this.sendQuery(queryPayload)
   }
 
   async attached(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeAttachedQuery>({ schema: XyoNodeAttachedQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
-    return compact(result[1].map((payload) => payload?.schema))
+    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
+    return payloads.map((p) => p.address)
   }
 
   async attachedModules(): Promise<AbstractModule[]> {
@@ -61,8 +58,8 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
 
   async registered(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
-    const result = await this.sendQuery(queryPayload)
-    return compact(result.map((payload) => payload?.schema))
+    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
+    return payloads.map((p) => p.address)
   }
 
   async registeredModules(): Promise<AbstractModule[]> {

@@ -12,7 +12,7 @@
     "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.8.0-rc.15",
+    "@xylabs/ts-scripts-yarn3": "^2.8.0",
     "axios": "~1.2.1"
   },
   "peerDependencies": {

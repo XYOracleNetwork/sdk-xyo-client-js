@@ -41,7 +41,7 @@ export class HttpProxyModule implements Module {
     const instance = new this(api, address)
     const description = assertEx(await api.addresses.address(address).get(), 'Error obtaining module description')
     instance._queries = description.queries
-    const config = assertEx((await new ModuleWrapper(instance).discover())[0])
+    const config = assertEx((await new ModuleWrapper(instance).discover())[0], 'Error obtaining module config')
     instance._config = config
     return instance
   }

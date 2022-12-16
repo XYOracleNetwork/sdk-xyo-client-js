@@ -4668,6 +4668,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/address-payload-plugin@workspace:^, @xyo-network/address-payload-plugin@workspace:packages/plugins/packages/payload/packages/address":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/address-payload-plugin@workspace:packages/plugins/packages/payload/packages/address"
+  dependencies:
+    "@xyo-network/address-payload-plugin": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    tslib: ^2.4.1
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/api-models@workspace:^, @xyo-network/api-models@workspace:packages/sdk/packages/api-models":
   version: 0.0.0-use.local
   resolution: "@xyo-network/api-models@workspace:packages/sdk/packages/api-models"

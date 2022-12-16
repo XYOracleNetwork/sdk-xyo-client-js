@@ -15,7 +15,7 @@
     "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.8.0-rc.14",
+    "@xylabs/ts-scripts-yarn3": "^2.8.0-rc.15",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

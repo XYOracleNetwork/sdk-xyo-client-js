@@ -13,6 +13,9 @@
   "dependencies": {
     "tslib": "^2.4.1"
   },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.7.29"
+  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {

@@ -10,6 +10,9 @@
   "engines": {
     "node": ">=16 <17"
   },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.7.29"
+  },
   "esm5": "dist/esm/index.js",
   "exports": {
     ".": {

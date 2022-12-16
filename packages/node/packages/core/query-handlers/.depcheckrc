@@ -2,5 +2,6 @@ ignores: [
   "jest",
   "jest-mock-extended",
   "tslib",
+  "@xylabs/ts-scripts-yarn3",
   "typescript"
 ]

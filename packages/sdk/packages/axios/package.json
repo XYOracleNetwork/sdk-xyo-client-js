@@ -18,6 +18,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.7.29",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

@@ -1,3 +1,4 @@
 ignores: [
+  "@xylabs/ts-scripts-yarn3",
   "tslib"
 ]

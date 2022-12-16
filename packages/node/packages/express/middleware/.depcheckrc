@@ -1,4 +1,5 @@
 ignores: [
   "@xyo-network/express-node-test",
+  "@xylabs/ts-scripts-yarn3",
   "tslib"
 ]

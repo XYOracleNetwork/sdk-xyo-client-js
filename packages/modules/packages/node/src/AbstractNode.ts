@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   AbstractModule,
   Module,
@@ -12,7 +13,7 @@ import {
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -74,12 +75,19 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
           break
         }
         case XyoNodeAttachedQuerySchema: {
-          await this.attached()
+          const addresses = await this.attached()
+          for (const address of addresses) {
+            const payload = new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+            resultPayloads.push(payload)
+          }
           break
         }
         case XyoNodeRegisteredQuerySchema: {
-          // TODO: Make address payload, return array of them via BW
-          this.registered()
+          const addresses = this.registered()
+          for (const address of addresses) {
+            const payload = new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+            resultPayloads.push(payload)
+          }
           break
         }
         default:

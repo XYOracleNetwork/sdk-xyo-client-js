@@ -1,3 +1,4 @@
+export * from '@xyo-network/address-payload-plugin'
 export * from '@xyo-network/blockchain-payload-plugins'
 export * from '@xyo-network/crypto-payload-plugins'
 export * from '@xyo-network/domain-payload-plugin'
@@ -6,6 +7,7 @@ export * from '@xyo-network/location-certainty-payload-plugin'
 export * from '@xyo-network/location-payload-plugin'
 export * from '@xyo-network/schema-payload-plugin'
 
+import { AddressPayloadPlugin } from '@xyo-network/address-payload-plugin'
 import { XyoBlockchainPayloadPlugins } from '@xyo-network/blockchain-payload-plugins'
 import { CryptoPayloadPlugins } from '@xyo-network/crypto-payload-plugins'
 import { DomainPayloadPlugin } from '@xyo-network/domain-payload-plugin'
@@ -17,6 +19,7 @@ import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
 import { SchemaPayloadPlugin } from '@xyo-network/schema-payload-plugin'
 
 export const PayloadPlugins: XyoPayloadPluginFunc[] = [
+  AddressPayloadPlugin,
   SchemaPayloadPlugin,
   LocationPayloadPlugin,
   LocationCertaintyPayloadPlugin,

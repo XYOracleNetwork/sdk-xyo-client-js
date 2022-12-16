@@ -1,9 +1,11 @@
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { AbstractModule, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { AbstractModule, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { isXyoPayloadOfSchemaType, PayloadWrapper } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
+import { AbstractNode } from './AbstractNode'
 import { NodeModule } from './NodeModule'
 import {
   XyoNodeAttachedQuery,
@@ -16,7 +18,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper extends ModuleWrapper implements NodeModule {
+export class NodeWrapper<TModule extends AbstractNode = AbstractNode> extends ModuleWrapper<TModule> implements NodeModule {
   public isModuleResolver = true
 
   private _archivist?: ArchivistWrapper
@@ -28,17 +30,13 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
 
   async attach(address: string, name?: string): Promise<void> {
     const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, name, schema: XyoNodeAttachQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
+    await this.sendQuery(queryPayload)
   }
 
   async attached(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeAttachedQuery>({ schema: XyoNodeAttachedQuerySchema })
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    this.throwErrors(query, result)
-    return compact(result[1].map((payload) => payload?.schema))
+    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
+    return payloads.map((p) => p.address)
   }
 
   async attachedModules(): Promise<AbstractModule[]> {
@@ -51,37 +49,29 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
     await this.sendQuery(queryPayload)
   }
 
-  find(_filter: ModuleFilter): Promisable<AbstractModule[]> {
-    throw Error('Not implemented')
-  }
-
-  register(_module: Module): void {
-    throw Error('Not implemented')
+  register(mod: AbstractModule): void {
+    return this.module.register(mod)
   }
 
   async registered(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
-    const result = await this.sendQuery(queryPayload)
-    return compact(result.map((payload) => payload?.schema))
+    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
+    return payloads.map((p) => p.address)
   }
 
   async registeredModules(): Promise<AbstractModule[]> {
-    const addresses = await this.registered()
-    return compact(await this.resolve({ address: addresses }))
+    return await this.module.registeredModules()
   }
 
-  resolve(_filter: ModuleFilter): Promisable<AbstractModule[]> {
-    throw Error('Not implemented')
+  resolve(filter: ModuleFilter): Promisable<AbstractModule[]> {
+    return this.module.resolve(filter)
   }
 
-  tryResolve(_filter: ModuleFilter): Promisable<AbstractModule[]> {
-    throw Error('Not implemented')
+  tryResolve(filter: ModuleFilter): Promisable<AbstractModule[]> {
+    return this.module.tryResolve(filter)
   }
 
-  unregister(_module: Module): void {
-    throw Error('Not implemented')
+  unregister(mod: AbstractModule): void {
+    return this.module.unregister(mod)
   }
 }
-
-/** @deprecated use NodeWrapper instead */
-export class XyoNodeWrapper extends NodeWrapper {}

@@ -31,6 +31,9 @@
     "dotenv": "^16.0.3",
     "pako": "^2.1.0"
   },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.7.29"
+  },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "author": "Arie Trouw",

@@ -5,13 +5,13 @@
     ".svn": true,
     ".hg": true,
     ".DS_Store": true,
-    "**/node_modules": true,
+    "**/node_modules": false,
     "**/build": true,
     "**/dist": false,
     ".webpack": true,
     ".serverless": true,
     ".rollup.cache": true,
-    "**/.tsconfig.*": true
+    "**/.tsconfig.*": false
   },
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {
@@ -62,6 +62,7 @@
     "boundwitness",
     "bowser",
     "copyfiles",
+    "depcheck",
     "dmarc",
     "DNSSEC",
     "edns",
@@ -78,6 +79,7 @@
     "scure",
     "shajs",
     "sideeffects",
+    "sonarjs",
     "systeminformation",
     "typechain",
     "userid",

@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 
-import { getAutomationWitness } from './Test'
+import { getAutomationWitness } from './testUtil.spec'
 
 describe('/', () => {
   it('Provides health checks', async () => {

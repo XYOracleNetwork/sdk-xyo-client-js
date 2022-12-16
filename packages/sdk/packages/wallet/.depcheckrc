@@ -1,3 +1,4 @@
 ignores: [
-  "bip39"
+  "bip39",
+  "@xylabs/ts-scripts-yarn3"
 ]

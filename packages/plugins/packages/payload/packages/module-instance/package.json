@@ -15,7 +15,7 @@
     "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.7.29"
+    "@xylabs/ts-scripts-yarn3": "^2.9.0"
   },
   "description": "Contains the information about a module instance",
   "browser": "dist/esm/index.js",

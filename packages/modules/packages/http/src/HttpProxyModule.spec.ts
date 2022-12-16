@@ -66,12 +66,12 @@ describe('HttpProxyModule', () => {
   })
   describe('when wrapped by module wrapper', () => {
     it('returns module properties', () => {
-      const node = new NodeWrapper(sut as unknown as AbstractNode)
+      const node = new NodeWrapper(sut.as<AbstractNode>())
       expect(node.address).toBeString()
       expect(node.config).toBeObject()
     })
     it('issues module queries', async () => {
-      const node = new NodeWrapper(sut as unknown as AbstractNode)
+      const node = new NodeWrapper(sut.as<AbstractNode>())
       const registered = await node.registered()
       expect(registered).toBeArray()
       expect(registered.length).toBeGreaterThan(0)

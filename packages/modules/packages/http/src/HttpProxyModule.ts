@@ -45,6 +45,9 @@ export class HttpProxyModule implements Module {
     instance._config = config
     return instance
   }
+  public as<TModule extends Module = Module>(): TModule {
+    return this as unknown as TModule
+  }
   public async description(): Promise<ModuleDescription> {
     return assertEx(await this._api.addresses.address(this.address).get())
   }

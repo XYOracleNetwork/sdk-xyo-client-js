@@ -75,6 +75,3 @@ export class NodeWrapper<TModule extends AbstractNode = AbstractNode> extends Mo
     return this.module.unregister(mod)
   }
 }
-
-/** @deprecated use NodeWrapper instead */
-export class XyoNodeWrapper extends NodeWrapper {}

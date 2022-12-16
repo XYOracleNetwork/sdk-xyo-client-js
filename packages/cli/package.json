@@ -24,9 +24,9 @@
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
-    "@types/node": "^18.11.15",
+    "@types/node": "^18.11.16",
     "@types/terminal-kit": "^2.5.1",
-    "@xylabs/ts-scripts-yarn3": "^2.7.29",
+    "@xylabs/ts-scripts-yarn3": "^2.8.0-rc.11",
     "axios": "~1.2.1",
     "pako": "^2.1.0",
     "ts-node": "^10.9.1",

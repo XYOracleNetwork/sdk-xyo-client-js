@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { AbstractModuleConfigSchema, AbstractModuleDiscoverQuerySchema, QueryBoundWitnessBuilder } from '@xyo-network/module'
-import { XyoNodeRegisteredQuerySchema } from '@xyo-network/node'
+import { AbstractNode, NodeWrapper, XyoNodeRegisteredQuerySchema } from '@xyo-network/node'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
 
 import { HttpProxyModule } from './HttpProxyModule'
@@ -10,7 +10,7 @@ describe('HttpProxyModule', () => {
   let sut: HttpProxyModule
   beforeAll(async () => {
     const api: XyoArchivistApi = new XyoArchivistApi({
-      apiDomain: 'http://localhost:8080',
+      apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
     })
     const address = assertEx((await api.get())?.address)
     sut = await HttpProxyModule.create({ address, api, config: { schema: AbstractModuleConfigSchema } })
@@ -62,6 +62,19 @@ describe('HttpProxyModule', () => {
     it('returns false for unsupported queries', () => {
       const response = sut.queryable('foo.bar.baz')
       expect(response).toBeFalse()
+    })
+  })
+  describe('when wrapped by module wrapper', () => {
+    it('returns module properties', () => {
+      const node = new NodeWrapper(sut as unknown as AbstractNode)
+      expect(node.address).toBeString()
+      expect(node.config).toBeObject()
+    })
+    it('issues module queries', async () => {
+      const node = new NodeWrapper(sut as unknown as AbstractNode)
+      const registered = await node.registered()
+      expect(registered).toBeArray()
+      expect(registered.length).toBeGreaterThan(0)
     })
   })
 })

@@ -32,6 +32,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@types/pako": "^2.0.0",
+    "@xylabs/ts-scripts-yarn3": "^2.9.0",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },
@@ -68,5 +69,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.8"
+  "version": "2.42.9"
 }

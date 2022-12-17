@@ -15,6 +15,9 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.9.0"
+  },
   "exports": {
     ".": {
       "node": {
@@ -45,5 +48,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.8"
+  "version": "2.42.9"
 }

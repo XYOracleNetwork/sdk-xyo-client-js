@@ -2,22 +2,28 @@ import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
 import {
   AbstractModuleConfig,
+  AbstractModuleConfigSchema,
   creatable,
   Module,
   ModuleDescription,
   ModuleParams,
   ModuleQueryResult,
+  ModuleWrapper,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
 
 export interface HttpProxyModuleParams extends ModuleParams {
   address: string
+  // NOTE: Just pass in XyoApiSimple instead to allow for
+  // alternative pre-configured endpoints that match the
+  // GET info/POST payload paradigm?
   api: XyoArchivistApi
 }
 
 @creatable()
 export class HttpProxyModule implements Module {
+  static configSchema = AbstractModuleConfigSchema
   protected _config: AbstractModuleConfig | undefined
   protected _queries: string[] | undefined
 
@@ -33,10 +39,14 @@ export class HttpProxyModule implements Module {
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
     const { address, api } = params
     const instance = new this(api, address)
-    const description = assertEx(await api.addresses.address(address).get())
+    const description = assertEx(await api.addresses.address(address).get(), 'Error obtaining module description')
     instance._queries = description.queries
-    // TODO: Discover query to get config
+    const config = assertEx((await new ModuleWrapper(instance).discover())[0], 'Error obtaining module config')
+    instance._config = config
     return instance
+  }
+  public as<TModule extends Module = Module>(): TModule {
+    return this as unknown as TModule
   }
   public async description(): Promise<ModuleDescription> {
     return assertEx(await this._api.addresses.address(this.address).get())

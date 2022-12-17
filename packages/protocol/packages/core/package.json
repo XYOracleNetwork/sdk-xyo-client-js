@@ -26,7 +26,8 @@
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@types/sha.js": "^2.4.0",
-    "@types/uuid": "^9.0.0"
+    "@types/uuid": "^9.0.0",
+    "@xylabs/ts-scripts-yarn3": "^2.9.0"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -60,5 +61,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.8"
+  "version": "2.42.9"
 }

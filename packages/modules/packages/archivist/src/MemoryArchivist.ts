@@ -21,19 +21,10 @@ import { AbstractArchivist } from './AbstractArchivist'
 export type MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 export const MemoryArchivistConfigSchema: MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 
-/** @deprecated use MemoryArchivistConfigSchema instead */
-export type XyoMemoryArchivistConfigSchema = MemoryArchivistConfigSchema
-
-/** @deprecated use MemoryArchivistConfigSchema instead */
-export const XyoMemoryArchivistConfigSchema = MemoryArchivistConfigSchema
-
 export type MemoryArchivistConfig = ArchivistConfig<{
   max?: number
   schema: MemoryArchivistConfigSchema
 }>
-
-/** @deprecated use MemoryArchivistConfig instead */
-export type XyoMemoryArchivistConfig = MemoryArchivistConfig
 
 export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchivistConfig> extends AbstractArchivist<TConfig> {
   static override configSchema = MemoryArchivistConfigSchema
@@ -160,6 +151,3 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
     ]
   }
 }
-
-/** @deprecated use MemoryArchivist instead */
-export class XyoMemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchivistConfig> extends MemoryArchivist<TConfig> {}

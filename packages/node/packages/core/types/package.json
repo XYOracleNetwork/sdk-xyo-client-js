@@ -4,11 +4,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.8",
+  "version": "2.42.9",
   "description": "XYO Node Core Types",
   "sideeffects": false,
   "engines": {
     "node": ">=16 <17"
+  },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.9.0"
   },
   "esm5": "dist/esm/index.js",
   "exports": {

@@ -19,6 +19,3 @@ export type XyoDomainPayload = XyoPayload<{
   networks?: XyoNetworkPayload[]
   schema: XyoDomainSchema
 }>
-
-/** @deprecated use XyoDomainPayload instead */
-export type XyoDomainConfig = XyoDomainPayload

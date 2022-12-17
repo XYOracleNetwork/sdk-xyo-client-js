@@ -9,6 +9,3 @@ export type DivinerConfig<TTarget extends XyoPayload = XyoPayload, TConfig exten
     targetSchema?: TTarget['schema']
   } & TConfig
 >
-
-/** @deprecated use DivinerConfig instead */
-export type XyoDivinerConfig<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoPayload = XyoPayload> = DivinerConfig<TTarget, TConfig>

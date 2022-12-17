@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.8",
+  "version": "2.42.9",
   "description": "XYO Automation Witness",
   "sideeffects": false,
   "engines": {
@@ -91,7 +91,9 @@
     "@babel/preset-env": "^7.20.2",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",
-    "@types/express": "4.17.15"
+    "@types/express": "4.17.15",
+    "@xylabs/ts-scripts-yarn3": "^2.9.0",
+    "supertest": "^6.3.3"
   },
   "types": "dist/esm/index.d.ts",
   "volta": {

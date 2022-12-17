@@ -31,6 +31,3 @@ export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoVali
     return errors
   }
 }
-
-/** @deprecated use PayloadValidator instead*/
-export class XyoPayloadValidator<T extends XyoPayload = XyoPayload> extends PayloadValidator<T> {}

@@ -10,7 +10,7 @@ describe('Base', () => {
       dbPassword: 'password',
       dbUserName: 'username',
     }
-    const apiStage = new BaseMongoSdk<unknown>(config)
+    const apiStage = new BaseMongoSdk(config)
     expect(apiStage).toBeDefined()
   })
 })

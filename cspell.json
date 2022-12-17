@@ -24,6 +24,7 @@
     "huri",
     "Initializable",
     "initializables",
+    "IXSCAN",
     "jsdom",
     "keccak",
     "microether",

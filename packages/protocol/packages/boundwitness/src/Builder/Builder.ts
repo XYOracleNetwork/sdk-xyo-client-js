@@ -15,9 +15,6 @@ export interface BoundWitnessBuilderConfig {
   readonly timestamp?: boolean
 }
 
-/** @deprecated use BoundWitnessBuilderConfig instead */
-export type XyoBoundWitnessBuilderConfig = BoundWitnessBuilderConfig
-
 export class BoundWitnessBuilder<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
   TPayload extends XyoPayload = XyoPayload,
@@ -139,6 +136,3 @@ export class BoundWitnessBuilder<
     })
   }
 }
-
-/** @deprecated use BoundWitnessBuilder instead */
-export class XyoBoundWitnessBuilder extends BoundWitnessBuilder {}

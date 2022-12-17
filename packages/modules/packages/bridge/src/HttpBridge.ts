@@ -21,20 +21,11 @@ import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQ
 export type HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
 export const HttpBridgeConfigSchema: HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
 
-/** @deprecated use HttpBridgeConfigSchema instead */
-export type XyoHttpBridgeConfigSchema = HttpBridgeConfigSchema
-
-/** @deprecated use HttpBridgeConfigSchema instead */
-export const XyoHttpBridgeConfigSchema = HttpBridgeConfigSchema
-
 export type HttpBridgeConfig = BridgeConfig<{
   axios?: AxiosJsonRequestConfig
   headers?: AxiosRequestHeaders
   schema: HttpBridgeConfigSchema
 }>
-
-/** @deprecated use HttpBridgeConfig instead */
-export type XyoHttpBridgeConfig = HttpBridgeConfig
 
 export interface XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends ModuleParams<TConfig> {
   axios: Axios

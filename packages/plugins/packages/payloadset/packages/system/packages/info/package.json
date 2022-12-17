@@ -16,6 +16,9 @@
     "@xyo-network/payloadset-plugin": "workspace:^",
     "tslib": "^2.4.1"
   },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.9.0"
+  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/indexBrowser.js",
   "docs": "dist/docs.json",
@@ -49,5 +52,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.8"
+  "version": "2.42.9"
 }

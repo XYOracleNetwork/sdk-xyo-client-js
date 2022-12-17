@@ -20,7 +20,7 @@ import { NodeConfig, NodeConfigSchema } from './Config'
 import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends AbstractModule = AbstractModule>
+export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractModule<TConfig>
   implements NodeModule
 {

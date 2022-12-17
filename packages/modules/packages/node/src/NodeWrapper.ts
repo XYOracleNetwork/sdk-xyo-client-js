@@ -1,6 +1,6 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { AbstractModule, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { AbstractModule, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType, PayloadWrapper } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -39,7 +39,7 @@ export class NodeWrapper<TModule extends AbstractNode = AbstractNode> extends Mo
     return payloads.map((p) => p.address)
   }
 
-  async attachedModules(): Promise<AbstractModule[]> {
+  async attachedModules(): Promise<Module[]> {
     const addresses = await this.attached()
     return compact(await this.resolve({ address: addresses }))
   }
@@ -59,15 +59,15 @@ export class NodeWrapper<TModule extends AbstractNode = AbstractNode> extends Mo
     return payloads.map((p) => p.address)
   }
 
-  async registeredModules(): Promise<AbstractModule[]> {
+  async registeredModules(): Promise<Module[]> {
     return await this.module.registeredModules()
   }
 
-  resolve(filter: ModuleFilter): Promisable<AbstractModule[]> {
+  resolve(filter: ModuleFilter): Promisable<Module[]> {
     return this.module.resolve(filter)
   }
 
-  tryResolve(filter: ModuleFilter): Promisable<AbstractModule[]> {
+  tryResolve(filter: ModuleFilter): Promisable<Module[]> {
     return this.module.tryResolve(filter)
   }
 

@@ -4956,7 +4956,6 @@ __metadata:
     "@types/terminal-kit": ^2.5.1
     "@xylabs/delay": ^2.6.11
     "@xylabs/ts-scripts-yarn3": ^2.9.0
-    "@xyo-network/api": "workspace:^"
     "@xyo-network/http-proxy-module": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
@@ -5813,6 +5812,7 @@ __metadata:
     "@xylabs/assert": ^2.6.11
     "@xylabs/ts-scripts-yarn3": ^2.9.0
     "@xyo-network/api": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.1
@@ -5967,6 +5967,7 @@ __metadata:
     "@xylabs/assert": ^2.6.11
     "@xylabs/ts-scripts-yarn3": ^2.9.0
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
@@ -6119,7 +6120,7 @@ __metadata:
     inversify: ^6.0.1
     lodash: ^4.17.21
     lru-cache: ^7.14.1
-    mongodb: ^4.12.1
+    mongodb: ^4.13.0
     reflect-metadata: ^0.1.13
     uuid: ^9.0.0
   peerDependencies:
@@ -6494,7 +6495,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.9.0
     async-mutex: ^0.4.0
     axios: ^1.2.1
-    mongodb: ^4.12.1
+    mongodb: ^4.13.0
   languageName: unknown
   linkType: soft
 
@@ -6551,7 +6552,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
-    mongodb: ^4.12.1
+    mongodb: ^4.13.0
     tslib: ^2.4.1
   languageName: unknown
   linkType: soft
@@ -10881,9 +10882,9 @@ __metadata:
   linkType: hard
 
 "ignore@npm:^5.1.8, ignore@npm:^5.2.0":
-  version: 5.2.1
-  resolution: "ignore@npm:5.2.1"
-  checksum: 7251d00cba49fe88c4f3565fadeb4aa726ba38294a9a79ffed542edc47bafd989d4b2ccf65700c5b1b26a1e91dfc7218fb23017937c79216025d5caeec0ee9d5
+  version: 5.2.3
+  resolution: "ignore@npm:5.2.3"
+  checksum: e6da23b19c5d1ca7007b2595002f4dc6ccc2adb102945ec741f6bb0f5d2f7c21c6c9b961e07a8ec59487a61a1643abf7e37e013e072b613f20768fcbe1b88a65
   languageName: node
   linkType: hard
 
@@ -13689,9 +13690,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.11.0, mongodb@npm:^4.12.1":
-  version: 4.12.1
-  resolution: "mongodb@npm:4.12.1"
+"mongodb@npm:^4.11.0, mongodb@npm:^4.13.0":
+  version: 4.13.0
+  resolution: "mongodb@npm:4.13.0"
   dependencies:
     "@aws-sdk/credential-providers": ^3.186.0
     bson: ^4.7.0
@@ -13703,7 +13704,7 @@ __metadata:
       optional: true
     saslprep:
       optional: true
-  checksum: 84590484b2c93bce849ec1e334b064e983444ed73942061c91e09556348c80db9d4a40544b927cd795bdfbfc51d1b713a7df5ced4ecf13cd00fab5e3c3e32ada
+  checksum: 4c30eed40f639ac64069623cf7a4954e98eab81b91d61df90e7813dd2a745259cdc698f3b60bd7f37c123242b7eb0aaae6ee4e29ff2e48f5d13f187931d51f36
   languageName: node
   linkType: hard
 
@@ -13958,9 +13959,9 @@ __metadata:
   linkType: hard
 
 "node-releases@npm:^2.0.6":
-  version: 2.0.7
-  resolution: "node-releases@npm:2.0.7"
-  checksum: d1c5af091d788b7f9dfce5aa77cbf76c28e8e326b891fe64a05b96943a90cd6ba19eae94ef32777c23f5898a7b00d9cf8266adba33d61ebe6611cca74ccfc0b1
+  version: 2.0.8
+  resolution: "node-releases@npm:2.0.8"
+  checksum: b1ab02c0d5d8e081bf9537232777a7a787dc8fef07f70feabe70a344599b220fe16462f746ac30f3eed5a58549445ad69368964d12a1f8b3b764f6caab7ba34a
   languageName: node
   linkType: hard
 
@@ -17185,15 +17186,15 @@ __metadata:
   linkType: hard
 
 "sass@npm:^1.29.0":
-  version: 1.56.2
-  resolution: "sass@npm:1.56.2"
+  version: 1.57.0
+  resolution: "sass@npm:1.57.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 7b1f524d04bc42df3bac6dc5201ff7475635b7df9a1390430ed5bd58b6a73ea1ae58b83ccea8da293cb77b85b4c848faf5f2779ca4b91b9303948c251d0ddca4
+  checksum: fb6358b9541dc7a5bc23dbbae85223e99fbadc1f4ae911e7c32c6e22fd7b617e20a0e8cd1213f23c97c621b067bfb0b9ca45e65d6ce4ca5fea5949f41bd428ed
   languageName: node
   linkType: hard
 

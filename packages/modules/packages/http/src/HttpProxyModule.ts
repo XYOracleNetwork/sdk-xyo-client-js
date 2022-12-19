@@ -40,7 +40,17 @@ export class HttpProxyModule implements Module {
     const instance = new this(api, addr)
     const description = assertEx(await api.addresses.address(addr).get(), 'Error obtaining module description')
     instance._queries = description.queries
-    const config = assertEx((await new ModuleWrapper(instance).discover())[0], 'Error obtaining module config')
+    // NOTE: We can't depend on obtaining the config positionally from
+    // the response array and we need to filter on a result that is a
+    // config schema (of which there are many) so we're left with
+    // string matching for now.
+    // A brittle alternative would be to pick off all known response
+    // fields (address payload, etc.) and use process of elimination
+    const discover = await new ModuleWrapper(instance).discover()
+    const config = assertEx(
+      discover.find((p) => p.schema.toLowerCase().includes('config')),
+      'Error obtaining module config',
+    )
     instance._config = config
     return instance
   }

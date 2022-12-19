@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
+import { XyoApiConfig } from '@xyo-network/api-models'
 import {
   AbstractModuleConfig,
   AbstractModuleConfigSchema,
@@ -12,8 +13,6 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
-import { XyoApiConfig } from '@xyo-network/sdk'
-
 export interface HttpProxyModuleParams extends ModuleParams {
   address?: string
   apiConfig: XyoApiConfig

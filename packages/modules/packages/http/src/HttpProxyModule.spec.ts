@@ -1,19 +1,16 @@
-import { assertEx } from '@xylabs/assert'
-import { XyoArchivistApi } from '@xyo-network/api'
 import { AbstractModuleConfigSchema, AbstractModuleDiscoverQuerySchema, QueryBoundWitnessBuilder } from '@xyo-network/module'
 import { AbstractNode, NodeWrapper, XyoNodeRegisteredQuerySchema } from '@xyo-network/node'
 import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoApiConfig } from '@xyo-network/sdk'
 
 import { HttpProxyModule } from './HttpProxyModule'
 
 describe('HttpProxyModule', () => {
   let sut: HttpProxyModule
   beforeAll(async () => {
-    const api: XyoArchivistApi = new XyoArchivistApi({
-      apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
-    })
-    const address = assertEx((await api.get())?.address)
-    sut = await HttpProxyModule.create({ address, api, config: { schema: AbstractModuleConfigSchema } })
+    const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
+    const params = { apiConfig, config: { schema: AbstractModuleConfigSchema } }
+    sut = await HttpProxyModule.create(params)
   })
   describe('address', () => {
     it('returns module address', () => {

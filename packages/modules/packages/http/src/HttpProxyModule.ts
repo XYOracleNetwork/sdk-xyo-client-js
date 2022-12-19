@@ -15,7 +15,7 @@ import { XyoPayload } from '@xyo-network/payload'
 import { XyoApiConfig } from '@xyo-network/sdk'
 
 export interface HttpProxyModuleParams extends ModuleParams {
-  address: string
+  address?: string
   apiConfig: XyoApiConfig
 }
 
@@ -37,8 +37,9 @@ export class HttpProxyModule implements Module {
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
     const { address, apiConfig } = params
     const api = new XyoArchivistApi(apiConfig)
-    const instance = new this(api, address)
-    const description = assertEx(await api.addresses.address(address).get(), 'Error obtaining module description')
+    const addr = address || assertEx((await api.get())?.address)
+    const instance = new this(api, addr)
+    const description = assertEx(await api.addresses.address(addr).get(), 'Error obtaining module description')
     instance._queries = description.queries
     const config = assertEx((await new ModuleWrapper(instance).discover())[0], 'Error obtaining module config')
     instance._config = config

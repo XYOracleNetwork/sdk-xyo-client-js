@@ -12,13 +12,11 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
+import { XyoApiConfig } from '@xyo-network/sdk'
 
 export interface HttpProxyModuleParams extends ModuleParams {
   address: string
-  // NOTE: Just pass in XyoApiSimple instead to allow for
-  // alternative pre-configured endpoints that match the
-  // GET info/POST payload paradigm?
-  api: XyoArchivistApi
+  apiConfig: XyoApiConfig
 }
 
 @creatable()
@@ -37,7 +35,8 @@ export class HttpProxyModule implements Module {
     return this._config
   }
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
-    const { address, api } = params
+    const { address, apiConfig } = params
+    const api = new XyoArchivistApi(apiConfig)
     const instance = new this(api, address)
     const description = assertEx(await api.addresses.address(address).get(), 'Error obtaining module description')
     instance._queries = description.queries

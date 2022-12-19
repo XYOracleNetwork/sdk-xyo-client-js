@@ -1,11 +1,10 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { AbstractModule, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType, PayloadWrapper } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
-import { AbstractNode } from './AbstractNode'
 import { NodeModule } from './NodeModule'
 import {
   XyoNodeAttachedQuery,
@@ -18,7 +17,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper<TModule extends AbstractNode = AbstractNode> extends ModuleWrapper<TModule> implements NodeModule {
+export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements NodeModule {
   public isModuleResolver = true
 
   private _archivist?: ArchivistWrapper
@@ -49,7 +48,7 @@ export class NodeWrapper<TModule extends AbstractNode = AbstractNode> extends Mo
     await this.sendQuery(queryPayload)
   }
 
-  register(mod: AbstractModule): void {
+  register(mod: Module): Promisable<void> {
     return this.module.register(mod)
   }
 
@@ -71,7 +70,7 @@ export class NodeWrapper<TModule extends AbstractNode = AbstractNode> extends Mo
     return this.module.tryResolve(filter)
   }
 
-  unregister(mod: AbstractModule): void {
+  unregister(mod: Module): Promisable<void> {
     return this.module.unregister(mod)
   }
 }

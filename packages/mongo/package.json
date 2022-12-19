@@ -46,7 +46,7 @@
   "dependencies": {
     "@xylabs/sdk-js": "^2.6.11",
     "async-mutex": "^0.4.0",
-    "mongodb": "^4.12.1"
+    "mongodb": "^4.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",

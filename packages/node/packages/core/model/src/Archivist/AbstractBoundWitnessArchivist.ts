@@ -2,8 +2,8 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
-import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQuery } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
 
 import { XyoBoundWitnessWithPartialMeta } from '../BoundWitness'
 import { ArchiveModuleConfig, ArchiveModuleConfigSchema } from './ArchiveModuleConfig'
@@ -19,10 +19,13 @@ export abstract class AbstractBoundWitnessArchivist extends AbstractModule<Archi
     return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema]
   }
 
-  override async query<T extends XyoQuery = XyoQuery>(query: T, payloads?: XyoPayloads): Promise<ModuleQueryResult<XyoPayload>> {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
+    query: T,
+    payloads?: XyoPayload[],
+  ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    // assertEx(this.queryable(query.schema, wrapper.addresses))
+    assertEx(this.queryable(query.schema, wrapper.addresses))
 
     const result: XyoPayload[] = []
     const queryAccount = new Account()
@@ -42,7 +45,7 @@ export abstract class AbstractBoundWitnessArchivist extends AbstractModule<Archi
         break
       }
       default:
-        throw new Error(`${typedQuery.schema} Not Implemented`)
+        return super.query(query, payloads)
     }
     return this.bindResult(result, queryAccount)
   }

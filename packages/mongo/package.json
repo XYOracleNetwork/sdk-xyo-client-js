@@ -44,7 +44,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.10",
+    "@xylabs/sdk-js": "^2.6.11",
     "async-mutex": "^0.4.0",
     "mongodb": "^4.12.1"
   },

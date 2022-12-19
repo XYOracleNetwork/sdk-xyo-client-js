@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
     "@types/sha.js": "^2.4.0",
-    "@xylabs/assert": "^2.6.10",
+    "@xylabs/assert": "^2.6.11",
     "@xylabs/ts-scripts-yarn3": "^2.9.0"
   },
   "browser": "dist/esm/index.js",

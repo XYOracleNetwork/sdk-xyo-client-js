@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.11",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",

@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
+import { XyoApiConfig } from '@xyo-network/api-models'
 import {
   AbstractModuleConfig,
   AbstractModuleConfigSchema,
@@ -12,13 +13,9 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload'
-
 export interface HttpProxyModuleParams extends ModuleParams {
-  address: string
-  // NOTE: Just pass in XyoApiSimple instead to allow for
-  // alternative pre-configured endpoints that match the
-  // GET info/POST payload paradigm?
-  api: XyoArchivistApi
+  address?: string
+  apiConfig: XyoApiConfig
 }
 
 @creatable()
@@ -37,11 +34,23 @@ export class HttpProxyModule implements Module {
     return this._config
   }
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
-    const { address, api } = params
-    const instance = new this(api, address)
-    const description = assertEx(await api.addresses.address(address).get(), 'Error obtaining module description')
+    const { address, apiConfig } = params
+    const api = new XyoArchivistApi(apiConfig)
+    const addr = address || assertEx((await api.get())?.address)
+    const instance = new this(api, addr)
+    const description = assertEx(await api.addresses.address(addr).get(), 'Error obtaining module description')
     instance._queries = description.queries
-    const config = assertEx((await new ModuleWrapper(instance).discover())[0], 'Error obtaining module config')
+    // NOTE: We can't depend on obtaining the config positionally from
+    // the response array and we need to filter on a result that is a
+    // config schema (of which there are many) so we're left with
+    // string matching for now.
+    // A brittle alternative would be to pick off all known response
+    // fields (address payload, etc.) and use process of elimination
+    const discover = await new ModuleWrapper(instance).discover()
+    const config = assertEx(
+      discover.find((p) => p.schema.toLowerCase().includes('config')),
+      'Error obtaining module config',
+    )
     instance._config = config
     return instance
   }

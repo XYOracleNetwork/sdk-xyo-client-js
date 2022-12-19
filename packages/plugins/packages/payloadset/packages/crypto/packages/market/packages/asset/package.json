@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/exists": "^2.6.10",
+    "@xylabs/exists": "^2.6.11",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",

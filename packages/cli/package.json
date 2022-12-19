@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/delay": "^2.6.10",
+    "@xylabs/delay": "^2.6.11",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/http-proxy-module": "workspace:^",
     "@xyo-network/module": "workspace:^",
@@ -24,7 +24,7 @@
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
-    "@types/node": "^18.11.16",
+    "@types/node": "^18.11.17",
     "@types/terminal-kit": "^2.5.1",
     "@xylabs/ts-scripts-yarn3": "^2.9.0",
     "axios": "~1.2.1",

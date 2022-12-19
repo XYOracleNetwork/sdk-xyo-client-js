@@ -11,7 +11,7 @@
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
     "@metamask/providers": "^10.2.1",
-    "@xylabs/delay": "^2.6.10",
+    "@xylabs/delay": "^2.6.11",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
@@ -26,6 +26,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
+    "@xylabs/ts-scripts-yarn3": "^2.9.0",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

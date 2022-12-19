@@ -27,7 +27,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.10",
+    "@xylabs/assert": "^2.6.11",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/express-node-lib": "workspace:^",
     "@xyo-network/express-node-middleware": "workspace:^",
@@ -41,6 +41,9 @@
     "express": "^4.18.2",
     "inversify": "^6.0.1",
     "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.9.0"
   },
   "peerDependencies": {
     "axios": "*",

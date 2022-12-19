@@ -18,6 +18,9 @@
     "systeminformation": "^5.16.6",
     "tslib": "^2.4.1"
   },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.9.0"
+  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

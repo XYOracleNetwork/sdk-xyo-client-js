@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
+    "@xylabs/ts-scripts-yarn3": "^2.9.0",
     "axios": "^1.2.1"
   },
   "peerDependencies": {

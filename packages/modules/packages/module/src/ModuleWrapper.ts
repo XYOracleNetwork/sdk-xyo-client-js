@@ -25,10 +25,7 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
     return this.module.address
   }
   get config(): XyoPayload {
-    // TODO: Config listed in Discovery query
-    // issue discover query and then return
-    // appropriate result
-    throw new Error('Not Implemented')
+    return this.module.config
   }
   get resolver(): ModuleResolver | undefined {
     return undefined

@@ -1,4 +1,5 @@
 ignores: [
   "@xylabs/forget",
+  "@xylabs/ts-scripts-yarn3",
   "tslib"
 ]

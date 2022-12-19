@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.6.10",
+    "@xylabs/assert": "^2.6.11",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
@@ -24,7 +24,8 @@
     "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2"
+    "@types/js-cookie": "^3.0.2",
+    "@xylabs/ts-scripts-yarn3": "^2.9.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

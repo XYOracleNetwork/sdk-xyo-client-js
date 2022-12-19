@@ -5,7 +5,7 @@ import supertest, { SuperTest, Test } from 'supertest'
 // prevent Jest from exiting
 jest.useFakeTimers()
 
-import { getApp } from '../Server'
+import { getApp } from './Server'
 
 test('Must have ACCOUNT_SEED ENV VAR defined', () => {
   expect(process.env.ACCOUNT_SEED).toBeTruthy()

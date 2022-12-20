@@ -1,5 +1,5 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { ModuleDescription } from '@xyo-network/module'
+import { Module, ModuleDescription } from '@xyo-network/module'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { RequestHandler } from 'express'
 
@@ -9,8 +9,17 @@ const handler: RequestHandler<AddressPathParams, ModuleDescription> = async (req
   const { address } = req.params
   const { node } = req.app
   if (address) {
+    let modules: Module[] = []
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
-    const modules = node.address === normalizedAddress ? [node] : await node.tryResolve({ address: [normalizedAddress] })
+    if (node.address === normalizedAddress) modules = [node]
+    else {
+      const byAddress = await node.tryResolve({ address: [normalizedAddress] })
+      if (byAddress.length) modules = byAddress
+      else {
+        const byName = await node.tryResolve({ name: [address] })
+        if (byName.length) modules = byName
+      }
+    }
     if (modules.length) {
       const mod = modules[0]
       const description = await mod.description()

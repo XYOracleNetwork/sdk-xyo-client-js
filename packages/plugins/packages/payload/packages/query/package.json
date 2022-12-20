@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/module",
+  "name": "@xyo-network/query-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,16 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.6.11",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/address-payload-plugin": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
-    "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
-    "@xyo-network/promise": "workspace:^",
-    "@xyo-network/query-payload-plugin": "workspace:^",
-    "@xyo-network/shared": "workspace:^",
-    "lodash": "^4.17.21",
+    "@xyo-network/payload-plugin": "workspace:^",
     "tslib": "^2.4.1"
   },
   "devDependencies": {

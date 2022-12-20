@@ -89,7 +89,7 @@
     "start": "nodemon",
     "test": "jest --no-cache --forceExit",
     "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
-    "xyo": "yarn workspace @xyo-network/node-cli xyo",
+    "xyo": "node ./packages/cli/dist/cjs/index.js",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"
   },
   "sideEffects": false,

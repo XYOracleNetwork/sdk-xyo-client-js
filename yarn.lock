@@ -4956,11 +4956,14 @@ __metadata:
     "@types/terminal-kit": ^2.5.1
     "@xylabs/delay": ^2.6.11
     "@xylabs/ts-scripts-yarn3": ^2.9.0
+    "@xyo-network/account": "workspace:^"
     "@xyo-network/http-proxy-module": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/node-app": "workspace:^"
     axios: ~1.2.1
+    bip39: ^3.0.4
+    lodash: ^4.17.21
     pako: ^2.1.0
     terminal-kit: ^3.0.0
     ts-node: ^10.9.1
@@ -5972,6 +5975,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
+    "@xyo-network/query-payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     lodash: ^4.17.21
     tslib: ^2.4.1
@@ -6016,6 +6020,7 @@ __metadata:
   dependencies:
     "@xylabs/sdk-api-express-ecs": ^1.2.5
     "@xylabs/ts-scripts-yarn3": ^2.9.0
+    "@xyo-network/account": "workspace:^"
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
@@ -6412,6 +6417,17 @@ __metadata:
     tslib: ^2.4.1
   peerDependencies:
     axios: ^1.2.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/query-payload-plugin@workspace:^, @xyo-network/query-payload-plugin@workspace:packages/plugins/packages/payload/packages/query":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/query-payload-plugin@workspace:packages/plugins/packages/payload/packages/query"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.9.0
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 

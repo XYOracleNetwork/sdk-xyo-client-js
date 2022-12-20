@@ -1,3 +1,6 @@
+import { AddressSchema } from '@xyo-network/address-payload-plugin'
+import { QuerySchema } from '@xyo-network/query-payload-plugin'
+
 import { AbstractModule } from './AbstractModule'
 import { AbstractModuleConfigSchema } from './Config'
 export class TestAbstractModule extends AbstractModule {
@@ -8,15 +11,16 @@ export class TestAbstractModule extends AbstractModule {
 }
 
 describe('AbstractModule', () => {
-  it('should instantiate', async () => {
-    const module = await TestAbstractModule.create()
-    expect(module).toBeTruthy()
+  let sut: TestAbstractModule
+  beforeAll(async () => {
+    sut = await TestAbstractModule.create()
+  })
+  it('should instantiate', () => {
+    expect(sut).toBeTruthy()
   })
 
-  it('should validate config', async () => {
+  it('should validate config', () => {
     class TestClass {}
-    const testModule = await TestAbstractModule.create()
-
     const invalidConfig = {
       config: {
         options: {
@@ -24,7 +28,6 @@ describe('AbstractModule', () => {
         },
       },
     }
-
     const validConfig = {
       config: {
         options: {
@@ -32,7 +35,21 @@ describe('AbstractModule', () => {
         },
       },
     }
-    expect(testModule['validateConfig'](invalidConfig)).toBeFalse()
-    expect(testModule['validateConfig'](validConfig)).toBeTrue()
+    expect(sut['validateConfig'](invalidConfig)).toBeFalse()
+    expect(sut['validateConfig'](validConfig)).toBeTrue()
+  })
+  describe('discover', () => {
+    it('returns address', async () => {
+      const response = await sut.discover()
+      expect(response.some((p) => p.schema === AddressSchema)).toBeTrue()
+    })
+    it('returns config', async () => {
+      const response = await sut.discover()
+      expect(response.some((p) => p.schema === AbstractModuleConfigSchema)).toBeTrue()
+    })
+    it('returns supported queries', async () => {
+      const response = await sut.discover()
+      expect(response.some((p) => p.schema === QuerySchema)).toBeTrue()
+    })
   })
 })

@@ -1,3 +1,4 @@
+export * from './account'
 export * from './files'
 export * from './getSettingsInfo'
 export * from './loadSettings'

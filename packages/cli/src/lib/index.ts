@@ -1,4 +1,3 @@
-export * from './account'
 export * from './connect'
 export * from './file'
 export * from './optionsParser'

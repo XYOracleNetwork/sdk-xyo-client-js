@@ -3,6 +3,8 @@ import { Account } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   AbstractModule,
+  AbstractModuleDiscoverQuery,
+  AbstractModuleDiscoverQuerySchema,
   Module,
   ModuleDescription,
   ModuleFilter,
@@ -14,7 +16,7 @@ import {
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -56,7 +58,15 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
   override async discover(_queryAccount?: Account | undefined): Promise<XyoPayload[]> {
     const parent = await super.discover(_queryAccount)
     const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
-    const children = (await Promise.all(childMods.map((mod) => mod.discover()))).flatMap((d) => d)
+    const queryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
+    const query = await this.bindQuery(queryPayload)
+    const childModQueryResults = await Promise.all(childMods.map((mod) => mod.query(query[0], query[1])))
+    const children = childModQueryResults
+      .map((x) => {
+        const [bw, payloads] = x
+        return [bw, ...payloads]
+      })
+      .flatMap((x) => x)
     return [...parent, ...children]
   }
 

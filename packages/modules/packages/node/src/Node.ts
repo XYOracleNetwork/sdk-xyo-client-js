@@ -1,3 +1,4 @@
+import { Module } from '@xyo-network/module'
 import { Promisable } from '@xyo-network/promise'
 
 export interface Node {
@@ -6,3 +7,5 @@ export interface Node {
   detach(address: string): void
   registered(): Promisable<string[]>
 }
+
+export type NodeModule = Node & Module

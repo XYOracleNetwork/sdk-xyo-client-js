@@ -3,22 +3,28 @@ import { Account } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   AbstractModule,
+  AbstractModuleDiscoverQuery,
+  AbstractModuleDiscoverQuerySchema,
   Module,
   ModuleDescription,
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
+  ModuleWrapper,
   QueryBoundWitnessWrapper,
   SimpleModuleResolver,
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
+import compact from 'lodash/compact'
 
 import { NodeConfig, NodeConfigSchema } from './Config'
 import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
+
+const childModuleDiscoverQueryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
 
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractModule<TConfig>
@@ -51,6 +57,30 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     const desc = await super.description()
     const children = await Promise.all((await this.attachedModules()).map((mod) => mod.description()))
     return { ...desc, children }
+  }
+  override async discover(_queryAccount?: Account | undefined): Promise<XyoPayload[]> {
+    const parent = await super.discover(_queryAccount)
+    // const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
+    // const query = await this.bindQuery(childModuleDiscoverQueryPayload)
+    // const childModQueryResults = await Promise.all(
+    //   childMods.map((mod) => {
+    //     try {
+    //       return mod.query(query[0], query[1])
+    //     } catch {
+    //       // TODO: remove this once we ensure all modules
+    //       // implement discover query
+    //       return undefined
+    //     }
+    //   }),
+    // )
+    // const children = compact(childModQueryResults)
+    //   .map((result) => {
+    //     const [bw, payloads] = result
+    //     return [bw, ...payloads]
+    //   })
+    //   .flatMap((x) => x)
+    // return [...parent, ...children]
+    return parent
   }
 
   public override queries() {

@@ -25,7 +25,8 @@ export abstract class AbstractBoundWitnessArchivist extends AbstractModule<Archi
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query.schema, wrapper.addresses))
+    // Can be brought back once this module
+    // assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const result: XyoPayload[] = []
     const queryAccount = new Account()

@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { generateMnemonic } from 'bip39'
 
 import { loadMnemonic } from './loadMnemonic'
 import { saveMnemonic } from './saveMnemonic'
@@ -6,8 +7,8 @@ import { saveMnemonic } from './saveMnemonic'
 export const getAccount = async (): Promise<Account> => {
   let mnemonic = loadMnemonic()
   if (!mnemonic) {
-    mnemonic = 'TODO: Generate'
+    mnemonic = generateMnemonic()
     await saveMnemonic(mnemonic)
   }
-  return new Account({ phrase: mnemonic })
+  return Account.fromMnemonic(mnemonic)
 }

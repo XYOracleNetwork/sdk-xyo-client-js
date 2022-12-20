@@ -8,6 +8,7 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
+  ModuleWrapper,
   QueryBoundWitnessWrapper,
   SimpleModuleResolver,
   XyoErrorBuilder,
@@ -51,6 +52,12 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     const desc = await super.description()
     const children = await Promise.all((await this.attachedModules()).map((mod) => mod.description()))
     return { ...desc, children }
+  }
+  override async discover(_queryAccount?: Account | undefined): Promise<XyoPayload[]> {
+    const parent = await super.discover(_queryAccount)
+    const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
+    const children = (await Promise.all(childMods.map((mod) => mod.discover()))).flatMap((d) => d)
+    return [...parent, ...children]
   }
 
   public override queries() {

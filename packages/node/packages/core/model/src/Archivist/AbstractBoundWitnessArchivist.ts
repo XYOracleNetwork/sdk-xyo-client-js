@@ -16,7 +16,7 @@ export abstract class AbstractBoundWitnessArchivist extends AbstractModule<Archi
   }
 
   public override queries() {
-    return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema]
+    return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
@@ -25,7 +25,7 @@ export abstract class AbstractBoundWitnessArchivist extends AbstractModule<Archi
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    // Can be brought back once this module
+    // Can be brought back once this is module called with .create
     // assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
 
     const result: XyoPayload[] = []

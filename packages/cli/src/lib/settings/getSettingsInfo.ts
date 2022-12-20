@@ -10,6 +10,6 @@ export interface SettingsInfo {
 
 export const getSettingsInfo = async (): Promise<SettingsInfo> => {
   const account = await getAccount()
-  const address = account.addressValue.hex
+  const address = `0x${account.addressValue.hex}`
   return { account: { address }, settingsFile }
 }

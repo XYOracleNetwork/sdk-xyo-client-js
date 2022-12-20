@@ -6,9 +6,9 @@ export const status = async (_node: MemoryNode) => {
   printTitle('Status')
   const running = await isRunning()
   if (running) {
-    printLine('Node Running')
+    printLine('Node: Running')
   } else {
-    printLine('Node Not Running')
+    printLine('Node: Not Running')
   }
   const node = await getProcessInfo()
   const account = await getAccountInfo()

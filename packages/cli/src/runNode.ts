@@ -2,4 +2,9 @@ import { getNode } from '@xyo-network/node-app'
 
 import { getAccount } from './lib'
 
-void getAccount().then(getNode)
+const main = async () => {
+  const account = await getAccount()
+  return getNode(account)
+}
+
+void main()

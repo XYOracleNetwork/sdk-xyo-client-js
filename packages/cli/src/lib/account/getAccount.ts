@@ -5,7 +5,7 @@ import { loadMnemonic } from './loadMnemonic'
 import { saveMnemonic } from './saveMnemonic'
 
 export const getAccount = async (): Promise<Account> => {
-  let mnemonic = loadMnemonic()
+  let mnemonic = await loadMnemonic()
   if (!mnemonic) {
     mnemonic = generateMnemonic()
     await saveMnemonic(mnemonic)

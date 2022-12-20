@@ -60,26 +60,27 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
   }
   override async discover(_queryAccount?: Account | undefined): Promise<XyoPayload[]> {
     const parent = await super.discover(_queryAccount)
-    const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
-    const query = await this.bindQuery(childModuleDiscoverQueryPayload)
-    const childModQueryResults = await Promise.all(
-      childMods.map((mod) => {
-        try {
-          return mod.query(query[0], query[1])
-        } catch {
-          // TODO: remove this once we ensure all modules
-          // implement discover query
-          return undefined
-        }
-      }),
-    )
-    const children = compact(childModQueryResults)
-      .map((result) => {
-        const [bw, payloads] = result
-        return [bw, ...payloads]
-      })
-      .flatMap((x) => x)
-    return [...parent, ...children]
+    // const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
+    // const query = await this.bindQuery(childModuleDiscoverQueryPayload)
+    // const childModQueryResults = await Promise.all(
+    //   childMods.map((mod) => {
+    //     try {
+    //       return mod.query(query[0], query[1])
+    //     } catch {
+    //       // TODO: remove this once we ensure all modules
+    //       // implement discover query
+    //       return undefined
+    //     }
+    //   }),
+    // )
+    // const children = compact(childModQueryResults)
+    //   .map((result) => {
+    //     const [bw, payloads] = result
+    //     return [bw, ...payloads]
+    //   })
+    //   .flatMap((x) => x)
+    // return [...parent, ...children]
+    return parent
   }
 
   public override queries() {

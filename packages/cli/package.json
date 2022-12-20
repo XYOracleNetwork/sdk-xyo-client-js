@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@xylabs/delay": "^2.6.11",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/http-proxy-module": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node": "workspace:^",
     "@xyo-network/node-app": "workspace:^",
+    "bip39": "^3.0.4",
     "terminal-kit": "^3.0.0",
     "tslib": "^2.4.1",
     "yargs": "^17.6.2"

@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AddressSchema } from '@xyo-network/address-payload-plugin'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
+import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
@@ -62,8 +63,11 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
     const config = this.config
-    const address = new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address: this.address }).build()
-    return compact([config, address])
+    const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()
+    const queries = this.queries().map((query) => {
+      return new XyoPayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
+    })
+    return compact([config, address, ...queries])
   }
 
   public queries(): string[] {

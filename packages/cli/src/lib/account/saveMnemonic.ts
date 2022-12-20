@@ -1,7 +1,8 @@
-import { writeFile } from 'fs/promises'
-
+import { writeJson } from '../file'
+import { AccountFile } from './AccountFile'
 import { accountFile } from './files'
 
-export const saveMnemonic = (mnemonic: string): Promise<void> => {
-  return writeFile(accountFile, mnemonic, { encoding: 'utf-8' })
+export const saveMnemonic = async (mnemonic: string): Promise<void> => {
+  const data: AccountFile = { mnemonic }
+  await writeJson(accountFile, data)
 }

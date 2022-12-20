@@ -1,4 +1,5 @@
 /* eslint-disable max-statements */
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
 import {
   ArchivistPayloadDiviner,
@@ -8,7 +9,7 @@ import {
   XyoHuriPayload,
   XyoHuriSchema,
 } from '@xyo-network/diviner'
-import { AbstractModule, ModuleDescription, SimpleModuleResolver } from '@xyo-network/module'
+import { AbstractModule, Module, ModuleDescription, SimpleModuleResolver } from '@xyo-network/module'
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { NodeConfigSchema } from './Config'
@@ -245,6 +246,65 @@ describe('MemoryNode', () => {
       it('serializes to JSON consistently', async () => {
         const description = await node.description()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
+      })
+    })
+  })
+  describe('discover', () => {
+    const archivistConfig = { schema: MemoryArchivistConfigSchema }
+    const validateDiscoveryResponse = (mod: Module, response: XyoPayload[]) => {
+      expect(response).toBeArray()
+      const address = response.find((p) => p.schema === AddressSchema) as AddressPayload
+      expect(address).toBeObject()
+      expect(address.address).toEqual(mod.address)
+      const config = response.find((p) => p.schema === mod.config.schema)
+      expect(config).toBeObject()
+      expect(config).toEqual(mod.config)
+      const queries = response.filter((p) => mod.queries().includes(p.schema))
+      expect(queries.length).toBeGreaterThanOrEqual(0)
+      queries.map((query) => {
+        expect(query).toBeObject()
+      })
+    }
+    describe('node without child modules', () => {
+      it('describes node alone', async () => {
+        const description = await node.discover()
+        validateDiscoveryResponse(node, description)
+      })
+    })
+    describe('node with child modules', () => {
+      beforeEach(async () => {
+        const modules = await Promise.all([
+          await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
+          await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
+        ])
+        modules.map((mod) => {
+          node.register(mod)
+          node.attach(mod.address)
+        })
+      })
+      it('describes node and child modules', async () => {
+        const description = await node.discover()
+        validateDiscoveryResponse(node, description)
+      })
+    })
+    describe('node with nested nodes and modules', () => {
+      beforeEach(async () => {
+        const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
+        const nestedModules = await Promise.all([await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
+        nestedModules.map((mod) => {
+          nestedNode.register(mod)
+          nestedNode.attach(mod.address)
+        })
+        const rootModules: AbstractModule[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
+        rootModules.push(nestedNode)
+        rootModules.map((mod) => {
+          node.register(mod)
+          node.attach(mod.address)
+        })
+      })
+      it('describes node and all nested nodes and child modules', async () => {
+        const description = await node.discover()
+        validateDiscoveryResponse(node, description)
       })
     })
   })

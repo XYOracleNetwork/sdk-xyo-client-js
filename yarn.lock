@@ -5972,6 +5972,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
+    "@xyo-network/query-payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     lodash: ^4.17.21
     tslib: ^2.4.1
@@ -6412,6 +6413,17 @@ __metadata:
     tslib: ^2.4.1
   peerDependencies:
     axios: ^1.2.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/query-payload-plugin@workspace:^, @xyo-network/query-payload-plugin@workspace:packages/plugins/packages/payload/packages/query":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/query-payload-plugin@workspace:packages/plugins/packages/payload/packages/query"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.9.0
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 

@@ -1,8 +1,6 @@
-import { readJson } from '../file'
-import { AccountFile } from './AccountFile'
-import { accountFile } from './files'
+import { loadSettings } from '../settings'
 
 export const loadMnemonic = async (): Promise<string | undefined> => {
-  const existing = await readJson<AccountFile>(accountFile)
-  return existing?.mnemonic
+  const existing = await loadSettings()
+  return existing?.account?.mnemonic
 }

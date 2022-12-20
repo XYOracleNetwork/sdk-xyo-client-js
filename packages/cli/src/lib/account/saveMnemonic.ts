@@ -1,8 +1,6 @@
-import { writeJson } from '../file'
-import { AccountFile } from './AccountFile'
-import { accountFile } from './files'
+import { saveSettings, Settings } from '../settings'
 
 export const saveMnemonic = async (mnemonic: string): Promise<void> => {
-  const data: AccountFile = { mnemonic }
-  await writeJson(accountFile, data)
+  const data: Settings = { account: { mnemonic } }
+  await saveSettings(data)
 }

@@ -1,4 +1,4 @@
-import { getAccount } from '../account'
+import { getAccount } from './account'
 import { settingsFile } from './files'
 
 export interface SettingsInfo {

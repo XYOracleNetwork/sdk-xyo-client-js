@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { generateMnemonic } from 'bip39'
 
-import { printLine } from '../print'
+import { printLine } from '../../print'
 import { loadMnemonic } from './loadMnemonic'
 import { saveMnemonic } from './saveMnemonic'
 

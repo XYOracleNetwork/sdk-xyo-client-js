@@ -12,10 +12,12 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.11",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/promise": "workspace:^",
+    "@xyo-network/query-payload-plugin": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "lodash": "^4.17.21",
     "tslib": "^2.4.1"
@@ -56,5 +58,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.10"
+  "version": "2.42.11"
 }

@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.11",
     "@xyo-network/api": "workspace:^",
+    "@xyo-network/api-models": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "tslib": "^2.4.1"
@@ -52,5 +53,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.10"
+  "version": "2.42.11"
 }

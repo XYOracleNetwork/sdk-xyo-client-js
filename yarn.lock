@@ -4956,7 +4956,6 @@ __metadata:
     "@types/terminal-kit": ^2.5.1
     "@xylabs/delay": ^2.6.11
     "@xylabs/ts-scripts-yarn3": ^2.9.0
-    "@xyo-network/api": "workspace:^"
     "@xyo-network/http-proxy-module": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
@@ -5813,6 +5812,7 @@ __metadata:
     "@xylabs/assert": ^2.6.11
     "@xylabs/ts-scripts-yarn3": ^2.9.0
     "@xyo-network/api": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     tslib: ^2.4.1
@@ -5967,10 +5967,12 @@ __metadata:
     "@xylabs/assert": ^2.6.11
     "@xylabs/ts-scripts-yarn3": ^2.9.0
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/promise": "workspace:^"
+    "@xyo-network/query-payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     lodash: ^4.17.21
     tslib: ^2.4.1
@@ -6411,6 +6413,17 @@ __metadata:
     tslib: ^2.4.1
   peerDependencies:
     axios: ^1.2.1
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/query-payload-plugin@workspace:^, @xyo-network/query-payload-plugin@workspace:packages/plugins/packages/payload/packages/query":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/query-payload-plugin@workspace:packages/plugins/packages/payload/packages/query"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.9.0
+    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    tslib: ^2.4.1
   languageName: unknown
   linkType: soft
 

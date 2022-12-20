@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/delay": "^2.6.11",
+    "@xyo-network/account": "workspace:^",
     "@xyo-network/http-proxy-module": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node": "workspace:^",

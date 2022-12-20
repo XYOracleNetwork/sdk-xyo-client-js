@@ -10,7 +10,6 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  ModuleWrapper,
   QueryBoundWitnessWrapper,
   SimpleModuleResolver,
   XyoErrorBuilder,
@@ -18,10 +17,9 @@ import {
 } from '@xyo-network/module'
 import { PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
 import { Promisable } from '@xyo-network/promise'
-import compact from 'lodash/compact'
 
 import { NodeConfig, NodeConfigSchema } from './Config'
-import { NodeModule } from './NodeModule'
+import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
 const childModuleDiscoverQueryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })

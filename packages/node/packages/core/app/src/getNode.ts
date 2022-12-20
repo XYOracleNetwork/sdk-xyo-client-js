@@ -3,8 +3,7 @@ import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
 
 import { configureEnvironment, configureTransports } from './configuration'
 
-export const getNode = async (): Promise<MemoryNode> => {
-  const account = Account.random()
+export const getNode = async (account = Account.random()): Promise<MemoryNode> => {
   const params = { account, config: { schema: NodeConfigSchema } }
   const node = await MemoryNode.create(params)
   await configureEnvironment(node)

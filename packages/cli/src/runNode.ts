@@ -1,3 +1,5 @@
 import { getNode } from '@xyo-network/node-app'
 
-void getNode()
+import { getAccount } from './lib'
+
+void getAccount().then(getNode)

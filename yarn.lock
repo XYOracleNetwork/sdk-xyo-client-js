@@ -4956,11 +4956,13 @@ __metadata:
     "@types/terminal-kit": ^2.5.1
     "@xylabs/delay": ^2.6.11
     "@xylabs/ts-scripts-yarn3": ^2.9.0
+    "@xyo-network/account": "workspace:^"
     "@xyo-network/http-proxy-module": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/node-app": "workspace:^"
     axios: ~1.2.1
+    bip39: ^3.0.4
     pako: ^2.1.0
     terminal-kit: ^3.0.0
     ts-node: ^10.9.1
@@ -6017,6 +6019,7 @@ __metadata:
   dependencies:
     "@xylabs/sdk-api-express-ecs": ^1.2.5
     "@xylabs/ts-scripts-yarn3": ^2.9.0
+    "@xyo-network/account": "workspace:^"
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"

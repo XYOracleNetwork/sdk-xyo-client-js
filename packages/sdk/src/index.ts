@@ -1,5 +1,6 @@
 export * from '@xyo-network/api-models'
 export * from '@xyo-network/axios'
+export * from '@xyo-network/dns'
 export * from '@xyo-network/network'
 export * from '@xyo-network/payload-plugin'
 export * from '@xyo-network/payloadset-plugin'

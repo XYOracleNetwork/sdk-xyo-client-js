@@ -12,6 +12,8 @@
   "dependencies": {
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/dns": "workspace:^",
+    "@xyo-network/huri": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",

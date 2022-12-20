@@ -14,6 +14,7 @@
     "@xylabs/buffer": "^2.6.11",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "@xyo-network/typeof": "workspace:^",

@@ -1,5 +1,5 @@
 export * from './Builder'
-export * from './isXyoPayloadOfSchemaType'
+export * from './isXyoBoundWitnessPayload'
 export * from './models'
 export * from './Validator'
 export * from './Wrapper'

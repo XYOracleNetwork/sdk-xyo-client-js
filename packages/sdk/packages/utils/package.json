@@ -13,6 +13,7 @@
     "@metamask/providers": "^10.2.1",
     "@xylabs/delay": "^2.6.11",
     "@xyo-network/domain-payload-plugin": "workspace:^",
+    "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "ajv": "^8.11.2",

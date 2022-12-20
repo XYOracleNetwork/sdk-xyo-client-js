@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.11",
     "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "tslib": "^2.4.1"
   },
   "devDependencies": {

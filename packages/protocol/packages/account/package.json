@@ -11,19 +11,16 @@
   },
   "dependencies": {
     "@ethersproject/hdnode": "^5.7.0",
+    "@xylabs/assert": "^2.6.9",
     "@xyo-network/core": "workspace:^",
     "elliptic": "^6.5.4",
     "sha.js": "^2.4.11",
     "tslib": "^2.4.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "peerDependencies": {
-    "@xylabs/assert": "^2.6.9"
-  },
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
     "@types/sha.js": "^2.4.0",
-    "@xylabs/assert": "^2.6.11",
     "@xylabs/ts-scripts-yarn3": "^2.9.0"
   },
   "browser": "dist/esm/index.js",

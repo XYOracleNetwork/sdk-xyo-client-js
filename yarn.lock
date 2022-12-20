@@ -4963,6 +4963,7 @@ __metadata:
     "@xyo-network/node-app": "workspace:^"
     axios: ~1.2.1
     bip39: ^3.0.4
+    lodash: ^4.17.21
     pako: ^2.1.0
     terminal-kit: ^3.0.0
     ts-node: ^10.9.1

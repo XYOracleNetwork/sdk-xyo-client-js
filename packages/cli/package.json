@@ -17,6 +17,7 @@
     "@xyo-network/node": "workspace:^",
     "@xyo-network/node-app": "workspace:^",
     "bip39": "^3.0.4",
+    "lodash": "^4.17.21",
     "terminal-kit": "^3.0.0",
     "tslib": "^2.4.1",
     "yargs": "^17.6.2"

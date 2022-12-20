@@ -84,6 +84,7 @@
     "displayName": "Root Package"
   },
   "scripts": {
+    "cli": "node ./packages/cli/dist/cjs/index.js",
     "coverage": "yarn jest --coverage --forceExit",
     "lint-pkg": "npmPkgJsonLint .",
     "start": "nodemon",

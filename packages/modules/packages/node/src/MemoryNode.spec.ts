@@ -14,7 +14,6 @@ import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchem
 
 import { NodeConfigSchema } from './Config'
 import { MemoryNode } from './MemoryNode'
-import { NodeModule } from './NodeModule'
 
 describe('MemoryNode', () => {
   const testAccount1 = new Account({ phrase: 'testPhrase1' })
@@ -29,15 +28,15 @@ describe('MemoryNode', () => {
   describe('create', () => {
     it('Creates MemoryNode', async () => {
       const XyoMemoryArchivist = (await import('@xyo-network/archivist')).MemoryArchivist
-      const node: NodeModule = await MemoryNode.create()
+      const node = await MemoryNode.create()
       const archivist = await XyoMemoryArchivist.create()
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
         resolver: new SimpleModuleResolver().add(archivist),
       })
-      await node.register(archivist)
+      node.register(archivist)
       node.attach(archivist.address)
-      await node.register(diviner)
+      node.register(diviner)
       node.attach(diviner.address)
       expect((await node.registered()).length).toBe(2)
       expect((await node.attached()).length).toBe(2)

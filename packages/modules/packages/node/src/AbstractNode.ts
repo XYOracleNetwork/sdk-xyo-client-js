@@ -23,6 +23,8 @@ import { NodeConfig, NodeConfigSchema } from './Config'
 import { NodeModule } from './NodeModule'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
+const childModuleDiscoverQueryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
+
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractModule<TConfig>
   implements NodeModule
@@ -58,12 +60,11 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
   override async discover(_queryAccount?: Account | undefined): Promise<XyoPayload[]> {
     const parent = await super.discover(_queryAccount)
     const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
-    const queryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
-    const query = await this.bindQuery(queryPayload)
+    const query = await this.bindQuery(childModuleDiscoverQueryPayload)
     const childModQueryResults = await Promise.all(childMods.map((mod) => mod.query(query[0], query[1])))
     const children = childModQueryResults
-      .map((x) => {
-        const [bw, payloads] = x
+      .map((result) => {
+        const [bw, payloads] = result
         return [bw, ...payloads]
       })
       .flatMap((x) => x)

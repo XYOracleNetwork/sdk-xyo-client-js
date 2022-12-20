@@ -1,14 +1,11 @@
 import { readFile, stat } from 'fs/promises'
-import { homedir } from 'os'
-import { join } from 'path'
 
-const fileName = '.xyo.seed'
+import { accountFile } from './files'
 
 export const loadMnemonic = async (): Promise<string | undefined> => {
-  const file = join(homedir(), fileName)
   try {
-    if ((await stat(file)).isFile()) {
-      const mnemonic = await readFile(file, { encoding: 'utf-8' })
+    if ((await stat(accountFile)).isFile()) {
+      const mnemonic = await readFile(accountFile, { encoding: 'utf-8' })
       if (mnemonic) return mnemonic
     }
   } catch (_error) {

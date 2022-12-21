@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { XyoApiConfig } from '@xyo-network/api-models'
+import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
 import {
   AbstractModuleConfig,
   AbstractModuleConfigSchema,
@@ -16,6 +16,7 @@ import { XyoPayload } from '@xyo-network/payload'
 export interface HttpProxyModuleParams extends ModuleParams {
   address?: string
   apiConfig: XyoApiConfig
+  name?: string
 }
 
 @creatable()
@@ -34,9 +35,13 @@ export class HttpProxyModule implements Module {
     return this._config
   }
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
-    const { address, apiConfig } = params
+    const { address, apiConfig, name } = params
     const api = new XyoArchivistApi(apiConfig)
-    const addr = address || assertEx((await api.get())?.address)
+    const addr =
+      address ||
+      (name
+        ? assertEx(((await api.node(name).get()) as unknown as XyoApiResponseBody<ModuleDescription>)?.address)
+        : assertEx((await api.get())?.address))
     const instance = new this(api, addr)
     const description = assertEx(await api.addresses.address(addr).get(), 'Error obtaining module description')
     instance._queries = description.queries

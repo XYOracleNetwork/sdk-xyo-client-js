@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { knownNetworks } from './knownNetworks'
 import { XyoNetworkNodeType } from './XyoNetworkNodePayload'

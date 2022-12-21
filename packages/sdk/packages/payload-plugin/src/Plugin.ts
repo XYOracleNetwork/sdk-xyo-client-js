@@ -1,5 +1,6 @@
 import { Validator } from '@xyo-network/core'
-import { PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export type XyoPayloadPluginFunc<TPayload extends XyoPayload = XyoPayload> = () => XyoPayloadPlugin<TPayload>
 

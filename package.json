@@ -21,12 +21,11 @@
     "@babel/core": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
     "@types/node": "^18.11.17",
-    "@xylabs/eslint-config": "^2.9.0",
-    "@xylabs/ts-scripts-yarn3": "^2.9.0",
-    "@xylabs/tsconfig": "^2.9.0",
+    "@xylabs/eslint-config": "^2.10.19",
+    "@xylabs/ts-scripts-yarn3": "^2.10.19",
+    "@xylabs/tsconfig": "^2.10.19",
     "axios": "~1.2.1",
     "babel-jest": "^29.3.1",
-    "depcheck": "^1.4.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.30.0",
     "jest": "^29.3.1",
@@ -95,5 +94,8 @@
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "version": "2.42.13",
-  "packageManager": "yarn@3.3.0"
+  "packageManager": "yarn@3.3.0",
+  "volta": {
+    "node": "18.12.1"
+  }
 }

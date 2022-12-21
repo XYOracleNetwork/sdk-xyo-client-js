@@ -23,8 +23,7 @@
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
-    "tslib": "^2.4.1"
+    "@xyo-network/witness": "workspace:^"
   },
   "peerDependencies": {
     "@uniswap/sdk": "^3.0.3",
@@ -37,7 +36,7 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/ts-scripts-yarn3": "^2.9.0",
+    "@xylabs/ts-scripts-yarn3": "^2.10.19",
     "@xyo-network/typechain": "^2.0.4",
     "@xyo-network/uniswap-typechain": "^2.0.4"
   },

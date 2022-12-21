@@ -36,11 +36,10 @@
     "@xyo-network/express-node-routes": "workspace:^",
     "@xyo-network/express-node-server": "workspace:^",
     "axios": "~1.2.1",
-    "pako": "^2.1.0",
-    "tslib": "^2.4.1"
+    "pako": "^2.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.9.0"
+    "@xylabs/ts-scripts-yarn3": "^2.10.19"
   },
   "packageManager": "yarn@3.2.3",
   "volta": {

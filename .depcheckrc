@@ -6,7 +6,6 @@ ignores:
     "@xylabs/ts-scripts-yarn3",
     "@xylabs/tsconfig",
     "babel-jest",
-    "depcheck",
     "dotenv",
     "jest-environment-jsdom",
     "jest-extended",
@@ -15,5 +14,5 @@ ignores:
     "ts-jest",
     "ts-node",
     "typedoc",
-    "typescript",
+    "typescript"
   ]

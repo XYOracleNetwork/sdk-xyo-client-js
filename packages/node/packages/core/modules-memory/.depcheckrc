@@ -2,7 +2,6 @@ ignores: [
   "jest",
   "jest-extended",
   "jest-mock-extended",
-  "tslib",
   "typescript",
   "@xylabs/ts-scripts-yarn3",
   "uuid"

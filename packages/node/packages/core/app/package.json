@@ -33,7 +33,7 @@
     "pako": "^2.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.9.0"
+    "@xylabs/ts-scripts-yarn3": "^2.10.19"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

@@ -43,7 +43,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.21"
+    "@xylabs/ts-scripts-yarn3": "^2.10.25"
   },
   "peerDependencies": {
     "axios": "*",

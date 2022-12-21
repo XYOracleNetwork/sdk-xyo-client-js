@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "@xylabs/ts-scripts-yarn3": "^2.10.21",
+    "@xylabs/ts-scripts-yarn3": "^2.10.25",
     "uuid": "^9.0.0"
   },
   "types": "dist/esm/index.d.ts"

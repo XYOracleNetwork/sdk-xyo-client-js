@@ -26,7 +26,7 @@
     "@xyo-network/uniswap-typechain": "^2.0.4"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.21"
+    "@xylabs/ts-scripts-yarn3": "^2.10.25"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

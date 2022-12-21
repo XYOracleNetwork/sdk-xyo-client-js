@@ -11,11 +11,10 @@
   },
   "dependencies": {
     "@xyo-network/payload-plugins": "workspace:^",
-    "@xyo-network/payloadset-plugins": "workspace:^",
-    "tslib": "^2.4.1"
+    "@xyo-network/payloadset-plugins": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.9.0",
+    "@xylabs/ts-scripts-yarn3": "^2.10.18",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

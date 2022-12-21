@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type XyoNetworkNodeType = 'archivist' | 'diviner' | 'bridge' | 'sentinel'
 

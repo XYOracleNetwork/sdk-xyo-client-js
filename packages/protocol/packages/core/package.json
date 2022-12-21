@@ -15,11 +15,9 @@
     "@xylabs/bignumber": "^2.6.11",
     "@xylabs/buffer": "^2.6.11",
     "@xyo-network/typeof": "workspace:^",
-    "axios": "~1.2.1",
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",
     "sha.js": "^2.4.11",
-    "tslib": "^2.4.1",
     "uuid": "^9.0.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -27,7 +25,7 @@
     "@types/lodash": "^4.14.191",
     "@types/sha.js": "^2.4.0",
     "@types/uuid": "^9.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.9.0"
+    "@xylabs/ts-scripts-yarn3": "^2.10.19"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

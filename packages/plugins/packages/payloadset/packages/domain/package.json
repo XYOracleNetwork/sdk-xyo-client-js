@@ -14,15 +14,14 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
-    "tslib": "^2.4.1"
+    "@xyo-network/witness": "workspace:^"
   },
   "peerDependencies": {
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.9.0",
+    "@xylabs/ts-scripts-yarn3": "^2.10.19",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

@@ -1,6 +1,6 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness'
 import { Module } from '@xyo-network/module'
-import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload'
+import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
 export interface ReadArchivist<TReadResponse, TId = string> {

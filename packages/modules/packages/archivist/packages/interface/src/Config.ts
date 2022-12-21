@@ -1,5 +1,5 @@
 import { AbstractModuleConfig, AddressString } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export interface ArchivistParents {
   commit?: AddressString[]

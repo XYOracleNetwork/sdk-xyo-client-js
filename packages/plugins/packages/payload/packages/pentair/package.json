@@ -12,11 +12,10 @@
   "dependencies": {
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "node-screenlogic": "^1.10.1",
-    "tslib": "^2.4.1"
+    "node-screenlogic": "^1.10.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.9.0"
+    "@xylabs/ts-scripts-yarn3": "^2.10.19"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

@@ -19,7 +19,6 @@
     "bip39": "^3.0.4",
     "lodash": "^4.17.21",
     "terminal-kit": "^3.0.0",
-    "tslib": "^2.4.1",
     "yargs": "^17.6.2"
   },
   "bin": {
@@ -28,7 +27,7 @@
   "devDependencies": {
     "@types/node": "^18.11.17",
     "@types/terminal-kit": "^2.5.1",
-    "@xylabs/ts-scripts-yarn3": "^2.9.0",
+    "@xylabs/ts-scripts-yarn3": "^2.10.19",
     "axios": "~1.2.1",
     "pako": "^2.1.0",
     "ts-node": "^10.9.1",

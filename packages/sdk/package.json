@@ -12,17 +12,17 @@
   "dependencies": {
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/axios": "workspace:^",
+    "@xyo-network/dns": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
-    "@xyo-network/witnesses": "workspace:^",
-    "tslib": "^2.4.1"
+    "@xyo-network/witnesses": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.9.0",
+    "@xylabs/ts-scripts-yarn3": "^2.10.19",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

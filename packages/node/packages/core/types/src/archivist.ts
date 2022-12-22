@@ -1,4 +1,6 @@
-export const ARCHIVIST_TYPES = {
+import { ModuleList } from './ModuleList'
+
+export const ARCHIVIST_TYPES: ModuleList = {
   ArchiveArchivist: Symbol('ArchiveArchivist'),
   ArchiveBoundWitnessArchivistFactory: Symbol('ArchiveBoundWitnessArchivistFactory'),
   ArchiveKeyArchivist: Symbol('ArchiveKeyArchivist'),

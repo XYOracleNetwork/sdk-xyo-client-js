@@ -1,8 +1,11 @@
 import { ARCHIVIST_TYPES } from './archivist'
 import { DIVINER_TYPES } from './diviner'
 import { MODULE_TYPES } from './module'
+import { ModuleList } from './ModuleList'
 
-export const TYPES = {
+export { ModuleList } from './ModuleList'
+
+export const TYPES: ModuleList = {
   ...ARCHIVIST_TYPES,
   ...DIVINER_TYPES,
   ...MODULE_TYPES,

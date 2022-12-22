@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.14",
+  "version": "2.42.15",
   "description": "XYO Express Node Server",
   "sideeffects": false,
   "engines": {
@@ -62,7 +62,7 @@
     "@types/nconf": "^0.10.3",
     "@types/passport": "^1.0.11",
     "@types/uuid": "^9.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.10.20"
+    "@xylabs/ts-scripts-yarn3": "^2.10.25"
   },
   "types": "dist/esm/index.d.ts"
 }

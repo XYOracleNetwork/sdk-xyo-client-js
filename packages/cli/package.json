@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/node": "^18.11.17",
     "@types/terminal-kit": "^2.5.1",
-    "@xylabs/ts-scripts-yarn3": "^2.10.20",
+    "@xylabs/ts-scripts-yarn3": "^2.10.25",
     "axios": "~1.2.1",
     "pako": "^2.1.0",
     "ts-node": "^10.9.1",
@@ -73,5 +73,5 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.14"
+  "version": "2.42.15"
 }

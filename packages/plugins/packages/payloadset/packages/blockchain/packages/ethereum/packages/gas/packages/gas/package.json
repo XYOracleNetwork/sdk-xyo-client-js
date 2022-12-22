@@ -34,7 +34,7 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/ts-scripts-yarn3": "^2.10.20",
+    "@xylabs/ts-scripts-yarn3": "^2.10.25",
     "@xyo-network/typechain": "^2.0.4",
     "@xyo-network/uniswap-typechain": "^2.0.4"
   },
@@ -83,5 +83,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.14"
+  "version": "2.42.15"
 }

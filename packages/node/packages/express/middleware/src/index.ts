@@ -3,7 +3,7 @@ import { AbstractNode } from '@xyo-network/modules'
 import {
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
-  ArchiveKeyArchivist,
+  ArchiveKeyRepository,
   ArchivePayloadsArchivistFactory,
   ArchivePermissionsArchivistFactory,
   IdentifiableHuri,
@@ -35,7 +35,7 @@ declare global {
     interface Application {
       archiveArchivist: ArchiveArchivist
       archiveBoundWitnessArchivistFactory: ArchiveBoundWitnessArchivistFactory
-      archiveKeyArchivist: ArchiveKeyArchivist
+      archiveKeyRepository: ArchiveKeyRepository
       archivePayloadsArchivistFactory: ArchivePayloadsArchivistFactory
       archivePermissionsArchivistFactory: ArchivePermissionsArchivistFactory
       archivistWitnessedPayloadArchivist: WitnessedPayloadArchivist

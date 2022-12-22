@@ -1,5 +1,6 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import {

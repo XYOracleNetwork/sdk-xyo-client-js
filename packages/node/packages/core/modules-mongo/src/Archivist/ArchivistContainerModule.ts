@@ -1,7 +1,7 @@
 import { AbstractModule } from '@xyo-network/module'
 import {
   ArchiveArchivist,
-  ArchiveKeyArchivist,
+  ArchiveKeyRepository,
   BoundWitnessArchivist,
   PayloadArchivist,
   UserArchivist,
@@ -11,7 +11,7 @@ import { TYPES } from '@xyo-network/node-core-types'
 import { ContainerModule, interfaces } from 'inversify'
 
 import { MongoDBArchiveArchivist } from './Archive'
-import { MongoDBArchiveKeyArchivist } from './ArchiveKey'
+import { MongoDBArchiveKeyRepository } from './ArchiveKey'
 import { MongoDBBoundWitnessArchivist } from './BoundWitness'
 import { MongoDBPayloadArchivist } from './Payload'
 import { MongoDBUserArchivist } from './User'
@@ -21,8 +21,8 @@ export const ArchivistContainerModule = new ContainerModule((bind: interfaces.Bi
   bind(MongoDBArchiveArchivist).toConstantValue(new MongoDBArchiveArchivist())
   bind<ArchiveArchivist>(TYPES.ArchiveArchivist).toService(MongoDBArchiveArchivist)
 
-  bind(MongoDBArchiveKeyArchivist).toConstantValue(new MongoDBArchiveKeyArchivist())
-  bind<ArchiveKeyArchivist>(TYPES.ArchiveKeyArchivist).toService(MongoDBArchiveKeyArchivist)
+  bind(MongoDBArchiveKeyRepository).toConstantValue(new MongoDBArchiveKeyRepository())
+  bind<ArchiveKeyRepository>(TYPES.ArchiveKeyRepository).toService(MongoDBArchiveKeyRepository)
 
   bind(MongoDBBoundWitnessArchivist).toConstantValue(new MongoDBBoundWitnessArchivist())
   bind<BoundWitnessArchivist>(TYPES.BoundWitnessArchivist).toService(MongoDBBoundWitnessArchivist)

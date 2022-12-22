@@ -1,6 +1,8 @@
-import { BoundWitnessBuilder, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { XyoBoundWitnessMeta, XyoBoundWitnessWithPartialMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
-import { PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload-model'
+import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { v4 } from 'uuid'
 
 import { prepareBoundWitnesses, PrepareBoundWitnessesResult } from './prepareBoundWitnesses'

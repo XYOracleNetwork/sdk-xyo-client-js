@@ -22,7 +22,7 @@
     "@xyo-network/schema-payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.25"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "peerDependencies": {
     "axios": "^1.2.1"
@@ -65,5 +65,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.16"
+  "version": "2.42.17"
 }

@@ -1,5 +1,12 @@
-export interface Repository<T> {
-  find(): T
-  get(): T
-  insert(value: T): void
+export interface Repository<
+  TReadResponse,
+  TWriteResponse = TReadResponse,
+  TWrite = TReadResponse,
+  TFindResponse = TReadResponse[],
+  TFindFilter = Partial<TReadResponse>,
+  TId = string,
+> {
+  find(predicate: TFindFilter): TFindResponse
+  get(id: TId): TReadResponse
+  insert(value: TWrite): TWriteResponse
 }

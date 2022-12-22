@@ -8,7 +8,6 @@ const config = { schema: NodeConfigSchema }
 const archivists = [
   // TYPES.ArchiveArchivist,
   // TYPES.ArchiveBoundWitnessArchivistFactory,
-  // TYPES.ArchiveKeyArchivist,
   // TYPES.ArchivePayloadArchivistFactory,
   // TYPES.ArchivePermissionsArchivistFactory,
   TYPES.BoundWitnessArchivist,

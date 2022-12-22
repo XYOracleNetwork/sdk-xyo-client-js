@@ -44,12 +44,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/sdk-js": "^2.6.11",
+    "@xylabs/sdk-js": "^2.6.12",
     "async-mutex": "^0.4.0",
     "mongodb": "^4.13.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.5",
+    "@babel/core": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "@xylabs/ts-scripts-yarn3": "^2.10.25",
     "axios": "^1.2.1"

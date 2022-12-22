@@ -28,8 +28,8 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "@ethersproject/wallet": "^5.7.0",
-    "@xylabs/assert": "^2.6.11",
-    "@xylabs/exists": "^2.6.11",
+    "@xylabs/assert": "^2.6.12",
+    "@xylabs/exists": "^2.6.12",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",

@@ -1,10 +1,10 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { ModuleWrapper } from '@xyo-network/module'
+import { ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { NodeModule } from './Node'
+import { Node, NodeModule } from './Node'
 import {
   XyoNodeAttachedQuery,
   XyoNodeAttachedQuerySchema,
@@ -16,7 +16,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements NodeModule {
+export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements Node, NodeModule<TModule> {
   public isModuleResolver = true
 
   private _archivist?: ArchivistWrapper
@@ -46,5 +46,12 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
+  }
+
+  async resolve(filter?: ModuleFilter | undefined): Promise<TModule[]> {
+    return (await this.module.resolve(filter)) as TModule[]
+  }
+  async tryResolve(filter?: ModuleFilter | undefined): Promise<TModule[]> {
+    return (await this.module.tryResolve(filter)) as TModule[]
   }
 }

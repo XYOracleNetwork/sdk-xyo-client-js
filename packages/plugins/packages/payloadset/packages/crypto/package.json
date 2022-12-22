@@ -15,7 +15,7 @@
     "@xyo-network/payloadset-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.26"
+    "@xylabs/ts-scripts-yarn3": "^2.11.0"
   },
   "peerDependencies": {
     "axios": "^1.2.1"

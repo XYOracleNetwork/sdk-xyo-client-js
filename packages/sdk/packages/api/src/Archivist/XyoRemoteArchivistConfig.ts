@@ -1,5 +1,5 @@
 import { ArchivistConfig } from '@xyo-network/archivist'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { XyoArchivistApi } from '../Api'
 

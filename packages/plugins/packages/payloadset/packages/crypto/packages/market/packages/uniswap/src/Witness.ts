@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import {
   XyoUniswapCryptoMarketPayload,
   XyoUniswapCryptoMarketSchema,

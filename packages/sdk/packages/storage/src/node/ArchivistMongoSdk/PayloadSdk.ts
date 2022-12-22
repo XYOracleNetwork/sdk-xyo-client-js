@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity, Filter, SortDirection } from 'mongodb'
 

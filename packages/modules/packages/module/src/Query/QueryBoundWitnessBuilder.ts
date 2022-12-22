@@ -1,9 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
-import { PayloadSetPayload, PayloadWrapper } from '@xyo-network/payload'
-
-import { XyoQuery } from './Payload'
-import { XyoQueryBoundWitness } from './XyoQueryBoundWitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
+import { PayloadSetPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class QueryBoundWitnessBuilder<
   TBoundWitness extends XyoQueryBoundWitness = XyoQueryBoundWitness,

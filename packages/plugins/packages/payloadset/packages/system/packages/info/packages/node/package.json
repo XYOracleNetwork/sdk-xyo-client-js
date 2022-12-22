@@ -12,10 +12,10 @@
   "dependencies": {
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node-system-info-payload-plugin": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "systeminformation": "^5.16.6"
+    "systeminformation": "^5.16.8"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.10.25"

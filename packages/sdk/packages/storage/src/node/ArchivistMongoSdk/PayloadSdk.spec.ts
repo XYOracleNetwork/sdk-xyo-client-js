@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { uuid } from '@xyo-network/core'
-import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload-model'
 import dotenv from 'dotenv'
 
 import { XyoPayloadWithPartialMeta } from './Meta'

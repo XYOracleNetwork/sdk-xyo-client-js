@@ -1,4 +1,4 @@
-import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { SortDirection, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 

@@ -1,9 +1,8 @@
-import { BoundWitnessValidator } from '@xyo-network/boundwitness'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
+import { XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { XyoQuery } from './Payload'
 import { QueryBoundWitnessWrapper } from './QueryBoundWitnessWrapper'
-import { XyoQueryBoundWitness } from './XyoQueryBoundWitness'
 
 export class QueryBoundWitnessValidator<T extends XyoQuery = XyoQuery> extends BoundWitnessValidator<XyoQueryBoundWitness> {
   private _query: PayloadWrapper<T> | undefined

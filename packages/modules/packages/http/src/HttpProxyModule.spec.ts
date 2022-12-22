@@ -7,7 +7,7 @@ import {
   ModuleWrapper,
   QueryBoundWitnessBuilder,
 } from '@xyo-network/module'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoApiConfig } from '@xyo-network/sdk'
 
 import { HttpProxyModule } from './HttpProxyModule'

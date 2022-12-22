@@ -1,10 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
-
-import { Module, ModuleResolver } from './model'
-import { ModuleFilter } from './ModuleFilter'
 
 export class SimpleModuleResolver<TModule extends Module = Module> implements ModuleResolver {
   private addressToName: Record<string, string> = {}

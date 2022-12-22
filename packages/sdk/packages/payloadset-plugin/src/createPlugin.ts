@@ -1,4 +1,4 @@
-import { PayloadSetPayload } from '@xyo-network/payload'
+import { PayloadSetPayload } from '@xyo-network/payload-model'
 
 import { PayloadSetPlugin } from './Plugin'
 

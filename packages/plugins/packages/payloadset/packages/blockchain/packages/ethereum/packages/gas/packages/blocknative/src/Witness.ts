@@ -1,6 +1,7 @@
 import { XyoEthereumGasBlocknativePayload, XyoEthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasBlocknativeWitnessConfig } from './Config'

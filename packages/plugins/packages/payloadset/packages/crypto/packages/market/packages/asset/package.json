@@ -10,12 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/exists": "^2.6.11",
+    "@xylabs/exists": "^2.6.12",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
@@ -43,7 +44,8 @@
     "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",
     "@xyo-network/typechain": "^2.0.3",
-    "@xyo-network/uniswap-typechain": "^2.0.3"
+    "@xyo-network/uniswap-typechain": "^2.0.3",
+    "axios": "^1.2.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

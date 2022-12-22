@@ -1,6 +1,6 @@
-import { HuriOptions, XyoPayload } from '@xyo-network/payload'
-
-import { DivinerConfig } from '../../Config'
+import { DivinerConfig } from '@xyo-network/diviner-model'
+import { HuriOptions } from '@xyo-network/huri'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type XyoHuriPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.huri.config'
 export const XyoHuriPayloadDivinerConfigSchema: XyoHuriPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.huri.config'

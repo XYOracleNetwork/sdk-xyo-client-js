@@ -3,7 +3,7 @@ const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
 import { InfuraProvider } from '@ethersproject/providers'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 import { UniswapPoolContracts } from './lib'

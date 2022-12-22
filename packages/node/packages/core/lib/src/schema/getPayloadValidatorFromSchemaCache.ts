@@ -1,5 +1,6 @@
 import { GetValidator, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 import { XyoSchemaCache } from '@xyo-network/utils'
 // eslint-disable-next-line import/no-named-as-default

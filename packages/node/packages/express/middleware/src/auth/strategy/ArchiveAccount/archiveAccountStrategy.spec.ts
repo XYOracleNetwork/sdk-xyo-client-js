@@ -1,8 +1,8 @@
 import { delay } from '@xylabs/delay'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { claimArchive, getExistingUser, postCommandsToArchive, signInUser, TestWeb3User } from '@xyo-network/express-node-test'
 import { DebugSchema, SetArchivePermissions, SetArchivePermissionsPayload, SetArchivePermissionsSchema } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { StatusCodes } from 'http-status-codes'
 
 const allowedSchema = DebugSchema

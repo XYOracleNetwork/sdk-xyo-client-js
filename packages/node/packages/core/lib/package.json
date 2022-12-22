@@ -27,9 +27,10 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "ajv": "^8.11.2",

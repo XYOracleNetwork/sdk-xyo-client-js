@@ -1,5 +1,6 @@
 import { Validator } from '@xyo-network/core'
-import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'

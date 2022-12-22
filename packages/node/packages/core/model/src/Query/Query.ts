@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { XyoPayloadWithPartialMeta } from '../Payload'
 

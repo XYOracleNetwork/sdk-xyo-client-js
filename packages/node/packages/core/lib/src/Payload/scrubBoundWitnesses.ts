@@ -1,4 +1,4 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 
 // NOTE: Could use lodash.pick with the following array but
 // destructuring, like we are below, is most likely more performant

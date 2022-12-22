@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { asyncHandler, NoReqBody, NoReqQuery, tryParseInt } from '@xylabs/sdk-api-express-ecs'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { DivinerWrapper } from '@xyo-network/diviner'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
 import { scrubBoundWitnesses } from '@xyo-network/node-core-lib'

@@ -1,4 +1,4 @@
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { getDivinerResultPanel } from './getDivinerResultPanel'
 

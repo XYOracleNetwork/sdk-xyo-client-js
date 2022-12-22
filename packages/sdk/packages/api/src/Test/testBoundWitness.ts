@@ -1,4 +1,4 @@
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 
 const testBoundWitness: XyoBoundWitness = {
   _archive: 'temp',

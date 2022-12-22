@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { OptionalId, WithId, WithoutId } from 'mongodb'
 
 export const removeId = <T extends XyoPayload = XyoPayload>(payload: T | WithId<T> | WithoutId<T> | OptionalId<T>): WithoutId<T> => {

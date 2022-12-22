@@ -1,10 +1,10 @@
 import { exists } from '@xylabs/exists'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { requestCanAccessArchive, resolveBySymbol } from '@xyo-network/express-node-lib'
 import { PayloadPointerPayload, payloadPointerSchema, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { Request } from 'express'
 
 import { resolvePayloadPointer } from './resolvePayloadPointer'

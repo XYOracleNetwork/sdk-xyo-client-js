@@ -1,7 +1,8 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { ModuleWrapper } from '@xyo-network/module'
-import { isXyoPayloadOfSchemaType, PayloadWrapper } from '@xyo-network/payload'
+import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { NodeModule } from './Node'
 import {

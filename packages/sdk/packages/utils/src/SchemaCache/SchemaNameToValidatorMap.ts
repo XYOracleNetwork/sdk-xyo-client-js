@@ -1,5 +1,5 @@
 import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
-import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload-model'
 import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 /**

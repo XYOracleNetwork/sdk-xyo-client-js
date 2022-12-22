@@ -1,4 +1,4 @@
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 
 import { testPayload } from '../../Test'
 import { getApi, getNewArchive } from '../ApiUtil.spec'

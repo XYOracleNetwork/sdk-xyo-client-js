@@ -28,6 +28,9 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.10.25"
   },
+  "peerDependencies": {
+    "axios": "^1.2.1"
+  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

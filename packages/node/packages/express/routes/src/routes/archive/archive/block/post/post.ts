@@ -5,7 +5,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist'
 import { getRequestMeta } from '@xyo-network/express-node-lib'
 import { prepareBoundWitnesses, validatePayloadSchema } from '@xyo-network/node-core-lib'
 import { ArchivePathParams, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
 
 const handler: RequestHandler<ArchivePathParams, XyoBoundWitnessWithMeta[], XyoBoundWitnessWithMeta | XyoBoundWitnessWithMeta[]> = async (

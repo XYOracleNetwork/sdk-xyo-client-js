@@ -1,5 +1,5 @@
 import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist'
-import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness'
+import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleParams } from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

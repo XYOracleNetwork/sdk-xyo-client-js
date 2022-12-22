@@ -1,5 +1,5 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { Module } from '@xyo-network/module'
+import { Module } from '@xyo-network/module-model'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 

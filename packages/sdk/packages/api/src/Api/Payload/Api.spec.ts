@@ -1,4 +1,4 @@
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 
 import { getApi, getNewArchive, getTimestampMinutesFromNow } from '../ApiUtil.spec'
 

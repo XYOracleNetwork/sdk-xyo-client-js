@@ -1,4 +1,4 @@
-import { PartialModuleConfig } from '@xyo-network/module'
+import { PartialModuleConfig } from '@xyo-network/module-model'
 
 import { ArchivistConfig } from './Config'
 

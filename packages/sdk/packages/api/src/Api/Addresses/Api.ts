@@ -1,5 +1,5 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { ModuleDescription } from '@xyo-network/module'
+import { ModuleDescription } from '@xyo-network/module-model'
 
 import { XyoApiSimple } from '../../Simple'
 import { XyoAddressApi } from './Address'

@@ -1,4 +1,4 @@
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 

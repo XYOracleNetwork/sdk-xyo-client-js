@@ -1,6 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { BoundWitnessBuilder, BoundWitnessBuilderConfig, BoundWitnessValidator, XyoBoundWitness } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { EmptyObject } from '@xyo-network/core'
 import {
   AbstractPayloadArchivist,

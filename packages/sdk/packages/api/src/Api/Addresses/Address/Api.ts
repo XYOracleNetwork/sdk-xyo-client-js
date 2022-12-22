@@ -1,6 +1,6 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleDescription } from '@xyo-network/module'
+import { ModuleDescription } from '@xyo-network/module-model'
 
 import { XyoApiSimple } from '../../../Simple'
 

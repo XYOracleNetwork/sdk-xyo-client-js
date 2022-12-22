@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity } from 'mongodb'
 

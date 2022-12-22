@@ -1,12 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { DivinerConfig, DivinerModule, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
 import { AbstractModule, ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-
-import { DivinerConfig } from './Config'
-import { DivinerModule } from './Diviner'
-import { XyoDivinerDivineQuerySchema, XyoDivinerQuery } from './Queries'
 
 export type DivinerParams = ModuleParams
 

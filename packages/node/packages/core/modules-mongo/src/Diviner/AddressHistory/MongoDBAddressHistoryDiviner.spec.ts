@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 

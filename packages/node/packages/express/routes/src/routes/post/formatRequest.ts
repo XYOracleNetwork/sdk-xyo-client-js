@@ -1,4 +1,5 @@
-import { BoundWitnessBuilder, BoundWitnessBuilderConfig, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { getRequestMeta } from '@xyo-network/express-node-lib'
 import { augmentWithMetadata } from '@xyo-network/node-core-lib'
 import { XyoBoundWitnessWithMeta, XyoBoundWitnessWithPartialMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'

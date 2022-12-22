@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { DebugPayloadWithMeta, DebugSchema } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload-model'
 import { StatusCodes } from 'http-status-codes'

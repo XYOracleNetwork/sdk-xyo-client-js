@@ -1,5 +1,5 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { Module, ModuleDescription } from '@xyo-network/module'
+import { Module, ModuleDescription } from '@xyo-network/module-model'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { RequestHandler } from 'express'
 

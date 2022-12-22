@@ -32,7 +32,7 @@
     "@xylabs/forget": "^2.6.11",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/express-node-server": "workspace:^",

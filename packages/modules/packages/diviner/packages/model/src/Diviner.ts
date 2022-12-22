@@ -1,4 +1,4 @@
-import { Module } from '@xyo-network/module'
+import { Module } from '@xyo-network/module-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 

@@ -1,4 +1,4 @@
-import { XyoQuery } from '@xyo-network/module'
+import { XyoQuery } from '@xyo-network/module-model'
 import { PayloadFindFilter } from '@xyo-network/payload-model'
 
 export type ArchivistFindQuerySchema = 'network.xyo.query.archivist.find'

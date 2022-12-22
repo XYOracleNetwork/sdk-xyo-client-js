@@ -36,6 +36,7 @@
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/module": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/shared": "workspace:^",

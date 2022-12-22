@@ -1,13 +1,20 @@
 import { Account } from '@xyo-network/account'
+import {
+  AbstractModuleDiscoverQuery,
+  AbstractModuleDiscoverQuerySchema,
+  Module,
+  ModuleDescription,
+  ModuleQueryResult,
+  ModuleResolver,
+  XyoQuery,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 
-import { Module, ModuleResolver } from './model'
-import { ModuleDescription } from './ModuleDescription'
-import { ModuleQueryResult } from './ModuleQueryResult'
-import { AbstractModuleDiscoverQuery, AbstractModuleDiscoverQuerySchema } from './Queries'
-import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoError, XyoErrorSchema, XyoQuery, XyoQueryBoundWitness } from './Query'
+import { XyoError, XyoErrorSchema } from './Error'
+import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 
 export interface WrapperError extends Error {
   errors: (XyoError | null)[]

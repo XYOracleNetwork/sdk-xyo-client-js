@@ -3,7 +3,7 @@ import { XyoApiConfig } from '@xyo-network/api-models'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { DataLike } from '@xyo-network/core'
 import { Huri } from '@xyo-network/huri'
-import { ModuleDescription } from '@xyo-network/module'
+import { ModuleDescription } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 import { XyoApiSimple } from '../Simple'

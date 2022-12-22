@@ -1,6 +1,6 @@
 export * from './Divine'
 
-import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module'
+import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module-model'
 
 import { XyoDivinerDivineQuery } from './Divine'
 

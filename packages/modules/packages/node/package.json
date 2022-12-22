@@ -15,6 +15,7 @@
     "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",

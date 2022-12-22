@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.11",
-    "@xyo-network/boundwitness": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",

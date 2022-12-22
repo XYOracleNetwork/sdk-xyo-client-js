@@ -1,4 +1,4 @@
-import { XyoQuery } from '@xyo-network/module'
+import { XyoQuery } from '@xyo-network/module-model'
 import { XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 

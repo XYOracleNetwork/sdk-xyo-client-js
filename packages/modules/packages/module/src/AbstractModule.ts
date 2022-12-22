@@ -1,7 +1,22 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import {
+  AbstractModuleConfig,
+  AbstractModuleDiscoverQuerySchema,
+  AbstractModuleQuery,
+  AbstractModuleSubscribeQuerySchema,
+  AddressString,
+  Module,
+  ModuleDescription,
+  ModuleQueryResult,
+  ModuleResolver,
+  SchemaString,
+  XyoQuery,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -10,15 +25,12 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
-import { AbstractModuleConfig, AddressString, SchemaString } from './Config'
 import { creatable } from './CreatableModule'
+import { XyoErrorBuilder } from './Error'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
-import { Module, ModuleParams, ModuleResolver } from './model'
-import { ModuleDescription } from './ModuleDescription'
-import { ModuleQueryResult } from './ModuleQueryResult'
-import { AbstractModuleDiscoverQuerySchema, AbstractModuleQuery, AbstractModuleSubscribeQuerySchema } from './Queries'
-import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQuery, XyoQueryBoundWitness } from './Query'
+import { ModuleParams } from './ModuleParams'
+import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 
 export type SortedPipedAddressesString = string
 

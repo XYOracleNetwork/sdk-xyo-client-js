@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { XyoBoundWitnessWithPartialMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 

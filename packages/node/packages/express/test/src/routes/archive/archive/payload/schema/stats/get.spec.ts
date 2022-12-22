@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 import { StatusCodes } from 'http-status-codes'
 

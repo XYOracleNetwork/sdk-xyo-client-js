@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner, AddressHistoryDiviner, isAddressHistoryQueryPayload, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload-model'

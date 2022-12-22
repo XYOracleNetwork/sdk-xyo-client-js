@@ -1,12 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { DataLike } from '@xyo-network/core'
 import { Huri } from '@xyo-network/huri'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
-
-import { BoundWitnessValidator } from '../Validator'
 
 export class BoundWitnessWrapper<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,

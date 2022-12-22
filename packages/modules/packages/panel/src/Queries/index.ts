@@ -1,6 +1,6 @@
 export * from './Report'
 
-import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module'
+import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module-model'
 
 import { XyoPanelReportQuery } from './Report'
 

@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { AssetInfo, Token } from './Model'
 import { XyoCryptoMarketAssetSchema } from './Schema'

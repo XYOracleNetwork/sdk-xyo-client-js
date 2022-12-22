@@ -9,7 +9,7 @@ import {
   XyoPayloadFilterPredicate,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload-model'
 import { v4 } from 'uuid'
 
 import { COLLECTIONS } from '../../collections'

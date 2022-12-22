@@ -1,8 +1,8 @@
 import { Account } from '@xyo-network/account'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { EmptyObject } from '@xyo-network/core'
 import { AbstractModule, AbstractModuleConfig, Module, ModuleQueryResult } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { PromiseEx } from '@xyo-network/promise'
 
 import { ArchivistWrapper } from './ArchivistWrapper'

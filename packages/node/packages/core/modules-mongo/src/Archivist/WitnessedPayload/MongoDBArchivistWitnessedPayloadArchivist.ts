@@ -1,7 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
-import { BoundWitnessBuilder, BoundWitnessValidator, XyoBoundWitness } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import {
   AbstractPayloadArchivist,
   WitnessedPayloadArchivist,
@@ -9,7 +11,7 @@ import {
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { PayloadFindFilter, XyoPayloads } from '@xyo-network/payload'
+import { PayloadFindFilter, XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
 import { LocationSchema } from '@xyo-network/location-payload-plugin'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Quadkey } from '@xyo-network/quadkey'
 
 import { ElevationWitness, ElevationWitnessConfigSchema } from './Witness'

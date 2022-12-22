@@ -18,12 +18,12 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.20.5",
+    "@babel/core": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "@types/node": "^18.11.17",
-    "@xylabs/eslint-config": "^2.10.20",
-    "@xylabs/ts-scripts-yarn3": "^2.10.20",
-    "@xylabs/tsconfig": "^2.10.20",
+    "@xylabs/eslint-config": "^2.10.25",
+    "@xylabs/ts-scripts-yarn3": "^2.10.25",
+    "@xylabs/tsconfig": "^2.10.25",
     "axios": "~1.2.1",
     "babel-jest": "^29.3.1",
     "dotenv": "^16.0.3",
@@ -93,8 +93,8 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.14",
-  "packageManager": "yarn@3.3.0",
+  "version": "2.42.15",
+  "packageManager": "yarn@3.3.1",
   "volta": {
     "node": "18.12.1"
   }

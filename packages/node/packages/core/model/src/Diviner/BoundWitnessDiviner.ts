@@ -1,5 +1,5 @@
 import { AbstractDiviner } from '@xyo-network/diviner'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { ArchiveQueryPayload } from './ArchiveQueryPayload'
 import { XyoBoundWitnessDivinerPredicate } from './XyoBoundWitnessDivinerPredicate'

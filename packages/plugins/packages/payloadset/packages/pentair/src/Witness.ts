@@ -1,5 +1,5 @@
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { XyoPentairScreenlogicPayload, XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 

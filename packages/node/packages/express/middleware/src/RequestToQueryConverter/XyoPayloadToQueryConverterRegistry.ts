@@ -1,5 +1,5 @@
 import { QueryConverter, QueryConverterRegistry } from '@xyo-network/express-node-lib'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { Request } from 'express'
 
 export class XyoPayloadToQueryConverterRegistry implements QueryConverterRegistry {

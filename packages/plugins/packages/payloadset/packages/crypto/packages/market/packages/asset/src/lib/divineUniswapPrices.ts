@@ -7,7 +7,7 @@ import {
   XyoCryptoMarketAssetPayload,
   XyoCryptoMarketAssetSchema,
 } from '@xyo-network/crypto-asset-payload-plugin'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoPair, XyoUniswapCryptoToken } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 const schema = XyoCryptoMarketAssetSchema

@@ -1,5 +1,5 @@
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type CoinUserLocationsDivinerConfigSchema = 'co.coinapp.user.locations'
 export const CoinUserLocationsDivinerConfigSchema: CoinUserLocationsDivinerConfigSchema = 'co.coinapp.user.locations'

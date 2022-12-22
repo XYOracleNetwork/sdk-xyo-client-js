@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.14",
+  "version": "2.42.15",
   "description": "XYO Node App",
   "sideeffects": false,
   "engines": {
@@ -33,7 +33,7 @@
     "pako": "^2.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.20"
+    "@xylabs/ts-scripts-yarn3": "^2.10.25"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

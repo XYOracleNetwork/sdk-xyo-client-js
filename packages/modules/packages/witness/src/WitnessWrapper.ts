@@ -1,5 +1,6 @@
 import { ModuleWrapper } from '@xyo-network/module'
-import { PayloadWrapper, XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Queries'
 import { Witness } from './Witness'

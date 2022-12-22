@@ -1,4 +1,4 @@
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoNodeSystemInfoWitnessConfigSchema } from './Config'
 import { XyoNodeSystemInfoWitness } from './Witness'

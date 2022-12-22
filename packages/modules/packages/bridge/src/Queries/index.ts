@@ -1,4 +1,4 @@
-import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module'
+import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module-model'
 
 import { XyoBridgeConnectQuery } from './Connect'
 import { XyoBridgeDisconnectQuery } from './Disconnect'

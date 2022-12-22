@@ -15,9 +15,10 @@ import {
   ArchivistInsertQuerySchema,
   PayloadArchivist,
 } from '@xyo-network/archivist-interface'
-import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { ModuleWrapper } from '@xyo-network/module'
-import { PayloadFindFilter, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
 export class ArchivistWrapper extends ModuleWrapper implements PayloadArchivist {

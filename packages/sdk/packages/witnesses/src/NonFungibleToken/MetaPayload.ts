@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 /* https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md */
 export interface Erc721Meta {

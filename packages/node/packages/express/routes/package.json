@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.14",
+  "version": "2.42.15",
   "description": "XYO Express Node Routes",
   "sideeffects": false,
   "engines": {
@@ -27,22 +27,25 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.11",
-    "@xylabs/exists": "^2.6.11",
+    "@xylabs/assert": "^2.6.12",
+    "@xylabs/exists": "^2.6.12",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/boundwitness-builder": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",
     "@xyo-network/express-node-middleware": "workspace:^",
     "@xyo-network/module": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "express": "^4.18.2",
     "http-status-codes": "^2.2.0",
@@ -57,7 +60,7 @@
     "@types/express": "4.17.15",
     "@types/source-map-support": "0.5.6",
     "@types/uuid": "^9.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.10.20"
+    "@xylabs/ts-scripts-yarn3": "^2.10.25"
   },
   "types": "dist/esm/index.d.ts"
 }

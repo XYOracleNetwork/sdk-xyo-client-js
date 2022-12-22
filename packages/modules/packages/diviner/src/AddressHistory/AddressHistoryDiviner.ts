@@ -1,5 +1,5 @@
-import { XyoQuery } from '@xyo-network/module'
-import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload'
+import { XyoQuery } from '@xyo-network/module-model'
+import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
 

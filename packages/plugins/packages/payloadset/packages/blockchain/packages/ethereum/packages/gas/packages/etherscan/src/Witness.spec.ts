@@ -1,5 +1,5 @@
 import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 import { XyoEthereumGasEtherscanWitness } from './Witness'

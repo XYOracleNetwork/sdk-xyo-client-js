@@ -1,5 +1,5 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 import { XyoArchivistApi } from '../../Api'

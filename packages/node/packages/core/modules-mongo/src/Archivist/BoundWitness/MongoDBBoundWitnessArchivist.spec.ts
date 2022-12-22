@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   DebugPayload,
   DebugPayloadWithMeta,
@@ -12,7 +12,7 @@ import {
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayloadBuilder } from '@xyo-network/payload-model'
 import { v4 } from 'uuid'
 
 import { COLLECTIONS } from '../../collections'

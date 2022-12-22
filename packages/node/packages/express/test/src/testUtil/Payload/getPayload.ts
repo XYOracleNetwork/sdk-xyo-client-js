@@ -1,4 +1,5 @@
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { v4 } from 'uuid'
 
 import { knownPayload } from './getKnown'

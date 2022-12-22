@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistGetQuerySchema, ArchivistWrapper } from '@xyo-network/archivist'
-import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
 import { AddressHistoryDiviner, AddressHistoryQueryPayload, isAddressHistoryQueryPayload } from './AddressHistoryDiviner'

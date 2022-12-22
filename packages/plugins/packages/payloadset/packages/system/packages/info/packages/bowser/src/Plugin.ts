@@ -1,6 +1,6 @@
 import { XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { PayloadSetSchema } from '@xyo-network/payload'
+import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoBowserSystemInfoWitnessConfig } from './Config'

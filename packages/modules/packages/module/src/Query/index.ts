@@ -1,5 +1,3 @@
-export * from './Error'
-export * from './Payload'
 export * from './QueryBoundWitnessBuilder'
+export * from './QueryBoundWitnessValidator'
 export * from './QueryBoundWitnessWrapper'
-export * from './XyoQueryBoundWitness'

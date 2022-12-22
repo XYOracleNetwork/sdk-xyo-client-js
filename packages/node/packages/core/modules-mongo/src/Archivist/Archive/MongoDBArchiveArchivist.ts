@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchive } from '@xyo-network/api'
 import { ArchivistQuery } from '@xyo-network/archivist'
-import { ModuleQueryResult } from '@xyo-network/module'
+import { ModuleQueryResult } from '@xyo-network/module-model'
 import { ArchiveArchivist, EntityArchive, UpsertResult, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection, WithId } from 'mongodb'

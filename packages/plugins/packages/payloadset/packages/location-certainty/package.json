@@ -16,12 +16,13 @@
     "@xyo-network/location-certainty-payload-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/shared": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.20",
+    "@xylabs/ts-scripts-yarn3": "^2.10.25",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },
@@ -62,5 +63,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.14"
+  "version": "2.42.15"
 }

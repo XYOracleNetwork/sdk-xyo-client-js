@@ -1,5 +1,5 @@
 import { XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { defaultCoins, defaultCurrencies } from './lib'
 import { XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'

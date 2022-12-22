@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { EmptyObject } from '@xyo-network/core'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {

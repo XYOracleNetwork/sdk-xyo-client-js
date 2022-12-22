@@ -11,7 +11,8 @@ import {
   PayloadStatsSchema,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayload, XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'

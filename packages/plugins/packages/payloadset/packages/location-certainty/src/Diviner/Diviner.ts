@@ -4,7 +4,8 @@ import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/ele
 import { LocationCertaintyHeuristic, LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayloads } from '@xyo-network/payload-model'
 import { Job, JobProvider } from '@xyo-network/shared'
 
 import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Config'

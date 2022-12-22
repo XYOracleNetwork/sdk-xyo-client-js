@@ -19,7 +19,7 @@ import {
   GetSchemaQueryHandler,
   SetArchivePermissionsQueryHandler,
 } from '@xyo-network/node-core-query-handlers'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { Application } from 'express'
 
 export const addQueryProcessors = (app: Application) => {

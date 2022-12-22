@@ -2,7 +2,7 @@ import {
   XyoEthereumGasEthgasstationSchema,
   XyoEthereumGasEthgasstationWitnessConfigSchema,
 } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoEthereumGasEthgasstationWitness } from './Witness'
 

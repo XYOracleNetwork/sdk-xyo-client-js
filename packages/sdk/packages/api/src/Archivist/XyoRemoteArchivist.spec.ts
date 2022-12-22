@@ -1,7 +1,7 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { IdSchema } from '@xyo-network/plugins'
 
 import { XyoArchivistApi } from '../Api'

@@ -3,7 +3,7 @@
  */
 
 import { XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import crypto from 'crypto'
 
 import { XyoBowserSystemInfoWitnessConfigSchema } from './Config'

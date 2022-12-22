@@ -1,4 +1,4 @@
-import { XyoQuery } from '@xyo-network/module'
+import { XyoQuery } from '@xyo-network/module-model'
 
 export type ArchivistClearQuerySchema = 'network.xyo.query.archivist.clear'
 export const ArchivistClearQuerySchema: ArchivistClearQuerySchema = 'network.xyo.query.archivist.clear'

@@ -1,5 +1,5 @@
 import { XyoArchive } from '@xyo-network/api'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { isLegacyPrivateArchive } from '@xyo-network/express-node-lib'
 import {
   ArchivePermissionsArchivistFactory,

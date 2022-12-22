@@ -1,4 +1,4 @@
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { BoundWitnessQueryPayload, BoundWitnessQuerySchema, XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 

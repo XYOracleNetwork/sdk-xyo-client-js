@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type SchemaStatsSchema = 'network.xyo.schema.stats'
 export const SchemaStatsSchema: SchemaStatsSchema = 'network.xyo.schema.stats'

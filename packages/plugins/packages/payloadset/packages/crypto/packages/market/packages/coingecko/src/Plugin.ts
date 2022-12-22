@@ -1,6 +1,6 @@
 import { XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { PayloadSetSchema } from '@xyo-network/payload'
+import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'

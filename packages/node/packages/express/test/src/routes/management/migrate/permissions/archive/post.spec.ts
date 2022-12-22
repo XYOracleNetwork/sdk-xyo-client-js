@@ -1,8 +1,8 @@
 import { ForgetPromise } from '@xylabs/forget'
 import { XyoArchive } from '@xyo-network/api'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { DebugPayload, DebugSchema, SetArchivePermissionsPayload } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { StatusCodes } from 'http-status-codes'
 
 import {

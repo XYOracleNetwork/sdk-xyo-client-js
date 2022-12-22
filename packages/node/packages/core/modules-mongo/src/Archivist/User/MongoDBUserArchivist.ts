@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistQuery } from '@xyo-network/archivist'
-import { ModuleQueryResult } from '@xyo-network/module'
+import { ModuleQueryResult } from '@xyo-network/module-model'
 import { UpsertResult, User, UserArchivist, UserWithoutId } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { ObjectId, WithId } from 'mongodb'
 

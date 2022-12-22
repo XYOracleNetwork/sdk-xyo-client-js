@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { Logger } from '@xylabs/sdk-api-express-ecs'
 import { dependencies } from '@xyo-network/express-node-dependencies'
+import { Huri } from '@xyo-network/huri'
 import { IdentifiableHuri, Query, QueryProcessorRegistry, Queue, WitnessedPayloadArchivist } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
-import { Huri } from '@xyo-network/payload'
 
 import { XyoQueryPayloadWithMeta } from './XyoQueryPayloadWithMeta'
 

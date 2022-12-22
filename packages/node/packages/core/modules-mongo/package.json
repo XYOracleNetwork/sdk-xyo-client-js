@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.14",
+  "version": "2.42.15",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -27,22 +27,28 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.11",
-    "@xylabs/delay": "^2.6.11",
-    "@xylabs/exists": "^2.6.11",
+    "@xylabs/assert": "^2.6.12",
+    "@xylabs/delay": "^2.6.12",
+    "@xylabs/exists": "^2.6.12",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
-    "@xyo-network/boundwitness": "workspace:^",
+    "@xyo-network/boundwitness-builder": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/boundwitness-validator": "workspace:^",
+    "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/location-certainty-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "@xyo-network/storage": "workspace:^",
@@ -59,7 +65,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "@xylabs/ts-scripts-yarn3": "^2.10.20",
+    "@xylabs/ts-scripts-yarn3": "^2.10.25",
     "uuid": "^9.0.0"
   },
   "types": "dist/esm/index.d.ts"

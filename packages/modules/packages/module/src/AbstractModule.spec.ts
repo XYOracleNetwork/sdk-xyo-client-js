@@ -1,8 +1,8 @@
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
+import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { AbstractModule } from './AbstractModule'
-import { AbstractModuleConfigSchema } from './Config'
 export class TestAbstractModule extends AbstractModule {
   static configSchema = AbstractModuleConfigSchema
   static override async create(params?: object) {

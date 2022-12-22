@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type XyoAutomationSchema = 'network.xyo.automation'
 export const XyoAutomationSchema = 'network.xyo.automation'

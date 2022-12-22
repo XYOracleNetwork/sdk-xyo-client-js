@@ -11,7 +11,7 @@ import {
   SetArchivePermissionsSchema,
 } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { inject, injectable } from 'inversify'
 
 const validateAddresses = (query: SetArchivePermissionsQuery) => {

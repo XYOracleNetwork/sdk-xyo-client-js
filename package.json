@@ -94,7 +94,7 @@
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "version": "2.42.15",
-  "packageManager": "yarn@3.3.0",
+  "packageManager": "yarn@3.3.1",
   "volta": {
     "node": "18.12.1"
   }

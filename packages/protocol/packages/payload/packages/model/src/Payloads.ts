@@ -1,3 +1,3 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { XyoPayload } from './XyoPayload'
 
 export type XyoPayloads<T extends XyoPayload = XyoPayload> = T[]

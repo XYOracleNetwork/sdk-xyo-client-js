@@ -14,7 +14,7 @@
     "@xyo-network/api": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.10.25"

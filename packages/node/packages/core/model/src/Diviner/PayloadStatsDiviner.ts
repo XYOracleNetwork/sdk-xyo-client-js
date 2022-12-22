@@ -1,5 +1,5 @@
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { ArchiveQueryPayload } from './ArchiveQueryPayload'
 import { StatsPayload } from './StatsPayload'

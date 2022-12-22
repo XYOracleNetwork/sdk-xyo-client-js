@@ -13,9 +13,12 @@
     "@xylabs/assert": "^2.6.11",
     "@xylabs/buffer": "^2.6.11",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/huri": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/payload-validator": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "lodash": "^4.17.21"

@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoDomainPayload } from './Payload'

@@ -8,7 +8,7 @@ import {
   XyoPayloadFilterPredicate,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 

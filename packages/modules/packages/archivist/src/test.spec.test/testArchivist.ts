@@ -4,7 +4,7 @@
 
 import { delay } from '@xylabs/delay'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
-import { PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload } from '@xyo-network/payload-model'
 import { IdSchema } from '@xyo-network/plugins'
 import { Promisable } from '@xyo-network/promise'
 

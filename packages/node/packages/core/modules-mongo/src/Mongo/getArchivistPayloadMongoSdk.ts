@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { XyoArchivistPayloadMongoSdk } from '@xyo-network/storage'
 

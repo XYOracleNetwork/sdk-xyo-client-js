@@ -1,6 +1,6 @@
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoQuery } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type ModuleAddressSchema = 'network.xyo.module.address'
 export const ModuleAddressSchema: ModuleAddressSchema = 'network.xyo.module.address'

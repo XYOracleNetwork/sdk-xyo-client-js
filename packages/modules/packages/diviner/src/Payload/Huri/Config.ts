@@ -1,4 +1,5 @@
-import { HuriOptions, XyoPayload } from '@xyo-network/payload'
+import { HuriOptions } from '@xyo-network/huri'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { DivinerConfig } from '../../Config'
 

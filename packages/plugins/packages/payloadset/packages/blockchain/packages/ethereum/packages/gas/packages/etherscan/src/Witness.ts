@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherscanWitnessConfig } from './Config'

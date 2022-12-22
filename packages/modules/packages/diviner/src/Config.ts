@@ -1,5 +1,5 @@
 import { AbstractModuleConfig } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type XyoDivinerConfigSchema = 'network.xyo.diviner.config'
 export const XyoDivinerConfigSchema: XyoDivinerConfigSchema = 'network.xyo.diviner.config'

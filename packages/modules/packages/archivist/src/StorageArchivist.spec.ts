@@ -3,7 +3,7 @@
  */
 
 import { SimpleModuleResolver } from '@xyo-network/module'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryArchivist } from './MemoryArchivist'
 import { StorageArchivistConfigSchema, XyoStorageArchivist } from './StorageArchivist'

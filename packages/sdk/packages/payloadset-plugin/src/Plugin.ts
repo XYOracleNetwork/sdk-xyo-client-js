@@ -1,7 +1,7 @@
 import { Validator } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { ModuleParams, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
-import { PayloadSetPayload } from '@xyo-network/payload'
+import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 

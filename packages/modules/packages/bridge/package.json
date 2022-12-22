@@ -14,7 +14,8 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "pako": "^2.1.0"
   },

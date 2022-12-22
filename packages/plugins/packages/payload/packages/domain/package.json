@@ -15,8 +15,9 @@
     "@xyo-network/dns": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/network": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

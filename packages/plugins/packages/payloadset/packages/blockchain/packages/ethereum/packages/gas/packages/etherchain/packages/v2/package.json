@@ -12,7 +12,7 @@
   "dependencies": {
     "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "axios": "~1.2.1"

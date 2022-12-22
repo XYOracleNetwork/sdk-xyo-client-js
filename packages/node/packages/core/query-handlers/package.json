@@ -34,7 +34,7 @@
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "inversify": "^6.0.1",

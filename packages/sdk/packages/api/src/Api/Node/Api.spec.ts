@@ -3,7 +3,7 @@ import { delay } from '@xylabs/delay'
 import { XyoApiConfig, XyoApiEnvelope } from '@xyo-network/api-models'
 import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { uuid } from '@xyo-network/core'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload-model'
 
 import { XyoArchivistApi } from '../Api'
 

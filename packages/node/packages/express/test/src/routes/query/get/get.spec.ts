@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
 import { DebugPayloadWithMeta, DebugSchema } from '@xyo-network/node-core-model'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload-model'
 import { StatusCodes } from 'http-status-codes'
 import { v4 } from 'uuid'
 

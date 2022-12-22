@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { Huri } from '@xyo-network/huri'
 import { ModuleParams } from '@xyo-network/module'
-import { Huri, XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import compact from 'lodash/compact'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'

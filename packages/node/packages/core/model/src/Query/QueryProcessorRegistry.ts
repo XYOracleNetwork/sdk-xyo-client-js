@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { Query } from './Query'
 import { QueryProcessor } from './QueryProcessor'

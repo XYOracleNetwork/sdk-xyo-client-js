@@ -1,7 +1,7 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
 import { ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
 
 import { AddressPathParams } from '../AddressPathParams'

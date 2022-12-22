@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export interface XyoQueryFields {
   /** @field The addresses of the intended handlers */

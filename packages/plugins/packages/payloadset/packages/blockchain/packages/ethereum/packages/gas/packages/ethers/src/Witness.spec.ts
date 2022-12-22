@@ -1,6 +1,6 @@
 import { InfuraProvider } from '@ethersproject/providers'
 import { XyoEthereumGasEthersSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoEthereumGasEthersWitnessConfigSchema } from './Schema'
 import { XyoEthereumGasEthersWitness } from './Witness'

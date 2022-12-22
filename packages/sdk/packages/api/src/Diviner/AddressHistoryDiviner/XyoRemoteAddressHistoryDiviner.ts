@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { AbstractDiviner, AddressHistoryDiviner, isAddressHistoryQueryPayload, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayloads } from '@xyo-network/payload'
+import { XyoPayloads } from '@xyo-network/payload-model'
 
 import { XyoArchivistApi } from '../../Api'
 import { RemoteDivinerError } from '../RemoteDivinerError'

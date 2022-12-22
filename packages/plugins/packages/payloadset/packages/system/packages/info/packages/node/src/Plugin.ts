@@ -1,6 +1,6 @@
 import { ModuleParams } from '@xyo-network/module'
 import { XyoNodeSystemInfoSchema } from '@xyo-network/node-system-info-payload-plugin'
-import { PayloadSetSchema } from '@xyo-network/payload'
+import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoNodeSystemInfoWitnessConfig } from './Config'

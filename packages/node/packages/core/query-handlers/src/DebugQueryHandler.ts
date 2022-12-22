@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { DebugPayload, DebugQuery, DebugSchema, QueryHandler } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { injectable } from 'inversify'
 
 @injectable()

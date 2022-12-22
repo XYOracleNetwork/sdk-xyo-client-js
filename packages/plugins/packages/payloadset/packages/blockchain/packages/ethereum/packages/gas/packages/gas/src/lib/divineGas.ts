@@ -1,5 +1,6 @@
 import { FeeData, XyoEthereumGasPayload, XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
-import { XyoPayloadBuilder, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayloads } from '@xyo-network/payload-model'
 
 import { average } from './average'
 import {

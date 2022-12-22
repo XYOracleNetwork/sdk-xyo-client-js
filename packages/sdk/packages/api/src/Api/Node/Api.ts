@@ -1,8 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { XyoApiConfig, XyoApiResponseTuple } from '@xyo-network/api-models'
-import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { XyoApiSimple, XyoApiSimpleQuery } from '../../Simple'
 import { WithArchive } from '../../WithArchive'

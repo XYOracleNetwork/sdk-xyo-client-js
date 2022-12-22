@@ -7,7 +7,7 @@ import { DivinerWrapper } from '@xyo-network/diviner'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
 import { PayloadQueryPayload, PayloadQuerySchema } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
 
 import { PayloadRecentPathParams } from './payloadRecentPathParams'

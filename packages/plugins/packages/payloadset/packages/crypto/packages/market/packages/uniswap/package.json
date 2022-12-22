@@ -20,7 +20,7 @@
     "@xylabs/bignumber": "^2.6.11",
     "@xylabs/delay": "^2.6.11",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^"

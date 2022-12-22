@@ -1,5 +1,5 @@
 import { BoundWitnessValidator } from '@xyo-network/boundwitness'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoQuery } from './Payload'
 import { QueryBoundWitnessWrapper } from './QueryBoundWitnessWrapper'

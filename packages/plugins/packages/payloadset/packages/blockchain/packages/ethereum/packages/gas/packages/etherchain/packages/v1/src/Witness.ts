@@ -1,6 +1,6 @@
 import { XyoEthereumGasEtherchainV1Payload, XyoEthereumGasEtherchainV1Schema } from '@xyo-network/etherchain-ethereum-gas-v1-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherchainV1WitnessConfig } from './Config'

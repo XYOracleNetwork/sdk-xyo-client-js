@@ -1,5 +1,5 @@
 import { DivinerConfig } from '@xyo-network/diviner'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type XyoSchemaListApiDivinerConfigSchema = 'network.xyo.diviner.schema.list.api.config'
 export const XyoSchemaListApiDivinerConfigSchema: XyoSchemaListApiDivinerConfigSchema = 'network.xyo.diviner.schema.list.api.config'

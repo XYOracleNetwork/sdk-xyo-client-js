@@ -1,6 +1,6 @@
 import { XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { PayloadSetSchema } from '@xyo-network/payload'
+import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetPlugin, PayloadSetDivinerPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoCryptoMarketAssetDiviner, XyoCryptoMarketAssetDivinerConfig } from './Diviner'

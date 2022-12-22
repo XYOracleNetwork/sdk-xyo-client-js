@@ -1,5 +1,5 @@
 import { NoReqQuery } from '@xylabs/sdk-api-express-ecs'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { isRequestUserOwnerOfRequestedArchive } from '@xyo-network/express-node-lib'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import {
@@ -9,7 +9,7 @@ import {
   SetArchivePermissionsSchema,
   XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { Request } from 'express'
 
 const defaultArchivePermissions: SetArchivePermissions = {

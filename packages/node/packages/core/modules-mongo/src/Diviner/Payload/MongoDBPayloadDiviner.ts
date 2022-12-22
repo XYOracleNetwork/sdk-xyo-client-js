@@ -1,7 +1,7 @@
 import { AbstractDiviner, XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { Filter, SortDirection } from 'mongodb'

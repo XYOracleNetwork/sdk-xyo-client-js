@@ -1,5 +1,5 @@
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { WitnessWrapper } from '@xyo-network/witness'
 
 import { XyoAdhocWitness, XyoAdhocWitnessConfig, XyoAdhocWitnessConfigSchema } from './Witness'

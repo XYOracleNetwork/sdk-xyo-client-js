@@ -2,7 +2,7 @@ import { Account } from '@xyo-network/account'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper } from '@xyo-network/diviner'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { XyoArchivistApi } from '../../Api'
 import { XyoRemoteDivinerConfigSchema } from '../XyoRemoteDivinerConfig'

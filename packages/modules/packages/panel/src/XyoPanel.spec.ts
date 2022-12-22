@@ -4,7 +4,7 @@ import { Hasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { ModuleParams, SimpleModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
-import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload'
+import { PayloadWrapper, XyoPayload, XyoPayloadSchema } from '@xyo-network/payload-model'
 import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 

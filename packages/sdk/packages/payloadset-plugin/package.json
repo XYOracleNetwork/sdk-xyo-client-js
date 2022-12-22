@@ -13,7 +13,7 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/witness": "workspace:^"
   },

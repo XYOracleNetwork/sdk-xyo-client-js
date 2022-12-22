@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoBoundWitness } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { XyoArchivistBoundWitnessMongoSdk } from '@xyo-network/storage'
 

@@ -1,5 +1,5 @@
 import { AbstractModuleConfig } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type XyoBridgeConfigSchema = 'network.xyo.bridge.config'
 export const XyoBridgeConfigSchema: XyoBridgeConfigSchema = 'network.xyo.bridge.config'

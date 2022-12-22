@@ -1,5 +1,5 @@
 import { XyoEthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
-import { PayloadWrapper } from '@xyo-network/payload'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoEthereumGasBlocknativeWitnessConfigSchema } from './Schema'
 import { XyoEthereumGasBlocknativeWitness } from './Witness'

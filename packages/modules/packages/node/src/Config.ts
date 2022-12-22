@@ -1,5 +1,5 @@
 import { AbstractModuleConfig } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type NodeConfigSchema = 'network.xyo.node.config'
 export const NodeConfigSchema: NodeConfigSchema = 'network.xyo.node.config'

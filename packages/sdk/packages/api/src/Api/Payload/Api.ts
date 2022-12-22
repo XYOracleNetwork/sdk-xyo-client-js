@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload'
+import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 
 import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'

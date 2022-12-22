@@ -1,7 +1,8 @@
 import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { ModuleParams } from '@xyo-network/module'
-import { PayloadFindFilter, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
 import { XyoArchivistApi } from '../Api'

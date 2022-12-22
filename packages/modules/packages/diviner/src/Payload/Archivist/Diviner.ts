@@ -1,7 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistGetQuery, ArchivistGetQuerySchema, ArchivistWrapper, PayloadArchivist } from '@xyo-network/archivist'
+import { Huri } from '@xyo-network/huri'
 import { ModuleParams } from '@xyo-network/module'
-import { Huri, PayloadWrapper, XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoDivinerDivineQuerySchema } from '../../Queries'
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'

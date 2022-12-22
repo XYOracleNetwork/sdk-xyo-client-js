@@ -13,7 +13,7 @@
     "@xylabs/delay": "^2.6.11",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21"
   },

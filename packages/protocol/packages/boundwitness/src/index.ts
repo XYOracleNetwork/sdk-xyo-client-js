@@ -1,5 +1,4 @@
 export * from './Builder'
-export * from './isXyoBoundWitnessPayload'
-export * from './models'
 export * from './Validator'
 export * from './Wrapper'
+export * from '@xyo-network/boundwitness-model'

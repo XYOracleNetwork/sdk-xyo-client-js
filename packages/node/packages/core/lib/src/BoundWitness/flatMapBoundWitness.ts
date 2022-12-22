@@ -1,6 +1,6 @@
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type BoundWitnessMapResult = [Array<XyoBoundWitness>, Array<XyoPayload>]
 

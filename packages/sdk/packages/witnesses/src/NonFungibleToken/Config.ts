@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { XyoWitnessConfig } from '@xyo-network/witness'
 
 export type XyoExternalAddressSchema = 'network.xyo.address.external'

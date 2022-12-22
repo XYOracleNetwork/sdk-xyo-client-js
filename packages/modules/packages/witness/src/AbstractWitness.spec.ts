@@ -1,5 +1,5 @@
 import { AbstractModule, Module, ModuleParams } from '@xyo-network/module'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AbstractWitness } from './AbstractWitness'
 import { XyoWitnessConfig, XyoWitnessConfigSchema } from './Config'

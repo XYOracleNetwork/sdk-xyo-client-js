@@ -71,7 +71,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/panel": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "@xyo-network/typechain": "^2.0.4",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",

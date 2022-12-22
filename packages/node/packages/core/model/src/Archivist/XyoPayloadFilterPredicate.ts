@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { PayloadFindFilter } from '@xyo-network/payload'
+import { PayloadFindFilter } from '@xyo-network/payload-model'
 
 /* Note: Added Omit to PayloadFindFilter for offset until we support hash based offsets */
 

@@ -3,7 +3,7 @@
 
 import { Account, AddressValue } from '@xyo-network/account'
 import { Hasher, StringKeyObject } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 import { BoundWitnessBuilder } from './Builder'
 

@@ -1,6 +1,6 @@
 import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'

@@ -1,5 +1,5 @@
 import { ModuleParams } from '@xyo-network/module'
-import { XyoPayloads } from '@xyo-network/payload'
+import { XyoPayloads } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { AbstractDiviner } from './AbstractDiviner'

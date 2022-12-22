@@ -1,4 +1,4 @@
-import { isXyoPayloadOfSchemaType } from '@xyo-network/payload'
+import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 import { XyoBoundWitness, XyoBoundWitnessSchema } from './models'
 

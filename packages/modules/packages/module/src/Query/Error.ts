@@ -1,4 +1,5 @@
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayload } from '@xyo-network/payload-model'
 
 export type XyoErrorSchema = 'network.xyo.error'
 export const XyoErrorSchema: XyoErrorSchema = 'network.xyo.error'

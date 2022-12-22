@@ -1,10 +1,9 @@
 import { AddressValue } from '@xyo-network/account'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { Hasher } from '@xyo-network/core'
-import { PayloadValidator, XyoSchemaNameValidator } from '@xyo-network/payload'
+import { PayloadValidator, XyoSchemaNameValidator } from '@xyo-network/payload-validator'
 import { validateType } from '@xyo-network/typeof'
 import uniq from 'lodash/uniq'
-
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '../models'
 
 const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array length mismatch') => {
   return a.length != b.length ? [Error(`${message} []`)] : []

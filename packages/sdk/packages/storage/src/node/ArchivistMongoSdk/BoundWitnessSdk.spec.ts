@@ -4,7 +4,7 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder, BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness'
 import { uuid } from '@xyo-network/core'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import dotenv from 'dotenv'
 
 import { XyoArchivistBoundWitnessMongoSdk } from './BoundWitnessSdk'

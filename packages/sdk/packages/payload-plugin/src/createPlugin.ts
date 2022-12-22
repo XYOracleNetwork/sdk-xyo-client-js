@@ -1,5 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { PayloadValidator, PayloadWrapper, XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadValidator } from '@xyo-network/payload-validator'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoPayloadPlugin } from './Plugin'
 

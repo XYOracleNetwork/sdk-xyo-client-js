@@ -8,7 +8,7 @@ import { StatusCodes } from 'http-status-codes'
 
 const handler: RequestHandler<ArchivePathParams, XyoArchiveKey[]> = async (req, res, next) => {
   const { user } = req
-  const { archiveKeyArchivist } = req.app
+  const { archiveKeyRepository } = req.app
   if (!user || !user?.id) {
     next({ message: 'Invalid User', statusCode: StatusCodes.UNAUTHORIZED })
     return
@@ -20,7 +20,7 @@ const handler: RequestHandler<ArchivePathParams, XyoArchiveKey[]> = async (req, 
     return
   }
 
-  const keys = await archiveKeyArchivist.get([req.params.archive])
+  const keys = await archiveKeyRepository.find({ archive })
   res.json(keys.filter(exists))
 }
 

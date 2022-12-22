@@ -8,7 +8,8 @@ import {
   SortDirection,
   XyoBoundWitnessWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayload, XyoPayloadBuilder } from '@xyo-network/payload-model'
+import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import {

@@ -1,3 +1,4 @@
+/* eslint-disable deprecation/deprecation */
 import { assertEx } from '@xylabs/sdk-js'
 import { AbstractDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
@@ -9,6 +10,7 @@ import { XyoSchemaListApiDivinerConfig, XyoSchemaListApiDivinerConfigSchema } fr
 
 export type XyoSchemaListApiDivinerParams = ModuleParams<XyoSchemaListApiDivinerConfig> & { api: XyoArchivistApi }
 
+/** @deprecated - send query to remote module instead */
 export class SchemaListApiDiviner extends AbstractDiviner<XyoSchemaListApiDivinerConfig> {
   static override configSchema = XyoSchemaListApiDivinerConfigSchema
   static override targetSchema = XyoSchemaSchema

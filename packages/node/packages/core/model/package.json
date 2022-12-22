@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.16",
+  "version": "2.42.17",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -39,11 +39,12 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "ajv": "^8.11.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.25",
+    "@xylabs/ts-scripts-yarn3": "^2.11.16",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

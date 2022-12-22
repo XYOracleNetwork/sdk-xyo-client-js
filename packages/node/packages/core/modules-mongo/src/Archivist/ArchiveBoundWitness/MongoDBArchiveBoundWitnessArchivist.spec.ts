@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { BoundWitnessBuilder, BoundWitnessWrapper } from '@xyo-network/boundwitness-model'
+import { BoundWitnessBuilder, BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import {
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,

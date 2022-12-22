@@ -1,5 +1,6 @@
 import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/archivist'
-import { BoundWitnessValidator, BoundWitnessWrapper, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessValidator, BoundWitnessWrapper } from '@xyo-network/boundwitness'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { Hasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { ModuleParams, SimpleModuleResolver } from '@xyo-network/module'

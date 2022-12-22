@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
-import { BoundWitnessWrapper, XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleDescription } from '@xyo-network/module'
 
 import { XyoApiSimple } from '../../../Simple'

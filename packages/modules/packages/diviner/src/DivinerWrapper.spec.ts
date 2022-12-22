@@ -1,8 +1,8 @@
+import { XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { DivinerWrapper } from './DivinerWrapper'
 import { IdentityDiviner } from './IdentityDiviner'
-import { XyoDivinerDivineQuerySchema } from './Queries'
 
 describe('DivinerWrapper', () => {
   describe('divine', () => {

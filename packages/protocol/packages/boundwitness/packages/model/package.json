@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.11.0"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "dependencies": {
     "@xyo-network/payload-model": "^2.42.15"

@@ -35,7 +35,7 @@ declare global {
     interface Application {
       archiveArchivist: ArchiveArchivist
       archiveBoundWitnessArchivistFactory: ArchiveBoundWitnessArchivistFactory
-      ArchiveKeyRepository: ArchiveKeyRepository
+      archiveKeyRepository: ArchiveKeyRepository
       archivePayloadsArchivistFactory: ArchivePayloadsArchivistFactory
       archivePermissionsArchivistFactory: ArchivePermissionsArchivistFactory
       archivistWitnessedPayloadArchivist: WitnessedPayloadArchivist

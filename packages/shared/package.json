@@ -13,7 +13,7 @@
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.11.0"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "exports": {
     ".": {

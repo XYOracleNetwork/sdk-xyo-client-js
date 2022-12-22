@@ -26,7 +26,7 @@
     "@xyo-network/uniswap-typechain": "^2.0.4"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.11.0"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "peerDependencies": {
     "axios": "^1.2.1"

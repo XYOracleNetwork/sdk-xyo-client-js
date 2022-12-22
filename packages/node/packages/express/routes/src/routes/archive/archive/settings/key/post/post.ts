@@ -10,7 +10,7 @@ import { generateArchiveKey } from './generateArchiveKey'
 
 const handler: RequestHandler<ArchivePathParams, XyoArchiveKey[]> = async (req, res, next) => {
   const { user } = req
-  const { ArchiveKeyRepository } = req.app
+  const { archiveKeyRepository } = req.app
   if (!user || !user?.id) {
     next({ message: 'Invalid User', statusCode: StatusCodes.UNAUTHORIZED })
     return
@@ -22,7 +22,7 @@ const handler: RequestHandler<ArchivePathParams, XyoArchiveKey[]> = async (req, 
     return
   }
 
-  const result = await ArchiveKeyRepository.insert(generateArchiveKey(archive))
+  const result = await archiveKeyRepository.insert(generateArchiveKey(archive))
   const key = assertEx(result, 'Error inserting key')
   res.json([key])
 }

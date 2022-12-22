@@ -33,7 +33,7 @@ const addArchivists = (app: Application) => {
     'Missing ArchiveBoundWitnessArchivistFactory',
   )
   app.archiveArchivist = assertEx(dependencies.get<ArchiveArchivist>(TYPES.ArchiveArchivist), 'Missing ArchiveArchivist')
-  app.ArchiveKeyRepository = assertEx(dependencies.get<ArchiveKeyRepository>(TYPES.ArchiveKeyRepository), 'Missing ArchiveKeyRepository')
+  app.archiveKeyRepository = assertEx(dependencies.get<ArchiveKeyRepository>(TYPES.ArchiveKeyRepository), 'Missing ArchiveKeyRepository')
   app.archivePayloadsArchivistFactory = assertEx(
     dependencies.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory),
     'Missing ArchivePayloadsArchivistFactory',

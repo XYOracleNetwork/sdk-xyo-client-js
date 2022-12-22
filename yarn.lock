@@ -6064,7 +6064,12 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
+    axios: ~1.2.1
     lodash: ^4.17.21
+    pako: ^2.1.0
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6409,6 +6414,11 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/promise": "workspace:^"
+    axios: ~1.2.1
+    pako: ^2.1.0
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6422,6 +6432,11 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    axios: ~1.2.1
+    pako: ^2.1.0
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6436,6 +6451,11 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/witness": "workspace:^"
+    axios: ~1.2.1
+    pako: ^2.1.0
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6528,6 +6548,11 @@ __metadata:
     "@xyo-network/boundwitness": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload": "workspace:^"
+    axios: ~1.2.1
+    pako: ^2.1.0
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6693,7 +6718,12 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
+    axios: ~1.2.1
     mongodb: ^4.13.0
+    pako: ^2.1.0
+  peerDependencies:
+    axios: ~1.2.1
+    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 

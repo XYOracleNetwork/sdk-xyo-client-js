@@ -1,1 +1,1 @@
-export * from './MongoDBArchiveKeyArchivist'
+export * from './MongoDBArchiveKeyRepository'

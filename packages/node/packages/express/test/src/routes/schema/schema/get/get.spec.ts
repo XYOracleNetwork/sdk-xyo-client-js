@@ -1,4 +1,5 @@
-import { BoundWitnessBuilder, XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 
 import { claimArchive, getHash, getSchema, getTokenForUnitTestUser, postBlock, unitTestSigningAccount } from '../../../../testUtil'

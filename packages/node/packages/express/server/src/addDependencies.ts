@@ -5,7 +5,7 @@ import { AbstractNode } from '@xyo-network/modules'
 import {
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
-  ArchiveKeyArchivist,
+  ArchiveKeyRepository,
   ArchivePayloadsArchivistFactory,
   ArchivePermissionsArchivistFactory,
   IdentifiableHuri,
@@ -33,7 +33,7 @@ const addArchivists = (app: Application) => {
     'Missing ArchiveBoundWitnessArchivistFactory',
   )
   app.archiveArchivist = assertEx(dependencies.get<ArchiveArchivist>(TYPES.ArchiveArchivist), 'Missing ArchiveArchivist')
-  app.archiveKeyArchivist = assertEx(dependencies.get<ArchiveKeyArchivist>(TYPES.ArchiveKeyArchivist), 'Missing ArchiveKeyArchivist')
+  app.ArchiveKeyRepository = assertEx(dependencies.get<ArchiveKeyRepository>(TYPES.ArchiveKeyRepository), 'Missing ArchiveKeyRepository')
   app.archivePayloadsArchivistFactory = assertEx(
     dependencies.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory),
     'Missing ArchivePayloadsArchivistFactory',

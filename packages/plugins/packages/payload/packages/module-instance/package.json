@@ -14,7 +14,7 @@
     "@xyo-network/payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.25"
+    "@xylabs/ts-scripts-yarn3": "^2.10.26"
   },
   "description": "Contains the information about a module instance",
   "browser": "dist/esm/index.js",

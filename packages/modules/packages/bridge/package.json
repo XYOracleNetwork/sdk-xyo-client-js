@@ -21,7 +21,7 @@
     "pako": "^2.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.25",
+    "@xylabs/ts-scripts-yarn3": "^2.10.26",
     "axios": "~1.2.1"
   },
   "peerDependencies": {

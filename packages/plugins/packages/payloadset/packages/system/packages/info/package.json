@@ -16,7 +16,7 @@
     "@xyo-network/payloadset-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.10.25"
+    "@xylabs/ts-scripts-yarn3": "^2.10.26"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/indexBrowser.js",

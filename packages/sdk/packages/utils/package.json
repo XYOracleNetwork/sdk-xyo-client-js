@@ -26,7 +26,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
-    "@xylabs/ts-scripts-yarn3": "^2.10.25",
+    "@xylabs/ts-scripts-yarn3": "^2.10.26",
     "axios": "~1.2.1",
     "pako": "^2.1.0"
   },

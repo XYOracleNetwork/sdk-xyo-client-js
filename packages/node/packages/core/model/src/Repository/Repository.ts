@@ -1,3 +1,5 @@
+import { Promisable } from '@xyo-network/promise'
+
 export interface Repository<
   TReadResponse,
   TWriteResponse = TReadResponse,
@@ -6,7 +8,7 @@ export interface Repository<
   TFindFilter = Partial<TReadResponse>,
   TId = string,
 > {
-  find(predicate: TFindFilter): TFindResponse
-  get(id: TId): TReadResponse
-  insert(value: TWrite): TWriteResponse
+  find(predicate: TFindFilter): Promisable<TFindResponse>
+  get(id: TId): Promisable<TReadResponse | undefined>
+  insert(value: TWrite): Promisable<TWriteResponse>
 }

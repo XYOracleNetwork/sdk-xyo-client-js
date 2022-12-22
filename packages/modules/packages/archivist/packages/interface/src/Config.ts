@@ -1,4 +1,4 @@
-import { AbstractModuleConfig, AddressString } from '@xyo-network/module'
+import { AbstractModuleConfig, AddressString } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 export interface ArchivistParents {

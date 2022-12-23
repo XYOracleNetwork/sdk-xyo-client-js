@@ -4,6 +4,9 @@ import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from
 
 import { HttpProxyModule } from '../HttpProxyModule'
 
+const fulfilled = <T>(val: PromiseSettledResult<T>): val is PromiseFulfilledResult<T> => {
+  return val.status === 'fulfilled'
+}
 export class RemoteModuleResolver implements ModuleResolver {
   private modules: Record<string, HttpProxyModule> = {}
 
@@ -22,18 +25,8 @@ export class RemoteModuleResolver implements ModuleResolver {
   }
 
   async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    try {
-      const resolved = await Promise.allSettled(this.queryModules(filter))
-      const ret: Module[] = []
-      resolved.forEach((result) => {
-        if (result.status === 'fulfilled') {
-          ret.push(result.value)
-        }
-      })
-      return ret
-    } catch {
-      return Promise.resolve([] as Module[])
-    }
+    const settled = await Promise.allSettled(this.queryModules(filter))
+    return settled.filter(fulfilled).map((r) => r.value)
   }
 
   private queryModules(filter?: ModuleFilter): Promise<Module>[] {

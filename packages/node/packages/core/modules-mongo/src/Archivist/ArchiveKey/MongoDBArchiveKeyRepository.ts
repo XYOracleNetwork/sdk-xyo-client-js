@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { XyoArchiveKey } from '@xyo-network/api'
 import { ArchiveKeyRepository } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'

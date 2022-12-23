@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.42.18",
+  "version": "2.42.19",
   "description": "XYO Automation Witness",
   "sideeffects": false,
   "engines": {
@@ -55,7 +55,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
-    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/blocknative-ethereum-gas-plugin": "workspace:^",
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:^",
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^",

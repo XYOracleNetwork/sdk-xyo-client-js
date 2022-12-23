@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { scrubBoundWitnesses } from '@xyo-network/node-core-lib'
 import { RequestHandler } from 'express'

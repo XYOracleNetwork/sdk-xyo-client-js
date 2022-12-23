@@ -2,7 +2,7 @@ import 'source-map-support/register'
 
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler, tryParseInt } from '@xylabs/sdk-api-express-ecs'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { ArchivePayloadsArchivist } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

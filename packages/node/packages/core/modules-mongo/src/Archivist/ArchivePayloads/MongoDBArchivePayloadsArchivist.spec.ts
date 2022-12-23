@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,

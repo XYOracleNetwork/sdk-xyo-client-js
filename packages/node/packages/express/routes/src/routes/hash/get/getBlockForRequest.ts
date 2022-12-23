@@ -1,5 +1,5 @@
 import { exists } from '@xylabs/exists'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { requestCanAccessArchive, resolveBySymbol } from '@xyo-network/express-node-lib'
 import { PayloadPointerPayload, payloadPointerSchema, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'

@@ -4918,6 +4918,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     lodash: ^4.17.21

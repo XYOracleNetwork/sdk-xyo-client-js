@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.6.12",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
@@ -64,5 +65,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.19"
+  "version": "2.42.20"
 }

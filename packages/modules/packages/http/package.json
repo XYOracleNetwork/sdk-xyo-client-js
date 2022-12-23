@@ -15,6 +15,7 @@
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/node": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
@@ -53,5 +54,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.19"
+  "version": "2.42.20"
 }

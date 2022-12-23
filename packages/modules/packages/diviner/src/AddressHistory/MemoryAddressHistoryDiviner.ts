@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistGetQuerySchema, ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistGetQuerySchema } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { XyoPayload } from '@xyo-network/payload-model'

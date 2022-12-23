@@ -1,7 +1,7 @@
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { Axios } from '@xyo-network/axios'
 import { uuid } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Axios } from 'axios'
 
 import { HttpBridgeConfigSchema, XyoHttpBridge } from './HttpBridge'
 

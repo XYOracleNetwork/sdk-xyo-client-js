@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { Collection, Document, Filter, FindCursor, MongoClient, OptionalUnlessRequiredId, WithId } from 'mongodb'
 
 import { BaseMongoSdkConfig } from './Config'

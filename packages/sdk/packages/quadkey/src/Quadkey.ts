@@ -1,6 +1,6 @@
+import { assertEx } from '@xylabs/assert'
 import { BigNumber } from '@xylabs/bignumber'
 import { Buffer } from '@xylabs/buffer'
-import { assertEx } from '@xylabs/sdk-js'
 import {
   boundingBoxToCenter,
   GeoJson,

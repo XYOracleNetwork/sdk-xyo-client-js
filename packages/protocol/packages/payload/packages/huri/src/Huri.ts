@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { AddressValue } from '@xyo-network/account'
+import { axios } from '@xyo-network/axios'
 import { DataLike } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload-model'
-import axios from 'axios'
 
 export type XyoObjectCategory = 'block' | 'payload'
 

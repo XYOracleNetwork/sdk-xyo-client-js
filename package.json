@@ -24,7 +24,6 @@
     "@xylabs/eslint-config": "^2.11.16",
     "@xylabs/ts-scripts-yarn3": "^2.11.16",
     "@xylabs/tsconfig": "^2.11.16",
-    "axios": "~1.2.1",
     "babel-jest": "^29.3.1",
     "dotenv": "^16.0.3",
     "eslint": "^8.30.0",
@@ -33,15 +32,10 @@
     "jest-extended": "^3.2.0",
     "jest-sorted": "^1.0.14",
     "nodemon": "^2.0.20",
-    "pako": "^2.1.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.23",
     "typescript": "^4.9.4"
-  },
-  "peerDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
   },
   "resolutions": {
     "bn.js": "^5"

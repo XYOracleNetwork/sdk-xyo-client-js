@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AxiosJson, AxiosJsonRequestConfig } from '@xyo-network/axios'
+import { Axios, AxiosError, AxiosJson, AxiosJsonRequestConfig, AxiosRequestHeaders } from '@xyo-network/axios'
 import {
   AbstractModule,
   ModuleParams,
@@ -12,7 +12,6 @@ import {
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import { Axios, AxiosError, AxiosRequestHeaders } from 'axios'
 
 import { BridgeModule } from './Bridge'
 import { BridgeConfig } from './Config'

@@ -10,12 +10,12 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xyo-network/axios": "workspace:^",
     "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
-    "axios": "~1.2.1"
+    "@xyo-network/witness": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.11.16"

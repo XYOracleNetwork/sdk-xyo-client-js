@@ -34,9 +34,7 @@
     "@xyo-network/express-node-lib": "workspace:^",
     "@xyo-network/express-node-middleware": "workspace:^",
     "@xyo-network/express-node-routes": "workspace:^",
-    "@xyo-network/express-node-server": "workspace:^",
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
+    "@xyo-network/express-node-server": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.11.16"

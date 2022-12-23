@@ -1,5 +1,5 @@
+import { axios } from '@xyo-network/axios'
 import { EthereumGasEthgasstationResponse } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
-import axios from 'axios'
 
 const url = 'https://api.ethgasstation.info/api/fee-estimate'
 

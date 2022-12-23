@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.12",
+    "@xyo-network/axios": "workspace:^",
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
-    "axios": "~1.2.1"
+    "@xyo-network/witness": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.11.16"

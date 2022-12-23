@@ -1,5 +1,5 @@
+import { axios } from '@xyo-network/axios'
 import { EthereumGasEtherchainV2Response } from '@xyo-network/etherchain-ethereum-gas-v2-payload-plugin'
-import axios from 'axios'
 
 const url = 'https://www.etherchain.org/api/gasnow'
 

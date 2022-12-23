@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import { axios, AxiosRequestConfig } from '@xyo-network/axios'
 
 import { ApiConfig } from './ApiConfig'
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer'

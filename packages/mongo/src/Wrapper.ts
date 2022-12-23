@@ -1,4 +1,6 @@
-import { assertEx, delay, forget } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
+import { forget } from '@xylabs/forget'
 import { Mutex } from 'async-mutex'
 import { MongoClient } from 'mongodb'
 

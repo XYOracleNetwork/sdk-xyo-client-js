@@ -15,9 +15,6 @@
     "@xyo-network/boundwitness-validator": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^"
   },
-  "peerDependencies": {
-    "axios": "^1.2.1"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.11.16"

@@ -52,10 +52,6 @@
     "reflect-metadata": "^0.1.13",
     "uuid": "^9.0.0"
   },
-  "peerDependencies": {
-    "axios": "*",
-    "pako": "*"
-  },
   "devDependencies": {
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",

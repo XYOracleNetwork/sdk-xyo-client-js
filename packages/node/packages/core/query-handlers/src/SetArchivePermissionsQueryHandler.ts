@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
   ArchivePermissionsArchivistFactory,
   QueryHandler,

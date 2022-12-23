@@ -13,14 +13,13 @@ import {
   ArchivistQuery,
   PayloadArchivist,
 } from '@xyo-network/archivist-interface'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
-
-import { ArchivistWrapper } from './ArchivistWrapper'
 
 export interface XyoArchivistParentWrappers {
   commit?: Record<string, ArchivistWrapper>

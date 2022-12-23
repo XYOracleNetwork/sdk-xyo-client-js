@@ -1,6 +1,7 @@
 /* eslint-disable max-statements */
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
+import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
   ArchivistPayloadDiviner,
   DivinerModule,

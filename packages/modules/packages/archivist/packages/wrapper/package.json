@@ -9,23 +9,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.6.12",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-interface": "workspace:^",
-    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/promise": "workspace:^",
-    "js-cookie": "^3.0.1",
-    "lodash": "^4.17.21",
-    "lru-cache": "^7.14.1",
-    "store2": "^2.14.2"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2",
     "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -52,7 +43,7 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/archivist",
+  "name": "@xyo-network/archivist-wrapper",
   "publishConfig": {
     "access": "public"
   },

@@ -1,5 +1,5 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
   ArchivePayloadsArchivist,
   XyoBoundWitnessWithPartialMeta,

@@ -1,6 +1,6 @@
 import { XyoArchivistApi, XyoRemoteArchivist, XyoRemoteArchivistConfig, XyoRemoteArchivistConfigSchema } from '@xyo-network/api'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { PayloadArchivist } from '@xyo-network/archivist'
+import { PayloadArchivist } from '@xyo-network/archivist-interface'
 import { AbstractModule } from '@xyo-network/module'
 
 import { getApiConfig } from './getApiConfig'

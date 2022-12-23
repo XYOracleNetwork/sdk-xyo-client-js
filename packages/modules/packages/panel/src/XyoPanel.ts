@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig, ArchivistWrapper } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'

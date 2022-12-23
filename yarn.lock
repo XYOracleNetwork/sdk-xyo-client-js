@@ -4744,6 +4744,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/archivist-wrapper@workspace:^, @xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.11.16
+    "@xyo-network/archivist-interface": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+    lodash: ^4.17.21
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/archivist@workspace:^, @xyo-network/archivist@workspace:packages/modules/packages/archivist":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist@workspace:packages/modules/packages/archivist"
@@ -4753,6 +4767,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-interface": "workspace:^"
+    "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -4793,7 +4808,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
-    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/archivist-interface": "workspace:^"
     "@xyo-network/blocknative-ethereum-gas-plugin": "workspace:^"
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:^"
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
@@ -5670,7 +5685,7 @@ __metadata:
     "@xylabs/sdk-api-express-ecs": ^1.2.5
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/api": "workspace:^"
-    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
@@ -6250,7 +6265,7 @@ __metadata:
     "@xylabs/assert": ^2.6.12
     "@xylabs/delay": ^2.6.12
     "@xylabs/ts-scripts-yarn3": ^2.11.16
-    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
@@ -6309,7 +6324,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/account": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"
-    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
@@ -6328,6 +6343,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module": "workspace:^"

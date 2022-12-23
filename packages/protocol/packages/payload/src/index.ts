@@ -1,3 +1,4 @@
+export * from './SchemaNameValidator'
 export * from '@xyo-network/huri'
 export * from '@xyo-network/payload-builder'
 export * from '@xyo-network/payload-model'

@@ -66,7 +66,7 @@ export class XyoSchemaNameValidator {
 
   /**
    * Run all the validations
-   * @param checkExistance - boolean
+   * @param checkExistence - boolean
    * @returns Error[]
    */
 

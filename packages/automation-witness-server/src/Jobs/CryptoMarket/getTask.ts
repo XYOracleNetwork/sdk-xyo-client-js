@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { getDefaultLogger } from '@xylabs/sdk-api-express-ecs'
 import { XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
-import { DivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { Task } from '@xyo-network/shared'
 
 import { getDiviner } from './getDiviner'

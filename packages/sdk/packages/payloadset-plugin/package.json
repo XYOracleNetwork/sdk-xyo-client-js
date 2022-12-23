@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/promise": "workspace:^",

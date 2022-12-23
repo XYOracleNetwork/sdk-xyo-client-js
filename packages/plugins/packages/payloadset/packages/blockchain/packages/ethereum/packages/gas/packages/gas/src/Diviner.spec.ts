@@ -1,6 +1,6 @@
 import { InfuraProvider } from '@ethersproject/providers'
 import { XyoEthereumGasBlocknativeWitness, XyoEthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-plugin'
-import { DivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
   XyoEtherchainEthereumGasWitnessV1,
   XyoEtherchainEthereumGasWitnessV2,

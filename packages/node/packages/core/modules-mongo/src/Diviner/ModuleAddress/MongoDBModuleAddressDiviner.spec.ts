@@ -1,4 +1,4 @@
-import { XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { XyoDivinerConfigSchema } from '@xyo-network/diviner-model'
 import { ModuleAddressPayload, ModuleAddressQueryPayload, ModuleAddressQuerySchema, ModuleAddressSchema } from '@xyo-network/node-core-model'
 
 import { MongoDBModuleAddressDiviner } from './MongoDBModuleAddressDiviner'

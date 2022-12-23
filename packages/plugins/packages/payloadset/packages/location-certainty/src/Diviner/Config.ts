@@ -1,4 +1,4 @@
-import { DivinerConfig } from '@xyo-network/diviner'
+import { DivinerConfig } from '@xyo-network/diviner-model'
 import { LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { XyoPayload } from '@xyo-network/payload-model'
 

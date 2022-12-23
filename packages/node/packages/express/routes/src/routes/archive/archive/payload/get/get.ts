@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler, NoReqBody, tryParseInt } from '@xylabs/sdk-api-express-ecs'
-import { DivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
 import { ArchiveLocals, ArchivePathParams, PayloadQueryPayload, PayloadQuerySchema } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'

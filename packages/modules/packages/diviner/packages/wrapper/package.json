@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/diviner-wrapper",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,37 +11,16 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.12",
-    "@xylabs/delay": "^2.6.12",
-    "@xylabs/sdk-js": "^2.6.12",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/api-models": "workspace:^",
-    "@xyo-network/archivist": "workspace:^",
-    "@xyo-network/boundwitness-builder": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/diviner": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/huri": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/schema-payload-plugin": "workspace:^",
-    "lodash": "^4.17.21"
+    "@xyo-network/payload-wrapper": "workspace:^"
   },
-  "peerDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "devDependencies": {
-    "@types/lodash": "^4.14.191",
-    "@types/pako": "^2.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
-  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
@@ -64,7 +44,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/api",
   "publishConfig": {
     "access": "public"
   },

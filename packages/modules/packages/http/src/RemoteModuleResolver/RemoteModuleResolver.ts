@@ -16,9 +16,27 @@ export class RemoteModuleResolver implements ModuleResolver {
   }
 
   // TODO: Expose way for Node to add/remove modules
-  // TODO: Store successfully resolved modules
 
-  async resolve(filter?: ModuleFilter): Promise<Module[]> {
+  resolve(filter?: ModuleFilter): Promise<Module[]> {
+    return Promise.all(this.queryModules(filter))
+  }
+
+  async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
+    try {
+      const resolved = await Promise.allSettled(this.queryModules(filter))
+      const ret: Module[] = []
+      resolved.forEach((result) => {
+        if (result.status === 'fulfilled') {
+          ret.push(result.value)
+        }
+      })
+      return ret
+    } catch {
+      return Promise.resolve([] as Module[])
+    }
+  }
+
+  private queryModules(filter?: ModuleFilter): Promise<Module>[] {
     const addresses = filter?.address
     const names = filter?.name
     // TODO: Handle filter?.config
@@ -26,17 +44,7 @@ export class RemoteModuleResolver implements ModuleResolver {
     // TODO: Should these be AND not OR filtering, can we do it in memory afterwards?
     const byAddress = addresses?.map(this.resolveByAddress) || []
     const byName = names?.map(this.resolveByName) || []
-    const modules = (await Promise.all([...byAddress, ...byName])).filter(exists)
-    return modules
-  }
-
-  tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    // TODO: Return subset of resolved modules (Promise.allSettled)
-    try {
-      return this.resolve(filter)
-    } catch {
-      return Promise.resolve([] as Module[])
-    }
+    return [...byAddress, ...byName]
   }
 
   private async resolveByAddress(address: string): Promise<HttpProxyModule> {

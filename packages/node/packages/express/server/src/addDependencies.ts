@@ -21,19 +21,17 @@ import { Application } from 'express'
 export const addDependencies = (app: Application) => {
   app.logger = assertEx(dependencies.get<Logger>(TYPES.Logger), 'Missing Logger')
   app.node = assertEx(dependencies.get<AbstractNode>(TYPES.Node), 'Missing AbstractNode')
-  app.userManager = assertEx(dependencies.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
+  addRepositories(app)
+  addManagers(app)
   addArchivists(app)
   addQueryProcessing(app)
 }
 
 const addArchivists = (app: Application) => {
-  app.archiveArchivist = assertEx(dependencies.get<ArchiveArchivist>(TYPES.ArchiveArchivist), 'Missing ArchiveArchivist')
   app.archiveBoundWitnessArchivistFactory = assertEx(
     dependencies.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory),
     'Missing ArchiveBoundWitnessArchivistFactory',
   )
-  app.archiveArchivist = assertEx(dependencies.get<ArchiveArchivist>(TYPES.ArchiveArchivist), 'Missing ArchiveArchivist')
-  app.archiveKeyRepository = assertEx(dependencies.get<ArchiveKeyRepository>(TYPES.ArchiveKeyRepository), 'Missing ArchiveKeyRepository')
   app.archivePayloadsArchivistFactory = assertEx(
     dependencies.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory),
     'Missing ArchivePayloadsArchivistFactory',
@@ -46,6 +44,15 @@ const addArchivists = (app: Application) => {
     dependencies.get<WitnessedPayloadArchivist>(TYPES.WitnessedPayloadArchivist),
     'Missing ArchivistWitnessedPayloadArchivist',
   )
+}
+
+const addRepositories = (app: Application) => {
+  app.archiveArchivist = assertEx(dependencies.get<ArchiveArchivist>(TYPES.ArchiveArchivist), 'Missing ArchiveArchivist')
+  app.archiveKeyRepository = assertEx(dependencies.get<ArchiveKeyRepository>(TYPES.ArchiveKeyRepository), 'Missing ArchiveKeyRepository')
+}
+
+const addManagers = (app: Application) => {
+  app.userManager = assertEx(dependencies.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
 }
 
 const addQueryProcessing = (app: Application) => {

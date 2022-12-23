@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoApiConfig } from '@xyo-network/api-models'
+import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 
-import { ModuleWrapper } from './ModuleWrapper'
 import { RemoteModuleResolver } from './RemoteModuleResolver'
 
 const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }

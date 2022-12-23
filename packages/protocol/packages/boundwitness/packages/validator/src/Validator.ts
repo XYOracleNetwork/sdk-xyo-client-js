@@ -1,7 +1,6 @@
 import { AddressValue } from '@xyo-network/account'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { Hasher } from '@xyo-network/core'
-import { XyoSchemaNameValidator } from '@xyo-network/payload'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { validateType } from '@xyo-network/typeof'
 import uniq from 'lodash/uniq'
@@ -59,11 +58,13 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     const errors: Error[] = []
     const Schemas = this.obj.payload_schemas
     if (Schemas) {
-      const schemaValidators: XyoSchemaNameValidator[] = Schemas.map((schema: string) => {
-        return new XyoSchemaNameValidator(schema)
+      const schemaValidators = Schemas.map((schema: string) => {
+        return PayloadValidator.schemaNameValidatorFactory?.(schema)
       })
       schemaValidators.forEach((validator) => {
-        errors.push(...validator.all())
+        if (validator) {
+          errors.push(...validator.all())
+        }
       })
     }
     return errors

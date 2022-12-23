@@ -13,7 +13,6 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-validator": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "lodash": "^4.17.21"
@@ -55,5 +54,5 @@
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "version": "2.42.17"
+  "version": "2.42.18"
 }

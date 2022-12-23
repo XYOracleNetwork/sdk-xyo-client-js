@@ -77,8 +77,14 @@ export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
   override registered(): Promise<string[]> {
     return this.node.registered()
   }
-  override registeredModules(): Promise<Module[]> {
-    throw new Error('Method not implemented.')
+  override async registeredModules(): Promise<Module[]> {
+    const addresses = await this.registered()
+    const resolved = await Promise.all(
+      addresses.map((address) => {
+        return this.tryResolve({ address: [address] })
+      }),
+    )
+    return resolved.flatMap((mod) => mod)
   }
   override resolve(filter?: ModuleFilter): Promise<Module[]> {
     return this.internalResolver.resolve(filter)

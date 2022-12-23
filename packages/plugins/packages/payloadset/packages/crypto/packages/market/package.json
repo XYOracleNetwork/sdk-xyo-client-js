@@ -21,9 +21,7 @@
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:^",
     "@xyo-network/crypto-asset-plugin": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/typechain": "^2.0.4",
-    "@xyo-network/uniswap-crypto-market-plugin": "workspace:^",
-    "@xyo-network/uniswap-typechain": "^2.0.4"
+    "@xyo-network/uniswap-crypto-market-plugin": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.11.16"

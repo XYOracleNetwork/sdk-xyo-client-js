@@ -16,29 +16,27 @@
     "@ethersproject/networks": "^5.7.1",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/solidity": "^5.7.0",
-    "@xylabs/assert": "^2.6.12",
-    "@xylabs/bignumber": "^2.6.12",
-    "@xylabs/delay": "^2.6.12",
+    "@xylabs/assert": "^2.6.14",
+    "@xylabs/bignumber": "^2.6.14",
+    "@xylabs/delay": "^2.6.14",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/typechain": "^2.0.3",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
+    "@xyo-network/uniswap-typechain": "^2.0.3",
     "@xyo-network/witness": "workspace:^"
   },
   "peerDependencies": {
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.1.0",
-    "@uniswap/v3-sdk": "^3.9.0",
-    "@xyo-network/typechain": "^2.0.3",
-    "@xyo-network/uniswap-typechain": "^2.0.3"
+    "@uniswap/v3-sdk": "^3.9.0"
   },
   "devDependencies": {
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
-    "@xyo-network/typechain": "^2.0.4",
-    "@xyo-network/uniswap-typechain": "^2.0.4"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

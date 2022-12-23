@@ -1,11 +1,11 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { HttpProxyModule } from '@xyo-network/http-proxy-module'
 import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
-import { PayloadFields, SchemaFields } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 
 export class RemoteModuleResolver implements ModuleResolver {
-  constructor(protected readonly apiConfig: XyoApiConfig, protected readonly address?: string) {}
+  // TODO: Allow optional ctor param for supplying address for nested Nodes
+  // protected readonly address?: string,
+  constructor(protected readonly apiConfig: XyoApiConfig) {}
 
   public get isModuleResolver(): boolean {
     return true
@@ -14,22 +14,24 @@ export class RemoteModuleResolver implements ModuleResolver {
   async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const addresses = filter?.address
     const names = filter?.name
+    // TODO: These should be AND not OR filtering
     // TODO: Handle filter?.config
     // TODO: Handle filter?.query
-    // TODO: These should be AND not OR filtering
-    const modsA =
+    const byAddress =
       addresses?.map((address) => HttpProxyModule.create({ address, apiConfig: this.apiConfig, config: { schema: AbstractModuleConfigSchema } })) ||
       []
-    const modsB =
+    const byName =
       names?.map((name) => HttpProxyModule.create({ apiConfig: this.apiConfig, config: { schema: AbstractModuleConfigSchema }, name })) || []
-    const modules = await Promise.all([...modsA, ...modsB])
+    const modules = await Promise.all([...byAddress, ...byName])
     return modules
   }
-  tryResolve(filter?: ModuleFilter): Promisable<Module<SchemaFields & PayloadFields & { schema: string }>[], never> {
+
+  tryResolve(filter?: ModuleFilter): Promise<Module[]> {
+    // TODO: Return subset of resolved modules
     try {
       return this.resolve(filter)
     } catch {
-      return []
+      return Promise.resolve([] as Module[])
     }
   }
 }

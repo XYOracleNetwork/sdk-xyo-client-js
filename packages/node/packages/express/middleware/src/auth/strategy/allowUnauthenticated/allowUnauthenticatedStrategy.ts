@@ -1,3 +1,4 @@
+import { getHttpHeader } from '@xylabs/sdk-api-express-ecs'
 import { Request } from 'express'
 import { Strategy, StrategyCreated, StrategyCreatedStatic } from 'passport'
 
@@ -16,20 +17,7 @@ export class AllowUnauthenticatedStrategy extends Strategy {
 
   override authenticate(this: StrategyCreated<this, this & StrategyCreatedStatic>, req: Request, _options?: unknown) {
     try {
-      // NOTE: There should never be multiple of this header but
-      // just to prevent ugliness if someone did send us multiple
-      // we'll grab the 1st one
-      const apiKey =
-        // If the header exists
-        req.headers[this.apiKeyHeader]
-          ? // If there's multiple of the same header
-            Array.isArray(req.headers[this.apiKeyHeader])
-            ? // Grab the first one
-              (req.headers[this.apiKeyHeader] as string[]).shift()
-            : // Otherwise grab the only one
-              (req.headers[this.apiKeyHeader] as string)
-          : // Otherwise undefined
-            undefined
+      const apiKey = getHttpHeader(this.apiKeyHeader, req)
       if (apiKey) {
         this.fail('API key header supplied')
         return

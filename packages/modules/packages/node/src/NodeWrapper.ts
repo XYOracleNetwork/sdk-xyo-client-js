@@ -16,7 +16,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements Node, NodeModule<TModule> {
+export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements Node, NodeModule {
   public isModuleResolver = true
 
   private _archivist?: ArchivistWrapper
@@ -48,10 +48,10 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return payloads.map((p) => p.address)
   }
 
-  async resolve(filter?: ModuleFilter | undefined): Promise<TModule[]> {
-    return (await this.module.resolve(filter)) as TModule[]
+  resolve(filter?: ModuleFilter) {
+    return this.module.resolve(filter)
   }
-  async tryResolve(filter?: ModuleFilter | undefined): Promise<TModule[]> {
-    return (await this.module.tryResolve(filter)) as TModule[]
+  tryResolve(filter?: ModuleFilter) {
+    return this.module.tryResolve(filter)
   }
 }

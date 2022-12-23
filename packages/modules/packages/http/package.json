@@ -14,6 +14,7 @@
     "@xyo-network/api": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/module": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {

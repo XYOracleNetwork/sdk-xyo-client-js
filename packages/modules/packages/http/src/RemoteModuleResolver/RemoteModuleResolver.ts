@@ -1,7 +1,7 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 
-import { HttpProxyModule } from './HttpProxyModule'
+import { HttpProxyModule } from '../HttpProxyModule'
 
 export class RemoteModuleResolver implements ModuleResolver {
   // TODO: Allow optional ctor param for supplying address for nested Nodes
@@ -11,6 +11,9 @@ export class RemoteModuleResolver implements ModuleResolver {
   public get isModuleResolver(): boolean {
     return true
   }
+
+  // TODO: Expose way for Node to add/remove modules
+  // TODO: Store successfully resolved modules
 
   async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const addresses = filter?.address
@@ -28,7 +31,7 @@ export class RemoteModuleResolver implements ModuleResolver {
   }
 
   tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    // TODO: Return subset of resolved modules
+    // TODO: Return subset of resolved modules (Promise.allSettled)
     try {
       return this.resolve(filter)
     } catch {

@@ -11,6 +11,7 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoApiConfig } from '@xyo-network/sdk'
 
 import { HttpProxyModule } from './HttpProxyModule'
+
 const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
 const name = 'PayloadDiviner'
 

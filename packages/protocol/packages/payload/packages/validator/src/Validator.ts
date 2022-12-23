@@ -5,19 +5,21 @@ export type AllValidator = {
   all(): Error[]
 }
 
-export type AllValidatorFactory = () => AllValidator
+export type AllValidatorFactory = (schema: string) => AllValidator
 
 export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoValidatorBase<T> implements Validator<T> {
-  private static schemaNameValidatorFactory: AllValidatorFactory | null = null
+  protected static schemaNameValidatorFactory: AllValidatorFactory | null = null
+  protected payload: XyoPayload
 
   private _schemaValidator?: AllValidator
 
   constructor(payload: T) {
     super(payload)
+    this.payload = payload
   }
 
   get schemaValidator() {
-    this._schemaValidator = this._schemaValidator ?? PayloadValidator.schemaNameValidatorFactory?.()
+    this._schemaValidator = this._schemaValidator ?? PayloadValidator.schemaNameValidatorFactory?.(this.payload.schema)
     if (!this._schemaValidator) {
       console.warn('No schema name validator set')
     }

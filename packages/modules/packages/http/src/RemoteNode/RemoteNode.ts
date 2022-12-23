@@ -10,6 +10,8 @@ export interface RemoteNodeModuleParams<TConfig extends NodeConfig = NodeConfig>
   apiConfig: XyoApiConfig
 }
 
+// TODO: Don't inherit from AbstractNode but rather implement NodeModule
+// TODO: Create remote module for node to issue queries against
 export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends AbstractNode<TConfig> {
   protected readonly apiConfig: XyoApiConfig
 
@@ -22,7 +24,6 @@ export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
     return (await super.create(params)) as RemoteNode
   }
 
-  // TODO: Create and create remote module for node to issue queries against
   attach(_address: string): void {
     throw new Error('Method not implemented.')
   }

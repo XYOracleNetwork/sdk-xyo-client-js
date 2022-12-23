@@ -12,10 +12,15 @@ const config: NodeConfig = { schema: NodeConfigSchema }
 const name = 'PayloadDiviner'
 
 describe('RemoteNode', () => {
-  describe('create', () => {
-    it('creates module', async () => {
-      const sut = await RemoteNode.create({ apiConfig, config })
-      expect(sut).toBeTruthy()
+  let sut: RemoteNode
+  beforeAll(async () => {
+    sut = await RemoteNode.create({ apiConfig, config })
+    expect(sut).toBeTruthy()
+  })
+  describe('discover', () => {
+    it('discovers', async () => {
+      const response = await sut.discover()
+      expect(response).toBeTruthy()
     })
   })
   describe('tryResolve', () => {
@@ -27,11 +32,6 @@ describe('RemoteNode', () => {
       const response = await wrapped.discover()
       expect(response).toBeTruthy()
     }
-    let sut: RemoteNode
-    beforeAll(async () => {
-      sut = await RemoteNode.create({ apiConfig, config })
-      expect(sut).toBeTruthy()
-    })
     it('resolves by name', async () => {
       const mods = await sut.tryResolve({ name: [name] })
       expect(mods)

@@ -12,11 +12,9 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.12",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/axios": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
-  },
-  "peerDependencies": {
-    "axios": "~1.2.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.11.16"

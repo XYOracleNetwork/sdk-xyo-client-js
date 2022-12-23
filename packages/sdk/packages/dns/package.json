@@ -9,13 +9,12 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "peerDependencies": {
-    "axios": "^1.2.1"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
+  "dependencies": {
+    "@xyo-network/axios": "workspace:^"
+  },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
-    "axios": "^1.2.1"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

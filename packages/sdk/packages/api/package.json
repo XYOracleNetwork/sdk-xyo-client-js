@@ -11,10 +11,10 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.12",
     "@xylabs/delay": "^2.6.12",
-    "@xylabs/sdk-js": "^2.6.12",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/axios": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
@@ -29,17 +29,10 @@
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "lodash": "^4.17.21"
   },
-  "peerDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "@types/pako": "^2.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

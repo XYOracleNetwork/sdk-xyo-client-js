@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/api-models": "workspace:^",
+    "@xyo-network/axios": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/dns": "workspace:^",
     "@xyo-network/huri": "workspace:^",
@@ -22,16 +23,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
-    "axios": "^1.2.1"
-  },
-  "peerDependencies": {
-    "axios": "^1.2.1"
-  },
-  "peerDependenciesMeta": {
-    "axios": {
-      "optional": true
-    }
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

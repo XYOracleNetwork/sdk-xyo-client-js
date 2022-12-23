@@ -1,4 +1,4 @@
-import axios, { AxiosResponseTransformer } from 'axios'
+import { axios, AxiosResponseTransformer } from '@xyo-network/axios'
 
 export const locationDivinerApiResponseTransformer: AxiosResponseTransformer = (data, _headers) => {
   return data.data

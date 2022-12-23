@@ -37,10 +37,6 @@
     "bcrypt": "^5.1.0",
     "source-map-support": "^0.5.21"
   },
-  "peerDependencies": {
-    "axios": "*",
-    "pako": "*"
-  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/source-map-support": "0.5.6",

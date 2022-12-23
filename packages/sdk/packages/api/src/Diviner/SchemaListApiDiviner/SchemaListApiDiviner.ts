@@ -1,5 +1,5 @@
 /* eslint-disable deprecation/deprecation */
-import { assertEx } from '@xylabs/sdk-js'
+import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'

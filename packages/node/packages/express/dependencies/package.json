@@ -45,9 +45,5 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
-  "peerDependencies": {
-    "axios": "*",
-    "pako": "*"
-  },
   "types": "dist/esm/index.d.ts"
 }

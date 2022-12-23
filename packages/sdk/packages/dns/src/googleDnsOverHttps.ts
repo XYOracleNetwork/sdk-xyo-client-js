@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axios } from '@xyo-network/axios'
 
 import { DnsRecordType } from './DnsRecordType'
 import { GoogleDnsResult } from './GoogleDnsResult'

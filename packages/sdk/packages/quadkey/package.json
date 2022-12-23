@@ -10,19 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/assert": "^2.6.12",
     "@xylabs/bignumber": "^2.6.12",
     "@xylabs/buffer": "^2.6.12",
-    "@xylabs/sdk-js": "^2.6.12",
     "@xyo-network/sdk-geo": "^2.7.0",
     "mapbox-gl": "^2.11.1"
   },
   "devDependencies": {
     "@types/mapbox-gl": "^2.7.10",
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
-    "axios": "^1.2.1"
-  },
-  "peerDependencies": {
-    "axios": "^1.2.1"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

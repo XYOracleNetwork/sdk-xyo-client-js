@@ -60,10 +60,6 @@
     "mongodb": "^4.13.0",
     "reflect-metadata": "^0.1.13"
   },
-  "peerDependencies": {
-    "axios": "*",
-    "pako": "*"
-  },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@xylabs/ts-scripts-yarn3": "^2.11.16",

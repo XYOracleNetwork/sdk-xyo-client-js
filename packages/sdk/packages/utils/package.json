@@ -19,16 +19,10 @@
     "ajv": "^8.11.2",
     "lru-cache": "^7.14.1"
   },
-  "peerDependencies": {
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
-    "axios": "~1.2.1",
-    "pako": "^2.1.0"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "browser": "dist/esm/browserIndex.js",
   "docs": "dist/docs.json",

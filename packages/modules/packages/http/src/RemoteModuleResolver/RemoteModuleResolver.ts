@@ -1,4 +1,3 @@
-import { exists } from '@xylabs/exists'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 

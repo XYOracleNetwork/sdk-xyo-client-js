@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/elevation-payload-plugin": "workspace:^",
     "@xyo-network/elevation-plugin": "workspace:^",
     "@xyo-network/location-certainty-payload-plugin": "workspace:^",

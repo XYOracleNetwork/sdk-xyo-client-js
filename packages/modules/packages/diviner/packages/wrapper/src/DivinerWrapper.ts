@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Diviner, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
-import { Module, ModuleWrapper } from '@xyo-network/module'
+import { ModuleWrapper } from '@xyo-network/module'
+import { Module } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 

@@ -1,9 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { DataLike, deepOmitUnderscoreFields, Hasher } from '@xyo-network/core'
-import { Huri } from '@xyo-network/huri'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { Promisable } from '@xyo-network/promise'
+
+export type PayloadLoader = (address: DataLike) => Promise<XyoPayload | null>
+export type PayloadLoaderFactory = () => PayloadLoader
 
 export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayload> extends Hasher<TPayload> {
   public get body() {
@@ -35,7 +37,7 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
     return this.errors.length === 0
   }
 
-  public static load(_address: DataLike | Huri): Promisable<PayloadWrapperBase | null> {
+  public static load(_address: DataLike): Promisable<PayloadWrapperBase | null> {
     throw Error('Not implemented')
   }
 
@@ -45,11 +47,18 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
 }
 
 export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends PayloadWrapperBase<TPayload> {
+  private static loaderFactory: PayloadLoaderFactory | null = null
+
   private isPayloadWrapper = true
 
-  public static override async load(address: DataLike | Huri) {
-    const payload = await new Huri(address).fetch()
-    return payload ? new PayloadWrapper(payload) : null
+  public static override async load(address: DataLike) {
+    if (this.loaderFactory === null) {
+      console.warn('No loader factory set')
+      return null
+    } else {
+      const payload = await this.loaderFactory()(address)
+      return payload ? new PayloadWrapper(payload) : null
+    }
   }
 
   public static override parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
@@ -64,5 +73,9 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
       }
     }
     throw Error(`Unable to parse [${typeof obj}]`)
+  }
+
+  public static setLoaderFactory(factory: PayloadLoaderFactory | null) {
+    this.loaderFactory = factory
   }
 }

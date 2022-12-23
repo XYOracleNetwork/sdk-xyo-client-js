@@ -16,7 +16,6 @@ import { addQueryConverters } from './addQueryConverters'
 import { addQueryProcessing } from './addQueryProcessing'
 import { addQueryProcessors } from './addQueryProcessors'
 import { configureEnvironment } from './configureEnvironment'
-import { getConfig } from './getConfig'
 import { initializeJobs } from './initializeJobs'
 
 export abstract class PayloadTransport {
@@ -45,7 +44,7 @@ export class ExpressPayloadTransport extends PayloadTransport {
 }
 
 export const getApp = async (node?: MemoryNode): Promise<Express> => {
-  const config = getConfig()
+  //const config = getConfig()
   node = node ?? (await MemoryNode.create())
   await configureEnvironment()
   await configureDependencies(node)

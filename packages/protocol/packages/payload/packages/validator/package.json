@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/dns": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {

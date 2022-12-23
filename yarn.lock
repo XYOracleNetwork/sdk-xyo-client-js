@@ -4715,6 +4715,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/huri": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -4797,7 +4798,7 @@ __metadata:
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:^"
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
     "@xyo-network/crypto-asset-plugin": "workspace:^"
-    "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/diviner-wrapper": "workspace:^"
     "@xyo-network/etherchain-ethereum-gas-v1-plugin": "workspace:^"
     "@xyo-network/etherchain-ethereum-gas-v2-plugin": "workspace:^"
     "@xyo-network/ethers-ethereum-gas-plugin": "workspace:^"
@@ -4896,8 +4897,6 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/shared": "workspace:^"
-  peerDependencies:
-    axios: ^1.2.1
   languageName: unknown
   linkType: soft
 
@@ -4922,8 +4921,6 @@ __metadata:
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     lodash: ^4.17.21
-  peerDependencies:
-    axios: ^1.2.1
   languageName: unknown
   linkType: soft
 
@@ -4937,12 +4934,9 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-validator": "workspace:^"
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/huri": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     lodash: ^4.17.21
-  peerDependencies:
-    axios: ^1.2.1
   languageName: unknown
   linkType: soft
 
@@ -5272,6 +5266,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-wrapper@workspace:^, @xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper"
+  dependencies:
+    "@xylabs/assert": ^2.6.12
+    "@xylabs/ts-scripts-yarn3": ^2.11.16
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner@workspace:^, @xyo-network/diviner@workspace:packages/modules/packages/diviner":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/modules/packages/diviner"
@@ -5283,6 +5291,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/diviner-wrapper": "workspace:^"
     "@xyo-network/huri": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -5666,6 +5675,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/diviner-wrapper": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/express-node-lib": "workspace:^"
     "@xyo-network/express-node-middleware": "workspace:^"
@@ -5965,6 +5975,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/elevation-payload-plugin": "workspace:^"
     "@xyo-network/elevation-plugin": "workspace:^"
     "@xyo-network/location-certainty-payload-plugin": "workspace:^"
@@ -6066,12 +6077,7 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
-    axios: ~1.2.1
     lodash: ^4.17.21
-    pako: ^2.1.0
-  peerDependencies:
-    axios: ~1.2.1
-    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6088,10 +6094,8 @@ __metadata:
     "@xyo-network/panel": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     axios: ~1.2.1
-    pako: ^2.1.0
   peerDependencies:
     axios: ~1.2.1
-    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6211,6 +6215,7 @@ __metadata:
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/location-certainty-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -6310,12 +6315,6 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    axios: ~1.2.1
-    lodash: ^4.17.21
-    pako: ^2.1.0
-  peerDependencies:
-    axios: ~1.2.1
-    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6401,7 +6400,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/dns": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
   languageName: unknown
   linkType: soft
@@ -6413,15 +6411,9 @@ __metadata:
     "@xylabs/assert": ^2.6.12
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/huri": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    axios: ~1.2.1
-    pako: ^2.1.0
-  peerDependencies:
-    axios: ~1.2.1
-    pako: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -6430,6 +6422,7 @@ __metadata:
   resolution: "@xyo-network/payload@workspace:packages/protocol/packages/payload"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.11.16
+    "@xyo-network/dns": "workspace:^"
     "@xyo-network/huri": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -6450,6 +6443,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"

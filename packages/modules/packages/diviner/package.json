@@ -16,6 +16,7 @@
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
+    "@xyo-network/diviner-wrapper": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",

@@ -60,7 +60,7 @@
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:^",
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^",
     "@xyo-network/crypto-asset-plugin": "workspace:^",
-    "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/diviner-wrapper": "workspace:^",
     "@xyo-network/etherchain-ethereum-gas-v1-plugin": "workspace:^",
     "@xyo-network/etherchain-ethereum-gas-v2-plugin": "workspace:^",
     "@xyo-network/ethers-ethereum-gas-plugin": "workspace:^",

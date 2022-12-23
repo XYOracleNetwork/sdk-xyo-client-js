@@ -22,9 +22,6 @@
     "@types/lodash": "^4.14.191",
     "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
-  "peerDependencies": {
-    "axios": "^1.2.1"
-  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {

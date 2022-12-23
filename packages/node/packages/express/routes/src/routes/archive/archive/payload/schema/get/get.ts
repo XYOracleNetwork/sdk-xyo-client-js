@@ -1,5 +1,5 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { DivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
 import { ArchivePathParams, SchemaStatsQueryPayload, SchemaStatsQuerySchema } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'

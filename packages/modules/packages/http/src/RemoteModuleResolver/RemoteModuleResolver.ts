@@ -7,7 +7,7 @@ const fulfilled = <T>(val: PromiseSettledResult<T>): val is PromiseFulfilledResu
   return val.status === 'fulfilled'
 }
 export class RemoteModuleResolver implements ModuleResolver {
-  private modules: Record<string, HttpProxyModule> = {}
+  private resolvedModules: Record<string, HttpProxyModule> = {}
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
@@ -34,24 +34,30 @@ export class RemoteModuleResolver implements ModuleResolver {
     // TODO: Handle filter?.config
     // TODO: Handle filter?.query
     // TODO: Should these be AND not OR filtering, can we do it in memory afterwards?
-    const byAddress = addresses?.map(this.resolveByAddress) || []
-    const byName = names?.map(this.resolveByName) || []
+    const byAddress =
+      addresses?.map((address) => {
+        return this.resolveByAddress(address)
+      }) || []
+    const byName =
+      names?.map((name) => {
+        return this.resolveByName(name)
+      }) || []
     return [...byAddress, ...byName]
   }
 
   private async resolveByAddress(address: string): Promise<HttpProxyModule> {
-    const cached = this.modules[address]
+    const cached = this.resolvedModules[address]
     if (cached) return cached
     const mod = await HttpProxyModule.create({ address, apiConfig: this.apiConfig, config: { schema: AbstractModuleConfigSchema } })
-    this.modules[address] = mod
+    this.resolvedModules[address] = mod
     return mod
   }
   private async resolveByName(name: string): Promise<HttpProxyModule> {
-    const cached = this.modules[name]
+    const cached = this.resolvedModules[name]
     if (cached) return cached
     const mod = await HttpProxyModule.create({ apiConfig: this.apiConfig, config: { schema: AbstractModuleConfigSchema }, name })
-    this.modules[name] = mod
-    this.modules[mod.address] = mod
+    this.resolvedModules[name] = mod
+    this.resolvedModules[mod.address] = mod
     return mod
   }
 }

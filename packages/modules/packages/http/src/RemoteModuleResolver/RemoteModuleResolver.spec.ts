@@ -4,7 +4,7 @@ import { XyoApiConfig } from '@xyo-network/api-models'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 
-import { RemoteModuleResolver } from '.'
+import { RemoteModuleResolver } from './RemoteModuleResolver'
 
 const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
 const name = 'PayloadDiviner'

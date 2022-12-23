@@ -5,20 +5,28 @@ import { AbstractNode, NodeConfig } from '@xyo-network/node'
 
 import { RemoteModuleResolver } from '../RemoteModuleResolver'
 
+export interface RemoteNodeModuleParams<TConfig extends NodeConfig = NodeConfig> extends ModuleParams<TConfig> {
+  // address?: string
+  apiConfig: XyoApiConfig
+}
+
 export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends AbstractNode<TConfig> {
-  constructor(params: ModuleParams<TConfig>, protected readonly apiConfig: XyoApiConfig) {
-    super(params, new RemoteModuleResolver(apiConfig))
+  protected readonly apiConfig: XyoApiConfig
+
+  constructor(params: RemoteNodeModuleParams<TConfig>) {
+    super(params, new RemoteModuleResolver(params.apiConfig))
+    this.apiConfig = params.apiConfig
   }
 
-  static override async create(params?: Partial<ModuleParams<NodeConfig>>): Promise<RemoteNode> {
+  static override async create(params: RemoteNodeModuleParams<NodeConfig>): Promise<RemoteNode> {
     return (await super.create(params)) as RemoteNode
   }
 
   // TODO: Create and create remote module for node to issue queries against
-  attach(address: string): void {
+  attach(_address: string): void {
     throw new Error('Method not implemented.')
   }
-  detach(address: string): void {
+  detach(_address: string): void {
     throw new Error('Method not implemented.')
   }
   async resolve(filter?: ModuleFilter): Promise<Module[]> {

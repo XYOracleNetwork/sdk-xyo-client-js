@@ -12,6 +12,9 @@ export class RemoteModuleResolver implements ModuleResolver {
     return true
   }
 
+  // TODO: Expose way for Node to add/remove modules
+  // TODO: Store successfully resolved modules
+
   async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const addresses = filter?.address
     const names = filter?.name
@@ -28,7 +31,7 @@ export class RemoteModuleResolver implements ModuleResolver {
   }
 
   tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    // TODO: Return subset of resolved modules
+    // TODO: Return subset of resolved modules (Promise.allSettled)
     try {
       return this.resolve(filter)
     } catch {

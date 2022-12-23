@@ -8,7 +8,7 @@ import {
   ModuleQueryResult,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
-import { AbstractNode, NodeConfig, NodeConfigSchema } from '@xyo-network/node'
+import { AbstractNode, NodeConfig, NodeConfigSchema, NodeModule, NodeWrapper } from '@xyo-network/node'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 import { HttpProxyModule } from '../HttpProxyModule'
@@ -25,6 +25,8 @@ export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
   protected readonly apiConfig: XyoApiConfig
   protected readonly internalResolver: RemoteModuleResolver
 
+  private _node: NodeWrapper | undefined
+
   constructor(params: RemoteNodeModuleParams<TConfig>, protected readonly module: HttpProxyModule) {
     super(params)
     this.apiConfig = params.apiConfig
@@ -35,37 +37,54 @@ export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
     return this.module.address
   }
 
+  public get node(): NodeWrapper {
+    if (this._node) return this._node
+    else {
+      this._node = new NodeWrapper(this.module as unknown as NodeModule)
+      return this.node
+    }
+  }
+
   static override async create(params: RemoteNodeModuleParams<NodeConfig>): Promise<RemoteNode> {
     const module = await HttpProxyModule.create({ apiConfig: params.apiConfig, config: { schema: AbstractModuleConfigSchema } })
     return new this(params, module)
   }
 
-  override attach(_address: string): void {
-    throw new Error('Method not implemented.')
+  override attach(address: string): Promise<void> {
+    return this.node.attach(address)
   }
   override attached(): Promise<string[]> {
-    throw new Error('Method not implemented.')
+    return this.node.attached()
   }
-  override description(): Promise<ModuleDescription> {
-    return this.module.description()
+  override async description(): Promise<ModuleDescription> {
+    return await this.node.description()
   }
-  override detach(_address: string): void {
-    throw new Error('Method not implemented.')
+  override detach(address: string): Promise<void> {
+    return this.node.detach(address)
   }
   override queries(): string[] {
-    return this.module.queries()
+    return this.node.queries()
   }
   override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    return this.module.query(query, payloads)
+    return this.node.query(query, payloads)
   }
   override queryable(schema: string, _addresses?: string[] | undefined) {
-    return this.module.queryable(schema)
+    return this.node.queryable(schema)
   }
   override register(_module: Module): void {
     throw new Error('Method not implemented.')
   }
-  override registered(): string[] {
-    throw new Error('Method not implemented.')
+  override registered(): Promise<string[]> {
+    return this.node.registered()
+  }
+  override async registeredModules(): Promise<Module[]> {
+    const addresses = await this.registered()
+    const resolved = await Promise.all(
+      addresses.map((address) => {
+        return this.tryResolve({ address: [address] })
+      }),
+    )
+    return resolved.flatMap((mod) => mod)
   }
   override resolve(filter?: ModuleFilter): Promise<Module[]> {
     return this.internalResolver.resolve(filter)

@@ -28,8 +28,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
   extends AbstractModule<TConfig>
   implements NodeModule
 {
-  static configSchema = NodeConfigSchema
-  public isModuleResolver = true
+  static readonly configSchema = NodeConfigSchema
 
   protected internalResolver: ModuleResolver<TModule>
   private _archivist?: Module
@@ -37,6 +36,10 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
   protected constructor(params: ModuleParams<TConfig>, internalResolver?: ModuleResolver<TModule>) {
     super(params)
     this.internalResolver = internalResolver ?? new SimpleModuleResolver<TModule>()
+  }
+
+  get isModuleResolver(): boolean {
+    return true
   }
 
   static override async create(params?: Partial<ModuleParams<NodeConfig>>): Promise<AbstractNode> {

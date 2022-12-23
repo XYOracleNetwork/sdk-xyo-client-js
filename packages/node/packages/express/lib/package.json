@@ -27,7 +27,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.12",
+    "@xylabs/assert": "^2.6.14",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/modules": "workspace:^",

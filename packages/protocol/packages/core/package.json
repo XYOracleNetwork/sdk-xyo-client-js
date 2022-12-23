@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.1",
-    "@xylabs/assert": "^2.6.12",
-    "@xylabs/bignumber": "^2.6.12",
-    "@xylabs/buffer": "^2.6.12",
+    "@xylabs/assert": "^2.6.14",
+    "@xylabs/bignumber": "^2.6.14",
+    "@xylabs/buffer": "^2.6.14",
     "@xyo-network/typeof": "workspace:^",
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",

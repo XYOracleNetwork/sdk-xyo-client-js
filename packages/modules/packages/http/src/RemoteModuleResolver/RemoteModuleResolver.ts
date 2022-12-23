@@ -1,7 +1,7 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 
-import { HttpProxyModule } from './HttpProxyModule'
+import { HttpProxyModule } from '../HttpProxyModule'
 
 export class RemoteModuleResolver implements ModuleResolver {
   // TODO: Allow optional ctor param for supplying address for nested Nodes

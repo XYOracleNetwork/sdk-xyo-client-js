@@ -1,4 +1,4 @@
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { uuid } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Axios } from 'axios'

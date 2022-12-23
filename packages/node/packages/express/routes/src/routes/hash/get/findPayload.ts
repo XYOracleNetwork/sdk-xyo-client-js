@@ -1,4 +1,4 @@
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessesArchivist, PayloadArchivist, PayloadSearchCriteria, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

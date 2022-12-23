@@ -1,11 +1,10 @@
 import { Account } from '@xyo-network/account'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { EmptyObject } from '@xyo-network/core'
 import { AbstractModule, AbstractModuleConfig, Module, ModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PromiseEx } from '@xyo-network/promise'
-
-import { ArchivistWrapper } from './ArchivistWrapper'
 
 export type ArchivingModuleConfig<T extends EmptyObject = EmptyObject> = AbstractModuleConfig<
   {

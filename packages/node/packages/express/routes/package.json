@@ -31,7 +31,7 @@
     "@xylabs/exists": "^2.6.12",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/api": "workspace:^",
-    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",

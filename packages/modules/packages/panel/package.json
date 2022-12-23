@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.6.12",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",

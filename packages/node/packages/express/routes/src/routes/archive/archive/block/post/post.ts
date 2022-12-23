@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { getRequestMeta } from '@xyo-network/express-node-lib'
 import { prepareBoundWitnesses, validatePayloadSchema } from '@xyo-network/node-core-lib'
 import { ArchivePathParams, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'

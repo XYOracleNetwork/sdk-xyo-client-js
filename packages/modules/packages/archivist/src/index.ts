@@ -1,6 +1,5 @@
 export * from './AbstractArchivist'
 export * from './ArchivingModule'
-export * from './ArchivistWrapper'
 export * from './CookieArchivist'
 export * from './MemoryArchivist'
 export * from './StorageArchivist'

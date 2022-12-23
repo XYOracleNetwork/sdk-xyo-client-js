@@ -55,7 +55,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
-    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/blocknative-ethereum-gas-plugin": "workspace:^",
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:^",
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^",

@@ -29,7 +29,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.6.12",
     "@xylabs/delay": "^2.6.12",
-    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",

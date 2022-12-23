@@ -26,18 +26,26 @@ export class ArchiveApiKeyStrategy extends Strategy {
         return
       }
 
-      const { archive } = req.params
-      if (!archive) {
-        this.fail('Invalid archive')
-        return
-      }
-
-      // Validate API Key is valid for this archive
-      const result = await this.archiveKeyRepository.find({ archive })
-      const keys = result.filter(exists).map((key) => key.key.toLowerCase())
-      if (!keys.includes(apiKey)) {
-        this.fail('Invalid API key')
-        return
+      let { archive } = req.params
+      // If the request pertains to an archive
+      if (archive) {
+        // Validate API Key is valid for the archive
+        const result = await this.archiveKeyRepository.find({ archive })
+        const keys = result.filter(exists).map((key) => key.key.toLowerCase())
+        if (!keys.includes(apiKey)) {
+          this.fail('Invalid API key')
+          return
+        }
+      } else {
+        // Otherwise validate the API Key is a valid key in general
+        const exists = await this.archiveKeyRepository.find({ key: apiKey })
+        const archiveForKey = exists.pop()?.archive
+        if (archiveForKey) {
+          archive = archiveForKey
+        } else {
+          this.fail('Invalid API key')
+          return
+        }
       }
 
       // Get the archive owner

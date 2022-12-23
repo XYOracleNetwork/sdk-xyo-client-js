@@ -26,14 +26,14 @@ describe('archiveApiKeyStrategy', () => {
       await (await request()).get(`/archive/${archive}/settings/key`).set('x-api-key', key).expect(StatusCodes.UNAUTHORIZED)
     })
   })
-  describe('for routes that allow unauthenticated', () => {
-    it('allows access without API key', async () => {
+  describe('for routes that do not require auth', () => {
+    it('allows access without auth', async () => {
       await (await request()).get('/archive').expect(StatusCodes.OK)
     })
-    it('allows access by valid API key', async () => {
+    it('allows access with valid API key', async () => {
       await (await request()).get('/archive').set('x-api-key', key).expect(StatusCodes.OK)
     })
-    it('disallows access by invalid API key', async () => {
+    it('disallows access with invalid API key', async () => {
       const key = 'foo'
       await (await request()).get('/archive').set('x-api-key', key).expect(StatusCodes.UNAUTHORIZED)
     })

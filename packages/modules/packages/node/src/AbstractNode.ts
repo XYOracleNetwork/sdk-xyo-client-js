@@ -98,11 +98,11 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     try {
       switch (typedQuery.schema) {
         case XyoNodeAttachQuerySchema: {
-          this.attach(typedQuery.address)
+          await this.attach(typedQuery.address)
           break
         }
         case XyoNodeDetachQuerySchema: {
-          this.detach(typedQuery.address)
+          await this.detach(typedQuery.address)
           break
         }
         case XyoNodeAttachedQuerySchema: {
@@ -114,7 +114,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
           break
         }
         case XyoNodeRegisteredQuerySchema: {
-          const addresses = this.registered()
+          const addresses = await this.registered()
           for (const address of addresses) {
             const payload = new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
             resultPayloads.push(payload)
@@ -131,15 +131,15 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  register(_module: TModule): void {
+  register(_module: TModule): Promisable<void> {
     throw new Error('Method not implemented.')
   }
 
-  registered(): string[] {
+  registered(): Promisable<string[]> {
     throw new Error('Method not implemented.')
   }
 
-  registeredModules(): TModule[] {
+  registeredModules(): Promisable<TModule[]> {
     throw new Error('Method not implemented.')
   }
 
@@ -148,12 +148,12 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     return this
   }
 
-  unregister(_module: TModule): void {
+  unregister(_module: TModule): Promisable<void> {
     throw new Error('Method not implemented.')
   }
 
-  abstract attach(address: string): void
-  abstract detach(address: string): void
+  abstract attach(address: string): Promisable<void>
+  abstract detach(address: string): Promisable<void>
   abstract resolve(filter?: ModuleFilter): Promisable<TModule[]>
   abstract tryResolve(filter?: ModuleFilter): Promisable<TModule[]>
 }

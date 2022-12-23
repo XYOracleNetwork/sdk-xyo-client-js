@@ -1,4 +1,4 @@
-import { Module } from '@xyo-network/module-model'
+import { Module, ModuleResolver } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
 export interface Node {
@@ -8,4 +8,4 @@ export interface Node {
   registered(): Promisable<string[]>
 }
 
-export type NodeModule = Node & Module
+export type NodeModule<TModule extends Module = Module> = Node & Module & ModuleResolver<TModule>

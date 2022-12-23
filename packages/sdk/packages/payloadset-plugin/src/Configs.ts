@@ -1,4 +1,4 @@
-import { DivinerConfig } from '@xyo-network/diviner'
+import { DivinerConfig } from '@xyo-network/diviner-model'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoWitnessConfig } from '@xyo-network/witness'
 

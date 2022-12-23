@@ -13,6 +13,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-validator": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "lodash": "^4.17.21"
@@ -21,9 +22,6 @@
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@xylabs/ts-scripts-yarn3": "^2.11.16"
-  },
-  "peerDependencies": {
-    "axios": "^1.2.1"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

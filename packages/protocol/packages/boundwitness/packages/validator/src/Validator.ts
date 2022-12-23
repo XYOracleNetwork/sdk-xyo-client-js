@@ -1,7 +1,8 @@
 import { AddressValue } from '@xyo-network/account'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { Hasher } from '@xyo-network/core'
-import { PayloadValidator, XyoSchemaNameValidator } from '@xyo-network/payload-validator'
+import { XyoSchemaNameValidator } from '@xyo-network/payload'
+import { PayloadValidator } from '@xyo-network/payload-validator'
 import { validateType } from '@xyo-network/typeof'
 import uniq from 'lodash/uniq'
 

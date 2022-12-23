@@ -1,4 +1,4 @@
-import { DivinerConfig } from '@xyo-network/diviner'
+import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { XyoArchivistApi } from '../Api'
 

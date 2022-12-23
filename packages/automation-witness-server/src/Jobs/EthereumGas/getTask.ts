@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { getDefaultLogger } from '@xylabs/sdk-api-express-ecs'
-import { DivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { Task } from '@xyo-network/shared'
 

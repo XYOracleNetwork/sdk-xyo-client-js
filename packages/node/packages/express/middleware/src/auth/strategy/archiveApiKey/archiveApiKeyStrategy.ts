@@ -12,7 +12,7 @@ import { Strategy, StrategyCreated, StrategyCreatedStatic } from 'passport'
 export class ArchiveApiKeyStrategy extends Strategy {
   constructor(
     @inject(TYPES.ArchiveArchivist) public readonly archiveArchivist: ArchiveArchivist,
-    @inject(TYPES.ArchiveKeyRepository) public readonly ArchiveKeyRepository: ArchiveKeyRepository,
+    @inject(TYPES.ArchiveKeyRepository) public readonly archiveKeyRepository: ArchiveKeyRepository,
     @inject(TYPES.UserManager) public readonly userManager: UserManager,
     public readonly apiKeyHeader = 'x-api-key',
   ) {
@@ -33,7 +33,7 @@ export class ArchiveApiKeyStrategy extends Strategy {
       }
 
       // Validate API Key is valid for this archive
-      const result = await this.ArchiveKeyRepository.find({ archive })
+      const result = await this.archiveKeyRepository.find({ archive })
       const keys = result.filter(exists).map((key) => key.key.toLowerCase())
       if (!keys.includes(apiKey)) {
         this.fail('Invalid API key')

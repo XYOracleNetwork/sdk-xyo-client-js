@@ -1,4 +1,4 @@
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 

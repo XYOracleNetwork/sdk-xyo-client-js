@@ -6314,6 +6314,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/schema-name-validator": "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -6438,6 +6439,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/schema-name-validator@workspace:^, @xyo-network/schema-name-validator@workspace:packages/sdk/packages/schema-name-validator":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/schema-name-validator@workspace:packages/sdk/packages/schema-name-validator"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.11.16
+    "@xyo-network/dns": "workspace:^"
+    "@xyo-network/huri": "workspace:^"
+    "@xyo-network/payload-builder": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-validator": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/schema-payload-plugin@workspace:^, @xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/payload/packages/schema":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/payload/packages/schema"
@@ -6526,6 +6541,7 @@ __metadata:
     "@xyo-network/network": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/schema-name-validator": "workspace:^"
     "@xyo-network/storage": "workspace:^"
     "@xyo-network/utils": "workspace:^"
     "@xyo-network/wallet": "workspace:^"

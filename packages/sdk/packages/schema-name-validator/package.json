@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/payload",
+  "name": "@xyo-network/schema-name-validator",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -18,8 +18,7 @@
     "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
-    "@xyo-network/schema-name-validator": "workspace:^"
+    "@xylabs/ts-scripts-yarn3": "^2.11.16"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

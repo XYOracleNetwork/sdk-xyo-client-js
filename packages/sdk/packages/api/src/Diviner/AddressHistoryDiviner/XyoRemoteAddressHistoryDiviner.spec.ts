@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper } from '@xyo-network/diviner'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 

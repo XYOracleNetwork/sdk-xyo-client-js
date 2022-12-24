@@ -16,6 +16,7 @@
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/schema-name-validator": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",

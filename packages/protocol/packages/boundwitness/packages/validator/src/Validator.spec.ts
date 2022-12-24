@@ -1,6 +1,6 @@
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { dumpErrors } from '@xyo-network/core'
-import { XyoSchemaNameValidator } from '@xyo-network/payload'
+import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 import { BoundWitnessValidator } from './Validator'
 

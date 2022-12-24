@@ -6,11 +6,15 @@ import {
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
+import { PayloadValidator } from '@xyo-network/payload-validator'
+import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
 import { MongoDBArchivePermissionsPayloadPayloadArchivist } from './MongoDBArchivePermissionsPayloadArchivist'
+
+PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
 
 describe('MongoDBArchivePermissionsPayloadPayloadArchivist', () => {
   const phrase = process.env.ACCOUNT_SEED

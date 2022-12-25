@@ -118,7 +118,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
         ),
       )
       await this.clear()
-      return settled.filter(fulfilled).map((result) => result.value)
+      return compact(settled.filter(fulfilled).map((result) => result.value))
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

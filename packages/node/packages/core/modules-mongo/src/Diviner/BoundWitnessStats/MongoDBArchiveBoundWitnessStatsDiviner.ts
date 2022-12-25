@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { fulfilled, rejected } from '@xylabs/promise'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import {
@@ -122,8 +123,8 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner impl
     this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
     this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
     const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
-    const succeeded = results.filter((result) => result.status === 'fulfilled').length
-    const failed = results.filter((result) => result.status === 'rejected').length
+    const succeeded = results.filter(fulfilled).length
+    const failed = results.filter(rejected).length
     this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 
@@ -167,8 +168,8 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner impl
       })
     })
     const results = await Promise.allSettled(updates)
-    const succeeded = results.filter((result) => result.status === 'fulfilled').length
-    const failed = results.filter((result) => result.status === 'rejected').length
+    const succeeded = results.filter(fulfilled).length
+    const failed = results.filter(rejected).length
     this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 }

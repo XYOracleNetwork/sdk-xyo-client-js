@@ -4531,6 +4531,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/promise@npm:^2.6.15":
+  version: 2.6.15
+  resolution: "@xylabs/promise@npm:2.6.15"
+  checksum: f210c1d9985a147c9113b37ff8baa9923a850b617a37eaa4217078f26bc4ff004948ad932b02b5ea5bc2dd538c38cafc62434a9b29ad19cf5f03d5ca972b4618
+  languageName: node
+  linkType: hard
+
 "@xylabs/sdk-api-express-ecs@npm:^1.2.5":
   version: 1.2.5
   resolution: "@xylabs/sdk-api-express-ecs@npm:1.2.5"
@@ -4740,6 +4747,7 @@ __metadata:
   dependencies:
     "@types/js-cookie": ^3.0.2
     "@xylabs/assert": ^2.6.15
+    "@xylabs/promise": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-interface": "workspace:^"
@@ -5248,6 +5256,7 @@ __metadata:
   resolution: "@xyo-network/diviner@workspace:packages/modules/packages/diviner"
   dependencies:
     "@xylabs/assert": ^2.6.15
+    "@xylabs/promise": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
@@ -5809,6 +5818,7 @@ __metadata:
   resolution: "@xyo-network/http-proxy-module@workspace:packages/modules/packages/http"
   dependencies:
     "@xylabs/assert": ^2.6.15
+    "@xylabs/promise": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/api": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
@@ -6101,6 +6111,7 @@ __metadata:
     "@xylabs/assert": ^2.6.15
     "@xylabs/delay": ^2.6.15
     "@xylabs/exists": ^2.6.15
+    "@xylabs/promise": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
@@ -6648,6 +6659,7 @@ __metadata:
     "@xylabs/assert": ^2.6.15
     "@xylabs/bignumber": ^2.6.15
     "@xylabs/delay": ^2.6.15
+    "@xylabs/promise": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"

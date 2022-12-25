@@ -4747,6 +4747,7 @@ __metadata:
   dependencies:
     "@types/js-cookie": ^3.0.2
     "@xylabs/assert": ^2.6.15
+    "@xylabs/promise": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.11.16
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-interface": "workspace:^"

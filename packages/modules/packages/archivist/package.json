@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.6.15",
+    "@xylabs/promise": "^2.6.15",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",

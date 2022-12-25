@@ -11,7 +11,7 @@
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
     "@metamask/providers": "^10.2.1",
-    "@xylabs/delay": "^2.6.14",
+    "@xylabs/delay": "^2.6.15",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { fulfilled } from '@xylabs/promise'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -96,11 +97,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
         ),
       )
       await this.clear()
-      return compact(
-        settled.map((result) => {
-          return result.status === 'fulfilled' ? result.value : null
-        }),
-      )
+      return compact(settled.filter(fulfilled).map((result) => result.value))
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

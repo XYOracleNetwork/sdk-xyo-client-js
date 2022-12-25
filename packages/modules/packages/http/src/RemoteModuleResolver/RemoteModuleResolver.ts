@@ -1,11 +1,9 @@
+import { fulfilled } from '@xylabs/promise'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 
 import { HttpProxyModule } from '../HttpProxyModule'
 
-const fulfilled = <T>(val: PromiseSettledResult<T>): val is PromiseFulfilledResult<T> => {
-  return val.status === 'fulfilled'
-}
 export class RemoteModuleResolver implements ModuleResolver {
   private resolvedModules: Record<string, HttpProxyModule> = {}
 

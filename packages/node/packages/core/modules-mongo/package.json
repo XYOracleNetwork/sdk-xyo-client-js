@@ -30,6 +30,7 @@
     "@xylabs/assert": "^2.6.15",
     "@xylabs/delay": "^2.6.15",
     "@xylabs/exists": "^2.6.15",
+    "@xylabs/promise": "^2.6.15",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/archivist": "workspace:^",

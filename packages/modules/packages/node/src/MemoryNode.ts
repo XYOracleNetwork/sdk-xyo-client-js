@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Module, ModuleFilter, ModuleParams, ModuleRepository, SimpleModuleResolver } from '@xyo-network/module'
+import { Module, ModuleFilter, ModuleParams, ModuleRepository, ModuleResolver, SimpleModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -39,11 +39,17 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   }
 
   override async resolve(filter?: ModuleFilter): Promise<TModule[]> {
-    return (await this.internalResolver.resolve(filter)) ?? (await this.resolver?.resolve(filter)) ?? []
+    const internal = this.internalResolver.resolve(filter)
+    const external = (this.resolver as ModuleResolver<TModule> | undefined)?.resolve(filter) || []
+    const resolved = await Promise.all([internal, external])
+    return resolved.flatMap((mod) => mod)
   }
 
   override async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
-    return (await this.internalResolver.tryResolve(filter)) ?? (await this.resolver?.tryResolve(filter)) ?? []
+    const internal = this.internalResolver.tryResolve(filter)
+    const external = (this.resolver as ModuleResolver<TModule> | undefined)?.tryResolve(filter) || []
+    const resolved = await Promise.all([internal, external])
+    return resolved.flatMap((mod) => mod)
   }
 
   override unregister(module: TModule) {

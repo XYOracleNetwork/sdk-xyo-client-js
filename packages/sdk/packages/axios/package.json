@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "axios": "~1.2.1",
+    "axios": "~1.2.2",
     "pako": "^2.1.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

@@ -46,7 +46,7 @@ describe('RemoteModuleResolver', () => {
       const mods = await node.tryResolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
-    it.only('resolves by address', async () => {
+    it('resolves by address', async () => {
       const mods = await node.tryResolve({ address: [address] })
       await validateModuleResolutionResponse(mods)
     })

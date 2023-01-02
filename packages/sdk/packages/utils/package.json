@@ -22,7 +22,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
-    "@xylabs/ts-scripts-yarn3": "^2.11.16"
+    "@xylabs/ts-scripts-yarn3": "^2.12.0"
   },
   "browser": "dist/esm/browserIndex.js",
   "docs": "dist/docs.json",

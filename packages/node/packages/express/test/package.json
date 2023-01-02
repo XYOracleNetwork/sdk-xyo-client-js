@@ -49,7 +49,7 @@
   "devDependencies": {
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.11.16",
+    "@xylabs/ts-scripts-yarn3": "^2.12.0",
     "supertest": "^6.3.3"
   },
   "types": "dist/esm/index.d.ts"

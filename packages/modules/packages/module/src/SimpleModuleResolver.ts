@@ -13,9 +13,9 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return true
   }
 
-  add(module: TModule, name?: string): SimpleModuleResolver
-  add(module: TModule[], name?: string[]): SimpleModuleResolver
-  add(module: TModule | TModule[], name?: string | string[]) {
+  add(module: TModule, name?: string): this
+  add(module: TModule[], name?: string[]): this
+  add(module: TModule | TModule[], name?: string | string[]): this {
     if (Array.isArray(module)) {
       const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
       assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
@@ -26,8 +26,8 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return this
   }
 
-  remove(name: string | string[]): SimpleModuleResolver
-  remove(address: string | string[]): SimpleModuleResolver {
+  remove(name: string | string[]): this
+  remove(address: string | string[]): this {
     if (Array.isArray(address)) {
       address.forEach((address) => this.removeSingleModule(address))
     } else {

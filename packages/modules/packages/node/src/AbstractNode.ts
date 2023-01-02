@@ -31,7 +31,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
   static readonly configSchema = NodeConfigSchema
 
   protected internalResolver: ModuleResolver<TModule>
-  private _archivist?: Module
 
   protected constructor(params: ModuleParams<TConfig>, internalResolver?: ModuleResolver<TModule>) {
     super(params)

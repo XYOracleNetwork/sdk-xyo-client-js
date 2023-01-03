@@ -33,13 +33,9 @@ describe('RemoteModuleResolver', () => {
   })
   describe('when used with MemoryNode', () => {
     let node: MemoryNode
+    const config = { schema: NodeConfigSchema }
     beforeAll(async () => {
-      const params: AbstractNodeParams = {
-        config: {
-          schema: NodeConfigSchema,
-        },
-        internalResolver: resolver,
-      }
+      const params: AbstractNodeParams = { config, internalResolver: resolver }
       node = await MemoryNode.create(params)
     })
     it('resolves by name', async () => {

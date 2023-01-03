@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@xylabs/assert": "^2.6.14",
+    "@xylabs/assert": "^2.6.15",
     "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
@@ -20,7 +20,7 @@
     "@xyo-network/witness": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.11.16"
+    "@xylabs/ts-scripts-yarn3": "^2.12.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

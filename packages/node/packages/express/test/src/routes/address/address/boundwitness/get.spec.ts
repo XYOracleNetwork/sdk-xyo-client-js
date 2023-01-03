@@ -1,6 +1,7 @@
 import { Account } from '@xyo-network/account'
-import { BoundWitnessBuilder, BoundWitnessWrapper } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { StatusCodes } from 'http-status-codes'
 
 import { claimArchive, getPayloads, getTokenForUnitTestUser, postBlock, request } from '../../../../testUtil'

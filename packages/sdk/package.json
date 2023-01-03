@@ -16,13 +16,14 @@
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/schema-name-validator": "workspace:^",
     "@xyo-network/storage": "workspace:^",
     "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.11.16"
+    "@xylabs/ts-scripts-yarn3": "^2.12.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

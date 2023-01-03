@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
 import { XyoNetworkNodeSchema, XyoNetworkSchema } from '@xyo-network/network'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload-model'
 import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 

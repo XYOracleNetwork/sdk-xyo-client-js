@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { fulfilled } from '@xylabs/promise'
 import { XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { ModuleParams } from '@xyo-network/module'
@@ -28,7 +29,7 @@ export class HuriPayloadDiviner extends AbstractPayloadDiviner<XyoHuriPayloadDiv
     const huriList = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri))).flat()
 
     const settled = await Promise.allSettled(huriList.map((huri) => huri.fetch()))
-    return compact(settled.map((settle) => (settle.status === 'fulfilled' ? settle.value : null)))
+    return compact(settled.filter(fulfilled).map((settle) => settle.value))
   }
 
   override queries() {

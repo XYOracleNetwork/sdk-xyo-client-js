@@ -3,11 +3,15 @@
  */
 
 import { XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
+import { PayloadValidator } from '@xyo-network/payload-validator'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 import crypto from 'crypto'
 
 import { XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 import { XyoBowserSystemInfoWitness } from './Witness'
+
+PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cryptoPolyfill = (window: Window & typeof globalThis) => {

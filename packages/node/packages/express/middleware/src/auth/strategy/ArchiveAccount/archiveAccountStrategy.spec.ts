@@ -3,6 +3,8 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { claimArchive, getExistingUser, postCommandsToArchive, signInUser, TestWeb3User } from '@xyo-network/express-node-test'
 import { DebugSchema, SetArchivePermissions, SetArchivePermissionsPayload, SetArchivePermissionsSchema } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadValidator } from '@xyo-network/payload-validator'
+import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { StatusCodes } from 'http-status-codes'
 
 const allowedSchema = DebugSchema
@@ -15,6 +17,8 @@ const processingDelay = () => {
   // of the archive permissions on the server side
   return delay(100)
 }
+
+PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
 
 type TestSchemaTypes = typeof allowedSchema | typeof otherSchema
 

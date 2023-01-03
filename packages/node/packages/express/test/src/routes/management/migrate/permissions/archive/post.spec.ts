@@ -3,6 +3,8 @@ import { XyoArchive } from '@xyo-network/api'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { DebugPayload, DebugSchema, SetArchivePermissionsPayload } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadValidator } from '@xyo-network/payload-validator'
+import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { StatusCodes } from 'http-status-codes'
 
 import {
@@ -18,6 +20,8 @@ interface MigrationResponse {
   archive: XyoArchive
   migrated: SetArchivePermissionsPayload
 }
+
+PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
 
 const schema = DebugSchema
 

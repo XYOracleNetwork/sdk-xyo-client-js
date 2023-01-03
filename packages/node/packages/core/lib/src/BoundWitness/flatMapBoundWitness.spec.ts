@@ -1,6 +1,6 @@
-import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
 import { DebugPayload, DebugSchema } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 import { flatMapBoundWitness } from './flatMapBoundWitness'

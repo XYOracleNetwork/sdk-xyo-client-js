@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
@@ -117,11 +118,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
         ),
       )
       await this.clear()
-      return compact(
-        settled.map((result) => {
-          return result.status === 'fulfilled' ? result.value : null
-        }),
-      )
+      return compact(settled.filter(fulfilled).map((result) => result.value))
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

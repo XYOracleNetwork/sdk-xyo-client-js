@@ -1,10 +1,11 @@
 import { fulfilled } from '@xylabs/promise'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
+import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
+import { PayloadFields, SchemaFields } from '@xyo-network/payload-model'
 
 import { HttpProxyModule } from '../HttpProxyModule'
 
-export class RemoteModuleResolver implements ModuleResolver {
+export class RemoteModuleResolver implements ModuleRepository {
   private resolvedModules: Record<string, HttpProxyModule> = {}
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
@@ -13,6 +14,21 @@ export class RemoteModuleResolver implements ModuleResolver {
 
   public get isModuleResolver(): boolean {
     return true
+  }
+
+  add(module: Module<SchemaFields & PayloadFields & { schema: string }>, name?: string | undefined): this
+  add(module: Module<SchemaFields & PayloadFields & { schema: string }>[], name?: string[] | undefined): this
+  add(
+    module: Module<SchemaFields & PayloadFields & { schema: string }> | Module<SchemaFields & PayloadFields & { schema: string }>[],
+    name?: string | string[] | undefined,
+  ): this
+  add(module: unknown, name?: unknown): this {
+    throw new Error('Method not implemented.')
+  }
+  remove(name: string | string[]): this
+  remove(address: string | string[]): this
+  remove(address: unknown): this {
+    throw new Error('Method not implemented.')
   }
 
   // TODO: Expose way for Node to add/remove modules

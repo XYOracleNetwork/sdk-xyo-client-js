@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { ModuleParams, ModuleWrapper } from '@xyo-network/module'
+import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
-import { MemoryNode, NodeConfig, NodeConfigSchema } from '@xyo-network/node'
+import { AbstractNodeParams, MemoryNode, NodeConfigSchema } from '@xyo-network/node'
 
 import { RemoteModuleResolver } from './RemoteModuleResolver'
 
@@ -34,11 +34,11 @@ describe('RemoteModuleResolver', () => {
   describe('when used with MemoryNode', () => {
     let node: MemoryNode
     beforeAll(async () => {
-      const params: ModuleParams<NodeConfig> = {
+      const params: AbstractNodeParams = {
         config: {
           schema: NodeConfigSchema,
         },
-        resolver,
+        internalResolver: resolver,
       }
       node = await MemoryNode.create(params)
     })

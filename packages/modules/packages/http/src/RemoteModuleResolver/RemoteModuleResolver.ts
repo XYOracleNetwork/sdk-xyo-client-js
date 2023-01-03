@@ -1,10 +1,10 @@
 import { fulfilled } from '@xylabs/promise'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
+import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleRepository } from '@xyo-network/module-model'
 
 import { HttpProxyModule } from '../HttpProxyModule'
 
-export class RemoteModuleResolver implements ModuleResolver {
+export class RemoteModuleResolver implements ModuleRepository {
   private resolvedModules: Record<string, HttpProxyModule> = {}
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
@@ -15,7 +15,17 @@ export class RemoteModuleResolver implements ModuleResolver {
     return true
   }
 
-  // TODO: Expose way for Node to add/remove modules
+  add(module: Module, name?: string | undefined): this
+  add(module: Module[], name?: string[] | undefined): this
+  add(module: Module | Module[], name?: string | string[] | undefined): this
+  add(_module: unknown, _name?: unknown): this {
+    throw new Error('Method not implemented.')
+  }
+  remove(name: string | string[]): this
+  remove(address: string | string[]): this
+  remove(_address: unknown): this {
+    throw new Error('Method not implemented.')
+  }
 
   resolve(filter?: ModuleFilter): Promise<Module[]> {
     return Promise.all(this.queryModules(filter))

@@ -1,7 +1,6 @@
 import { fulfilled } from '@xylabs/promise'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
-import { PayloadFields, SchemaFields } from '@xyo-network/payload-model'
+import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleRepository } from '@xyo-network/module-model'
 
 import { HttpProxyModule } from '../HttpProxyModule'
 
@@ -16,22 +15,17 @@ export class RemoteModuleResolver implements ModuleRepository {
     return true
   }
 
-  add(module: Module<SchemaFields & PayloadFields & { schema: string }>, name?: string | undefined): this
-  add(module: Module<SchemaFields & PayloadFields & { schema: string }>[], name?: string[] | undefined): this
-  add(
-    module: Module<SchemaFields & PayloadFields & { schema: string }> | Module<SchemaFields & PayloadFields & { schema: string }>[],
-    name?: string | string[] | undefined,
-  ): this
-  add(module: unknown, name?: unknown): this {
+  add(module: Module, name?: string | undefined): this
+  add(module: Module[], name?: string[] | undefined): this
+  add(module: Module | Module[], name?: string | string[] | undefined): this
+  add(_module: unknown, _name?: unknown): this {
     throw new Error('Method not implemented.')
   }
   remove(name: string | string[]): this
   remove(address: string | string[]): this
-  remove(address: unknown): this {
+  remove(_address: unknown): this {
     throw new Error('Method not implemented.')
   }
-
-  // TODO: Expose way for Node to add/remove modules
 
   resolve(filter?: ModuleFilter): Promise<Module[]> {
     return Promise.all(this.queryModules(filter))

@@ -9,7 +9,6 @@ import {
   ModuleParams,
   ModuleQueryResult,
   ModuleRepository,
-  ModuleResolver,
   QueryBoundWitnessWrapper,
   SimpleModuleResolver,
   XyoErrorBuilder,

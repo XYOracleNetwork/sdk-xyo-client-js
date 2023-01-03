@@ -8,6 +8,7 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
+  ModuleRepository,
   ModuleResolver,
   QueryBoundWitnessWrapper,
   SimpleModuleResolver,
@@ -25,7 +26,7 @@ import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuer
 //const childModuleDiscoverQueryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
 
 export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends ModuleParams<TConfig> {
-  internalResolver?: ModuleResolver<TModule>
+  internalResolver?: ModuleRepository<TModule>
 }
 
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
@@ -34,7 +35,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
 {
   static readonly configSchema = NodeConfigSchema
 
-  protected internalResolver: ModuleResolver<TModule>
+  protected internalResolver: ModuleRepository<TModule>
 
   protected constructor(params: AbstractNodeParams<TConfig, TModule>) {
     super(params)

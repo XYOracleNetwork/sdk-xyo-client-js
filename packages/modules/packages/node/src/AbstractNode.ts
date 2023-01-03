@@ -24,6 +24,10 @@ import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuer
 
 //const childModuleDiscoverQueryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
 
+export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends ModuleParams<TConfig> {
+  internalResolver?: ModuleResolver<TModule>
+}
+
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractModule<TConfig>
   implements NodeModule
@@ -32,16 +36,16 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
 
   protected internalResolver: ModuleResolver<TModule>
 
-  protected constructor(params: ModuleParams<TConfig>, internalResolver?: ModuleResolver<TModule>) {
+  protected constructor(params: AbstractNodeParams<TConfig, TModule>) {
     super(params)
-    this.internalResolver = internalResolver ?? new SimpleModuleResolver<TModule>()
+    this.internalResolver = params.internalResolver ?? new SimpleModuleResolver<TModule>()
   }
 
   get isModuleResolver(): boolean {
     return true
   }
 
-  static override async create(params?: Partial<ModuleParams<NodeConfig>>): Promise<AbstractNode> {
+  static override async create(params?: Partial<AbstractNodeParams>): Promise<AbstractNode> {
     return (await super.create(params)) as AbstractNode
   }
 

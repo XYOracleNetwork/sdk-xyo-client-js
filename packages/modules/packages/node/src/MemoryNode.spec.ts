@@ -321,8 +321,13 @@ describe('MemoryNode', () => {
     })
     it('resolves modules wrapped as the specified type', async () => {
       const filter = { address: [testAccount2.addressValue.hex] }
-      const modules: ArchivistWrapper[] = await node.tryResolveWrapped(ArchivistWrapper, filter)
+      const modules = await node.tryResolveWrapped(ArchivistWrapper, filter)
       expect(modules.length).toBeGreaterThan(0)
+      modules.map((mod) => {
+        expect(mod.get).toBeFunction()
+        expect(mod.find).toBeFunction()
+        expect(mod.insert).toBeFunction()
+      })
     })
   })
 })

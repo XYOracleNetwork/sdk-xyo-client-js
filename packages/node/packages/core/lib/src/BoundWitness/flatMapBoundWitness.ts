@@ -17,6 +17,6 @@ const flatten = (boundWitness: XyoBoundWitnessWithPartialMeta): XyoPayload[] => 
       ?.map((payload) => {
         return payload.schema === XyoBoundWitnessSchema ? flatten(payload as XyoBoundWitnessWithPartialMeta) : payload
       })
-      .flatMap((x) => x) || []
+      .flat() || []
   return ([boundWitness] as XyoPayload[]).concat(payloads)
 }

@@ -28,7 +28,7 @@ describe('/archive/:archive/block/stats', () => {
         expect(response.length).toBe(1)
       }),
     ]
-    await Promise.all(posted.flatMap((p) => p))
+    await Promise.all(posted.flat())
     await delay(1000)
   })
   it('Returns stats on the desired archive', async () => {

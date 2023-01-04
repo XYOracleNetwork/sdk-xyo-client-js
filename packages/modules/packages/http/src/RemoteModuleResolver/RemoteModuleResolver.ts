@@ -4,6 +4,16 @@ import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleRepository } fr
 
 import { HttpProxyModule } from '../HttpProxyModule'
 
+interface LocalModuleFilter {
+  config?: string[]
+  query?: string[][]
+}
+
+interface RemoteModuleFilter {
+  address?: string[]
+  name?: string[]
+}
+
 export class RemoteModuleResolver implements ModuleRepository {
   private resolvedModules: Record<string, HttpProxyModule> = {}
 
@@ -21,36 +31,30 @@ export class RemoteModuleResolver implements ModuleRepository {
   add(_module: unknown, _name?: unknown): this {
     throw new Error('Method not implemented.')
   }
+
   remove(name: string | string[]): this
   remove(address: string | string[]): this
   remove(_address: unknown): this {
     throw new Error('Method not implemented.')
   }
 
-  resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return Promise.all(this.queryModules(filter))
+  async resolve(filter?: ModuleFilter): Promise<Module[]> {
+    const mods = await Promise.all(this.resolveRemoteModules(filter))
+    return this.filterLocalModules(mods, filter)
   }
 
   async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    const settled = await Promise.allSettled(this.queryModules(filter))
-    return settled.filter(fulfilled).map((r) => r.value)
+    const settled = await Promise.allSettled(this.resolveRemoteModules(filter))
+    const mods = settled.filter(fulfilled).map((r) => r.value)
+    return this.filterLocalModules(mods, filter)
   }
 
-  private queryModules(filter?: ModuleFilter): Promise<Module>[] {
-    const addresses = filter?.address
-    const names = filter?.name
-    // TODO: Handle filter?.config
+  private filterLocalModules(mods: Module[], filter?: LocalModuleFilter): Module[] {
     // TODO: Handle filter?.query
-    // TODO: Should these be AND not OR filtering, can we do it in memory afterwards?
-    const byAddress =
-      addresses?.map((address) => {
-        return this.resolveByAddress(address)
-      }) || []
-    const byName =
-      names?.map((name) => {
-        return this.resolveByName(name)
-      }) || []
-    return [...byAddress, ...byName]
+    if (filter?.query) throw new Error('Filtering by query not yet implemented by this resolver')
+    const config = filter?.config
+    const filtered = config?.length ? mods.filter((mod) => config.includes(mod.config.schema)) : mods
+    return filtered
   }
 
   private async resolveByAddress(address: string): Promise<HttpProxyModule> {
@@ -60,6 +64,7 @@ export class RemoteModuleResolver implements ModuleRepository {
     this.resolvedModules[address] = mod
     return mod
   }
+
   private async resolveByName(name: string): Promise<HttpProxyModule> {
     const cached = this.resolvedModules[name]
     if (cached) return cached
@@ -67,5 +72,13 @@ export class RemoteModuleResolver implements ModuleRepository {
     this.resolvedModules[name] = mod
     this.resolvedModules[mod.address] = mod
     return mod
+  }
+
+  private resolveRemoteModules(filter?: RemoteModuleFilter): Promise<HttpProxyModule>[] {
+    const addresses = filter?.address
+    const names = filter?.name
+    const byAddress = addresses?.map((address) => this.resolveByAddress(address)) || []
+    const byName = names?.map((name) => this.resolveByName(name)) || []
+    return [...byAddress, ...byName]
   }
 }

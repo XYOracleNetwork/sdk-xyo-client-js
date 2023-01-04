@@ -21,6 +21,7 @@ describe('MemoryNode', () => {
   const testAccount2 = new Account({ phrase: 'testPhrase2' })
   const testAccount3 = new Account({ phrase: 'testPhrase3' })
   const testAccount4 = new Account({ phrase: 'testPhrase4' })
+  const archivistConfig = { schema: MemoryArchivistConfigSchema }
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeEach(async () => {
@@ -180,7 +181,6 @@ describe('MemoryNode', () => {
     })
   })
   describe('description', () => {
-    const archivistConfig = { schema: MemoryArchivistConfigSchema }
     const validateModuleDescription = (description: ModuleDescription) => {
       expect(description).toBeObject()
       expect(description.address).toBeString()
@@ -306,6 +306,23 @@ describe('MemoryNode', () => {
         const description = await node.discover()
         validateDiscoveryResponse(node, description)
       })
+    })
+  })
+  describe('tryResolveWrapped', () => {
+    beforeEach(async () => {
+      const modules = await Promise.all([
+        await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
+        await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
+      ])
+      modules.map((mod) => {
+        node.register(mod)
+        node.attach(mod.address)
+      })
+    })
+    it('resolves modules wrapped as the specified type', async () => {
+      const filter = { address: [testAccount2.addressValue.hex] }
+      const modules: ArchivistWrapper[] = await node.tryResolveWrapped(ArchivistWrapper, filter)
+      expect(modules.length).toBeGreaterThan(0)
     })
   })
 })

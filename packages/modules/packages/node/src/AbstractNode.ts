@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
@@ -9,8 +10,10 @@ import {
   ModuleParams,
   ModuleQueryResult,
   ModuleRepository,
+  ModuleWrapper,
   QueryBoundWitnessWrapper,
   SimpleModuleResolver,
+  WrapperConstructor,
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
@@ -82,7 +85,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     //     const [bw, payloads] = result
     //     return [bw, ...payloads]
     //   })
-    //   .flatMap((x) => x)
+    //   .flat()
     // return [...parent, ...children]
     return parent
   }
@@ -146,9 +149,53 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     throw new Error('Method not implemented.')
   }
 
+  /**
+   * Resolves the supplied filter into wrapped modules
+   * @example <caption>Example using ArchivistWrapper</caption>
+   * const filter = { address: [address] }
+   * const mods: ArchivistWrapper[] = await node.resolveWrapped(ArchivistWrapper, filter)
+   * @param wrapper The ModuleWrapper class (ArchivistWrapper,
+   * DivinerWrapper, etc.)
+   * @param filter The ModuleFilter
+   * @returns An array of ModuleWrapper instances corresponding to
+   * the underlying modules matching the supplied filter
+   */
+  async resolveWrapped<
+    T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>,
+    U extends WrapperConstructor<TModule, T> = WrapperConstructor<TModule, T>,
+  >(wrapper: U, filter?: ModuleFilter): Promise<T[]> {
+    return (await this.resolve(filter)).map((mod) => new wrapper(mod))
+  }
+
   override async start() {
     await super.start()
     return this
+  }
+
+  /**
+   * Tries to resolve the supplied filter into wrapped modules
+   * @example <caption>Example using ArchivistWrapper</caption>
+   * const filter = { address: [address] }
+   * const mods: ArchivistWrapper[] = await node.tryResolveWrapped(ArchivistWrapper, filter)
+   * @param wrapper The ModuleWrapper class (ArchivistWrapper,
+   * DivinerWrapper, etc.)
+   * @param filter The ModuleFilter
+   * @returns An array of ModuleWrapper instances corresponding to
+   * the underlying modules matching the supplied filter
+   */
+  async tryResolveWrapped<
+    T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>,
+    U extends WrapperConstructor<TModule, T> = WrapperConstructor<TModule, T>,
+  >(wrapper: U, filter?: ModuleFilter): Promise<T[]> {
+    return (await this.tryResolve(filter))
+      .map((mod) => {
+        try {
+          return new wrapper(mod)
+        } catch (_err) {
+          return undefined
+        }
+      })
+      .filter(exists)
   }
 
   unregister(_module: TModule): Promisable<void> {

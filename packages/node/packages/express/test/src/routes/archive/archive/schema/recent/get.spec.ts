@@ -40,7 +40,7 @@ describe('/archive/:archive/schema/recent', () => {
         expect(response).toBeTruthy()
       }),
     ]
-    await Promise.all(posted.flatMap((p) => p))
+    await Promise.all(posted.flat())
   })
   it('Gets recently uploaded schema for the archive', async () => {
     const response = (await getArchiveSchemaRecent(archive)) as XyoPayloadWithMeta<XyoSchemaPayload>[]

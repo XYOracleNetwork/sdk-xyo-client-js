@@ -9,7 +9,6 @@ import { RemoteModuleResolver } from './RemoteModuleResolver'
 
 const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
 const name = 'PayloadDiviner'
-const config = 'network.xyo.diviner.payload.archivist.config'
 
 describe('RemoteModuleResolver', () => {
   let resolver: RemoteModuleResolver
@@ -28,7 +27,7 @@ describe('RemoteModuleResolver', () => {
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by config schema', async () => {
-      const mods = await resolver.tryResolve({ config: [config], name: [name] })
+      const mods = await resolver.tryResolve({ address: [address], config: [NodeConfigSchema] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by name', async () => {
@@ -49,7 +48,7 @@ describe('RemoteModuleResolver', () => {
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by config schema', async () => {
-      const mods = await node.tryResolve({ config: [config], name: [name] })
+      const mods = await node.tryResolve({ address: [address], config: [NodeConfigSchema] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by name', async () => {

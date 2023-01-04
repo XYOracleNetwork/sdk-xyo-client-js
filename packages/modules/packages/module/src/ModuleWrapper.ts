@@ -22,17 +22,17 @@ export interface WrapperError extends Error {
   result: ModuleQueryResult
 }
 
-export interface ModuleConstructor<TModule extends Module = Module> {
-  new (mod: TModule): ModuleWrapper<TModule>
+export interface WrapperConstructor<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>> {
+  new (mod: TModule): TWrapper
 }
 
-function staticImplements<T>() {
-  return <U extends T>(constructor: U) => {
+function wrapperStatic() {
+  return <U extends WrapperConstructor>(constructor: U) => {
     constructor
   }
 }
 
-@staticImplements<ModuleConstructor>()
+@wrapperStatic()
 export class ModuleWrapper<TModule extends Module = Module> implements Module {
   protected module: TModule
 

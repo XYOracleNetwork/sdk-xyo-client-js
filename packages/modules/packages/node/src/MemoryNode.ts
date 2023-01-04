@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
+import { exists } from '@xylabs/exists'
+import { Module, ModuleFilter, ModuleResolver, ModuleWrapper } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -44,11 +45,27 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     return resolved.flatMap((mod) => mod)
   }
 
+  async resolveWrapped<T extends ModuleWrapper = ModuleWrapper>(wrapper: { new (mod: Module): T }, filter?: ModuleFilter): Promise<T[]> {
+    return (await this.resolve(filter)).map((mod) => new wrapper(mod))
+  }
+
   override async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
     const internal = this.internalResolver.tryResolve(filter)
     const external = (this.resolver as ModuleResolver<TModule> | undefined)?.tryResolve(filter) || []
     const resolved = await Promise.all([internal, external])
     return resolved.flatMap((mod) => mod)
+  }
+
+  async tryResolveWrapped<T extends ModuleWrapper = ModuleWrapper>(wrapper: { new (mod: Module): T }, filter?: ModuleFilter): Promise<T[]> {
+    return (await this.tryResolve(filter))
+      .map((mod) => {
+        try {
+          return new wrapper(mod)
+        } catch (_err) {
+          return undefined
+        }
+      })
+      .filter(exists)
   }
 
   override unregister(module: TModule) {

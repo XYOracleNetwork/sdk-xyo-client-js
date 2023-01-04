@@ -6563,6 +6563,7 @@ __metadata:
     "@babel/preset-env": ^7.20.2
     "@types/node": ^18.11.18
     "@xylabs/eslint-config": ^2.12.0
+    "@xylabs/exists": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.12.0
     "@xylabs/tsconfig": ^2.12.0
     "@xyo-network/modules": "workspace:^"

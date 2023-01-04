@@ -10,7 +10,7 @@ import { XyoApiSimple, XyoApiSimpleQuery } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
 
 const getRequestStatuses = (results: XyoApiResponseTuple<XyoPayload>[][]): number[] => {
-  return results.flatMap((r) => r).map((r) => r?.[2]?.status)
+  return results.flat().map((r) => r?.[2]?.status)
 }
 
 const allRequestsSucceeded = (results: XyoApiResponseTuple<XyoPayload>[][]): boolean => {

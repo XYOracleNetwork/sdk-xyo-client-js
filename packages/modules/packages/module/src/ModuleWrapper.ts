@@ -22,6 +22,17 @@ export interface WrapperError extends Error {
   result: ModuleQueryResult
 }
 
+export type ModuleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>> = {
+  new (module: TModule): TWrapper
+}
+
+function moduleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>() {
+  return <U extends ModuleConstructable<TModule, TWrapper>>(constructor: U) => {
+    constructor
+  }
+}
+
+@moduleConstructable()
 export class ModuleWrapper<TModule extends Module = Module> implements Module {
   protected module: TModule
 

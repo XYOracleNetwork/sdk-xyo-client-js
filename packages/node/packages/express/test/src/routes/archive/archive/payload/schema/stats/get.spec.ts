@@ -39,7 +39,7 @@ describe('/archive/:archive/payload/schema/stats', () => {
         expect(response.length).toBe(1)
       }),
     ]
-    await Promise.all(posted.flatMap((p) => p))
+    await Promise.all(posted.flat())
     await delay(1000)
   })
   it('Returns stats on all payload schemas in archive', async () => {

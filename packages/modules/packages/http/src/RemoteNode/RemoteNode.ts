@@ -84,7 +84,7 @@ export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
         return this.tryResolve({ address: [address] })
       }),
     )
-    return resolved.flatMap((mod) => mod)
+    return resolved.flat()
   }
   override resolve(filter?: ModuleFilter): Promise<Module[]> {
     return this.internalResolver.resolve(filter)

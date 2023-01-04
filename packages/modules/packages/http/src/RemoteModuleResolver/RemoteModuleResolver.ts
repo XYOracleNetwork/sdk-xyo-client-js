@@ -14,6 +14,10 @@ interface RemoteModuleFilter {
   name?: string[]
 }
 
+const duplicateAddresses = (value: Module, index: number, array: Module[]): value is Module => {
+  return array.findIndex((v) => v.address === value.address) === index
+}
+
 export class RemoteModuleResolver implements ModuleRepository {
   private resolvedModules: Record<string, HttpProxyModule> = {}
 
@@ -39,15 +43,17 @@ export class RemoteModuleResolver implements ModuleRepository {
   }
 
   async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return this.filterLocalModules(await Promise.all(this.resolveRemoteModules(filter)), filter)
+    const mods = await Promise.all(this.resolveRemoteModules(filter))
+    return this.filterLocalModules(mods, filter)
   }
 
   async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
     const settled = await Promise.allSettled(this.resolveRemoteModules(filter))
-    return this.filterLocalModules(
-      settled.filter(fulfilled).map((r) => r.value),
-      filter,
-    )
+    const mods = settled
+      .filter(fulfilled)
+      .map((r) => r.value)
+      .filter(duplicateAddresses)
+    return this.filterLocalModules(mods, filter)
   }
 
   private filterLocalModules(mods: Module[], filter?: LocalModuleFilter): Module[] {

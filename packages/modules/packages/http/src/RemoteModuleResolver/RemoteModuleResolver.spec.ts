@@ -3,12 +3,13 @@ import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
-import { AbstractNodeParams, MemoryNode, NodeConfigSchema } from '@xyo-network/node'
+import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
 
 import { RemoteModuleResolver } from './RemoteModuleResolver'
 
 const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
 const name = 'PayloadDiviner'
+const config = 'network.xyo.diviner.payload.archivist.config'
 
 describe('RemoteModuleResolver', () => {
   let resolver: RemoteModuleResolver
@@ -22,28 +23,37 @@ describe('RemoteModuleResolver', () => {
     address = assertEx(response?.address)
   })
   describe('tryResolve', () => {
-    it('resolves by name', async () => {
-      const mods = await resolver.tryResolve({ name: [name] })
-      await validateModuleResolutionResponse(mods)
-    })
     it('resolves by address', async () => {
       const mods = await resolver.tryResolve({ address: [address] })
+      await validateModuleResolutionResponse(mods)
+    })
+    it('resolves by config schema', async () => {
+      const mods = await resolver.tryResolve({ config: [config], name: [name] })
+      await validateModuleResolutionResponse(mods)
+    })
+    it('resolves by name', async () => {
+      const mods = await resolver.tryResolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
   })
   describe('when used with MemoryNode', () => {
     let node: MemoryNode
-    const config = { schema: NodeConfigSchema }
     beforeAll(async () => {
-      const params: AbstractNodeParams = { config, internalResolver: resolver }
+      const config = { schema: NodeConfigSchema }
+      const internalResolver = resolver
+      const params = { config, internalResolver }
       node = await MemoryNode.create(params)
-    })
-    it('resolves by name', async () => {
-      const mods = await node.tryResolve({ name: [name] })
-      await validateModuleResolutionResponse(mods)
     })
     it('resolves by address', async () => {
       const mods = await node.tryResolve({ address: [address] })
+      await validateModuleResolutionResponse(mods)
+    })
+    it('resolves by config schema', async () => {
+      const mods = await node.tryResolve({ config: [config], name: [name] })
+      await validateModuleResolutionResponse(mods)
+    })
+    it('resolves by name', async () => {
+      const mods = await node.tryResolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
   })

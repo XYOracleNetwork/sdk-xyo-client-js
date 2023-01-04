@@ -28,7 +28,7 @@ describe('/archive/:archive/payload/stats', () => {
         expect(response.length).toBe(1)
       }),
     ]
-    await Promise.all(posted.flatMap((p) => p))
+    await Promise.all(posted.flat())
     // Allow counts to stabilize
     await delay(1000)
   })

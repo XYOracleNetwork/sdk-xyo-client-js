@@ -31,7 +31,7 @@ const pairsContainingToken = (uniswapPayload: XyoUniswapCryptoMarketPayload, tok
 const tokensFromPairs = (pairs: XyoUniswapCryptoPair[]) => {
   return pairs
     .map((p) => p.tokens)
-    .flatMap((t) => t)
+    .flat()
     .map((t) => t.symbol.toLowerCase() as Token)
 }
 

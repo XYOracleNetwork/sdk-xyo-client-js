@@ -85,7 +85,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     //     const [bw, payloads] = result
     //     return [bw, ...payloads]
     //   })
-    //   .flatMap((x) => x)
+    //   .flat()
     // return [...parent, ...children]
     return parent
   }

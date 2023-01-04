@@ -34,7 +34,7 @@ const issueQuery = async (query: XyoBoundWitness = getQuery()): Promise<string> 
 
 const validateAllResponseSchemas = (response: XyoApiEnvelope<XyoPayload | undefined>[][]): boolean => {
   return response
-    .flatMap((r) => r)
+    .flat()
     .map((r) => (r as unknown as XyoPayload)?.schema)
     .every((s) => s === schema)
 }

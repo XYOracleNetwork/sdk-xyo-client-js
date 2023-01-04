@@ -308,7 +308,7 @@ describe('MemoryNode', () => {
       })
     })
   })
-  describe('tryResolveAs', () => {
+  describe('tryResolveWrapped', () => {
     beforeEach(async () => {
       const modules = await Promise.all([
         await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Module, ModuleFilter, ModuleResolver, ModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleConstructor, ModuleFilter, ModuleResolver, ModuleWrapper } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -45,7 +45,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     return resolved.flatMap((mod) => mod)
   }
 
-  async resolveWrapped<T extends ModuleWrapper = ModuleWrapper>(wrapper: { new (mod: Module): T }, filter?: ModuleFilter): Promise<T[]> {
+  async resolveWrapped<
+    T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>,
+    U extends ModuleConstructor<TModule, T> = ModuleConstructor<TModule, T>,
+  >(wrapper: U, filter?: ModuleFilter): Promise<T[]> {
     return (await this.resolve(filter)).map((mod) => new wrapper(mod))
   }
 
@@ -56,7 +59,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     return resolved.flatMap((mod) => mod)
   }
 
-  async tryResolveWrapped<T extends ModuleWrapper = ModuleWrapper>(wrapper: { new (mod: Module): T }, filter?: ModuleFilter): Promise<T[]> {
+  async tryResolveWrapped<
+    T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>,
+    U extends ModuleConstructor<TModule, T> = ModuleConstructor<TModule, T>,
+  >(wrapper: U, filter?: ModuleFilter): Promise<T[]> {
     return (await this.tryResolve(filter))
       .map((mod) => {
         try {

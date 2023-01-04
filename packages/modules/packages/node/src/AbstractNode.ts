@@ -5,6 +5,7 @@ import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   AbstractModule,
   Module,
+  ModuleConstructable,
   ModuleDescription,
   ModuleFilter,
   ModuleParams,
@@ -13,7 +14,6 @@ import {
   ModuleWrapper,
   QueryBoundWitnessWrapper,
   SimpleModuleResolver,
-  WrapperConstructor,
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
@@ -30,7 +30,6 @@ import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuer
 export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends ModuleParams<TConfig> {
   internalResolver?: ModuleRepository<TModule>
 }
-
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractModule<TConfig>
   implements NodeModule
@@ -160,10 +159,10 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
    * @returns An array of ModuleWrapper instances corresponding to
    * the underlying modules matching the supplied filter
    */
-  async resolveWrapped<
-    T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>,
-    U extends WrapperConstructor<TModule, T> = WrapperConstructor<TModule, T>,
-  >(wrapper: U, filter?: ModuleFilter): Promise<T[]> {
+  async resolveWrapped<T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>(
+    wrapper: ModuleConstructable<TModule, T>,
+    filter?: ModuleFilter,
+  ): Promise<T[]> {
     return (await this.resolve(filter)).map((mod) => new wrapper(mod))
   }
 
@@ -183,10 +182,10 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
    * @returns An array of ModuleWrapper instances corresponding to
    * the underlying modules matching the supplied filter
    */
-  async tryResolveWrapped<
-    T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>,
-    U extends WrapperConstructor<TModule, T> = WrapperConstructor<TModule, T>,
-  >(wrapper: U, filter?: ModuleFilter): Promise<T[]> {
+  async tryResolveWrapped<T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>(
+    wrapper: ModuleConstructable<TModule, T>,
+    filter?: ModuleFilter,
+  ): Promise<T[]> {
     return (await this.tryResolve(filter))
       .map((mod) => {
         try {

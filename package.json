@@ -12,7 +12,6 @@
     "packages/**/*"
   ],
   "dependencies": {
-    "@xylabs/exists": "^2.6.15",
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
     "@xyo-network/sdk": "workspace:^"

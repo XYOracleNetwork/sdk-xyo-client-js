@@ -52,7 +52,7 @@ export class RemoteModuleResolver implements ModuleRepository {
 
   private filterLocalModules(mods: Module[], filter?: LocalModuleFilter): Module[] {
     // TODO: Handle filter?.query
-    if (filter?.query) throw new Error('Filtering by config not yet supported by this resolver')
+    if (filter?.query) throw new Error('Filtering by query not yet implemented by this resolver')
     const config = filter?.config
     const filtered = config?.length ? mods.filter((mod) => config.includes(mod.config.schema)) : mods
     return filtered

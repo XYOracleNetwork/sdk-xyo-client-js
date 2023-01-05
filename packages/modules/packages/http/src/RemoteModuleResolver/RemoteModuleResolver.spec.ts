@@ -55,6 +55,10 @@ describe('RemoteModuleResolver', () => {
       const mods = await node.tryResolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
+    it.only('resolves archives', async () => {
+      const mods = await node.tryResolve({ name: ['temp[payload]'] })
+      await validateModuleResolutionResponse(mods)
+    })
   })
 })
 

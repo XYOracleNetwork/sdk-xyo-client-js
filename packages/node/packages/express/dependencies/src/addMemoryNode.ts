@@ -58,12 +58,12 @@ const addArchives = async (container: Container, node: MemoryNode) => {
   const archivePayloadArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
   for (const archive of archives) {
     const payloadsArchivist = archivePayloadArchivistFactory(archive.archive)
-    const payloadsArchivistName = `${archive.archive}/payload`
+    const payloadsArchivistName = `${archive.archive}[payload]`
     node.register(payloadsArchivist)
     node.attach(payloadsArchivist.address, payloadsArchivistName)
 
     const bwArchivist = archiveBoundWitnessArchivistFactory(archive.archive)
-    const bwArchivistName = `${archive.archive}/boundwitness`
+    const bwArchivistName = `${archive.archive}[boundwitness]`
     node.register(bwArchivist)
     node.attach(bwArchivist.address, bwArchivistName)
   }

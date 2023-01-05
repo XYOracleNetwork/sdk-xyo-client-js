@@ -21,6 +21,8 @@ interface UpsertFilter {
   ]
 }
 
+const batchSize = 1000
+
 export class MongoDBArchiveArchivist implements ArchiveArchivist {
   constructor(protected readonly archives: BaseMongoSdk<EntityArchive> = getBaseMongoSdk<EntityArchive>(COLLECTIONS.Archives)) {}
 
@@ -29,8 +31,7 @@ export class MongoDBArchiveArchivist implements ArchiveArchivist {
   }
 
   async all(): Promise<EntityArchive[]> {
-    const allArchives: EntityArchive[] = [],
-      batchSize = 1000
+    const allArchives: EntityArchive[] = []
     let skip = 0,
       more = true
     while (more) {

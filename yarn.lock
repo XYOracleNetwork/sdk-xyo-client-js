@@ -6271,6 +6271,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.6.15
     "@xylabs/exists": ^2.6.15
+    "@xylabs/promise": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.12.0
     "@xyo-network/account": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"

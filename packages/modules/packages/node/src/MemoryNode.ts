@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { fulfilled } from '@xylabs/promise'
 import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
@@ -60,8 +61,12 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   override async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
     const internal = this.internalResolver.tryResolve(filter)
     const external = (this.resolver as ModuleResolver<TModule> | undefined)?.tryResolve(filter) || []
-    const resolved = await Promise.all([internal, external])
-    return resolved.flat().filter(duplicateModules)
+    const resolved = await Promise.allSettled([internal, external])
+    return resolved
+      .filter(fulfilled)
+      .map((r) => r.value)
+      .flat()
+      .filter(duplicateModules)
   }
 
   override unregister(module: TModule) {

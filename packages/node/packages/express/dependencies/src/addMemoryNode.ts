@@ -1,4 +1,5 @@
 import { AbstractModule, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
+import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadsArchivistFactory } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
@@ -36,6 +37,7 @@ export const addMemoryNode = async (container: Container, memoryNode?: MemoryNod
   })
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
+  await addArchives(container, node)
 }
 
 const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {
@@ -46,4 +48,23 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
       if (address) node.attach(address, type.description)
     }),
   )
+}
+
+const addArchives = async (container: Container, node: MemoryNode) => {
+  const archiveArchivist = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
+  const archives = (await archiveArchivist?.all?.()) || []
+  // TODO: Merge BW's & Payloads into single module?
+  const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
+  const archivePayloadArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
+  for (const archive of archives) {
+    const payloadsArchivist = archivePayloadArchivistFactory(archive.archive)
+    const payloadsArchivistName = `${archive.archive}/payload`
+    node.register(payloadsArchivist)
+    node.attach(payloadsArchivist.address, payloadsArchivistName)
+
+    const bwArchivist = archivePayloadArchivistFactory(archive.archive)
+    const bwArchivistName = `${archive.archive}/boundwitness`
+    node.register(bwArchivist)
+    node.attach(bwArchivist.address, bwArchivistName)
+  }
 }

@@ -21,7 +21,10 @@ interface UpsertFilter {
   ]
 }
 
-const batchSize = 1000
+/**
+ * Batch size to use when retrieving all archives
+ */
+const batchSize = 100
 
 export class MongoDBArchiveArchivist implements ArchiveArchivist {
   constructor(protected readonly archives: BaseMongoSdk<EntityArchive> = getBaseMongoSdk<EntityArchive>(COLLECTIONS.Archives)) {}

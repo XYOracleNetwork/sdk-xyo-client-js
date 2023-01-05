@@ -62,7 +62,7 @@ const addArchives = async (container: Container, node: MemoryNode) => {
     node.register(payloadsArchivist)
     node.attach(payloadsArchivist.address, payloadsArchivistName)
 
-    const bwArchivist = archivePayloadArchivistFactory(archive.archive)
+    const bwArchivist = archiveBoundWitnessArchivistFactory(archive.archive)
     const bwArchivistName = `${archive.archive}/boundwitness`
     node.register(bwArchivist)
     node.attach(bwArchivist.address, bwArchivistName)

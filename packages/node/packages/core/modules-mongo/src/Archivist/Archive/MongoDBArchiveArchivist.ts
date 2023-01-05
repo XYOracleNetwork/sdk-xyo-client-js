@@ -36,7 +36,7 @@ export class MongoDBArchiveArchivist implements ArchiveArchivist {
       more = true
     while (more) {
       const archives = await (await this.archives.find({})).skip(skip).limit(batchSize).maxTimeMS(DefaultMaxTimeMS).toArray()
-      allArchives.push()
+      allArchives.push(...archives)
       skip += batchSize
       more = archives.length === batchSize
     }

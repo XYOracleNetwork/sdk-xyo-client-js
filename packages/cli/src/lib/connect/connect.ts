@@ -9,7 +9,7 @@ const config = { schema: AbstractModuleConfigSchema }
 
 const nodeConnectionErrorMsg = 'Error connecting to Node'
 
-export const connect = async (attempts = 10, interval = 500) => {
+export const connect = async (attempts = 20, interval = 500) => {
   // TODO: Configurable via config or dynamically determined
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   const apiConfig = { apiDomain }

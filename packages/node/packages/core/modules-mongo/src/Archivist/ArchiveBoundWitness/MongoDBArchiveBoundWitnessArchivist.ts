@@ -28,6 +28,8 @@ export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArc
     config?: ArchiveModuleConfig,
   ) {
     super(account, config)
+    // TODO: Set via static.create instead
+    this._started = true
   }
 
   async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta<EmptyObject, XyoPayloadWithPartialMeta<EmptyObject>>[]> {

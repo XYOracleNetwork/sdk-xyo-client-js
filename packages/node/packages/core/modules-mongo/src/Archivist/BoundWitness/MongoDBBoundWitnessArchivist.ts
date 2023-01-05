@@ -23,6 +23,8 @@ export class MongoDBBoundWitnessArchivist extends AbstractBoundWitnessArchivist 
     protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
   ) {
     super(account)
+    // TODO: Set via static.create instead
+    this._started = true
   }
   async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta[]> {
     const { _archive, archives, addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate

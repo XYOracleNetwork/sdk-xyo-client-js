@@ -28,6 +28,11 @@ export class MongoDBArchiveArchivist implements ArchiveArchivist {
     throw new Error('Module query not implemented for MongoDBArchiveArchivist')
   }
 
+  async all(): Promise<EntityArchive[]> {
+    await Promise.resolve()
+    throw new Error('')
+  }
+
   async find(predicate?: XyoPayloadFilterPredicate<XyoArchive>): Promise<EntityArchive[]> {
     if (!predicate) return []
     const { archives, limit, offset, order, user } = predicate

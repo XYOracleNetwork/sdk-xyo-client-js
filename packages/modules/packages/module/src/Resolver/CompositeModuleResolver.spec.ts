@@ -35,7 +35,7 @@ describe('CompositeModuleResolver', () => {
         const address = 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381d'
         const name = 'mod'
         const mod = mock<Module>({ address })
-        expect(sut.add(mod, name)).toBeTruthy()
+        expect(sut.add(mod, name)).toEqual(sut)
         expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(1)
         expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(1)
@@ -44,10 +44,11 @@ describe('CompositeModuleResolver', () => {
         expect(await resolverB.tryResolve({ name: [name] })).toBeArrayOfSize(1)
       })
     })
-    describe.skip('remove', () => {
+    describe('remove', () => {
       it('removes module from resolvers', async () => {
         const address = moduleC.address
         const name = moduleCName
+        expect(sut.remove(address)).toEqual(sut)
         expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(0)
         expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(0)
         expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(0)

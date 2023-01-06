@@ -22,17 +22,17 @@ describe('SimpleModuleResolver', () => {
         const mod = moduleB
         const address = mod.address
         const name = moduleBName
-        expect(sut.add(mod, name)).toBeTruthy()
+        expect(sut.add(mod, name)).toEqual(sut)
         expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(1)
       })
     })
     describe('remove', () => {
       it('removes module from resolver', async () => {
-        const mod = moduleA
-        const address = mod.address
+        const address = moduleA.address
         const name = moduleAName
-        expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(sut.remove(address)).toEqual(sut)
+        expect(await sut.tryResolve({ address: [moduleA.address] })).toBeArrayOfSize(0)
         expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(0)
       })
     })

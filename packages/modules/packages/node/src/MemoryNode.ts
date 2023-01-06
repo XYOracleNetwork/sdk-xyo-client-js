@@ -20,13 +20,17 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
       const resolver = new ResolverEventEmitter(params?.resolver)
       resolver.on('moduleResolved', (args) => {
         const { module, filter } = args
-        instance.register(module)
-        if (filter?.name?.length) {
-          filter.name.map((name) => {
-            instance.attach(module.address, name)
-          })
-        } else {
-          instance.attach(module.address)
+        try {
+          instance.register(module)
+          if (filter?.name?.length) {
+            filter.name.map((name) => {
+              instance.attach(module.address, name)
+            })
+          } else {
+            instance.attach(module.address)
+          }
+        } catch (err) {
+          params.logger?.error(`Error attaching externally resolved module: 0x${module.address}`)
         }
       })
       instance.resolver = resolver

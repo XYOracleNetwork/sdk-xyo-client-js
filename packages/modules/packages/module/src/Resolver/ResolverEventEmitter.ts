@@ -1,23 +1,29 @@
 import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
-import { EventEmitter } from 'events'
 
 export interface ModuleResolvedEventArgs {
   filter?: ModuleFilter
   module: Module
 }
 
-export declare interface ResolverEventEmitter {
-  emit(event: 'moduleResolved', args: ModuleResolvedEventArgs): boolean
-  on(event: 'moduleResolved', listener: (args: ModuleResolvedEventArgs) => void): this
-}
+type ListenerFunction = (args: ModuleResolvedEventArgs) => void
 
-export class ResolverEventEmitter<T extends ModuleResolver = ModuleResolver> extends EventEmitter implements ModuleResolver {
-  constructor(protected readonly resolver: T) {
-    super()
-  }
+export class ResolverEventEmitter<T extends ModuleResolver = ModuleResolver> implements ModuleResolver {
+  protected listeners: ListenerFunction[] = []
+  constructor(protected readonly resolver: T) {}
 
   get isModuleResolver(): boolean {
     return true
+  }
+
+  emit(event: 'moduleResolved', args: ModuleResolvedEventArgs): boolean {
+    if (this.listeners.length < 1) return false
+    this.listeners.map((listener) => listener(args))
+    return true
+  }
+
+  on(event: 'moduleResolved', listener: (args: ModuleResolvedEventArgs) => void): this {
+    this.listeners.push(listener)
+    return this
   }
 
   async resolve(filter?: ModuleFilter): Promise<Module[]> {

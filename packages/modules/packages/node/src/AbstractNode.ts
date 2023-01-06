@@ -30,6 +30,7 @@ import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuer
 export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends ModuleParams<TConfig> {
   internalResolver?: ModuleRepository<TModule>
 }
+
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractModule<TConfig>
   implements NodeModule

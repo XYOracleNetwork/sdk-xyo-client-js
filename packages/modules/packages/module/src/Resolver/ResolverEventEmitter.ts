@@ -1,7 +1,20 @@
 import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
+import { EventEmitter } from 'events'
 
-export class ResolverEventEmitter<T extends ModuleResolver = ModuleResolver> implements ModuleResolver {
-  constructor(protected readonly resolver: T) {}
+export interface ModuleResolvedEventArgs {
+  filter?: ModuleFilter
+  module: Module
+}
+
+export declare interface ResolverEventEmitter {
+  emit(event: 'moduleResolved', args: ModuleResolvedEventArgs): boolean
+  on(event: 'moduleResolved', listener: (args: ModuleResolvedEventArgs) => void): this
+}
+
+export class ResolverEventEmitter<T extends ModuleResolver = ModuleResolver> extends EventEmitter implements ModuleResolver {
+  constructor(protected readonly resolver: T) {
+    super()
+  }
 
   get isModuleResolver(): boolean {
     return true
@@ -19,7 +32,8 @@ export class ResolverEventEmitter<T extends ModuleResolver = ModuleResolver> imp
     return modules
   }
 
-  protected onModuleResolved(_mod: Module, _filter?: ModuleFilter): Promise<void> {
-    return Promise.resolve()
+  protected onModuleResolved(module: Module, filter?: ModuleFilter): void {
+    const args = { filter, module }
+    this.emit('moduleResolved', args)
   }
 }

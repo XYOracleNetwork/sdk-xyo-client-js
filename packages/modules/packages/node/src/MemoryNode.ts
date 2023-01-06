@@ -5,11 +5,16 @@ import { duplicateModules, Module, ModuleFilter, ModuleResolver, ResolverEventEm
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
 
+export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
+  extends AbstractNodeParams<TConfig, TModule> {
+  autoAttachExternallyResolved?: boolean
+}
+
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends AbstractNode<TConfig, TModule> {
   static configSchema = NodeConfigSchema
   private registeredModuleMap = new Map<string, TModule>()
 
-  static override async create(params?: Partial<AbstractNodeParams>): Promise<MemoryNode> {
+  static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     const instance = (await super.create(params)) as MemoryNode
     if (params?.resolver && params?.autoAttachExternallyResolved) {
       const resolver = new ResolverEventEmitter(params?.resolver)

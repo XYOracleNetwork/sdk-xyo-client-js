@@ -43,8 +43,8 @@ export class HttpProxyModule implements Module {
         ? assertEx(((await api.node(name).get()) as unknown as XyoApiResponseBody<ModuleDescription>)?.address)
         : assertEx((await api.get())?.address))
     const instance = new this(api, addr)
-    const description = assertEx(await api.addresses.address(addr).get(), 'Error obtaining module description')
-    instance._queries = description.queries
+    const description = await api.addresses.address(addr).get()
+    instance._queries = assertEx(description?.queries, 'Error obtaining module description')
     // NOTE: We can't depend on obtaining the config positionally from
     // the response array and we need to filter on a result that is a
     // config schema (of which there are many) so we're left with

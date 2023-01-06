@@ -16,6 +16,8 @@ export class MongoDBPayloadArchivist extends AbstractPayloadArchivist<XyoPayload
     protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
   ) {
     super(account)
+    // TODO: Set via static.create instead
+    this._started = true
   }
   async find(predicate: XyoPayloadFilterPredicate<XyoPayloadWithMeta>): Promise<XyoPayloadWithMeta[]> {
     const { _archive, archives, hash, limit, order, schema, schemas, timestamp, ...props } = predicate

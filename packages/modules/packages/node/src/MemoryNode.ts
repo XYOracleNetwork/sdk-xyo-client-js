@@ -1,21 +1,9 @@
 import { assertEx } from '@xylabs/assert'
-import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
+import { fulfilled } from '@xylabs/promise'
+import { duplicateModules, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
-
-/**
- * Used to filter duplicates during module resolution since we search
- * internal and external resolvers for modules
- * @param value Current Module
- * @param index Current Module's index
- * @param array Module Array
- * @returns True if the Module's address is the first occurrence of
- * that address in the array, false otherwise
- */
-const duplicateModules = (value: Module, index: number, array: Module[]): value is Module => {
-  return array.findIndex((v) => v.address === value.address) === index
-}
 
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends AbstractNode<TConfig, TModule> {
   static configSchema = NodeConfigSchema
@@ -60,8 +48,12 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   override async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
     const internal = this.internalResolver.tryResolve(filter)
     const external = (this.resolver as ModuleResolver<TModule> | undefined)?.tryResolve(filter) || []
-    const resolved = await Promise.all([internal, external])
-    return resolved.flat().filter(duplicateModules)
+    const resolved = await Promise.allSettled([internal, external])
+    return resolved
+      .filter(fulfilled)
+      .map((r) => r.value)
+      .flat()
+      .filter(duplicateModules)
   }
 
   override unregister(module: TModule) {

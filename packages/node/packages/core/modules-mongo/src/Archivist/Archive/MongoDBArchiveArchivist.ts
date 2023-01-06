@@ -7,7 +7,7 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection, WithId } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
-import { DefaultLimit, DefaultOrder } from '../../defaults'
+import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk } from '../../Mongo'
 
 interface UpsertFilter {
@@ -21,11 +21,29 @@ interface UpsertFilter {
   ]
 }
 
+/**
+ * Batch size to use when retrieving all archives
+ */
+const batchSize = 100
+
 export class MongoDBArchiveArchivist implements ArchiveArchivist {
   constructor(protected readonly archives: BaseMongoSdk<EntityArchive> = getBaseMongoSdk<EntityArchive>(COLLECTIONS.Archives)) {}
 
   get address(): string {
     throw new Error('Module query not implemented for MongoDBArchiveArchivist')
+  }
+
+  async all(): Promise<EntityArchive[]> {
+    const allArchives: EntityArchive[] = []
+    let skip = 0,
+      more = true
+    while (more) {
+      const archives = await (await this.archives.find({})).skip(skip).limit(batchSize).maxTimeMS(DefaultMaxTimeMS).toArray()
+      allArchives.push(...archives)
+      skip += batchSize
+      more = archives.length === batchSize
+    }
+    return allArchives
   }
 
   async find(predicate?: XyoPayloadFilterPredicate<XyoArchive>): Promise<EntityArchive[]> {
@@ -38,7 +56,7 @@ export class MongoDBArchiveArchivist implements ArchiveArchivist {
     if (archives?.length) filter.archive = { $in: archives }
     if (user) filter.user = user
     const skip = offset && offset > 0 ? offset : 0
-    return (await this.archives.find(filter)).sort(sort).limit(parsedLimit).skip(skip).maxTimeMS(2000).toArray()
+    return (await this.archives.find(filter)).sort(sort).skip(skip).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()
   }
 
   async get(archives: string[]): Promise<Array<EntityArchive | null>> {

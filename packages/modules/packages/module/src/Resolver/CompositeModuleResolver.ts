@@ -2,6 +2,8 @@ import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Module, ModuleFilter, ModuleRepository } from '@xyo-network/module-model'
 
+import { duplicateModules } from '../lib'
+
 export class CompositeModuleResolver<TModule extends Module = Module> implements ModuleRepository {
   constructor(protected readonly resolvers: ModuleRepository<TModule>[]) {}
 
@@ -33,7 +35,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
 
   async resolve(filter?: ModuleFilter): Promise<TModule[]> {
     const modules = this.resolvers.map((resolver) => resolver.resolve(filter))
-    return (await Promise.all(modules)).flat()
+    return (await Promise.all(modules)).flat().filter(duplicateModules)
   }
 
   async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
@@ -43,6 +45,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
       .filter(fulfilled)
       .map((r) => r.value)
       .flat()
+      .filter(duplicateModules)
   }
 
   private addSingleModule(module?: TModule, name?: string) {

@@ -1,3 +1,4 @@
+import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractModule, DynamicModuleResolver, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
 import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadsArchivistFactory } from '@xyo-network/node-core-model'
@@ -5,6 +6,8 @@ import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }
+
+const archivistName = /(?<archive>.*)\[(?<type>payload|boundwitness)\]/
 
 // TODO: Grab from actual type lists (which are not yet exported)
 const archivists = [
@@ -60,9 +63,11 @@ const addArchives = (container: Container, node: MemoryNode) => {
       const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
       const archivePayloadArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
       dynamicModuleResolver.resolveImplementation = async (filter) => {
-        const archives = filter?.address || filter?.name
+        const archives = [...(filter?.address || []), ...(filter?.name || [])]
+          .filter(archivistName.test)
+          .map((x) => archivistName.exec(x)?.groups?.archive)
+          .filter(exists)
         if (archives?.length) {
-          // TODO: Payload OR BW
           const attempted = await Promise.allSettled(archives.map((archive) => archiveArchivist.find({ archive })))
           const existing = attempted
             .filter(fulfilled)

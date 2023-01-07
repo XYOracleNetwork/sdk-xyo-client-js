@@ -48,11 +48,12 @@ export class MongoDBArchiveArchivist implements ArchiveArchivist {
 
   async find(predicate?: XyoPayloadFilterPredicate<XyoArchive>): Promise<EntityArchive[]> {
     if (!predicate) return []
-    const { archives, limit, offset, order, user } = predicate
+    const { archive, archives, limit, offset, order, user } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { $natural: parsedOrder === 'asc' ? 1 : -1 }
     const filter: Filter<EntityArchive> = {}
+    if (archive) filter.archive = archive
     if (archives?.length) filter.archive = { $in: archives }
     if (user) filter.user = user
     const skip = offset && offset > 0 ? offset : 0

@@ -37,13 +37,16 @@ export class HttpProxyModule implements Module {
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
     const { address, apiConfig, name } = params
     const api = new XyoArchivistApi(apiConfig)
-    const addr =
-      address ||
-      (name
-        ? assertEx(((await api.node(name).get()) as unknown as XyoApiResponseBody<ModuleDescription>)?.address)
-        : assertEx((await api.get())?.address))
+    let description: XyoApiResponseBody<ModuleDescription>
+    if (address) {
+      description = await api.addresses.address(address).get()
+    } else if (name) {
+      description = (await api.node(name).get()) as unknown as XyoApiResponseBody<ModuleDescription>
+    } else {
+      description = await api.get()
+    }
+    const addr = assertEx(description?.address)
     const instance = new this(api, addr)
-    const description = await api.addresses.address(addr).get()
     instance._queries = assertEx(description?.queries, 'Error obtaining module description')
     // NOTE: We can't depend on obtaining the config positionally from
     // the response array and we need to filter on a result that is a

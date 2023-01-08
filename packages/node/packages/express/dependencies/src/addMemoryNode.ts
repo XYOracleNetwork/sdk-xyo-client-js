@@ -1,9 +1,20 @@
-import { AbstractModule, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
+import { exists } from '@xylabs/exists'
+import { fulfilled } from '@xylabs/promise'
+import { AbstractModule, DynamicModuleResolver, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
 import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadsArchivistFactory } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }
+
+const archivistRegex = /(?<archive>.*)\[(?<type>payload|boundwitness)\]/
+
+interface ArchivistRegexMatch {
+  archive: string
+  type: string
+}
+
+type ArchivistRegexResult = ArchivistRegexMatch | undefined
 
 // TODO: Grab from actual type lists (which are not yet exported)
 const archivists = [
@@ -37,8 +48,7 @@ export const addMemoryNode = async (container: Container, memoryNode?: MemoryNod
   })
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
-  // TODO: Can't add archives here because it's too costly on boot
-  // await addArchives(container, node)
+  addArchives(container, node)
 }
 
 const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {
@@ -51,21 +61,38 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
   )
 }
 
-const addArchives = async (container: Container, node: MemoryNode) => {
-  const archiveArchivist = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-  const archives = (await archiveArchivist?.all?.()) || []
-  // TODO: Merge BW's & Payloads into single module?
-  const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
-  const archivePayloadArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
-  for (const archive of archives) {
-    const payloadsArchivist = archivePayloadArchivistFactory(archive.archive)
-    const payloadsArchivistName = `${archive.archive}[payload]`
-    node.register(payloadsArchivist)
-    node.attach(payloadsArchivist.address, payloadsArchivistName)
-
-    const bwArchivist = archiveBoundWitnessArchivistFactory(archive.archive)
-    const bwArchivistName = `${archive.archive}[boundwitness]`
-    node.register(bwArchivist)
-    node.attach(bwArchivist.address, bwArchivistName)
+const addArchives = (container: Container, node: MemoryNode) => {
+  const { resolver } = node
+  if (resolver) {
+    if ((resolver as DynamicModuleResolver)?.resolveImplementation) {
+      const dynamicResolver = resolver as DynamicModuleResolver
+      const archives = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
+      const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
+      const archivePayloadsArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
+      dynamicResolver.resolveImplementation = async (filter) => {
+        if (!filter) return []
+        const filters: string[] = []
+        if (filter?.address) filters.push(...filter.address)
+        if (filter?.name) filters.push(...filter.name)
+        const archivistFilters = filters.map((filter) => archivistRegex.exec(filter)?.groups as ArchivistRegexResult).filter(exists)
+        if (archivistFilters.length) {
+          const potentialArchives = await Promise.allSettled(archivistFilters.map((filter) => archives.find({ archive: filter.archive })))
+          const existingArchives = potentialArchives
+            .filter(fulfilled)
+            .map((v) => v.value)
+            .flat()
+            .map((archive) => archive.archive)
+          const modules = archivistFilters
+            .filter((filter) => existingArchives.includes(filter.archive))
+            .map((filter) => {
+              return filter.type === 'boundwitness'
+                ? archiveBoundWitnessArchivistFactory(filter.archive)
+                : archivePayloadsArchivistFactory(filter.archive)
+            })
+          return modules
+        }
+        return []
+      }
+    }
   }
 }

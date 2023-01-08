@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { decorateExisting, duplicateModules, Module, ModuleFilter, ModuleResolver, ResolverEventEmitter } from '@xyo-network/module'
+import { duplicateModules, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver, ResolverEventEmitter } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -18,7 +18,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     const instance = (await super.create(params)) as MemoryNode
     if (params?.resolver && params?.autoAttachExternallyResolved) {
-      const resolver = decorateExisting(params?.resolver)
+      const resolver = mixinResolverEventEmitter(params?.resolver)
       resolver.on('moduleResolved', (args) => {
         const { module, filter } = args
         try {

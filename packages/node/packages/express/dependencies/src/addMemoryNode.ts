@@ -67,22 +67,27 @@ const addArchives = (container: Container, node: MemoryNode) => {
     if ((resolver as DynamicModuleResolver)?.resolveImplementation) {
       const dynamicResolver = resolver as DynamicModuleResolver
       const archives = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-      const boundWitnesses = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
-      const payloads = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
+      const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
+      const archivePayloadsArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
       dynamicResolver.resolveImplementation = async (filter) => {
-        const filters = [...(filter?.address || []), ...(filter?.name || [])]
-        const archiveFilters = filters.map((filter) => archivistRegex.exec(filter)?.groups as ArchivistRegexResult).filter(exists)
-        if (archiveFilters?.length) {
-          const attempted = await Promise.allSettled(archiveFilters.map((filter) => archives.find({ archive: filter.archive })))
-          const existing = attempted
+        if (!filter) return []
+        const filters: string[] = []
+        if (filter?.address) filters.push(...filter.address)
+        if (filter?.name) filters.push(...filter.name)
+        const archivistFilters = filters.map((filter) => archivistRegex.exec(filter)?.groups as ArchivistRegexResult).filter(exists)
+        if (archivistFilters.length) {
+          const potentialArchives = await Promise.allSettled(archivistFilters.map((filter) => archives.find({ archive: filter.archive })))
+          const existingArchives = potentialArchives
             .filter(fulfilled)
             .map((v) => v.value)
             .flat()
             .map((archive) => archive.archive)
-          const modules = archiveFilters
-            .filter((filter) => existing.includes(filter.archive))
+          const modules = archivistFilters
+            .filter((filter) => existingArchives.includes(filter.archive))
             .map((filter) => {
-              return filter.type === 'boundwitness' ? boundWitnesses(filter.archive) : payloads(filter.archive)
+              return filter.type === 'boundwitness'
+                ? archiveBoundWitnessArchivistFactory(filter.archive)
+                : archivePayloadsArchivistFactory(filter.archive)
             })
           return modules
         }

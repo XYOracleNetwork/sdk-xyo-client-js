@@ -7,6 +7,7 @@ import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }
 
+// TODO: Move to module alongside name builder helpers
 const archivistRegex = /(?<archive>.*)\[(?<type>payload|boundwitness)\]/
 
 interface ArchivistRegexMatch {
@@ -48,7 +49,7 @@ export const addMemoryNode = async (container: Container, memoryNode?: MemoryNod
   })
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
-  addArchives(container, node)
+  addDynamicArchivists(container, node)
 }
 
 const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {
@@ -61,7 +62,7 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
   )
 }
 
-const addArchives = (container: Container, node: MemoryNode) => {
+const addDynamicArchivists = (container: Container, node: MemoryNode) => {
   const { resolver } = node
   if (resolver) {
     if ((resolver as DynamicModuleResolver)?.resolveImplementation) {
@@ -85,6 +86,7 @@ const addArchives = (container: Container, node: MemoryNode) => {
           const modules = archivistFilters
             .filter((filter) => existingArchives.includes(filter.archive))
             .map((filter) => {
+              // TODO: Get this string from module alongside name builder helpers
               return filter.type === 'boundwitness'
                 ? archiveBoundWitnessArchivistFactory(filter.archive)
                 : archivePayloadsArchivistFactory(filter.archive)

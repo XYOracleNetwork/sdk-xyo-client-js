@@ -16,7 +16,7 @@
     "@xyo-network/huri": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
-    "ajv": "^8.11.2",
+    "ajv": "^8.12.0",
     "lru-cache": "^7.14.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

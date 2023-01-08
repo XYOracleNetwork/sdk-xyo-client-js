@@ -63,12 +63,16 @@ const addArchives = (container: Container, node: MemoryNode) => {
       const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
       const archivePayloadArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
       dynamicModuleResolver.resolveImplementation = async (filter) => {
-        const archives = [...(filter?.address || []), ...(filter?.name || [])]
-          .filter(archivistName.test)
-          .map((x) => archivistName.exec(x)?.groups?.archive)
+        const filters = [...(filter?.address || []), ...(filter?.name || [])]
+        const archiveFilters = filters
+          .map((filter) => archivistName.exec(filter)?.groups)
           .filter(exists)
-        if (archives?.length) {
-          const attempted = await Promise.allSettled(archives.map((archive) => archiveArchivist.find({ archive })))
+          .map((result) => {
+            const { archive, type } = result
+            return { archive, type }
+          })
+        if (archiveFilters?.length) {
+          const attempted = await Promise.allSettled(archiveFilters.map((filter) => archiveArchivist.find({ archive: filter.archive })))
           const existing = attempted
             .filter(fulfilled)
             .map((v) => v.value)

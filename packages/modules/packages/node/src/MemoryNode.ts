@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { duplicateModules, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver, ResolverEventEmitter } from '@xyo-network/module'
+import { duplicateModules, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'

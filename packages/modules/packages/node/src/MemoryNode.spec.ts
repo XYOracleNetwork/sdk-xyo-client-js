@@ -14,7 +14,7 @@ import { AbstractModule, Module, ModuleDescription, SimpleModuleResolver } from 
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { NodeConfigSchema } from './Config'
-import { MemoryNode } from './MemoryNode'
+import { MemoryNode, MemoryNodeParams } from './MemoryNode'
 
 describe('MemoryNode', () => {
   const testAccount1 = new Account({ phrase: 'testPhrase1' })
@@ -75,6 +75,44 @@ describe('MemoryNode', () => {
           }
         }
       }
+    })
+    describe('with autoAttachExternallyResolved true', () => {
+      it('attaches external modules to internal resolver', async () => {
+        // Arrange
+        // Create a MemoryNode with no modules in the internal
+        // resolver and one module in the external resolver
+        const resolver = new SimpleModuleResolver()
+        const internalResolver = new SimpleModuleResolver()
+        const params: MemoryNodeParams = {
+          autoAttachExternallyResolved: true,
+          config: { schema: NodeConfigSchema },
+          internalResolver,
+          resolver,
+        }
+        const module = await MemoryArchivist.create()
+        const filter = { address: [module.address] }
+        resolver.add(module)
+        // No modules exist in internal resolver
+        expect(await internalResolver.tryResolve(filter)).toBeArrayOfSize(0)
+        // Module exists in external resolver
+        expect(await resolver.tryResolve(filter)).toBeArrayOfSize(1)
+        const node = await MemoryNode.create(params)
+        // No modules are attached
+        expect(await node.attached()).toBeArrayOfSize(0)
+
+        // Act
+        // Query for unattached module (by address) that exists in
+        // external resolver
+        expect(await node.tryResolve(filter)).toBeArrayOfSize(1)
+
+        // Assert
+        // Module is now attached
+        expect(await node.attached()).toBeArrayOfSize(1)
+        // Module exists in internal resolver
+        expect(await internalResolver.tryResolve(filter)).toBeArrayOfSize(1)
+        // Module still exists in external resolver
+        expect(await resolver.tryResolve(filter)).toBeArrayOfSize(1)
+      })
     })
   })
   describe('register', () => {

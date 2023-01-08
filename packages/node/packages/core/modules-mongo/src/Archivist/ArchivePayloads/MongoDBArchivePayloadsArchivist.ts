@@ -23,6 +23,8 @@ export class MongoDBArchivePayloadsArchivist extends AbstractPayloadArchivist<Xy
     config: ArchiveModuleConfig,
   ) {
     super(account, config)
+    // TODO: Set via static.create instead
+    this._started = true
   }
 
   async find(predicate?: XyoPayloadFilterPredicate): Promise<XyoPayloadWithMeta[]> {

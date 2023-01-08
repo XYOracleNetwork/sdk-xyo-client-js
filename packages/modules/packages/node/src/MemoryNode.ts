@@ -1,28 +1,42 @@
 import { assertEx } from '@xylabs/assert'
-import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
+import { exists } from '@xylabs/exists'
+import { fulfilled } from '@xylabs/promise'
+import { duplicateModules, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
 
-/**
- * Used to filter duplicates during module resolution since we search
- * internal and external resolvers for modules
- * @param value Current Module
- * @param index Current Module's index
- * @param array Module Array
- * @returns True if the Module's address is the first occurrence of
- * that address in the array, false otherwise
- */
-const duplicateModules = (value: Module, index: number, array: Module[]): value is Module => {
-  return array.findIndex((v) => v.address === value.address) === index
+export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
+  extends AbstractNodeParams<TConfig, TModule> {
+  autoAttachExternallyResolved?: boolean
 }
 
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends AbstractNode<TConfig, TModule> {
   static configSchema = NodeConfigSchema
   private registeredModuleMap = new Map<string, TModule>()
 
-  static override async create(params?: Partial<AbstractNodeParams>): Promise<MemoryNode> {
-    return (await super.create(params)) as MemoryNode
+  static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
+    const instance = (await super.create(params)) as MemoryNode
+    if (params?.resolver && params?.autoAttachExternallyResolved) {
+      const resolver = mixinResolverEventEmitter(params?.resolver)
+      resolver.on('moduleResolved', (args) => {
+        const { module, filter } = args
+        try {
+          instance.register(module)
+          if (filter?.name?.length) {
+            filter.name.map((name) => {
+              instance.attach(module.address, name)
+            })
+          } else {
+            instance.attach(module.address)
+          }
+        } catch (err) {
+          params.logger?.error(`Error attaching externally resolved module: 0x${module.address}`)
+        }
+      })
+      instance.resolver = resolver
+    }
+    return instance
   }
 
   override attach(address: string, name?: string) {
@@ -54,14 +68,19 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     const internal = this.internalResolver.resolve(filter)
     const external = (this.resolver as ModuleResolver<TModule> | undefined)?.resolve(filter) || []
     const resolved = await Promise.all([internal, external])
-    return resolved.flat().filter(duplicateModules)
+    return resolved.flat().filter(exists).filter(duplicateModules)
   }
 
   override async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
     const internal = this.internalResolver.tryResolve(filter)
     const external = (this.resolver as ModuleResolver<TModule> | undefined)?.tryResolve(filter) || []
-    const resolved = await Promise.all([internal, external])
-    return resolved.flat().filter(duplicateModules)
+    const resolved = await Promise.allSettled([internal, external])
+    return resolved
+      .filter(fulfilled)
+      .map((r) => r.value)
+      .flat()
+      .filter(exists)
+      .filter(duplicateModules)
   }
 
   override unregister(module: TModule) {

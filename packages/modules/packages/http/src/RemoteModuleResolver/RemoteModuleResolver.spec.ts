@@ -5,6 +5,7 @@ import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
 
+import { getBoundWitnessArchivistName, getPayloadArchivistName } from '../util'
 import { RemoteModuleResolver } from './RemoteModuleResolver'
 
 const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
@@ -52,6 +53,16 @@ describe('RemoteModuleResolver', () => {
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by name', async () => {
+      const mods = await node.tryResolve({ name: [name] })
+      await validateModuleResolutionResponse(mods)
+    })
+    it('resolves BoundWitness archives', async () => {
+      const name = getBoundWitnessArchivistName('temp')
+      const mods = await node.tryResolve({ name: [name] })
+      await validateModuleResolutionResponse(mods)
+    })
+    it('resolves Payload archives', async () => {
+      const name = getPayloadArchivistName('temp')
       const mods = await node.tryResolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })

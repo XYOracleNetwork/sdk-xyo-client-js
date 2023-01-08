@@ -78,8 +78,14 @@ const addArchives = (container: Container, node: MemoryNode) => {
             .map((v) => v.value)
             .flat()
             .map((archive) => archive.archive)
-            .map(archivePayloadArchivistFactory)
-          return existing
+          const modules = archiveFilters
+            .filter((filter) => existing.includes(filter.archive))
+            .map((filter) => {
+              return filter.type === 'boundwitness'
+                ? archiveBoundWitnessArchivistFactory(filter.archive)
+                : archivePayloadArchivistFactory(filter.archive)
+            })
+          return modules
         }
         return []
       }

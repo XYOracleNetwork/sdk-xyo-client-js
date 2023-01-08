@@ -7,7 +7,14 @@ import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }
 
-const archivistName = /(?<archive>.*)\[(?<type>payload|boundwitness)\]/
+const archivistRegex = /(?<archive>.*)\[(?<type>payload|boundwitness)\]/
+
+interface ArchivistRegexMatch {
+  archive: string
+  type: string
+}
+
+type ArchivistRegexResult = ArchivistRegexMatch | undefined
 
 // TODO: Grab from actual type lists (which are not yet exported)
 const archivists = [
@@ -41,7 +48,7 @@ export const addMemoryNode = async (container: Container, memoryNode?: MemoryNod
   })
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
-  await addArchives(container, node)
+  addArchives(container, node)
 }
 
 const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {
@@ -58,21 +65,15 @@ const addArchives = (container: Container, node: MemoryNode) => {
   const { resolver } = node
   if (resolver) {
     if ((resolver as DynamicModuleResolver)?.resolveImplementation) {
-      const dynamicModuleResolver = resolver as DynamicModuleResolver
-      const archiveArchivist = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-      const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
-      const archivePayloadArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
-      dynamicModuleResolver.resolveImplementation = async (filter) => {
+      const dynamicResolver = resolver as DynamicModuleResolver
+      const archives = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
+      const boundWitnesses = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
+      const payloads = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
+      dynamicResolver.resolveImplementation = async (filter) => {
         const filters = [...(filter?.address || []), ...(filter?.name || [])]
-        const archiveFilters = filters
-          .map((filter) => archivistName.exec(filter)?.groups)
-          .filter(exists)
-          .map((result) => {
-            const { archive, type } = result
-            return { archive, type }
-          })
+        const archiveFilters = filters.map((filter) => archivistRegex.exec(filter)?.groups as ArchivistRegexResult).filter(exists)
         if (archiveFilters?.length) {
-          const attempted = await Promise.allSettled(archiveFilters.map((filter) => archiveArchivist.find({ archive: filter.archive })))
+          const attempted = await Promise.allSettled(archiveFilters.map((filter) => archives.find({ archive: filter.archive })))
           const existing = attempted
             .filter(fulfilled)
             .map((v) => v.value)
@@ -81,9 +82,7 @@ const addArchives = (container: Container, node: MemoryNode) => {
           const modules = archiveFilters
             .filter((filter) => existing.includes(filter.archive))
             .map((filter) => {
-              return filter.type === 'boundwitness'
-                ? archiveBoundWitnessArchivistFactory(filter.archive)
-                : archivePayloadArchivistFactory(filter.archive)
+              return filter.type === 'boundwitness' ? boundWitnesses(filter.archive) : payloads(filter.archive)
             })
           return modules
         }

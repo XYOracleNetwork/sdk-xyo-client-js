@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { duplicateModules, Module, ModuleFilter, ModuleResolver, ResolverEventEmitter } from '@xyo-network/module'
+import { decorateExisting, duplicateModules, Module, ModuleFilter, ModuleResolver, ResolverEventEmitter } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -17,7 +18,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     const instance = (await super.create(params)) as MemoryNode
     if (params?.resolver && params?.autoAttachExternallyResolved) {
-      const resolver = new ResolverEventEmitter(params?.resolver)
+      const resolver = decorateExisting(params?.resolver)
       resolver.on('moduleResolved', (args) => {
         const { module, filter } = args
         try {
@@ -67,7 +68,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     const internal = this.internalResolver.resolve(filter)
     const external = (this.resolver as ModuleResolver<TModule> | undefined)?.resolve(filter) || []
     const resolved = await Promise.all([internal, external])
-    return resolved.flat().filter(duplicateModules)
+    return resolved.flat().filter(exists).filter(duplicateModules)
   }
 
   override async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
@@ -78,6 +79,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
       .filter(fulfilled)
       .map((r) => r.value)
       .flat()
+      .filter(exists)
       .filter(duplicateModules)
   }
 

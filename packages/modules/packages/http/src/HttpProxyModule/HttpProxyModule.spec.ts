@@ -77,12 +77,16 @@ describe('HttpProxyModule', () => {
       })
     })
     describe('queryable', () => {
-      it('returns true for supported queries', () => {
-        const response = sut.queryable(AbstractModuleDiscoverQuerySchema)
+      it('returns true for supported queries', async () => {
+        const queryPayload = new XyoPayloadBuilder({ schema: AbstractModuleDiscoverQuerySchema }).build()
+        const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
+        const response = await sut.queryable(query[0], [...query[1]])
         expect(response).toBeTrue()
       })
-      it('returns false for unsupported queries', () => {
-        const response = sut.queryable('foo.bar.baz')
+      it('returns false for unsupported queries', async () => {
+        const queryPayload = new XyoPayloadBuilder({ schema: 'foo.bar.baz' }).build()
+        const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
+        const response = await sut.queryable(query[0], [...query[1]])
         expect(response).toBeFalse()
       })
     })

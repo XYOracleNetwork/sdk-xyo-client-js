@@ -36,7 +36,7 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoWitnessQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
+    assertEx(await this.queryable(query, payloads))
     // Remove the query payload from the arguments passed to us so we don't observe it
     const filteredObservation = payloads?.filter((p) => new PayloadWrapper(p).hash !== query.query) || []
     const queryAccount = new Account()

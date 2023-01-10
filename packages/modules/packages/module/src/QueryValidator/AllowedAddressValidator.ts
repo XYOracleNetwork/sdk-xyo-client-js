@@ -1,6 +1,7 @@
-import { AddressString, SchemaString } from '@xyo-network/module-model'
+import { AbstractModuleQuery, AddressString, SchemaString } from '@xyo-network/module-model'
 
 import { AbstractModule } from '../AbstractModule'
+import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
 
 type SortedPipedAddressesString = string
@@ -21,8 +22,9 @@ export class AllowedAddressValidator implements QueryValidator {
     return this._allowedAddressSets
   }
 
-  queryable: Queryable = (query, _mod) => {
-    const schema = query.query.schema
+  queryable: Queryable = (query, payloads) => {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
+    const schema = wrapper.query.schema
     const addresses = query.addresses
     return addresses ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true : true
   }

@@ -119,7 +119,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
             query?.reduce((supported, queryList) => {
               return (
                 queryList.reduce((supported, query) => {
-                  const queryable = module.queryable(query)
+                  const queryable = module.queries().includes(query)
                   return supported && queryable
                 }, true) || supported
               )

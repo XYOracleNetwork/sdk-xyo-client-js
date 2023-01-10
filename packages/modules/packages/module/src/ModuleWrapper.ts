@@ -66,8 +66,8 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
     return await this.module.query(query, payloads)
   }
 
-  queryable(schema: string, addresses?: string[]) {
-    return this.module.queryable(schema, addresses)
+  queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
+    return this.module.queryable(query, payloads)
   }
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(

@@ -29,7 +29,7 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
     const typedQuery = wrapper.query
-    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
+    assertEx(await this.queryable(query, payloads))
 
     const queryAccount = new Account()
 

@@ -77,7 +77,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
+    assertEx(await this.queryable(query, payloads))
 
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()

@@ -1,10 +1,9 @@
+import { XyoQueryBoundWitness } from '@xyo-network/module-model'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { AbstractModule } from '../AbstractModule'
-import { QueryBoundWitnessWrapper } from '../Query'
+export type Queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness> = (query: T, payloads?: XyoPayload[]) => Promisable<boolean>
 
-export type Queryable<T extends QueryBoundWitnessWrapper = QueryBoundWitnessWrapper> = (query: T, module: AbstractModule) => Promisable<boolean>
-
-export interface QueryValidator<T extends QueryBoundWitnessWrapper = QueryBoundWitnessWrapper> {
+export interface QueryValidator<T extends XyoQueryBoundWitness = XyoQueryBoundWitness> {
   queryable: Queryable<T>
 }

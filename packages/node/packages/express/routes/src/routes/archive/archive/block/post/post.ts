@@ -20,7 +20,7 @@ const handler: RequestHandler<ArchivePathParams, XyoBoundWitnessWithMeta[], XyoB
   const body: XyoBoundWitnessWithMeta[] = Array.isArray(req.body) ? req.body : [req.body]
   const { payloads, sanitized } = prepareBoundWitnesses(body, boundWitnessMeta, payloadMeta)
 
-  const wrapper = new ArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
+  const wrapper = new ArchivistWrapper(await archiveBoundWitnessArchivistFactory(archive))
   await wrapper.insert(sanitized)
 
   if (payloads.length) {

@@ -11,6 +11,7 @@ import {
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
+import { Logger } from '@xyo-network/shared'
 import { ContainerModule, interfaces } from 'inversify'
 import LruCache from 'lru-cache'
 
@@ -31,20 +32,16 @@ let boundWitnessArchivistCache: LruCache<string, ArchiveBoundWitnessArchivist> |
 let payloadArchivistCache: LruCache<string, ArchivePayloadsArchivist> | undefined = undefined
 
 type ArchivePermissionsArchivistFactory = interfaces.Factory<ArchivePermissionsArchivist>
-type ArchiveBoundWitnessArchivistFactory = interfaces.Factory<ArchiveBoundWitnessArchivist>
+type ArchiveBoundWitnessArchivistFactory = interfaces.Factory<Promise<ArchiveBoundWitnessArchivist>>
 type ArchivePayloadArchivistFactory = interfaces.Factory<ArchivePayloadsArchivist>
 
 export const ArchivistFactoryContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   archivePermissionsArchivistCache = new LruCache<string, ArchivePermissionsArchivist>({ max })
   boundWitnessArchivistCache = new LruCache<string, ArchiveBoundWitnessArchivist>({ max })
   payloadArchivistCache = new LruCache<string, ArchivePayloadsArchivist>({ max })
-  bind<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory).toFactory<ArchiveBoundWitnessArchivist, [string]>(
+  bind<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory).toFactory<Promise<ArchiveBoundWitnessArchivist>, [string]>(
     (context) => {
-      return (archive: string) => {
-        const archivist = getBoundWitnessArchivist(context, archive)
-        // TODO: Initialize or add to bus
-        return archivist
-      }
+      return (archive: string) => getBoundWitnessArchivist(context, archive)
     },
   )
   bind<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory).toFactory<ArchivePayloadsArchivist, [string]>((context) => {
@@ -55,13 +52,16 @@ export const ArchivistFactoryContainerModule = new ContainerModule((bind: interf
   })
 })
 
-const getBoundWitnessArchivist = (context: interfaces.Context, archive: string) => {
+const getBoundWitnessArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = boundWitnessArchivistCache?.get?.(archive)
   if (cached) return cached
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const account = new Account()
   const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  const archivist = new MongoDBArchiveBoundWitnessArchivist(account, sdk, config)
+  const logger = context.container.get<Logger>(TYPES.Logger)
+  const params = { account, config, logger, sdk }
+  // const archivist = new MongoDBArchiveBoundWitnessArchivist(account, sdk, config)
+  const archivist = await MongoDBArchiveBoundWitnessArchivist.create(params)
   boundWitnessArchivistCache?.set(archive, archivist)
   return archivist
 }

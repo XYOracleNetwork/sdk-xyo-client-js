@@ -91,7 +91,7 @@ const addDynamicArchivists = (container: Container, node: MemoryNode) => {
                 ? archiveBoundWitnessArchivistFactory(filter.archive)
                 : archivePayloadsArchivistFactory(filter.archive)
             })
-          return modules
+          return await Promise.all(modules)
         }
         return []
       }

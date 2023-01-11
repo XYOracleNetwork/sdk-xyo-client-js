@@ -7,6 +7,7 @@ import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
   AbstractBoundWitnessArchivist,
   ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
   BoundWitnessArchivist,
   XyoBoundWitnessFilterPredicate,
   XyoBoundWitnessMeta,
@@ -26,7 +27,10 @@ export interface MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModu
 }
 
 export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArchivist implements BoundWitnessArchivist {
+  static override configSchema = ArchiveModuleConfigSchema
+
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+
   constructor(params: MongoDBArchiveBoundWitnessArchivistParams) {
     super(params)
     this.sdk = params?.sdk || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)

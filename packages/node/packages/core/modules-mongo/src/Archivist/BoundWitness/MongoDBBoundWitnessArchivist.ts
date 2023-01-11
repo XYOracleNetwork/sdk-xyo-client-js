@@ -26,11 +26,13 @@ export interface MongoDBBoundWitnessArchivistParams<TConfig extends AbstractModu
 
 export class MongoDBBoundWitnessArchivist extends AbstractBoundWitnessArchivist {
   public static override configSchema = AbstractModuleConfigSchema
+
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   static override async create(params?: Partial<MongoDBBoundWitnessArchivistParams>): Promise<MongoDBBoundWitnessArchivist> {
     return (await super.create(params)) as MongoDBBoundWitnessArchivist
   }
+
   async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta[]> {
     const { _archive, archives, addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit

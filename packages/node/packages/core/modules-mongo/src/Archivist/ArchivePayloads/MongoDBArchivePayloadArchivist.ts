@@ -4,6 +4,7 @@ import { ModuleParams } from '@xyo-network/module'
 import {
   AbstractPayloadArchivist,
   ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
   ArchivePayloadArchivist,
   XyoPayloadFilterPredicate,
   XyoPayloadWithMeta,
@@ -25,7 +26,10 @@ export class MongoDBArchivePayloadArchivist
   extends AbstractPayloadArchivist<XyoPayloadWithMeta, ArchiveModuleConfig>
   implements ArchivePayloadArchivist<XyoPayload, ArchiveModuleConfig>
 {
+  static override configSchema = ArchiveModuleConfigSchema
+
   protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>
+
   constructor(params: MongoDBArchivePayloadArchivistParams) {
     super(params)
     this.sdk = params?.sdk || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)

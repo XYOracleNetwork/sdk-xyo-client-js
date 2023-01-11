@@ -2,22 +2,26 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   ArchiveBoundWitnessArchivist,
+  ArchiveBoundWitnessArchivistFactory,
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
-  ArchivePayloadsArchivist,
+  ArchivePayloadArchivist,
+  ArchivePayloadArchivistFactory,
   ArchivePermissionsArchivist,
+  ArchivePermissionsArchivistFactory,
   SetArchivePermissionsPayload,
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
+import { Logger } from '@xyo-network/shared'
 import { ContainerModule, interfaces } from 'inversify'
 import LruCache from 'lru-cache'
 
 import { COLLECTIONS } from '../collections'
 import { getBaseMongoSdk } from '../Mongo'
 import { MongoDBArchiveBoundWitnessArchivist } from './ArchiveBoundWitness'
-import { MongoDBArchivePayloadsArchivist } from './ArchivePayloads'
+import { MongoDBArchivePayloadArchivist } from './ArchivePayloads'
 import { MongoDBArchivePermissionsPayloadPayloadArchivist } from './ArchivePermissions'
 
 /**
@@ -28,64 +32,63 @@ const max = 1000
 
 let archivePermissionsArchivistCache: LruCache<string, ArchivePermissionsArchivist> | undefined = undefined
 let boundWitnessArchivistCache: LruCache<string, ArchiveBoundWitnessArchivist> | undefined = undefined
-let payloadArchivistCache: LruCache<string, ArchivePayloadsArchivist> | undefined = undefined
-
-type ArchivePermissionsArchivistFactory = interfaces.Factory<ArchivePermissionsArchivist>
-type ArchiveBoundWitnessArchivistFactory = interfaces.Factory<ArchiveBoundWitnessArchivist>
-type ArchivePayloadArchivistFactory = interfaces.Factory<ArchivePayloadsArchivist>
+let payloadArchivistCache: LruCache<string, ArchivePayloadArchivist> | undefined = undefined
 
 export const ArchivistFactoryContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   archivePermissionsArchivistCache = new LruCache<string, ArchivePermissionsArchivist>({ max })
   boundWitnessArchivistCache = new LruCache<string, ArchiveBoundWitnessArchivist>({ max })
-  payloadArchivistCache = new LruCache<string, ArchivePayloadsArchivist>({ max })
-  bind<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory).toFactory<ArchiveBoundWitnessArchivist, [string]>(
+  payloadArchivistCache = new LruCache<string, ArchivePayloadArchivist>({ max })
+  bind<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory).toFactory<Promise<ArchiveBoundWitnessArchivist>, [string]>(
     (context) => {
-      return (archive: string) => {
-        const archivist = getBoundWitnessArchivist(context, archive)
-        // TODO: Initialize or add to bus
-        return archivist
-      }
+      return (archive: string) => getBoundWitnessArchivist(context, archive)
     },
   )
-  bind<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory).toFactory<ArchivePayloadsArchivist, [string]>((context) => {
+  bind<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory).toFactory<Promise<ArchivePayloadArchivist>, [string]>((context) => {
     return (archive: string) => getPayloadArchivist(context, archive)
   })
-  bind<ArchivePermissionsArchivistFactory>(TYPES.ArchivePermissionsArchivistFactory).toFactory<ArchivePermissionsArchivist, [string]>((context) => {
-    return (archive: string) => getArchivePermissionsArchivist(context, archive)
-  })
+  bind<ArchivePermissionsArchivistFactory>(TYPES.ArchivePermissionsArchivistFactory).toFactory<Promise<ArchivePermissionsArchivist>, [string]>(
+    (context) => {
+      return (archive: string) => getArchivePermissionsArchivist(context, archive)
+    },
+  )
 })
 
-const getBoundWitnessArchivist = (context: interfaces.Context, archive: string) => {
+const getBoundWitnessArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = boundWitnessArchivistCache?.get?.(archive)
   if (cached) return cached
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const account = new Account()
   const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  const archivist = new MongoDBArchiveBoundWitnessArchivist(account, sdk, config)
+  const logger = context.container.get<Logger>(TYPES.Logger)
+  const params = { account, config, logger, sdk }
+  const archivist = await MongoDBArchiveBoundWitnessArchivist.create(params)
   boundWitnessArchivistCache?.set(archive, archivist)
   return archivist
 }
 
-const getPayloadArchivist = (context: interfaces.Context, archive: string) => {
+const getPayloadArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = payloadArchivistCache?.get?.(archive)
   if (cached) return cached
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const account = new Account()
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
-  const archivist = new MongoDBArchivePayloadsArchivist(account, sdk, config)
+  const logger = context.container.get<Logger>(TYPES.Logger)
+  const params = { account, config, logger, sdk }
+  const archivist = await MongoDBArchivePayloadArchivist.create(params)
   payloadArchivistCache?.set(archive, archivist)
   return archivist
 }
 
-const getArchivePermissionsArchivist = (context: interfaces.Context, archive: string) => {
+const getArchivePermissionsArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = archivePermissionsArchivistCache?.get?.(archive)
   if (cached) return cached
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const phrase = assertEx(process.env.ACCOUNT_SEED)
   const account = new Account({ phrase })
+  const boundWitnesses = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const payloads = getBaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>(COLLECTIONS.Payloads)
-  const bw = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  const archivist = new MongoDBArchivePermissionsPayloadPayloadArchivist(account, payloads, bw, config)
+  const params = { account, boundWitnesses, config, payloads }
+  const archivist = await MongoDBArchivePermissionsPayloadPayloadArchivist.create(params)
   archivePermissionsArchivistCache?.set(archive, archivist)
   return archivist
 }

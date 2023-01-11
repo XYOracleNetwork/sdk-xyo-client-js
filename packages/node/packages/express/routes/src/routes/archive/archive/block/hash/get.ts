@@ -12,7 +12,7 @@ const handler: RequestHandler<BlockHashPathParams, XyoBoundWitness[]> = async (r
   const { archive, hash } = req.params
   const { archiveBoundWitnessArchivistFactory } = req.app
 
-  const wrapper = new ArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
+  const wrapper = new ArchivistWrapper(await archiveBoundWitnessArchivistFactory(archive))
   const result = await wrapper.get([hash])
   const block = result?.[0] as XyoBoundWitness
   res.json(scrubBoundWitnesses(block ? [block] : []))

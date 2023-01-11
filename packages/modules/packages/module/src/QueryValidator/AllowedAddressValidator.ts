@@ -9,12 +9,12 @@ export class AllowedAddressValidator<T extends AbstractModuleConfig = AbstractMo
   protected _allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
   protected _disallowedAddresses: Record<SchemaString, AddressString[]> = {}
   constructor(mod: Module<T>) {
-    if (mod.config.security?.allowed) {
+    if (mod?.config?.security?.allowed) {
       Object.entries(mod.config.security?.allowed).forEach(([schema, addressesList]) => {
         this._allowedAddressSets[schema] = addressesList.map((addresses) => addresses.sort().join('|'))
       })
     }
-    this._disallowedAddresses = mod.config.security?.disallowed || {}
+    this._disallowedAddresses = mod?.config?.security?.disallowed || {}
   }
 
   public get allowedAddressSets(): Record<SchemaString, SortedPipedAddressesString[]> {

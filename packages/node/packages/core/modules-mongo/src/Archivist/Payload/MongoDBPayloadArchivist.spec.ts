@@ -27,15 +27,17 @@ const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta<DebugPayloa
 describe('MongoDBPayloadArchivist', () => {
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const account = Account.random()
-  const sut = new MongoDBPayloadArchivist(account, sdk)
+  const params = { account, sdk }
   const archive = `test-${v4()}`
   const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
   const hashes: string[] = payloads.map((p) => new PayloadWrapper(p).hash)
   const payload = payloads[0]
   const hash = hashes[0]
+  let wrapper: ArchivistWrapper
 
   beforeAll(async () => {
-    const wrapper = new ArchivistWrapper(sut)
+    const sut = await MongoDBPayloadArchivist.create(params)
+    wrapper = new ArchivistWrapper(sut)
     const result = await wrapper.insert(payloads)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)
@@ -52,14 +54,12 @@ describe('MongoDBPayloadArchivist', () => {
   describe('find', () => {
     it('finds payloads by schema', async () => {
       const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { limit, schema }
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result?.[0]?.schema).toEqual(schema)
     })
     it('finds payloads by hash', async () => {
       const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([payload])
@@ -67,7 +67,6 @@ describe('MongoDBPayloadArchivist', () => {
   })
   describe('get', () => {
     it('gets payloads by hashes', async () => {
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.get(hashes)
       expect(result).toBeArrayOfSize(count)
       expect(result).toContainValues(payloads)

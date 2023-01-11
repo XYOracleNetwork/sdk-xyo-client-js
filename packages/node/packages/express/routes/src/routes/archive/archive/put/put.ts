@@ -28,7 +28,7 @@ const handler: RequestHandler<ArchivePathParams, XyoArchive, XyoArchive> = async
     const result = assertEx(results.pop(), 'Error inserting user')
     // Set newer permissions
     if (accessControl) {
-      await setArchiveAccessPrivate(permissions(archive), archive)
+      await setArchiveAccessPrivate(await permissions(archive), archive)
     }
     res.status(result.updated ? StatusCodes.OK : StatusCodes.CREATED).json(result)
   } catch (error) {

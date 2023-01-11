@@ -1,6 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { EmptyObject } from '@xyo-network/core'
+import { ModuleParams } from '@xyo-network/module'
+import { AbstractModuleConfig, AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
   AbstractBoundWitnessArchivist,
@@ -17,15 +19,20 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
+export interface MongoDBBoundWitnessArchivistParams<TConfig extends AbstractModuleConfig = AbstractModuleConfig, T extends EmptyObject = EmptyObject>
+  extends ModuleParams<TConfig> {
+  boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta<T>>
+}
+
 export class MongoDBBoundWitnessArchivist extends AbstractBoundWitnessArchivist {
-  constructor(
-    protected readonly account: Account = new Account(),
-    protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
-  ) {
-    super(account)
-    // TODO: Set via static.create instead
-    this._started = true
+  public static override configSchema = AbstractModuleConfigSchema
+
+  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+
+  static override async create(params?: Partial<MongoDBBoundWitnessArchivistParams>): Promise<MongoDBBoundWitnessArchivist> {
+    return (await super.create(params)) as MongoDBBoundWitnessArchivist
   }
+
   async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta[]> {
     const { _archive, archives, addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit
@@ -46,14 +53,14 @@ export class MongoDBBoundWitnessArchivist extends AbstractBoundWitnessArchivist 
     if (addresses?.length) filter.addresses = { $all: addresses }
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }
     if (payload_schemas?.length) filter.payload_schemas = { $in: payload_schemas }
-    return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)
+    return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)
   }
   async get(hashes: string[]): Promise<XyoBoundWitnessWithMeta[]> {
     // NOTE: This assumes at most 1 of each hash is stored which is currently not the case
     const limit = hashes.length
     assertEx(limit > 0, 'MongoDBBoundWitnessArchivist.get: No hashes supplied')
     assertEx(limit < 10, 'MongoDBBoundWitnessArchivist.get: Retrieval of > 100 hashes at a time not supported')
-    return (await (await this.sdk.find({ _hash: { $in: hashes } })).limit(hashes.length).toArray()).map(removeId)
+    return (await (await this.boundWitnesses.find({ _hash: { $in: hashes } })).limit(hashes.length).toArray()).map(removeId)
   }
   async insert(items: XyoBoundWitnessWithMeta[]): Promise<XyoBoundWitness[]> {
     const _timestamp = Date.now()
@@ -66,7 +73,7 @@ export class MongoDBBoundWitnessArchivist extends AbstractBoundWitnessArchivist 
       })
       .map((r) => r.sanitized[0])
     // TODO: Should we insert payloads here too?
-    const result = await this.sdk.insertMany(bws.map(removeId))
+    const result = await this.boundWitnesses.insertMany(bws.map(removeId))
     if (result.insertedCount != items.length) {
       throw new Error('MongoDBBoundWitnessArchivist.insert: Error inserting BoundWitnesses')
     }

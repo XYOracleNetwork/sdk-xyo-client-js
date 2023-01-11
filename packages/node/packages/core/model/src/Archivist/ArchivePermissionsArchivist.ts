@@ -8,4 +8,4 @@ import { SetArchivePermissions } from '../Query'
 export type ArchivePermissionsArchivist = Archivist<SetArchivePermissions, XyoBoundWitness | null, XyoPayloadWithPartialMeta<SetArchivePermissions>> &
   AbstractModule
 
-export type ArchivePermissionsArchivistFactory = (archive: string) => ArchivePermissionsArchivist
+export type ArchivePermissionsArchivistFactory = (archive: string) => Promise<ArchivePermissionsArchivist>

@@ -4,8 +4,11 @@ import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
+import { ModuleParams } from '@xyo-network/module'
 import {
   AbstractPayloadArchivist,
+  ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
   WitnessedPayloadArchivist,
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
@@ -26,14 +29,30 @@ const valid = (bw: XyoBoundWitness) => {
   return new BoundWitnessValidator(bw).validate().length === 0
 }
 
+export interface MongoDBArchivistWitnessedPayloadArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> extends ModuleParams<T> {
+  boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  payloads: BaseMongoSdk<XyoPayloadWithMeta>
+}
+
 export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements WitnessedPayloadArchivist {
-  constructor(
-    protected readonly account: Account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED, 'Missing ACCOUNT_SEED ENV Variable') }),
-    protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
-    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
-  ) {
-    super(account)
+  static override configSchema = ArchiveModuleConfigSchema
+
+  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
+
+  constructor(params: MongoDBArchivistWitnessedPayloadArchivistParams) {
+    super(params)
+    this.account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED, 'Missing ACCOUNT_SEED ENV Variable') })
+    this.boundWitnesses = params.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    this.payloads = params.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
+
+  static override async create(
+    params?: Partial<MongoDBArchivistWitnessedPayloadArchivistParams>,
+  ): Promise<MongoDBArchivistWitnessedPayloadArchivist> {
+    return (await super.create(params)) as MongoDBArchivistWitnessedPayloadArchivist
+  }
+
   find(_filter: PayloadFindFilter): Promise<XyoPayloadWithMeta[]> {
     throw new Error('Not implemented')
   }

@@ -2,4 +2,4 @@ import { BoundWitnessArchivist } from './BoundWitnessArchivist'
 
 export type ArchiveBoundWitnessArchivist = BoundWitnessArchivist
 
-export type ArchiveBoundWitnessArchivistFactory = (a: string) => ArchiveBoundWitnessArchivist
+export type ArchiveBoundWitnessArchivistFactory = (a: string) => Promise<ArchiveBoundWitnessArchivist>

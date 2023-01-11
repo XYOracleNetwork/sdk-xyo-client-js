@@ -17,7 +17,8 @@ const defaultArchivePermissions: SetArchivePermissions = {
 }
 
 const getArchivePermissions = async (req: Request<unknown, unknown, XyoBoundWitness[]>, archive: string): Promise<SetArchivePermissions> => {
-  const permissions = await req.app.archivePermissionsArchivistFactory(archive).get([archive])
+  const permissionsArchivist = await req.app.archivePermissionsArchivistFactory(archive)
+  const permissions = await permissionsArchivist.get([archive])
   return permissions && permissions?.[0] ? permissions?.[0] : defaultArchivePermissions
 }
 

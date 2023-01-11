@@ -30,7 +30,7 @@ export class GetArchivePermissionsQueryHandler implements QueryHandler<GetArchiv
   constructor(@inject(TYPES.ArchivePermissionsArchivistFactory) protected readonly archivistFactory: ArchivePermissionsArchivistFactory) {}
   async handle(query: GetArchivePermissionsQuery): Promise<XyoPayloadWithMeta<SetArchivePermissionsPayload>> {
     const archive = assertEx(query.payload._archive, 'GetArchivePermissionsQueryHandler.handle: Archive not supplied')
-    const wrapper = new ArchivistWrapper(this.archivistFactory(archive))
+    const wrapper = new ArchivistWrapper(await this.archivistFactory(archive))
     const getResult = await wrapper.get([archive])
     const permissions = (getResult?.[0] as SetArchivePermissionsPayload) || getEmptyPermissions(query)
     return new XyoPayloadBuilder<SetArchivePermissionsPayloadWithMeta>({ schema: SetArchivePermissionsSchema })

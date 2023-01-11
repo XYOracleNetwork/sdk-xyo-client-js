@@ -48,6 +48,8 @@ export interface MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = 
 }
 
 export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implements PayloadStatsDiviner, JobProvider {
+  static override configSchema = MongoDBArchivePayloadStatsDivinerConfigSchema
+
   protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined

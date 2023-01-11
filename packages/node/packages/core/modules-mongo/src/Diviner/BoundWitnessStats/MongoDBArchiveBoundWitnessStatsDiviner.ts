@@ -47,6 +47,8 @@ export interface MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPaylo
 }
 
 export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner implements BoundWitnessStatsDiviner, JobProvider {
+  static override configSchema = MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
+
   protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined

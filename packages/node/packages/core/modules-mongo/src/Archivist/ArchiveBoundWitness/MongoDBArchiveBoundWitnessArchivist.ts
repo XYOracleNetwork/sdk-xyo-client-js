@@ -28,7 +28,7 @@ export interface MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModu
 export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArchivist implements BoundWitnessArchivist {
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   constructor(params: MongoDBArchiveBoundWitnessArchivistParams) {
-    super(params?.account, params?.config)
+    super(params)
     this.sdk = params?.sdk || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 

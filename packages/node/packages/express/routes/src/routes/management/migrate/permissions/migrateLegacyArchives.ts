@@ -12,10 +12,10 @@ export const migrateLegacyArchives = async (
   archivist: ArchivePermissionsArchivistFactory,
   archives: XyoArchive[],
 ): Promise<Array<XyoBoundWitness | null>> => {
-  const migrations = archives.map((archive) => {
+  const migrations = archives.map(async (archive) => {
     // create a new public/private archive record for the legacy archive
     const permissions: SetArchivePermissionsPayload = isLegacyPrivateArchive(archive) ? privateArchivePermissions : publicArchivePermissions
-    return archivist(archive.archive).insert([{ ...permissions, _archive: archive.archive }])
+    return (await archivist(archive.archive)).insert([{ ...permissions, _archive: archive.archive }])
   })
   return (await Promise.all(migrations)).flat()
 }

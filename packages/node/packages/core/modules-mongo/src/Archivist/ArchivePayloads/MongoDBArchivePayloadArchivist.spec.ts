@@ -15,7 +15,7 @@ import { v4 } from 'uuid'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
-import { MongoDBArchivePayloadsArchivist } from './MongoDBArchivePayloadsArchivist'
+import { MongoDBArchivePayloadArchivist } from './MongoDBArchivePayloadArchivist'
 
 const count = 2
 const schema = DebugSchema
@@ -32,20 +32,21 @@ const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta<DebugPayloa
   return payloads
 }
 
-describe('MongoDBArchivePayloadsArchivist', () => {
+describe('MongoDBArchivePayloadArchivist', () => {
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const account = Account.random()
   const archive = `test-${v4()}`
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const params = { account, archive, config, sdk }
-  const sut = new MongoDBArchivePayloadsArchivist(params)
   const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
   const hashes: string[] = payloads.map((p) => new PayloadWrapper(p).hash)
   const payload = payloads[0]
   const hash = hashes[0]
+  let wrapper: ArchivistWrapper
 
   beforeAll(async () => {
-    const wrapper = new ArchivistWrapper(sut)
+    const sut = await MongoDBArchivePayloadArchivist.create(params)
+    wrapper = new ArchivistWrapper(sut)
     const result = await wrapper.insert(payloads)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)
@@ -62,14 +63,12 @@ describe('MongoDBArchivePayloadsArchivist', () => {
   describe('find', () => {
     it('finds payloads by schema', async () => {
       const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { limit, schema }
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result?.[0]?.schema).toEqual(schema)
     })
     it('finds payloads by hash', async () => {
       const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([payload])
@@ -77,7 +76,6 @@ describe('MongoDBArchivePayloadsArchivist', () => {
   })
   describe('get', () => {
     it('gets payloads by hashes', async () => {
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.get(hashes)
       expect(result).toBeArrayOfSize(count)
       expect(result).toContainValues(payloads)

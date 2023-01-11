@@ -7,15 +7,11 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoBoundWitnessWithPartialMeta } from '../BoundWitness'
-import { ArchiveModuleConfig, ArchiveModuleConfigSchema } from './ArchiveModuleConfig'
+import { ArchiveModuleConfig } from './ArchiveModuleConfig'
 import { BoundWitnessArchivist } from './BoundWitnessArchivist'
 import { XyoBoundWitnessFilterPredicate } from './XyoBoundWitnessFilterPredicate'
 
 export abstract class AbstractBoundWitnessArchivist extends AbstractModule<ArchiveModuleConfig> implements BoundWitnessArchivist {
-  constructor(protected readonly account: Account = new Account(), config?: ArchiveModuleConfig) {
-    super({ account, config: config ?? { archive: 'temp', schema: ArchiveModuleConfigSchema } })
-  }
-
   public override queries() {
     return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
   }
@@ -26,8 +22,7 @@ export abstract class AbstractBoundWitnessArchivist extends AbstractModule<Archi
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    // TODO: Can be brought back once this is module called with .create
-    // assertEx(await this.queryable(query, payloads))
+    assertEx(await this.queryable(query, payloads))
 
     const result: XyoPayload[] = []
     const queryAccount = new Account()

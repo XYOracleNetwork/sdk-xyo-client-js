@@ -1,1 +1,1 @@
-export * from './MongoDBArchivePayloadsArchivist'
+export * from './MongoDBArchivePayloadArchivist'

@@ -15,7 +15,8 @@ const handler: RequestHandler<ArchivePathParams> = async (req, res, next) => {
     if (result.length !== 1) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ archive: entity })
     } else {
-      const migrated = (await archivePermissionsArchivistFactory(archive).get([archive]))?.[0]
+      const permissions = await archivePermissionsArchivistFactory(archive)
+      const migrated = (await permissions.get([archive]))?.[0]
       res.status(StatusCodes.OK).json({ archive: entity, migrated })
     }
   } else {

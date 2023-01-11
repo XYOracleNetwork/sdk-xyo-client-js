@@ -4,6 +4,7 @@ import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/bou
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { EmptyObject } from '@xyo-network/core'
+import { ModuleParams } from '@xyo-network/module'
 import {
   AbstractPayloadArchivist,
   ArchiveModuleConfig,
@@ -27,19 +28,25 @@ const valid = (bw: XyoBoundWitness) => {
   return new BoundWitnessValidator(bw).validate().length === 0
 }
 
+export interface AbstractMongoDBPayloadArchivistParams<TConfig extends ArchiveModuleConfig = ArchiveModuleConfig, T extends EmptyObject = EmptyObject>
+  extends ModuleParams<TConfig> {
+  boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>
+}
+
 export abstract class AbstractMongoDBPayloadArchivist<
   T extends EmptyObject = EmptyObject,
   TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,
 > extends AbstractPayloadArchivist<T, TConfig> {
+  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>
   protected readonly witnessedPayloads: LruCache<string, XyoPayloadWithMeta<T>> = new LruCache({ max: 1, ttl: 10000 })
 
-  public constructor(
-    protected readonly account: Account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
-    protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>> = getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads),
-    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
-    config?: TConfig,
-  ) {
-    super(account, config)
+  public constructor(params: AbstractMongoDBPayloadArchivistParams<TConfig, T>) {
+    super(params)
+    this.account = params?.account || new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) })
+    this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads)
   }
 
   public abstract get schema(): string

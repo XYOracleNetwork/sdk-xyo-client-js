@@ -37,7 +37,8 @@ describe('MongoDBArchivePayloadsArchivist', () => {
   const account = Account.random()
   const archive = `test-${v4()}`
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-  const sut = new MongoDBArchivePayloadsArchivist(account, sdk, config)
+  const params = { account, archive, config, sdk }
+  const sut = new MongoDBArchivePayloadsArchivist(params)
   const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
   const hashes: string[] = payloads.map((p) => new PayloadWrapper(p).hash)
   const payload = payloads[0]

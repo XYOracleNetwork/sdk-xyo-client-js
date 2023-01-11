@@ -35,7 +35,7 @@ const handler: RequestHandler<BlockHashPathParams, XyoPartialPayloadMeta[][]> = 
   const result = await wrapper.get([hash])
   const block = (result?.[0] as XyoBoundWitnessWithPartialMeta) || undefined
   if (block) {
-    res.json(await getPayloadsByHashes(archivePayloadsArchivistFactory(archive), archive, block.payload_hashes))
+    res.json(await getPayloadsByHashes(await archivePayloadsArchivistFactory(archive), archive, block.payload_hashes))
   } else {
     next({ message: 'Block not found', statusCode: StatusCodes.NOT_FOUND })
   }

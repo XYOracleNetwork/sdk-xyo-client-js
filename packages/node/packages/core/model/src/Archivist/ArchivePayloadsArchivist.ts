@@ -4,4 +4,4 @@ import { PayloadArchivist } from './PayloadArchivist'
 
 export type ArchivePayloadsArchivist<T extends XyoPayload = XyoPayload> = PayloadArchivist<T>
 
-export type ArchivePayloadsArchivistFactory = (archive: string) => ArchivePayloadsArchivist
+export type ArchivePayloadsArchivistFactory = (archive: string) => Promise<ArchivePayloadsArchivist>

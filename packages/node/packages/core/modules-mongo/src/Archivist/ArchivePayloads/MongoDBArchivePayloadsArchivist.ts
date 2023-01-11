@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { EmptyObject } from '@xyo-network/core'
+import { ModuleParams } from '@xyo-network/module'
 import {
   AbstractPayloadArchivist,
   ArchiveModuleConfig,
@@ -16,15 +16,19 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
+export interface MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> extends ModuleParams<T> {
+  sdk: BaseMongoSdk<XyoPayloadWithMeta>
+}
+
 export class MongoDBArchivePayloadsArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements ArchivePayloadsArchivist {
-  constructor(
-    protected readonly account: Account = new Account(),
-    protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
-    config: ArchiveModuleConfig,
-  ) {
-    super(account, config)
-    // TODO: Set via static.create instead
-    this._started = true
+  protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>
+  constructor(params?: Partial<MongoDBArchiveBoundWitnessArchivistParams>) {
+    super(params?.account, params?.config)
+    this.sdk = params?.sdk || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  }
+
+  static override async create(params?: Partial<MongoDBArchiveBoundWitnessArchivistParams>) {
+    return (await super.create(params)) as MongoDBArchivePayloadsArchivist
   }
 
   async find(predicate?: XyoPayloadFilterPredicate): Promise<XyoPayloadWithMeta[]> {

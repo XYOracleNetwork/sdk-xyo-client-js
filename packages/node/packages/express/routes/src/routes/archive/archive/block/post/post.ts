@@ -31,7 +31,7 @@ const handler: RequestHandler<ArchivePathParams, XyoBoundWitnessWithMeta[], XyoB
         payloadWithExtraMeta._schemaValid = false
       }
     })
-    const wrapper = new ArchivistWrapper(archivePayloadsArchivistFactory(archive))
+    const wrapper = new ArchivistWrapper(await archivePayloadsArchivistFactory(archive))
     await wrapper.insert(payloads)
   }
   res.json(sanitized)

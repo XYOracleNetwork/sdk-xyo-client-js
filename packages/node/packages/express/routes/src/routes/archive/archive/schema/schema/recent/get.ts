@@ -23,7 +23,7 @@ const handler: RequestHandler<ArchiveSchemaPayloadsRecentPathParams> = async (re
   const limitNumber = tryParseInt(limit) ?? 20
   assertEx(limitNumber > 0 && limitNumber <= 100, 'limit must be between 1 and 100')
   assertEx(schema, 'schema must be supplied')
-  const schemas = (await getRecentPayloadsOfSchemaForArchive(archivePayloadsArchivistFactory(archive), schema, limitNumber)) || []
+  const schemas = (await getRecentPayloadsOfSchemaForArchive(await archivePayloadsArchivistFactory(archive), schema, limitNumber)) || []
   res.json(schemas)
 }
 

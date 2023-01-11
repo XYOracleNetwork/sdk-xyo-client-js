@@ -44,7 +44,6 @@ const removePayloads = (boundWitness: XyoBoundWitnessWithMeta) => {
 describe('MongoDBBoundWitnessArchivist', () => {
   const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const account = Account.random()
-  const sut = new MongoDBBoundWitnessArchivist(account, sdk)
   const archive = `test-${v4()}`
   const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
   const boundWitnesses = payloads
@@ -56,9 +55,12 @@ describe('MongoDBBoundWitnessArchivist', () => {
   const hashes: string[] = boundWitnesses.map((bw) => new PayloadWrapper(bw).hash)
   const boundWitness = assertEx(boundWitnesses.at(-1))
   const hash = assertEx(hashes.at(-1))
+  let wrapper: ArchivistWrapper
 
   beforeAll(async () => {
-    const wrapper = new ArchivistWrapper(sut)
+    const params = { account, sdk }
+    const sut = await MongoDBBoundWitnessArchivist.create(params)
+    wrapper = new ArchivistWrapper(sut)
     const result = await wrapper.insert(boundWitnesses)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)
@@ -75,7 +77,6 @@ describe('MongoDBBoundWitnessArchivist', () => {
   describe('find', () => {
     it('finds boundWitnesses by hash', async () => {
       const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([boundWitness].map(removePayloads))
@@ -83,7 +84,6 @@ describe('MongoDBBoundWitnessArchivist', () => {
     it('finds boundWitnesses by address', async () => {
       const addresses = [`${account.addressValue.hex}`]
       const filter: XyoBoundWitnessFilterPredicate = { addresses, limit }
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.find(filter)
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([boundWitness].map(removePayloads))
@@ -91,7 +91,6 @@ describe('MongoDBBoundWitnessArchivist', () => {
   })
   describe('get', () => {
     it('gets boundWitnesses by hashes', async () => {
-      const wrapper = new ArchivistWrapper(sut)
       const result = await wrapper.get(hashes)
       expect(result).toBeArrayOfSize(count)
       expect(result).toContainValues([boundWitness].map(removePayloads))

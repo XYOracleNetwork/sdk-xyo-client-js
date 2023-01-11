@@ -23,14 +23,15 @@ describe('MongoDBArchivePermissionsPayloadPayloadArchivist', () => {
   let sut: MongoDBArchivePermissionsPayloadPayloadArchivist
   describe('get', () => {
     describe('with public archive', () => {
-      beforeAll(() => {
+      beforeAll(async () => {
         archive = 'temp'
         const payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>> = getBaseMongoSdk<
           XyoPayloadWithMeta<SetArchivePermissionsPayload>
         >(COLLECTIONS.Payloads)
         const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
         const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-        sut = new MongoDBArchivePermissionsPayloadPayloadArchivist(account, payloads, boundWitnesses, config)
+        const params = { account, boundWitnesses, config, payloads }
+        sut = await MongoDBArchivePermissionsPayloadPayloadArchivist.create(params)
       })
       it('returns no permissions for the archive', async () => {
         const result = await sut.get([archive])
@@ -46,14 +47,15 @@ describe('MongoDBArchivePermissionsPayloadPayloadArchivist', () => {
       })
     })
     describe('with private archive', () => {
-      beforeAll(() => {
+      beforeAll(async () => {
         archive = 'temp-private'
         const payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>> = getBaseMongoSdk<
           XyoPayloadWithMeta<SetArchivePermissionsPayload>
         >(COLLECTIONS.Payloads)
         const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
         const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-        sut = new MongoDBArchivePermissionsPayloadPayloadArchivist(account, payloads, boundWitnesses, config)
+        const params = { account, boundWitnesses, config, payloads }
+        sut = await MongoDBArchivePermissionsPayloadPayloadArchivist.create(params)
       })
       it('returns permissions for the archive', async () => {
         const result = await sut.get([archive])

@@ -1,7 +1,7 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
-  ArchivePayloadsArchivist,
+  ArchivePayloadArchivist,
   XyoBoundWitnessWithPartialMeta,
   XyoPartialPayloadMeta,
   XyoPayloadWithPartialMeta,
@@ -11,7 +11,7 @@ import { StatusCodes } from 'http-status-codes'
 
 import { BlockHashPathParams } from '../blockHashPathParams'
 
-const getPayloadsByHashes = async (archivist: ArchivePayloadsArchivist, archive: string, hashes: string[]) => {
+const getPayloadsByHashes = async (archivist: ArchivePayloadArchivist, archive: string, hashes: string[]) => {
   const map: Record<string, XyoPayloadWithPartialMeta[]> = {}
   const payloads: (XyoPayloadWithPartialMeta | undefined)[] = []
   for (const hash of hashes) {

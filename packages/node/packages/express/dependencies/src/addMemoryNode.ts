@@ -1,7 +1,7 @@
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractModule, DynamicModuleResolver, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
-import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadsArchivistFactory } from '@xyo-network/node-core-model'
+import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadArchivistFactory } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
@@ -69,7 +69,7 @@ const addDynamicArchivists = (container: Container, node: MemoryNode) => {
       const dynamicResolver = resolver as DynamicModuleResolver
       const archives = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
       const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
-      const archivePayloadsArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
+      const archivePayloadsArchivistFactory = container.get<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
       dynamicResolver.resolveImplementation = async (filter) => {
         if (!filter) return []
         const filters: string[] = []

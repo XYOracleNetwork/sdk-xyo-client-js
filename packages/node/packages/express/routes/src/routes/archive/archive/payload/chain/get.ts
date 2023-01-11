@@ -3,14 +3,14 @@ import 'source-map-support/register'
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler, tryParseInt } from '@xylabs/sdk-api-express-ecs'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { ArchivePayloadsArchivist } from '@xyo-network/node-core-model'
+import { ArchivePayloadArchivist } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { RequestHandler } from 'express'
 
 import { PayloadChainPathParams } from './payloadChainPathParams'
 
-const getPayloads = async (archivist: ArchivePayloadsArchivist, archive: string, hash: string, payloads: XyoPayload[], limit: number) => {
+const getPayloads = async (archivist: ArchivePayloadArchivist, archive: string, hash: string, payloads: XyoPayload[], limit: number) => {
   const wrapper = new ArchivistWrapper(archivist)
   const result = await wrapper.get([hash])
   const payload = PayloadWrapper.parse(result?.[0])

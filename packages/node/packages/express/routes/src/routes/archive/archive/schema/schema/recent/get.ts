@@ -3,12 +3,12 @@ import 'source-map-support/register'
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler, tryParseInt } from '@xylabs/sdk-api-express-ecs'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { ArchivePayloadsArchivist, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
+import { ArchivePayloadArchivist, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
 import { RequestHandler } from 'express'
 
 import { ArchiveSchemaPayloadsRecentPathParams } from './ArchiveSchemaPayloadsRecentPathParams'
 
-const getRecentPayloadsOfSchemaForArchive = async (archivist: ArchivePayloadsArchivist, schema: string, limit: number) => {
+const getRecentPayloadsOfSchemaForArchive = async (archivist: ArchivePayloadArchivist, schema: string, limit: number) => {
   const order = 'desc'
   const filter: XyoPayloadFilterPredicate = { limit, order, schema }
 

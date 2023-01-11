@@ -5,8 +5,8 @@ import {
   ArchiveBoundWitnessArchivistFactory,
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
-  ArchivePayloadsArchivist,
-  ArchivePayloadsArchivistFactory,
+  ArchivePayloadArchivist,
+  ArchivePayloadArchivistFactory,
   ArchivePermissionsArchivist,
   ArchivePermissionsArchivistFactory,
   SetArchivePermissionsPayload,
@@ -32,18 +32,18 @@ const max = 1000
 
 let archivePermissionsArchivistCache: LruCache<string, ArchivePermissionsArchivist> | undefined = undefined
 let boundWitnessArchivistCache: LruCache<string, ArchiveBoundWitnessArchivist> | undefined = undefined
-let payloadArchivistCache: LruCache<string, ArchivePayloadsArchivist> | undefined = undefined
+let payloadArchivistCache: LruCache<string, ArchivePayloadArchivist> | undefined = undefined
 
 export const ArchivistFactoryContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   archivePermissionsArchivistCache = new LruCache<string, ArchivePermissionsArchivist>({ max })
   boundWitnessArchivistCache = new LruCache<string, ArchiveBoundWitnessArchivist>({ max })
-  payloadArchivistCache = new LruCache<string, ArchivePayloadsArchivist>({ max })
+  payloadArchivistCache = new LruCache<string, ArchivePayloadArchivist>({ max })
   bind<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory).toFactory<Promise<ArchiveBoundWitnessArchivist>, [string]>(
     (context) => {
       return (archive: string) => getBoundWitnessArchivist(context, archive)
     },
   )
-  bind<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory).toFactory<Promise<ArchivePayloadsArchivist>, [string]>((context) => {
+  bind<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory).toFactory<Promise<ArchivePayloadArchivist>, [string]>((context) => {
     return (archive: string) => getPayloadArchivist(context, archive)
   })
   bind<ArchivePermissionsArchivistFactory>(TYPES.ArchivePermissionsArchivistFactory).toFactory<ArchivePermissionsArchivist, [string]>((context) => {

@@ -4,7 +4,7 @@ import { ModuleParams } from '@xyo-network/module'
 import {
   AbstractPayloadArchivist,
   ArchiveModuleConfig,
-  ArchivePayloadsArchivist,
+  ArchivePayloadArchivist,
   XyoPayloadFilterPredicate,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
@@ -20,7 +20,7 @@ export interface MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModu
   sdk: BaseMongoSdk<XyoPayloadWithMeta>
 }
 
-export class MongoDBArchivePayloadsArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements ArchivePayloadsArchivist {
+export class MongoDBArchivePayloadsArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements ArchivePayloadArchivist {
   protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>
   constructor(params?: Partial<MongoDBArchiveBoundWitnessArchivistParams>) {
     super(params?.account, params?.config)

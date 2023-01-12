@@ -11,6 +11,10 @@ export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModu
   autoAttachExternallyResolved?: boolean
 }
 
+export interface ModuleEventEmitter<TEvent extends string, TEventArgs> {
+  on(event: TEvent, listener: (args: TEventArgs) => void): void
+}
+
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends AbstractNode<TConfig, TModule> {
   static configSchema = NodeConfigSchema
   private registeredModuleMap = new Map<string, TModule>()

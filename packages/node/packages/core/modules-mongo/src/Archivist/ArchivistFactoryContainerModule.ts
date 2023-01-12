@@ -31,6 +31,8 @@ import { MongoDBArchivePermissionsPayloadPayloadArchivist } from './ArchivePermi
  */
 const max = 1000
 
+const schema = ArchiveModuleConfigSchema
+
 let archivePermissionsArchivistCache: LruCache<string, ArchivePermissionsArchivist> | undefined = undefined
 let boundWitnessArchivistCache: LruCache<string, ArchiveBoundWitnessArchivist> | undefined = undefined
 let payloadArchivistCache: LruCache<string, ArchivePayloadArchivist> | undefined = undefined
@@ -57,11 +59,10 @@ export const ArchivistFactoryContainerModule = new ContainerModule((bind: interf
 const getBoundWitnessArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = boundWitnessArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-  const account = new Account()
+  const config: ArchiveModuleConfig = { archive, schema }
   const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const logger = context.container.get<Logger>(TYPES.Logger)
-  const params = { account, config, logger, sdk }
+  const params = { config, logger, sdk }
   const archivist = await MongoDBArchiveBoundWitnessArchivist.create(params)
   const node = context.container.get<MemoryNode>(TYPES.Node)
   node.register(archivist)
@@ -73,11 +74,10 @@ const getBoundWitnessArchivist = async (context: interfaces.Context, archive: st
 const getPayloadArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = payloadArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-  const account = new Account()
+  const config: ArchiveModuleConfig = { archive, schema }
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const logger = context.container.get<Logger>(TYPES.Logger)
-  const params = { account, config, logger, sdk }
+  const params = { config, logger, sdk }
   const archivist = await MongoDBArchivePayloadArchivist.create(params)
   const node = context.container.get<MemoryNode>(TYPES.Node)
   node.register(archivist)
@@ -89,7 +89,7 @@ const getPayloadArchivist = async (context: interfaces.Context, archive: string)
 const getArchivePermissionsArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = archivePermissionsArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
+  const config: ArchiveModuleConfig = { archive, schema }
   const phrase = assertEx(process.env.ACCOUNT_SEED)
   const account = new Account({ phrase })
   const boundWitnesses = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)

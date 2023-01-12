@@ -38,8 +38,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   static defaultLogger?: Logger
 
   public config: TConfig
-  public resolver?: ModuleResolver
 
+  protected _resolver?: ModuleResolver
   protected _started = false
   protected account: Account
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
@@ -66,6 +66,13 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public get disallowedAddresses() {
     return this.config?.security?.disallowed
+  }
+
+  public get resolver(): ModuleResolver | undefined {
+    return this._resolver
+  }
+  public set resolver(v: ModuleResolver | undefined) {
+    this._resolver = v
   }
 
   static async create(params?: Partial<ModuleParams<AbstractModuleConfig>>): Promise<AbstractModule> {

@@ -9,6 +9,8 @@ const defaultParams = {
 }
 
 export class MongoDBLocationCertaintyDiviner extends LocationCertaintyDiviner implements LocationCertaintyDiviner, JobProvider {
+  static override configSchema = LocationCertaintyDivinerConfigSchema
+
   static override async create(
     params?: Partial<ModuleParams<LocationCertaintyDivinerConfig<LocationCertaintySchema>>>,
   ): Promise<MongoDBLocationCertaintyDiviner> {

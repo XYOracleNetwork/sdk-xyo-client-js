@@ -7,6 +7,7 @@ import {
   AddressHistoryQueryPayload,
   isAddressHistoryQueryPayload,
   XyoArchivistPayloadDivinerConfig,
+  XyoArchivistPayloadDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
@@ -20,6 +21,8 @@ import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export class MongoDBAddressHistoryDiviner extends AbstractDiviner implements AddressHistoryDiviner, JobProvider {
+  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   get jobs(): Job[] {

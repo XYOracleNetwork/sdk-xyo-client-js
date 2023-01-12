@@ -31,7 +31,7 @@ const handler: RequestHandler<BlockChainPathParams, XyoBoundWitness[]> = async (
   const limitNumber = tryParseInt(limit) ?? 20
   assertEx(limitNumber > 0 && limitNumber <= 100, 'limit must be between 1 and 100')
   const blocks: XyoBoundWitness[] = []
-  await getBlocks(archiveBoundWitnessArchivistFactory(archive), hash, address, blocks, limitNumber)
+  await getBlocks(await archiveBoundWitnessArchivistFactory(archive), hash, address, blocks, limitNumber)
   res.json(blocks)
 }
 

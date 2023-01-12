@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
   ArchivePermissionsArchivist,
   SetArchivePermissionsPayload,
   SetArchivePermissionsSchema,
@@ -12,24 +13,31 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
-import { AbstractMongoDBPayloadArchivist } from '../AbstractArchivist'
+import { AbstractMongoDBPayloadArchivist, AbstractMongoDBPayloadArchivistParams } from '../AbstractArchivist'
 
 export class MongoDBArchivePermissionsPayloadPayloadArchivist
   extends AbstractMongoDBPayloadArchivist<SetArchivePermissionsPayload>
   implements ArchivePermissionsArchivist
 {
-  public constructor(
-    protected readonly account: Account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) }),
-    protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>> = getBaseMongoSdk<
-      XyoPayloadWithMeta<SetArchivePermissionsPayload>
-    >(COLLECTIONS.Payloads),
-    protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
-    config: ArchiveModuleConfig,
-  ) {
-    super(account, payloads, boundWitnesses, config)
+  static override configSchema = ArchiveModuleConfigSchema
+
+  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  protected override readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>
+
+  public constructor(params: AbstractMongoDBPayloadArchivistParams<ArchiveModuleConfig, SetArchivePermissionsPayload>) {
+    super(params)
+    this.account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) })
+    this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>(COLLECTIONS.Payloads)
   }
 
   public get schema(): SetArchivePermissionsSchema {
     return SetArchivePermissionsSchema
+  }
+
+  static override async create(
+    params?: Partial<AbstractMongoDBPayloadArchivistParams<ArchiveModuleConfig, SetArchivePermissionsPayload>>,
+  ): Promise<MongoDBArchivePermissionsPayloadPayloadArchivist> {
+    return (await super.create(params as Partial<AbstractMongoDBPayloadArchivistParams>)) as MongoDBArchivePermissionsPayloadPayloadArchivist
   }
 }

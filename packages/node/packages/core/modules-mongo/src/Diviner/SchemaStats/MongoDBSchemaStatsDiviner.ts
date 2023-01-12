@@ -54,6 +54,8 @@ export interface MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = X
 }
 
 export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements SchemaStatsDiviner, JobProvider {
+  static override configSchema = MongoDBArchiveSchemaStatsDivinerConfigSchema
+
   /**
    * The max number of records to search during the aggregate query
    */

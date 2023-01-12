@@ -5,6 +5,7 @@ import {
   AbstractModuleConfig,
   AbstractModuleConfigSchema,
   creatable,
+  isQuerySupportedByModule,
   Module,
   ModuleDescription,
   ModuleParams,
@@ -78,7 +79,7 @@ export class HttpProxyModule implements Module {
     const response = await this._api.addresses.address(this.address).post(data as any)
     return response as unknown as ModuleQueryResult
   }
-  public queryable(schema: string, _addresses?: string[] | undefined) {
-    return this.queries().includes(schema)
+  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): boolean {
+    return isQuerySupportedByModule(this, query, payloads)
   }
 }

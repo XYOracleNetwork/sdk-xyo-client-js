@@ -6,7 +6,7 @@ import {
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
   ArchiveKeyRepository,
-  ArchivePayloadsArchivistFactory,
+  ArchivePayloadArchivistFactory,
   ArchivePermissionsArchivistFactory,
   IdentifiableHuri,
   Query,
@@ -33,8 +33,8 @@ const addArchivists = (app: Application) => {
     'Missing ArchiveBoundWitnessArchivistFactory',
   )
   app.archivePayloadsArchivistFactory = assertEx(
-    dependencies.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory),
-    'Missing ArchivePayloadsArchivistFactory',
+    dependencies.get<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory),
+    'Missing ArchivePayloadArchivistFactory',
   )
   app.archivePermissionsArchivistFactory = assertEx(
     dependencies.get<ArchivePermissionsArchivistFactory>(TYPES.ArchivePermissionsArchivistFactory),

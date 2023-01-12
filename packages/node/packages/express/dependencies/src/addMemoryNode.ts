@@ -1,21 +1,12 @@
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractModule, DynamicModuleResolver, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
-import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadsArchivistFactory } from '@xyo-network/node-core-model'
+import { archivistRegex, ArchivistRegexResult } from '@xyo-network/node-core-lib'
+import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadArchivistFactory } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }
-
-// TODO: Move to module alongside name builder helpers
-const archivistRegex = /(?<archive>.*)\[(?<type>payload|boundwitness)\]/
-
-interface ArchivistRegexMatch {
-  archive: string
-  type: string
-}
-
-type ArchivistRegexResult = ArchivistRegexMatch | undefined
 
 // TODO: Grab from actual type lists (which are not yet exported)
 const archivists = [
@@ -69,7 +60,7 @@ const addDynamicArchivists = (container: Container, node: MemoryNode) => {
       const dynamicResolver = resolver as DynamicModuleResolver
       const archives = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
       const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
-      const archivePayloadsArchivistFactory = container.get<ArchivePayloadsArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
+      const archivePayloadsArchivistFactory = container.get<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)
       dynamicResolver.resolveImplementation = async (filter) => {
         if (!filter) return []
         const filters: string[] = []
@@ -91,7 +82,7 @@ const addDynamicArchivists = (container: Container, node: MemoryNode) => {
                 ? archiveBoundWitnessArchivistFactory(filter.archive)
                 : archivePayloadsArchivistFactory(filter.archive)
             })
-          return modules
+          return await Promise.all(modules)
         }
         return []
       }

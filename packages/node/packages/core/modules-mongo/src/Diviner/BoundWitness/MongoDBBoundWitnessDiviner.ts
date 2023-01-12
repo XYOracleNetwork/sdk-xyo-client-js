@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractDiviner, XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
+import { AbstractDiviner, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload-model'
@@ -13,6 +13,8 @@ import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export class MongoDBBoundWitnessDiviner extends AbstractDiviner implements BoundWitnessDiviner, JobProvider {
+  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   get jobs(): Job[] {

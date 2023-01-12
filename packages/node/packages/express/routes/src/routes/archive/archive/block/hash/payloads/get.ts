@@ -1,7 +1,7 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
-  ArchivePayloadsArchivist,
+  ArchivePayloadArchivist,
   XyoBoundWitnessWithPartialMeta,
   XyoPartialPayloadMeta,
   XyoPayloadWithPartialMeta,
@@ -11,7 +11,7 @@ import { StatusCodes } from 'http-status-codes'
 
 import { BlockHashPathParams } from '../blockHashPathParams'
 
-const getPayloadsByHashes = async (archivist: ArchivePayloadsArchivist, archive: string, hashes: string[]) => {
+const getPayloadsByHashes = async (archivist: ArchivePayloadArchivist, archive: string, hashes: string[]) => {
   const map: Record<string, XyoPayloadWithPartialMeta[]> = {}
   const payloads: (XyoPayloadWithPartialMeta | undefined)[] = []
   for (const hash of hashes) {
@@ -31,11 +31,11 @@ const getPayloadsByHashes = async (archivist: ArchivePayloadsArchivist, archive:
 const handler: RequestHandler<BlockHashPathParams, XyoPartialPayloadMeta[][]> = async (req, res, next) => {
   const { archive, hash } = req.params
   const { archivePayloadsArchivistFactory, archiveBoundWitnessArchivistFactory } = req.app
-  const wrapper = new ArchivistWrapper(archiveBoundWitnessArchivistFactory(archive))
+  const wrapper = new ArchivistWrapper(await archiveBoundWitnessArchivistFactory(archive))
   const result = await wrapper.get([hash])
   const block = (result?.[0] as XyoBoundWitnessWithPartialMeta) || undefined
   if (block) {
-    res.json(await getPayloadsByHashes(archivePayloadsArchivistFactory(archive), archive, block.payload_hashes))
+    res.json(await getPayloadsByHashes(await archivePayloadsArchivistFactory(archive), archive, block.payload_hashes))
   } else {
     next({ message: 'Block not found', statusCode: StatusCodes.NOT_FOUND })
   }

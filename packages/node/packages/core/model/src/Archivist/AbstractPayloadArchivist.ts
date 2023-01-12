@@ -3,23 +3,18 @@ import { Account } from '@xyo-network/account'
 import { ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { EmptyObject } from '@xyo-network/core'
-import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AbstractModule, AbstractModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '../Payload'
-import { ArchiveModuleConfig, ArchiveModuleConfigSchema } from './ArchiveModuleConfig'
 import { PayloadArchivist } from './PayloadArchivist'
 import { XyoPayloadFilterPredicate } from './XyoPayloadFilterPredicate'
 
-export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extends ArchiveModuleConfig = ArchiveModuleConfig>
+export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extends AbstractModuleConfig = AbstractModuleConfig>
   extends AbstractModule<TConfig>
   implements PayloadArchivist<T>
 {
-  constructor(protected readonly account: Account = new Account(), config?: TConfig) {
-    super({ account, config: config ?? ({ archive: 'temp', schema: ArchiveModuleConfigSchema } as TConfig) })
-  }
-
   override queries() {
     return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
   }
@@ -29,8 +24,7 @@ export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObje
   ): Promise<ModuleQueryResult<XyoPayload>> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    // Can be brought back once this is module called with .create
-    // assertEx(this.queryable(query.schema, wrapper.addresses))
+    assertEx(await this.queryable(query, payloads))
 
     const result: XyoPayload[] = []
     const queryAccount = new Account()

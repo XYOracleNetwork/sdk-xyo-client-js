@@ -38,7 +38,7 @@ export class SetArchivePermissionsQueryHandler implements QueryHandler<SetArchiv
     const archive = assertEx(query.payload._archive, 'SetArchivePermissionsQueryHandler.handle: Archive not supplied')
     validateAddresses(query)
     validateSchema(query)
-    const wrapper = new ArchivistWrapper(this.archivistFactory(archive))
+    const wrapper = new ArchivistWrapper(await this.archivistFactory(archive))
     const insertPayloads = [query.payload]
 
     const insertionResult = await wrapper.insert(insertPayloads)

@@ -1,12 +1,13 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { EmptyObject } from '@xyo-network/core'
+import { ModuleParams } from '@xyo-network/module'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
   AbstractBoundWitnessArchivist,
   ArchiveModuleConfig,
+  ArchiveModuleConfigSchema,
   BoundWitnessArchivist,
   XyoBoundWitnessFilterPredicate,
   XyoBoundWitnessMeta,
@@ -21,15 +22,22 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
+export interface MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> extends ModuleParams<T> {
+  sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+}
+
 export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArchivist implements BoundWitnessArchivist {
-  constructor(
-    protected readonly account: Account = new Account(),
-    protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
-    config?: ArchiveModuleConfig,
-  ) {
-    super(account, config)
-    // TODO: Set via static.create instead
-    this._started = true
+  static override configSchema = ArchiveModuleConfigSchema
+
+  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+
+  constructor(params: MongoDBArchiveBoundWitnessArchivistParams) {
+    super(params)
+    this.sdk = params?.sdk || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  }
+
+  static override async create(params?: Partial<MongoDBArchiveBoundWitnessArchivistParams>) {
+    return (await super.create(params)) as MongoDBArchiveBoundWitnessArchivist
   }
 
   async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta<EmptyObject, XyoPayloadWithPartialMeta<EmptyObject>>[]> {

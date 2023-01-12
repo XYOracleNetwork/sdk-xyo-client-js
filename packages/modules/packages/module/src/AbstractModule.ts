@@ -8,7 +8,6 @@ import {
   AbstractModuleDiscoverQuerySchema,
   AbstractModuleQuery,
   AbstractModuleSubscribeQuerySchema,
-  AddressString,
   Module,
   ModuleDescription,
   ModuleQueryResult,
@@ -31,8 +30,7 @@ import { serializableField } from './lib'
 import { Logging } from './Logging'
 import { ModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
-
-export type SortedPipedAddressesString = string
+import { AllowedAddressValidator, Queryable, SortedPipedAddressesString, SupportedQueryValidator } from './QueryValidator'
 
 @creatable()
 export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {
@@ -40,17 +38,23 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   static defaultLogger?: Logger
 
   public config: TConfig
-  public resolver?: ModuleResolver
 
+  protected _resolver?: ModuleResolver
   protected _started = false
   protected account: Account
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
+  protected readonly allowedAddressValidator: AllowedAddressValidator
   protected readonly logger?: Logging
+
+  protected queryValidators: Queryable[] = []
 
   protected constructor(params: ModuleParams<TConfig>) {
     this.resolver = params.resolver
     this.config = params.config
     this.account = this.loadAccount(params?.account)
+    this.queryValidators.push(new SupportedQueryValidator(this).queryable)
+    this.allowedAddressValidator = new AllowedAddressValidator(this)
+    this.queryValidators.push(this.allowedAddressValidator.queryable)
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
@@ -62,6 +66,13 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public get disallowedAddresses() {
     return this.config?.security?.disallowed
+  }
+
+  public get resolver(): ModuleResolver | undefined {
+    return this._resolver
+  }
+  public set resolver(v: ModuleResolver | undefined) {
+    this._resolver = v
   }
 
   static async create(params?: Partial<ModuleParams<AbstractModuleConfig>>): Promise<AbstractModule> {
@@ -92,7 +103,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
+    assertEx(await this.queryable(query, payloads))
 
     this.logger?.log(wrapper.schemaName)
 
@@ -119,14 +130,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  public queryable(schema: SchemaString, addresses?: AddressString[]): boolean {
-    return this.started('warn')
-      ? (() => {
-          const includesQuery = !!this.queries().includes(schema)
-          const allowed = addresses ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true : true
-          return includesQuery && allowed
-        })()
-      : false
+  public async queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<boolean> {
+    return this.started('warn') ? (await Promise.all(this.queryValidators.map((validator) => validator(query, payloads)))).every((x) => x) : false
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
@@ -216,7 +221,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   protected start(_timeout?: number): Promisable<this> {
     this.validateConfig()
-    this.initializeAllowedAddressSets()
     this._started = true
     return this
   }
@@ -252,26 +256,5 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
           return valid
       }
     }, true)
-  }
-
-  private initializeAllowedAddressSets() {
-    if (this.config?.security?.allowed) {
-      const allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
-      Object.entries(this.config.security.allowed).forEach(([schema, addressesList]) => {
-        allowedAddressSets[schema] = addressesList.map((addresses) => addresses.sort().join('|'))
-      })
-      this.allowedAddressSets = allowedAddressSets
-    }
-  }
-
-  private queryAllowed(schema: SchemaString, addresses: AddressString[]) {
-    return this?.allowedAddressSets?.[schema]?.includes(addresses.sort().join('|'))
-  }
-
-  private queryDisallowed(schema: SchemaString, addresses: AddressString[]) {
-    return addresses.reduce<boolean | undefined>(
-      (previousValue, address) => previousValue || this?.disallowedAddresses?.[schema]?.includes(address),
-      undefined,
-    )
   }
 }

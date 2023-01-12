@@ -13,7 +13,7 @@ const handler: RequestHandler<PayloadHashPathParams, XyoPayload[]> = async (req,
   const { archive, hash } = req.params
   const { archivePayloadsArchivistFactory } = req.app
 
-  const wrapper = new ArchivistWrapper(archivePayloadsArchivistFactory(archive))
+  const wrapper = new ArchivistWrapper(await archivePayloadsArchivistFactory(archive))
   const result = await wrapper.get([hash])
 
   const payload = result?.filter(exists).map((payload) => new PayloadWrapper(payload).body)?.[0]

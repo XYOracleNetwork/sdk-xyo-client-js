@@ -47,7 +47,7 @@ describe('GetArchivePermissionsQueryHandler', () => {
       describe('exist', () => {
         beforeEach(() => {
           archivist = mock<ArchivePermissionsArchivist>()
-          archivistFactory = mock<ArchivePermissionsArchivistFactory>(() => archivist)
+          archivistFactory = mock<ArchivePermissionsArchivistFactory>(() => Promise.resolve(archivist))
           const payloads: SetArchivePermissionsPayload[] = [permissions, emptyPermissions]
           const [boundWitness] = new BoundWitnessBuilder().payloads(payloads).build()
           archivist.query.mockResolvedValue([boundWitness, payloads])
@@ -73,7 +73,7 @@ describe('GetArchivePermissionsQueryHandler', () => {
     describe('do not exist', () => {
       beforeEach(() => {
         archivist = mock<ArchivePermissionsArchivist>()
-        archivistFactory = mock<ArchivePermissionsArchivistFactory>(() => archivist)
+        archivistFactory = mock<ArchivePermissionsArchivistFactory>(() => Promise.resolve(archivist))
         const payloads: SetArchivePermissionsPayload[] = []
         const [boundWitness] = new BoundWitnessBuilder().build()
         archivist.query.mockResolvedValue([boundWitness, payloads])
@@ -87,7 +87,7 @@ describe('GetArchivePermissionsQueryHandler', () => {
     describe('when archive not supplied', () => {
       beforeEach(() => {
         archivist = mock<ArchivePermissionsArchivist>()
-        archivistFactory = mock<ArchivePermissionsArchivistFactory>(() => archivist)
+        archivistFactory = mock<ArchivePermissionsArchivistFactory>(() => Promise.resolve(archivist))
       })
       it('throws', async () => {
         const sut = new GetArchivePermissionsQueryHandler(archivistFactory)

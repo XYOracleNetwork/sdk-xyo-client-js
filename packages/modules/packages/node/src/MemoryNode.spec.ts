@@ -368,6 +368,21 @@ describe('MemoryNode', () => {
       })
     })
   })
+  describe('on', () => {
+    describe('moduleResolverChanged', () => {
+      it('emits event', (done) => {
+        const resolver = new SimpleModuleResolver()
+        node.on('moduleResolverChanged', (args) => {
+          expect(args).toBeObject()
+          expect(args.resolver).toBe(resolver)
+          done()
+        })
+        expect(node.resolver).toBeUndefined()
+        node.resolver = resolver
+        expect(node.resolver).toBe(resolver)
+      })
+    })
+  })
 })
 
 const prettyPrintDescription = (description: ModuleDescription) => {

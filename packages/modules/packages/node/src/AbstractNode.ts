@@ -97,7 +97,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(typedQuery.schema, wrapper.addresses))
+    assertEx(await this.queryable(query, payloads))
 
     const queryAccount = new Account()
     const resultPayloads: XyoPayload[] = []

@@ -42,6 +42,8 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
 export const isLocationPayload = (x?: XyoPayload | null): x is LocationPayload => x?.schema === LocationSchema
 
 export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUserLocationsDiviner, JobProvider {
+  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+
   constructor(
     protected readonly account: Account = new Account(),
     protected readonly payloads: PayloadArchivist,

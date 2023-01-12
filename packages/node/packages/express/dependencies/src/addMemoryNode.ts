@@ -1,21 +1,12 @@
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractModule, DynamicModuleResolver, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
+import { archivistRegex, ArchivistRegexResult } from '@xyo-network/node-core-lib'
 import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadArchivistFactory } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }
-
-// TODO: Move to module alongside name builder helpers
-const archivistRegex = /(?<archive>.*)\[(?<type>payload|boundwitness)\]/
-
-interface ArchivistRegexMatch {
-  archive: string
-  type: string
-}
-
-type ArchivistRegexResult = ArchivistRegexMatch | undefined
 
 // TODO: Grab from actual type lists (which are not yet exported)
 const archivists = [

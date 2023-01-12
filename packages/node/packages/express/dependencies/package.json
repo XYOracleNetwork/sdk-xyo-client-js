@@ -34,6 +34,7 @@
     "@xyo-network/express-node-lib": "workspace:^",
     "@xyo-network/express-node-middleware": "workspace:^",
     "@xyo-network/modules": "workspace:^",
+    "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-modules-memory": "workspace:^",
     "@xyo-network/node-core-modules-mongo": "workspace:^",

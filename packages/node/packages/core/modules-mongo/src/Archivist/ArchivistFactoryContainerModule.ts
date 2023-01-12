@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { MemoryNode } from '@xyo-network/modules'
 import {
   ArchiveBoundWitnessArchivist,
   ArchiveBoundWitnessArchivistFactory,
@@ -62,6 +63,9 @@ const getBoundWitnessArchivist = async (context: interfaces.Context, archive: st
   const logger = context.container.get<Logger>(TYPES.Logger)
   const params = { account, config, logger, sdk }
   const archivist = await MongoDBArchiveBoundWitnessArchivist.create(params)
+  const node = context.container.get<MemoryNode>(TYPES.Node)
+  node.register(archivist)
+  node.attach(archivist.address, `${archive.toLowerCase()}[boundwitness]`)
   boundWitnessArchivistCache?.set(archive, archivist)
   return archivist
 }
@@ -75,6 +79,9 @@ const getPayloadArchivist = async (context: interfaces.Context, archive: string)
   const logger = context.container.get<Logger>(TYPES.Logger)
   const params = { account, config, logger, sdk }
   const archivist = await MongoDBArchivePayloadArchivist.create(params)
+  const node = context.container.get<MemoryNode>(TYPES.Node)
+  node.register(archivist)
+  node.attach(archivist.address, `${archive.toLowerCase()}[payload]`)
   payloadArchivistCache?.set(archive, archivist)
   return archivist
 }

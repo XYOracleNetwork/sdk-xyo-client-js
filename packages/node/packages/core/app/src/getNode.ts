@@ -4,12 +4,11 @@ import { MemoryNode, MemoryNodeParams, NodeConfigSchema } from '@xyo-network/nod
 
 import { configureEnvironment, configureTransports } from './configuration'
 
-const autoAttachExternallyResolved = true
 const config = { schema: NodeConfigSchema }
 
 export const getNode = async (account = Account.random()): Promise<MemoryNode> => {
   const resolver = new DynamicModuleResolver()
-  const params: MemoryNodeParams = { account, autoAttachExternallyResolved, config, resolver }
+  const params: MemoryNodeParams = { account, config, resolver }
   const node = await MemoryNode.create(params)
   await configureEnvironment(node)
   await configureTransports(node)

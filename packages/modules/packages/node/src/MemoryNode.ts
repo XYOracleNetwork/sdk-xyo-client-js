@@ -29,12 +29,16 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
 {
   static configSchema = NodeConfigSchema
   private registeredModuleMap = new Map<string, TModule>()
-  private resolverChangedEventListeners: ListenerFunction<ModuleResolverChangedEventArgs>[] = []
+  private readonly resolverChangedEventListeners: ListenerFunction<ModuleResolverChangedEventArgs>[] = []
+
+  override get resolver() {
+    return this._resolver
+  }
 
   override set resolver(resolver: ModuleResolver | undefined) {
     this._resolver = resolver
     const args = { resolver }
-    this.resolverChangedEventListeners.map((listener) => listener(args))
+    this.resolverChangedEventListeners?.map((listener) => listener(args))
   }
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
@@ -71,7 +75,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   }
 
   on(event: 'moduleResolverChanged', listener: (args: ModuleResolverChangedEventArgs) => void): this {
-    this.resolverChangedEventListeners.push(listener)
+    this.resolverChangedEventListeners?.push(listener)
     return this
   }
 

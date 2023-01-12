@@ -20,7 +20,8 @@
     "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.0"
+    "@xylabs/ts-scripts-yarn3": "^2.12.0",
+    "@xyo-network/node-core-lib": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

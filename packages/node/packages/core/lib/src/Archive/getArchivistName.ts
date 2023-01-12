@@ -1,6 +1,15 @@
 export const boundWitnessArchivistType = 'boundwitness'
 export const payloadArchivistType = 'payload'
 
+export const archivistRegex = /(?<archive>.*)\[(?<type>payload|boundwitness)\]/
+
+export interface ArchivistRegexMatch {
+  archive: string
+  type: string
+}
+
+export type ArchivistRegexResult = ArchivistRegexMatch | undefined
+
 export const getBoundWitnessArchivistName = (name: string) => {
   return `${name.toLowerCase()}[${boundWitnessArchivistType}]`
 }

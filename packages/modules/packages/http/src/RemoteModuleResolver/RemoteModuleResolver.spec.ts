@@ -4,8 +4,8 @@ import { XyoApiConfig } from '@xyo-network/api-models'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
+import { getBoundWitnessArchivistName, getPayloadArchivistName } from '@xyo-network/node-core-lib'
 
-import { getBoundWitnessArchivistName, getPayloadArchivistName } from '../util'
 import { RemoteModuleResolver } from './RemoteModuleResolver'
 
 const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }

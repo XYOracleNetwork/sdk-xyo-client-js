@@ -11,9 +11,35 @@ export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModu
   autoAttachExternallyResolved?: boolean
 }
 
-export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends AbstractNode<TConfig, TModule> {
+export type ListenerFunction<T> = (args: T) => void
+
+export interface ModuleEventEmitter<TEvent extends string, TEventArgs> {
+  on(event: TEvent, listener: ListenerFunction<TEventArgs>): this
+}
+
+export interface ModuleResolverChangedEventArgs {
+  resolver?: ModuleResolver
+}
+
+export type ResolverChangedEventEmitter = ModuleEventEmitter<'moduleResolverChanged', ModuleResolverChangedEventArgs>
+
+export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
+  extends AbstractNode<TConfig, TModule>
+  implements ResolverChangedEventEmitter
+{
   static configSchema = NodeConfigSchema
   private registeredModuleMap = new Map<string, TModule>()
+  private readonly resolverChangedEventListeners: ListenerFunction<ModuleResolverChangedEventArgs>[] = []
+
+  override get resolver() {
+    return this._resolver
+  }
+
+  override set resolver(resolver: ModuleResolver | undefined) {
+    this._resolver = resolver
+    const args = { resolver }
+    this.resolverChangedEventListeners?.map((listener) => listener(args))
+  }
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     const instance = (await super.create(params)) as MemoryNode
@@ -46,6 +72,11 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
 
   override detach(address: string) {
     this.internalResolver.remove(address)
+  }
+
+  on(event: 'moduleResolverChanged', listener: (args: ModuleResolverChangedEventArgs) => void): this {
+    this.resolverChangedEventListeners?.push(listener)
+    return this
   }
 
   override register(module: TModule) {

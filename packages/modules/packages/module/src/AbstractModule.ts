@@ -39,14 +39,13 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public config: TConfig
 
+  protected _queryValidators: Queryable[] = []
   protected _resolver?: ModuleResolver
   protected _started = false
   protected account: Account
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
   protected readonly allowedAddressValidator: AllowedAddressValidator
   protected readonly logger?: Logging
-
-  protected queryValidators: Queryable[] = []
 
   protected constructor(params: ModuleParams<TConfig>) {
     this.resolver = params.resolver
@@ -66,6 +65,13 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public get disallowedAddresses() {
     return this.config?.security?.disallowed
+  }
+
+  public get queryValidators(): Queryable[] {
+    return this._queryValidators
+  }
+  public set queryValidators(v: Queryable[]) {
+    this._queryValidators = v
   }
 
   public get resolver(): ModuleResolver | undefined {

@@ -51,9 +51,9 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     this.resolver = params.resolver
     this.config = params.config
     this.account = this.loadAccount(params?.account)
-    this.queryValidators.push(new SupportedQueryValidator(this).queryable)
-    this.allowedAddressValidator = new AllowedAddressValidator(this)
-    this.queryValidators.push(this.allowedAddressValidator.queryable)
+    this._queryValidators.push(new SupportedQueryValidator(this).queryable)
+    this.allowedAddressValidator = new AllowedAddressValidator(params?.config)
+    this._queryValidators.push(this.allowedAddressValidator.queryable)
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
@@ -65,13 +65,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public get disallowedAddresses() {
     return this.config?.security?.disallowed
-  }
-
-  public get queryValidators(): Queryable[] {
-    return this._queryValidators
-  }
-  public set queryValidators(v: Queryable[]) {
-    this._queryValidators = v
   }
 
   public get resolver(): ModuleResolver | undefined {
@@ -137,7 +130,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   }
 
   public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): boolean {
-    return this.started('warn') ? this.queryValidators.map((validator) => validator(query, payloads)).every((x) => x) : false
+    return this.started('warn') ? this._queryValidators.map((validator) => validator(query, payloads)).every((x) => x) : false
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {

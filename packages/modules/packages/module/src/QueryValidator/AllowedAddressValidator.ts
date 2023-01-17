@@ -1,20 +1,20 @@
-import { AbstractModuleConfig, AbstractModuleQuery, AddressString, Module, SchemaString } from '@xyo-network/module-model'
+import { AbstractModuleConfig, AbstractModuleQuery, AddressString, SchemaString } from '@xyo-network/module-model'
 
 import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
 
 export type SortedPipedAddressesString = string
 
-export class AllowedAddressValidator<T extends AbstractModuleConfig = AbstractModuleConfig> implements QueryValidator {
+export class AllowedAddressValidator<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements QueryValidator {
   protected _allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
   protected _disallowedAddresses: Record<SchemaString, AddressString[]> = {}
-  constructor(mod: Module<T>) {
-    if (mod?.config?.security?.allowed) {
-      Object.entries(mod.config.security?.allowed).forEach(([schema, addressesList]) => {
+  constructor(config?: TConfig) {
+    if (config?.security?.allowed) {
+      Object.entries(config.security?.allowed).forEach(([schema, addressesList]) => {
         this._allowedAddressSets[schema] = addressesList.map((addresses) => addresses.sort().join('|'))
       })
     }
-    this._disallowedAddresses = mod?.config?.security?.disallowed || {}
+    this._disallowedAddresses = config?.security?.disallowed || {}
   }
 
   public get allowedAddressSets(): Record<SchemaString, SortedPipedAddressesString[]> {

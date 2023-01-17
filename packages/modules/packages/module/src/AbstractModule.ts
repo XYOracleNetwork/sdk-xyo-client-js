@@ -42,18 +42,18 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   protected _queryValidators: Queryable[] = []
   protected _resolver?: ModuleResolver
   protected _started = false
-  protected account: Account
-  protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
-  protected readonly allowedAddressValidator: ModuleConfigQueryValidator
+  protected readonly account: Account
+  protected contextConfigQueryValidator?: ModuleConfigQueryValidator
   protected readonly logger?: Logging
+  protected readonly moduleConfigQueryValidator: ModuleConfigQueryValidator
 
   protected constructor(params: ModuleParams<TConfig>) {
     this.resolver = params.resolver
     this.config = params.config
     this.account = this.loadAccount(params?.account)
     this._queryValidators.push(new SupportedQueryValidator(this).queryable)
-    this.allowedAddressValidator = new ModuleConfigQueryValidator(params?.config)
-    this._queryValidators.push(this.allowedAddressValidator.queryable)
+    this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config)
+    this._queryValidators.push(this.moduleConfigQueryValidator.queryable)
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
@@ -102,7 +102,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(await this.queryable(query, payloads))
+    assertEx(this.queryable(query, payloads))
 
     this.logger?.log(wrapper.schemaName)
 
@@ -225,7 +225,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   }
 
   protected stop(_timeout?: number): Promisable<this> {
-    this.allowedAddressSets = undefined
     this._started = false
     return this
   }

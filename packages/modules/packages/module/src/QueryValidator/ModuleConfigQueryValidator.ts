@@ -5,7 +5,7 @@ import { Queryable, QueryValidator } from './QueryValidator'
 
 export type SortedPipedAddressesString = string
 
-export class AllowedAddressValidator<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements QueryValidator {
+export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements QueryValidator {
   protected _allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
   protected _disallowedAddresses: Record<SchemaString, AddressString[]> = {}
   constructor(config?: TConfig) {

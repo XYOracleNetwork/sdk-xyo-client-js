@@ -30,7 +30,7 @@ import { serializableField } from './lib'
 import { Logging } from './Logging'
 import { ModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
-import { AllowedAddressValidator, Queryable, SortedPipedAddressesString, SupportedQueryValidator } from './QueryValidator'
+import { ModuleConfigQueryValidator, Queryable, SortedPipedAddressesString, SupportedQueryValidator } from './QueryValidator'
 
 @creatable()
 export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {
@@ -44,7 +44,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   protected _started = false
   protected account: Account
   protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
-  protected readonly allowedAddressValidator: AllowedAddressValidator
+  protected readonly allowedAddressValidator: ModuleConfigQueryValidator
   protected readonly logger?: Logging
 
   protected constructor(params: ModuleParams<TConfig>) {
@@ -52,7 +52,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     this.config = params.config
     this.account = this.loadAccount(params?.account)
     this._queryValidators.push(new SupportedQueryValidator(this).queryable)
-    this.allowedAddressValidator = new AllowedAddressValidator(params?.config)
+    this.allowedAddressValidator = new ModuleConfigQueryValidator(params?.config)
     this._queryValidators.push(this.allowedAddressValidator.queryable)
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined

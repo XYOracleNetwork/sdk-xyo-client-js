@@ -136,8 +136,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  public async queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<boolean> {
-    return this.started('warn') ? (await Promise.all(this.queryValidators.map((validator) => validator(query, payloads)))).every((x) => x) : false
+  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): boolean {
+    return this.started('warn') ? this.queryValidators.map((validator) => validator(query, payloads)).every((x) => x) : false
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {

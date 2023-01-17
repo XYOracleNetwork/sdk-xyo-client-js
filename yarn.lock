@@ -5830,7 +5830,6 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/node": "workspace:^"
-    "@xyo-network/node-core-lib": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
   languageName: unknown
   linkType: soft

@@ -63,10 +63,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.addressValue.hex
   }
 
-  public get disallowedAddresses() {
-    return this.config?.security?.disallowed
-  }
-
   public get resolver(): ModuleResolver | undefined {
     return this._resolver
   }

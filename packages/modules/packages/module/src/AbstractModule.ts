@@ -30,7 +30,7 @@ import { serializableField } from './lib'
 import { Logging } from './Logging'
 import { ModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
-import { ModuleConfigQueryValidator, Queryable, SortedPipedAddressesString, SupportedQueryValidator } from './QueryValidator'
+import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 
 @creatable()
 export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {

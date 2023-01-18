@@ -1,4 +1,4 @@
-import { AbstractModuleConfig, AbstractModuleQuery, AddressString, SchemaString } from '@xyo-network/module-model'
+import { AbstractModuleConfig, AbstractModuleQuery, AddressString, CosigningAddressSet, SchemaString } from '@xyo-network/module-model'
 
 import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
@@ -11,7 +11,7 @@ export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = A
   constructor(config?: TConfig) {
     if (config?.security?.allowed) {
       Object.entries(config.security?.allowed).forEach(([schema, addressesList]) => {
-        this._allowedAddressSets[schema] = addressesList.map((addresses) => addresses.sort().join('|'))
+        this._allowedAddressSets[schema] = addressesList.map(toAddressesString)
       })
     }
     this._disallowedAddresses = config?.security?.disallowed || {}
@@ -33,4 +33,8 @@ export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = A
   protected queryDisallowed = (schema: SchemaString, addresses: string[]) => {
     return addresses.reduce((previousValue, address) => previousValue || this._disallowedAddresses?.[schema]?.includes(address), false)
   }
+}
+
+const toAddressesString = (addresses: string | CosigningAddressSet): SortedPipedAddressesString => {
+  return Array.isArray(addresses) ? addresses.sort().join('|') : addresses
 }

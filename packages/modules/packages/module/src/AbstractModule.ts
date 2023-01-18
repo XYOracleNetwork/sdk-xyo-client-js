@@ -94,11 +94,15 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return [AbstractModuleDiscoverQuerySchema, AbstractModuleSubscribeQuerySchema]
   }
 
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+    query: T,
+    payloads?: XyoPayload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query, payloads))
+    assertEx(this.queryable(query, payloads, queryConfig))
 
     this.logger?.log(wrapper.schemaName)
 
@@ -125,7 +129,11 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): boolean {
+  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+    query: T,
+    payloads?: XyoPayload[],
+    queryConfig?: TConfig,
+  ): boolean {
     return this.started('warn') ? this._queryValidators.map((validator) => validator(query, payloads)).every((x) => x) : false
   }
 

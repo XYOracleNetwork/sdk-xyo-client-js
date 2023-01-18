@@ -9,15 +9,15 @@ import {
   XyoApiResponseTupleOrBody,
   XyoApiResponseType,
 } from '@xyo-network/api-models'
-import { Axios, AxiosJson } from '@xyo-network/axios'
+import { AxiosJson } from '@xyo-network/axios'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApiReportable {
   public readonly config: C
-  protected axios: Axios
+  protected axios: AxiosJson
 
   constructor(config: C) {
     this.config = config
-    this.axios = new AxiosJson(this.config)
+    this.axios = new AxiosJson({ ...this.config, headers: this.headers })
   }
 
   public get authenticated() {

@@ -26,7 +26,7 @@ export class HuriPayloadDiviner extends AbstractPayloadDiviner<XyoHuriPayloadDiv
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
       `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
-    const huriList = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri))).flat()
+    const huriList = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri, { token: huriPayload.token }))).flat()
 
     const settled = await Promise.allSettled(huriList.map((huri) => huri.fetch()))
     return compact(settled.filter(fulfilled).map((settle) => settle.value))

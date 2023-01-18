@@ -20,6 +20,7 @@ export type HuriFetchFunction = (huri: Huri) => Promise<XyoPayload | undefined>
 
 export interface HuriOptions {
   archivistUri?: string
+  token?: string
 }
 
 export interface FetchedPayload<T extends XyoPayload = XyoPayload> {
@@ -33,10 +34,11 @@ export class Huri<T extends XyoPayload = XyoPayload> {
   public hash: string
   public originalHref: string
   public protocol?: string
+  public token?: string
 
   private isHuri = true
 
-  constructor(huri: DataLike | Huri, { archivistUri }: HuriOptions = {}) {
+  constructor(huri: DataLike | Huri, { archivistUri, token }: HuriOptions = {}) {
     const huriString = Huri.isHuri(huri)?.href ?? typeof huri === 'string' ? (huri as string) : new AddressValue(huri as DataLike).hex
     this.originalHref = huriString
 
@@ -52,6 +54,8 @@ export class Huri<T extends XyoPayload = XyoPayload> {
       this.protocol = archivistUriParts[0]
       this.archivist = archivistUriParts[1]
     }
+
+    this.token = token
 
     this.validateParse()
   }
@@ -75,7 +79,8 @@ export class Huri<T extends XyoPayload = XyoPayload> {
   }
 
   static async fetch<T extends XyoPayload = XyoPayload>(huri: Huri): Promise<T | undefined> {
-    return (await axios.get<T>(huri.href)).data
+    const AuthHeader = huri.token ? { Authorization: `Bearer ${huri.token}` } : undefined
+    return (await axios.get<T>(huri.href, { headers: AuthHeader })).data
   }
 
   public static isHuri(value: unknown) {

@@ -22,19 +22,19 @@ describe('ModuleConfigQueryValidator', () => {
   const disallowed1 = Account.random()
   const disallowed2 = Account.random()
   const other = Account.random()
+  const queryPayload = new XyoPayloadBuilder({ schema }).build()
   const allowed: Record<SchemaString, (AddressString | CosigningAddressSet)[]> = {}
   allowed[AbstractModuleDiscoverQuerySchema] = [
-    allowed1.addressValue.hex,
+    allowed1.addressValue.hex.toUpperCase(),
     allowed2.addressValue.hex,
     [allowedCosigner1.addressValue.hex, allowedCosigner2.addressValue.hex],
   ]
   const disallowed: Record<SchemaString, AddressString[]> = {}
-  disallowed[AbstractModuleDiscoverQuerySchema] = [disallowed1.addressValue.hex, disallowed2.addressValue.hex]
-  const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { allowed } }
-  const sut = new ModuleConfigQueryValidator(config)
-  const queryPayload = new XyoPayloadBuilder({ schema }).build()
+  disallowed[AbstractModuleDiscoverQuerySchema] = [disallowed1.addressValue.hex.toUpperCase(), disallowed2.addressValue.hex]
   describe('queryable', () => {
     describe('allowed', () => {
+      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { allowed } }
+      const sut = new ModuleConfigQueryValidator(config)
       it('allows schema from allowed address', () => {
         const query = new QueryBoundWitnessBuilder().witness(allowed1).query(queryPayload).build()
         expect(sut.queryable(query[0], query[1])).toBeTrue()
@@ -66,17 +66,27 @@ describe('ModuleConfigQueryValidator', () => {
       })
     })
     describe('disallowed', () => {
+      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { disallowed } }
+      const sut = new ModuleConfigQueryValidator(config)
       it('allows schema from non-disallowed address', () => {
-        // TODO
+        const query = new QueryBoundWitnessBuilder().witness(allowed1).query(queryPayload).build()
+        expect(sut.queryable(query[0], query[1])).toBeTrue()
       })
       it('allows schema from non-disallowed addresses', () => {
-        // TODO
+        const query = new QueryBoundWitnessBuilder().witness(allowed1).witness(allowed2).query(queryPayload).build()
+        expect(sut.queryable(query[0], query[1])).toBeTrue()
       })
       it('disallows schema from disallowed address', () => {
-        // TODO
+        const query = new QueryBoundWitnessBuilder().witness(disallowed1).query(queryPayload).build()
+        expect(sut.queryable(query[0], query[1])).toBeFalse()
       })
       it('disallows schema from disallowed addresses', () => {
-        // TODO
+        const query = new QueryBoundWitnessBuilder().witness(disallowed1).witness(disallowed2).query(queryPayload).build()
+        expect(sut.queryable(query[0], query[1])).toBeFalse()
+      })
+      it('disallows schema from allowed & disallowed addresses', () => {
+        const query = new QueryBoundWitnessBuilder().witness(allowed1).witness(disallowed1).query(queryPayload).build()
+        expect(sut.queryable(query[0], query[1])).toBeFalse()
       })
     })
     describe('allowed & disallowed', () => {

@@ -1,5 +1,4 @@
 import { AbstractModuleConfig, AbstractModuleQuery, AddressString, CosigningAddressSet, SchemaString } from '@xyo-network/module-model'
-import { add } from 'lodash'
 
 import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
@@ -7,19 +6,26 @@ import { Queryable, QueryValidator } from './QueryValidator'
 export type SortedPipedAddressesString = string
 
 export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements QueryValidator {
-  protected allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
-  protected disallowedAddresses: Record<SchemaString, AddressString[]> = {}
+  protected allowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
+  protected disallowed: Record<SchemaString, AddressString[]> = {}
+  protected readonly hasAllowedRules: boolean
+  protected readonly hasDisallowedRules: boolean
   protected readonly hasRules: boolean
 
   constructor(config?: TConfig) {
     if (config?.security?.allowed) {
-      Object.entries(config.security?.allowed).forEach(([schema, addressesList]) => {
-        this.allowedAddressSets[schema] = addressesList.map(toAddressesString)
+      Object.entries(config.security?.allowed).forEach(([schema, addresses]) => {
+        this.allowed[schema] = addresses.map(toAddressesString)
       })
     }
-    // TODO: ToLowerCase
-    this.disallowedAddresses = config?.security?.disallowed || {}
-    this.hasRules = Object.keys(this.allowedAddressSets).length > 0 || Object.keys(this.allowedAddressSets).length > 0
+    if (config?.security?.disallowed) {
+      Object.entries(config.security?.disallowed).forEach(([schema, addresses]) => {
+        this.disallowed[schema] = addresses.map(toAddressesString)
+      })
+    }
+    this.hasAllowedRules = Object.keys(this.allowed).length > 0
+    this.hasDisallowedRules = Object.keys(this.disallowed).length > 0
+    this.hasRules = this.hasAllowedRules || this.hasDisallowedRules
   }
 
   queryable: Queryable = (query, payloads) => {
@@ -31,18 +37,20 @@ export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = A
     return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }
 
-  protected queryAllowed = (schema: SchemaString, addresses: string[]) => {
+  protected queryAllowed = (schema: SchemaString, addresses: string[]): boolean => {
+    if (!this.hasAllowedRules) return true
     // All cosigners must sign
     if (addresses.length > 1) {
       const signatories = toAddressesString(addresses)
-      const validCosigners = this.allowedAddressSets?.[schema]?.includes(signatories)
+      const validCosigners = this.allowed?.[schema]?.includes(signatories)
       if (validCosigners) return true
     }
     // OR all signers have to be allowed individually
-    return addresses.every((address) => this.allowedAddressSets?.[schema]?.includes(address) || false)
+    return addresses.every((address) => this.allowed?.[schema]?.includes(address) || false)
   }
-  protected queryDisallowed = (schema: SchemaString, addresses: string[]) => {
-    return addresses.reduce((previousValue, address) => previousValue || this.disallowedAddresses?.[schema]?.includes(address), false)
+  protected queryDisallowed = (schema: SchemaString, addresses: string[]): boolean => {
+    if (!this.hasDisallowedRules) return false
+    return addresses.some((address) => this.disallowed?.[schema]?.includes(address))
   }
 }
 

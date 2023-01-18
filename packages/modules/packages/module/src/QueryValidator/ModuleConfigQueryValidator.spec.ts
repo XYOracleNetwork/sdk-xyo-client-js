@@ -90,8 +90,11 @@ describe('ModuleConfigQueryValidator', () => {
       })
     })
     describe('allowed & disallowed', () => {
+      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { allowed, disallowed } }
+      const sut = new ModuleConfigQueryValidator(config)
       it('disallowed takes precedence', () => {
-        // TODO
+        const query = new QueryBoundWitnessBuilder().witness(allowed1).witness(disallowed1).query(queryPayload).build()
+        expect(sut.queryable(query[0], query[1])).toBeFalse()
       })
     })
   })

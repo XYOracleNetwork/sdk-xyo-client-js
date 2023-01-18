@@ -27,8 +27,15 @@ export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = A
     const addresses = query.addresses
     return addresses ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true : true
   }
-  protected queryAllowed = (schema: SchemaString, addresses: SortedPipedAddressesString[]) => {
-    return this._allowedAddressSets?.[schema]?.includes(addresses.sort().join('|'))
+  protected queryAllowed = (schema: SchemaString, addresses: string[]) => {
+    // All cosigners must sign
+    if (addresses.length > 1) {
+      const signatories = toAddressesString(addresses)
+      const validCosigners = this._allowedAddressSets?.[schema]?.includes(signatories)
+      if (validCosigners) return true
+    }
+    // OR all signers have to be allowed individually
+    return addresses.every((address) => this._allowedAddressSets?.[schema]?.includes(address))
   }
   protected queryDisallowed = (schema: SchemaString, addresses: string[]) => {
     return addresses.reduce((previousValue, address) => previousValue || this._disallowedAddresses?.[schema]?.includes(address), false)

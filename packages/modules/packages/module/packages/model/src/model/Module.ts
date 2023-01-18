@@ -10,6 +10,10 @@ export interface Module<TConfig extends XyoPayload = XyoPayload> {
   config: TConfig
   description: () => Promisable<ModuleDescription>
   queries: () => string[]
-  query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) => Promisable<ModuleQueryResult>
-  queryable: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) => boolean
+  query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
+    query: T,
+    payloads?: XyoPayload[],
+    queryConfig?: TConfig,
+  ) => Promisable<ModuleQueryResult>
+  queryable: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[], queryConfig?: TConfig) => boolean
 }

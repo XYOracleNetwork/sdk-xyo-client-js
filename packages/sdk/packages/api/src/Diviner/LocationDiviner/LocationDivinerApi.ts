@@ -1,4 +1,4 @@
-import { axios, AxiosRequestConfig } from '@xyo-network/axios'
+import { axios, RawAxiosRequestConfig } from '@xyo-network/axios'
 
 import { ApiConfig } from './ApiConfig'
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer'
@@ -11,7 +11,7 @@ class XyoLocationDivinerApi {
     this.config = config
   }
 
-  private get axiosRequestConfig(): AxiosRequestConfig {
+  private get axiosRequestConfig(): RawAxiosRequestConfig {
     return {
       transformResponse: getLocationDivinerApiResponseTransformer(),
     }

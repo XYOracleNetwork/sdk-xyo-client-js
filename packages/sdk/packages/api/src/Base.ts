@@ -9,15 +9,15 @@ import {
   XyoApiResponseTupleOrBody,
   XyoApiResponseType,
 } from '@xyo-network/api-models'
-import { Axios, AxiosRequestConfig, gzip, RawAxiosRequestHeaders } from '@xyo-network/axios'
+import { AxiosJson } from '@xyo-network/axios'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApiReportable {
   public readonly config: C
-  protected axios: Axios
+  protected axios: AxiosJson
 
   constructor(config: C) {
     this.config = config
-    this.axios = new Axios(this.axiosConfig())
+    this.axios = new AxiosJson({ ...this.config, headers: this.headers })
   }
 
   public get authenticated() {
@@ -142,36 +142,6 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
       return await this.axios.put<XyoApiEnvelope<T>, XyoApiResponse<XyoApiEnvelope<T>, D>, D>(`${this.resolveRoot()}${endPoint}${this.query}`, data)
     })
     return XyoApiBase.shapeResponse<T>(response, responseType)
-  }
-
-  private axiosConfig(): AxiosRequestConfig {
-    return {
-      headers: this.axiosHeaders(),
-      transformRequest: (data, headers) => {
-        const json = JSON.stringify(data)
-        if (headers && data) {
-          if (json.length > (this.config.compressionThreshold ?? 1024)) {
-            headers['Content-Encoding'] = 'gzip'
-            return gzip(JSON.stringify(data)).buffer
-          }
-        }
-        return JSON.stringify(data)
-      },
-      transformResponse: (data) => {
-        try {
-          return JSON.parse(data)
-        } catch (ex) {
-          return null
-        }
-      },
-    }
-  }
-
-  private axiosHeaders(): RawAxiosRequestHeaders {
-    const axiosHeaders: RawAxiosRequestHeaders = { ...this.headers }
-    axiosHeaders['Accept'] = 'application/json, text/plain, *.*'
-    axiosHeaders['Content-Type'] = 'application/json'
-    return axiosHeaders
   }
 
   private resolveRoot() {

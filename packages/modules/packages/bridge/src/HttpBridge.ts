@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { Axios, AxiosError, AxiosJson, AxiosJsonRequestConfig, AxiosRequestHeaders } from '@xyo-network/axios'
+import { Axios, AxiosError, AxiosJson, AxiosRequestHeaders, RawAxiosJsonRequestConfig } from '@xyo-network/axios'
 import {
   AbstractModule,
   ModuleParams,
@@ -21,7 +21,7 @@ export type HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
 export const HttpBridgeConfigSchema: HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
 
 export type HttpBridgeConfig = BridgeConfig<{
-  axios?: AxiosJsonRequestConfig
+  axios?: RawAxiosJsonRequestConfig
   headers?: AxiosRequestHeaders
   schema: HttpBridgeConfigSchema
 }>

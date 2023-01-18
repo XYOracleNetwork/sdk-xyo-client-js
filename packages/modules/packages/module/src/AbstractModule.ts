@@ -23,6 +23,7 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
+import merge from 'lodash/merge'
 
 import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
@@ -30,7 +31,7 @@ import { serializableField } from './lib'
 import { Logging } from './Logging'
 import { ModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
-import { AllowedAddressValidator, Queryable, SortedPipedAddressesString, SupportedQueryValidator } from './QueryValidator'
+import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 
 @creatable()
 export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {
@@ -42,19 +43,16 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   protected _resolver?: ModuleResolver
   protected _started = false
   protected account: Account
-  protected allowedAddressSets?: Record<SchemaString, SortedPipedAddressesString[]>
-  protected readonly allowedAddressValidator: AllowedAddressValidator
   protected readonly logger?: Logging
-
-  protected queryValidators: Queryable[] = []
+  protected readonly moduleConfigQueryValidator: Queryable
+  protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
     this.resolver = params.resolver
     this.config = params.config
     this.account = this.loadAccount(params?.account)
-    this.queryValidators.push(new SupportedQueryValidator(this).queryable)
-    this.allowedAddressValidator = new AllowedAddressValidator(this)
-    this.queryValidators.push(this.allowedAddressValidator.queryable)
+    this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
+    this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
@@ -62,10 +60,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public get address() {
     return this.account.addressValue.hex
-  }
-
-  public get disallowedAddresses() {
-    return this.config?.security?.disallowed
   }
 
   public get resolver(): ModuleResolver | undefined {
@@ -99,14 +93,15 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return [AbstractModuleDiscoverQuerySchema, AbstractModuleSubscribeQuerySchema]
   }
 
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+    query: T,
+    payloads?: XyoPayload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(await this.queryable(query, payloads))
-
-    this.logger?.log(wrapper.schemaName)
-
+    assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()
     try {
@@ -126,12 +121,18 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
       const error = ex as Error
       resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
-
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  public async queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<boolean> {
-    return this.started('warn') ? (await Promise.all(this.queryValidators.map((validator) => validator(query, payloads)))).every((x) => x) : false
+  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+    query: T,
+    payloads?: XyoPayload[],
+    queryConfig?: TConfig,
+  ): boolean {
+    if (!this.started('warn')) return false
+    const configValidator = queryConfig ? new ModuleConfigQueryValidator(merge(this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
+    const validators = [this.supportedQueryValidator, configValidator]
+    return validators.map((validator) => validator(query, payloads)).every((x) => x)
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
@@ -226,7 +227,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   }
 
   protected stop(_timeout?: number): Promisable<this> {
-    this.allowedAddressSets = undefined
     this._started = false
     return this
   }

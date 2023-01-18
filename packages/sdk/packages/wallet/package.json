@@ -14,13 +14,12 @@
     "@xylabs/delay": "^2.6.15",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "bip39": "^3.0.4",
     "sha.js": "^2.4.11"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/sha.js": "^2.4.0",
-    "@xylabs/ts-scripts-yarn3": "^2.12.3"
+    "@xylabs/ts-scripts-yarn3": "^2.12.8"
   },
   "browser": "dist/esm/browserIndex.js",
   "main": "dist/cjs/index.js",

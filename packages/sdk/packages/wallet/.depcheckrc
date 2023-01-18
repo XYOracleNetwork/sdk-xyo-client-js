@@ -1,4 +1,0 @@
-ignores: [
-  "bip39",
-  "@xylabs/ts-scripts-yarn3"
-]

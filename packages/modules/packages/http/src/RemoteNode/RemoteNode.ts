@@ -68,8 +68,8 @@ export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
   override query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     return this.node.query(query, payloads)
   }
-  override async queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<boolean> {
-    return await this.node.queryable(query, payloads)
+  override queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): boolean {
+    return this.node.queryable(query, payloads)
   }
   override register(_module: Module): void {
     throw new Error('Method not implemented.')

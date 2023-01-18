@@ -23,6 +23,7 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
+import merge from 'lodash/merge'
 
 import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
@@ -39,21 +40,19 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public config: TConfig
 
-  protected _queryValidators: Queryable[] = []
   protected _resolver?: ModuleResolver
   protected _started = false
-  protected readonly account: Account
-  protected contextConfigQueryValidator?: ModuleConfigQueryValidator
+  protected account: Account
   protected readonly logger?: Logging
-  protected readonly moduleConfigQueryValidator: ModuleConfigQueryValidator
+  protected readonly moduleConfigQueryValidator: Queryable
+  protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
     this.resolver = params.resolver
     this.config = params.config
     this.account = this.loadAccount(params?.account)
-    this._queryValidators.push(new SupportedQueryValidator(this).queryable)
-    this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config)
-    this._queryValidators.push(this.moduleConfigQueryValidator.queryable)
+    this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
+    this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
@@ -122,7 +121,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
       const error = ex as Error
       resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
-
     return this.bindResult(resultPayloads, queryAccount)
   }
 
@@ -131,7 +129,10 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
   ): boolean {
-    return this.started('warn') ? this._queryValidators.map((validator) => validator(query, payloads)).every((x) => x) : false
+    if (!this.started('warn')) return false
+    const configValidator = queryConfig ? new ModuleConfigQueryValidator(merge(this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
+    const validators = [this.supportedQueryValidator, configValidator]
+    return validators.map((validator) => validator(query, payloads)).every((x) => x)
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {

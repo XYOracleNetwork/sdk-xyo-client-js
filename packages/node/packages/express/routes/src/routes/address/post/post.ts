@@ -1,4 +1,5 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { requestCanAccessArchive } from '@xyo-network/express-node-lib'
 import {
   AbstractModule,
@@ -27,9 +28,14 @@ const getQueryConfig = async (
   const config = archivist?.config as unknown as ArchiveModuleConfig
   const archive = config?.archive
   if (archive && (await requestCanAccessArchive(req, archive))) {
-    const allowed = Object.fromEntries(archivist.queries().map((schema) => [schema, [bw.addresses]]))
+    // Recurse through payloads for nested BWs
+    const nestedBwAddresses =
+      payloads
+        ?.flat(5)
+        .filter<XyoBoundWitness>((payload): payload is XyoBoundWitness => payload?.schema === XyoBoundWitnessSchema)
+        .map((bw) => bw.addresses) || []
+    const allowed = Object.fromEntries(archivist.queries().map((schema) => [schema, [bw.addresses, ...nestedBwAddresses]]))
     const security = { allowed }
-    // TODO: Recurse through payloads for nested BWs
     return { schema: AbstractModuleConfigSchema, security }
   }
 }

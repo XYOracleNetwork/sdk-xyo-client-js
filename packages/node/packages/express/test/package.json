@@ -29,7 +29,6 @@
   "dependencies": {
     "@ethersproject/wallet": "^5.7.0",
     "@xylabs/assert": "^2.6.15",
-    "@xylabs/forget": "^2.6.15",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
@@ -49,7 +48,7 @@
   "devDependencies": {
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.12.3",
+    "@xylabs/ts-scripts-yarn3": "^2.12.8",
     "supertest": "^6.3.3"
   },
   "types": "dist/esm/index.d.ts"

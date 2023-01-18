@@ -1,8 +1,0 @@
-ignores: [
-  "jest",
-  "jest-extended",
-  "jest-mock-extended",
-  "typescript",
-  "@xylabs/ts-scripts-yarn3",
-  "uuid"
-]

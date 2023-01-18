@@ -17,10 +17,6 @@ export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = A
     this._disallowedAddresses = config?.security?.disallowed || {}
   }
 
-  public get allowedAddressSets(): Record<SchemaString, SortedPipedAddressesString[]> {
-    return this._allowedAddressSets
-  }
-
   queryable: Queryable = (query, payloads) => {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
     const schema = wrapper.query.schema

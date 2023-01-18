@@ -1,5 +1,0 @@
-ignores: [
-  "jest",
-  "jest-mock-extended",
-  "typescript"
-]

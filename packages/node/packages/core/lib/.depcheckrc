@@ -1,7 +1,0 @@
-ignores: [
-  "jest",
-  "jest-extended",
-  "jest-mock-extended",
-  "typescript",
-  "uuid"
-]

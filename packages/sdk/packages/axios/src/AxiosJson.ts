@@ -1,15 +1,15 @@
-import { Axios, AxiosHeaders, AxiosRequestConfig } from 'axios'
+import { Axios, AxiosHeaders, RawAxiosRequestConfig } from 'axios'
 import { gzip } from 'pako'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AxiosJsonRequestConfig<D = any> = AxiosRequestConfig<D> & { compressLength?: number }
+export type RawAxiosJsonRequestConfig<D = any> = RawAxiosRequestConfig<D> & { compressLength?: number }
 
 export class AxiosJson extends Axios {
-  constructor(config?: AxiosJsonRequestConfig) {
+  constructor(config?: RawAxiosJsonRequestConfig) {
     super(AxiosJson.axiosConfig(config))
   }
 
-  private static axiosConfig({ compressLength, headers, ...config }: AxiosJsonRequestConfig = {}): AxiosRequestConfig {
+  private static axiosConfig({ compressLength, headers, ...config }: RawAxiosJsonRequestConfig = {}): RawAxiosJsonRequestConfig {
     return {
       headers: this.buildHeaders(headers),
       transformRequest: (data, headers) => {
@@ -33,7 +33,7 @@ export class AxiosJson extends Axios {
     }
   }
 
-  private static buildHeaders(headers: AxiosRequestConfig['headers']) {
+  private static buildHeaders(headers: RawAxiosJsonRequestConfig['headers'] | undefined) {
     const axiosHeaders = new AxiosHeaders()
     Object.entries(headers ?? {}).forEach(([key, value]) => axiosHeaders.set(key, value))
     axiosHeaders.set('Accept', 'application/json, text/plain, *.*')

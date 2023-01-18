@@ -5,6 +5,8 @@ import { Queryable, QueryValidator } from './QueryValidator'
 
 export type SortedPipedAddressesString = string
 
+const delimiter = ''
+
 export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements QueryValidator {
   protected allowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
   protected disallowed: Record<SchemaString, AddressString[]> = {}
@@ -54,11 +56,12 @@ export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = A
   }
 }
 
+// TODO: Handle 0x prefix
 const toAddressesString = (addresses: string | CosigningAddressSet): SortedPipedAddressesString => {
   return Array.isArray(addresses)
     ? addresses
         .sort()
         .map((address) => address.toLowerCase())
-        .join('|')
+        .join(delimiter)
     : addresses.toLowerCase()
 }

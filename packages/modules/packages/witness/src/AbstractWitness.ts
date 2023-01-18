@@ -1,6 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AbstractModule, ModuleParams, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AbstractModule,
+  AbstractModuleConfig,
+  ModuleParams,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -33,10 +41,14 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
     return [XyoWitnessObserveQuerySchema, ...super.queries()]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+    query: T,
+    payloads?: XyoPayload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoWitnessQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(await this.queryable(query, payloads))
+    assertEx(this.queryable(query, payloads, queryConfig))
     // Remove the query payload from the arguments passed to us so we don't observe it
     const filteredObservation = payloads?.filter((p) => new PayloadWrapper(p).hash !== query.query) || []
     const queryAccount = new Account()
@@ -46,7 +58,6 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
           const resultPayloads = await this.observe(filteredObservation)
           return this.bindResult(resultPayloads, queryAccount)
         }
-
         default: {
           return super.query(query, payloads)
         }

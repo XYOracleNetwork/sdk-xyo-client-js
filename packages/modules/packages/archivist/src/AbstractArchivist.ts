@@ -15,7 +15,14 @@ import {
 } from '@xyo-network/archivist-interface'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AbstractModule,
+  AbstractModuleConfig,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
@@ -71,13 +78,14 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     return [ArchivistGetQuerySchema, ...super.queries()]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
-  ): Promise<ModuleQueryResult<XyoPayload>> {
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query, payloads))
+    assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()
     try {

@@ -1,7 +1,13 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
 import { requestCanAccessArchive } from '@xyo-network/express-node-lib'
-import { AbstractModule, AbstractModuleConfig, AbstractModuleConfigSchema, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
-import { Module } from '@xyo-network/modules'
+import {
+  AbstractModule,
+  AbstractModuleConfig,
+  AbstractModuleConfigSchema,
+  Module,
+  ModuleQueryResult,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { ArchiveModuleConfig } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'

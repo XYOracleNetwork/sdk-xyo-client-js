@@ -1,7 +1,15 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { DivinerConfig, DivinerModule, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
-import { AbstractModule, ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AbstractModule,
+  AbstractModuleConfig,
+  ModuleParams,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -23,13 +31,14 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
-  ): Promise<ModuleQueryResult<XyoPayload>> {
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
     const typedQuery = wrapper.query
-    assertEx(this.queryable(query, payloads))
+    assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: XyoPayload[] = []
     try {

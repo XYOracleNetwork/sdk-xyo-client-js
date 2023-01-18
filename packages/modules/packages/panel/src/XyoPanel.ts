@@ -3,7 +3,14 @@ import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AbstractModuleConfig,
+  ModuleParams,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
@@ -61,13 +68,14 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     return [XyoPanelReportQuerySchema, ...super.queries()]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
-  ): Promise<ModuleQueryResult<XyoPayload>> {
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoPanelQuery>(query, payloads)
     const typedQuery = wrapper.query
-    assertEx(this.queryable(query, payloads))
+    assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: XyoPayload[] = []
     try {

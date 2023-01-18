@@ -4,6 +4,7 @@ import { Account } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   AbstractModule,
+  AbstractModuleConfig,
   Module,
   ModuleConstructable,
   ModuleDescription,
@@ -94,10 +95,14 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries()]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+    query: T,
+    payloads?: XyoPayload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query, payloads))
+    assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: XyoPayload[] = []
     try {

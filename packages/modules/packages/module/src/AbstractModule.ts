@@ -103,9 +103,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
-
-    this.logger?.log(wrapper.schemaName)
-
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()
     try {

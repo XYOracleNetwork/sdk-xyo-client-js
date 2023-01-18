@@ -68,9 +68,7 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoPanelQuery>(query, payloads)
     const typedQuery = wrapper.query
     assertEx(this.queryable(query, payloads))
-
     const queryAccount = new Account()
-
     const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schemaName) {

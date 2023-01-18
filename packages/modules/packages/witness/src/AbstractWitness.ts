@@ -46,7 +46,6 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
           const resultPayloads = await this.observe(filteredObservation)
           return this.bindResult(resultPayloads, queryAccount)
         }
-
         default: {
           return super.query(query, payloads)
         }

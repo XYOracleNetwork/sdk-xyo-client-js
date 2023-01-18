@@ -98,7 +98,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads))
-
     const queryAccount = new Account()
     const resultPayloads: XyoPayload[] = []
     try {

@@ -30,9 +30,7 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
     const typedQuery = wrapper.query
     assertEx(this.queryable(query, payloads))
-
     const queryAccount = new Account()
-
     const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schemaName) {

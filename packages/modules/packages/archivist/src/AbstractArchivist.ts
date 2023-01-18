@@ -78,7 +78,6 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads))
-
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()
     try {
@@ -116,7 +115,6 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
       const error = ex as Error
       resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
-    this.logger?.log(wrapper.schemaName)
     return this.bindResult(resultPayloads, queryAccount)
   }
 

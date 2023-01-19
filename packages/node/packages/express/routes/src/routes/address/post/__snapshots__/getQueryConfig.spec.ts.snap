@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getQueryConfig with archivist when request can access archive generates config for multi-signer requests 1`] = `
+{
+  "schema": "network.xyo.module.config",
+  "security": {
+    "allowed": {
+      "network.xyo.query.module.discover": [
+        [
+          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+          "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
+        ],
+      ],
+    },
+  },
+}
+`;
+
+exports[`getQueryConfig with archivist when request can access archive generates config for signed requests 1`] = `
+{
+  "schema": "network.xyo.module.config",
+  "security": {
+    "allowed": {
+      "network.xyo.query.module.discover": [
+        [
+          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+        ],
+      ],
+    },
+  },
+}
+`;
+
+exports[`getQueryConfig with archivist when request can access archive generates config for single-signer requests 1`] = `
+{
+  "schema": "network.xyo.module.config",
+  "security": {
+    "allowed": {
+      "network.xyo.query.module.discover": [
+        [
+          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+        ],
+      ],
+    },
+  },
+}
+`;
+
+exports[`getQueryConfig with archivist when request can access archive generates config for unsigned requests 1`] = `
+{
+  "schema": "network.xyo.module.config",
+  "security": {
+    "allowed": {},
+  },
+}
+`;

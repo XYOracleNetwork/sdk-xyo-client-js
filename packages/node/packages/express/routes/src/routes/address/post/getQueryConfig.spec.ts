@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   AbstractModule,
   AbstractModuleConfig,
@@ -20,6 +21,8 @@ jest.mock('@xyo-network/express-node-lib', () => ({
 const req = mock<Request>()
 const testAccount1 = new Account({ phrase: 'testPhrase1' })
 const testAccount2 = new Account({ phrase: 'testPhrase2' })
+const testAccount3 = new Account({ phrase: 'testPhrase3' })
+const testAccount4 = new Account({ phrase: 'testPhrase4' })
 
 describe('getQueryConfig', () => {
   describe('with module', () => {
@@ -54,6 +57,17 @@ describe('getQueryConfig', () => {
           .query({ schema: AbstractModuleDiscoverQuerySchema })
           .witness(testAccount1)
           .witness(testAccount2)
+          .build()
+        const config = await getQueryConfig(mod, req, query[0], query[1])
+        expect(config).toMatchSnapshot()
+      })
+      it('generates config for nested-signed requests', async () => {
+        const bw = new BoundWitnessBuilder().witness(testAccount3).witness(testAccount4).build()
+        const query = new QueryBoundWitnessBuilder()
+          .query({ schema: AbstractModuleDiscoverQuerySchema })
+          .witness(testAccount1)
+          .witness(testAccount2)
+          .payload(bw[0])
           .build()
         const config = await getQueryConfig(mod, req, query[0], query[1])
         expect(config).toMatchSnapshot()

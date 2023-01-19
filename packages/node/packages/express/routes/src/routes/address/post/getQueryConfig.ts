@@ -21,7 +21,8 @@ export const getQueryConfig = async (
         ?.flat(5)
         .filter<XyoBoundWitness>((payload): payload is XyoBoundWitness => payload?.schema === XyoBoundWitnessSchema)
         .map((bw) => bw.addresses) || []
-    const allowed = Object.fromEntries(archivist.queries().map((schema) => [schema, [bw.addresses, ...nestedBwAddresses]]))
+    const addresses = [bw.addresses, ...nestedBwAddresses].filter((address) => address.length)
+    const allowed = addresses.length ? Object.fromEntries(archivist.queries().map((schema) => [schema, addresses])) : {}
     const security = { allowed }
     return { schema: AbstractModuleConfigSchema, security }
   }

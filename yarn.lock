@@ -4517,6 +4517,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/eslint-config@npm:^2.12.22":
+  version: 2.12.22
+  resolution: "@xylabs/eslint-config@npm:2.12.22"
+  dependencies:
+    "@babel/core": ^7.20.12
+    "@babel/eslint-parser": ^7.19.1
+    "@typescript-eslint/eslint-plugin": ^5.48.2
+    "@typescript-eslint/parser": ^5.48.2
+    eslint-config-prettier: ^8.6.0
+    eslint-import-resolver-typescript: ^3.5.3
+    eslint-plugin-deprecation: ^1.3.3
+    eslint-plugin-import: ^2.27.5
+    eslint-plugin-json-es: ^1.5.7
+    eslint-plugin-md: ^1.0.19
+    eslint-plugin-no-secrets: ^0.8.9
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-simple-import-sort: ^9.0.0
+    eslint-plugin-sort-keys-fix: ^1.1.2
+    eslint-plugin-workspaces: ^0.7.0
+    markdown-eslint-parser: ^1.2.1
+    prettier: ^2.8.3
+    remark-lint-maximum-line-length: ^3.1.2
+    remark-preset-lint-markdown-style-guide: ^5.1.2
+    typescript: ^4.9.4
+  peerDependencies:
+    eslint: ^8.23.0
+  checksum: 85f2e8596efb23bdc1adef43ab3bdcb593fc4e3a6ca46f7cb749cd3adbb4c4a3a04270decfb65e84d31e987cba996e15b6608655b39da5c349b9a81391eae3a9
+  languageName: node
+  linkType: hard
+
 "@xylabs/exists@npm:^2.6.15":
   version: 2.6.15
   resolution: "@xylabs/exists@npm:2.6.15"
@@ -4562,15 +4592,15 @@ __metadata:
   linkType: hard
 
 "@xylabs/ts-scripts-yarn3@npm:^2.12.21":
-  version: 2.12.21
-  resolution: "@xylabs/ts-scripts-yarn3@npm:2.12.21"
+  version: 2.12.22
+  resolution: "@xylabs/ts-scripts-yarn3@npm:2.12.22"
   dependencies:
     "@babel/core": ^7.20.12
     "@babel/preset-env": ^7.20.2
     "@types/jest": ^29.2.6
     "@types/node": ^18.11.18
-    "@xylabs/eslint-config": ^2.12.21
-    "@xylabs/tsconfig": ^2.12.21
+    "@xylabs/eslint-config": ^2.12.22
+    "@xylabs/tsconfig": ^2.12.22
     chalk: ^4.1.2
     cpy: ^8.1.2
     depcheck: ^1.4.3
@@ -4641,7 +4671,7 @@ __metadata:
     xy: dist/cjs/bin/xy.js
     xy-ts: src/bin/xy-ts.ts
     yarn3only: dist/cjs/bin/yarn3only.js
-  checksum: 4128945ffa1565335c4cdc1061bcc4a6dbb32252f02d4618d16e970805c9c1fb34d4d97c4ce4debfd6081516b2d530dd4eff0ee4f94f8b7146302e62574c93f9
+  checksum: d9183e7cf751a8f6674f466954aaee7c4afe5ca5f8db117de2550d43ab2d02d4ece613b34dcb2f15e662ce1ebf278c6bb17666297b196505c95dbb44c97b8fd0
   languageName: node
   linkType: hard
 
@@ -4651,6 +4681,15 @@ __metadata:
   dependencies:
     typescript: ^4.9.4
   checksum: 14b70f084e33331484a1ef806c1722ac69ad4fd6ec5d02f33d7ca53f72ec7d1bc0b0c99b823fbea52323feff0c08753b7ba75a14ffb3d6b96103efbb7693f3a7
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig@npm:^2.12.22":
+  version: 2.12.22
+  resolution: "@xylabs/tsconfig@npm:2.12.22"
+  dependencies:
+    typescript: ^4.9.4
+  checksum: a5504bc983b99e21e59abac5e2e93ab5a6e890d6ffb6625d54dab3f28a893c3634a9cd903915e815c314a6ddf0b5eeb14c13928178e8faf5fb5fa6b55a7fc151
   languageName: node
   linkType: hard
 

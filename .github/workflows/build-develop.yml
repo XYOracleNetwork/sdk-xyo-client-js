@@ -13,12 +13,10 @@ jobs:
         node: [18]
     runs-on: ${{ matrix.os }}
     steps:
+      # Required to prevent windows from using crlf instead of lf
       - name: Git Attributes
-        run: |
-          echo "" > .gitattributes
-          echo "[core]" >> .gitattributes
-          echo "autocrlf=false" >> .gitattributes
-          echo "eol=lf" >> .gitattributes
+        run: echo "* text=auto eol=lf" > .gitattributes
+
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}

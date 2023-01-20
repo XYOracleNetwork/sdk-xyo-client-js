@@ -9,9 +9,4 @@ export class XyoArchivistArchivesApi extends XyoApiSimple<XyoArchive[]> {
       root: `${this.root}${archive}/`,
     })
   }
-
-  /** @deprecated: use archive(string) instead */
-  public select(archive = 'temp') {
-    return this.archive(archive)
-  }
 }

@@ -6,6 +6,9 @@ export interface XyoArchivistArchivePayloadSchemaStats {
 
 export class XyoArchivistArchivePayloadSchemaApi extends XyoApiSimple<string[]> {
   private _stats?: XyoApiSimple<XyoArchivistArchivePayloadSchemaStats>
+  /**
+   * @deprecated Use module API
+   */
   public get stats() {
     this._stats =
       this._stats ??

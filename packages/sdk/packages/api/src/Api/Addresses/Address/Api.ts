@@ -5,6 +5,9 @@ import { ModuleDescription } from '@xyo-network/module-model'
 import { XyoApiSimple } from '../../../Simple'
 
 export class XyoAddressApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<ModuleDescription, C> {
+  /**
+   * @deprecated Use module API
+   */
   public get boundWitnesses(): XyoApiSimple<XyoBoundWitness[]> {
     return new XyoApiSimple({
       ...this.config,

@@ -20,6 +20,9 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
   private _stats?: XyoApiSimple<unknown[]>
   private _user?: XyoUserApi
 
+  /**
+   * @deprecated Use module API
+   */
   public get addresses(): XyoAddressesApi {
     this._addresses =
       this._addresses ??
@@ -40,6 +43,9 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
     return this._archives
   }
 
+  /**
+   * @deprecated Use module API
+   */
   public get stats() {
     this._stats =
       this._stats ??
@@ -85,6 +91,7 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
 
   /**
    * Issues commands/queries as XyoBoundWitness wrapped XyoPayloads against a Node in the network
+   * @deprecated Use module API
    * @param archive Optional, the archive to issue the requests against
    * @returns Confirmation for the request, as a BoundWitness, from the network Node
    */
@@ -93,10 +100,5 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
       ...this.config,
       root: `${this.root}${archive}/`,
     })
-  }
-
-  /** @deprecated use account instead */
-  public wallet(address: DataLike) {
-    return this.account(address)
   }
 }

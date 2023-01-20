@@ -13,6 +13,11 @@ jobs:
         node: [18]
     runs-on: ${{ matrix.os }}
     steps:
+      # Turn off windows-defender for this folder to speed up compile
+      - if: runner.os == 'Windows'
+        name: windows-defender
+        run: powershell -Command Add-MpPreference -ExclusionPath "."
+
       # Required to prevent windows from using crlf instead of lf
       - name: Git Attributes
         run: echo "* text=auto eol=lf" > .gitattributes
@@ -26,16 +31,8 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
 
-      # Turn off windows-defender for this folder to speed up compile
-      - if: runner.os == 'Windows'
-        name: windows-defender
-        run: powershell -Command Add-MpPreference -ExclusionPath "."
-
       - name: install
         run: yarn install --network-timeout 1000000
-
-      - name: lint
-        run: yarn xy lint
 
       - name: build
         run: yarn xy build

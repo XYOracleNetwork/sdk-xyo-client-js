@@ -101,9 +101,4 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
       root: `${this.root}${archive}/`,
     })
   }
-
-  /** @deprecated use account instead */
-  public wallet(address: DataLike) {
-    return this.account(address)
-  }
 }

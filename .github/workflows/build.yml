@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - next
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        node: [18]
+    runs-on: ${{ matrix.os }}
+    steps:
+      # Turn off windows-defender for this folder to speed up compile
+      - if: runner.os == 'Windows'
+        name: windows-defender
+        run: powershell -Command Add-MpPreference -ExclusionPath "."
+
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: yarn
+
+      - name: install
+        run: yarn install --network-timeout 1000000
+
+      - name: build
+        run: yarn xy build
+
+      - name: cycle
+        run: yarn xy cycle

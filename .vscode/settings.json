@@ -1,13 +1,14 @@
 {
   "files.eol": "\n",
   "files.exclude": {
-    "**/node_modules": false,
+    "**/node_modules": true,
     "**/build": true,
     "**/dist": false,
     ".webpack": true,
     ".serverless": true,
     ".rollup.cache": true,
-    "**/.tsconfig.*": true
+    "**/.tsconfig.*": false,
+    "**/.eslintcache": true
   },
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {

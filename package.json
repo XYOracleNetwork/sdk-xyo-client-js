@@ -21,9 +21,9 @@
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
     "@types/node": "^18.11.18",
-    "@xylabs/eslint-config": "^2.12.21",
-    "@xylabs/ts-scripts-yarn3": "^2.12.21",
-    "@xylabs/tsconfig": "^2.12.21",
+    "@xylabs/eslint-config": "^2.12.23",
+    "@xylabs/ts-scripts-yarn3": "^2.12.23",
+    "@xylabs/tsconfig": "^2.12.23",
     "babel-jest": "^29.3.1",
     "dotenv": "^16.0.3",
     "eslint": "^8.32.0",
@@ -86,7 +86,7 @@
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"
   },
   "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "version": "2.43.9",
   "packageManager": "yarn@3.3.1",
   "volta": {

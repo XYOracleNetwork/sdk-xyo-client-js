@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "declarationDir": "./dist/types",
     "declarationMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

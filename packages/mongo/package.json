@@ -19,7 +19,7 @@
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "browser": {
     "mongodb": false
   },
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
-    "@xylabs/ts-scripts-yarn3": "^2.12.21"
+    "@xylabs/ts-scripts-yarn3": "^2.12.23"
   },
   "packageManager": "yarn@3.1.1"
 }

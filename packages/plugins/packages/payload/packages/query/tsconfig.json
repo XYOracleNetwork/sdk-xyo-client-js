@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-  "composite": true,
-  "lib": ["DOM", "DOM.Iterable", "ES2022"],
-  "rootDir": "./src"
+    "composite": true,
+    "declarationDir": "./dist/types",
+    "rootDir": "./src"
   },
   "extends": "../../tsconfig.json"
 }

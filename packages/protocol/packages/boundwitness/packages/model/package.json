@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.21"
+    "@xylabs/ts-scripts-yarn3": "^2.12.23"
   },
   "dependencies": {
     "@xyo-network/payload-model": "^2.43.9"
@@ -47,6 +47,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "version": "2.43.9"
 }

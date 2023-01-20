@@ -1,17 +1,14 @@
 {
   "files.eol": "\n",
   "files.exclude": {
-    ".git": true,
-    ".svn": true,
-    ".hg": true,
-    ".DS_Store": true,
-    "**/node_modules": false,
+    "**/node_modules": true,
     "**/build": true,
     "**/dist": false,
     ".webpack": true,
     ".serverless": true,
     ".rollup.cache": true,
-    "**/.tsconfig.*": true
+    "**/.tsconfig.*": false,
+    "**/.eslintcache": true
   },
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {
@@ -57,6 +54,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
     "Autobuild",
+    "autocrlf",
     "autogen",
     "automations",
     "bignumber",

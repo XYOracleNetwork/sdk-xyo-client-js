@@ -6,6 +6,7 @@
       "DOM.Iterable",
       "ES2022"
     ],
+    "declarationDir": "./dist/types",
     "rootDir": "./src"
   },
   "extends": "../../tsconfig.json"

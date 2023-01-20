@@ -35,7 +35,7 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.1.1",
     "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/ts-scripts-yarn3": "^2.12.21"
+    "@xylabs/ts-scripts-yarn3": "^2.12.23"
   },
   "peerDependencies": {
     "@ethersproject/address": "^5.7.0",
@@ -79,6 +79,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "version": "2.43.9"
 }

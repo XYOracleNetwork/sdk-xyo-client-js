@@ -3,21 +3,25 @@ name: Build
 on:
   push:
     branches:
-      - test/action
+      - main
+      - next
 
 jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
         node: [18]
     runs-on: ${{ matrix.os }}
     steps:
+      # Make sure Windows does not use CR/LF
+      - if: runner.os == 'Windows'
+        name: git config
+        run: git config --global core.autocrlf false | git config --global core.eol lf
+
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-          config: core.autocrlf false
-            core.eol lf
 
       - uses: actions/setup-node@v3
         with:

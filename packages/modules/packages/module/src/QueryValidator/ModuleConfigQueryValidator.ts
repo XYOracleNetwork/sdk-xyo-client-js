@@ -1,36 +1,67 @@
-import { AbstractModuleConfig, AbstractModuleQuery, AddressString, SchemaString } from '@xyo-network/module-model'
+import { AbstractModuleConfig, AbstractModuleQuery, AddressString, CosigningAddressSet, SchemaString } from '@xyo-network/module-model'
 
 import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
 
 export type SortedPipedAddressesString = string
 
+const delimiter = ''
+
 export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements QueryValidator {
-  protected _allowedAddressSets: Record<SchemaString, SortedPipedAddressesString[]> = {}
-  protected _disallowedAddresses: Record<SchemaString, AddressString[]> = {}
+  protected allowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
+  protected disallowed: Record<SchemaString, AddressString[]> = {}
+  protected readonly hasAllowedRules: boolean
+  protected readonly hasDisallowedRules: boolean
+  protected readonly hasRules: boolean
+
   constructor(config?: TConfig) {
     if (config?.security?.allowed) {
-      Object.entries(config.security?.allowed).forEach(([schema, addressesList]) => {
-        this._allowedAddressSets[schema] = addressesList.map((addresses) => addresses.sort().join('|'))
+      Object.entries(config.security?.allowed).forEach(([schema, addresses]) => {
+        this.allowed[schema] = addresses.map(toAddressesString)
       })
     }
-    this._disallowedAddresses = config?.security?.disallowed || {}
-  }
-
-  public get allowedAddressSets(): Record<SchemaString, SortedPipedAddressesString[]> {
-    return this._allowedAddressSets
+    if (config?.security?.disallowed) {
+      Object.entries(config.security?.disallowed).forEach(([schema, addresses]) => {
+        this.disallowed[schema] = addresses.map(toAddressesString)
+      })
+    }
+    this.hasAllowedRules = Object.keys(this.allowed).length > 0
+    this.hasDisallowedRules = Object.keys(this.disallowed).length > 0
+    this.hasRules = this.hasAllowedRules || this.hasDisallowedRules
   }
 
   queryable: Queryable = (query, payloads) => {
+    if (!this.hasRules) return true
+    const addresses = query.addresses
+    if (!addresses.length) return false
     const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
     const schema = wrapper.query.schema
-    const addresses = query.addresses
-    return addresses ? this.queryAllowed(schema, addresses) ?? !this.queryDisallowed(schema, addresses) ?? true : true
+    return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }
-  protected queryAllowed = (schema: SchemaString, addresses: SortedPipedAddressesString[]) => {
-    return this._allowedAddressSets?.[schema]?.includes(addresses.sort().join('|'))
+
+  protected queryAllowed = (schema: SchemaString, addresses: string[]): boolean => {
+    if (!this.hasAllowedRules) return true
+    // All cosigners must sign
+    if (addresses.length > 1) {
+      const signatories = toAddressesString(addresses)
+      const validCosigners = this.allowed?.[schema]?.includes(signatories)
+      if (validCosigners) return true
+    }
+    // OR all signers have to be allowed individually
+    return addresses.every((address) => this.allowed?.[schema]?.includes(address) || false)
   }
-  protected queryDisallowed = (schema: SchemaString, addresses: string[]) => {
-    return addresses.reduce((previousValue, address) => previousValue || this._disallowedAddresses?.[schema]?.includes(address), false)
+  protected queryDisallowed = (schema: SchemaString, addresses: string[]): boolean => {
+    if (!this.hasDisallowedRules) return false
+    return addresses.some((address) => this.disallowed?.[schema]?.includes(address))
   }
+}
+
+// TODO: Handle 0x prefix
+const toAddressesString = (addresses: string | CosigningAddressSet): SortedPipedAddressesString => {
+  return Array.isArray(addresses)
+    ? addresses
+        .sort()
+        .map((address) => address.toLowerCase())
+        .join(delimiter)
+    : addresses.toLowerCase()
 }

@@ -13,11 +13,17 @@ jobs:
         node: [18]
     runs-on: ${{ matrix.os }}
     steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
       - name: Git Checkout
         run: |
           git config core.autocrlf false
           git config core.eol lf
-          git checkout ${{ github.head_ref }}
+          git add --renormalize
+          git status
+          git commit
 
       - uses: actions/setup-node@v3
         with:

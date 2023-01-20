@@ -23,7 +23,7 @@ jobs:
           git config core.eol lf
           git add --renormalize
           git status
-          git commit
+          git add
 
       - uses: actions/setup-node@v3
         with:

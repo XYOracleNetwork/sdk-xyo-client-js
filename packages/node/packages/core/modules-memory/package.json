@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/source-map-support": "0.5.6",
-    "@xylabs/ts-scripts-yarn3": "^2.12.17"
+    "@xylabs/ts-scripts-yarn3": "^2.12.21"
   },
   "types": "dist/esm/index.d.ts"
 }

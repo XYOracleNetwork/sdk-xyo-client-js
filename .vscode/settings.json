@@ -57,6 +57,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
     "Autobuild",
+    "autocrlf",
     "autogen",
     "automations",
     "bignumber",

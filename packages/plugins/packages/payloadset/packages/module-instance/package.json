@@ -18,7 +18,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.9"
+    "@xylabs/ts-scripts-yarn3": "^2.12.21"
   },
   "description": "Contains the information about a module instance",
   "browser": "dist/esm/index.js",

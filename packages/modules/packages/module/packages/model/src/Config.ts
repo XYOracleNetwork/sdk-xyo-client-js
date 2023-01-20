@@ -5,6 +5,7 @@ export type AbstractModuleConfigSchema = 'network.xyo.module.config'
 export const AbstractModuleConfigSchema: AbstractModuleConfigSchema = 'network.xyo.module.config'
 
 export type AddressString = string
+export type CosigningAddressSet = string[]
 export type SchemaString = string
 
 export type AbstractModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayload<
@@ -12,7 +13,7 @@ export type AbstractModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoP
     //if both allowed and disallowed is specified, then disallowed takes priority
     security?: {
       //if schema in record, then only these address sets can access query
-      allowed?: Record<SchemaString, AddressString[][]>
+      allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
       //if schema in record, then anyone except these addresses can access query
       disallowed?: Record<SchemaString, AddressString[]>
     }

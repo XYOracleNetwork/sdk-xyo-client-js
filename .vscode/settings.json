@@ -56,11 +56,13 @@
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
+    "Autobuild",
     "autogen",
     "automations",
     "bignumber",
     "boundwitness",
     "bowser",
+    "codeql",
     "copyfiles",
     "depcheck",
     "dmarc",

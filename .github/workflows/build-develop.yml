@@ -1,0 +1,29 @@
+name: Build (develop)
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+      - name: windows-defender
+        run: powershell -Command Add-MpPreference -ExclusionPath "."
+      - name: install
+        run: yarn install
+      - name: build
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
+        run: yarn xy build -v
+      - name: cycle
+        run: yarn cycle

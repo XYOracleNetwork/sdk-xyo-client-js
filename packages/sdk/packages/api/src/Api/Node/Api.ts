@@ -26,6 +26,7 @@ export class XyoArchivistNodeApi<
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoApiSimple<string[][], D, XyoApiSimpleQuery, C> {
   /**
+   * @deprecated Use module API
    * Issue the supplied query and wait (non-blocking) for the result
    * @param data The query to issue
    * @param timeout The max time to wait for the query results
@@ -35,11 +36,13 @@ export class XyoArchivistNodeApi<
   public async perform<T extends Partial<XyoPayload>>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
     const payload = new XyoPayloadBuilder({ schema }).fields(data).build()
     const [query] = new BoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build()
+    // eslint-disable-next-line deprecation/deprecation
     const result = await this.performTransaction(query as D, timeout, retryInterval)
     return result?.[0]?.[0]
   }
 
   /**
+   * @deprecated Use module API
    * Issue the supplied queries and wait (non-blocking) for the results
    * @param data The queries to issue
    * @param timeout The max time to wait for the query results
@@ -56,6 +59,7 @@ export class XyoArchivistNodeApi<
     let results = [] as XyoApiResponseTuple<XyoPayload>[][]
     for (let i = 0; i < loops; i++) {
       await delay(retryInterval)
+      // eslint-disable-next-line deprecation/deprecation
       results = await Promise.all(ids?.map(async (bw) => await Promise.all(bw.map((p) => this.result(p).get('tuple')))))
       if (allRequestsSucceeded(results)) break
       // TODO: More nuanced error handling of partial success/failure
@@ -66,6 +70,7 @@ export class XyoArchivistNodeApi<
   }
 
   /**
+   * @deprecated Use module API
    * Get the result of a previously issued query (if available)
    * @param queryId Query ID from a previously issued query
    * @returns The result of the query (if available)

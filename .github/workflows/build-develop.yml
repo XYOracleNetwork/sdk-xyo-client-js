@@ -13,17 +13,15 @@ jobs:
         node: [18]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Git Attributes
+        run: |
+          echo "" > .gitattributes
+          echo "[core]"" >> .gitattributes
+          echo "autocrlf=false" >> .gitattributes
+          echo "eol=lf" >> .gitattributes
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-
-      - name: Git Checkout
-        run: |
-          git config core.autocrlf false
-          git config core.eol lf
-          git add --renormalize
-          git status
-          git add
 
       - uses: actions/setup-node@v3
         with:

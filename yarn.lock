@@ -5520,9 +5520,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/express-node-dependencies@workspace:^, @xyo-network/express-node-dependencies@workspace:packages/node/packages/express/dependencies":
+"@xyo-network/express-node-dependencies@workspace:^, @xyo-network/express-node-dependencies@workspace:packages/node/packages/express/packages/dependencies":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/express-node-dependencies@workspace:packages/node/packages/express/dependencies"
+  resolution: "@xyo-network/express-node-dependencies@workspace:packages/node/packages/express/packages/dependencies"
   dependencies:
     "@xylabs/assert": ^2.6.15
     "@xylabs/exists": ^2.6.15
@@ -5545,9 +5545,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/express-node-lib@workspace:^, @xyo-network/express-node-lib@workspace:packages/node/packages/express/lib":
+"@xyo-network/express-node-lib@workspace:^, @xyo-network/express-node-lib@workspace:packages/node/packages/express/packages/lib":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/express-node-lib@workspace:packages/node/packages/express/lib"
+  resolution: "@xyo-network/express-node-lib@workspace:packages/node/packages/express/packages/lib"
   dependencies:
     "@types/express": 4.17.15
     "@types/passport": ^1.0.11
@@ -5563,9 +5563,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/express-node-middleware@workspace:^, @xyo-network/express-node-middleware@workspace:packages/node/packages/express/middleware":
+"@xyo-network/express-node-middleware@workspace:^, @xyo-network/express-node-middleware@workspace:packages/node/packages/express/packages/middleware":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/middleware"
+  resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/packages/middleware"
   dependencies:
     "@ethersproject/wallet": ^5.7.0
     "@types/express": 4.17.15
@@ -5605,9 +5605,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/express-node-routes@workspace:^, @xyo-network/express-node-routes@workspace:packages/node/packages/express/routes":
+"@xyo-network/express-node-routes@workspace:^, @xyo-network/express-node-routes@workspace:packages/node/packages/express/packages/routes":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/express-node-routes@workspace:packages/node/packages/express/routes"
+  resolution: "@xyo-network/express-node-routes@workspace:packages/node/packages/express/packages/routes"
   dependencies:
     "@types/express": 4.17.15
     "@types/source-map-support": 0.5.6
@@ -5641,9 +5641,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/express-node-server@workspace:^, @xyo-network/express-node-server@workspace:packages/node/packages/express/server":
+"@xyo-network/express-node-server@workspace:^, @xyo-network/express-node-server@workspace:packages/node/packages/express/packages/server":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/server"
+  resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/packages/server"
   dependencies:
     "@types/compression": ^1.7.2
     "@types/cors": ^2.8.13
@@ -5679,9 +5679,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/express-node-test@workspace:packages/node/packages/express/test":
+"@xyo-network/express-node-test@workspace:packages/node/packages/express/packages/test":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/express-node-test@workspace:packages/node/packages/express/test"
+  resolution: "@xyo-network/express-node-test@workspace:packages/node/packages/express/packages/test"
   dependencies:
     "@ethersproject/wallet": ^5.7.0
     "@types/supertest": ^2.0.12
@@ -6030,9 +6030,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-app@workspace:^, @xyo-network/node-app@workspace:packages/node/packages/core/app":
+"@xyo-network/node-app@workspace:^, @xyo-network/node-app@workspace:packages/node/packages/core/packages/app":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/app"
+  resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/packages/app"
   dependencies:
     "@xylabs/sdk-api-express-ecs": ^1.2.5
     "@xylabs/ts-scripts-yarn3": ^2.12.23
@@ -6044,9 +6044,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-core-lib@workspace:^, @xyo-network/node-core-lib@workspace:packages/node/packages/core/lib":
+"@xyo-network/node-core-lib@workspace:^, @xyo-network/node-core-lib@workspace:packages/node/packages/core/packages/lib":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-core-lib@workspace:packages/node/packages/core/lib"
+  resolution: "@xyo-network/node-core-lib@workspace:packages/node/packages/core/packages/lib"
   dependencies:
     "@types/bcrypt": ^5.0.0
     "@types/source-map-support": 0.5.6
@@ -6063,9 +6063,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-core-model@workspace:^, @xyo-network/node-core-model@workspace:packages/node/packages/core/model":
+"@xyo-network/node-core-model@workspace:^, @xyo-network/node-core-model@workspace:packages/node/packages/core/packages/model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-core-model@workspace:packages/node/packages/core/model"
+  resolution: "@xyo-network/node-core-model@workspace:packages/node/packages/core/packages/model"
   dependencies:
     "@xylabs/assert": ^2.6.15
     "@xylabs/ts-scripts-yarn3": ^2.12.23
@@ -6086,9 +6086,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-core-modules-memory@workspace:^, @xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/modules-memory":
+"@xyo-network/node-core-modules-memory@workspace:^, @xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/packages/modules-memory":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/modules-memory"
+  resolution: "@xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/packages/modules-memory"
   dependencies:
     "@types/source-map-support": 0.5.6
     "@xylabs/ts-scripts-yarn3": ^2.12.23
@@ -6097,9 +6097,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-core-modules-mongo@workspace:^, @xyo-network/node-core-modules-mongo@workspace:packages/node/packages/core/modules-mongo":
+"@xyo-network/node-core-modules-mongo@workspace:^, @xyo-network/node-core-modules-mongo@workspace:packages/node/packages/core/packages/modules-mongo":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/node/packages/core/modules-mongo"
+  resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/node/packages/core/packages/modules-mongo"
   dependencies:
     "@types/lodash": ^4.14.191
     "@xylabs/assert": ^2.6.15
@@ -6140,9 +6140,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-core-query-handlers@workspace:^, @xyo-network/node-core-query-handlers@workspace:packages/node/packages/core/query-handlers":
+"@xyo-network/node-core-query-handlers@workspace:^, @xyo-network/node-core-query-handlers@workspace:packages/node/packages/core/packages/query-handlers":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-core-query-handlers@workspace:packages/node/packages/core/query-handlers"
+  resolution: "@xyo-network/node-core-query-handlers@workspace:packages/node/packages/core/packages/query-handlers"
   dependencies:
     "@xylabs/assert": ^2.6.15
     "@xylabs/delay": ^2.6.15
@@ -6160,9 +6160,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-core-types@workspace:^, @xyo-network/node-core-types@workspace:packages/node/packages/core/types":
+"@xyo-network/node-core-types@workspace:^, @xyo-network/node-core-types@workspace:packages/node/packages/core/packages/types":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-core-types@workspace:packages/node/packages/core/types"
+  resolution: "@xyo-network/node-core-types@workspace:packages/node/packages/core/packages/types"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.12.23
   languageName: unknown

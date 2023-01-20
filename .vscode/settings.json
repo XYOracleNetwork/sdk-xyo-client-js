@@ -3,11 +3,11 @@
   "files.exclude": {
     "**/node_modules": true,
     "**/build": true,
-    "**/dist": true,
+    "**/dist": false,
     ".webpack": true,
     ".serverless": true,
     ".rollup.cache": true,
-    "**/.tsconfig.*": true,
+    "**/.tsconfig.*": false,
     "**/.eslintcache": true
   },
   "editor.formatOnSave": true,

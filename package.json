@@ -86,7 +86,7 @@
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"
   },
   "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "version": "2.43.9",
   "packageManager": "yarn@3.3.1",
   "volta": {

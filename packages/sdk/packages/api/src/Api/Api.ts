@@ -67,6 +67,9 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
     })
   }
 
+  /**
+   * @deprecated Use module API
+   */
   public archive(archive = 'temp') {
     const pureArchive = archive.toLowerCase()
     return new XyoArchivistArchiveApi({
@@ -85,6 +88,7 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
 
   /**
    * Issues commands/queries as XyoBoundWitness wrapped XyoPayloads against a Node in the network
+   * @deprecated Use module API
    * @param archive Optional, the archive to issue the requests against
    * @returns Confirmation for the request, as a BoundWitness, from the network Node
    */

@@ -4,6 +4,9 @@ import { XyoApiSimple } from '../../../Simple'
 
 export class XyoArchivistArchiveSchemasApi extends XyoApiSimple<XyoSchemaPayload[]> {
   private _recent?: XyoApiSimple<XyoSchemaPayload[]>
+  /**
+   * @deprecated Use module API
+   */
   public get recent(): XyoApiSimple<XyoSchemaPayload[]> {
     this._recent =
       this._recent ??

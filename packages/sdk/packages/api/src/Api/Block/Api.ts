@@ -10,6 +10,9 @@ export class XyoArchivistArchiveBlockApi<
   T extends XyoBoundWitness = XyoBoundWitness,
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoArchivistPayloadApi<T, C> {
+  /**
+   * @deprecated Use module API
+   */
   public payloads(hash: string): XyoApiSimple<XyoPayload[][]> {
     return new XyoApiSimple<XyoPayload[][]>({
       ...this.config,

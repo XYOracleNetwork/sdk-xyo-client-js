@@ -4899,7 +4899,7 @@ __metadata:
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.12.21
-    "@xyo-network/payload-model": ^2.43.8
+    "@xyo-network/payload-model": ^2.43.9
   languageName: unknown
   linkType: soft
 
@@ -6244,7 +6244,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-model@^2.43.8, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
+"@xyo-network/payload-model@^2.43.9, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:

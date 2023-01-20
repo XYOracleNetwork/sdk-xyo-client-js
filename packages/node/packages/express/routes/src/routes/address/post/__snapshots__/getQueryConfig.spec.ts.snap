@@ -36,21 +36,6 @@ exports[`getQueryConfig with archivist when request can access archive generates
 }
 `;
 
-exports[`getQueryConfig with archivist when request can access archive generates config for signed requests 1`] = `
-{
-  "schema": "network.xyo.module.config",
-  "security": {
-    "allowed": {
-      "network.xyo.query.module.discover": [
-        [
-          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
-        ],
-      ],
-    },
-  },
-}
-`;
-
 exports[`getQueryConfig with archivist when request can access archive generates config for single-signer requests 1`] = `
 {
   "schema": "network.xyo.module.config",

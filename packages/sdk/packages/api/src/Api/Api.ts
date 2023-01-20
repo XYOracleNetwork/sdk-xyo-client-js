@@ -20,6 +20,9 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
   private _stats?: XyoApiSimple<unknown[]>
   private _user?: XyoUserApi
 
+  /**
+   * @deprecated Use module API
+   */
   public get addresses(): XyoAddressesApi {
     this._addresses =
       this._addresses ??
@@ -40,6 +43,9 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
     return this._archives
   }
 
+  /**
+   * @deprecated Use module API
+   */
   public get stats() {
     this._stats =
       this._stats ??
@@ -67,9 +73,6 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
     })
   }
 
-  /**
-   * @deprecated Use module API
-   */
   public archive(archive = 'temp') {
     const pureArchive = archive.toLowerCase()
     return new XyoArchivistArchiveApi({

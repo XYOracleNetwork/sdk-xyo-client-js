@@ -28,7 +28,7 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "@ethersproject/wallet": "^5.7.0",
-    "@xylabs/assert": "^2.6.15",
+    "@xylabs/assert": "^2.6.16",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",

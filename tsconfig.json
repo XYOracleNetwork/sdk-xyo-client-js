@@ -9,7 +9,6 @@
     "noImplicitOverride": false,
     "typeRoots": ["./node_modules/@types", "**/src/types"],
     "types": [
-      "@types/jest",
       "jest-extended",
       "jest-sorted",
       "jest",

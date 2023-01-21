@@ -14,7 +14,7 @@
     "@xyo-network/axios": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.24"
+    "@xylabs/ts-scripts-yarn3": "^2.12.25"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",

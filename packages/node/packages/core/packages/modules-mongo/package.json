@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "@xylabs/ts-scripts-yarn3": "^2.12.24"
+    "@xylabs/ts-scripts-yarn3": "^2.12.25"
   },
   "types": "dist/types/index.d.ts"
 }

@@ -73,16 +73,12 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   on(event: 'moduleResolverChanged', listener: (args: ModuleResolverChangedEventArgs) => void): this
   on<T extends SupportedEventTypes>(event: T, listener: SupportedEventListeners<T>): this {
     switch (event) {
-      case 'moduleAttached': {
-        const handler = listener as EventListener<ModuleAttachedEventArgs>
-        this.moduleAttachedEventListeners?.push(handler)
+      case 'moduleAttached':
+        this.moduleAttachedEventListeners?.push(listener as EventListener<ModuleAttachedEventArgs>)
         break
-      }
-      case 'moduleResolverChanged': {
-        const handler = listener as EventListener<ModuleResolverChangedEventArgs>
-        this.resolverChangedEventListeners?.push(handler)
+      case 'moduleResolverChanged':
+        this.resolverChangedEventListeners?.push(listener as EventListener<ModuleResolverChangedEventArgs>)
         break
-      }
     }
     return this
   }

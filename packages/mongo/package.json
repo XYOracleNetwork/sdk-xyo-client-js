@@ -44,16 +44,16 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.6.15",
-    "@xylabs/delay": "^2.6.15",
-    "@xylabs/forget": "^2.6.15",
+    "@xylabs/assert": "^2.6.16",
+    "@xylabs/delay": "^2.6.16",
+    "@xylabs/forget": "^2.6.16",
     "async-mutex": "^0.4.0",
     "mongodb": "^4.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
-    "@xylabs/ts-scripts-yarn3": "^2.12.23"
+    "@xylabs/ts-scripts-yarn3": "^2.12.25"
   },
   "packageManager": "yarn@3.1.1"
 }

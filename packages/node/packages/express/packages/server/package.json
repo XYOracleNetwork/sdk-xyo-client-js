@@ -27,9 +27,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.15",
-    "@xylabs/delay": "^2.6.15",
-    "@xylabs/exists": "^2.6.15",
+    "@xylabs/assert": "^2.6.16",
+    "@xylabs/delay": "^2.6.16",
+    "@xylabs/exists": "^2.6.16",
     "@xylabs/sdk-api-express-ecs": "^1.2.5",
     "@xyo-network/express-node-dependencies": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",
@@ -55,11 +55,11 @@
   "devDependencies": {
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",
-    "@types/express": "4.17.15",
+    "@types/express": "4.17.16",
     "@types/nconf": "^0.10.3",
     "@types/passport": "^1.0.11",
     "@types/uuid": "^9.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.12.23"
+    "@xylabs/ts-scripts-yarn3": "^2.12.25"
   },
   "types": "dist/types/index.d.ts"
 }

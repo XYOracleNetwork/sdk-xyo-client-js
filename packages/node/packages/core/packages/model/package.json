@@ -27,7 +27,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.15",
+    "@xylabs/assert": "^2.6.16",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
@@ -44,7 +44,7 @@
     "ajv": "^8.12.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.23"
+    "@xylabs/ts-scripts-yarn3": "^2.12.25"
   },
   "types": "dist/types/index.d.ts"
 }

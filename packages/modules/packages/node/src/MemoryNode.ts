@@ -1,29 +1,16 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import {
-  duplicateModules,
-  ListenerFunction,
-  mixinResolverEventEmitter,
-  Module,
-  ModuleEventEmitter,
-  ModuleFilter,
-  ModuleResolver,
-} from '@xyo-network/module'
+import { duplicateModules, ListenerFunction, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
+import { ModuleResolverChangedEventArgs, ResolverChangedEventEmitter } from './Events'
 
 export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractNodeParams<TConfig, TModule> {
   autoAttachExternallyResolved?: boolean
 }
-
-export interface ModuleResolverChangedEventArgs {
-  resolver?: ModuleResolver
-}
-
-export type ResolverChangedEventEmitter = ModuleEventEmitter<'moduleResolverChanged', ModuleResolverChangedEventArgs>
 
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractNode<TConfig, TModule>

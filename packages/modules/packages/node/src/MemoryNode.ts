@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { duplicateModules, ListenerFunction, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
+import { duplicateModules, EventListener, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -18,7 +18,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
 {
   static configSchema = NodeConfigSchema
   private registeredModuleMap = new Map<string, TModule>()
-  private readonly resolverChangedEventListeners: ListenerFunction<ModuleResolverChangedEventArgs>[] = []
+  private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
 
   override get resolver() {
     return this._resolver

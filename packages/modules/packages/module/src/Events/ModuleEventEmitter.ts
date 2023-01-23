@@ -1,5 +1,5 @@
-export type ListenerFunction<T> = (args: T) => void
+import { EventListener } from './EventListener'
 
 export interface ModuleEventEmitter<TEvent extends string, TEventArgs> {
-  on(event: TEvent, listener: ListenerFunction<TEventArgs>): this
+  on(event: TEvent, handler: EventListener<TEventArgs>): this
 }

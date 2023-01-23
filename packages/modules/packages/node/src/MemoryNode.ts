@@ -1,35 +1,30 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { duplicateModules, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
+import { duplicateModules, EventListener, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
+import { ModuleAttachedEventArgs, ModuleAttachedEventEmitter, ModuleResolverChangedEventArgs, ResolverChangedEventEmitter } from './Events'
+
+type SupportedEventTypes = 'moduleAttached' | 'moduleResolverChanged'
+type SupportedEventListeners<T extends SupportedEventTypes> = T extends 'moduleAttached'
+  ? EventListener<ModuleAttachedEventArgs>
+  : EventListener<ModuleResolverChangedEventArgs>
 
 export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractNodeParams<TConfig, TModule> {
   autoAttachExternallyResolved?: boolean
 }
 
-export type ListenerFunction<T> = (args: T) => void
-
-export interface ModuleEventEmitter<TEvent extends string, TEventArgs> {
-  on(event: TEvent, listener: ListenerFunction<TEventArgs>): this
-}
-
-export interface ModuleResolverChangedEventArgs {
-  resolver?: ModuleResolver
-}
-
-export type ResolverChangedEventEmitter = ModuleEventEmitter<'moduleResolverChanged', ModuleResolverChangedEventArgs>
-
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractNode<TConfig, TModule>
-  implements ResolverChangedEventEmitter
+  implements ModuleAttachedEventEmitter, ResolverChangedEventEmitter
 {
   static configSchema = NodeConfigSchema
+  private readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
   private registeredModuleMap = new Map<string, TModule>()
-  private readonly resolverChangedEventListeners: ListenerFunction<ModuleResolverChangedEventArgs>[] = []
+  private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
 
   override get resolver() {
     return this._resolver
@@ -68,14 +63,25 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   override attach(address: string, name?: string) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
     this.internalResolver.add(module, name)
+    const args = { module }
+    this.moduleAttachedEventListeners?.map((listener) => listener(args))
   }
 
   override detach(address: string) {
     this.internalResolver.remove(address)
   }
 
-  on(event: 'moduleResolverChanged', listener: (args: ModuleResolverChangedEventArgs) => void): this {
-    this.resolverChangedEventListeners?.push(listener)
+  on(event: 'moduleAttached', listener: (args: ModuleAttachedEventArgs) => void): this
+  on(event: 'moduleResolverChanged', listener: (args: ModuleResolverChangedEventArgs) => void): this
+  on<T extends SupportedEventTypes>(event: T, listener: SupportedEventListeners<T>): this {
+    switch (event) {
+      case 'moduleAttached':
+        this.moduleAttachedEventListeners?.push(listener as EventListener<ModuleAttachedEventArgs>)
+        break
+      case 'moduleResolverChanged':
+        this.resolverChangedEventListeners?.push(listener as EventListener<ModuleResolverChangedEventArgs>)
+        break
+    }
     return this
   }
 

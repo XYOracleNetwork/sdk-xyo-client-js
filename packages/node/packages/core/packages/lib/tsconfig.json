@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "composite": true,
     "declarationDir": "./dist/types",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "rootDir": "./src"
   },
   "extends": "../../tsconfig.json"

@@ -150,6 +150,15 @@ describe('MemoryNode', () => {
     it('attaches module', () => {
       node.attach(module.address)
     })
+    it('emits event on module attach', (done) => {
+      node.on('moduleAttached', (args) => {
+        expect(args.module).toBeObject()
+        expect(args.module.address).toBe(module.address)
+        expect(args.module).toBe(module)
+        done()
+      })
+      node.attach(module.address)
+    })
   })
   describe('attached', () => {
     let module: AbstractModule
@@ -368,19 +377,17 @@ describe('MemoryNode', () => {
       })
     })
   })
-  describe('on', () => {
-    describe('moduleResolverChanged', () => {
-      it('emits event', (done) => {
-        const resolver = new SimpleModuleResolver()
-        node.on('moduleResolverChanged', (args) => {
-          expect(args).toBeObject()
-          expect(args.resolver).toBe(resolver)
-          done()
-        })
-        expect(node.resolver).toBeUndefined()
-        node.resolver = resolver
-        expect(node.resolver).toBe(resolver)
+  describe('resolver', () => {
+    it('emits event when resolver changes', (done) => {
+      const resolver = new SimpleModuleResolver()
+      node.on('moduleResolverChanged', (args) => {
+        expect(args).toBeObject()
+        expect(args.resolver).toBe(resolver)
+        done()
       })
+      expect(node.resolver).toBeUndefined()
+      node.resolver = resolver
+      expect(node.resolver).toBe(resolver)
     })
   })
 })

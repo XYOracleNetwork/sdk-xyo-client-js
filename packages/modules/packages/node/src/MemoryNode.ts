@@ -5,7 +5,12 @@ import { duplicateModules, EventListener, mixinResolverEventEmitter, Module, Mod
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
-import { ModuleResolverChangedEventArgs, ResolverChangedEventEmitter } from './Events'
+import { ModuleAttachedEventArgs, ModuleAttachedEventEmitter, ModuleResolverChangedEventArgs, ResolverChangedEventEmitter } from './Events'
+
+type SupportedEventTypes = 'moduleAttached' | 'moduleResolverChanged'
+type SupportedEventListeners<T extends SupportedEventTypes> = T extends 'moduleAttached'
+  ? EventListener<ModuleAttachedEventArgs>
+  : EventListener<ModuleResolverChangedEventArgs>
 
 export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractNodeParams<TConfig, TModule> {
@@ -14,9 +19,10 @@ export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModu
 
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
   extends AbstractNode<TConfig, TModule>
-  implements ResolverChangedEventEmitter
+  implements ModuleAttachedEventEmitter, ResolverChangedEventEmitter
 {
   static configSchema = NodeConfigSchema
+  private readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
   private registeredModuleMap = new Map<string, TModule>()
   private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
 
@@ -63,8 +69,21 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     this.internalResolver.remove(address)
   }
 
-  on(event: 'moduleResolverChanged', listener: (args: ModuleResolverChangedEventArgs) => void): this {
-    this.resolverChangedEventListeners?.push(listener)
+  on(event: 'moduleAttached', listener: (args: ModuleAttachedEventArgs) => void): this
+  on(event: 'moduleResolverChanged', listener: (args: ModuleResolverChangedEventArgs) => void): this
+  on<T extends SupportedEventTypes>(event: T, listener: SupportedEventListeners<T>): this {
+    switch (event) {
+      case 'moduleAttached': {
+        const handler = listener as EventListener<ModuleAttachedEventArgs>
+        this.moduleAttachedEventListeners?.push(handler)
+        break
+      }
+      case 'moduleResolverChanged': {
+        const handler = listener as EventListener<ModuleResolverChangedEventArgs>
+        this.resolverChangedEventListeners?.push(handler)
+        break
+      }
+    }
     return this
   }
 

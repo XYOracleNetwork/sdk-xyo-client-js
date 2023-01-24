@@ -1,5 +1,6 @@
 export * from './AbstractNode'
 export * from './Config'
+export * from './Events'
 export * from './MemoryNode'
 export * from './Node'
 export * from './NodeWrapper'

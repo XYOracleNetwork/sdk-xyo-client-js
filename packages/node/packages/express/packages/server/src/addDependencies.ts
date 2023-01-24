@@ -40,10 +40,6 @@ const addArchivists = (app: Application) => {
     dependencies.get<ArchivePermissionsArchivistFactory>(TYPES.ArchivePermissionsArchivistFactory),
     'Missing ArchivePermissionsArchivistFactory',
   )
-  app.archivistWitnessedPayloadArchivist = assertEx(
-    dependencies.get<WitnessedPayloadArchivist>(TYPES.WitnessedPayloadArchivist),
-    'Missing ArchivistWitnessedPayloadArchivist',
-  )
 }
 
 const addRepositories = (app: Application) => {

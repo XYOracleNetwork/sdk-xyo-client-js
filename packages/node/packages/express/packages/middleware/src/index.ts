@@ -12,7 +12,6 @@ import {
   Queue,
   UserManager,
   UserWithoutId,
-  WitnessedPayloadArchivist,
 } from '@xyo-network/node-core-model'
 import { Logger } from '@xyo-network/shared'
 // NOTE: Required import since passport types (which we need to extend) extend Express
@@ -38,7 +37,6 @@ declare global {
       archiveKeyRepository: ArchiveKeyRepository
       archivePayloadsArchivistFactory: ArchivePayloadArchivistFactory
       archivePermissionsArchivistFactory: ArchivePermissionsArchivistFactory
-      archivistWitnessedPayloadArchivist: WitnessedPayloadArchivist
       logger: Logger
       node: AbstractNode
       queryConverters: QueryConverterRegistry

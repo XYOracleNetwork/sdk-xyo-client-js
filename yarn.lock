@@ -6068,7 +6068,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-core-model@workspace:packages/node/packages/core/packages/model"
   dependencies:
-    "@xylabs/assert": ^2.6.16
     "@xylabs/ts-scripts-yarn3": ^2.12.25
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
@@ -6080,7 +6079,6 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     ajv: ^8.12.0

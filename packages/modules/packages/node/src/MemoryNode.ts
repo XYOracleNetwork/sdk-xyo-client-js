@@ -63,7 +63,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
   override attach(address: string, name?: string) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
     this.internalResolver.add(module, name)
-    const args = { module }
+    const args = { module, name }
     this.moduleAttachedEventListeners?.map((listener) => listener(args))
   }
 

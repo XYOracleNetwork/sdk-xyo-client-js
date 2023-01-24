@@ -5,14 +5,7 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { EmptyObject } from '@xyo-network/core'
 import { ModuleParams } from '@xyo-network/module'
-import {
-  AbstractPayloadArchivist,
-  ArchiveModuleConfig,
-  XyoBoundWitnessWithMeta,
-  XyoPayloadFilterPredicate,
-  XyoPayloadWithMeta,
-  XyoPayloadWithPartialMeta,
-} from '@xyo-network/node-core-model'
+import { XyoBoundWitnessWithMeta, XyoPayloadFilterPredicate, XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import LruCache from 'lru-cache'

@@ -1,5 +1,3 @@
-import { BoundWitnessArchivist } from './BoundWitnessArchivist'
+import { PayloadArchivist } from '@xyo-network/archivist'
 
-export type ArchiveBoundWitnessArchivist = BoundWitnessArchivist
-
-export type ArchiveBoundWitnessArchivistFactory = (a: string) => Promise<ArchiveBoundWitnessArchivist>
+export type ArchiveBoundWitnessArchivistFactory = (a: string) => Promise<PayloadArchivist>

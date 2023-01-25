@@ -10,6 +10,7 @@
         "${workspaceFolder}/dist/**/*.js"
       ],
       "runtimeArgs": [
+        // "--inspect",
         "--max-old-space-size=8192",
         "--experimental-specifier-resolution=node",
         "--loader=ts-node/esm"

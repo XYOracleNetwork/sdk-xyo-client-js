@@ -1,6 +1,5 @@
 import { Provider } from '@ethersproject/providers'
 import { XyoEthereumGasBlocknativeWitness, XyoEthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-plugin'
-import { XyoEtherchainEthereumGasWitnessV1, XyoEthereumGasEtherchainV1WitnessConfigSchema } from '@xyo-network/etherchain-ethereum-gas-v1-plugin'
 import { XyoEtherchainEthereumGasWitnessV2, XyoEthereumGasEtherchainV2WitnessConfigSchema } from '@xyo-network/etherchain-ethereum-gas-v2-plugin'
 import { XyoEthereumGasEthersWitness, XyoEthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
 import { XyoEthereumGasEtherscanWitness, XyoEthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
@@ -17,12 +16,6 @@ export const getEthereumGasWitness: WitnessProvider<Provider> = async (provider 
       account: getAccount(WalletPaths.XyoEthereumGasBlocknativeWitness),
       config: {
         schema: XyoEthereumGasBlocknativeWitnessConfigSchema,
-      },
-    }),
-    await XyoEtherchainEthereumGasWitnessV1.create({
-      account: getAccount(WalletPaths.XyoEtherchainEthereumGasWitnessV1),
-      config: {
-        schema: XyoEthereumGasEtherchainV1WitnessConfigSchema,
       },
     }),
     await XyoEtherchainEthereumGasWitnessV2.create({

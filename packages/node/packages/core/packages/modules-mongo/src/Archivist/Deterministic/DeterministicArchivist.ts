@@ -2,31 +2,15 @@ import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivistConfig } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
-
-const validByType = (results: [BoundWitnessWrapper[], PayloadWrapper[]] = [[], []], value?: XyoPayload) => {
-  const payload = PayloadWrapper.parse(value)
-  if (payload.valid) {
-    if (payload?.schema === XyoBoundWitnessSchema) {
-      const bw = BoundWitnessWrapper.parse(payload)
-      if (bw.valid) {
-        results[0].push(bw)
-      }
-    } else {
-      results[1].push(payload)
-    }
-  }
-  return results
-}
+import { validByType } from './validByType'
 
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
   boundWitnesses: BaseMongoSdk<XyoBoundWitness>

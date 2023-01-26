@@ -39,7 +39,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     return Promise.all(hashes.map((hash) => this.payloads.findOne({ _hash: hash }) as Promise<XyoPayload>))
   }
   async insert(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
-    // TODO: Verify access via validation
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const payloads = wrappedPayloads.map((wrapped) => wrapped.payload)
     const boundWitnesses = wrappedBoundWitnesses.map((wrapped) => {
@@ -57,7 +56,11 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       }),
     )
     const succeeded = insertions.filter(fulfilled).map((x) => x.value)
-    const result = await this.bindResult(succeeded.map((success) => success.boundwitness))
-    return [result[0]]
+    const results = await Promise.all(
+      succeeded.map(async (success) => {
+        return (await this.bindResult([success.boundwitness, ...success.payloadsArray]))[0]
+      }),
+    )
+    return results
   }
 }

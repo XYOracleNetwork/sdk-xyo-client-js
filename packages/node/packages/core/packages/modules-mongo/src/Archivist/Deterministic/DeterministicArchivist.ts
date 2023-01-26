@@ -5,7 +5,6 @@ import { AbstractArchivist, ArchivistConfig } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { PromisableArray } from '@xyo-network/promise'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'
@@ -34,7 +33,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
 
   // TODO: Find
 
-  get(hashes: string[]): PromisableArray<XyoPayload> {
+  get(hashes: string[]): Promise<XyoPayload[]> {
     // TODO: Verify access via query
     // TODO: Remove _fields or create payloads from builder
     return Promise.all(hashes.map((hash) => this.payloads.findOne({ _hash: hash }) as Promise<XyoPayload>))

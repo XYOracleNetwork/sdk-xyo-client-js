@@ -34,6 +34,21 @@ const validBoundWitnesses = (boundWitnesses: XyoBoundWitness[], payload: XyoPayl
   return boundWitnesses
 }
 
+const validByType = (results: [XyoBoundWitness[], XyoPayload[]] = [[], []], value?: XyoPayload) => {
+  const payload = PayloadWrapper.parse(value)
+  if (payload.valid) {
+    if (payload?.schema === XyoBoundWitnessSchema) {
+      const bw = BoundWitnessWrapper.parse(payload)
+      if (bw.valid) {
+        results[0].push(bw.boundwitness)
+      }
+    } else {
+      results[1].push(payload.payload)
+    }
+  }
+  return results
+}
+
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
   boundWitnesses: BaseMongoSdk<XyoBoundWitness>
   payloads: BaseMongoSdk<XyoPayload>
@@ -64,9 +79,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   async insert(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
     // TODO: Verify access via validation
     const valid = items.reduce(validPayloads, [])
+    const [boundWitnesses, payloads] = items.reduce(validByType, [[], []])
     // TODO: map to BWs/payloads transactions (group by BW with referenced payload hashes)
-    const boundWitnesses = valid.reduce(validBoundWitnesses, [])
-    const payloads = valid.filter(payloadFilter)
     const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
     const payloadsResult = await this.payloads.insertMany(payloads)
     if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== payloads.length)

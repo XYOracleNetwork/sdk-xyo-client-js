@@ -1,9 +1,12 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivistConfig } from '@xyo-network/archivist'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
@@ -31,9 +34,26 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   get(hashes: string[]): PromisableArray<XyoPayload> {
-    throw new Error('Method not implemented.')
+    // TODO: Verify access via query
+    // TODO: Remove _fields or create payloads from builder
+    return Promise.all(hashes.map((hash) => this.payloads.findOne({ _hash: hash }) as Promise<XyoPayload>))
   }
-  insert(item: XyoPayload[]): PromisableArray<XyoBoundWitness> {
-    throw new Error('Method not implemented.')
+  async insert(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
+    // TODO: Verify access via validation
+    const valid = items.map((payload) => PayloadWrapper.parse(payload)).filter((parsed) => parsed.valid)
+    // TODO: map to BWs/payloads transactions (group by BW with referenced payload hashes)
+    const boundWitnesses = valid
+      .filter((payload) => payload.schema === XyoBoundWitnessSchema)
+      .map((payload) => BoundWitnessWrapper.parse(payload).boundwitness)
+    const payloads: XyoPayload[] = valid.filter((payload) => payload.schema !== XyoBoundWitnessSchema)
+    const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
+    const payloadsResult = await this.payloads.insertMany(payloads)
+    if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== payloads.length)
+      throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
+    if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
+      throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
+    const storedPayloads = valid.map((valid) => valid.payload)
+    const result = await this.bindResult([...storedPayloads])
+    return [result[0]]
   }
 }

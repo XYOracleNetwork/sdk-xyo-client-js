@@ -23,7 +23,7 @@ export interface WrapperError extends Error {
 }
 
 export type ModuleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>> = {
-  new (module: TModule): TWrapper
+  new (module: TModule, account?: Account): TWrapper
 }
 
 function moduleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>() {
@@ -34,11 +34,7 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 
 @moduleConstructable()
 export class ModuleWrapper<TModule extends Module = Module> implements Module {
-  protected module: TModule
-
-  constructor(module: TModule) {
-    this.module = module
-  }
+  constructor(protected readonly module: TModule, protected readonly account?: Account) {}
 
   get address() {
     return this.module.address
@@ -73,7 +69,7 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account?: Account,
+    account: Account | undefined = this.account,
   ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account> {
     const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
@@ -86,7 +82,7 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
   protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account?: Account,
+    account: Account | undefined = this.account,
   ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = (account ? builder.witness(account) : builder).build()

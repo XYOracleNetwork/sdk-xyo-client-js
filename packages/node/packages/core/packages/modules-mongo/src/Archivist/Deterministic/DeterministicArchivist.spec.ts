@@ -21,6 +21,7 @@ describe('DeterministicArchivist', () => {
   const config = {
     schema: AbstractModuleConfigSchema,
   }
+  const account = Account.random()
   let archivist: ArchivistWrapper
   beforeAll(async () => {
     await server.start()
@@ -35,7 +36,7 @@ describe('DeterministicArchivist', () => {
     const boundWitnesses: BaseMongoSdk<XyoBoundWitness> = new BaseMongoSdk(boundWitnessesConfig)
     const payloads: BaseMongoSdk<XyoPayload> = new BaseMongoSdk(payloadsConfig)
     const sut = await MongoDBDeterministicArchivist.create({ boundWitnesses, config, payloads })
-    archivist = new ArchivistWrapper(sut)
+    archivist = new ArchivistWrapper(sut, account)
   })
   describe('discover', () => {
     it('discovers module', async () => {
@@ -47,7 +48,6 @@ describe('DeterministicArchivist', () => {
   describe('insert', () => {
     it('inserts payload', async () => {
       const payload = PayloadWrapper.parse({ schema: 'network.xyo.payload' }).payload
-      const account = Account.random()
       const result = await archivist.insert([payload])
       expect(result).toBeTruthy()
       expect(result).toBeArray()

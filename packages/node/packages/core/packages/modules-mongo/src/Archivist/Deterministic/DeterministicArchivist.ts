@@ -47,9 +47,9 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
   async insert(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
-    const payloads = wrappedPayloads.map((wrapped) => wrapped.payload)
+    const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
     const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {
-      wrapped.payloads = payloads
+      wrapped.payloads = validPayloads
       return wrapped
     })
     const insertions = await Promise.allSettled(
@@ -57,15 +57,17 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
         const bwResult = await this.boundWitnesses.insertOne(bw.boundwitness)
         if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
         const payloadsResult = await this.payloads.insertMany(bw.payloadsArray)
-        if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
+        if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== bw.payloadsArray.length)
           throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
         return bw
       }),
     )
-    const succeeded = insertions.filter(fulfilled).map((x) => x.value)
+    const succeeded = insertions.filter(fulfilled).map((v) => v.value)
     const results = await Promise.all(
       succeeded.map(async (success) => {
-        return (await this.bindResult([success.boundwitness, ...success.payloadsArray]))[0]
+        const bw = success.boundwitness
+        const payloads = success.payloadsArray.map((p) => p.payload)
+        return (await this.bindResult([bw, ...payloads]))[0]
       }),
     )
     return results
@@ -89,24 +91,9 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       switch (typedQuery.schema) {
         case ArchivistInsertQuerySchema: {
           const items: XyoPayload[] = [query]
+          // TODO: Filter out command here?
           if (payloads?.length) items.push(...payloads)
-          const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
-          const validPayloads = wrappedPayloads.filter((p) => p.hash !== query.query).map((wrapped) => wrapped.payload)
-          const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {
-            wrapped.payloads = validPayloads
-            return wrapped
-          })
-          const insertions = await Promise.allSettled(
-            wrappedBoundWitnessesWithPayloads.map(async (bw) => {
-              const bwResult = await this.boundWitnesses.insertOne(bw.boundwitness)
-              if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
-              const payloadsResult = await this.payloads.insertMany(bw.payloadsArray)
-              if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== bw.payloadsArray.length)
-                throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
-              return bw.boundwitness
-            }),
-          )
-          const succeeded = insertions.filter(fulfilled).map((v) => v.value)
+          const succeeded = await this.insert(items)
           resultPayloads.push(...succeeded)
           break
         }

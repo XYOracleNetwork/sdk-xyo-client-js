@@ -9,7 +9,7 @@ export class MongoClientWrapper {
 
   private checkFrequency = 100
   private client: MongoClient
-  private closeDelay = 1000
+  private closeDelay
   private connected = false
   private connectionMutex = new Mutex()
   private connections = 0
@@ -18,15 +18,16 @@ export class MongoClientWrapper {
 
   private uri: string
 
-  constructor(uri: string, maxPoolSize?: number) {
+  constructor(uri: string, maxPoolSize?: number, closeDelay?: number) {
     this.uri = uri
     this.client = new MongoClient(uri, { maxPoolSize })
+    this.closeDelay = closeDelay ?? 1000
   }
 
-  static get(uri: string, poolSize?: number) {
+  static get(uri: string, poolSize?: number, closeDelay?: number) {
     let client = this.clients.get(uri)
     if (!client) {
-      client = new MongoClientWrapper(uri, poolSize)
+      client = new MongoClientWrapper(uri, poolSize, closeDelay)
       this.clients.set(uri, client)
     }
     return client

@@ -56,6 +56,15 @@ export class BoundWitnessWrapper<
     } else {
       this._payloads = payloads
     }
+    if (this?._payloads) {
+      this._payloads = Object.fromEntries(
+        this.payloadHashes.reduce<[string, PayloadWrapper<TPayload>][]>((prev, hash) => {
+          const existing = this._payloads?.[hash]
+          if (existing) prev.push([hash, existing])
+          return prev
+        }, []),
+      )
+    }
   }
 
   public get payloadsArray(): PayloadWrapper<TPayload>[] {

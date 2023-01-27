@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
-import { AbstractArchivist, ArchivistConfig } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistConfig, ArchivistFindQuerySchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -62,5 +62,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       }),
     )
     return results
+  }
+  override queries() {
+    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
   }
 }

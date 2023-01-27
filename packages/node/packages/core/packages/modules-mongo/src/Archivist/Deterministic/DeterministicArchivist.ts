@@ -1,9 +1,16 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
-import { AbstractArchivist, ArchivistConfig, ArchivistFindQuerySchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistConfig, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleParams } from '@xyo-network/module'
+import {
+  AbstractModuleConfig,
+  ModuleParams,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
@@ -63,7 +70,53 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     )
     return results
   }
+
   override queries() {
     return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
+  }
+
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+    query: T,
+    payloads?: XyoPayload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
+    const typedQuery = wrapper.query.payload
+    assertEx(this.queryable(query, payloads, queryConfig))
+    const resultPayloads: XyoPayload[] = []
+    const queryAccount = new Account()
+    try {
+      switch (typedQuery.schema) {
+        case ArchivistInsertQuerySchema: {
+          const items: XyoPayload[] = [query]
+          if (payloads?.length) items.push(...payloads)
+          const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
+          const validPayloads = wrappedPayloads.filter((p) => p.hash !== query.query).map((wrapped) => wrapped.payload)
+          const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {
+            wrapped.payloads = validPayloads
+            return wrapped
+          })
+          const insertions = await Promise.allSettled(
+            wrappedBoundWitnessesWithPayloads.map(async (bw) => {
+              const bwResult = await this.boundWitnesses.insertOne(bw.boundwitness)
+              if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
+              const payloadsResult = await this.payloads.insertMany(bw.payloadsArray)
+              if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== bw.payloadsArray.length)
+                throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
+              return bw.boundwitness
+            }),
+          )
+          const succeeded = insertions.filter(fulfilled).map((v) => v.value)
+          resultPayloads.push(...succeeded)
+          break
+        }
+        default:
+          return super.query(query, payloads)
+      }
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
+    }
+    return this.bindResult(resultPayloads, queryAccount)
   }
 }

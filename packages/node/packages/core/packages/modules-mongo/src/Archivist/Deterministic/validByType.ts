@@ -6,8 +6,8 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 export const validByType = (results: [BoundWitnessWrapper[], PayloadWrapper[]] = [[], []], value?: XyoPayload) => {
   const payload = PayloadWrapper.parse(value)
   if (payload.valid) {
-    if (payload?.schema === XyoBoundWitnessSchema) {
-      const bw = BoundWitnessWrapper.parse(payload)
+    if (payload?.schema.startsWith(XyoBoundWitnessSchema)) {
+      const bw = BoundWitnessWrapper.parse(payload.payload)
       if (bw.valid) {
         results[0].push(bw)
       }

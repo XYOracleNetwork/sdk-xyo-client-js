@@ -132,7 +132,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     if (!this.started('warn')) return false
     const configValidator = queryConfig ? new ModuleConfigQueryValidator(merge(this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
-    return validators.map((validator) => validator(query, payloads)).every((x) => x)
+    return validators.every((validator) => validator(query, payloads))
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {

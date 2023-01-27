@@ -2,6 +2,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 
@@ -19,6 +20,7 @@ describe('DeterministicArchivist', () => {
   const config = {
     schema: AbstractModuleConfigSchema,
   }
+  let archivist: ArchivistWrapper
   beforeAll(async () => {
     await server.start()
     const uri = server.getUri()
@@ -34,10 +36,17 @@ describe('DeterministicArchivist', () => {
     const sut = await MongoDBDeterministicArchivist.create({ boundWitnesses, config, payloads })
     archivist = new ArchivistWrapper(sut)
   })
-  let archivist: ArchivistWrapper
-  describe('insert', () => {
-    it('inserts payload', async () => {
+  describe('discover', () => {
+    it('discovers module', async () => {
       const result = await archivist.discover()
+      expect(result).toBeArray()
+      expect(result.length).toBeGreaterThan(0)
+    })
+  })
+  describe('insert', () => {
+    it.only('inserts payload', async () => {
+      const payload = PayloadWrapper.parse({ schema: 'network.xyo.debug' }).payload
+      const result = await archivist.insert([payload])
       expect(result).toBeTruthy()
     })
   })

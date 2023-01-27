@@ -14,7 +14,7 @@
     "@xylabs/ts-scripts-yarn3": "^2.12.26"
   },
   "dependencies": {
-    "@xyo-network/payload-model": "^2.43.17"
+    "@xyo-network/payload-model": "^2.43.18"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -48,5 +48,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.43.17"
+  "version": "2.43.18"
 }

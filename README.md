@@ -4,7 +4,6 @@
 
 [![main-build][]][main-build-link]
 [![npm-badge][]][npm-link]
-[![bch-badge][]][bch-link]
 [![codacy-badge][]][codacy-link]
 [![codeclimate-badge][]][codeclimate-link]
 [![snyk-badge][]][snyk-link]
@@ -58,14 +57,11 @@ yarn add @xyo-network/sdk-xyo-client-js
 
 [logo]: https://cdn.xy.company/img/brand/XYO_full_colored.png
 
-[main-build]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build-main.yml/badge.svg
-[main-build-link]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build-main.yml
+[main-build]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build.yml/badge.svg
+[main-build-link]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/actions/workflows/build.yml
 
 [npm-badge]: https://img.shields.io/npm/v/@xyo-network/sdk-xyo-client-js.svg
 [npm-link]: https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js
-
-[bch-badge]: https://bettercodehub.com/edge/badge/XYOracleNetwork/sdk-xyo-client-js?branch=main
-[bch-link]: https://bettercodehub.com/results/XYOracleNetwork/sdk-xyo-client-js
 
 [codacy-badge]: https://app.codacy.com/project/badge/Grade/ba1f344ae34e4bfe999331cf4e27b9f5
 [codacy-link]: https://www.codacy.com/gh/XYOracleNetwork/sdk-xyo-client-js/dashboard?utm_source=github.com&utm_medium=referral&utm_content=XYOracleNetwork/sdk-xyo-client-js&utm_campaign=Badge_Grade

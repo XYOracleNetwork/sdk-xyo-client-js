@@ -69,7 +69,7 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account?: Account,
+    account: Account | undefined = this.account,
   ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account> {
     const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
@@ -82,7 +82,7 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
   protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account?: Account,
+    account: Account | undefined = this.account,
   ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = (account ? builder.witness(account) : builder).build()

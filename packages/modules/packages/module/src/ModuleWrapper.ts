@@ -23,7 +23,7 @@ export interface WrapperError extends Error {
 }
 
 export type ModuleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>> = {
-  new (module: TModule): TWrapper
+  new (module: TModule, account?: Account): TWrapper
 }
 
 function moduleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>() {
@@ -34,11 +34,7 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 
 @moduleConstructable()
 export class ModuleWrapper<TModule extends Module = Module> implements Module {
-  protected module: TModule
-
-  constructor(module: TModule) {
-    this.module = module
-  }
+  constructor(protected readonly module: TModule, protected readonly account?: Account) {}
 
   get address() {
     return this.module.address

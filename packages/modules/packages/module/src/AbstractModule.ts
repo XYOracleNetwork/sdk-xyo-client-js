@@ -23,7 +23,6 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
-import merge from 'lodash/merge'
 
 import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
@@ -130,9 +129,11 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     queryConfig?: TConfig,
   ): boolean {
     if (!this.started('warn')) return false
-    const configValidator = queryConfig ? new ModuleConfigQueryValidator(merge(this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
+    const configValidator = queryConfig
+      ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable
+      : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
-    return validators.map((validator) => validator(query, payloads)).every((x) => x)
+    return validators.every((validator) => validator(query, payloads))
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {

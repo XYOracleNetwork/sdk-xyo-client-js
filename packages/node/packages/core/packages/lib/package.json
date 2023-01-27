@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.43.10",
+  "version": "2.43.17",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/source-map-support": "0.5.6",
-    "@xylabs/ts-scripts-yarn3": "^2.12.25"
+    "@xylabs/ts-scripts-yarn3": "^2.12.26"
   },
   "types": "dist/types/index.d.ts"
 }

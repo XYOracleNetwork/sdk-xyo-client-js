@@ -1,4 +1,6 @@
+import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -44,9 +46,11 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('insert', () => {
-    it.only('inserts payload', async () => {
-      const payload = PayloadWrapper.parse({ schema: 'network.xyo.debug' }).payload
-      const result = await archivist.insert([payload])
+    it('inserts payload', async () => {
+      const payload = PayloadWrapper.parse({ schema: 'network.xyo.payload' }).payload
+      const account = Account.random()
+      const bw = new BoundWitnessBuilder({ inlinePayloads: true }).witness(account).payload(payload).build()
+      const result = await archivist.insert([bw[0], ...bw[1]])
       expect(result).toBeTruthy()
     })
   })

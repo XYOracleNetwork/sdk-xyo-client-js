@@ -41,12 +41,12 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   async insert(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const payloads = wrappedPayloads.map((wrapped) => wrapped.payload)
-    const boundWitnesses = wrappedBoundWitnesses.map((wrapped) => {
+    const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {
       wrapped.payloads = payloads
       return wrapped
     })
     const insertions = await Promise.allSettled(
-      boundWitnesses.map(async (bw) => {
+      wrappedBoundWitnessesWithPayloads.map(async (bw) => {
         const bwResult = await this.boundWitnesses.insertOne(bw.boundwitness)
         if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
         const payloadsResult = await this.payloads.insertMany(bw.payloadsArray)

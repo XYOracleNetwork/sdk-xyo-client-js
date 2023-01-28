@@ -37,7 +37,7 @@
     "@xyo-network/express-node-server": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.27"
+    "@xylabs/ts-scripts-yarn3": "^2.12.28"
   },
   "packageManager": "yarn@3.2.3",
   "volta": {

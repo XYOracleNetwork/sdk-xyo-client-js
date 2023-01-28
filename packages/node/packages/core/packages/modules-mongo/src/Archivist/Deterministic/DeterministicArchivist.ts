@@ -1,8 +1,16 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
-import { AbstractArchivist, ArchivistConfig, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistQuery } from '@xyo-network/archivist'
+import {
+  AbstractArchivist,
+  ArchivistConfig,
+  ArchivistFindQuerySchema,
+  ArchivistGetQuerySchema,
+  ArchivistInsertQuerySchema,
+  ArchivistQuery,
+} from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AbstractModuleConfig,
   ModuleParams,
@@ -11,7 +19,9 @@ import {
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
+import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'
@@ -21,6 +31,13 @@ import { validByType } from './validByType'
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
   boundWitnesses: BaseMongoSdk<XyoBoundWitness>
   payloads: BaseMongoSdk<XyoPayload>
+}
+
+const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper): XyoBoundWitnessWithMeta => {
+  return { ...wrapper.payload, _archive: wrapper.hash, _hash: wrapper.hash, _timestamp: Date.now() }
+}
+const toPayloadWithMeta = (wrapper: PayloadWrapper): XyoPayloadWithMeta => {
+  return { ...wrapper.payload, _archive: wrapper.hash, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
@@ -53,13 +70,15 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       return wrapped
     })
     const insertions = await Promise.allSettled(
-      wrappedBoundWitnessesWithPayloads.map(async (bw) => {
-        const bwResult = await this.boundWitnesses.insertOne(bw.boundwitness)
+      wrappedBoundWitnessesWithPayloads.map(async (wrappedBoundWitness) => {
+        const bw = toBoundWitnessWithMeta(wrappedBoundWitness.boundwitness)
+        const bwResult = await this.boundWitnesses.insertOne(bw)
         if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
-        const payloadsResult = await this.payloads.insertMany(bw.payloadsArray)
-        if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== bw.payloadsArray.length)
+        const payloads = wrappedBoundWitness.payloadsArray.map(toPayloadWithMeta)
+        const payloadsResult = await this.payloads.insertMany(payloads)
+        if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
           throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
-        return bw
+        return wrappedBoundWitness
       }),
     )
     const succeeded = insertions.filter(fulfilled).map((v) => v.value)
@@ -89,9 +108,17 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
+        case ArchivistGetQuerySchema: {
+          const items: XyoPayload[] = [query]
+          // TODO: Filter out command?
+          if (payloads?.length) items.push(...payloads)
+          const succeeded = await this.get(items)
+          resultPayloads.push(...succeeded)
+          break
+        }
         case ArchivistInsertQuerySchema: {
           const items: XyoPayload[] = [query]
-          // TODO: Filter out command here?
+          // TODO: Filter out command?
           if (payloads?.length) items.push(...payloads)
           const succeeded = await this.insert(items)
           resultPayloads.push(...succeeded)

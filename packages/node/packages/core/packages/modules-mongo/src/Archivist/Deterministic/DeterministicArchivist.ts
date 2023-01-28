@@ -40,6 +40,10 @@ const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayload
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
+const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBoundWitness | QueryBoundWitnessWrapper>(bw: T): string => {
+  return bw.addresses.join('|')
+}
+
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitness>
   protected readonly payloads: BaseMongoSdk<XyoPayload>
@@ -72,7 +76,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     })
     const insertions = await Promise.allSettled(
       wrappedBoundWitnessesWithPayloads.map(async (wrappedBoundWitness) => {
-        const archive = wrappedBoundWitness.addresses.join('|')
+        const archive = getArchive(wrappedBoundWitness)
         const bw = toBoundWitnessWithMeta(wrappedBoundWitness, archive)
         const bwResult = await this.boundWitnesses.insertOne(bw)
         if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
@@ -112,7 +116,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       switch (typedQuery.schema) {
         case ArchivistGetQuerySchema: {
           // TODO: Filter out command?
-          const archive = ''
+          const archive = getArchive(query)
           const gets = await Promise.all(typedQuery.hashes.map((hash) => [archive, hash]).map((tuple) => this.get(tuple)))
           resultPayloads.push(...gets.flat())
           break

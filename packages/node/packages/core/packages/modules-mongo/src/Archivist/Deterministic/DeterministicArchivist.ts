@@ -33,11 +33,11 @@ export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistCo
   payloads: BaseMongoSdk<XyoPayload>
 }
 
-const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper): XyoBoundWitnessWithMeta => {
-  return { ...wrapper.payload, _archive: wrapper.hash, _hash: wrapper.hash, _timestamp: Date.now() }
+const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper, archive: string): XyoBoundWitnessWithMeta => {
+  return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
-const toPayloadWithMeta = (wrapper: PayloadWrapper): XyoPayloadWithMeta => {
-  return { ...wrapper.payload, _archive: wrapper.hash, _hash: wrapper.hash, _timestamp: Date.now() }
+const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayloadWithMeta => {
+  return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
@@ -71,10 +71,11 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     })
     const insertions = await Promise.allSettled(
       wrappedBoundWitnessesWithPayloads.map(async (wrappedBoundWitness) => {
-        const bw = toBoundWitnessWithMeta(wrappedBoundWitness.boundwitness)
+        const archive = wrappedBoundWitness.addresses.join('|')
+        const bw = toBoundWitnessWithMeta(wrappedBoundWitness, archive)
         const bwResult = await this.boundWitnesses.insertOne(bw)
         if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
-        const payloads = wrappedBoundWitness.payloadsArray.map(toPayloadWithMeta)
+        const payloads = wrappedBoundWitness.payloadsArray.map((p) => toPayloadWithMeta(p, archive))
         const payloadsResult = await this.payloads.insertMany(payloads)
         if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
           throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')

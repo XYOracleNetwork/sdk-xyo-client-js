@@ -1,3 +1,5 @@
+/* eslint-disable deprecation/deprecation */
+/* eslint-disable import/no-deprecated */
 import { XyoApiConfig } from '@xyo-network/api-models'
 
 import { XyoArchivistApi } from '../../Api'

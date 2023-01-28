@@ -21,7 +21,7 @@ export class MongoClientWrapper {
   constructor(uri: string, maxPoolSize?: number, closeDelay?: number) {
     this.uri = uri
     this.client = new MongoClient(uri, { maxPoolSize })
-    this.closeDelay = closeDelay ?? 1000
+    this.closeDelay = closeDelay ?? 10 * 1000 /* 10 seconds default */
   }
 
   static get(uri: string, poolSize?: number, closeDelay?: number) {

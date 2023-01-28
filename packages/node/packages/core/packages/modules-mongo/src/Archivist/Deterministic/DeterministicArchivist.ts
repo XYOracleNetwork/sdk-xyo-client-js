@@ -57,10 +57,11 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
 
   // TODO: Find
 
-  get(hashes: string[]): Promise<XyoPayload[]> {
-    // TODO: Verify access via query
-    // TODO: Remove _fields or create payloads from builder
-    return Promise.all(hashes.map((hash) => this.payloads.findOne({ _hash: hash }) as Promise<XyoPayload>))
+  async get(value: string[]): Promise<XyoPayload[]> {
+    const [archive, hash] = value
+    const result = await this.payloads.findOne({ _archive: archive, _hash: hash })
+    // TODO: Does this remove _fields
+    return [PayloadWrapper.parse(result).payload]
   }
   async insert(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
@@ -110,11 +111,10 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     try {
       switch (typedQuery.schema) {
         case ArchivistGetQuerySchema: {
-          const items: XyoPayload[] = [query]
           // TODO: Filter out command?
-          if (payloads?.length) items.push(...payloads)
-          const succeeded = await this.get(items)
-          resultPayloads.push(...succeeded)
+          const archive = ''
+          const gets = await Promise.all(typedQuery.hashes.map((hash) => [archive, hash]).map((tuple) => this.get(tuple)))
+          resultPayloads.push(...gets.flat())
           break
         }
         case ArchivistInsertQuerySchema: {

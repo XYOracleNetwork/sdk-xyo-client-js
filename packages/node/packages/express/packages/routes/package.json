@@ -64,7 +64,7 @@
     "@types/express": "4.17.16",
     "@types/source-map-support": "0.5.6",
     "@types/uuid": "^9.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.12.26"
+    "@xylabs/ts-scripts-yarn3": "^2.12.27"
   },
   "types": "dist/types/index.d.ts"
 }

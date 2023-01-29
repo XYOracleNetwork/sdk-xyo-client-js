@@ -9,7 +9,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistQuery,
 } from '@xyo-network/archivist'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AbstractModuleConfig,
@@ -20,17 +20,18 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { Filter, SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
 import { validByType } from './validByType'
 
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
-  boundWitnesses: BaseMongoSdk<XyoBoundWitness>
-  payloads: BaseMongoSdk<XyoPayload>
+  boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  payloads: BaseMongoSdk<XyoPayloadWithMeta>
 }
 
 const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper, archive: string): XyoBoundWitnessWithMeta => {
@@ -45,21 +46,27 @@ const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBo
 }
 
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
-  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitness>
-  protected readonly payloads: BaseMongoSdk<XyoPayload>
+  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
 
   public constructor(params: MongoDBDeterministicArchivistParams<TConfig>) {
     super(params)
     this.account = params?.account || new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) })
-    this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitness>(COLLECTIONS.BoundWitnesses)
-    this.payloads = params?.payloads || getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
+    this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
   static override async create(params?: Partial<MongoDBDeterministicArchivistParams>): Promise<MongoDBDeterministicArchivist> {
     return (await super.create(params)) as MongoDBDeterministicArchivist
   }
 
-  // TODO: Find
+  override async find(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
+    const { _archive, schema, order, offset } = filter as PayloadFindFilter & { _archive: string }
+    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
+    const result = await (await this.payloads.find({ _archive, schema })).limit(1).sort(sort).toArray()
+    const payload = result.pop() as XyoPayload
+    return payload ? [payload] : []
+  }
 
   async get(value: string[]): Promise<XyoPayload[]> {
     const [archive, hash] = value
@@ -114,6 +121,19 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
+        case ArchivistFindQuerySchema: {
+          const filter = typedQuery.filter
+          const limit = filter?.limit || 1
+          assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
+          const findBWs = filter?.schema === XyoBoundWitnessSchema
+          const archive = getArchive(query)
+          for (let i = 0; i < limit; i++) {
+            const findFilter = { ...typedQuery?.filter, _archive: archive } as PayloadFindFilter & { _archive: string }
+            const payload = (await this.find(findFilter)).pop()
+            if (payload) resultPayloads.push(payload)
+          }
+          break
+        }
         case ArchivistGetQuerySchema: {
           // TODO: Filter out command?
           const archive = getArchive(query)
@@ -137,5 +157,27 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
+  }
+
+  protected async findBoundWitness(filter: PayloadFindFilter): Promise<XyoBoundWitness | null> {
+    const { _archive, order, offset } = filter as PayloadFindFilter & { _archive: string }
+    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
+    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'desc' ? Date.now() : 0
+    const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
+    const find: Filter<XyoBoundWitnessWithMeta> = { _archive, _timestamp }
+    const result = await (await this.boundWitnesses.find(find)).limit(1).sort(sort).toArray()
+    const bw = result.pop() as XyoBoundWitness
+    return bw ? bw : null
+  }
+  protected async findPayload(filter: PayloadFindFilter) {
+    const { _archive, order, offset, schema } = filter as PayloadFindFilter & { _archive: string }
+    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
+    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'desc' ? Date.now() : 0
+    const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
+    const find: Filter<XyoPayloadWithMeta> = { _archive, _timestamp }
+    if (schema) find.schema = schema
+    const result = await (await this.payloads.find(find)).limit(1).sort(sort).toArray()
+    const payload = result.pop() as XyoPayload
+    return payload ? payload : null
   }
 }

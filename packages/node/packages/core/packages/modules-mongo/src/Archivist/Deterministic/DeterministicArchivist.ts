@@ -165,7 +165,9 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     return gets.filter(exists)
   }
 
-  protected async insertInternal(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistGetQuery): Promise<XyoBoundWitness[]> {
+    const items: XyoPayload[] = [wrapper.query]
+    if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray)
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
     const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {

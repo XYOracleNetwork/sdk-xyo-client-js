@@ -1,7 +1,11 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { MongoMemoryServer } from 'mongodb-memory-server'
@@ -13,7 +17,7 @@ describe('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
   const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
   const server = new MongoMemoryServer()
-  let account: Account
+  let account: Account = Account.random()
   let archivist: ArchivistWrapper
   let nonce = Date.now()
   beforeAll(async () => {
@@ -78,20 +82,30 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('find', () => {
-    const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
-    const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
-    it.each([
-      ['finds single payload', [payload1]],
-      ['finds multiple payloads', [payload1, payload2]],
-    ])('%s', async (_title, payloads) => {
-      await archivist.insert(payloads.map((w) => w.payload))
-      const results = await archivist.find({})
-      expect(results).toBeTruthy()
-      expect(results).toBeArrayOfSize(payloads.length)
-      const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
-      const resultHashes = resultPayloads.map((p) => p.hash)
-      payloads.map((p) => {
-        expect(resultHashes).toInclude(p.hash)
+    describe('with schema for BoundWitness', () => {
+      const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
+      const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
+      const boundWitness1 = BoundWitnessWrapper.parse(new BoundWitnessBuilder().payload(payload1.payload).witness(account).build()[0])
+      const boundWitness2 = BoundWitnessWrapper.parse(
+        new BoundWitnessBuilder().payloads([payload1.payload, payload2.payload]).witness(account).build()[0],
+      )
+      const schema = XyoBoundWitnessSchema
+      it.only.each([
+        ['finds single bw', [boundWitness1]],
+        ['finds multiple bws', [boundWitness1, boundWitness2]],
+      ])('%s', async (_title, boundWitnesses) => {
+        await archivist.insert(boundWitnesses.map((bw) => bw.boundwitness))
+        const limit = boundWitnesses.length
+        const offset = boundWitnesses[0].hash
+        const results = await archivist.find({ limit, offset, schema })
+        expect(results).toBeTruthy()
+        expect(results).toBeArrayOfSize(boundWitnesses.length)
+        const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
+        const resultHashes = resultPayloads.map((p) => p.hash)
+        const bwHashes = boundWitnesses.map((bw) => bw.hash)
+        boundWitnesses.map((p) => {
+          expect(resultHashes).toInclude(p.hash)
+        })
       })
     })
   })

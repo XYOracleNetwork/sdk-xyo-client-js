@@ -10,17 +10,10 @@ import { COLLECTIONS } from '../../collections'
 import { MongoDBDeterministicArchivist } from './DeterministicArchivist'
 
 describe('DeterministicArchivist', () => {
+  const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
+  const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
   const server = new MongoMemoryServer()
-  const boundWitnessesConfig: BaseMongoSdkConfig = {
-    collection: COLLECTIONS.BoundWitnesses,
-  }
-  const payloadsConfig: BaseMongoSdkConfig = {
-    collection: COLLECTIONS.Payloads,
-  }
-  const config = {
-    schema: AbstractModuleConfigSchema,
-  }
-  const account = Account.random()
+  let account: Account
   let archivist: ArchivistWrapper
   beforeAll(async () => {
     await server.start()
@@ -34,8 +27,9 @@ describe('DeterministicArchivist', () => {
   beforeEach(async () => {
     const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
     const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
-    const sut = await MongoDBDeterministicArchivist.create({ boundWitnesses, config, payloads })
-    archivist = new ArchivistWrapper(sut, account)
+    const module = await MongoDBDeterministicArchivist.create({ boundWitnesses, config: { schema: AbstractModuleConfigSchema }, payloads })
+    archivist = new ArchivistWrapper(module, account)
+    account = Account.random()
   })
   describe('discover', () => {
     it('discovers module', async () => {

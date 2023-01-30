@@ -1,8 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { MongoMemoryServer } from 'mongodb-memory-server'
@@ -33,8 +32,8 @@ describe('DeterministicArchivist', () => {
     await server.stop()
   })
   beforeEach(async () => {
-    const boundWitnesses: BaseMongoSdk<XyoBoundWitness> = new BaseMongoSdk(boundWitnessesConfig)
-    const payloads: BaseMongoSdk<XyoPayload> = new BaseMongoSdk(payloadsConfig)
+    const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
+    const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const sut = await MongoDBDeterministicArchivist.create({ boundWitnesses, config, payloads })
     archivist = new ArchivistWrapper(sut, account)
   })

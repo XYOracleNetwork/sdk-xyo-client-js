@@ -118,10 +118,12 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     filter: Filter<XyoBoundWitnessWithMeta>,
     sort: { [key: string]: SortDirection } = { _timestamp: -1 },
   ): Promise<XyoBoundWitness | null> {
-    const { _archive, order, offset } = filter as PayloadFindFilter & Filter<XyoBoundWitnessWithMeta>
-    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'desc' ? Date.now() : 0
-    const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
-    const find: Filter<XyoBoundWitnessWithMeta> = { _archive, _timestamp }
+    const { _archive, order, offset, _hash } = filter as PayloadFindFilter & Filter<XyoBoundWitnessWithMeta>
+    // TODO: Sort asc
+    const parsedTimestamp = Date.now()
+    const _timestamp = order === 'asc' ? { $gt: parsedTimestamp } : { $lt: parsedTimestamp }
+    // const find: Filter<XyoBoundWitnessWithMeta> = { _archive, _hash, _timestamp }
+    const find: Filter<XyoBoundWitnessWithMeta> = { _archive, _hash }
     const result = await (await this.boundWitnesses.find(find)).limit(1).sort(sort).toArray()
     const bw = result.pop() as XyoBoundWitness
     return bw ? bw : null
@@ -132,13 +134,14 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     assertEx(limit > 0, 'MongoDBDeterministicArchivist: Find limit must be > 0')
     assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
     assertEx(order === 'desc', 'MongoDBDeterministicArchivist: Find order only supports descending')
+    const hash = `${offset}`
     // TODO: Sort ascending by find BW where previous hash === current hash
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     const resultPayloads = []
     const archive = getArchive(wrapper)
     const findBWs = schema === XyoBoundWitnessSchema
     for (let i = 0; i < limit; i++) {
-      const findFilter = { _archive: archive } as Filter<XyoBoundWitnessWithMeta>
+      const findFilter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
       const bw = await this.findBoundWitness(findFilter, sort)
       if (bw) {
         if (findBWs) {

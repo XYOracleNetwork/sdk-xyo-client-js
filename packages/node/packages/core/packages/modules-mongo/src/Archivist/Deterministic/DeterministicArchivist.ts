@@ -60,49 +60,16 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     return (await super.create(params)) as MongoDBDeterministicArchivist
   }
 
-  override async find(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
-    const { _archive, schema, order, offset } = filter as PayloadFindFilter & { _archive: string }
-    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const result = await (await this.payloads.find({ _archive, schema })).limit(1).sort(sort).toArray()
-    const payload = result.pop() as XyoPayload
-    return payload ? [payload] : []
+  override find(_filter?: PayloadFindFilter): Promise<XyoPayload[]> {
+    throw new Error('find method must be called via query')
   }
 
-  async get(value: string[]): Promise<XyoPayload[]> {
-    const [archive, hash] = value
-    const result = await this.payloads.findOne({ _archive: archive, _hash: hash })
-    // TODO: Does this remove _fields
-    return [PayloadWrapper.parse(result).payload]
+  get(_items: string[]): Promise<XyoPayload[]> {
+    throw new Error('get method must be called via query')
   }
-  async insert(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
-    const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
-    const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
-    const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {
-      wrapped.payloads = validPayloads
-      return wrapped
-    })
-    const insertions = await Promise.allSettled(
-      wrappedBoundWitnessesWithPayloads.map(async (wrappedBoundWitness) => {
-        const archive = getArchive(wrappedBoundWitness)
-        const bw = toBoundWitnessWithMeta(wrappedBoundWitness, archive)
-        const bwResult = await this.boundWitnesses.insertOne(bw)
-        if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
-        const payloads = wrappedBoundWitness.payloadsArray.map((p) => toPayloadWithMeta(p, archive))
-        const payloadsResult = await this.payloads.insertMany(payloads)
-        if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
-          throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
-        return wrappedBoundWitness
-      }),
-    )
-    const succeeded = insertions.filter(fulfilled).map((v) => v.value)
-    const results = await Promise.all(
-      succeeded.map(async (success) => {
-        const bw = success.boundwitness
-        const payloads = success.payloadsArray.map((p) => p.payload)
-        return (await this.bindResult([bw, ...payloads]))[0]
-      }),
-    )
-    return results
+
+  insert(_items: XyoPayload[]): Promise<XyoBoundWitness[]> {
+    throw new Error('insert method must be called via query')
   }
 
   override queries() {
@@ -137,7 +104,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
         case ArchivistGetQuerySchema: {
           // TODO: Filter out command?
           const archive = getArchive(query)
-          const gets = await Promise.all(typedQuery.hashes.map((hash) => [archive, hash]).map((tuple) => this.get(tuple)))
+          const gets = await Promise.all(typedQuery.hashes.map((hash) => [archive, hash]).map((tuple) => this.getInternal(tuple)))
           resultPayloads.push(...gets.flat())
           break
         }
@@ -145,7 +112,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
           const items: XyoPayload[] = [query]
           // TODO: Filter out command?
           if (payloads?.length) items.push(...payloads)
-          const succeeded = await this.insert(items)
+          const succeeded = await this.insertInternal(items)
           resultPayloads.push(...succeeded)
           break
         }
@@ -169,6 +136,15 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const bw = result.pop() as XyoBoundWitness
     return bw ? bw : null
   }
+
+  protected async findInternal(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
+    const { _archive, schema, order, offset } = filter as PayloadFindFilter & { _archive: string }
+    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
+    const result = await (await this.payloads.find({ _archive, schema })).limit(1).sort(sort).toArray()
+    const payload = result.pop() as XyoPayload
+    return payload ? [payload] : []
+  }
+
   protected async findPayload(filter: PayloadFindFilter) {
     const { _archive, order, offset, schema } = filter as PayloadFindFilter & { _archive: string }
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
@@ -179,5 +155,43 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const result = await (await this.payloads.find(find)).limit(1).sort(sort).toArray()
     const payload = result.pop() as XyoPayload
     return payload ? payload : null
+  }
+
+  protected async getInternal(value: string[]): Promise<XyoPayload[]> {
+    const [archive, hash] = value
+    const result = await this.payloads.findOne({ _archive: archive, _hash: hash })
+    // TODO: Does this remove _fields
+    return [PayloadWrapper.parse(result).payload]
+  }
+
+  protected async insertInternal(items: XyoPayload[]): Promise<XyoBoundWitness[]> {
+    const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
+    const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
+    const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {
+      wrapped.payloads = validPayloads
+      return wrapped
+    })
+    const insertions = await Promise.allSettled(
+      wrappedBoundWitnessesWithPayloads.map(async (wrappedBoundWitness) => {
+        const archive = getArchive(wrappedBoundWitness)
+        const bw = toBoundWitnessWithMeta(wrappedBoundWitness, archive)
+        const bwResult = await this.boundWitnesses.insertOne(bw)
+        if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
+        const payloads = wrappedBoundWitness.payloadsArray.map((p) => toPayloadWithMeta(p, archive))
+        const payloadsResult = await this.payloads.insertMany(payloads)
+        if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
+          throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
+        return wrappedBoundWitness
+      }),
+    )
+    const succeeded = insertions.filter(fulfilled).map((v) => v.value)
+    const results = await Promise.all(
+      succeeded.map(async (success) => {
+        const bw = success.boundwitness
+        const payloads = success.payloadsArray.map((p) => p.payload)
+        return (await this.bindResult([bw, ...payloads]))[0]
+      }),
+    )
+    return results
   }
 }

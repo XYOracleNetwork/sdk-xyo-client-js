@@ -46,7 +46,7 @@ const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayload
 }
 
 const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBoundWitness | QueryBoundWitnessWrapper>(bw: T): string => {
-  return bw.addresses.join('|')
+  return assertEx(bw.addresses.join('|'), 'missing addresses for query')
 }
 
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
@@ -167,7 +167,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
     // TODO: Filter out command?
-    const items: XyoPayload[] = [wrapper.boundwitness, wrapper.query]
+    const items: XyoPayload[] = [wrapper.boundwitness]
     if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray)
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
@@ -189,13 +189,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       }),
     )
     const succeeded = insertions.filter(fulfilled).map((v) => v.value)
-    const results = await Promise.all(
-      succeeded.map(async (success) => {
-        const bw = success.boundwitness
-        const payloads = success.payloadsArray.map((p) => p.payload)
-        return (await this.bindResult([bw, ...payloads]))[0]
-      }),
-    )
+    const results = await Promise.all(succeeded.map((success) => success.boundwitness))
     return results
   }
 }

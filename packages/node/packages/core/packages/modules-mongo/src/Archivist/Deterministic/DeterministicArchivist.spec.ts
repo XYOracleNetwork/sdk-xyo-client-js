@@ -28,8 +28,8 @@ describe('DeterministicArchivist', () => {
     const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
     const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const module = await MongoDBDeterministicArchivist.create({ boundWitnesses, config: { schema: AbstractModuleConfigSchema }, payloads })
-    archivist = new ArchivistWrapper(module, account)
     account = Account.random()
+    archivist = new ArchivistWrapper(module, account)
   })
   describe('discover', () => {
     it('discovers module', async () => {
@@ -48,13 +48,32 @@ describe('DeterministicArchivist', () => {
       const results = await archivist.insert(payloads.map((w) => w.payload))
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(2)
-      const [boundResult, transactionResult] = results
+      const [boundResult, transactionResults] = results
       expect(boundResult.addresses).toContain(archivist.address)
-      expect(transactionResult.addresses).toContain(archivist.address)
-      expect(transactionResult.payload_hashes).toBeArrayOfSize(payloads.length)
+      expect(transactionResults.addresses).toContain(account.public.address.hex)
+      expect(transactionResults.payload_hashes).toBeArrayOfSize(payloads.length + 1)
       payloads.forEach((p) => {
-        expect(transactionResult.payload_hashes).toInclude(p.hash)
+        expect(transactionResults.payload_hashes).toInclude(p.hash)
       })
+    })
+  })
+  describe('get', () => {
+    const payload1 = PayloadWrapper.parse({ schema: 'network.xyo.debug' })
+    const payload2 = PayloadWrapper.parse({ schema: 'network.xyo.test' })
+    it.each([
+      ['gets single payload', [payload1]],
+      ['gets multiple payloads', [payload1, payload2]],
+    ])('%s', async (_title, payloads) => {
+      await archivist.insert(payloads.map((w) => w.payload))
+      const results = await archivist.get(payloads.map((p) => p.hash))
+      expect(results).toBeTruthy()
+      expect(results).toBeArrayOfSize(payloads.length)
+      // expect(boundResult.addresses).toContain(archivist.address)
+      // expect(transactionResult.addresses).toContain(archivist.address)
+      // expect(transactionResult.payload_hashes).toBeArrayOfSize(payloads.length)
+      // payloads.forEach((p) => {
+      //   expect(transactionResult.payload_hashes).toInclude(p.hash)
+      // })
     })
   })
 })

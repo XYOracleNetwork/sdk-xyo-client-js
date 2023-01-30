@@ -55,7 +55,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/http/src/HttpProxyModule.spec.ts"
+        "packages/node/packages/core/packages/modules-mongo/src/Archivist/Deterministic/DeterministicArchivist.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

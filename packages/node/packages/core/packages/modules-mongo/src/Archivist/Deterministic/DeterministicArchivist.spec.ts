@@ -68,12 +68,11 @@ describe('DeterministicArchivist', () => {
       const results = await archivist.get(payloads.map((p) => p.hash))
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(payloads.length)
-      // expect(boundResult.addresses).toContain(archivist.address)
-      // expect(transactionResult.addresses).toContain(archivist.address)
-      // expect(transactionResult.payload_hashes).toBeArrayOfSize(payloads.length)
-      // payloads.forEach((p) => {
-      //   expect(transactionResult.payload_hashes).toInclude(p.hash)
-      // })
+      const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
+      const resultHashes = resultPayloads.map((p) => p.hash)
+      payloads.map((p) => {
+        expect(resultHashes).toInclude(p.hash)
+      })
     })
   })
 })

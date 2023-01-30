@@ -44,14 +44,15 @@ describe('DeterministicArchivist', () => {
     it.each([
       ['inserts single payload', [payload1]],
       ['inserts multiple payloads', [payload1, payload2]],
-    ])('%s', async (_title, wrappedPayloads) => {
-      const results = await archivist.insert(wrappedPayloads.map((w) => w.payload))
+    ])('%s', async (_title, payloads) => {
+      const results = await archivist.insert(payloads.map((w) => w.payload))
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(2)
       const [boundResult, transactionResult] = results
       expect(boundResult.addresses).toContain(archivist.address)
       expect(transactionResult.addresses).toContain(archivist.address)
-      wrappedPayloads.forEach((p) => {
+      expect(transactionResult.payload_hashes).toBeArrayOfSize(payloads.length)
+      payloads.forEach((p) => {
         expect(transactionResult.payload_hashes).toInclude(p.hash)
       })
     })

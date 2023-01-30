@@ -5,9 +5,11 @@ import { Account } from '@xyo-network/account'
 import {
   AbstractArchivist,
   ArchivistConfig,
+  ArchivistFindQuery,
   ArchivistFindQuerySchema,
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
+  ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistQuery,
 } from '@xyo-network/archivist'
@@ -91,29 +93,15 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     try {
       switch (typedQuery.schema) {
         case ArchivistFindQuerySchema: {
-          const filter = typedQuery.filter
-          const limit = filter?.limit || 1
-          assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
-          const findBWs = filter?.schema === XyoBoundWitnessSchema
-          const archive = getArchive(query)
-          for (let i = 0; i < limit; i++) {
-            const findFilter = { ...typedQuery?.filter, _archive: archive } as PayloadFindFilter & { _archive: string }
-            const payload = (await this.find(findFilter)).pop()
-            if (payload) resultPayloads.push(payload)
-          }
+          resultPayloads.push(...(await this.findInternal(wrapper, typedQuery)))
           break
         }
         case ArchivistGetQuerySchema: {
-          const payloads = await this.getInternal(wrapper, typedQuery)
-          resultPayloads.push(...payloads)
+          resultPayloads.push(...(await this.getInternal(wrapper, typedQuery)))
           break
         }
         case ArchivistInsertQuerySchema: {
-          const items: XyoPayload[] = [query]
-          // TODO: Filter out command?
-          if (payloads?.length) items.push(...payloads)
-          const succeeded = await this.insertInternal(items)
-          resultPayloads.push(...succeeded)
+          resultPayloads.push(...(await this.insertInternal(wrapper, typedQuery)))
           break
         }
         default:
@@ -137,7 +125,19 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     return bw ? bw : null
   }
 
-  protected async findInternal(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
+  protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
+    // TODO: Filter out command?
+    const filter = typedQuery.filter
+    const limit = filter?.limit || 1
+    assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
+    const resultPayloads = []
+    const archive = getArchive(wrapper)
+    const findBWs = filter?.schema === XyoBoundWitnessSchema
+    for (let i = 0; i < limit; i++) {
+      const findFilter = { ...typedQuery?.filter, _archive: archive } as PayloadFindFilter & { _archive: string }
+      const bw = await this.findBoundWitness(findFilter)
+      if (bw) resultPayloads.push(bw)
+    }
     const { _archive, schema, order, offset } = filter as PayloadFindFilter & { _archive: string }
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     const result = await (await this.payloads.find({ _archive, schema })).limit(1).sort(sort).toArray()
@@ -158,14 +158,15 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
+    // TODO: Filter out command?
     const archive = getArchive(wrapper)
     const hashes = typedQuery.hashes
-    // TODO: Filter out command?
     const gets = await Promise.all(hashes.map((hash) => this.payloads.findOne({ _archive: archive, _hash: hash })))
     return gets.filter(exists)
   }
 
-  protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistGetQuery): Promise<XyoBoundWitness[]> {
+  protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
+    // TODO: Filter out command?
     const items: XyoPayload[] = [wrapper.query]
     if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray)
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])

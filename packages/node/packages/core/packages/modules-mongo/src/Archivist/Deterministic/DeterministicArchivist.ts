@@ -1,10 +1,12 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
   AbstractArchivist,
   ArchivistConfig,
   ArchivistFindQuerySchema,
+  ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistQuery,
@@ -102,10 +104,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
           break
         }
         case ArchivistGetQuerySchema: {
-          // TODO: Filter out command?
-          const archive = getArchive(query)
-          const gets = await Promise.all(typedQuery.hashes.map((hash) => [archive, hash]).map((tuple) => this.getInternal(tuple)))
-          resultPayloads.push(...gets.flat())
+          const payloads = await this.getInternal(wrapper, typedQuery)
+          resultPayloads.push(...payloads)
           break
         }
         case ArchivistInsertQuerySchema: {
@@ -157,11 +157,12 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     return payload ? payload : null
   }
 
-  protected async getInternal(value: string[]): Promise<XyoPayload[]> {
-    const [archive, hash] = value
-    const result = await this.payloads.findOne({ _archive: archive, _hash: hash })
-    // TODO: Does this remove _fields
-    return [PayloadWrapper.parse(result).payload]
+  protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
+    const archive = getArchive(wrapper)
+    const hashes = typedQuery.hashes
+    // TODO: Filter out command?
+    const gets = await Promise.all(hashes.map((hash) => this.payloads.findOne({ _archive: archive, _hash: hash })))
+    return gets.filter(exists)
   }
 
   protected async insertInternal(items: XyoPayload[]): Promise<XyoBoundWitness[]> {

@@ -114,9 +114,11 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  protected async findBoundWitness(filter: PayloadFindFilter): Promise<XyoBoundWitness | null> {
-    const { _archive, order, offset } = filter as PayloadFindFilter & { _archive: string }
-    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
+  protected async findBoundWitness(
+    filter: Filter<XyoBoundWitnessWithMeta>,
+    sort: { [key: string]: SortDirection } = { _timestamp: -1 },
+  ): Promise<XyoBoundWitness | null> {
+    const { _archive, order, offset } = filter as PayloadFindFilter & Filter<XyoBoundWitnessWithMeta>
     const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'desc' ? Date.now() : 0
     const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
     const find: Filter<XyoBoundWitnessWithMeta> = { _archive, _timestamp }
@@ -126,23 +128,27 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
-    // TODO: Filter out command?
-    const filter = typedQuery.filter
-    const limit = filter?.limit || 1
+    const { schema, limit, order, offset } = Object.assign({ limit: 1, order: 'desc' }, typedQuery?.filter || {})
+    assertEx(limit > 0, 'MongoDBDeterministicArchivist: Find limit must be > 0')
     assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
+    assertEx(order === 'desc', 'MongoDBDeterministicArchivist: Find order only supports descending')
+    // TODO: Sort ascending by find BW where previous hash === current hash
+    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     const resultPayloads = []
     const archive = getArchive(wrapper)
-    const findBWs = filter?.schema === XyoBoundWitnessSchema
+    const findBWs = schema === XyoBoundWitnessSchema
     for (let i = 0; i < limit; i++) {
-      const findFilter = { ...typedQuery?.filter, _archive: archive } as PayloadFindFilter & { _archive: string }
-      const bw = await this.findBoundWitness(findFilter)
-      if (bw) resultPayloads.push(bw)
+      const findFilter = { _archive: archive } as Filter<XyoBoundWitnessWithMeta>
+      const bw = await this.findBoundWitness(findFilter, sort)
+      if (bw) {
+        if (findBWs) {
+          resultPayloads.push(bw)
+        } else {
+          // TODO: Find payloads
+        }
+      }
     }
-    const { _archive, schema, order, offset } = filter as PayloadFindFilter & { _archive: string }
-    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const result = await (await this.payloads.find({ _archive, schema })).limit(1).sort(sort).toArray()
-    const payload = result.pop() as XyoPayload
-    return payload ? [payload] : []
+    return resultPayloads
   }
 
   protected async findPayload(filter: PayloadFindFilter) {

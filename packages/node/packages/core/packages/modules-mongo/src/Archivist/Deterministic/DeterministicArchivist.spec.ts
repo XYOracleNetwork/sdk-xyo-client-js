@@ -39,8 +39,8 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('insert', () => {
-    const payload1 = PayloadWrapper.parse({ schema: 'network.xyo.debug' })
-    const payload2 = PayloadWrapper.parse({ schema: 'network.xyo.test' })
+    const payload1 = PayloadWrapper.parse({ nonce: Date.now(), schema: 'network.xyo.debug' })
+    const payload2 = PayloadWrapper.parse({ nonce: Date.now(), schema: 'network.xyo.test' })
     it.each([
       ['inserts single payload', [payload1]],
       ['inserts multiple payloads', [payload1, payload2]],
@@ -58,8 +58,8 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('get', () => {
-    const payload1 = PayloadWrapper.parse({ schema: 'network.xyo.debug' })
-    const payload2 = PayloadWrapper.parse({ schema: 'network.xyo.test' })
+    const payload1 = PayloadWrapper.parse({ nonce: Date.now(), schema: 'network.xyo.debug' })
+    const payload2 = PayloadWrapper.parse({ nonce: Date.now(), schema: 'network.xyo.test' })
     it.each([
       ['gets single payload', [payload1]],
       ['gets multiple payloads', [payload1, payload2]],

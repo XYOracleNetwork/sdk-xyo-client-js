@@ -15,6 +15,7 @@ describe('DeterministicArchivist', () => {
   const server = new MongoMemoryServer()
   let account: Account
   let archivist: ArchivistWrapper
+  let nonce = Date.now()
   beforeAll(async () => {
     await server.start()
     const uri = server.getUri()
@@ -25,6 +26,7 @@ describe('DeterministicArchivist', () => {
     await server.stop()
   })
   beforeEach(async () => {
+    nonce = Date.now()
     const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
     const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const module = await MongoDBDeterministicArchivist.create({ boundWitnesses, config: { schema: AbstractModuleConfigSchema }, payloads })
@@ -39,8 +41,8 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('insert', () => {
-    const payload1 = PayloadWrapper.parse({ nonce: Date.now(), schema: 'network.xyo.debug' })
-    const payload2 = PayloadWrapper.parse({ nonce: Date.now(), schema: 'network.xyo.test' })
+    const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
+    const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
     it.each([
       ['inserts single payload', [payload1]],
       ['inserts multiple payloads', [payload1, payload2]],
@@ -58,14 +60,32 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('get', () => {
-    const payload1 = PayloadWrapper.parse({ nonce: Date.now(), schema: 'network.xyo.debug' })
-    const payload2 = PayloadWrapper.parse({ nonce: Date.now(), schema: 'network.xyo.test' })
+    const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
+    const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
     it.each([
       ['gets single payload', [payload1]],
       ['gets multiple payloads', [payload1, payload2]],
     ])('%s', async (_title, payloads) => {
       await archivist.insert(payloads.map((w) => w.payload))
       const results = await archivist.get(payloads.map((p) => p.hash))
+      expect(results).toBeTruthy()
+      expect(results).toBeArrayOfSize(payloads.length)
+      const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
+      const resultHashes = resultPayloads.map((p) => p.hash)
+      payloads.map((p) => {
+        expect(resultHashes).toInclude(p.hash)
+      })
+    })
+  })
+  describe('find', () => {
+    const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
+    const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
+    it.each([
+      ['finds single payload', [payload1]],
+      ['finds multiple payloads', [payload1, payload2]],
+    ])('%s', async (_title, payloads) => {
+      await archivist.insert(payloads.map((w) => w.payload))
+      const results = await archivist.find({})
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(payloads.length)
       const resultPayloads = results.map((result) => PayloadWrapper.parse(result))

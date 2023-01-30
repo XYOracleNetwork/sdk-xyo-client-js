@@ -158,7 +158,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
-    // TODO: Filter out command?
     const archive = getArchive(wrapper)
     const hashes = typedQuery.hashes
     const gets = await Promise.all(hashes.map((hash) => this.payloads.findOne({ _archive: archive, _hash: hash })))
@@ -166,7 +165,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
-    // TODO: Filter out command?
     const items: XyoPayload[] = [wrapper.boundwitness]
     if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray)
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])

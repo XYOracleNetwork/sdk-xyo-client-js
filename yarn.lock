@@ -3331,7 +3331,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openzeppelin/contracts@npm:^4.7.3":
+"@openzeppelin/contracts@npm:^4.8.1":
   version: 4.8.1
   resolution: "@openzeppelin/contracts@npm:4.8.1"
   checksum: 99acefde1ae42c2d935ec9b4ebd327e786c499a4ec76b9582eb9adb0ff94a77c48047332fba44fb97b82b5a46d80e74d3e5d8cf73d5defa7f746f2a67f070281
@@ -6600,14 +6600,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/solidity@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@xyo-network/solidity@npm:2.0.4"
+"@xyo-network/solidity@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@xyo-network/solidity@npm:2.1.0"
   dependencies:
-    "@openzeppelin/contracts": ^4.7.3
+    "@openzeppelin/contracts": ^4.8.1
     "@uniswap/v3-core": ^1.0.1
     ethers: ^5.7.2
-  checksum: baa5ab8bde42a9ea10eb37d8dcb1575368457dbf6af4ca94a116e03165b573784943fb0dbaa041b8529643a945b19fef3e1e22e7bb95bc213eab01dd6b68c350
+  checksum: 56bd5247dec117f8ceef73239322aea170658fc98ea744ebb6cda706f0520461787e0b84dc638d3f37701b9f1f7d7550afbf31765ab238a031e071ec0a123931
   languageName: node
   linkType: hard
 
@@ -6647,13 +6647,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/typechain@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@xyo-network/typechain@npm:2.0.4"
+"@xyo-network/typechain@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@xyo-network/typechain@npm:2.1.0"
   dependencies:
-    "@xyo-network/solidity": ^2.0.4
+    "@xyo-network/solidity": ^2.1.0
     ethers: ^5.7.2
-  checksum: b5c936b0ed41db5a9f60f2e1eb4d7063a88dea1b768531514d87264fb93dae538d773b64fcd6c6299e65e380df56f6a568d574c0da54a09c053f02bb7015a6d6
+  checksum: 4c49999f021f9c89b59cb0d8b50355086f19c2137e0b973767222d3d99125364d8e92c2bc9c60448239b29faf516593884727fcf28ad416f385439a46dad4283
   languageName: node
   linkType: hard
 
@@ -6696,9 +6696,9 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
-    "@xyo-network/typechain": ^2.0.4
+    "@xyo-network/typechain": ^2.1.0
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
-    "@xyo-network/uniswap-typechain": ^2.0.4
+    "@xyo-network/uniswap-typechain": ^2.1.0
     "@xyo-network/witness": "workspace:^"
   peerDependencies:
     "@uniswap/sdk": ^3.0.3
@@ -6707,24 +6707,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/uniswap-solidity@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@xyo-network/uniswap-solidity@npm:2.0.4"
+"@xyo-network/uniswap-solidity@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@xyo-network/uniswap-solidity@npm:2.1.0"
   dependencies:
-    "@openzeppelin/contracts": ^4.7.3
+    "@openzeppelin/contracts": ^4.8.1
     "@uniswap/v3-core": ^1.0.1
     ethers: ^5.7.2
-  checksum: 157d8f65c1ef6799edf3c1cdb8c125c0ca6189be827e1afa8516154b75d63fa0242941cc8201f4d62d0e96c171043dbd53b6968cc6764fa76d2b26425db1f5e5
+  checksum: 8515391f07d360063cc3f53511350e7c8fc5b9cb92c867cc9d162f274642f13af121348be679bf3e8cd93998d1102d4a9c8ebf22f971908a48660022f7d68751
   languageName: node
   linkType: hard
 
-"@xyo-network/uniswap-typechain@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@xyo-network/uniswap-typechain@npm:2.0.4"
+"@xyo-network/uniswap-typechain@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@xyo-network/uniswap-typechain@npm:2.1.0"
   dependencies:
-    "@xyo-network/uniswap-solidity": ^2.0.4
-    ethers: ^5.7.2
-  checksum: ab876d534c4b4d6cda7f5a329a1f834a75eecf251ef045e4273752e690b6bd011cfab56e161d4def6add478de5bad2244404b767e45571f641da08784e92a970
+    "@ethersproject/abi": ^5.7.0
+    "@ethersproject/bytes": ^5.7.0
+    "@ethersproject/providers": ^5.7.2
+    "@xyo-network/uniswap-solidity": ^2.1.0
+  checksum: 7bc58a234eae9f9d909d967401cadb35ec26376e00e9856e8315b23c4feff9d5ceb3257fe55262c6eda0cb616e1cbc2e648e2988cf1ad6f50852b7d8d0094529
   languageName: node
   linkType: hard
 

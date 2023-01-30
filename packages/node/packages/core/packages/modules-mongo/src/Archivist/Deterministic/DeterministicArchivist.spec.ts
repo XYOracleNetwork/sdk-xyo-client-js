@@ -45,12 +45,21 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('insert', () => {
-    it('inserts payload', async () => {
-      const payload = PayloadWrapper.parse({ schema: 'network.xyo.payload' }).payload
-      const result = await archivist.insert([payload])
-      expect(result).toBeTruthy()
-      expect(result).toBeArray()
-      expect(result.length).toBeGreaterThan(0)
+    describe('with single payload', () => {
+      const payload = PayloadWrapper.parse({ schema: 'network.xyo.payload' })
+      const wrappedPayloads = [payload]
+      const payloads = wrappedPayloads.map((w) => w.payload)
+      it('inserts payload', async () => {
+        const results = await archivist.insert(payloads)
+        expect(results).toBeTruthy()
+        expect(results).toBeArrayOfSize(2)
+        const [boundResult, transactionResult] = results
+        expect(boundResult.addresses).toContain(archivist.address)
+        expect(transactionResult.addresses).toContain(archivist.address)
+        wrappedPayloads.forEach((p) => {
+          expect(transactionResult.payload_hashes).toInclude(p.hash)
+        })
+      })
     })
   })
 })

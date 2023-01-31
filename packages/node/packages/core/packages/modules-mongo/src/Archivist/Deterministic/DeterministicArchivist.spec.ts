@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -90,7 +91,7 @@ describe('DeterministicArchivist', () => {
         const boundWitnesses = [boundWitness1]
         await archivist.insert(boundWitnesses.map((bw) => bw.boundwitness))
         const limit = boundWitnesses.length
-        const offset = boundWitnesses[0].hash
+        const offset = assertEx(boundWitnesses.at(-1)?.hash)
         const results = await archivist.find({ limit, offset, schema })
         expect(results).toBeTruthy()
         expect(results).toBeArrayOfSize(boundWitnesses.length)
@@ -109,7 +110,7 @@ describe('DeterministicArchivist', () => {
         const boundWitnesses = [boundWitness1, boundWitness2]
         await archivist.insert(boundWitnesses.map((bw) => bw.boundwitness))
         const limit = boundWitnesses.length
-        const offset = boundWitnesses[0].hash
+        const offset = assertEx(boundWitnesses.at(-1)?.hash)
         const results = await archivist.find({ limit, offset, schema })
         expect(results).toBeTruthy()
         expect(results).toBeArrayOfSize(boundWitnesses.length)

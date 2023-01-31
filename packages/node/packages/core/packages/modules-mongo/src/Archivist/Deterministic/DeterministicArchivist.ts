@@ -30,6 +30,7 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
+import { DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk } from '../../Mongo'
 import { validByType } from './validByType'
 
@@ -137,19 +138,21 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const hash = `${offset}`
     // TODO: Sort ascending by find BW where previous hash === current hash
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const resultPayloads = []
+    const resultPayloads: XyoBoundWitnessWithMeta[] = []
     const archive = getArchive(wrapper)
+    const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
     const findBWs = schema === XyoBoundWitnessSchema
+    const filter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
+    let nextHash = hash
     for (let i = 0; i < limit; i++) {
-      const findFilter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
-      const bw = await this.findBoundWitness(findFilter, sort)
-      if (bw) {
-        if (findBWs) {
-          resultPayloads.push(bw)
-        } else {
-          // TODO: Find payloads
-        }
-      }
+      if (nextHash) filter._hash = nextHash
+      const block = (await (await this.boundWitnesses.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+      if (!block) break
+      resultPayloads.push(block)
+      const addressIndex = block.addresses.findIndex((value) => value === address)
+      const previousHash = block.previous_hashes[addressIndex]
+      if (!previousHash) break
+      nextHash = previousHash
     }
     return resultPayloads
   }

@@ -135,10 +135,11 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     assertEx(limit > 0, 'MongoDBDeterministicArchivist: Find limit must be > 0')
     assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
     assertEx(order === 'desc', 'MongoDBDeterministicArchivist: Find order only supports descending')
+    // TODO: Only use hash as offset assert not timestamp
     const hash = `${offset}`
-    // TODO: Sort ascending by find BW where previous hash === current hash
+    // TODO: Sort ascending by finding BW where previous hash === current hash
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const resultPayloads: XyoBoundWitnessWithMeta[] = []
+    const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
     const archive = getArchive(wrapper)
     const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
     const findBWs = schema === XyoBoundWitnessSchema
@@ -146,9 +147,13 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     let nextHash = hash
     for (let i = 0; i < limit; i++) {
       if (nextHash) filter._hash = nextHash
-      const block = (await (await this.boundWitnesses.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+      const block = (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
       if (!block) break
-      resultPayloads.push(block)
+      if (findBWs) {
+        resultPayloads.push(block)
+      } else {
+        // TODO: get payloads from block
+      }
       const addressIndex = block.addresses.findIndex((value) => value === address)
       const previousHash = block.previous_hashes[addressIndex]
       if (!previousHash) break

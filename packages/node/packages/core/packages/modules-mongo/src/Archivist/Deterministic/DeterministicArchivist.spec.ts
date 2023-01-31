@@ -97,7 +97,6 @@ describe('DeterministicArchivist', () => {
         expect(results).toBeArrayOfSize(boundWitnesses.length)
         const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
         const resultHashes = resultPayloads.map((p) => p.hash)
-        const bwHashes = boundWitnesses.map((bw) => bw.hash)
         boundWitnesses.map((p) => {
           expect(resultHashes).toInclude(p.hash)
         })
@@ -116,7 +115,6 @@ describe('DeterministicArchivist', () => {
         expect(results).toBeArrayOfSize(boundWitnesses.length)
         const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
         const resultHashes = resultPayloads.map((p) => p.hash)
-        const bwHashes = boundWitnesses.map((bw) => bw.hash)
         boundWitnesses.map((p) => {
           expect(resultHashes).toInclude(p.hash)
         })

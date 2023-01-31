@@ -45,5 +45,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.43.20"
+  "version": "2.43.21"
 }

@@ -1,11 +1,10 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { MongoMemoryServer } from 'mongodb-memory-server'
@@ -85,15 +84,29 @@ describe('DeterministicArchivist', () => {
     describe('with schema for BoundWitness', () => {
       const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
       const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
-      const boundWitness1 = BoundWitnessWrapper.parse(new BoundWitnessBuilder().payload(payload1.payload).witness(account).build()[0])
-      const boundWitness2 = BoundWitnessWrapper.parse(
-        new BoundWitnessBuilder().payloads([payload1.payload, payload2.payload]).witness(account).build()[0],
-      )
       const schema = XyoBoundWitnessSchema
-      it.only.each([
-        ['finds single bw', [boundWitness1]],
-        ['finds multiple bws', [boundWitness1, boundWitness2]],
-      ])('%s', async (_title, boundWitnesses) => {
+      it('finds single bw', async () => {
+        const boundWitness1 = BoundWitnessWrapper.parse(new BoundWitnessBuilder().payload(payload1.payload).witness(account).build()[0])
+        const boundWitnesses = [boundWitness1]
+        await archivist.insert(boundWitnesses.map((bw) => bw.boundwitness))
+        const limit = boundWitnesses.length
+        const offset = boundWitnesses[0].hash
+        const results = await archivist.find({ limit, offset, schema })
+        expect(results).toBeTruthy()
+        expect(results).toBeArrayOfSize(boundWitnesses.length)
+        const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
+        const resultHashes = resultPayloads.map((p) => p.hash)
+        const bwHashes = boundWitnesses.map((bw) => bw.hash)
+        boundWitnesses.map((p) => {
+          expect(resultHashes).toInclude(p.hash)
+        })
+      })
+      it('finds multiple bws', async () => {
+        const boundWitness1 = BoundWitnessWrapper.parse(new BoundWitnessBuilder().payload(payload1.payload).witness(account).build()[0])
+        const boundWitness2 = BoundWitnessWrapper.parse(
+          new BoundWitnessBuilder().payloads([payload1.payload, payload2.payload]).witness(account).build()[0],
+        )
+        const boundWitnesses = [boundWitness1, boundWitness2]
         await archivist.insert(boundWitnesses.map((bw) => bw.boundwitness))
         const limit = boundWitnesses.length
         const offset = boundWitnesses[0].hash

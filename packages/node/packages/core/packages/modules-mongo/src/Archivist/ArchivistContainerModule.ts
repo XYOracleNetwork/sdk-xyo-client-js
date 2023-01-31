@@ -1,4 +1,5 @@
-import { AbstractModule } from '@xyo-network/module'
+import { AbstractArchivist } from '@xyo-network/archivist'
+import { AbstractModule, AbstractModuleConfigSchema } from '@xyo-network/module'
 import {
   ArchiveArchivist,
   ArchiveKeyRepository,
@@ -13,6 +14,7 @@ import { AsyncContainerModule, interfaces } from 'inversify'
 import { MongoDBArchiveArchivist } from './Archive'
 import { MongoDBArchiveKeyRepository } from './ArchiveKey'
 import { MongoDBBoundWitnessArchivist } from './BoundWitness'
+import { MongoDBDeterministicArchivist } from './Deterministic'
 import { MongoDBPayloadArchivist } from './Payload'
 import { MongoDBUserArchivist } from './User'
 import { MongoDBArchivistWitnessedPayloadArchivist } from './WitnessedPayload'
@@ -41,4 +43,9 @@ export const ArchivistContainerModule = new AsyncContainerModule(async (bind: in
   bind(MongoDBArchivistWitnessedPayloadArchivist).toConstantValue(mongoDBArchivistWitnessedPayloadArchivist)
   bind<WitnessedPayloadArchivist>(TYPES.WitnessedPayloadArchivist).toService(MongoDBArchivistWitnessedPayloadArchivist)
   bind<AbstractModule>(TYPES.Module).toService(MongoDBArchivistWitnessedPayloadArchivist)
+
+  const archivist = await MongoDBDeterministicArchivist.create({ config: { schema: AbstractModuleConfigSchema } })
+  bind(MongoDBDeterministicArchivist).toConstantValue(archivist)
+  bind<AbstractArchivist>(TYPES.Archivist).toService(MongoDBDeterministicArchivist)
+  bind<AbstractModule>(TYPES.Module).toService(MongoDBDeterministicArchivist)
 })

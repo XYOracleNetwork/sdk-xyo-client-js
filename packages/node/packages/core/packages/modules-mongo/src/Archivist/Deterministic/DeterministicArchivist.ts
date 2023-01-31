@@ -30,6 +30,7 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
+import { DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk } from '../../Mongo'
 import { validByType } from './validByType'
 
@@ -46,7 +47,7 @@ const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayload
 }
 
 const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBoundWitness | QueryBoundWitnessWrapper>(bw: T): string => {
-  return bw.addresses.join('|')
+  return assertEx(bw.addresses.join('|'), 'missing addresses for query')
 }
 
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
@@ -114,35 +115,55 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  protected async findBoundWitness(filter: PayloadFindFilter): Promise<XyoBoundWitness | null> {
-    const { _archive, order, offset } = filter as PayloadFindFilter & { _archive: string }
-    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'desc' ? Date.now() : 0
-    const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
-    const find: Filter<XyoBoundWitnessWithMeta> = { _archive, _timestamp }
-    const result = await (await this.boundWitnesses.find(find)).limit(1).sort(sort).toArray()
-    const bw = result.pop() as XyoBoundWitness
-    return bw ? bw : null
+  protected async findBoundWitness(
+    filter: Filter<XyoBoundWitnessWithMeta>,
+    sort: { [key: string]: SortDirection } = { _timestamp: -1 },
+  ): Promise<XyoBoundWitnessWithMeta | undefined> {
+    return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
   }
 
   protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
-    // TODO: Filter out command?
-    const filter = typedQuery.filter
-    const limit = filter?.limit || 1
+    const { schema, limit, order, offset } = Object.assign({ limit: 1, order: 'desc' }, typedQuery?.filter || {})
+    assertEx(limit > 0, 'MongoDBDeterministicArchivist: Find limit must be > 0')
     assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
-    const resultPayloads = []
+    assertEx(order === 'desc', 'MongoDBDeterministicArchivist: Find order only supports descending')
     const archive = getArchive(wrapper)
-    const findBWs = filter?.schema === XyoBoundWitnessSchema
-    for (let i = 0; i < limit; i++) {
-      const findFilter = { ...typedQuery?.filter, _archive: archive } as PayloadFindFilter & { _archive: string }
-      const bw = await this.findBoundWitness(findFilter)
-      if (bw) resultPayloads.push(bw)
-    }
-    const { _archive, schema, order, offset } = filter as PayloadFindFilter & { _archive: string }
+    // TODO: Only use hash as offset assert not timestamp
+    const hash = offset ? `${offset}` : (await this.findBoundWitness({ _archive: archive }))?._hash
+    assertEx(hash, 'Missing hash')
+    // TODO: Sort ascending by finding BW where previous hash === current hash
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const result = await (await this.payloads.find({ _archive, schema })).limit(1).sort(sort).toArray()
-    const payload = result.pop() as XyoPayload
-    return payload ? [payload] : []
+    const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
+    const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
+    const findBWs = schema === XyoBoundWitnessSchema
+    // TODO: Handle payloads (sequenced by BW) filtered by schema
+    const filter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
+    let nextHash = hash
+    for (let i = 0; i < limit; i++) {
+      if (nextHash) filter._hash = nextHash
+      const block = await this.findBoundWitness(filter, sort)
+      if (!block) break
+      if (findBWs) {
+        resultPayloads.push(block)
+      } else {
+        const { payload_hashes } = block
+        const payloads = await Promise.all(
+          payload_hashes.map(async (hash) => {
+            const filter: Filter<XyoPayloadWithMeta> = { _hash: hash }
+            // TODO: Handle multiple schemas?
+            if (schema) filter.schema = schema
+            return (await (await this.payloads.find(filter)).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+          }),
+        )
+        // TODO: Only push desired limit amount or break
+        resultPayloads.push(...payloads.filter(exists))
+      }
+      const addressIndex = block.addresses.findIndex((value) => value === address)
+      const previousHash = block.previous_hashes[addressIndex]
+      if (!previousHash) break
+      nextHash = previousHash
+    }
+    return resultPayloads
   }
 
   protected async findPayload(filter: PayloadFindFilter) {
@@ -158,7 +179,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
-    // TODO: Filter out command?
     const archive = getArchive(wrapper)
     const hashes = typedQuery.hashes
     const gets = await Promise.all(hashes.map((hash) => this.payloads.findOne({ _archive: archive, _hash: hash })))
@@ -166,8 +186,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
-    // TODO: Filter out command?
-    const items: XyoPayload[] = [wrapper.boundwitness, wrapper.query]
+    const items: XyoPayload[] = [wrapper.boundwitness]
     if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray)
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
@@ -189,13 +208,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       }),
     )
     const succeeded = insertions.filter(fulfilled).map((v) => v.value)
-    const results = await Promise.all(
-      succeeded.map(async (success) => {
-        const bw = success.boundwitness
-        const payloads = success.payloadsArray.map((p) => p.payload)
-        return (await this.bindResult([bw, ...payloads]))[0]
-      }),
-    )
+    const results = await Promise.all(succeeded.map((success) => success.boundwitness))
     return results
   }
 }

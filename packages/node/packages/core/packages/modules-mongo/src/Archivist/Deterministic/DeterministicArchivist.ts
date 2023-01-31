@@ -143,6 +143,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const archive = getArchive(wrapper)
     const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
     const findBWs = schema === XyoBoundWitnessSchema
+    // TODO: Handle payloads (sequenced by BW) filtered by schema
     const filter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
     let nextHash = hash
     for (let i = 0; i < limit; i++) {
@@ -152,7 +153,14 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       if (findBWs) {
         resultPayloads.push(block)
       } else {
-        // TODO: get payloads from block
+        const { payload_hashes } = block
+        const payloads = await Promise.all(
+          payload_hashes.map(async (hash) => {
+            return (await (await this.payloads.find({ _hash: hash })).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+          }),
+        )
+        // TODO: Only push desired limit amount or break
+        resultPayloads.push(...payloads.filter(exists))
       }
       const addressIndex = block.addresses.findIndex((value) => value === address)
       const previousHash = block.previous_hashes[addressIndex]

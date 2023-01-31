@@ -1,5 +1,5 @@
 import { QueryConverterRegistry, UserCreationAuthInfo } from '@xyo-network/express-node-lib'
-import { AbstractNode } from '@xyo-network/modules'
+import { AbstractArchivist, AbstractNode } from '@xyo-network/modules'
 import {
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
@@ -38,6 +38,7 @@ declare global {
       archiveKeyRepository: ArchiveKeyRepository
       archivePayloadsArchivistFactory: ArchivePayloadArchivistFactory
       archivePermissionsArchivistFactory: ArchivePermissionsArchivistFactory
+      archivist: AbstractArchivist
       archivistWitnessedPayloadArchivist: WitnessedPayloadArchivist
       logger: Logger
       node: AbstractNode

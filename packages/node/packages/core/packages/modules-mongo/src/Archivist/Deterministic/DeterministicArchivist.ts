@@ -118,16 +118,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   protected async findBoundWitness(
     filter: Filter<XyoBoundWitnessWithMeta>,
     sort: { [key: string]: SortDirection } = { _timestamp: -1 },
-  ): Promise<XyoBoundWitness | null> {
-    const { _archive, order, offset, _hash } = filter as PayloadFindFilter & Filter<XyoBoundWitnessWithMeta>
-    // TODO: Sort asc
-    const parsedTimestamp = Date.now()
-    const _timestamp = order === 'asc' ? { $gt: parsedTimestamp } : { $lt: parsedTimestamp }
-    // const find: Filter<XyoBoundWitnessWithMeta> = { _archive, _hash, _timestamp }
-    const find: Filter<XyoBoundWitnessWithMeta> = { _archive, _hash }
-    const result = await (await this.boundWitnesses.find(find)).limit(1).sort(sort).toArray()
-    const bw = result.pop() as XyoBoundWitness
-    return bw ? bw : null
+  ): Promise<XyoBoundWitnessWithMeta | undefined> {
+    return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
   }
 
   protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
@@ -135,12 +127,13 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     assertEx(limit > 0, 'MongoDBDeterministicArchivist: Find limit must be > 0')
     assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
     assertEx(order === 'desc', 'MongoDBDeterministicArchivist: Find order only supports descending')
+    const archive = getArchive(wrapper)
     // TODO: Only use hash as offset assert not timestamp
-    const hash = `${offset}`
+    const hash = offset ? `${offset}` : (await this.findBoundWitness({ _archive: archive }))?._hash
+    assertEx(hash, 'Missing hash')
     // TODO: Sort ascending by finding BW where previous hash === current hash
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
-    const archive = getArchive(wrapper)
     const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
     const findBWs = schema === XyoBoundWitnessSchema
     // TODO: Handle payloads (sequenced by BW) filtered by schema
@@ -148,7 +141,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     let nextHash = hash
     for (let i = 0; i < limit; i++) {
       if (nextHash) filter._hash = nextHash
-      const block = (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+      const block = await this.findBoundWitness(filter, sort)
       if (!block) break
       if (findBWs) {
         resultPayloads.push(block)
@@ -156,7 +149,10 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
         const { payload_hashes } = block
         const payloads = await Promise.all(
           payload_hashes.map(async (hash) => {
-            return (await (await this.payloads.find({ _hash: hash })).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+            const filter: Filter<XyoPayloadWithMeta> = { _hash: hash }
+            // TODO: Handle multiple schemas?
+            if (schema) filter.schema = schema
+            return (await (await this.payloads.find(filter)).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
           }),
         )
         // TODO: Only push desired limit amount or break

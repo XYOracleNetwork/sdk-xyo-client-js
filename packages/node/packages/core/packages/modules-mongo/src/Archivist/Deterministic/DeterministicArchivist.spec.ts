@@ -153,10 +153,10 @@ describe('DeterministicArchivist', () => {
       it('finds address history', async () => {
         const payloads = [payload1, payload2]
         await Promise.all(payloads.map((payload) => archivist.insert([payload.payload])))
-        const limit = payloads.length + 2
+        const limit = 10
         const results = await archivist.find({ limit })
         expect(results).toBeTruthy()
-        expect(results).toBeArrayOfSize(limit)
+        expect(results).toBeArrayOfSize(payloads.length * 3)
         const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
         const resultHashes = resultPayloads.map((p) => p.hash)
         payloads.map((p) => {

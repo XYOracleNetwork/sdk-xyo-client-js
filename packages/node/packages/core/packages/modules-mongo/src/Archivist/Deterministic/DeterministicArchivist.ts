@@ -135,7 +135,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
     const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
-    const findBWs = schema === XyoBoundWitnessSchema
+    const findBWs = !schema || schema === XyoBoundWitnessSchema
+    const findPayloads = !schema || schema !== XyoBoundWitnessSchema
     // TODO: Handle payloads (sequenced by BW) filtered by schema
     const filter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
     let nextHash = hash
@@ -145,7 +146,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       if (!block) break
       if (findBWs) {
         resultPayloads.push(block)
-      } else {
+      }
+      if (findPayloads) {
         const { payload_hashes } = block
         const payloads = await Promise.all(
           payload_hashes.map(async (hash) => {

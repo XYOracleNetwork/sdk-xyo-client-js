@@ -137,12 +137,13 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
     const findBWs = !schema || schema === XyoBoundWitnessSchema
     const findPayloads = !schema || schema !== XyoBoundWitnessSchema
-    // TODO: Handle payloads (sequenced by BW) filtered by schema
-    const filter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
     let nextHash = hash
     for (let i = 0; i < limit; i++) {
-      if (nextHash) filter._hash = nextHash
-      const block = await this.findBoundWitness(filter, sort)
+      // TODO: Handle payloads (sequenced by BW) filtered by schema
+      const bwFilter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
+      if (nextHash) bwFilter._hash = nextHash
+      // TODO: Handle schema/multiple schemas?
+      const block = await this.findBoundWitness(bwFilter, sort)
       if (!block) break
       if (findBWs) {
         resultPayloads.push(block)
@@ -151,10 +152,10 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
         const { payload_hashes } = block
         const payloads = await Promise.all(
           payload_hashes.map(async (hash) => {
-            const filter: Filter<XyoPayloadWithMeta> = { _hash: hash }
-            // TODO: Handle multiple schemas?
-            if (schema) filter.schema = schema
-            return (await (await this.payloads.find(filter)).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+            const payloadFilter: Filter<XyoPayloadWithMeta> = { _hash: hash }
+            // TODO: Handle schema/multiple schemas?
+            if (schema) payloadFilter.schema = schema
+            return (await (await this.payloads.find(payloadFilter)).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
           }),
         )
         // TODO: Only push desired limit amount or break

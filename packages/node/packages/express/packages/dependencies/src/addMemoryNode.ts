@@ -14,6 +14,7 @@ const archivists = [
   // TYPES.ArchiveBoundWitnessArchivistFactory,
   // TYPES.ArchivePayloadArchivistFactory,
   // TYPES.ArchivePermissionsArchivistFactory,
+  TYPES.Archivist,
   TYPES.BoundWitnessArchivist,
   TYPES.PayloadArchivist,
   // TYPES.UserArchivist,

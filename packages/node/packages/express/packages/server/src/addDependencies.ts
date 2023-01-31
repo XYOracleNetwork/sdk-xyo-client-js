@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { dependencies } from '@xyo-network/express-node-dependencies'
 import { SchemaToQueryProcessorRegistry, XyoPayloadToQueryConverterRegistry } from '@xyo-network/express-node-middleware'
-import { AbstractNode } from '@xyo-network/modules'
+import { AbstractArchivist, AbstractNode } from '@xyo-network/modules'
 import {
   ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
@@ -28,6 +28,7 @@ export const addDependencies = (app: Application) => {
 }
 
 const addArchivists = (app: Application) => {
+  app.archivist = assertEx(dependencies.get<AbstractArchivist>(TYPES.Archivist), 'Missing Archivist')
   app.archiveBoundWitnessArchivistFactory = assertEx(
     dependencies.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory),
     'Missing ArchiveBoundWitnessArchivistFactory',

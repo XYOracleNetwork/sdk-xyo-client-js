@@ -101,7 +101,6 @@ describe('DeterministicArchivist', () => {
       ['gets single payload', [payload1]],
       ['gets multiple payloads', [payload1, payload2]],
     ])('%s', async (_title, payloads) => {
-      await archivist.insert(payloads.map((w) => w.payload))
       const results = await archivist.get(payloads.map((p) => p.hash))
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(payloads.length)
@@ -117,23 +116,19 @@ describe('DeterministicArchivist', () => {
     describe('with schema for BoundWitness', () => {
       const schema = XyoBoundWitnessSchema
       it('finds single bw', async () => {
-        const limit = 1
-        const offset = assertEx(boundWitness1.hash)
+        const boundWitnesses = [boundWitness1, boundWitness2]
+        const limit = boundWitnesses.length
+        const offset = assertEx(boundWitnesses.at(-1)?.hash)
         const results = await archivist.find({ limit, offset, schema })
         expect(results).toBeTruthy()
         expect(results).toBeArrayOfSize(limit)
         const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
         const resultHashes = resultPayloads.map((p) => p.hash)
-        expect(resultHashes).toInclude(boundWitness1.hash)
+        expect(resultHashes).toInclude(boundWitness2.hash)
         expect(results).toMatchSnapshot()
       })
       it('finds multiple bws', async () => {
-        const boundWitness1 = BoundWitnessWrapper.parse(new BoundWitnessBuilder().payload(payload1.payload).witness(userAccount).build()[0])
-        const boundWitness2 = BoundWitnessWrapper.parse(
-          new BoundWitnessBuilder().payloads([payload1.payload, payload2.payload]).witness(userAccount).build()[0],
-        )
-        const boundWitnesses = [boundWitness1, boundWitness2]
-        await archivist.insert(boundWitnesses.map((bw) => bw.boundwitness))
+        const boundWitnesses = [boundWitness1, boundWitness2, boundWitness3]
         const limit = boundWitnesses.length
         const offset = assertEx(boundWitnesses.at(-1)?.hash)
         const results = await archivist.find({ limit, offset, schema })

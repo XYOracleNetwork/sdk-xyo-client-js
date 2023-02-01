@@ -141,31 +141,33 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const findBWs = !schema || schema === XyoBoundWitnessSchema
     const findPayloads = !schema || schema !== XyoBoundWitnessSchema
     let nextHash = hash
-    for (let i = 0; i < limit; i++) {
+    searchLoop: for (let i = 0; i < limit; i++) {
       // TODO: Handle payloads (sequenced by BW) filtered by schema
       const bwFilter: BoundWitnessesFilter = { _archive: archive, _hash: hash }
       if (nextHash) bwFilter._hash = nextHash
       // TODO: Handle schema/multiple schemas?
-      const block = await this.findNextBoundWitness(bwFilter, before)
-      if (!block) break
-      if (findBWs) {
-        resultPayloads.push(block)
-      }
+      const bw = await this.findNextBoundWitness(bwFilter, before)
+      if (!bw) break
+      if (findBWs) resultPayloads.push(bw)
       if (findPayloads) {
-        const { payload_hashes } = block
-        const payloads = await Promise.all(
-          payload_hashes.map(async (hash) => {
-            const payloadFilter: PayloadsFilter = { _hash: hash }
-            // TODO: Handle schema/multiple schemas?
-            if (schema) payloadFilter.schema = schema
-            return (await (await this.payloads.find(payloadFilter)).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
-          }),
-        )
-        // TODO: Only push desired limit amount or break
-        resultPayloads.push(...payloads.filter(exists))
+        const payloads = (
+          await Promise.all(
+            bw.payload_hashes.map(async (hash) => {
+              const payloadFilter: PayloadsFilter = { _hash: hash }
+              // TODO: Handle schema/multiple schemas?
+              if (schema) payloadFilter.schema = schema
+              return (await (await this.payloads.find(payloadFilter)).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+            }),
+          )
+        ).filter(exists)
+        for (let p = 0; p < payloads.length; p++) {
+          if (resultPayloads.length >= limit) break searchLoop
+          resultPayloads.push(payloads[p])
+        }
       }
-      const addressIndex = block.addresses.findIndex((value) => value === address)
-      const previousHash = block.previous_hashes[addressIndex]
+      const addressIndex = bw.addresses.findIndex((value) => value === address)
+      // TODO: Handle address history for tuple?
+      const previousHash = bw.previous_hashes[addressIndex]
       if (!previousHash) break
       nextHash = previousHash
     }

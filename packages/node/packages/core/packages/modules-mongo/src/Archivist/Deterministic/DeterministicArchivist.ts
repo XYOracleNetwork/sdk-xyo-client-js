@@ -50,6 +50,9 @@ const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBo
   return assertEx(bw.addresses.join('|'), 'missing addresses for query')
 }
 
+type BoundWitnessesFilter = Filter<XyoBoundWitnessWithMeta>
+type PayloadsFilter = Filter<XyoPayloadWithMeta>
+
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
@@ -116,7 +119,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async findBoundWitness(
-    filter: Filter<XyoBoundWitnessWithMeta>,
+    filter: BoundWitnessesFilter,
     sort: { [key: string]: SortDirection } = { _timestamp: -1 },
   ): Promise<XyoBoundWitnessWithMeta | undefined> {
     return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
@@ -132,7 +135,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const hash = offset ? `${offset}` : (await this.findBoundWitness({ _archive: archive }))?._hash
     assertEx(hash, 'Missing hash')
     // TODO: Sort ascending by finding BW where previous hash === current hash
-    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
+    const before = order === 'asc'
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
     const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
     const findBWs = !schema || schema === XyoBoundWitnessSchema
@@ -140,10 +143,10 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     let nextHash = hash
     for (let i = 0; i < limit; i++) {
       // TODO: Handle payloads (sequenced by BW) filtered by schema
-      const bwFilter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
+      const bwFilter: BoundWitnessesFilter = { _archive: archive, _hash: hash }
       if (nextHash) bwFilter._hash = nextHash
       // TODO: Handle schema/multiple schemas?
-      const block = await this.findBoundWitness(bwFilter, sort)
+      const block = await this.findNextBoundWitness(bwFilter, before)
       if (!block) break
       if (findBWs) {
         resultPayloads.push(block)
@@ -152,7 +155,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
         const { payload_hashes } = block
         const payloads = await Promise.all(
           payload_hashes.map(async (hash) => {
-            const payloadFilter: Filter<XyoPayloadWithMeta> = { _hash: hash }
+            const payloadFilter: PayloadsFilter = { _hash: hash }
             // TODO: Handle schema/multiple schemas?
             if (schema) payloadFilter.schema = schema
             return (await (await this.payloads.find(payloadFilter)).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
@@ -169,12 +172,17 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     return resultPayloads
   }
 
+  protected async findNextBoundWitness(filter: BoundWitnessesFilter, before = true): Promise<XyoBoundWitnessWithMeta | undefined> {
+    const sort: { [key: string]: SortDirection } = before ? { _timestamp: -1 } : { _timestamp: 1 }
+    return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+  }
+
   protected async findPayload(filter: PayloadFindFilter) {
     const { _archive, order, offset, schema } = filter as PayloadFindFilter & { _archive: string }
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'desc' ? Date.now() : 0
     const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
-    const find: Filter<XyoPayloadWithMeta> = { _archive, _timestamp }
+    const find: PayloadsFilter = { _archive, _timestamp }
     if (schema) find.schema = schema
     const result = await (await this.payloads.find(find)).limit(1).sort(sort).toArray()
     const payload = result.pop() as XyoPayload

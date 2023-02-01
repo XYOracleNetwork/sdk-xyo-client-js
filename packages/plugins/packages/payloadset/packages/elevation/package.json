@@ -22,7 +22,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.29"
+    "@xylabs/ts-scripts-yarn3": "^2.12.30"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

@@ -1,4 +1,0 @@
-component_depth: 2
-
-exclude:
-  - src/core/Wallet/Base/Words.ts

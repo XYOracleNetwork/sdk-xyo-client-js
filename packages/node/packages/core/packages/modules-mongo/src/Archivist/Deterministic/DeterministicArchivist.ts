@@ -107,7 +107,9 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []
-    const queryAccount = new Account()
+    // TODO: Use new Account once we mock Account.new in Jest
+    const queryAccount = Account.random()
+    // const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
         case ArchivistFindQuerySchema: {
@@ -182,7 +184,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       if (!previousHash || resultPayloads.length >= filter.limit) break
       nextHash = previousHash
     }
-    return resultPayloads
+    return resultPayloads.map((p) => PayloadWrapper.parse(p).body)
   }
 
   protected async findNextBoundWitness(filter: BoundWitnessesFilter, before = true): Promise<XyoBoundWitnessWithMeta | undefined> {
@@ -208,7 +210,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const archive = getArchive(wrapper)
     const hashes = typedQuery.hashes
     const gets = await Promise.all(hashes.map((hash) => this.payloads.findOne({ _archive: archive, _hash: hash })))
-    return gets.filter(exists)
+    return gets.filter(exists).map((p) => PayloadWrapper.parse(p).body)
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
@@ -235,6 +237,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     )
     const succeeded = insertions.filter(fulfilled).map((v) => v.value)
     const results = await Promise.all(succeeded.map((success) => success.boundwitness))
-    return results
+    return results.map((result) => BoundWitnessWrapper.parse(result).body)
   }
 }

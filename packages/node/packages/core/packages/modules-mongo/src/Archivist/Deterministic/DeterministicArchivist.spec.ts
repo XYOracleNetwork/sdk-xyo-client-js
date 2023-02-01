@@ -6,7 +6,6 @@ import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { MongoMemoryServer } from 'mongodb-memory-server'
@@ -14,10 +13,8 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { COLLECTIONS } from '../../collections'
 import { MongoDBDeterministicArchivist } from './DeterministicArchivist'
 
-const addNonce = (p: XyoPayload): XyoPayload => {
-  ;(p as unknown as { nonce: number }).nonce = Date.now()
-  return p
-}
+const payload1 = PayloadWrapper.parse({ schema: 'network.xyo.debug' })
+const payload2 = PayloadWrapper.parse({ schema: 'network.xyo.test' })
 
 describe('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
@@ -25,7 +22,6 @@ describe('DeterministicArchivist', () => {
   const server = new MongoMemoryServer()
   let account: Account = Account.random()
   let archivist: ArchivistWrapper
-  let nonce = Date.now()
   beforeAll(async () => {
     await server.start()
     const uri = server.getUri()
@@ -36,7 +32,6 @@ describe('DeterministicArchivist', () => {
     await server.stop()
   })
   beforeEach(async () => {
-    nonce = Date.now()
     const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
     const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const module = await MongoDBDeterministicArchivist.create({ boundWitnesses, config: { schema: AbstractModuleConfigSchema }, payloads })
@@ -51,8 +46,6 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('insert', () => {
-    const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
-    const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
     it.each([
       ['inserts single payload', [payload1]],
       ['inserts multiple payloads', [payload1, payload2]],
@@ -70,8 +63,6 @@ describe('DeterministicArchivist', () => {
     })
   })
   describe('get', () => {
-    const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
-    const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
     it.each([
       ['gets single payload', [payload1]],
       ['gets multiple payloads', [payload1, payload2]],
@@ -89,8 +80,6 @@ describe('DeterministicArchivist', () => {
   })
   describe('find', () => {
     describe('with schema for BoundWitness', () => {
-      const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
-      const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
       const schema = XyoBoundWitnessSchema
       it('finds single bw', async () => {
         const boundWitness1 = BoundWitnessWrapper.parse(new BoundWitnessBuilder().payload(payload1.payload).witness(account).build()[0])
@@ -128,14 +117,12 @@ describe('DeterministicArchivist', () => {
     })
     describe('with schema for Payload', () => {
       const schema = 'network.xyo.debug'
-      const payload1 = PayloadWrapper.parse({ nonce, schema })
-      const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
       it.each([
         ['finds single payload', [payload1]],
         ['finds multiple payloads', [payload1, payload2]],
       ])('%s', async (_title, payloads) => {
         for (let i = 0; i < payloads.length; i++) {
-          const unique = payloads.map((w) => w.payload).map(addNonce)
+          const unique = payloads.map((w) => w.payload)
           await archivist.insert(unique)
         }
         const limit = payloads.length
@@ -149,8 +136,6 @@ describe('DeterministicArchivist', () => {
       })
     })
     describe('with no schema', () => {
-      const payload1 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.debug' })
-      const payload2 = PayloadWrapper.parse({ nonce, schema: 'network.xyo.test' })
       it('finds address history', async () => {
         const payloads = [payload1, payload2]
         await Promise.all(payloads.map((payload) => archivist.insert([payload.payload])))

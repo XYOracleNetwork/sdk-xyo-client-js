@@ -53,6 +53,8 @@ const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBo
 type BoundWitnessesFilter = Filter<XyoBoundWitnessWithMeta>
 type PayloadsFilter = Filter<XyoPayloadWithMeta>
 
+const searchDepthLimit = 50
+
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
@@ -141,7 +143,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const findBWs = !schema || schema === XyoBoundWitnessSchema
     const findPayloads = !schema || schema !== XyoBoundWitnessSchema
     let nextHash = hash
-    searchLoop: for (let i = 0; i < limit; i++) {
+    searchLoop: for (let i = 0; i < searchDepthLimit; i++) {
       // TODO: Handle payloads (sequenced by BW) filtered by schema
       const bwFilter: BoundWitnessesFilter = { _archive: archive, _hash: hash }
       if (nextHash) bwFilter._hash = nextHash
@@ -168,7 +170,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       const addressIndex = bw.addresses.findIndex((value) => value === address)
       // TODO: Handle address history for tuple?
       const previousHash = bw.previous_hashes[addressIndex]
-      if (!previousHash) break
+      if (!previousHash || resultPayloads.length < limit) break
       nextHash = previousHash
     }
     return resultPayloads

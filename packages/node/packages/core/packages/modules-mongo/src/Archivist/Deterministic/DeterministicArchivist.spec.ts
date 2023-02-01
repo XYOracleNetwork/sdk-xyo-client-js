@@ -6,12 +6,18 @@ import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 
 import { COLLECTIONS } from '../../collections'
 import { MongoDBDeterministicArchivist } from './DeterministicArchivist'
+
+const addNonce = (p: XyoPayload): XyoPayload => {
+  ;(p as unknown as { nonce: number }).nonce = Date.now()
+  return p
+}
 
 describe('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
@@ -129,12 +135,7 @@ describe('DeterministicArchivist', () => {
         ['finds multiple payloads', [payload1, payload2]],
       ])('%s', async (_title, payloads) => {
         for (let i = 0; i < payloads.length; i++) {
-          const unique = payloads
-            .map((w) => w.payload)
-            .map((p) => {
-              ;(p as unknown as { nonce: number }).nonce = Date.now()
-              return p
-            })
+          const unique = payloads.map((w) => w.payload).map(addNonce)
           await archivist.insert(unique)
         }
         const limit = payloads.length

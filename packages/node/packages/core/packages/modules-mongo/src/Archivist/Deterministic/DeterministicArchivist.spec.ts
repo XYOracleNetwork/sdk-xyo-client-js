@@ -19,6 +19,7 @@ describe('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
   const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
   const server = new MongoMemoryServer()
+  const archiveAccount: Account = new Account({ phrase: 'temp' })
   const userAccount: Account = new Account({ phrase: 'test1' })
   const moduleAccount: Account = new Account({ phrase: 'test2' })
   const randomAccount: Account = new Account({ phrase: 'test3' })

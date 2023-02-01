@@ -142,27 +142,28 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
     const filter = getFilter(typedQuery?.filter)
     const archive = getArchive(wrapper)
-    const hash = filter?.offset || (await this.findBoundWitness({ _archive: archive }))?._hash
-    assertEx(hash, 'Missing hash')
     // TODO: Sort ascending by finding BW where previous hash === current hash
     const before = filter?.order === 'asc'
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
     const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
     const findBWs = !filter?.schema || filter?.schema === XyoBoundWitnessSchema
     const findPayloads = !filter?.schema || filter?.schema !== XyoBoundWitnessSchema
+    let currentBw = await this.findBoundWitness({ _archive: archive })
+    const hash = filter?.offset || currentBw?._hash
+    assertEx(hash, 'Missing hash')
     let nextHash = hash
     searchLoop: for (let i = 0; i < searchDepthLimit; i++) {
       // TODO: Handle payloads (sequenced by BW) filtered by schema
       const bwFilter: BoundWitnessesFilter = { _archive: archive, _hash: hash }
       if (nextHash) bwFilter._hash = nextHash
       // TODO: Handle schema/multiple schemas?
-      const bw = await this.findNextBoundWitness(bwFilter, before)
-      if (!bw) break
-      if (findBWs) resultPayloads.push(bw)
+      currentBw = await this.findNextBoundWitness(bwFilter, before)
+      if (!currentBw) break
+      if (findBWs) resultPayloads.push(currentBw)
       if (findPayloads) {
         const payloads = (
           await Promise.all(
-            bw.payload_hashes.map(async (hash) => {
+            currentBw.payload_hashes.map(async (hash) => {
               const payloadFilter: PayloadsFilter = { _hash: hash }
               // TODO: Handle schema/multiple schemas?
               if (filter?.schema) payloadFilter.schema = filter?.schema
@@ -175,9 +176,9 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
           resultPayloads.push(payloads[p])
         }
       }
-      const addressIndex = bw.addresses.findIndex((value) => value === address)
+      const addressIndex = currentBw.addresses.findIndex((value) => value === address)
       // TODO: Handle address history for tuple?
-      const previousHash = bw.previous_hashes[addressIndex]
+      const previousHash = currentBw.previous_hashes[addressIndex]
       if (!previousHash || resultPayloads.length >= filter.limit) break
       nextHash = previousHash
     }
@@ -186,6 +187,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
 
   protected async findNextBoundWitness(filter: BoundWitnessesFilter, before = true): Promise<XyoBoundWitnessWithMeta | undefined> {
     const sort: { [key: string]: SortDirection } = before ? { _timestamp: -1 } : { _timestamp: 1 }
+    // TODO: if before find previous hash
+    // TODO: if after find BW where this hash === previous hash
     return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
   }
 

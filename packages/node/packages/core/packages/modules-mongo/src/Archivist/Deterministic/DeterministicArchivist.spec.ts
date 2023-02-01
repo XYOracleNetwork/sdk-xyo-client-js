@@ -1,4 +1,4 @@
-Date.now = jest.fn(() => new Date('2023-01-23T12:34:56.789Z').getTime())
+Date.now = jest.fn(() => 123456789000)
 
 import { Account } from '@xyo-network/account'
 

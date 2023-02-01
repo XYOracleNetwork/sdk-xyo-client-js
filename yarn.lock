@@ -4637,11 +4637,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/tsconfig@npm:^2.12.29":
-  version: 2.12.29
-  resolution: "@xylabs/tsconfig@npm:2.12.29"
+  version: 2.12.30
+  resolution: "@xylabs/tsconfig@npm:2.12.30"
   dependencies:
-    typescript: ^4.9.4
-  checksum: 44a5313e81abcb3a44c69d640e7af992ab107a73b6f8ce7e2bfc08269881219dfd4f459103d34b01337e5f6670f5511100c589042820e06e3cc1ffee53552871
+    typescript: ^4.9.5
+  checksum: 48b1b76ee89adfda3ab0e295816c8430449bd4cf3116f4bbb47f3edf0b5567a878f5ecf9e2f80fbdc17f546b36ad451a493bd023d95f4a37cdb3969134c82adf
   languageName: node
   linkType: hard
 

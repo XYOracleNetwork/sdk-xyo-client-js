@@ -132,9 +132,8 @@ describe('DeterministicArchivist', () => {
         ['finds multiple boundwitness', [boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3]],
       ])('%s', async (_title, boundWitnesses) => {
         const offset = boundWitnesses.at(-1)?.hash
-        console.log('Client Hashes')
-        console.log(boundWitnesses.reverse().map((bw) => bw.hash))
-        const results = await archivist.find({ offset, schema })
+        const limit = boundWitnesses.length
+        const results = await archivist.find({ limit, offset, schema })
         expect(results).toBeTruthy()
         expect(results).toBeArrayOfSize(boundWitnesses.length)
         const resultPayloads = results.map((result) => PayloadWrapper.parse(result))

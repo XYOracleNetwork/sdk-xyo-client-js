@@ -179,24 +179,23 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const allPayloads = await (await this.payloads.find({})).sort({ _timestamp: -1 }).toArray()
     console.log('Server Hashes')
     console.log(allBWs.map((bw) => bw._hash))
-    let currentBw: XyoBoundWitnessWithMeta | undefined = await this.findBoundWitness(bwFilter)
-    if (findBWs && currentBw) resultPayloads.push(currentBw)
-    let nextHash: string | null | undefined = currentBw?.previous_hashes.at(-1)
-    if (!nextHash) return resultPayloads
-    searchLoop: for (let i = 0; i < searchDepthLimit; i++) {
-      if (nextHash) bwFilter._hash = nextHash
+    let currentBw: XyoBoundWitnessWithMeta | undefined
+    let nextHash: string | null | undefined = undefined
+    for (let searchDepth = 0; searchDepth < searchDepthLimit; searchDepth++) {
+      if (resultPayloads.length >= limit) break
       currentBw = await this.findBoundWitness(bwFilter)
       if (!currentBw) break
       if (findBWs) resultPayloads.push(currentBw)
       if (findPayloads) {
         const payloads = (await Promise.all(currentBw.payload_hashes.map((hash) => this.findPayload({ _hash: hash })))).filter(exists)
         for (let p = 0; p < payloads.length; p++) {
-          if (resultPayloads.length >= limit) break searchLoop
+          if (resultPayloads.length >= limit) break
           resultPayloads.push(payloads[p])
         }
       }
       nextHash = currentBw?.previous_hashes?.at(-1)
       if (!nextHash) break
+      bwFilter._hash = nextHash
     }
     // TODO: This is not omitting _id
     return resultPayloads.map((p) => PayloadWrapper.parse(p).body)
@@ -216,7 +215,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
     const find: PayloadsFilter = { _archive, _timestamp }
     if (schema) find.schema = schema
-    const result = await (await this.payloads.find(find)).limit(1).sort(sort).toArray()
+    const result = await (await this.payloads.find(find)).limit(1).sort(sort).maxTimeMS(DefaultMaxTimeMS).toArray()
     return result.pop()
   }
 

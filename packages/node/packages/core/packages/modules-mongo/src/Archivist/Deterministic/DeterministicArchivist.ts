@@ -40,7 +40,7 @@ export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistCo
 }
 
 const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper, archive: string): XyoBoundWitnessWithMeta => {
-  return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
+  return { ...wrapper.boundwitness, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayloadWithMeta => {
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
@@ -63,8 +63,11 @@ const getFilter = (wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery
   let schema: string[] | undefined = undefined
   if (typedQuery?.filter?.schema) {
     schema = Array.isArray(typedQuery?.filter?.schema) ? typedQuery?.filter?.schema : [typedQuery?.filter?.schema]
-    bwFilter.payload_schemas = { $in: schema }
-    payloadFilter.schema = { $in: schema }
+    const payload_schemas = schema.filter((s) => s !== XyoBoundWitnessSchema)
+    if (payload_schemas.length) {
+      bwFilter.payload_schemas = { $in: payload_schemas }
+      payloadFilter.schema = { $in: payload_schemas }
+    }
   }
   assertEx(wrapper.addresses.length, 'Find query requires at least one address')
   bwFilter.addresses = { $all: wrapper.addresses }
@@ -165,20 +168,18 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
-    const { limit, order } = Object.assign({ limit: 1, order: 'desc' }, typedQuery?.filter || {})
+    const { limit, order, offset } = Object.assign({ limit: 1, order: 'desc' }, typedQuery?.filter || {})
     assertEx(limit > 0, 'MongoDBDeterministicArchivist: Find limit must be > 0')
     assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
     const [bwFilter, payloadFilter] = getFilter(wrapper, typedQuery)
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
     const findBWs = shouldFindBoundWitnesses(typedQuery)
     const findPayloads = shouldFindPayloads(typedQuery)
-    let currentBw: XyoBoundWitnessWithMeta | undefined
-    let nextHash: string | null | undefined = `${typedQuery?.filter?.offset}`
+    let currentBw: XyoBoundWitnessWithMeta | undefined = await this.findBoundWitness(bwFilter)
+    let nextHash: string | null | undefined = offset ? `${offset}` : currentBw?._hash
     if (!nextHash) return []
     searchLoop: for (let i = 0; i < searchDepthLimit; i++) {
-      // TODO: Handle payloads (sequenced by BW) filtered by schema
       if (nextHash) bwFilter._hash = nextHash
-      // TODO: Handle schema/multiple schemas?
       currentBw = await this.findBoundWitness(bwFilter)
       if (!currentBw) break
       if (findBWs) resultPayloads.push(currentBw)
@@ -189,6 +190,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
           resultPayloads.push(payloads[p])
         }
       }
+      nextHash = currentBw?.previous_hashes?.at(-1)
+      if (!nextHash) break
     }
     nextHash = currentBw?.previous_hashes?.reduce((prev, curr) => (curr ? curr : prev), null)
     return resultPayloads.map((p) => PayloadWrapper.parse(p).body)
@@ -213,15 +216,20 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
-    const archive = getArchive(wrapper)
+    const _archive = getArchive(wrapper)
     const hashes = typedQuery.hashes
-    const gets = await Promise.all(hashes.map((hash) => this.payloads.findOne({ _archive: archive, _hash: hash })))
+    const gets = await Promise.all(
+      [
+        hashes.map((_hash) => this.payloads.findOne({ _archive, _hash })),
+        hashes.map((_hash) => this.boundWitnesses.findOne({ _archive, _hash })),
+      ].flat(),
+    )
     return gets.filter(exists).map((p) => PayloadWrapper.parse(p).body)
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
     const items: XyoPayload[] = [wrapper.boundwitness]
-    if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray)
+    if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray.map((p) => p.payload))
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
     const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {

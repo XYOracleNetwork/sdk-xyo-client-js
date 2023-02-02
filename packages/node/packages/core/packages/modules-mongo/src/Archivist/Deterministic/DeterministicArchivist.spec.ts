@@ -22,9 +22,10 @@ describe('DeterministicArchivist', () => {
   const archiveAccount: Account = new Account({ phrase: 'temp' })
   // 0x10cal
   const userAccount: Account = new Account({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })
+  // 0xdadda
+  const moduleAccount: Account = new Account({ phrase: '9c9637dc07ce9956190c028677f5195a8fb425e9927bf2e48fe39a1c55cf050a' })
   // 0xace
-  const moduleAccount: Account = new Account({ phrase: '3c17e038c8daeed7dfab9b9653321523d5f1a68eadfc5e4bd501075a5e43bbcc' })
-  const randomAccount: Account = new Account({ phrase: 'test3' })
+  const randomAccount: Account = new Account({ phrase: '3c17e038c8daeed7dfab9b9653321523d5f1a68eadfc5e4bd501075a5e43bbcc' })
   const payload1 = PayloadWrapper.parse({ nonce: 1, schema: 'network.xyo.debug' })
   const payload2 = PayloadWrapper.parse({ nonce: 2, schema: 'network.xyo.test' })
   const payload3 = PayloadWrapper.parse({ nonce: 3, schema: 'network.xyo.debug' })
@@ -115,7 +116,7 @@ describe('DeterministicArchivist', () => {
   describe('find', () => {
     describe('with schema for BoundWitness', () => {
       const schema = XyoBoundWitnessSchema
-      it('finds single bw', async () => {
+      it.only('finds single bw', async () => {
         const boundWitnesses = [boundWitness1, boundWitness2]
         const limit = boundWitnesses.length
         const offset = assertEx(boundWitnesses.at(-1)?.hash)

@@ -1,5 +1,6 @@
 /* eslint-disable max-statements */
-Date.now = jest.fn(() => 123456789000)
+let timestamp = 123456789000
+Date.now = jest.fn(() => timestamp)
 
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
@@ -64,7 +65,9 @@ describe('DeterministicArchivist', () => {
     })
     archivist = new ArchivistWrapper(module, userAccount)
     insertResult1 = await archivist.insert([boundWitness1, payload1])
+    timestamp++
     insertResult2 = await archivist.insert([boundWitness2, payload2])
+    timestamp++
     insertResult3 = await archivist.insert([boundWitness3, payload3, payload4])
   })
   afterAll(async () => {
@@ -121,25 +124,17 @@ describe('DeterministicArchivist', () => {
       expect(results).toMatchSnapshot()
     })
   })
-  describe.skip('find', () => {
+  describe('find', () => {
     describe('with schema for BoundWitness', () => {
       const schema = XyoBoundWitnessSchema
-      it('finds single bw', async () => {
-        const boundWitnesses = [boundWitnessWrapper3]
-        const hashes = [boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3].map((x) => x.hash)
-        const limit = boundWitnesses.length
-        const results = await archivist.find({ limit, schema })
-        expect(results).toBeTruthy()
-        expect(results).toBeArrayOfSize(limit)
-        const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
-        const resultHashes = resultPayloads.map((p) => p.hash)
-        expect(resultHashes).toInclude(boundWitnessWrapper3.hash)
-        expect(results).toMatchSnapshot()
-      })
-      it('finds multiple bws', async () => {
-        const boundWitnesses = [boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3]
-        const limit = boundWitnesses.length
-        const results = await archivist.find({ limit, schema })
+      it.each([
+        ['finds single boundwitness', [boundWitnessWrapper1]],
+        ['finds multiple boundwitness', [boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3]],
+      ])('%s', async (_title, boundWitnesses) => {
+        const offset = boundWitnesses.at(-1)?.hash
+        console.log('Client Hashes')
+        console.log(boundWitnesses.reverse().map((bw) => bw.hash))
+        const results = await archivist.find({ offset, schema })
         expect(results).toBeTruthy()
         expect(results).toBeArrayOfSize(boundWitnesses.length)
         const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
@@ -154,7 +149,7 @@ describe('DeterministicArchivist', () => {
       const schema = 'network.xyo.debug'
       it.each([
         ['finds single payload', [payloadWrapper1]],
-        ['finds multiple payloads', [payloadWrapper1, payloadWrapper2]],
+        ['finds multiple payloads', [payloadWrapper1, payloadWrapper3]],
       ])('%s', async (_title, payloads) => {
         const limit = payloads.length
         const results = await archivist.find({ limit, schema })
@@ -169,15 +164,23 @@ describe('DeterministicArchivist', () => {
     })
     describe('with no schema', () => {
       it('finds address history', async () => {
-        const limit = 10
-        const results = await archivist.find({ limit })
+        const results = await archivist.find()
         expect(results).toBeTruthy()
-        expect(results).toBeArrayOfSize(limit)
+        expect(results).toBeArrayOfSize(6)
         const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
         const resultHashes = resultPayloads.map((p) => p.hash)
-        // payloads.map((p) => {
-        //   expect(resultHashes).toInclude(p.hash)
-        // })
+        const history = [
+          boundWitnessWrapper3,
+          payloadWrapper3,
+          payloadWrapper4,
+          boundWitnessWrapper2,
+          payloadWrapper2,
+          boundWitnessWrapper1,
+          payloadWrapper1,
+        ]
+        history.map((p) => {
+          expect(resultHashes).toInclude(p.hash)
+        })
         expect(results).toMatchSnapshot()
       })
     })

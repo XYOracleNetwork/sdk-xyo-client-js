@@ -175,9 +175,14 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
     const findBWs = shouldFindBoundWitnesses(typedQuery)
     const findPayloads = shouldFindPayloads(typedQuery)
+    const allBWs = await (await this.boundWitnesses.find({})).sort({ _timestamp: -1 }).toArray()
+    const allPayloads = await (await this.payloads.find({})).sort({ _timestamp: -1 }).toArray()
+    console.log('Server Hashes')
+    console.log(allBWs.map((bw) => bw._hash))
     let currentBw: XyoBoundWitnessWithMeta | undefined = await this.findBoundWitness(bwFilter)
-    let nextHash: string | null | undefined = offset ? `${offset}` : currentBw?._hash
-    if (!nextHash) return []
+    if (findBWs && currentBw) resultPayloads.push(currentBw)
+    let nextHash: string | null | undefined = currentBw?.previous_hashes.at(-1)
+    if (!nextHash) return resultPayloads
     searchLoop: for (let i = 0; i < searchDepthLimit; i++) {
       if (nextHash) bwFilter._hash = nextHash
       currentBw = await this.findBoundWitness(bwFilter)
@@ -193,7 +198,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       nextHash = currentBw?.previous_hashes?.at(-1)
       if (!nextHash) break
     }
-    nextHash = currentBw?.previous_hashes?.reduce((prev, curr) => (curr ? curr : prev), null)
+    // TODO: This is not omitting _id
     return resultPayloads.map((p) => PayloadWrapper.parse(p).body)
   }
 

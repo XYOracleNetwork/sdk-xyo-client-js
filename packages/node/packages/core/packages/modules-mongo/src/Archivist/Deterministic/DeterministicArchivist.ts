@@ -187,7 +187,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       if (!currentBw) break
       if (findBWs) resultPayloads.push(currentBw)
       if (findPayloads) {
-        const payloads = (await Promise.all(currentBw.payload_hashes.map((hash) => this.findPayload({ _hash: hash })))).filter(exists)
+        const _archive = getArchive(currentBw)
+        const payloads = (await Promise.all(currentBw.payload_hashes.map((_hash) => this.findPayload({ _archive, _hash })))).filter(exists)
         for (let p = 0; p < payloads.length; p++) {
           if (resultPayloads.length >= limit) break
           resultPayloads.push(payloads[p])
@@ -209,12 +210,13 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async findPayload(filter: PayloadsFilter): Promise<XyoPayloadWithMeta | undefined> {
-    const { _archive, order, offset, schema } = filter as PayloadFindFilter & { _archive: string }
+    const { _archive, order, offset, schema, _hash } = filter as PayloadFindFilter & PayloadsFilter
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'desc' ? Date.now() : 0
-    const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
+    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'asc' ? 0 : Date.now()
+    const _timestamp = order === 'asc' ? { $gte: parsedTimestamp } : { $lte: parsedTimestamp }
     const find: PayloadsFilter = { _archive, _timestamp }
     if (schema) find.schema = schema
+    if (_hash) find._hash = _hash
     const result = await (await this.payloads.find(find)).limit(1).sort(sort).maxTimeMS(DefaultMaxTimeMS).toArray()
     return result.pop()
   }

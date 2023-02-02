@@ -7,32 +7,66 @@ exports[`DeterministicArchivist find with no schema finds address history 1`] = 
       "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
     ],
     "payload_hashes": [
-      "58c138dd2aab7bd78bd2c3d80bebf900d3f99f506e201f1f0ace1d473fc45d76",
-      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
-      "81b707afc5742a5501a4fac4ad56132928ce711de36de7aeda936e08066cfcad",
+      "1137543b5805a18e8f39cb7debe49ddf58a1de00c46ed7310baf7ebcfdf435a2",
+      "aa36451ef0079af6cc2f86eaa05c7a93fb3c92098e18d0ce857e9e3072b32a85",
     ],
     "payload_schemas": [
-      "network.xyo.boundwitness",
       "network.xyo.debug",
-      "network.xyo.query.archivist.insert",
+      "network.xyo.test",
     ],
     "previous_hashes": [
-      "e307ab9ba8ea876135ae22ff47114513cf7fefe024dab21d89d8584378df6b11",
+      "c5e4a2513ea22a7ccfa359207b4d83af68688dca8c9a3f5d39106ba6e599b481",
     ],
-    "query": "81b707afc5742a5501a4fac4ad56132928ce711de36de7aeda936e08066cfcad",
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "nonce": 3,
+    "schema": "network.xyo.debug",
+  },
+  {
+    "nonce": 4,
+    "schema": "network.xyo.test",
+  },
+  {
+    "addresses": [
+      "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
+    ],
+    "payload_hashes": [
+      "1c9033e467d6877e2c84a70b29212a585bd6fd448bccfcc12adf0505c18984f6",
+    ],
+    "payload_schemas": [
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "58c138dd2aab7bd78bd2c3d80bebf900d3f99f506e201f1f0ace1d473fc45d76",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "nonce": 2,
+    "schema": "network.xyo.test",
+  },
+  {
+    "addresses": [
+      "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
     "schema": "network.xyo.boundwitness",
     "timestamp": 123456789000,
   },
   {
     "nonce": 1,
     "schema": "network.xyo.debug",
-  },
-  {
-    "payloads": [
-      "58c138dd2aab7bd78bd2c3d80bebf900d3f99f506e201f1f0ace1d473fc45d76",
-      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
-    ],
-    "schema": "network.xyo.query.archivist.insert",
   },
 ]
 `;
@@ -116,7 +150,7 @@ exports[`DeterministicArchivist find with schema for BoundWitness finds single b
 exports[`DeterministicArchivist find with schema for Payload finds single payload 1`] = `
 [
   {
-    "nonce": 1,
+    "nonce": 3,
     "schema": "network.xyo.debug",
   },
 ]

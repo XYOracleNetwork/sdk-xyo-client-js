@@ -163,11 +163,6 @@ describe('DeterministicArchivist', () => {
     })
     describe('with no schema', () => {
       it('finds address history', async () => {
-        const results = await archivist.find()
-        expect(results).toBeTruthy()
-        expect(results).toBeArrayOfSize(6)
-        const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
-        const resultHashes = resultPayloads.map((p) => p.hash)
         const history = [
           boundWitnessWrapper3,
           payloadWrapper3,
@@ -177,6 +172,12 @@ describe('DeterministicArchivist', () => {
           boundWitnessWrapper1,
           payloadWrapper1,
         ]
+        const limit = history.length
+        const results = await archivist.find({ limit })
+        expect(results).toBeTruthy()
+        expect(results).toBeArrayOfSize(limit)
+        const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
+        const resultHashes = resultPayloads.map((p) => p.hash)
         history.map((p) => {
           expect(resultHashes).toInclude(p.hash)
         })

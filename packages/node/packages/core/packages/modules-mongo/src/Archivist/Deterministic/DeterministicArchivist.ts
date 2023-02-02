@@ -73,6 +73,18 @@ const getFilter = (wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery
   return [bwFilter, payloadFilter]
 }
 
+const shouldFindBoundWitnesses = (typedQuery: ArchivistFindQuery): boolean => {
+  if (!typedQuery.filter?.schema) return true
+  const schema = Array.isArray(typedQuery.filter.schema) ? typedQuery.filter.schema : [typedQuery.filter.schema]
+  return schema.some((s) => s === XyoBoundWitnessSchema)
+}
+
+const shouldFindPayloads = (typedQuery: ArchivistFindQuery): boolean => {
+  if (!typedQuery.filter?.schema) return true
+  const schema = Array.isArray(typedQuery.filter.schema) ? typedQuery.filter.schema : [typedQuery.filter.schema]
+  return schema.some((s) => s !== XyoBoundWitnessSchema)
+}
+
 type BoundWitnessesFilter = Filter<XyoBoundWitnessWithMeta>
 type PayloadsFilter = Filter<XyoPayloadWithMeta>
 
@@ -158,10 +170,8 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
     const [bwFilter, payloadFilter] = getFilter(wrapper, typedQuery)
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
-    const findBWs = true
-    const findPayloads = true
-    // const findBWs = !filter?.schema || filter?.schema === XyoBoundWitnessSchema
-    // const findPayloads = !filter?.schema || filter?.schema !== XyoBoundWitnessSchema
+    const findBWs = shouldFindBoundWitnesses(typedQuery)
+    const findPayloads = shouldFindPayloads(typedQuery)
     let currentBw: XyoBoundWitnessWithMeta | undefined
     let nextHash: string | null | undefined = `${typedQuery?.filter?.offset}`
     if (!nextHash) return []

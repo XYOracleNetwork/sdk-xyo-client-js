@@ -32,7 +32,7 @@ import { SortDirection } from 'mongodb'
 import { COLLECTIONS } from '../../collections'
 import { DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk } from '../../Mongo'
-import { BoundWitnessesFilter, getArchive, getFilter, getLimit, PayloadsFilter } from './QueryHelpers'
+import { BoundWitnessesFilter, getArchive, getFilter, getLimit, PayloadsFilter, shouldFindBoundWitnesses, shouldFindPayloads } from './QueryHelpers'
 import { validByType } from './validByType'
 
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
@@ -45,18 +45,6 @@ const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper, archive: string): 
 }
 const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayloadWithMeta => {
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
-}
-
-const shouldFindBoundWitnesses = (typedQuery: ArchivistFindQuery): boolean => {
-  if (!typedQuery.filter?.schema) return true
-  const schema = Array.isArray(typedQuery.filter.schema) ? typedQuery.filter.schema : [typedQuery.filter.schema]
-  return schema.some((s) => s === XyoBoundWitnessSchema)
-}
-
-const shouldFindPayloads = (typedQuery: ArchivistFindQuery): boolean => {
-  if (!typedQuery.filter?.schema) return true
-  const schema = Array.isArray(typedQuery.filter.schema) ? typedQuery.filter.schema : [typedQuery.filter.schema]
-  return schema.some((s) => s !== XyoBoundWitnessSchema)
 }
 
 const searchDepthLimit = 50

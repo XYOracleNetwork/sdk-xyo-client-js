@@ -7,20 +7,39 @@ import { Quadkey } from '@xyo-network/quadkey'
 import { ElevationWitness, ElevationWitnessConfigSchema } from './Witness'
 
 const locations = [
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.base10String), schema: LocationSchema },
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)?.base10String), schema: LocationSchema },
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 33, lng: 118 }, 24)?.base10String), schema: LocationSchema },
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: -117 }, 24)?.base10String), schema: LocationSchema },
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 31, lng: -116 }, 24)?.base10String), schema: LocationSchema },
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 33, lng: -118 }, 24)?.base10String), schema: LocationSchema },
 ]
 
 describe('ElevationWitness', () => {
   test('Witnessing via Observe', async () => {
-    const witness = await ElevationWitness.create()
+    const witness = await ElevationWitness.create({
+      config: {
+        files: {
+          northEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_NE_250m.tif',
+          southEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_SE_250m.tif',
+          west: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_W_250m.tif',
+        },
+        schema: ElevationWitnessConfigSchema,
+      },
+    })
     const result = (await witness.observe(locations)) as ElevationPayload[]
     validateResult(result)
   })
 
   test('Witnessing via Config', async () => {
-    const witness = await ElevationWitness.create({ config: { locations, schema: ElevationWitnessConfigSchema } })
+    const witness = await ElevationWitness.create({
+      config: {
+        files: {
+          northEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_NE_250m.tif',
+          southEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_SE_250m.tif',
+          west: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_W_250m.tif',
+        },
+        locations,
+        schema: ElevationWitnessConfigSchema,
+      },
+    })
     const result = (await witness.observe()) as ElevationPayload[]
     validateResult(result)
   })

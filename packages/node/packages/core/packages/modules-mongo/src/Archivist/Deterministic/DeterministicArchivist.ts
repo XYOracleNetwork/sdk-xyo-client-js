@@ -148,10 +148,12 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       if (findBWs) resultPayloads.push(currentBw)
       if (findPayloads) {
         const _archive = getArchive(currentBw)
-        const payloadHashes = currentBw?.payload_schemas.reduce((schemas, schema, idx) => {
-          if (payloadSchemas.includes(schema) && currentBw?.payload_hashes[idx]) schemas.push(currentBw.payload_hashes[idx])
-          return schemas
-        }, [] as string[])
+        const payloadHashes = payloadSchemas.length
+          ? currentBw?.payload_schemas.reduce((schemas, schema, idx) => {
+              if (payloadSchemas.includes(schema) && currentBw?.payload_hashes[idx]) schemas.push(currentBw.payload_hashes[idx])
+              return schemas
+            }, [] as string[])
+          : currentBw.payload_hashes
         const payloads = (await Promise.all(payloadHashes.map((_hash) => this.findPayload({ ...payloadFilter, _archive, _hash })))).filter(exists)
         for (let p = 0; p < payloads.length; p++) {
           if (resultPayloads.length >= limit) break

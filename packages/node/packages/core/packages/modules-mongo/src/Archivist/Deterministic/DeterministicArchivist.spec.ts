@@ -35,9 +35,9 @@ describe('DeterministicArchivist', () => {
   const payloadWrapper2 = PayloadWrapper.parse(payload2)
   const payloadWrapper3 = PayloadWrapper.parse(payload3)
   const payloadWrapper4 = PayloadWrapper.parse(payload4)
-  const boundWitness1 = new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(userAccount).build()[0]
-  const boundWitness2 = new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(userAccount).build()[0]
-  const boundWitness3 = new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()[0]
+  const boundWitness1 = new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(archiveAccount).build()[0]
+  const boundWitness2 = new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(archiveAccount).build()[0]
+  const boundWitness3 = new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(archiveAccount).build()[0]
   const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1)
   boundWitnessWrapper1.payloads = [payload1]
   const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2)
@@ -63,7 +63,7 @@ describe('DeterministicArchivist', () => {
       config: { schema: AbstractModuleConfigSchema },
       payloads,
     })
-    archivist = new ArchivistWrapper(module, userAccount)
+    archivist = new ArchivistWrapper(module, archiveAccount)
     insertResult1 = await archivist.insert([boundWitness1, payload1])
     timestamp++
     insertResult2 = await archivist.insert([boundWitness2, payload2])
@@ -86,7 +86,7 @@ describe('DeterministicArchivist', () => {
       expect(insertResult1).toBeArrayOfSize(2)
       const [boundResult, transactionResults] = insertResult1
       expect(boundResult.addresses).toContain(archivist.address)
-      expect(transactionResults.addresses).toContain(userAccount.public.address.hex)
+      expect(transactionResults.addresses).toContain(archiveAccount.public.address.hex)
       expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper1.payloadsArray.length)
       boundWitnessWrapper1.payloadsArray.forEach((p) => {
         expect(transactionResults.payload_hashes).toInclude(p.hash)
@@ -98,7 +98,7 @@ describe('DeterministicArchivist', () => {
       expect(insertResult3).toBeArrayOfSize(2)
       const [boundResult, transactionResults] = insertResult3
       expect(boundResult.addresses).toContain(archivist.address)
-      expect(transactionResults.addresses).toContain(userAccount.public.address.hex)
+      expect(transactionResults.addresses).toContain(archiveAccount.public.address.hex)
       expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper3.payloadsArray.length)
       boundWitnessWrapper3.payloadsArray.forEach((p) => {
         expect(transactionResults.payload_hashes).toInclude(p.hash)

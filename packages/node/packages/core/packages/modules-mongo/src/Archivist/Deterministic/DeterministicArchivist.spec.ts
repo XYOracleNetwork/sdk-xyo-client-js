@@ -49,6 +49,7 @@ describe('DeterministicArchivist', () => {
   let insertResult1: XyoBoundWitness[]
   let insertResult2: XyoBoundWitness[]
   let insertResult3: XyoBoundWitness[]
+  const insertResults: XyoBoundWitness[][] = []
   beforeAll(async () => {
     jest.spyOn(Account, 'random').mockImplementation(() => randomAccount)
     await server.start()
@@ -64,11 +65,20 @@ describe('DeterministicArchivist', () => {
       payloads,
     })
     archivist = new ArchivistWrapper(module, archiveAccount)
-    insertResult1 = await archivist.insert([boundWitness1, payload1])
-    timestamp++
-    insertResult2 = await archivist.insert([boundWitness2, payload2])
-    timestamp++
-    insertResult3 = await archivist.insert([boundWitness3, payload3, payload4])
+    const insertions = [
+      [boundWitness1, payload1],
+      [boundWitness2, payload2],
+      [boundWitness3, payload3, payload4],
+    ]
+    for (const insertion of insertions) {
+      const insertionResult = await archivist.insert(insertion)
+      insertResults.push(insertionResult)
+      // NOTE: Increment Date.now after each insert so that DB sorting by time works
+      timestamp++
+    }
+    insertResult1 = insertResults[0]
+    insertResult2 = insertResults[1]
+    insertResult3 = insertResults[2]
   })
   afterAll(async () => {
     await server.stop()

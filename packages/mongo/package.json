@@ -48,7 +48,7 @@
     "@xylabs/delay": "^2.6.16",
     "@xylabs/forget": "^2.6.16",
     "async-mutex": "^0.4.0",
-    "mongodb": "^4.13.0"
+    "mongodb": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

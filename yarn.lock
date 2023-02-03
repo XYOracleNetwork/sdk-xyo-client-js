@@ -6181,7 +6181,7 @@ __metadata:
     inversify: ^6.0.1
     lodash: ^4.17.21
     lru-cache: ^7.14.1
-    mongodb: ^4.13.0
+    mongodb: ^5.0.0
     mongodb-memory-server: ^8.11.4
     reflect-metadata: ^0.1.13
   languageName: unknown
@@ -6570,7 +6570,7 @@ __metadata:
     "@xylabs/forget": ^2.6.16
     "@xylabs/ts-scripts-yarn3": ^2.12.30
     async-mutex: ^0.4.0
-    mongodb: ^4.13.0
+    mongodb: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -6624,7 +6624,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
-    mongodb: ^4.13.0
+    mongodb: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -7635,6 +7635,13 @@ __metadata:
   dependencies:
     buffer: ^5.6.0
   checksum: f357d12c5679c8eb029a62e410ad40fb862b7b91f0fc12a3399fb3668e14aecaa63205ffeeee48735a01d393171743607dcd527eb8c058b6f2bd294079ee4125
+  languageName: node
+  linkType: hard
+
+"bson@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "bson@npm:5.0.0"
+  checksum: d494ed47169b1d9d9cd1901cbb7080a83983ccda0df9109268602b007455d9fbbc0d3e514b8491d3cc5b7fe839ff46b001fd154318f2f6aa76ce9c9340e3b13b
   languageName: node
   linkType: hard
 
@@ -13873,7 +13880,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-connection-string-url@npm:^2.5.4":
+"mongodb-connection-string-url@npm:^2.5.4, mongodb-connection-string-url@npm:^2.6.0":
   version: 2.6.0
   resolution: "mongodb-connection-string-url@npm:2.6.0"
   dependencies:
@@ -13932,6 +13939,32 @@ __metadata:
     saslprep:
       optional: true
   checksum: 4c30eed40f639ac64069623cf7a4954e98eab81b91d61df90e7813dd2a745259cdc698f3b60bd7f37c123242b7eb0aaae6ee4e29ff2e48f5d13f187931d51f36
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "mongodb@npm:5.0.0"
+  dependencies:
+    bson: ^5.0.0
+    mongodb-connection-string-url: ^2.6.0
+    saslprep: ^1.0.3
+    socks: ^2.7.1
+  peerDependencies:
+    "@aws-sdk/credential-providers": ^3.201.0
+    mongodb-client-encryption: ^2.3.0
+    snappy: ^7.2.2
+  dependenciesMeta:
+    saslprep:
+      optional: true
+  peerDependenciesMeta:
+    "@aws-sdk/credential-providers":
+      optional: true
+    mongodb-client-encryption:
+      optional: true
+    snappy:
+      optional: true
+  checksum: e0beeba7c74dcce3cf7383c2597b8239cf1c5d7a1a46959ca86973bd3ed51f71e85238ea8c043dc9d06606554f29c3e2693876a8b6695f32f2808d328af3cb57
   languageName: node
   linkType: hard
 

@@ -32,7 +32,16 @@ import { SortDirection } from 'mongodb'
 import { COLLECTIONS } from '../../collections'
 import { DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk } from '../../Mongo'
-import { BoundWitnessesFilter, getArchive, getFilter, getLimit, PayloadsFilter, shouldFindBoundWitnesses, shouldFindPayloads } from './QueryHelpers'
+import {
+  BoundWitnessesFilter,
+  getArchive,
+  getFilter,
+  getLimit,
+  getPayloadSchemas,
+  PayloadsFilter,
+  shouldFindBoundWitnesses,
+  shouldFindPayloads,
+} from './QueryHelpers'
 import { validByType } from './validByType'
 
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
@@ -129,6 +138,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
     const findBWs = shouldFindBoundWitnesses(typedQuery)
     const findPayloads = shouldFindPayloads(typedQuery)
+    const payloadSchemas = getPayloadSchemas(typedQuery)
     let currentBw: XyoBoundWitnessWithMeta | undefined
     let nextHash: string | null | undefined = undefined
     for (let searchDepth = 0; searchDepth < searchDepthLimit; searchDepth++) {
@@ -138,7 +148,11 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       if (findBWs) resultPayloads.push(currentBw)
       if (findPayloads) {
         const _archive = getArchive(currentBw)
-        const payloads = (await Promise.all(currentBw.payload_hashes.map((_hash) => this.findPayload({ _archive, _hash })))).filter(exists)
+        const payloadHashes = currentBw?.payload_schemas.reduce((schemas, schema, idx) => {
+          if (payloadSchemas.includes(schema) && currentBw?.payload_hashes[idx]) schemas.push(currentBw.payload_hashes[idx])
+          return schemas
+        }, [] as string[])
+        const payloads = (await Promise.all(payloadHashes.map((_hash) => this.findPayload({ ...payloadFilter, _archive, _hash })))).filter(exists)
         for (let p = 0; p < payloads.length; p++) {
           if (resultPayloads.length >= limit) break
           resultPayloads.push(payloads[p])
@@ -148,7 +162,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       if (!nextHash) break
       bwFilter._hash = nextHash
     }
-    // TODO: This is not omitting _id
+    // TODO: Ensure this is omitting _id
     return resultPayloads.map((p) => PayloadWrapper.parse(p).body)
   }
 

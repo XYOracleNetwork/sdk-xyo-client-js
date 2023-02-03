@@ -1,8 +1,7 @@
 import { ArchivistFindQuery } from '@xyo-network/archivist'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+
+import { getPayloadSchemas } from './getPayloadSchemas'
 
 export const shouldFindPayloads = (typedQuery: ArchivistFindQuery): boolean => {
-  if (!typedQuery.filter?.schema) return true
-  const schema = Array.isArray(typedQuery.filter.schema) ? typedQuery.filter.schema : [typedQuery.filter.schema]
-  return schema.some((s) => s !== XyoBoundWitnessSchema)
+  return getPayloadSchemas(typedQuery).length > 0
 }

@@ -13,7 +13,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistQuery,
 } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AbstractModuleConfig,
@@ -150,13 +150,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     }
     // TODO: This is not omitting _id
     return resultPayloads.map((p) => PayloadWrapper.parse(p).body)
-  }
-
-  protected async findNextBoundWitness(filter: BoundWitnessesFilter, before = true): Promise<XyoBoundWitnessWithMeta | undefined> {
-    const sort: { [key: string]: SortDirection } = before ? { _timestamp: -1 } : { _timestamp: 1 }
-    // TODO: if before find previous hash
-    // TODO: if after find BW where this hash === previous hash
-    return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
   }
 
   protected async findPayload(filter: PayloadsFilter): Promise<XyoPayloadWithMeta | undefined> {

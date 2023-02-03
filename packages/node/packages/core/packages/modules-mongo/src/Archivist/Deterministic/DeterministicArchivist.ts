@@ -177,8 +177,12 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const findPayloads = shouldFindPayloads(typedQuery)
     const allBWs = await (await this.boundWitnesses.find({})).sort({ _timestamp: -1 }).toArray()
     const allPayloads = await (await this.payloads.find({})).sort({ _timestamp: -1 }).toArray()
-    console.log('Server Hashes')
-    console.log(allBWs.map((bw) => bw._hash))
+    console.log('Server BWs')
+    console.log(allBWs.length)
+    console.log(allBWs)
+    console.log('Server Payloads')
+    console.log(allPayloads.length)
+    console.log(allPayloads)
     let currentBw: XyoBoundWitnessWithMeta | undefined
     let nextHash: string | null | undefined = undefined
     for (let searchDepth = 0; searchDepth < searchDepthLimit; searchDepth++) {
@@ -234,8 +238,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
-    const items: XyoPayload[] = [wrapper.boundwitness]
-    if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray.map((p) => p.payload))
+    const items: XyoPayload[] = wrapper.payloadsArray?.filter((p) => p.hash !== wrapper.query.hash).map((p) => p.payload)
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
     const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {

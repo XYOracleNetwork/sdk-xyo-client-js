@@ -112,7 +112,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
               schema: ArchivistInsertQuerySchema,
             })
-            const query = await this.bindQuery(queryPayload)
+            const query = await this.bindQuery(queryPayload, payloads)
             return (await parent?.query(query[0], query[1]))?.[0]
           }),
         ),

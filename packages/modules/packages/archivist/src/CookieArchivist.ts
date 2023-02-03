@@ -91,7 +91,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
               payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
               schema: ArchivistInsertQuerySchema,
             })
-            const query = await this.bindQuery(queryPayload)
+            const query = await this.bindQuery(queryPayload, payloads)
             return (await parent?.query(query[0], query[1]))?.[0]
           }),
         ),

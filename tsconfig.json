@@ -1,13 +1,9 @@
 {
   "compilerOptions": {
-    "declaration": true,
     "declarationDir": "./dist/types",
-    "declarationMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "incremental": true,
-    "noImplicitOverride": false,
-    "typeRoots": ["./node_modules/@types", "**/src/types"],
     "types": [
       "jest-extended",
       "jest-sorted",

@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.43.21",
+  "version": "2.43.24",
   "description": "XYO Express Node CLI",
   "sideeffects": false,
   "engines": {
@@ -37,7 +37,7 @@
     "@xyo-network/express-node-server": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.29"
+    "@xylabs/ts-scripts-yarn3": "^2.12.30"
   },
   "packageManager": "yarn@3.2.3",
   "volta": {

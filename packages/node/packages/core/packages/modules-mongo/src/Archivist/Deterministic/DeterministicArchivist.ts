@@ -13,7 +13,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistQuery,
 } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AbstractModuleConfig,
@@ -27,11 +27,21 @@ import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-c
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Filter, SortDirection } from 'mongodb'
+import { SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk } from '../../Mongo'
+import {
+  BoundWitnessesFilter,
+  getArchive,
+  getFilter,
+  getLimit,
+  getPayloadSchemas,
+  PayloadsFilter,
+  shouldFindBoundWitnesses,
+  shouldFindPayloads,
+} from './QueryHelpers'
 import { validByType } from './validByType'
 
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
@@ -40,15 +50,13 @@ export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistCo
 }
 
 const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper, archive: string): XyoBoundWitnessWithMeta => {
-  return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
+  return { ...wrapper.boundwitness, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayloadWithMeta => {
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
-const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBoundWitness | QueryBoundWitnessWrapper>(bw: T): string => {
-  return assertEx(bw.addresses.join('|'), 'missing addresses for query')
-}
+const searchDepthLimit = 50
 
 export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
@@ -90,7 +98,9 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []
-    const queryAccount = new Account()
+    // TODO: Use new Account once we mock Account.new in Jest
+    const queryAccount = Account.random()
+    // const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
         case ArchivistFindQuerySchema: {
@@ -116,78 +126,74 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async findBoundWitness(
-    filter: Filter<XyoBoundWitnessWithMeta>,
+    filter: BoundWitnessesFilter,
     sort: { [key: string]: SortDirection } = { _timestamp: -1 },
   ): Promise<XyoBoundWitnessWithMeta | undefined> {
     return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
   }
 
   protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
-    const { schema, limit, order, offset } = Object.assign({ limit: 1, order: 'desc' }, typedQuery?.filter || {})
-    assertEx(limit > 0, 'MongoDBDeterministicArchivist: Find limit must be > 0')
-    assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
-    assertEx(order === 'desc', 'MongoDBDeterministicArchivist: Find order only supports descending')
-    const archive = getArchive(wrapper)
-    // TODO: Only use hash as offset assert not timestamp
-    const hash = offset ? `${offset}` : (await this.findBoundWitness({ _archive: archive }))?._hash
-    assertEx(hash, 'Missing hash')
-    // TODO: Sort ascending by finding BW where previous hash === current hash
-    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
+    const limit = getLimit(typedQuery)
+    const [bwFilter, payloadFilter] = getFilter(wrapper, typedQuery)
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
-    const address = assertEx(wrapper.addresses[0], 'Find query requires at least one address')
-    const findBWs = schema === XyoBoundWitnessSchema
-    // TODO: Handle payloads (sequenced by BW) filtered by schema
-    const filter = { _archive: archive, _hash: hash } as Filter<XyoBoundWitnessWithMeta>
-    let nextHash = hash
-    for (let i = 0; i < limit; i++) {
-      if (nextHash) filter._hash = nextHash
-      const block = await this.findBoundWitness(filter, sort)
-      if (!block) break
-      if (findBWs) {
-        resultPayloads.push(block)
-      } else {
-        const { payload_hashes } = block
-        const payloads = await Promise.all(
-          payload_hashes.map(async (hash) => {
-            const filter: Filter<XyoPayloadWithMeta> = { _hash: hash }
-            // TODO: Handle multiple schemas?
-            if (schema) filter.schema = schema
-            return (await (await this.payloads.find(filter)).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
-          }),
-        )
-        // TODO: Only push desired limit amount or break
-        resultPayloads.push(...payloads.filter(exists))
+    const findBWs = shouldFindBoundWitnesses(typedQuery)
+    const findPayloads = shouldFindPayloads(typedQuery)
+    const payloadSchemas = getPayloadSchemas(typedQuery)
+    let currentBw: XyoBoundWitnessWithMeta | undefined
+    let nextHash: string | null | undefined = undefined
+    for (let searchDepth = 0; searchDepth < searchDepthLimit; searchDepth++) {
+      if (resultPayloads.length >= limit) break
+      currentBw = await this.findBoundWitness(bwFilter)
+      if (!currentBw) break
+      if (findBWs) resultPayloads.push(currentBw)
+      if (findPayloads) {
+        const _archive = getArchive(currentBw)
+        const payloadHashes = payloadSchemas.length
+          ? currentBw?.payload_schemas.reduce((schemas, schema, idx) => {
+              if (payloadSchemas.includes(schema) && currentBw?.payload_hashes[idx]) schemas.push(currentBw.payload_hashes[idx])
+              return schemas
+            }, [] as string[])
+          : currentBw.payload_hashes
+        const payloads = (await Promise.all(payloadHashes.map((_hash) => this.findPayload({ ...payloadFilter, _archive, _hash })))).filter(exists)
+        for (let p = 0; p < payloads.length; p++) {
+          if (resultPayloads.length >= limit) break
+          resultPayloads.push(payloads[p])
+        }
       }
-      const addressIndex = block.addresses.findIndex((value) => value === address)
-      const previousHash = block.previous_hashes[addressIndex]
-      if (!previousHash) break
-      nextHash = previousHash
+      nextHash = currentBw?.previous_hashes?.at(-1)
+      if (!nextHash) break
+      bwFilter._hash = nextHash
     }
-    return resultPayloads
+    // TODO: Ensure this is omitting _id
+    return resultPayloads.map((p) => PayloadWrapper.parse(p).body)
   }
 
-  protected async findPayload(filter: PayloadFindFilter) {
-    const { _archive, order, offset, schema } = filter as PayloadFindFilter & { _archive: string }
+  protected async findPayload(filter: PayloadsFilter): Promise<XyoPayloadWithMeta | undefined> {
+    const { _archive, order, offset, schema, _hash } = filter as PayloadFindFilter & PayloadsFilter
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'desc' ? Date.now() : 0
-    const _timestamp = order === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
-    const find: Filter<XyoPayloadWithMeta> = { _archive, _timestamp }
+    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'asc' ? 0 : Date.now()
+    const _timestamp = order === 'asc' ? { $gte: parsedTimestamp } : { $lte: parsedTimestamp }
+    const find: PayloadsFilter = { _archive, _timestamp }
     if (schema) find.schema = schema
-    const result = await (await this.payloads.find(find)).limit(1).sort(sort).toArray()
-    const payload = result.pop() as XyoPayload
-    return payload ? payload : null
+    if (_hash) find._hash = _hash
+    const result = await (await this.payloads.find(find)).limit(1).sort(sort).maxTimeMS(DefaultMaxTimeMS).toArray()
+    return result.pop()
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
-    const archive = getArchive(wrapper)
+    const _archive = getArchive(wrapper)
     const hashes = typedQuery.hashes
-    const gets = await Promise.all(hashes.map((hash) => this.payloads.findOne({ _archive: archive, _hash: hash })))
-    return gets.filter(exists)
+    const gets = await Promise.all(
+      [
+        hashes.map((_hash) => this.payloads.findOne({ _archive, _hash })),
+        hashes.map((_hash) => this.boundWitnesses.findOne({ _archive, _hash })),
+      ].flat(),
+    )
+    return gets.filter(exists).map((p) => PayloadWrapper.parse(p).body)
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
-    const items: XyoPayload[] = [wrapper.boundwitness]
-    if (wrapper.payloadsArray?.length) items.push(...wrapper.payloadsArray)
+    const items: XyoPayload[] = wrapper.payloadsArray?.filter((p) => p.hash !== wrapper.query.hash).map((p) => p.payload)
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
     const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {
@@ -209,6 +215,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     )
     const succeeded = insertions.filter(fulfilled).map((v) => v.value)
     const results = await Promise.all(succeeded.map((success) => success.boundwitness))
-    return results
+    return results.map((result) => BoundWitnessWrapper.parse(result).body)
   }
 }

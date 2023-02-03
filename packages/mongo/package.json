@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-xyo-mongo-js",
-  "version": "2.43.24",
+  "version": "2.43.26",
   "homepage": "https://xyo.network",
   "bugs": {
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js/issues",
@@ -48,7 +48,7 @@
     "@xylabs/delay": "^2.6.16",
     "@xylabs/forget": "^2.6.16",
     "async-mutex": "^0.4.0",
-    "mongodb": "^4.13.0"
+    "mongodb": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

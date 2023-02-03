@@ -27,11 +27,12 @@ import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-c
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Filter, SortDirection } from 'mongodb'
+import { SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk } from '../../Mongo'
+import { BoundWitnessesFilter, getArchive, getFilter, getLimit, PayloadsFilter } from './QueryHelpers'
 import { validByType } from './validByType'
 
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
@@ -46,36 +47,6 @@ const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayload
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
-const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBoundWitness | QueryBoundWitnessWrapper>(bw: T): string => {
-  const { addresses } = bw
-  return assertEx([...addresses].sort().join('|'), 'missing addresses for query')
-}
-
-const getFilter = (wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): [BoundWitnessesFilter, PayloadsFilter] => {
-  const bwFilter: BoundWitnessesFilter = {}
-  const payloadFilter: PayloadsFilter = {}
-  let offset: string | undefined
-  if (typedQuery?.filter?.offset) {
-    assertEx(typeof typedQuery?.filter?.offset === 'string', 'MongoDBDeterministicArchivist: Find offset only supports string hash')
-    offset = typedQuery?.filter?.offset as string
-    bwFilter._hash = offset
-  }
-  let schema: string[] | undefined = undefined
-  if (typedQuery?.filter?.schema) {
-    schema = Array.isArray(typedQuery?.filter?.schema) ? typedQuery?.filter?.schema : [typedQuery?.filter?.schema]
-    const payload_schemas = schema.filter((s) => s !== XyoBoundWitnessSchema)
-    if (payload_schemas.length) {
-      bwFilter.payload_schemas = { $in: payload_schemas }
-      payloadFilter.schema = { $in: payload_schemas }
-    }
-  }
-  assertEx(wrapper.addresses.length, 'Find query requires at least one address')
-  bwFilter.addresses = { $all: wrapper.addresses }
-  const archive = getArchive(wrapper)
-  // TODO: Add archive filter?
-  return [bwFilter, payloadFilter]
-}
-
 const shouldFindBoundWitnesses = (typedQuery: ArchivistFindQuery): boolean => {
   if (!typedQuery.filter?.schema) return true
   const schema = Array.isArray(typedQuery.filter.schema) ? typedQuery.filter.schema : [typedQuery.filter.schema]
@@ -87,9 +58,6 @@ const shouldFindPayloads = (typedQuery: ArchivistFindQuery): boolean => {
   const schema = Array.isArray(typedQuery.filter.schema) ? typedQuery.filter.schema : [typedQuery.filter.schema]
   return schema.some((s) => s !== XyoBoundWitnessSchema)
 }
-
-type BoundWitnessesFilter = Filter<XyoBoundWitnessWithMeta>
-type PayloadsFilter = Filter<XyoPayloadWithMeta>
 
 const searchDepthLimit = 50
 
@@ -168,21 +136,11 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
-    const { limit, order, offset } = Object.assign({ limit: 1, order: 'desc' }, typedQuery?.filter || {})
-    assertEx(limit > 0, 'MongoDBDeterministicArchivist: Find limit must be > 0')
-    assertEx(limit <= 50, 'MongoDBDeterministicArchivist: Find limit must be <= 50')
+    const limit = getLimit(typedQuery)
     const [bwFilter, payloadFilter] = getFilter(wrapper, typedQuery)
     const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
     const findBWs = shouldFindBoundWitnesses(typedQuery)
     const findPayloads = shouldFindPayloads(typedQuery)
-    const allBWs = await (await this.boundWitnesses.find({})).sort({ _timestamp: -1 }).toArray()
-    const allPayloads = await (await this.payloads.find({})).sort({ _timestamp: -1 }).toArray()
-    console.log('Server BWs')
-    console.log(allBWs.length)
-    console.log(allBWs)
-    console.log('Server Payloads')
-    console.log(allPayloads.length)
-    console.log(allPayloads)
     let currentBw: XyoBoundWitnessWithMeta | undefined
     let nextHash: string | null | undefined = undefined
     for (let searchDepth = 0; searchDepth < searchDepthLimit; searchDepth++) {

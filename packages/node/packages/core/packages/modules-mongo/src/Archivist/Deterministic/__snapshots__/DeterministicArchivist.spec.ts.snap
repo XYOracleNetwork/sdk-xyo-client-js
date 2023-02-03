@@ -147,6 +147,19 @@ exports[`DeterministicArchivist find with schema for BoundWitness finds single b
 ]
 `;
 
+exports[`DeterministicArchivist find with schema for Payload finds multiple payloads 1`] = `
+[
+  {
+    "nonce": 3,
+    "schema": "network.xyo.debug",
+  },
+  {
+    "nonce": 1,
+    "schema": "network.xyo.debug",
+  },
+]
+`;
+
 exports[`DeterministicArchivist find with schema for Payload finds single payload 1`] = `
 [
   {

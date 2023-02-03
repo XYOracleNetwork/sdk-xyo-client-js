@@ -27,7 +27,7 @@ export const getFilter = (
     schema = Array.isArray(typedQuery?.filter?.schema) ? typedQuery?.filter?.schema : [typedQuery?.filter?.schema]
     const payload_schemas = schema.filter((s) => s !== XyoBoundWitnessSchema)
     if (payload_schemas.length) {
-      bwFilter.payload_schemas = { $in: payload_schemas }
+      // bwFilter.payload_schemas = { $in: payload_schemas }
       payloadFilter.schema = { $in: payload_schemas }
     }
   }

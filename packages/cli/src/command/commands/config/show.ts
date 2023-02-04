@@ -1,26 +1,36 @@
-import { json } from 'stream/consumers'
+import { AbstractModuleConfig } from '@xyo-network/module'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule, Options } from 'yargs'
+
+import { printLine, readFileDeep } from '../../../lib'
+
+const showConfig = async () => {
+  const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
+  let configObj: AbstractModuleConfig | undefined
+  if (config) {
+    if (path?.endsWith('.json')) {
+      configObj = JSON.parse(config) as AbstractModuleConfig
+    } else if (path?.endsWith('.cjs') || path?.endsWith('.js')) {
+      configObj = (await import(path)) as AbstractModuleConfig
+    }
+  }
+  printLine(JSON.stringify(configObj ?? {}))
+}
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Arguments = {}
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = {
-  outFile: {
-    description: 'The file path to output the config to',
-    type: 'string',
-  } as Options,
   output: {
     choices: ['json'], // TODO: YAML
-    default: json,
+    default: 'json',
   } as Options,
 }
 export const command = 'show'
 export const deprecated = false
 export const describe = 'display config'
-export const handler = (_argv: ArgumentsCamelCase<Arguments>) => {
-  // do something with argv.
-  console.log(_argv)
+export const handler = async (_argv: ArgumentsCamelCase<Arguments>) => {
+  await showConfig()
 }
 
 const mod: CommandModule = {

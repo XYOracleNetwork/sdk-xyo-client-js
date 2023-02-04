@@ -1,3 +1,4 @@
+import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { opts } from '../requireDirectoryOptions'
@@ -7,10 +8,10 @@ type Arguments = {}
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
-  yargs.usage('Usage: $0 config <command> [Options]').commandDir('./config', opts).demandCommand().version(false)
+  yargs.usage('Usage: $0 config <command> [Options]').commandDir(parse(__filename).name, opts).demandCommand().version(false)
 export const command = 'config <command> [Options]'
 export const deprecated = false
-export const describe = 'XYO config commands'
+export const describe = 'Get and set CLI/Node config options'
 export const handler = (_argv: ArgumentsCamelCase<Arguments>) => {
   // do something with argv.
   console.log('handler')

@@ -3,15 +3,8 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
 void yargs(hideBin(process.argv))
-  .command(
-    'curl <url>',
-    'fetch the contents of the URL',
-    () => {
-      // TODO:
-    },
-    (argv) => {
-      console.info(argv)
-    },
-  )
+  .commandDir('./command', {
+    extensions: process.env.NODE_ENV === 'development' ? ['js', 'ts'] : ['js'],
+  })
   .demandCommand(1)
   .parse()

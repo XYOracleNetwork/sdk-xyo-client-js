@@ -1,4 +1,4 @@
-import { ArgumentsCamelCase, CommandBuilder } from 'yargs'
+import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Arguments = {}
@@ -17,5 +17,16 @@ export const deprecated = false
 export const describe = 'make a get HTTP request'
 export const handler = function (_argv: ArgumentsCamelCase<Arguments>) {
   // do something with argv.
-  console.log('hhhhhhhhh')
+  console.log('handler')
 }
+
+const mod: CommandModule = {
+  aliases,
+  command,
+  deprecated,
+  describe,
+  handler,
+}
+
+// eslint-disable-next-line import/no-default-export
+export default mod

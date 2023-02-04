@@ -7,7 +7,8 @@ import { hideBin } from 'yargs/helpers'
 void yargs(hideBin(process.argv))
   .help()
   .commandDir('./command', {
-    extensions: process.env.NODE_ENV === 'development' ? ['js', 'ts'] : ['js'],
+    exclude: new RegExp('.spec.ts'),
+    extensions: ['js', 'ts'],
   })
   // .version(pack.version)
   .demandCommand(1)

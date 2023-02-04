@@ -1,24 +1,20 @@
-export const command = 'get <source> [proxy]'
+import { CommandModule } from 'yargs'
 
-export const describe = 'make a get HTTP request'
-
-export const builder = {
-  banana: {
-    default: 'cool',
+const command: CommandModule = {
+  builder: {
+    banana: {
+      default: 'cool',
+    },
+    batman: {
+      default: 'sad',
+    },
   },
-  batman: {
-    default: 'sad',
+  command: 'get <source> [proxy]',
+  describe: 'make a get HTTP request',
+  handler: function (_argv: unknown) {
+    // do something with argv.
   },
-}
-
-export const handler = function (_argv: unknown) {
-  // do something with argv.
 }
 
 // eslint-disable-next-line import/no-default-export
-export default {
-  builder,
-  command,
-  describe,
-  handler,
-}
+export default command

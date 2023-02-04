@@ -7,7 +7,7 @@ import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 // eslint-disable-next-line import/no-named-as-default
-import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
+import GeoTIFF, { fromFile, GeoTIFFImage, TypedArray } from 'geotiff'
 
 export type ElevationWitnessConfigSchema = 'network.xyo.elevation.config'
 export const ElevationWitnessConfigSchema: ElevationWitnessConfigSchema = 'network.xyo.elevation.config'
@@ -135,44 +135,39 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
     ]
     const results: ElevationPayload[] = await Promise.all(
       quadkeys.map(async (quadkey) => {
-        if (quadkey) {
-          const infoNE = await this.getSectionInfo('northEast')
-          const infoSE = await this.getSectionInfo('southEast')
-          const infoW = await this.getSectionInfo('west')
-          const sectionWest = await this.getSectionImage('west')
-          console.log(`InfoNE: ${JSON.stringify(infoNE, null, 2)}`)
-          console.log(`InfoSE: ${JSON.stringify(infoSE, null, 2)}`)
-          console.log(`InfoW: ${JSON.stringify(infoW, null, 2)}`)
-          const westBoundingBox = new MercatorBoundingBox([infoW.bbox[0], infoW.bbox[1], infoW.bbox[2], infoW.bbox[3]])
-          const northEastBoundingBox = new MercatorBoundingBox([infoNE.bbox[0], infoNE.bbox[1], infoNE.bbox[2], infoNE.bbox[3]])
-          const southEastBoundingBox = new MercatorBoundingBox([infoSE.bbox[0], infoSE.bbox[1], infoSE.bbox[2], infoSE.bbox[3]])
-          const isWest = westBoundingBox.contains(quadkey.center)
-          const isNorthEast = northEastBoundingBox.contains(quadkey.center)
-          const isSouthEast = southEastBoundingBox.contains(quadkey.center)
-          if (isWest) {
-            const bb = quadkey.boundingBox
-            console.log(`BB: ${JSON.stringify(bb)}`)
-            const window = [
-              Math.ceil(-(infoW.origin[0] - bb.getWest()) / infoW.resolution[0]),
-              Math.ceil(-(infoW.origin[1] - bb.getNorth()) / infoW.resolution[1]),
-              Math.ceil(-(infoW.origin[0] - bb.getEast()) / infoW.resolution[0]),
-              Math.ceil(-(infoW.origin[1] - bb.getSouth()) / infoW.resolution[1]),
-            ]
-            console.log(`North: ${bb.getNorth()}`)
-            console.log(`South: ${bb.getSouth()}`)
-            console.log(`East: ${bb.getEast()}`)
-            console.log(`West: ${bb.getWest()}`)
-            console.log(`Window: ${JSON.stringify(window)}`)
-            const data = await sectionWest.readRasters({
-              height: 1,
-              width: 1,
-              window,
-            })
+        const infoNE = await this.getSectionInfo('northEast')
+        const infoSE = await this.getSectionInfo('southEast')
+        const infoW = await this.getSectionInfo('west')
 
-            console.log(`Data: [${JSON.stringify(data)}`)
-          }
-        }
-        return { elevation: 0, schema: ElevationSchema }
+        const westBoundingBox = new MercatorBoundingBox([infoW.bbox[0], infoW.bbox[1], infoW.bbox[2], infoW.bbox[3]])
+        const northEastBoundingBox = new MercatorBoundingBox([infoNE.bbox[0], infoNE.bbox[1], infoNE.bbox[2], infoNE.bbox[3]])
+        const southEastBoundingBox = new MercatorBoundingBox([infoSE.bbox[0], infoSE.bbox[1], infoSE.bbox[2], infoSE.bbox[3]])
+        const isWest = westBoundingBox.contains(quadkey.center)
+        const isNorthEast = northEastBoundingBox.contains(quadkey.center)
+        const isSouthEast = southEastBoundingBox.contains(quadkey.center)
+        const sectionToUse = isWest ? 'west' : isNorthEast ? 'northEast' : isSouthEast ? 'southEast' : null
+        const section = await this.getSectionImage(assertEx(sectionToUse, 'Unsupported Area'))
+        const sectionInfo = await this.getSectionInfo(assertEx(sectionToUse, 'Unsupported Area'))
+
+        const bb = quadkey.boundingBox
+        console.log(`BB: ${JSON.stringify(bb)}`)
+        const window = [
+          Math.ceil(-(sectionInfo.origin[0] - bb.getWest()) / infoW.resolution[0]),
+          Math.ceil(-(sectionInfo.origin[1] - bb.getNorth()) / sectionInfo.resolution[1]),
+          Math.ceil(-(sectionInfo.origin[0] - bb.getEast()) / sectionInfo.resolution[0]),
+          Math.ceil(-(sectionInfo.origin[1] - bb.getSouth()) / sectionInfo.resolution[1]),
+        ]
+
+        const data = await section.readRasters({
+          height: 1,
+          width: 1,
+          window,
+        })
+
+        const elevation = JSON.parse(JSON.stringify(data.at(0)))?.['0']
+
+        console.log(`Elevation: ${JSON.stringify(elevation)}`)
+        return { elevation, schema: ElevationSchema }
       }),
     )
     return results.flat()

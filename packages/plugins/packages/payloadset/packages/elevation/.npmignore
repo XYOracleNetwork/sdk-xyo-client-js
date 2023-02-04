@@ -8,6 +8,7 @@ rollup.config.ts
 yarn.lock
 
 .github
+.testdata
 .pnp.*
 .vscode
 .yarn/*

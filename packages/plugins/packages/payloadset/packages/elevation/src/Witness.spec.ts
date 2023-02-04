@@ -7,20 +7,43 @@ import { Quadkey } from '@xyo-network/quadkey'
 import { ElevationWitness, ElevationWitnessConfigSchema } from './Witness'
 
 const locations = [
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: 117 }, 24)?.base10String), schema: LocationSchema },
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 31, lng: 116 }, 24)?.base10String), schema: LocationSchema },
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 33, lng: 118 }, 24)?.base10String), schema: LocationSchema },
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32.7157, lng: -117.1611 }, 16)?.base10String), schema: LocationSchema }, // San Diego
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 39.7392, lng: -104.9903 }, 16)?.base10String), schema: LocationSchema }, //Denver
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 41.8781, lng: -87.6298 }, 16)?.base10String), schema: LocationSchema }, //Chicago
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: -12.0464, lng: -77.0428 }, 16)?.base10String), schema: LocationSchema }, //Lima
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 39.9042, lng: 116.4074 }, 16)?.base10String), schema: LocationSchema }, //Beijing
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: -33.8688, lng: 151.2093 }, 16)?.base10String), schema: LocationSchema }, //Sydney
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 47.3769, lng: 8.5417 }, 16)?.base10String), schema: LocationSchema }, //Zurich
 ]
 
 describe('ElevationWitness', () => {
   test('Witnessing via Observe', async () => {
-    const witness = await ElevationWitness.create()
+    const witness = await ElevationWitness.create({
+      config: {
+        files: {
+          northEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_NE_250m.tif',
+          southEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_SE_250m.tif',
+          west: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_W_250m.tif',
+        },
+        schema: ElevationWitnessConfigSchema,
+      },
+    })
     const result = (await witness.observe(locations)) as ElevationPayload[]
     validateResult(result)
   })
 
   test('Witnessing via Config', async () => {
-    const witness = await ElevationWitness.create({ config: { locations, schema: ElevationWitnessConfigSchema } })
+    const witness = await ElevationWitness.create({
+      config: {
+        files: {
+          northEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_NE_250m.tif',
+          southEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_SE_250m.tif',
+          west: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_W_250m.tif',
+        },
+        locations,
+        schema: ElevationWitnessConfigSchema,
+      },
+    })
     const result = (await witness.observe()) as ElevationPayload[]
     validateResult(result)
   })

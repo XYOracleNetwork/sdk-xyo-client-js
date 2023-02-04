@@ -94,8 +94,8 @@
     "@babel/preset-env": "^7.20.2",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",
-    "@types/express": "4.17.16",
-    "@xylabs/ts-scripts-yarn3": "^2.12.30"
+    "@types/express": "4.17.17",
+    "@xylabs/ts-scripts-yarn3": "^2.12.32"
   },
   "types": "dist/types/index.d.ts",
   "volta": {

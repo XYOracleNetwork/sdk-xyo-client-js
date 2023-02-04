@@ -8,7 +8,7 @@ it('returns help output', async () => {
 
   // Run the command module with --help as argument
   const output = await new Promise((resolve) => {
-    parser.parse('--help', (err: unknown, argv: unknown, output: unknown) => {
+    void parser.parse('--help', (err: unknown, argv: unknown, output: unknown) => {
       resolve(output)
     })
   })

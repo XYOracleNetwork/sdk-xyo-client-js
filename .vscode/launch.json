@@ -35,6 +35,10 @@
         "--experimental-specifier-resolution=node",
         "--loader=ts-node/esm"
       ],
+      "args": [
+        "config",
+        "show",
+      ],
       "envFile": "${workspaceFolder}/.env",
       "sourceMaps": true,
       "resolveSourceMapLocations": [

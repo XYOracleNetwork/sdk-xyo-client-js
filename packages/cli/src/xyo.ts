@@ -6,7 +6,7 @@ import { hideBin } from 'yargs/helpers'
 
 void yargs(hideBin(process.argv))
   .help()
-  .commandDir('./command', {
+  .commandDir('./commands', {
     exclude: new RegExp('.spec.ts'),
     extensions: ['js', 'ts'],
   })

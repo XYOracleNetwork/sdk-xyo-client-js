@@ -29,9 +29,7 @@ export const builder: CommandBuilder = {
 export const command = 'show'
 export const deprecated = false
 export const describe = 'display config'
-export const handler = async (_argv: ArgumentsCamelCase<Arguments>) => {
-  await showConfig()
-}
+export const handler = (_argv: ArgumentsCamelCase<Arguments>) => showConfig()
 
 const mod: CommandModule = {
   aliases,

@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/node/packages/core/packages/modules-mongo/src/Archivist/Deterministic/DeterministicArchivist.spec.ts"
+        "packages/cli/src/command/commands/config/show.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

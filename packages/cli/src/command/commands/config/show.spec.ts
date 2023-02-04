@@ -1,20 +1,20 @@
 import yargs from 'yargs'
-// eslint-disable-next-line import/no-internal-modules
-import { hideBin } from 'yargs/helpers'
 
-import get from './show'
+import sut, { command } from './show'
 
-it('returns help output', async () => {
-  // Initialize parser using the command module
-  const parser = yargs(hideBin(process.argv)).command(get).help()
-
-  // Run the command module with --help as argument
-  const output = await new Promise((resolve) => {
-    void parser.parse('--help', (err: unknown, argv: unknown, output: unknown) => {
-      resolve(output)
+describe('show', () => {
+  let output = ''
+  const stdout = ''
+  beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation((out) => (output = out))
+  })
+  describe('with no config', () => {
+    it('returns default empty config object', async () => {
+      const parser = yargs([command]).command(sut)
+      await parser.parse(command)
+      expect(output).toBeString()
+      const parsed = JSON.parse(output)
+      expect(parsed).toBeObject()
     })
   })
-
-  // Verify the output is correct
-  expect(output).toBe(expect.stringContaining('helpful message'))
 })

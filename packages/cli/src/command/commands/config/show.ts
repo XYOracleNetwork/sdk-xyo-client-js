@@ -1,7 +1,7 @@
 import { AbstractModuleConfig } from '@xyo-network/module'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule, Options } from 'yargs'
 
-import { printLine, readFileDeep } from '../../../lib'
+import { readFileDeep } from '../../../lib'
 
 const showConfig = async () => {
   const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
@@ -13,7 +13,8 @@ const showConfig = async () => {
       configObj = (await import(path)) as AbstractModuleConfig
     }
   }
-  printLine(JSON.stringify(configObj ?? {}))
+  console.log(JSON.stringify(configObj ?? {}))
+  // printLine(JSON.stringify(configObj ?? {}))
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -29,7 +30,7 @@ export const builder: CommandBuilder = {
 export const command = 'show'
 export const deprecated = false
 export const describe = 'display config'
-export const handler = (_argv: ArgumentsCamelCase<Arguments>) => showConfig()
+export const handler = async (_argv: ArgumentsCamelCase<Arguments>) => await showConfig()
 
 const mod: CommandModule = {
   aliases,

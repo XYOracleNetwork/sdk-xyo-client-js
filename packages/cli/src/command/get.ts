@@ -1,20 +1,21 @@
-import { CommandModule } from 'yargs'
+import { ArgumentsCamelCase, CommandBuilder } from 'yargs'
 
-const command: CommandModule = {
-  builder: {
-    banana: {
-      default: 'cool',
-    },
-    batman: {
-      default: 'sad',
-    },
+// eslint-disable-next-line @typescript-eslint/ban-types
+type Arguments = {}
+
+export const aliases: ReadonlyArray<string> = []
+export const builder: CommandBuilder = {
+  banana: {
+    default: 'cool',
   },
-  command: 'get <source> [proxy]',
-  describe: 'make a get HTTP request',
-  handler: function (_argv: unknown) {
-    // do something with argv.
+  batman: {
+    default: 'sad',
   },
 }
-
-// eslint-disable-next-line import/no-default-export
-export default command
+export const command = 'get <source> [proxy]'
+export const deprecated = false
+export const describe = 'make a get HTTP request'
+export const handler = function (_argv: ArgumentsCamelCase<Arguments>) {
+  // do something with argv.
+  console.log('hhhhhhhhh')
+}

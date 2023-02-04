@@ -1,17 +1,24 @@
-import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
+import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Arguments = {}
 
 export const aliases: ReadonlyArray<string> = []
-export const builder: CommandBuilder = (yargs: Argv) =>
-  yargs.usage('Usage: $0 nested <command> [Options]').commandDir('./nested').demandCommand().version(false)
-export const command = 'nested <source> [proxy]'
+export const builder: CommandBuilder = {
+  banana: {
+    default: 'cool',
+  },
+  batman: {
+    default: 'sad',
+  },
+}
+export const command = 'start'
 export const deprecated = false
-export const describe = 'make a nested HTTP request'
+export const describe = 'start the node'
 export const handler = function (_argv: ArgumentsCamelCase<Arguments>) {
   // do something with argv.
   console.log('handler')
+  process.stdout.write('handler')
 }
 
 const mod: CommandModule = {

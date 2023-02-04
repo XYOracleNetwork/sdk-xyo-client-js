@@ -2,7 +2,7 @@ import yargs from 'yargs'
 // eslint-disable-next-line import/no-internal-modules
 import { hideBin } from 'yargs/helpers'
 
-import get from './nested'
+import get from './start'
 
 it('returns help output', async () => {
   // Initialize parser using the command module

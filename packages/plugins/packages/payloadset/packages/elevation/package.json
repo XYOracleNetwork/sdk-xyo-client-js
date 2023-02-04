@@ -17,12 +17,13 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/quadkey": "workspace:^",
+    "@xyo-network/sdk-geo": "^2.7.0",
     "@xyo-network/witness": "workspace:^",
     "geotiff": "^2.0.7",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.30"
+    "@xylabs/ts-scripts-yarn3": "^2.12.32"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

@@ -7,9 +7,9 @@ import { Quadkey } from '@xyo-network/quadkey'
 import { ElevationWitness, ElevationWitnessConfigSchema } from './Witness'
 
 const locations = [
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32, lng: -117 }, 24)?.base10String), schema: LocationSchema },
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 31, lng: -116 }, 24)?.base10String), schema: LocationSchema },
-  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 33, lng: -118 }, 24)?.base10String), schema: LocationSchema },
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32.7157, lng: -117.1611 }, 16)?.base10String), schema: LocationSchema }, // San Diego
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 39.7392, lng: -104.9903 }, 16)?.base10String), schema: LocationSchema }, //Denver
+  { quadkey: assertEx(Quadkey.fromLngLat({ lat: 41.8781, lng: -87.6298 }, 16)?.base10String), schema: LocationSchema }, //Chicago
 ]
 
 describe('ElevationWitness', () => {

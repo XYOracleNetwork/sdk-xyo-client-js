@@ -8,7 +8,6 @@ import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 // eslint-disable-next-line import/no-named-as-default
 import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
-import merge from 'lodash/merge'
 
 export type ElevationWitnessConfigSchema = 'network.xyo.elevation.config'
 export const ElevationWitnessConfigSchema: ElevationWitnessConfigSchema = 'network.xyo.elevation.config'
@@ -55,10 +54,10 @@ export type ElevationWitnessConfig = XyoWitnessConfig<{
   zoom?: number
 }>
 
-const locationToQuadkey = (location: Location, zoom = 24) => {
+const locationToQuadkey = (location: Location, zoom = 16) => {
   return assertEx(
     (location as QuadkeyLocation).quadkey
-      ? Quadkey.fromString(24, (location as QuadkeyLocation).quadkey)
+      ? Quadkey.fromString(zoom, (location as QuadkeyLocation).quadkey)
       : Quadkey.fromLngLat(
           { lat: (location as GeographicCoordinateSystemLocation).latitude, lng: (location as GeographicCoordinateSystemLocation).longitude },
           zoom,
@@ -82,7 +81,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
   }
 
   public get zoom() {
-    return this.config?.zoom ?? 24
+    return this.config?.zoom ?? 16
   }
 
   static override async create(params?: ModuleParams<ElevationWitnessConfig>): Promise<ElevationWitness> {
@@ -132,7 +131,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
   override async observe(payloads?: LocationPayload[]): Promise<XyoPayload[]> {
     const quadkeys: Quadkey[] = [
       ...(payloads?.map((location) => locationToQuadkey(location)) ?? []),
-      ...this.quadkeys.map((quadkey) => (typeof quadkey === 'string' ? Quadkey.fromString(24, quadkey) : quadkey)),
+      ...this.quadkeys.map((quadkey) => (typeof quadkey === 'string' ? Quadkey.fromString(12, quadkey) : quadkey)),
     ]
     const results: ElevationPayload[] = await Promise.all(
       quadkeys.map(async (quadkey) => {
@@ -140,7 +139,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
           const infoNE = await this.getSectionInfo('northEast')
           const infoSE = await this.getSectionInfo('southEast')
           const infoW = await this.getSectionInfo('west')
-          const sectionWest = await this.getSection('west')
+          const sectionWest = await this.getSectionImage('west')
           console.log(`InfoNE: ${JSON.stringify(infoNE, null, 2)}`)
           console.log(`InfoSE: ${JSON.stringify(infoSE, null, 2)}`)
           console.log(`InfoW: ${JSON.stringify(infoW, null, 2)}`)
@@ -153,17 +152,29 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
           if (isWest) {
             const bb = quadkey.boundingBox
             console.log(`BB: ${JSON.stringify(bb)}`)
+            const window = [
+              Math.ceil(-(infoW.origin[0] - bb.getWest()) / infoW.resolution[0]),
+              Math.ceil(-(infoW.origin[1] - bb.getNorth()) / infoW.resolution[1]),
+              Math.ceil(-(infoW.origin[0] - bb.getEast()) / infoW.resolution[0]),
+              Math.ceil(-(infoW.origin[1] - bb.getSouth()) / infoW.resolution[1]),
+            ]
+            console.log(`North: ${bb.getNorth()}`)
+            console.log(`South: ${bb.getSouth()}`)
+            console.log(`East: ${bb.getEast()}`)
+            console.log(`West: ${bb.getWest()}`)
+            console.log(`Window: ${JSON.stringify(window)}`)
             const data = await sectionWest.readRasters({
-              bbox: [bb.getWest(), bb.getNorth(), bb.getEast(), bb.getSouth()],
-              resX: 0.1,
-              resY: 0.1,
-            } as any)
-            console.log(`Data: ${JSON.stringify(data, null, 2)}`)
+              height: 1,
+              width: 1,
+              window,
+            })
+
+            console.log(`Data: [${JSON.stringify(data)}`)
           }
         }
         return { elevation: 0, schema: ElevationSchema }
       }),
     )
-    return await super.observe(results?.map((result, index) => merge({}, result, payloads?.[index], { schema: ElevationSchema })))
+    return results.flat()
   }
 }

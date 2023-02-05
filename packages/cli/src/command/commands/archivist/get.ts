@@ -6,14 +6,12 @@ type Arguments = {}
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
   yargs
-    .command('get', 'Get hash(es) from the Archivist', (yargs) => {
-      yargs.positional('address', { demandOption: true, type: 'string' })
-      yargs.positional('hashes', { array: true, demandOption: true, type: 'string' })
-    })
-    .usage('Usage: $0 archivist get <address> [hashes..]')
+    .usage('Usage: $0 archivist get <address> <hashes..>')
+    .positional('address', { demandOption: true, type: 'string' })
+    .positional('hashes', { array: true, demandOption: true, type: 'string' })
     .version(false)
 
-export const command = 'get <address> [hashes..]'
+export const command = 'get <address> <hashes..>'
 export const deprecated = false
 export const describe = 'Get hash(es) from the Archivist'
 export const handler = function (argv: ArgumentsCamelCase<Arguments>) {

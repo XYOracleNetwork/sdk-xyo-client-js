@@ -8,18 +8,13 @@ type Arguments = {}
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
-  yargs
-    .usage('Usage: $0 module <address> <module_type> <module_command> [Options]')
-    .commandDir(parse(__filename).name, opts)
-    .positional('address', { demandOption: true })
-    .demandCommand()
-    .version(false)
-export const command = 'module <address>'
+  yargs.usage('Usage: $0 archivist <query> <address> [Options]').commandDir(parse(__filename).name, opts).demandCommand().version(false)
+export const command = 'archivist'
 export const deprecated = false
-export const describe = 'Issue queries against an XYO module'
-export const handler = function (_argv: ArgumentsCamelCase<Arguments>) {
-  // do something with argv.
-  console.log('handler')
+export const describe = 'Issue queries against an XYO archivist'
+export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
+  console.log(command)
+  console.log(argv)
 }
 
 const mod: CommandModule = {

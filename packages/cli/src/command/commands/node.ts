@@ -12,9 +12,9 @@ export const builder: CommandBuilder = (yargs: Argv) =>
 export const command = 'node <command> [Options]'
 export const deprecated = false
 export const describe = 'Issue queries against XYO Node(s)'
-export const handler = function (_argv: ArgumentsCamelCase<Arguments>) {
-  // do something with argv.
-  console.log('handler')
+export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
+  console.log(command)
+  console.log(argv)
 }
 
 const mod: CommandModule = {

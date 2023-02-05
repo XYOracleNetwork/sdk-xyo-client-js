@@ -15,10 +15,9 @@ export const builder: CommandBuilder = {
 export const command = 'start'
 export const deprecated = false
 export const describe = 'start the node'
-export const handler = function (_argv: ArgumentsCamelCase<Arguments>) {
-  // do something with argv.
-  console.log('handler')
-  process.stdout.write('handler')
+export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
+  console.log(command)
+  console.log(argv)
 }
 
 const mod: CommandModule = {

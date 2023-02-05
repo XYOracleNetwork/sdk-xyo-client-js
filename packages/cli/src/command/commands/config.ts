@@ -12,9 +12,9 @@ export const builder: CommandBuilder = (yargs: Argv) =>
 export const command = 'config <command> [Options]'
 export const deprecated = false
 export const describe = 'Get and set CLI/Node config options'
-export const handler = (_argv: ArgumentsCamelCase<Arguments>) => {
-  // do something with argv.
-  console.log('handler')
+export const handler = (argv: ArgumentsCamelCase<Arguments>) => {
+  console.log(command)
+  console.log(argv)
 }
 
 const mod: CommandModule = {

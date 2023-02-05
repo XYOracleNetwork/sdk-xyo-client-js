@@ -11,7 +11,7 @@ export const builder: CommandBuilder = (yargs: Argv) =>
 export const command = 'account <command> [Options]'
 export const deprecated = false
 export const describe = 'Create & manage your XYO account'
-export const handler = function (_argv: ArgumentsCamelCase<Arguments>) {
+export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
   console.log(command)
   console.log(argv)
 }

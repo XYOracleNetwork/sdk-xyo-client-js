@@ -1,6 +1,7 @@
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
+import { printLine } from '../../lib'
 import { opts } from '../requireDirectoryOptions'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -13,8 +14,8 @@ export const command = 'config'
 export const deprecated = false
 export const describe = 'Get and set CLI/Node config options'
 export const handler = (argv: ArgumentsCamelCase<Arguments>) => {
-  console.log(command)
-  console.log(argv)
+  printLine(JSON.stringify(command))
+  printLine(JSON.stringify(argv))
 }
 
 const mod: CommandModule = {

@@ -1,5 +1,6 @@
 import { XyoApiConfig } from '@xyo-network/sdk'
 
+import { printError } from '../../lib'
 import { BaseArguments } from '../BaseArguments'
 
 export const getApiConfig = async (args: BaseArguments): Promise<XyoApiConfig> => {
@@ -9,7 +10,7 @@ export const getApiConfig = async (args: BaseArguments): Promise<XyoApiConfig> =
     const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
     return { apiDomain }
   } catch (error) {
-    if (verbose) console.error(error)
+    if (verbose) printError(JSON.stringify(error))
     throw new Error('Unable to obtain config for module')
   }
 }

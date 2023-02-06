@@ -2,6 +2,7 @@ import { EmptyObject } from '@xyo-network/core'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
+import { printError, printLine } from '../../lib'
 import { BaseArguments } from '../BaseArguments'
 import { opts } from '../requireDirectoryOptions'
 import { getNode } from '../util'
@@ -17,9 +18,9 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   try {
     const node = await getNode(argv)
     const result = (await node.description()) ?? {}
-    console.log(JSON.stringify(result))
+    printLine(JSON.stringify(result))
   } catch (error) {
-    if (verbose) console.error(error)
+    if (verbose) printError(JSON.stringify(error))
     throw new Error('Error querying for archivists')
   }
 }

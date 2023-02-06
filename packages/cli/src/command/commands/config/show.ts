@@ -1,7 +1,7 @@
 import { AbstractModuleConfig } from '@xyo-network/module'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule, Options } from 'yargs'
 
-import { readFileDeep } from '../../../lib'
+import { printLine, readFileDeep } from '../../../lib'
 
 const showConfig = async () => {
   const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
@@ -13,8 +13,7 @@ const showConfig = async () => {
       configObj = (await import(path)) as AbstractModuleConfig
     }
   }
-  console.log(JSON.stringify(configObj ?? {}))
-  // printLine(JSON.stringify(configObj ?? {}))
+  printLine(JSON.stringify(configObj ?? {}))
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types

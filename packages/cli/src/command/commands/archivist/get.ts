@@ -1,6 +1,7 @@
 import { EmptyObject } from '@xyo-network/core'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
+import { printError, printLine } from '../../../lib'
 import { ModuleArguments } from '../ModuleArguments'
 import { getArchivist } from './util'
 
@@ -24,9 +25,9 @@ export const handler = async (argv: ArgumentsCamelCase<Arguments>) => {
   try {
     const archivist = await getArchivist(argv)
     const result = await archivist.get(hashes)
-    console.log(result)
+    printLine(JSON.stringify(result))
   } catch (error) {
-    if (verbose) console.error(error)
+    if (verbose) printError(JSON.stringify(error))
     throw new Error('Error querying archivist')
   }
 }

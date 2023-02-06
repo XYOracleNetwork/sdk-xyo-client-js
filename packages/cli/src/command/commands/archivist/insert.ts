@@ -1,5 +1,7 @@
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
+import { printLine } from '../../../lib'
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Arguments = {}
 
@@ -14,9 +16,9 @@ export const builder: CommandBuilder = (yargs: Argv) =>
 export const command = 'insert <address> <payloads..>'
 export const deprecated = false
 export const describe = 'Insert payload(s) into the Archivist'
-export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
-  console.log(command)
-  console.log(argv)
+export const handler = (argv: ArgumentsCamelCase<Arguments>) => {
+  printLine(JSON.stringify(command))
+  printLine(JSON.stringify(argv))
 }
 
 const mod: CommandModule = {

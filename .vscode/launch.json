@@ -26,7 +26,7 @@
       "type": "node",
       "request": "launch",
       "name": "CLI",
-      "program": "${workspaceFolder}/packages/cli/src/index.ts",
+      "program": "${workspaceFolder}/packages/cli/src/xyo.ts",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],
@@ -34,6 +34,10 @@
         "--max-old-space-size=8192",
         "--experimental-specifier-resolution=node",
         "--loader=ts-node/esm"
+      ],
+      "args": [
+        "config",
+        "show",
       ],
       "envFile": "${workspaceFolder}/.env",
       "sourceMaps": true,
@@ -55,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/node/packages/core/packages/modules-mongo/src/Archivist/Deterministic/DeterministicArchivist.spec.ts"
+        "packages/cli/src/command/commands/config/show.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

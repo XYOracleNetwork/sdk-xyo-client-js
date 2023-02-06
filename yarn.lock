@@ -3110,9 +3110,9 @@ __metadata:
   linkType: hard
 
 "@mapbox/tiny-sdf@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@mapbox/tiny-sdf@npm:2.0.5"
-  checksum: 23fd158ea795592cf1f825fcac20d48230c54a6985a931f609af8b4e69cd99f1c798dc893baec63f4fd6f42ffc3e7292b39f4126966412edd4606eb3dbf86b54
+  version: 2.0.6
+  resolution: "@mapbox/tiny-sdf@npm:2.0.6"
+  checksum: efff5b5a7599aaa995e3c2fd8f2acd071226096458eebb694ffd7258043c46c52b1d09bb3c7343d2126eb257b3cd7d34e6dc7ccaaad7619e6f3e7dd76229a3cd
   languageName: node
   linkType: hard
 
@@ -3877,10 +3877,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.18":
-  version: 18.11.18
-  resolution: "@types/node@npm:18.11.18"
-  checksum: 03f17f9480f8d775c8a72da5ea7e9383db5f6d85aa5fefde90dd953a1449bd5e4ffde376f139da4f3744b4c83942166d2a7603969a6f8ea826edfb16e6e3b49d
+"@types/node@npm:*, @types/node@npm:^18.11.18, @types/node@npm:^18.11.19":
+  version: 18.11.19
+  resolution: "@types/node@npm:18.11.19"
+  checksum: d7cd19fcfc59cbdd3f9ba0b4072cb7adc21bd575bd8eb7d7e698975e63564aaa83f03434f32b12331f84f73d0b369d9cbe2371e359d9d7f5c3361f4987f4f7da
   languageName: node
   linkType: hard
 
@@ -4998,7 +4998,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/cli@workspace:packages/cli"
   dependencies:
-    "@types/node": ^18.11.18
+    "@types/node": ^18.11.19
     "@types/terminal-kit": ^2.5.1
     "@xylabs/delay": ^2.6.16
     "@xylabs/ts-scripts-yarn3": ^2.12.32
@@ -6545,7 +6545,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.12
     "@babel/preset-env": ^7.20.2
-    "@types/node": ^18.11.18
+    "@types/node": ^18.11.19
     "@xylabs/eslint-config": ^2.12.32
     "@xylabs/ts-scripts-yarn3": ^2.12.32
     "@xylabs/tsconfig": ^2.12.32
@@ -9013,9 +9013,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.285
-  resolution: "electron-to-chromium@npm:1.4.285"
-  checksum: 70178de71211cfc0371d54231c3e3673db7eedeb66bbd71df0af6b0c7bff6fe80fe292fa409866ba354ff9b7cf7403936705bb8bbbc397d2e5941bb482301d8e
+  version: 1.4.286
+  resolution: "electron-to-chromium@npm:1.4.286"
+  checksum: 6b53e2aea63892cb4af85ea4ee5ed2b6d848713519987efcf4c1177a32e2fe6d04a7f591f5bcd1feab0b3c88890c6eaf65b6feb16c0e0319bf07e31de31930af
   languageName: node
   linkType: hard
 
@@ -10484,9 +10484,9 @@ __metadata:
   linkType: hard
 
 "get-tsconfig@npm:^4.2.0":
-  version: 4.3.0
-  resolution: "get-tsconfig@npm:4.3.0"
-  checksum: 2597aab99aa3a24db209e192a3e5874ac47fc5abc71703ee26346e0c5816cb346ca09fc813c739db5862d3a2905d89aeca1b0cbc46c2b272398d672309aaf414
+  version: 4.4.0
+  resolution: "get-tsconfig@npm:4.4.0"
+  checksum: e193558b4f0c84c81ae9688cf5b9950dc0b341e44f91b002713fd0c37cfb73108e1cd9998ed540bcc423f193fde32cc58a15e99dd469f5158a2eb4a148611176
   languageName: node
   linkType: hard
 
@@ -13848,9 +13848,9 @@ __metadata:
   linkType: hard
 
 "minipass@npm:^4.0.0":
-  version: 4.0.1
-  resolution: "minipass@npm:4.0.1"
-  checksum: 48eb3141cc247b44f738944cbd789aedeed9288ebdb64c7de9b3bf23e9e71d611381bfecf643d877d25f7ca9f3d5ab7b6757ef6f46282086812ac5372b7cd291
+  version: 4.0.2
+  resolution: "minipass@npm:4.0.2"
+  checksum: 2e4f4caaf85a45c01c6042adc43b5111a6113f62e300acf1db3b193ac3ec6e955bc893d6d8a08635598771a55a0f60487dcac59a1ac39557eb524295d4778c9e
   languageName: node
   linkType: hard
 
@@ -14399,8 +14399,8 @@ __metadata:
   linkType: hard
 
 "npm-check-updates@npm:^16.6.3":
-  version: 16.6.3
-  resolution: "npm-check-updates@npm:16.6.3"
+  version: 16.6.4
+  resolution: "npm-check-updates@npm:16.6.4"
   dependencies:
     chalk: ^5.2.0
     cli-table: ^0.3.11
@@ -14434,7 +14434,7 @@ __metadata:
   bin:
     ncu: build/src/bin/cli.js
     npm-check-updates: build/src/bin/cli.js
-  checksum: 133645c3fa66eaaf36c91ef1e9cc0105f753c423e69f83592f4d45be24e494ddd96c4bd9e1fd0885a4b4b0237222929cc71b41b9405ac1fb27115b9627fec9df
+  checksum: 98d0130b1b8813f238fe75d6d11bd7b005c9f9728cae94ddd1194a2bf4a8d843caa423177fe97ba7be7f8ff3e2b3f350683a30193ed21f8c72e0f7b806c08d81
   languageName: node
   linkType: hard
 
@@ -18972,9 +18972,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^3.2.0":
-  version: 3.5.4
-  resolution: "type-fest@npm:3.5.4"
-  checksum: e2250c8afc80c61126bb484bce767e6bf1bf831af9351bfed1b18f2150be45315b5c1c4fd185691572c348c3a929deda7371fd52adb38b301ef6ef9566776118
+  version: 3.5.5
+  resolution: "type-fest@npm:3.5.5"
+  checksum: 69a046151b16e8a76bd8170b0779bf237be86705cbe6690500a950ddd92a1d8e671ad640e46b4197505bfc74a12181c950535ad2f74106c3c78dd9bb79f4a66a
   languageName: node
   linkType: hard
 

@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "@xylabs/ts-scripts-yarn3": "^2.13.0",
+    "@xylabs/ts-scripts-yarn3": "^2.13.1",
     "mongodb-memory-server": "^8.11.4"
   },
   "types": "dist/types/index.d.ts"

@@ -3,8 +3,7 @@
     "composite": true,
     "declarationDir": "./dist/types",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "rootDir": "./src"
+    "experimentalDecorators": true
   },
   "extends": "../../tsconfig.json"
 }

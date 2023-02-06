@@ -95,7 +95,7 @@
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",
     "@types/express": "4.17.17",
-    "@xylabs/ts-scripts-yarn3": "^2.13.0"
+    "@xylabs/ts-scripts-yarn3": "^2.13.1"
   },
   "types": "dist/types/index.d.ts",
   "volta": {

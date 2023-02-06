@@ -1,4 +1,4 @@
-import { AddressSchema } from '@xyo-network/address-payload-plugin'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 
@@ -41,7 +41,7 @@ describe('AbstractModule', () => {
   describe('discover', () => {
     it('returns address', async () => {
       const response = await sut.discover()
-      expect(response.some((p) => p.schema === AddressSchema)).toBeTrue()
+      expect(response.some((p) => p.schema === AddressSchema && (p as AddressPayload).address === sut.address)).toBeTrue()
     })
     it('returns config', async () => {
       const response = await sut.discover()

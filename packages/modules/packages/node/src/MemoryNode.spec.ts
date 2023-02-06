@@ -322,7 +322,7 @@ describe('MemoryNode', () => {
       })
     })
     describe('node with child modules', () => {
-      beforeEach(async () => {
+      it('describes node and child modules', async () => {
         const modules = await Promise.all([
           await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
           await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
@@ -331,10 +331,12 @@ describe('MemoryNode', () => {
           node.register(mod)
           node.attach(mod.address)
         })
-      })
-      it('describes node and child modules', async () => {
         const description = await node.discover()
         validateDiscoveryResponse(node, description)
+        const address0 = description.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
+        expect(address0).toBeObject()
+        const address1 = description.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
+        expect(address1).toBeObject()
       })
     })
     describe('node with nested nodes and modules', () => {

@@ -1,15 +1,12 @@
-import { XyoApiConfig } from '@xyo-network/api-models'
 import { EmptyObject } from '@xyo-network/core'
-import { HttpProxyModule } from '@xyo-network/http-proxy-module'
-import { AbstractModuleConfigSchema } from '@xyo-network/module'
-import { ArchivistWrapper } from '@xyo-network/modules'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type Arguments = {
-  address: string
+import { printError, printLine } from '../../../lib'
+import { ModuleArguments } from '../ModuleArguments'
+import { getArchivist } from './util'
+
+type Arguments = ModuleArguments & {
   hashes: string[]
-  verbose: true
 }
 
 export const aliases: ReadonlyArray<string> = []
@@ -24,17 +21,15 @@ export const command = 'get <address> <hashes..>'
 export const deprecated = false
 export const describe = 'Get payload(s) from the Archivist by hash'
 export const handler = async (argv: ArgumentsCamelCase<Arguments>) => {
-  const { address, hashes, verbose } = argv
+  const { hashes, verbose } = argv
   try {
-    const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
-    const module = await HttpProxyModule.create({ address, apiConfig, config: { schema: AbstractModuleConfigSchema } })
-    const archivist = new ArchivistWrapper(module)
+    const archivist = await getArchivist(argv)
     const result = await archivist.get(hashes)
-    console.log(result)
+    printLine(JSON.stringify(result))
   } catch (error) {
-    if (verbose) console.error(error)
+    if (verbose) printError(JSON.stringify(error))
+    throw new Error('Error querying archivist')
   }
-  return
 }
 
 const mod: CommandModule<EmptyObject, Arguments> = {

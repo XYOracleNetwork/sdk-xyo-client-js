@@ -1,5 +1,7 @@
 import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
+import { printLine } from '../../../lib'
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Arguments = {}
 
@@ -15,9 +17,9 @@ export const builder: CommandBuilder = {
 export const command = 'start'
 export const deprecated = false
 export const describe = 'Start the local XYO Node'
-export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
-  console.log(command)
-  console.log(argv)
+export const handler = (argv: ArgumentsCamelCase<Arguments>) => {
+  printLine(JSON.stringify(command))
+  printLine(JSON.stringify(argv))
 }
 
 const mod: CommandModule = {

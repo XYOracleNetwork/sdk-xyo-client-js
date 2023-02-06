@@ -1,17 +1,21 @@
-import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
-import { printLine } from '../../lib'
-import { opts } from '../requireDirectoryOptions'
+import { printLine } from '../../../lib'
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Arguments = {}
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
-  yargs.usage('Usage: $0 account <command> [Options]').commandDir(parse(__filename).name, opts).demandCommand().version(false)
-export const command = 'account <command> [Options]'
+  yargs
+    .usage('Usage: $0 diviner divine <address> <query>')
+    .positional('address', { demandOption: true, type: 'string' })
+    .positional('query', { demandOption: true, type: 'string' })
+    .version(false)
+
+export const command = 'divine <address> <query>'
 export const deprecated = false
-export const describe = 'Create & manage your XYO account'
+export const describe = 'Query the diviner to divine the supplied query'
 export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
   printLine(JSON.stringify(command))
   printLine(JSON.stringify(argv))

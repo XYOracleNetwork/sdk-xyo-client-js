@@ -1,12 +1,12 @@
 import yargs from 'yargs'
 
-import config from './config'
+import divine from './divine'
 
-describe('config', () => {
-  const parser = yargs().command(config).help()
+describe('divine', () => {
+  const parser = yargs().command(divine).help()
   it('requires arguments', async () => {
     const output = await new Promise((resolve) => {
-      void parser.parse('config', (err: unknown, argv: unknown, output: unknown) => {
+      void parser.parse('divine', (err: unknown, argv: unknown, output: unknown) => {
         resolve(output)
       })
     })

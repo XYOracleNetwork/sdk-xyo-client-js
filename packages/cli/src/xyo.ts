@@ -3,14 +3,13 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
 import { opts } from './command'
-// import * as pack from '../package.json'
 
 void yargs(hideBin(process.argv))
   .help()
   .alias('h', 'help')
   .boolean('verbose')
   .commandDir('./command/commands', opts)
-  // .version(pack.version)
+  .version()
   .wrap(yargs.terminalWidth())
   .demandCommand(1)
   .parse()

@@ -7,7 +7,9 @@ import { opts } from './command'
 
 void yargs(hideBin(process.argv))
   .help()
+  .alias('h', 'help')
   .commandDir('./command/commands', opts)
   // .version(pack.version)
+  .wrap(yargs.terminalWidth())
   .demandCommand(1)
   .parse()

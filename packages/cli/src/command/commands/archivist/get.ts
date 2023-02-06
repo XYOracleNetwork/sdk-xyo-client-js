@@ -27,8 +27,8 @@ export const handler = async (argv: ArgumentsCamelCase<Arguments>) => {
     console.log(result)
   } catch (error) {
     if (verbose) console.error(error)
+    throw new Error('Error querying archivist')
   }
-  return
 }
 
 const mod: CommandModule<EmptyObject, Arguments> = {

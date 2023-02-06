@@ -1,5 +1,4 @@
 export * from './sampleBlocknativeGas'
-export * from './sampleEtherchainGasV1'
 export * from './sampleEtherchainGasV2'
 export * from './sampleEtherscanGas'
 export * from './sampleEthersGas'

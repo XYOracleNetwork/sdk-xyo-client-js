@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "composite": true,
-    "declarationDir": "./dist/types",
-    "rootDir": "./src"
-  },
-  "extends": "../../tsconfig.json"
-}

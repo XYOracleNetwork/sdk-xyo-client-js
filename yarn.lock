@@ -5003,8 +5003,11 @@ __metadata:
     "@xylabs/delay": ^2.6.16
     "@xylabs/ts-scripts-yarn3": ^2.12.33
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/http-proxy-module": "workspace:^"
     "@xyo-network/module": "workspace:^"
+    "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/node-app": "workspace:^"
     bip39: ^3.0.4

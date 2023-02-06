@@ -1,14 +1,10 @@
 import { FeeData } from '@xyo-network/gas-price-payload-plugin'
 
-import { sampleEtherchainGasV1, sampleEtherchainGasV2, sampleEtherscanGas } from '../test'
+import { sampleEtherchainGasV2, sampleEtherscanGas } from '../test'
 import { average } from './average'
-import { transformGasFromEtherchainV1, transformGasFromEtherchainV2, transformGasFromEtherscan } from './transforms'
+import { transformGasFromEtherchainV2, transformGasFromEtherscan } from './transforms'
 
-const results: FeeData[] = [
-  transformGasFromEtherchainV1(sampleEtherchainGasV1),
-  transformGasFromEtherchainV2(sampleEtherchainGasV2),
-  transformGasFromEtherscan(sampleEtherscanGas),
-]
+const results: FeeData[] = [transformGasFromEtherchainV2(sampleEtherchainGasV2), transformGasFromEtherscan(sampleEtherscanGas)]
 
 describe('average', () => {
   it('averages payloads', () => {

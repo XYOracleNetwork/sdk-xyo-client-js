@@ -6,7 +6,6 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 const gasSchemas = [
   'network.xyo.blockchain.ethereum.gas.ethgasstation',
   'network.xyo.blockchain.ethereum.gas.etherchain.v2',
-  'network.xyo.blockchain.ethereum.gas.etherchain.v1',
   'network.xyo.blockchain.ethereum.gas.etherscan',
   'network.xyo.blockchain.ethereum.gas.blocknative',
   'network.xyo.blockchain.ethereum.gas.ethers',

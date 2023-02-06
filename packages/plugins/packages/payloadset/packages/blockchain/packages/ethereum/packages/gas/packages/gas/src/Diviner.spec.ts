@@ -2,9 +2,7 @@ import { InfuraProvider } from '@ethersproject/providers'
 import { XyoEthereumGasBlocknativeWitness, XyoEthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-plugin'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
-  XyoEtherchainEthereumGasWitnessV1,
   XyoEtherchainEthereumGasWitnessV2,
-  XyoEthereumGasEtherchainV1WitnessConfigSchema,
   XyoEthereumGasEtherchainV2WitnessConfigSchema,
 } from '@xyo-network/etherchain-gas-ethereum-blockchain-plugins'
 import { XyoEthereumGasEthersWitness, XyoEthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
@@ -14,28 +12,14 @@ import { XyoEthereumGasPayload, XyoEthereumGasSchema } from '@xyo-network/gas-pr
 import { XyoPayload } from '@xyo-network/payload-model'
 
 import { XyoEthereumGasDiviner } from './Diviner'
-import {
-  sampleBlocknativeGas,
-  sampleEtherchainGasV1,
-  sampleEtherchainGasV2,
-  sampleEtherscanGas,
-  sampleEthersGas,
-  sampleEthgasstationGas,
-} from './test'
+import { sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas } from './test'
 
 describe('Diviner', () => {
   test('returns divined gas price', async () => {
     const module = await XyoEthereumGasDiviner.create()
     const wrapper = new DivinerWrapper(module)
 
-    const payloads = await wrapper.divine([
-      sampleBlocknativeGas,
-      sampleEtherchainGasV1,
-      sampleEtherchainGasV2,
-      sampleEtherscanGas,
-      sampleEthersGas,
-      sampleEthgasstationGas,
-    ])
+    const payloads = await wrapper.divine([sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas])
 
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
@@ -56,15 +40,6 @@ describe('Diviner', () => {
         await XyoEthereumGasBlocknativeWitness.create({
           config: {
             schema: XyoEthereumGasBlocknativeWitnessConfigSchema,
-          },
-        })
-      ).observe()
-    )?.[0]
-    const etherchainGasV1 = (
-      await (
-        await XyoEtherchainEthereumGasWitnessV1.create({
-          config: {
-            schema: XyoEthereumGasEtherchainV1WitnessConfigSchema,
           },
         })
       ).observe()
@@ -110,7 +85,7 @@ describe('Diviner', () => {
         })
       ).observe()
     )?.[0]
-    const observations: XyoPayload[] = [blocknativeGas, etherchainGasV1, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
+    const observations: XyoPayload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
 
     const module = await XyoEthereumGasDiviner.create()
     const wrapper = new DivinerWrapper(module)

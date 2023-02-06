@@ -4,7 +4,6 @@ import sut, { command } from './show'
 
 describe('show', () => {
   let output = ''
-  const stdout = ''
   beforeEach(() => {
     jest.spyOn(console, 'log').mockImplementation((out) => (output = out))
   })

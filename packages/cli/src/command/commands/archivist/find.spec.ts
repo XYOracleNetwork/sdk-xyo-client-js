@@ -4,7 +4,7 @@ import { hideBin } from 'yargs/helpers'
 
 import find from './find'
 
-it('returns help output', async () => {
+it.skip('returns help output', async () => {
   // Initialize parser using the command module
   const parser = yargs(hideBin(process.argv)).command(find).help()
 

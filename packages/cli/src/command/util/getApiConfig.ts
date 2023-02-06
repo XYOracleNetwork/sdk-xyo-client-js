@@ -1,8 +1,8 @@
 import { XyoApiConfig } from '@xyo-network/sdk'
 
-import { ModuleArguments } from '../ModuleArguments'
+import { BaseArguments } from '../BaseArguments'
 
-export const getApiConfig = async (args: ModuleArguments): Promise<XyoApiConfig> => {
+export const getApiConfig = async (args: BaseArguments): Promise<XyoApiConfig> => {
   const { verbose } = args
   try {
     await Promise.resolve('TODO: Might need to obtain from config')

@@ -1,8 +1,8 @@
 import { HttpProxyModule } from '@xyo-network/http-proxy-module'
 import { AbstractModuleConfigSchema, Module } from '@xyo-network/modules'
 
+import { getApiConfig } from '../../util'
 import { ModuleArguments } from '../ModuleArguments'
-import { getApiConfig } from './getApiConfig'
 
 export const getModule = async (args: ModuleArguments): Promise<Module> => {
   const { address, verbose } = args
@@ -12,6 +12,6 @@ export const getModule = async (args: ModuleArguments): Promise<Module> => {
     return module
   } catch (error) {
     if (verbose) console.error(error)
-    throw new Error('Unable to obtain module for supplied address')
+    throw new Error(`Unable to connect to XYO Module at ${address}`)
   }
 }

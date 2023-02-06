@@ -1,11 +1,8 @@
-import { XyoApiConfig } from '@xyo-network/api-models'
 import { EmptyObject } from '@xyo-network/core'
-import { HttpProxyModule } from '@xyo-network/http-proxy-module'
-import { AbstractModuleConfigSchema } from '@xyo-network/module'
-import { ArchivistWrapper } from '@xyo-network/modules'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { ModuleArguments } from '../ModuleArguments'
+import { getArchivist } from './getArchivist'
 
 type Arguments = ModuleArguments & {
   hashes: string[]
@@ -23,11 +20,9 @@ export const command = 'get <address> <hashes..>'
 export const deprecated = false
 export const describe = 'Get payload(s) from the Archivist by hash'
 export const handler = async (argv: ArgumentsCamelCase<Arguments>) => {
-  const { address, hashes, verbose } = argv
+  const { hashes, verbose } = argv
   try {
-    const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
-    const module = await HttpProxyModule.create({ address, apiConfig, config: { schema: AbstractModuleConfigSchema } })
-    const archivist = new ArchivistWrapper(module)
+    const archivist = await getArchivist(argv)
     const result = await archivist.get(hashes)
     console.log(result)
   } catch (error) {

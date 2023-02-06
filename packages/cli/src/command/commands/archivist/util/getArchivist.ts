@@ -1,7 +1,7 @@
 import { ArchivistWrapper } from '@xyo-network/modules'
 
-import { ModuleArguments } from '../ModuleArguments'
-import { getModule } from '../util'
+import { ModuleArguments } from '../../ModuleArguments'
+import { getModule } from '../../util'
 
 export const getArchivist = async (args: ModuleArguments): Promise<ArchivistWrapper> => {
   const { verbose } = args

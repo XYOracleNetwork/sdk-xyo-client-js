@@ -2,7 +2,7 @@ import { EmptyObject } from '@xyo-network/core'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { ModuleArguments } from '../ModuleArguments'
-import { getArchivist } from './getArchivist'
+import { getArchivist } from './util'
 
 type Arguments = ModuleArguments & {
   hashes: string[]

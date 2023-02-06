@@ -14,7 +14,7 @@ export const builder: CommandBuilder = {
 }
 export const command = 'start'
 export const deprecated = false
-export const describe = 'start the node'
+export const describe = 'Start the local XYO Node'
 export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
   console.log(command)
   console.log(argv)

@@ -9,9 +9,9 @@ type Arguments = {}
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
   yargs.usage('Usage: $0 node <command> [Options]').commandDir(parse(__filename).name, opts).demandCommand().version(false)
-export const command = 'node <command> [Options]'
+export const command = 'node'
 export const deprecated = false
-export const describe = 'Issue queries against XYO Node(s)'
+export const describe = 'Issue queries against an XYO Node'
 export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
   console.log(command)
   console.log(argv)

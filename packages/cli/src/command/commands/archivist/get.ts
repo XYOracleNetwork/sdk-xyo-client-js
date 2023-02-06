@@ -5,11 +5,10 @@ import { AbstractModuleConfigSchema } from '@xyo-network/module'
 import { ArchivistWrapper } from '@xyo-network/modules'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type Arguments = {
-  address: string
+import { ModuleArguments } from '../ModuleArguments'
+
+type Arguments = ModuleArguments & {
   hashes: string[]
-  verbose: true
 }
 
 export const aliases: ReadonlyArray<string> = []

@@ -13,7 +13,7 @@ export const builder: CommandBuilder = (yargs: Argv) =>
 
 export const command = 'get <address> <hashes..>'
 export const deprecated = false
-export const describe = 'Get hash(es) from the Archivist'
+export const describe = 'Get payload(s) from the Archivist by hash'
 export const handler = function (argv: ArgumentsCamelCase<Arguments>) {
   console.log(command)
   console.log(argv)

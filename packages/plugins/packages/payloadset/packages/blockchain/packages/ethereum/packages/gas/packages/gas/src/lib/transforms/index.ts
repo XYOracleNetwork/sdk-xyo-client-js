@@ -1,5 +1,4 @@
 export * from './transformGasFromBlocknative'
-export * from './transformGasFromEtherchainV1'
 export * from './transformGasFromEtherchainV2'
 export * from './transformGasFromEthers'
 export * from './transformGasFromEtherscan'

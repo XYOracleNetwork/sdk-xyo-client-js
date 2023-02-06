@@ -5359,30 +5359,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/etherchain-ethereum-gas-v1-payload-plugin@workspace:^, @xyo-network/etherchain-ethereum-gas-v1-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v1":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/etherchain-ethereum-gas-v1-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v1"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.12.33
-    "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/payload-plugin": "workspace:^"
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/etherchain-ethereum-gas-v1-plugin@workspace:^, @xyo-network/etherchain-ethereum-gas-v1-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v1":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/etherchain-ethereum-gas-v1-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v1"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.12.33
-    "@xyo-network/axios": "workspace:^"
-    "@xyo-network/etherchain-ethereum-gas-v1-payload-plugin": "workspace:^"
-    "@xyo-network/module": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/payloadset-plugin": "workspace:^"
-    "@xyo-network/witness": "workspace:^"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:^, @xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v2":
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v2"
@@ -5407,12 +5383,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins@workspace:^, @xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain":
+"@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain":
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.12.33
-    "@xyo-network/etherchain-ethereum-gas-v1-payload-plugin": "workspace:^"
     "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
   languageName: unknown
@@ -5423,7 +5398,6 @@ __metadata:
   resolution: "@xyo-network/etherchain-gas-ethereum-blockchain-plugins@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.12.33
-    "@xyo-network/etherchain-ethereum-gas-v1-plugin": "workspace:^"
     "@xyo-network/etherchain-ethereum-gas-v2-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
   languageName: unknown
@@ -5792,7 +5766,6 @@ __metadata:
   resolution: "@xyo-network/gas-ethereum-blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.12.33
-    "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^"
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
   languageName: unknown
@@ -5836,7 +5809,6 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.12.33
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^"
     "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^"
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^"
     "@xyo-network/ethgasstation-ethereum-gas-payload-plugin": "workspace:^"

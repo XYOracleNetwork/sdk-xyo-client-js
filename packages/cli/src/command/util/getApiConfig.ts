@@ -1,4 +1,4 @@
-import { XyoApiConfig } from '@xyo-network/sdk'
+import { XyoApiConfig } from '@xyo-network/api-models'
 
 import { printError } from '../../lib'
 import { BaseArguments } from '../BaseArguments'

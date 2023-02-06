@@ -1,11 +1,4 @@
-import {
-  sampleBlocknativeGas,
-  sampleEtherchainGasV1,
-  sampleEtherchainGasV2,
-  sampleEtherscanGas,
-  sampleEthersGas,
-  sampleEthgasstationGas,
-} from '../test'
+import { sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas } from '../test'
 import { divineGas } from './divineGas'
 
 describe('divineGas', () => {
@@ -17,14 +10,7 @@ describe('divineGas', () => {
     })
   })
   describe('with sparse payloads supplied', () => {
-    it.each([
-      [sampleEtherchainGasV1],
-      [sampleEtherchainGasV2],
-      [sampleEtherscanGas],
-      [sampleEtherchainGasV1, sampleEtherchainGasV2],
-      [sampleEtherchainGasV2, sampleEtherscanGas],
-      [sampleEtherchainGasV1, sampleEtherscanGas],
-    ])('divines gas', (...payloads) => {
+    it.each([[sampleEtherscanGas], [sampleEtherchainGasV2], [sampleEtherchainGasV2, sampleEtherscanGas]])('divines gas', (...payloads) => {
       const result = divineGas(payloads)
       expect(result).toBeObject()
       expect(result.timestamp).toBeNumber()
@@ -32,14 +18,7 @@ describe('divineGas', () => {
   })
   describe('with one of each supported payload supplied', () => {
     it('divines gas', () => {
-      const result = divineGas([
-        sampleBlocknativeGas,
-        sampleEtherchainGasV1,
-        sampleEtherchainGasV2,
-        sampleEtherscanGas,
-        sampleEthersGas,
-        sampleEthgasstationGas,
-      ])
+      const result = divineGas([sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas])
       expect(result).toBeObject()
       expect(result.baseFee).toBeNumber()
       expect(result.feePerGas).toBeObject()
@@ -60,8 +39,6 @@ describe('divineGas', () => {
       const result = divineGas([
         sampleBlocknativeGas,
         sampleBlocknativeGas,
-        sampleEtherchainGasV1,
-        sampleEtherchainGasV1,
         sampleEtherchainGasV2,
         sampleEtherchainGasV2,
         sampleEtherscanGas,

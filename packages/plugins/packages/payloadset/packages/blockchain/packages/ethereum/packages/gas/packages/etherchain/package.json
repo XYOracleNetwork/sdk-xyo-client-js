@@ -10,7 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/etherchain-ethereum-gas-v1-plugin": "workspace:^",
     "@xyo-network/etherchain-ethereum-gas-v2-plugin": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^"
   },

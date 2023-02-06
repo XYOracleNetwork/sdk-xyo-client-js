@@ -67,7 +67,7 @@
     "@types/nconf": "^0.10.3",
     "@types/passport": "^1.0.11",
     "@types/uuid": "^9.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.12.33"
+    "@xylabs/ts-scripts-yarn3": "^2.13.0"
   },
   "types": "dist/types/index.d.ts"
 }

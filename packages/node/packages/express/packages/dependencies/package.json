@@ -54,7 +54,7 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.12.33"
+    "@xylabs/ts-scripts-yarn3": "^2.13.0"
   },
   "types": "dist/types/index.d.ts"
 }

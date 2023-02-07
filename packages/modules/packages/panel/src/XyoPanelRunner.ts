@@ -1,4 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoPanelAutomationPayload, XyoPanelIntervalAutomationPayload } from './Automation'
@@ -9,7 +11,12 @@ export class XyoPanelRunner {
   protected _automations: Record<string, XyoPanelAutomationPayload> = {}
   protected panel: XyoPanel
   protected timeoutId?: NodeJS.Timer
-  constructor(panel: XyoPanel, automations?: XyoPanelAutomationPayload[]) {
+  constructor(
+    panel: XyoPanel,
+    automations?: XyoPanelAutomationPayload[],
+    private onTriggerResult?: (result: [XyoBoundWitness | null, XyoPayload[]]) => void,
+    private onTriggerError?: (error: Error) => void,
+  ) {
     this.panel = panel
     automations?.forEach((automation) => this.add(automation))
   }
@@ -90,7 +97,8 @@ export class XyoPanelRunner {
     await this.remove(wrapper.hash, false)
     wrapper.next()
     await this.add(wrapper.payload, false)
-    await this.panel.report()
+    const triggerResult = await this.panel.tryReport()
+    this.onTriggerResult?.(triggerResult)
     await this.start()
   }
 }

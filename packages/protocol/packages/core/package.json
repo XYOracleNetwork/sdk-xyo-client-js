@@ -16,13 +16,14 @@
     "@xylabs/buffer": "^2.6.16",
     "@xyo-network/typeof": "workspace:^",
     "keccak256": "^1.0.6",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "sha.js": "^2.4.11",
     "uuid": "^9.0.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.191",
+    "@types/lodash-es": "^4.14.191",
     "@types/sha.js": "^2.4.0",
     "@types/uuid": "^9.0.0",
     "@xylabs/ts-scripts-yarn3": "^2.13.11",

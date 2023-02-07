@@ -4428,7 +4428,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.191":
+"@types/lodash-es@npm:^4.14.191":
+  version: 4.17.6
+  resolution: "@types/lodash-es@npm:4.17.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 9bd239dd525086e278821949ce12fbdd4f100a060fed9323fc7ad5661113e1641f28a7ebab617230ed3474680d8f4de705c1928b48252bb684be6ec9eed715db
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.191":
   version: 4.14.191
   resolution: "@types/lodash@npm:4.14.191"
   checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
@@ -5742,6 +5751,7 @@ __metadata:
   dependencies:
     "@scure/base": ^1.1.1
     "@types/lodash": ^4.14.191
+    "@types/lodash-es": ^4.14.191
     "@types/sha.js": ^2.4.0
     "@types/uuid": ^9.0.0
     "@xylabs/assert": ^2.6.16
@@ -5751,7 +5761,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.13.11
     "@xyo-network/typeof": "workspace:^"
     keccak256: ^1.0.6
-    lodash: ^4.17.21
+    lodash-es: ^4.17.21
     sha.js: ^2.4.11
     typescript: ^4.9.5
     uuid: ^9.0.0
@@ -13753,6 +13763,13 @@ __metadata:
   dependencies:
     p-locate: ^5.0.0
   checksum: 72eb661788a0368c099a184c59d2fee760b3831c9c1c33955e8a19ae4a21b4116e53fa736dc086cdeb9fce9f7cc508f2f92d2d3aae516f133e16a2bb59a39f5a
+  languageName: node
+  linkType: hard
+
+"lodash-es@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
   languageName: node
   linkType: hard
 

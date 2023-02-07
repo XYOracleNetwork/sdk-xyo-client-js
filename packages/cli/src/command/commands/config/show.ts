@@ -4,6 +4,7 @@ import { CommandBuilder, CommandModule } from 'yargs'
 
 import { readFileDeep } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
+import { outputContext } from '../../util'
 
 const getConfig = async (): Promise<AbstractModuleConfig> => {
   const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
@@ -23,8 +24,11 @@ export const builder: CommandBuilder = {}
 export const command = 'show'
 export const deprecated = false
 export const describe = 'Display the current Node config'
-export const handler = async (_argv: BaseArguments) => {
-  const config = await getConfig()
+export const handler = async (args: BaseArguments) => {
+  await outputContext(args, async (log) => {
+    const config = await getConfig()
+    log(config)
+  })
 }
 
 const mod: CommandModule<EmptyObject, BaseArguments> = {

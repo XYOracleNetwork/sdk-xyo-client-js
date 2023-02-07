@@ -22,7 +22,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { Logger } from '@xyo-network/shared'
-import compact from 'lodash/compact'
+import { compact } from 'lodash-es'
 
 import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'

@@ -5,7 +5,7 @@ import { DnsRecordType, domainResolve } from '@xyo-network/dns'
 import { FetchedPayload, Huri, HuriOptions } from '@xyo-network/huri'
 import { XyoNetworkPayload, XyoNetworkPayloadWrapper } from '@xyo-network/network'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import reverse from 'lodash/reverse'
+import { reverse } from 'lodash-es'
 
 import { XyoAlias, XyoDomainPayload } from './Payload'
 

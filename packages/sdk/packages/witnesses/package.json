@@ -15,7 +15,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "lodash": "^4.17.21"
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.13.11",

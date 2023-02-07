@@ -16,7 +16,7 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
-import compact from 'lodash/compact'
+import { compact } from 'lodash-es'
 
 import { AbstractArchivist } from './AbstractArchivist'
 

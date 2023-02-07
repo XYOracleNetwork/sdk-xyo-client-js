@@ -7471,7 +7471,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/solidity@npm:^2.1.0":
+"@xyo-network/solidity@npm:^2.1.4":
   version: 2.1.4
   resolution: "@xyo-network/solidity@npm:2.1.4"
   dependencies:
@@ -7522,13 +7522,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/typechain@npm:2.1.0":
-  version: 2.1.0
-  resolution: "@xyo-network/typechain@npm:2.1.0"
+"@xyo-network/typechain@npm:^2.1.4":
+  version: 2.1.4
+  resolution: "@xyo-network/typechain@npm:2.1.4"
   dependencies:
-    "@xyo-network/solidity": ^2.1.0
-    ethers: ^5.7.2
-  checksum: 4c49999f021f9c89b59cb0d8b50355086f19c2137e0b973767222d3d99125364d8e92c2bc9c60448239b29faf516593884727fcf28ad416f385439a46dad4283
+    "@xyo-network/solidity": ^2.1.4
+  checksum: d873479b7101def49f164b0736e047f5bd6aaceb994bf035802180668abe008b116bf3b97926634762b9a3b4b9acc03dce2dc7327fec2c7aa876afd524047218
   languageName: node
   linkType: hard
 
@@ -7558,12 +7557,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/uniswap-crypto-market-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/uniswap"
   dependencies:
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/bignumber": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/networks": ^5.7.1
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/solidity": ^5.7.0
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.1.1
     "@uniswap/v3-sdk": ^3.9.0
@@ -7576,10 +7569,11 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
-    "@xyo-network/typechain": 2.1.0
+    "@xyo-network/typechain": ^2.1.4
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
     "@xyo-network/uniswap-typechain": ^2.1.4
     "@xyo-network/witness": "workspace:^"
+    ethers: ^5.7.2
     typescript: ^4.9.5
   peerDependencies:
     "@uniswap/sdk": ^3.0.3

@@ -2,8 +2,8 @@
   "compilerOptions": {
     "composite": true,
     "declarationDir": "./dist/types",
-    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "rootDir": "src"
   },
   "extends": "@xylabs/tsconfig"

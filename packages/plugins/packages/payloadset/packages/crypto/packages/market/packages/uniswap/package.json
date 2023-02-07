@@ -10,12 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/address": "^5.7.0",
-    "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/contracts": "^5.7.0",
-    "@ethersproject/networks": "^5.7.1",
-    "@ethersproject/providers": "^5.7.2",
-    "@ethersproject/solidity": "^5.7.0",
     "@xylabs/assert": "^2.6.16",
     "@xylabs/bignumber": "^2.6.16",
     "@xylabs/delay": "^2.6.16",
@@ -23,7 +17,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/typechain": "2.1.0",
+    "@xyo-network/typechain": "^2.1.4",
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^",
     "@xyo-network/uniswap-typechain": "^2.1.4",
     "@xyo-network/witness": "workspace:^"
@@ -39,6 +33,7 @@
     "@uniswap/v3-sdk": "^3.9.0",
     "@xylabs/ts-scripts-yarn3": "^2.13.10",
     "@xylabs/tsconfig": "^2.13.10",
+    "ethers": "^5.7.2",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

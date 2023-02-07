@@ -44,7 +44,7 @@
     "ajv": "^8.12.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.13.2"
+    "@xylabs/ts-scripts-yarn3": "^2.13.4"
   },
   "types": "dist/types/index.d.ts"
 }

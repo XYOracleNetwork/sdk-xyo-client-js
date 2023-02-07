@@ -3,5 +3,5 @@
     "composite": true,
     "declarationDir": "./dist/types"
   },
-  "extends": "../../tsconfig.json"
+  "extends": "@xylabs/tsconfig"
 }

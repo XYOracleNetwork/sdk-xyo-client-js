@@ -3,7 +3,6 @@
     "declarationDir": "./dist/types",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "incremental": true,
     "types": [
       "jest-extended",
       "jest-sorted",
@@ -12,6 +11,5 @@
       "reflect-metadata"
     ]
   },
-  "exclude": ["**/dist", "**/node_modules"],
   "extends": "@xylabs/tsconfig"
 }

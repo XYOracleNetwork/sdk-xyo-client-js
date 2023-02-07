@@ -5,5 +5,5 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "extends": "../../tsconfig.json"
+  "extends": "@xylabs/tsconfig"
 }

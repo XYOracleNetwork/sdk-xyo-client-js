@@ -8,8 +8,7 @@ import { opts } from '../requireDirectoryOptions'
 import { getNode } from '../util'
 
 export const aliases: ReadonlyArray<string> = []
-export const builder: CommandBuilder = (yargs: Argv) =>
-  yargs.usage('Usage: $0 node <command> [Options]').commandDir(parse(__filename).name, opts).version(false)
+export const builder: CommandBuilder = (yargs: Argv) => yargs.usage('Usage: $0 node <command> [Options]').commandDir(parse(__filename).name, opts)
 export const command = 'node'
 export const deprecated = false
 export const describe = 'Issue queries against an XYO Node'

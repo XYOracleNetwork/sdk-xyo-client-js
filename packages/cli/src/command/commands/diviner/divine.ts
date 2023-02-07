@@ -11,7 +11,6 @@ export const builder: CommandBuilder = (yargs: Argv) =>
     .usage('Usage: $0 diviner divine <address> <query>')
     .positional('address', { demandOption: true, type: 'string' })
     .positional('query', { demandOption: true, type: 'string' })
-    .version(false)
 
 export const command = 'divine <address> <query>'
 export const deprecated = false

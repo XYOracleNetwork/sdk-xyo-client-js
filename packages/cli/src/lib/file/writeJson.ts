@@ -1,5 +1,5 @@
 import { stat, writeFile } from 'fs/promises'
-import merge from 'lodash/merge'
+import { merge } from 'lodash-es'
 
 import { readJson } from './readJson'
 

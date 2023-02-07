@@ -57,13 +57,12 @@
     "@xyo-network/storage": "workspace:^",
     "agenda": "^5.0.0",
     "inversify": "^6.0.1",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "lru-cache": "^7.14.1",
     "mongodb": "^5.0.1",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191",
     "@xylabs/ts-scripts-yarn3": "^2.13.11",
     "@xylabs/tsconfig": "^2.13.11",
     "mongodb-memory-server": "^8.11.4",

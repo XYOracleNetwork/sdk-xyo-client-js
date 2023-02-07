@@ -4,7 +4,7 @@ import { XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import compact from 'lodash/compact'
+import { compact } from 'lodash-es'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'

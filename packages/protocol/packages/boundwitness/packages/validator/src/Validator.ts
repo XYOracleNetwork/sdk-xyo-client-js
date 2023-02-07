@@ -3,7 +3,7 @@ import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitnes
 import { Hasher } from '@xyo-network/core'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { validateType } from '@xyo-network/typeof'
-import uniq from 'lodash/uniq'
+import { uniq } from 'lodash-es'
 
 const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array length mismatch') => {
   return a.length != b.length ? [Error(`${message} []`)] : []

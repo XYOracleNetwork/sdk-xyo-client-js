@@ -15,7 +15,7 @@ import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
-import compact from 'lodash/compact'
+import { compact } from 'lodash-es'
 import LruCache from 'lru-cache'
 
 import { AbstractArchivist } from './AbstractArchivist'

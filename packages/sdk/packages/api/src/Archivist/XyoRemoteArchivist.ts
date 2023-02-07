@@ -3,7 +3,7 @@ import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwit
 import { ModuleParams } from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import compact from 'lodash/compact'
+import { compact } from 'lodash-es'
 
 import { XyoArchivistApi } from '../Api'
 import { RemoteArchivistError } from './RemoteArchivistError'

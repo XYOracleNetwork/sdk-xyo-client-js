@@ -4,7 +4,7 @@ import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { DataLike } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
-import compact from 'lodash/compact'
+import { compact } from 'lodash-es'
 
 export class BoundWitnessWrapper<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,

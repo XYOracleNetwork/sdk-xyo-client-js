@@ -15,7 +15,6 @@ export class XyoPanelRunner {
     panel: XyoPanel,
     automations?: XyoPanelAutomationPayload[],
     private onTriggerResult?: (result: [XyoBoundWitness | null, XyoPayload[]]) => void,
-    private onTriggerError?: (error: Error) => void,
   ) {
     this.panel = panel
     automations?.forEach((automation) => this.add(automation))

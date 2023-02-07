@@ -34,7 +34,7 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
-  "license": "LGPL-3.0",
+  "license": "LGPL-3.0-or-later",
   "name": "@xyo-network/promisable",
   "publishConfig": {
     "access": "public"

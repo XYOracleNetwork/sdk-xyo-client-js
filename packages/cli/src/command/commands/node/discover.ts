@@ -1,12 +1,14 @@
 import { EmptyObject } from '@xyo-network/core'
-import { CommandBuilder, CommandModule } from 'yargs'
+import { parse } from 'path'
+import { Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
+import { opts } from '../../requireDirectoryOptions'
 import { getNode } from '../../util'
 
 export const aliases: ReadonlyArray<string> = []
-export const builder: CommandBuilder = {}
+export const builder: CommandBuilder = (yargs: Argv) => yargs.usage('Usage: $0 node discover [command]').commandDir(parse(__filename).name, opts)
 export const command = 'discover'
 export const deprecated = false
 export const describe = 'Issue a discover query against the XYO Node'

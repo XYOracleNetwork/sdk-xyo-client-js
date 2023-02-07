@@ -2,11 +2,7 @@
   "compilerOptions": {
     "composite": true,
     "declarationDir": "./dist/types",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ]
+    "rootDir": "src"
   },
-  "extends": "../../tsconfig.json"
+  "extends": "@xylabs/tsconfig-dom"
 }

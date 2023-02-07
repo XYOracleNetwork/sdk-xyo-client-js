@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "composite": true,
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/types",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "rootDir": "src"
   },
-  "extends": "../../tsconfig.json"
+  "extends": "@xylabs/tsconfig"
 }

@@ -4,7 +4,7 @@ import { LocationSchema } from '@xyo-network/location-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Quadkey } from '@xyo-network/quadkey'
 
-import { ElevationWitness, ElevationWitnessConfigSchema } from './Witness'
+import { ElevationWitness, ElevationWitnessConfig, ElevationWitnessConfigSchema } from './Witness'
 
 const locations = [
   { quadkey: assertEx(Quadkey.fromLngLat({ lat: 32.7157, lng: -117.1611 }, 16)?.base10String), schema: LocationSchema }, // San Diego
@@ -16,34 +16,20 @@ const locations = [
   { quadkey: assertEx(Quadkey.fromLngLat({ lat: 47.3769, lng: 8.5417 }, 16)?.base10String), schema: LocationSchema }, //Zurich
 ]
 
+const northEast = './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_NE_250m.tif'
+const southEast = './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_SE_250m.tif'
+const west = './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_W_250m.tif'
+const config: ElevationWitnessConfig = { files: { northEast, southEast, west }, schema: ElevationWitnessConfigSchema }
+
 describe('ElevationWitness', () => {
   test('Witnessing via Observe', async () => {
-    const witness = await ElevationWitness.create({
-      config: {
-        files: {
-          northEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_NE_250m.tif',
-          southEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_SE_250m.tif',
-          west: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_W_250m.tif',
-        },
-        schema: ElevationWitnessConfigSchema,
-      },
-    })
+    const witness = await ElevationWitness.create({ config })
     const result = (await witness.observe(locations)) as ElevationPayload[]
     validateResult(result)
   })
 
   test('Witnessing via Config', async () => {
-    const witness = await ElevationWitness.create({
-      config: {
-        files: {
-          northEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_NE_250m.tif',
-          southEast: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_SE_250m.tif',
-          west: './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_W_250m.tif',
-        },
-        locations,
-        schema: ElevationWitnessConfigSchema,
-      },
-    })
+    const witness = await ElevationWitness.create({ config: { ...config, locations } })
     const result = (await witness.observe()) as ElevationPayload[]
     validateResult(result)
   })

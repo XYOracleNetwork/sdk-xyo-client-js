@@ -27,8 +27,8 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.6.16",
-    "@xylabs/delay": "^2.6.16",
+    "@xylabs/assert": "^2.7.1",
+    "@xylabs/delay": "^2.7.1",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",

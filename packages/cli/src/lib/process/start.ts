@@ -28,10 +28,10 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
     env: process.env,
     stdio: ['ignore', out, err],
   })
+  const { pid } = daemon
+  await setPid(pid)
   if (daemonize) {
     daemon.unref()
   }
-  const { pid } = daemon
-  await setPid(pid)
   printLine('Started Node')
 }

@@ -7,16 +7,17 @@ import { XyoPanelAutomationPayload, XyoPanelIntervalAutomationPayload } from './
 import { XyoPanelIntervalAutomationWrapper } from './XyoAutomationWrapper'
 import { XyoPanel } from './XyoPanel'
 
+export type OnTriggerResult = (result: [XyoBoundWitness | null, XyoPayload[]]) => void
+
 export class XyoPanelRunner {
   protected _automations: Record<string, XyoPanelAutomationPayload> = {}
+  protected onTriggerResult: OnTriggerResult | undefined
   protected panel: XyoPanel
   protected timeoutId?: NodeJS.Timer
-  constructor(
-    panel: XyoPanel,
-    automations?: XyoPanelAutomationPayload[],
-    private onTriggerResult?: (result: [XyoBoundWitness | null, XyoPayload[]]) => void,
-  ) {
+
+  constructor(panel: XyoPanel, automations?: XyoPanelAutomationPayload[], onTriggerResult?: OnTriggerResult) {
     this.panel = panel
+    this.onTriggerResult = onTriggerResult
     automations?.forEach((automation) => this.add(automation))
   }
 

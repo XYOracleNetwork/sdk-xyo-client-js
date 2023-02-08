@@ -11,7 +11,6 @@ export const builder: CommandBuilder = (yargs: Argv) =>
     .usage('Usage: $0 archivist insert <address> <payloads..>')
     .positional('address', { demandOption: true, type: 'string' })
     .positional('payloads', { array: true, demandOption: true, type: 'string' })
-    .version(false)
 
 export const command = 'insert <address> <payloads..>'
 export const deprecated = false

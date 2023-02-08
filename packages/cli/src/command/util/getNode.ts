@@ -5,7 +5,7 @@ import { printError } from '../../lib'
 import { BaseArguments } from '../BaseArguments'
 import { getApiConfig } from './getApiConfig'
 
-export const getNode = async (args: BaseArguments): Promise<Module> => {
+export const getNode = async (args: BaseArguments): Promise<NodeWrapper> => {
   const { verbose } = args
   try {
     const apiConfig = await getApiConfig(args)

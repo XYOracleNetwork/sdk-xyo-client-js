@@ -19,6 +19,7 @@
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/node": "workspace:^",
     "@xyo-network/node-app": "workspace:^",
+    "@xyo-network/query-payload-plugin": "workspace:^",
     "bip39": "^3.0.4",
     "lodash-es": "^4.17.21",
     "terminal-kit": "^3.0.0",

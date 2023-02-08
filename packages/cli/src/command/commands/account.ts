@@ -8,7 +8,7 @@ type Arguments = {}
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
-  yargs.usage('Usage: $0 account <command> [Options]').commandDir(parse(__filename).name, opts).demandCommand().version(false)
+  yargs.usage('Usage: $0 account <command> [Options]').commandDir(parse(__filename).name, opts).demandCommand()
 export const command = 'account <command> [Options]'
 export const deprecated = false
 export const describe = 'Create & manage your XYO account'

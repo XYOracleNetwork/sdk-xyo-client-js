@@ -1,9 +1,12 @@
-import { AbstractModuleConfig } from '@xyo-network/module'
-import { ArgumentsCamelCase, CommandBuilder, CommandModule, Options } from 'yargs'
+import { EmptyObject } from '@xyo-network/core'
+import { AbstractModuleConfig, AbstractModuleConfigSchema } from '@xyo-network/module'
+import { CommandBuilder, CommandModule } from 'yargs'
 
-import { printLine, readFileDeep } from '../../../lib'
+import { readFileDeep } from '../../../lib'
+import { BaseArguments } from '../../BaseArguments'
+import { outputContext } from '../../util'
 
-const showConfig = async () => {
+const getConfig = async (): Promise<AbstractModuleConfig> => {
   const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
   let configObj: AbstractModuleConfig | undefined
   if (config) {
@@ -13,25 +16,22 @@ const showConfig = async () => {
       configObj = (await import(path)) as AbstractModuleConfig
     }
   }
-  printLine(JSON.stringify(configObj ?? {}))
+  return configObj ?? { schema: AbstractModuleConfigSchema }
 }
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-type Arguments = {}
 
 export const aliases: ReadonlyArray<string> = []
-export const builder: CommandBuilder = {
-  output: {
-    choices: ['json'], // TODO: YAML
-    default: 'json',
-  } as Options,
-}
+export const builder: CommandBuilder = {}
 export const command = 'show'
 export const deprecated = false
 export const describe = 'Display the current Node config'
-export const handler = async (_argv: ArgumentsCamelCase<Arguments>) => await showConfig()
+export const handler = async (args: BaseArguments) => {
+  await outputContext(args, async (log) => {
+    const config = await getConfig()
+    log(config)
+  })
+}
 
-const mod: CommandModule = {
+const mod: CommandModule<EmptyObject, BaseArguments> = {
   aliases,
   command,
   deprecated,

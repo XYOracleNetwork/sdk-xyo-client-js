@@ -15,13 +15,6 @@ export const builder: CommandBuilder = {
     boolean: true,
     default: true,
   },
-  force: {
-    alias: ['f'],
-    boolean: true,
-    default: false,
-    describe: 'Forcefully attempt the operation by stopping processes on suspected app port',
-    type: 'boolean',
-  },
   interactive: {
     boolean: true,
     default: false,

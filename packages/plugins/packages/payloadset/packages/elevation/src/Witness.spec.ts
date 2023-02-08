@@ -1,8 +1,11 @@
 import { assertEx } from '@xylabs/assert'
+import { testIf } from '@xylabs/jest-helpers'
 import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
 import { LocationSchema } from '@xyo-network/location-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Quadkey } from '@xyo-network/quadkey'
+import { existsSync } from 'fs'
+import { join } from 'path'
 
 import { ElevationWitness, ElevationWitnessConfig, ElevationWitnessConfigSchema } from './Witness'
 
@@ -16,19 +19,21 @@ const locations = [
   { quadkey: assertEx(Quadkey.fromLngLat({ lat: 47.3769, lng: 8.5417 }, 16)?.base10String), schema: LocationSchema }, //Zurich
 ]
 
-const northEast = './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_NE_250m.tif'
-const southEast = './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_SE_250m.tif'
-const west = './packages/plugins/packages/payloadset/packages/elevation/.testdata/SRTM_W_250m.tif'
+const testDataDir = join(__dirname, '..', '.testdata')
+const northEast = join(testDataDir, 'SRTM_NE_250m.tif')
+const southEast = join(testDataDir, 'SRTM_SE_250m.tif')
+const west = join(testDataDir, 'SRTM_W_250m.tif')
 const config: ElevationWitnessConfig = { files: { northEast, southEast, west }, schema: ElevationWitnessConfigSchema }
 
 describe('ElevationWitness', () => {
-  test('Witnessing via Observe', async () => {
+  const hasTestData = existsSync(testDataDir)
+  testIf(hasTestData)('Witnessing via Observe', async () => {
     const witness = await ElevationWitness.create({ config })
     const result = (await witness.observe(locations)) as ElevationPayload[]
     validateResult(result)
   })
 
-  test('Witnessing via Config', async () => {
+  testIf(hasTestData)('Witnessing via Config', async () => {
     const witness = await ElevationWitness.create({ config: { ...config, locations } })
     const result = (await witness.observe()) as ElevationPayload[]
     validateResult(result)

@@ -4540,6 +4540,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/jest-helpers@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "@xylabs/jest-helpers@npm:2.7.1"
+  peerDependencies:
+    jest: "*"
+  checksum: caff803905b2ed687d12a32dccd0665e4561aee20fc9a8aa7bacdd5e130da92296275f5c5405501a86005dfa71f2dc228933975e9a31bb27efe003200d1112a5
+  languageName: node
+  linkType: hard
+
 "@xylabs/promise@npm:^2.7.1":
   version: 2.7.1
   resolution: "@xylabs/promise@npm:2.7.1"
@@ -5459,6 +5468,7 @@ __metadata:
   resolution: "@xyo-network/elevation-plugin@workspace:packages/plugins/packages/payloadset/packages/elevation"
   dependencies:
     "@xylabs/assert": ^2.7.1
+    "@xylabs/jest-helpers": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.13.11
     "@xylabs/tsconfig": ^2.13.11
     "@xyo-network/elevation-payload-plugin": "workspace:^"

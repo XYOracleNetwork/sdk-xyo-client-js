@@ -22,6 +22,7 @@
     "geotiff": "^2.0.7"
   },
   "devDependencies": {
+    "@xylabs/jest-helpers": "^2.7.1",
     "@xylabs/ts-scripts-yarn3": "^2.13.11",
     "@xylabs/tsconfig": "^2.13.11",
     "typescript": "^4.9.5"

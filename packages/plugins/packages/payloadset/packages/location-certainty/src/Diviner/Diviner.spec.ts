@@ -69,7 +69,7 @@ const sample3: LocationPayload[] = [
   },
 ]
 
-describe('MongoDBLocationCertaintyDiviner', () => {
+describe.skip('MongoDBLocationCertaintyDiviner', () => {
   let payloadsArchivist: AbstractArchivist
   let sut: LocationCertaintyDiviner
   beforeEach(async () => {

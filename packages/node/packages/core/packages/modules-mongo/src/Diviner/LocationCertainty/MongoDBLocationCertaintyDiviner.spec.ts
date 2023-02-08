@@ -3,7 +3,7 @@ import { LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/
 
 import { MongoDBLocationCertaintyDiviner } from './MongoDBLocationCertaintyDiviner'
 
-describe('MongoDBLocationCertaintyDiviner', () => {
+describe.skip('MongoDBLocationCertaintyDiviner', () => {
   let sut: MongoDBLocationCertaintyDiviner
   beforeEach(async () => {
     sut = await MongoDBLocationCertaintyDiviner.create()

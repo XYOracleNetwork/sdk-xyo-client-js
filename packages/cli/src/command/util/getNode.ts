@@ -1,5 +1,5 @@
 import { HttpProxyModule } from '@xyo-network/http-proxy-module'
-import { AbstractModuleConfigSchema, Module, NodeModule, NodeWrapper } from '@xyo-network/modules'
+import { AbstractModuleConfigSchema, NodeModule, NodeWrapper } from '@xyo-network/modules'
 
 import { printError } from '../../lib'
 import { BaseArguments } from '../BaseArguments'

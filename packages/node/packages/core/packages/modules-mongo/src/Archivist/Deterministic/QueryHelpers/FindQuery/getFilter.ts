@@ -5,8 +5,6 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { Filter } from 'mongodb'
 
-import { getArchive } from '../getArchive'
-
 export type BoundWitnessesFilter = Filter<XyoBoundWitnessWithMeta>
 export type PayloadsFilter = Filter<XyoPayloadWithMeta>
 

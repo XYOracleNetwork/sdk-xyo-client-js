@@ -7,7 +7,7 @@ import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
 // eslint-disable-next-line import/no-named-as-default
-import GeoTIFF, { fromFile, GeoTIFFImage, TypedArray } from 'geotiff'
+import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
 
 export type ElevationWitnessConfigSchema = 'network.xyo.elevation.config'
 export const ElevationWitnessConfigSchema: ElevationWitnessConfigSchema = 'network.xyo.elevation.config'

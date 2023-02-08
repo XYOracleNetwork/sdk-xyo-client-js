@@ -63,6 +63,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
     "@xylabs/ts-scripts-yarn3": "^2.13.11",
     "@xylabs/tsconfig": "^2.13.11",
     "mongodb-memory-server": "^8.11.4",

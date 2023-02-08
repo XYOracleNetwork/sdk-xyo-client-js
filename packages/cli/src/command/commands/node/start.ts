@@ -1,28 +1,43 @@
+import { EmptyObject } from '@xyo-network/core'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
-import { printLine } from '../../../lib'
+import { start } from '../../../lib'
+import { BaseArguments } from '../../BaseArguments'
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type Arguments = {}
+type Arguments = BaseArguments & {
+  detach?: boolean
+  interactive?: boolean
+}
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = {
-  banana: {
-    default: 'cool',
+  detach: {
+    boolean: true,
+    default: true,
   },
-  batman: {
-    default: 'sad',
+  force: {
+    alias: ['f'],
+    boolean: true,
+    default: false,
+    describe: 'Forcefully attempt the operation by stopping processes on suspected app port',
+    type: 'boolean',
+  },
+  interactive: {
+    boolean: true,
+    default: false,
   },
 }
 export const command = 'start'
 export const deprecated = false
 export const describe = 'Start the local XYO Node'
-export const handler = (argv: ArgumentsCamelCase<Arguments>) => {
-  printLine(JSON.stringify(command))
-  printLine(JSON.stringify(argv))
+export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
+  await start()
+  if (args.interactive) {
+    // TODO: Connect to stdio
+  }
 }
 
-const mod: CommandModule = {
+const mod: CommandModule<EmptyObject, BaseArguments> = {
   aliases,
   command,
   deprecated,

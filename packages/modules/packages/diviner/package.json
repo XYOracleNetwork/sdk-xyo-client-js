@@ -25,10 +25,10 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "lodash-es": "^4.17.21"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.6",
+    "@types/lodash": "^4",
     "@xylabs/ts-scripts-yarn3": "^2.13.11",
     "@xylabs/tsconfig": "^2.13.11",
     "typescript": "^4.9.5"

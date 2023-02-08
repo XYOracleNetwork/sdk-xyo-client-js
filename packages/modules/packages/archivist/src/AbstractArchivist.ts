@@ -26,7 +26,7 @@ import {
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
-import { compact } from 'lodash-es'
+import compact from 'lodash/compact'
 
 export interface XyoArchivistParentWrappers {
   commit?: Record<string, ArchivistWrapper>

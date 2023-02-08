@@ -19,7 +19,7 @@ import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from
 import { ModuleWrapper } from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { compact } from 'lodash-es'
+import compact from 'lodash/compact'
 
 export class ArchivistWrapper extends ModuleWrapper implements PayloadArchivist {
   public async all(): Promise<XyoPayload[]> {

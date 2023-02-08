@@ -2,7 +2,7 @@ import { WithAdditional } from '@xyo-network/core'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
-import { merge } from 'lodash-es'
+import merge from 'lodash/merge'
 
 export type XyoAdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 export const XyoAdhocWitnessConfigSchema: XyoAdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'

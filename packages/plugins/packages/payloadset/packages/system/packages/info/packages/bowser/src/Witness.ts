@@ -2,7 +2,7 @@ import { XyoBowserSystemInfoPayload, XyoBowserSystemInfoSchema } from '@xyo-netw
 import { ModuleParams } from '@xyo-network/module'
 import { AbstractWitness } from '@xyo-network/witness'
 import Bowser from 'bowser'
-import { merge } from 'lodash-es'
+import merge from 'lodash/merge'
 
 import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 

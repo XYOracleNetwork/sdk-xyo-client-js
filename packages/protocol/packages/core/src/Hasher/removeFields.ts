@@ -1,6 +1,10 @@
 // eslint-disable-next-line no-restricted-imports
-import type { ValueKeyIteratee } from 'lodash'
-import { isObject, mapValues, merge, omitBy, pickBy } from 'lodash-es'
+import { ValueKeyIteratee } from 'lodash'
+import isObject from 'lodash/isObject'
+import mapValues from 'lodash/mapValues'
+import merge from 'lodash/merge'
+import omitBy from 'lodash/omitBy'
+import pickBy from 'lodash/pickBy'
 
 import { EmptyObject } from '../lib'
 

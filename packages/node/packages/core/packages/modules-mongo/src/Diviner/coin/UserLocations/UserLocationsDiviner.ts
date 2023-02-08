@@ -9,7 +9,7 @@ import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
-import { compact } from 'lodash-es'
+import compact from 'lodash/compact'
 
 import { COLLECTIONS } from '../../../collections'
 import { getBaseMongoSdk } from '../../../Mongo'

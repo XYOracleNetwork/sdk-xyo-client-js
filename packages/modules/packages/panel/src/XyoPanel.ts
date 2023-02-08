@@ -13,7 +13,8 @@ import {
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
-import { compact, uniq } from 'lodash-es'
+import compact from 'lodash/compact'
+import uniq from 'lodash/uniq'
 
 import { PanelModule } from './Panel'
 import { XyoPanelQuery, XyoPanelReportQuerySchema } from './Queries'

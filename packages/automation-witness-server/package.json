@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.43.28",
+  "version": "2.43.29",
   "description": "XYO Automation Witness",
   "sideeffects": false,
   "engines": {

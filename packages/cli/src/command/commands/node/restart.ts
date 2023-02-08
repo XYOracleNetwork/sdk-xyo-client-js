@@ -1,28 +1,36 @@
-import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
+import { EmptyObject } from '@xyo-network/core'
+import { ArgumentsCamelCase, CommandBuilder, CommandModule, Options } from 'yargs'
 
-import { printLine } from '../../../lib'
+import { restart } from '../../../lib'
+import { BaseArguments } from '../../BaseArguments'
+import { outputContext } from '../../util'
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type Arguments = {}
+type Arguments = BaseArguments & {
+  force?: boolean
+}
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = {
-  banana: {
-    default: 'cool',
-  },
-  batman: {
-    default: 'sad',
-  },
+  force: {
+    alias: ['f'],
+    boolean: true,
+    default: false,
+    describe: 'Forcefully attempt the operation by stopping processes on suspected app port',
+    type: 'boolean',
+  } as Options,
 }
 export const command = 'restart'
 export const deprecated = false
 export const describe = 'restart the local XYO Node'
-export const handler = (argv: ArgumentsCamelCase<Arguments>) => {
-  printLine(JSON.stringify(command))
-  printLine(JSON.stringify(argv))
+export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
+  await outputContext(args, async (log) => {
+    log('Restarting')
+    await restart()
+    log('Restarted')
+  })
 }
 
-const mod: CommandModule = {
+const mod: CommandModule<EmptyObject, BaseArguments> = {
   aliases,
   command,
   deprecated,

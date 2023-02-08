@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": true
   },
   "extends": "@xylabs/tsconfig-dom-jest",
   "include": ["**/*.spec.ts", "**/*.d.ts"]

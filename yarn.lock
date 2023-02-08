@@ -5613,7 +5613,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.14.0
     "@xylabs/tsconfig": ^2.14.0
-    "@xyo-network/payload-model": ^2.43.29
+    "@xyo-network/payload-model": ^2.43.30
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -7532,6 +7532,7 @@ __metadata:
     "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.0
     "@xylabs/tsconfig": ^2.14.0
+    "@xylabs/tsconfig-jest": ^2.14.0
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/core": "workspace:^"

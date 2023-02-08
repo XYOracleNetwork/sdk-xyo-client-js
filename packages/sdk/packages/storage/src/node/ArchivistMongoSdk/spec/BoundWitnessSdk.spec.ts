@@ -9,7 +9,7 @@ import { uuid } from '@xyo-network/core'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import dotenv from 'dotenv'
 
-import { XyoArchivistBoundWitnessMongoSdk } from './BoundWitnessSdk'
+import { XyoArchivistBoundWitnessMongoSdk } from '../BoundWitnessSdk'
 
 const schema = 'network.xyo.temp'
 const address = Account.fromPhrase('test')

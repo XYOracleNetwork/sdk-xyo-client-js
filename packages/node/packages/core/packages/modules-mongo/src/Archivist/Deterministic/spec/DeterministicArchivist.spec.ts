@@ -22,7 +22,7 @@ describe('DeterministicArchivist', () => {
   const server = new MongoMemoryServer()
   const archiveAccount: Account = new Account({ phrase: 'temp' })
   // 0x10cal
-  // const userAccount: Account = new Account({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })
+  const userAccount: Account = new Account({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })
   // 0xdadda
   const moduleAccount: Account = new Account({ phrase: '9c9637dc07ce9956190c028677f5195a8fb425e9927bf2e48fe39a1c55cf050a' })
   // 0xace
@@ -35,9 +35,9 @@ describe('DeterministicArchivist', () => {
   const payloadWrapper2 = PayloadWrapper.parse(payload2)
   const payloadWrapper3 = PayloadWrapper.parse(payload3)
   const payloadWrapper4 = PayloadWrapper.parse(payload4)
-  const boundWitness1 = new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(archiveAccount).build()[0]
-  const boundWitness2 = new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(archiveAccount).build()[0]
-  const boundWitness3 = new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(archiveAccount).build()[0]
+  const boundWitness1 = new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(userAccount).build()[0]
+  const boundWitness2 = new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(userAccount).build()[0]
+  const boundWitness3 = new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()[0]
   const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1)
   boundWitnessWrapper1.payloads = [payload1]
   const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2)

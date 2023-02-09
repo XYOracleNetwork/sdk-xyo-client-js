@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "lib": ["DOM", "DOM.Iterable", "ES2022"]
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "extends": "./tsconfig.json",
+  "extends": "@xylabs/tsconfig-dom-jest",
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

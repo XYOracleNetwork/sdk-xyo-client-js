@@ -13,5 +13,6 @@ ignores:
     "ts-jest",
     "ts-node",
     "typedoc",
-    "typescript"
+    "typescript",
+    "@xylabs/tsconfig-dom-jest"
   ]

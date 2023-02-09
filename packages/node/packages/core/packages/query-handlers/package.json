@@ -37,12 +37,11 @@
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "@xyo-network/utils": "workspace:^",
-    "inversify": "^6.0.1",
-    "reflect-metadata": "^0.1.13"
+    "inversify": "^6.0.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.13.11",
-    "@xylabs/tsconfig": "^2.13.11",
+    "@xylabs/ts-scripts-yarn3": "^2.14.1",
+    "@xylabs/tsconfig": "^2.14.1",
     "typescript": "^4.9.5"
   },
   "types": "dist/types/index.d.ts"

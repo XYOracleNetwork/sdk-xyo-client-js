@@ -102,7 +102,7 @@ describe('DeterministicArchivist', () => {
       boundWitnessWrapper1.payloadsArray.forEach((p) => {
         expect(transactionResults.payload_hashes).toInclude(p.hash)
       })
-      expect(insertResult1.map((bw) => BoundWitnessWrapper.parse(bw).body)).toMatchSnapshot()
+      expect(insertResult1.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
     })
     it('inserts multiple payloads', () => {
       expect(insertResult3).toBeTruthy()
@@ -114,7 +114,7 @@ describe('DeterministicArchivist', () => {
       boundWitnessWrapper3.payloadsArray.forEach((p) => {
         expect(transactionResults.payload_hashes).toInclude(p.hash)
       })
-      expect(insertResult3.map((bw) => BoundWitnessWrapper.parse(bw).body)).toMatchSnapshot()
+      expect(insertResult3.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
     })
   })
   describe('get', () => {

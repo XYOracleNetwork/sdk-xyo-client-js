@@ -46,7 +46,6 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.4.0",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.0",
     "@xylabs/ts-scripts-yarn3": "^2.14.0",

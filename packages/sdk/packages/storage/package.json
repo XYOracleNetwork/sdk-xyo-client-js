@@ -19,6 +19,7 @@
     "mongodb": "^5.0.1"
   },
   "devDependencies": {
+    "@types/jest": "^29.4.0",
     "@xylabs/ts-scripts-yarn3": "^2.14.0",
     "@xylabs/tsconfig": "^2.14.0",
     "@xylabs/tsconfig-jest": "^2.14.0",

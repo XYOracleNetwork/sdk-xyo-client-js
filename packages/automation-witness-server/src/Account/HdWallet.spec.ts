@@ -4,7 +4,7 @@ import { computeHmac, SupportedAlgorithm } from '@ethersproject/sha2'
 import { toUtf8Bytes } from '@ethersproject/strings'
 import { Account } from '@xyo-network/account'
 
-import { fromMnemonic } from '../HdWallet'
+import { fromMnemonic } from './HdWallet'
 
 // "Bitcoin seed"
 const MasterSecret = toUtf8Bytes('Bitcoin seed')

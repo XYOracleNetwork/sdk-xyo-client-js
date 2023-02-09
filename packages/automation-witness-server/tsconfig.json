@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "composite": true,
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/types",
+    "typeRoots": []
   },
-  "extends": "@xylabs/tsconfig"
+  "extends": "@xylabs/tsconfig",
+  "exclude": ["**/spec"]
 }

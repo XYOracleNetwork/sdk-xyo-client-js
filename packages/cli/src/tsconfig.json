@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "typeRoots": []
+  },
+  "extends": "@xylabs/tsconfig-jest",
+  "include": [
+    "**/*.spec.ts"
+  ]
+}

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
+import { XyoQuery, XyoQueryBoundWitness, XyoQueryBoundWitnessSchema } from '@xyo-network/module-model'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -12,7 +12,7 @@ export class QueryBoundWitnessBuilder<
   private _resultSet: PayloadWrapper<PayloadSetPayload> | undefined
 
   public override hashableFields(): TBoundWitness {
-    return { ...super.hashableFields(), query: assertEx(this._query?.hash, 'No Query Specified') }
+    return { ...super.hashableFields(), query: assertEx(this._query?.hash, 'No Query Specified'), schema: XyoQueryBoundWitnessSchema }
   }
 
   public query<T extends TQuery | PayloadWrapper<TQuery>>(query: T) {

@@ -117,6 +117,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
           }),
         ),
       )
+      // TODO - rather than clear, delete the payloads that come back as successfully inserted
       await this.clear()
       return compact(settled.filter(fulfilled).map((result) => result.value))
     } catch (ex) {

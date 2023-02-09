@@ -13,7 +13,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistQuery,
 } from '@xyo-network/archivist'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AbstractModuleConfig,
@@ -53,6 +53,10 @@ const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitness
   const bw = wrapper.boundwitness as XyoBoundWitness
   return { ...bw, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
+
+const isBoundWitness = (wrapper: PayloadWrapper) => wrapper.schema.startsWith(XyoBoundWitnessSchema)
+const isNotBoundWitness = (wrapper: PayloadWrapper) => !wrapper.schema.startsWith(XyoBoundWitnessSchema)
+
 const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayloadWithMeta => {
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
@@ -197,12 +201,23 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const archive = getArchive(wrapper)
     const bw = toBoundWitnessWithMeta(wrapper, archive)
     const bwResult = await this.boundWitnesses.insertOne(bw)
-    if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
-    const payloads = wrapper.payloadsArray.map((p) => toPayloadWithMeta(p, archive))
-    const payloadsResult = await this.payloads.insertMany(payloads)
-    if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
-      throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
-    const result = await this.bindResult(wrapper.payloadsArray.map((p) => p.payload))
+    if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitness')
+    const payloads = wrapper.payloadsArray.filter(isNotBoundWitness).map((p) => toPayloadWithMeta(p, archive))
+    const boundWitnesses = wrapper.payloadsArray
+      .filter(isBoundWitness)
+      .map((p) => BoundWitnessWrapper.parse(p.payload))
+      .map((p) => toBoundWitnessWithMeta(p, archive))
+    if (boundWitnesses.length) {
+      const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
+      if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)
+        throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
+    }
+    if (payloads.length) {
+      const payloadsResult = await this.payloads.insertMany(payloads)
+      if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
+        throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
+    }
+    const result = await this.bindResult([wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)])
     return [result[0]]
   }
 }

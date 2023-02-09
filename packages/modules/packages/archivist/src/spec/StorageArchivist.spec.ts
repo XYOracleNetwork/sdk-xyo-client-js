@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import { Account } from '@xyo-network/account'
 import { SimpleModuleResolver } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -51,6 +52,17 @@ test('XyoArchivist Private Key Save', async () => {
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
   })
   expect(storage2.address).toBe(address)
+})
+
+test('XyoArchivist passed account', async () => {
+  const account = new Account({ phrase: 'temp' })
+
+  const storage = await XyoStorageArchivist.create({
+    account,
+    config: { namespace: 'main', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
+  })
+
+  expect(storage['account'].addressValue.hex).toBe(account.addressValue.hex)
 })
 
 test('XyoArchivist Parent Write Through', async () => {

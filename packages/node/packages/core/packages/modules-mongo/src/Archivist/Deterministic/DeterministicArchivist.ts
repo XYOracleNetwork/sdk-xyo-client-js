@@ -202,6 +202,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const payloadsResult = await this.payloads.insertMany(payloads)
     if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
       throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
-    return [wrapper.boundwitness as unknown as XyoBoundWitness]
+    const result = await this.bindResult(wrapper.payloadsArray.map((p) => p.payload))
+    return [result[0]]
   }
 }

@@ -9,6 +9,7 @@ import { setPid } from './pid'
  * The path to the script to run the Node
  */
 const runNodeScriptPath = join(__dirname, '..', '..', '..', 'cjs', 'runNode.js')
+// const runNodeScriptPath = join(__dirname, '..', '..', '..', 'dist', 'cjs', 'runNode.js')
 
 /**
  * Runs the XYO Node process
@@ -23,15 +24,15 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
   const out = getOutFileDescriptor()
   const err = getErrFileDescriptor()
   // Create node via process
-  const daemon = spawn(bin, args, {
+  const proc = spawn(bin, args, {
     detached: true,
     env: process.env,
     stdio: ['ignore', out, err],
   })
-  const { pid } = daemon
+  const { pid } = proc
   await setPid(pid)
   if (daemonize) {
-    daemon.unref()
+    proc.unref()
   }
   printLine('Started Node')
 }

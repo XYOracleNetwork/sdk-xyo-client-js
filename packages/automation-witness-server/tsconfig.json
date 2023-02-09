@@ -4,6 +4,6 @@
     "declarationDir": "./dist/types",
     "typeRoots": []
   },
-  "extends": "@xylabs/tsconfig",
-  "exclude": ["**/spec"]
+  "exclude": ["**/spec/**/*"],
+  "extends": "@xylabs/tsconfig"
 }

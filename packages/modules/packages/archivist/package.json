@@ -28,8 +28,11 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.191",
-    "@xylabs/ts-scripts-yarn3": "^2.14.0",
-    "@xylabs/tsconfig": "^2.14.0",
+    "@xylabs/delay": "^2.7.1",
+    "@xylabs/ts-scripts-yarn3": "^2.14.1",
+    "@xylabs/tsconfig": "^2.14.1",
+    "@xyo-network/boundwitness-wrapper": "workspace:^",
+    "@xyo-network/plugins": "workspace:^",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

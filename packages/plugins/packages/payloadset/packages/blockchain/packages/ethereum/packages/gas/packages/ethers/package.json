@@ -20,8 +20,8 @@
     "@xyo-network/witness": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.14.0",
-    "@xylabs/tsconfig": "^2.14.0",
+    "@xylabs/ts-scripts-yarn3": "^2.14.1",
+    "@xylabs/tsconfig": "^2.14.1",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

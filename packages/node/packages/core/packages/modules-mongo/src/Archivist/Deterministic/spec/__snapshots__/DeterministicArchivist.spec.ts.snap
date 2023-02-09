@@ -1,0 +1,352 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeterministicArchivist find with no schema finds address history 1`] = `
+[
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "1137543b5805a18e8f39cb7debe49ddf58a1de00c46ed7310baf7ebcfdf435a2",
+      "aa36451ef0079af6cc2f86eaa05c7a93fb3c92098e18d0ce857e9e3072b32a85",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "d45ace1ac2f9e5d04dbf295850d47427ecd43f2e043c4a8326db2f8bf547dd38",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "nonce": 3,
+    "schema": "network.xyo.debug",
+  },
+  {
+    "nonce": 4,
+    "schema": "network.xyo.test",
+  },
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "1c9033e467d6877e2c84a70b29212a585bd6fd448bccfcc12adf0505c18984f6",
+    ],
+    "payload_schemas": [
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "d2fbc2df7cd956a2a9461792c9ffad4faf2ec290743832ff913582453e0dd320",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "nonce": 2,
+    "schema": "network.xyo.test",
+  },
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "nonce": 1,
+    "schema": "network.xyo.debug",
+  },
+]
+`;
+
+exports[`DeterministicArchivist find with schema for BoundWitness finds multiple boundwitness 1`] = `
+[
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "1137543b5805a18e8f39cb7debe49ddf58a1de00c46ed7310baf7ebcfdf435a2",
+      "aa36451ef0079af6cc2f86eaa05c7a93fb3c92098e18d0ce857e9e3072b32a85",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "d45ace1ac2f9e5d04dbf295850d47427ecd43f2e043c4a8326db2f8bf547dd38",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "1c9033e467d6877e2c84a70b29212a585bd6fd448bccfcc12adf0505c18984f6",
+    ],
+    "payload_schemas": [
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "d2fbc2df7cd956a2a9461792c9ffad4faf2ec290743832ff913582453e0dd320",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+]
+`;
+
+exports[`DeterministicArchivist find with schema for BoundWitness finds single boundwitness 1`] = `
+[
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+]
+`;
+
+exports[`DeterministicArchivist find with schema for Payload finds multiple payloads 1`] = `
+[
+  {
+    "nonce": 3,
+    "schema": "network.xyo.debug",
+  },
+  {
+    "nonce": 1,
+    "schema": "network.xyo.debug",
+  },
+]
+`;
+
+exports[`DeterministicArchivist find with schema for Payload finds single payload 1`] = `
+[
+  {
+    "nonce": 3,
+    "schema": "network.xyo.debug",
+  },
+]
+`;
+
+exports[`DeterministicArchivist get gets multiple boundwitness 1`] = `
+[
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "1c9033e467d6877e2c84a70b29212a585bd6fd448bccfcc12adf0505c18984f6",
+    ],
+    "payload_schemas": [
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "d2fbc2df7cd956a2a9461792c9ffad4faf2ec290743832ff913582453e0dd320",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "1137543b5805a18e8f39cb7debe49ddf58a1de00c46ed7310baf7ebcfdf435a2",
+      "aa36451ef0079af6cc2f86eaa05c7a93fb3c92098e18d0ce857e9e3072b32a85",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "d45ace1ac2f9e5d04dbf295850d47427ecd43f2e043c4a8326db2f8bf547dd38",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+]
+`;
+
+exports[`DeterministicArchivist get gets multiple payloads 1`] = `
+[
+  {
+    "nonce": 1,
+    "schema": "network.xyo.debug",
+  },
+  {
+    "nonce": 2,
+    "schema": "network.xyo.test",
+  },
+  {
+    "nonce": 3,
+    "schema": "network.xyo.debug",
+  },
+]
+`;
+
+exports[`DeterministicArchivist get gets single boundwitness 1`] = `
+[
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+]
+`;
+
+exports[`DeterministicArchivist get gets single payload 1`] = `
+[
+  {
+    "nonce": 1,
+    "schema": "network.xyo.debug",
+  },
+]
+`;
+
+exports[`DeterministicArchivist insert inserts multiple payloads 1`] = `
+[
+  {
+    "addresses": [
+      "3f1f91a4b4acb7d257c2be41b21cc9870509a77c",
+      "ebeb7e68309874380df3e383084ebb1f1c60674e",
+    ],
+    "payload_hashes": [
+      "ec0035a4a212de1f0028b5f1d4addff3fd7ba82b5b4de8ef5e7d096c0141a578",
+    ],
+    "payload_schemas": [
+      "network.xyo.boundwitness",
+    ],
+    "previous_hashes": [
+      "fa1e9d122274639bbe37342ef59a60f8de05fe3c37194bcfa8db7aaceb6d4f10",
+      "fa1e9d122274639bbe37342ef59a60f8de05fe3c37194bcfa8db7aaceb6d4f10",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789002,
+  },
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "1137543b5805a18e8f39cb7debe49ddf58a1de00c46ed7310baf7ebcfdf435a2",
+      "aa36451ef0079af6cc2f86eaa05c7a93fb3c92098e18d0ce857e9e3072b32a85",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "d45ace1ac2f9e5d04dbf295850d47427ecd43f2e043c4a8326db2f8bf547dd38",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+]
+`;
+
+exports[`DeterministicArchivist insert inserts single payload 1`] = `
+[
+  {
+    "addresses": [
+      "3f1f91a4b4acb7d257c2be41b21cc9870509a77c",
+      "ebeb7e68309874380df3e383084ebb1f1c60674e",
+    ],
+    "payload_hashes": [
+      "d2fbc2df7cd956a2a9461792c9ffad4faf2ec290743832ff913582453e0dd320",
+    ],
+    "payload_schemas": [
+      "network.xyo.boundwitness",
+    ],
+    "previous_hashes": [
+      null,
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "addresses": [
+      "db8af7b3084f5a03589af4915e37cbeb3f19afb0",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+]
+`;

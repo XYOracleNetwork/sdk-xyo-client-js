@@ -4495,8 +4495,8 @@ __metadata:
   linkType: hard
 
 "@xylabs/eslint-config@npm:^2.13.11":
-  version: 2.13.11
-  resolution: "@xylabs/eslint-config@npm:2.13.11"
+  version: 2.14.1
+  resolution: "@xylabs/eslint-config@npm:2.14.1"
   dependencies:
     "@babel/core": ^7.20.12
     "@babel/eslint-parser": ^7.19.1
@@ -4514,13 +4514,13 @@ __metadata:
     eslint-plugin-sort-keys-fix: ^1.1.2
     eslint-plugin-workspaces: ^0.7.0
     markdown-eslint-parser: ^1.2.1
-    prettier: ^2.8.3
+    prettier: ^2.8.4
     remark-lint-maximum-line-length: ^3.1.2
     remark-preset-lint-markdown-style-guide: ^5.1.2
     typescript: ^4.9.5
   peerDependencies:
     eslint: ^8.23.0
-  checksum: acff4e37abd83fc489e7cce87082a6434188903d2890ce15eb6c45d48fa9e1b068d48685952a93756ea6f43563fa112e464e2d309c7b80eec2b9367c18dbab4a
+  checksum: 4c81e990a0b1bede3d5d4dd845991f21c06c4b37b2915f8b09ad2810ff3f3a1445ffc6267a723fea9ee1733d55e3ad37e5d29f29c927b0ba20382a2ded47fa6c
   languageName: node
   linkType: hard
 
@@ -15592,7 +15592,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.8.3":
+"prettier@npm:^2.8.3, prettier@npm:^2.8.4":
   version: 2.8.4
   resolution: "prettier@npm:2.8.4"
   bin:

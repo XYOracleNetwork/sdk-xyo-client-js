@@ -1,8 +1,10 @@
 import { EmptyObject } from '@xyo-network/core'
+import { open } from 'fs/promises'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
-import { start } from '../../../lib'
+import { getPid, start } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
+import { outputContext } from '../../util'
 
 type Arguments = BaseArguments & {
   detach?: boolean
@@ -24,10 +26,19 @@ export const command = 'start'
 export const deprecated = false
 export const describe = 'Start the local XYO Node'
 export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
-  await start()
-  if (args.interactive) {
-    // TODO: Connect to stdio
-  }
+  args.output = 'raw'
+  await outputContext(args, async (out, err) => {
+    await start()
+    // if (args.interactive) {
+    if (true) {
+      const pid = await getPid()
+      if (pid) {
+        const fd = await open(`/proc/${pid}/fd/1`)
+        const stream = fd.createReadStream()
+        stream.pipe(process.stdout)
+      }
+    }
+  })
 }
 
 const mod: CommandModule<EmptyObject, BaseArguments> = {

@@ -92,7 +92,7 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.43.30",
+  "version": "2.43.31",
   "packageManager": "yarn@3.4.1",
   "volta": {
     "node": "18.13.0",

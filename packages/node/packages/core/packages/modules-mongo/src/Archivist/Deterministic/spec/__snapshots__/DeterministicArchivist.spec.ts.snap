@@ -275,25 +275,25 @@ exports[`DeterministicArchivist insert inserts multiple payloads 1`] = `
 [
   {
     "addresses": [
-      "3f1f91a4b4acb7d257c2be41b21cc9870509a77c",
-      "ebeb7e68309874380df3e383084ebb1f1c60674e",
+      "daddab0e0468c920bd5aff4b14fd94c20a598055",
+      "babe1d55e51844ea1cdc6b4dcbb649bb08e3cc3c",
     ],
     "payload_hashes": [
-      "e3cd5fe566c0f48ecc8714272f9a840f40e2f03af8a92165e5f162b502ec0fd6",
+      "2ec49c1f19dd568c68c31bdfe64ae26f3ad57bb48eeae55fef7b5742706747dd",
     ],
     "payload_schemas": [
       "network.xyo.boundwitness",
     ],
     "previous_hashes": [
-      "e3cd5fe566c0f48ecc8714272f9a840f40e2f03af8a92165e5f162b502ec0fd6",
-      "044b92338edd11d99088308d751c48ce1505fa2d387e3d74883bcb863bd17f16",
+      "2ec49c1f19dd568c68c31bdfe64ae26f3ad57bb48eeae55fef7b5742706747dd",
+      "512921f04a3dc4e965375810f84e815e2bad442fccb3b210bc40c796596329bb",
     ],
     "schema": "network.xyo.boundwitness",
     "timestamp": 123456789002,
   },
   {
     "addresses": [
-      "3f1f91a4b4acb7d257c2be41b21cc9870509a77c",
+      "daddab0e0468c920bd5aff4b14fd94c20a598055",
     ],
     "payload_hashes": [
       "a575d6d967e946260f0a58c84e5da69800b8ffb3d7e5f93aaf3e466eaf0c25b6",
@@ -310,7 +310,7 @@ exports[`DeterministicArchivist insert inserts multiple payloads 1`] = `
       "network.xyo.query.archivist.insert",
     ],
     "previous_hashes": [
-      "044b92338edd11d99088308d751c48ce1505fa2d387e3d74883bcb863bd17f16",
+      "512921f04a3dc4e965375810f84e815e2bad442fccb3b210bc40c796596329bb",
     ],
     "schema": "network.xyo.boundwitness",
     "timestamp": 123456789002,
@@ -322,17 +322,17 @@ exports[`DeterministicArchivist insert inserts single payload 1`] = `
 [
   {
     "addresses": [
-      "3f1f91a4b4acb7d257c2be41b21cc9870509a77c",
-      "ebeb7e68309874380df3e383084ebb1f1c60674e",
+      "daddab0e0468c920bd5aff4b14fd94c20a598055",
+      "babe1d55e51844ea1cdc6b4dcbb649bb08e3cc3c",
     ],
     "payload_hashes": [
-      "011c1c8feb6055b4859443207d520666da29a04b0ea6be7dacf832ceca24554e",
+      "8b8169db565dbe5cf109c71b8c86af9063a7cf72a080b71aad54b522c181789a",
     ],
     "payload_schemas": [
       "network.xyo.boundwitness",
     ],
     "previous_hashes": [
-      "011c1c8feb6055b4859443207d520666da29a04b0ea6be7dacf832ceca24554e",
+      "8b8169db565dbe5cf109c71b8c86af9063a7cf72a080b71aad54b522c181789a",
       null,
     ],
     "schema": "network.xyo.boundwitness",
@@ -340,7 +340,7 @@ exports[`DeterministicArchivist insert inserts single payload 1`] = `
   },
   {
     "addresses": [
-      "3f1f91a4b4acb7d257c2be41b21cc9870509a77c",
+      "daddab0e0468c920bd5aff4b14fd94c20a598055",
     ],
     "payload_hashes": [
       "f8eecd9529d57e58a3286dd52708db867c84a03d9e79c3bd9f1c3d9acc2068b7",

@@ -193,7 +193,9 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
-    const items: XyoPayload[] = wrapper.payloadsArray?.filter((p) => p.hash !== wrapper.query.hash).map((p) => p.payload)
+    // const items: XyoPayload[] = wrapper.payloadsArray?.filter((p) => p.hash !== wrapper.query.hash).map((p) => p.payload)
+    const items: XyoPayload[] = [wrapper.boundwitness]
+    wrapper.payloadsArray?.map((p) => items.push(p.payload))
     const [wrappedBoundWitnesses, wrappedPayloads] = items.reduce(validByType, [[], []])
     const validPayloads = wrappedPayloads.map((wrapped) => wrapped.payload)
     const wrappedBoundWitnessesWithPayloads = wrappedBoundWitnesses.map((wrapped) => {

@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
   AbstractArchivist,
@@ -42,7 +41,6 @@ import {
   shouldFindBoundWitnesses,
   shouldFindPayloads,
 } from './QueryHelpers'
-import { validByType } from './validByType'
 
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
   boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>

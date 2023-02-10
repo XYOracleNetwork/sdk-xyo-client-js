@@ -3,7 +3,7 @@ import { SimpleModuleResolver } from '@xyo-network/module'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
-import { XyoAutomationSchema, XyoPanelChangeAutomationPayload, XyoPanelIntervalAutomationPayload } from '../Automation'
+import { XyoAutomationSchema, XyoPanelIntervalAutomationPayload } from '../Automation'
 import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from '../XyoPanel'
 import { OnTriggerResult, XyoPanelRunner } from '../XyoPanelRunner'
 

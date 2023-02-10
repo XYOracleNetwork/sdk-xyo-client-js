@@ -159,7 +159,16 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
               return schemas
             }, [] as string[])
           : currentBw.payload_hashes
-        const payloads = (await Promise.all(payloadHashes.map((_hash) => this.findPayload({ ...payloadFilter, _archive, _hash })))).filter(exists)
+        const payloads = (
+          await Promise.all(
+            payloadHashes.map((_hash) => {
+              const schema = currentBw?.payload_schemas[currentBw.payload_hashes.indexOf(_hash)]
+              return schema?.startsWith(XyoBoundWitnessSchema)
+                ? this.findBoundWitness({ _archive, _hash })
+                : this.findPayload({ ...payloadFilter, _archive, _hash })
+            }),
+          )
+        ).filter(exists)
         for (let p = 0; p < payloads.length; p++) {
           if (resultPayloads.length >= limit) break
           resultPayloads.push(payloads[p])

@@ -175,12 +175,12 @@ describe('DeterministicArchivist', () => {
     describe('with no schema', () => {
       it('finds address history', async () => {
         const insertedPayloads = [
-          // boundWitnessWrapper3,
+          boundWitnessWrapper3,
           payloadWrapper3,
           payloadWrapper4,
-          // boundWitnessWrapper2,
+          boundWitnessWrapper2,
           payloadWrapper2,
-          // boundWitnessWrapper1,
+          boundWitnessWrapper1,
           payloadWrapper1,
         ]
         const limit = insertResults.length * 2 + insertedPayloads.length

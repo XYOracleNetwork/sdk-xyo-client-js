@@ -5705,6 +5705,7 @@ __metadata:
     http-status-codes: ^2.2.0
     inversify: ^6.0.1
     node-cache: ^5.1.2
+    reflect-metadata: ^0.1.13
     rollbar: ^2.26.1
     typescript: ^4.9.5
     winston: ^3.8.2
@@ -5778,6 +5779,7 @@ __metadata:
     passport: ^0.6.0
     passport-jwt: ^4.0.1
     passport-local: ^1.0.0
+    reflect-metadata: ^0.1.13
     rollbar: ^2.26.1
     source-map-support: ^0.5.21
     swagger-autogen: ^2.23.0
@@ -5873,6 +5875,7 @@ __metadata:
     nconf: ^0.12.0
     node-cache: ^5.1.2
     passport: ^0.6.0
+    reflect-metadata: ^0.1.13
     rollbar: ^2.26.1
     typescript: ^4.9.5
     uuid: ^9.0.0
@@ -5904,6 +5907,7 @@ __metadata:
     dotenv: ^16.0.3
     express: ^4.18.2
     http-status-codes: ^2.2.0
+    supertest: ^6.3.3
     typescript: ^4.9.5
     uuid: ^9.0.0
   languageName: unknown
@@ -6407,6 +6411,7 @@ __metadata:
     lru-cache: ^7.14.1
     mongodb: ^5.0.1
     mongodb-memory-server: ^8.11.4
+    reflect-metadata: ^0.1.13
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6428,6 +6433,7 @@ __metadata:
     "@xyo-network/schema-payload-plugin": "workspace:^"
     "@xyo-network/utils": "workspace:^"
     inversify: ^6.0.1
+    reflect-metadata: ^0.1.13
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

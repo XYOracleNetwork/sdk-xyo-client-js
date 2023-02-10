@@ -53,7 +53,7 @@
     "reflect-metadata": "^0.1.13",
     "rollbar": "^2.26.1",
     "source-map-support": "^0.5.21",
-    "swagger-autogen": "^2.23.0",
+    "swagger-autogen": "^2.23.1",
     "swagger-ui-express": "^4.6.0",
     "uuid": "^9.0.0",
     "winston": "^3.8.2",

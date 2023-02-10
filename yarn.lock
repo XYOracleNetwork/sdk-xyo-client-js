@@ -5782,7 +5782,7 @@ __metadata:
     reflect-metadata: ^0.1.13
     rollbar: ^2.26.1
     source-map-support: ^0.5.21
-    swagger-autogen: ^2.23.0
+    swagger-autogen: ^2.23.1
     swagger-ui-express: ^4.6.0
     typescript: ^4.9.5
     uuid: ^9.0.0
@@ -9309,9 +9309,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.294
-  resolution: "electron-to-chromium@npm:1.4.294"
-  checksum: 5c05219b4af36a496db9c90a0132ea692452a6836619a6c3b3b058d3609fcd416a1b0478ec3e080628352b695419ce7ae4734ce5be399ed7277e00e2f3ab93ea
+  version: 1.4.295
+  resolution: "electron-to-chromium@npm:1.4.295"
+  checksum: 66fff1341d3c94c2ccd1f2a39cffdb92118304f4b949d3194427e7022d6a6bd8c482b5c4afd9dce210117ba20cac01c1a1466089f5a862fe9c563113b86ff829
   languageName: node
   linkType: hard
 
@@ -18693,7 +18693,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-autogen@npm:^2.23.0":
+"swagger-autogen@npm:^2.23.1":
   version: 2.23.1
   resolution: "swagger-autogen@npm:2.23.1"
   dependencies:

@@ -44,6 +44,14 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
   public static parse(_obj: unknown): PayloadWrapperBase {
     throw Error('Not implemented')
   }
+
+  public static tryParse(obj: unknown) {
+    try {
+      return this.parse(obj)
+    } catch (ex) {
+      return undefined
+    }
+  }
 }
 
 export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends PayloadWrapperBase<TPayload> {

@@ -9039,12 +9039,12 @@ __metadata:
   linkType: hard
 
 "define-properties@npm:^1.1.3, define-properties@npm:^1.1.4":
-  version: 1.1.4
-  resolution: "define-properties@npm:1.1.4"
+  version: 1.2.0
+  resolution: "define-properties@npm:1.2.0"
   dependencies:
     has-property-descriptors: ^1.0.0
     object-keys: ^1.1.1
-  checksum: ce0aef3f9eb193562b5cfb79b2d2c86b6a109dfc9fdcb5f45d680631a1a908c06824ddcdb72b7573b54e26ace07f0a23420aaba0d5c627b34d2c1de8ef527e2b
+  checksum: e60aee6a19b102df4e2b1f301816804e81ab48bb91f00d0d935f269bf4b3f79c88b39e4f89eaa132890d23267335fd1140dfcd8d5ccd61031a0a2c41a54e33a6
   languageName: node
   linkType: hard
 
@@ -9309,9 +9309,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.290
-  resolution: "electron-to-chromium@npm:1.4.290"
-  checksum: 72f97837f5e553ef918f9a32ad43cc683008f1a3702096cee951d1f31ce226a7cf4b74148affd55ded4afd70217fee5abf49b2fe4c45d934356f51a7112d8038
+  version: 1.4.294
+  resolution: "electron-to-chromium@npm:1.4.294"
+  checksum: 5c05219b4af36a496db9c90a0132ea692452a6836619a6c3b3b058d3609fcd416a1b0478ec3e080628352b695419ce7ae4734ce5be399ed7277e00e2f3ab93ea
   languageName: node
   linkType: hard
 
@@ -10730,7 +10730,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-intrinsic@npm:^1.0.2, get-intrinsic@npm:^1.1.1, get-intrinsic@npm:^1.1.3":
+"get-intrinsic@npm:^1.0.2, get-intrinsic@npm:^1.1.1, get-intrinsic@npm:^1.1.3, get-intrinsic@npm:^1.2.0":
   version: 1.2.0
   resolution: "get-intrinsic@npm:1.2.0"
   dependencies:
@@ -11525,13 +11525,13 @@ __metadata:
   linkType: hard
 
 "internal-slot@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "internal-slot@npm:1.0.4"
+  version: 1.0.5
+  resolution: "internal-slot@npm:1.0.5"
   dependencies:
-    get-intrinsic: ^1.1.3
+    get-intrinsic: ^1.2.0
     has: ^1.0.3
     side-channel: ^1.0.4
-  checksum: 8974588d06bab4f675573a3b52975370facf6486df51bc0567a982c7024fa29495f10b76c0d4dc742dd951d1b72024fdc1e31bb0bedf1678dc7aacacaf5a4f73
+  checksum: 97e84046bf9e7574d0956bd98d7162313ce7057883b6db6c5c7b5e5f05688864b0978ba07610c726d15d66544ffe4b1050107d93f8a39ebc59b15d8b429b497a
   languageName: node
   linkType: hard
 
@@ -14062,9 +14062,9 @@ __metadata:
   linkType: hard
 
 "minimist@npm:^1.2.0, minimist@npm:^1.2.6":
-  version: 1.2.7
-  resolution: "minimist@npm:1.2.7"
-  checksum: 7346574a1038ca23c32e02252f603801f09384dd1d78b69a943a4e8c2c28730b80e96193882d3d3b22a063445f460e48316b29b8a25addca2d7e5e8f75478bec
+  version: 1.2.8
+  resolution: "minimist@npm:1.2.8"
+  checksum: 75a6d645fb122dad29c06a7597bddea977258957ed88d7a6df59b5cd3fe4a527e253e9bbf2e783e4b73657f9098b96a5fe96ab8a113655d4109108577ecf85b0
   languageName: node
   linkType: hard
 
@@ -14705,8 +14705,8 @@ __metadata:
   linkType: hard
 
 "npm-check-updates@npm:^16.7.2":
-  version: 16.7.2
-  resolution: "npm-check-updates@npm:16.7.2"
+  version: 16.7.4
+  resolution: "npm-check-updates@npm:16.7.4"
   dependencies:
     chalk: ^5.2.0
     cli-table: ^0.3.11
@@ -14734,13 +14734,14 @@ __metadata:
     semver-utils: ^1.1.4
     source-map-support: ^0.5.21
     spawn-please: ^2.0.1
+    strip-json-comments: ^5.0.0
     untildify: ^4.0.0
     update-notifier: ^6.0.2
     yaml: ^2.2.1
   bin:
     ncu: build/src/bin/cli.js
     npm-check-updates: build/src/bin/cli.js
-  checksum: 1ee84aebe6625e5099d33f103a1ce9ccb20c3f3840a98f4ac934f1c28fb565d37a8e13dfa131792920f75ee20b69f414b6805b62a684ab4c2ca5c461dea9c504
+  checksum: 5df8872f74f1ef1bcf543241051988aa39e71969dd9b88cb9044a79384e9e9cf17066c4b2c4321684d35deea862409b8d75e525ca934be389a3e3e526386f4cf
   languageName: node
   linkType: hard
 
@@ -18600,6 +18601,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"strip-json-comments@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "strip-json-comments@npm:5.0.0"
+  checksum: 99cad07ccc3b86cc7bb8a9274a801b0660cbd595189ad291f6e206b8d7b23d90eed3119cdae44e126d9563796024b3ef0e7de2eeee4634b3b9019bafb62803e7
+  languageName: node
+  linkType: hard
+
 "strip-json-comments@npm:~2.0.1":
   version: 2.0.1
   resolution: "strip-json-comments@npm:2.0.1"
@@ -18686,14 +18694,14 @@ __metadata:
   linkType: hard
 
 "swagger-autogen@npm:^2.23.0":
-  version: 2.23.0
-  resolution: "swagger-autogen@npm:2.23.0"
+  version: 2.23.1
+  resolution: "swagger-autogen@npm:2.23.1"
   dependencies:
     acorn: ^7.4.1
     deepmerge: ^4.2.2
     glob: ^7.1.7
     json5: ^2.2.3
-  checksum: 7cbaa3d2b8d14a0006e277bef0edde87783b03d413130050f1616d950f7ad38fc5d6851e4937ed3ea1e8471beff68a9c9936a28e4d22864dbf57fbb2fa3e1e68
+  checksum: 32b7f97270195ae4d7b011109023eb1164b421312263caf98d4072c7ae91541434dab793ef69c7b293da5263ee8b94f64f3d8af656145e02e05808d11f03139e
   languageName: node
   linkType: hard
 
@@ -19280,9 +19288,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^3.2.0":
-  version: 3.5.6
-  resolution: "type-fest@npm:3.5.6"
-  checksum: ce80d778c35280e967796b99989b796a75f8c2b6c8f1b88eb62990107f5fa90c30fdb1826fe5e2ab192e5c1eef7de6f29d133b443e80c753cbc020b01a32487a
+  version: 3.5.7
+  resolution: "type-fest@npm:3.5.7"
+  checksum: 06358352daa706d6f582d2041945e629fdd236c3c94678c4d87efb5d2e77bab78740337449f44bbd09a736c966e70570e901e2e2576b59b369891ffc1bf87bb6
   languageName: node
   linkType: hard
 

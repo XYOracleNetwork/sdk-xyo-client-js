@@ -86,11 +86,12 @@ export class BoundWitnessWrapper<
   public static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
     obj: unknown,
   ): BoundWitnessWrapper<T, P> {
-    assertEx(!Array.isArray(obj), 'Array can not be converted to BoundWitnessWrapper')
-    switch (typeof obj) {
+    const hydratedObj = typeof obj === 'string' ? JSON.parse(obj) : obj
+    assertEx(!Array.isArray(hydratedObj), 'Array can not be converted to BoundWitnessWrapper')
+    switch (typeof hydratedObj) {
       case 'object': {
-        const castWrapper = obj as BoundWitnessWrapper<T, P>
-        return castWrapper?.isBoundWitnessWrapper ? castWrapper : new BoundWitnessWrapper(obj as T)
+        const castWrapper = hydratedObj as BoundWitnessWrapper<T, P>
+        return castWrapper?.isBoundWitnessWrapper ? castWrapper : new BoundWitnessWrapper(hydratedObj as T)
       }
     }
     throw Error(`Unable to parse [${typeof obj}]`)

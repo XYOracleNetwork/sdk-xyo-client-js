@@ -30,7 +30,7 @@ export const getFilter = (
     }
   }
   assertEx(wrapper.addresses.length, 'Find query requires at least one address')
-  bwFilter.addresses = { $all: wrapper.addresses }
+  // bwFilter.addresses = { $all: wrapper.addresses }
   // TODO: Add archive filter?
   // const archive = getArchive(wrapper)
   return [bwFilter, payloadFilter]

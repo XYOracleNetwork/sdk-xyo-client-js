@@ -12,7 +12,7 @@ import {
   ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleParams } from '@xyo-network/module'
+import { ModuleParams, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -41,7 +41,6 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
 
   constructor(params: ModuleParams<StorageArchivistConfig>) {
     super(params)
-    this.loadAccount()
   }
 
   public get maxEntries() {
@@ -196,7 +195,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     return this
   }
 
-  protected override loadAccount() {
+  protected override loadAccount(account?: Account) {
     if (this.persistAccount) {
       const privateKey = this.privateStorage.get('privateKey')
       if (privateKey) {
@@ -210,7 +209,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
         }
       }
     }
-    return super.loadAccount()
+    return super.loadAccount(account)
   }
 
   protected saveAccount() {

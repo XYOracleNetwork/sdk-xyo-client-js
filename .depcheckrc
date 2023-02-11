@@ -2,7 +2,10 @@ ignores:
   [
     "@babel/core",
     "@babel/preset-env",
+    "@types/jest",
     "@types/node",
+    "@types/supertest",
+    "@xylabs/tsconfig-dom-jest",
     "@xylabs/tsconfig",
     "babel-jest",
     "dotenv",
@@ -14,5 +17,6 @@ ignores:
     "ts-node",
     "typedoc",
     "typescript",
-    "@xylabs/tsconfig-dom-jest"
+    "reflect-metadata",
+    "supertest"
   ]

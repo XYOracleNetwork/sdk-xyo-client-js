@@ -29,8 +29,8 @@
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.191",
     "@xylabs/delay": "^2.7.1",
-    "@xylabs/ts-scripts-yarn3": "^2.14.3",
-    "@xylabs/tsconfig": "^2.14.3",
+    "@xylabs/ts-scripts-yarn3": "^2.14.6",
+    "@xylabs/tsconfig": "^2.14.6",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
     "typescript": "^4.9.5"
@@ -69,5 +69,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.43.31"
+  "version": "2.43.32"
 }

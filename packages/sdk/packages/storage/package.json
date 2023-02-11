@@ -19,9 +19,9 @@
     "mongodb": "^5.0.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.14.9",
-    "@xylabs/tsconfig": "^2.14.9",
-    "@xylabs/tsconfig-jest": "^2.14.9",
+    "@xylabs/ts-scripts-yarn3": "^2.14.11",
+    "@xylabs/tsconfig": "^2.14.11",
+    "@xylabs/tsconfig-jest": "^2.14.11",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

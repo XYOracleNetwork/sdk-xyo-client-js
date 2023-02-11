@@ -11,8 +11,7 @@ export const LocationPlugin = () =>
     { required: { [LocationSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {
-        const result = await CurrentLocationWitness.create(params)
-        return result
+        return await CurrentLocationWitness.create(params)
       },
     },
   )

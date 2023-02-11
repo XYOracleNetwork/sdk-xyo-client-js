@@ -16,7 +16,7 @@ export class XyoCryptoCardsMoveWitness extends AbstractWitness<XyoCryptoCardsMov
     return (await super.create(params)) as XyoCryptoCardsMoveWitness
   }
 
-  override observe(payloads: XyoPayload[]): Promisable<XyoPayload[]> {
+  override observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
     return super.observe(payloads)
   }
 }

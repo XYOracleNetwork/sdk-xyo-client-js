@@ -1,6 +1,7 @@
 import { Hasher, Validator } from '@xyo-network/core'
 import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
+import { AbstractWitness } from '@xyo-network/witness'
 
 import { PayloadSetPluginParams } from './Configs'
 import { isPayloadSetDivinerPlugin, isPayloadSetWitnessPlugin, PayloadSetDivinerPlugin, PayloadSetPlugin, PayloadSetWitnessPlugin } from './Plugin'
@@ -68,8 +69,11 @@ export class PayloadSetPluginResolver {
     return this.resolve(boundwitness.resultSet)?.validate?.(boundwitness)
   }
 
-  public async witness(set: string) {
-    return await isPayloadSetWitnessPlugin(this._plugins[set])?.witness?.(this.params[set]?.diviner)
+  public async witness(set: PayloadSetPayload): Promise<AbstractWitness | undefined>
+  public async witness(set: string): Promise<AbstractWitness | undefined>
+  public async witness(set: string | PayloadSetPayload): Promise<AbstractWitness | undefined> {
+    const setHash = typeof set === 'string' ? set : Hasher.hash(set)
+    return await isPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash]?.diviner)
   }
 
   public witnesses() {

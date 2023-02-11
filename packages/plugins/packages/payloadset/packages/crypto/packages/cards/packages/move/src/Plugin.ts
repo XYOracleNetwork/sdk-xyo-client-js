@@ -10,8 +10,7 @@ export const XyoCryptoCardsMovePlugin = () =>
     { required: { [XyoCryptoCardsMoveSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {
-        const result = await XyoCryptoCardsMoveWitness.create(params)
-        return result
+        return await XyoCryptoCardsMoveWitness.create(params)
       },
     },
   )

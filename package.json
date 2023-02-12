@@ -38,7 +38,7 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.23.24",
+    "typedoc": "^0.23.25",
     "typescript": "^4.9.5"
   },
   "resolutions": {
@@ -92,7 +92,7 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.43.32",
+  "version": "2.43.33",
   "packageManager": "yarn@3.4.1",
   "volta": {
     "node": "18.13.0",

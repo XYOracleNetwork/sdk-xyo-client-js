@@ -11,6 +11,7 @@ export interface PayloadFindFilterHashOffset {
 export type PayloadFindFilterOffset = PayloadFindFilterTimeOffset | PayloadFindFilterHashOffset
 
 export type PayloadFindFilter = {
+  // hash?: string | string[]
   limit?: number
   order?: 'desc' | 'asc'
   schema?: string | string[]

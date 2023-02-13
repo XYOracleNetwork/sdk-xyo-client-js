@@ -1,7 +1,8 @@
 import { EmptyObject } from '@xyo-network/core'
+import { createReadStream } from 'fs'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
-import { start } from '../../../lib'
+import { errFile, outFile, start, stop } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
 
 type Arguments = BaseArguments & {
@@ -22,13 +23,18 @@ export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
   args.output = 'raw'
   const daemonize = args.interactive || true
   await start(daemonize)
-  if (daemonize) {
+  if (!daemonize) {
+    const stdout = createReadStream(outFile)
+    const stderr = createReadStream(errFile)
+    stdout.pipe(process.stdout)
+    stderr.pipe(process.stderr)
     const terminated = new Promise<void>((resolve) => {
       process.on('SIGINT', () => resolve()) // CTRL+C
       process.on('SIGQUIT', () => resolve()) // Keyboard quit
       process.on('SIGTERM', () => resolve()) // `kill` command
     })
     await terminated
+    await stop()
   }
 }
 

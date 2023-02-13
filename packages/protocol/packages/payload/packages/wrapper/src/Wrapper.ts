@@ -20,10 +20,6 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
     return assertEx(this.obj, 'Missing payload object')
   }
 
-  public get previousHash() {
-    return null
-  }
-
   public get schema() {
     return this.payload.schema
   }

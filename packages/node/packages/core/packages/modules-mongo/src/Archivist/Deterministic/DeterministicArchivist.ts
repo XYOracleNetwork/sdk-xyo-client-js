@@ -193,12 +193,14 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
-    const _archive = getArchive(wrapper)
+    // const _archive = getArchive(wrapper)
     const hashes = typedQuery.hashes
     const gets = await Promise.all(
       [
-        hashes.map((_hash) => this.payloads.findOne({ _archive, _hash })),
-        hashes.map((_hash) => this.boundWitnesses.findOne({ _archive, _hash })),
+        // hashes.map((_hash) => this.payloads.findOne({ _archive, _hash })),
+        // hashes.map((_hash) => this.boundWitnesses.findOne({ _archive, _hash })),
+        hashes.map((_hash) => this.payloads.findOne({ _hash })),
+        hashes.map((_hash) => this.boundWitnesses.findOne({ _hash })),
       ].flat(),
     )
     return gets.filter(exists).map((p) => PayloadWrapper.parse(p).body)

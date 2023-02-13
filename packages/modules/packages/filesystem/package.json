@@ -13,8 +13,8 @@
     "@xyo-network/filesystem-archivist": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.14.11",
-    "@xylabs/tsconfig": "^2.14.11",
+    "@xylabs/ts-scripts-yarn3": "^2.14.13",
+    "@xylabs/tsconfig": "^2.14.13",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

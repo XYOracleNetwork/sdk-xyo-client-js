@@ -18,8 +18,8 @@
   },
   "devDependencies": {
     "@types/mapbox-gl": "^2.7.10",
-    "@xylabs/ts-scripts-yarn3": "^2.14.11",
-    "@xylabs/tsconfig": "^2.14.11",
+    "@xylabs/ts-scripts-yarn3": "^2.14.13",
+    "@xylabs/tsconfig": "^2.14.13",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

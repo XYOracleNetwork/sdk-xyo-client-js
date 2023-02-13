@@ -14,19 +14,19 @@ export class Logging implements Logger {
   }
 
   debug(message?: unknown) {
-    this._logger?.log(this.generate(message, getFunctionName(3)))
+    this._logger?.debug(this.generate(message, getFunctionName(3)))
   }
   error(message?: unknown) {
-    this._logger?.log(this.generate(message, getFunctionName(3)))
+    this._logger?.error(this.generate(message, getFunctionName(3)))
   }
   info(message?: unknown) {
-    this._logger?.log(this.generate(message, getFunctionName(3)))
+    this._logger?.info(this.generate(message, getFunctionName(3)))
   }
   log(message?: unknown) {
     this._logger?.log(this.generate(message, getFunctionName(3)))
   }
   warn(message?: unknown) {
-    this._logger?.log(this.generate(message, getFunctionName(3)))
+    this._logger?.warn(this.generate(message, getFunctionName(3)))
   }
 
   private generate(message?: unknown, tag?: string) {

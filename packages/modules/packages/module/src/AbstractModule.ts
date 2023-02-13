@@ -61,6 +61,10 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.addressValue.hex
   }
 
+  public get previousHash() {
+    return this.account.previousHash
+  }
+
   public get resolver(): ModuleResolver | undefined {
     return this._resolver
   }

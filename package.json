@@ -83,6 +83,8 @@
   },
   "scripts": {
     "coverage": "yarn jest --coverage --forceExit",
+    "build": "xy build && xy statics",
+    "deploy": "xy deploy",
     "lint-pkg": "npmPkgJsonLint .",
     "start": "nodemon",
     "test": "jest --no-cache --forceExit",
@@ -92,7 +94,7 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.43.33",
+  "version": "2.43.34",
   "packageManager": "yarn@3.4.1",
   "volta": {
     "node": "18.13.0",

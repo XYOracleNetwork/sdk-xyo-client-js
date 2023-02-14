@@ -8,3 +8,9 @@ export const getArchive = <T extends XyoBoundWitness | BoundWitnessWrapper | Xyo
   const { addresses } = bw
   return assertEx([...addresses].sort().join('|'), 'missing addresses for query')
 }
+
+export const getArchives = <T extends XyoBoundWitness | BoundWitnessWrapper | XyoQueryBoundWitness | QueryBoundWitnessWrapper>(bw: T): string[] => {
+  const { addresses } = bw
+  assertEx(addresses.length, 'missing addresses for query')
+  return addresses
+}

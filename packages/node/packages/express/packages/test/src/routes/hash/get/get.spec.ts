@@ -116,12 +116,12 @@ describe('/:hash', () => {
           // Stop expected errors from being logged
         })
       })
-      describe(`returns ${ReasonPhrases.NOT_FOUND}`, () => {
+      describe(`returns ${ReasonPhrases.OK}`, () => {
         it('with anonymous user', async () => {
-          await getHash(hash, undefined, StatusCodes.NOT_FOUND)
+          await getHash(hash, undefined, StatusCodes.OK)
         })
         it('with non-archive owner', async () => {
-          await getHash(hash, otherUserToken, StatusCodes.NOT_FOUND)
+          await getHash(hash, otherUserToken, StatusCodes.OK)
         })
       })
       it(`with archive owner returns the ${hashKind}`, async () => {

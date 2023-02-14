@@ -41,6 +41,7 @@ import {
   shouldFindBoundWitnesses,
   shouldFindPayloads,
 } from './QueryHelpers'
+import { validByType } from './validByType'
 
 export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
   boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
@@ -208,14 +209,10 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
     const archive = getArchive(wrapper)
-    const bw = toBoundWitnessWithMeta(wrapper, archive)
-    const bwResult = await this.boundWitnesses.insertOne(bw)
-    if (!bwResult.acknowledged || !bwResult.insertedId) throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitness')
-    const payloads = wrapper.payloadsArray.filter(isNotBoundWitness).map((p) => toPayloadWithMeta(p, archive))
-    const boundWitnesses = wrapper.payloadsArray
-      .filter(isBoundWitness)
-      .map((p) => BoundWitnessWrapper.parse(p.payload))
-      .map((p) => toBoundWitnessWithMeta(p, archive))
+    const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)]
+    const [bw, p] = toStore.reduce(validByType, [[], []])
+    const boundWitnesses = bw.map((b) => toBoundWitnessWithMeta(b, archive))
+    const payloads = p.map((p) => toPayloadWithMeta(p, archive))
     if (boundWitnesses.length) {
       const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
       if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)

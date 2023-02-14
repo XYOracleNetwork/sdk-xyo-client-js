@@ -22,6 +22,7 @@
     "@xyo-network/query-payload-plugin": "workspace:^",
     "bip39": "^3.0.4",
     "lodash": "^4.17.21",
+    "tail": "^2.2.6",
     "terminal-kit": "^3.0.0",
     "yargs": "^17.6.2"
   },
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.13.0",
+    "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",
     "@xylabs/ts-scripts-yarn3": "^2.14.14",
     "@xylabs/tsconfig": "^2.14.14",

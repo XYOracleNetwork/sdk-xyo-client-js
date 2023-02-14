@@ -1,6 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { createReadStream } from 'fs'
-import { createInterface } from 'readline'
+import { Tail } from 'tail'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
 import { errFile, outFile, start, stop } from '../../../lib'
@@ -21,39 +20,21 @@ export const command = 'start'
 export const deprecated = false
 export const describe = 'Start the local XYO Node'
 export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
-  // process.on('SIGINT', () => {
-  //   console.log('Bye!')
-  //   process.exit()
-  // })
   const interactive = args.interactive || true
-  console.log(args)
   await start()
   if (interactive) {
-    // const nodeStdOut = createReadStream(outFile, { autoClose: true, encoding: 'utf-8' })
-    // const nodeStdErr = createReadStream(errFile, { autoClose: true, encoding: 'utf-8' })
-    const nodeStdOut = createReadStream(outFile, { encoding: 'utf-8' })
-    const nodeStdErr = createReadStream(errFile, { encoding: 'utf-8' })
+    const outInterface = new Tail(outFile)
+    outInterface.on('line', console.log)
 
-    // nodeStdOut.pipe(process.stdout)
-    // nodeStdErr.pipe(process.stderr)
-    const outInterface = createInterface({ input: nodeStdOut })
-    outInterface.on('line', (input) => {
-      console.log(input)
-    })
-
-    const errInterface = createInterface({ input: nodeStdErr })
-    errInterface.on('line', (input) => {
-      console.error(input)
-    })
+    const errInterface = new Tail(errFile)
+    errInterface.on('line', console.error)
 
     const cleanup = async () => {
-      outInterface.close()
-      errInterface.close()
-      nodeStdOut.close()
-      nodeStdErr.close()
+      outInterface.unwatch()
+      errInterface.unwatch()
       await stop()
     }
-
+    // CTRL+C
     process.on('SIGINT', async () => {
       await cleanup()
       process.exit()

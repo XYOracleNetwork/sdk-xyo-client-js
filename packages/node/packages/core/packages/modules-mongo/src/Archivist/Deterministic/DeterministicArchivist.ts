@@ -34,6 +34,7 @@ import { getBaseMongoSdk } from '../../Mongo'
 import {
   BoundWitnessesFilter,
   getArchive,
+  getArchives,
   getFilter,
   getLimit,
   getPayloadSchemas,
@@ -58,6 +59,10 @@ const isNotBoundWitness = (wrapper: PayloadWrapper) => !wrapper.schema.startsWit
 
 const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayloadWithMeta => {
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
+}
+
+function distinct<T>(value: T, index: number, array: T[]) {
+  return array.indexOf(value) === index
 }
 
 const searchDepthLimit = 50
@@ -209,10 +214,13 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
     const archive = getArchive(wrapper)
+    const wrapperArchives = getArchives(wrapper)
     const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)]
     const [bw, p] = toStore.reduce(validByType, [[], []])
-    const boundWitnesses = bw.map((b) => toBoundWitnessWithMeta(b, archive))
-    const payloads = p.map((p) => toPayloadWithMeta(p, archive))
+    const boundWitnesses = bw.flatMap((x) =>
+      [...wrapperArchives, ...getArchives(x)].filter(distinct).map((archive) => toBoundWitnessWithMeta(x, archive)),
+    )
+    const payloads = p.map((x) => toPayloadWithMeta(x, archive))
     if (boundWitnesses.length) {
       const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
       if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)

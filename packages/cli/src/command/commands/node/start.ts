@@ -1,6 +1,6 @@
 import { EmptyObject } from '@xyo-network/core'
 import { Tail } from 'tail'
-import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
+import { ArgumentsCamelCase, CommandBuilder, CommandModule, Options } from 'yargs'
 
 import { errFile, outFile, restart, stop } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
@@ -12,15 +12,16 @@ type Arguments = BaseArguments & {
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = {
   interactive: {
+    alias: ['i'],
     boolean: true,
-    default: true,
-  },
+    default: false,
+  } as Options,
 }
 export const command = 'start'
 export const deprecated = false
 export const describe = 'Start the local XYO Node'
 export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
-  const interactive = args.interactive || true
+  const interactive = args.interactive
   await restart()
   if (interactive) {
     const outInterface = new Tail(outFile)
@@ -50,6 +51,8 @@ export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
       await shutdown()
       process.exit()
     })
+  } else {
+    process.exit()
   }
 }
 

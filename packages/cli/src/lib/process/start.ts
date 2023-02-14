@@ -20,8 +20,8 @@ const runNodeScriptPath = parse(__filename).ext.includes('ts')
 export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray<string> = [runNodeScriptPath]) => {
   // NOTE: Sync FD here because async warns about closing
   // when we background process as daemon
-  const out = daemonize ? process.stdout : getOutFileDescriptor()
-  const err = daemonize ? process.stderr : getErrFileDescriptor()
+  const out = getOutFileDescriptor()
+  const err = getErrFileDescriptor()
 
   // Create node via process
   const proc = spawn(bin, args, {

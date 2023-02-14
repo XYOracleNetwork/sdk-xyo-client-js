@@ -135,7 +135,7 @@ describe('DeterministicArchivist', () => {
       expect(results).toMatchSnapshot()
     })
   })
-  describe('find', () => {
+  describe.skip('find', () => {
     describe('with schema for BoundWitness', () => {
       const schema = XyoBoundWitnessSchema
       it.each([

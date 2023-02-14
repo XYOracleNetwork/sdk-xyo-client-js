@@ -4059,6 +4059,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/tail@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "@types/tail@npm:2.2.1"
+  checksum: 032d69c05d362d86557c062795bee116fcfa07c183f62b7e2def820ffdf678742645da54bfde68d2dd7d927f6afcae90416248dacce3d2fb03b4aed2feec57cc
+  languageName: node
+  linkType: hard
+
 "@types/terminal-kit@npm:^2.5.1":
   version: 2.5.1
   resolution: "@types/terminal-kit@npm:2.5.1"
@@ -5103,6 +5110,7 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.191
     "@types/node": ^18.13.0
+    "@types/tail": ^2.2.1
     "@types/terminal-kit": ^2.5.1
     "@xylabs/delay": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.14
@@ -5119,6 +5127,7 @@ __metadata:
     "@xyo-network/query-payload-plugin": "workspace:^"
     bip39: ^3.0.4
     lodash: ^4.17.21
+    tail: ^2.2.6
     terminal-kit: ^3.0.0
     ts-node: ^10.9.1
     typescript: ^4.9.5
@@ -18772,6 +18781,13 @@ __metadata:
     slice-ansi: ^2.1.0
     string-width: ^3.0.0
   checksum: 9e35d3efa788edc17237eef8852f8e4b9178efd65a7d115141777b2ee77df4b7796c05f4ed3712d858f98894ac5935a481ceeb6dcb9895e2f67a61cce0e63b6c
+  languageName: node
+  linkType: hard
+
+"tail@npm:^2.2.6":
+  version: 2.2.6
+  resolution: "tail@npm:2.2.6"
+  checksum: 85a26bdccbd09ed899b53f973402b846ba537c64479e8b557119ebcaa33927bdb8191a96d3c8815ef05ece07904fcf7b95a15b799b366dfe77fee45bb9c40788
   languageName: node
   linkType: hard
 

@@ -1,7 +1,8 @@
 import { EmptyObject } from '@xyo-network/core'
+import { Tail } from 'tail'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
-import { start } from '../../../lib'
+import { errFile, outFile, start, stop } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
 
 type Arguments = BaseArguments & {
@@ -12,23 +13,43 @@ export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = {
   interactive: {
     boolean: true,
-    default: false,
+    default: true,
   },
 }
 export const command = 'start'
 export const deprecated = false
 export const describe = 'Start the local XYO Node'
 export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
-  args.output = 'raw'
-  const daemonize = args.interactive || true
-  await start(daemonize)
-  if (daemonize) {
-    const terminated = new Promise<void>((resolve) => {
-      process.on('SIGINT', () => resolve()) // CTRL+C
-      process.on('SIGQUIT', () => resolve()) // Keyboard quit
-      process.on('SIGTERM', () => resolve()) // `kill` command
+  const interactive = args.interactive || true
+  await start()
+  if (interactive) {
+    const outInterface = new Tail(outFile)
+    const errInterface = new Tail(errFile)
+
+    outInterface.on('line', console.log)
+    errInterface.on('line', console.error)
+
+    const shutdown = async () => {
+      outInterface.unwatch()
+      errInterface.unwatch()
+      await stop()
+    }
+
+    // CTRL+C
+    process.on('SIGINT', async () => {
+      await shutdown()
+      process.exit()
     })
-    await terminated
+    // Keyboard quit
+    process.on('SIGQUIT', async () => {
+      await shutdown()
+      process.exit()
+    })
+    // `kill` command
+    process.on('SIGTERM', async () => {
+      await shutdown()
+      process.exit()
+    })
   }
 }
 

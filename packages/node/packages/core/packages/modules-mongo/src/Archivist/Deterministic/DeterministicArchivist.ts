@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { fulfilledValues } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
   AbstractArchivist,
@@ -22,7 +23,7 @@ import {
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -199,27 +200,19 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
-    // const _archive = getArchive(wrapper)
     const hashes = typedQuery.hashes
-    const gets = await Promise.all(
-      [
-        // hashes.map((_hash) => this.payloads.findOne({ _archive, _hash })),
-        // hashes.map((_hash) => this.boundWitnesses.findOne({ _archive, _hash })),
-        hashes.map((_hash) => this.payloads.findOne({ _hash })),
-        hashes.map((_hash) => this.boundWitnesses.findOne({ _hash })),
-      ].flat(),
-    )
-    return gets.filter(exists).map((p) => PayloadWrapper.parse(p).body)
+    const payloads = hashes.map((_hash) => this.payloads.findOne({ _hash }))
+    const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
+    const gets = await Promise.allSettled([payloads, bws].flat())
+    const succeeded = gets.reduce<(XyoPayloadWithPartialMeta | null)[]>(fulfilledValues, [])
+    return succeeded.filter(exists).map((p) => PayloadWrapper.parse(p).body)
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {
-    const archive = getArchive(wrapper)
-    const wrapperArchives = getArchives(wrapper)
+    const archive = this.address
     const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)]
     const [bw, p] = toStore.reduce(validByType, [[], []])
-    const boundWitnesses = bw.flatMap((x) =>
-      [...wrapperArchives, ...getArchives(x)].filter(distinct).map((archive) => toBoundWitnessWithMeta(x, archive)),
-    )
+    const boundWitnesses = bw.map((x) => toBoundWitnessWithMeta(x, archive))
     const payloads = p.map((x) => toPayloadWithMeta(x, archive))
     if (boundWitnesses.length) {
       const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)

@@ -1,5 +1,6 @@
 import { EmptyObject } from '@xyo-network/core'
 import { createReadStream } from 'fs'
+import { createInterface } from 'readline'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
 import { errFile, outFile, start, stop } from '../../../lib'
@@ -13,28 +14,60 @@ export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = {
   interactive: {
     boolean: true,
-    default: false,
+    default: true,
   },
 }
 export const command = 'start'
 export const deprecated = false
 export const describe = 'Start the local XYO Node'
 export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
-  args.output = 'raw'
-  const daemonize = args.interactive || true
-  await start(daemonize)
-  if (!daemonize) {
-    const stdout = createReadStream(outFile)
-    const stderr = createReadStream(errFile)
-    stdout.pipe(process.stdout)
-    stderr.pipe(process.stderr)
-    const terminated = new Promise<void>((resolve) => {
-      process.on('SIGINT', () => resolve()) // CTRL+C
-      process.on('SIGQUIT', () => resolve()) // Keyboard quit
-      process.on('SIGTERM', () => resolve()) // `kill` command
+  // process.on('SIGINT', () => {
+  //   console.log('Bye!')
+  //   process.exit()
+  // })
+  const interactive = args.interactive || true
+  console.log(args)
+  await start()
+  if (interactive) {
+    // const nodeStdOut = createReadStream(outFile, { autoClose: true, encoding: 'utf-8' })
+    // const nodeStdErr = createReadStream(errFile, { autoClose: true, encoding: 'utf-8' })
+    const nodeStdOut = createReadStream(outFile, { encoding: 'utf-8' })
+    const nodeStdErr = createReadStream(errFile, { encoding: 'utf-8' })
+
+    // nodeStdOut.pipe(process.stdout)
+    // nodeStdErr.pipe(process.stderr)
+    const outInterface = createInterface({ input: nodeStdOut })
+    outInterface.on('line', (input) => {
+      console.log(input)
     })
-    await terminated
-    await stop()
+
+    const errInterface = createInterface({ input: nodeStdErr })
+    errInterface.on('line', (input) => {
+      console.error(input)
+    })
+
+    const cleanup = async () => {
+      outInterface.close()
+      errInterface.close()
+      nodeStdOut.close()
+      nodeStdErr.close()
+      await stop()
+    }
+
+    process.on('SIGINT', async () => {
+      await cleanup()
+      process.exit()
+    })
+    // Keyboard quit
+    process.on('SIGQUIT', async () => {
+      await cleanup()
+      process.exit()
+    })
+    // `kill` command
+    process.on('SIGTERM', async () => {
+      await cleanup()
+      process.exit()
+    })
   }
 }
 

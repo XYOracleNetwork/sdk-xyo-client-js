@@ -23,7 +23,7 @@ import {
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
+import { XyoBoundWitnessWithMeta, XyoBoundWitnessWithPartialMeta, XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -53,6 +53,15 @@ export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistCo
 const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper, archive: string): XyoBoundWitnessWithMeta => {
   const bw = wrapper.boundwitness as XyoBoundWitness
   return { ...bw, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
+}
+
+const toReturnValue = (value: XyoPayload | XyoBoundWitness): XyoPayload => {
+  const _signatures = (value as XyoBoundWitness)?._signatures
+  if (_signatures) {
+    return { ...PayloadWrapper.parse(value).body, _signatures } as XyoPayload
+  } else {
+    return { ...PayloadWrapper.parse(value).body }
+  }
 }
 
 const isBoundWitness = (wrapper: PayloadWrapper) => wrapper.schema.startsWith(XyoBoundWitnessSchema)
@@ -183,8 +192,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
       if (!nextHash) break
       bwFilter._hash = nextHash
     }
-    // TODO: Ensure this is omitting _id
-    return resultPayloads.map((p) => PayloadWrapper.parse(p).body)
+    return resultPayloads.map(toReturnValue)
   }
 
   protected async findPayload(filter: PayloadsFilter): Promise<XyoPayloadWithMeta | undefined> {
@@ -205,7 +213,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
     const gets = await Promise.allSettled([payloads, bws].flat())
     const succeeded = gets.reduce<(XyoPayloadWithPartialMeta | null)[]>(fulfilledValues, [])
-    return succeeded.filter(exists).map((p) => PayloadWrapper.parse(p).body)
+    return succeeded.filter(exists).map(toReturnValue)
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<XyoBoundWitness[]> {

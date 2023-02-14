@@ -259,6 +259,9 @@ exports[`DeterministicArchivist find with schema for Payload finds single payloa
 exports[`DeterministicArchivist get gets multiple boundwitness 1`] = `
 [
   {
+    "_signatures": [
+      "325501822063bf69e34f6a64f96ef1e55e8eed5060c0dc300271be82b4df024163b2b294018c5d06df160b20394f460b955c77d8a5147ec7f1bafa79b4798662",
+    ],
     "addresses": [
       "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
     ],
@@ -275,6 +278,9 @@ exports[`DeterministicArchivist get gets multiple boundwitness 1`] = `
     "timestamp": 123456789000,
   },
   {
+    "_signatures": [
+      "1810b9f9c6623adf38d0093ea6f3c2125570ed1ee757dbe9e9221b4ffb3920ecf4eee8a0200381f4011a27bb061bc3809491b0e9dd962c87532801da95e9c7b4",
+    ],
     "addresses": [
       "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
     ],
@@ -291,6 +297,9 @@ exports[`DeterministicArchivist get gets multiple boundwitness 1`] = `
     "timestamp": 123456789000,
   },
   {
+    "_signatures": [
+      "29a8dfe2cf7675e8c371763d6d8c7d9b0990145191967c6e399fff7854cd22390d6a8a7f4ae7628ac62deea6c34af33c37623950b1aba6ae4b8c88683d615c20",
+    ],
     "addresses": [
       "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
     ],
@@ -331,6 +340,9 @@ exports[`DeterministicArchivist get gets multiple payloads 1`] = `
 exports[`DeterministicArchivist get gets single boundwitness 1`] = `
 [
   {
+    "_signatures": [
+      "325501822063bf69e34f6a64f96ef1e55e8eed5060c0dc300271be82b4df024163b2b294018c5d06df160b20394f460b955c77d8a5147ec7f1bafa79b4798662",
+    ],
     "addresses": [
       "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
     ],

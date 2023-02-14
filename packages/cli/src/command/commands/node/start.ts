@@ -24,29 +24,30 @@ export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
   await start()
   if (interactive) {
     const outInterface = new Tail(outFile)
-    outInterface.on('line', console.log)
-
     const errInterface = new Tail(errFile)
+
+    outInterface.on('line', console.log)
     errInterface.on('line', console.error)
 
-    const cleanup = async () => {
+    const shutdown = async () => {
       outInterface.unwatch()
       errInterface.unwatch()
       await stop()
     }
+
     // CTRL+C
     process.on('SIGINT', async () => {
-      await cleanup()
+      await shutdown()
       process.exit()
     })
     // Keyboard quit
     process.on('SIGQUIT', async () => {
-      await cleanup()
+      await shutdown()
       process.exit()
     })
     // `kill` command
     process.on('SIGTERM', async () => {
-      await cleanup()
+      await shutdown()
       process.exit()
     })
   }

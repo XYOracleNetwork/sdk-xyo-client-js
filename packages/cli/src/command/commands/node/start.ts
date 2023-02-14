@@ -2,7 +2,7 @@ import { EmptyObject } from '@xyo-network/core'
 import { Tail } from 'tail'
 import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
-import { errFile, outFile, start, stop } from '../../../lib'
+import { errFile, outFile, restart, stop } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
 
 type Arguments = BaseArguments & {
@@ -21,7 +21,7 @@ export const deprecated = false
 export const describe = 'Start the local XYO Node'
 export const handler = async (args: ArgumentsCamelCase<Arguments>) => {
   const interactive = args.interactive || true
-  await start()
+  await restart()
   if (interactive) {
     const outInterface = new Tail(outFile)
     const errInterface = new Tail(errFile)

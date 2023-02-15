@@ -63,15 +63,8 @@ const toReturnValue = (value: XyoPayload | XyoBoundWitness): XyoPayload => {
   }
 }
 
-const isBoundWitness = (wrapper: PayloadWrapper) => wrapper.schema.startsWith(XyoBoundWitnessSchema)
-const isNotBoundWitness = (wrapper: PayloadWrapper) => !wrapper.schema.startsWith(XyoBoundWitnessSchema)
-
 const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayloadWithMeta => {
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
-}
-
-function distinct<T>(value: T, index: number, array: T[]) {
-  return array.indexOf(value) === index
 }
 
 const searchDepthLimit = 50

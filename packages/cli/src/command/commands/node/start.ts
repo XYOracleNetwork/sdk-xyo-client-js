@@ -15,7 +15,14 @@ export const builder: CommandBuilder = {
     alias: ['i'],
     boolean: true,
     default: false,
-  } as Options,
+  },
+  // TODO: Support throughout this command
+  // TODO: Make global flag?
+  quiet: {
+    alias: ['q'],
+    boolean: true,
+    default: false,
+  },
 }
 export const command = 'start'
 export const deprecated = false

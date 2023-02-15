@@ -14,10 +14,8 @@ const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCrit
 
 const isPayloadSignedByAddress = async (archivist: BoundWitnessesArchivist, hash: string, addresses: string[]): Promise<boolean> => {
   const filter = { addresses, limit: 1, payload_hashes: [hash] }
-
   const wrapper = new ArchivistWrapper(archivist)
   const result = await wrapper.find(filter)
-
   return result?.length > 0
 }
 
@@ -29,14 +27,12 @@ export const findPayload = async (
   const { addresses } = searchCriteria
   const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
   const wrapper = new ArchivistWrapper(payloadArchivist)
-
   const result = await wrapper.find(filter)
-
   const payload = result?.[0] ? PayloadWrapper.parse(result[0]) : undefined
   if (payload && addresses.length) {
     const hash = payload.hash
     const signed = await isPayloadSignedByAddress(boundWitnessArchivist, hash, addresses)
     if (!signed) return undefined
   }
-  return payload ? payload.body : undefined
+  return payload?.body
 }

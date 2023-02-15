@@ -1,5 +1,4 @@
 import { asyncHandler, NoReqBody, NoReqQuery } from '@xylabs/sdk-api-express-ecs'
-import { deepOmitUnderscoreFields } from '@xyo-network/core'
 import { setRawResponseFormat } from '@xyo-network/express-node-middleware'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
@@ -26,7 +25,7 @@ const handler: RequestHandler<HashPathParams, XyoPayload, NoReqBody, NoReqQuery>
   const block = await getBlockForRequest(req, hash)
   if (block) {
     setRawResponseFormat(res)
-    res.json({ ...deepOmitUnderscoreFields(block) })
+    res.json(block)
     return
   }
   next({ message: 'Hash not found', statusCode: StatusCodes.NOT_FOUND })

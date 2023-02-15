@@ -10,6 +10,7 @@ import {
 } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import {
@@ -57,7 +58,7 @@ describe('/:hash', () => {
     archive = getArchiveName()
     await claimArchive(ownerToken, archive)
     block = getBlockWithPayloads(1)
-    payload = assertEx(block._payloads?.[0])
+    payload = PayloadWrapper.parse(assertEx(block._payloads?.[0])).body
     const blockResponse = await postBlock(block, archive)
     expect(blockResponse.length).toBe(1)
     const pointer = getPayloadPointer(archive, payload.schema)
@@ -71,14 +72,7 @@ describe('/:hash', () => {
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
       expect(response.schema).toEqual(payload?.schema)
-      // NOTE: This is brittle if we add any additional underscored fields
-      // but we do want to check that each property we care about is equivalent
-      expect(payload).toEqual({
-        ...response,
-        _client: 'js',
-        _hash: expect.any(String),
-        _timestamp: expect.any(Number),
-      })
+      expect(response).toEqual(payload)
     })
   })
   describe('with public archive', () => {

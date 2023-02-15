@@ -1,7 +1,6 @@
 import { spawn } from 'child_process'
 import { join, parse } from 'path'
 
-import { printLine } from '../print'
 import { getErrFileDescriptor, getOutFileDescriptor } from './logs'
 import { setPid } from './pid'
 
@@ -19,12 +18,10 @@ const runNodeScriptPath = parse(__filename).ext.includes('ts')
  * @returns The process ID of the Node
  */
 export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray<string> = [runNodeScriptPath]) => {
-  printLine('Starting Node')
-
   // NOTE: Sync FD here because async warns about closing
   // when we background process as daemon
-  const out = daemonize ? process.stdout : getOutFileDescriptor()
-  const err = daemonize ? process.stderr : getErrFileDescriptor()
+  const out = getOutFileDescriptor()
+  const err = getErrFileDescriptor()
 
   // Create node via process
   const proc = spawn(bin, args, {
@@ -37,5 +34,4 @@ export const start = async (daemonize = false, bin = 'node', args: ReadonlyArray
   if (daemonize) {
     proc.unref()
   }
-  printLine('Started Node')
 }

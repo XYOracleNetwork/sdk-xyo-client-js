@@ -35,7 +35,6 @@
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/diviner-wrapper": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",

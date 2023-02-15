@@ -36,14 +36,12 @@ describe('XyoWitness', () => {
       describe('returns empty array', () => {
         it('when module queried directly', async () => {
           const witness = await AbstractWitness.create(params)
-          const observation = await witness.observe()
-          expect(observation).toBeArrayOfSize(0)
+          expect(await witness.observe()).toThrow()
         })
         it('when module queried with XyoWitnessWrapper', async () => {
           const witness = await AbstractWitness.create(params)
           const wrapper = new WitnessWrapper(witness)
-          const observation = await wrapper.observe()
-          expect(observation).toBeArrayOfSize(0)
+          expect(await wrapper.observe()).toThrow()
         })
       })
     })

@@ -54,11 +54,12 @@ export class CompositeModuleResolver implements ModuleRepository<Module> {
   async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
     const modules = this.resolvers.map((resolver) => resolver.tryResolve(filter))
     const settled = await Promise.allSettled(modules)
-    return settled
+    const result = settled
       .filter(fulfilled)
       .map((r) => r.value)
       .flat()
       .filter(duplicateModules)
+    return result
   }
 
   private addSingleModule(module?: Module, name?: string) {

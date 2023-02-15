@@ -38,10 +38,10 @@ describe('CompositeModuleResolver', () => {
         expect(sut.add(mod, name)).toEqual(sut)
         expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(1)
-        expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await resolverA.tryResolve({ name: [name] })).toBeArrayOfSize(1)
-        expect(await resolverB.tryResolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await resolverB.tryResolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await resolverA.tryResolve({ name: [name] })).toBeArrayOfSize(0)
+        expect(await resolverB.tryResolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await resolverB.tryResolve({ name: [name] })).toBeArrayOfSize(0)
       })
     })
     describe('remove', () => {
@@ -49,12 +49,12 @@ describe('CompositeModuleResolver', () => {
         const address = moduleC.address
         const name = moduleCName
         expect(sut.remove(address)).toEqual(sut)
-        expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(0)
-        expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(0)
-        expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(0)
-        expect(await resolverA.tryResolve({ name: [name] })).toBeArrayOfSize(0)
-        expect(await resolverB.tryResolve({ address: [address] })).toBeArrayOfSize(0)
-        expect(await resolverB.tryResolve({ name: [name] })).toBeArrayOfSize(0)
+        expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(1)
+        expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(1)
+        expect(await resolverA.tryResolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await resolverB.tryResolve({ address: [address] })).toBeArrayOfSize(1)
+        expect(await resolverB.tryResolve({ name: [name] })).toBeArrayOfSize(1)
       })
     })
     describe('resolve', () => {

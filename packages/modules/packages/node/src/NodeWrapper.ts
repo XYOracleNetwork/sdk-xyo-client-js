@@ -4,6 +4,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { Promisable } from '@xyo-network/promise'
 
 import { Node, NodeModule } from './Node'
 import {
@@ -59,10 +60,10 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return payloads.map((p) => p.address)
   }
 
-  resolve(filter?: ModuleFilter) {
+  resolve(filter?: ModuleFilter): Promisable<Module[]> {
     return this.module.resolve(filter)
   }
-  tryResolve(filter?: ModuleFilter) {
+  tryResolve(filter?: ModuleFilter): Promisable<Module[]> {
     return this.module.tryResolve(filter)
   }
 }

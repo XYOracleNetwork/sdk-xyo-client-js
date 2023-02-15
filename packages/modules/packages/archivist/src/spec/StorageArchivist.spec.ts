@@ -3,7 +3,7 @@
  */
 
 import { Account } from '@xyo-network/account'
-import { SimpleModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryArchivist } from '../MemoryArchivist'
@@ -76,7 +76,7 @@ test('XyoArchivist Parent Write Through', async () => {
       schema: StorageArchivistConfigSchema,
       type: 'local',
     },
-    resolver: new SimpleModuleResolver().add(memory),
+    resolver: new CompositeModuleResolver().add(memory),
   })
   await storage.start()
 

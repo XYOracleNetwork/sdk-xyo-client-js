@@ -73,8 +73,9 @@ describe('/:hash', () => {
       expect(response.schema).toEqual(payload?.schema)
       // NOTE: This is brittle if we add any additional underscored fields
       // but we do want to check that each property we care about is equivalent
-      expect(payload).toEqual({
-        ...response,
+      expect(response).toEqual({
+        ...payload,
+        _archive: expect.any(String),
         _client: 'js',
         _hash: expect.any(String),
         _timestamp: expect.any(Number),

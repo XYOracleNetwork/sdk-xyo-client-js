@@ -3,7 +3,7 @@ import { SimpleModuleResolver } from '@xyo-network/module'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
-import { SentinelIntervalAutomationPayload, AutomationSchema } from '../Automation'
+import { AutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'
 import { Sentinel, SentinelConfig, SentinelConfigSchema } from '../Sentinel'
 import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
 

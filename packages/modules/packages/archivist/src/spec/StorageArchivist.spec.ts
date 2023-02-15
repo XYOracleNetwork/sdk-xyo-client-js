@@ -78,12 +78,19 @@ test('XyoArchivist Parent Write Through', async () => {
     },
     resolver: new CompositeModuleResolver().add(memory),
   })
-  await storage.start()
+  expect(await storage.start()).toBeDefined()
 
   const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })
 
-  await storage.insert([wrapper.payload])
+  expect(wrapper).toBeDefined()
 
-  expect((await storage.get([wrapper.hash])).length).toBe(1)
-  expect((await memory.get([wrapper.hash])).length).toBe(1)
+  const inserted = await storage.insert([wrapper.payload])
+
+  expect(inserted).toBeArrayOfSize(2)
+
+  const fromStorage = await storage.get([wrapper.hash])
+  const fromMemory = await memory.get([wrapper.hash])
+
+  expect(fromStorage).toBeArrayOfSize(1)
+  expect(fromMemory).toBeArrayOfSize(1)
 })

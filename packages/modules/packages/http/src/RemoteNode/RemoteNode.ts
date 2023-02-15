@@ -81,15 +81,12 @@ export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
     const addresses = await this.registered()
     const resolved = await Promise.all(
       addresses.map((address) => {
-        return this.tryResolve({ address: [address] })
+        return this.resolve({ address: [address] })
       }),
     )
     return resolved.flat()
   }
   override resolve(filter?: ModuleFilter): Promise<Module[]> {
     return this.internalResolver.resolve(filter)
-  }
-  override tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    return this.internalResolver.tryResolve(filter)
   }
 }

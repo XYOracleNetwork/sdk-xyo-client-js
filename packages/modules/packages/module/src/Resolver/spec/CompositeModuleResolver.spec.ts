@@ -39,6 +39,7 @@ describe('CompositeModuleResolver', () => {
         expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(1)
         expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await resolverA.tryResolve({ address: [] })).toBeArrayOfSize(0)
         expect(await resolverA.tryResolve({ name: [name] })).toBeArrayOfSize(0)
         expect(await resolverB.tryResolve({ address: [address] })).toBeArrayOfSize(0)
         expect(await resolverB.tryResolve({ name: [name] })).toBeArrayOfSize(0)

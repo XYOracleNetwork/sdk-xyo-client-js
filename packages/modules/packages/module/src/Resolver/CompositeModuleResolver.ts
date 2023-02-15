@@ -5,7 +5,7 @@ import { Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-net
 import { duplicateModules } from '../lib'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
-export class CompositeModuleResolver implements ModuleRepository<Module> {
+export class CompositeModuleResolver implements ModuleRepository {
   private localResolver = new SimpleModuleResolver()
 
   constructor(protected resolvers: ModuleResolver[] = []) {
@@ -47,12 +47,7 @@ export class CompositeModuleResolver implements ModuleRepository<Module> {
   }
 
   async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    const resolved = await this.tryResolve(filter)
-    return resolved.length ? resolved : Promise.reject()
-  }
-
-  async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    const modules = this.resolvers.map((resolver) => resolver.tryResolve(filter))
+    const modules = this.resolvers.map((resolver) => resolver.resolve(filter))
     const settled = await Promise.allSettled(modules)
     const result = settled
       .filter(fulfilled)

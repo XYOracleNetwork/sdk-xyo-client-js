@@ -14,7 +14,6 @@ import {
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
 import { ModuleAttachedEventArgs, ModuleAttachedEventEmitter, ModuleResolverChangedEventArgs, ResolverChangedEventEmitter } from './Events'
-import { NodeModule } from './Node'
 
 type SupportedEventTypes = 'moduleAttached' | 'moduleResolverChanged'
 type SupportedEventListeners<T extends SupportedEventTypes> = T extends 'moduleAttached'
@@ -34,11 +33,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   private registeredModuleMap = new Map<string, Module>()
   private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
 
-  override get resolver() {
-    return super.resolver
-  }
-
-  override set resolver(resolver: CompositeModuleResolver | undefined) {
+  override set resolver(resolver: CompositeModuleResolver) {
     super.resolver = resolver
     const args = { resolver }
     this.resolverChangedEventListeners?.map((listener) => listener(args))
@@ -46,8 +41,8 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     const instance = (await super.create(params)) as MemoryNode
-    if (params?.resolver && params?.autoAttachExternallyResolved) {
-      const resolver = mixinResolverEventEmitter(params?.resolver)
+    if (params?.autoAttachExternallyResolved) {
+      const resolver = mixinResolverEventEmitter(instance.resolver)
       resolver.on('moduleResolved', (args) => {
         const { module, filter } = args
         try {
@@ -127,12 +122,8 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   }
 
   override async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return (await this.tryResolve(filter)) ?? []
-  }
-
-  override async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    const internal = this.internalResolver.tryResolve(filter)
-    const external = this.resolver?.tryResolve(filter) || []
+    const internal = this.internalResolver.resolve(filter)
+    const external = this.resolver?.resolve(filter) || []
     const resolved = await Promise.allSettled([internal, external])
     return resolved
       .filter(fulfilled)

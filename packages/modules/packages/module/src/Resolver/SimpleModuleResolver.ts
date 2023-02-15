@@ -4,18 +4,19 @@ import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
-export class SimpleModuleResolver<TModule extends Module = Module> implements ModuleRepository {
+//This class is now package private (not exported from index.ts)
+export class SimpleModuleResolver implements ModuleRepository {
   private addressToName: Record<string, string> = {}
-  private modules: Record<string, TModule> = {}
+  private modules: Record<string, Module> = {}
   private nameToAddress: Record<string, string> = {}
 
   public get isModuleResolver() {
     return true
   }
 
-  add(module: TModule, name?: string): this
-  add(module: TModule[], name?: string[]): this
-  add(module: TModule | TModule[], name?: string | string[]): this {
+  add(module: Module, name?: string): this
+  add(module: Module[], name?: string[]): this
+  add(module: Module | Module[], name?: string | string[]): this {
     if (Array.isArray(module)) {
       const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
       assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
@@ -36,27 +37,19 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return this
   }
 
-  resolve(filter?: ModuleFilter): Promisable<TModule[]> {
-    const filteredByName: TModule[] = this.resolveByName(Object.values(this.modules), filter?.name)
+  resolve(filter?: ModuleFilter): Promisable<Module[]> {
+    const filteredByName: Module[] = this.resolveByName(Object.values(this.modules), filter?.name)
 
-    const filteredByAddress = this.resolveByAddress(filteredByName, filter?.address)
+    const filteredByAddress: Module[] = this.resolveByAddress(filteredByName, filter?.address)
 
-    const filteredByConfigSchema = this.resolveByConfigSchema(filteredByAddress, filter?.config)
+    const filteredByConfigSchema: Module[] = this.resolveByConfigSchema(filteredByAddress, filter?.config)
 
-    const filteredByQuery = this.resolveByQuery(filteredByConfigSchema, filter?.query)
+    const filteredByQuery: Module[] = this.resolveByQuery(filteredByConfigSchema, filter?.query)
 
     return filteredByQuery
   }
 
-  async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
-    try {
-      return await this.resolve(filter)
-    } catch (ex) {
-      return []
-    }
-  }
-
-  private addSingleModule(module?: TModule, name?: string) {
+  private addSingleModule(module?: Module, name?: string) {
     if (module) {
       this.modules[module.address] = module
       if (name) {
@@ -80,7 +73,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     }
   }
 
-  private resolveByAddress(modules: TModule[], address?: string[]): TModule[] {
+  private resolveByAddress(modules: Module[], address?: string[]): Module[] {
     return address
       ? compact(
           flatten(
@@ -92,7 +85,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
       : modules
   }
 
-  private resolveByConfigSchema(modules: TModule[], schema?: string[]): TModule[] {
+  private resolveByConfigSchema(modules: Module[], schema?: string[]): Module[] {
     return schema
       ? compact(
           flatten(
@@ -104,7 +97,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
       : modules
   }
 
-  private resolveByName(modules: TModule[], name?: string[]) {
+  private resolveByName(modules: Module[], name?: string[]) {
     if (name) {
       const address = name.map((name) => assertEx(this.nameToAddress[name], 'name not found'))
       return this.resolveByAddress(modules, address)
@@ -112,7 +105,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return modules
   }
 
-  private resolveByQuery(modules: TModule[], query?: string[][]) {
+  private resolveByQuery(modules: Module[], query?: string[][]) {
     return query
       ? compact(
           modules.filter((module) =>

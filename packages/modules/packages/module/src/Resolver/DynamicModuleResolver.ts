@@ -5,7 +5,7 @@ import { CompositeModuleResolver } from './CompositeModuleResolver'
 
 type ResolverFunction = (filter?: ModuleFilter) => Promisable<Module[]>
 
-export class DynamicModuleResolver extends CompositeModuleResolver implements ModuleResolver<Module> {
+export class DynamicModuleResolver extends CompositeModuleResolver implements ModuleResolver {
   private _resolveImplementation: ResolverFunction
 
   constructor(resolveImplementation: ResolverFunction = () => [], resolvers: ModuleResolver[] = []) {
@@ -26,13 +26,5 @@ export class DynamicModuleResolver extends CompositeModuleResolver implements Mo
 
   override async resolve(filter?: ModuleFilter): Promise<Module[]> {
     return await this._resolveImplementation(filter)
-  }
-
-  override async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    try {
-      return await this._resolveImplementation(filter)
-    } catch (error) {
-      return []
-    }
   }
 }

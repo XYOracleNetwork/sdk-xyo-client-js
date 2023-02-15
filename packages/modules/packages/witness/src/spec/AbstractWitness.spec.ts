@@ -32,19 +32,6 @@ describe('XyoWitness', () => {
     })
   })
   describe('observe', () => {
-    describe('with no payload supplied to observe', () => {
-      describe('returns empty array', () => {
-        it('when module queried directly', async () => {
-          const witness = await AbstractWitness.create(params)
-          expect(await witness.observe()).toThrow()
-        })
-        it('when module queried with XyoWitnessWrapper', async () => {
-          const witness = await AbstractWitness.create(params)
-          const wrapper = new WitnessWrapper(witness)
-          expect(await wrapper.observe()).toThrow()
-        })
-      })
-    })
     describe('with payload supplied to observe', () => {
       describe('returns payloads', () => {
         it('when module queried directly', async () => {

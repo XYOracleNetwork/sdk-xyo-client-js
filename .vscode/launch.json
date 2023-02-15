@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/module/src/Resolver/spec/CompositeModuleResolver.spec.ts"
+        "packages/modules/packages/archivist/src/spec/StorageArchivist.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

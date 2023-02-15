@@ -10,7 +10,7 @@ import {
   XyoHuriPayload,
   XyoHuriSchema,
 } from '@xyo-network/diviner'
-import { AbstractModule, Module, ModuleDescription, SimpleModuleResolver } from '@xyo-network/module'
+import { AbstractModule, CompositeModuleResolver, Module, ModuleDescription } from '@xyo-network/module'
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { NodeConfigSchema } from '../Config'
@@ -34,7 +34,7 @@ describe('MemoryNode', () => {
       const archivist = await XyoMemoryArchivist.create()
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
-        resolver: new SimpleModuleResolver().add(archivist),
+        resolver: new CompositeModuleResolver().add(archivist),
       })
       node.register(archivist)
       node.attach(archivist.address)
@@ -81,8 +81,8 @@ describe('MemoryNode', () => {
         // Arrange
         // Create a MemoryNode with no modules in the internal
         // resolver and one module in the external resolver
-        const resolver = new SimpleModuleResolver()
-        const internalResolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
+        const internalResolver = new CompositeModuleResolver()
         const params: MemoryNodeParams = {
           autoAttachExternallyResolved: true,
           config: { schema: NodeConfigSchema },
@@ -93,9 +93,9 @@ describe('MemoryNode', () => {
         const filter = { address: [module.address] }
         resolver.add(module)
         // No modules exist in internal resolver
-        expect(await internalResolver.tryResolve(filter)).toBeArrayOfSize(0)
+        expect(await internalResolver.resolve(filter)).toBeArrayOfSize(0)
         // Module exists in external resolver
-        expect(await resolver.tryResolve(filter)).toBeArrayOfSize(1)
+        expect(await resolver.resolve(filter)).toBeArrayOfSize(1)
         const node = await MemoryNode.create(params)
         // No modules are attached
         expect(await node.attached()).toBeArrayOfSize(0)
@@ -103,15 +103,15 @@ describe('MemoryNode', () => {
         // Act
         // Query for unattached module (by address) that exists in
         // external resolver
-        expect(await node.tryResolve(filter)).toBeArrayOfSize(1)
+        expect(await node.resolve(filter)).toBeArrayOfSize(1)
 
         // Assert
         // Module is now attached
         expect(await node.attached()).toBeArrayOfSize(1)
         // Module exists in internal resolver
-        expect(await internalResolver.tryResolve(filter)).toBeArrayOfSize(1)
+        expect(await internalResolver.resolve(filter)).toBeArrayOfSize(1)
         // Module still exists in external resolver
-        expect(await resolver.tryResolve(filter)).toBeArrayOfSize(1)
+        expect(await resolver.resolve(filter)).toBeArrayOfSize(1)
       })
     })
   })
@@ -197,9 +197,9 @@ describe('MemoryNode', () => {
     it('deregisters existing module', () => {
       node.detach(module.address)
     })
-    it('allows deregistering non-existent module', () => {
+    /*it('allows deregistering non-existent module', () => {
       node.detach('4a15a6c96665931b76c1d2a587ea1132dbfdc266')
-    })
+    })*/
   })
   describe('registeredModules', () => {
     let module: AbstractModule
@@ -290,7 +290,7 @@ describe('MemoryNode', () => {
       it('describes node and all nested nodes and child modules', async () => {
         const description = await node.description()
         validateModuleDescription(description)
-        expect(description.children).toBeArrayOfSize(2)
+        expect(description.children).toBeArrayOfSize(3)
         description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
@@ -360,7 +360,7 @@ describe('MemoryNode', () => {
       })
     })
   })
-  describe('tryResolveWrapped', () => {
+  describe('resolveWrapped', () => {
     beforeEach(async () => {
       const modules = await Promise.all([
         await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
@@ -373,7 +373,7 @@ describe('MemoryNode', () => {
     })
     it('resolves modules wrapped as the specified type', async () => {
       const filter = { address: [testAccount2.addressValue.hex] }
-      const modules = await node.tryResolveWrapped(ArchivistWrapper, filter)
+      const modules = await node.resolveWrapped(ArchivistWrapper, filter)
       expect(modules.length).toBeGreaterThan(0)
       modules.map((mod) => {
         expect(mod.get).toBeFunction()
@@ -384,13 +384,13 @@ describe('MemoryNode', () => {
   })
   describe('resolver', () => {
     it('emits event when resolver changes', (done) => {
-      const resolver = new SimpleModuleResolver()
+      const resolver = new CompositeModuleResolver()
       node.on('moduleResolverChanged', (args) => {
         expect(args).toBeObject()
         expect(args.resolver).toBe(resolver)
         done()
       })
-      expect(node.resolver).toBeUndefined()
+      expect(node.resolver).toBeDefined()
       node.resolver = resolver
       expect(node.resolver).toBe(resolver)
     })

@@ -15,7 +15,7 @@ const handler: RequestHandler<AddressPathParams, ModuleQueryResult, PostAddressR
   const [bw, payloads] = Array.isArray(req.body) ? req.body : []
   if (address && bw) {
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
-    const modules = node.address === normalizedAddress ? [node] : await node.tryResolve({ address: [normalizedAddress] })
+    const modules = node.address === normalizedAddress ? [node] : await node.resolve({ address: [normalizedAddress] })
     if (modules.length) {
       const mod = modules[0]
       const queryConfig = await getQueryConfig(mod, req, bw, payloads)

@@ -81,100 +81,77 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
 
   public override all(): PromisableArray<XyoPayload> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
-    try {
-      return Object.entries(this.storage.getAll()).map(([, value]) => value)
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+    return Object.entries(this.storage.getAll()).map(([, value]) => value)
   }
 
   public override clear(): void | Promise<void> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
-    try {
-      this.storage.clear()
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+    this.storage.clear()
   }
 
   public override async commit(): Promise<XyoBoundWitness[]> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
-    try {
-      const payloads = await this.all()
-      assertEx(payloads.length > 0, 'Nothing to commit')
-      const settled = await Promise.allSettled(
-        compact(
-          Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
-              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
-              schema: ArchivistInsertQuerySchema,
-            })
-            const query = await this.bindQuery(queryPayload, payloads)
-            return (await parent?.query(query[0], query[1]))?.[0]
-          }),
-        ),
-      )
-      // TODO - rather than clear, delete the payloads that come back as successfully inserted
-      await this.clear()
-      return compact(settled.filter(fulfilled).map((result) => result.value))
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+    const payloads = await this.all()
+    assertEx(payloads.length > 0, 'Nothing to commit')
+    const settled = await Promise.allSettled(
+      compact(
+        Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
+          const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
+            payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
+            schema: ArchivistInsertQuerySchema,
+          })
+          const query = await this.bindQuery(queryPayload, payloads)
+          return (await parent?.query(query[0], query[1]))?.[0]
+        }),
+      ),
+    )
+    // TODO - rather than clear, delete the payloads that come back as successfully inserted
+    await this.clear()
+    return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
   public override delete(hashes: string[]): PromisableArray<boolean> {
     this.logger?.log(`hashes.length: ${hashes.length}`)
-    try {
-      return hashes.map((hash) => {
-        this.storage.remove(hash)
-        return true
-      })
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+    return hashes.map((hash) => {
+      this.storage.remove(hash)
+      return true
+    })
   }
 
   public async get(hashes: string[]): Promise<XyoPayload[]> {
     this.logger?.log(`hashes.length: ${hashes.length}`)
-    try {
-      return await Promise.all(
-        hashes.map(async (hash) => {
-          const value = this.storage.get(hash)
-          return value ?? (await this.getFromParents(hash)) ?? null
-        }),
-      )
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+
+    return await Promise.all(
+      hashes.map(async (hash) => {
+        const payload = this.storage.get(hash) ?? (await super.get([hash]))[0] ?? null
+        if (this.storeParentReads) {
+          this.storage.set(hash, payload)
+        }
+        return payload
+      }),
+    )
   }
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     this.logger?.log(`payloads.length: ${payloads.length}`)
-    try {
-      const storedPayloads = payloads.map((payload) => {
-        const wrapper = new PayloadWrapper(payload)
-        const hash = wrapper.hash
-        const value = JSON.stringify(wrapper.payload)
-        assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hash}, ${value.length}]`)
-        this.storage.set(hash, wrapper.payload)
-        return wrapper.payload
-      })
-      const result = await this.bindResult([...storedPayloads])
-      const parentBoundWitnesses: XyoBoundWitness[] = []
-      if (this.writeThrough) {
-        //we store the child bw also
-        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...storedPayloads])))
-      }
-      return [result[0], ...parentBoundWitnesses]
-    } catch (ex) {
-      console.error(`Error: ${ex}`)
-      throw ex
+
+    const storedPayloads = payloads.map((payload) => {
+      const wrapper = new PayloadWrapper(payload)
+      const hash = wrapper.hash
+      const value = JSON.stringify(wrapper.payload)
+      assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hash}, ${value.length}]`)
+      this.storage.set(hash, wrapper.payload)
+      return wrapper.payload
+    })
+    const [storageBoundWitness] = await this.bindResult([...storedPayloads])
+    const parentBoundWitnesses: XyoBoundWitness[] = []
+    const parents = await this.parents()
+    if (Object.entries(parents.write ?? {}).length) {
+      //we store the child bw also
+      const [parentBoundWitness] = await this.writeToParents([storageBoundWitness, ...storedPayloads])
+      parentBoundWitnesses.push(parentBoundWitness)
     }
+    return [storageBoundWitness, ...parentBoundWitnesses]
   }
 
   public override queries() {

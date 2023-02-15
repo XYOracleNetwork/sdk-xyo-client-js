@@ -8,4 +8,4 @@ export interface Node {
   registered(): Promisable<string[]>
 }
 
-export type NodeModule = Node & Module & ModuleResolver<Module>
+export type NodeModule = Node & Module & ModuleResolver

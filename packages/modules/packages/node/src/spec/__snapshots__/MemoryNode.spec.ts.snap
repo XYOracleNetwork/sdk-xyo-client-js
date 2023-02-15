@@ -96,6 +96,20 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
           ]
         }
       ]
+    },
+    {
+      "address": "ca2e94ac3ae1084072b3a4407881bf940dc2019c",
+      "queries": [
+        "network.xyo.query.archivist.all",
+        "network.xyo.query.archivist.delete",
+        "network.xyo.query.archivist.clear",
+        "network.xyo.query.archivist.find",
+        "network.xyo.query.archivist.insert",
+        "network.xyo.query.archivist.commit",
+        "network.xyo.query.archivist.get",
+        "network.xyo.query.module.discover",
+        "network.xyo.query.module.subscribe"
+      ]
     }
   ]
 }"

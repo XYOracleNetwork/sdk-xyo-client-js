@@ -39,7 +39,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public config: TConfig
 
-  protected _resolver?: CompositeModuleResolver
+  protected _resolver: CompositeModuleResolver
   protected _started = false
   protected account: Account
   protected readonly logger?: Logging
@@ -47,7 +47,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
-    this.resolver = params.resolver
+    this._resolver = params.resolver ?? new CompositeModuleResolver()
     this.config = params.config
     this.account = this.loadAccount(params?.account)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
@@ -65,10 +65,10 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.previousHash
   }
 
-  public get resolver(): CompositeModuleResolver | undefined {
+  public get resolver(): CompositeModuleResolver {
     return this._resolver
   }
-  public set resolver(v: CompositeModuleResolver | undefined) {
+  public set resolver(v: CompositeModuleResolver) {
     this._resolver = v
   }
 

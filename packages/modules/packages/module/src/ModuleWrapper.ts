@@ -5,7 +5,6 @@ import {
   Module,
   ModuleDescription,
   ModuleQueryResult,
-  ModuleResolver,
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
@@ -53,9 +52,6 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
   }
   get config(): XyoPayload {
     return this.module.config
-  }
-  get resolver(): ModuleResolver | undefined {
-    return undefined
   }
 
   static hasRequiredQueries(module: Module) {

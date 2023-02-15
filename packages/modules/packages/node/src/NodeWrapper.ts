@@ -63,7 +63,4 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
   resolve(filter?: ModuleFilter): Promisable<Module[]> {
     return this.module.resolve(filter)
   }
-  tryResolve(filter?: ModuleFilter): Promisable<Module[]> {
-    return this.module.tryResolve(filter)
-  }
 }

@@ -22,24 +22,17 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     const args = { filter, module }
     emit('moduleResolved', args)
   }
-  const { resolve, tryResolve } = resolver
+  const { resolve } = resolver
   function originalResolve(filter?: ModuleFilter) {
     return resolve.bind(resolver)(filter)
   }
-  function originalTryResolve(filter?: ModuleFilter) {
-    return tryResolve.bind(resolver)(filter)
-  }
+
   return {
     on: (event: 'moduleResolved', listener: (args: ModuleResolvedEventArgs) => void) => {
       listeners.push(listener)
     },
     resolve: async (filter?: ModuleFilter): Promise<Module[]> => {
       const modules: Module[] = await originalResolve(filter)
-      await Promise.allSettled(modules.map((mod) => onModuleResolved(mod, filter)))
-      return modules
-    },
-    tryResolve: async (filter?: ModuleFilter): Promise<Module[]> => {
-      const modules: Module[] = await originalTryResolve(filter)
       await Promise.allSettled(modules.map((mod) => onModuleResolved(mod, filter)))
       return modules
     },

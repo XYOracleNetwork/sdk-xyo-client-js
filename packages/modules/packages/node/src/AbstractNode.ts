@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
@@ -12,7 +11,6 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  ModuleResolver,
   ModuleWrapper,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
@@ -164,29 +162,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return this
   }
 
-  /**
-   * Tries to resolve the supplied filter into wrapped modules
-   * @example <caption>Example using ArchivistWrapper</caption>
-   * const filter = { address: [address] }
-   * const mods: ArchivistWrapper[] = await node.tryResolveWrapped(ArchivistWrapper, filter)
-   * @param wrapper The ModuleWrapper class (ArchivistWrapper,
-   * DivinerWrapper, etc.)
-   * @param filter The ModuleFilter
-   * @returns An array of ModuleWrapper instances corresponding to
-   * the underlying modules matching the supplied filter
-   */
-  async tryResolveWrapped<T extends ModuleWrapper = ModuleWrapper>(wrapper: ModuleConstructable<Module, T>, filter?: ModuleFilter): Promise<T[]> {
-    return (await this.tryResolve(filter))
-      .map((mod) => {
-        try {
-          return new wrapper(mod)
-        } catch (_err) {
-          return undefined
-        }
-      })
-      .filter(exists)
-  }
-
   unregister(_module: Module): Promisable<void> {
     throw new Error('Method not implemented.')
   }
@@ -194,7 +169,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
   abstract attach(address: string, name?: string, external?: boolean): Promisable<void>
   abstract detach(address: string): Promisable<void>
   abstract resolve(filter?: ModuleFilter): Promisable<Module[]>
-  abstract tryResolve(filter?: ModuleFilter): Promisable<Module[]>
 }
 
 /** @deprecated use AbstractNode instead */

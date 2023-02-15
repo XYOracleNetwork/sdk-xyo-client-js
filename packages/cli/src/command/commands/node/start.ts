@@ -1,6 +1,6 @@
 import { EmptyObject } from '@xyo-network/core'
 import { Tail } from 'tail'
-import { ArgumentsCamelCase, CommandBuilder, CommandModule, Options } from 'yargs'
+import { ArgumentsCamelCase, CommandBuilder, CommandModule } from 'yargs'
 
 import { errFile, outFile, restart, stop } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'

@@ -34,7 +34,19 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 
 @moduleConstructable()
 export class ModuleWrapper<TModule extends Module = Module> implements Module {
-  constructor(protected readonly module: TModule, protected readonly account?: Account) {}
+  static requiredQueries: string[] = [AbstractModuleDiscoverQuerySchema]
+
+  protected readonly module: TModule
+
+  constructor(module: TModule, protected readonly account?: Account) {
+    //unwrap it if already wrapped
+    const wrapper = module as unknown as ModuleWrapper<TModule>
+    if (wrapper.module) {
+      this.module = wrapper.module
+    } else {
+      this.module = module
+    }
+  }
 
   get address() {
     return this.module.address
@@ -45,6 +57,22 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
   get resolver(): ModuleResolver | undefined {
     return undefined
   }
+
+  static hasRequiredQueries(module: Module) {
+    const moduleQueries = module.queries()
+    return this.requiredQueries.reduce((prev, query) => {
+      return prev && !!moduleQueries.find((item) => item === query)
+    }, true)
+  }
+
+  static tryWrap(_module: Module): ModuleWrapper | undefined {
+    throw new Error('Method not implemented.')
+  }
+
+  static wrap(_module: Module): ModuleWrapper {
+    throw new Error('Method not implemented.')
+  }
+
   public description(): Promisable<ModuleDescription> {
     return this.module.description()
   }

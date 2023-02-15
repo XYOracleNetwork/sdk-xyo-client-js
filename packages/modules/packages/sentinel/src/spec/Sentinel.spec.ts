@@ -4,7 +4,7 @@ import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { ModuleParams, SimpleModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver, ModuleParams, SimpleModuleResolver } from '@xyo-network/module'
 import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -35,7 +35,7 @@ describe('Sentinel', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const resolver = new SimpleModuleResolver()
+    const resolver = new CompositeModuleResolver()
     resolver.add(archivist)
     witnesses.forEach((witness) => resolver.add(witness))
 
@@ -120,7 +120,7 @@ describe('Sentinel', () => {
         archivistB = await MemoryArchivist.create()
       })
       it('config', async () => {
-        const resolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
         resolver.add([witnessA, witnessB, archivistA, archivistB])
         const params: ModuleParams<SentinelConfig> = {
           config: {
@@ -136,7 +136,7 @@ describe('Sentinel', () => {
         await assertArchivistStateMatchesSentinelReport(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {
-        const resolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
         resolver.add([witnessA, archivistA, archivistB])
         const params: ModuleParams<SentinelConfig> = {
           config: {
@@ -154,7 +154,7 @@ describe('Sentinel', () => {
         await assertArchivistStateMatchesSentinelReport(result, [archivistA, archivistB])
       })
       it('inline', async () => {
-        const resolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
         resolver.add([archivistA, archivistB])
         const params: ModuleParams<SentinelConfig> = {
           config: {
@@ -192,7 +192,7 @@ describe('Sentinel', () => {
         }
         const witnessA = await FailingWitness.create(paramsA)
 
-        const resolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
         resolver.add([witnessA, witnessB, archivistA, archivistB])
         const params: ModuleParams<SentinelConfig> = {
           config: {

@@ -5,16 +5,16 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import {
   AbstractModule,
   AbstractModuleConfig,
+  CompositeModuleResolver,
   Module,
   ModuleConstructable,
   ModuleDescription,
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  ModuleRepository,
+  ModuleResolver,
   ModuleWrapper,
   QueryBoundWitnessWrapper,
-  SimpleModuleResolver,
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
@@ -28,21 +28,24 @@ import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuer
 
 //const childModuleDiscoverQueryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
 
-export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module> extends ModuleParams<TConfig> {
-  internalResolver?: ModuleRepository<TModule>
+export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> extends ModuleParams<TConfig> {
+  internalResolver?: CompositeModuleResolver
 }
 
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
-  extends AbstractModule<TConfig>
-  implements NodeModule
-{
+export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule {
   static readonly configSchema = NodeConfigSchema
 
-  protected internalResolver: ModuleRepository<TModule>
+  protected internalResolver: CompositeModuleResolver
 
-  protected constructor(params: AbstractNodeParams<TConfig, TModule>) {
+  protected constructor(params: AbstractNodeParams<TConfig>) {
     super(params)
-    this.internalResolver = params.internalResolver ?? new SimpleModuleResolver<TModule>()
+
+    //external resolver can only resolve some things
+    this.resolver = params.resolver ?? new CompositeModuleResolver([])
+    this.resolver
+
+    //internal resolver can resolve everything
+    this.internalResolver = params.internalResolver ?? new CompositeModuleResolver([this.resolver])
   }
 
   get isModuleResolver(): boolean {
@@ -57,7 +60,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     return (await this.attachedModules()).map((module) => module.address)
   }
 
-  async attachedModules(): Promise<TModule[]> {
+  async attachedModules(): Promise<Module[]> {
     return await (this.internalResolver.resolve() ?? [])
   }
 
@@ -126,7 +129,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  register(_module: TModule): Promisable<void> {
+  register(_module: Module, _attach = false): Promisable<void> {
     throw new Error('Method not implemented.')
   }
 
@@ -134,7 +137,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
     throw new Error('Method not implemented.')
   }
 
-  registeredModules(): Promisable<TModule[]> {
+  registeredModules(): Promisable<Module[]> {
     throw new Error('Method not implemented.')
   }
 
@@ -149,8 +152,8 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
    * @returns An array of ModuleWrapper instances corresponding to
    * the underlying modules matching the supplied filter
    */
-  async resolveWrapped<T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>(
-    wrapper: ModuleConstructable<TModule, T>,
+  async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
+    wrapper: ModuleConstructable<Module, T>,
     filter?: ModuleFilter,
   ): Promise<T[]> {
     return (await this.resolve(filter)).map((mod) => new wrapper(mod))
@@ -172,10 +175,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
    * @returns An array of ModuleWrapper instances corresponding to
    * the underlying modules matching the supplied filter
    */
-  async tryResolveWrapped<T extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>(
-    wrapper: ModuleConstructable<TModule, T>,
-    filter?: ModuleFilter,
-  ): Promise<T[]> {
+  async tryResolveWrapped<T extends ModuleWrapper = ModuleWrapper>(wrapper: ModuleConstructable<Module, T>, filter?: ModuleFilter): Promise<T[]> {
     return (await this.tryResolve(filter))
       .map((mod) => {
         try {
@@ -187,18 +187,15 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig, TMod
       .filter(exists)
   }
 
-  unregister(_module: TModule): Promisable<void> {
+  unregister(_module: Module): Promisable<void> {
     throw new Error('Method not implemented.')
   }
 
-  abstract attach(address: string): Promisable<void>
+  abstract attach(address: string, name?: string, external?: boolean): Promisable<void>
   abstract detach(address: string): Promisable<void>
-  abstract resolve(filter?: ModuleFilter): Promisable<TModule[]>
-  abstract tryResolve(filter?: ModuleFilter): Promisable<TModule[]>
+  abstract resolve(filter?: ModuleFilter): Promisable<Module[]>
+  abstract tryResolve(filter?: ModuleFilter): Promisable<Module[]>
 }
 
 /** @deprecated use AbstractNode instead */
-export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig, TModule extends AbstractModule = AbstractModule> extends AbstractNode<
-  TConfig,
-  TModule
-> {}
+export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig> extends AbstractNode<TConfig> {}

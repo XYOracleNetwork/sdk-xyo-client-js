@@ -47,10 +47,10 @@ export class ArchivistWrapper extends ModuleWrapper implements PayloadArchivist 
     return result[0].payload_hashes.map(() => true)
   }
 
-  public async find(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
+  public async find<R extends XyoPayload = XyoPayload>(filter?: PayloadFindFilter): Promise<R[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistFindQuery>({ filter, schema: ArchivistFindQuerySchema })
     const result = await this.sendQuery(queryPayload)
-    return compact(result)
+    return compact(result) as R[]
   }
 
   public async get(hashes: string[]): Promise<XyoPayload[]> {

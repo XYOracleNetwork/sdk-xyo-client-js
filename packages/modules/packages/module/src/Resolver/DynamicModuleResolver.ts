@@ -1,12 +1,15 @@
 import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
-type ResolverFunction<TModule extends Module = Module> = (filter?: ModuleFilter) => Promisable<TModule[]>
+import { CompositeModuleResolver } from './CompositeModuleResolver'
 
-export class DynamicModuleResolver<TModule extends Module = Module> implements ModuleResolver<TModule> {
-  private _resolveImplementation: ResolverFunction<TModule>
+type ResolverFunction = (filter?: ModuleFilter) => Promisable<Module[]>
 
-  constructor(resolveImplementation: ResolverFunction<TModule> = () => []) {
+export class DynamicModuleResolver extends CompositeModuleResolver implements ModuleResolver<Module> {
+  private _resolveImplementation: ResolverFunction
+
+  constructor(resolveImplementation: ResolverFunction = () => [], resolvers: ModuleResolver[] = []) {
+    super(resolvers)
     this._resolveImplementation = resolveImplementation
   }
 
@@ -14,20 +17,20 @@ export class DynamicModuleResolver<TModule extends Module = Module> implements M
     return true
   }
 
-  public get resolveImplementation(): ResolverFunction<TModule> {
+  public get resolveImplementation(): ResolverFunction {
     return this._resolveImplementation
   }
-  public set resolveImplementation(value: ResolverFunction<TModule>) {
+  public set resolveImplementation(value: ResolverFunction) {
     this._resolveImplementation = value
   }
 
-  resolve(filter?: ModuleFilter): Promisable<TModule[]> {
-    return this._resolveImplementation(filter)
+  override async resolve(filter?: ModuleFilter): Promise<Module[]> {
+    return await this._resolveImplementation(filter)
   }
 
-  tryResolve(filter?: ModuleFilter): Promisable<TModule[]> {
+  override async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
     try {
-      return this._resolveImplementation(filter)
+      return await this._resolveImplementation(filter)
     } catch (error) {
       return []
     }

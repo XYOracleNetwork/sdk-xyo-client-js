@@ -1,6 +1,7 @@
 import { fulfilled } from '@xylabs/promise'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleRepository } from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module'
+import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 
 import { HttpProxyModule } from '../HttpProxyModule'
 
@@ -14,12 +15,14 @@ interface RemoteModuleFilter {
   name?: string[]
 }
 
-export class RemoteModuleResolver implements ModuleRepository {
+export class RemoteModuleResolver extends CompositeModuleResolver {
   private resolvedModules: Record<string, HttpProxyModule> = {}
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
-  constructor(protected readonly apiConfig: XyoApiConfig) {}
+  constructor(protected readonly apiConfig: XyoApiConfig, resolvers: ModuleResolver[] = []) {
+    super(resolvers)
+  }
 
   public get isModuleResolver(): boolean {
     return true

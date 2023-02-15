@@ -1,19 +1,24 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { Module, ModuleFilter, ModuleRepository } from '@xyo-network/module-model'
+import { Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
 import { duplicateModules } from '../lib'
+import { SimpleModuleResolver } from './SimpleModuleResolver'
 
-export class CompositeModuleResolver<TModule extends Module = Module> implements ModuleRepository {
-  constructor(protected readonly resolvers: ModuleRepository<TModule>[]) {}
+export class CompositeModuleResolver implements ModuleRepository<Module> {
+  private localResolver = new SimpleModuleResolver()
+
+  constructor(protected resolvers: ModuleResolver[] = []) {
+    resolvers.push(this.localResolver)
+  }
 
   get isModuleResolver() {
     return true
   }
 
-  add(module: TModule, name?: string): this
-  add(module: TModule[], name?: string[]): this
-  add(module: TModule | TModule[], name?: string | string[]): this {
+  add(module: Module, name?: string): this
+  add(module: Module[], name?: string[]): this
+  add(module: Module | Module[], name?: string | string[]): this {
     if (Array.isArray(module)) {
       const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
       assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
@@ -22,6 +27,10 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
       this.addSingleModule(module, typeof name === 'string' ? name : undefined)
     }
     return this
+  }
+
+  addResolver(resolver: ModuleResolver) {
+    this.resolvers.push(resolver)
   }
 
   remove(addressOrName: string | string[]): this {
@@ -33,12 +42,16 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return this
   }
 
-  async resolve(filter?: ModuleFilter): Promise<TModule[]> {
+  removeResolver(resolver: ModuleResolver) {
+    this.resolvers = this.resolvers.filter((item) => item !== resolver)
+  }
+
+  async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const resolved = await this.tryResolve(filter)
     return resolved.length ? resolved : Promise.reject()
   }
 
-  async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
+  async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
     const modules = this.resolvers.map((resolver) => resolver.tryResolve(filter))
     const settled = await Promise.allSettled(modules)
     return settled
@@ -48,12 +61,12 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
       .filter(duplicateModules)
   }
 
-  private addSingleModule(module?: TModule, name?: string) {
+  private addSingleModule(module?: Module, name?: string) {
     if (module) {
-      this.resolvers.map((resolver) => resolver.add(module, name))
+      this.localResolver.add(module, name)
     }
   }
   private removeSingleModule(addressOrName: string) {
-    this.resolvers.map((resolver) => resolver.remove(addressOrName))
+    this.localResolver.remove(addressOrName)
   }
 }

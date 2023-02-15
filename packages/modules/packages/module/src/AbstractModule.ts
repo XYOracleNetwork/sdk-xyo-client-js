@@ -11,7 +11,6 @@ import {
   Module,
   ModuleDescription,
   ModuleQueryResult,
-  ModuleResolver,
   SchemaString,
   XyoQuery,
   XyoQueryBoundWitness,
@@ -31,6 +30,7 @@ import { Logging } from './Logging'
 import { ModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
+import { CompositeModuleResolver } from './Resolver'
 
 @creatable()
 export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {
@@ -39,7 +39,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public config: TConfig
 
-  protected _resolver?: ModuleResolver
+  protected _resolver?: CompositeModuleResolver
   protected _started = false
   protected account: Account
   protected readonly logger?: Logging
@@ -65,10 +65,10 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.previousHash
   }
 
-  public get resolver(): ModuleResolver | undefined {
+  public get resolver(): CompositeModuleResolver | undefined {
     return this._resolver
   }
-  public set resolver(v: ModuleResolver | undefined) {
+  public set resolver(v: CompositeModuleResolver | undefined) {
     this._resolver = v
   }
 

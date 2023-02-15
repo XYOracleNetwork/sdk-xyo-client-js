@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/cli/src/command/commands/config/show.spec.ts"
+        "packages/modules/src/spec/VariousNodeConfigurations.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

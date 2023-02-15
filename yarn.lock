@@ -5822,7 +5822,6 @@ __metadata:
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
-    "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/diviner-wrapper": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
@@ -6281,6 +6280,7 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/panel": "workspace:^"
+    "@xyo-network/sentinel": "workspace:^"
     "@xyo-network/witness": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
@@ -6894,7 +6894,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sentinel@workspace:packages/modules/packages/sentinel":
+"@xyo-network/sentinel@workspace:^, @xyo-network/sentinel@workspace:packages/modules/packages/sentinel":
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel@workspace:packages/modules/packages/sentinel"
   dependencies:

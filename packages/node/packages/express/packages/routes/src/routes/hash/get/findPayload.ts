@@ -32,12 +32,11 @@ export const findPayload = async (
 
   const result = await wrapper.find(filter)
 
-  const payload = result?.[0] ?? undefined
+  const payload = result?.[0] ? PayloadWrapper.parse(result[0]) : undefined
   if (payload && addresses.length) {
-    const hash = new PayloadWrapper(payload).hash
+    const hash = payload.hash
     const signed = await isPayloadSignedByAddress(boundWitnessArchivist, hash, addresses)
-    return signed ? payload : undefined
-  } else {
-    return payload
+    if (!signed) return undefined
   }
+  return payload ? payload.body : undefined
 }

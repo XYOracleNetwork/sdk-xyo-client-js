@@ -4143,7 +4143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.51.0":
+"@typescript-eslint/eslint-plugin@npm:^5.51.0, @typescript-eslint/eslint-plugin@npm:^5.52.0":
   version: 5.52.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.52.0"
   dependencies:
@@ -4178,7 +4178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.51.0":
+"@typescript-eslint/parser@npm:^5.51.0, @typescript-eslint/parser@npm:^5.52.0":
   version: 5.52.0
   resolution: "@typescript-eslint/parser@npm:5.52.0"
   dependencies:
@@ -4538,6 +4538,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/eslint-config@npm:^2.14.15":
+  version: 2.14.15
+  resolution: "@xylabs/eslint-config@npm:2.14.15"
+  dependencies:
+    "@babel/core": ^7.20.12
+    "@babel/eslint-parser": ^7.19.1
+    "@typescript-eslint/eslint-plugin": ^5.52.0
+    "@typescript-eslint/parser": ^5.52.0
+    eslint-config-prettier: ^8.6.0
+    eslint-import-resolver-typescript: ^3.5.3
+    eslint-plugin-deprecation: ^1.3.3
+    eslint-plugin-import: ^2.27.5
+    eslint-plugin-json-es: ^1.5.7
+    eslint-plugin-md: ^1.0.19
+    eslint-plugin-no-secrets: ^0.8.9
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-simple-import-sort: ^10.0.0
+    eslint-plugin-sort-keys-fix: ^1.1.2
+    eslint-plugin-workspaces: ^0.7.0
+    markdown-eslint-parser: ^1.2.1
+    prettier: ^2.8.4
+    remark-lint-maximum-line-length: ^3.1.2
+    remark-preset-lint-markdown-style-guide: ^5.1.2
+    typescript: ^4.9.5
+  peerDependencies:
+    eslint: ^8.23.0
+  checksum: 159eb94073f27e1084a2bf8d69c24391c493c66b752208c47acadfc58de805a71fe7f02cc7c89de03c20ef5d0de8af02e8decb933f44ee33b8eece5eb194dce2
+  languageName: node
+  linkType: hard
+
 "@xylabs/exists@npm:^2.7.1":
   version: 2.7.1
   resolution: "@xylabs/exists@npm:2.7.1"
@@ -4589,14 +4619,14 @@ __metadata:
   linkType: hard
 
 "@xylabs/ts-scripts-yarn3@npm:^2.14.14":
-  version: 2.14.14
-  resolution: "@xylabs/ts-scripts-yarn3@npm:2.14.14"
+  version: 2.14.15
+  resolution: "@xylabs/ts-scripts-yarn3@npm:2.14.15"
   dependencies:
     "@babel/core": ^7.20.12
     "@babel/preset-env": ^7.20.2
     "@types/node": ~18.13.0
-    "@xylabs/eslint-config": ^2.14.14
-    "@xylabs/tsconfig": ^2.14.14
+    "@xylabs/eslint-config": ^2.14.15
+    "@xylabs/tsconfig": ^2.14.15
     chalk: ^4.1.2
     cpy: ^8.1.2
     depcheck: ^1.4.3
@@ -4604,8 +4634,8 @@ __metadata:
     eslint-config-prettier: ^8.6.0
     eslint-plugin-prettier: ^4.2.1
     eslint-plugin-sonarjs: ^0.18.0
-    jest: ^29.4.2
-    jest-environment-jsdom: ^29.4.2
+    jest: ^29.4.3
+    jest-environment-jsdom: ^29.4.3
     jest-extended: ^3.2.3
     jest-mock-extended: ^3.0.1
     jest-sorted: ^1.0.14
@@ -4676,7 +4706,7 @@ __metadata:
     xy: dist/cjs/bin/xy.js
     xy-ts: src/bin/xy-ts.ts
     yarn3only: dist/cjs/bin/yarn3only.js
-  checksum: 7d10b81c9f594b84bed376eaf38fe834bc2118db69963921b8ac121828a0b2b91c28fcfd97bcff4c8309d2fc5d1660c4da096ebf3afa7b1fdf8325d565389e6a
+  checksum: 88241cd8ad00e2b86df69df0d915c3e389adde058c86fc5e206863ec73f8b01db2ca715b460cdb0bf80d75c945b074d7fbf4e08755f947d9f8e2cb0bdf8892bc
   languageName: node
   linkType: hard
 
@@ -4713,6 +4743,13 @@ __metadata:
   version: 2.14.14
   resolution: "@xylabs/tsconfig@npm:2.14.14"
   checksum: de57bddb77f8e042b0edba239ad475bced7c149d91ec18ce6f74518a4083fd9a8892e662f9d33d3820dcb7ce4f67535f63cb75cc1adf5f6524eaa145f1e33d5c
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig@npm:^2.14.15":
+  version: 2.14.15
+  resolution: "@xylabs/tsconfig@npm:2.14.15"
+  checksum: 4442bbe8b83739ef903731c84b550b0266a9828eed186751b51bface8ef4fa89b7206938c0884525734fc3b951999269d9b5c2922613dde309e94e06c57b884e
   languageName: node
   linkType: hard
 
@@ -12368,7 +12405,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-environment-jsdom@npm:^29.4.2, jest-environment-jsdom@npm:^29.4.3":
+"jest-environment-jsdom@npm:^29.4.3":
   version: 29.4.3
   resolution: "jest-environment-jsdom@npm:29.4.3"
   dependencies:
@@ -12710,7 +12747,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:^29.4.2, jest@npm:^29.4.3":
+"jest@npm:^29.4.3":
   version: 29.4.3
   resolution: "jest@npm:29.4.3"
   dependencies:

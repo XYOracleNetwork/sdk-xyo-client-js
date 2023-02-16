@@ -1,7 +1,7 @@
 import { Module } from './Module'
 import { ModuleResolver } from './ModuleResolver'
 
-export interface ModuleRepository extends ModuleResolver {
+export interface ModuleRepository<TModule extends Module = Module> extends ModuleResolver<TModule> {
   add(module: Module, name?: string): this
   add(module: Module[], name?: string[]): this
   add(module: Module | Module[], name?: string | string[]): this

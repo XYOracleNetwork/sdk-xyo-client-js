@@ -380,19 +380,6 @@ describe('MemoryNode', () => {
       })
     })
   })
-  describe('resolver', () => {
-    it('emits event when resolver changes', (done) => {
-      const resolver = new CompositeModuleResolver()
-      node.on('moduleResolverChanged', (args) => {
-        expect(args).toBeObject()
-        expect(args.resolver).toBe(resolver)
-        done()
-      })
-      expect(node.resolver).toBeDefined()
-      node.resolver = resolver
-      expect(node.resolver).toBe(resolver)
-    })
-  })
 })
 
 const prettyPrintDescription = (description: ModuleDescription) => {

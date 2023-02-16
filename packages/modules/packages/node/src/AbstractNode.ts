@@ -30,22 +30,15 @@ export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> ext
   internalResolver?: CompositeModuleResolver
 }
 
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule {
+export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule<AbstractModule> {
   static readonly configSchema = NodeConfigSchema
 
-  protected internalResolver: CompositeModuleResolver
+  protected internalResolver = new CompositeModuleResolver()
 
   private readonly isNode = true
 
   protected constructor(params: AbstractNodeParams<TConfig>) {
     super(params)
-
-    //external resolver can only resolve some things
-    const resolver = params.resolver ?? new CompositeModuleResolver()
-
-    //internal resolver can resolve everything
-    this.internalResolver = params.internalResolver ?? new CompositeModuleResolver().addResolver(resolver)
-    this.resolver = resolver
   }
 
   get isModuleResolver(): boolean {
@@ -174,7 +167,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
 
   abstract attach(address: string, name?: string, external?: boolean): Promisable<void>
   abstract detach(address: string): Promisable<void>
-  abstract resolve(filter?: ModuleFilter): Promisable<Module[]>
 }
 
 /** @deprecated use AbstractNode instead */

@@ -1,14 +1,15 @@
-import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
+import { ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
+import { AbstractModule } from '../AbstractModule'
 import { CompositeModuleResolver } from './CompositeModuleResolver'
 
-type ResolverFunction = (filter?: ModuleFilter) => Promisable<Module[]>
+type ResolverFunction = (filter?: ModuleFilter) => Promisable<AbstractModule[]>
 
-export class DynamicModuleResolver extends CompositeModuleResolver implements ModuleResolver {
+export class DynamicModuleResolver extends CompositeModuleResolver implements ModuleResolver<AbstractModule> {
   private _resolveImplementation: ResolverFunction
 
-  constructor(resolveImplementation: ResolverFunction = () => [], resolvers: ModuleResolver[] = []) {
+  constructor(resolveImplementation: ResolverFunction = () => [], resolvers: ModuleResolver<AbstractModule>[] = []) {
     super()
     resolvers.forEach((resolver) => super.addResolver(resolver))
     this._resolveImplementation = resolveImplementation
@@ -25,7 +26,7 @@ export class DynamicModuleResolver extends CompositeModuleResolver implements Mo
     this._resolveImplementation = value
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<Module[]> {
+  override async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
     return await this._resolveImplementation(filter)
   }
 }

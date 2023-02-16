@@ -10,6 +10,7 @@ import {
   AbstractModuleSubscribeQuerySchema,
   Module,
   ModuleDescription,
+  ModuleFilter,
   ModuleQueryResult,
   SchemaString,
   XyoQuery,
@@ -39,6 +40,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public config: TConfig
 
+  protected _parentResolver?: CompositeModuleResolver
   protected _resolver: CompositeModuleResolver
   protected _started = false
   protected account: Account
@@ -61,15 +63,20 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.addressValue.hex
   }
 
+  public get parentResolver(): CompositeModuleResolver | undefined {
+    return this._parentResolver
+  }
+
+  public set parentResolver(resolver: CompositeModuleResolver | undefined) {
+    this._parentResolver = resolver
+  }
+
   public get previousHash() {
     return this.account.previousHash
   }
 
   public get resolver(): CompositeModuleResolver {
     return this._resolver
-  }
-  public set resolver(v: CompositeModuleResolver) {
-    this._resolver = v
   }
 
   static async create(params?: Partial<ModuleParams<AbstractModuleConfig>>): Promise<AbstractModule> {
@@ -79,8 +86,16 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return await new this(actualParams as ModuleParams<AbstractModuleConfig>).start()
   }
 
+  public attachResolver(resolver: CompositeModuleResolver, name?: string) {
+    resolver.add(this, name)
+  }
+
   public description(): Promisable<ModuleDescription> {
     return { address: this.address, queries: this.queries() }
+  }
+
+  public detachResolver(resolver: CompositeModuleResolver) {
+    resolver.remove(this.address)
   }
 
   public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
@@ -138,6 +153,10 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
       : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
     return validators.every((validator) => validator(query, payloads))
+  }
+
+  public async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+    return await this._resolver.resolve(filter)
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {

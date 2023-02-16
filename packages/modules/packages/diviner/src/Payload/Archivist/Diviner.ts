@@ -41,7 +41,7 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
     const configArchivistAddress = this.config?.archivist
     if (configArchivistAddress) {
       const resolvedArchivist: PayloadArchivist | null = configArchivistAddress
-        ? ((await this.resolver.resolve({ address: [configArchivistAddress] })) as unknown as PayloadArchivist[]).shift() ?? null
+        ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as PayloadArchivist[]).shift() ?? null
         : null
       if (resolvedArchivist) {
         return resolvedArchivist ? new ArchivistWrapper(resolvedArchivist) : null

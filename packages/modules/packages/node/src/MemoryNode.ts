@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractModule, CompositeModuleResolver, duplicateModules, EventListener, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
+import { AbstractModule, CompositeModuleResolver, duplicateModules, EventListener, Module, ModuleFilter } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -20,19 +20,8 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
 {
   static configSchema = NodeConfigSchema
   private readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
-  private registeredModuleMap = new Map<string, Module>()
+  private registeredModuleMap = new Map<string, AbstractModule>()
   private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
-
-  //Required to prevent field from being write only
-  override get resolver() {
-    return super.resolver
-  }
-
-  override set resolver(resolver: CompositeModuleResolver) {
-    super.resolver = resolver
-    const args = { resolver }
-    this.resolverChangedEventListeners?.map((listener) => listener(args))
-  }
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     const instance = (await super.create(params)) as MemoryNode
@@ -63,14 +52,19 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
 
   override attach(address: string, name?: string, external?: boolean) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
-    if (external && this.resolver) {
-      this.resolver.add(module, name)
-    } else {
-      this.internalResolver.add(module, name)
+    module.attachResolver(this.internalResolver)
+    module.parentResolver = new CompositeModuleResolver().addResolver(this.internalResolver).addResolver(this.resolver)
+
+    if (this.parentResolver) {
+      module.parentResolver.addResolver(this.parentResolver)
     }
 
     if (AbstractNode.isNode(module)) {
-      this.internalResolver.addResolver((module as AbstractNode).resolver)
+      const abstractModule = module as AbstractNode
+      abstractModule.attachResolver(this.internalResolver)
+      if (external) {
+        abstractModule.attachResolver(this.resolver)
+      }
     }
 
     const args = { module, name }
@@ -79,8 +73,8 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
 
   override detach(address: string) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
-    this.internalResolver.removeResolver(module as unknown as ModuleResolver)
-    this.internalResolver.remove(address)
+    module.detachResolver(this.resolver)
+    module.detachResolver(this.internalResolver)
   }
 
   on(event: 'moduleAttached', listener: (args: ModuleAttachedEventArgs) => void): this
@@ -97,11 +91,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     return this
   }
 
-  override register(module: AbstractModule, attach = false) {
+  override register(module: AbstractModule, attach = false, name?: string, external?: boolean) {
     this.registeredModuleMap.set(module.address, module)
-    module.resolver = this.internalResolver
     if (attach) {
-      this.attach(module.address)
+      this.attach(module.address, name, external)
     }
   }
 
@@ -117,9 +110,9 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     })
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<Module[]> {
+  override async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
     const internal = this.internalResolver.resolve(filter)
-    const external = this.resolver?.resolve(filter) || []
+    const external = this.parentResolver?.resolve(filter) || []
     const resolved = await Promise.allSettled([internal, external])
     return resolved
       .filter(fulfilled)
@@ -130,6 +123,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   }
 
   override unregister(module: Module) {
+    this.detach(module.address)
     this.registeredModuleMap.delete(module.address)
   }
 }

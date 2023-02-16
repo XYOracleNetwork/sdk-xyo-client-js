@@ -119,11 +119,17 @@ describe('XyoAccount', () => {
   })
   describe('previousHash', () => {
     it('Allows setting via constructor', () => {
+      const hash1 = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
+      const hash2 = '7e176ae5b592db0171bcce06bd621c4f121ffa34f064f215cf0189aff79e56eb'
       const accountA = Account.random()
-      accountA.sign('3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c')
+      accountA.sign(hash1)
       const privateKey = accountA.private.hex
       const previousHash = accountA.previousHash?.hex
       const accountB = new Account({ privateKey, previousHash })
+      expect(accountA.previousHash).toEqual(accountB.previousHash)
+      expect(accountA.previousHash?.hex).toEqual(accountB.previousHash?.hex)
+      accountA.sign(hash2)
+      accountB.sign(hash2)
       expect(accountA.previousHash).toEqual(accountB.previousHash)
       expect(accountA.previousHash?.hex).toEqual(accountB.previousHash?.hex)
     })

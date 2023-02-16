@@ -117,7 +117,7 @@ describe('XyoAccount', () => {
       expect(account.addressValue.hex).toBeString()
     })
   })
-  describe.only('previousHash', () => {
+  describe('previousHash', () => {
     const hash = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
     it('returns last signed hash', () => {
       const account = Account.random()

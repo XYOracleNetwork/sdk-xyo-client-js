@@ -118,18 +118,22 @@ describe('XyoAccount', () => {
     })
   })
   describe('previousHash', () => {
-    it('Allows setting via constructor', () => {
-      const hash1 = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
-      const hash2 = '7e176ae5b592db0171bcce06bd621c4f121ffa34f064f215cf0189aff79e56eb'
+    const hash = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
+    it('returns last signed hash', () => {
+      const account = Account.random()
+      account.sign(hash)
+      expect(account.previousHash?.hex).toEqual(account.previousHash?.hex)
+    })
+    it('returns undefined if no previous signings', () => {
+      const account = Account.random()
+      expect(account.previousHash?.hex).toBeUndefined()
+    })
+    it('allows setting via constructor', () => {
       const accountA = Account.random()
-      accountA.sign(hash1)
+      accountA.sign(hash)
       const privateKey = accountA.private.hex
       const previousHash = accountA.previousHash?.hex
       const accountB = new Account({ privateKey, previousHash })
-      expect(accountA.previousHash).toEqual(accountB.previousHash)
-      expect(accountA.previousHash?.hex).toEqual(accountB.previousHash?.hex)
-      accountA.sign(hash2)
-      accountB.sign(hash2)
       expect(accountA.previousHash).toEqual(accountB.previousHash)
       expect(accountA.previousHash?.hex).toEqual(accountB.previousHash?.hex)
     })

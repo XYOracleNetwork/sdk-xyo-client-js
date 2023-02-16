@@ -17,7 +17,7 @@ import { MongoDBArchivePermissionsPayloadPayloadArchivist } from '../MongoDBArch
 PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
 
 describe('MongoDBArchivePermissionsPayloadPayloadArchivist', () => {
-  const phrase = process.env.ACCOUNT_SEED
+  const phrase = 'test'
   const account = new Account({ phrase })
   let archive = ''
   let sut: MongoDBArchivePermissionsPayloadPayloadArchivist

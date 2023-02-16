@@ -7,7 +7,7 @@ import { KeyPair } from './Key'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
-const nameOf = <TObj>(name: keyof TObj) => name
+const nameOf = <T>(name: keyof T) => name
 
 interface PhraseInitializationConfig {
   phrase: string

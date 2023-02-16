@@ -23,7 +23,7 @@ describe('MultiNodeConfiguration', () => {
     primaryNode = await MemoryNode.create()
     primaryNodeWrapper = new NodeWrapper(primaryNode)
     primaryArchivist = await MemoryArchivist.create()
-    primaryNode.register(primaryArchivist, true)
+    primaryNode.register(primaryArchivist, true, 'archivist', true)
 
     rightNode = await MemoryNode.create()
     rightNodeWrapper = new NodeWrapper(rightNode)
@@ -49,9 +49,11 @@ describe('MultiNodeConfiguration', () => {
     primaryNode.register(rightNode)
   })
   test('leftNode', async () => {
-    await primaryNodeWrapper.attach(leftNode.address, 'left', true)
-    await primaryNodeWrapper.detach(rightNode.address)
+    primaryNode.attach(leftNode.address, 'left', true)
+    primaryNode.detach(rightNode.address)
     expect((await primaryNode.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
+    expect((await leftNode.resolve({ address: [leftDiviner.address] })).length).toBe(1)
+    expect((await rightNode.resolve({ address: [rightWitness.address] })).length).toBe(1)
     expect((await primaryNode.resolve({ address: [leftNode.address] })).length).toBe(1)
     expect((await primaryNode.resolve({ address: [rightNode.address] })).length).toBe(0)
     expect((await primaryNode.resolve({ address: [leftDiviner.address] })).length).toBe(1)
@@ -59,9 +61,11 @@ describe('MultiNodeConfiguration', () => {
   })
 
   test('rightNode', async () => {
-    await primaryNodeWrapper.attach(rightNode.address, 'right', true)
-    await primaryNodeWrapper.detach(leftNode.address)
+    primaryNode.attach(rightNode.address, 'right', true)
+    primaryNode.detach(leftNode.address)
     expect((await primaryNode.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
+    expect((await leftNode.resolve({ address: [leftDiviner.address] })).length).toBe(1)
+    expect((await rightNode.resolve({ address: [rightWitness.address] })).length).toBe(1)
     expect((await primaryNode.resolve({ address: [rightNode.address] })).length).toBe(1)
     expect((await primaryNode.resolve({ address: [leftNode.address] })).length).toBe(0)
     expect((await primaryNode.resolve({ address: [rightWitness.address] })).length).toBe(1)

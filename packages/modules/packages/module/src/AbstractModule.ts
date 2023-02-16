@@ -40,7 +40,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public config: TConfig
 
-  protected _parentResolver?: CompositeModuleResolver
+  protected _parentResolver = new CompositeModuleResolver()
   protected _resolver: CompositeModuleResolver
   protected _started = false
   protected account: Account
@@ -49,9 +49,9 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
-    this._resolver = params.resolver ?? new CompositeModuleResolver()
     this.config = params.config
     this.account = this.loadAccount(params?.account)
+    this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this, params.config.name)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
@@ -63,12 +63,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.addressValue.hex
   }
 
-  public get parentResolver(): CompositeModuleResolver | undefined {
+  public get parentResolver(): CompositeModuleResolver {
     return this._parentResolver
-  }
-
-  public set parentResolver(resolver: CompositeModuleResolver | undefined) {
-    this._parentResolver = resolver
   }
 
   public get previousHash() {
@@ -86,16 +82,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return await new this(actualParams as ModuleParams<AbstractModuleConfig>).start()
   }
 
-  public attachResolver(resolver: CompositeModuleResolver, name?: string) {
-    resolver.add(this, name)
-  }
-
   public description(): Promisable<ModuleDescription> {
     return { address: this.address, queries: this.queries() }
-  }
-
-  public detachResolver(resolver: CompositeModuleResolver) {
-    resolver.remove(this.address)
   }
 
   public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
@@ -156,7 +144,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   }
 
   public async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
-    return await this._resolver.resolve(filter)
+    const resolver = assertEx(this._parentResolver, 'Parent resolver is required to call resolve')
+    return (await resolver.resolve(filter)) ?? []
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {

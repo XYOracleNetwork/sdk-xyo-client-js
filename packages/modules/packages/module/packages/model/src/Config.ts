@@ -10,6 +10,7 @@ export type SchemaString = string
 
 export type AbstractModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayload<
   {
+    name?: string
     //if both allowed and disallowed is specified, then disallowed takes priority
     security?: {
       //if schema in record, then only these address sets can access query

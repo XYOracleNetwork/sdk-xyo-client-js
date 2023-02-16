@@ -10,7 +10,7 @@ import {
   XyoHuriPayload,
   XyoHuriSchema,
 } from '@xyo-network/diviner'
-import { AbstractModule, CompositeModuleResolver, Module, ModuleDescription } from '@xyo-network/module'
+import { AbstractModule, Module, ModuleDescription } from '@xyo-network/module'
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { NodeConfigSchema } from '../Config'
@@ -60,7 +60,7 @@ describe('MemoryNode', () => {
       if (payloads && payloads[0]) {
         const huri = new PayloadWrapper(payloads[0]).hash
         const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
-        const module = (await node.resolve({ address: [diviner.address] })).shift() as DivinerModule
+        const module = (await node.resolve({ address: [diviner.address] })).shift() as DivinerModule | undefined
         const foundDiviner = module ? new DivinerWrapper(module) : null
         expect(foundDiviner).toBeDefined()
         if (foundDiviner) {

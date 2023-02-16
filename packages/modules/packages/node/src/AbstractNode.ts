@@ -138,6 +138,10 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     throw new Error('Method not implemented.')
   }
 
+  override async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+    return (await this.internalResolver.resolve(filter)) ?? super.resolve(filter) ?? []
+  }
+
   /**
    * Resolves the supplied filter into wrapped modules
    * @example <caption>Example using ArchivistWrapper</caption>

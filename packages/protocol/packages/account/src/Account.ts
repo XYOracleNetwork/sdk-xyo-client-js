@@ -9,6 +9,7 @@ export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
 export interface AccountConfig {
   phrase?: string
+  previousHash?: XyoData
   privateKey?: DataLike
 }
 
@@ -16,7 +17,7 @@ export class Account extends KeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 
-  constructor({ privateKey, phrase }: AccountConfig = {}) {
+  constructor({ privateKey, phrase, previousHash }: AccountConfig = {}) {
     const privateKeyToUse = privateKey
       ? toUint8Array(privateKey)
       : phrase
@@ -24,6 +25,7 @@ export class Account extends KeyPair {
       : undefined
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
+    if (previousHash) this._previousHash = previousHash
   }
 
   /** @deprecated use addressValue instead */

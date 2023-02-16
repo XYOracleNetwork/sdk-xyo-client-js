@@ -20,8 +20,8 @@ export class RemoteModuleResolver extends CompositeModuleResolver {
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
-  constructor(protected readonly apiConfig: XyoApiConfig, resolvers: ModuleResolver[] = []) {
-    super(resolvers)
+  constructor(protected readonly apiConfig: XyoApiConfig) {
+    super()
   }
 
   public get isModuleResolver(): boolean {

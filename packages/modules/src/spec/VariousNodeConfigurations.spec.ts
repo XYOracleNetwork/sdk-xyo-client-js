@@ -1,23 +1,23 @@
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { MemoryAddressHistoryDiviner, MemoryAddressHistoryDivinerConfigSchema } from '@xyo-network/diviner'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { Module } from '@xyo-network/module'
+import { AbstractModule } from '@xyo-network/module'
 import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 
 describe('MultiNodeConfiguration', () => {
-  let primaryArchivist: Module
+  let primaryArchivist: AbstractModule
   let primaryNode: MemoryNode
   let primaryNodeWrapper: NodeWrapper
 
-  let leftArchivist: Module
-  let leftDiviner: Module
+  let leftArchivist: AbstractModule
+  let leftDiviner: AbstractModule
   let leftNode: MemoryNode
   let leftNodeWrapper: NodeWrapper
 
   let rightNode: MemoryNode
   let rightNodeWrapper: NodeWrapper
-  let rightArchivist: Module
-  let rightWitness: Module
+  let rightArchivist: AbstractModule
+  let rightWitness: AbstractModule
 
   beforeAll(async () => {
     primaryNode = await MemoryNode.create()
@@ -45,8 +45,8 @@ describe('MultiNodeConfiguration', () => {
     leftNode.register(leftDiviner)
     leftNode.attach(leftDiviner.address, 'diviner', true)
 
-    primaryNode.register(leftNodeWrapper)
-    primaryNode.register(rightNodeWrapper)
+    primaryNode.register(leftNode)
+    primaryNode.register(rightNode)
   })
   test('leftNode', async () => {
     await primaryNodeWrapper.attach(leftNode.address, 'left', true)

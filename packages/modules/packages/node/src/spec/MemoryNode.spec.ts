@@ -14,7 +14,7 @@ import { AbstractModule, CompositeModuleResolver, Module, ModuleDescription } fr
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { NodeConfigSchema } from '../Config'
-import { MemoryNode, MemoryNodeParams } from '../MemoryNode'
+import { MemoryNode } from '../MemoryNode'
 
 describe('MemoryNode', () => {
   const testAccount1 = new Account({ phrase: 'testPhrase1' })
@@ -34,7 +34,6 @@ describe('MemoryNode', () => {
       const archivist = await XyoMemoryArchivist.create()
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
-        resolver: new CompositeModuleResolver().add(archivist),
       })
       node.register(archivist)
       node.attach(archivist.address)
@@ -76,7 +75,7 @@ describe('MemoryNode', () => {
         }
       }
     })
-    describe('with autoAttachExternallyResolved true', () => {
+    /*describe('with autoAttachExternallyResolved true', () => {
       it('attaches external modules to internal resolver', async () => {
         // Arrange
         // Create a MemoryNode with no modules in the internal
@@ -84,7 +83,6 @@ describe('MemoryNode', () => {
         const resolver = new CompositeModuleResolver()
         const internalResolver = new CompositeModuleResolver()
         const params: MemoryNodeParams = {
-          autoAttachExternallyResolved: true,
           config: { schema: NodeConfigSchema },
           internalResolver,
           resolver,
@@ -113,7 +111,7 @@ describe('MemoryNode', () => {
         // Module still exists in external resolver
         expect(await resolver.resolve(filter)).toBeArrayOfSize(1)
       })
-    })
+    })*/
   })
   describe('register', () => {
     it('registers module', async () => {
@@ -290,7 +288,7 @@ describe('MemoryNode', () => {
       it('describes node and all nested nodes and child modules', async () => {
         const description = await node.description()
         validateModuleDescription(description)
-        expect(description.children).toBeArrayOfSize(3)
+        expect(description.children).toBeArrayOfSize(2)
         description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {

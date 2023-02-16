@@ -1,15 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import {
-  CompositeModuleResolver,
-  duplicateModules,
-  EventListener,
-  mixinResolverEventEmitter,
-  Module,
-  ModuleFilter,
-  ModuleResolver,
-} from '@xyo-network/module'
+import { AbstractModule, CompositeModuleResolver, duplicateModules, EventListener, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -20,9 +12,7 @@ type SupportedEventListeners<T extends SupportedEventTypes> = T extends 'moduleA
   ? EventListener<ModuleAttachedEventArgs>
   : EventListener<ModuleResolverChangedEventArgs>
 
-export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig> extends AbstractNodeParams<TConfig> {
-  autoAttachExternallyResolved?: boolean
-}
+export type MemoryNodeParams<TConfig extends NodeConfig = NodeConfig> = AbstractNodeParams<TConfig>
 
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   extends AbstractNode<TConfig>
@@ -33,6 +23,11 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   private registeredModuleMap = new Map<string, Module>()
   private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
 
+  //Required to prevent field from being write only
+  override get resolver() {
+    return super.resolver
+  }
+
   override set resolver(resolver: CompositeModuleResolver) {
     super.resolver = resolver
     const args = { resolver }
@@ -41,7 +36,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     const instance = (await super.create(params)) as MemoryNode
-    if (params?.autoAttachExternallyResolved) {
+
+    //Arie: Why would we want to auto register modules?
+
+    /*if (params?.autoAttachExternallyResolved) {
       const resolver = mixinResolverEventEmitter(instance.resolver)
       resolver.on('moduleResolved', (args) => {
         const { module, filter } = args
@@ -59,7 +57,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
         }
       })
       instance.resolver = resolver
-    }
+    }*/
     return instance
   }
 
@@ -71,11 +69,8 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
       this.internalResolver.add(module, name)
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const nodeModule = module as any
-    // TODO: We need a better check than this to see if the module is a resolver
-    if (nodeModule.resolve) {
-      this.internalResolver.addResolver(nodeModule)
+    if (AbstractNode.isNode(module)) {
+      this.internalResolver.addResolver((module as AbstractNode).resolver)
     }
 
     const args = { module, name }
@@ -102,8 +97,9 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     return this
   }
 
-  override register(module: Module, attach = false) {
+  override register(module: AbstractModule, attach = false) {
     this.registeredModuleMap.set(module.address, module)
+    module.resolver = this.internalResolver
     if (attach) {
       this.attach(module.address)
     }

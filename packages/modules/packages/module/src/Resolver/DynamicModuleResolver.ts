@@ -9,7 +9,8 @@ export class DynamicModuleResolver extends CompositeModuleResolver implements Mo
   private _resolveImplementation: ResolverFunction
 
   constructor(resolveImplementation: ResolverFunction = () => [], resolvers: ModuleResolver[] = []) {
-    super(resolvers)
+    super()
+    resolvers.forEach((resolver) => super.addResolver(resolver))
     this._resolveImplementation = resolveImplementation
   }
 

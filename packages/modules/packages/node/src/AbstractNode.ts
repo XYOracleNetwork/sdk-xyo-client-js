@@ -35,15 +35,17 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
 
   protected internalResolver: CompositeModuleResolver
 
+  private readonly isNode = true
+
   protected constructor(params: AbstractNodeParams<TConfig>) {
     super(params)
 
     //external resolver can only resolve some things
-    this.resolver = params.resolver ?? new CompositeModuleResolver([])
-    this.resolver
+    const resolver = params.resolver ?? new CompositeModuleResolver()
 
     //internal resolver can resolve everything
-    this.internalResolver = params.internalResolver ?? new CompositeModuleResolver([this.resolver])
+    this.internalResolver = params.internalResolver ?? new CompositeModuleResolver().addResolver(resolver)
+    this.resolver = resolver
   }
 
   get isModuleResolver(): boolean {
@@ -52,6 +54,10 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
 
   static override async create(params?: Partial<AbstractNodeParams>): Promise<AbstractNode> {
     return (await super.create(params)) as AbstractNode
+  }
+
+  static isNode(module: unknown) {
+    return (module as AbstractNode).isNode
   }
 
   async attached(): Promise<string[]> {
@@ -127,7 +133,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  register(_module: Module, _attach = false): Promisable<void> {
+  register(_module: AbstractModule, _attach = false): Promisable<void> {
     throw new Error('Method not implemented.')
   }
 

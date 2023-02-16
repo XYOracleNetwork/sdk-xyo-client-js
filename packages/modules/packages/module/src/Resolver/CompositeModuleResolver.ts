@@ -6,10 +6,13 @@ import { duplicateModules } from '../lib'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
 export class CompositeModuleResolver implements ModuleRepository {
-  private localResolver = new SimpleModuleResolver()
+  protected resolvers: ModuleResolver[] = []
+  private localResolver: SimpleModuleResolver
 
-  constructor(protected resolvers: ModuleResolver[] = []) {
-    resolvers.push(this.localResolver)
+  constructor() {
+    const localResolver = new SimpleModuleResolver()
+    this.addResolver(localResolver)
+    this.localResolver = localResolver
   }
 
   get isModuleResolver() {
@@ -30,7 +33,11 @@ export class CompositeModuleResolver implements ModuleRepository {
   }
 
   addResolver(resolver: ModuleResolver) {
+    if (resolver === undefined) {
+      console.log('Yo!')
+    }
     this.resolvers.push(resolver)
+    return this
   }
 
   remove(addressOrName: string | string[]): this {
@@ -44,6 +51,7 @@ export class CompositeModuleResolver implements ModuleRepository {
 
   removeResolver(resolver: ModuleResolver) {
     this.resolvers = this.resolvers.filter((item) => item !== resolver)
+    return this
   }
 
   async resolve(filter?: ModuleFilter): Promise<Module[]> {

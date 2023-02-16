@@ -4681,11 +4681,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/tsconfig-dom-jest@npm:^2.14.14":
-  version: 2.14.14
-  resolution: "@xylabs/tsconfig-dom-jest@npm:2.14.14"
+  version: 2.14.15
+  resolution: "@xylabs/tsconfig-dom-jest@npm:2.14.15"
   dependencies:
-    "@xylabs/tsconfig-dom": ^2.14.14
-  checksum: a6ca24457593f5bda142454f8d4566611220b1e30dc3d76f76a1caa4741183a60501f8a3628fc5832ba3a6bf47a061ffa4e73c11f49481092bfd6b98708bb084
+    "@xylabs/tsconfig-dom": ^2.14.15
+  checksum: d024aef11334e1c58482ef46cead1d22f411c4652e77b3fdce23d13a43313d58a810f919ad55e4004ea8e8a05614744cc0d5af62925cddcfce2b26d46b68323b
   languageName: node
   linkType: hard
 
@@ -4695,6 +4695,15 @@ __metadata:
   dependencies:
     "@xylabs/tsconfig": ^2.14.14
   checksum: f11135e26dac490f3cdd6515f9710c5278454c838c470b045b04febd7caaf22976041ce59adb0a8f9b0a9eb1aca940d6b5bd60897f9bbfb3bde992df32eb2ca1
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig-dom@npm:^2.14.15":
+  version: 2.14.15
+  resolution: "@xylabs/tsconfig-dom@npm:2.14.15"
+  dependencies:
+    "@xylabs/tsconfig": ^2.14.15
+  checksum: 16172b2a78496631cbe2b03dd616715a5142cc98bf317036d315b36011ad6d9ebf5079567d889519fddb94b275ecb374480f231fe55a807dfff59ccd3d481815
   languageName: node
   linkType: hard
 
@@ -4713,6 +4722,13 @@ __metadata:
   version: 2.14.14
   resolution: "@xylabs/tsconfig@npm:2.14.14"
   checksum: de57bddb77f8e042b0edba239ad475bced7c149d91ec18ce6f74518a4083fd9a8892e662f9d33d3820dcb7ce4f67535f63cb75cc1adf5f6524eaa145f1e33d5c
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig@npm:^2.14.15":
+  version: 2.14.15
+  resolution: "@xylabs/tsconfig@npm:2.14.15"
+  checksum: 4442bbe8b83739ef903731c84b550b0266a9828eed186751b51bface8ef4fa89b7206938c0884525734fc3b951999269d9b5c2922613dde309e94e06c57b884e
   languageName: node
   linkType: hard
 

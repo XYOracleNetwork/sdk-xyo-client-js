@@ -27,6 +27,12 @@ export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitia
 
 export type AccountConfig = InitializationConfig & AccountOptions
 
+const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
+  const node = HDNode.fromMnemonic(mnemonic)
+  const wallet = path ? node.derivePath(path) : node
+  return wallet.privateKey.padStart(64, '0')
+}
+
 export class Account extends KeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData
@@ -39,9 +45,7 @@ export class Account extends KeyPair {
       } else if (nameOf<PrivateKeyInitializationConfig>('privateKey') in opts) {
         privateKeyToUse = toUint8Array(opts.privateKey)
       } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
-        const node = HDNode.fromMnemonic(opts.mnemonic)
-        const wallet = opts?.path ? node.derivePath(opts.path) : node
-        privateKeyToUse = wallet.privateKey.padStart(64, '0')
+        privateKeyToUse = getPrivateKeyFromMnemonic(opts.mnemonic, opts?.path)
       }
     }
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
@@ -73,9 +77,7 @@ export class Account extends KeyPair {
   }
 
   static fromMnemonic = (mnemonic: string, path?: string): Account => {
-    const node = HDNode.fromMnemonic(mnemonic)
-    const wallet = path ? node.derivePath(path) : node
-    const privateKey = wallet.privateKey.padStart(64, '0')
+    const privateKey = getPrivateKeyFromMnemonic(mnemonic, path)
     return new Account({ privateKey })
   }
 

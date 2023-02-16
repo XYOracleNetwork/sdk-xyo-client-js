@@ -6,6 +6,5 @@ export const XyoNodeAttachQuerySchema: XyoNodeAttachQuerySchema = 'network.xyo.q
 export type XyoNodeAttachQuery = XyoQuery<{
   address: string
   external?: boolean
-  name?: string
   schema: XyoNodeAttachQuerySchema
 }>

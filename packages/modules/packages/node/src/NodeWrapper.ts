@@ -38,8 +38,8 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return assertEx(this.tryWrap(module), 'Unable to wrap module as NodeWrapper')
   }
 
-  async attach(address: string, name?: string, external?: boolean): Promise<void> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, external, name, schema: XyoNodeAttachQuerySchema })
+  async attach(address: string, external?: boolean): Promise<void> {
+    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, external, schema: XyoNodeAttachQuerySchema })
     await this.sendQuery(queryPayload)
   }
 

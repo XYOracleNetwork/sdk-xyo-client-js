@@ -3,7 +3,6 @@ import { Module } from '@xyo-network/module-model'
 
 export interface ModuleAttachedEventArgs {
   module: Module
-  name?: string
 }
 
 export interface ModuleDetachedEventArgs {

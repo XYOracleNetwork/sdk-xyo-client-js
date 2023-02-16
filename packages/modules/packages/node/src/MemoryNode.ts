@@ -57,8 +57,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     return instance
   }
 
-  override attach(address: string, name?: string, external?: boolean) {
+  override attach(address: string, external?: boolean) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
+
+    this.internalResolver.addResolver(module.resolver)
 
     //give it inside access
     module.parentResolver.addResolver(this.internalResolver)
@@ -73,12 +75,14 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
       this.resolver.addResolver(module.resolver)
     }
 
-    const args = { module, name }
+    const args = { module }
     this.moduleAttachedEventListeners?.map((listener) => listener(args))
   }
 
   override detach(address: string) {
     const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
+
+    this.internalResolver.removeResolver(module.resolver)
 
     //remove outside access
     module.parentResolver.removeResolver(this.parentResolver)
@@ -107,11 +111,9 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     return this
   }
 
-  override register(module: AbstractModule, attach = false, name?: string, external?: boolean) {
+  override register(module: AbstractModule) {
     this.registeredModuleMap.set(module.address, module)
-    if (attach) {
-      this.attach(module.address, name, external)
-    }
+    return this
   }
 
   override registered() {
@@ -142,5 +144,6 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   override unregister(module: Module) {
     this.detach(module.address)
     this.registeredModuleMap.delete(module.address)
+    return this
   }
 }

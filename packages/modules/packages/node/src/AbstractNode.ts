@@ -126,7 +126,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  register(_module: AbstractModule, _attach = false): Promisable<void> {
+  register(_module: AbstractModule): Promisable<this> {
     throw new Error('Method not implemented.')
   }
 
@@ -165,11 +165,11 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return this
   }
 
-  unregister(_module: Module): Promisable<void> {
+  unregister(_module: Module): Promisable<this> {
     throw new Error('Method not implemented.')
   }
 
-  abstract attach(address: string, name?: string, external?: boolean): Promisable<void>
+  abstract attach(address: string, external?: boolean): Promisable<void>
   abstract detach(address: string): Promisable<void>
 }
 

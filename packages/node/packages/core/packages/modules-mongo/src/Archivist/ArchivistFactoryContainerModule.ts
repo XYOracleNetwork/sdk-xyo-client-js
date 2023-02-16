@@ -60,14 +60,14 @@ export const ArchivistFactoryContainerModule = new ContainerModule((bind: interf
 const getBoundWitnessArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = boundWitnessArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema }
+  const config: ArchiveModuleConfig = { archive, name: getPayloadArchivistName(archive), schema }
   const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const logger = context.container.get<Logger>(TYPES.Logger)
   const params = { config, logger, sdk }
   const archivist = await MongoDBArchiveBoundWitnessArchivist.create(params)
   const node = context.container.get<MemoryNode>(TYPES.Node)
   node.register(archivist)
-  node.attach(archivist.address, getBoundWitnessArchivistName(archive))
+  node.attach(archivist.address, true)
   boundWitnessArchivistCache?.set(archive, archivist)
   return archivist
 }
@@ -75,14 +75,14 @@ const getBoundWitnessArchivist = async (context: interfaces.Context, archive: st
 const getPayloadArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = payloadArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema }
+  const config: ArchiveModuleConfig = { archive, name: getPayloadArchivistName(archive), schema }
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const logger = context.container.get<Logger>(TYPES.Logger)
   const params = { config, logger, sdk }
   const archivist = await MongoDBArchivePayloadArchivist.create(params)
   const node = context.container.get<MemoryNode>(TYPES.Node)
   node.register(archivist)
-  node.attach(archivist.address, getPayloadArchivistName(archive))
+  node.attach(archivist.address, true)
   payloadArchivistCache?.set(archive, archivist)
   return archivist
 }
@@ -90,7 +90,7 @@ const getPayloadArchivist = async (context: interfaces.Context, archive: string)
 const getArchivePermissionsArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = archivePermissionsArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, schema }
+  const config: ArchiveModuleConfig = { archive, name: getPayloadArchivistName(archive), schema }
   const phrase = assertEx(process.env.ACCOUNT_SEED)
   const account = new Account({ phrase })
   const boundWitnesses = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)

@@ -149,16 +149,13 @@ describe('MemoryNode', () => {
       node.attach(module.address)
     })
     it('emits event on module attach', (done) => {
-      const name = 'foo'
       node.on('moduleAttached', (args) => {
         expect(args.module).toBeObject()
         expect(args.module.address).toBe(module.address)
-        expect(args.name).toBeDefined()
-        expect(args.name).toBe(name)
         expect(args.module).toBe(module)
         done()
       })
-      node.attach(module.address, name)
+      node.attach(module.address)
     })
   })
   describe('attached', () => {

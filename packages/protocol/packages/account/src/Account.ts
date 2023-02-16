@@ -68,8 +68,8 @@ export class Account extends KeyPair {
     return new Account({ privateKey })
   }
 
-  static isXyoWallet(value: unknown) {
-    return (value as Account)._isXyoWallet
+  static isXyoWallet(value: unknown): boolean {
+    return (value as Account)?._isXyoWallet || false
   }
 
   static random() {

@@ -117,7 +117,7 @@ describe('XyoAccount', () => {
       expect(account.addressValue.hex).toBeString()
     })
   })
-  describe('previousHash', () => {
+  describe.only('previousHash', () => {
     const hash = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
     it('returns last signed hash', () => {
       const account = Account.random()
@@ -126,9 +126,10 @@ describe('XyoAccount', () => {
     })
     it('returns undefined if no previous signings', () => {
       const account = Account.random()
+      expect(account.previousHash).toBeUndefined()
       expect(account.previousHash?.hex).toBeUndefined()
     })
-    it('allows setting via constructor', () => {
+    it('allows setting value via constructor', () => {
       const accountA = Account.random()
       accountA.sign(hash)
       const privateKey = accountA.private.hex
@@ -136,6 +137,11 @@ describe('XyoAccount', () => {
       const accountB = new Account({ privateKey, previousHash })
       expect(accountA.previousHash).toEqual(accountB.previousHash)
       expect(accountA.previousHash?.hex).toEqual(accountB.previousHash?.hex)
+    })
+    it('handles undefined value in constructor', () => {
+      const account = new Account({ phrase: 'test', previousHash: undefined })
+      expect(account.previousHash).toBeUndefined()
+      expect(account.previousHash?.hex).toBeUndefined()
     })
   })
 })

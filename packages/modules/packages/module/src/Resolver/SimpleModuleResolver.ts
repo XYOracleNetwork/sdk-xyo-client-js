@@ -40,11 +40,11 @@ export class SimpleModuleResolver implements ModuleRepository {
   resolve(filter?: ModuleFilter): Promisable<Module[]> {
     const filteredByName: Module[] = this.resolveByName(Object.values(this.modules), filter?.name)
 
-    const filteredByAddress: Module[] = this.resolveByAddress(filteredByName, filter?.address)
+    const filteredByAddress: Module[] = filter?.address ? this.resolveByAddress(filteredByName, filter?.address) : filteredByName
 
-    const filteredByConfigSchema: Module[] = this.resolveByConfigSchema(filteredByAddress, filter?.config)
+    const filteredByConfigSchema: Module[] = filter?.config ? this.resolveByConfigSchema(filteredByAddress, filter?.config) : filteredByAddress
 
-    const filteredByQuery: Module[] = this.resolveByQuery(filteredByConfigSchema, filter?.query)
+    const filteredByQuery: Module[] = filter?.query ? this.resolveByQuery(filteredByConfigSchema, filter?.query) : filteredByConfigSchema
 
     return filteredByQuery
   }
@@ -99,7 +99,7 @@ export class SimpleModuleResolver implements ModuleRepository {
 
   private resolveByName(modules: Module[], name?: string[]) {
     if (name) {
-      const address = name.map((name) => assertEx(this.nameToAddress[name], 'name not found'))
+      const address = compact(name.map((name) => this.nameToAddress[name]))
       return this.resolveByAddress(modules, address)
     }
     return modules

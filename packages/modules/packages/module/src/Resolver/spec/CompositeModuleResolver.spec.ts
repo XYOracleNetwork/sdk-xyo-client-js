@@ -36,13 +36,13 @@ describe('CompositeModuleResolver', () => {
         const name = 'mod'
         const mod = mock<Module>({ address })
         expect(sut.add(mod, name)).toEqual(sut)
-        expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(1)
-        expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(0)
-        expect(await resolverA.tryResolve({ address: [] })).toBeArrayOfSize(0)
-        expect(await resolverA.tryResolve({ name: [name] })).toBeArrayOfSize(0)
-        expect(await resolverB.tryResolve({ address: [address] })).toBeArrayOfSize(0)
-        expect(await resolverB.tryResolve({ name: [name] })).toBeArrayOfSize(0)
+        expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
+        expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await resolverA.resolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await resolverA.resolve({ address: [] })).toBeArrayOfSize(0)
+        expect(await resolverA.resolve({ name: [name] })).toBeArrayOfSize(0)
+        expect(await resolverB.resolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await resolverB.resolve({ name: [name] })).toBeArrayOfSize(0)
       })
     })
     describe('remove', () => {
@@ -50,12 +50,12 @@ describe('CompositeModuleResolver', () => {
         const address = moduleC.address
         const name = moduleCName
         expect(sut.remove(address)).toEqual(sut)
-        expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(1)
-        expect(await resolverA.tryResolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await resolverA.tryResolve({ name: [name] })).toBeArrayOfSize(1)
-        expect(await resolverB.tryResolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await resolverB.tryResolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
+        expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await resolverA.resolve({ address: [address] })).toBeArrayOfSize(1)
+        expect(await resolverA.resolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await resolverB.resolve({ address: [address] })).toBeArrayOfSize(1)
+        expect(await resolverB.resolve({ name: [name] })).toBeArrayOfSize(1)
       })
     })
     describe('resolve', () => {
@@ -74,15 +74,15 @@ describe('CompositeModuleResolver', () => {
     })
     describe('tryResolve', () => {
       it('resolves module in first resolver', async () => {
-        const result = await sut.tryResolve({ name: [moduleAName] })
+        const result = await sut.resolve({ name: [moduleAName] })
         expect(result).toBeArrayOfSize(1)
       })
       it('resolves module in second resolver', async () => {
-        const result = await sut.tryResolve({ name: [moduleBName] })
+        const result = await sut.resolve({ name: [moduleBName] })
         expect(result).toBeArrayOfSize(1)
       })
       it('resolves module in both resolvers', async () => {
-        const result = await sut.tryResolve({ name: [moduleCName] })
+        const result = await sut.resolve({ name: [moduleCName] })
         expect(result).toBeArrayOfSize(1)
       })
     })

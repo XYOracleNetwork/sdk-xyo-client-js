@@ -24,15 +24,15 @@ describe('RemoteModuleResolver', () => {
   })
   describe('tryResolve', () => {
     it('resolves by address', async () => {
-      const mods = await resolver.tryResolve({ address: [address] })
+      const mods = await resolver.resolve({ address: [address] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by config schema', async () => {
-      const mods = await resolver.tryResolve({ address: [address], config: [NodeConfigSchema] })
+      const mods = await resolver.resolve({ address: [address], config: [NodeConfigSchema] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by name', async () => {
-      const mods = await resolver.tryResolve({ name: [name] })
+      const mods = await resolver.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
   })
@@ -45,30 +45,30 @@ describe('RemoteModuleResolver', () => {
       node = await MemoryNode.create(params)
     })
     it('resolves by address', async () => {
-      const mods = await node.tryResolve({ address: [address] })
+      const mods = await node.resolve({ address: [address] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by config schema', async () => {
-      const mods = await node.tryResolve({ address: [address], config: [NodeConfigSchema] })
+      const mods = await node.resolve({ address: [address], config: [NodeConfigSchema] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by name', async () => {
-      const mods = await node.tryResolve({ name: [name] })
+      const mods = await node.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves archivist', async () => {
       const name = 'Archivist'
-      const mods = await node.tryResolve({ name: [name] })
+      const mods = await node.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves BoundWitness archives', async () => {
       const name = getBoundWitnessArchivistName('temp')
-      const mods = await node.tryResolve({ name: [name] })
+      const mods = await node.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves Payload archives', async () => {
       const name = getPayloadArchivistName('temp')
-      const mods = await node.tryResolve({ name: [name] })
+      const mods = await node.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
   })

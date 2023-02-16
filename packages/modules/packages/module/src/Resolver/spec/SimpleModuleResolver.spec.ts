@@ -23,8 +23,8 @@ describe('SimpleModuleResolver', () => {
         const address = mod.address
         const name = moduleBName
         expect(sut.add(mod, name)).toEqual(sut)
-        expect(await sut.tryResolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
+        expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)
       })
     })
     describe('remove', () => {
@@ -32,8 +32,8 @@ describe('SimpleModuleResolver', () => {
         const address = moduleA.address
         const name = moduleAName
         expect(sut.remove(address)).toEqual(sut)
-        expect(await sut.tryResolve({ address: [moduleA.address] })).toBeArrayOfSize(0)
-        expect(await sut.tryResolve({ name: [name] })).toBeArrayOfSize(0)
+        expect(await sut.resolve({ address: [moduleA.address] })).toBeArrayOfSize(0)
+        expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(0)
       })
     })
     describe('resolve', () => {
@@ -44,7 +44,7 @@ describe('SimpleModuleResolver', () => {
     })
     describe('tryResolve', () => {
       it('resolves module]', async () => {
-        const result = await sut.tryResolve({ name: [moduleAName] })
+        const result = await sut.resolve({ name: [moduleAName] })
         expect(result).toBeArrayOfSize(1)
       })
     })

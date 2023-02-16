@@ -33,7 +33,7 @@ describe('RemoteNode', () => {
       expect(response).toBeTruthy()
     }
     it('resolves by name', async () => {
-      const mods = await sut.tryResolve({ name: [name] })
+      const mods = await sut.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
     it('resolves by address', async () => {
@@ -42,7 +42,7 @@ describe('RemoteNode', () => {
       expect(response).toBeTruthy()
       expect(response?.address).toBeString()
       const address = assertEx(response?.address)
-      const mods = await sut.tryResolve({ address: [address] })
+      const mods = await sut.resolve({ address: [address] })
       await validateModuleResolutionResponse(mods)
     })
   })

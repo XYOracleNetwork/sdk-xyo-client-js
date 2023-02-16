@@ -19,7 +19,7 @@ module.exports = async () => {
   for (const testArchive of testArchives) {
     let archive: XyoArchive
     const { name, accessControl } = testArchive
-    const phrase = process.env.ACCOUNT_SEED
+    const phrase = assertEx(process.env.ACCOUNT_SEED, 'ACCOUNT_SEED ENV VAR required')
     const account = new Account({ phrase })
     const token = await signInUser({
       address: account.addressValue.bn.toString('hex'),

@@ -7,23 +7,54 @@ import { KeyPair } from './Key'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
-export interface AccountConfig {
-  phrase?: string
-  privateKey?: DataLike
+const nameOf = <T>(name: keyof T) => name
+
+interface PhraseInitializationConfig {
+  phrase: string
+}
+interface PrivateKeyInitializationConfig {
+  privateKey: DataLike
+}
+interface MnemonicInitializationConfig {
+  mnemonic: string
+  path?: string
+}
+interface AccountOptions {
+  previousHash?: Uint8Array | string
+}
+
+export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitializationConfig | MnemonicInitializationConfig
+
+export type AccountConfig = InitializationConfig & AccountOptions
+
+const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
+  const node = HDNode.fromMnemonic(mnemonic)
+  const wallet = path ? node.derivePath(path) : node
+  return wallet.privateKey.padStart(64, '0')
+}
+
+const getPrivateKeyFromPhrase = (phrase: string) => {
+  return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
 }
 
 export class Account extends KeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 
-  constructor({ privateKey, phrase }: AccountConfig = {}) {
-    const privateKeyToUse = privateKey
-      ? toUint8Array(privateKey)
-      : phrase
-      ? toUint8Array(shajs('sha256').update(phrase).digest('hex').padStart(64, '0'))
-      : undefined
+  constructor(opts?: AccountConfig) {
+    let privateKeyToUse: DataLike | undefined = undefined
+    if (opts) {
+      if (nameOf<PhraseInitializationConfig>('phrase') in opts) {
+        privateKeyToUse = toUint8Array(shajs('sha256').update(opts.phrase).digest('hex').padStart(64, '0'))
+      } else if (nameOf<PrivateKeyInitializationConfig>('privateKey') in opts) {
+        privateKeyToUse = toUint8Array(opts.privateKey)
+      } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
+        privateKeyToUse = getPrivateKeyFromMnemonic(opts.mnemonic, opts?.path)
+      }
+    }
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
+    if (opts?.previousHash) this._previousHash = new XyoData(32, opts.previousHash)
   }
 
   /** @deprecated use addressValue instead */
@@ -50,15 +81,11 @@ export class Account extends KeyPair {
   }
 
   static fromMnemonic = (mnemonic: string, path?: string): Account => {
-    const node = HDNode.fromMnemonic(mnemonic)
-    const wallet = path ? node.derivePath(path) : node
-    const privateKey = wallet.privateKey.padStart(64, '0')
-    return new Account({ privateKey })
+    return Account.fromPrivateKey(getPrivateKeyFromMnemonic(mnemonic, path))
   }
 
   static fromPhrase(phrase: string) {
-    const privateKey = shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
-    return Account.fromPrivateKey(privateKey)
+    return Account.fromPrivateKey(getPrivateKeyFromPhrase(phrase))
   }
 
   static fromPrivateKey(key: Uint8Array | string) {
@@ -66,8 +93,8 @@ export class Account extends KeyPair {
     return new Account({ privateKey })
   }
 
-  static isXyoWallet(value: unknown) {
-    return (value as Account)._isXyoWallet
+  static isXyoWallet(value: unknown): boolean {
+    return (value as Account)?._isXyoWallet || false
   }
 
   static random() {

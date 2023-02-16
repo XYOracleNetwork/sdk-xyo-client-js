@@ -6,7 +6,7 @@ import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { MongoDBAddressHistoryDiviner } from '../MongoDBAddressHistoryDiviner'
 
 describe('MongoDBAddressHistoryDiviner', () => {
-  const phrase = process.env.ACCOUNT_SEED
+  const phrase = 'test'
   const address = new Account({ phrase }).addressValue.hex
   let sut: MongoDBAddressHistoryDiviner
   beforeEach(async () => {

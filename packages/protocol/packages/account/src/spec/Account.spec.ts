@@ -117,4 +117,15 @@ describe('XyoAccount', () => {
       expect(account.addressValue.hex).toBeString()
     })
   })
+  describe('previousHash', () => {
+    it('Allows setting via constructor', () => {
+      const accountA = Account.random()
+      accountA.sign('3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c')
+      const privateKey = accountA.private.hex
+      const previousHash = accountA.previousHash?.hex
+      const accountB = new Account({ privateKey, previousHash })
+      expect(accountA.previousHash).toEqual(accountB.previousHash)
+      expect(accountA.previousHash?.hex).toEqual(accountB.previousHash?.hex)
+    })
+  })
 })

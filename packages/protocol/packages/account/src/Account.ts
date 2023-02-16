@@ -20,7 +20,7 @@ interface MnemonicInitializationConfig {
   path?: string
 }
 interface AccountOptions {
-  previousHash?: XyoData
+  previousHash?: Uint8Array | string
 }
 
 export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitializationConfig | MnemonicInitializationConfig
@@ -54,7 +54,7 @@ export class Account extends KeyPair {
     }
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
-    if (opts?.previousHash) this._previousHash = opts.previousHash
+    if (opts?.previousHash) this._previousHash = new XyoData(32, opts.previousHash)
   }
 
   /** @deprecated use addressValue instead */

@@ -33,6 +33,10 @@ const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
   return wallet.privateKey.padStart(64, '0')
 }
 
+const getPrivateKeyFromPhrase = (phrase: string) => {
+  return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
+}
+
 export class Account extends KeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData
@@ -77,13 +81,11 @@ export class Account extends KeyPair {
   }
 
   static fromMnemonic = (mnemonic: string, path?: string): Account => {
-    const privateKey = getPrivateKeyFromMnemonic(mnemonic, path)
-    return new Account({ privateKey })
+    return Account.fromPrivateKey(getPrivateKeyFromMnemonic(mnemonic, path))
   }
 
   static fromPhrase(phrase: string) {
-    const privateKey = shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
-    return Account.fromPrivateKey(privateKey)
+    return Account.fromPrivateKey(getPrivateKeyFromPhrase(phrase))
   }
 
   static fromPrivateKey(key: Uint8Array | string) {

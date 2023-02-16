@@ -1,5 +1,5 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { ModuleParams } from '@xyo-network/module'
+import { AbstractModule, ModuleParams } from '@xyo-network/module'
 import {
   AbstractModuleConfigSchema,
   Module,
@@ -86,7 +86,7 @@ export class RemoteNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
     )
     return resolved.flat()
   }
-  override resolve(filter?: ModuleFilter): Promise<Module[]> {
+  override resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
     return this.internalResolver.resolve(filter)
   }
 }

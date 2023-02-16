@@ -1,7 +1,7 @@
 import { fulfilled } from '@xylabs/promise'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { CompositeModuleResolver } from '@xyo-network/module'
-import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
+import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
+import { AbstractModuleConfigSchema, Module, ModuleFilter } from '@xyo-network/module-model'
 
 import { HttpProxyModule } from '../HttpProxyModule'
 
@@ -41,18 +41,18 @@ export class RemoteModuleResolver extends CompositeModuleResolver {
     throw new Error('Method not implemented.')
   }
 
-  async resolve(filter?: ModuleFilter): Promise<Module[]> {
+  async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
     const mods = await Promise.all(this.resolveRemoteModules(filter))
     return this.filterLocalModules(mods, filter)
   }
 
-  async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
+  async tryResolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
     const settled = await Promise.allSettled(this.resolveRemoteModules(filter))
     const mods = settled.filter(fulfilled).map((r) => r.value)
     return this.filterLocalModules(mods, filter)
   }
 
-  private filterLocalModules(mods: Module[], filter?: LocalModuleFilter): Module[] {
+  private filterLocalModules(mods: AbstractModule[], filter?: LocalModuleFilter): AbstractModule[] {
     // TODO: Handle filter?.query
     if (filter?.query) throw new Error('Filtering by query not yet implemented by this resolver')
     const config = filter?.config

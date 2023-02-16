@@ -7,25 +7,46 @@ import { KeyPair } from './Key'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
-export interface AccountConfig {
-  phrase?: string
-  previousHash?: XyoData
-  privateKey?: DataLike
+const nameOf = <TObj>(name: keyof TObj) => name
+
+interface PhraseInitializationConfig {
+  phrase: string
 }
+interface PrivateKeyInitializationConfig {
+  privateKey: DataLike
+}
+interface MnemonicInitializationConfig {
+  mnemonic: string
+  path?: string
+}
+interface AccountOptions {
+  previousHash?: XyoData
+}
+
+export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitializationConfig | MnemonicInitializationConfig
+
+export type AccountConfig = InitializationConfig & AccountOptions
 
 export class Account extends KeyPair {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 
-  constructor({ privateKey, phrase, previousHash }: AccountConfig = {}) {
-    const privateKeyToUse = privateKey
-      ? toUint8Array(privateKey)
-      : phrase
-      ? toUint8Array(shajs('sha256').update(phrase).digest('hex').padStart(64, '0'))
-      : undefined
+  constructor(opts?: AccountConfig) {
+    let privateKeyToUse: DataLike | undefined = undefined
+    if (opts) {
+      if (nameOf<PhraseInitializationConfig>('phrase') in opts) {
+        privateKeyToUse = toUint8Array(shajs('sha256').update(opts.phrase).digest('hex').padStart(64, '0'))
+      } else if (nameOf<PrivateKeyInitializationConfig>('privateKey') in opts) {
+        privateKeyToUse = toUint8Array(opts.privateKey)
+      } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
+        const node = HDNode.fromMnemonic(opts.mnemonic)
+        const wallet = opts?.path ? node.derivePath(opts.path) : node
+        privateKeyToUse = wallet.privateKey.padStart(64, '0')
+      }
+    }
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
-    if (previousHash) this._previousHash = previousHash
+    if (opts?.previousHash) this._previousHash = opts.previousHash
   }
 
   /** @deprecated use addressValue instead */

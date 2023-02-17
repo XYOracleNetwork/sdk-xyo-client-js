@@ -43,11 +43,11 @@ const getQueryPayload = (
 
 describe('SetArchivePermissionsQueryHandler', () => {
   describe('handle', () => {
-    let archivist: MockProxy<ArchivePermissionsArchivistFactory>
+    let archivistFactory: MockProxy<ArchivePermissionsArchivistFactory>
     let sut: SetArchivePermissionsQueryHandler
     beforeEach(() => {
-      archivist = mock<ArchivePermissionsArchivistFactory>()
-      sut = new SetArchivePermissionsQueryHandler(archivist)
+      archivistFactory = mock<ArchivePermissionsArchivistFactory>()
+      sut = new SetArchivePermissionsQueryHandler(archivistFactory)
     })
     describe('with invalid permissions', () => {
       it('detects missing archive', async () => {

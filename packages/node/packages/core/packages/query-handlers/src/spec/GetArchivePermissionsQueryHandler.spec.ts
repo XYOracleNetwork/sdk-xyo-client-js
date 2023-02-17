@@ -9,7 +9,7 @@ import {
   SetArchivePermissionsSchema,
   XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { mock, mockDeep, MockProxy } from 'jest-mock-extended'
+import { mock, MockProxy } from 'jest-mock-extended'
 
 import { GetArchivePermissionsQueryHandler } from '../GetArchivePermissionsQueryHandler'
 
@@ -39,25 +39,24 @@ const expectEmptyPermissions = (actual: XyoPayloadWithMeta<SetArchivePermissions
   expect(actual?.schemas).toBeUndefined()
 }
 
-const configureAsNotWrapped = (archivist: ArchivePermissionsArchivist) => {
+const configureAsNotWrapped = (archivist: MockProxy<ArchivePermissionsArchivist>) => {
   ;(archivist as unknown as { module: false }).module = false
+  return archivist
 }
 
 describe('GetArchivePermissionsQueryHandler', () => {
   describe('handle', () => {
-    let archivistFactory: MockProxy<ArchivePermissionsArchivistFactory>
+    const archivist = configureAsNotWrapped(mock<ArchivePermissionsArchivist>())
+    const archivistFactory: MockProxy<ArchivePermissionsArchivistFactory> = jest.fn().mockResolvedValue(archivist)
+    const sut = new GetArchivePermissionsQueryHandler(archivistFactory)
     describe('when permissions for the archive', () => {
       describe('exist', () => {
         beforeEach(() => {
           const payloads: SetArchivePermissionsPayload[] = [permissions, emptyPermissions]
           const [boundWitness] = new BoundWitnessBuilder().payloads(payloads).build()
-          const archivist = mockDeep<ArchivePermissionsArchivist>()
-          configureAsNotWrapped(archivist)
-          archivist.query.mockResolvedValue([boundWitness, payloads])
-          archivistFactory = jest.fn().mockResolvedValue(archivist)
+          archivist.query.mockResolvedValueOnce([boundWitness, payloads])
         })
         it('returns the latest archive permissions', async () => {
-          const sut = new GetArchivePermissionsQueryHandler(archivistFactory)
           const actual = await sut.handle(new GetArchivePermissionsQuery({ _archive, _hash, _timestamp, schema }))
           expect(actual).toBeTruthy()
           expect(actual?.schema).toBe(SetArchivePermissionsSchema)
@@ -78,24 +77,20 @@ describe('GetArchivePermissionsQueryHandler', () => {
       beforeEach(() => {
         const payloads: SetArchivePermissionsPayload[] = []
         const [boundWitness] = new BoundWitnessBuilder().build()
-        const archivist = mock<ArchivePermissionsArchivist>()
-        configureAsNotWrapped(archivist)
-        archivist.query.mockResolvedValue([boundWitness, payloads])
-        archivistFactory = jest.fn().mockResolvedValue(archivist)
+        archivist.query.mockResolvedValueOnce([boundWitness, payloads])
       })
       it('returns the empty permissions', async () => {
-        const sut = new GetArchivePermissionsQueryHandler(archivistFactory)
         const actual = await sut.handle(new GetArchivePermissionsQuery({ _archive, _hash, _timestamp, schema }))
         expectEmptyPermissions(actual)
       })
     })
     describe('when archive not supplied', () => {
       beforeEach(() => {
-        const archivist = mockDeep<ArchivePermissionsArchivist>()
-        archivistFactory = jest.fn().mockResolvedValue(archivist)
+        const payloads: SetArchivePermissionsPayload[] = []
+        const [boundWitness] = new BoundWitnessBuilder().build()
+        archivist.query.mockResolvedValueOnce([boundWitness, payloads])
       })
       it('throws', async () => {
-        const sut = new GetArchivePermissionsQueryHandler(archivistFactory)
         const query = new GetArchivePermissionsQuery({ _hash, _timestamp, schema })
         await expect(sut.handle(query)).rejects.toThrow()
       })

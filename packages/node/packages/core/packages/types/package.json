@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.45.0-rc.4",
+  "version": "2.45.0",
   "description": "XYO Node Core Types",
   "sideeffects": false,
   "engines": {
@@ -31,6 +31,5 @@
   "module": "dist/esm/index.js",
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
-  "types": "dist/types/index.d.ts",
-  "stableVersion": "2.44.1"
+  "types": "dist/types/index.d.ts"
 }

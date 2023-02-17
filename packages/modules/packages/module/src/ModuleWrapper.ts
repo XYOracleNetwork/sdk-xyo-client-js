@@ -35,7 +35,7 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 export class ModuleWrapper<TModule extends Module = Module> implements Module {
   static requiredQueries: string[] = [AbstractModuleDiscoverQuerySchema]
 
-  protected readonly module: TModule
+  public readonly module: TModule
 
   constructor(module: TModule, protected readonly account?: Account) {
     //unwrap it if already wrapped

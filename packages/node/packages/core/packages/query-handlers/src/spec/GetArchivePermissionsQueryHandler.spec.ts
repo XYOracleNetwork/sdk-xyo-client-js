@@ -75,9 +75,8 @@ describe('GetArchivePermissionsQueryHandler', () => {
     })
     describe('do not exist', () => {
       beforeEach(() => {
-        const payloads: SetArchivePermissionsPayload[] = []
         const [boundWitness] = new BoundWitnessBuilder().build()
-        archivist.query.mockResolvedValueOnce([boundWitness, payloads])
+        archivist.query.mockResolvedValueOnce([boundWitness, []])
       })
       it('returns the empty permissions', async () => {
         const actual = await sut.handle(new GetArchivePermissionsQuery({ _archive, _hash, _timestamp, schema }))
@@ -86,9 +85,8 @@ describe('GetArchivePermissionsQueryHandler', () => {
     })
     describe('when archive not supplied', () => {
       beforeEach(() => {
-        const payloads: SetArchivePermissionsPayload[] = []
         const [boundWitness] = new BoundWitnessBuilder().build()
-        archivist.query.mockResolvedValueOnce([boundWitness, payloads])
+        archivist.query.mockResolvedValueOnce([boundWitness, []])
       })
       it('throws', async () => {
         const query = new GetArchivePermissionsQuery({ _hash, _timestamp, schema })

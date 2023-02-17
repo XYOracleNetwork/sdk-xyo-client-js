@@ -49,7 +49,7 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
     types.map(async (type) => {
       const mod = await container.getAsync<AbstractModule>(type)
       const address: string | undefined = mod?.address
-      if (address) node.attach(address, type.description)
+      if (address) node.attach(address)
     }),
   )
 }

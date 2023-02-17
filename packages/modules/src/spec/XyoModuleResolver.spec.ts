@@ -1,17 +1,17 @@
 /* eslint-disable import/no-internal-modules */
 import { ArchivistGetQuerySchema, MemoryArchivist } from '@xyo-network/archivist'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { Module, SimpleModuleResolver } from '@xyo-network/module'
+import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
 import { XyoWitnessObserveQuerySchema } from '@xyo-network/witness'
 
 describe('XyoModuleResolver', () => {
-  let archivist: Module
-  let witness: Module
-  let resolver: SimpleModuleResolver
+  let archivist: AbstractModule
+  let witness: AbstractModule
+  let resolver: CompositeModuleResolver
   beforeAll(async () => {
     archivist = await MemoryArchivist.create()
     witness = await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })
-    resolver = new SimpleModuleResolver()
+    resolver = new CompositeModuleResolver()
     resolver.add(archivist)
     resolver.add(witness)
   })

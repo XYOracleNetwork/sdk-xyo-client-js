@@ -3,7 +3,6 @@ import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
 import {
   AbstractModule,
-  AbstractModuleConfigSchema,
   creatable,
   isQuerySupportedByModule,
   Module,
@@ -13,17 +12,17 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-export interface HttpProxyModuleParams extends ModuleParams {
-  address?: string
+
+import { HttpProxyModuleConfig, HttpProxyModuleConfigSchema } from './Config'
+export interface HttpProxyModuleParams extends ModuleParams<HttpProxyModuleConfig> {
   api?: XyoArchivistApi
   apiConfig: XyoApiConfig
   name?: string
 }
 
 @creatable()
-export class HttpProxyModule extends AbstractModule {
-  static configSchema = AbstractModuleConfigSchema
-  protected readonly _address: string
+export class HttpProxyModule extends AbstractModule<HttpProxyModuleConfig> {
+  static configSchema = HttpProxyModuleConfigSchema
   protected readonly _api: XyoArchivistApi
 
   protected _queries: string[] | undefined
@@ -31,26 +30,26 @@ export class HttpProxyModule extends AbstractModule {
   protected constructor(params: HttpProxyModuleParams) {
     super(params)
     this._api = assertEx(params.api, 'Missing param [api]')
-    this._address = assertEx(params.address, 'Missing param [address]')
   }
 
-  public get address(): string {
-    return this._address
+  public override get address(): string {
+    return assertEx(this.config.address, 'missing remote address')
   }
 
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
-    const { address, apiConfig, name } = params
+    const { config, apiConfig, name } = params
+    const { address: remoteAddress } = config
     const api = new XyoArchivistApi(apiConfig)
     let description: XyoApiResponseBody<ModuleDescription>
-    if (address) {
-      description = await api.addresses.address(address).get()
+    if (remoteAddress) {
+      description = await api.addresses.address(remoteAddress).get()
     } else if (name) {
       description = (await api.node(name).get()) as unknown as XyoApiResponseBody<ModuleDescription>
     } else {
       description = await api.get()
     }
-    const addr = assertEx(description?.address)
-    const instance = new this({ ...params, address: addr, api })
+    const address = assertEx(description?.address)
+    const instance = new this({ ...params, api, apiConfig, config: { ...config, address }, name })
     instance._queries = assertEx(description?.queries, 'Error obtaining module description')
 
     return instance

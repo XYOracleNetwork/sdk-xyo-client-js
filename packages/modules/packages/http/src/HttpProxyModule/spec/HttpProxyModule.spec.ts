@@ -1,30 +1,25 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import {
-  AbstractModule,
-  AbstractModuleConfigSchema,
-  AbstractModuleDiscoverQuerySchema,
-  ModuleWrapper,
-  QueryBoundWitnessBuilder,
-} from '@xyo-network/module'
+import { AbstractModule, AbstractModuleDiscoverQuerySchema, ModuleWrapper, QueryBoundWitnessBuilder } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoApiConfig } from '@xyo-network/sdk'
 
+import { HttpProxyModuleConfigSchema } from '../Config'
 import { HttpProxyModule } from '../HttpProxyModule'
 
 const apiConfig: XyoApiConfig = { apiDomain: process.env.API_DOMAIN || 'http://localhost:8080' }
 const name = 'PayloadDiviner'
 
 const createDefault = (): Promise<HttpProxyModule> => {
-  return HttpProxyModule.create({ apiConfig, config: { schema: AbstractModuleConfigSchema } })
+  return HttpProxyModule.create({ apiConfig, config: { schema: HttpProxyModuleConfigSchema } })
 }
 const createByAddress = async (): Promise<HttpProxyModule> => {
   const api = new XyoArchivistApi(apiConfig)
   const address = assertEx((await api.get())?.address)
-  return HttpProxyModule.create({ address, apiConfig, config: { schema: AbstractModuleConfigSchema } })
+  return HttpProxyModule.create({ apiConfig, config: { address, schema: HttpProxyModuleConfigSchema } })
 }
 const createByName = (): Promise<HttpProxyModule> => {
-  return HttpProxyModule.create({ apiConfig, config: { schema: AbstractModuleConfigSchema }, name })
+  return HttpProxyModule.create({ apiConfig, config: { schema: HttpProxyModuleConfigSchema }, name })
 }
 
 describe('HttpProxyModule', () => {

@@ -60,7 +60,7 @@ export const ArchivistFactoryContainerModule = new ContainerModule((bind: interf
 const getBoundWitnessArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = boundWitnessArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, name: getPayloadArchivistName(archive), schema }
+  const config: ArchiveModuleConfig = { archive, name: getBoundWitnessArchivistName(archive), schema }
   const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const logger = context.container.get<Logger>(TYPES.Logger)
   const params = { config, logger, sdk }
@@ -90,7 +90,7 @@ const getPayloadArchivist = async (context: interfaces.Context, archive: string)
 const getArchivePermissionsArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = archivePermissionsArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, name: getPayloadArchivistName(archive), schema }
+  const config: ArchiveModuleConfig = { archive, name: TYPES.ArchivePermissionsArchivist.description, schema }
   const phrase = assertEx(process.env.ACCOUNT_SEED)
   const account = new Account({ phrase })
   const boundWitnesses = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)

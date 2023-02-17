@@ -1,11 +1,10 @@
 import { delay } from '@xylabs/delay'
-import { HttpProxyModule } from '@xyo-network/http-proxy-module'
-import { AbstractModuleConfigSchema } from '@xyo-network/module'
+import { HttpProxyModule, HttpProxyModuleConfigSchema } from '@xyo-network/http-proxy-module'
 import { MemoryNode } from '@xyo-network/node'
 
 import { printError, printLine } from '../print'
 
-const config = { schema: AbstractModuleConfigSchema }
+const config = { schema: HttpProxyModuleConfigSchema }
 
 const nodeConnectionErrorMsg = 'Error connecting to Node'
 

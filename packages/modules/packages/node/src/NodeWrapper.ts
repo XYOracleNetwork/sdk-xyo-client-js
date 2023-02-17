@@ -1,8 +1,10 @@
+import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { Promisable } from '@xyo-network/promise'
 
 import { Node, NodeModule } from './Node'
 import {
@@ -17,6 +19,8 @@ import {
 } from './Queries'
 
 export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements Node, NodeModule {
+  static requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
+
   public isModuleResolver = true
 
   private _archivist?: ArchivistWrapper
@@ -26,8 +30,16 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return this._archivist
   }
 
-  async attach(address: string, name?: string): Promise<void> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, name, schema: XyoNodeAttachQuerySchema })
+  static tryWrap(module: Module): NodeWrapper | undefined {
+    return this.hasRequiredQueries(module) ? new NodeWrapper(module as NodeModule) : undefined
+  }
+
+  static wrap(module: Module): NodeWrapper {
+    return assertEx(this.tryWrap(module), 'Unable to wrap module as NodeWrapper')
+  }
+
+  async attach(address: string, external?: boolean): Promise<void> {
+    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, external, schema: XyoNodeAttachQuerySchema })
     await this.sendQuery(queryPayload)
   }
 
@@ -48,10 +60,7 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return payloads.map((p) => p.address)
   }
 
-  resolve(filter?: ModuleFilter) {
+  resolve(filter?: ModuleFilter): Promisable<Module[]> {
     return this.module.resolve(filter)
-  }
-  tryResolve(filter?: ModuleFilter) {
-    return this.module.tryResolve(filter)
   }
 }

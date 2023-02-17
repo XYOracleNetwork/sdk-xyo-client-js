@@ -1,45 +1,42 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { duplicateModules, EventListener, mixinResolverEventEmitter, Module, ModuleFilter, ModuleResolver } from '@xyo-network/module'
+import { AbstractModule, duplicateModules, EventListener, Module, ModuleFilter } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
-import { ModuleAttachedEventArgs, ModuleAttachedEventEmitter, ModuleResolverChangedEventArgs, ResolverChangedEventEmitter } from './Events'
+import {
+  ModuleAttachedEventArgs,
+  ModuleAttachedEventEmitter,
+  ModuleDetachedEventArgs,
+  ModuleResolverChangedEventArgs,
+  ResolverChangedEventEmitter,
+} from './Events'
 
 type SupportedEventTypes = 'moduleAttached' | 'moduleResolverChanged'
 type SupportedEventListeners<T extends SupportedEventTypes> = T extends 'moduleAttached'
   ? EventListener<ModuleAttachedEventArgs>
   : EventListener<ModuleResolverChangedEventArgs>
 
-export interface MemoryNodeParams<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
-  extends AbstractNodeParams<TConfig, TModule> {
-  autoAttachExternallyResolved?: boolean
-}
+export type MemoryNodeParams<TConfig extends NodeConfig = NodeConfig> = AbstractNodeParams<TConfig>
 
-export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends Module = Module>
-  extends AbstractNode<TConfig, TModule>
+export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
+  extends AbstractNode<TConfig>
   implements ModuleAttachedEventEmitter, ResolverChangedEventEmitter
 {
   static configSchema = NodeConfigSchema
   private readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
-  private registeredModuleMap = new Map<string, TModule>()
+  private readonly moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
+  private registeredModuleMap = new Map<string, AbstractModule>()
   private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
-
-  override get resolver() {
-    return this._resolver
-  }
-
-  override set resolver(resolver: ModuleResolver | undefined) {
-    this._resolver = resolver
-    const args = { resolver }
-    this.resolverChangedEventListeners?.map((listener) => listener(args))
-  }
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     const instance = (await super.create(params)) as MemoryNode
-    if (params?.resolver && params?.autoAttachExternallyResolved) {
-      const resolver = mixinResolverEventEmitter(params?.resolver)
+
+    //Arie: Why would we want to auto register modules?
+
+    /*if (params?.autoAttachExternallyResolved) {
+      const resolver = mixinResolverEventEmitter(instance.resolver)
       resolver.on('moduleResolved', (args) => {
         const { module, filter } = args
         try {
@@ -56,19 +53,50 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
         }
       })
       instance.resolver = resolver
-    }
+    }*/
     return instance
   }
 
-  override attach(address: string, name?: string) {
-    const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
-    this.internalResolver.add(module, name)
-    const args = { module, name }
+  override async attach(address: string, external?: boolean) {
+    const existingModule = (await this.resolve({ address: [address] })).pop()
+    assertEx(!existingModule, `Module [${existingModule?.config.name}] already attached at address [${address}]`)
+    const module = assertEx(this.registeredModuleMap.get(address), 'No module registered at that address')
+
+    this.internalResolver.addResolver(module.resolver)
+
+    //give it inside access
+    module.parentResolver.addResolver(this.internalResolver)
+
+    //give it outside access
+    if (this.parentResolver) {
+      module.parentResolver.addResolver(this.parentResolver)
+    }
+
+    if (external) {
+      //expose it externally
+      this.resolver.addResolver(module.resolver)
+    }
+
+    const args = { module, name: module.config.name }
     this.moduleAttachedEventListeners?.map((listener) => listener(args))
   }
 
   override detach(address: string) {
-    this.internalResolver.remove(address)
+    const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
+
+    this.internalResolver.removeResolver(module.resolver)
+
+    //remove outside access
+    module.parentResolver.removeResolver(this.parentResolver)
+
+    //remove inside access
+    module.parentResolver.removeResolver(this.internalResolver)
+
+    //remove external exposure
+    this.resolver.removeResolver(module.resolver)
+
+    const args = { module, name: module.config.name }
+    this.moduleDetachedEventListeners?.map((listener) => listener(args))
   }
 
   on(event: 'moduleAttached', listener: (args: ModuleAttachedEventArgs) => void): this
@@ -85,8 +113,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     return this
   }
 
-  override register(module: TModule) {
+  override register(module: AbstractModule) {
+    assertEx(!this.registeredModuleMap.get(module.address), `Module already registered at that address[${module.address}]`)
     this.registeredModuleMap.set(module.address, module)
+    return this
   }
 
   override registered() {
@@ -101,17 +131,11 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
     })
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<TModule[]> {
+  override async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
     const internal = this.internalResolver.resolve(filter)
-    const external = (this.resolver as ModuleResolver<TModule> | undefined)?.resolve(filter) || []
-    const resolved = await Promise.all([internal, external])
-    return resolved.flat().filter(exists).filter(duplicateModules)
-  }
-
-  override async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
-    const internal = this.internalResolver.tryResolve(filter)
-    const external = (this.resolver as ModuleResolver<TModule> | undefined)?.tryResolve(filter) || []
-    const resolved = await Promise.allSettled([internal, external])
+    const external = this.parentResolver?.resolve(filter) || []
+    const local = this.resolver?.resolve(filter) || []
+    const resolved = await Promise.allSettled([internal, external, local])
     return resolved
       .filter(fulfilled)
       .map((r) => r.value)
@@ -120,7 +144,9 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig, TModule extends
       .filter(duplicateModules)
   }
 
-  override unregister(module: TModule) {
+  override unregister(module: Module) {
+    this.detach(module.address)
     this.registeredModuleMap.delete(module.address)
+    return this
   }
 }

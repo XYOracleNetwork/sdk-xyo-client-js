@@ -1,4 +1,4 @@
-import { AbstractModule, SimpleModuleResolver } from '@xyo-network/module'
+import { AbstractModule, CompositeModuleResolver, SimpleModuleResolver } from '@xyo-network/module'
 import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from '@xyo-network/panel'
 
 import { getAccount, WalletPaths } from '../../Account'
@@ -17,7 +17,7 @@ export const getWitnessPanel = async (provider = getProvider()): Promise<XyoPane
   const archivists = await getArchivists()
   const witnesses = await getEthereumGasWitness(provider)
   const modules: AbstractModule[] = [...archivists, ...witnesses]
-  const resolver: SimpleModuleResolver = new SimpleModuleResolver()
+  const resolver = new CompositeModuleResolver()
   modules.map((mod) => resolver.add(mod))
   const config: XyoPanelConfig = {
     archivists: archivists.map((mod) => mod.address),

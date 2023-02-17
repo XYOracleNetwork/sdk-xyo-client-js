@@ -22,15 +22,15 @@
     "@xyo-network/promise": "workspace:^",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.14.1",
+    "lru-cache": "^7.15.0",
     "store2": "^2.14.2"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.191",
     "@xylabs/delay": "^2.7.1",
-    "@xylabs/ts-scripts-yarn3": "^2.14.14",
-    "@xylabs/tsconfig": "^2.14.14",
+    "@xylabs/ts-scripts-yarn3": "^2.14.15",
+    "@xylabs/tsconfig": "^2.14.15",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
     "typescript": "^4.9.5"
@@ -69,5 +69,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.44.1"
+  "version": "2.45.0-rc.4",
+  "stableVersion": "2.44.1"
 }

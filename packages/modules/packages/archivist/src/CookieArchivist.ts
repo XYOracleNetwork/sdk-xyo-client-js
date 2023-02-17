@@ -142,7 +142,8 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
       })
       const result = await this.bindResult([...storedPayloads])
       const parentBoundWitnesses: XyoBoundWitness[] = []
-      if (this.writeThrough) {
+      const parents = await this.parents()
+      if (Object.entries(parents.write ?? {}).length) {
         //we store the child bw also
         parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...storedPayloads])))
       }

@@ -35,51 +35,62 @@ let mongoDBArchiveSchemaStatsDiviner: MongoDBArchiveSchemaStatsDiviner
 
 const getMongoDBAddressHistoryDiviner = async () => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
-  const params = { config: { schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const params = { config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
   return mongoDBAddressHistoryDiviner
 }
 const getMongoDBBoundWitnessDiviner = async () => {
   if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
-  const params = { config: { schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const params = { config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
   return mongoDBBoundWitnessDiviner
 }
 const getMongoDBArchiveBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
   const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-  const params = { archiveArchivist, config: { schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } }
+  const params = {
+    archiveArchivist,
+    config: { name: TYPES.ArchiveBoundWitnessStatsDiviner.description, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema },
+  }
   mongoDBArchiveBoundWitnessStatsDiviner = await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
   return mongoDBArchiveBoundWitnessStatsDiviner
 }
 const getMongoDBLocationCertaintyDiviner = async () => {
   if (mongoDBLocationCertaintyDiviner) return mongoDBLocationCertaintyDiviner
-  mongoDBLocationCertaintyDiviner = await MongoDBLocationCertaintyDiviner.create()
+  mongoDBLocationCertaintyDiviner = await MongoDBLocationCertaintyDiviner.create({
+    config: { schema: XyoDivinerConfigSchema },
+  })
   return mongoDBLocationCertaintyDiviner
 }
 const getMongoDBModuleAddressDiviner = async () => {
   if (mongoDBModuleAddressDiviner) return mongoDBModuleAddressDiviner
-  const params = { config: { schema: XyoDivinerConfigSchema } }
+  const params = { config: { name: TYPES.ModuleAddressDiviner.description, schema: XyoDivinerConfigSchema } }
   mongoDBModuleAddressDiviner = await MongoDBModuleAddressDiviner.create(params)
   return mongoDBModuleAddressDiviner
 }
 const getMongoDBPayloadDiviner = async () => {
   if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
-  const params = { config: { schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const params = { config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
   return mongoDBPayloadDiviner
 }
 const getMongoDBArchivePayloadStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBArchivePayloadStatsDiviner) return mongoDBArchivePayloadStatsDiviner
   const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-  const params = { archiveArchivist, config: { schema: MongoDBArchivePayloadStatsDivinerConfigSchema } }
+  const params = {
+    archiveArchivist,
+    config: { name: TYPES.ArchivePayloadStatsDiviner.description, schema: MongoDBArchivePayloadStatsDivinerConfigSchema },
+  }
   mongoDBArchivePayloadStatsDiviner = await MongoDBArchivePayloadStatsDiviner.create(params)
   return mongoDBArchivePayloadStatsDiviner
 }
 const getMongoDBArchiveSchemaStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBArchiveSchemaStatsDiviner) return mongoDBArchiveSchemaStatsDiviner
   const archiveArchivist: ArchiveArchivist = context.container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
-  const params = { archiveArchivist, config: { schema: MongoDBArchiveSchemaStatsDivinerConfigSchema } }
+  const params = {
+    archiveArchivist,
+    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },
+  }
   mongoDBArchiveSchemaStatsDiviner = await MongoDBArchiveSchemaStatsDiviner.create(params)
   return mongoDBArchiveSchemaStatsDiviner
 }

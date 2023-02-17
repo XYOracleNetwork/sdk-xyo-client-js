@@ -1,12 +1,17 @@
-import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
+import { ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
-type ResolverFunction<TModule extends Module = Module> = (filter?: ModuleFilter) => Promisable<TModule[]>
+import { AbstractModule } from '../AbstractModule'
+import { CompositeModuleResolver } from './CompositeModuleResolver'
 
-export class DynamicModuleResolver<TModule extends Module = Module> implements ModuleResolver<TModule> {
-  private _resolveImplementation: ResolverFunction<TModule>
+type ResolverFunction = (filter?: ModuleFilter) => Promisable<AbstractModule[]>
 
-  constructor(resolveImplementation: ResolverFunction<TModule> = () => []) {
+export class DynamicModuleResolver extends CompositeModuleResolver implements ModuleResolver<AbstractModule> {
+  private _resolveImplementation: ResolverFunction
+
+  constructor(resolveImplementation: ResolverFunction = () => [], resolvers: ModuleResolver<AbstractModule>[] = []) {
+    super()
+    resolvers.forEach((resolver) => super.addResolver(resolver))
     this._resolveImplementation = resolveImplementation
   }
 
@@ -14,22 +19,14 @@ export class DynamicModuleResolver<TModule extends Module = Module> implements M
     return true
   }
 
-  public get resolveImplementation(): ResolverFunction<TModule> {
+  public get resolveImplementation(): ResolverFunction {
     return this._resolveImplementation
   }
-  public set resolveImplementation(value: ResolverFunction<TModule>) {
+  public set resolveImplementation(value: ResolverFunction) {
     this._resolveImplementation = value
   }
 
-  resolve(filter?: ModuleFilter): Promisable<TModule[]> {
-    return this._resolveImplementation(filter)
-  }
-
-  tryResolve(filter?: ModuleFilter): Promisable<TModule[]> {
-    try {
-      return this._resolveImplementation(filter)
-    } catch (error) {
-      return []
-    }
+  override async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+    return await this._resolveImplementation(filter)
   }
 }

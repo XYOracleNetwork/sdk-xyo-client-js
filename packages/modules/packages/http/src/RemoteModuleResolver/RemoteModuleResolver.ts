@@ -1,8 +1,8 @@
-import { fulfilled } from '@xylabs/promise'
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { AbstractModuleConfigSchema, Module, ModuleFilter, ModuleRepository } from '@xyo-network/module-model'
+import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
+import { Module, ModuleFilter } from '@xyo-network/module-model'
 
-import { HttpProxyModule } from '../HttpProxyModule'
+import { HttpProxyModule, HttpProxyModuleConfigSchema } from '../HttpProxyModule'
 
 interface LocalModuleFilter {
   config?: string[]
@@ -14,12 +14,14 @@ interface RemoteModuleFilter {
   name?: string[]
 }
 
-export class RemoteModuleResolver implements ModuleRepository {
+export class RemoteModuleResolver extends CompositeModuleResolver {
   private resolvedModules: Record<string, HttpProxyModule> = {}
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
-  constructor(protected readonly apiConfig: XyoApiConfig) {}
+  constructor(protected readonly apiConfig: XyoApiConfig) {
+    super()
+  }
 
   public get isModuleResolver(): boolean {
     return true
@@ -38,18 +40,12 @@ export class RemoteModuleResolver implements ModuleRepository {
     throw new Error('Method not implemented.')
   }
 
-  async resolve(filter?: ModuleFilter): Promise<Module[]> {
+  async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
     const mods = await Promise.all(this.resolveRemoteModules(filter))
     return this.filterLocalModules(mods, filter)
   }
 
-  async tryResolve(filter?: ModuleFilter): Promise<Module[]> {
-    const settled = await Promise.allSettled(this.resolveRemoteModules(filter))
-    const mods = settled.filter(fulfilled).map((r) => r.value)
-    return this.filterLocalModules(mods, filter)
-  }
-
-  private filterLocalModules(mods: Module[], filter?: LocalModuleFilter): Module[] {
+  private filterLocalModules(mods: AbstractModule[], filter?: LocalModuleFilter): AbstractModule[] {
     // TODO: Handle filter?.query
     if (filter?.query) throw new Error('Filtering by query not yet implemented by this resolver')
     const config = filter?.config
@@ -60,7 +56,7 @@ export class RemoteModuleResolver implements ModuleRepository {
   private async resolveByAddress(address: string): Promise<HttpProxyModule> {
     const cached = this.resolvedModules[address]
     if (cached) return cached
-    const mod = await HttpProxyModule.create({ address, apiConfig: this.apiConfig, config: { schema: AbstractModuleConfigSchema } })
+    const mod = await HttpProxyModule.create({ apiConfig: this.apiConfig, config: { address, schema: HttpProxyModuleConfigSchema } })
     this.resolvedModules[address] = mod
     return mod
   }
@@ -68,7 +64,7 @@ export class RemoteModuleResolver implements ModuleRepository {
   private async resolveByName(name: string): Promise<HttpProxyModule> {
     const cached = this.resolvedModules[name]
     if (cached) return cached
-    const mod = await HttpProxyModule.create({ apiConfig: this.apiConfig, config: { schema: AbstractModuleConfigSchema }, name })
+    const mod = await HttpProxyModule.create({ apiConfig: this.apiConfig, config: { schema: HttpProxyModuleConfigSchema }, name })
     this.resolvedModules[name] = mod
     this.resolvedModules[mod.address] = mod
     return mod

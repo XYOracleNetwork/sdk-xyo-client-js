@@ -40,12 +40,8 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
 {
   private _parents?: XyoArchivistParentWrappers
 
-  protected get cacheParentReads() {
-    return !!this.config?.cacheParentReads
-  }
-
-  protected get writeThrough() {
-    return !!this.config?.writeThrough
+  protected get storeParentReads() {
+    return !!this.config?.storeParentReads
   }
 
   public all(): PromisableArray<XyoPayload> {
@@ -72,6 +68,16 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
     }
+  }
+
+  public async get(hashes: string[]): Promise<XyoPayload[]> {
+    return compact(
+      await Promise.all(
+        hashes.map(async (hash) => {
+          return (await this.getFromParents(hash)) ?? null
+        }),
+      ),
+    )
   }
 
   public override queries() {
@@ -128,21 +134,25 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
 
   protected async getFromParents(hash: string) {
     const parents = await this.parents()
-    return compact(
-      await Promise.all(
-        Object.values(parents.read ?? {}).map(async (parent) => {
-          const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
-          const query = await this.bindQuery(queryPayload)
-          const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
-          const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
-          if (wrapper && wrapper.hash !== hash) {
-            console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hash}]`)
-            return null
-          }
-          return wrapper?.payload
-        }),
-      ),
-    )[0]
+    if (Object.entries(parents.read ?? {}).length > 0) {
+      const results = compact(
+        await Promise.all(
+          Object.values(parents.read ?? {}).map(async (parent) => {
+            const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
+            const query = await this.bindQuery(queryPayload)
+            const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
+            const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
+            if (wrapper && wrapper.hash !== hash) {
+              console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hash}]`)
+              return null
+            }
+            return wrapper?.payload
+          }),
+        ),
+      )
+      return results[0]
+    }
+    return null
   }
 
   protected async parents() {
@@ -171,17 +181,16 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     ).flat()
   }
 
-  private async resolveArchivists(archivists?: string[]) {
+  private async resolveArchivists(archivists: string[] = []) {
     const resolvedWrappers: Record<string, ArchivistWrapper> = {}
-    const modules = (await this.resolver?.resolve({ address: archivists })) ?? []
+    const resolvedModules = await this.resolver?.resolve({ address: archivists })
+    const modules = resolvedModules ?? []
     modules.forEach((module) => {
       const wrapper = new ArchivistWrapper(module)
       resolvedWrappers[wrapper.address] = wrapper
     })
     return resolvedWrappers
   }
-
-  abstract get(hashes: string[]): PromisableArray<XyoPayload>
 
   abstract insert(item: XyoPayload[]): PromisableArray<XyoBoundWitness>
 }

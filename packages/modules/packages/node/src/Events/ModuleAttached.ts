@@ -6,4 +6,10 @@ export interface ModuleAttachedEventArgs {
   name?: string
 }
 
+export interface ModuleDetachedEventArgs {
+  module: Module
+  name?: string
+}
+
 export type ModuleAttachedEventEmitter = ModuleEventEmitter<'moduleAttached', ModuleAttachedEventArgs>
+export type ModuleDetachedEventEmitter = ModuleEventEmitter<'moduleDetached', ModuleDetachedEventArgs>

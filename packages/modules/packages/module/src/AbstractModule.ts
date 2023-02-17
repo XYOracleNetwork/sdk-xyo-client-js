@@ -10,8 +10,8 @@ import {
   AbstractModuleSubscribeQuerySchema,
   Module,
   ModuleDescription,
+  ModuleFilter,
   ModuleQueryResult,
-  ModuleResolver,
   SchemaString,
   XyoQuery,
   XyoQueryBoundWitness,
@@ -31,6 +31,7 @@ import { Logging } from './Logging'
 import { ModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
+import { CompositeModuleResolver } from './Resolver'
 
 @creatable()
 export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {
@@ -39,7 +40,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
 
   public config: TConfig
 
-  protected _resolver?: ModuleResolver
+  protected _parentResolver = new CompositeModuleResolver()
+  protected _resolver: CompositeModuleResolver
   protected _started = false
   protected account: Account
   protected readonly logger?: Logging
@@ -47,9 +49,9 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
-    this.resolver = params.resolver
     this.config = params.config
     this.account = this.loadAccount(params?.account)
+    this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this, params.config.name)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
@@ -61,15 +63,16 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.addressValue.hex
   }
 
+  public get parentResolver(): CompositeModuleResolver {
+    return this._parentResolver
+  }
+
   public get previousHash() {
     return this.account.previousHash
   }
 
-  public get resolver(): ModuleResolver | undefined {
+  public get resolver(): CompositeModuleResolver {
     return this._resolver
-  }
-  public set resolver(v: ModuleResolver | undefined) {
-    this._resolver = v
   }
 
   static async create(params?: Partial<ModuleParams<AbstractModuleConfig>>): Promise<AbstractModule> {
@@ -138,6 +141,11 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
       : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
     return validators.every((validator) => validator(query, payloads))
+  }
+
+  public async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+    const resolver = assertEx(this._parentResolver, 'Parent resolver is required to call resolve')
+    return (await resolver.resolve(filter)) ?? []
   }
 
   public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {

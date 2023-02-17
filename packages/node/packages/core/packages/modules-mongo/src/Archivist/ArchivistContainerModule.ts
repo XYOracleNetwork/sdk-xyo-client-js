@@ -3,6 +3,7 @@ import { AbstractModule, AbstractModuleConfigSchema } from '@xyo-network/module'
 import {
   ArchiveArchivist,
   ArchiveKeyRepository,
+  ArchiveModuleConfigSchema,
   BoundWitnessArchivist,
   PayloadArchivist,
   UserArchivist,
@@ -26,12 +27,16 @@ export const ArchivistContainerModule = new AsyncContainerModule(async (bind: in
   bind(MongoDBArchiveKeyRepository).toConstantValue(new MongoDBArchiveKeyRepository())
   bind<ArchiveKeyRepository>(TYPES.ArchiveKeyRepository).toService(MongoDBArchiveKeyRepository)
 
-  const mongoDBBoundWitnessArchivist = await MongoDBBoundWitnessArchivist.create()
+  const mongoDBBoundWitnessArchivist = await MongoDBBoundWitnessArchivist.create({
+    config: { name: TYPES.BoundWitnessArchivist.description, schema: ArchiveModuleConfigSchema },
+  })
   bind(MongoDBBoundWitnessArchivist).toConstantValue(mongoDBBoundWitnessArchivist)
   bind<BoundWitnessArchivist>(TYPES.BoundWitnessArchivist).toService(MongoDBBoundWitnessArchivist)
   bind<AbstractModule>(TYPES.Module).toService(MongoDBBoundWitnessArchivist)
 
-  const mongoDBPayloadArchivist = await MongoDBPayloadArchivist.create()
+  const mongoDBPayloadArchivist = await MongoDBPayloadArchivist.create({
+    config: { name: TYPES.PayloadArchivist.description, schema: ArchiveModuleConfigSchema },
+  })
   bind(MongoDBPayloadArchivist).toConstantValue(mongoDBPayloadArchivist)
   bind<PayloadArchivist>(TYPES.PayloadArchivist).toService(MongoDBPayloadArchivist)
   bind<AbstractModule>(TYPES.Module).toService(MongoDBPayloadArchivist)
@@ -44,7 +49,9 @@ export const ArchivistContainerModule = new AsyncContainerModule(async (bind: in
   bind<WitnessedPayloadArchivist>(TYPES.WitnessedPayloadArchivist).toService(MongoDBArchivistWitnessedPayloadArchivist)
   bind<AbstractModule>(TYPES.Module).toService(MongoDBArchivistWitnessedPayloadArchivist)
 
-  const archivist = await MongoDBDeterministicArchivist.create({ config: { schema: AbstractModuleConfigSchema } })
+  const archivist = await MongoDBDeterministicArchivist.create({
+    config: { schema: ArchiveModuleConfigSchema },
+  })
   bind(MongoDBDeterministicArchivist).toConstantValue(archivist)
   bind<AbstractArchivist>(TYPES.Archivist).toService(MongoDBDeterministicArchivist)
   bind<AbstractModule>(TYPES.Module).toService(MongoDBDeterministicArchivist)

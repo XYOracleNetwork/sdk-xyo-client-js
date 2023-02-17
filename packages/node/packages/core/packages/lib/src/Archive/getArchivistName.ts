@@ -1,3 +1,4 @@
+export const archivePermissionsArchivistType = 'permissions'
 export const boundWitnessArchivistType = 'boundwitness'
 export const payloadArchivistType = 'payload'
 
@@ -16,4 +17,8 @@ export const getBoundWitnessArchivistName = (name: string) => {
 
 export const getPayloadArchivistName = (name: string) => {
   return `${name.toLowerCase()}[${payloadArchivistType}]`
+}
+
+export const getArchivePermissionsArchivistName = (name: string) => {
+  return `${name.toLowerCase()}[${archivePermissionsArchivistType}]`
 }

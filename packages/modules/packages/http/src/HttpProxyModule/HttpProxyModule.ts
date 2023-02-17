@@ -2,65 +2,56 @@ import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
 import {
-  AbstractModuleConfig,
-  AbstractModuleConfigSchema,
+  AbstractModule,
   creatable,
   isQuerySupportedByModule,
   Module,
   ModuleDescription,
   ModuleParams,
   ModuleQueryResult,
-  ModuleWrapper,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-export interface HttpProxyModuleParams extends ModuleParams {
-  address?: string
+
+import { HttpProxyModuleConfig, HttpProxyModuleConfigSchema } from './Config'
+export interface HttpProxyModuleParams extends ModuleParams<HttpProxyModuleConfig> {
+  api?: XyoArchivistApi
   apiConfig: XyoApiConfig
   name?: string
 }
 
 @creatable()
-export class HttpProxyModule implements Module {
-  static configSchema = AbstractModuleConfigSchema
-  protected _config: AbstractModuleConfig | undefined
+export class HttpProxyModule extends AbstractModule<HttpProxyModuleConfig> {
+  static configSchema = HttpProxyModuleConfigSchema
+  protected readonly _api: XyoArchivistApi
+
   protected _queries: string[] | undefined
 
-  protected constructor(protected readonly _api: XyoArchivistApi, protected readonly _address: string) {}
+  protected constructor(params: HttpProxyModuleParams) {
+    super(params)
+    this._api = assertEx(params.api, 'Missing param [api]')
+  }
 
-  public get address(): string {
-    return this._address
+  public override get address(): string {
+    return assertEx(this.config.address, 'missing remote address')
   }
-  public get config(): AbstractModuleConfig {
-    if (!this._config) throw new Error('Missing config')
-    return this._config
-  }
+
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
-    const { address, apiConfig, name } = params
+    const { config, apiConfig, name } = params
+    const { address: remoteAddress } = config
     const api = new XyoArchivistApi(apiConfig)
     let description: XyoApiResponseBody<ModuleDescription>
-    if (address) {
-      description = await api.addresses.address(address).get()
+    if (remoteAddress) {
+      description = await api.addresses.address(remoteAddress).get()
     } else if (name) {
       description = (await api.node(name).get()) as unknown as XyoApiResponseBody<ModuleDescription>
     } else {
       description = await api.get()
     }
-    const addr = assertEx(description?.address)
-    const instance = new this(api, addr)
+    const address = assertEx(description?.address)
+    const instance = new this({ ...params, api, apiConfig, config: { ...config, address }, name })
     instance._queries = assertEx(description?.queries, 'Error obtaining module description')
-    // NOTE: We can't depend on obtaining the config positionally from
-    // the response array and we need to filter on a result that is a
-    // config schema (of which there are many) so we're left with
-    // string matching for now.
-    // A brittle alternative would be to pick off all known response
-    // fields (address payload, etc.) and use process of elimination
-    const discover = await new ModuleWrapper(instance).discover()
-    const config = assertEx(
-      discover.find((p) => p.schema.toLowerCase().includes('config')),
-      'Error obtaining module config',
-    )
-    instance._config = config
+
     return instance
   }
   public as<TModule extends Module = Module>(): TModule {

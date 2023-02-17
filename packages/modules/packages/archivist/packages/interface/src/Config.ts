@@ -9,11 +9,9 @@ export interface ArchivistParents {
 
 export type ArchivistConfig<TConfig extends XyoPayload = XyoPayload> = AbstractModuleConfig<
   {
-    cacheParentReads?: boolean
     /** @field address of one or more parent archivists to read from */
     parents?: ArchivistParents
-
-    /** @field address of archivist to write through to */
-    writeThrough?: string
+    /** @field should child store all reads from parents? */
+    storeParentReads?: boolean
   } & TConfig
 >

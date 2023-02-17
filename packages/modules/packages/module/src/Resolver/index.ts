@@ -1,4 +1,9 @@
-export * from './CompositeModuleResolver'
+import { CompositeModuleResolver } from './CompositeModuleResolver'
 export * from './DynamicModuleResolver'
 export * from './ResolverEventEmitter'
-export * from './SimpleModuleResolver'
+
+/** @deprecated use ModuleResolver */
+class SimpleModuleResolver extends CompositeModuleResolver {}
+
+// eslint-disable-next-line deprecation/deprecation
+export { CompositeModuleResolver, SimpleModuleResolver }

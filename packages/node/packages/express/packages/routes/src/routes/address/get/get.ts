@@ -13,10 +13,10 @@ const handler: RequestHandler<AddressPathParams, ModuleDescription> = async (req
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
     if (node.address === normalizedAddress) modules = [node]
     else {
-      const byAddress = await node.tryResolve({ address: [normalizedAddress] })
+      const byAddress = await node.resolve({ address: [normalizedAddress] })
       if (byAddress.length) modules = byAddress
       else {
-        const byName = await node.tryResolve({ name: [address] })
+        const byName = await node.resolve({ name: [address] })
         if (byName.length) modules = byName
       }
     }

@@ -1,5 +1,5 @@
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { SimpleModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver } from '@xyo-network/module'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
@@ -13,7 +13,7 @@ describe('XyoPanelRunner', () => {
 
   beforeEach(async () => {
     const witnesses: AbstractWitness[] = [await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })]
-    const resolver = new SimpleModuleResolver()
+    const resolver = new CompositeModuleResolver()
     witnesses.forEach((witness) => resolver.add(witness))
 
     config = {

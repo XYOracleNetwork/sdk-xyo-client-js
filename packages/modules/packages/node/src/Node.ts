@@ -2,7 +2,7 @@ import { Module, ModuleResolver } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
 export interface Node {
-  attach(address: string, name?: string): Promisable<void>
+  attach(address: string, external?: boolean): Promisable<void>
   attached(): Promisable<string[]>
   detach(address: string): Promisable<void>
   registered(): Promisable<string[]>

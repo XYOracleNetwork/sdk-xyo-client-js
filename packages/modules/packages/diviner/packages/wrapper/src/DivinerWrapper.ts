@@ -10,8 +10,9 @@ export class DivinerWrapper extends ModuleWrapper implements Diviner {
     super(module)
     assertEx(module.queries().includes(XyoDivinerDivineQuerySchema))
   }
-  divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<XyoDivinerDivineQuery>({ schema: XyoDivinerDivineQuerySchema })
-    return this.sendQuery(queryPayload, payloads)
+    const result = await this.sendQuery(queryPayload, payloads)
+    return result
   }
 }

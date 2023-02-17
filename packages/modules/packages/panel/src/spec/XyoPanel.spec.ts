@@ -4,7 +4,7 @@ import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { ModuleParams, SimpleModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver, ModuleParams } from '@xyo-network/module'
 import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -35,7 +35,7 @@ describe('XyoPanel', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const resolver = new SimpleModuleResolver()
+    const resolver = new CompositeModuleResolver()
     resolver.add(archivist)
     witnesses.forEach((witness) => resolver.add(witness))
 
@@ -120,7 +120,7 @@ describe('XyoPanel', () => {
         archivistB = await MemoryArchivist.create()
       })
       it('config', async () => {
-        const resolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
         resolver.add([witnessA, witnessB, archivistA, archivistB])
         const params: ModuleParams<XyoPanelConfig> = {
           config: {
@@ -136,7 +136,7 @@ describe('XyoPanel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {
-        const resolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
         resolver.add([witnessA, archivistA, archivistB])
         const params: ModuleParams<XyoPanelConfig> = {
           config: {
@@ -154,7 +154,7 @@ describe('XyoPanel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('inline', async () => {
-        const resolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
         resolver.add([archivistA, archivistB])
         const params: ModuleParams<XyoPanelConfig> = {
           config: {
@@ -171,10 +171,10 @@ describe('XyoPanel', () => {
         expect(observedB).toBeArrayOfSize(1)
         const result = await panel.report([...observedA, ...observedB])
         assertPanelReport(result)
-        expect((await archivistA.get([Hasher.hash(observedA)])).length).toBe(1)
-        expect((await archivistA.get([Hasher.hash(observedB)])).length).toBe(1)
-        expect((await archivistB.get([Hasher.hash(observedA)])).length).toBe(1)
-        expect((await archivistB.get([Hasher.hash(observedB)])).length).toBe(1)
+        expect((await archivistA.get([Hasher.hash(observedA[0])])).length).toBe(1)
+        expect((await archivistA.get([Hasher.hash(observedB[0])])).length).toBe(1)
+        expect((await archivistB.get([Hasher.hash(observedA[0])])).length).toBe(1)
+        expect((await archivistB.get([Hasher.hash(observedB[0])])).length).toBe(1)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('reports errors', async () => {
@@ -192,7 +192,7 @@ describe('XyoPanel', () => {
         }
         const witnessA = await FailingWitness.create(paramsA)
 
-        const resolver = new SimpleModuleResolver()
+        const resolver = new CompositeModuleResolver()
         resolver.add([witnessA, witnessB, archivistA, archivistB])
         const params: ModuleParams<XyoPanelConfig> = {
           config: {

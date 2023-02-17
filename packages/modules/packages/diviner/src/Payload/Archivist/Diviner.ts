@@ -14,8 +14,6 @@ import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchem
 export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
   static override configSchema: XyoArchivistPayloadDivinerConfigSchema
 
-  protected archivist?: PayloadArchivist | null
-
   static override async create(params?: ModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<ArchivistPayloadDiviner> {
     return (await super.create(params)) as ArchivistPayloadDiviner
   }
@@ -26,7 +24,7 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
       `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
-    const activeArchivist = this.archivist
+    const activeArchivist = await this.archivist()
     if (activeArchivist) {
       const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
       const query = await this.bindQuery(queryPayload)
@@ -39,17 +37,16 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
     return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
-  protected override async start() {
-    await super.start()
+  protected async archivist(): Promise<PayloadArchivist | null> {
     const configArchivistAddress = this.config?.archivist
     if (configArchivistAddress) {
       const resolvedArchivist: PayloadArchivist | null = configArchivistAddress
-        ? (this.resolver?.resolve({ address: [configArchivistAddress] }) as unknown as PayloadArchivist[]).shift() ?? null
+        ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as PayloadArchivist[]).shift() ?? null
         : null
       if (resolvedArchivist) {
-        this.archivist = resolvedArchivist ? new ArchivistWrapper(resolvedArchivist) : null
+        return resolvedArchivist ? new ArchivistWrapper(resolvedArchivist) : null
       }
     }
-    return this
+    return null
   }
 }

@@ -4,7 +4,8 @@ import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
-export class SimpleModuleResolver<TModule extends Module = Module> implements ModuleRepository {
+//This class is now package private (not exported from index.ts)
+export class SimpleModuleResolver<TModule extends Module = Module> implements ModuleRepository<TModule> {
   private addressToName: Record<string, string> = {}
   private modules: Record<string, TModule> = {}
   private nameToAddress: Record<string, string> = {}
@@ -39,21 +40,13 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
   resolve(filter?: ModuleFilter): Promisable<TModule[]> {
     const filteredByName: TModule[] = this.resolveByName(Object.values(this.modules), filter?.name)
 
-    const filteredByAddress = this.resolveByAddress(filteredByName, filter?.address)
+    const filteredByAddress: TModule[] = filter?.address ? this.resolveByAddress(filteredByName, filter?.address) : filteredByName
 
-    const filteredByConfigSchema = this.resolveByConfigSchema(filteredByAddress, filter?.config)
+    const filteredByConfigSchema: TModule[] = filter?.config ? this.resolveByConfigSchema(filteredByAddress, filter?.config) : filteredByAddress
 
-    const filteredByQuery = this.resolveByQuery(filteredByConfigSchema, filter?.query)
+    const filteredByQuery: TModule[] = filter?.query ? this.resolveByQuery(filteredByConfigSchema, filter?.query) : filteredByConfigSchema
 
     return filteredByQuery
-  }
-
-  async tryResolve(filter?: ModuleFilter): Promise<TModule[]> {
-    try {
-      return await this.resolve(filter)
-    } catch (ex) {
-      return []
-    }
   }
 
   private addSingleModule(module?: TModule, name?: string) {
@@ -104,15 +97,15 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
       : modules
   }
 
-  private resolveByName(modules: TModule[], name?: string[]) {
+  private resolveByName(modules: TModule[], name?: string[]): TModule[] {
     if (name) {
-      const address = name.map((name) => assertEx(this.nameToAddress[name], 'name not found'))
+      const address = compact(name.map((name) => this.nameToAddress[name]))
       return this.resolveByAddress(modules, address)
     }
     return modules
   }
 
-  private resolveByQuery(modules: TModule[], query?: string[][]) {
+  private resolveByQuery(modules: TModule[], query?: string[][]): TModule[] {
     return query
       ? compact(
           modules.filter((module) =>

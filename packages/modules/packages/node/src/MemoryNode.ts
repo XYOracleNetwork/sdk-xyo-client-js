@@ -57,8 +57,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     return instance
   }
 
-  override attach(address: string, external?: boolean) {
-    const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
+  override async attach(address: string, external?: boolean) {
+    const existingModule = (await this.resolve({ address: [address] })).pop()
+    assertEx(!existingModule, `Module [${existingModule?.config.name}] already attached at address [${address}]`)
+    const module = assertEx(this.registeredModuleMap.get(address), 'No module registered at that address')
 
     this.internalResolver.addResolver(module.resolver)
 
@@ -75,7 +77,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
       this.resolver.addResolver(module.resolver)
     }
 
-    const args = { module }
+    const args = { module, name: module.config.name }
     this.moduleAttachedEventListeners?.map((listener) => listener(args))
   }
 
@@ -93,7 +95,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     //remove external exposure
     this.resolver.removeResolver(module.resolver)
 
-    const args = { address }
+    const args = { module, name: module.config.name }
     this.moduleDetachedEventListeners?.map((listener) => listener(args))
   }
 
@@ -112,6 +114,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   }
 
   override register(module: AbstractModule) {
+    assertEx(!this.registeredModuleMap.get(module.address), `Module already registered at that address[${module.address}]`)
     this.registeredModuleMap.set(module.address, module)
     return this
   }

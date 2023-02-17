@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { MemoryNode } from '@xyo-network/modules'
-import { getBoundWitnessArchivistName, getPayloadArchivistName } from '@xyo-network/node-core-lib'
+import { getArchivePermissionsArchivistName, getBoundWitnessArchivistName, getPayloadArchivistName } from '@xyo-network/node-core-lib'
 import {
   ArchiveBoundWitnessArchivist,
   ArchiveBoundWitnessArchivistFactory,
@@ -90,7 +90,7 @@ const getPayloadArchivist = async (context: interfaces.Context, archive: string)
 const getArchivePermissionsArchivist = async (context: interfaces.Context, archive: string) => {
   const cached = archivePermissionsArchivistCache?.get?.(archive)
   if (cached) return cached
-  const config: ArchiveModuleConfig = { archive, name: TYPES.ArchivePermissionsArchivist.description, schema }
+  const config: ArchiveModuleConfig = { archive, name: getArchivePermissionsArchivistName(archive), schema }
   const phrase = assertEx(process.env.ACCOUNT_SEED)
   const account = new Account({ phrase })
   const boundWitnesses = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)

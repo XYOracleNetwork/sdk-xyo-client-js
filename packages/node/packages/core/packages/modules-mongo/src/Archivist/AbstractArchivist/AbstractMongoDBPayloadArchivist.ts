@@ -44,7 +44,6 @@ export abstract class AbstractMongoDBPayloadArchivist<
 
   public constructor(params: AbstractMongoDBPayloadArchivistParams<TConfig, T>) {
     super(params)
-    this.account = params?.account || new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) })
     this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads)
   }

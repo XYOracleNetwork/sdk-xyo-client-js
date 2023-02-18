@@ -75,7 +75,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
 
   public constructor(params: MongoDBDeterministicArchivistParams<TConfig>) {
     super(params)
-    this.account = params?.account || new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) })
     this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }

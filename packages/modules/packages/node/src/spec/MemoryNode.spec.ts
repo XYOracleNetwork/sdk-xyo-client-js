@@ -248,9 +248,9 @@ describe('MemoryNode', () => {
           await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
           await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
-        modules.map((mod) => {
+        modules.map(async (mod) => {
           node.register(mod)
-          node.attach(mod.address)
+          await node.attach(mod.address)
         })
       })
       it('describes node and child modules', async () => {

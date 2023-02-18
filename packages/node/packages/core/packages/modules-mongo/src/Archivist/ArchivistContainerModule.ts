@@ -1,5 +1,5 @@
 import { AbstractArchivist } from '@xyo-network/archivist'
-import { AbstractModule, AbstractModuleConfigSchema } from '@xyo-network/module'
+import { AbstractModule } from '@xyo-network/module'
 import {
   ArchiveArchivist,
   ArchiveKeyRepository,

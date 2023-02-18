@@ -35,9 +35,9 @@ export const addMemoryNode = async (container: Container, memoryNode?: MemoryNod
   const node = memoryNode ?? (await MemoryNode.create({ config }))
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   const modules = container.getAll<AbstractModule>(TYPES.Module)
-  modules.map((mod) => {
+  modules.map(async (mod) => {
     node.register(mod)
-    node.attach(mod.address)
+    await node.attach(mod.address)
   })
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
@@ -49,7 +49,7 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
     types.map(async (type) => {
       const mod = await container.getAsync<AbstractModule>(type)
       const address: string | undefined = mod?.address
-      if (address) node.attach(address)
+      if (address) await node.attach(address)
     }),
   )
 }

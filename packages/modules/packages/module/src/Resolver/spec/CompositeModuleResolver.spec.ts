@@ -1,4 +1,3 @@
-import { Module } from '@xyo-network/module-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { AbstractModule } from '../../AbstractModule'

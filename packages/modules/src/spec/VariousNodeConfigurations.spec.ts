@@ -23,14 +23,16 @@ describe('MultiNodeConfiguration', () => {
     primaryNode = await MemoryNode.create({ config: { name: 'primaryNode', schema: NodeConfigSchema } })
     primaryNodeWrapper = new NodeWrapper(primaryNode)
     primaryArchivist = await MemoryArchivist.create({ config: { name: 'primaryArchivist', schema: MemoryArchivistConfigSchema } })
-    primaryNode.register(primaryArchivist).attach(primaryArchivist.address, true)
+    await primaryNode.register(primaryArchivist).attach(primaryArchivist.address, true)
 
     rightNode = await MemoryNode.create({ config: { name: 'rightNode', schema: NodeConfigSchema } })
     rightNodeWrapper = new NodeWrapper(rightNode)
     rightArchivist = await MemoryArchivist.create()
     rightWitness = await IdWitness.create({ config: { name: 'rightWitness', salt: 'test', schema: IdWitnessConfigSchema } })
-    rightNode.register(rightArchivist).attach(rightArchivist.address, true)
-    rightNode.register(rightWitness).attach(rightWitness.address, true)
+    rightNode.register(rightArchivist)
+    await rightNodeWrapper.attach(rightArchivist.address, true)
+    rightNode.register(rightWitness)
+    await rightNodeWrapper.attach(rightWitness.address, true)
 
     leftNode = await MemoryNode.create({ config: { name: 'leftNode', schema: NodeConfigSchema } })
     leftNodeWrapper = new NodeWrapper(leftNode)
@@ -38,15 +40,18 @@ describe('MultiNodeConfiguration', () => {
     leftDiviner = await MemoryAddressHistoryDiviner.create({
       config: { address: leftNode.address, name: 'leftDiviner', schema: MemoryAddressHistoryDivinerConfigSchema },
     })
-    leftNode.register(leftArchivist).attach(leftArchivist.address, true)
-    leftNode.register(leftDiviner).attach(leftDiviner.address, true)
+    leftNode.register(leftArchivist)
+    await leftNodeWrapper.attach(leftArchivist.address, true)
+    leftNode.register(leftDiviner)
+    await leftNodeWrapper.attach(leftDiviner.address, true)
 
     primaryNode.register(leftNode)
     primaryNode.register(rightNode)
   })
   test('leftNode', async () => {
-    primaryNode.attach(leftNode.address, true)
+    await primaryNodeWrapper.attach(leftNode.address, true)
     primaryNode.detach(rightNode.address)
+
     expect((await primaryNode.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
     expect((await primaryNode.resolve({ name: ['primaryArchivist'] })).length).toBe(1)
 
@@ -70,7 +75,7 @@ describe('MultiNodeConfiguration', () => {
   })
 
   test('rightNode', async () => {
-    primaryNode.attach(rightNode.address, true)
+    await primaryNodeWrapper.attach(rightNode.address, true)
     primaryNode.detach(leftNode.address)
     expect((await primaryNode.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
     expect((await leftNode.resolve({ address: [leftDiviner.address] })).length).toBe(1)

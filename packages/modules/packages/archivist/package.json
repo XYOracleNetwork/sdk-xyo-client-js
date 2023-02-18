@@ -22,11 +22,11 @@
     "@xyo-network/promise": "workspace:^",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.15.0",
+    "lru-cache": "^7.16.1",
     "store2": "^2.14.2"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2",
+    "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.191",
     "@xylabs/delay": "^2.7.1",
     "@xylabs/ts-scripts-yarn3": "^2.14.15",

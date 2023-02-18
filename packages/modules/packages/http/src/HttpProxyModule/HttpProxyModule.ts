@@ -36,6 +36,11 @@ export class HttpProxyModule extends AbstractModule<HttpProxyModuleConfig> {
     return assertEx(this.config.address, 'missing remote address')
   }
 
+  public override get queries(): string[] {
+    if (!this._queries) throw new Error('Missing queries')
+    return this._queries
+  }
+
   static async create(params: HttpProxyModuleParams): Promise<HttpProxyModule> {
     const { config, apiConfig, name } = params
     const { address: remoteAddress } = config
@@ -60,10 +65,7 @@ export class HttpProxyModule extends AbstractModule<HttpProxyModuleConfig> {
   public async description(): Promise<ModuleDescription> {
     return assertEx(await this._api.addresses.address(this.address).get())
   }
-  public queries(): string[] {
-    if (!this._queries) throw new Error('Missing queries')
-    return this._queries
-  }
+
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const data = payloads?.length ? [query, payloads] : [query]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

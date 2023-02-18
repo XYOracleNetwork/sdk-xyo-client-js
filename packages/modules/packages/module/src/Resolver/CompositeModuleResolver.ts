@@ -2,16 +2,15 @@ import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
-import { AbstractModule } from '../AbstractModule'
 import { duplicateModules } from '../lib'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
-export class CompositeModuleResolver implements ModuleRepository<AbstractModule> {
-  protected resolvers: ModuleResolver<AbstractModule>[] = []
+export class CompositeModuleResolver<TModule extends Module = Module> implements ModuleRepository<TModule> {
+  protected resolvers: ModuleResolver<TModule>[] = []
   private localResolver: SimpleModuleResolver
 
   constructor() {
-    const localResolver = new SimpleModuleResolver<AbstractModule>()
+    const localResolver = new SimpleModuleResolver<TModule>()
     this.addResolver(localResolver)
     this.localResolver = localResolver
   }
@@ -20,9 +19,9 @@ export class CompositeModuleResolver implements ModuleRepository<AbstractModule>
     return true
   }
 
-  add(module: AbstractModule, name?: string): this
-  add(module: AbstractModule[], name?: string[]): this
-  add(module: AbstractModule | AbstractModule[], name?: string | string[]): this {
+  add(module: TModule, name?: string): this
+  add(module: TModule[], name?: string[]): this
+  add(module: TModule | TModule[], name?: string | string[]): this {
     if (Array.isArray(module)) {
       const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
       assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
@@ -33,7 +32,7 @@ export class CompositeModuleResolver implements ModuleRepository<AbstractModule>
     return this
   }
 
-  addResolver(resolver: ModuleResolver<AbstractModule>) {
+  addResolver(resolver: ModuleResolver<TModule>) {
     this.resolvers.push(resolver)
     return this
   }
@@ -52,7 +51,7 @@ export class CompositeModuleResolver implements ModuleRepository<AbstractModule>
     return this
   }
 
-  async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+  async resolve(filter?: ModuleFilter): Promise<TModule[]> {
     const modules = this.resolvers.map((resolver) => resolver.resolve(filter))
     const settled = await Promise.allSettled(modules)
     const result = settled

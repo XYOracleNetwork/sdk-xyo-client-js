@@ -60,7 +60,7 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return payloads.map((p) => p.address)
   }
 
-  resolve(filter?: ModuleFilter): Promisable<Module[]> {
+  override resolve(filter?: ModuleFilter): Promisable<Module[]> {
     return this.module.resolve(filter)
   }
 }

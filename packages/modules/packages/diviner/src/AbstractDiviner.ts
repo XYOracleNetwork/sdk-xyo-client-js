@@ -19,16 +19,16 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
   static override configSchema: string
   static targetSchema: string
 
+  public override get queries(): string[] {
+    return [XyoDivinerDivineQuerySchema, ...super.queries]
+  }
+
   public get targetSchema() {
     return this.config?.targetSchema
   }
 
   static override async create(params?: Partial<ModuleParams<DivinerConfig>>): Promise<AbstractDiviner> {
     return (await super.create(params)) as AbstractDiviner
-  }
-
-  public override queries(): string[] {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(

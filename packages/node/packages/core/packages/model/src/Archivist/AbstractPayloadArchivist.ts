@@ -15,8 +15,8 @@ export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObje
   extends AbstractModule<TConfig>
   implements PayloadArchivist<T>
 {
-  override queries() {
-    return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
+  override get queries(): string[] {
+    return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }
   override async query<Q extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
     query: Q,

@@ -1,6 +1,5 @@
 export * from './Config'
 export * from './model'
-export * from './ModuleDescription'
 export * from './ModuleFilter'
 export * from './ModuleQueryResult'
 export * from './PartialConfig'

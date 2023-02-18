@@ -1,4 +1,4 @@
-import { DivinerConfig, XyoDivinerConfigSchema, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
+import { DivinerConfig, XyoDivinerConfigSchema } from '@xyo-network/diviner-model'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
@@ -15,9 +15,5 @@ export class IdentityDiviner extends AbstractDiviner {
 
   public override divine(payloads: XyoPayloads): Promisable<XyoPayloads> {
     return payloads
-  }
-
-  override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 }

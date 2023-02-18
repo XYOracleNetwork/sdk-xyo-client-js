@@ -59,6 +59,18 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     return this.config?.persistAccount ?? false
   }
 
+  public override get queries(): string[] {
+    return [
+      ArchivistAllQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistFindQuerySchema,
+      ArchivistInsertQuerySchema,
+      ArchivistCommitQuerySchema,
+      ...super.queries,
+    ]
+  }
+
   public get type() {
     return this.config?.type ?? 'local'
   }
@@ -152,18 +164,6 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
       parentBoundWitnesses.push(parentBoundWitness)
     }
     return [storageBoundWitness, ...parentBoundWitnesses]
-  }
-
-  public override queries() {
-    return [
-      ArchivistAllQuerySchema,
-      ArchivistDeleteQuerySchema,
-      ArchivistClearQuerySchema,
-      ArchivistFindQuerySchema,
-      ArchivistInsertQuerySchema,
-      ArchivistCommitQuerySchema,
-      ...super.queries(),
-    ]
   }
 
   override async start() {

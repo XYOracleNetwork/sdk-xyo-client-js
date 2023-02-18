@@ -38,6 +38,10 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
   private _archivists: ArchivistWrapper[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 
+  public override get queries(): string[] {
+    return [XyoPanelReportQuerySchema, ...super.queries]
+  }
+
   static override async create(params?: Partial<ModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
     return (await super.create(params)) as XyoPanel
   }
@@ -62,10 +66,6 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
       this._witnesses || ((await this.resolver?.resolve({ address: addresses })) as AbstractWitness[]).map((witness) => new WitnessWrapper(witness))
 
     return this._witnesses
-  }
-
-  public override queries(): string[] {
-    return [XyoPanelReportQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(

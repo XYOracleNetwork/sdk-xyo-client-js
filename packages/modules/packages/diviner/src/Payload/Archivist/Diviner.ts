@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistGetQuery, ArchivistGetQuerySchema, PayloadArchivist } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -31,10 +30,6 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
       return (await activeArchivist.query(query[0], query[1]))[1]
     }
     return []
-  }
-
-  override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
   protected async archivist(): Promise<PayloadArchivist | null> {

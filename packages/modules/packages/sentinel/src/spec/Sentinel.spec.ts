@@ -11,7 +11,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
-import { Sentinel, SentinelConfig, SentinelConfigSchema } from '../Sentinel'
+import { Sentinel, SentinelConfig, SentinelConfigSchema } from '../AbstractSentinel'
 
 describe('Sentinel', () => {
   test('all [simple sentinel send]', async () => {

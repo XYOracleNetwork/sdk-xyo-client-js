@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { AbstractDiviner, AddressHistoryDiviner, isAddressHistoryQueryPayload, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { AbstractDiviner, AddressHistoryDiviner, isAddressHistoryQueryPayload } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload-model'
 
@@ -66,9 +66,5 @@ export class XyoRemoteAddressHistoryDiviner extends AbstractDiviner<XyoRemoteDiv
       console.error(ex)
       throw ex
     }
-  }
-
-  public override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 }

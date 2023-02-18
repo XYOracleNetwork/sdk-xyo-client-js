@@ -1,6 +1,6 @@
 /* eslint-disable deprecation/deprecation */
 import { assertEx } from '@xylabs/assert'
-import { AbstractDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { AbstractDiviner } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 
 import { XyoArchivistApi } from '../../Api'
@@ -38,10 +38,6 @@ export class SchemaStatsApiDiviner extends AbstractDiviner<XyoSchemaStatsApiDivi
       },
     ]
     return result
-  }
-
-  override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
   protected override async start() {

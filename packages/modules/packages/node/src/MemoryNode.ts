@@ -131,7 +131,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     })
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+  override async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const internal = this.internalResolver.resolve(filter)
     const external = this.parentResolver?.resolve(filter) || []
     const local = this.resolver?.resolve(filter) || []

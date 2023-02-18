@@ -4,6 +4,7 @@ import {
   AbstractModuleDiscoverQuerySchema,
   Module,
   ModuleDescription,
+  ModuleFilter,
   ModuleQueryResult,
   XyoQuery,
   XyoQueryBoundWitness,
@@ -32,14 +33,14 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 }
 
 @moduleConstructable()
-export class ModuleWrapper<TModule extends Module = Module> implements Module {
+export class ModuleWrapper<TWrappedModule extends Module = Module> implements Module {
   static requiredQueries: string[] = [AbstractModuleDiscoverQuerySchema]
 
-  public readonly module: TModule
+  public readonly module: TWrappedModule
 
-  constructor(module: TModule, protected readonly account?: Account) {
+  constructor(module: TWrappedModule, protected readonly account?: Account) {
     //unwrap it if already wrapped
-    const wrapper = module as unknown as ModuleWrapper<TModule>
+    const wrapper = module as unknown as ModuleWrapper<TWrappedModule>
     if (wrapper.module) {
       this.module = wrapper.module
     } else {
@@ -54,8 +55,16 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
     return this.module.config
   }
 
+  get queries(): string[] {
+    return this.module.queries
+  }
+
+  get resolver() {
+    return this.module.resolver
+  }
+
   static hasRequiredQueries(module: Module) {
-    const moduleQueries = module.queries()
+    const moduleQueries = module.queries
     return this.requiredQueries.reduce((prev, query) => {
       return prev && !!moduleQueries.find((item) => item === query)
     }, true)
@@ -69,17 +78,19 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
     throw new Error('Method not implemented.')
   }
 
-  public description(): Promisable<ModuleDescription> {
-    return this.module.description()
+  async describe() {
+    const childModules = (await this.module.resolver?.resolve()) ?? []
+    const description: ModuleDescription = {
+      address: this.module.address,
+      children: await Promise.all(childModules?.map(async (child) => await ModuleWrapper.wrap(child).describe())),
+      queries: this.module.queries,
+    }
+    return description
   }
 
   discover(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
     return this.sendQuery(queryPayload)
-  }
-
-  queries(): string[] {
-    return this.module.queries()
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
@@ -88,6 +99,10 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
 
   queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
     return this.module.queryable(query, payloads)
+  }
+
+  resolve(filter?: ModuleFilter): Promisable<Module[]> {
+    return this.module.resolve(filter)
   }
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(

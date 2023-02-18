@@ -79,6 +79,10 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
+  override get queries(): string[] {
+    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
+  }
+
   static override async create(params?: Partial<MongoDBDeterministicArchivistParams>): Promise<MongoDBDeterministicArchivist> {
     return (await super.create(params)) as MongoDBDeterministicArchivist
   }
@@ -93,10 +97,6 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
 
   insert(_items: XyoPayload[]): Promise<XyoBoundWitness[]> {
     throw new Error('insert method must be called via query')
-  }
-
-  override queries() {
-    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(

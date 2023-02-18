@@ -8,8 +8,8 @@ import { BridgeConfig } from './Config'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
 export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig> extends AbstractModule<TConfig> implements BridgeModule {
-  override queries() {
-    return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries()]
+  override get queries(): string[] {
+    return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
@@ -27,7 +27,7 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
           break
         }
         default:
-          if (super.queries().includes(typedQuery.schema)) {
+          if (super.queries.includes(typedQuery.schema)) {
             return super.query(query, payloads)
           } else {
             return this.forward(typedQuery)

@@ -66,8 +66,7 @@ const getBoundWitnessArchivist = async (context: interfaces.Context, archive: st
   const params = { config, logger, sdk }
   const archivist = await MongoDBArchiveBoundWitnessArchivist.create(params)
   const node = context.container.get<MemoryNode>(TYPES.Node)
-  node.register(archivist)
-  await node.attach(archivist.address, true)
+  await node.register(archivist).attach(archivist.address, true)
   boundWitnessArchivistCache?.set(archive, archivist)
   return archivist
 }
@@ -81,8 +80,7 @@ const getPayloadArchivist = async (context: interfaces.Context, archive: string)
   const params = { config, logger, sdk }
   const archivist = await MongoDBArchivePayloadArchivist.create(params)
   const node = context.container.get<MemoryNode>(TYPES.Node)
-  node.register(archivist)
-  await node.attach(archivist.address, true)
+  await node.register(archivist).attach(archivist.address, true)
   payloadArchivistCache?.set(archive, archivist)
   return archivist
 }

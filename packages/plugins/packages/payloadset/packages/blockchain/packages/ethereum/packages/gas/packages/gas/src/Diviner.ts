@@ -1,4 +1,4 @@
-import { AbstractDiviner, DivinerConfig, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload-model'
@@ -20,9 +20,5 @@ export class XyoEthereumGasDiviner extends AbstractDiviner {
   public override divine(payloads: XyoPayloads): Promisable<XyoPayloads> {
     const cost = divineGas(payloads)
     return [cost]
-  }
-
-  override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 }

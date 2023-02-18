@@ -35,12 +35,10 @@ describe('MemoryNode', () => {
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
       })
-      node.register(archivist)
-      await node.attach(archivist.address)
-      node.register(diviner)
-      await node.attach(diviner.address)
-      expect(node.registered().length).toBe(2)
-      expect((await node.attached()).length).toBe(2)
+      await node.register(archivist).attach(archivist.address)
+      await node.register(diviner).attach(diviner.address)
+      expect(node.registered()).toBeArrayOfSize(2)
+      expect(await node.attached()).toBeArrayOfSize(2)
       const foundArchivist = (await node.resolve({ address: [archivist.address] })).shift()
       expect(foundArchivist).toBeDefined()
       expect(foundArchivist?.address).toBe(archivist.address)
@@ -148,14 +146,15 @@ describe('MemoryNode', () => {
     it('attaches module', async () => {
       await node.attach(module.address)
     })
-    it('emits event on module attach', (done) => {
+    it('emits event on module attach', async () => {
+      await new Promise<void>((resolve) => {
       node.on('moduleAttached', (args) => {
         expect(args.module).toBeObject()
         expect(args.module.address).toBe(module.address)
         expect(args.module).toBe(module)
-        done()
+        resolve()
       })
-      void node.attach(module.address)
+      await node.attach(module.address)
     })
   })
   describe('attached', () => {

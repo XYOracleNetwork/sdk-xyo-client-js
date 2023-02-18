@@ -40,6 +40,10 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
 {
   private _parents?: XyoArchivistParentWrappers
 
+  public override get queries(): string[] {
+    return [ArchivistGetQuerySchema, ...super.queries]
+  }
+
   protected get storeParentReads() {
     return !!this.config?.storeParentReads
   }
@@ -78,10 +82,6 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
         }),
       ),
     )
-  }
-
-  public override queries() {
-    return [ArchivistGetQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(

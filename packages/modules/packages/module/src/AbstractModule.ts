@@ -38,7 +38,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   static configSchema: string
   static defaultLogger?: Logger
 
-  public config: TConfig
+  public _config: TConfig
 
   protected _parentResolver = new CompositeModuleResolver()
   protected _resolver: CompositeModuleResolver
@@ -49,7 +49,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
-    this.config = params.config
+    this._config = params.config
     this.account = this.loadAccount(params?.account)
     this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this, params.config.name)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
@@ -63,12 +63,20 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.addressValue.hex
   }
 
+  public get config() {
+    return this._config
+  }
+
   public get parentResolver(): CompositeModuleResolver {
     return this._parentResolver
   }
 
   public get previousHash() {
     return this.account.previousHash
+  }
+
+  public get queries(): string[] {
+    return [AbstractModuleDiscoverQuerySchema, AbstractModuleSubscribeQuerySchema]
   }
 
   public get resolver(): CompositeModuleResolver {
@@ -83,20 +91,16 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   }
 
   public description(): Promisable<ModuleDescription> {
-    return { address: this.address, queries: this.queries() }
+    return { address: this.address, queries: this.queries }
   }
 
   public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
     const config = this.config
     const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()
-    const queries = this.queries().map((query) => {
+    const queries = this.queries.map((query) => {
       return new XyoPayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
     })
     return compact([config, address, ...queries])
-  }
-
-  public queries(): string[] {
-    return [AbstractModuleDiscoverQuerySchema, AbstractModuleSubscribeQuerySchema]
   }
 
   public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
@@ -143,7 +147,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return validators.every((validator) => validator(query, payloads))
   }
 
-  public async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+  //resolve will do a resolve from the perspective of the module (i.e. what can it and its children see?)
+  async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const resolver = assertEx(this._parentResolver, 'Parent resolver is required to call resolve')
     return (await resolver.resolve(filter)) ?? []
   }

@@ -7,7 +7,6 @@ import {
   CompositeModuleResolver,
   Module,
   ModuleConstructable,
-  ModuleDescription,
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
@@ -30,7 +29,7 @@ export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> ext
   internalResolver?: CompositeModuleResolver
 }
 
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule<AbstractModule> {
+export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule<Module> {
   static readonly configSchema = NodeConfigSchema
 
   protected internalResolver = new CompositeModuleResolver()
@@ -43,6 +42,10 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
 
   get isModuleResolver(): boolean {
     return true
+  }
+
+  public override get queries(): string[] {
+    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
   }
 
   static override async create(params?: Partial<AbstractNodeParams>): Promise<AbstractNode> {
@@ -61,11 +64,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return await (this.internalResolver.resolve() ?? [])
   }
 
-  override async description(): Promise<ModuleDescription> {
-    const desc = await super.description()
-    const children = await Promise.all((await this.attachedModules()).map((mod) => mod.description()))
-    return { ...desc, children }
-  }
   override async discover(_queryAccount?: Account | undefined): Promise<XyoPayload[]> {
     const parent = await super.discover(_queryAccount)
     const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
@@ -74,10 +72,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     )
 
     return [...parent, ...childModAddresses]
-  }
-
-  public override queries() {
-    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
@@ -138,7 +132,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     throw new Error('Method not implemented.')
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+  override async resolve(filter?: ModuleFilter): Promise<Module[]> {
     return (await this.internalResolver.resolve(filter)) ?? super.resolve(filter) ?? []
   }
 

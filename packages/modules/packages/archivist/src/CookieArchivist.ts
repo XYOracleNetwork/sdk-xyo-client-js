@@ -52,6 +52,18 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     return this.config?.namespace ?? 'xyoarch'
   }
 
+  override get queries(): string[] {
+    return [
+      ArchivistAllQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistFindQuerySchema,
+      ArchivistInsertQuerySchema,
+      ArchivistCommitQuerySchema,
+      ...super.queries,
+    ]
+  }
+
   static override async create(params?: ModuleParams<CookieArchivistConfig>): Promise<CookieArchivist> {
     return (await super.create(params)) as CookieArchivist
   }
@@ -152,18 +164,6 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
     }
-  }
-
-  public override queries() {
-    return [
-      ArchivistAllQuerySchema,
-      ArchivistDeleteQuerySchema,
-      ArchivistClearQuerySchema,
-      ArchivistFindQuerySchema,
-      ArchivistInsertQuerySchema,
-      ArchivistCommitQuerySchema,
-      ...super.queries(),
-    ]
   }
 
   private keyFromHash(hash: string) {

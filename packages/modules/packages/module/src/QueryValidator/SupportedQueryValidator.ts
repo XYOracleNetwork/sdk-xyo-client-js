@@ -11,7 +11,7 @@ export const isQuerySupportedByModule = <T extends XyoQueryBoundWitness = XyoQue
 ): boolean => {
   const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
   const schema = wrapper.query.schema
-  return mod.queries().includes(schema)
+  return mod.queries.includes(schema)
 }
 
 export class SupportedQueryValidator implements QueryValidator {

@@ -3,8 +3,8 @@ import { CompositeModuleResolver } from '@xyo-network/module'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
+import { Sentinel, SentinelConfig, SentinelConfigSchema } from '../AbstractSentinel'
 import { AutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'
-import { Sentinel, SentinelConfig, SentinelConfigSchema } from '../Sentinel'
 import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
 
 describe('SentinelRunner', () => {

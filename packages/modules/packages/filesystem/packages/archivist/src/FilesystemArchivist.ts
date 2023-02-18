@@ -43,6 +43,10 @@ export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = Fil
     return this.config?.filePath ?? 'archivist.xyo.json'
   }
 
+  public override get queries() {
+    return [ArchivistAllQuerySchema, ArchivistFindQuerySchema, ArchivistCommitQuerySchema, ...super.queries]
+  }
+
   private get memoryArchivist() {
     return assertEx(this._memoryArchivist)
   }
@@ -88,10 +92,6 @@ export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = Fil
 
   public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     return await this.memoryArchivist.insert(payloads)
-  }
-
-  public override queries() {
-    return [ArchivistAllQuerySchema, ArchivistFindQuerySchema, ArchivistCommitQuerySchema, ...super.queries()]
   }
 
   protected async loadFromFile() {

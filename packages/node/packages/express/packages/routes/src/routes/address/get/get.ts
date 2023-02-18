@@ -1,4 +1,5 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
+import { ModuleWrapper } from '@xyo-network/module'
 import { Module, ModuleDescription } from '@xyo-network/module-model'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { RequestHandler } from 'express'
@@ -21,9 +22,8 @@ const handler: RequestHandler<AddressPathParams, ModuleDescription> = async (req
       }
     }
     if (modules.length) {
-      const mod = modules[0]
-      const description = await mod.description()
-      res.json(description)
+      const wrapper = ModuleWrapper.wrap(modules[0])
+      res.json(await wrapper.describe())
       return
     }
   }

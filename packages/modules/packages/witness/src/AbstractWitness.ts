@@ -20,6 +20,10 @@ import { Witness } from './Witness'
 export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitnessConfig> extends AbstractModule<TConfig> implements Witness {
   static override configSchema: string
 
+  override get queries(): string[] {
+    return [XyoWitnessObserveQuerySchema, ...super.queries]
+  }
+
   public get targetSet() {
     return this.config?.targetSet
   }
@@ -37,10 +41,6 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
     payloadList?.forEach((payload) => assertEx(payload.schema, 'Missing Schema'))
     this.logger?.debug(`result: ${JSON.stringify(payloadList, null, 2)}`)
     return payloadList
-  }
-
-  override queries() {
-    return [XyoWitnessObserveQuerySchema, ...super.queries()]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(

@@ -46,7 +46,8 @@ describe('HttpProxyModule', () => {
     })
     describe('description', () => {
       it('returns module description', async () => {
-        const description = await sut.description()
+        const wrapper = ModuleWrapper.wrap(sut)
+        const description = await wrapper.describe()
         expect(description).toBeObject()
         expect(description.address).toBeString()
         expect(description.queries).toBeArray()
@@ -55,7 +56,7 @@ describe('HttpProxyModule', () => {
     })
     describe('queries', () => {
       it('returns supported module queries', () => {
-        const queries = sut.queries()
+        const queries = sut.queries
         expect(queries).toBeArray()
         expect(queries.length).toBeGreaterThan(0)
         expect(queries).toContain(AbstractModuleDiscoverQuerySchema)

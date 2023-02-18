@@ -90,10 +90,6 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return await new this(actualParams as ModuleParams<AbstractModuleConfig>).start()
   }
 
-  public description(): Promisable<ModuleDescription> {
-    return { address: this.address, queries: this.queries }
-  }
-
   public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
     const config = this.config
     const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()

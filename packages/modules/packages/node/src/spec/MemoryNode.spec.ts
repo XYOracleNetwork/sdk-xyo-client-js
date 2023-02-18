@@ -15,6 +15,7 @@ import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchem
 
 import { NodeConfigSchema } from '../Config'
 import { MemoryNode } from '../MemoryNode'
+import { NodeWrapper } from '../NodeWrapper'
 
 describe('MemoryNode', () => {
   const testAccount1 = new Account({ phrase: 'testPhrase1' })
@@ -147,14 +148,30 @@ describe('MemoryNode', () => {
       await node.attach(module.address)
     })
     it('emits event on module attach', async () => {
-      await new Promise<void>((resolve) => {
-      node.on('moduleAttached', (args) => {
-        expect(args.module).toBeObject()
-        expect(args.module.address).toBe(module.address)
-        expect(args.module).toBe(module)
-        resolve()
+      let attachDone = false
+      let eventDone = false
+      return await new Promise<void>((resolve, reject) => {
+        node.on('moduleAttached', (args) => {
+          expect(args.module).toBeObject()
+          expect(args.module.address).toBe(module.address)
+          expect(args.module).toBe(module)
+          eventDone = true
+          if (attachDone) {
+            resolve()
+          }
+        })
+        node
+          .attach(module.address)
+          .then(() => {
+            attachDone = true
+            if (eventDone) {
+              resolve()
+            }
+          })
+          .catch(() => {
+            reject('Attach failed')
+          })
       })
-      await node.attach(module.address)
     })
   })
   describe('attached', () => {
@@ -232,12 +249,14 @@ describe('MemoryNode', () => {
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const description = await node.description()
+        const wrapper = NodeWrapper.wrap(node)
+        const description = await wrapper.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.description()
+        const wrapper = NodeWrapper.wrap(node)
+        const description = await wrapper.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -253,13 +272,15 @@ describe('MemoryNode', () => {
         })
       })
       it('describes node and child modules', async () => {
-        const description = await node.description()
+        const wrapper = NodeWrapper.wrap(node)
+        const description = await wrapper.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
         description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.description()
+        const wrapper = NodeWrapper.wrap(node)
+        const description = await wrapper.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -279,13 +300,15 @@ describe('MemoryNode', () => {
         })
       })
       it('describes node and all nested nodes and child modules', async () => {
-        const description = await node.description()
+        const wrapper = NodeWrapper.wrap(node)
+        const description = await wrapper.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
         description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.description()
+        const wrapper = NodeWrapper.wrap(node)
+        const description = await wrapper.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -300,7 +323,7 @@ describe('MemoryNode', () => {
       const config = response.find((p) => p.schema === mod.config.schema)
       expect(config).toBeObject()
       expect(config).toEqual(mod.config)
-      const queries = response.filter((p) => mod.queries().includes(p.schema))
+      const queries = response.filter((p) => mod.queries.includes(p.schema))
       expect(queries.length).toBeGreaterThanOrEqual(0)
       queries.map((query) => {
         expect(query).toBeObject()

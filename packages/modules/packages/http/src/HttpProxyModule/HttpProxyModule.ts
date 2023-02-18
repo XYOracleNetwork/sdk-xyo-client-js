@@ -62,9 +62,6 @@ export class HttpProxyModule extends AbstractModule<HttpProxyModuleConfig> {
   public as<TModule extends Module = Module>(): TModule {
     return this as unknown as TModule
   }
-  public async description(): Promise<ModuleDescription> {
-    return assertEx(await this._api.addresses.address(this.address).get())
-  }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const data = payloads?.length ? [query, payloads] : [query]

@@ -26,9 +26,8 @@ const testAccount4 = new Account({ phrase: 'testPhrase4' })
 
 describe('getQueryConfig', () => {
   describe('with module', () => {
-    const mod = mock<AbstractModule>()
     const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema }
-    mod.config = config
+    const mod = mock<AbstractModule>({ config })
     it('returns undefined', async () => {
       const query = new QueryBoundWitnessBuilder().query({ schema: AbstractModuleDiscoverQuerySchema }).build()
       const config = await getQueryConfig(mod, req, query[0], query[1])
@@ -38,7 +37,7 @@ describe('getQueryConfig', () => {
   describe('with archivist', () => {
     const archive = 'temp'
     const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-    const queries = () => [AbstractModuleDiscoverQuerySchema]
+    const queries = [AbstractModuleDiscoverQuerySchema]
     const mod = mock<AbstractArchivist>({
       config,
       queries,

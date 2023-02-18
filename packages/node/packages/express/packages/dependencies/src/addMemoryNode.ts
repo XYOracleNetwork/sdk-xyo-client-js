@@ -34,11 +34,6 @@ const diviners = [
 export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? (await MemoryNode.create({ config }))
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
-  const modules = container.getAll<AbstractModule>(TYPES.Module)
-  modules.map((mod) => {
-    node.register(mod)
-    node.attach(mod.address)
-  })
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
   addDynamicArchivists(container, node)
@@ -49,7 +44,10 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
     types.map(async (type) => {
       const mod = await container.getAsync<AbstractModule>(type)
       const address: string | undefined = mod?.address
-      if (address) node.attach(address)
+      if (address) {
+        node.register(mod)
+        await node.attach(address)
+      }
     }),
   )
 }

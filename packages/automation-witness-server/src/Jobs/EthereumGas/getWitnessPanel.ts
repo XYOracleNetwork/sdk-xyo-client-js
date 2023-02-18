@@ -1,4 +1,4 @@
-import { AbstractModule, CompositeModuleResolver, SimpleModuleResolver } from '@xyo-network/module'
+import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
 import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from '@xyo-network/panel'
 
 import { getAccount, WalletPaths } from '../../Account'

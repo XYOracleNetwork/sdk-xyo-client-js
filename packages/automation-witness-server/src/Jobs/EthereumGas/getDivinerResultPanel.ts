@@ -1,4 +1,4 @@
-import { AbstractModule, CompositeModuleResolver, SimpleModuleResolver } from '@xyo-network/module'
+import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
 import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from '@xyo-network/panel'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { XyoAdhocWitness, XyoAdhocWitnessConfig, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'

@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
@@ -44,7 +43,6 @@ export abstract class AbstractMongoDBPayloadArchivist<
 
   public constructor(params: AbstractMongoDBPayloadArchivistParams<TConfig, T>) {
     super(params)
-    this.account = params?.account || new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) })
     this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads)
   }

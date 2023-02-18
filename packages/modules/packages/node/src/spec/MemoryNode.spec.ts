@@ -171,9 +171,6 @@ describe('MemoryNode', () => {
       })
     })
     describe('with modules attached', () => {
-      beforeEach(async () => {
-        await node.attach(module.address)
-      })
       it('lists addresses of attached modules', async () => {
         await node.attach(module.address)
         const result = await node.attached()

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistGetQuery, ArchivistGetQuerySchema, PayloadArchivist } from '@xyo-network/archivist'
+import { ArchivistGetQuery, ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { Huri } from '@xyo-network/huri'
 import { ModuleParams } from '@xyo-network/module'
@@ -32,11 +32,11 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
     return []
   }
 
-  protected async archivist(): Promise<PayloadArchivist | null> {
+  protected async archivist(): Promise<ArchivistModule | null> {
     const configArchivistAddress = this.config?.archivist
     if (configArchivistAddress) {
-      const resolvedArchivist: PayloadArchivist | null = configArchivistAddress
-        ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as PayloadArchivist[]).shift() ?? null
+      const resolvedArchivist: ArchivistModule | null = configArchivistAddress
+        ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as ArchivistModule[]).shift() ?? null
         : null
       if (resolvedArchivist) {
         return resolvedArchivist ? new ArchivistWrapper(resolvedArchivist) : null

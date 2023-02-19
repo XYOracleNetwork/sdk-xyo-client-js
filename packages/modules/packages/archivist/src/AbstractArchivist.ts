@@ -10,8 +10,8 @@ import {
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
+  ArchivistModule,
   ArchivistQuery,
-  PayloadArchivist,
 } from '@xyo-network/archivist-interface'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
@@ -29,7 +29,7 @@ export interface XyoArchivistParentWrappers {
 
 export abstract class AbstractArchivist<TConfig extends ArchivistConfig = ArchivistConfig>
   extends AbstractModule<TConfig>
-  implements PayloadArchivist
+  implements ArchivistModule
 {
   private _parents?: XyoArchivistParentWrappers
 
@@ -157,7 +157,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     return assertEx(this._parents)
   }
 
-  protected async writeToParent(parent: PayloadArchivist, payloads: XyoPayload[]) {
+  protected async writeToParent(parent: ArchivistModule, payloads: XyoPayload[]) {
     const wrapper = new ArchivistWrapper(parent)
     return await wrapper.insert(payloads)
   }

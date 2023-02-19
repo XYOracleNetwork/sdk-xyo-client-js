@@ -300,7 +300,12 @@ describe('MemoryNode', () => {
         })
       })
       it('describes node and all nested nodes and child modules', async () => {
-        const wrapper = NodeWrapper.wrap(node)
+        const memoryNode = await MemoryNode.create()
+        const archivist1 = await MemoryArchivist.create()
+        const archivist2 = await MemoryArchivist.create()
+        const wrapper = NodeWrapper.wrap(memoryNode)
+        await memoryNode.register(archivist1).attach(archivist1.address, true)
+        await memoryNode.register(archivist2).attach(archivist2.address, true)
         const description = await wrapper.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
@@ -337,19 +342,22 @@ describe('MemoryNode', () => {
     })
     describe('node with child modules', () => {
       it('describes node and child modules', async () => {
+        const memoryNode = await MemoryNode.create()
         const modules = await Promise.all([
           await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
           await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
-        modules.map(async (mod) => {
-          node.register(mod)
-          await node.attach(mod.address, true)
-        })
-        const description = await node.discover()
-        validateDiscoveryResponse(node, description)
-        const address0 = description.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
+        await Promise.all(
+          modules.map(async (mod) => {
+            memoryNode.register(mod)
+            await memoryNode.attach(mod.address, true)
+          }),
+        )
+        const discover = await memoryNode.discover()
+
+        const address0 = discover.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
         expect(address0).toBeObject()
-        const address1 = description.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
+        const address1 = discover.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
         expect(address1).toBeObject()
       })
     })

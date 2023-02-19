@@ -64,14 +64,13 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return await (this.internalResolver.resolve() ?? [])
   }
 
-  override async discover(_queryAccount?: Account | undefined): Promise<XyoPayload[]> {
-    const parent = await super.discover(_queryAccount)
-    const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
+  override async discover(): Promise<XyoPayload[]> {
+    const childMods = await this.attachedModules()
     const childModAddresses = childMods.map((mod) =>
       new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address }).build(),
     )
 
-    return [...parent, ...childModAddresses]
+    return [...(await super.discover()), ...childModAddresses]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

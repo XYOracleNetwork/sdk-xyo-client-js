@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { AbstractModule, AbstractModuleDiscoverQuerySchema, ModuleWrapper, QueryBoundWitnessBuilder } from '@xyo-network/module'
+import { AbstractModule, ModuleDiscoverQuerySchema, ModuleWrapper, QueryBoundWitnessBuilder } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoApiConfig } from '@xyo-network/sdk'
 
@@ -59,12 +59,12 @@ describe('HttpProxyModule', () => {
         const queries = sut.queries
         expect(queries).toBeArray()
         expect(queries.length).toBeGreaterThan(0)
-        expect(queries).toContain(AbstractModuleDiscoverQuerySchema)
+        expect(queries).toContain(ModuleDiscoverQuerySchema)
       })
     })
     describe('query', () => {
       it('queries the module', async () => {
-        const queryPayload = new XyoPayloadBuilder({ schema: AbstractModuleDiscoverQuerySchema }).build()
+        const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
         const response = await sut.query(query[0], [...query[1]])
         expect(response).toBeTruthy()
@@ -74,7 +74,7 @@ describe('HttpProxyModule', () => {
     })
     describe('queryable', () => {
       it('returns true for supported queries', async () => {
-        const queryPayload = new XyoPayloadBuilder({ schema: AbstractModuleDiscoverQuerySchema }).build()
+        const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
         const response = await sut.queryable(query[0], [...query[1]])
         expect(response).toBeTrue()

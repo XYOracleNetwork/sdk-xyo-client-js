@@ -89,7 +89,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return await new this(actualParams as ModuleParams<ModuleConfig>).start()
   }
 
-  public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
+  public discover(): Promisable<XyoPayload[]> {
     const config = this.config
     const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()
     const queries = this.queries.map((query) => {
@@ -112,7 +112,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     try {
       switch (typedQuery.schema) {
         case ModuleDiscoverQuerySchema: {
-          resultPayloads.push(...(await this.discover(queryAccount)))
+          resultPayloads.push(...(await this.discover()))
           break
         }
         case ModuleSubscribeQuerySchema: {

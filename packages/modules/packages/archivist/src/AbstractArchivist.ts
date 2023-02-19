@@ -15,14 +15,7 @@ import {
 } from '@xyo-network/archivist-interface'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import {
-  AbstractModule,
-  AbstractModuleConfig,
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
@@ -39,6 +32,10 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
   implements PayloadArchivist
 {
   private _parents?: XyoArchivistParentWrappers
+
+  public override get queries(): string[] {
+    return [ArchivistGetQuerySchema, ...super.queries]
+  }
 
   protected get storeParentReads() {
     return !!this.config?.storeParentReads
@@ -80,11 +77,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     )
   }
 
-  public override queries() {
-    return [ArchivistGetQuerySchema, ...super.queries()]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

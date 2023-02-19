@@ -3,14 +3,7 @@ import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import {
-  AbstractModuleConfig,
-  ModuleParams,
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { ModuleConfig, ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
@@ -38,6 +31,10 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
   private _archivists: ArchivistWrapper[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 
+  public override get queries(): string[] {
+    return [XyoPanelReportQuerySchema, ...super.queries]
+  }
+
   static override async create(params?: Partial<ModuleParams<XyoPanelConfig>>): Promise<XyoPanel> {
     return (await super.create(params)) as XyoPanel
   }
@@ -64,11 +61,7 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     return this._witnesses
   }
 
-  public override queries(): string[] {
-    return [XyoPanelReportQuerySchema, ...super.queries()]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

@@ -4,14 +4,13 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import {
-  AbstractModuleConfig,
-  AbstractModuleDiscoverQuerySchema,
-  AbstractModuleQuery,
-  AbstractModuleSubscribeQuerySchema,
   Module,
-  ModuleDescription,
+  ModuleConfig,
+  ModuleDiscoverQuerySchema,
   ModuleFilter,
+  ModuleQuery,
   ModuleQueryResult,
+  ModuleSubscribeQuerySchema,
   SchemaString,
   XyoQuery,
   XyoQueryBoundWitness,
@@ -34,11 +33,11 @@ import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from '
 import { CompositeModuleResolver } from './Resolver'
 
 @creatable()
-export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {
+export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> implements Module {
   static configSchema: string
   static defaultLogger?: Logger
 
-  public config: TConfig
+  public _config: TConfig
 
   protected _parentResolver = new CompositeModuleResolver()
   protected _resolver: CompositeModuleResolver
@@ -49,7 +48,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
-    this.config = params.config
+    this._config = params.config
     this.account = this.loadAccount(params?.account)
     this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this, params.config.name)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
@@ -63,6 +62,10 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.addressValue.hex
   }
 
+  public get config() {
+    return this._config
+  }
+
   public get parentResolver(): CompositeModuleResolver {
     return this._parentResolver
   }
@@ -71,52 +74,48 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.account.previousHash
   }
 
+  public get queries(): string[] {
+    return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
+  }
+
   public get resolver(): CompositeModuleResolver {
     return this._resolver
   }
 
-  static async create(params?: Partial<ModuleParams<AbstractModuleConfig>>): Promise<AbstractModule> {
+  static async create(params?: Partial<ModuleParams<ModuleConfig>>): Promise<AbstractModule> {
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const actualParams: Partial<ModuleParams<AbstractModuleConfig>> = params ?? {}
+    const actualParams: Partial<ModuleParams<ModuleConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: assertEx(this.configSchema) }
-    return await new this(actualParams as ModuleParams<AbstractModuleConfig>).start()
+    return await new this(actualParams as ModuleParams<ModuleConfig>).start()
   }
 
-  public description(): Promisable<ModuleDescription> {
-    return { address: this.address, queries: this.queries() }
-  }
-
-  public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
+  public discover(): Promisable<XyoPayload[]> {
     const config = this.config
     const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()
-    const queries = this.queries().map((query) => {
+    const queries = this.queries.map((query) => {
       return new XyoPayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
     })
     return compact([config, address, ...queries])
   }
 
-  public queries(): string[] {
-    return [AbstractModuleDiscoverQuerySchema, AbstractModuleSubscribeQuerySchema]
-  }
-
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
-        case AbstractModuleDiscoverQuerySchema: {
-          resultPayloads.push(...(await this.discover(queryAccount)))
+        case ModuleDiscoverQuerySchema: {
+          resultPayloads.push(...(await this.discover()))
           break
         }
-        case AbstractModuleSubscribeQuerySchema: {
+        case ModuleSubscribeQuerySchema: {
           this.subscribe(queryAccount)
           break
         }
@@ -130,7 +129,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
@@ -143,7 +142,8 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return validators.every((validator) => validator(query, payloads))
   }
 
-  public async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+  //resolve will do a resolve from the perspective of the module (i.e. what can it and its children see?)
+  async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const resolver = assertEx(this._parentResolver, 'Parent resolver is required to call resolve')
     return (await resolver.resolve(filter)) ?? []
   }

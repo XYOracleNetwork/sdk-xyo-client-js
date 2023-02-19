@@ -15,14 +15,7 @@ import {
 } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import {
-  AbstractModuleConfig,
-  ModuleParams,
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { ModuleConfig, ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -79,6 +72,10 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
+  override get queries(): string[] {
+    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
+  }
+
   static override async create(params?: Partial<MongoDBDeterministicArchivistParams>): Promise<MongoDBDeterministicArchivist> {
     return (await super.create(params)) as MongoDBDeterministicArchivist
   }
@@ -95,11 +92,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     throw new Error('insert method must be called via query')
   }
 
-  override queries() {
-    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

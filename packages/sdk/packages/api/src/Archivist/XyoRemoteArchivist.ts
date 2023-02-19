@@ -38,6 +38,10 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
     return this.config?.archive
   }
 
+  public override get queries(): string[] {
+    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
+  }
+
   static override async create(params?: XyoRemoteArchivistParams): Promise<XyoRemoteArchivist> {
     return (await super.create(params)) as XyoRemoteArchivist
   }
@@ -122,9 +126,5 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
       console.error(ex)
       throw ex
     }
-  }
-
-  public override queries() {
-    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
   }
 }

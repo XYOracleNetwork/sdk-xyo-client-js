@@ -1,45 +1,39 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivingModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import {
-  AbstractModuleConfig,
-  ModuleParams,
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { ModuleConfig, ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
 
+import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQuery, SentinelReportQuerySchema } from './Queries'
 import { SentinelModule } from './SentinelModel'
 
-export type SentinelConfigSchema = 'network.xyo.sentinel.config'
-export const SentinelConfigSchema: SentinelConfigSchema = 'network.xyo.sentinel.config'
-
-export type SentinelConfig = ArchivingModuleConfig<{
+export type AbstractSentinelConfig = SentinelConfig<{
   onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
   onReportStart?: () => void
   onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
   onWitnessReportStart?: (witness: WitnessWrapper) => void
   schema: SentinelConfigSchema
-  witnesses?: string[]
 }>
 
-export class Sentinel extends ArchivingModule<SentinelConfig> implements SentinelModule {
+export class AbstractSentinel<TConfig extends SentinelConfig = SentinelConfig> extends ArchivingModule<TConfig> implements SentinelModule<TConfig> {
   static override configSchema: SentinelConfigSchema
 
   public history: XyoBoundWitness[] = []
   private _archivists: ArchivistWrapper[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 
-  static override async create(params?: Partial<ModuleParams<SentinelConfig>>): Promise<Sentinel> {
-    return (await super.create(params)) as Sentinel
+  public override get queries(): string[] {
+    return [SentinelReportQuerySchema, ...super.queries]
+  }
+
+  static override async create(params?: Partial<ModuleParams<SentinelConfig>>): Promise<AbstractSentinel> {
+    return (await super.create(params)) as AbstractSentinel
   }
 
   public addWitness(address: string[]) {
@@ -64,11 +58,7 @@ export class Sentinel extends ArchivingModule<SentinelConfig> implements Sentine
     return this._witnesses
   }
 
-  public override queries(): string[] {
-    return [SentinelReportQuerySchema, ...super.queries()]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

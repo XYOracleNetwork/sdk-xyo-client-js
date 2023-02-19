@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   AbstractModule,
-  AbstractModuleConfig,
+  ModuleConfig,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -19,6 +19,10 @@ import { Witness } from './Witness'
 
 export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitnessConfig> extends AbstractModule<TConfig> implements Witness {
   static override configSchema: string
+
+  override get queries(): string[] {
+    return [XyoWitnessObserveQuerySchema, ...super.queries]
+  }
 
   public get targetSet() {
     return this.config?.targetSet
@@ -39,11 +43,7 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
     return payloadList
   }
 
-  override queries() {
-    return [XyoWitnessObserveQuerySchema, ...super.queries()]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

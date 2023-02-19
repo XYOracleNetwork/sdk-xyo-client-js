@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { EmptyObject } from '@xyo-network/core'
-import { AbstractModule, AbstractModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -11,14 +11,14 @@ import { XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '../Payload'
 import { PayloadArchivist } from './PayloadArchivist'
 import { XyoPayloadFilterPredicate } from './XyoPayloadFilterPredicate'
 
-export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extends AbstractModuleConfig = AbstractModuleConfig>
+export abstract class AbstractPayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extends ModuleConfig = ModuleConfig>
   extends AbstractModule<TConfig>
   implements PayloadArchivist<T>
 {
-  override queries() {
-    return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries()]
+  override get queries(): string[] {
+    return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }
-  override async query<Q extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<Q extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: Q,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

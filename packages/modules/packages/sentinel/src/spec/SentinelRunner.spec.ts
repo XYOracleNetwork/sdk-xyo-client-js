@@ -3,12 +3,13 @@ import { CompositeModuleResolver } from '@xyo-network/module'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
+import { AbstractSentinel } from '../AbstractSentinel'
 import { AutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'
-import { Sentinel, SentinelConfig, SentinelConfigSchema } from '../Sentinel'
+import { SentinelConfig, SentinelConfigSchema } from '../Config'
 import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
 
 describe('SentinelRunner', () => {
-  let sentinel: Sentinel
+  let sentinel: AbstractSentinel
   let config: SentinelConfig
 
   beforeEach(async () => {
@@ -21,7 +22,7 @@ describe('SentinelRunner', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    sentinel = await Sentinel.create({ config, resolver })
+    sentinel = await AbstractSentinel.create({ config, resolver })
   })
 
   it('should output interval results', async () => {

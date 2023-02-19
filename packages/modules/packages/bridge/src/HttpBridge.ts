@@ -78,7 +78,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
           break
         }
         default:
-          if (super.queries().find((schema) => schema === typedQuery.schema)) {
+          if (super.queries.find((schema) => schema === typedQuery.schema)) {
             return super.query(query, payloads)
           } else {
             return this.forward(query, payloads)

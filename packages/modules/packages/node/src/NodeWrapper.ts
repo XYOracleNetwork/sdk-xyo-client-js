@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleDescription, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -49,6 +49,17 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return payloads.map((p) => p.address)
   }
 
+  override async describe(): Promise<ModuleDescription> {
+    const childModules = (await this.module?.resolve())?.filter((childModule) => childModule.address !== this.address) ?? []
+    const children: ModuleDescription[] = await Promise.all(
+      childModules?.map((child) => {
+        const wrapper = ModuleWrapper.wrap(child)
+        return wrapper.describe()
+      }),
+    )
+    return { ...(await super.describe()), children }
+  }
+
   async detach(address: string): Promise<void> {
     const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ address, schema: XyoNodeDetachQuerySchema })
     await this.sendQuery(queryPayload)
@@ -60,7 +71,7 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return payloads.map((p) => p.address)
   }
 
-  resolve(filter?: ModuleFilter): Promisable<Module[]> {
+  override resolve(filter?: ModuleFilter): Promisable<Module[]> {
     return this.module.resolve(filter)
   }
 }

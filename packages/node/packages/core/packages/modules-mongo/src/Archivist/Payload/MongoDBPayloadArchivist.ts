@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { EmptyObject } from '@xyo-network/core'
-import { AbstractModuleConfig, AbstractModuleConfigSchema, ModuleParams } from '@xyo-network/module'
+import { ModuleConfig, ModuleConfigSchema, ModuleParams } from '@xyo-network/module'
 import { AbstractPayloadArchivist, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
@@ -10,13 +10,13 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export interface MongoDBPayloadArchivistParams<TConfig extends AbstractModuleConfig = AbstractModuleConfig, T extends EmptyObject = EmptyObject>
+export interface MongoDBPayloadArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends EmptyObject = EmptyObject>
   extends ModuleParams<TConfig> {
   sdk: BaseMongoSdk<XyoPayloadWithMeta<T>>
 }
 
 export class MongoDBPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> {
-  static override configSchema = AbstractModuleConfigSchema
+  static override configSchema = ModuleConfigSchema
 
   protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>
 

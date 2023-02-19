@@ -1,9 +1,12 @@
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
-  AbstractModuleDiscoverQuery,
-  AbstractModuleDiscoverQuerySchema,
   Module,
+  ModuleConfig,
   ModuleDescription,
+  ModuleDiscoverQuery,
+  ModuleDiscoverQuerySchema,
+  ModuleFilter,
   ModuleQueryResult,
   XyoQuery,
   XyoQueryBoundWitness,
@@ -32,14 +35,14 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 }
 
 @moduleConstructable()
-export class ModuleWrapper<TModule extends Module = Module> implements Module {
-  static requiredQueries: string[] = [AbstractModuleDiscoverQuerySchema]
+export class ModuleWrapper<TWrappedModule extends Module = Module> implements Module {
+  static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
-  public readonly module: TModule
+  public readonly module: TWrappedModule
 
-  constructor(module: TModule, protected readonly account?: Account) {
+  constructor(module: TWrappedModule, protected readonly account?: Account) {
     //unwrap it if already wrapped
-    const wrapper = module as unknown as ModuleWrapper<TModule>
+    const wrapper = module as unknown as ModuleWrapper<TWrappedModule>
     if (wrapper.module) {
       this.module = wrapper.module
     } else {
@@ -50,36 +53,47 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
   get address() {
     return this.module.address
   }
-  get config(): XyoPayload {
+  get config(): TWrappedModule['config'] {
     return this.module.config
   }
 
+  get queries(): string[] {
+    return this.module.queries
+  }
+
+  get resolver() {
+    return this.module.resolver
+  }
+
   static hasRequiredQueries(module: Module) {
-    const moduleQueries = module.queries()
+    const moduleQueries = module.queries
     return this.requiredQueries.reduce((prev, query) => {
       return prev && !!moduleQueries.find((item) => item === query)
     }, true)
   }
 
-  static tryWrap(_module: Module): ModuleWrapper | undefined {
-    throw new Error('Method not implemented.')
+  static tryWrap(module: Module): ModuleWrapper | undefined {
+    return this.hasRequiredQueries(module) ? new ModuleWrapper(module as Module) : undefined
   }
 
-  static wrap(_module: Module): ModuleWrapper {
-    throw new Error('Method not implemented.')
+  static wrap(module: Module): ModuleWrapper {
+    return assertEx(this.tryWrap(module), 'Unable to wrap module as ModuleWrapper')
   }
 
-  public description(): Promisable<ModuleDescription> {
-    return this.module.description()
+  describe(): Promisable<ModuleDescription> {
+    const description: ModuleDescription = {
+      address: this.module.address,
+      queries: this.module.queries,
+    }
+    if (this.config.name) {
+      description.name = this.config.name
+    }
+    return description
   }
 
   discover(): Promise<XyoPayload[]> {
-    const queryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
+    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return this.sendQuery(queryPayload)
-  }
-
-  queries(): string[] {
-    return this.module.queries()
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
@@ -88,6 +102,10 @@ export class ModuleWrapper<TModule extends Module = Module> implements Module {
 
   queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
     return this.module.queryable(query, payloads)
+  }
+
+  resolve(filter?: ModuleFilter): Promisable<Module[]> {
+    return this.module.resolve(filter)
   }
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(

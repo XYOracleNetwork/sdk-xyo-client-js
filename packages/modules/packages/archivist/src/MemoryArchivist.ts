@@ -42,6 +42,18 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
     return this.config?.max ?? 10000
   }
 
+  public override get queries() {
+    return [
+      ArchivistAllQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistFindQuerySchema,
+      ArchivistInsertQuerySchema,
+      ArchivistCommitQuerySchema,
+      ...super.queries,
+    ]
+  }
+
   static override async create(params?: ModuleParams<MemoryArchivistConfig>): Promise<MemoryArchivist> {
     return (await super.create(params)) as MemoryArchivist
   }
@@ -108,17 +120,5 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
       parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
     }
     return [result[0], ...parentBoundWitnesses]
-  }
-
-  public override queries() {
-    return [
-      ArchivistAllQuerySchema,
-      ArchivistDeleteQuerySchema,
-      ArchivistClearQuerySchema,
-      ArchivistFindQuerySchema,
-      ArchivistInsertQuerySchema,
-      ArchivistCommitQuerySchema,
-      ...super.queries(),
-    ]
   }
 }

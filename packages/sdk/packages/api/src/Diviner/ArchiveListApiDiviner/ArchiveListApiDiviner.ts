@@ -1,4 +1,4 @@
-import { AbstractDiviner, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner'
+import { AbstractDiviner } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 
 import { XyoArchivistApi } from '../../Api'
@@ -32,10 +32,6 @@ export class ArchiveListApiDiviner extends AbstractDiviner<XyoArchiveListApiDivi
         }
       }) ?? []
     )
-  }
-
-  override queries() {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
   }
 
   protected override async start() {

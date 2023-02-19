@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { DivinerConfig, DivinerModule, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
 import {
   AbstractModule,
-  AbstractModuleConfig,
+  ModuleConfig,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -19,6 +19,10 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
   static override configSchema: string
   static targetSchema: string
 
+  public override get queries(): string[] {
+    return [XyoDivinerDivineQuerySchema, ...super.queries]
+  }
+
   public get targetSchema() {
     return this.config?.targetSchema
   }
@@ -27,11 +31,7 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
     return (await super.create(params)) as AbstractDiviner
   }
 
-  public override queries(): string[] {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

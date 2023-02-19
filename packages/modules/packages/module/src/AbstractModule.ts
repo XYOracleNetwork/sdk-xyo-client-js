@@ -4,14 +4,13 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import {
-  AbstractModuleConfig,
-  AbstractModuleDiscoverQuerySchema,
-  AbstractModuleQuery,
-  AbstractModuleSubscribeQuerySchema,
   Module,
-  ModuleDescription,
+  ModuleConfig,
+  ModuleDiscoverQuerySchema,
   ModuleFilter,
+  ModuleQuery,
   ModuleQueryResult,
+  ModuleSubscribeQuerySchema,
   SchemaString,
   XyoQuery,
   XyoQueryBoundWitness,
@@ -34,7 +33,7 @@ import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from '
 import { CompositeModuleResolver } from './Resolver'
 
 @creatable()
-export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements Module {
+export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> implements Module {
   static configSchema: string
   static defaultLogger?: Logger
 
@@ -76,18 +75,18 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
   }
 
   public get queries(): string[] {
-    return [AbstractModuleDiscoverQuerySchema, AbstractModuleSubscribeQuerySchema]
+    return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
 
   public get resolver(): CompositeModuleResolver {
     return this._resolver
   }
 
-  static async create(params?: Partial<ModuleParams<AbstractModuleConfig>>): Promise<AbstractModule> {
+  static async create(params?: Partial<ModuleParams<ModuleConfig>>): Promise<AbstractModule> {
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const actualParams: Partial<ModuleParams<AbstractModuleConfig>> = params ?? {}
+    const actualParams: Partial<ModuleParams<ModuleConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: assertEx(this.configSchema) }
-    return await new this(actualParams as ModuleParams<AbstractModuleConfig>).start()
+    return await new this(actualParams as ModuleParams<ModuleConfig>).start()
   }
 
   public discover(_queryAccount?: Account): Promisable<XyoPayload[]> {
@@ -99,24 +98,24 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return compact([config, address, ...queries])
   }
 
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
-        case AbstractModuleDiscoverQuerySchema: {
+        case ModuleDiscoverQuerySchema: {
           resultPayloads.push(...(await this.discover(queryAccount)))
           break
         }
-        case AbstractModuleSubscribeQuerySchema: {
+        case ModuleSubscribeQuerySchema: {
           this.subscribe(queryAccount)
           break
         }
@@ -130,7 +129,7 @@ export class AbstractModule<TConfig extends AbstractModuleConfig = AbstractModul
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

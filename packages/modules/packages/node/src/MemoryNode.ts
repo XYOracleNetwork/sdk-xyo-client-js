@@ -59,7 +59,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
 
   override async attach(address: string, external?: boolean) {
     const existingModule = (await this.resolve({ address: [address] })).pop()
-    assertEx(!existingModule, `Module [${existingModule?.config.name}] already attached at address [${address}]`)
+    assertEx(!existingModule, `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
     const module = assertEx(this.registeredModuleMap.get(address), 'No module registered at that address')
 
     this.internalResolver.addResolver(module.resolver)

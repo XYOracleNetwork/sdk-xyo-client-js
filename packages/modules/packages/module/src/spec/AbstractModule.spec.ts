@@ -1,10 +1,10 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
+import { ModuleConfigSchema } from '@xyo-network/module-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { AbstractModule } from '../AbstractModule'
 export class TestAbstractModule extends AbstractModule {
-  static configSchema = AbstractModuleConfigSchema
+  static configSchema = ModuleConfigSchema
   static override async create(params?: object) {
     return await super.create(params)
   }
@@ -45,7 +45,7 @@ describe('AbstractModule', () => {
     })
     it('returns config', async () => {
       const response = await sut.discover()
-      expect(response.some((p) => p.schema === AbstractModuleConfigSchema)).toBeTrue()
+      expect(response.some((p) => p.schema === ModuleConfigSchema)).toBeTrue()
     })
     it('returns supported queries', async () => {
       const response = await sut.discover()

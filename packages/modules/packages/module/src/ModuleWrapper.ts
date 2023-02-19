@@ -1,9 +1,11 @@
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
-  AbstractModuleDiscoverQuery,
-  AbstractModuleDiscoverQuerySchema,
   Module,
+  ModuleConfig,
   ModuleDescription,
+  ModuleDiscoverQuery,
+  ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleQueryResult,
   XyoQuery,
@@ -34,7 +36,7 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 
 @moduleConstructable()
 export class ModuleWrapper<TWrappedModule extends Module = Module> implements Module {
-  static requiredQueries: string[] = [AbstractModuleDiscoverQuerySchema]
+  static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
   public readonly module: TWrappedModule
 
@@ -51,7 +53,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   get address() {
     return this.module.address
   }
-  get config(): XyoPayload {
+  get config(): TWrappedModule['config'] {
     return this.module.config
   }
 
@@ -70,26 +72,27 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     }, true)
   }
 
-  static tryWrap(_module: Module): ModuleWrapper | undefined {
-    throw new Error('Method not implemented.')
+  static tryWrap(module: Module): ModuleWrapper | undefined {
+    return this.hasRequiredQueries(module) ? new ModuleWrapper(module as Module) : undefined
   }
 
-  static wrap(_module: Module): ModuleWrapper {
-    throw new Error('Method not implemented.')
+  static wrap(module: Module): ModuleWrapper {
+    return assertEx(this.tryWrap(module), 'Unable to wrap module as ModuleWrapper')
   }
 
-  async describe() {
-    const childModules = (await this.module.resolver?.resolve()) ?? []
+  describe() {
     const description: ModuleDescription = {
       address: this.module.address,
-      children: await Promise.all(childModules?.map(async (child) => await ModuleWrapper.wrap(child).describe())),
       queries: this.module.queries,
+    }
+    if (this.config.name) {
+      description.name = this.config.name
     }
     return description
   }
 
   discover(): Promise<XyoPayload[]> {
-    const queryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
+    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return this.sendQuery(queryPayload)
   }
 

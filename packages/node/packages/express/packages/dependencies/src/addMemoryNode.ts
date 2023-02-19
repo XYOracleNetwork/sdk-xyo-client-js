@@ -45,8 +45,7 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
       const mod = await container.getAsync<AbstractModule>(type)
       const address: string | undefined = mod?.address
       if (address) {
-        node.register(mod)
-        await node.attach(address)
+        await node.register(mod).attach(address, true)
       }
     }),
   )

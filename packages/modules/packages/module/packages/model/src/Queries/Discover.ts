@@ -1,8 +1,8 @@
 import { XyoQuery } from '../Query'
 
-export type AbstractModuleDiscoverQuerySchema = 'network.xyo.query.module.discover'
-export const AbstractModuleDiscoverQuerySchema: AbstractModuleDiscoverQuerySchema = 'network.xyo.query.module.discover'
+export type ModuleDiscoverQuerySchema = 'network.xyo.query.module.discover'
+export const ModuleDiscoverQuerySchema: ModuleDiscoverQuerySchema = 'network.xyo.query.module.discover'
 
-export type AbstractModuleDiscoverQuery = XyoQuery<{
-  schema: AbstractModuleDiscoverQuerySchema
+export type ModuleDiscoverQuery = XyoQuery<{
+  schema: ModuleDiscoverQuerySchema
 }>

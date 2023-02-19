@@ -3,9 +3,9 @@ import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   AbstractModule,
-  AbstractModuleConfig,
   CompositeModuleResolver,
   Module,
+  ModuleConfig,
   ModuleConstructable,
   ModuleFilter,
   ModuleParams,
@@ -74,7 +74,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return [...parent, ...childModAddresses]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

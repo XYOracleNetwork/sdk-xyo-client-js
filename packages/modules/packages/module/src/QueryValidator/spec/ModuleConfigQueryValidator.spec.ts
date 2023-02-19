@@ -1,10 +1,10 @@
 import { Account } from '@xyo-network/account'
 import {
-  AbstractModuleConfig,
-  AbstractModuleConfigSchema,
   AbstractModuleDiscoverQuerySchema,
   AddressString,
   CosigningAddressSet,
+  ModuleConfig,
+  ModuleConfigSchema,
   SchemaString,
 } from '@xyo-network/module-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
@@ -33,7 +33,7 @@ describe('ModuleConfigQueryValidator', () => {
   disallowed[AbstractModuleDiscoverQuerySchema] = [disallowed1.addressValue.hex.toUpperCase(), disallowed2.addressValue.hex]
   describe('queryable', () => {
     describe('allowed', () => {
-      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { allowed } }
+      const config: ModuleConfig = { schema: ModuleConfigSchema, security: { allowed } }
       const sut = new ModuleConfigQueryValidator(config)
       it('allows schema from allowed address', () => {
         const query = new QueryBoundWitnessBuilder().witness(allowed1).query(queryPayload).build()
@@ -66,7 +66,7 @@ describe('ModuleConfigQueryValidator', () => {
       })
     })
     describe('disallowed', () => {
-      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { disallowed } }
+      const config: ModuleConfig = { schema: ModuleConfigSchema, security: { disallowed } }
       const sut = new ModuleConfigQueryValidator(config)
       it('allows schema from non-disallowed address', () => {
         const query = new QueryBoundWitnessBuilder().witness(allowed1).query(queryPayload).build()
@@ -90,7 +90,7 @@ describe('ModuleConfigQueryValidator', () => {
       })
     })
     describe('allowed & disallowed', () => {
-      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { allowed, disallowed } }
+      const config: ModuleConfig = { schema: ModuleConfigSchema, security: { allowed, disallowed } }
       const sut = new ModuleConfigQueryValidator(config)
       it('disallowed takes precedence', () => {
         const query = new QueryBoundWitnessBuilder().witness(allowed1).witness(disallowed1).query(queryPayload).build()

@@ -11,7 +11,8 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
-import { Sentinel, SentinelConfig, SentinelConfigSchema } from '../AbstractSentinel'
+import { AbstractSentinel } from '../AbstractSentinel'
+import { SentinelConfig, SentinelConfigSchema } from '../Config'
 
 describe('Sentinel', () => {
   test('all [simple sentinel send]', async () => {
@@ -39,7 +40,7 @@ describe('Sentinel', () => {
     resolver.add(archivist)
     witnesses.forEach((witness) => resolver.add(witness))
 
-    const sentinel = await Sentinel.create({ config, resolver })
+    const sentinel = await AbstractSentinel.create({ config, resolver })
     expect(await sentinel.getArchivists()).toBeArrayOfSize(1)
     expect(await sentinel.getWitnesses()).toBeArrayOfSize(2)
     const adhocWitness = await XyoAdhocWitness.create({
@@ -130,7 +131,7 @@ describe('Sentinel', () => {
           },
           resolver,
         }
-        const sentinel = await Sentinel.create(params)
+        const sentinel = await AbstractSentinel.create(params)
         const result = await sentinel.report()
         assertSentinelReport(result)
         await assertArchivistStateMatchesSentinelReport(result, [archivistA, archivistB])
@@ -146,7 +147,7 @@ describe('Sentinel', () => {
           },
           resolver,
         }
-        const sentinel = await Sentinel.create(params)
+        const sentinel = await AbstractSentinel.create(params)
         const observed = await witnessB.observe()
         expect(observed).toBeArrayOfSize(1)
         const result = await sentinel.report(observed)
@@ -164,7 +165,7 @@ describe('Sentinel', () => {
           },
           resolver,
         }
-        const sentinel = await Sentinel.create(params)
+        const sentinel = await AbstractSentinel.create(params)
         const observedA = await witnessA.observe()
         expect(observedA).toBeArrayOfSize(1)
         const observedB = await witnessB.observe()
@@ -206,7 +207,7 @@ describe('Sentinel', () => {
           },
           resolver,
         }
-        const sentinel = await Sentinel.create(params)
+        const sentinel = await AbstractSentinel.create(params)
         await sentinel.report()
         return
       })

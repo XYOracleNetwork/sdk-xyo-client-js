@@ -1,12 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import {
-  AbstractModule,
-  AbstractModuleConfig,
-  AbstractModuleConfigSchema,
-  AbstractModuleDiscoverQuerySchema,
-  QueryBoundWitnessBuilder,
-} from '@xyo-network/module'
+import { AbstractModule, AbstractModuleDiscoverQuerySchema, ModuleConfig, ModuleConfigSchema, QueryBoundWitnessBuilder } from '@xyo-network/module'
 import { AbstractArchivist } from '@xyo-network/modules'
 import { ArchiveModuleConfig, ArchiveModuleConfigSchema } from '@xyo-network/node-core-model'
 import { Request } from 'express'
@@ -26,7 +20,7 @@ const testAccount4 = new Account({ phrase: 'testPhrase4' })
 
 describe('getQueryConfig', () => {
   describe('with module', () => {
-    const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema }
+    const config: ModuleConfig = { schema: ModuleConfigSchema }
     const mod = mock<AbstractModule>({ config })
     it('returns undefined', async () => {
       const query = new QueryBoundWitnessBuilder().query({ schema: AbstractModuleDiscoverQuerySchema }).build()

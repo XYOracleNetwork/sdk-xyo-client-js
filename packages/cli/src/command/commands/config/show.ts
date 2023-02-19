@@ -1,22 +1,22 @@
 import { EmptyObject } from '@xyo-network/core'
-import { AbstractModuleConfig, AbstractModuleConfigSchema } from '@xyo-network/module'
+import { ModuleConfig, ModuleConfigSchema } from '@xyo-network/module'
 import { CommandBuilder, CommandModule } from 'yargs'
 
 import { readFileDeep } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
 import { outputContext } from '../../util'
 
-const getConfig = async (): Promise<AbstractModuleConfig> => {
+const getConfig = async (): Promise<ModuleConfig> => {
   const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
-  let configObj: AbstractModuleConfig | undefined
+  let configObj: ModuleConfig | undefined
   if (config) {
     if (path?.endsWith('.json')) {
-      configObj = JSON.parse(config) as AbstractModuleConfig
+      configObj = JSON.parse(config) as ModuleConfig
     } else if (path?.endsWith('.cjs') || path?.endsWith('.js')) {
-      configObj = (await import(path)) as AbstractModuleConfig
+      configObj = (await import(path)) as ModuleConfig
     }
   }
-  return configObj ?? { schema: AbstractModuleConfigSchema }
+  return configObj ?? { schema: ModuleConfigSchema }
 }
 
 export const aliases: ReadonlyArray<string> = []

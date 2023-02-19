@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { EmptyObject } from '@xyo-network/core'
 import { NodeWrapper } from '@xyo-network/node'
 import { parse } from 'path'
@@ -17,7 +18,7 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   const { verbose } = argv
   try {
     const node = await getNode(argv)
-    const wrapper = NodeWrapper.wrap(node)
+    const wrapper = NodeWrapper.wrap(assertEx(node, 'App has no node'))
     const result = (await wrapper.describe()) ?? {}
     printLine(JSON.stringify(result))
   } catch (error) {

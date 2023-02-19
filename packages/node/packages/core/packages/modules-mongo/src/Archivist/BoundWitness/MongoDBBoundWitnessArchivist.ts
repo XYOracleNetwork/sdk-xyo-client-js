@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { EmptyObject } from '@xyo-network/core'
 import { ModuleParams } from '@xyo-network/module'
-import { AbstractModuleConfig, AbstractModuleConfigSchema } from '@xyo-network/module-model'
+import { ModuleConfig, ModuleConfigSchema } from '@xyo-network/module-model'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
   AbstractBoundWitnessArchivist,
@@ -19,13 +19,13 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export interface MongoDBBoundWitnessArchivistParams<TConfig extends AbstractModuleConfig = AbstractModuleConfig, T extends EmptyObject = EmptyObject>
+export interface MongoDBBoundWitnessArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends EmptyObject = EmptyObject>
   extends ModuleParams<TConfig> {
   boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta<T>>
 }
 
 export class MongoDBBoundWitnessArchivist extends AbstractBoundWitnessArchivist {
-  public static override configSchema = AbstractModuleConfigSchema
+  public static override configSchema = ModuleConfigSchema
 
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 

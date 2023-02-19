@@ -49,6 +49,16 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return payloads.map((p) => p.address)
   }
 
+  async describe() {
+    const childModules = (await this.module?.resolve()) ?? []
+    const children = childModules?.map((child) => {
+      return {
+        address: child.address,
+      }
+    })
+    return { ...super.describe(), children }
+  }
+
   async detach(address: string): Promise<void> {
     const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ address, schema: XyoNodeDetachQuerySchema })
     await this.sendQuery(queryPayload)

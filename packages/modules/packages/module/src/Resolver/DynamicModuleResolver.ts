@@ -1,6 +1,7 @@
 import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
+import { duplicateModules } from '../lib'
 import { CompositeModuleResolver } from './CompositeModuleResolver'
 
 type ResolverFunction<TModule extends Module = Module> = (filter?: ModuleFilter) => Promisable<TModule[]>
@@ -26,6 +27,6 @@ export class DynamicModuleResolver<TModule extends Module = Module> extends Comp
   }
 
   override async resolve(filter?: ModuleFilter): Promise<TModule[]> {
-    return await this._resolveImplementation(filter)
+    return [...(await this._resolveImplementation(filter)), ...(await super.resolve(filter))].filter(duplicateModules)
   }
 }

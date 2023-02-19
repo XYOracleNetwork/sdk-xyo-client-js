@@ -36,8 +36,8 @@ describe('MemoryNode', () => {
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
       })
-      await node.register(archivist).attach(archivist.address)
-      await node.register(diviner).attach(diviner.address)
+      await node.register(archivist).attach(archivist.address, true)
+      await node.register(diviner).attach(diviner.address, true)
       expect(node.registered()).toBeArrayOfSize(2)
       expect(await node.attached()).toBeArrayOfSize(2)
       const foundArchivist = (await node.resolve({ address: [archivist.address] })).shift()
@@ -145,7 +145,7 @@ describe('MemoryNode', () => {
       node.register(module)
     })
     it('attaches module', async () => {
-      await node.attach(module.address)
+      await node.attach(module.address, true)
     })
     it('emits event on module attach', async () => {
       let attachDone = false
@@ -161,7 +161,7 @@ describe('MemoryNode', () => {
           }
         })
         node
-          .attach(module.address)
+          .attach(module.address, true)
           .then(() => {
             attachDone = true
             if (eventDone) {
@@ -188,7 +188,7 @@ describe('MemoryNode', () => {
     })
     describe('with modules attached', () => {
       it('lists addresses of attached modules', async () => {
-        await node.attach(module.address)
+        await node.attach(module.address, true)
         const result = await node.attached()
         expect(result).toBeArrayOfSize(1)
         expect(result).toEqual([module.address])
@@ -200,7 +200,7 @@ describe('MemoryNode', () => {
     beforeEach(async () => {
       module = await MemoryArchivist.create()
       node.register(module)
-      await node.attach(module.address)
+      await node.attach(module.address, true)
     })
     it('deregisters existing module', () => {
       node.detach(module.address)
@@ -268,7 +268,7 @@ describe('MemoryNode', () => {
         ])
         modules.map(async (mod) => {
           node.register(mod)
-          await node.attach(mod.address)
+          await node.attach(mod.address, true)
         })
       })
       it('describes node and child modules', async () => {
@@ -290,13 +290,13 @@ describe('MemoryNode', () => {
         const nestedModules = await Promise.all([await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
         nestedModules.map(async (mod) => {
           nestedNode.register(mod)
-          await nestedNode.attach(mod.address)
+          await nestedNode.attach(mod.address, true)
         })
         const rootModules: AbstractModule[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
         rootModules.map(async (mod) => {
           node.register(mod)
-          await node.attach(mod.address)
+          await node.attach(mod.address, true)
         })
       })
       it('describes node and all nested nodes and child modules', async () => {
@@ -343,7 +343,7 @@ describe('MemoryNode', () => {
         ])
         modules.map(async (mod) => {
           node.register(mod)
-          await node.attach(mod.address)
+          await node.attach(mod.address, true)
         })
         const description = await node.discover()
         validateDiscoveryResponse(node, description)
@@ -359,13 +359,13 @@ describe('MemoryNode', () => {
         const nestedModules = await Promise.all([await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
         nestedModules.map(async (mod) => {
           nestedNode.register(mod)
-          await nestedNode.attach(mod.address)
+          await nestedNode.attach(mod.address, true)
         })
         const rootModules: AbstractModule[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
         rootModules.map(async (mod) => {
           node.register(mod)
-          await node.attach(mod.address)
+          await node.attach(mod.address, true)
         })
       })
       it('describes node and all nested nodes and child modules', async () => {
@@ -382,7 +382,7 @@ describe('MemoryNode', () => {
       ])
       modules.map(async (mod) => {
         node.register(mod)
-        await node.attach(mod.address)
+        await node.attach(mod.address, true)
       })
     })
     it('resolves modules wrapped as the specified type', async () => {

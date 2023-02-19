@@ -1,11 +1,11 @@
 export * from './Divine'
 
-import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module-model'
+import { ModuleQuery, XyoQuery } from '@xyo-network/module-model'
 
 import { XyoDivinerDivineQuery } from './Divine'
 
 export type XyoDivinerQueryBase = XyoDivinerDivineQuery
 
-export type XyoDivinerQuery<TQuery extends XyoQuery | void = void> = AbstractModuleQuery<
+export type XyoDivinerQuery<TQuery extends XyoQuery | void = void> = ModuleQuery<
   TQuery extends XyoQuery ? XyoDivinerQueryBase | TQuery : XyoDivinerQueryBase
 >

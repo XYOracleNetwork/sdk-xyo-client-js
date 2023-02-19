@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   AbstractModule,
-  AbstractModuleConfig,
+  ModuleConfig,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -43,7 +43,7 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
     return payloadList
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,

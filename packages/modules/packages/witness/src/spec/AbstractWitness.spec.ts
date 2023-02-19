@@ -3,7 +3,7 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AbstractWitness } from '../AbstractWitness'
 import { XyoWitnessConfig, XyoWitnessConfigSchema } from '../Config'
-import { Witness } from '../Witness'
+import { Witness, WitnessModule } from '../Witness'
 import { WitnessWrapper } from '../WitnessWrapper'
 
 describe('XyoWitness', () => {
@@ -24,8 +24,8 @@ describe('XyoWitness', () => {
       const wrapper = new WitnessWrapper(witness)
       expect(wrapper).toBeObject()
     })
-    it('Witness', async () => {
-      const witness: Witness = await AbstractWitness.create(params)
+    it('WitnessModule', async () => {
+      const witness: WitnessModule = await AbstractWitness.create(params)
       expect(witness).toBeObject()
       const wrapper = new WitnessWrapper(witness)
       expect(wrapper).toBeObject()

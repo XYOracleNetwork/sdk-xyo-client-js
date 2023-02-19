@@ -34,4 +34,7 @@ export interface Archivist<
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
     StashArchivist<TWriteResponse> {}
 
-export type PayloadArchivist = Module & Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, PayloadFindFilter, string>
+export type ArchivistModule = Module & Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, PayloadFindFilter, string>
+
+/** @deprecated use ArchivistModule instead */
+export type PayloadArchivist = ArchivistModule

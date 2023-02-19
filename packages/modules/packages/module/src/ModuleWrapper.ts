@@ -80,7 +80,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return assertEx(this.tryWrap(module), 'Unable to wrap module as ModuleWrapper')
   }
 
-  describe() {
+  describe(): Promisable<ModuleDescription> {
     const description: ModuleDescription = {
       address: this.module.address,
       queries: this.module.queries,

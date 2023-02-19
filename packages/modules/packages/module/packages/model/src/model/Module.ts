@@ -5,7 +5,11 @@ import { ModuleConfig } from '../Config'
 import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
-import { ModuleResolver } from './ModuleResolver'
+
+export interface ModuleResolver<TModule extends Module = Module> {
+  isModuleResolver: boolean
+  resolve(filter?: ModuleFilter): Promisable<TModule[]>
+}
 
 export interface Module<TConfig extends ModuleConfig = ModuleConfig> {
   address: string

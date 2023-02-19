@@ -3,7 +3,7 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AbstractWitness } from '../AbstractWitness'
 import { XyoWitnessConfig, XyoWitnessConfigSchema } from '../Config'
-import { Witness, WitnessModule } from '../Witness'
+import { WitnessModule } from '../Witness'
 import { WitnessWrapper } from '../WitnessWrapper'
 
 describe('XyoWitness', () => {

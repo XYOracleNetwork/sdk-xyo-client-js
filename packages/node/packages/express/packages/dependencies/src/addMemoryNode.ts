@@ -18,7 +18,7 @@ const archivists = [
   TYPES.BoundWitnessArchivist,
   TYPES.PayloadArchivist,
   // TYPES.UserArchivist,
-  TYPES.WitnessedPayloadArchivist,
+  // TYPES.WitnessedPayloadArchivist,
 ]
 
 const diviners = [

@@ -81,3 +81,18 @@ exports[`getQueryConfig with archivist when request can access archive generates
   },
 }
 `;
+
+exports[`getQueryConfig with module generates query config for current query 1`] = `
+{
+  "schema": "network.xyo.module.config",
+  "security": {
+    "allowed": {
+      "network.xyo.query.module.discover": [
+        [
+          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+        ],
+      ],
+    },
+  },
+}
+`;

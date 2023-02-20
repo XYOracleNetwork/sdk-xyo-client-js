@@ -21,11 +21,18 @@ const testAccount4 = new Account({ phrase: 'testPhrase4' })
 describe('getQueryConfig', () => {
   describe('with module', () => {
     const config: ModuleConfig = { schema: ModuleConfigSchema }
-    const mod = mock<AbstractModule>({ config })
-    it('returns undefined', async () => {
-      const query = new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).build()
+    const queries = [ModuleDiscoverQuerySchema]
+    const mod = mock<AbstractModule>({
+      config,
+      queries,
+    })
+    it('generates query config for current query', async () => {
+      const query = new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
       const config = await getQueryConfig(mod, req, query[0], query[1])
-      expect(config).toBeUndefined()
+      expect(config?.security?.allowed).toContainKey(ModuleDiscoverQuerySchema)
+      expect(config?.security?.allowed?.[ModuleDiscoverQuerySchema]).toBeArrayOfSize(1)
+      expect(config?.security?.allowed?.[ModuleDiscoverQuerySchema][0]).toEqual([testAccount1.addressValue.hex])
+      expect(config).toMatchSnapshot()
     })
   })
   describe('with archivist', () => {

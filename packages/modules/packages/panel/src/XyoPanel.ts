@@ -1,3 +1,5 @@
+/* eslint-disable deprecation/deprecation */
+/* eslint-disable import/no-deprecated */
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivingModule, ArchivingModuleConfig } from '@xyo-network/archivist'
@@ -12,9 +14,13 @@ import uniq from 'lodash/uniq'
 import { PanelModule } from './Panel'
 import { XyoPanelQuery, XyoPanelReportQuerySchema } from './Queries'
 
+/** @deprecated use Sentinel version instead */
 export type XyoPanelConfigSchema = 'network.xyo.panel.config'
+
+/** @deprecated use Sentinel version instead */
 export const XyoPanelConfigSchema: XyoPanelConfigSchema = 'network.xyo.panel.config'
 
+/** @deprecated use Sentinel version instead */
 export type XyoPanelConfig = ArchivingModuleConfig<{
   onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
   onReportStart?: () => void
@@ -24,6 +30,7 @@ export type XyoPanelConfig = ArchivingModuleConfig<{
   witnesses?: string[]
 }>
 
+/** @deprecated use Sentinel version instead */
 export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelModule {
   static override configSchema: XyoPanelConfigSchema
 

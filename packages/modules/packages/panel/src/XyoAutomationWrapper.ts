@@ -1,7 +1,10 @@
+/* eslint-disable import/no-deprecated */
+/* eslint-disable deprecation/deprecation */
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoPanelIntervalAutomationPayload } from './Automation'
 
+/** @deprecated use Sentinel version instead */
 export class XyoPanelIntervalAutomationWrapper<
   T extends XyoPanelIntervalAutomationPayload = XyoPanelIntervalAutomationPayload,
 > extends PayloadWrapper<T> {

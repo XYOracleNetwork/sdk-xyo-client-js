@@ -1,9 +1,14 @@
+/* eslint-disable deprecation/deprecation */
 import { EmptyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload-model'
 
+/** @deprecated use Sentinel version instead */
 export type XyoAutomationSchema = 'network.xyo.automation'
+
+/** @deprecated use Sentinel version instead */
 export const XyoAutomationSchema = 'network.xyo.automation'
 
+/** @deprecated use Sentinel version instead */
 export type XyoPanelBaseAutomationPayload<T extends EmptyObject = EmptyObject> = XyoPayload<
   T & {
     schema: XyoAutomationSchema
@@ -13,6 +18,7 @@ export type XyoPanelBaseAutomationPayload<T extends EmptyObject = EmptyObject> =
   }
 >
 
+/** @deprecated use Sentinel version instead */
 export type XyoPanelIntervalAutomationPayload = XyoPanelBaseAutomationPayload<{
   /** @field epoch after which any reoccurrence stops */
   end?: number
@@ -32,8 +38,10 @@ export type XyoPanelIntervalAutomationPayload = XyoPanelBaseAutomationPayload<{
   type: 'interval'
 }>
 
+/** @deprecated use Sentinel version instead */
 export type XyoPanelChangeAutomationPayload = XyoPanelBaseAutomationPayload<{
   type: 'change'
 }>
 
+/** @deprecated use Sentinel version instead */
 export type XyoPanelAutomationPayload = XyoPanelIntervalAutomationPayload | XyoPanelChangeAutomationPayload

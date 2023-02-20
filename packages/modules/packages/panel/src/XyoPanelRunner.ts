@@ -1,3 +1,5 @@
+/* eslint-disable deprecation/deprecation */
+/* eslint-disable import/no-deprecated */
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -7,8 +9,10 @@ import { XyoPanelAutomationPayload, XyoPanelIntervalAutomationPayload } from './
 import { XyoPanelIntervalAutomationWrapper } from './XyoAutomationWrapper'
 import { XyoPanel } from './XyoPanel'
 
+/** @deprecated use Sentinel version instead */
 export type OnTriggerResult = (result: [XyoBoundWitness | null, XyoPayload[]]) => void
 
+/** @deprecated use Sentinel version instead */
 export class XyoPanelRunner {
   protected _automations: Record<string, XyoPanelAutomationPayload> = {}
   protected onTriggerResult: OnTriggerResult | undefined

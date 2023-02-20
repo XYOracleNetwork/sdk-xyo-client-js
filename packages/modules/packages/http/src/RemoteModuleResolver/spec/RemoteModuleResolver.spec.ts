@@ -48,19 +48,19 @@ describe('RemoteModuleResolver', () => {
       const mods = await node.resolve({ address: [address] })
       await validateModuleResolutionResponse(mods)
     })
-    /*it('resolves by config schema', async () => {
+    it('resolves by config schema', async () => {
       const mods = await node.resolve({ address: [address], config: [NodeConfigSchema] })
       await validateModuleResolutionResponse(mods)
-    })*/
+    })
     it('resolves by name', async () => {
       const mods = await node.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
     })
-    /*it('resolves archivist', async () => {
+    it('resolves archivist', async () => {
       const name = 'Archivist'
       const mods = await node.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
-    })*/
+    })
     it('resolves BoundWitness archives', async () => {
       const name = getBoundWitnessArchivistName('temp')
       const mods = await node.resolve({ name: [name] })

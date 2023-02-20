@@ -25,6 +25,10 @@ export interface Module<TConfig extends ModuleConfig = ModuleConfig> {
     payloads?: XyoPayload[],
     queryConfig?: TConf,
   ) => Promisable<boolean>
+
+  /* Resolves a filter from the perspective of the module, including through the parent/gateway module */
   resolve: (filter?: ModuleFilter) => Promisable<Module[]>
+
+  /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   resolver?: ModuleResolver
 }

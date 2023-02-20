@@ -1,3 +1,5 @@
+/* eslint-disable deprecation/deprecation */
+/* eslint-disable import/no-deprecated */
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { CompositeModuleResolver } from '@xyo-network/module'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'

@@ -1,29 +1,22 @@
 import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
-import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from '@xyo-network/panel'
+import { AbstractSentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 
 import { getAccount, WalletPaths } from '../../Account'
 import { getArchivists } from '../../Archivists'
 import { getProvider } from '../../Providers'
 import { getEthereumGasWitness } from '../../Witnesses'
 
-/**
- * Static panel to prevent recreation/re-initialization of panel
- * dependencies each time
- */
-let panel: XyoPanel | undefined = undefined
-
-export const getWitnessPanel = async (provider = getProvider()): Promise<XyoPanel> => {
+export const getWitnessPanel = async (provider = getProvider()): Promise<AbstractSentinel> => {
   const account = getAccount(WalletPaths.EthereumGasWitnessPanel)
   const archivists = await getArchivists()
   const witnesses = await getEthereumGasWitness(provider)
   const modules: AbstractModule[] = [...archivists, ...witnesses]
   const resolver = new CompositeModuleResolver()
   modules.map((mod) => resolver.add(mod))
-  const config: XyoPanelConfig = {
+  const config: SentinelConfig = {
     archivists: archivists.map((mod) => mod.address),
-    schema: XyoPanelConfigSchema,
+    schema: SentinelConfigSchema,
     witnesses: witnesses.map((mod) => mod.address),
   }
-  panel = await XyoPanel.create({ account, config, resolver })
-  return panel
+  return await AbstractSentinel.create({ account, config, resolver })
 }

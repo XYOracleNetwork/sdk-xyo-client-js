@@ -1,14 +1,14 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
 
-import { ApiConfig } from './ApiConfig'
-import { XyoLocationDivinerApi } from './LocationDivinerApi'
+import { ApiConfig } from '../ApiConfig'
+import { XyoLocationDivinerApi } from '../LocationDivinerApi'
 import {
   LocationHeatmapQueryCreationRequest,
   locationHeatmapQuerySchema,
   LocationTimeRangeQueryCreationRequest,
   LocationTimeRangeQuerySchema,
-} from './Queries'
-import { LocationWitnessSchema } from './Witnesses'
+} from '../Queries'
+import { LocationWitnessSchema } from '../Witnesses'
 
 const getLocationApiConfig = (): ApiConfig => {
   return {

@@ -5111,6 +5111,7 @@ __metadata:
     "@types/node": ^18.14.0
     "@types/tail": ^2.2.1
     "@types/terminal-kit": ^2.5.1
+    "@xylabs/assert": ^2.7.1
     "@xylabs/delay": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
@@ -5829,6 +5830,7 @@ __metadata:
     "@xyo-network/express-node-middleware": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-lib": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"

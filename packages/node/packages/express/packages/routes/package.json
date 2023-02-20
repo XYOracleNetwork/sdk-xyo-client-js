@@ -42,6 +42,7 @@
     "@xyo-network/express-node-middleware": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/modules": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",

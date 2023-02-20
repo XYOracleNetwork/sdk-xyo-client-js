@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AbstractModule, CompositeModuleResolver, ModuleWrapper } from '@xyo-network/module'
 import { Module, ModuleFilter } from '@xyo-network/module-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 

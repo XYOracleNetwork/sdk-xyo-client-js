@@ -12,12 +12,16 @@
   "dependencies": {
     "@xylabs/assert": "^2.7.1",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/address-payload-plugin": "workspace:^",
+    "@xyo-network/api-models": "workspace:^",
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/promise": "workspace:^",
+    "@xyo-network/query-payload-plugin": "workspace:^",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.14.15",

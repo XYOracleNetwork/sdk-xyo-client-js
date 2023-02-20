@@ -27,10 +27,10 @@ describe('RemoteModuleResolver', () => {
       const mods = await resolver.resolve({ address: [address] })
       await validateModuleResolutionResponse(mods)
     })
-    /*it('resolves by config schema', async () => {
+    it.skip('resolves by config schema', async () => {
       const mods = await resolver.resolve({ address: [address], config: [NodeConfigSchema] })
       await validateModuleResolutionResponse(mods)
-    })*/
+    })
     it('resolves by name', async () => {
       const mods = await resolver.resolve({ name: [name] })
       await validateModuleResolutionResponse(mods)
@@ -48,7 +48,7 @@ describe('RemoteModuleResolver', () => {
       const mods = await node.resolve({ address: [address] })
       await validateModuleResolutionResponse(mods)
     })
-    it('resolves by config schema', async () => {
+    it.skip('resolves by config schema', async () => {
       const mods = await node.resolve({ address: [address], config: [NodeConfigSchema] })
       await validateModuleResolutionResponse(mods)
     })

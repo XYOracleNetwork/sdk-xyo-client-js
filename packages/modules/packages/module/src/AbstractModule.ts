@@ -91,7 +91,9 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
 
   public discover(): Promisable<XyoPayload[]> {
     const config = this.config
-    const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()
+    const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema })
+      .fields({ address: this.address, alias: this.config.name })
+      .build()
     const queries = this.queries.map((query) => {
       return new XyoPayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
     })

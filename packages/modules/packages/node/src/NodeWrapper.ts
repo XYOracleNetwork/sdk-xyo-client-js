@@ -31,7 +31,12 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
   }
 
   static tryWrap(module: Module): NodeWrapper | undefined {
-    return this.hasRequiredQueries(module) ? new NodeWrapper(module as NodeModule) : undefined
+    const missingRequiredQueries = this.missingRequiredQueries(module)
+    if (missingRequiredQueries.length > 0) {
+      console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+    } else {
+      return new NodeWrapper(module as NodeModule)
+    }
   }
 
   static wrap(module: Module): NodeWrapper {

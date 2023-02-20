@@ -4,9 +4,4 @@ import { XyoPayload } from '@xyo-network/payload-model'
 export type XyoBridgeConfigSchema = 'network.xyo.bridge.config'
 export const XyoBridgeConfigSchema: XyoBridgeConfigSchema = 'network.xyo.bridge.config'
 
-export type BridgeConfig<TConfig extends XyoPayload = XyoPayload> = ModuleConfig<
-  {
-    nodeUri: string
-    targetAddress?: string
-  } & TConfig
->
+export type BridgeConfig<TConfig extends XyoPayload = XyoPayload> = ModuleConfig<TConfig>

@@ -13,6 +13,7 @@ import {
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
+import compact from 'lodash/compact'
 
 import { XyoError, XyoErrorSchema } from './Error'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
@@ -65,10 +66,16 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   }
 
   static hasRequiredQueries(module: Module) {
+    return this.missingRequiredQueries(module).length === 0
+  }
+
+  static missingRequiredQueries(module: Module): string[] {
     const moduleQueries = module.queries
-    return this.requiredQueries.reduce((prev, query) => {
-      return prev && !!moduleQueries.find((item) => item === query)
-    }, true)
+    return compact(
+      this.requiredQueries.map((query) => {
+        return moduleQueries.find((item) => item === query) ? null : query
+      }),
+    )
   }
 
   static tryWrap(module: Module): ModuleWrapper | undefined {

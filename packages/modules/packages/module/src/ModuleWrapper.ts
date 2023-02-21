@@ -79,7 +79,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   }
 
   static tryWrap(module: Module): ModuleWrapper | undefined {
-    return this.hasRequiredQueries(module) ? new ModuleWrapper(module as Module) : undefined
+    const missingRequiredQueries = this.missingRequiredQueries(module)
+    if (missingRequiredQueries.length > 0) {
+      console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+    } else {
+      return new ModuleWrapper(module as Module)
+    }
   }
 
   static wrap(module: Module): ModuleWrapper {

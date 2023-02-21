@@ -27,7 +27,8 @@ describe('Node API', () => {
       it.only('issues query to Node', async () => {
         const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
-        const response = await (await request()).post(path).send(query).expect(StatusCodes.OK)
+        const send = [query[0], [...query[1]]]
+        const response = await (await request()).post(path).send(send).expect(StatusCodes.OK)
       })
     })
   })

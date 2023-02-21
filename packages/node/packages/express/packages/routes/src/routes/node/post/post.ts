@@ -1,11 +1,14 @@
 import { asyncHandler, NoReqParams } from '@xylabs/sdk-api-express-ecs'
+import { ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module-model'
+import { XyoPayload } from '@xyo-network/payload-model'
 // import { setRawResponseFormat } from '@xyo-network/express-node-middleware'
 import { RequestHandler } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
-const handler: RequestHandler<NoReqParams> = async (req, res) => {
+export type PostNodeRequestBody = [XyoQueryBoundWitness, undefined | XyoPayload[]]
+
+const handler: RequestHandler<NoReqParams, ModuleQueryResult, PostNodeRequestBody> = async (req, res) => {
   // setRawResponseFormat(res)
-  const { address } = req.params
   const { node } = req.app
   const [bw, payloads] = Array.isArray(req.body) ? req.body : []
   if (bw) {

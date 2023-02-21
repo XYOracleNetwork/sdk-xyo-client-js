@@ -1,4 +1,4 @@
-import assertEx from '@xylabs/assert'
+import { assertEx } from '@xylabs/assert'
 import { StatusCodes } from 'http-status-codes'
 
 import { request } from '../../testUtil'
@@ -37,6 +37,10 @@ describe('Node API', () => {
         const response = await (await request()).get(path).expect(StatusCodes.OK)
         const { data } = response.body
         expect(data).toBeTruthy()
+        expect(data.address).toBeString()
+        expect(data.name).toBeString()
+        expect(data.queries).toBeArray()
+        expect(data.queries.length).toBeGreaterThan(0)
       })
     })
     describe('POST', () => {

@@ -6,10 +6,11 @@ import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 test('HttpBridge', async () => {
   const nodeUri = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
+  const targetAddress = ''
 
   const bridge = await HttpBridge.create({
     axios: new AxiosJson(),
-    config: { nodeUri, schema: HttpBridgeConfigSchema, targetAddress: '5111228f724a066ac060fe2e6c8bbaae44b107d5' },
+    config: { nodeUri, schema: HttpBridgeConfigSchema, targetAddress },
   })
   const wrapper = NodeWrapper.wrap(bridge)
   const description = await wrapper.describe()

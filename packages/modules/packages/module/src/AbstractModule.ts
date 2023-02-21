@@ -42,7 +42,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
   protected _parentResolver = new CompositeModuleResolver()
   protected _resolver: CompositeModuleResolver
   protected _started = false
-  protected account: Account
+  protected readonly account: Account
   protected readonly logger?: Logging
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
@@ -60,6 +60,10 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
 
   public get address() {
     return this.account.addressValue.hex
+  }
+
+  public get allowAnonymous() {
+    return !!this.config.security?.allowAnonymous
   }
 
   public get config() {
@@ -107,6 +111,9 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
   ): Promise<ModuleQueryResult> {
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    if (!this.allowAnonymous) {
+      assertEx(query.addresses.length > 0 && query._signatures.length === query.addresses.length, 'Anonymous Queries not allowed')
+    }
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []

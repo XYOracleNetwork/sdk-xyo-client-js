@@ -37,7 +37,9 @@ export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends Bou
     switch (typeof obj) {
       case 'object': {
         const castWrapper = obj as QueryBoundWitnessWrapper<T>
-        return castWrapper?.isQueryBoundWitnessWrapper ? castWrapper : new QueryBoundWitnessWrapper<T>(obj as XyoQueryBoundWitness, payloads)
+        const wrapper = castWrapper?.isQueryBoundWitnessWrapper ? castWrapper : new QueryBoundWitnessWrapper<T>(obj as XyoQueryBoundWitness, payloads)
+        assertEx(wrapper.valid, 'Tried to parse invalid QueryBoundWitness')
+        return wrapper
       }
     }
     throw Error(`Unable to parse [${typeof obj}]`)

@@ -1,5 +1,16 @@
 import { Account } from '@xyo-network/account'
-import { AbstractModule, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AbstractModule,
+  Module,
+  ModuleConfig,
+  ModuleFilter,
+  ModuleQueryResult,
+  ModuleResolver,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQuery,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -8,6 +19,8 @@ import { BridgeConfig } from './Config'
 import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
 export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig> extends AbstractModule<TConfig> implements BridgeModule {
+  abstract targetResolver: ModuleResolver
+
   override get queries(): string[] {
     return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries]
   }
@@ -27,11 +40,7 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
           break
         }
         default:
-          if (super.queries.includes(typedQuery.schema)) {
-            return super.query(query, payloads)
-          } else {
-            return this.forward(typedQuery)
-          }
+          return super.query(query, payloads)
       }
     } catch (ex) {
       const error = ex as Error
@@ -43,5 +52,11 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
 
-  abstract forward(query: XyoQuery): Promise<ModuleQueryResult>
+  abstract targetConfig(address: string): Promisable<ModuleConfig>
+
+  abstract targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult>
+
+  abstract targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): boolean
+
+  abstract targetResolve(address: string, filter?: ModuleFilter): Promisable<Module[]>
 }

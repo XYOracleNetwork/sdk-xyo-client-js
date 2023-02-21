@@ -1,16 +1,16 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { XyoApiEnvelope } from '@xyo-network/api-models'
+import { XyoApiEnvelope, XyoApiEnvelopeError } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import {
   AbstractModule,
+  ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
   ModuleResolver,
-  ModuleWrapper,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
   XyoQuery,
@@ -31,43 +31,32 @@ export interface XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBrid
   axios?: AxiosJson
 }
 
-export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractModule<TConfig> implements BridgeModule {
+export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractModule<TConfig> implements BridgeModule<TConfig> {
+  private _targetQueries: Record<string, string[]> = {}
+  private _targetResolver: ModuleResolver
   private axios: AxiosJson
-  private remoteQueries: string[] = []
-  private remoteResolver: ModuleResolver
 
   protected constructor(params: XyoHttpBridgeParams<TConfig>) {
     super(params)
     this.axios = params.axios ?? new AxiosJson()
-    this.remoteResolver = new RemoteModuleResolver(this)
+    this._targetResolver = new RemoteModuleResolver(this)
   }
 
   public get nodeUri() {
     return assertEx(this.config?.nodeUri, 'Missing nodeUri')
   }
 
-  public override get queries() {
-    return [...super.queries, ...this.remoteQueries]
+  public get targetAddress() {
+    return assertEx(this.config?.targetAddress, 'targetAddress not set')
   }
 
-  public get targetAddress() {
-    return this.config?.targetAddress
+  public get targetResolver() {
+    return this._targetResolver
   }
 
   static override async create(params: XyoHttpBridgeParams): Promise<HttpBridge> {
     const result = (await super.create(params)) as HttpBridge
-    const moduleWrapper = ModuleWrapper.wrap(result)
-    const discover = await moduleWrapper.discover()
-    result.remoteQueries = compact(
-      discover.map((payload) => {
-        if (payload.schema === QuerySchema) {
-          const schemaPayload = payload as QueryPayload
-          return schemaPayload.query
-        } else {
-          return null
-        }
-      }),
-    )
+    await result.targetDiscover(params.config.targetAddress ?? '')
     return result
   }
 
@@ -77,11 +66,6 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
 
   disconnect(): Promisable<boolean> {
     return true
-  }
-
-  override async discover() {
-    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
-    return (await this.forward(queryPayload))[1]
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
@@ -100,11 +84,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
           break
         }
         default:
-          if (super.queries.find((schema) => schema === typedQuery.schema)) {
-            return await super.query(query, payloads)
-          } else {
-            return await this.forward(query, payloads)
-          }
+          return await super.query(query, payloads)
       }
     } catch (ex) {
       const error = ex as Error
@@ -114,13 +94,40 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   }
 
   override async resolve(filter?: ModuleFilter) {
-    return [...(await super.resolve(filter)), ...(await this.remoteResolver.resolve(filter))]
+    return [...(await super.resolve(filter)), ...(await this.targetResolver.resolve(filter))]
   }
 
-  protected async forward(query: XyoQuery, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
+  async targetDiscover(address: string): Promise<XyoPayload[]> {
+    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const discover = assertEx(await this.targetQuery(address, queryPayload), `Unable to resolve [${address}]`)[1]
+
+    this._targetQueries[address] = compact(
+      discover?.map((payload) => {
+        if (payload.schema === QuerySchema) {
+          const schemaPayload = payload as QueryPayload
+          return schemaPayload.query
+        } else {
+          return null
+        }
+      }) ?? [],
+    )
+
+    return discover
+  }
+
+  public targetQueries(address: string): string[] {
+    return assertEx(this._targetQueries[address], 'targetConfig not set')
+  }
+
+  async targetQuery(address: string, query: XyoQuery, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
     try {
       const boundQuery = await this.bindQuery(query, payloads)
-      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(`${this.nodeUri}/address/${this.targetAddress}`, boundQuery)
+      const path = `${this.nodeUri}/address/${address}`
+      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, boundQuery)
+      if (result.status >= 400) {
+        this.logger?.error(`targetQuery failed [${path}]`)
+        throw (result.data as XyoApiEnvelopeError).errors
+      }
       return result.data.data
     } catch (ex) {
       const error = ex as AxiosError
@@ -128,5 +135,13 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
       this.logger?.error(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
       throw error
     }
+  }
+
+  targetQueryable(_address: string, _query: XyoQueryBoundWitness, _payloads?: XyoPayload[], _queryConfig?: ModuleConfig): boolean {
+    throw 'targetQueryable not available'
+  }
+
+  async targetResolve(address: string, filter?: ModuleFilter) {
+    return await this.targetResolver.resolve(filter)
   }
 }

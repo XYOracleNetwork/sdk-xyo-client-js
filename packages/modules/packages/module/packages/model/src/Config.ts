@@ -13,8 +13,12 @@ export type ModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayload<
     name?: string
     //if both allowed and disallowed is specified, then disallowed takes priority
     security?: {
+      //will process queries that have unsigned boundwitness in tuples
+      allowAnonymous?: boolean
+
       //if schema in record, then only these address sets can access query
       allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
+
       //if schema in record, then anyone except these addresses can access query
       disallowed?: Record<SchemaString, AddressString[]>
     }

@@ -4,8 +4,8 @@ import { Express } from 'express'
 import { getAddress, getNode, postAddress, postNodeModule } from '../routes'
 
 export const addTempNodeRoutes = (app: Express) => {
-  app.get('/node/:address?', allowAnonymous, getNode)
-  app.post('/node/:address?', allowAnonymous, postNodeModule)
-  app.get('/node/:address?', allowAnonymous, getAddress)
-  app.post('/node/:address?', allowAnonymous, postAddress)
+  app.get('/node', allowAnonymous, getNode)
+  app.post('/node', allowAnonymous, postNodeModule)
+  app.get('/node/:address', allowAnonymous, getAddress)
+  app.post('/node/:address', allowAnonymous, postAddress)
 }

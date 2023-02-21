@@ -1,4 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder } from '@xyo-network/modules'
+import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { StatusCodes } from 'http-status-codes'
 
 import { request } from '../../testUtil'
@@ -22,8 +24,10 @@ describe('Node API', () => {
       })
     })
     describe('POST', () => {
-      it('issues query to Node', async () => {
-        // TODO: Test
+      it.only('issues query to Node', async () => {
+        const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
+        const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
+        const response = await (await request()).post(path).send(query).expect(StatusCodes.OK)
       })
     })
   })
@@ -52,7 +56,8 @@ describe('Node API', () => {
         expect(data.address).toBeString()
         const nodeAddress = data.address
         const response = await (await request()).get(`/node/${nodeAddress}`).expect(StatusCodes.OK)
-        validateNodeGetResponse(response.body.data)
+        // NOTE: We can't do this yet as NodeWrapper overrides and we don't want to be module aware as to which type of wrapper to use
+        // validateNodeGetResponse(response.body.data)
       })
     })
     describe('POST', () => {

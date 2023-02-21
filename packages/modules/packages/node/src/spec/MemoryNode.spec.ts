@@ -65,7 +65,6 @@ describe('MemoryNode', () => {
         if (foundDiviner) {
           const foundDivinerWrapper = new DivinerWrapper(foundDiviner)
           const payloads = await foundDivinerWrapper.divine([huriPayload])
-          // console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
           expect(payloads?.length).toBe(1)
           expect(payloads[0]).toBeDefined()
           if (payloads?.length === 1 && payloads[0]) {

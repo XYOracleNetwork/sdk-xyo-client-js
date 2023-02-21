@@ -17,6 +17,4 @@ test('HttpBridge', async () => {
   expect(description.children?.length).toBeGreaterThan(0)
   expect(description.queries).toBeArray()
   expect(description.queries?.length).toBeGreaterThan(0)
-
-  console.log(JSON.stringify(description, null, 2))
 })

@@ -124,8 +124,8 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
       return result.data.data
     } catch (ex) {
       const error = ex as AxiosError
-      console.log(`Error Status: ${error.status}`)
-      console.log(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
+      this.logger?.error(`Error Status: ${error.status}`)
+      this.logger?.error(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
       throw error
     }
   }

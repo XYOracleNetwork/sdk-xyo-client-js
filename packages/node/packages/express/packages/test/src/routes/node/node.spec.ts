@@ -63,7 +63,7 @@ describe('Node API', () => {
         // validateNodeGetResponse(response.body.data)
       })
     })
-    describe.only('POST', () => {
+    describe('POST', () => {
       it('issues query to module at address', async () => {
         const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()

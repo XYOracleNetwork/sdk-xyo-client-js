@@ -9,6 +9,7 @@ import { addNodeRoutes } from './addNodeRoutes'
 import { addPayloadRoutes } from './addPayloadRoutes'
 import { addPayloadSchemaRoutes } from './addPayloadSchemaRoutes'
 import { addSchemaRoutes } from './addSchemaRoutes'
+import { addTempNodeRoutes } from './addTempNodeRoutes'
 
 export const addRoutes = (app: Express): Express => {
   addAddressRoutes(app)
@@ -19,6 +20,7 @@ export const addRoutes = (app: Express): Express => {
   addManagementRoutes(app)
   addSchemaRoutes(app)
   addDomainRoutes(app)
+  addTempNodeRoutes(app)
   // This needs to be the last true route handler since it is
   // a catch-all for the root paths
   addNodeRoutes(app)

@@ -4,11 +4,17 @@ import { XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
 import { PayloadSetPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
+import { QueryBoundWitnessValidator } from './QueryBoundWitnessValidator'
+
 export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends BoundWitnessWrapper<XyoQueryBoundWitness> {
   private _query: PayloadWrapper<T> | undefined
   private _resultSet: PayloadWrapper<PayloadSetPayload> | undefined
 
   private isQueryBoundWitnessWrapper = true
+
+  override get errors() {
+    return new QueryBoundWitnessValidator(this.boundwitness).validate()
+  }
 
   public get query() {
     return assertEx(

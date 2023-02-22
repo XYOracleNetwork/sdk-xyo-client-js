@@ -58,8 +58,8 @@ export class XyoRemoteAddressHistoryDiviner extends AbstractDiviner<XyoRemoteDiv
       if (response?.status >= 400) {
         throw new RemoteDivinerError('divine', `${response.statusText} [${response.status}]`)
       }
-      if (body?.error?.length) {
-        throw new RemoteDivinerError('divine', body?.error)
+      if (body?.errors?.length) {
+        throw new RemoteDivinerError('divine', body?.errors)
       }
       return data || []
     } catch (ex) {

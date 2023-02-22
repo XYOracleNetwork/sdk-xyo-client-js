@@ -1,5 +1,5 @@
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
-import { XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
+import { XyoQuery, XyoQueryBoundWitness, XyoQueryBoundWitnessSchema } from '@xyo-network/module-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { QueryBoundWitnessWrapper } from './QueryBoundWitnessWrapper'
@@ -9,8 +9,15 @@ export class QueryBoundWitnessValidator<T extends XyoQuery = XyoQuery> extends B
 
   private isQueryBoundWitnessValidator = true
 
+  protected override get expectedSchema(): string {
+    return XyoQueryBoundWitnessSchema
+  }
+
   public override validate() {
-    return [...super.validate(), ...this.validateResultSet()]
+    return [
+      ...super.validate(),
+      // ...this.validateResultSet()
+    ]
   }
 
   public validateResultSet() {

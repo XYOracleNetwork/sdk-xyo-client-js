@@ -42,7 +42,6 @@ export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadAr
 
   constructor(params: MongoDBArchivistWitnessedPayloadArchivistParams) {
     super(params)
-    this.account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED, 'Missing ACCOUNT_SEED ENV Variable') })
     this.boundWitnesses = params.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }

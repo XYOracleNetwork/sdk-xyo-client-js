@@ -26,7 +26,6 @@ export class MongoDBArchivePermissionsPayloadPayloadArchivist
 
   public constructor(params: AbstractMongoDBPayloadArchivistParams<ArchiveModuleConfig, SetArchivePermissionsPayload>) {
     super(params)
-    this.account = new Account({ phrase: assertEx(process.env.ACCOUNT_SEED) })
     this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>(COLLECTIONS.Payloads)
   }

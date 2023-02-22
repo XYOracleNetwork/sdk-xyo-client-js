@@ -49,15 +49,15 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
   public override async find<R extends XyoPayload = XyoPayload>(filter: PayloadFindFilter): Promise<R[]> {
     try {
       const [payloads = [], payloadEnvelope, payloadResponse] = await this.api.archive(this.archive).payload.find(filter, 'tuple')
-      if (payloadEnvelope?.error?.length) {
-        throw new RemoteArchivistError('find', payloadEnvelope.error.shift(), 'payloads')
+      if (payloadEnvelope?.errors?.length) {
+        throw new RemoteArchivistError('find', payloadEnvelope.errors.shift(), 'payloads')
       }
       if (payloadResponse?.status >= 300) {
         throw new RemoteArchivistError('find', `Invalid payload status [${payloadResponse.status}]`, 'payloads')
       }
       const [blocks = [], blockEnvelope, blockResponse] = await this.api.archive(this.archive).block.find(filter, 'tuple')
-      if (blockEnvelope?.error?.length) {
-        throw new RemoteArchivistError('find', blockEnvelope.error.shift(), 'payloads')
+      if (blockEnvelope?.errors?.length) {
+        throw new RemoteArchivistError('find', blockEnvelope.errors.shift(), 'payloads')
       }
       if (blockResponse?.status >= 300) {
         throw new RemoteArchivistError('find', `Invalid block status [${blockResponse.status}]`, 'payloads')
@@ -78,15 +78,15 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
             if (payloadResponse?.status >= 400) {
               throw new RemoteArchivistError('get', `Invalid payload status [${payloadResponse.status}]`, 'payloads')
             }
-            if (payloadEnvelope?.error?.length) {
-              throw new RemoteArchivistError('get', payloadEnvelope.error.shift(), 'payloads')
+            if (payloadEnvelope?.errors?.length) {
+              throw new RemoteArchivistError('get', payloadEnvelope.errors.shift(), 'payloads')
             }
             const [blocks = [], blockEnvelope, blockResponse] = await this.api.archive(this.archive).block.hash(hash).get('tuple')
             if (blockResponse?.status >= 400) {
               throw new RemoteArchivistError('get', `Invalid block status [${blockResponse.status}]`, 'payloads')
             }
-            if (blockEnvelope?.error?.length) {
-              throw new RemoteArchivistError('get', blockEnvelope.error.shift(), 'blocks')
+            if (blockEnvelope?.errors?.length) {
+              throw new RemoteArchivistError('get', blockEnvelope.errors.shift(), 'blocks')
             }
             return payloads?.[0] ?? blocks?.[0]
           } catch (ex) {
@@ -118,8 +118,8 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
       if (error?.status >= 400) {
         throw new RemoteArchivistError('insert', `${error.statusText} [${error.status}]`)
       }
-      if (response?.error?.length) {
-        throw new RemoteArchivistError('insert', response?.error)
+      if (response?.errors?.length) {
+        throw new RemoteArchivistError('insert', response?.errors)
       }
       return [boundwitness]
     } catch (ex) {

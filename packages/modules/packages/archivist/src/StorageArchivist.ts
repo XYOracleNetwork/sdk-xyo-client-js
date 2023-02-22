@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import { Account } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
@@ -18,8 +19,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
-
-import { AbstractArchivist } from './AbstractArchivist'
 
 export type StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'

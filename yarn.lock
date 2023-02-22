@@ -4715,6 +4715,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xyo-network/abstract-archivist@workspace:^, @xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract"
+  dependencies:
+    "@xylabs/assert": ^2.7.1
+    "@xylabs/ts-scripts-yarn3": ^2.14.15
+    "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/archivist-wrapper": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/protocol/packages/account":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account"
@@ -4827,12 +4844,14 @@ __metadata:
     "@xylabs/promise": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/abstract-archivist": "workspace:^"
     "@xyo-network/account": "workspace:^"
     "@xyo-network/archivist-interface": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/memory-archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
@@ -5947,30 +5966,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/filesystem-archivist@workspace:^, @xyo-network/filesystem-archivist@workspace:packages/modules/packages/filesystem/packages/archivist":
+"@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/filesystem/packages/archivist"
+  resolution: "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem"
   dependencies:
     "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/memory-archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/filesystem@workspace:packages/modules/packages/filesystem":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/filesystem@workspace:packages/modules/packages/filesystem"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.14.15
-    "@xylabs/tsconfig": ^2.14.15
-    "@xyo-network/filesystem-archivist": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6197,6 +6206,24 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/memory-archivist@workspace:^, @xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory"
+  dependencies:
+    "@xylabs/assert": ^2.7.1
+    "@xylabs/ts-scripts-yarn3": ^2.14.15
+    "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/abstract-archivist": "workspace:^"
+    "@xyo-network/archivist-wrapper": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

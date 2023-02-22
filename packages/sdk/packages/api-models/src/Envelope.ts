@@ -2,7 +2,6 @@ import { XyoApiError } from './Error'
 import { XyoApiWarning } from './Warning'
 
 export interface XyoApiEnvelopeBase {
-  meta: unknown
   warning?: XyoApiWarning[]
 }
 

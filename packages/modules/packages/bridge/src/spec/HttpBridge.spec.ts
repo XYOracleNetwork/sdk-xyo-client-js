@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xyo-network/axios'
 import { NodeWrapper } from '@xyo-network/node'
 
@@ -10,9 +11,11 @@ test('HttpBridge', async () => {
 
   const bridge = await HttpBridge.create({
     axios: new AxiosJson(),
-    config: { nodeUri, schema: HttpBridgeConfigSchema, targetAddress },
+    config: { nodeUri: `${nodeUri}/node`, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true }, targetAddress },
   })
-  const wrapper = NodeWrapper.wrap(bridge)
+  const modules = await bridge.resolve()
+  const rootNode = assertEx(modules[0])
+  const wrapper = NodeWrapper.wrap(rootNode)
   const description = await wrapper.describe()
   expect(description.children).toBeArray()
   expect(description.children?.length).toBeGreaterThan(0)

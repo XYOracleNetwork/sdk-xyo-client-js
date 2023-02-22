@@ -30,7 +30,7 @@ export class QueryBoundWitnessValidator<T extends XyoQuery = XyoQuery> extends B
           return count + (schema === key ? 1 : 0)
         }, 0)
         if (found !== value) {
-          errors.push(Error(`Missing Schema [${key}:${found}:${value}]`))
+          errors.push(Error(`validateResultSet: Missing Schema [${key}:${found}:${value}]`))
         }
       })
     }

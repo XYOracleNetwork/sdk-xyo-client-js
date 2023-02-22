@@ -44,7 +44,9 @@ export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends Bou
       case 'object': {
         const castWrapper = obj as QueryBoundWitnessWrapper<T>
         const wrapper = castWrapper?.isQueryBoundWitnessWrapper ? castWrapper : new QueryBoundWitnessWrapper<T>(obj as XyoQueryBoundWitness, payloads)
-        assertEx(wrapper.valid, 'Tried to parse invalid QueryBoundWitness')
+        if (!wrapper.valid) {
+          console.warn('Parsed invalid QueryBoundWitness')
+        }
         return wrapper
       }
     }

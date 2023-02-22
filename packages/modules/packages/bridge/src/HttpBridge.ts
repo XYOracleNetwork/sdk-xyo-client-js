@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { XyoApiEnvelope, XyoApiEnvelopeError } from '@xyo-network/api-models'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import {
   AbstractModule,
@@ -56,7 +57,15 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
 
   static override async create(params: XyoHttpBridgeParams): Promise<HttpBridge> {
     const result = (await super.create(params)) as HttpBridge
-    await result.targetDiscover(params.config.targetAddress ?? '')
+    const discover = await result.targetDiscover(params.config.targetAddress ?? '')
+    await Promise.all(
+      discover.map((payload) => {
+        const addressPayload = payload as AddressPayload
+        if (addressPayload.schema === AddressSchema) {
+          return result.targetDiscover(addressPayload.address)
+        }
+      }),
+    )
     return result
   }
 
@@ -116,17 +125,17 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   }
 
   public targetQueries(address: string): string[] {
-    return assertEx(this._targetQueries[address], 'targetConfig not set')
+    return assertEx(this._targetQueries[address], `targetConfig not set [${address}]`)
   }
 
   async targetQuery(address: string, query: XyoQuery, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
     try {
       const boundQuery = await this.bindQuery(query, payloads)
-      const path = `${this.nodeUri}/address/${address}`
+      const path = `${this.nodeUri}/${address}`
       const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, boundQuery)
       if (result.status >= 400) {
         this.logger?.error(`targetQuery failed [${path}]`)
-        throw (result.data as XyoApiEnvelopeError).errors
+        throw `targetQuery failed [${path}] [${result.status}]`
       }
       return result.data.data
     } catch (ex) {

@@ -3,14 +3,13 @@
  */
 
 import { delay } from '@xylabs/delay'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { IdSchema } from '@xyo-network/plugins'
 import { Promisable } from '@xyo-network/promise'
-
-import { AbstractArchivist } from '../AbstractArchivist'
 
 export const testArchivistRoundTrip = (archivist: Promisable<AbstractArchivist>, name: string) => {
   test(`XyoArchivist RoundTrip [${name}]`, async () => {

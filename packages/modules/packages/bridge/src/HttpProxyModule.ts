@@ -1,4 +1,4 @@
-import { Module, ModuleConfig, ModuleFilter, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
+import { Module, ModuleConfig, ModuleConfigSchema, ModuleFilter, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 import { HttpBridge } from './HttpBridge'
@@ -11,7 +11,7 @@ export class HttpProxyModule implements Module {
   }
 
   get config(): ModuleConfig {
-    throw 'Config not returnable'
+    return { schema: ModuleConfigSchema }
   }
 
   get queries() {

@@ -93,7 +93,9 @@ export class BoundWitnessWrapper<
       case 'object': {
         const castWrapper = hydratedObj as BoundWitnessWrapper<T, P>
         const newWrapper = castWrapper?.isBoundWitnessWrapper ? castWrapper : new BoundWitnessWrapper(hydratedObj as T, payloads)
-        assertEx(newWrapper.valid, 'Tried to wrap invalid BoundWitness')
+        if (!newWrapper.valid) {
+          console.warn('Wrapped invalid BoundWitness')
+        }
         return newWrapper
       }
     }

@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/abstract-archivist",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,31 +11,16 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.7.1",
-    "@xylabs/promise": "^2.7.1",
-    "@xyo-network/abstract-archivist": "workspace:^",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/memory-archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/promise": "workspace:^",
-    "js-cookie": "^3.0.1",
-    "lodash": "^4.17.21",
-    "lru-cache": "^7.16.1",
-    "store2": "^2.14.2"
+    "@xyo-network/promise": "workspace:^"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.3",
-    "@types/lodash": "^4.14.191",
-    "@xylabs/delay": "^2.7.1",
     "@xylabs/ts-scripts-yarn3": "^2.14.15",
     "@xylabs/tsconfig": "^2.14.15",
-    "@xyo-network/boundwitness-wrapper": "workspace:^",
-    "@xyo-network/plugins": "workspace:^",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -61,7 +47,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
-  "name": "@xyo-network/archivist",
   "publishConfig": {
     "access": "public"
   },

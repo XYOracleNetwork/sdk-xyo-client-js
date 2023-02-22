@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder } from '@xyo-network/modules'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { StatusCodes } from 'http-status-codes'
@@ -31,6 +32,13 @@ describe('Node API', () => {
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
         const send = [query[0], [...query[1]]]
         const response = await (await request()).post(path).send(send).expect(StatusCodes.OK)
+        const { data } = response.body
+        expect(data).toBeTruthy()
+        const [bw, payloads] = data
+        expect(bw).toBeObject()
+        expect(bw.schema).toBe(XyoBoundWitnessSchema)
+        expect(payloads).toBeArray()
+        expect(payloads.length).toBeGreaterThan(0)
       })
     })
   })
@@ -69,6 +77,13 @@ describe('Node API', () => {
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
         const send = [query[0], [...query[1]]]
         const response = await (await request()).post(path).send(send).expect(StatusCodes.OK)
+        const { data } = response.body
+        expect(data).toBeTruthy()
+        const [bw, payloads] = data
+        expect(bw).toBeObject()
+        expect(bw.schema).toBe(XyoBoundWitnessSchema)
+        expect(payloads).toBeArray()
+        expect(payloads.length).toBeGreaterThan(0)
       })
     })
   })

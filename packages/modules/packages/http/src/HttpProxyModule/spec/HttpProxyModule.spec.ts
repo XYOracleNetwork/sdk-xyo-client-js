@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoArchivistApi } from '@xyo-network/api'
-import { AbstractModule, ModuleDiscoverQuerySchema, ModuleWrapper, QueryBoundWitnessBuilder } from '@xyo-network/module'
+import { Module, ModuleDiscoverQuerySchema, ModuleWrapper, QueryBoundWitnessBuilder } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoApiConfig } from '@xyo-network/sdk'
 
@@ -88,12 +88,12 @@ describe('HttpProxyModule', () => {
     })
     describe('when wrapped by module wrapper', () => {
       it('returns module properties', () => {
-        const node = new ModuleWrapper(sut.as<AbstractModule>())
+        const node = new ModuleWrapper(sut.as<Module>())
         expect(node.address).toBeString()
         expect(node.config).toBeObject()
       })
       it('issues module queries', async () => {
-        const node = new ModuleWrapper(sut.as<AbstractModule>())
+        const node = new ModuleWrapper(sut.as<Module>())
         const registered = await node.discover()
         expect(registered).toBeArray()
         expect(registered.length).toBeGreaterThan(0)

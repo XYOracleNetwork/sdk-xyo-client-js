@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { BridgeConfig, BridgeModule, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
 import {
   AbstractModule,
   Module,
@@ -14,10 +15,6 @@ import {
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { BridgeModule } from './Bridge'
-import { BridgeConfig } from './Config'
-import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
-
 export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig> extends AbstractModule<TConfig> implements BridgeModule {
   abstract targetResolver: ModuleResolver
 
@@ -29,6 +26,7 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     const queryAccount = new Account()
+    const resultPayloads: XyoPayload[] = []
     try {
       switch (typedQuery.schema) {
         case XyoBridgeConnectQuerySchema: {
@@ -40,19 +38,25 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
           break
         }
         default:
-          return super.query(query, payloads)
+          return await super.query(query, payloads)
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindResult([new XyoErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
+      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
-    return this.bindResult([], queryAccount)
+    return await this.bindResult(resultPayloads, queryAccount)
+  }
+
+  override async resolve(filter?: ModuleFilter) {
+    return [...(await super.resolve(filter)), ...(await this.targetResolver.resolve(filter))]
   }
 
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
 
-  abstract targetConfig(address: string): Promisable<ModuleConfig>
+  abstract targetDiscover(address: string): Promisable<XyoPayload[]>
+
+  abstract targetQueries(address: string): string[]
 
   abstract targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult>
 

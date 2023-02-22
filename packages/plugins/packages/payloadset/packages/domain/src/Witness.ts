@@ -1,11 +1,11 @@
-import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
+import { XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModule } from '@xyo-network/witness'
 
 import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
 
-export class XyoDomainWitness extends AbstractWitness<XyoDomainWitnessConfig> {
+export class XyoDomainWitness extends AbstractWitness<XyoDomainWitnessConfig> implements WitnessModule {
   static override configSchema = XyoDomainWitnessConfigSchema
   public static dmarc = '_xyo'
 
@@ -17,7 +17,7 @@ export class XyoDomainWitness extends AbstractWitness<XyoDomainWitnessConfig> {
     return `${XyoDomainWitness.dmarc}.${domain}`
   }
 
-  override async observe(_payload: XyoDomainPayload[]): Promise<XyoPayload[]> {
+  override async observe(_payload?: XyoPayload[]): Promise<XyoPayload[]> {
     return await super.observe([{ schema: XyoDomainSchema }])
   }
 }

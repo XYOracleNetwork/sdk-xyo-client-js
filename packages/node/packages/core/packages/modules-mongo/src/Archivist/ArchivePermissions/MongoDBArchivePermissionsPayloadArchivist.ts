@@ -1,5 +1,3 @@
-import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import {
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,

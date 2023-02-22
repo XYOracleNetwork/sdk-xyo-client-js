@@ -81,13 +81,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-cognito-identity@npm:3.272.0":
-  version: 3.272.0
-  resolution: "@aws-sdk/client-cognito-identity@npm:3.272.0"
+"@aws-sdk/client-cognito-identity@npm:3.276.0":
+  version: 3.276.0
+  resolution: "@aws-sdk/client-cognito-identity@npm:3.276.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.272.0
+    "@aws-sdk/client-sts": 3.276.0
     "@aws-sdk/config-resolver": 3.272.0
     "@aws-sdk/credential-provider-node": 3.272.0
     "@aws-sdk/fetch-http-handler": 3.272.0
@@ -120,7 +120,7 @@ __metadata:
     "@aws-sdk/util-user-agent-node": 3.272.0
     "@aws-sdk/util-utf8": 3.254.0
     tslib: ^2.3.1
-  checksum: fd17c705b2de99fd1570239b62032525380b5e17799fc15f720196a488889fa10bbccd01952d5694ca8c20249d8a808de86de07d5a1b0d21486964a70d9b6d4d
+  checksum: ff79c1c727d956e03510307b001c24534d522b327871b2b0a1d39120e6d6717e17d7b9c2b7a6d28c3e5c3f41cd8ff28e5150ddd1fda9bff0c239fdfef0a78e00
   languageName: node
   linkType: hard
 
@@ -248,50 +248,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-sts@npm:3.272.0":
-  version: 3.272.0
-  resolution: "@aws-sdk/client-sts@npm:3.272.0"
-  dependencies:
-    "@aws-crypto/sha256-browser": 3.0.0
-    "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/config-resolver": 3.272.0
-    "@aws-sdk/credential-provider-node": 3.272.0
-    "@aws-sdk/fetch-http-handler": 3.272.0
-    "@aws-sdk/hash-node": 3.272.0
-    "@aws-sdk/invalid-dependency": 3.272.0
-    "@aws-sdk/middleware-content-length": 3.272.0
-    "@aws-sdk/middleware-endpoint": 3.272.0
-    "@aws-sdk/middleware-host-header": 3.272.0
-    "@aws-sdk/middleware-logger": 3.272.0
-    "@aws-sdk/middleware-recursion-detection": 3.272.0
-    "@aws-sdk/middleware-retry": 3.272.0
-    "@aws-sdk/middleware-sdk-sts": 3.272.0
-    "@aws-sdk/middleware-serde": 3.272.0
-    "@aws-sdk/middleware-signing": 3.272.0
-    "@aws-sdk/middleware-stack": 3.272.0
-    "@aws-sdk/middleware-user-agent": 3.272.0
-    "@aws-sdk/node-config-provider": 3.272.0
-    "@aws-sdk/node-http-handler": 3.272.0
-    "@aws-sdk/protocol-http": 3.272.0
-    "@aws-sdk/smithy-client": 3.272.0
-    "@aws-sdk/types": 3.272.0
-    "@aws-sdk/url-parser": 3.272.0
-    "@aws-sdk/util-base64": 3.208.0
-    "@aws-sdk/util-body-length-browser": 3.188.0
-    "@aws-sdk/util-body-length-node": 3.208.0
-    "@aws-sdk/util-defaults-mode-browser": 3.272.0
-    "@aws-sdk/util-defaults-mode-node": 3.272.0
-    "@aws-sdk/util-endpoints": 3.272.0
-    "@aws-sdk/util-retry": 3.272.0
-    "@aws-sdk/util-user-agent-browser": 3.272.0
-    "@aws-sdk/util-user-agent-node": 3.272.0
-    "@aws-sdk/util-utf8": 3.254.0
-    fast-xml-parser: 4.0.11
-    tslib: ^2.3.1
-  checksum: 2e3083803a4d64de3148ef49b6dccb1a54d6766a8c60a2002cff32f005159d69d8323e50b7cb6055cb0bd595b8e8f2bc8ccd839ee9ca17c5db47fc6b63b10269
-  languageName: node
-  linkType: hard
-
 "@aws-sdk/client-sts@npm:3.276.0":
   version: 3.276.0
   resolution: "@aws-sdk/client-sts@npm:3.276.0"
@@ -349,15 +305,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-cognito-identity@npm:3.272.0":
-  version: 3.272.0
-  resolution: "@aws-sdk/credential-provider-cognito-identity@npm:3.272.0"
+"@aws-sdk/credential-provider-cognito-identity@npm:3.276.0":
+  version: 3.276.0
+  resolution: "@aws-sdk/credential-provider-cognito-identity@npm:3.276.0"
   dependencies:
-    "@aws-sdk/client-cognito-identity": 3.272.0
+    "@aws-sdk/client-cognito-identity": 3.276.0
     "@aws-sdk/property-provider": 3.272.0
     "@aws-sdk/types": 3.272.0
     tslib: ^2.3.1
-  checksum: ba19883f08b8c4625d53a9c243eb8a831f51d7764157d86fc9a0343cd02c5fbd41923a21b5579c718c3b490a97eacc83fe398f5f920dcbd3ce41a3326959b652
+  checksum: 2d255475f08beeccd000745b2f2c46553559fd6fe15c0ea9960956655535fb927df9ec3431cf743b80f9a460d033ede7e1c47e91aff44956559a70c5f43f7bab
   languageName: node
   linkType: hard
 
@@ -458,13 +414,13 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/credential-providers@npm:^3.186.0":
-  version: 3.272.0
-  resolution: "@aws-sdk/credential-providers@npm:3.272.0"
+  version: 3.276.0
+  resolution: "@aws-sdk/credential-providers@npm:3.276.0"
   dependencies:
-    "@aws-sdk/client-cognito-identity": 3.272.0
+    "@aws-sdk/client-cognito-identity": 3.276.0
     "@aws-sdk/client-sso": 3.272.0
-    "@aws-sdk/client-sts": 3.272.0
-    "@aws-sdk/credential-provider-cognito-identity": 3.272.0
+    "@aws-sdk/client-sts": 3.276.0
+    "@aws-sdk/credential-provider-cognito-identity": 3.276.0
     "@aws-sdk/credential-provider-env": 3.272.0
     "@aws-sdk/credential-provider-imds": 3.272.0
     "@aws-sdk/credential-provider-ini": 3.272.0
@@ -476,7 +432,7 @@ __metadata:
     "@aws-sdk/shared-ini-file-loader": 3.272.0
     "@aws-sdk/types": 3.272.0
     tslib: ^2.3.1
-  checksum: ce311afb81267bc984a9dabffb3df1689cd63c8ed75010163aced4855bf96399a225ae594b494cfcfbb970e9bfe0461576d82a5695065d9e4ca0c82755edd52b
+  checksum: 825fb0feda57ef98cc11ab3febc2a337161193dfa24bcc31ad2b47ecb4af564b3b5a5a0d9c17fd1a3ec118321d21fc515948980ba50c323e21ed79905c13dfe4
   languageName: node
   linkType: hard
 
@@ -1027,14 +983,14 @@ __metadata:
   linkType: hard
 
 "@babel/generator@npm:^7.20.7, @babel/generator@npm:^7.21.0, @babel/generator@npm:^7.7.2":
-  version: 7.21.0
-  resolution: "@babel/generator@npm:7.21.0"
+  version: 7.21.1
+  resolution: "@babel/generator@npm:7.21.1"
   dependencies:
     "@babel/types": ^7.21.0
     "@jridgewell/gen-mapping": ^0.3.2
     "@jridgewell/trace-mapping": ^0.3.17
     jsesc: ^2.5.1
-  checksum: 173c3284b0c9c1de19bd96b6cb1ae72b4e6482d67307238f52c05587f0bf20fa27f10ea0f67c6bf64af87a5a7cf47f7e260dcd3412cc70e47c612c2bc1dc4dfa
+  checksum: 69085a211ff91a7a608ee3f86e6fcb9cf5e724b756d792a713b0c328a671cd3e423e1ef1b12533f366baba0616caffe0a7ba9d328727eab484de5961badbef00
   languageName: node
   linkType: hard
 
@@ -1323,11 +1279,11 @@ __metadata:
   linkType: hard
 
 "@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.16.4, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.21.0":
-  version: 7.21.0
-  resolution: "@babel/parser@npm:7.21.0"
+  version: 7.21.1
+  resolution: "@babel/parser@npm:7.21.1"
   bin:
     parser: ./bin/babel-parser.js
-  checksum: ca16a2e6d4401a556791cd2f8c5f4b33a530cea615c647b3051980778c0a71462216fc8bb042bf507cb92f5e5330bd19b5332a503ae93b6c749a7cd3e7368944
+  checksum: a564cff6dec4201a611d1f2ae5af8d7436ce80550e75a77ee72dca6b094df6188b5a4ccfae6a98c85991b56a51e6c48159e466cc5a374c7a37af706fcb5a6bc2
   languageName: node
   linkType: hard
 
@@ -4146,10 +4102,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@types/uuid@npm:9.0.0"
-  checksum: 59ae56d9547c8758588659da2a2b4c97cce79c2aae1798c892bb29452ef08e87859dea2ec3a66bfa88d0d2153147520be2b1893be920f9f0bc9c53a3207ea6aa
+"@types/uuid@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "@types/uuid@npm:9.0.1"
+  checksum: c472b8a77cbeded4bc529220b8611afa39bd64677f507838f8083d8aac8033b1f88cb9ddaa2f8589e0dcd2317291d0f6e1379f82d5ceebd6f74f3b4825288e00
   languageName: node
   linkType: hard
 
@@ -4766,11 +4722,29 @@ __metadata:
     "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/archivist-interface": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    lodash: ^4.17.21
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/abstract-bridge@workspace:^, @xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.14.15
+    "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/bridge-model": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
@@ -4865,6 +4839,7 @@ __metadata:
   resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
   dependencies:
     "@types/lodash": ^4.14.191
+    "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
     "@xyo-network/archivist-interface": "workspace:^"
@@ -4903,7 +4878,6 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     js-cookie: ^3.0.1
     lodash: ^4.17.21
-    lru-cache: ^7.17.0
     store2: ^2.14.2
     typescript: ^4.9.5
   languageName: unknown
@@ -4959,7 +4933,7 @@ __metadata:
     "@xyo-network/witness": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     agenda: ^5.0.0
-    body-parser: ^1.20.1
+    body-parser: ^1.20.2
     compression: ^1.7.4
     cors: ^2.8.5
     express: ^4.18.2
@@ -5148,24 +5122,47 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/bridge-model@workspace:^, @xyo-network/bridge-model@workspace:packages/modules/packages/bridge/packages/model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bridge-model@workspace:packages/modules/packages/bridge/packages/model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.14.15
+    "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/bridge-module-resolver@workspace:^, @xyo-network/bridge-module-resolver@workspace:packages/modules/packages/bridge/packages/module-resolver":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bridge-module-resolver@workspace:packages/modules/packages/bridge/packages/module-resolver"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.14.15
+    "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/address-payload-plugin": "workspace:^"
+    "@xyo-network/bridge-model": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    lodash: ^4.17.21
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/bridge@workspace:^, @xyo-network/bridge@workspace:packages/modules/packages/bridge":
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge@workspace:packages/modules/packages/bridge"
   dependencies:
-    "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
-    "@xyo-network/account": "workspace:^"
-    "@xyo-network/address-payload-plugin": "workspace:^"
-    "@xyo-network/api-models": "workspace:^"
-    "@xyo-network/axios": "workspace:^"
+    "@xyo-network/abstract-bridge": "workspace:^"
+    "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
-    "@xyo-network/query-payload-plugin": "workspace:^"
-    lodash: ^4.17.21
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -5239,7 +5236,7 @@ __metadata:
     "@scure/base": ^1.1.1
     "@types/lodash": ^4.14.191
     "@types/sha.js": ^2.4.0
-    "@types/uuid": ^9.0.0
+    "@types/uuid": ^9.0.1
     "@xylabs/assert": ^2.7.1
     "@xylabs/bignumber": ^2.7.1
     "@xylabs/buffer": ^2.7.1
@@ -5780,7 +5777,7 @@ __metadata:
     "@xyo-network/node-core-modules-mongo": "workspace:^"
     "@xyo-network/node-core-query-handlers": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
-    body-parser: ^1.20.1
+    body-parser: ^1.20.2
     dotenv: ^16.0.3
     express: ^4.18.2
     express-mung: ^0.5.1
@@ -5810,7 +5807,7 @@ __metadata:
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
-    body-parser: ^1.20.1
+    body-parser: ^1.20.2
     express: ^4.18.2
     express-mung: ^0.5.1
     http-status-codes: ^2.2.0
@@ -5837,7 +5834,7 @@ __metadata:
     "@types/passport-local": ^1.0.35
     "@types/source-map-support": 0.5.6
     "@types/swagger-ui-express": ^4.1.3
-    "@types/uuid": ^9.0.0
+    "@types/uuid": ^9.0.1
     "@xylabs/assert": ^2.7.1
     "@xylabs/exists": ^2.7.1
     "@xylabs/sdk-api-express-ecs": ^1.3.0
@@ -5851,7 +5848,7 @@ __metadata:
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/shared": "workspace:^"
-    body-parser: ^1.20.1
+    body-parser: ^1.20.2
     express: ^4.18.2
     express-mung: ^0.5.1
     http-status-codes: ^2.2.0
@@ -5880,7 +5877,7 @@ __metadata:
     "@aws-sdk/client-secrets-manager": ^3.276.0
     "@types/express": 4.17.17
     "@types/source-map-support": 0.5.6
-    "@types/uuid": ^9.0.0
+    "@types/uuid": ^9.0.1
     "@xylabs/assert": ^2.7.1
     "@xylabs/exists": ^2.7.1
     "@xylabs/sdk-api-express-ecs": ^1.3.0
@@ -5904,7 +5901,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/utils": "workspace:^"
-    body-parser: ^1.20.1
+    body-parser: ^1.20.2
     express: ^4.18.2
     express-mung: ^0.5.1
     http-status-codes: ^2.2.0
@@ -5928,7 +5925,7 @@ __metadata:
     "@types/express": 4.17.17
     "@types/nconf": ^0.10.3
     "@types/passport": ^1.0.12
-    "@types/uuid": ^9.0.0
+    "@types/uuid": ^9.0.1
     "@xylabs/assert": ^2.7.1
     "@xylabs/delay": ^2.7.1
     "@xylabs/exists": ^2.7.1
@@ -5947,7 +5944,7 @@ __metadata:
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/shared": "workspace:^"
-    body-parser: ^1.20.1
+    body-parser: ^1.20.2
     compression: ^1.7.4
     cors: ^2.8.5
     express: ^4.18.2
@@ -5971,7 +5968,7 @@ __metadata:
   resolution: "@xyo-network/express-node-test@workspace:packages/node/packages/express/packages/test"
   dependencies:
     "@ethersproject/wallet": ^5.7.0
-    "@types/uuid": ^9.0.0
+    "@types/uuid": ^9.0.1
     "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig-jest": ^2.14.15
@@ -6017,7 +6014,8 @@ __metadata:
     "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
-    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/abstract-archivist": "workspace:^"
+    "@xyo-network/archivist-interface": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/memory-archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -6105,6 +6103,29 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.1.0
     "@uniswap/v3-sdk": ^3.9.0
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http"
+  dependencies:
+    "@xylabs/assert": ^2.7.1
+    "@xylabs/ts-scripts-yarn3": ^2.14.15
+    "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/abstract-bridge": "workspace:^"
+    "@xyo-network/address-payload-plugin": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
+    "@xyo-network/axios": "workspace:^"
+    "@xyo-network/bridge-model": "workspace:^"
+    "@xyo-network/bridge-module-resolver": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/query-payload-plugin": "workspace:^"
+    lodash: ^4.17.21
+    typescript: ^4.9.5
   languageName: unknown
   linkType: soft
 
@@ -6259,15 +6280,18 @@ __metadata:
   resolution: "@xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
     "@xylabs/assert": ^2.7.1
+    "@xylabs/promise": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
     "@xyo-network/abstract-archivist": "workspace:^"
-    "@xyo-network/archivist-wrapper": "workspace:^"
+    "@xyo-network/archivist-interface": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/promise": "workspace:^"
+    lodash: ^4.17.21
+    lru-cache: ^7.17.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6387,7 +6411,7 @@ __metadata:
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
-    body-parser: ^1.20.1
+    body-parser: ^1.20.2
     dotenv: ^16.0.3
     express: ^4.18.2
     express-mung: ^0.5.1
@@ -7924,7 +7948,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"body-parser@npm:1.20.1, body-parser@npm:^1.20.1":
+"body-parser@npm:1.20.1":
   version: 1.20.1
   resolution: "body-parser@npm:1.20.1"
   dependencies:
@@ -7941,6 +7965,26 @@ __metadata:
     type-is: ~1.6.18
     unpipe: 1.0.0
   checksum: f1050dbac3bede6a78f0b87947a8d548ce43f91ccc718a50dd774f3c81f2d8b04693e52acf62659fad23101827dd318da1fb1363444ff9a8482b886a3e4a5266
+  languageName: node
+  linkType: hard
+
+"body-parser@npm:^1.20.2":
+  version: 1.20.2
+  resolution: "body-parser@npm:1.20.2"
+  dependencies:
+    bytes: 3.1.2
+    content-type: ~1.0.5
+    debug: 2.6.9
+    depd: 2.0.0
+    destroy: 1.2.0
+    http-errors: 2.0.0
+    iconv-lite: 0.4.24
+    on-finished: 2.4.1
+    qs: 6.11.0
+    raw-body: 2.5.2
+    type-is: ~1.6.18
+    unpipe: 1.0.0
+  checksum: 14d37ec638ab5c93f6099ecaed7f28f890d222c650c69306872e00b9efa081ff6c596cd9afb9930656aae4d6c4e1c17537bea12bb73c87a217cb3cfea8896737
   languageName: node
   linkType: hard
 
@@ -8739,7 +8783,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"content-type@npm:~1.0.4":
+"content-type@npm:~1.0.4, content-type@npm:~1.0.5":
   version: 1.0.5
   resolution: "content-type@npm:1.0.5"
   checksum: 566271e0a251642254cde0f845f9dd4f9856e52d988f4eb0d0dcffbb7a1f8ec98de7a5215fc628f3bce30fe2fb6fd2bc064b562d721658c59b544e2d34ea2766
@@ -9428,9 +9472,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.303
-  resolution: "electron-to-chromium@npm:1.4.303"
-  checksum: f27f3cd805399d9a776e6c69f0e037faa31dbb9e7ab2340608c091918a5b6e03e6523df8855aff6f2f0ebd2723fc05a7f0a2349ec9d44ffa0a11ca14a77a9bc6
+  version: 1.4.305
+  resolution: "electron-to-chromium@npm:1.4.305"
+  checksum: 574599461f7a5283026fc55727f9396b92f4d67952d3d333fc8dbb89e3b7f1ff646588c027fe8822b13227018d870405aeda2648a7324169871bab77108c4f40
   languageName: node
   linkType: hard
 
@@ -10394,17 +10438,6 @@ __metadata:
   version: 2.1.1
   resolution: "fast-safe-stringify@npm:2.1.1"
   checksum: a851cbddc451745662f8f00ddb622d6766f9bd97642dabfd9a405fb0d646d69fc0b9a1243cbf67f5f18a39f40f6fa821737651ff1bceeba06c9992ca2dc5bd3d
-  languageName: node
-  linkType: hard
-
-"fast-xml-parser@npm:4.0.11":
-  version: 4.0.11
-  resolution: "fast-xml-parser@npm:4.0.11"
-  dependencies:
-    strnum: ^1.0.5
-  bin:
-    fxparser: src/cli/cli.js
-  checksum: d8a08e4d5597e0fc00a86735195872eeb03008913e298830941516f3766e16ee555e2d431acc92e1dda887938edc445252ec5b59494aab60a8389888bd13719c
   languageName: node
   linkType: hard
 
@@ -14283,9 +14316,9 @@ __metadata:
   linkType: hard
 
 "minipass@npm:^4.0.0":
-  version: 4.0.3
-  resolution: "minipass@npm:4.0.3"
-  checksum: a09f405e2f380ae7f6ee0cbb53b45c1fcc1b6c70fc3896f4d20649d92a10e61892c57bd9960a64cedf6c90b50022cb6c195905b515039c335b423202f99e6f18
+  version: 4.2.0
+  resolution: "minipass@npm:4.2.0"
+  checksum: 3c3ce269eacdcecb56b5dfe4bb4ab905d60fea1af4c967c7ed54baadfdd4af03e4d926567fb655957504fb4c9e2e7adbb2dc636927dfb56c829f2b25f1b2b3dd
   languageName: node
   linkType: hard
 
@@ -14834,8 +14867,8 @@ __metadata:
   linkType: hard
 
 "npm-check-updates@npm:^16.7.4":
-  version: 16.7.5
-  resolution: "npm-check-updates@npm:16.7.5"
+  version: 16.7.6
+  resolution: "npm-check-updates@npm:16.7.6"
   dependencies:
     chalk: ^5.2.0
     cli-table: ^0.3.11
@@ -14870,7 +14903,7 @@ __metadata:
   bin:
     ncu: build/src/bin/cli.js
     npm-check-updates: build/src/bin/cli.js
-  checksum: 077d6a205dda84121ca3176f3c6c3657ce25fb403c133809b2af3bec956a64e7729f2f9051eb54a02b14867f94fb1788d499ab805d07160019dbf04b6d9b23f9
+  checksum: 592d537ce0c8773e349a353f275ca009e70c1f2c1272ee4165108b093c8114545b78eaecc128766800b2552f24a83554f4cb32b3881aa0998a3329725cc636ca
   languageName: node
   linkType: hard
 
@@ -15975,6 +16008,18 @@ __metadata:
     iconv-lite: 0.4.24
     unpipe: 1.0.0
   checksum: 5362adff1575d691bb3f75998803a0ffed8c64eabeaa06e54b4ada25a0cd1b2ae7f4f5ec46565d1bec337e08b5ac90c76eaa0758de6f72a633f025d754dec29e
+  languageName: node
+  linkType: hard
+
+"raw-body@npm:2.5.2":
+  version: 2.5.2
+  resolution: "raw-body@npm:2.5.2"
+  dependencies:
+    bytes: 3.1.2
+    http-errors: 2.0.0
+    iconv-lite: 0.4.24
+    unpipe: 1.0.0
+  checksum: ba1583c8d8a48e8fbb7a873fdbb2df66ea4ff83775421bfe21ee120140949ab048200668c47d9ae3880012f6e217052690628cf679ddfbd82c9fc9358d574676
   languageName: node
   linkType: hard
 

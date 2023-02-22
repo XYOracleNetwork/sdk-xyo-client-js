@@ -1,6 +1,6 @@
+import { Module } from '@xyo-network/module-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
-import { AbstractModule } from '../../AbstractModule'
 import { CompositeModuleResolver } from '../CompositeModuleResolver'
 
 const moduleAName = 'moduleA'
@@ -9,17 +9,17 @@ const moduleCName = 'moduleC'
 
 describe('CompositeModuleResolver', () => {
   describe('with multiple resolvers', () => {
-    let moduleA: MockProxy<AbstractModule>
-    let moduleB: MockProxy<AbstractModule>
-    let moduleC: MockProxy<AbstractModule>
+    let moduleA: MockProxy<Module>
+    let moduleB: MockProxy<Module>
+    let moduleC: MockProxy<Module>
     let resolverA: CompositeModuleResolver
     let resolverB: CompositeModuleResolver
 
     let sut: CompositeModuleResolver
     beforeEach(() => {
-      moduleA = mock<AbstractModule>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a' })
-      moduleB = mock<AbstractModule>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b' })
-      moduleC = mock<AbstractModule>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c' })
+      moduleA = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a' })
+      moduleB = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b' })
+      moduleC = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c' })
       resolverA = new CompositeModuleResolver()
       resolverA.add(moduleA, moduleAName)
       resolverA.add(moduleC, moduleCName)
@@ -33,7 +33,7 @@ describe('CompositeModuleResolver', () => {
       it('adds module to resolvers', async () => {
         const address = 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381d'
         const name = 'mod'
-        const mod = mock<AbstractModule>({ address })
+        const mod = mock<Module>({ address })
         expect(sut.add(mod, name)).toEqual(sut)
         expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)

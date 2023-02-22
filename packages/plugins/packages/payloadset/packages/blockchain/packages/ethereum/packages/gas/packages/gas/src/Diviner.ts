@@ -1,4 +1,4 @@
-import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig, DivinerModule } from '@xyo-network/diviner'
 import { XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload-model'
@@ -9,7 +9,7 @@ import { XyoEthereumGasDivinerConfigSchema } from './Schema'
 
 export type XyoEthereumGasDivinerConfig = DivinerConfig<{ schema: XyoEthereumGasDivinerConfigSchema }>
 
-export class XyoEthereumGasDiviner extends AbstractDiviner {
+export class XyoEthereumGasDiviner extends AbstractDiviner implements DivinerModule {
   static override configSchema = XyoEthereumGasDivinerConfigSchema
   static override targetSchema = XyoEthereumGasSchema
 
@@ -17,8 +17,8 @@ export class XyoEthereumGasDiviner extends AbstractDiviner {
     return (await super.create(params)) as XyoEthereumGasDiviner
   }
 
-  public override divine(payloads: XyoPayloads): Promisable<XyoPayloads> {
-    const cost = divineGas(payloads)
+  public override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
+    const cost = divineGas(payloads ?? [])
     return [cost]
   }
 }

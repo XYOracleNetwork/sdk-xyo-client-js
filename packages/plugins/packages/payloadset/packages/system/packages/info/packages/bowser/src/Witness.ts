@@ -1,14 +1,13 @@
-import { XyoBowserSystemInfoPayload, XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
+import { XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
-import { AbstractWitness } from '@xyo-network/witness'
+import { XyoPayload } from '@xyo-network/payload-model'
+import { AbstractWitness, WitnessModule } from '@xyo-network/witness'
 import Bowser from 'bowser'
 import merge from 'lodash/merge'
 
 import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 
-export class XyoBowserSystemInfoWitness<
-  T extends XyoBowserSystemInfoPayload = XyoBowserSystemInfoPayload,
-> extends AbstractWitness<XyoBowserSystemInfoWitnessConfig> {
+export class XyoBowserSystemInfoWitness extends AbstractWitness<XyoBowserSystemInfoWitnessConfig> implements WitnessModule {
   static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
 
   protected get bowser() {
@@ -21,7 +20,7 @@ export class XyoBowserSystemInfoWitness<
     return (await super.create(params)) as XyoBowserSystemInfoWitness
   }
 
-  override observe(payloads?: T[]) {
+  override observe(payloads?: XyoPayload[]) {
     return super.observe([merge({ bowser: this.bowser }, payloads?.[0], { schema: XyoBowserSystemInfoSchema })])
   }
 }

@@ -6,7 +6,7 @@ import { createPayloadSetPlugin, PayloadSetDivinerPlugin } from '@xyo-network/pa
 import { XyoEthereumGasDiviner, XyoEthereumGasDivinerConfig } from './Diviner'
 
 export const XyoEthereumGasPlugin = () =>
-  createPayloadSetPlugin<PayloadSetDivinerPlugin<ModuleParams<XyoEthereumGasDivinerConfig>>>(
+  createPayloadSetPlugin<PayloadSetDivinerPlugin<XyoEthereumGasDiviner, ModuleParams<XyoEthereumGasDivinerConfig>>>(
     { required: { [XyoEthereumGasSchema]: 1 }, schema: PayloadSetSchema },
     {
       diviner: async (params) => {

@@ -1,10 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { BridgeModule } from '@xyo-network/bridge-model'
+import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
-  AbstractModule,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
@@ -12,8 +14,6 @@ import {
   ModuleParams,
   ModuleQueryResult,
   ModuleResolver,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
@@ -23,16 +23,13 @@ import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 
-import { BridgeModule } from './Bridge'
 import { HttpBridgeConfig } from './HttpBridgeConfig'
-import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
-import { RemoteModuleResolver } from './RemoteModuleResolver'
 
 export interface XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends ModuleParams<TConfig> {
   axios?: AxiosJson
 }
 
-export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractModule<TConfig> implements BridgeModule<TConfig> {
+export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractBridge<TConfig> implements BridgeModule<TConfig> {
   private _targetQueries: Record<string, string[]> = {}
   private _targetResolver: ModuleResolver
   private axios: AxiosJson
@@ -40,7 +37,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   protected constructor(params: XyoHttpBridgeParams<TConfig>) {
     super(params)
     this.axios = params.axios ?? new AxiosJson()
-    this._targetResolver = new RemoteModuleResolver(this)
+    this._targetResolver = new BridgeModuleResolver(this)
   }
 
   public get nodeUri() {
@@ -77,38 +74,10 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return true
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
-    const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
-    try {
-      switch (typedQuery.schema) {
-        case XyoBridgeConnectQuerySchema: {
-          await this.connect()
-          break
-        }
-        case XyoBridgeDisconnectQuerySchema: {
-          await this.disconnect()
-          break
-        }
-        default:
-          return await super.query(query, payloads)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
-    }
-    return await this.bindResult(resultPayloads, queryAccount)
-  }
-
-  override async resolve(filter?: ModuleFilter) {
-    return [...(await super.resolve(filter)), ...(await this.targetResolver.resolve(filter))]
-  }
-
   async targetDiscover(address: string): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
-    const discover = assertEx(await this.targetQuery(address, queryPayload), `Unable to resolve [${address}]`)[1]
+    const boundQuery = await this.bindQuery(queryPayload)
+    const discover = assertEx(await this.targetQuery(address, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
 
     this._targetQueries[address] = compact(
       discover?.map((payload) => {
@@ -128,11 +97,10 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return assertEx(this._targetQueries[address], `targetConfig not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: XyoQuery, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
+  async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
     try {
-      const boundQuery = await this.bindQuery(query, payloads)
-      const path = `${this.nodeUri}/${address}`
-      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, boundQuery)
+      const path = `${this.nodeUri}/${address ? address : ''}`
+      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, [query, payloads])
       if (result.status >= 400) {
         this.logger?.error(`targetQuery failed [${path}]`)
         throw `targetQuery failed [${path}] [${result.status}]`
@@ -147,7 +115,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   }
 
   targetQueryable(_address: string, _query: XyoQueryBoundWitness, _payloads?: XyoPayload[], _queryConfig?: ModuleConfig): boolean {
-    throw 'targetQueryable not available'
+    return true
   }
 
   async targetResolve(address: string, filter?: ModuleFilter) {

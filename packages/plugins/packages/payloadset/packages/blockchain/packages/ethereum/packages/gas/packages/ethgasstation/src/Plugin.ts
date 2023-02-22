@@ -7,7 +7,7 @@ import { XyoEthereumGasEthgasstationWitnessConfig } from './Config'
 import { XyoEthereumGasEthgasstationWitness } from './Witness'
 
 export const XyoEthereumGasEthgasstationPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<XyoEthereumGasEthgasstationWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoEthereumGasEthgasstationWitness, ModuleParams<XyoEthereumGasEthgasstationWitnessConfig>>>(
     { required: { [XyoEthereumGasEthgasstationSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

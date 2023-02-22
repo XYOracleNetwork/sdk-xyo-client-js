@@ -5,7 +5,7 @@ import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModule, XyoWitnessConfig } from '@xyo-network/witness'
 // eslint-disable-next-line import/no-named-as-default
 import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
 
@@ -65,7 +65,7 @@ const locationToQuadkey = (location: Location, zoom = 16) => {
   )
 }
 
-export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
+export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> implements WitnessModule {
   static override configSchema = ElevationWitnessConfigSchema
 
   private _tiffImages: TiffImages = {}
@@ -128,9 +128,9 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
     return await assertEx(this._tiffInfos[section], `Failed to load section [${section}]`)
   }
 
-  override async observe(payloads?: LocationPayload[]): Promise<XyoPayload[]> {
+  override async observe(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const quadkeys: Quadkey[] = [
-      ...(payloads?.map((location) => locationToQuadkey(location)) ?? []),
+      ...(payloads?.map((location) => locationToQuadkey(location as LocationPayload)) ?? []),
       ...this.quadkeys.map((quadkey) => (typeof quadkey === 'string' ? Quadkey.fromString(12, quadkey) : quadkey)),
     ]
     const results: ElevationPayload[] = await Promise.all(

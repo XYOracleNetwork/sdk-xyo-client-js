@@ -7,7 +7,7 @@ import { XyoEthereumGasBlocknativeWitnessConfig } from './Config'
 import { XyoEthereumGasBlocknativeWitness } from './Witness'
 
 export const XyoEthereumGasBlocknativePlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<XyoEthereumGasBlocknativeWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoEthereumGasBlocknativeWitness, ModuleParams<XyoEthereumGasBlocknativeWitnessConfig>>>(
     { required: { [XyoEthereumGasBlocknativeSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

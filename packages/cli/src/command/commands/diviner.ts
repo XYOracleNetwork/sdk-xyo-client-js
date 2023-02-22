@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
+import { DivinerWrapper } from '@xyo-network/modules'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
@@ -19,7 +19,8 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   try {
     const node = await getNode(argv)
     const wrapper = DivinerWrapper.wrap(node)
-    const result = ((await wrapper.describe()) ?? {})?.children?.filter((mod) => mod.queries.includes(XyoDivinerDivineQuerySchema))
+    //TODO: Actually find Diviner
+    const result = await wrapper.describe() //?? {})?.children?.filter((mod) => mod.queries.includes(XyoDivinerDivineQuerySchema))
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

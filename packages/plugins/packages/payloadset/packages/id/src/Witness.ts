@@ -22,10 +22,10 @@ export class IdWitness extends AbstractWitness<IdWitnessConfig> {
     return (await super.create(params)) as IdWitness
   }
 
-  override async observe(payloads: IdPayload[] = []): Promise<XyoPayload[]> {
+  override async observe(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
     return await super.observe(
       payloads.length > 0
-        ? payloads.map((fieldItems) => {
+        ? (payloads as IdPayload[]).map((fieldItems) => {
             return {
               salt: fieldItems?.salt ?? this.salt,
               schema: IdSchema,

@@ -6,7 +6,7 @@ import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/pa
 import { IdWitness, IdWitnessConfig } from './Witness'
 
 export const IdPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<IdWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<IdWitness, ModuleParams<IdWitnessConfig>>>(
     { required: { [IdSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

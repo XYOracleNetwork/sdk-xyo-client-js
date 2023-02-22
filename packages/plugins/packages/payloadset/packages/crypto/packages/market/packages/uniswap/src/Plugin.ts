@@ -5,7 +5,7 @@ import { XyoUniswapCryptoMarketSchema } from '@xyo-network/uniswap-crypto-market
 import { XyoUniswapCryptoMarketWitness, XyoUniswapCryptoMarketWitnessParams } from './Witness'
 
 export const XyoUniswapCryptoMarketPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoUniswapCryptoMarketWitnessParams>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoUniswapCryptoMarketWitness, XyoUniswapCryptoMarketWitnessParams>>(
     { required: { [XyoUniswapCryptoMarketSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

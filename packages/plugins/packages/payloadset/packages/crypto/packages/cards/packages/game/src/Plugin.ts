@@ -6,7 +6,7 @@ import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/pa
 import { XyoCryptoCardsGameWitness, XyoCryptoCardsGameWitnessConfig } from './Witness'
 
 export const XyoCryptoCardsGamePlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<XyoCryptoCardsGameWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoCryptoCardsGameWitness, ModuleParams<XyoCryptoCardsGameWitnessConfig>>>(
     { required: { [XyoCryptoCardsGameSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

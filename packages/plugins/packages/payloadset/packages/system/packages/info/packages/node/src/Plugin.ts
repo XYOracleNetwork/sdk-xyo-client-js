@@ -7,7 +7,7 @@ import { XyoNodeSystemInfoWitnessConfig } from './Config'
 import { XyoNodeSystemInfoWitness } from './Witness'
 
 export const XyoNodeSystemInfoPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<XyoNodeSystemInfoWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoNodeSystemInfoWitness, ModuleParams<XyoNodeSystemInfoWitnessConfig>>>(
     { required: { [XyoNodeSystemInfoSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

@@ -23,13 +23,11 @@ import { NodeConfig, NodeConfigSchema } from './Config'
 import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-//const childModuleDiscoverQueryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
-
 export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> extends ModuleParams<TConfig> {
   internalResolver?: CompositeModuleResolver
 }
 
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule<Module> {
+export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule {
   static readonly configSchema = NodeConfigSchema
 
   protected internalResolver = new CompositeModuleResolver()
@@ -119,7 +117,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  register(_module: AbstractModule): Promisable<this> {
+  register(_module: Module): Promisable<this> {
     throw new Error('Method not implemented.')
   }
 

@@ -6,7 +6,7 @@ import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/pa
 import { ElevationWitness, ElevationWitnessConfig } from './Witness'
 
 export const ElevationPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<ElevationWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<ElevationWitness, ModuleParams<ElevationWitnessConfig>>>(
     { required: { [ElevationSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

@@ -11,7 +11,7 @@ describe('/:address', () => {
     expect(node).toBeObject()
     expect(node.children).toBeArray()
     expect(node.children?.length).toBeGreaterThan(0)
-    const address = node?.children?.[0]?.address
+    const address = node?.children?.[0]
     expect(address).toBeString()
     url = `/${address}`
   })

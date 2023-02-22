@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   Module,
   ModuleDescription,
@@ -7,6 +8,7 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleQueryResult,
+  ModuleResolver,
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
@@ -61,7 +63,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return this.module.queries
   }
 
-  get resolver() {
+  get resolver(): ModuleResolver {
     return this.module.resolver
   }
 
@@ -91,7 +93,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return assertEx(this.tryWrap(module), 'Unable to wrap module as ModuleWrapper')
   }
 
-  describe(): Promisable<ModuleDescription> {
+  async describe(): Promise<Promise<Promisable<ModuleDescription>>> {
     const description: ModuleDescription = {
       address: this.module.address,
       queries: this.module.queries,
@@ -99,6 +101,16 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     if (this.config.name) {
       description.name = this.config.name
     }
+
+    const discover = await this.discover()
+
+    description.children = compact(
+      discover?.map((payload) => {
+        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
+        return address != this.module.address ? address : undefined
+      }) ?? [],
+    )
+
     return description
   }
 

@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/memory-archivist",
+  "name": "@xyo-network/http-bridge",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -11,16 +11,18 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.7.1",
-    "@xylabs/promise": "^2.7.1",
-    "@xyo-network/abstract-archivist": "workspace:^",
-    "@xyo-network/archivist-interface": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/abstract-bridge": "workspace:^",
+    "@xyo-network/address-payload-plugin": "workspace:^",
+    "@xyo-network/api-models": "workspace:^",
+    "@xyo-network/axios": "workspace:^",
+    "@xyo-network/bridge-model": "workspace:^",
+    "@xyo-network/bridge-module-resolver": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "lodash": "^4.17.21",
-    "lru-cache": "^7.17.0"
+    "@xyo-network/query-payload-plugin": "workspace:^",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.14.15",

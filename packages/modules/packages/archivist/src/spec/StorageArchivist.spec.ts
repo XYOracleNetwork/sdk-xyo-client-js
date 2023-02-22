@@ -3,10 +3,10 @@
  */
 
 import { Account } from '@xyo-network/account'
+import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { CompositeModuleResolver } from '@xyo-network/module'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { MemoryArchivist } from '../../packages/memory/src/MemoryArchivist'
 import { StorageArchivistConfigSchema, XyoStorageArchivist } from '../StorageArchivist'
 import { testArchivistAll, testArchivistRoundTrip } from './testArchivist'
 

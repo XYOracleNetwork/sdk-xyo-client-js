@@ -1,3 +1,4 @@
+import { BridgeModule, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
 import {
   ModuleConfig,
   ModuleDiscoverQuery,
@@ -10,9 +11,6 @@ import {
 } from '@xyo-network/module'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-
-import { BridgeModule } from './Bridge'
-import { XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from './Queries'
 
 export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements BridgeModule {
   public get targetResolver() {
@@ -34,6 +32,10 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
   async targetDiscover(address: string): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return await this.sendTargetQuery(address, queryPayload)
+  }
+
+  targetQueries(address: string): string[] {
+    return this.module.targetQueries(address)
   }
 
   async targetQuery<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(

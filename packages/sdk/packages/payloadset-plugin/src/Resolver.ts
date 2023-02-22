@@ -1,7 +1,7 @@
 import { Hasher, Validator } from '@xyo-network/core'
 import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessModule } from '@xyo-network/witness'
+import { WitnessModule } from '@xyo-network/witness'
 
 import { PayloadSetPluginParams } from './Configs'
 import { isPayloadSetDivinerPlugin, isPayloadSetWitnessPlugin, PayloadSetDivinerPlugin, PayloadSetPlugin, PayloadSetWitnessPlugin } from './Plugin'

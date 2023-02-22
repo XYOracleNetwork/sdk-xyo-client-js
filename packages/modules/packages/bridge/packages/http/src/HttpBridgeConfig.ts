@@ -1,6 +1,5 @@
+import { BridgeConfig } from '@xyo-network/bridge-model'
 import { XyoPayload } from '@xyo-network/payload-model'
-
-import { BridgeConfig } from './Config'
 
 export type HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'
 export const HttpBridgeConfigSchema: HttpBridgeConfigSchema = 'network.xyo.bridge.http.config'

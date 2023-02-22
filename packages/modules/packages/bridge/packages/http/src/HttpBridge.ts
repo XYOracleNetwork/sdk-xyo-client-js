@@ -3,6 +3,7 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
@@ -75,7 +76,8 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
 
   async targetDiscover(address: string): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
-    const discover = assertEx(await this.targetQuery(address, queryPayload), `Unable to resolve [${address}]`)[1]
+    const boundQuery = await this.bindQuery(queryPayload)
+    const discover = assertEx(await this.targetQuery(address, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
 
     this._targetQueries[address] = compact(
       discover?.map((payload) => {
@@ -95,11 +97,10 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return assertEx(this._targetQueries[address], `targetConfig not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: XyoQuery, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
+  async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
     try {
-      const boundQuery = await this.bindQuery(query, payloads)
       const path = `${this.nodeUri}/${address ? address : ''}`
-      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, boundQuery)
+      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, [query, payloads])
       if (result.status >= 400) {
         this.logger?.error(`targetQuery failed [${path}]`)
         throw `targetQuery failed [${path}] [${result.status}]`

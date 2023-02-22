@@ -107,7 +107,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
   public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
-    _queryConfig?: TConfig,
+    queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
@@ -117,7 +117,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
       }
     }
     const typedQuery = wrapper.query.payload
-    //assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()
     try {

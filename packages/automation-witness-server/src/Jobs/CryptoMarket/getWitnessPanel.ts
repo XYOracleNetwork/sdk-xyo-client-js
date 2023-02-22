@@ -1,4 +1,4 @@
-import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver, Module } from '@xyo-network/module'
 import { AbstractSentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 
 import { getAccount, WalletPaths } from '../../Account'
@@ -10,7 +10,7 @@ export const getWitnessPanel = async (provider = getProvider()): Promise<Abstrac
   const account = getAccount(WalletPaths.CryptoMarketWitnessPanel)
   const archivists = await getArchivists()
   const witnesses = await getCryptoMarketWitness(provider)
-  const modules: AbstractModule[] = [...archivists, ...witnesses]
+  const modules: Module[] = [...archivists, ...witnesses]
   const resolver = new CompositeModuleResolver()
   modules.map((mod) => resolver.add(mod))
   const config: SentinelConfig = {

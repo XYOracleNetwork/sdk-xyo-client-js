@@ -7,6 +7,7 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleQueryResult,
+  ModuleResolver,
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
@@ -61,7 +62,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return this.module.queries
   }
 
-  get resolver() {
+  get resolver(): ModuleResolver {
     return this.module.resolver
   }
 

@@ -6,7 +6,7 @@ import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-import { Node, NodeModule } from './Node'
+import { NodeModule } from './Node'
 import {
   XyoNodeAttachedQuery,
   XyoNodeAttachedQuerySchema,
@@ -18,16 +18,18 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements Node, NodeModule {
+export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements NodeModule {
   static requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
-
-  public isModuleResolver = true
 
   private _archivist?: ArchivistWrapper
 
   public get archivist() {
     this._archivist = this._archivist ?? new ArchivistWrapper(this.module)
     return this._archivist
+  }
+
+  public get parentResolver() {
+    return this.module.parentResolver
   }
 
   static tryWrap(module: Module): NodeWrapper | undefined {

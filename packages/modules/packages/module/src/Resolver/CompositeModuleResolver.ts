@@ -32,7 +32,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return this
   }
 
-  addResolver(resolver: ModuleResolver<TModule>) {
+  addResolver(resolver: ModuleResolver<TModule>): this {
     this.resolvers.push(resolver)
     return this
   }
@@ -46,7 +46,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return this
   }
 
-  removeResolver(resolver: ModuleResolver) {
+  removeResolver(resolver: ModuleResolver<TModule>): this {
     this.resolvers = this.resolvers.filter((item) => item !== resolver)
     return this
   }

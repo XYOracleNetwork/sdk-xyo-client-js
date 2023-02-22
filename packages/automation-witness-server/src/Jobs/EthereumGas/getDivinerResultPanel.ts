@@ -1,4 +1,4 @@
-import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver, Module } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractSentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 import { XyoAdhocWitness, XyoAdhocWitnessConfig, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
@@ -11,7 +11,7 @@ export const getDivinerResultPanel = async (result: XyoPayload): Promise<Abstrac
   const archivists = await getArchivists()
   const witnessConfig: XyoAdhocWitnessConfig = { payload: result, schema: XyoAdhocWitnessConfigSchema }
   const witnesses = [await XyoAdhocWitness.create({ account, config: witnessConfig })]
-  const modules: AbstractModule[] = [...archivists, ...witnesses]
+  const modules: Module[] = [...archivists, ...witnesses]
   const resolver = new CompositeModuleResolver()
   modules.map((mod) => resolver.add(mod))
   const panelConfig: SentinelConfig = {

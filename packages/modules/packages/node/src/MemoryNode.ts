@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractModule, duplicateModules, EventListener, Module, ModuleFilter } from '@xyo-network/module'
+import { duplicateModules, EventListener, Module, ModuleFilter } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -27,34 +27,11 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   static configSchema = NodeConfigSchema
   private readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
   private readonly moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
-  private registeredModuleMap = new Map<string, AbstractModule>()
+  private registeredModuleMap = new Map<string, Module>()
   private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
-    const instance = (await super.create(params)) as MemoryNode
-
-    //Arie: Why would we want to auto register modules?
-
-    /*if (params?.autoAttachExternallyResolved) {
-      const resolver = mixinResolverEventEmitter(instance.resolver)
-      resolver.on('moduleResolved', (args) => {
-        const { module, filter } = args
-        try {
-          instance.register(module)
-          if (filter?.name?.length) {
-            filter.name.map((name) => {
-              instance.attach(module.address, name)
-            })
-          } else {
-            instance.attach(module.address)
-          }
-        } catch (err) {
-          params.logger?.error(`Error attaching externally resolved module: 0x${module.address}`)
-        }
-      })
-      instance.resolver = resolver
-    }*/
-    return instance
+    return (await super.create(params)) as MemoryNode
   }
 
   override async attach(address: string, external?: boolean) {
@@ -65,11 +42,11 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     this.internalResolver.addResolver(module.resolver)
 
     //give it inside access
-    module.parentResolver.addResolver(this.internalResolver)
+    module.parentResolver?.addResolver?.(this.internalResolver)
 
     //give it outside access
     if (this.parentResolver) {
-      module.parentResolver.addResolver(this.parentResolver)
+      module.parentResolver?.addResolver?.(this.parentResolver)
     }
 
     if (external) {
@@ -87,10 +64,10 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     this.internalResolver.removeResolver(module.resolver)
 
     //remove outside access
-    module.parentResolver.removeResolver(this.parentResolver)
+    module.parentResolver?.removeResolver?.(this.parentResolver)
 
     //remove inside access
-    module.parentResolver.removeResolver(this.internalResolver)
+    module.parentResolver?.removeResolver?.(this.internalResolver)
 
     //remove external exposure
     this.resolver.removeResolver(module.resolver)
@@ -113,7 +90,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
     return this
   }
 
-  override register(module: AbstractModule) {
+  override register(module: Module) {
     assertEx(!this.registeredModuleMap.get(module.address), `Module already registered at that address[${module.address}]`)
     this.registeredModuleMap.set(module.address, module)
     return this

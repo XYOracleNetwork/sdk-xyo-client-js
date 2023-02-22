@@ -1,5 +1,5 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver } from '@xyo-network/module'
 import { Module, ModuleFilter } from '@xyo-network/module-model'
 
 import { HttpProxyModule, HttpProxyModuleConfigSchema } from '../HttpProxyModule'
@@ -40,12 +40,12 @@ export class RemoteModuleResolver extends CompositeModuleResolver {
     throw new Error('Method not implemented.')
   }
 
-  async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
+  async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const mods = await Promise.all(this.resolveRemoteModules(filter))
     return this.filterLocalModules(mods, filter)
   }
 
-  private filterLocalModules(mods: AbstractModule[], filter?: LocalModuleFilter): AbstractModule[] {
+  private filterLocalModules(mods: Module[], filter?: LocalModuleFilter): Module[] {
     // TODO: Handle filter?.query
     if (filter?.query) throw new Error('Filtering by query not yet implemented by this resolver')
     const config = filter?.config

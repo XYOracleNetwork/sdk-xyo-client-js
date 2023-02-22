@@ -14,6 +14,10 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return new Hasher(this.obj).hash
   }
 
+  protected get expectedSchema(): string {
+    return XyoBoundWitnessSchema
+  }
+
   static validateSignature(hash: string, address: string, signature?: string) {
     if (!signature) {
       return [Error(`Missing signature [${address}]`)]
@@ -47,9 +51,8 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
 
   public schema() {
     const errors: Error[] = []
-    const expectedSchema = XyoBoundWitnessSchema
-    if (this.obj.schema !== expectedSchema) {
-      errors.push(new Error(`invalid schema [${expectedSchema} !== ${this.obj.schema}]`))
+    if (this.obj.schema !== this.expectedSchema) {
+      errors.push(new Error(`invalid schema [${this.expectedSchema} !== ${this.obj.schema}]`))
     }
     return errors
   }

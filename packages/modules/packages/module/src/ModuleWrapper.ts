@@ -102,8 +102,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
       description.name = this.config.name
     }
 
+    const discover = await this.discover()
+
     description.children = compact(
-      (await this.discover())?.map((payload) => {
+      discover?.map((payload) => {
         const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
         return address != this.module.address ? address : undefined
       }) ?? [],

@@ -74,11 +74,11 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
-    queryConfig?: TConfig,
+    _queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query, payloads, queryConfig))
+    //assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: XyoPayload[] = []
     try {

@@ -114,7 +114,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   }
 
   targetQueryable(_address: string, _query: XyoQueryBoundWitness, _payloads?: XyoPayload[], _queryConfig?: ModuleConfig): boolean {
-    throw 'targetQueryable not available'
+    return true
   }
 
   async targetResolve(address: string, filter?: ModuleFilter) {

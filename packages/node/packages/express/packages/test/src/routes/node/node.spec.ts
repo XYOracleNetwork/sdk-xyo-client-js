@@ -62,8 +62,8 @@ describe('Node API', () => {
         expect(data.queries.length).toBeGreaterThan(0)
       })
       it('can get Node by address', async () => {
-        const nodeResponse = await (await request()).get('/node').expect(StatusCodes.OK)
-        const { data } = nodeResponse.body
+        const nodeResponse = await (await request()).get(path).expect(StatusCodes.OK)
+        const data = nodeResponse.body.data
         expect(data).toBeTruthy()
         expect(data.address).toBeString()
         const nodeAddress = data.address

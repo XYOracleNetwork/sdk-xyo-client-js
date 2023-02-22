@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { EmptyObject } from '@xyo-network/core'
-import { ArchivistGetQuerySchema, NodeWrapper } from '@xyo-network/modules'
+import { NodeWrapper } from '@xyo-network/modules'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
@@ -20,7 +20,8 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   try {
     const node = await getNode(argv)
     const wrapper = NodeWrapper.wrap(assertEx(node, 'App has no node'))
-    const result = ((await wrapper.describe()) ?? {})?.children?.filter((mod) => mod.queries.includes(ArchivistGetQuerySchema))
+    //TODO: Actually find archivist
+    const result = await wrapper.describe() //?? {})?.children?.filter((mod) => mod.queries.includes(ArchivistGetQuerySchema))
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

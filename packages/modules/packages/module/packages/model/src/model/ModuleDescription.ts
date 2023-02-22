@@ -1,6 +1,6 @@
 export interface ModuleDescription {
   address: string
-  children?: ModuleDescription[]
+  children?: string[]
   name?: string
   queries: string[]
 }

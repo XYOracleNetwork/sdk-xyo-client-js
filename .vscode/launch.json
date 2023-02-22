@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/bridge/src/spec/HttpBridge.spec.ts"
+        "packages/node/packages/express/packages/test/src/routes/node/node.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

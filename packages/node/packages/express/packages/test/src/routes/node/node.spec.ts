@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Account } from '@xyo-network/account'
 import { ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder } from '@xyo-network/modules'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { StatusCodes } from 'http-status-codes'
@@ -6,6 +7,7 @@ import { StatusCodes } from 'http-status-codes'
 import { request } from '../../testUtil'
 
 describe('Node API', () => {
+  const account = Account.random()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const validateNodeGetResponse = (data: any) => {
     expect(data).toBeTruthy()
@@ -24,9 +26,9 @@ describe('Node API', () => {
       })
     })
     describe('POST', () => {
-      it.only('issues query to Node', async () => {
+      it('issues query to Node', async () => {
         const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
-        const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).query(queryPayload).build()
+        const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
         const send = [query[0], [...query[1]]]
         const response = await (await request()).post(path).send(send).expect(StatusCodes.OK)
       })
@@ -61,9 +63,12 @@ describe('Node API', () => {
         // validateNodeGetResponse(response.body.data)
       })
     })
-    describe('POST', () => {
+    describe.only('POST', () => {
       it('issues query to module at address', async () => {
-        // TODO: Test
+        const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
+        const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
+        const send = [query[0], [...query[1]]]
+        const response = await (await request()).post(path).send(send).expect(StatusCodes.OK)
       })
     })
   })

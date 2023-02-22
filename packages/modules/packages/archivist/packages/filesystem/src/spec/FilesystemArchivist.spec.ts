@@ -3,7 +3,7 @@ import { FilesystemArchivist, FilesystemArchivistConfigSchema } from '../Filesys
 test('FilesystemArchivist Load', async () => {
   const archivist = await FilesystemArchivist.create({
     config: {
-      filePath: './packages/modules/packages/filesystem/packages/archivist/src/sample.archivist.xyo.json',
+      filePath: './packages/modules/packages/archivist/packages/filesystem/src/sample.archivist.xyo.json',
       schema: FilesystemArchivistConfigSchema,
     },
   })

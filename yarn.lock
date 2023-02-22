@@ -124,13 +124,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-secrets-manager@npm:^3.272.0":
-  version: 3.272.0
-  resolution: "@aws-sdk/client-secrets-manager@npm:3.272.0"
+"@aws-sdk/client-secrets-manager@npm:^3.276.0":
+  version: 3.276.0
+  resolution: "@aws-sdk/client-secrets-manager@npm:3.276.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.272.0
+    "@aws-sdk/client-sts": 3.276.0
     "@aws-sdk/config-resolver": 3.272.0
     "@aws-sdk/credential-provider-node": 3.272.0
     "@aws-sdk/fetch-http-handler": 3.272.0
@@ -164,7 +164,7 @@ __metadata:
     "@aws-sdk/util-utf8": 3.254.0
     tslib: ^2.3.1
     uuid: ^8.3.2
-  checksum: 9ee052c88cec7b01d20a3a76fe9e4a7f2f60ec027916e7af0e04de4fdee5685434354f9e811e2171f0af649b14ebcafc9d02ea1cd5dea1ebdc78877c9edec93f
+  checksum: e64ab549db349b00942ead09a4518693f18592646932b2d6c752914caafea71b933743804651c2d97ebe55a2ce2e94c9d8060556f87be3d6e9e6dfafa36d7204
   languageName: node
   linkType: hard
 
@@ -289,6 +289,50 @@ __metadata:
     fast-xml-parser: 4.0.11
     tslib: ^2.3.1
   checksum: 2e3083803a4d64de3148ef49b6dccb1a54d6766a8c60a2002cff32f005159d69d8323e50b7cb6055cb0bd595b8e8f2bc8ccd839ee9ca17c5db47fc6b63b10269
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/client-sts@npm:3.276.0":
+  version: 3.276.0
+  resolution: "@aws-sdk/client-sts@npm:3.276.0"
+  dependencies:
+    "@aws-crypto/sha256-browser": 3.0.0
+    "@aws-crypto/sha256-js": 3.0.0
+    "@aws-sdk/config-resolver": 3.272.0
+    "@aws-sdk/credential-provider-node": 3.272.0
+    "@aws-sdk/fetch-http-handler": 3.272.0
+    "@aws-sdk/hash-node": 3.272.0
+    "@aws-sdk/invalid-dependency": 3.272.0
+    "@aws-sdk/middleware-content-length": 3.272.0
+    "@aws-sdk/middleware-endpoint": 3.272.0
+    "@aws-sdk/middleware-host-header": 3.272.0
+    "@aws-sdk/middleware-logger": 3.272.0
+    "@aws-sdk/middleware-recursion-detection": 3.272.0
+    "@aws-sdk/middleware-retry": 3.272.0
+    "@aws-sdk/middleware-sdk-sts": 3.272.0
+    "@aws-sdk/middleware-serde": 3.272.0
+    "@aws-sdk/middleware-signing": 3.272.0
+    "@aws-sdk/middleware-stack": 3.272.0
+    "@aws-sdk/middleware-user-agent": 3.272.0
+    "@aws-sdk/node-config-provider": 3.272.0
+    "@aws-sdk/node-http-handler": 3.272.0
+    "@aws-sdk/protocol-http": 3.272.0
+    "@aws-sdk/smithy-client": 3.272.0
+    "@aws-sdk/types": 3.272.0
+    "@aws-sdk/url-parser": 3.272.0
+    "@aws-sdk/util-base64": 3.208.0
+    "@aws-sdk/util-body-length-browser": 3.188.0
+    "@aws-sdk/util-body-length-node": 3.208.0
+    "@aws-sdk/util-defaults-mode-browser": 3.272.0
+    "@aws-sdk/util-defaults-mode-node": 3.272.0
+    "@aws-sdk/util-endpoints": 3.272.0
+    "@aws-sdk/util-retry": 3.272.0
+    "@aws-sdk/util-user-agent-browser": 3.272.0
+    "@aws-sdk/util-user-agent-node": 3.272.0
+    "@aws-sdk/util-utf8": 3.254.0
+    fast-xml-parser: 4.1.2
+    tslib: ^2.3.1
+  checksum: 3250322448500789588d24b6fac295b551ab4c1661ab9aa93f173e63b4673260bb2e551c079d811da752115e583b76f5c7ffb16d94b3c66275e75e52a93f35f3
   languageName: node
   linkType: hard
 
@@ -4859,7 +4903,7 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     js-cookie: ^3.0.1
     lodash: ^4.17.21
-    lru-cache: ^7.16.1
+    lru-cache: ^7.17.0
     store2: ^2.14.2
     typescript: ^4.9.5
   languageName: unknown
@@ -4869,7 +4913,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/automation-witness-server@workspace:packages/automation-witness-server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.272.0
+    "@aws-sdk/client-secrets-manager": ^3.276.0
     "@ethersproject/address": ^5.7.0
     "@ethersproject/bytes": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
@@ -5154,7 +5198,7 @@ __metadata:
     terminal-kit: ^3.0.0
     ts-node: ^10.9.1
     typescript: ^4.9.5
-    yargs: ^17.7.0
+    yargs: ^17.7.1
   bin:
     xyo: dist/cjs/index.js
   languageName: unknown
@@ -5720,7 +5764,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-dependencies@workspace:packages/node/packages/express/packages/dependencies"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.272.0
+    "@aws-sdk/client-secrets-manager": ^3.276.0
     "@xylabs/assert": ^2.7.1
     "@xylabs/exists": ^2.7.1
     "@xylabs/promise": ^2.7.1
@@ -5755,7 +5799,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-lib@workspace:packages/node/packages/express/packages/lib"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.272.0
+    "@aws-sdk/client-secrets-manager": ^3.276.0
     "@types/express": 4.17.17
     "@types/passport": ^1.0.12
     "@xylabs/assert": ^2.7.1
@@ -5783,7 +5827,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/packages/middleware"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.272.0
+    "@aws-sdk/client-secrets-manager": ^3.276.0
     "@ethersproject/wallet": ^5.7.0
     "@types/express": 4.17.17
     "@types/express-mung": ^0.5.2
@@ -5833,7 +5877,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-routes@workspace:packages/node/packages/express/packages/routes"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.272.0
+    "@aws-sdk/client-secrets-manager": ^3.276.0
     "@types/express": 4.17.17
     "@types/source-map-support": 0.5.6
     "@types/uuid": ^9.0.0
@@ -5878,7 +5922,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/packages/server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.272.0
+    "@aws-sdk/client-secrets-manager": ^3.276.0
     "@types/compression": ^1.7.2
     "@types/cors": ^2.8.13
     "@types/express": 4.17.17
@@ -6334,7 +6378,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/packages/app"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.272.0
+    "@aws-sdk/client-secrets-manager": ^3.276.0
     "@xylabs/assert": ^2.7.1
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.14.15
@@ -6453,9 +6497,9 @@ __metadata:
     agenda: ^5.0.0
     inversify: ^6.0.1
     lodash: ^4.17.21
-    lru-cache: ^7.16.1
+    lru-cache: ^7.17.0
     mongodb: ^5.0.1
-    mongodb-memory-server: ^8.11.4
+    mongodb-memory-server: ^8.11.5
     reflect-metadata: ^0.1.13
     typescript: ^4.9.5
   languageName: unknown
@@ -6791,7 +6835,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
     "@xyo-network/sdk-geo": ^2.8.0
-    mapbox-gl: ^2.12.1
+    mapbox-gl: ^2.13.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6861,7 +6905,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-xyo-client-js@workspace:."
   dependencies:
-    "@babel/core": ^7.20.12
+    "@babel/core": ^7.21.0
     "@babel/preset-env": ^7.20.2
     "@types/jest": ^29.4.0
     "@types/supertest": ^2.0.12
@@ -7109,7 +7153,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     ajv: ^8.12.0
-    lru-cache: ^7.16.1
+    lru-cache: ^7.17.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -10364,6 +10408,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-xml-parser@npm:4.1.2":
+  version: 4.1.2
+  resolution: "fast-xml-parser@npm:4.1.2"
+  dependencies:
+    strnum: ^1.0.5
+  bin:
+    fxparser: src/cli/cli.js
+  checksum: 6a7d1b17057f8470e70603eddfa75f990625735d068d57ece861d0154ad8d27fda63c2831d07e1ecd7e68e993738b2448925cb9277d8c0ed68009623bbcd63c6
+  languageName: node
+  linkType: hard
+
 "fastq@npm:^1.6.0":
   version: 1.15.0
   resolution: "fastq@npm:1.15.0"
@@ -13354,10 +13409,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^7.16.1, lru-cache@npm:^7.4.4, lru-cache@npm:^7.5.1, lru-cache@npm:^7.7.1":
-  version: 7.16.1
-  resolution: "lru-cache@npm:7.16.1"
-  checksum: 64618e3ed4fd1203afedd9bbf5247921b1419f8e3100f20e58e5f04e741f8287bd7d04fefaad332411bb53b3a73445714b235de750cf5d310cba1fa23bd82795
+"lru-cache@npm:^7.17.0, lru-cache@npm:^7.4.4, lru-cache@npm:^7.5.1, lru-cache@npm:^7.7.1":
+  version: 7.17.0
+  resolution: "lru-cache@npm:7.17.0"
+  checksum: 28c2a98ad313b8d61beac1f08257b6f0ca990e39d24a9bc831030b6e209447cfb11c6d9d1a774282189bfc9609d1dfd17ebe485228dd68f7b96b6b9b7740894e
   languageName: node
   linkType: hard
 
@@ -13493,9 +13548,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mapbox-gl@npm:^2.12.1":
-  version: 2.12.1
-  resolution: "mapbox-gl@npm:2.12.1"
+"mapbox-gl@npm:^2.12.1, mapbox-gl@npm:^2.13.0":
+  version: 2.13.0
+  resolution: "mapbox-gl@npm:2.13.0"
   dependencies:
     "@mapbox/geojson-rewind": ^0.5.2
     "@mapbox/jsonlint-lines-primitives": ^2.0.2
@@ -13518,7 +13573,7 @@ __metadata:
     supercluster: ^7.1.5
     tinyqueue: ^2.0.3
     vt-pbf: ^3.1.3
-  checksum: 939ab47bc8dd25ea94bb18fb01f86cd6deceab0410aa08a63437a4902fdcd3ff9f78d3f5b025f438bd4b04bbe7719857db5c99a7e6f79b5dc1244e48ba1e28fa
+  checksum: de0de328f31ee207295e150d6f715a4f6da4afbda02905f64928aaca5736995f61def941623c8390aa29d5425ddd72e540487fdb2e00c3421e425090d59d4204
   languageName: node
   linkType: hard
 
@@ -14300,9 +14355,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.11.4":
-  version: 8.11.4
-  resolution: "mongodb-memory-server-core@npm:8.11.4"
+"mongodb-memory-server-core@npm:8.11.5":
+  version: 8.11.5
+  resolution: "mongodb-memory-server-core@npm:8.11.5"
   dependencies:
     "@types/tmp": ^0.2.3
     async-mutex: ^0.3.2
@@ -14320,17 +14375,17 @@ __metadata:
     tslib: ^2.4.1
     uuid: ^9.0.0
     yauzl: ^2.10.0
-  checksum: b0c608ae1f431bf66f3921c597f94bc53319e23d110e225b89b2af18056a0583132734cfdc2ea9f3637115f40c804c706bc1dea7bb6f5d2f34876883c2d0eb1d
+  checksum: aac6b091eb0c8198501967571bb04a20ae84572754c635dddc0fc7c61bd635090e24faa465c32162049393d56417cae527751d16c921e4c782402cd3634c108d
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:^8.11.4":
-  version: 8.11.4
-  resolution: "mongodb-memory-server@npm:8.11.4"
+"mongodb-memory-server@npm:^8.11.5":
+  version: 8.11.5
+  resolution: "mongodb-memory-server@npm:8.11.5"
   dependencies:
-    mongodb-memory-server-core: 8.11.4
+    mongodb-memory-server-core: 8.11.5
     tslib: ^2.4.1
-  checksum: 7475dff79ed929d59bc2438236f517d815a4169e6a7ff62a8975006fa0de7588c2721bba2922da20b27a2e8bc0292fe33431310b8e4993e82fd50f20422ca95d
+  checksum: 90b50c42a24e016463741b1ba193f69bc7f4e2ab8f4cade776a02980abff43a5257025572e52ce5a0acb4803eae63107cc92d74c7c8beff2eeff0ca321b16585
   languageName: node
   linkType: hard
 
@@ -20498,9 +20553,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.3.1, yargs@npm:^17.6.2, yargs@npm:^17.7.0":
-  version: 17.7.0
-  resolution: "yargs@npm:17.7.0"
+"yargs@npm:^17.3.1, yargs@npm:^17.6.2, yargs@npm:^17.7.1":
+  version: 17.7.1
+  resolution: "yargs@npm:17.7.1"
   dependencies:
     cliui: ^8.0.1
     escalade: ^3.1.1
@@ -20509,7 +20564,7 @@ __metadata:
     string-width: ^4.2.3
     y18n: ^5.0.5
     yargs-parser: ^21.1.1
-  checksum: e7d5f5b60e63b04ded7c27c3d4b194565565cac3ea19fffcdbb183bed973a83106822a04dda28ebba4811ce92949a9d9858d3935186ff8f343548bf98aab2120
+  checksum: 3d8a43c336a4942bc68080768664aca85c7bd406f018bad362fd255c41c8f4e650277f42fd65d543fce99e084124ddafee7bbfc1a5c6a8fda4cec78609dcf8d4
   languageName: node
   linkType: hard
 

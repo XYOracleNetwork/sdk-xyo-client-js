@@ -25,7 +25,7 @@
     "lodash": "^4.17.21",
     "tail": "^2.2.6",
     "terminal-kit": "^3.0.0",
-    "yargs": "^17.7.0"
+    "yargs": "^17.7.1"
   },
   "bin": {
     "xyo": "dist/cjs/index.js"

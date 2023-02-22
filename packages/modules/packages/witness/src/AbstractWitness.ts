@@ -15,9 +15,9 @@ import { Promisable } from '@xyo-network/promise'
 
 import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
-import { Witness } from './Witness'
+import { WitnessModule } from './Witness'
 
-export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitnessConfig> extends AbstractModule<TConfig> implements Witness {
+export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitnessConfig> extends AbstractModule<TConfig> implements WitnessModule {
   static override configSchema: string
 
   override get queries(): string[] {

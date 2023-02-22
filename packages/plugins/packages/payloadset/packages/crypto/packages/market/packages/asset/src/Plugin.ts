@@ -6,7 +6,7 @@ import { createPayloadSetPlugin, PayloadSetDivinerPlugin } from '@xyo-network/pa
 import { XyoCryptoMarketAssetDiviner, XyoCryptoMarketAssetDivinerConfig } from './Diviner'
 
 export const XyoCryptoMarketAssetPlugin = () =>
-  createPayloadSetPlugin<PayloadSetDivinerPlugin<ModuleParams<XyoCryptoMarketAssetDivinerConfig>>>(
+  createPayloadSetPlugin<PayloadSetDivinerPlugin<XyoCryptoMarketAssetDiviner, ModuleParams<XyoCryptoMarketAssetDivinerConfig>>>(
     { required: { [XyoCryptoMarketAssetSchema]: 1 }, schema: PayloadSetSchema },
     {
       diviner: async (params) => {

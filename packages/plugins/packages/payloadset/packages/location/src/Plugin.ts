@@ -7,7 +7,7 @@ import { CurrentLocationWitnessConfig } from './Config'
 import { CurrentLocationWitness } from './CurrentLocationWitness'
 
 export const LocationPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<CurrentLocationWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<CurrentLocationWitness, ModuleParams<CurrentLocationWitnessConfig>>>(
     { required: { [LocationSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

@@ -7,7 +7,7 @@ import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
 import { XyoCoingeckoCryptoMarketWitness } from './Witness'
 
 export const XyoCoingeckoCryptoMarketPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoCoingeckoCryptoMarketWitness, ModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>>>(
     { required: { [XyoCoingeckoCryptoMarketSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

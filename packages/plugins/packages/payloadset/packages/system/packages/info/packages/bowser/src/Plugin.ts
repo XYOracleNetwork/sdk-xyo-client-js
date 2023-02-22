@@ -7,7 +7,7 @@ import { XyoBowserSystemInfoWitnessConfig } from './Config'
 import { XyoBowserSystemInfoWitness } from './Witness'
 
 export const XyoBowserSystemInfoPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<XyoBowserSystemInfoWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoBowserSystemInfoWitness, ModuleParams<XyoBowserSystemInfoWitnessConfig>>>(
     { required: { [XyoBowserSystemInfoSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

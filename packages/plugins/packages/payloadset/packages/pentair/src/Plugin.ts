@@ -6,7 +6,7 @@ import { XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin
 import { XyoPentairScreenlogicWitness, XyoPentairScreenlogicWitnessConfig } from './Witness'
 
 export const XyoPentairScreenlogicPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<XyoPentairScreenlogicWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoPentairScreenlogicWitness, ModuleParams<XyoPentairScreenlogicWitnessConfig>>>(
     { required: { [XyoPentairScreenlogicSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

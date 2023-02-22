@@ -7,7 +7,7 @@ import { XyoDomainWitnessConfig } from './Config'
 import { XyoDomainWitness } from './Witness'
 
 export const DomainPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<ModuleParams<XyoDomainWitnessConfig>>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoDomainWitness, ModuleParams<XyoDomainWitnessConfig>>>(
     { required: { [XyoDomainSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

@@ -11,7 +11,6 @@ import { request } from '../../testUtil'
 
 describe('Node API', () => {
   const account = Account.random()
-
   describe('/', () => {
     const path = '/node'
     describe('GET', () => {

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { Module, ModuleDiscoverQuerySchema, ModuleWrapper, QueryBoundWitnessBuilder } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
@@ -15,7 +16,11 @@ const createDefault = (): Promise<HttpProxyModule> => {
 }
 const createByAddress = async (): Promise<HttpProxyModule> => {
   const api = new XyoArchivistApi(apiConfig)
-  const address = assertEx((await api.get())?.address)
+  const response = await api.get()
+  const addressPayload = response?.find((p) => p.schema === AddressSchema) as AddressPayload
+  expect(addressPayload).toBeObject()
+  expect(addressPayload.address).toBeString()
+  const { address } = addressPayload
   return HttpProxyModule.create({ apiConfig, config: { address, schema: HttpProxyModuleConfigSchema } })
 }
 const createByName = (): Promise<HttpProxyModule> => {

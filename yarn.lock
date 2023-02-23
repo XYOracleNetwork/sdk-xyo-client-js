@@ -5183,8 +5183,8 @@ __metadata:
     "@xylabs/tsconfig-jest": ^2.14.15
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
+    "@xyo-network/bridge": "workspace:^"
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/http-proxy-module": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
@@ -6126,24 +6126,6 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
     lodash: ^4.17.21
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/http-proxy-module@workspace:^, @xyo-network/http-proxy-module@workspace:packages/modules/packages/http":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/http-proxy-module@workspace:packages/modules/packages/http"
-  dependencies:
-    "@xylabs/assert": ^2.7.1
-    "@xylabs/ts-scripts-yarn3": ^2.14.15
-    "@xylabs/tsconfig": ^2.14.15
-    "@xyo-network/address-payload-plugin": "workspace:^"
-    "@xyo-network/api": "workspace:^"
-    "@xyo-network/api-models": "workspace:^"
-    "@xyo-network/module": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/query-payload-plugin": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

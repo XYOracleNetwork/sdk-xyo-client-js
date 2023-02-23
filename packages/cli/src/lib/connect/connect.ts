@@ -1,10 +1,8 @@
 import { delay } from '@xylabs/delay'
-import { HttpProxyModule, HttpProxyModuleConfigSchema } from '@xyo-network/http-proxy-module'
+import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge'
 import { MemoryNode } from '@xyo-network/node'
 
 import { printError, printLine } from '../print'
-
-const config = { schema: HttpProxyModuleConfigSchema }
 
 const nodeConnectionErrorMsg = 'Error connecting to Node'
 
@@ -16,7 +14,7 @@ export const connect = async (attempts = 60, interval = 500) => {
   let count = 0
   do {
     try {
-      const node = await HttpProxyModule.create({ apiConfig, config })
+      const node = await HttpBridge.create({ config: { nodeUri: apiConfig.apiDomain, schema: HttpBridgeConfigSchema } })
       printLine(`Connected to Node at: ${apiDomain}`)
       printLine(`Node Address: 0x${node.address}`)
       return node as unknown as MemoryNode

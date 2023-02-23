@@ -1,6 +1,6 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { CompositeModuleResolver, duplicateModules } from '@xyo-network/module'
+import { CompositeModuleResolver } from '@xyo-network/module'
 import { AddressModuleFilter, Module, ModuleFilter, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'

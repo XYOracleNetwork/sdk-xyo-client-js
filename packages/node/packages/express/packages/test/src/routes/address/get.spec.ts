@@ -1,6 +1,5 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ModuleDescription } from '@xyo-network/modules'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
@@ -10,11 +9,11 @@ describe('/:address', () => {
   let url = ''
   beforeAll(async () => {
     const result = await (await request()).get('/')
-    const node: ModuleDescription = result.body.data
-    expect(node).toBeObject()
-    expect(node.children).toBeArray()
-    expect(node.children?.length).toBeGreaterThan(0)
-    const address = node?.children?.[0]
+    const node: XyoPayloads = result.body.data
+    expect(node).toBeArray()
+    const parentAddress = ''
+    const child = node.find((p) => p.schema === AddressSchema && (p as AddressPayload)?.address !== parentAddress) as AddressPayload
+    const address = child.address
     expect(address).toBeString()
     url = `/${address}`
   })

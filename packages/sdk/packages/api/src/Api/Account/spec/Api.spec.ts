@@ -2,8 +2,8 @@ import { Account } from '@xyo-network/account'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { typeOf } from '@xyo-network/typeof'
 
-import { XyoArchivistApi } from '../Api'
-import { XyoAccountApi } from './Api'
+import { XyoArchivistApi } from '../../Api'
+import { XyoAccountApi } from '../Api'
 
 const timeout = 20000
 const config: XyoApiConfig = {
@@ -26,7 +26,7 @@ describe('XyoAuthApi', () => {
         const account = Account.random()
         const [data, envelope, response] = await api.account(account.addressValue.hex).challenge.post(undefined, 'tuple')
         expect(response.status).toBe(200)
-        expect(envelope.error).toBeUndefined()
+        expect(envelope.errors).toBeUndefined()
         expect(typeOf(data?.state)).toBe('string')
       },
       timeout,

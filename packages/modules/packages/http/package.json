@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.7.1",
+    "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/api": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/query-payload-plugin": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.14.15",

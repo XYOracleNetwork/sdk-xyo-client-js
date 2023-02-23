@@ -1,14 +1,16 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { ModuleDescription } from '@xyo-network/module'
+import { XyoPayload } from '@xyo-network/payload-model'
+import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
-import { XyoApiSimple } from '../../../Simple'
-import { XyoArchivistApi } from '../../Api'
-import { XyoAddressesApi } from '../Api'
-import { XyoAddressApi } from './Api'
+import { XyoApiSimple } from '../../../../Simple'
+import { XyoArchivistApi } from '../../../Api'
+import { XyoAddressesApi } from '../../Api'
+import { XyoAddressApi } from '../Api'
 
 const config: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
@@ -17,12 +19,16 @@ const config: XyoApiConfig = {
 describe('XyoAddressApi', () => {
   describe('get', () => {
     let api: XyoAddressApi
-    let result: XyoApiResponseBody<ModuleDescription>
+    let result: XyoApiResponseBody<XyoPayload[]>
     beforeAll(async () => {
-      const address = assertEx((await new XyoAddressesApi(config).get())?.children?.pop()?.address)
+      const payloads = await new XyoAddressesApi(config).get()
+      expect(payloads).toBeArray()
+      const addressPayload = payloads?.find((p) => p.schema === AddressSchema) as AddressPayload
+      expect(addressPayload).toBeObject()
+      const address = addressPayload.address
       api = new XyoArchivistApi(config).addresses.address(address)
       result = await api.get()
-      expect(result).toBeObject()
+      expect(result).toBeArray()
     })
     it('method exists', () => {
       expect(api).toBeDefined()
@@ -30,14 +36,17 @@ describe('XyoAddressApi', () => {
     })
     describe('returns module', () => {
       it('address', () => {
-        expect(result?.address).toBeString()
+        const addressPayload = result?.find((p) => p.schema === AddressSchema) as AddressPayload
+        expect(addressPayload).toBeObject()
+        const address = addressPayload.address
+        expect(address).toBeString()
       })
       it('supported queries', () => {
-        const queries = result?.queries
-        expect(queries).toBeArray()
-        expect(queries?.length).toBeGreaterThan(0)
-        queries?.map((query) => {
-          expect(query).toBeString()
+        const queryPayloads = result?.filter((p) => p.schema === QuerySchema) as QueryPayload[]
+        expect(queryPayloads).toBeArray()
+        expect(queryPayloads.length).toBeGreaterThan(0)
+        queryPayloads?.map((query) => {
+          expect(query.query).toBeString()
         })
       })
     })

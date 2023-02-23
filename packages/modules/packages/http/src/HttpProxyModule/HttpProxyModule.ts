@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
 import {
@@ -6,12 +7,12 @@ import {
   creatable,
   isQuerySupportedByModule,
   Module,
-  ModuleDescription,
   ModuleParams,
   ModuleQueryResult,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { HttpProxyModuleConfig, HttpProxyModuleConfigSchema } from './Config'
 export interface HttpProxyModuleParams extends ModuleParams<HttpProxyModuleConfig> {
@@ -45,17 +46,20 @@ export class HttpProxyModule extends AbstractModule<HttpProxyModuleConfig> {
     const { config, apiConfig, name } = params
     const { address: remoteAddress } = config
     const api = new XyoArchivistApi(apiConfig)
-    let description: XyoApiResponseBody<ModuleDescription>
+    let description: XyoApiResponseBody<XyoPayloads> = []
     if (remoteAddress) {
       description = await api.addresses.address(remoteAddress).get()
     } else if (name) {
-      description = (await api.node(name).get()) as unknown as XyoApiResponseBody<ModuleDescription>
+      description = (await api.node(name).get()) as unknown as XyoApiResponseBody<XyoPayloads>
     } else {
       description = await api.get()
     }
-    const address = assertEx(description?.address)
+    const addressPayload = description?.find((p) => p.schema === AddressSchema) as AddressPayload
+    const address = assertEx(addressPayload?.address, 'Error obtaining module address')
     const instance = new this({ ...params, api, apiConfig, config: { ...config, address }, name })
-    instance._queries = assertEx(description?.queries, 'Error obtaining module description')
+    const queryPayloads = description?.filter((p) => p.schema === QuerySchema) as QueryPayload[]
+    const queries = queryPayloads?.map((p) => p.query)
+    instance._queries = assertEx(queries, 'Error obtaining module description')
 
     return instance
   }

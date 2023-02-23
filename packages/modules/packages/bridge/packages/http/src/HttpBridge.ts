@@ -6,7 +6,6 @@ import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
-  Module,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,

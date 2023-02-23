@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { Module, ModuleDiscoverQuerySchema, ModuleWrapper, QueryBoundWitnessBuilder } from '@xyo-network/module'

@@ -51,7 +51,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
   protected constructor(params: ModuleParams<TConfig>) {
     this._config = params.config
     this.account = this.loadAccount(params?.account)
-    this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this, params.config.name)
+    this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger

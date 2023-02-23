@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
@@ -19,15 +18,13 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return true
   }
 
-  add(module: TModule, name?: string): this
-  add(module: TModule[], name?: string[]): this
-  add(module: TModule | TModule[], name?: string | string[]): this {
+  add(module: TModule): this
+  add(module: TModule[]): this
+  add(module: TModule | TModule[]): this {
     if (Array.isArray(module)) {
-      const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
-      assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
-      module.forEach((module, index) => this.addSingleModule(module, nameArray?.[index]))
+      module.forEach((module) => this.addSingleModule(module))
     } else {
-      this.addSingleModule(module, typeof name === 'string' ? name : undefined)
+      this.addSingleModule(module)
     }
     return this
   }
@@ -62,9 +59,9 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return result
   }
 
-  private addSingleModule(module?: Module, name?: string) {
+  private addSingleModule(module?: Module) {
     if (module) {
-      this.localResolver.add(module, name)
+      this.localResolver.add(module)
     }
   }
   private removeSingleModule(addressOrName: string) {

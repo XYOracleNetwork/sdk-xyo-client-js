@@ -1,4 +1,4 @@
-import { Module } from '@xyo-network/module-model'
+import { Module, ModuleConfigSchema } from '@xyo-network/module-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { CompositeModuleResolver } from '../CompositeModuleResolver'
@@ -17,15 +17,15 @@ describe('CompositeModuleResolver', () => {
 
     let sut: CompositeModuleResolver
     beforeEach(() => {
-      moduleA = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a' })
-      moduleB = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b' })
-      moduleC = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c' })
+      moduleA = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a', config: { name: moduleAName, schema: ModuleConfigSchema } })
+      moduleB = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b', config: { name: moduleBName, schema: ModuleConfigSchema } })
+      moduleC = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c', config: { name: moduleCName, schema: ModuleConfigSchema } })
       resolverA = new CompositeModuleResolver()
-      resolverA.add(moduleA, moduleAName)
-      resolverA.add(moduleC, moduleCName)
+      resolverA.add(moduleA)
+      resolverA.add(moduleC)
       resolverB = new CompositeModuleResolver()
-      resolverB.add(moduleB, moduleBName)
-      resolverB.add(moduleC, moduleCName)
+      resolverB.add(moduleB)
+      resolverB.add(moduleC)
 
       sut = new CompositeModuleResolver().addResolver(resolverA).addResolver(resolverB)
     })
@@ -33,8 +33,8 @@ describe('CompositeModuleResolver', () => {
       it('adds module to resolvers', async () => {
         const address = 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381d'
         const name = 'mod'
-        const mod = mock<Module>({ address })
-        expect(sut.add(mod, name)).toEqual(sut)
+        const mod = mock<Module>({ address, config: { name, schema: ModuleConfigSchema } })
+        expect(sut.add(mod)).toEqual(sut)
         expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)
         expect(await resolverA.resolve({ address: [address] })).toBeArrayOfSize(0)

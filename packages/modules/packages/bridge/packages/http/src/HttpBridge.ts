@@ -3,7 +3,6 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
@@ -14,7 +13,6 @@ import {
   ModuleParams,
   ModuleQueryResult,
   ModuleResolver,
-  XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'

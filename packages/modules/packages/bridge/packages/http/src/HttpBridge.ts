@@ -24,9 +24,12 @@ import compact from 'lodash/compact'
 
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
-export interface XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends ModuleParams<TConfig> {
-  axios?: AxiosJson
-}
+export type XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> = ModuleParams<
+  TConfig,
+  {
+    axios?: AxiosJson
+  }
+>
 
 export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractBridge<TConfig> implements BridgeModule<TConfig> {
   private _rootAddress?: string

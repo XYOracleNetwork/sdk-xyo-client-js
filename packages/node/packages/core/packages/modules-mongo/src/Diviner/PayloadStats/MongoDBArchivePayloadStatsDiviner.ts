@@ -42,10 +42,12 @@ export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPa
   }
 >
 
-export interface MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload>
-  extends ModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>> {
-  archiveArchivist: ArchiveArchivist
-}
+export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
+  MongoDBArchivePayloadStatsDivinerConfig<T>,
+  {
+    archiveArchivist: ArchiveArchivist
+  }
+>
 
 export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implements PayloadStatsDiviner, JobProvider {
   static override configSchema = MongoDBArchivePayloadStatsDivinerConfigSchema

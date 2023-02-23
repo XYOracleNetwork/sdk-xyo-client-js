@@ -19,10 +19,10 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export interface MongoDBBoundWitnessArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends EmptyObject = EmptyObject>
-  extends ModuleParams<TConfig> {
+export type MongoDBBoundWitnessArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends EmptyObject = EmptyObject>
+  = ModuleParams<TConfig, {
   boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta<T>>
-}
+}>
 
 export class MongoDBBoundWitnessArchivist extends AbstractBoundWitnessArchivist {
   public static override configSchema = ModuleConfigSchema

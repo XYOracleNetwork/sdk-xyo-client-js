@@ -5185,6 +5185,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/http-bridge": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
@@ -6360,6 +6361,7 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
+    "@xyo-network/wallet": "workspace:^"
     lodash: ^4.17.21
     typescript: ^4.9.5
   languageName: unknown

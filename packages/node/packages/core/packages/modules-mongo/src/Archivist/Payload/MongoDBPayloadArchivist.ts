@@ -10,10 +10,12 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export interface MongoDBPayloadArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends EmptyObject = EmptyObject>
-  extends ModuleParams<TConfig> {
-  sdk: BaseMongoSdk<XyoPayloadWithMeta<T>>
-}
+export type MongoDBPayloadArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends EmptyObject = EmptyObject> = ModuleParams<
+  TConfig,
+  {
+    sdk: BaseMongoSdk<XyoPayloadWithMeta<T>>
+  }
+>
 
 export class MongoDBPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> {
   static override configSchema = ModuleConfigSchema

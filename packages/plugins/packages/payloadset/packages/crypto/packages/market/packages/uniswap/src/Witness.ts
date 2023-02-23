@@ -12,9 +12,12 @@ import { AbstractWitness } from '@xyo-network/witness'
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 
-export interface XyoUniswapCryptoMarketWitnessParams extends ModuleParams<XyoUniswapCryptoMarketWitnessConfig> {
-  provider: Provider
-}
+export type XyoUniswapCryptoMarketWitnessParams = ModuleParams<
+  XyoUniswapCryptoMarketWitnessConfig,
+  {
+    provider: Provider
+  }
+>
 
 export class XyoUniswapCryptoMarketWitness extends AbstractWitness<XyoUniswapCryptoMarketWitnessConfig> {
   static override configSchema = XyoUniswapCryptoMarketWitnessConfigSchema

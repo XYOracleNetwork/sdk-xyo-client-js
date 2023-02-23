@@ -22,12 +22,13 @@ describe('XyoAddressApi', () => {
     let result: XyoApiResponseBody<XyoPayload[]>
     beforeAll(async () => {
       const payloads = await new XyoAddressesApi(config).get()
+      expect(payloads).toBeArray()
       const addressPayload = payloads?.find((p) => p.schema === AddressSchema) as AddressPayload
       expect(addressPayload).toBeObject()
       const address = addressPayload.address
       api = new XyoArchivistApi(config).addresses.address(address)
       result = await api.get()
-      expect(result).toBeObject()
+      expect(result).toBeArray()
     })
     it('method exists', () => {
       expect(api).toBeDefined()

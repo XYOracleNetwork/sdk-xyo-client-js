@@ -7,7 +7,7 @@ const handler: RequestHandler<NoReqParams> = async (req, res) => {
   // setRawResponseFormat(res)
   const { node } = req.app
   const wrapper = ModuleWrapper.wrap(node)
-  res.json(await wrapper.describe())
+  res.json(await wrapper.discover())
 }
 
 export const getNode = asyncHandler(handler)

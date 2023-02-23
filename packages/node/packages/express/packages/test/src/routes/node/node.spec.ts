@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder, XyoQueryBoundWitness } from '@xyo-network/modules'

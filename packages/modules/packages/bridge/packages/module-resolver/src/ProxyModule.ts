@@ -1,5 +1,5 @@
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { Module, ModuleConfig, ModuleConfigSchema, ModuleFilter, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
+import { Module, ModuleConfig, ModuleFilter, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 export class ProxyModule implements Module {
@@ -10,7 +10,7 @@ export class ProxyModule implements Module {
   }
 
   get config(): ModuleConfig {
-    return { schema: ModuleConfigSchema }
+    return this.bridge.targetConfig(this.address)
   }
 
   get queries() {

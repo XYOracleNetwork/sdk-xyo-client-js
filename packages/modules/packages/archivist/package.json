@@ -30,8 +30,8 @@
     "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.191",
     "@xylabs/delay": "^2.7.1",
-    "@xylabs/ts-scripts-yarn3": "^2.14.15",
-    "@xylabs/tsconfig": "^2.14.15",
+    "@xylabs/ts-scripts-yarn3": "^2.14.16",
+    "@xylabs/tsconfig": "^2.14.16",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
     "typescript": "^4.9.5"

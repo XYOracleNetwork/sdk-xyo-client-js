@@ -48,11 +48,11 @@
     "@xylabs/delay": "^2.7.1",
     "@xylabs/forget": "^2.7.1",
     "async-mutex": "^0.4.0",
-    "mongodb": "^5.0.1"
+    "mongodb": "^5.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.14.15",
-    "@xylabs/tsconfig": "^2.14.15",
+    "@xylabs/ts-scripts-yarn3": "^2.14.16",
+    "@xylabs/tsconfig": "^2.14.16",
     "typescript": "^4.9.5"
   },
   "packageManager": "yarn@3.1.1"

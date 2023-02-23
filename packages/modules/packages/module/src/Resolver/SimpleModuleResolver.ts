@@ -1,5 +1,4 @@
-import { assertEx } from '@xylabs/assert'
-import { Module, ModuleFilter, ModuleRepository } from '@xyo-network/module-model'
+import { AddressModuleFilter, Module, ModuleFilter, ModuleRepository, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
@@ -8,26 +7,22 @@ import flatten from 'lodash/flatten'
 export class SimpleModuleResolver<TModule extends Module = Module> implements ModuleRepository<TModule> {
   private addressToName: Record<string, string> = {}
   private modules: Record<string, TModule> = {}
-  private nameToAddress: Record<string, string> = {}
 
   public get isModuleResolver() {
     return true
   }
 
-  add(module: TModule, name?: string): this
-  add(module: TModule[], name?: string[]): this
-  add(module: TModule | TModule[], name?: string | string[]): this {
+  add(module: TModule): this
+  add(module: TModule[]): this
+  add(module: TModule | TModule[]): this {
     if (Array.isArray(module)) {
-      const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
-      assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
-      module.forEach((module, index) => this.addSingleModule(module, nameArray?.[index]))
+      module.forEach((module) => this.addSingleModule(module))
     } else {
-      this.addSingleModule(module, typeof name === 'string' ? name : undefined)
+      this.addSingleModule(module)
     }
     return this
   }
 
-  remove(name: string | string[]): this
   remove(address: string | string[]): this {
     if (Array.isArray(address)) {
       address.forEach((address) => this.removeSingleModule(address))
@@ -38,36 +33,32 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
   }
 
   resolve(filter?: ModuleFilter): Promisable<TModule[]> {
-    const filteredByName: TModule[] = this.resolveByName(Object.values(this.modules), filter?.name)
+    const filteredByName: TModule[] = this.resolveByName(Object.values(this.modules), (filter as NameModuleFilter)?.name)
 
-    const filteredByAddress: TModule[] = filter?.address ? this.resolveByAddress(filteredByName, filter?.address) : filteredByName
+    const filteredByAddress: TModule[] = (filter as AddressModuleFilter)?.address
+      ? this.resolveByAddress(filteredByName, (filter as AddressModuleFilter)?.address)
+      : filteredByName
 
-    const filteredByConfigSchema: TModule[] = filter?.config ? this.resolveByConfigSchema(filteredByAddress, filter?.config) : filteredByAddress
-
-    const filteredByQuery: TModule[] = filter?.query ? this.resolveByQuery(filteredByConfigSchema, filter?.query) : filteredByConfigSchema
+    const filteredByQuery: TModule[] = (filter as QueryModuleFilter)?.query
+      ? this.resolveByQuery(filteredByAddress, (filter as QueryModuleFilter)?.query)
+      : filteredByAddress
 
     return filteredByQuery
   }
 
-  private addSingleModule(module?: TModule, name?: string) {
+  private addSingleModule(module?: TModule) {
     if (module) {
       this.modules[module.address] = module
-      if (name) {
-        this.nameToAddress[name] = module.address
-        this.addressToName[module.address] = name
-      }
     }
   }
 
-  private removeSingleModule(addressOrName: string) {
-    const resolvedAddress = this.modules[addressOrName] ? addressOrName : this.nameToAddress[addressOrName]
-    if (resolvedAddress) {
-      if (this.modules[resolvedAddress]) {
-        delete this.modules[resolvedAddress]
-        const name = this.addressToName[resolvedAddress]
+  private removeSingleModule(address: string) {
+    if (address) {
+      if (this.modules[address]) {
+        delete this.modules[address]
+        const name = this.addressToName[address]
         if (name) {
-          delete this.nameToAddress[name]
-          delete this.addressToName[resolvedAddress]
+          delete this.addressToName[address]
         }
       }
     }
@@ -85,22 +76,9 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
       : modules
   }
 
-  private resolveByConfigSchema(modules: TModule[], schema?: string[]): TModule[] {
-    return schema
-      ? compact(
-          flatten(
-            schema?.map((schema) => {
-              return modules.filter((module) => module.config.schema === schema)
-            }),
-          ),
-        )
-      : modules
-  }
-
   private resolveByName(modules: TModule[], name?: string[]): TModule[] {
     if (name) {
-      const address = compact(name.map((name) => this.nameToAddress[name]))
-      return this.resolveByAddress(modules, address)
+      return compact(name.map((name) => modules.filter((module) => module.config.name === name)).flat())
     }
     return modules
   }

@@ -1,7 +1,7 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { CompositeModuleResolver } from '@xyo-network/module'
-import { Module, ModuleFilter } from '@xyo-network/module-model'
+import { CompositeModuleResolver, duplicateModules } from '@xyo-network/module'
+import { AddressModuleFilter, Module, ModuleFilter, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
@@ -59,17 +59,46 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     return mod
   }
 
-  private resolveByName(name: string): ProxyModule | undefined {
-    const cached = this.resolvedModules[name]
-    if (cached) return cached
-    return undefined
+  private resolveByName(name: string): ProxyModule[] | undefined {
+    return Object.values(this.resolvedModules).filter((module) => module.config.name === name)
+  }
+
+  private resolveByQuery(queries: string[]): ProxyModule[] | undefined {
+    return Object.values(this.resolvedModules).filter((module) => {
+      //filter out the requested queries
+      const found = module.queries.filter((query) => queries.find((q) => q === query))
+
+      //did we find all the requested queries?
+      return queries.length === found.length
+    })
   }
 
   private async resolveRemoteModules(filter?: ModuleFilter): Promise<ProxyModule[]> {
-    const addresses = filter ? filter?.address : await this.getRemoteAddresses()
-    const names = filter?.name
-    const byAddress = compact(await Promise.all(addresses?.map((address) => this.resolveByAddress(address)) ?? []))
-    const byName = compact(await Promise.all(names?.map((name) => this.resolveByName(name)) ?? []))
-    return [...byAddress, ...byName]
+    if ((filter as AddressModuleFilter)?.address) {
+      return this.resolveRemoteModulesByAddress(filter as AddressModuleFilter)
+    }
+
+    if ((filter as NameModuleFilter)?.name) {
+      return this.resolveRemoteModulesByName(filter as NameModuleFilter)
+    }
+
+    if ((filter as QueryModuleFilter)?.query) {
+      return this.resolveRemoteModulesByQuery(filter as QueryModuleFilter)
+    }
+
+    //get all of them
+    return this.resolveRemoteModulesByAddress({ address: await this.getRemoteAddresses() })
+  }
+
+  private resolveRemoteModulesByAddress(filter: AddressModuleFilter): ProxyModule[] {
+    return compact(filter.address.map((address) => this.resolveByAddress(address)))
+  }
+
+  private resolveRemoteModulesByName(filter: NameModuleFilter): ProxyModule[] {
+    return compact(filter.name.map((name) => this.resolveByName(name)).flat())
+  }
+
+  private resolveRemoteModulesByQuery(filter: QueryModuleFilter): ProxyModule[] {
+    return compact(filter.query.map((queries) => queries.map((query) => this.resolveByName(query)).flat()).flat())
   }
 }

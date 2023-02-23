@@ -1,5 +1,7 @@
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoApiConfig, XyoApiResponseBody } from '@xyo-network/api-models'
-import { ModuleDescription } from '@xyo-network/module-model'
+import { XyoPayloads } from '@xyo-network/payload-model'
+import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { XyoAddressesApi } from '../Api'
 
@@ -14,35 +16,23 @@ describe('XyoAddressesApi', () => {
       expect(api).toBeDefined()
       expect(api.get).toBeFunction()
     })
-    describe('returns modules in use on the node with their', () => {
+    describe('returns root module discover containing', () => {
       let api: XyoAddressesApi
-      let result: XyoApiResponseBody<ModuleDescription[]>
+      let response: XyoApiResponseBody<XyoPayloads>
       beforeAll(async () => {
         api = new XyoAddressesApi(config)
-        const response = await api.get()
-        expect(response).toBeObject()
-        expect(response?.children).toBeArray()
-        expect(response?.children?.length).toBeGreaterThan(0)
-        result = response?.children || []
+        response = await api.get()
       })
       it('address', () => {
-        result?.map((module) => {
-          expect(module.address).toBeString()
-        })
+        expect(response).toBeArray()
+        const addressPayload = response?.find((p) => p.schema === AddressSchema) as AddressPayload
+        expect(addressPayload).toBeObject()
+        expect(addressPayload.address).toBeString()
       })
       it('supported queries', () => {
-        result?.map((module) => {
-          expect(module.queries.length).toBeGreaterThan(0)
-          module.queries.map((query) => {
-            expect(query).toBeString()
-          })
-        })
+        const queries = response?.filter((d) => d.schema === QuerySchema) as QueryPayload[]
+        expect(queries.length).toBeGreaterThan(0)
       })
-      // it.skip('mount point', () => {
-      //   result?.map((module) => {
-      //     expect(module?.url).toBeString
-      //   })
-      // })
     })
   })
 })

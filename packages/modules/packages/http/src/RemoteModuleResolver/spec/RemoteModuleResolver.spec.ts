@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoArchivistApi } from '@xyo-network/api'
 import { XyoApiConfig } from '@xyo-network/api-models'
 import { ModuleWrapper } from '@xyo-network/module'
@@ -18,9 +19,11 @@ describe('RemoteModuleResolver', () => {
     resolver = new RemoteModuleResolver(apiConfig)
     const api = new XyoArchivistApi(apiConfig)
     const response = await api.get()
-    expect(response).toBeTruthy()
-    expect(response?.address).toBeString()
-    address = assertEx(response?.address)
+    expect(response).toBeArray()
+    const addressPayload = response?.find((p) => p.schema === AddressSchema) as AddressPayload
+    expect(addressPayload).toBeObject()
+    expect(addressPayload.address).toBeString()
+    address = assertEx(addressPayload?.address)
   })
   describe('resolve', () => {
     it('resolves by address', async () => {

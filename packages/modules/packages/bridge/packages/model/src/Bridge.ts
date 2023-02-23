@@ -11,6 +11,7 @@ export interface Bridge {
 
 export interface BridgeModule<TConfig extends BridgeConfig = BridgeConfig> extends Bridge, Module<TConfig> {
   targetResolver: Module['resolver']
+  targetConfig(address: string): XyoPayload
   targetDiscover(address?: string): Promisable<XyoPayload[]>
   targetQueries(address: string): string[]
   targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult>

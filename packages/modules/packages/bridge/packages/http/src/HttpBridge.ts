@@ -5,6 +5,7 @@ import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
+import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   ModuleConfig,
   ModuleDiscoverQuery,
@@ -29,6 +30,7 @@ export interface XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBrid
 
 export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractBridge<TConfig> implements BridgeModule<TConfig> {
   private _rootAddress?: string
+  private _targetConfigs: Record<string, XyoPayload> = {}
   private _targetQueries: Record<string, string[]> = {}
   private _targetResolver: ModuleResolver
   private axios: AxiosJson
@@ -74,6 +76,10 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return true
   }
 
+  public targetConfig(address: string): XyoPayload {
+    return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
+  }
+
   async targetDiscover(address: string): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
@@ -90,11 +96,21 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
       }) ?? [],
     )
 
+    const targetConfigSchema = assertEx(
+      discover.find((payload) => payload.schema === ConfigSchema) as ConfigPayload,
+      `Discover did not return a [${ConfigSchema}] payload`,
+    ).config
+
+    this._targetConfigs[address] = assertEx(
+      discover?.find((payload) => payload.schema === targetConfigSchema),
+      `Discover did not return a [${targetConfigSchema}] payload`,
+    )
+
     return discover
   }
 
   public targetQueries(address: string): string[] {
-    return assertEx(this._targetQueries[address], `targetConfig not set [${address}]`)
+    return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
   async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
@@ -125,16 +141,8 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   private async initRootAddress() {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
-    const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUri, boundQuery)
-    if (result.request.path) {
-      //nodejs
-      this._rootAddress = result.request.path.split('/').pop()
-    } else if (result.request.responseURL) {
-      //browser
-      this._rootAddress = result.request.responseURL.split('/').pop()
-    } else {
-      throw 'Failed to get root address'
-    }
+    const response = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUri, boundQuery)
+    this._rootAddress = AxiosJson.finalPath(response)
     return this._rootAddress
   }
 }

@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge'
+import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { MemoryNode } from '@xyo-network/node'
 
 import { printError, printLine } from '../print'
@@ -14,7 +14,7 @@ export const connect = async (attempts = 60, interval = 500) => {
   let count = 0
   do {
     try {
-      const node = await HttpBridge.create({ config: { nodeUri: apiConfig.apiDomain, schema: HttpBridgeConfigSchema } })
+      const node = await HttpBridge.create({ config: { nodeUri: `${apiConfig.apiDomain}/node`, schema: HttpBridgeConfigSchema } })
       printLine(`Connected to Node at: ${apiDomain}`)
       printLine(`Node Address: 0x${node.address}`)
       return node as unknown as MemoryNode

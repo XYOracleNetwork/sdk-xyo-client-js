@@ -17,6 +17,7 @@
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
     "@xyo-network/bridge-module-resolver": "workspace:^",
+    "@xyo-network/config-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
@@ -25,8 +26,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.14.15",
-    "@xylabs/tsconfig": "^2.14.15",
+    "@xylabs/ts-scripts-yarn3": "^2.14.16",
+    "@xylabs/tsconfig": "^2.14.16",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

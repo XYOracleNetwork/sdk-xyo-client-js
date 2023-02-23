@@ -65,7 +65,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
   override async discover(): Promise<XyoPayload[]> {
     const childMods = await this.attachedModules()
     const childModAddresses = childMods.map((mod) =>
-      new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address }).build(),
+      new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
     )
 
     return [...(await super.discover()), ...childModAddresses]

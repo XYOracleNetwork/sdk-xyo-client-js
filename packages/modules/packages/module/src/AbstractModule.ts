@@ -54,10 +54,10 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     this.account = this.loadAccount(
       (params as WalletModuleParams<TConfig>).wallet
         ? (params as WalletModuleParams<TConfig>).wallet.getAccount(0)
-        : (params as AccountModuleParams<TConfig>).account,
+        : (params as AccountModuleParams<TConfig>).account
+        ? (params as AccountModuleParams<TConfig>).account
+        : undefined,
     )
-      ? (params as AccountModuleParams<TConfig>).account
-      : Account.random()
     this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable

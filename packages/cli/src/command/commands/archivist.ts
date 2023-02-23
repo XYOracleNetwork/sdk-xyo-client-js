@@ -19,9 +19,9 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   const { verbose } = argv
   try {
     const node = await getNode(argv)
-    const wrapper = NodeWrapper.wrap(assertEx(node, 'App has no node'))
     //TODO: Actually find archivist
-    const result = await wrapper.describe() //?? {})?.children?.filter((mod) => mod.queries.includes(ArchivistGetQuerySchema))
+    const result = await node.discover()
+    // TODO: Get children of type archivist
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

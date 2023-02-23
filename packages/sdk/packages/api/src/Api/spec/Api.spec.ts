@@ -1,12 +1,12 @@
-import { getApi } from './ApiUtil.spec'
+import { getApi } from '../ApiUtil.spec'
 
 describe('XyoArchivistApi', () => {
   describe('get', () => {
-    it('returns Node Description', async () => {
+    it('returns Node Discover', async () => {
       const api = getApi()
       expect(api).toBeDefined()
       const response = await api.get()
-      expect(response).toBeObject()
+      expect(response).toBeArray()
       expect(response?.address).toBeString()
       expect(response?.queries).toBeArray()
       expect(response?.queries?.length).toBeGreaterThan(0)

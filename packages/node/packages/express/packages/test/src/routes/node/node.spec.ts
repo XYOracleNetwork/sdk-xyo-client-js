@@ -1,9 +1,9 @@
 import { Account } from '@xyo-network/account'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder, XyoQueryBoundWitness } from '@xyo-network/modules'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
 import { StatusCodes } from 'http-status-codes'
 
 import { request } from '../../testUtil'

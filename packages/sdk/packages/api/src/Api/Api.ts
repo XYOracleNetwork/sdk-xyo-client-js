@@ -3,8 +3,7 @@ import { XyoApiConfig } from '@xyo-network/api-models'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { DataLike } from '@xyo-network/core'
 import { Huri } from '@xyo-network/huri'
-import { ModuleDescription } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 
 import { XyoApiSimple } from '../Simple'
 import { XyoUserApi } from '../User'
@@ -14,7 +13,7 @@ import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
 import { XyoArchivistNodeApi } from './Node'
 
-export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<ModuleDescription, C> {
+export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<XyoPayloads, C> {
   private _addresses?: XyoAddressesApi
   private _archives?: XyoArchivistArchivesApi
   private _stats?: XyoApiSimple<unknown[]>

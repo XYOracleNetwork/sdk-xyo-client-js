@@ -1,6 +1,6 @@
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ModuleDescription } from '@xyo-network/modules'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 

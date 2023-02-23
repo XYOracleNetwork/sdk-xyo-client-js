@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   ArchiveModuleConfig,
@@ -17,7 +18,7 @@ import { MongoDBArchivePermissionsPayloadPayloadArchivist } from '../MongoDBArch
 PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
 
 describe('MongoDBArchivePermissionsPayloadPayloadArchivist', () => {
-  const phrase = 'test'
+  const phrase = assertEx(process.env.ACCOUNT_SEED)
   const account = new Account({ phrase })
   let archive = ''
   let sut: MongoDBArchivePermissionsPayloadPayloadArchivist

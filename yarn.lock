@@ -4810,7 +4810,6 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/huri": "workspace:^"
     "@xyo-network/module": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
@@ -6136,11 +6135,13 @@ __metadata:
     "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.14.15
     "@xylabs/tsconfig": ^2.14.15
+    "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/query-payload-plugin": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { AddressModuleFilter, Module, ModuleFilter, ModuleRepository, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -13,20 +12,17 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return true
   }
 
-  add(module: TModule, name?: string): this
-  add(module: TModule[], name?: string[]): this
-  add(module: TModule | TModule[], name?: string | string[]): this {
+  add(module: TModule): this
+  add(module: TModule[]): this
+  add(module: TModule | TModule[]): this {
     if (Array.isArray(module)) {
-      const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
-      assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
-      module.forEach((module, index) => this.addSingleModule(module, nameArray?.[index]))
+      module.forEach((module) => this.addSingleModule(module))
     } else {
-      this.addSingleModule(module, typeof name === 'string' ? name : undefined)
+      this.addSingleModule(module)
     }
     return this
   }
 
-  remove(name: string | string[]): this
   remove(address: string | string[]): this {
     if (Array.isArray(address)) {
       address.forEach((address) => this.removeSingleModule(address))
@@ -50,12 +46,9 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return filteredByQuery
   }
 
-  private addSingleModule(module?: TModule, name?: string) {
+  private addSingleModule(module?: TModule) {
     if (module) {
       this.modules[module.address] = module
-      if (name) {
-        this.addressToName[module.address] = name
-      }
     }
   }
 

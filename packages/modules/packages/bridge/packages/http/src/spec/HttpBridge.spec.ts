@@ -1,12 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xyo-network/axios'
-import { NodeWrapper } from '@xyo-network/node'
+import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 
 import { HttpBridge } from '../HttpBridge'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 test('HttpBridge', async () => {
   const nodeUri = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
+  const memNode = await MemoryNode.create()
 
   const bridge = await HttpBridge.create({
     axios: new AxiosJson(),
@@ -14,6 +15,7 @@ test('HttpBridge', async () => {
   })
 
   const wrapper = NodeWrapper.wrap(assertEx((await bridge.resolve({ address: [bridge.rootAddress] }))?.pop(), 'Failed to resolve rootNode'))
+  await memNode.register(wrapper.module).attach(wrapper?.address, true)
   const description = await wrapper.describe()
   expect(description.children).toBeArray()
   expect(description.children?.length).toBeGreaterThan(0)

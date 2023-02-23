@@ -127,8 +127,13 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
     const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUri, boundQuery, { maxRedirects: 0 })
-    assertEx(result.status === 307, 'Expected a redirect to location at root')
-    this._rootAddress = result.headers['location'].split('/').pop()
+    if (result.status === 307) {
+      //nodejs
+      this._rootAddress = result.headers['location'].split('/').pop()
+    } else {
+      //browser
+      this._rootAddress = assertEx(result.request.responseURL, JSON.stringify(result.request, null, 2))
+    }
     return this._rootAddress
   }
 }

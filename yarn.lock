@@ -5160,6 +5160,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.14.15
     "@xyo-network/abstract-bridge": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
+    "@xyo-network/bridge-module-resolver": "workspace:^"
+    "@xyo-network/http-bridge": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
@@ -6106,7 +6108,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http":
+"@xyo-network/http-bridge@workspace:^, @xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http":
   version: 0.0.0-use.local
   resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:

@@ -1,12 +1,27 @@
-import { Axios, AxiosHeaders, RawAxiosRequestConfig } from 'axios'
+import { Logger } from '@xyo-network/shared'
+import { Axios, AxiosHeaders, AxiosResponse, RawAxiosRequestConfig } from 'axios'
 import { gzip } from 'pako'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RawAxiosJsonRequestConfig<D = any> = RawAxiosRequestConfig<D> & { compressLength?: number }
 
 export class AxiosJson extends Axios {
+  static defaultLogger?: Logger
+
   constructor(config?: RawAxiosJsonRequestConfig) {
     super(AxiosJson.axiosConfig(config))
+  }
+
+  static finalPath(response: AxiosResponse) {
+    if (response.request.path) {
+      //nodejs
+      return response.request.path.split('/').pop()
+    } else if (response.request.responseURL) {
+      //browser
+      return response.request.responseURL.split('/').pop()
+    } else {
+      this.defaultLogger?.warn('Failed to get final path from response')
+    }
   }
 
   private static axiosConfig({ compressLength, headers, ...config }: RawAxiosJsonRequestConfig = {}): RawAxiosJsonRequestConfig {

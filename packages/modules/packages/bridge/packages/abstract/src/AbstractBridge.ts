@@ -54,6 +54,8 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
 
+  abstract targetConfig(address: string): XyoPayload
+
   abstract targetDiscover(address: string): Promisable<XyoPayload[]>
 
   abstract targetQueries(address: string): string[]

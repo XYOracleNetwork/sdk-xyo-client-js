@@ -4,6 +4,6 @@ import { AddressSchema } from './Schema'
 
 export type AddressPayload = XyoPayload<{
   address: string
-  alias?: string
+  name?: string
   schema: AddressSchema
 }>

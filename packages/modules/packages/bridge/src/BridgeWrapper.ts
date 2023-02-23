@@ -29,6 +29,10 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return true
   }
 
+  targetConfig(address: string): XyoPayload {
+    return this.module.targetConfig(address)
+  }
+
   async targetDiscover(address: string): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return await this.sendTargetQuery(address, queryPayload)

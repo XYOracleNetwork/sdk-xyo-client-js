@@ -3,6 +3,7 @@ import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   Module,
   ModuleConfig,
@@ -95,13 +96,15 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
 
   public discover(): Promisable<XyoPayload[]> {
     const config = this.config
-    const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema })
-      .fields({ address: this.address, alias: this.config.name })
-      .build()
+    const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
     const queries = this.queries.map((query) => {
       return new XyoPayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
     })
-    return compact([config, address, ...queries])
+    const configSchema: ConfigPayload = {
+      config: config.schema,
+      schema: ConfigSchema,
+    }
+    return compact([config, configSchema, address, ...queries])
   }
 
   public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

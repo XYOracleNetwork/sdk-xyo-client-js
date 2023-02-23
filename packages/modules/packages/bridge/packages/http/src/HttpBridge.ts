@@ -126,13 +126,15 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   private async initRootAddress() {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
-    const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUri, boundQuery, { maxRedirects: 0 })
-    if (result.status === 307) {
+    const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUri, boundQuery)
+    if (result.request.path) {
       //nodejs
-      this._rootAddress = result.headers['location'].split('/').pop()
-    } else {
+      this._rootAddress = result.request.path.split('/').pop()
+    } else if (result.request.responseURL) {
       //browser
-      this._rootAddress = assertEx(result.request.responseURL, JSON.stringify(result.request, null, 2))
+      this._rootAddress = result.request.responseURL.split('/').pop()
+    } else {
+      throw 'Failed to get root address'
     }
     return this._rootAddress
   }

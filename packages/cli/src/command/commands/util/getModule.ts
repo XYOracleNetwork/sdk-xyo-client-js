@@ -1,7 +1,6 @@
-import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { assertEx } from '@xylabs/assert'
+import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { Module, ModuleWrapper } from '@xyo-network/modules'
-
 
 import { printError } from '../../../lib'
 import { getApiConfig } from '../../util'

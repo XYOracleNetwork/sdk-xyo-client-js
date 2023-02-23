@@ -12,6 +12,8 @@
   "dependencies": {
     "@xyo-network/abstract-bridge": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
+    "@xyo-network/bridge-module-resolver": "workspace:^",
+    "@xyo-network/http-bridge": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^"
@@ -54,5 +56,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.47.1"
+  "version": "2.47.4"
 }

@@ -8,6 +8,5 @@ export type HttpBridgeConfig<TConfig extends XyoPayload = XyoPayload> = BridgeCo
   {
     nodeUri: string
     schema: HttpBridgeConfigSchema
-    targetAddress?: string
   } & TConfig
 >

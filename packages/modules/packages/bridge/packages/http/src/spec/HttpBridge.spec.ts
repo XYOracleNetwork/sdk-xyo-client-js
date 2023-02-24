@@ -60,4 +60,8 @@ test('HttpBridge - Nested', async () => {
   // Fails to resolve
   const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
   expect(archivistByName).toBeDefined()
+  const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadStatsDiviner'] })
+  expect(payloadStatsDivinerByName).toBeDefined()
+  const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessStatsDiviner'] })
+  expect(boundwitnessStatsDivinerByName).toBeDefined()
 })

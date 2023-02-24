@@ -58,7 +58,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
 
   static override async create(params?: XyoHttpBridgeParams): Promise<HttpBridge> {
     const instance = (await super.create(params)) as HttpBridge
-    const rootAddress = assertEx(await instance.initRootAddress(), 'Failed to get rootAddress')
+    const rootAddress = assertEx(await instance.initRootAddress(), `Failed to get rootAddress [${params?.config.nodeUri}]`)
     const discover = await instance.targetDiscover(rootAddress)
 
     await Promise.all(

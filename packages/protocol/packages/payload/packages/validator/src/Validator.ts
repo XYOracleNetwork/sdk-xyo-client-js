@@ -30,7 +30,7 @@ export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoVali
     this.schemaNameValidatorFactory = factory
   }
 
-  schemaName() {
+  schemaName(): Error[] {
     const errors: Error[] = []
     if (this.obj.schema === undefined) {
       errors.push(Error('schema missing'))

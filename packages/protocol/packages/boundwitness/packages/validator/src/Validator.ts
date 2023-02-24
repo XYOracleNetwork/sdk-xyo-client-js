@@ -18,7 +18,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return XyoBoundWitnessSchema
   }
 
-  static validateSignature(hash: string, address: string, signature?: string) {
+  static validateSignature(hash: string, address: string, signature?: string): Error[] {
     if (!signature) {
       return [Error(`Missing signature [${address}]`)]
     }
@@ -28,7 +28,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return []
   }
 
-  addresses() {
+  addresses(): Error[] {
     const errors: Error[] = []
     const { addresses } = this.obj
     if (!addresses?.length) errors.push(new Error('addresses missing [at least one address required]'))
@@ -36,11 +36,11 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
-  addressesUniqueness() {
+  addressesUniqueness(): Error[] {
     const errors: Error[] = []
     const { addresses } = this.obj
     const uniqAddresses = uniq(addresses)
-    if (addresses?.length !== uniqAddresses?.length) errors.push(new Error('addresses must be unique'))
+    if (addresses?.length !== uniqAddresses?.length) errors.push(Error('addresses must be unique'))
     return errors
   }
 
@@ -49,15 +49,15 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
-  schema() {
+  schema(): Error[] {
     const errors: Error[] = []
     if (this.obj.schema !== this.expectedSchema) {
-      errors.push(new Error(`invalid schema [${this.expectedSchema} !== ${this.obj.schema}]`))
+      errors.push(Error(`invalid schema [${this.expectedSchema} !== ${this.obj.schema}]`))
     }
     return errors
   }
 
-  schemas() {
+  schemas(): Error[] {
     const errors: Error[] = []
     const Schemas = this.obj.payload_schemas
     if (Schemas) {
@@ -73,7 +73,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
-  signatures() {
+  signatures(): Error[] {
     return [
       ...validateArraysSameLength(this.obj._signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
       ...this.obj.addresses.reduce<Error[]>((errors, address, index) => {
@@ -95,19 +95,19 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     ]
   }
 
-  validateArrayLengths() {
+  validateArrayLengths(): Error[] {
     const errors: Error[] = []
     errors.push(...this.validatePayloadHashesLength())
     return errors
   }
 
-  validatePayloadHashesLength() {
+  validatePayloadHashesLength(): Error[] {
     const errors: Error[] = []
     errors.push(...this.validateArrayLength('payload_hashes', 'payload_schemas'))
     return errors
   }
 
-  private validateArrayLength(fieldName: string, compareArrayName: string) {
+  private validateArrayLength(fieldName: string, compareArrayName: string): Error[] {
     const errors: Error[] = []
 
     const [array, arrayErrors] = validateType('array', this.stringKeyObj[fieldName] as [], true)

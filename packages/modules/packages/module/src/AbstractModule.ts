@@ -28,7 +28,7 @@ import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
-import { ModuleParams } from './ModuleParams'
+import { AccountModuleParams, ModuleParams, WalletModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
@@ -50,7 +50,14 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
 
   protected constructor(params: ModuleParams<TConfig>) {
     this._config = params.config
-    this.account = this.loadAccount(params?.account)
+    //TODO: change wallet to use accountDerivationPath
+    this.account = this.loadAccount(
+      (params as WalletModuleParams<TConfig>).wallet
+        ? (params as WalletModuleParams<TConfig>).wallet.getAccount(0)
+        : (params as AccountModuleParams<TConfig>).account
+        ? (params as AccountModuleParams<TConfig>).account
+        : undefined,
+    )
     this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable

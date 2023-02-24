@@ -37,10 +37,13 @@ import {
 } from './QueryHelpers'
 import { validByType } from './validByType'
 
-export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
-  boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-  payloads: BaseMongoSdk<XyoPayloadWithMeta>
-}
+export type MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> = ModuleParams<
+  TConfig,
+  {
+    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    payloads: BaseMongoSdk<XyoPayloadWithMeta>
+  }
+>
 
 const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper, archive: string): XyoBoundWitnessWithMeta => {
   const bw = wrapper.boundwitness as XyoBoundWitness

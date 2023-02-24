@@ -21,4 +21,12 @@ test('HttpBridge', async () => {
   expect(description.children?.length).toBeGreaterThan(0)
   expect(description.queries).toBeArray()
   expect(description.queries?.length).toBeGreaterThan(0)
+
+  // Works if you supply the known address for 'Archivist'
+  //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
+  //expect(archivistByAddress).toBeDefined()
+
+  // Fails to resolve
+  const [archivistByName] = await memNode.resolve({ name: ['Archivist'] })
+  expect(archivistByName).toBeDefined()
 })

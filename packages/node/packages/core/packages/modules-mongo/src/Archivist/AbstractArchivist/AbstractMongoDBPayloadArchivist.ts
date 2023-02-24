@@ -27,11 +27,16 @@ const valid = (bw: XyoBoundWitness) => {
   return new BoundWitnessValidator(bw).validate().length === 0
 }
 
-export interface AbstractMongoDBPayloadArchivistParams<TConfig extends ArchiveModuleConfig = ArchiveModuleConfig, T extends EmptyObject = EmptyObject>
-  extends ModuleParams<TConfig> {
-  boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-  payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>
-}
+export type AbstractMongoDBPayloadArchivistParams<
+  TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,
+  T extends EmptyObject = EmptyObject,
+> = ModuleParams<
+  TConfig,
+  {
+    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>
+  }
+>
 
 export abstract class AbstractMongoDBPayloadArchivist<
   T extends EmptyObject = EmptyObject,

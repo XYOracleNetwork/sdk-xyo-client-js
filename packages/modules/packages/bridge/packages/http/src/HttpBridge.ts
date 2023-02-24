@@ -24,21 +24,25 @@ import compact from 'lodash/compact'
 
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
-export interface XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends ModuleParams<TConfig> {
-  axios?: AxiosJson
-}
+export type XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> = ModuleParams<
+  TConfig,
+  {
+    axios?: AxiosJson
+  }
+>
 
 export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractBridge<TConfig> implements BridgeModule<TConfig> {
   private _rootAddress?: string
   private _targetConfigs: Record<string, XyoPayload> = {}
   private _targetQueries: Record<string, string[]> = {}
-  private _targetResolver: ModuleResolver
+  private _targetResolver: BridgeModuleResolver
   private axios: AxiosJson
 
   protected constructor(params: XyoHttpBridgeParams<TConfig>) {
     super(params)
     this.axios = params.axios ?? new AxiosJson()
     this._targetResolver = new BridgeModuleResolver(this)
+    this.resolver.addResolver(this._targetResolver)
   }
 
   public get nodeUri() {
@@ -57,14 +61,16 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     const instance = (await super.create(params)) as HttpBridge
     const rootAddress = assertEx(await instance.initRootAddress(), 'Failed to get rootAddress')
     const discover = await instance.targetDiscover(rootAddress)
+
     await Promise.all(
-      discover.map((payload) => {
+      discover.map(async (payload) => {
         const addressPayload = payload as AddressPayload
         if (addressPayload.schema === AddressSchema) {
-          return instance.targetDiscover(addressPayload.address)
+          return await instance._targetResolver.resolve(addressPayload.address)
         }
       }),
     )
+
     return instance
   }
 
@@ -74,6 +80,10 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
 
   disconnect(): Promisable<boolean> {
     return true
+  }
+
+  override async resolve(filter?: ModuleFilter) {
+    return (await this.targetResolver.resolve(filter)) ?? (await super.resolve(filter))
   }
 
   public targetConfig(address: string): XyoPayload {

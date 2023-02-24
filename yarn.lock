@@ -6361,6 +6361,7 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
+    "@xyo-network/wallet": "workspace:^"
     lodash: ^4.17.21
     typescript: ^4.9.5
   languageName: unknown

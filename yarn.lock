@@ -4716,7 +4716,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/account": "workspace:^"
-    "@xyo-network/archivist-interface": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -4812,9 +4812,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-interface@workspace:^, @xyo-network/archivist-interface@workspace:packages/modules/packages/archivist/packages/interface":
+"@xyo-network/archivist-model@workspace:^, @xyo-network/archivist-model@workspace:packages/modules/packages/archivist/packages/model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/archivist-interface@workspace:packages/modules/packages/archivist/packages/interface"
+  resolution: "@xyo-network/archivist-model@workspace:packages/modules/packages/archivist/packages/model"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
@@ -4834,7 +4834,7 @@ __metadata:
     "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
-    "@xyo-network/archivist-interface": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -4857,7 +4857,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/abstract-archivist": "workspace:^"
     "@xyo-network/account": "workspace:^"
-    "@xyo-network/archivist-interface": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
@@ -4903,7 +4903,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
-    "@xyo-network/archivist-interface": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/blocknative-ethereum-gas-plugin": "workspace:^"
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:^"
     "@xyo-network/crypto-asset-payload-plugin": "workspace:^"
@@ -6022,7 +6022,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/abstract-archivist": "workspace:^"
-    "@xyo-network/archivist-interface": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/memory-archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -6276,7 +6276,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/abstract-archivist": "workspace:^"
-    "@xyo-network/archivist-interface": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"

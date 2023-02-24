@@ -8,17 +8,15 @@ import {
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuery,
   ArchivistDeleteQuerySchema,
-  ArchivistFindQuery,
-  ArchivistFindQuerySchema,
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistModule,
-} from '@xyo-network/archivist-interface'
+} from '@xyo-network/archivist-model'
 import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { Module, ModuleWrapper } from '@xyo-network/module'
-import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
+import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
@@ -61,12 +59,6 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)
     return result[0].payload_hashes.map(() => true)
-  }
-
-  async find<R extends XyoPayload = XyoPayload>(filter?: PayloadFindFilter): Promise<R[]> {
-    const queryPayload = PayloadWrapper.parse<ArchivistFindQuery>({ filter, schema: ArchivistFindQuerySchema })
-    const result = await this.sendQuery(queryPayload)
-    return compact(result) as R[]
   }
 
   async get(hashes: string[]): Promise<XyoPayload[]> {

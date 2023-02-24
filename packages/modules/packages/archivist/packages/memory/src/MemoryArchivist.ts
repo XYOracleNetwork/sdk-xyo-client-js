@@ -10,7 +10,7 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
-} from '@xyo-network/archivist-interface'
+} from '@xyo-network/archivist-model'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'

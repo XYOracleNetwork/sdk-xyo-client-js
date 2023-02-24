@@ -12,7 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.7.1",
     "@xyo-network/account": "workspace:^",
-    "@xyo-network/archivist-interface": "workspace:^",
+    "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/module": "workspace:^",

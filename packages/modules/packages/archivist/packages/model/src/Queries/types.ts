@@ -4,7 +4,6 @@ import { ArchivistAllQuery } from './All'
 import { ArchivistClearQuery } from './Clear'
 import { ArchivistCommitQuery } from './Commit'
 import { ArchivistDeleteQuery } from './Delete'
-import { ArchivistFindQuery } from './Find'
 import { ArchivistGetQuery } from './Get'
 import { ArchivistInsertQuery } from './Insert'
 
@@ -13,7 +12,6 @@ export type ArchivistQueryRoot =
   | ArchivistClearQuery
   | ArchivistCommitQuery
   | ArchivistDeleteQuery
-  | ArchivistFindQuery
   | ArchivistGetQuery
   | ArchivistInsertQuery
 

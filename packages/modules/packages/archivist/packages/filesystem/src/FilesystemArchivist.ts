@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
-import { ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ArchivistConfig, ArchivistFindQuerySchema } from '@xyo-network/archivist-interface'
+import { ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ArchivistConfig, ArchivistFindQuerySchema } from '@xyo-network/archivist-model'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { ModuleParams } from '@xyo-network/module'

@@ -12,7 +12,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistModule,
   ArchivistQuery,
-} from '@xyo-network/archivist-interface'
+} from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'

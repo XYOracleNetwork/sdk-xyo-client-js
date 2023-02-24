@@ -4906,9 +4906,9 @@ __metadata:
   linkType: hard
 
 "@xylabs/tsconfig@npm:^2.14.16":
-  version: 2.14.16
-  resolution: "@xylabs/tsconfig@npm:2.14.16"
-  checksum: 6f0a0b4d6ba07ad3097ec85a4888bf714c0983edec0205ac02d36c6aea91fa079f640874b8ab35b088351fb3a237ed0366b3bd87d88b881a5ed698f964ee7db2
+  version: 2.15.0
+  resolution: "@xylabs/tsconfig@npm:2.15.0"
+  checksum: 8bf5954823615ec108da60c18cae137a83b1eb05ef8c7b8d310286b0c7d064ee59cf85ec847858722d0a15068b54ac0f02e42c86dbd798722179cb8e34eec498
   languageName: node
   linkType: hard
 

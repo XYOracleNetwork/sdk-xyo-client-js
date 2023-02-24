@@ -65,7 +65,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
       discover.map(async (payload) => {
         const addressPayload = payload as AddressPayload
         if (addressPayload.schema === AddressSchema) {
-          return await instance._targetResolver.resolve(addressPayload.address)
+          return await instance._targetResolver.resolve({ address: [addressPayload.address] })
         }
       }),
     )

@@ -1,5 +1,3 @@
-import { EmptyObject } from '@xyo-network/core'
-
 export interface AddressModuleFilter {
   address: string[]
 }
@@ -12,7 +10,7 @@ export interface QueryModuleFilter {
   query: string[][]
 }
 
-export type AllModuleFilter = EmptyObject
+export type AllModuleFilter = Record<string, never>
 
 export type AnyModuleFilter = Partial<AddressModuleFilter> & Partial<NameModuleFilter> & Partial<QueryModuleFilter>
-export type ModuleFilter = AddressModuleFilter | NameModuleFilter | QueryModuleFilter | AllModuleFilter
+export type ModuleFilter = AllModuleFilter | AddressModuleFilter | NameModuleFilter | QueryModuleFilter

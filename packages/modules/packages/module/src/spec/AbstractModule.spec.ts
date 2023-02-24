@@ -4,7 +4,7 @@ import { QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { AbstractModule } from '../AbstractModule'
 export class TestAbstractModule extends AbstractModule {
-  static configSchema = ModuleConfigSchema
+  static override configSchema = ModuleConfigSchema
   static override async create(params?: object) {
     return await super.create(params)
   }

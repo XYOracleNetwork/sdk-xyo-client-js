@@ -123,7 +123,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     if (!this.allowAnonymous) {
       if (query.addresses.length === 0) {
-        console.warn('Anonymous Queries not allowed, but running anyway')
+        console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
       }
     }
     const typedQuery = wrapper.query.payload

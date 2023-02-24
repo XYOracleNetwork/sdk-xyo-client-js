@@ -21,7 +21,7 @@ export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoVali
   get schemaValidator() {
     this._schemaValidator = this._schemaValidator ?? PayloadValidator.schemaNameValidatorFactory?.(this.payload.schema)
     if (!this._schemaValidator) {
-      console.warn('No schema name validator set')
+      console.warn(`No schema name validator set [${this.payload.schema}]`)
     }
     return this._schemaValidator
   }

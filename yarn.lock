@@ -6609,6 +6609,8 @@ __metadata:
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
+    "@xyo-network/payload-validator": "workspace:^"
+    "@xyo-network/schema-name-validator": "workspace:^"
     body-parser: ^1.20.2
     dotenv: ^16.0.3
     express: ^4.18.2

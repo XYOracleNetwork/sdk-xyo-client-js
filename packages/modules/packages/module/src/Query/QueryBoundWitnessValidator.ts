@@ -7,10 +7,12 @@ import { QueryBoundWitnessWrapper } from './QueryBoundWitnessWrapper'
 export class QueryBoundWitnessValidator<T extends XyoQuery = XyoQuery> extends BoundWitnessValidator<XyoQueryBoundWitness> {
   private _query: PayloadWrapper<T> | undefined
 
-  private isQueryBoundWitnessValidator = true
-
   protected override get expectedSchema(): string {
     return XyoQueryBoundWitnessSchema
+  }
+
+  static isQueryBoundWitnessValidator(obj: unknown) {
+    return (obj as QueryBoundWitnessValidator)?.constructor === QueryBoundWitnessValidator
   }
 
   public override validate() {

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { fulfilled } from '@xylabs/promise'
+import { fulfilled, rejected } from '@xylabs/promise'
 import { duplicateModules, EventListener, Module, ModuleFilter } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
@@ -109,10 +109,17 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   }
 
   override async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    const internal = this.internalResolver.resolve(filter)
-    const external = this.parentResolver?.resolve(filter) || []
-    const local = this.resolver?.resolve(filter) || []
+    const internal: Promise<Module[]> = this.internalResolver.resolve(filter)
+    const external: Promise<Module[]> = this.parentResolver?.resolve(filter) || []
+    const local: Promise<Module[]> = this.resolver?.resolve(filter) || []
     const resolved = await Promise.allSettled([internal, external, local])
+
+    const errors = resolved.filter(rejected).map((r) => Error(r.reason))
+
+    if (errors) {
+      this.logger?.error(`Resolve Errors: ${JSON.stringify(errors, null, 2)}`)
+    }
+
     return resolved
       .filter(fulfilled)
       .map((r) => r.value)

@@ -6,6 +6,8 @@ import { getArchive, getArchives, putArchive } from '../routes'
 import { addArchiveSchemaRoutes } from './addArchiveSchemaRoutes'
 import { addArchiveSettingsRoutes } from './addArchiveSettingsRoutes'
 
+const addLegacyRoutes = true
+
 export const addArchiveRoutes = (app: Express) => {
   app.get(
     '/archive',
@@ -40,6 +42,8 @@ export const addArchiveRoutes = (app: Express) => {
     /* #swagger.summary = 'Delete an archive' */
   )
 
-  addArchiveSchemaRoutes(app)
+  if (addLegacyRoutes) {
+    addArchiveSchemaRoutes(app)
+  }
   addArchiveSettingsRoutes(app)
 }

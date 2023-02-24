@@ -15,11 +15,15 @@ export const addRoutes = (app: Express): Express => {
   addAddressRoutes(app)
   addArchiveRoutes(app)
   addBlockRoutes(app)
-  addPayloadRoutes(app)
-  addPayloadSchemaRoutes(app)
+  if (app.get('addLegacyRoutes')) {
+    addPayloadRoutes(app)
+    addPayloadSchemaRoutes(app)
+  }
   addManagementRoutes(app)
-  addSchemaRoutes(app)
-  addDomainRoutes(app)
+  if (app.get('addLegacyRoutes')) {
+    addSchemaRoutes(app)
+    addDomainRoutes(app)
+  }
   addTempNodeRoutes(app)
   // This needs to be the last true route handler since it is
   // a catch-all for the root paths

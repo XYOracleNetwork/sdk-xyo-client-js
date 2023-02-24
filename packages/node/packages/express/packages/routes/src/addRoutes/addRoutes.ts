@@ -14,8 +14,8 @@ import { addTempNodeRoutes } from './addTempNodeRoutes'
 export const addRoutes = (app: Express): Express => {
   addAddressRoutes(app)
   addArchiveRoutes(app)
+  addBlockRoutes(app)
   if (app.get('addLegacyRoutes')) {
-    addBlockRoutes(app)
     addPayloadRoutes(app)
     addPayloadSchemaRoutes(app)
   }

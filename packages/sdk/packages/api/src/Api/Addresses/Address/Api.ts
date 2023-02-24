@@ -8,7 +8,7 @@ export class XyoAddressApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApi
   /**
    * @deprecated Use module API
    */
-  public get boundWitnesses(): XyoApiSimple<XyoBoundWitness[]> {
+  get boundWitnesses(): XyoApiSimple<XyoBoundWitness[]> {
     return new XyoApiSimple({
       ...this.config,
       root: `${this.root}boundwitness/`,

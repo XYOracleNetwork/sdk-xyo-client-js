@@ -23,9 +23,9 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
 export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
-  static requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
+  static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
 
-  static tryWrap(module: Module): ArchivistWrapper | undefined {
+  static override tryWrap(module: Module): ArchivistWrapper | undefined {
     const missingRequiredQueries = this.missingRequiredQueries(module)
     if (missingRequiredQueries.length > 0) {
       console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
@@ -34,28 +34,28 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
     }
   }
 
-  static wrap(module: Module): ArchivistWrapper {
+  static override wrap(module: Module): ArchivistWrapper {
     return assertEx(this.tryWrap(module), 'Unable to wrap module as ArchivistWrapper')
   }
 
-  public async all(): Promise<XyoPayload[]> {
+  async all(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return compact(result)
   }
 
-  public async clear(): Promise<void> {
+  async clear(): Promise<void> {
     const queryPayload = PayloadWrapper.parse<ArchivistClearQuery>({ schema: ArchivistClearQuerySchema })
     await this.sendQuery(queryPayload)
   }
 
-  public async commit(): Promise<XyoBoundWitness[]> {
+  async commit(): Promise<XyoBoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistCommitQuery>({ schema: ArchivistCommitQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return result.filter(isXyoBoundWitnessPayload)
   }
 
-  public async delete(hashes: string[]) {
+  async delete(hashes: string[]) {
     const queryPayload = PayloadWrapper.parse<ArchivistDeleteQuery>({ hashes, schema: ArchivistDeleteQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
@@ -63,19 +63,19 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
     return result[0].payload_hashes.map(() => true)
   }
 
-  public async find<R extends XyoPayload = XyoPayload>(filter?: PayloadFindFilter): Promise<R[]> {
+  async find<R extends XyoPayload = XyoPayload>(filter?: PayloadFindFilter): Promise<R[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistFindQuery>({ filter, schema: ArchivistFindQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return compact(result) as R[]
   }
 
-  public async get(hashes: string[]): Promise<XyoPayload[]> {
+  async get(hashes: string[]): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return result
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
       payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
       schema: ArchivistInsertQuerySchema,

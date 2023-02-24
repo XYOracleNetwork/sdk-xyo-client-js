@@ -37,11 +37,11 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
     this.cache = new LruCache<string, XyoPayload | null>({ max: this.max })
   }
 
-  public get max() {
+  get max() {
     return this.config?.max ?? 10000
   }
 
-  public override get queries() {
+  override get queries() {
     return [
       ArchivistAllQuerySchema,
       ArchivistDeleteQuerySchema,
@@ -57,15 +57,15 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
     return (await super.create(params)) as MemoryArchivist
   }
 
-  public override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<XyoPayload> {
     return compact(this.cache.dump().map((value) => value[1].value))
   }
 
-  public override clear(): void | Promise<void> {
+  override clear(): void | Promise<void> {
     this.cache.clear()
   }
 
-  public override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<XyoBoundWitness[]> {
     const payloads = assertEx(await this.all(), 'Nothing to commit')
     const settled = await Promise.allSettled(
       compact(
@@ -83,13 +83,13 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  public override delete(hashes: string[]): PromisableArray<boolean> {
+  override delete(hashes: string[]): PromisableArray<boolean> {
     return hashes.map((hash) => {
       return this.cache.delete(hash)
     })
   }
 
-  public async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<XyoPayload[]> {
     return compact(
       await Promise.all(
         hashes.map(async (hash) => {
@@ -103,7 +103,7 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
     )
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     payloads.map((payload) => {
       const wrapper = new PayloadWrapper(payload)
       const payloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }

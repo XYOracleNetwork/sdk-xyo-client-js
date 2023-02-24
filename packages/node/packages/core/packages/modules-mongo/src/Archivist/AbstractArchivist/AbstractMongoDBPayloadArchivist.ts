@@ -46,13 +46,13 @@ export abstract class AbstractMongoDBPayloadArchivist<
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>
   protected readonly witnessedPayloads: LruCache<string, XyoPayloadWithMeta<T>> = new LruCache({ max: 1, ttl: 10000 })
 
-  public constructor(params: AbstractMongoDBPayloadArchivistParams<TConfig, T>) {
+  constructor(params: AbstractMongoDBPayloadArchivistParams<TConfig, T>) {
     super(params)
     this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads)
   }
 
-  public abstract get schema(): string
+  abstract get schema(): string
 
   async _findWitnessPlan(_archive: string) {
     return (await this.findWitnessQuery(_archive)).explain(ExplainVerbosity.allPlansExecution)

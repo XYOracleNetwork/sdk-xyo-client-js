@@ -13,7 +13,7 @@ export class IdentityDiviner extends AbstractDiviner {
     return (await super.create(params)) as IdentityDiviner
   }
 
-  public override divine(payloads: XyoPayloads): Promisable<XyoPayloads> {
+  override divine(payloads: XyoPayloads): Promisable<XyoPayloads> {
     return payloads
   }
 }

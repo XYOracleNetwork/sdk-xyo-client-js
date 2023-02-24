@@ -24,7 +24,7 @@ export class BoundWitnessBuilder<
   private _payloads: TPayload[] = []
   private _timestamp = Date.now()
 
-  constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
+  constructor(readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
 
   private get _payload_hashes(): string[] {
     return (
@@ -44,7 +44,7 @@ export class BoundWitnessBuilder<
     )
   }
 
-  public build(): [TBoundWitness, TPayload[]] {
+  build(): [TBoundWitness, TPayload[]] {
     const hashableFields = this.hashableFields()
     const _hash = BoundWitnessWrapper.hash(hashableFields)
 
@@ -70,7 +70,7 @@ export class BoundWitnessBuilder<
     return [ret, this._payloads]
   }
 
-  public hashableFields(): TBoundWitness {
+  hashableFields(): TBoundWitness {
     const addresses = this._accounts.map((account) => account.addressValue.hex)
     const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
     const result: TBoundWitness = {
@@ -93,14 +93,14 @@ export class BoundWitnessBuilder<
     return result
   }
 
-  public hashes(hashes: string[], schema: string[]) {
+  hashes(hashes: string[], schema: string[]) {
     assertEx(this.payloads.length === 0, 'Can not set hashes when payloads already set')
     this._payloadHashes = hashes
     this._payloadSchemas = schema
     return this
   }
 
-  public payload(payload?: TPayload) {
+  payload(payload?: TPayload) {
     assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
     if (payload) {
       this._payloads.push(assertEx(sortFields<TPayload>(payload)))
@@ -108,7 +108,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  public payloads(payloads?: (TPayload | null)[]) {
+  payloads(payloads?: (TPayload | null)[]) {
     payloads?.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)
@@ -117,7 +117,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  public witness(account: Account) {
+  witness(account: Account) {
     this._accounts?.push(account)
     return this
   }

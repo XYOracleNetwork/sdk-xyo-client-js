@@ -17,11 +17,11 @@ export class PayloadSetPluginResolver {
     plugins?.forEach((plugin) => this.register(plugin))
   }
 
-  public async diviner(set: string) {
+  async diviner(set: string) {
     return await isPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this.params[set]?.diviner)
   }
 
-  public diviners() {
+  diviners() {
     const result: PayloadSetDivinerPlugin[] = []
     Object.values(this._plugins).forEach((plugin) => {
       const diviner = isPayloadSetDivinerPlugin(plugin)
@@ -32,7 +32,7 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  public plugins() {
+  plugins() {
     const result: PayloadSetPlugin[] = []
     Object.values(this._plugins).forEach((value) => {
       result.push(value)
@@ -40,7 +40,7 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  public register<TPlugin extends PayloadSetPlugin = PayloadSetPlugin, TParams extends TPlugin['params'] = TPlugin['params']>(
+  register<TPlugin extends PayloadSetPlugin = PayloadSetPlugin, TParams extends TPlugin['params'] = TPlugin['params']>(
     plugin: TPlugin,
     params?: TParams,
   ) {
@@ -50,14 +50,14 @@ export class PayloadSetPluginResolver {
     return this
   }
 
-  public resolve(set?: PayloadSetPayload): PayloadSetPlugin | undefined
-  public resolve(set?: string): PayloadSetPlugin | undefined
-  public resolve(set?: string | PayloadSetPayload): PayloadSetPlugin | undefined {
+  resolve(set?: PayloadSetPayload): PayloadSetPlugin | undefined
+  resolve(set?: string): PayloadSetPlugin | undefined
+  resolve(set?: string | PayloadSetPayload): PayloadSetPlugin | undefined {
     const setHash = typeof set === 'string' ? set : set ? Hasher.hash(set) : undefined
     return setHash ? this._plugins[setHash] ?? undefined : undefined
   }
 
-  public sets() {
+  sets() {
     const result: PayloadSetPayload[] = []
     Object.values(this._plugins).forEach((value) => {
       result.push(value.set)
@@ -65,18 +65,18 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  public validate(boundwitness: XyoQueryBoundWitness): Validator<XyoQueryBoundWitness> | undefined {
+  validate(boundwitness: XyoQueryBoundWitness): Validator<XyoQueryBoundWitness> | undefined {
     return this.resolve(boundwitness.resultSet)?.validate?.(boundwitness)
   }
 
-  public async witness(set: PayloadSetPayload): Promise<WitnessModule | undefined>
-  public async witness(set: string): Promise<WitnessModule | undefined>
-  public async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
+  async witness(set: PayloadSetPayload): Promise<WitnessModule | undefined>
+  async witness(set: string): Promise<WitnessModule | undefined>
+  async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
     const setHash = typeof set === 'string' ? set : Hasher.hash(set)
     return await isPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash]?.diviner)
   }
 
-  public witnesses() {
+  witnesses() {
     const result: PayloadSetWitnessPlugin[] = []
     Object.values(this._plugins).forEach((plugin) => {
       const witness = isPayloadSetWitnessPlugin(plugin)
@@ -87,7 +87,7 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  public wrap(boundwitness: XyoQueryBoundWitness): QueryBoundWitnessWrapper | undefined {
+  wrap(boundwitness: XyoQueryBoundWitness): QueryBoundWitnessWrapper | undefined {
     return this.resolve(boundwitness.resultSet)?.wrap?.(boundwitness)
   }
 }

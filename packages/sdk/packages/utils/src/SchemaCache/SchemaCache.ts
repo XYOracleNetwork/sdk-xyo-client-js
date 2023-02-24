@@ -18,8 +18,8 @@ export type XyoSchemaCacheEntry = FetchedPayload<XyoSchemaPayload>
 export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
   private static _instance?: XyoSchemaCache
 
-  public onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
-  public proxy?: string
+  onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
+  proxy?: string
 
   private _cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
   private _validators: T = {} as T
@@ -43,11 +43,11 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
    * must be cached via `get('schema.name')` before it's validator can be used as
    * they are compiled dynamically at runtime upon retrieval.
    */
-  public get validators(): T {
+  get validators(): T {
     return this._validators
   }
 
-  public async get(schema?: string) {
+  async get(schema?: string) {
     if (schema) {
       await this.getDebounce.one(schema, async () => {
         //if we did not find it, mark it as not found (null)

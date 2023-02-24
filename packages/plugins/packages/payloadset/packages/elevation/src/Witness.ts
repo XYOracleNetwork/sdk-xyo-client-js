@@ -72,15 +72,15 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> im
   private _tiffInfos: TiffImageInfos = {}
   private _tiffs: Tiffs = {}
 
-  public get quadkeys() {
+  get quadkeys() {
     return this.config.locations?.map((location) => locationToQuadkey(location)) ?? []
   }
 
-  public get uri() {
+  get uri() {
     return this.config?.uri ?? 'https://api.open-elevation.com/api/v1/lookup'
   }
 
-  public get zoom() {
+  get zoom() {
     return this.config?.zoom ?? 16
   }
 
@@ -88,7 +88,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> im
     return (await super.create(params)) as ElevationWitness
   }
 
-  public async getSection(section: keyof Tiffs): Promise<GeoTIFF> {
+  async getSection(section: keyof Tiffs): Promise<GeoTIFF> {
     if (!this._tiffs[section]) {
       this._tiffs[section] = (async () => {
         return await fromFile(assertEx(this.config.files?.[section], `Missing file in config [${section}]`))
@@ -98,7 +98,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> im
     return await assertEx(this._tiffs[section], `Failed to load section [${section}]`)
   }
 
-  public async getSectionImage(section: keyof TiffImages): Promise<GeoTIFFImage> {
+  async getSectionImage(section: keyof TiffImages): Promise<GeoTIFFImage> {
     if (!this._tiffImages[section]) {
       this._tiffImages[section] = (async () => {
         return await (await this.getSection(section)).getImage()
@@ -108,7 +108,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> im
     return await assertEx(this._tiffImages[section], `Failed to load section [${section}]`)
   }
 
-  public async getSectionInfo(section: keyof TiffImageInfos): Promise<TiffImageInfo> {
+  async getSectionInfo(section: keyof TiffImageInfos): Promise<TiffImageInfo> {
     if (!this._tiffInfos[section]) {
       this._tiffInfos[section] = (async () => {
         const image = await this.getSectionImage(section)

@@ -5,11 +5,11 @@ export class SchemaToQueryProcessorRegistry<T extends Query = Query, R extends X
 {
   private _processors: Record<string, QueryProcessor<T, R>> = {}
 
-  public get processors(): Readonly<Record<string, QueryProcessor<T, R>>> {
+  get processors(): Readonly<Record<string, QueryProcessor<T, R>>> {
     return this._processors
   }
 
-  public registerProcessorForSchema(schema: string, processor: QueryProcessor<T, R>) {
+  registerProcessorForSchema(schema: string, processor: QueryProcessor<T, R>) {
     this._processors[schema] = processor
   }
 }

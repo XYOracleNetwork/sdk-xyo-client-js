@@ -15,7 +15,7 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
   /**
    * @deprecated Use module API
    */
-  public get block(): XyoArchivistArchiveBlockApi {
+  get block(): XyoArchivistArchiveBlockApi {
     this._block =
       this._block ??
       new XyoArchivistArchiveBlockApi({
@@ -28,7 +28,7 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
   /**
    * @deprecated Use module API
    */
-  public get payload(): XyoArchivistPayloadApi {
+  get payload(): XyoArchivistPayloadApi {
     this._payload =
       this._payload ??
       new XyoArchivistPayloadApi({
@@ -41,7 +41,7 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
   /**
    * @deprecated Use module API
    */
-  public get schemas(): XyoArchivistArchiveSchemasApi {
+  get schemas(): XyoArchivistArchiveSchemasApi {
     this._schemas =
       this._schemas ??
       new XyoArchivistArchiveSchemasApi({
@@ -51,7 +51,7 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
     return this._schemas
   }
 
-  public get settings(): XyoArchivistArchiveSettingsApi {
+  get settings(): XyoArchivistArchiveSettingsApi {
     this._settings =
       this._settings ??
       new XyoArchivistArchiveSettingsApi({
@@ -64,7 +64,7 @@ export class XyoArchivistArchiveApi extends XyoApiSimple<XyoArchive> {
   /**
    * @deprecated Use module API
    */
-  public schema(schema: string): XyoArchivistArchiveSchemaApi {
+  schema(schema: string): XyoArchivistArchiveSchemaApi {
     return new XyoArchivistArchiveSchemaApi({
       ...this.config,
       root: `${this.root}schema/${schema}/`,

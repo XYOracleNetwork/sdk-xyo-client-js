@@ -12,7 +12,7 @@ import {
 import { AxiosJson } from '@xyo-network/axios'
 
 export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApiReportable {
-  public readonly config: C
+  readonly config: C
   protected axios: AxiosJson
 
   constructor(config: C) {
@@ -20,7 +20,7 @@ export class XyoApiBase<C extends XyoApiConfig = XyoApiConfig> implements XyoApi
     this.axios = new AxiosJson({ ...this.config, headers: this.headers })
   }
 
-  public get authenticated() {
+  get authenticated() {
     return !!this.config.apiKey || !!this.config.jwtToken
   }
 

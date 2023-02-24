@@ -10,16 +10,16 @@ export class KeyPair {
     this._private = new XyoPrivateKey(privateKeyData)
   }
 
-  public get private() {
+  get private() {
     this._private = this._private ?? new XyoPrivateKey()
     return this._private
   }
 
-  public get public() {
+  get public() {
     return this.private.public
   }
 
-  public static isXyoKeyPair(value: unknown) {
+  static isXyoKeyPair(value: unknown) {
     return (value as KeyPair)._isXyoKeyPair
   }
 }

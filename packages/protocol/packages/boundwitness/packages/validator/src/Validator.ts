@@ -10,7 +10,7 @@ const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array l
 }
 
 export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness> extends PayloadValidator<T> {
-  public get hash() {
+  get hash() {
     return new Hasher(this.obj).hash
   }
 
@@ -28,7 +28,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return []
   }
 
-  public addresses() {
+  addresses() {
     const errors: Error[] = []
     const { addresses } = this.obj
     if (!addresses?.length) errors.push(new Error('addresses missing [at least one address required]'))
@@ -36,7 +36,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
-  public addressesUniqueness() {
+  addressesUniqueness() {
     const errors: Error[] = []
     const { addresses } = this.obj
     const uniqAddresses = uniq(addresses)
@@ -44,12 +44,12 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
-  public previousHashes() {
+  previousHashes() {
     const errors: Error[] = []
     return errors
   }
 
-  public schema() {
+  schema() {
     const errors: Error[] = []
     if (this.obj.schema !== this.expectedSchema) {
       errors.push(new Error(`invalid schema [${this.expectedSchema} !== ${this.obj.schema}]`))
@@ -57,7 +57,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
-  public schemas() {
+  schemas() {
     const errors: Error[] = []
     const Schemas = this.obj.payload_schemas
     if (Schemas) {
@@ -73,7 +73,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     return errors
   }
 
-  public signatures() {
+  signatures() {
     return [
       ...validateArraysSameLength(this.obj._signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
       ...this.obj.addresses.reduce<Error[]>((errors, address, index) => {
@@ -83,7 +83,7 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     ]
   }
 
-  public override validate() {
+  override validate() {
     return [
       ...this.signatures(),
       ...this.addresses(),
@@ -95,13 +95,13 @@ export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }>
     ]
   }
 
-  public validateArrayLengths() {
+  validateArrayLengths() {
     const errors: Error[] = []
     errors.push(...this.validatePayloadHashesLength())
     return errors
   }
 
-  public validatePayloadHashesLength() {
+  validatePayloadHashesLength() {
     const errors: Error[] = []
     errors.push(...this.validateArrayLength('payload_hashes', 'payload_schemas'))
     return errors

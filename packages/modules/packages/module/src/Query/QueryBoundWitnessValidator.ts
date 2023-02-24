@@ -15,14 +15,14 @@ export class QueryBoundWitnessValidator<T extends XyoQuery = XyoQuery> extends B
     return (obj as QueryBoundWitnessValidator)?.constructor === QueryBoundWitnessValidator
   }
 
-  public override validate() {
+  override validate() {
     return [
       ...super.validate(),
       // ...this.validateResultSet()
     ]
   }
 
-  public validateResultSet() {
+  validateResultSet() {
     const errors: Error[] = []
     const wrapper = new QueryBoundWitnessWrapper(this.obj)
     const required = wrapper.resultSet.payload.required

@@ -32,7 +32,7 @@ export class EthersUniSwap3Pair {
     this.provider = provider
   }
 
-  public async pool(): Promise<Pool> {
+  async pool(): Promise<Pool> {
     return await logErrorsAsync(async () => {
       await waitNotNull(() => this._pool)
       this._pool = this._pool || null
@@ -51,14 +51,14 @@ export class EthersUniSwap3Pair {
     })
   }
 
-  public poolContract(): IUniswapV3Pool {
+  poolContract(): IUniswapV3Pool {
     return logErrors(() => {
       this._poolContract = this._poolContract ?? IUniswapV3Pool__factory.connect(this.address, this.provider)
       return assertEx(this._poolContract)
     })
   }
 
-  public async price() {
+  async price() {
     return await logErrorsAsync(async () => {
       const tokenIndexes: (0 | 1)[] = [0, 1]
       const pool = await this.pool()
@@ -75,7 +75,7 @@ export class EthersUniSwap3Pair {
     })
   }
 
-  public async slot0(): Promise<EthersUniswap3PoolSlot0Wrapper> {
+  async slot0(): Promise<EthersUniswap3PoolSlot0Wrapper> {
     return await logErrorsAsync(async () => {
       await waitNotNull(() => this._slot0)
       this._slot0 = this._slot0 || null
@@ -84,7 +84,7 @@ export class EthersUniSwap3Pair {
     })
   }
 
-  public async token(index: 0 | 1): Promise<Token> {
+  async token(index: 0 | 1): Promise<Token> {
     return await logErrorsAsync(async () => {
       await waitNotNull(() => this._tokens[index])
       this._tokens[index] = this._tokens[index] || null
@@ -96,7 +96,7 @@ export class EthersUniSwap3Pair {
     })
   }
 
-  public async tokenContract(index: 0 | 1): Promise<IERC20Metadata> {
+  async tokenContract(index: 0 | 1): Promise<IERC20Metadata> {
     return await logErrorsAsync(async () => {
       await waitNotNull(() => this._tokenContracts[index])
       this._tokenContracts[index] = this._tokenContracts[index] || null

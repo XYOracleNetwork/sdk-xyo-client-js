@@ -24,7 +24,7 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
     return [XyoWitnessObserveQuerySchema, ...super.queries]
   }
 
-  public get targetSet() {
+  get targetSet() {
     return this.config?.targetSet
   }
 
@@ -34,7 +34,7 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
     return (await super.create(actualParams)) as AbstractWitness
   }
 
-  public observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
+  observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
     this.started('throw')
     const payloadList = assertEx(payloads, 'Trying to witness nothing')
     assertEx(payloadList.length > 0, 'Trying to witness empty list')

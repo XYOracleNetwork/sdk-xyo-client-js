@@ -33,21 +33,21 @@ export type CookieArchivistConfig = ArchivistConfig<{
 export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
   static override configSchema = CookieArchivistConfigSchema
 
-  public get domain() {
+  get domain() {
     return this.config?.domain
   }
 
-  public get maxEntries() {
+  get maxEntries() {
     //all browsers support at least 60 cookies
     return this.config?.maxEntries ?? 60
   }
 
-  public get maxEntrySize() {
+  get maxEntrySize() {
     //all browsers support at least 4000 length per cookie
     return this.config?.maxEntrySize ?? 4000
   }
 
-  public get namespace() {
+  get namespace() {
     return this.config?.namespace ?? 'xyoarch'
   }
 
@@ -67,7 +67,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     return (await super.create(params)) as CookieArchivist
   }
 
-  public override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<XyoPayload> {
     try {
       return Object.entries(Cookies.get())
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
@@ -78,7 +78,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     }
   }
 
-  public override clear(): void | Promise<void> {
+  override clear(): void | Promise<void> {
     try {
       Object.entries(Cookies.get()).map(([key]) => {
         if (key.startsWith(`${this.namespace}-`)) {
@@ -91,7 +91,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     }
   }
 
-  public override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<XyoBoundWitness[]> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
@@ -115,7 +115,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     }
   }
 
-  public override delete(hashes: string[]): PromisableArray<boolean> {
+  override delete(hashes: string[]): PromisableArray<boolean> {
     try {
       return hashes.map((hash) => {
         Cookies.remove(this.keyFromHash(hash))
@@ -127,7 +127,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     }
   }
 
-  public async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<XyoPayload[]> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {
@@ -141,7 +141,7 @@ export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
     }
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     try {
       const storedPayloads: XyoPayload[] = payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)

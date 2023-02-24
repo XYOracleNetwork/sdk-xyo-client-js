@@ -17,7 +17,7 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivist
     return (await super.create(params)) as ArchivistPayloadDiviner
   }
 
-  public async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
       `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,

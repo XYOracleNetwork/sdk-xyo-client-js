@@ -19,20 +19,20 @@ import {
 } from './Queries'
 
 export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements NodeModule {
-  static requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
+  static override requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   private _archivist?: ArchivistWrapper
 
-  public get archivist() {
+  get archivist() {
     this._archivist = this._archivist ?? new ArchivistWrapper(this.module)
     return this._archivist
   }
 
-  public get parentResolver() {
+  get parentResolver() {
     return this.module.parentResolver
   }
 
-  static tryWrap(module: Module): NodeWrapper | undefined {
+  static override tryWrap(module: Module): NodeWrapper | undefined {
     const missingRequiredQueries = this.missingRequiredQueries(module)
     if (missingRequiredQueries.length > 0) {
       console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
@@ -41,7 +41,7 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     }
   }
 
-  static wrap(module: Module): NodeWrapper {
+  static override wrap(module: Module): NodeWrapper {
     return assertEx(this.tryWrap(module), 'Unable to wrap module as NodeWrapper')
   }
 

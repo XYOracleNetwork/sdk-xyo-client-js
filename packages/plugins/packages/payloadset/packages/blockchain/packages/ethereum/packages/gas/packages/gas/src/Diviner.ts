@@ -17,7 +17,7 @@ export class XyoEthereumGasDiviner extends AbstractDiviner implements DivinerMod
     return (await super.create(params)) as XyoEthereumGasDiviner
   }
 
-  public override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
+  override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
     const cost = divineGas(payloads ?? [])
     return [cost]
   }

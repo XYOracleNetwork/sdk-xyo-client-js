@@ -7,13 +7,13 @@ import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
 
 export class XyoDomainWitness extends AbstractWitness<XyoDomainWitnessConfig> implements WitnessModule {
   static override configSchema = XyoDomainWitnessConfigSchema
-  public static dmarc = '_xyo'
+  static dmarc = '_xyo'
 
   static override async create(params?: ModuleParams<XyoDomainWitnessConfig>): Promise<XyoDomainWitness> {
     return (await super.create(params)) as XyoDomainWitness
   }
 
-  public static generateDmarc(domain: string) {
+  static generateDmarc(domain: string) {
     return `${XyoDomainWitness.dmarc}.${domain}`
   }
 

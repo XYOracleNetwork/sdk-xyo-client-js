@@ -16,13 +16,13 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     super()
   }
 
-  public get isModuleResolver(): boolean {
+  override get isModuleResolver(): boolean {
     return true
   }
 
-  add(module: Module): this
-  add(module: Module[]): this
-  add(_module: Module | Module[]): this {
+  override add(module: Module): this
+  override add(module: Module[]): this
+  override add(_module: Module | Module[]): this {
     throw new Error('Method not implemented.')
   }
 
@@ -37,11 +37,11 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     return result
   }
 
-  remove(_address: string | string[]): this {
+  override remove(_address: string | string[]): this {
     throw new Error('Method not implemented.')
   }
 
-  async resolve(filter?: ModuleFilter): Promise<ProxyModule[]> {
+  override async resolve(filter?: ModuleFilter): Promise<ProxyModule[]> {
     return await Promise.all(flatten(await this.resolveRemoteModules(filter)))
   }
 

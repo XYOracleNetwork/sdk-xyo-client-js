@@ -58,25 +58,25 @@ export class Account extends KeyPair {
   }
 
   /** @deprecated use addressValue instead */
-  public get address() {
+  get address() {
     return this.public.address.hex
   }
 
-  public get addressValue() {
+  get addressValue() {
     return this.public.address
   }
 
-  public get previousHash() {
+  get previousHash() {
     return this._previousHash
   }
 
   /** @deprecated use private instead */
-  public get privateKey() {
+  get privateKey() {
     return this.private
   }
 
   /** @deprecated use public instead */
-  public get publicKey() {
+  get publicKey() {
     return this.public
   }
 
@@ -101,12 +101,12 @@ export class Account extends KeyPair {
     return new Account()
   }
 
-  public sign(hash: Uint8Array | string) {
+  sign(hash: Uint8Array | string) {
     this._previousHash = new XyoData(32, hash)
     return this.private.sign(hash)
   }
 
-  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
     return this.public.address.verify(msg, signature)
   }
 }

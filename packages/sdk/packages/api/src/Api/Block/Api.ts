@@ -13,7 +13,7 @@ export class XyoArchivistArchiveBlockApi<
   /**
    * @deprecated Use module API
    */
-  public payloads(hash: string): XyoApiSimple<XyoPayload[][]> {
+  payloads(hash: string): XyoApiSimple<XyoPayload[][]> {
     return new XyoApiSimple<XyoPayload[][]>({
       ...this.config,
       root: `${this.root}hash/${hash}/payloads/`,

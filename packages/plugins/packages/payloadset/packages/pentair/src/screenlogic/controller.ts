@@ -277,7 +277,7 @@ export interface PoolCircuitJson {
 }
 
 export class PoolCircuit implements PoolCircuitJson {
-  constructor(public readonly id: number, public readonly name: string) {}
+  constructor(readonly id: number, readonly name: string) {}
 }
 
 export interface PoolConfigJson {
@@ -295,17 +295,17 @@ export interface PoolConfigJson {
 }
 
 export class PoolConfig implements PoolConfigJson {
-  public circuits: PoolCircuit[] = []
-  public readonly deviceId: string
-  public readonly gatewayName: string
-  public readonly hasPool: boolean
-  public readonly hasSpa: boolean
-  public readonly isCelsius: boolean
-  public readonly poolMaxSetPoint: number
-  public readonly poolMinSetPoint: number
-  public readonly softwareVersion: string
-  public readonly spaMaxSetPoint: number
-  public readonly spaMinSetPoint: number
+  circuits: PoolCircuit[] = []
+  readonly deviceId: string
+  readonly gatewayName: string
+  readonly hasPool: boolean
+  readonly hasSpa: boolean
+  readonly isCelsius: boolean
+  readonly poolMaxSetPoint: number
+  readonly poolMinSetPoint: number
+  readonly softwareVersion: string
+  readonly spaMaxSetPoint: number
+  readonly spaMinSetPoint: number
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(gatewayName: string, softwareVersion: string, config: any) {
@@ -334,20 +334,20 @@ export class PoolConfig implements PoolConfigJson {
 }
 
 export class PoolStatus {
-  public readonly airTemperature: number
-  public readonly circuitState = new Map<number, number>()
-  public readonly hasPool: boolean
-  public readonly hasSpa: boolean
-  public readonly isPoolActive: boolean
-  public readonly isPoolHeating: boolean
-  public readonly isSpaActive: boolean
-  public readonly isSpaHeating: boolean
-  public readonly poolHeatMode: number
-  public readonly poolSetPoint: number
-  public readonly poolTemperature: number
-  public readonly spaHeatMode: number
-  public readonly spaSetPoint: number
-  public readonly spaTemperature: number
+  readonly airTemperature: number
+  readonly circuitState = new Map<number, number>()
+  readonly hasPool: boolean
+  readonly hasSpa: boolean
+  readonly isPoolActive: boolean
+  readonly isPoolHeating: boolean
+  readonly isSpaActive: boolean
+  readonly isSpaHeating: boolean
+  readonly poolHeatMode: number
+  readonly poolSetPoint: number
+  readonly poolTemperature: number
+  readonly spaHeatMode: number
+  readonly spaSetPoint: number
+  readonly spaTemperature: number
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(status: any) {

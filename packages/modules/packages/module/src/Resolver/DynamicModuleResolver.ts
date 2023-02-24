@@ -15,14 +15,10 @@ export class DynamicModuleResolver<TModule extends Module = Module> extends Comp
     this._resolveImplementation = resolveImplementation
   }
 
-  public get isModuleResolver() {
-    return true
-  }
-
-  public get resolveImplementation(): ResolverFunction<TModule> {
+  get resolveImplementation(): ResolverFunction<TModule> {
     return this._resolveImplementation
   }
-  public set resolveImplementation(value: ResolverFunction<TModule>) {
+  set resolveImplementation(value: ResolverFunction<TModule>) {
     this._resolveImplementation = value
   }
 

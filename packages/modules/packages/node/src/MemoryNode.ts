@@ -24,7 +24,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
   extends AbstractNode<TConfig>
   implements ModuleAttachedEventEmitter, ResolverChangedEventEmitter
 {
-  static configSchema = NodeConfigSchema
+  static override configSchema = NodeConfigSchema
   private readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
   private readonly moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
   private registeredModuleMap = new Map<string, Module>()

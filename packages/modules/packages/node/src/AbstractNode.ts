@@ -31,7 +31,7 @@ export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = Module
 >
 
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule {
-  static readonly configSchema = NodeConfigSchema
+  static override readonly configSchema = NodeConfigSchema
 
   protected internalResolver = new CompositeModuleResolver()
 
@@ -45,7 +45,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return true
   }
 
-  public override get queries(): string[] {
+  override get queries(): string[] {
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
   }
 

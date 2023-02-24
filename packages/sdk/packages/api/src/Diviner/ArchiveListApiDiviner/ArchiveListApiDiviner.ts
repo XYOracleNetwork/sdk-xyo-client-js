@@ -22,7 +22,7 @@ export class ArchiveListApiDiviner extends AbstractDiviner<XyoArchiveListApiDivi
     return (await super.create(params)) as ArchiveListApiDiviner
   }
 
-  public async divine(): Promise<ArchiveList[]> {
+  async divine(): Promise<ArchiveList[]> {
     const apiResult = (await this.api.archives.get()) ?? []
     return (
       apiResult.map((archive) => {

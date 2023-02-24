@@ -29,7 +29,7 @@ export class SchemaStatsApiDiviner extends AbstractDiviner<XyoSchemaStatsApiDivi
     return (await super.create(params)) as SchemaStatsApiDiviner
   }
 
-  public async divine(): Promise<SchemaStats[]> {
+  async divine(): Promise<SchemaStats[]> {
     const stats = await this.api.archive(this.archive).payload.schema.stats.get()
     const result: SchemaStats[] = [
       {

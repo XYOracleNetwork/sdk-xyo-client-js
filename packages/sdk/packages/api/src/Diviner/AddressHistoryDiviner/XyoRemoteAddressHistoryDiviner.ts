@@ -24,7 +24,7 @@ export class XyoRemoteAddressHistoryDiviner extends AbstractDiviner<XyoRemoteDiv
     this._api = params?.api
   }
 
-  public get api() {
+  get api() {
     if (this._api) {
       return this._api
     }
@@ -41,7 +41,7 @@ export class XyoRemoteAddressHistoryDiviner extends AbstractDiviner<XyoRemoteDiv
     return (await super.create(params)) as XyoRemoteAddressHistoryDiviner
   }
 
-  public override async divine(payloads?: XyoPayloads): Promise<XyoBoundWitness[]> {
+  override async divine(payloads?: XyoPayloads): Promise<XyoBoundWitness[]> {
     if (!payloads) return []
     try {
       const query = payloads.find(isAddressHistoryQueryPayload)

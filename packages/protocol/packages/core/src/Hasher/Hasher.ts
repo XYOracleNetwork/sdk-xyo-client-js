@@ -6,27 +6,27 @@ import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
 
 export class Hasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
-  public get hash() {
+  get hash() {
     return Hasher.hash(this.obj)
   }
 
-  public get hashFields() {
+  get hashFields() {
     return Hasher.hashFields(this.obj)
   }
 
-  public get stringified() {
+  get stringified() {
     return Hasher.stringify(this.obj)
   }
 
-  public static hash<T extends EmptyObject>(obj: T) {
+  static hash<T extends EmptyObject>(obj: T) {
     return this.sortedHashData(obj).toString('hex')
   }
 
-  public static hashFields<T extends EmptyObject>(obj: T) {
+  static hashFields<T extends EmptyObject>(obj: T) {
     return removeEmptyFields(deepOmitUnderscoreFields(obj))
   }
 
-  public static stringify<T extends EmptyObject>(obj: T) {
+  static stringify<T extends EmptyObject>(obj: T) {
     return JSON.stringify(sortFields(this.hashFields(obj)))
   }
 

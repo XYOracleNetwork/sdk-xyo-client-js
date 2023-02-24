@@ -44,15 +44,15 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     this.resolver.addResolver(this._targetResolver)
   }
 
-  public get nodeUri() {
+  get nodeUri() {
     return assertEx(this.config?.nodeUri, 'Missing nodeUri')
   }
 
-  public get rootAddress() {
+  get rootAddress() {
     return assertEx(this._rootAddress, 'missing rootAddress')
   }
 
-  public get targetResolver() {
+  get targetResolver() {
     return this._targetResolver
   }
 
@@ -85,7 +85,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return (await this.targetResolver.resolve(filter)) ?? (await super.resolve(filter))
   }
 
-  public targetConfig(address: string): XyoPayload {
+  targetConfig(address: string): XyoPayload {
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }
 
@@ -118,7 +118,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return discover
   }
 
-  public targetQueries(address: string): string[] {
+  targetQueries(address: string): string[] {
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 

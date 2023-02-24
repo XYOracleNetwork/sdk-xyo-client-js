@@ -26,11 +26,11 @@ export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoVali
     return this._schemaValidator
   }
 
-  public static setSchemaNameValidatorFactory(factory: AllValidatorFactory | null) {
+  static setSchemaNameValidatorFactory(factory: AllValidatorFactory | null) {
     this.schemaNameValidatorFactory = factory
   }
 
-  public schemaName() {
+  schemaName() {
     const errors: Error[] = []
     if (this.obj.schema === undefined) {
       errors.push(Error('schema missing'))
@@ -40,7 +40,7 @@ export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoVali
     return errors
   }
 
-  public validate() {
+  validate() {
     const errors: Error[] = []
     errors.push(...this.schemaName())
     return errors

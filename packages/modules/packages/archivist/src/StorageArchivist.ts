@@ -42,23 +42,23 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     super(params)
   }
 
-  public get maxEntries() {
+  get maxEntries() {
     return this.config?.maxEntries ?? 1000
   }
 
-  public get maxEntrySize() {
+  get maxEntrySize() {
     return this.config?.maxEntries ?? 16000
   }
 
-  public get namespace() {
+  get namespace() {
     return this.config?.namespace ?? 'xyo-archivist'
   }
 
-  public get persistAccount() {
+  get persistAccount() {
     return this.config?.persistAccount ?? false
   }
 
-  public override get queries(): string[] {
+  override get queries(): string[] {
     return [
       ArchivistAllQuerySchema,
       ArchivistDeleteQuerySchema,
@@ -70,7 +70,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     ]
   }
 
-  public get type() {
+  get type() {
     return this.config?.type ?? 'local'
   }
 
@@ -90,17 +90,17 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     return (await super.create(params)) as XyoStorageArchivist
   }
 
-  public override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<XyoPayload> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     return Object.entries(this.storage.getAll()).map(([, value]) => value)
   }
 
-  public override clear(): void | Promise<void> {
+  override clear(): void | Promise<void> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     this.storage.clear()
   }
 
-  public override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<XyoBoundWitness[]> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     const payloads = await this.all()
     assertEx(payloads.length > 0, 'Nothing to commit')
@@ -121,7 +121,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  public override delete(hashes: string[]): PromisableArray<boolean> {
+  override delete(hashes: string[]): PromisableArray<boolean> {
     this.logger?.log(`hashes.length: ${hashes.length}`)
     return hashes.map((hash) => {
       this.storage.remove(hash)
@@ -129,7 +129,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     })
   }
 
-  public async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<XyoPayload[]> {
     this.logger?.log(`hashes.length: ${hashes.length}`)
 
     return await Promise.all(
@@ -143,7 +143,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     )
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     this.logger?.log(`payloads.length: ${payloads.length}`)
 
     const storedPayloads = payloads.map((payload) => {

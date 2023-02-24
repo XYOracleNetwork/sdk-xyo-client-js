@@ -33,7 +33,7 @@ export class XyoArchivistNodeApi<
    * @param retryInterval The interval to poll for query results
    * @returns The result for the issued query
    */
-  public async perform<T extends Partial<XyoPayload>>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
+  async perform<T extends Partial<XyoPayload>>(data: T, schema: string, timeout = 5000, retryInterval = 100) {
     const payload = new XyoPayloadBuilder({ schema }).fields(data).build()
     const [query] = new BoundWitnessBuilder({ inlinePayloads: true }).payload(payload).build()
     // eslint-disable-next-line deprecation/deprecation
@@ -49,7 +49,7 @@ export class XyoArchivistNodeApi<
    * @param retryInterval The interval to poll for query results
    * @returns The results for the issued queries
    */
-  public async performTransaction(data: D, timeout = 5000, retryInterval = 100) {
+  async performTransaction(data: D, timeout = 5000, retryInterval = 100) {
     assertEx(timeout > 0, 'timeout must be positive')
     assertEx(retryInterval > 0, 'retryInterval must be positive')
     assertEx(timeout > retryInterval, 'timeout must be greater than retryInterval')
@@ -75,7 +75,7 @@ export class XyoArchivistNodeApi<
    * @param queryId Query ID from a previously issued query
    * @returns The result of the query (if available)
    */
-  public result<T extends XyoPayload = XyoPayload>(queryId: string): XyoApiSimple<XyoPayload> {
+  result<T extends XyoPayload = XyoPayload>(queryId: string): XyoApiSimple<XyoPayload> {
     return new XyoApiSimple<T>({
       ...this.config,
       root: `/query/${queryId}/`,

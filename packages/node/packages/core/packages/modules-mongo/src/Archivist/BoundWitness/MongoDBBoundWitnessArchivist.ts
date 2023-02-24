@@ -27,7 +27,7 @@ export type MongoDBBoundWitnessArchivistParams<TConfig extends ModuleConfig = Mo
 >
 
 export class MongoDBBoundWitnessArchivist extends AbstractBoundWitnessArchivist {
-  public static override configSchema = ModuleConfigSchema
+  static override configSchema = ModuleConfigSchema
 
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 

@@ -38,7 +38,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
   static configSchema: string
   static defaultLogger?: Logger
 
-  public _config: TConfig
+  _config: TConfig
 
   protected _parentResolver = new CompositeModuleResolver()
   protected _resolver: CompositeModuleResolver
@@ -66,31 +66,31 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
   }
 
-  public get address() {
+  get address() {
     return this.account.addressValue.hex
   }
 
-  public get allowAnonymous() {
+  get allowAnonymous() {
     return !!this.config.security?.allowAnonymous
   }
 
-  public get config() {
+  get config() {
     return this._config
   }
 
-  public get parentResolver(): CompositeModuleResolver {
+  get parentResolver(): CompositeModuleResolver {
     return this._parentResolver
   }
 
-  public get previousHash() {
+  get previousHash() {
     return this.account.previousHash
   }
 
-  public get queries(): string[] {
+  get queries(): string[] {
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
 
-  public get resolver(): CompositeModuleResolver {
+  get resolver(): CompositeModuleResolver {
     return this._resolver
   }
 
@@ -101,7 +101,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return await new this(actualParams as ModuleParams<ModuleConfig>).start()
   }
 
-  public discover(): Promisable<XyoPayload[]> {
+  discover(): Promisable<XyoPayload[]> {
     const config = this.config
     const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
     const queries = this.queries.map((query) => {
@@ -114,7 +114,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return compact([config, configSchema, address, ...queries])
   }
 
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
@@ -150,7 +150,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
@@ -169,7 +169,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return (await resolver.resolve(filter)) ?? []
   }
 
-  public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
+  started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
     if (!this._started) {
       switch (notStartedAction) {
         case 'throw':
@@ -190,7 +190,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return this._started
   }
 
-  public subscribe(_queryAccount?: Account) {
+  subscribe(_queryAccount?: Account) {
     return
   }
 

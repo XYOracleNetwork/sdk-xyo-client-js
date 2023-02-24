@@ -3,7 +3,7 @@ import { XyoArchivistArchiveSettingsKeyApi } from './Key'
 
 export class XyoArchivistArchiveSettingsApi extends XyoApiBase {
   private _key?: XyoArchivistArchiveSettingsKeyApi
-  public get key(): XyoArchivistArchiveSettingsKeyApi {
+  get key(): XyoArchivistArchiveSettingsKeyApi {
     this._key =
       this._key ??
       new XyoArchivistArchiveSettingsKeyApi({

@@ -19,11 +19,11 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
   static override configSchema: string
   static targetSchema: string
 
-  public override get queries(): string[] {
+  override get queries(): string[] {
     return [XyoDivinerDivineQuerySchema, ...super.queries]
   }
 
-  public get targetSchema() {
+  get targetSchema() {
     return this.config?.targetSchema
   }
 

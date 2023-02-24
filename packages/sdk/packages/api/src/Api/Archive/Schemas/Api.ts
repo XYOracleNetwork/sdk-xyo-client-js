@@ -7,7 +7,7 @@ export class XyoArchivistArchiveSchemasApi extends XyoApiSimple<XyoSchemaPayload
   /**
    * @deprecated Use module API
    */
-  public get recent(): XyoApiSimple<XyoSchemaPayload[]> {
+  get recent(): XyoApiSimple<XyoSchemaPayload[]> {
     this._recent =
       this._recent ??
       new XyoApiSimple<XyoSchemaPayload[]>({

@@ -3,7 +3,7 @@ export type PromiseExFunc<T> = (resolve?: PromiseExSubFunc<T, void>, reject?: Pr
 export type PromiseExValueFunc<V> = (value?: V) => boolean
 
 export class PromiseEx<T, V = void> extends Promise<T> {
-  public cancelled?: boolean
+  cancelled?: boolean
   private _value?: V
 
   constructor(func: PromiseExFunc<T>, value?: V) {
@@ -22,7 +22,7 @@ export class PromiseEx<T, V = void> extends Promise<T> {
     return super.then(onfulfilled, onrejected)
   }
 
-  public value(onvalue?: (value?: V) => boolean) {
+  value(onvalue?: (value?: V) => boolean) {
     if (onvalue?.(this._value)) {
       this.cancelled = true
     }

@@ -14,9 +14,9 @@ export interface XyoFetchedAlias extends FetchedPayload {
 }
 
 export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPayload> extends PayloadWrapper<T> {
-  public aliases?: XyoFetchedAlias[] | null
+  aliases?: XyoFetchedAlias[] | null
 
-  public static async discover(reverseDomainName: string, proxy?: string) {
+  static async discover(reverseDomainName: string, proxy?: string) {
     const parts = reverseDomainName.split('.')
     for (let i = 2; i <= parts.length; i++) {
       const domainToCheck = reverse(parts.filter((_, index) => index < i)).join('.')
@@ -24,7 +24,7 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     }
   }
 
-  public static async discoverDNSEntry(domain: string) {
+  static async discoverDNSEntry(domain: string) {
     try {
       const hash = (await domainResolve(`_xyo.${domain}`, DnsRecordType.TXT))?.Answer?.[0]?.data
       if (hash) {
@@ -39,11 +39,11 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     }
   }
 
-  public static async discoverRootFile(domain: string, proxy?: string) {
+  static async discoverRootFile(domain: string, proxy?: string) {
     return isBrowser() || proxy ? await this.discoverRootFileWithProxy(domain, proxy) : await this.discoverRootFileDirect(domain)
   }
 
-  public static async discoverRootFileDirect(domain: string) {
+  static async discoverRootFileDirect(domain: string) {
     try {
       const config = (await axios.get<XyoDomainPayload>(`https://${domain}/xyo-config.json`)).data
       return new XyoDomainPayloadWrapper(config)
@@ -52,7 +52,7 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     }
   }
 
-  public static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
+  static async discoverRootFileWithProxy(domain: string, proxy = 'https://api.archivist.xyo.network/domain') {
     try {
       const requestUrl = `${proxy}/${domain.split('.').reverse().join('.')}`
       const config = (await axios.get<XyoApiEnvelope<XyoDomainPayload>>(requestUrl)).data.data
@@ -63,11 +63,11 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     }
   }
 
-  public async fetch(networkSlug?: string) {
+  async fetch(networkSlug?: string) {
     await this.fetchAliases(networkSlug)
   }
 
-  public async fetchAliases(networkSlug?: string) {
+  async fetchAliases(networkSlug?: string) {
     //set it to null to signify fetch ran
     this.aliases = null
 

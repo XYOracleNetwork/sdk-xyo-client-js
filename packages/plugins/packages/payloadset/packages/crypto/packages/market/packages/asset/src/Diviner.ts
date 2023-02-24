@@ -19,7 +19,7 @@ export class XyoCryptoMarketAssetDiviner extends AbstractDiviner {
     return (await super.create(params)) as XyoCryptoMarketAssetDiviner
   }
 
-  public override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
+  override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
     const coinGeckoPayload = payloads?.find((payload) => payload?.schema === XyoCoingeckoCryptoMarketSchema) as XyoCoingeckoCryptoMarketPayload
     const uniswapPayload = payloads?.find((payload) => payload?.schema === XyoUniswapCryptoMarketSchema) as XyoUniswapCryptoMarketPayload
     const result: XyoCryptoMarketAssetPayload = divinePrices(coinGeckoPayload, uniswapPayload)

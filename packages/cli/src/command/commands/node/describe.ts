@@ -11,7 +11,7 @@ export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) => yargs.usage('Usage: $0 node describe [command]').commandDir(parse(__filename).name, opts)
 export const command = 'describe'
 export const deprecated = false
-export const describe = 'Issue a describe query against the XYO Node'
+export const describe = 'Describe the XYO Node'
 export const handler = async (argv: BaseArguments) => {
   const { verbose } = argv
   try {

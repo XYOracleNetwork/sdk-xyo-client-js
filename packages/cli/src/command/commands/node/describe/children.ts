@@ -10,7 +10,7 @@ export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = {}
 export const command = 'children'
 export const deprecated = false
-export const describe = 'Display the supported queries for the XYO Node'
+export const describe = 'Describe the children of the XYO Node'
 export const handler = async (argv: BaseArguments) => {
   const { verbose } = argv
   try {

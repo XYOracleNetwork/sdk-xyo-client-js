@@ -9,7 +9,7 @@ export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = {}
 export const command = 'address'
 export const deprecated = false
-export const describe = 'Display the address for the XYO Node'
+export const describe = 'Display the address of the XYO Node'
 export const handler = async (argv: BaseArguments) => {
   const { verbose } = argv
   try {

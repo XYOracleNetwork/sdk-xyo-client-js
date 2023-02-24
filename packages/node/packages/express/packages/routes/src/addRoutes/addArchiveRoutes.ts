@@ -3,8 +3,8 @@ import { allowAnonymous, requireArchiveAccess, requireArchiveOwner, requireAuth 
 import { Express } from 'express'
 
 import { getArchive, getArchives, putArchive } from '../routes'
-import { addArchiveSchemaRoutes } from './addArchiveSchemaRoutes'
-import { addArchiveSettingsRoutes } from './addArchiveSettingsRoutes'
+// import { addArchiveSchemaRoutes } from './addArchiveSchemaRoutes'
+// import { addArchiveSettingsRoutes } from './addArchiveSettingsRoutes'
 
 export const addArchiveRoutes = (app: Express) => {
   app.get(
@@ -40,6 +40,6 @@ export const addArchiveRoutes = (app: Express) => {
     /* #swagger.summary = 'Delete an archive' */
   )
 
-  addArchiveSchemaRoutes(app)
-  addArchiveSettingsRoutes(app)
+  // addArchiveSchemaRoutes(app)
+  // addArchiveSettingsRoutes(app)
 }

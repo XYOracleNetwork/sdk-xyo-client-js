@@ -1,4 +1,5 @@
 export * from './AbstractDiviner'
+export * from './AddressChains'
 export * from './AddressHistory'
 export * from './IdentityDiviner'
 export * from './Payload'

@@ -6,7 +6,6 @@ import {
   ArchivistCommitQuerySchema,
   ArchivistConfig,
   ArchivistDeleteQuerySchema,
-  ArchivistFindQuerySchema,
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
@@ -100,9 +99,6 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
           break
         case ArchivistDeleteQuerySchema:
           await this.delete(typedQuery.hashes)
-          break
-        case ArchivistFindQuerySchema:
-          resultPayloads.push(...(await this.find(typedQuery.filter)))
           break
         case ArchivistGetQuerySchema:
           resultPayloads.push(...(await this.get(typedQuery.hashes)))

@@ -1,4 +1,4 @@
-import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { isXyoBoundWitnessPayload, XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleParams } from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
@@ -39,7 +39,7 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
   }
 
   override get queries(): string[] {
-    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
+    return [ArchivistInsertQuerySchema, ...super.queries]
   }
 
   static override async create(params?: XyoRemoteArchivistParams): Promise<XyoRemoteArchivist> {

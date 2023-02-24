@@ -8,7 +8,6 @@ import {
   ArchivistCommitQuerySchema,
   ArchivistConfig,
   ArchivistDeleteQuerySchema,
-  ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-model'
@@ -63,7 +62,6 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
       ArchivistAllQuerySchema,
       ArchivistDeleteQuerySchema,
       ArchivistClearQuerySchema,
-      ArchivistFindQuerySchema,
       ArchivistInsertQuerySchema,
       ArchivistCommitQuerySchema,
       ...super.queries,

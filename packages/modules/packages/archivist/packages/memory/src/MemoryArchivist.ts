@@ -7,7 +7,6 @@ import {
   ArchivistCommitQuerySchema,
   ArchivistConfig,
   ArchivistDeleteQuerySchema,
-  ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-model'
@@ -46,7 +45,6 @@ export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchi
       ArchivistAllQuerySchema,
       ArchivistDeleteQuerySchema,
       ArchivistClearQuerySchema,
-      ArchivistFindQuerySchema,
       ArchivistInsertQuerySchema,
       ArchivistCommitQuerySchema,
       ...super.queries,

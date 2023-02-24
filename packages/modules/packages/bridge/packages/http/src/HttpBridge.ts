@@ -13,7 +13,6 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  ModuleResolver,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'

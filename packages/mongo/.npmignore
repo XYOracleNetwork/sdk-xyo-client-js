@@ -4,6 +4,8 @@ rollup.config.ts
 jest.config.js
 rollup.config.ts
 yarn.lock
+**/*.spec.ts
+**/*.snap
 
 .pnp.*
 .yarn/*

@@ -6,6 +6,8 @@ tsconfig*
 jest.config.js
 rollup.config.ts
 yarn.lock
+**/*.spec.ts
+**/*.snap
 
 .github
 .testdata

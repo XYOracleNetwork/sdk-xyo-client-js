@@ -85,7 +85,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
 
     const errors = resolved.filter(rejected).map((r) => Error(r.reason))
 
-    if (errors) {
+    if (errors.length) {
       this.logger?.error(`Resolve Errors: ${JSON.stringify(errors, null, 2)}`)
     }
 

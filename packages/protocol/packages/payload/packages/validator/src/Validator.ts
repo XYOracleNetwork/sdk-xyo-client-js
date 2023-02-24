@@ -21,16 +21,16 @@ export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoVali
   get schemaValidator() {
     this._schemaValidator = this._schemaValidator ?? PayloadValidator.schemaNameValidatorFactory?.(this.payload.schema)
     if (!this._schemaValidator) {
-      console.warn('No schema name validator set')
+      console.warn(`No schema name validator set [${this.payload.schema}]`)
     }
     return this._schemaValidator
   }
 
-  public static setSchemaNameValidatorFactory(factory: AllValidatorFactory | null) {
+  static setSchemaNameValidatorFactory(factory: AllValidatorFactory | null) {
     this.schemaNameValidatorFactory = factory
   }
 
-  public schemaName() {
+  schemaName(): Error[] {
     const errors: Error[] = []
     if (this.obj.schema === undefined) {
       errors.push(Error('schema missing'))
@@ -40,7 +40,7 @@ export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoVali
     return errors
   }
 
-  public validate() {
+  validate() {
     const errors: Error[] = []
     errors.push(...this.schemaName())
     return errors

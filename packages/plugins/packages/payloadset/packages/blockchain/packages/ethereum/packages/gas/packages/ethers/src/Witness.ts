@@ -10,9 +10,12 @@ import { XyoEthereumGasEthersWitnessConfig } from './Config'
 import { getGasFromEthers } from './lib'
 import { XyoEthereumGasEthersWitnessConfigSchema } from './Schema'
 
-export interface XyoEthereumGasEthersWitnessParams extends ModuleParams<XyoEthereumGasEthersWitnessConfig> {
-  provider: Provider
-}
+export type XyoEthereumGasEthersWitnessParams = ModuleParams<
+  XyoEthereumGasEthersWitnessConfig,
+  {
+    provider: Provider
+  }
+>
 
 export class XyoEthereumGasEthersWitness extends TimestampWitness<XyoEthereumGasEthersWitnessConfig> {
   static override configSchema = XyoEthereumGasEthersWitnessConfigSchema

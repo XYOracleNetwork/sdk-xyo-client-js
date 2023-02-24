@@ -9,7 +9,7 @@ export class Logging implements Logger {
     this._id = id
   }
 
-  public set id(id: string) {
+  set id(id: string) {
     this._id = id
   }
 

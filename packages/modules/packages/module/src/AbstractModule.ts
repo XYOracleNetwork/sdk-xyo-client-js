@@ -28,7 +28,7 @@ import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
 import { serializableField } from './lib'
 import { Logging } from './Logging'
-import { ModuleParams } from './ModuleParams'
+import { AccountModuleParams, ModuleParams, WalletModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
@@ -38,7 +38,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
   static configSchema: string
   static defaultLogger?: Logger
 
-  public _config: TConfig
+  _config: TConfig
 
   protected _parentResolver = new CompositeModuleResolver()
   protected _resolver: CompositeModuleResolver
@@ -50,7 +50,14 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
 
   protected constructor(params: ModuleParams<TConfig>) {
     this._config = params.config
-    this.account = this.loadAccount(params?.account)
+    //TODO: change wallet to use accountDerivationPath
+    this.account = this.loadAccount(
+      (params as WalletModuleParams<TConfig>).wallet
+        ? (params as WalletModuleParams<TConfig>).wallet.getAccount(0)
+        : (params as AccountModuleParams<TConfig>).account
+        ? (params as AccountModuleParams<TConfig>).account
+        : undefined,
+    )
     this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
@@ -59,31 +66,31 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
   }
 
-  public get address() {
+  get address() {
     return this.account.addressValue.hex
   }
 
-  public get allowAnonymous() {
+  get allowAnonymous() {
     return !!this.config.security?.allowAnonymous
   }
 
-  public get config() {
+  get config() {
     return this._config
   }
 
-  public get parentResolver(): CompositeModuleResolver {
+  get parentResolver(): CompositeModuleResolver {
     return this._parentResolver
   }
 
-  public get previousHash() {
+  get previousHash() {
     return this.account.previousHash
   }
 
-  public get queries(): string[] {
+  get queries(): string[] {
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
 
-  public get resolver(): CompositeModuleResolver {
+  get resolver(): CompositeModuleResolver {
     return this._resolver
   }
 
@@ -94,7 +101,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return await new this(actualParams as ModuleParams<ModuleConfig>).start()
   }
 
-  public discover(): Promisable<XyoPayload[]> {
+  discover(): Promisable<XyoPayload[]> {
     const config = this.config
     const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
     const queries = this.queries.map((query) => {
@@ -107,7 +114,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return compact([config, configSchema, address, ...queries])
   }
 
-  public async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
@@ -116,7 +123,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     if (!this.allowAnonymous) {
       if (query.addresses.length === 0) {
-        console.warn('Anonymous Queries not allowed, but running anyway')
+        console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
       }
     }
     const typedQuery = wrapper.query.payload
@@ -143,7 +150,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  public queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
@@ -162,7 +169,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return (await resolver.resolve(filter)) ?? []
   }
 
-  public started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
+  started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
     if (!this._started) {
       switch (notStartedAction) {
         case 'throw':
@@ -183,7 +190,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
     return this._started
   }
 
-  public subscribe(_queryAccount?: Account) {
+  subscribe(_queryAccount?: Account) {
     return
   }
 

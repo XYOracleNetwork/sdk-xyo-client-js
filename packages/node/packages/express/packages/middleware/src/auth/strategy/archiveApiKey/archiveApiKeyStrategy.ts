@@ -11,10 +11,10 @@ import { Strategy, StrategyCreated, StrategyCreatedStatic } from 'passport'
 @injectable()
 export class ArchiveApiKeyStrategy extends Strategy {
   constructor(
-    @inject(TYPES.ArchiveArchivist) public readonly archiveArchivist: ArchiveArchivist,
-    @inject(TYPES.ArchiveKeyRepository) public readonly archiveKeyRepository: ArchiveKeyRepository,
-    @inject(TYPES.UserManager) public readonly userManager: UserManager,
-    public readonly apiKeyHeader = 'x-api-key',
+    @inject(TYPES.ArchiveArchivist) readonly archiveArchivist: ArchiveArchivist,
+    @inject(TYPES.ArchiveKeyRepository) readonly archiveKeyRepository: ArchiveKeyRepository,
+    @inject(TYPES.UserManager) readonly userManager: UserManager,
+    readonly apiKeyHeader = 'x-api-key',
   ) {
     super()
   }

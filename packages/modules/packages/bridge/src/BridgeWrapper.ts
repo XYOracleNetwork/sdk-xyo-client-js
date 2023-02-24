@@ -13,7 +13,7 @@ import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements BridgeModule {
-  public get targetResolver() {
+  get targetResolver() {
     return this.module.targetResolver
   }
 

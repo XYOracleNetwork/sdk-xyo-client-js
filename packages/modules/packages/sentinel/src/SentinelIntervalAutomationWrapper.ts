@@ -22,7 +22,7 @@ export class SentinelIntervalAutomationWrapper<
     return this.payload.remaining ?? Infinity
   }
 
-  public next() {
+  next() {
     this.payload.start = this.payload.start + this.frequencyMillis
     this.consumeRemaining()
     this.checkEnd()

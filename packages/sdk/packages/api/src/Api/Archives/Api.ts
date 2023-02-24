@@ -3,7 +3,7 @@ import { XyoApiSimple } from '../../Simple'
 import { XyoArchivistArchiveApi } from '../Archive'
 
 export class XyoArchivistArchivesApi extends XyoApiSimple<XyoArchive[]> {
-  public archive(archive = 'temp') {
+  archive(archive = 'temp') {
     return new XyoArchivistArchiveApi({
       ...this.config,
       root: `${this.root}${archive}/`,

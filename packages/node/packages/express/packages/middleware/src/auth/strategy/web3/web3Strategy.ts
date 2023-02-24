@@ -12,7 +12,7 @@ import { verifyWallet } from './verifyWallet'
 
 @injectable()
 export class Web3AuthStrategy extends Strategy {
-  constructor(@inject(TYPES.Logger) public readonly logger: Logger, @inject(TYPES.UserManager) public readonly userManager: UserManager) {
+  constructor(@inject(TYPES.Logger) readonly logger: Logger, @inject(TYPES.UserManager) readonly userManager: UserManager) {
     super()
   }
   override async authenticate(this: StrategyCreated<this, this & StrategyCreatedStatic>, req: Request, _options?: unknown) {

@@ -13,7 +13,6 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  ModuleResolver,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -24,47 +23,53 @@ import compact from 'lodash/compact'
 
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
-export interface XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends ModuleParams<TConfig> {
-  axios?: AxiosJson
-}
+export type XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> = ModuleParams<
+  TConfig,
+  {
+    axios?: AxiosJson
+  }
+>
 
 export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractBridge<TConfig> implements BridgeModule<TConfig> {
   private _rootAddress?: string
   private _targetConfigs: Record<string, XyoPayload> = {}
   private _targetQueries: Record<string, string[]> = {}
-  private _targetResolver: ModuleResolver
+  private _targetResolver: BridgeModuleResolver
   private axios: AxiosJson
 
   protected constructor(params: XyoHttpBridgeParams<TConfig>) {
     super(params)
     this.axios = params.axios ?? new AxiosJson()
     this._targetResolver = new BridgeModuleResolver(this)
+    this.resolver.addResolver(this._targetResolver)
   }
 
-  public get nodeUri() {
+  get nodeUri() {
     return assertEx(this.config?.nodeUri, 'Missing nodeUri')
   }
 
-  public get rootAddress() {
+  get rootAddress() {
     return assertEx(this._rootAddress, 'missing rootAddress')
   }
 
-  public get targetResolver() {
+  get targetResolver() {
     return this._targetResolver
   }
 
   static override async create(params?: XyoHttpBridgeParams): Promise<HttpBridge> {
     const instance = (await super.create(params)) as HttpBridge
-    const rootAddress = assertEx(await instance.initRootAddress(), 'Failed to get rootAddress')
+    const rootAddress = assertEx(await instance.initRootAddress(), `Failed to get rootAddress [${params?.config.nodeUri}]`)
     const discover = await instance.targetDiscover(rootAddress)
+
     await Promise.all(
-      discover.map((payload) => {
+      discover.map(async (payload) => {
         const addressPayload = payload as AddressPayload
         if (addressPayload.schema === AddressSchema) {
-          return instance.targetDiscover(addressPayload.address)
+          return await instance._targetResolver.resolve(addressPayload.address)
         }
       }),
     )
+
     return instance
   }
 
@@ -76,7 +81,11 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return true
   }
 
-  public targetConfig(address: string): XyoPayload {
+  override async resolve(filter?: ModuleFilter) {
+    return (await this.targetResolver.resolve(filter)) ?? (await super.resolve(filter))
+  }
+
+  targetConfig(address: string): XyoPayload {
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }
 
@@ -109,7 +118,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return discover
   }
 
-  public targetQueries(address: string): string[] {
+  targetQueries(address: string): string[] {
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 

@@ -7,9 +7,9 @@ import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Queries'
 import { Witness } from './Witness'
 
 export class WitnessWrapper extends ModuleWrapper implements Witness {
-  static requiredQueries = [XyoWitnessObserveQuerySchema, ...super.requiredQueries]
+  static override requiredQueries = [XyoWitnessObserveQuerySchema, ...super.requiredQueries]
 
-  static tryWrap(module: Module): ModuleWrapper | undefined {
+  static override tryWrap(module: Module): ModuleWrapper | undefined {
     const missingRequiredQueries = this.missingRequiredQueries(module)
     if (missingRequiredQueries.length > 0) {
       console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
@@ -18,7 +18,7 @@ export class WitnessWrapper extends ModuleWrapper implements Witness {
     }
   }
 
-  static wrap(module: Module): ModuleWrapper {
+  static override wrap(module: Module): ModuleWrapper {
     return assertEx(this.tryWrap(module), 'Unable to wrap module as ModuleWrapper')
   }
 

@@ -33,7 +33,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
 {
   private _parents?: XyoArchivistParentWrappers
 
-  public override get queries(): string[] {
+  override get queries(): string[] {
     return [ArchivistGetQuerySchema, ...super.queries]
   }
 
@@ -41,23 +41,23 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     return !!this.config?.storeParentReads
   }
 
-  public all(): PromisableArray<XyoPayload> {
+  all(): PromisableArray<XyoPayload> {
     throw Error('Not implemented')
   }
 
-  public clear(): Promisable<void> {
+  clear(): Promisable<void> {
     throw Error('Not implemented')
   }
 
-  public commit(): Promisable<XyoBoundWitness[]> {
+  commit(): Promisable<XyoBoundWitness[]> {
     throw Error('Not implemented')
   }
 
-  public delete(_hashes: string[]): PromisableArray<boolean> {
+  delete(_hashes: string[]): PromisableArray<boolean> {
     throw Error('Not implemented')
   }
 
-  public async find(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
+  async find(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
     try {
       const filterSchemaList = filter?.schema ? (Array.isArray(filter.schema) ? filter.schema : [filter.schema]) : []
       return (await this.all()).filter((payload) => filterSchemaList.includes(payload.schema))
@@ -67,7 +67,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     }
   }
 
-  public async get(hashes: string[]): Promise<XyoPayload[]> {
+  async get(hashes: string[]): Promise<XyoPayload[]> {
     return compact(
       await Promise.all(
         hashes.map(async (hash) => {

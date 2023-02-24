@@ -30,7 +30,7 @@ export class SchemaListApiDiviner extends AbstractDiviner<XyoSchemaListApiDivine
     return (await super.create(params)) as SchemaListApiDiviner
   }
 
-  public async divine(): Promise<SchemaList[]> {
+  async divine(): Promise<SchemaList[]> {
     const apiResult = (await this.api.archive(this.archive)?.payload.schema.get()) ?? []
     return (
       apiResult.map((schema) => {

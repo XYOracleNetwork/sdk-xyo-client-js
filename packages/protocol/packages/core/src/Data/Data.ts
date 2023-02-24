@@ -20,31 +20,31 @@ export class XyoData extends XyoAbstractData {
     this._length = length
   }
 
-  public get base58() {
+  get base58() {
     this.checkLength()
     return base58.encode(this.bytes)
   }
 
-  public get bn() {
+  get bn() {
     this.checkLength()
     return new BigNumber(this.bytes)
   }
 
-  public get buffer() {
+  get buffer() {
     this.checkLength()
     return Buffer.from(this.bytes)
   }
 
-  public get bytes() {
+  get bytes() {
     return assertEx(this._bytes, 'XyoData uninitialized')
   }
 
-  public get hex() {
+  get hex() {
     this.checkLength()
     return base16.encode(this.bytes).toLowerCase()
   }
 
-  public get keccak256() {
+  get keccak256() {
     bufferPolyfill()
     this.checkLength()
     return Buffer.from(keccak256(`0x${this.buffer.toString('hex')}`))

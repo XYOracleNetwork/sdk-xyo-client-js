@@ -21,7 +21,7 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
     this._api = params?.api
   }
 
-  public get api() {
+  get api() {
     if (this._api) {
       return this._api
     }
@@ -34,11 +34,11 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
     throw Error('No api specified')
   }
 
-  public get archive() {
+  get archive() {
     return this.config?.archive
   }
 
-  public override get queries(): string[] {
+  override get queries(): string[] {
     return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }
 
@@ -46,7 +46,7 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
     return (await super.create(params)) as XyoRemoteArchivist
   }
 
-  public override async find<R extends XyoPayload = XyoPayload>(filter: PayloadFindFilter): Promise<R[]> {
+  override async find<R extends XyoPayload = XyoPayload>(filter: PayloadFindFilter): Promise<R[]> {
     try {
       const [payloads = [], payloadEnvelope, payloadResponse] = await this.api.archive(this.archive).payload.find(filter, 'tuple')
       if (payloadEnvelope?.errors?.length) {
@@ -69,7 +69,7 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
     }
   }
 
-  public async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<XyoPayload[]> {
     return compact(
       await Promise.all(
         hashes.map(async (hash) => {
@@ -98,7 +98,7 @@ export class XyoRemoteArchivist extends AbstractArchivist<XyoRemoteArchivistConf
     )
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     try {
       const boundWitnesses: XyoBoundWitness[] = payloads.filter(isXyoBoundWitnessPayload)
       boundWitnesses.forEach((boundwitness) => {

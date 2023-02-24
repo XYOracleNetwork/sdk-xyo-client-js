@@ -8,7 +8,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
   private addressToName: Record<string, string> = {}
   private modules: Record<string, TModule> = {}
 
-  public get isModuleResolver() {
+  get isModuleResolver() {
     return true
   }
 

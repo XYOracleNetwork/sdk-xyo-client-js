@@ -34,11 +34,11 @@ export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = Fil
     super(params)
   }
 
-  public get filePath() {
+  get filePath() {
     return this.config?.filePath ?? 'archivist.xyo.json'
   }
 
-  public override get queries() {
+  override get queries() {
     return [ArchivistAllQuerySchema, ArchivistFindQuerySchema, ArchivistCommitQuerySchema, ...super.queries]
   }
 
@@ -65,27 +65,27 @@ export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = Fil
     return rawPayloads.map((payload) => PayloadWrapper.parse(payload).payload)
   }
 
-  public override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<XyoPayload> {
     return this.memoryArchivist.all()
   }
 
-  public override clear(): void | Promise<void> {
+  override clear(): void | Promise<void> {
     return this.memoryArchivist.clear()
   }
 
-  public override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<XyoBoundWitness[]> {
     return await this.memoryArchivist.commit()
   }
 
-  public override delete(hashes: string[]): PromisableArray<boolean> {
+  override delete(hashes: string[]): PromisableArray<boolean> {
     return this.memoryArchivist.delete(hashes)
   }
 
-  public async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<XyoPayload[]> {
     return await this.memoryArchivist.get(hashes)
   }
 
-  public async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
     return await this.memoryArchivist.insert(payloads)
   }
 

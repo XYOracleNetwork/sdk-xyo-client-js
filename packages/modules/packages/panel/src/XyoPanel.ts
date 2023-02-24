@@ -34,11 +34,11 @@ export type XyoPanelConfig = ArchivingModuleConfig<{
 export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelModule {
   static override configSchema: XyoPanelConfigSchema
 
-  public history: XyoBoundWitness[] = []
+  history: XyoBoundWitness[] = []
   private _archivists: ArchivistWrapper[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 
-  public override get queries(): string[] {
+  override get queries(): string[] {
     return [XyoPanelReportQuerySchema, ...super.queries]
   }
 
@@ -46,12 +46,12 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     return (await super.create(params)) as XyoPanel
   }
 
-  public addWitness(address: string[]) {
+  addWitness(address: string[]) {
     this.config.witnesses = uniq([...address, ...(this.config.witnesses ?? [])])
     this._witnesses = undefined
   }
 
-  public async getArchivists() {
+  async getArchivists() {
     const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
     this._archivists =
       this._archivists ||
@@ -60,7 +60,7 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     return this._archivists
   }
 
-  public async getWitnesses() {
+  async getWitnesses() {
     const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
     this._witnesses =
       this._witnesses || ((await this.resolver?.resolve({ address: addresses })) as AbstractWitness[]).map((witness) => new WitnessWrapper(witness))
@@ -95,17 +95,17 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     return await this.bindResult(resultPayloads, queryAccount)
   }
 
-  public removeArchivist(address: string[]) {
+  removeArchivist(address: string[]) {
     this.config.archivists = (this.config.archivists ?? []).filter((archivist) => !address.includes(archivist))
     this._archivists = undefined
   }
 
-  public removeWitness(address: string[]) {
+  removeWitness(address: string[]) {
     this.config.witnesses = (this.config.witnesses ?? []).filter((witness) => !address.includes(witness))
     this._witnesses = undefined
   }
 
-  public async report(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness, XyoPayload[]]> {
+  async report(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness, XyoPayload[]]> {
     const errors: Error[] = []
     this.config?.onReportStart?.()
     const allWitnesses = [...(await this.getWitnesses())]
@@ -125,7 +125,7 @@ export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelMo
     return [newBoundWitness, allPayloads]
   }
 
-  public async tryReport(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness | null, XyoPayload[]]> {
+  async tryReport(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness | null, XyoPayload[]]> {
     try {
       return await this.report(payloads)
     } catch (ex) {

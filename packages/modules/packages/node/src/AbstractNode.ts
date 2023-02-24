@@ -23,12 +23,15 @@ import { NodeConfig, NodeConfigSchema } from './Config'
 import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> extends ModuleParams<TConfig> {
-  internalResolver?: CompositeModuleResolver
-}
+export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = ModuleParams<
+  TConfig,
+  {
+    internalResolver?: CompositeModuleResolver
+  }
+>
 
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule {
-  static readonly configSchema = NodeConfigSchema
+  static override readonly configSchema = NodeConfigSchema
 
   protected internalResolver = new CompositeModuleResolver()
 
@@ -42,7 +45,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return true
   }
 
-  public override get queries(): string[] {
+  override get queries(): string[] {
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
   }
 

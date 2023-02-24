@@ -11,11 +11,11 @@ export interface XyoUserLogin {
 }
 
 export class XyoUserApi extends XyoApiBase {
-  public override get authenticated() {
+  override get authenticated() {
     return !!this.config.jwtToken
   }
 
-  public override get headers(): Record<string, string> {
+  override get headers(): Record<string, string> {
     const headers: Record<string, string> = {}
     if (this.config.jwtToken) {
       headers.Authorization = `Bearer ${this.config.jwtToken}`
@@ -23,14 +23,14 @@ export class XyoUserApi extends XyoApiBase {
     return headers
   }
 
-  public get login() {
+  get login() {
     return new XyoApiSimple<XyoUserLogin>({
       ...this.config,
       root: `${this.root}login/`,
     })
   }
 
-  public get profile() {
+  get profile() {
     return new XyoApiSimple({
       ...this.config,
       root: `${this.root}profile/`,

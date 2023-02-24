@@ -6,7 +6,7 @@ import { createXyoPayloadPlugin } from './createPlugin'
 import { XyoPayloadPlugin } from './Plugin'
 
 export class XyoPayloadPluginResolver {
-  public schema = XyoPayloadSchema
+  schema = XyoPayloadSchema
 
   protected _plugins: Record<string, XyoPayloadPlugin> = {}
   protected defaultPlugin: XyoPayloadPlugin
@@ -24,7 +24,7 @@ export class XyoPayloadPluginResolver {
   }
 
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */
-  public plugins() {
+  plugins() {
     const result: XyoPayloadPlugin[] = []
     Object.values(this._plugins).forEach((value) => {
       result.push(value)
@@ -32,20 +32,20 @@ export class XyoPayloadPluginResolver {
     return result
   }
 
-  public register<TPlugin extends XyoPayloadPlugin = XyoPayloadPlugin>(plugin: TPlugin) {
+  register<TPlugin extends XyoPayloadPlugin = XyoPayloadPlugin>(plugin: TPlugin) {
     this._plugins[plugin.schema] = plugin
 
     return this
   }
 
-  public resolve(schema?: string): XyoPayloadPlugin
-  public resolve(payload: XyoPayload): XyoPayloadPlugin
-  public resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin {
+  resolve(schema?: string): XyoPayloadPlugin
+  resolve(payload: XyoPayload): XyoPayloadPlugin
+  resolve(value: XyoPayload | string | undefined): XyoPayloadPlugin {
     return value ? this._plugins[typeof value === 'string' ? value : value.schema] ?? this.defaultPlugin : this.defaultPlugin
   }
 
   /** @description Create list of schema, optionally filtered by ability to witness/divine */
-  public schemas() {
+  schemas() {
     const result: string[] = []
     Object.values(this._plugins).forEach((value) => {
       result.push(value.schema)
@@ -53,11 +53,11 @@ export class XyoPayloadPluginResolver {
     return result
   }
 
-  public validate(payload: XyoPayload): Validator<XyoPayload> | undefined {
+  validate(payload: XyoPayload): Validator<XyoPayload> | undefined {
     return this.resolve(payload).validate?.(payload)
   }
 
-  public wrap(payload: XyoPayload): PayloadWrapper<XyoPayload> | undefined {
+  wrap(payload: XyoPayload): PayloadWrapper<XyoPayload> | undefined {
     return this.resolve(payload).wrap?.(payload)
   }
 }

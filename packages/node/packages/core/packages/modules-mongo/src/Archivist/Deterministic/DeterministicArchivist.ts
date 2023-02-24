@@ -37,10 +37,13 @@ import {
 } from './QueryHelpers'
 import { validByType } from './validByType'
 
-export interface MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> extends ModuleParams<TConfig> {
-  boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-  payloads: BaseMongoSdk<XyoPayloadWithMeta>
-}
+export type MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> = ModuleParams<
+  TConfig,
+  {
+    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    payloads: BaseMongoSdk<XyoPayloadWithMeta>
+  }
+>
 
 const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper, archive: string): XyoBoundWitnessWithMeta => {
   const bw = wrapper.boundwitness as XyoBoundWitness
@@ -66,7 +69,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
 
-  public constructor(params: MongoDBDeterministicArchivistParams<TConfig>) {
+  constructor(params: MongoDBDeterministicArchivistParams<TConfig>) {
     super(params)
     this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
@@ -84,7 +87,7 @@ export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = Arc
     throw new Error('find method must be called via query')
   }
 
-  get(_items: string[]): Promise<XyoPayload[]> {
+  override get(_items: string[]): Promise<XyoPayload[]> {
     throw new Error('get method must be called via query')
   }
 

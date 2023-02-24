@@ -69,7 +69,7 @@ export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyD
   }
 
   /** @description Given a set of locations, get the expected elevations (witness if needed), and return score/variance */
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
+  async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
     const locations = payloads?.filter<LocationPayload>((payload): payload is LocationPayload => payload?.schema === LocationSchema)
     // If this is a query we support
     if (locations && locations?.length > 0) {

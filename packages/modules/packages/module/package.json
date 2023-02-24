@@ -18,6 +18,7 @@
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-validator": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
+    "@xyo-network/config-payload-plugin": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
@@ -26,6 +27,7 @@
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "@xyo-network/shared": "workspace:^",
+    "@xyo-network/wallet": "workspace:^",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
@@ -67,5 +69,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.47.5"
+  "version": "2.47.6"
 }

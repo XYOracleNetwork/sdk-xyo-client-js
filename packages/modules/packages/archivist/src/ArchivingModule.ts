@@ -14,7 +14,7 @@ export type ArchivingModuleConfig<T extends EmptyObject = EmptyObject> = ModuleC
 >
 
 export class ArchivingModule<TConfig extends ArchivingModuleConfig = ArchivingModuleConfig> extends AbstractModule<TConfig> implements Module {
-  protected bindResult(payloads: XyoPayload[], account?: Account): PromiseEx<ModuleQueryResult, Account> {
+  protected override bindResult(payloads: XyoPayload[], account?: Account): PromiseEx<ModuleQueryResult, Account> {
     const promise = new PromiseEx<ModuleQueryResult, Account>(async (resolve) => {
       const result = this.bindResultInternal(payloads, account)
       await this.storeToArchivists([result[0], ...result[1]])

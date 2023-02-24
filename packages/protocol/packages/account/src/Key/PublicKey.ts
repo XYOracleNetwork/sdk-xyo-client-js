@@ -9,15 +9,15 @@ export class PublicKey extends EllipticKey {
     super(64, bytes)
   }
 
-  public get address() {
+  get address() {
     return new AddressValue(this.keccak256.slice(12).toString('hex').padStart(40, '0'))
   }
 
-  public static isXyoPublicKey(value: unknown) {
+  static isXyoPublicKey(value: unknown) {
     return (value as XyoPublicKey)._isXyoPublicKey
   }
 
-  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
     return this.address.verify(msg, signature)
   }
 }

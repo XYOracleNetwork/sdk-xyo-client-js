@@ -9,7 +9,7 @@ export class XyoArchivistArchivePayloadSchemaApi extends XyoApiSimple<string[]> 
   /**
    * @deprecated Use module API
    */
-  public get stats() {
+  get stats() {
     this._stats =
       this._stats ??
       new XyoApiSimple<XyoArchivistArchivePayloadSchemaStats>({

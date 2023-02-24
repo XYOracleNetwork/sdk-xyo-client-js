@@ -12,10 +12,10 @@ export class XyoApiSimple<
   Q extends XyoApiSimpleQuery = XyoApiSimpleQuery,
   C extends XyoApiConfig = XyoApiConfig,
 > extends XyoApiBase<C> {
-  public async delete(): Promise<XyoApiResponseBody<T>>
-  public async delete(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  public async delete(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  public async delete(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async delete(): Promise<XyoApiResponseBody<T>>
+  async delete(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
+  async delete(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  async delete(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.deleteEndpoint(undefined, 'tuple')
@@ -24,10 +24,10 @@ export class XyoApiSimple<
     }
   }
 
-  public async find(query?: Q): Promise<XyoApiResponseBody<T>>
-  public async find(query?: Q, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  public async find(query?: Q, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  public async find(query = {}, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async find(query?: Q): Promise<XyoApiResponseBody<T>>
+  async find(query?: Q, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
+  async find(query?: Q, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  async find(query = {}, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.getEndpoint(objToQuery(query), 'tuple')
@@ -36,10 +36,10 @@ export class XyoApiSimple<
     }
   }
 
-  public async get(): Promise<XyoApiResponseBody<T>>
-  public async get(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  public async get(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  public async get(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async get(): Promise<XyoApiResponseBody<T>>
+  async get(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
+  async get(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  async get(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.getEndpoint(undefined, 'tuple')
@@ -48,10 +48,10 @@ export class XyoApiSimple<
     }
   }
 
-  public async post(data?: D): Promise<XyoApiResponseBody<T>>
-  public async post(data?: D, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  public async post(data?: D, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  public async post(data?: D, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async post(data?: D): Promise<XyoApiResponseBody<T>>
+  async post(data?: D, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
+  async post(data?: D, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  async post(data?: D, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.postEndpoint(undefined, data, 'tuple')
@@ -60,10 +60,10 @@ export class XyoApiSimple<
     }
   }
 
-  public async put(data?: D): Promise<XyoApiResponseBody<T>>
-  public async put(data?: D, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  public async put(data?: D, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  public async put(data?: D, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async put(data?: D): Promise<XyoApiResponseBody<T>>
+  async put(data?: D, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
+  async put(data?: D, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
+  async put(data?: D, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.putEndpoint(undefined, data, 'tuple')

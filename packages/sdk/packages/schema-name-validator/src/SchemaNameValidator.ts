@@ -4,7 +4,7 @@ import { domainExists } from '@xyo-network/dns'
  * Validates a XYO schema structure and existence
  */
 export class XyoSchemaNameValidator {
-  public schema?: string
+  schema?: string
   private _parts?: string[]
   private _rootDomain?: string
   constructor(schema?: string) {
@@ -56,7 +56,7 @@ export class XyoSchemaNameValidator {
    * @returns Error[]
    */
 
-  public all() {
+  all() {
     const errors: Error[] = []
     if ((this.schema?.length ?? 0) === 0) errors.push(Error('schema missing'))
     else if ((this.levels ?? 0) < 3) errors.push(Error(`schema levels < 3 [${this.levels}, ${this.schema}]`))
@@ -70,7 +70,7 @@ export class XyoSchemaNameValidator {
    * @returns Error[]
    */
 
-  public async allDynamic() {
+  async allDynamic() {
     const errors: Error[] = []
     if ((this.schema?.length ?? 0) === 0) errors.push(Error('schema missing'))
     else if (!(await this.rootDomainExists())) errors.push(Error(`schema root domain must exist [${this.rootDomain}]`))
@@ -83,7 +83,7 @@ export class XyoSchemaNameValidator {
    *
    * @returns number (0 if none exist)
    */
-  public async domainExistenceDepth() {
+  async domainExistenceDepth() {
     const levels = this.levels ?? 0
     let level = 0
     while (level < levels) {
@@ -100,7 +100,7 @@ export class XyoSchemaNameValidator {
    *
    * @returns boolean
    */
-  public async rootDomainExists() {
+  async rootDomainExists() {
     return await domainExists(this.rootDomain)
   }
 

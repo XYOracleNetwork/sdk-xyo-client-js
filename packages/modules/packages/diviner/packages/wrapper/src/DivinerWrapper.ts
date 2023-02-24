@@ -6,14 +6,14 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class DivinerWrapper extends ModuleWrapper implements Diviner {
-  static requiredQueries = [XyoDivinerDivineQuerySchema, ...super.requiredQueries]
+  static override requiredQueries = [XyoDivinerDivineQuerySchema, ...super.requiredQueries]
 
   constructor(module: Module) {
     super(module)
     assertEx(module.queries.includes(XyoDivinerDivineQuerySchema))
   }
 
-  static tryWrap(module: Module): DivinerWrapper | undefined {
+  static override tryWrap(module: Module): DivinerWrapper | undefined {
     const missingRequiredQueries = this.missingRequiredQueries(module)
     if (missingRequiredQueries.length > 0) {
       console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
@@ -22,7 +22,7 @@ export class DivinerWrapper extends ModuleWrapper implements Diviner {
     }
   }
 
-  static wrap(module: Module): DivinerWrapper {
+  static override wrap(module: Module): DivinerWrapper {
     return assertEx(this.tryWrap(module), 'Unable to wrap module as DivinerWrapper')
   }
 

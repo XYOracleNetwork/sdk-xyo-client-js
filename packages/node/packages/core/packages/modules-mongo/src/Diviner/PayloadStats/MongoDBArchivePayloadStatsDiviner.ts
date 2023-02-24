@@ -42,10 +42,12 @@ export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPa
   }
 >
 
-export interface MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload>
-  extends ModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>> {
-  archiveArchivist: ArchiveArchivist
-}
+export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
+  MongoDBArchivePayloadStatsDivinerConfig<T>,
+  {
+    archiveArchivist: ArchiveArchivist
+  }
+>
 
 export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implements PayloadStatsDiviner, JobProvider {
   static override configSchema = MongoDBArchivePayloadStatsDivinerConfigSchema
@@ -85,7 +87,7 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
     return (await super.create(params)) as MongoDBArchivePayloadStatsDiviner
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
+  async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     const archive = query?.archive
     const count = archive ? await this.divineArchive(archive) : await this.divineAllArchives()

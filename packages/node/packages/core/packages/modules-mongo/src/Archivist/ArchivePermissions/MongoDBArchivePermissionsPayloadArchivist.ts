@@ -19,16 +19,16 @@ export class MongoDBArchivePermissionsPayloadPayloadArchivist
 {
   static override configSchema = ArchiveModuleConfigSchema
 
-  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  protected override readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   protected override readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>
 
-  public constructor(params: AbstractMongoDBPayloadArchivistParams<ArchiveModuleConfig, SetArchivePermissionsPayload>) {
+  constructor(params: AbstractMongoDBPayloadArchivistParams<ArchiveModuleConfig, SetArchivePermissionsPayload>) {
     super(params)
     this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta<SetArchivePermissionsPayload>>(COLLECTIONS.Payloads)
   }
 
-  public get schema(): SetArchivePermissionsSchema {
+  get schema(): SetArchivePermissionsSchema {
     return SetArchivePermissionsSchema
   }
 

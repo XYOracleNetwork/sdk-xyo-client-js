@@ -25,7 +25,7 @@ export class XyoPanelRunner {
     automations?.forEach((automation) => this.add(automation))
   }
 
-  public get automations() {
+  get automations() {
     return this._automations
   }
 
@@ -37,33 +37,33 @@ export class XyoPanelRunner {
     }, undefined)
   }
 
-  public async add(automation: XyoPanelAutomationPayload, restart = true) {
+  async add(automation: XyoPanelAutomationPayload, restart = true) {
     const hash = new PayloadWrapper(automation).hash
     this._automations[hash] = automation
     if (restart) await this.restart()
     return hash
   }
 
-  public find(hash: string) {
+  find(hash: string) {
     Object.entries(this._automations).find(([key]) => key === hash)
   }
 
-  public async remove(hash: string, restart = true) {
+  async remove(hash: string, restart = true) {
     delete this._automations[hash]
     if (restart) await this.restart()
   }
 
-  public removeAll() {
+  removeAll() {
     this.stop()
     this._automations = {}
   }
 
-  public async restart() {
+  async restart() {
     this.stop()
     await this.start()
   }
 
-  public async start() {
+  async start() {
     assertEx(this.timeoutId === undefined, 'Already started')
     const automation = this.next
     if (automation) {
@@ -83,14 +83,14 @@ export class XyoPanelRunner {
     }
   }
 
-  public stop() {
+  stop() {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId)
       this.timeoutId = undefined
     }
   }
 
-  public async update(hash: string, automation: XyoPanelAutomationPayload, restart = true) {
+  async update(hash: string, automation: XyoPanelAutomationPayload, restart = true) {
     await this.remove(hash, false)
     await this.add(automation, false)
     if (restart) await this.restart()

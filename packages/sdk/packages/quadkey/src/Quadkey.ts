@@ -28,7 +28,7 @@ export class Quadkey {
   static root = new Quadkey()
   static type = 'Quadkey'
 
-  public type = Quadkey.type
+  type = Quadkey.type
 
   private _geoJson?: GeoJson
   private key = Buffer.alloc(32)
@@ -378,7 +378,7 @@ export class Quadkey {
   }
 
   /** @deprecated use .tile instead */
-  public toTile(): MercatorTile {
+  toTile(): MercatorTile {
     return this.tile
   }
 

@@ -16,7 +16,7 @@ export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitne
     this._geolocation = params?.geolocation
   }
 
-  public get geolocation(): Geolocation {
+  get geolocation(): Geolocation {
     return assertEx(this._geolocation, 'No geolocation provided')
   }
 
@@ -24,7 +24,7 @@ export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitne
     return (await super.create(params)) as CurrentLocationWitness
   }
 
-  public getCurrentPosition() {
+  getCurrentPosition() {
     return new Promise<GeolocationPosition>((resolve, reject) => {
       this.geolocation?.getCurrentPosition(
         (position: GeolocationPosition) => {

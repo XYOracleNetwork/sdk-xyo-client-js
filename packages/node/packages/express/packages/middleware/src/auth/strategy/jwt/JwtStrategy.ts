@@ -28,11 +28,11 @@ export const verifyCallbackWithRequest: VerifyCallbackWithRequest = (token, done
 
 @injectable()
 export class JwtStrategy extends Strategy {
-  constructor(@inject(TYPES.JwtSecret) public readonly secretOrKey: string) {
+  constructor(@inject(TYPES.JwtSecret) readonly secretOrKey: string) {
     super({ ...defaults, secretOrKey }, verifyCallbackWithRequest)
   }
 
-  public get jwtRequestHandler(): RequestHandler {
+  get jwtRequestHandler(): RequestHandler {
     return getJwtRequestHandler(this.secretOrKey, { audience, issuer })
   }
 }

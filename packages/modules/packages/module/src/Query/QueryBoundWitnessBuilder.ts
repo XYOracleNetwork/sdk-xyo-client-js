@@ -11,17 +11,17 @@ export class QueryBoundWitnessBuilder<
   private _query: PayloadWrapper<TQuery> | undefined
   private _resultSet: PayloadWrapper<PayloadSetPayload> | undefined
 
-  public override hashableFields(): TBoundWitness {
+  override hashableFields(): TBoundWitness {
     return { ...super.hashableFields(), query: assertEx(this._query?.hash, 'No Query Specified'), schema: XyoQueryBoundWitnessSchema }
   }
 
-  public query<T extends TQuery | PayloadWrapper<TQuery>>(query: T) {
+  query<T extends TQuery | PayloadWrapper<TQuery>>(query: T) {
     this._query = PayloadWrapper.parse(query)
     this.payload(this._query.payload)
     return this
   }
 
-  public resultSet<T extends PayloadSetPayload | PayloadWrapper<PayloadSetPayload>>(payloadSet: T) {
+  resultSet<T extends PayloadSetPayload | PayloadWrapper<PayloadSetPayload>>(payloadSet: T) {
     this._resultSet = PayloadWrapper.parse(payloadSet)
     this.payload(this._resultSet.payload)
     return this

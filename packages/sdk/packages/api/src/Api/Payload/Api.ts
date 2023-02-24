@@ -17,7 +17,7 @@ export class XyoArchivistPayloadApi<
   /**
    * @deprecated Use module API
    */
-  public get schema(): XyoArchivistArchivePayloadSchemaApi {
+  get schema(): XyoArchivistArchivePayloadSchemaApi {
     return new XyoArchivistArchivePayloadSchemaApi({
       ...this.config,
       root: `${this.root}schema/`,
@@ -27,7 +27,7 @@ export class XyoArchivistPayloadApi<
   /**
    * @deprecated Use module API
    */
-  public get stats(): XyoApiSimple<XyoPayloadStats> {
+  get stats(): XyoApiSimple<XyoPayloadStats> {
     this._stats =
       this._stats ??
       new XyoApiSimple<XyoPayloadStats>({
@@ -40,7 +40,7 @@ export class XyoArchivistPayloadApi<
   /**
    * @deprecated Use module API
    */
-  public hash(hash: string): XyoApiSimple<XyoPayload[]> {
+  hash(hash: string): XyoApiSimple<XyoPayload[]> {
     return new XyoApiSimple<XyoPayload[]>({
       ...this.config,
       root: `${this.root}hash/${hash}/`,
@@ -50,7 +50,7 @@ export class XyoArchivistPayloadApi<
   /**
    * @deprecated Use module API
    */
-  public async repair(hash: string) {
+  async repair(hash: string) {
     return await this.getEndpoint<T[]>(`hash/${hash}/repair`)
   }
 }

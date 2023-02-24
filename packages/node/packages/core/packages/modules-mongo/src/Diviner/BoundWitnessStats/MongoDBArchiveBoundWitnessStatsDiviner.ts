@@ -41,10 +41,12 @@ export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = 
     schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
   }
 >
-export interface MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload>
-  extends ModuleParams<MongoDBArchiveBoundWitnessStatsDivinerConfig<T>> {
-  archiveArchivist: ArchiveArchivist
-}
+export type MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
+  MongoDBArchiveBoundWitnessStatsDivinerConfig<T>,
+  {
+    archiveArchivist: ArchiveArchivist
+  }
+>
 
 export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner implements BoundWitnessStatsDiviner, JobProvider {
   static override configSchema = MongoDBArchiveBoundWitnessStatsDivinerConfigSchema

@@ -11,7 +11,7 @@ import { Strategy, StrategyCreated, StrategyCreatedStatic } from 'passport'
  * if supplied.
  */
 export class AllowUnauthenticatedStrategy extends Strategy {
-  constructor(public readonly apiKeyHeader = 'x-api-key') {
+  constructor(readonly apiKeyHeader = 'x-api-key') {
     super()
   }
 

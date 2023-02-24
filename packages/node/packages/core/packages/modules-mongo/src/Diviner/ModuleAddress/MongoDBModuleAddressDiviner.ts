@@ -44,7 +44,7 @@ export class MongoDBModuleAddressDiviner extends AbstractDiviner implements Modu
     return (await super.create(params)) as MongoDBModuleAddressDiviner
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {
+  async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {
     const query = payloads?.find<ModuleAddressQueryPayload>(isModuleAddressQueryPayload)
     // If this is a query we support
     if (query) {

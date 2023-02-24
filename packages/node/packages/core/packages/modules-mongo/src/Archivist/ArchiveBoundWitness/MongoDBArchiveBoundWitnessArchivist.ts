@@ -22,9 +22,12 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export interface MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> extends ModuleParams<T> {
-  sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
-}
+export type MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> = ModuleParams<
+  T,
+  {
+    sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  }
+>
 
 export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArchivist implements BoundWitnessArchivist {
   static override configSchema = ArchiveModuleConfigSchema

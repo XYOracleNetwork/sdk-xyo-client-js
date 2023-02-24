@@ -6,5 +6,5 @@ export interface Validator<T extends EmptyObject = EmptyObject> {
 }
 
 export abstract class XyoValidatorBase<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> implements Validator<T> {
-  public abstract validate(payload: T): Error[]
+  abstract validate(payload: T): Error[]
 }

@@ -1,12 +1,12 @@
 import { Transport } from '../Transport'
 
 export abstract class Queue<T> {
-  public onDequeued?: (id: string) => void
-  public onQueued?: (id: string) => void
+  onDequeued?: (id: string) => void
+  onQueued?: (id: string) => void
 
   constructor(protected readonly transport: Transport<T>) {}
 
-  public readonly enqueue = async (item: T) => {
+  readonly enqueue = async (item: T) => {
     const id = await this.transport.enqueue(item)
     this.onQueued?.(id)
     return id
@@ -18,7 +18,7 @@ export abstract class Queue<T> {
    * @returns The query if it exists, null if it's
    * already been dequeue, undefined if it doesn't exist
    */
-  public readonly get = (id: string) => {
+  readonly get = (id: string) => {
     return this.transport.get(id)
   }
 
@@ -28,7 +28,7 @@ export abstract class Queue<T> {
    * @returns The query if it exists, null if it's
    * already been dequeue, undefined if it doesn't exist
    */
-  public readonly tryDequeue = async (id: string) => {
+  readonly tryDequeue = async (id: string) => {
     const result = await this.transport.get(id)
     if (result) {
       this.onDequeued?.(id)

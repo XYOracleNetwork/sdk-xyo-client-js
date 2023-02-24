@@ -14,7 +14,7 @@ export type IdWitnessConfig = XyoWitnessConfig<{
 export class IdWitness extends AbstractWitness<IdWitnessConfig> {
   static override configSchema = IdWitnessConfigSchema
 
-  public get salt() {
+  get salt() {
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
   }
 

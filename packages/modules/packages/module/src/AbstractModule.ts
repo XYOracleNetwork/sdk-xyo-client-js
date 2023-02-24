@@ -40,12 +40,14 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
 
   _config: TConfig
 
+  readonly resolver: CompositeModuleResolver
+
   protected _parentResolver = new CompositeModuleResolver()
-  protected _resolver: CompositeModuleResolver
   protected _started = false
   protected readonly account: Account
   protected readonly logger?: Logging
   protected readonly moduleConfigQueryValidator: Queryable
+
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
@@ -58,7 +60,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
         ? (params as AccountModuleParams<TConfig>).account
         : undefined,
     )
-    this._resolver = (params.resolver ?? new CompositeModuleResolver()).add(this)
+    this.resolver = (params.resolver ?? new CompositeModuleResolver()).add(this)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
@@ -88,10 +90,6 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
 
   get queries(): string[] {
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
-  }
-
-  get resolver(): CompositeModuleResolver {
-    return this._resolver
   }
 
   static async create(params?: Partial<ModuleParams<ModuleConfig>>): Promise<AbstractModule> {

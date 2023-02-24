@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { EmptyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/core'
 import { ModuleConfig, ModuleConfigSchema, ModuleParams } from '@xyo-network/module'
 import { AbstractPayloadArchivist, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -10,7 +10,7 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export type MongoDBPayloadArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends EmptyObject = EmptyObject> = ModuleParams<
+export type MongoDBPayloadArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends AnyObject = AnyObject> = ModuleParams<
   TConfig,
   {
     sdk: BaseMongoSdk<XyoPayloadWithMeta<T>>
@@ -35,7 +35,7 @@ export class MongoDBPayloadArchivist extends AbstractPayloadArchivist<XyoPayload
     const { _archive, archives, hash, limit, order, schema, schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
-    const filter: Filter<XyoPayloadWithMeta<EmptyObject>> = { ...props }
+    const filter: Filter<XyoPayloadWithMeta<AnyObject>> = { ...props }
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
     if (timestamp) {
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0

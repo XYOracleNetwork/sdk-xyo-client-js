@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { EmptyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/core'
 import { ModuleParams } from '@xyo-network/module'
 import {
   AbstractPayloadArchivist,
@@ -47,7 +47,7 @@ export class MongoDBArchivePayloadArchivist
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
-    const filter: Filter<XyoPayloadWithMeta<EmptyObject>> = { _archive: this.config.archive, ...props }
+    const filter: Filter<XyoPayloadWithMeta<AnyObject>> = { _archive: this.config.archive, ...props }
     if (timestamp) {
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0
       filter._timestamp = parsedOrder === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }

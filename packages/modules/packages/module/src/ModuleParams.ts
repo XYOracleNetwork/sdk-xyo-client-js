@@ -1,25 +1,25 @@
 import { Account } from '@xyo-network/account'
-import { EmptyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/core'
 import { ModuleConfig } from '@xyo-network/module-model'
 import { Logger } from '@xyo-network/shared'
 import { XyoWalletBase } from '@xyo-network/wallet'
 
 import { CompositeModuleResolver } from './Resolver'
 
-export type BasicModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends EmptyObject = EmptyObject> = {
+export type BasicModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends AnyObject = AnyObject> = {
   config: TConfig
   logger?: Logger
   resolver?: CompositeModuleResolver
 } & TAdditionalParams
 
-export type AccountModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends EmptyObject = EmptyObject> = BasicModuleParams<
+export type AccountModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends AnyObject = AnyObject> = BasicModuleParams<
   TConfig,
   TAdditionalParams & {
     account: Account
   }
 >
 
-export type WalletModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends EmptyObject = EmptyObject> = BasicModuleParams<
+export type WalletModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends AnyObject = AnyObject> = BasicModuleParams<
   TConfig,
   TAdditionalParams & {
     accountDerivationPath: string
@@ -27,7 +27,7 @@ export type WalletModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdd
   }
 >
 
-export type ModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends EmptyObject = EmptyObject> =
+export type ModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends AnyObject = AnyObject> =
   | AccountModuleParams<TConfig, TAdditionalParams>
   | WalletModuleParams<TConfig, TAdditionalParams>
   | BasicModuleParams<TConfig, TAdditionalParams>

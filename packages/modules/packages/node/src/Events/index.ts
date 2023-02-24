@@ -1,2 +1,3 @@
 export * from './ModuleAttached'
-export * from './ResolverChanged'
+export * from './ModuleDetached'
+export * from './ModuleRegistered'

@@ -19,8 +19,8 @@
     "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.14.16",
-    "@xylabs/tsconfig": "^2.14.16",
+    "@xylabs/ts-scripts-yarn3": "^2.15.0",
+    "@xylabs/tsconfig": "^2.15.0",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

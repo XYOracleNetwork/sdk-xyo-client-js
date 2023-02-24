@@ -1,34 +1,17 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { duplicateModules, EventListener, Module, ModuleFilter } from '@xyo-network/module'
+import { duplicateModules, Module, ModuleFilter } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
-import {
-  ModuleAttachedEventArgs,
-  ModuleAttachedEventEmitter,
-  ModuleDetachedEventArgs,
-  ModuleResolverChangedEventArgs,
-  ResolverChangedEventEmitter,
-} from './Events'
-
-type SupportedEventTypes = 'moduleAttached' | 'moduleResolverChanged'
-type SupportedEventListeners<T extends SupportedEventTypes> = T extends 'moduleAttached'
-  ? EventListener<ModuleAttachedEventArgs>
-  : EventListener<ModuleResolverChangedEventArgs>
 
 export type MemoryNodeParams<TConfig extends NodeConfig = NodeConfig> = AbstractNodeParams<TConfig>
 
-export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
-  extends AbstractNode<TConfig>
-  implements ModuleAttachedEventEmitter, ResolverChangedEventEmitter
-{
+export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends AbstractNode<TConfig> {
   static override configSchema = NodeConfigSchema
-  private readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
-  private readonly moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
+
   private registeredModuleMap = new Map<string, Module>()
-  private readonly resolverChangedEventListeners: EventListener<ModuleResolverChangedEventArgs>[] = []
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     return (await super.create(params)) as MemoryNode
@@ -74,20 +57,6 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig>
 
     const args = { module, name: module.config.name }
     this.moduleDetachedEventListeners?.map((listener) => listener(args))
-  }
-
-  on(event: 'moduleAttached', listener: (args: ModuleAttachedEventArgs) => void): this
-  on(event: 'moduleResolverChanged', listener: (args: ModuleResolverChangedEventArgs) => void): this
-  on<T extends SupportedEventTypes>(event: T, listener: SupportedEventListeners<T>): this {
-    switch (event) {
-      case 'moduleAttached':
-        this.moduleAttachedEventListeners?.push(listener as EventListener<ModuleAttachedEventArgs>)
-        break
-      case 'moduleResolverChanged':
-        this.resolverChangedEventListeners?.push(listener as EventListener<ModuleResolverChangedEventArgs>)
-        break
-    }
-    return this
   }
 
   override register(module: Module) {

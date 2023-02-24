@@ -1,4 +1,4 @@
-import { EmptyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 export type ModuleConfigSchema = 'network.xyo.module.config'
@@ -8,7 +8,7 @@ export type AddressString = string
 export type CosigningAddressSet = string[]
 export type SchemaString = string
 
-export type ModuleConfigBase<T extends EmptyObject = EmptyObject> = XyoPayload<
+export type ModuleConfigBase<T extends AnyObject = AnyObject> = XyoPayload<
   {
     name?: string
     //if both allowed and disallowed is specified, then disallowed takes priority

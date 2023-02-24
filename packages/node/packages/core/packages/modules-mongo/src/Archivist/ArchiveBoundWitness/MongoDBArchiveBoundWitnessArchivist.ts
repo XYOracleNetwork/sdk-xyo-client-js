@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { EmptyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/core'
 import { ModuleParams } from '@xyo-network/module'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
@@ -43,7 +43,7 @@ export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArc
     return (await super.create(params)) as MongoDBArchiveBoundWitnessArchivist
   }
 
-  async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta<EmptyObject, XyoPayloadWithPartialMeta<EmptyObject>>[]> {
+  async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta<AnyObject, XyoPayloadWithPartialMeta<AnyObject>>[]> {
     const { addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder

@@ -1,4 +1,4 @@
-import { EmptyObject } from './EmptyObject'
+import { AnyObject } from './AnyObject'
 
 export type StringKeyObject = { [key: string]: unknown }
-export type WithAdditional<T extends EmptyObject = EmptyObject> = T & StringKeyObject
+export type WithAdditional<T extends AnyObject = AnyObject> = T & StringKeyObject

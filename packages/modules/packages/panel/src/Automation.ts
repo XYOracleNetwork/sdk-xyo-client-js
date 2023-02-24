@@ -1,5 +1,5 @@
 /* eslint-disable deprecation/deprecation */
-import { EmptyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 /** @deprecated use Sentinel version instead */
@@ -9,7 +9,7 @@ export type XyoAutomationSchema = 'network.xyo.automation'
 export const XyoAutomationSchema = 'network.xyo.automation'
 
 /** @deprecated use Sentinel version instead */
-export type XyoPanelBaseAutomationPayload<T extends EmptyObject = EmptyObject> = XyoPayload<
+export type XyoPanelBaseAutomationPayload<T extends AnyObject = AnyObject> = XyoPayload<
   T & {
     schema: XyoAutomationSchema
     type?: 'interval' | 'change'

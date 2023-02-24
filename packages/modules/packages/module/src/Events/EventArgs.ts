@@ -1,3 +1,5 @@
-import { EmptyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/core'
 
-export type EventArgs = EmptyObject | undefined
+export type Event = string
+
+export type EventArgs<Args extends AnyObject = AnyObject> = Args

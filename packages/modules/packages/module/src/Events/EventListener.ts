@@ -1,3 +1,3 @@
 import { EventArgs } from './EventArgs'
 
-export type EventListener<T extends EventArgs = undefined> = (args: T) => void
+export type EventListener<T extends EventArgs = EventArgs> = (args: T) => void

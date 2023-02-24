@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
-import { EmptyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/core'
 import { ModuleParams } from '@xyo-network/module'
 import {
   AbstractPayloadArchivist,
@@ -29,7 +29,7 @@ const valid = (bw: XyoBoundWitness) => {
 
 export type AbstractMongoDBPayloadArchivistParams<
   TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,
-  T extends EmptyObject = EmptyObject,
+  T extends AnyObject = AnyObject,
 > = ModuleParams<
   TConfig,
   {
@@ -39,7 +39,7 @@ export type AbstractMongoDBPayloadArchivistParams<
 >
 
 export abstract class AbstractMongoDBPayloadArchivist<
-  T extends EmptyObject = EmptyObject,
+  T extends AnyObject = AnyObject,
   TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,
 > extends AbstractPayloadArchivist<T, TConfig> {
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>

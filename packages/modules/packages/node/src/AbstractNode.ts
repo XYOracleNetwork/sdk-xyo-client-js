@@ -4,11 +4,15 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import {
   AbstractModule,
   CompositeModuleResolver,
+  EventListener,
   Module,
   ModuleConfig,
   ModuleConstructable,
   ModuleFilter,
   ModuleParams,
+  ModuleQueriedEvent,
+  ModuleQueriedEventArgs,
+  ModuleQueriedEventEmitter,
   ModuleQueryResult,
   ModuleWrapper,
   QueryBoundWitnessWrapper,
@@ -20,6 +24,17 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig, NodeConfigSchema } from './Config'
+import {
+  ModuleAttachedEvent,
+  ModuleAttachedEventArgs,
+  ModuleAttachedEventEmitter,
+  ModuleDetachedEvent,
+  ModuleDetachedEventArgs,
+  ModuleDetachedEventEmitter,
+  ModuleRegisteredEvent,
+  ModuleRegisteredEventArgs,
+  ModuleRegisteredEventEmitter,
+} from './Events'
 import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
@@ -30,10 +45,18 @@ export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = Module
   }
 >
 
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule {
+export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
+  extends AbstractModule<TConfig>
+  implements NodeModule, ModuleAttachedEventEmitter, ModuleDetachedEventEmitter, ModuleRegisteredEventEmitter, ModuleQueriedEventEmitter
+{
   static override readonly configSchema = NodeConfigSchema
 
-  protected internalResolver = new CompositeModuleResolver()
+  protected readonly internalResolver = new CompositeModuleResolver()
+
+  protected readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
+  protected readonly moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
+  protected readonly moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
+  protected readonly moduleRegisteredEventListeners: EventListener<ModuleRegisteredEventArgs>[] = []
 
   private readonly isNode = true
 
@@ -72,6 +95,31 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     )
 
     return [...(await super.discover()), ...childModAddresses]
+  }
+
+  on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void): this
+  on(event: ModuleAttachedEvent, listener: (args: ModuleAttachedEventArgs) => void): this
+  on(event: ModuleDetachedEvent, listener: (args: ModuleDetachedEventArgs) => void): this
+  on(event: ModuleRegisteredEvent, listener: (args: ModuleRegisteredEventArgs) => void): this
+  on(
+    event: ModuleQueriedEvent | ModuleAttachedEvent | ModuleDetachedEvent | ModuleRegisteredEvent,
+    listener: (args: ModuleQueriedEventArgs) => void,
+  ): this {
+    switch (event) {
+      case ModuleAttachedEvent:
+        this.moduleAttachedEventListeners?.push(listener as EventListener<ModuleAttachedEventArgs>)
+        break
+      case ModuleDetachedEvent:
+        this.moduleDetachedEventListeners?.push(listener as EventListener<ModuleDetachedEventArgs>)
+        break
+      case ModuleRegisteredEvent:
+        this.moduleRegisteredEventListeners?.push(listener as EventListener<ModuleRegisteredEventArgs>)
+        break
+      case ModuleQueriedEvent:
+        this.moduleQueriedEventListeners?.push(listener as EventListener<ModuleQueriedEventArgs>)
+        break
+    }
+    return this
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

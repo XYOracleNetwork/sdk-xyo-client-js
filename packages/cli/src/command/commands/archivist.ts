@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { ArchivistGetQuerySchema, ArchivistWrapper, ModuleWrapper } from '@xyo-network/modules'
+import { ArchivistGetQuerySchema, ModuleWrapper } from '@xyo-network/modules'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 

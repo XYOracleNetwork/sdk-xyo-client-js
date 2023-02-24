@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { ArchivistGetQuerySchema } from '@xyo-network/modules'
+import { ArchivistGetQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
@@ -18,8 +18,9 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   const { verbose } = argv
   try {
     const node = await getNode(argv)
-    const archivists = node.resolve({ query: [[ArchivistGetQuerySchema]] })
-    printLine(JSON.stringify(archivists))
+    const archivists = await node.resolve({ query: [[ArchivistGetQuerySchema]] })
+    const descriptions = await Promise.all(archivists.map((a) => new ArchivistWrapper(a).describe()))
+    printLine(JSON.stringify(descriptions))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))
     throw new Error('Error querying for archivists')

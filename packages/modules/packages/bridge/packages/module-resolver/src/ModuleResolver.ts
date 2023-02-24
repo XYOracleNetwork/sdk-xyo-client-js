@@ -8,7 +8,7 @@ import flatten from 'lodash/flatten'
 import { ProxyModule } from './ProxyModule'
 
 export class BridgeModuleResolver extends CompositeModuleResolver {
-  private resolvedModules: Record<string, ProxyModule> = {}
+  private resolvedModules: Record<string, Promise<ProxyModule>> = {}
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
@@ -20,16 +20,24 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     return true
   }
 
-  add(module: Module, name?: string | undefined): this
-  add(module: Module[], name?: string[] | undefined): this
-  add(module: Module | Module[], name?: string | string[] | undefined): this
-  add(_module: unknown, _name?: unknown): this {
+  add(module: Module): this
+  add(module: Module[]): this
+  add(_module: Module | Module[]): this {
     throw new Error('Method not implemented.')
   }
 
-  remove(name: string | string[]): this
-  remove(address: string | string[]): this
-  remove(_address: unknown): this {
+  async currentResolvedModules(): Promise<Record<string, ProxyModule>> {
+    const result: Record<string, ProxyModule> = {}
+    await Promise.all(
+      Object.entries(this.resolvedModules).map(async ([key, value]) => {
+        result[key] = await value
+      }),
+    )
+
+    return result
+  }
+
+  remove(_address: string | string[]): this {
     throw new Error('Method not implemented.')
   }
 
@@ -51,20 +59,30 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     )
   }
 
-  private resolveByAddress(targetAddress: string): ProxyModule | undefined {
+  private async resolveByAddress(targetAddress: string): Promise<ProxyModule | undefined> {
     const cached = this.resolvedModules[targetAddress]
-    if (cached) return cached
-    const mod = new ProxyModule(this.bridge, targetAddress)
-    this.resolvedModules[targetAddress] = mod
-    return mod
+    if (cached) return await cached
+
+    this.resolvedModules[targetAddress] =
+      this.resolvedModules[targetAddress] ??
+      (async (address: string) => {
+        const mod = new ProxyModule(this.bridge, address)
+
+        //discover it to set the config in the bridge
+        await this.bridge.targetDiscover(targetAddress)
+
+        return mod
+      })(targetAddress)
+
+    return await this.resolvedModules[targetAddress]
   }
 
-  private resolveByName(name: string): ProxyModule[] | undefined {
-    return Object.values(this.resolvedModules).filter((module) => module.config.name === name)
+  private async resolveByName(name: string): Promise<ProxyModule[] | undefined> {
+    return Object.values(await this.currentResolvedModules()).filter((module) => module.config.name === name)
   }
 
-  private resolveByQuery(queries: string[]): ProxyModule[] | undefined {
-    return Object.values(this.resolvedModules).filter((module) => {
+  private async resolveByQuery(queries: string[]): Promise<ProxyModule[]> {
+    return Object.values(await this.currentResolvedModules()).filter((module) => {
       //filter out the requested queries
       const found = module.queries.filter((query) => queries.find((q) => q === query))
 
@@ -90,15 +108,15 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     return this.resolveRemoteModulesByAddress({ address: await this.getRemoteAddresses() })
   }
 
-  private resolveRemoteModulesByAddress(filter: AddressModuleFilter): ProxyModule[] {
-    return compact(filter.address.map((address) => this.resolveByAddress(address)))
+  private async resolveRemoteModulesByAddress(filter: AddressModuleFilter): Promise<ProxyModule[]> {
+    return compact(await Promise.all(filter.address.map((address) => this.resolveByAddress(address))))
   }
 
-  private resolveRemoteModulesByName(filter: NameModuleFilter): ProxyModule[] {
-    return compact(filter.name.map((name) => this.resolveByName(name)).flat())
+  private async resolveRemoteModulesByName(filter: NameModuleFilter): Promise<ProxyModule[]> {
+    return compact((await Promise.all(filter.name.map(async (name) => await this.resolveByName(name)))).flat())
   }
 
-  private resolveRemoteModulesByQuery(filter: QueryModuleFilter): ProxyModule[] {
-    return compact(filter.query.map((queries) => queries.map((query) => this.resolveByName(query)).flat()).flat())
+  private async resolveRemoteModulesByQuery(filter: QueryModuleFilter): Promise<ProxyModule[]> {
+    return compact((await Promise.all(filter.query.map(async (query) => await this.resolveByQuery(query)))).flat())
   }
 }

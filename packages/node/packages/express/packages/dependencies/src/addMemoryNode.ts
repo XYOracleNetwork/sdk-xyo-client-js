@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractModule, DynamicModuleResolver, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
+import { AbstractModule, AddressModuleFilter, DynamicModuleResolver, MemoryNode, NameModuleFilter, NodeConfigSchema } from '@xyo-network/modules'
 import { archivistRegex, ArchivistRegexResult } from '@xyo-network/node-core-lib'
 import { ArchiveArchivist, ArchiveBoundWitnessArchivistFactory, ArchivePayloadArchivistFactory } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
@@ -62,8 +62,8 @@ const addDynamicArchivists = (container: Container, node: MemoryNode) => {
       dynamicResolver.resolveImplementation = async (filter) => {
         if (!filter) return []
         const filters: string[] = []
-        if (filter?.address) filters.push(...filter.address)
-        if (filter?.name) filters.push(...filter.name)
+        if ((filter as AddressModuleFilter)?.address) filters.push(...(filter as AddressModuleFilter).address)
+        if ((filter as NameModuleFilter)?.name) filters.push(...(filter as NameModuleFilter).name)
         const archivistFilters = filters.map((filter) => archivistRegex.exec(filter)?.groups as ArchivistRegexResult).filter(exists)
         if (archivistFilters.length) {
           const potentialArchives = await Promise.allSettled(archivistFilters.map((filter) => archives.find({ archive: filter.archive })))

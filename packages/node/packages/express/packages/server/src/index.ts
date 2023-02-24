@@ -28,6 +28,7 @@ export class ExpressPayloadTransport extends PayloadTransport {
     this.app.set('etag', false)
     this.app.use(cors())
     this.app.use(compression())
+    this.app.set('addLegacyRoutes', true)
     addDependencies(this.app)
     addMiddleware(this.app)
     addAuth(this.app)

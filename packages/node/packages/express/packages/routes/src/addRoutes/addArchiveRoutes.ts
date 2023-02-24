@@ -44,6 +44,6 @@ export const addArchiveRoutes = (app: Express) => {
 
   if (addLegacyRoutes) {
     addArchiveSchemaRoutes(app)
-    addArchiveSettingsRoutes(app)
   }
+  addArchiveSettingsRoutes(app)
 }

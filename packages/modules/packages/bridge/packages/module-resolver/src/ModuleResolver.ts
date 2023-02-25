@@ -44,7 +44,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
       (async () => {
         const discover = await this.bridge.targetDiscover()
         return compact(
-          discover.map((payload) => {
+          discover?.map((payload) => {
             if (payload.schema === AddressSchema) {
               const schemaPayload = payload as AddressPayload
               return schemaPayload.address

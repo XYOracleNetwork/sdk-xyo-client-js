@@ -1,6 +1,6 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { CompositeModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver, ModuleWrapper } from '@xyo-network/module'
 import { AddressModuleFilter, Module, ModuleFilter, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
@@ -8,6 +8,7 @@ import flatten from 'lodash/flatten'
 import { ProxyModule } from './ProxyModule'
 
 export class BridgeModuleResolver extends CompositeModuleResolver {
+  private remoteAddresses?: Promise<string[]>
   private resolvedModules: Record<string, Promise<ProxyModule>> = {}
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
@@ -37,6 +38,25 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     return result
   }
 
+  async getRemoteAddresses() {
+    this.remoteAddresses =
+      this.remoteAddresses ??
+      (async () => {
+        const discover = await this.bridge.targetDiscover()
+        return compact(
+          discover.map((payload) => {
+            if (payload.schema === AddressSchema) {
+              const schemaPayload = payload as AddressPayload
+              return schemaPayload.address
+            } else {
+              return null
+            }
+          }),
+        )
+      })()
+    return await this.remoteAddresses
+  }
+
   override remove(_address: string | string[]): this {
     throw new Error('Method not implemented.')
   }
@@ -45,21 +65,15 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     return await Promise.all(flatten(await this.resolveRemoteModules(filter)))
   }
 
-  private async getRemoteAddresses() {
-    const discover = await this.bridge.targetDiscover()
-    return compact(
-      discover.map((payload) => {
-        if (payload.schema === AddressSchema) {
-          const schemaPayload = payload as AddressPayload
-          return schemaPayload.address
-        } else {
-          return null
-        }
-      }),
-    )
-  }
-
   private async resolveByAddress(targetAddress: string): Promise<ProxyModule | undefined> {
+    const remoteAddresses = await this.getRemoteAddresses()
+
+    //check if it is even there
+    if (!remoteAddresses.find((address) => address === targetAddress)) {
+      console.log(`Not in RA: ${targetAddress}`)
+      return undefined
+    }
+
     const cached = this.resolvedModules[targetAddress]
     if (cached) return await cached
 
@@ -68,10 +82,14 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
       (async (address: string) => {
         const mod = new ProxyModule(this.bridge, address)
 
-        //discover it to set the config in the bridge
-        await this.bridge.targetDiscover(targetAddress)
+        try {
+          //discover it to set the config in the bridge
+          await this.bridge.targetDiscover(address)
 
-        return mod
+          return mod
+        } catch (ex) {
+          return undefined
+        }
       })(targetAddress)
 
     return await this.resolvedModules[targetAddress]

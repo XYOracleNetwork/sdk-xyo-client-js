@@ -45,7 +45,7 @@ export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends Bou
         const castWrapper = obj as QueryBoundWitnessWrapper<T>
         const wrapper = castWrapper?.isQueryBoundWitnessWrapper ? castWrapper : new QueryBoundWitnessWrapper<T>(obj as XyoQueryBoundWitness, payloads)
         if (!wrapper.valid) {
-          console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify(wrapper.errors)}`)
+          console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify(wrapper.errors.map((error) => error.message))}`)
         }
         return wrapper
       }

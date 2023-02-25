@@ -60,7 +60,7 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
 
   abstract targetQueries(address: string): string[]
 
-  abstract targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult>
+  abstract targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult | undefined>
 
   abstract targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): boolean
 

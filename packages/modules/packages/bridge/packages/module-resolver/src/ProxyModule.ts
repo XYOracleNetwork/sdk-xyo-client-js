@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { Module, ModuleConfig, ModuleFilter, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -22,7 +23,7 @@ export class ProxyModule implements Module {
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    return await this.bridge.targetQuery(this.address, query, payloads)
+    return assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
   }
 
   async queryable(query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): Promise<boolean> {

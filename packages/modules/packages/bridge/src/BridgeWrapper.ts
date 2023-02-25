@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { BridgeModule, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
 import {
   ModuleConfig,
@@ -33,7 +34,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return this.module.targetConfig(address)
   }
 
-  async targetDiscover(address: string): Promise<XyoPayload[]> {
+  async targetDiscover(address: string): Promise<XyoPayload[] | undefined> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return await this.sendTargetQuery(address, queryPayload)
   }
@@ -46,7 +47,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     address: string,
     query: T,
     payloads?: XyoPayload[],
-  ): Promise<ModuleQueryResult> {
+  ): Promise<ModuleQueryResult | undefined> {
     return await this.module.targetQuery(address, query, payloads)
   }
 
@@ -62,10 +63,10 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     address: string,
     queryPayload: T,
     payloads?: XyoPayloads,
-  ): Promise<XyoPayload[]> {
+  ): Promise<XyoPayload[] | undefined> {
     const query = await this.bindQuery(queryPayload, payloads)
     const result = await this.module.targetQuery(address, query[0], query[1])
     this.throwErrors(query, result)
-    return result[1]
+    return result?.[1]
   }
 }

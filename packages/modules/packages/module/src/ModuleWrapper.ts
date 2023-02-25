@@ -23,7 +23,7 @@ import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 export interface WrapperError extends Error {
   errors: (XyoError | null)[]
   query: [XyoQueryBoundWitness, XyoPayloads]
-  result: ModuleQueryResult
+  result: ModuleQueryResult | undefined
 }
 
 export type ModuleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>> = {
@@ -154,8 +154,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return result
   }
 
-  protected filterErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult): (XyoError | null)[] {
-    return (result[1]?.filter((payload) => {
+  protected filterErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult | undefined): (XyoError | null)[] {
+    return (result?.[1]?.filter((payload) => {
       if (payload?.schema === XyoErrorSchema) {
         const wrapper = new QueryBoundWitnessWrapper(query[0])
         return payload.sources?.includes(wrapper.hash)
@@ -171,7 +171,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return result[1]
   }
 
-  protected throwErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult) {
+  protected throwErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult | undefined) {
     const errors = this.filterErrors(query, result)
     if (errors?.length > 0) {
       const error: WrapperError = {

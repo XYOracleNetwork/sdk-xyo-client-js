@@ -13,6 +13,7 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
+  ModuleWrapper,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -59,16 +60,20 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   static override async create(params?: XyoHttpBridgeParams): Promise<HttpBridge> {
     const instance = (await super.create(params)) as HttpBridge
     const rootAddress = assertEx(await instance.initRootAddress(), `Failed to get rootAddress [${params?.config.nodeUri}]`)
-    const discover = await instance.targetDiscover(rootAddress)
+    await instance.targetDiscover(rootAddress)
 
-    await Promise.all(
-      discover.map(async (payload) => {
-        const addressPayload = payload as AddressPayload
-        if (addressPayload.schema === AddressSchema) {
-          return await instance._targetResolver.resolve({ address: [addressPayload.address] })
-        }
-      }),
+    const childAddresses = await instance._targetResolver.getRemoteAddresses()
+
+    const children = compact(
+      await Promise.all(
+        childAddresses.map(async (address) => {
+          const resolved = await instance._targetResolver.resolve({ address: [address] })
+          return resolved[0]
+        }),
+      ),
     )
+
+    await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
 
     return instance
   }
@@ -79,10 +84,6 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
 
   disconnect(): Promisable<boolean> {
     return true
-  }
-
-  override async resolve(filter?: ModuleFilter) {
-    return (await this.targetResolver.resolve(filter)) ?? (await super.resolve(filter))
   }
 
   targetConfig(address: string): XyoPayload {
@@ -122,10 +123,13 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: XyoPayload[] = []): Promise<ModuleQueryResult> {
+  async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: XyoPayload[] = []): Promise<ModuleQueryResult | undefined> {
     try {
       const path = `${this.nodeUri}/${address ? address : ''}`
       const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, [query, payloads])
+      if (result.status === 404) {
+        return undefined
+      }
       if (result.status >= 400) {
         this.logger?.error(`targetQuery failed [${path}]`)
         throw `targetQuery failed [${path}] [${result.status}]`

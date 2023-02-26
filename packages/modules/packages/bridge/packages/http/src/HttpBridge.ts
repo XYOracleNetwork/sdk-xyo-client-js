@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule } from '@xyo-network/bridge-model'

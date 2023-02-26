@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { BridgeModule, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
 import {
   ModuleConfig,

@@ -4750,7 +4750,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model":
+"@xyo-network/account-model@workspace:^, @xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model"
   dependencies:
@@ -4772,7 +4772,9 @@ __metadata:
     "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/key-model": "workspace:^"
     elliptic: ^6.5.4
     sha.js: ^2.4.11
     typescript: ^4.9.5

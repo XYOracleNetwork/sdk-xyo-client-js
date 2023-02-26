@@ -1,25 +1,14 @@
 import { DataLike } from '@xyo-network/core'
 
-import { XyoPrivateKey } from './PrivateKey'
+import { XyoPrivateKeyModel } from './PrivateKey'
+import { XyoPublicKeyModel } from './PublicKey'
 
-export class KeyPair {
-  private _isXyoKeyPair = true
-  private _private?: XyoPrivateKey
+export interface KeyPairModelStatic {
+  isXyoKeyPair(value: unknown): boolean
+}
 
-  constructor(privateKeyData?: DataLike) {
-    this._private = new XyoPrivateKey(privateKeyData)
-  }
-
-  get private() {
-    this._private = this._private ?? new XyoPrivateKey()
-    return this._private
-  }
-
-  get public() {
-    return this.private.public
-  }
-
-  static isXyoKeyPair(value: unknown) {
-    return (value as KeyPair)._isXyoKeyPair
-  }
+export interface KeyPairModel {
+  new (privateKeyData?: DataLike): this
+  get private(): XyoPrivateKeyModel
+  get public(): XyoPublicKeyModel
 }

@@ -1,5 +1,12 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
+import {
+  AccountConfig,
+  AccountModel,
+  MnemonicInitializationConfig,
+  PhraseInitializationConfig,
+  PrivateKeyInitializationConfig,
+} from '@xyo-network/account-model'
 import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
 import shajs from 'sha.js'
 
@@ -8,24 +15,6 @@ import { KeyPair } from './Key'
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
 const nameOf = <T>(name: keyof T) => name
-
-interface PhraseInitializationConfig {
-  phrase: string
-}
-interface PrivateKeyInitializationConfig {
-  privateKey: DataLike
-}
-interface MnemonicInitializationConfig {
-  mnemonic: string
-  path?: string
-}
-interface AccountOptions {
-  previousHash?: Uint8Array | string
-}
-
-export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitializationConfig | MnemonicInitializationConfig
-
-export type AccountConfig = InitializationConfig & AccountOptions
 
 const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
   const node = HDNode.fromMnemonic(mnemonic)
@@ -37,7 +26,7 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
   return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
 }
 
-export class Account extends KeyPair {
+export class Account extends KeyPair implements AccountModel {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 

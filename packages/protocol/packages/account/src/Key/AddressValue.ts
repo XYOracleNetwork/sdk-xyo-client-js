@@ -4,7 +4,7 @@ import { AddressValueModel, AddressValueModelStatic } from '@xyo-network/key-mod
 
 import { EllipticKey } from './EllipticKey'
 
-// @staticImplements<AddressValueModelStatic>()
+@staticImplements<AddressValueModelStatic>()
 export class AddressValue extends EllipticKey implements AddressValueModel {
   private _isXyoAddress = true
   constructor(address: DataLike) {

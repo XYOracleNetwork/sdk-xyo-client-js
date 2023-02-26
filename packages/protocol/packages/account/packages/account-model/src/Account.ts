@@ -1,4 +1,4 @@
-import { DataLike } from '@xyo-network/core'
+import { DataLike, XyoData } from '@xyo-network/core'
 import { AddressValueModel, KeyPairModel } from '@xyo-network/key-model'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
@@ -23,7 +23,7 @@ export type AccountConfig = InitializationConfig & AccountOptions
 
 export interface AccountModel extends KeyPairModel {
   get addressValue(): AddressValueModel
-  get previousHash(): string
+  get previousHash(): XyoData | undefined
   sign(hash: Uint8Array | string): Uint8Array
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
 }

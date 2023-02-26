@@ -4750,6 +4750,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model"
+  dependencies:
+    "@types/elliptic": ^6.4.14
+    "@types/sha.js": ^2.4.0
+    "@xylabs/ts-scripts-yarn3": ^2.15.0
+    "@xylabs/tsconfig": ^2.15.0
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/key-model": "workspace:^"
+    elliptic: ^6.5.4
+    sha.js: ^2.4.11
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/protocol/packages/account":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account"
@@ -6209,6 +6225,21 @@ __metadata:
     "@xyo-network/bowser-system-info-plugin": "workspace:^"
     "@xyo-network/node-system-info-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/key-model@workspace:^, @xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model"
+  dependencies:
+    "@types/elliptic": ^6.4.14
+    "@types/sha.js": ^2.4.0
+    "@xylabs/ts-scripts-yarn3": ^2.15.0
+    "@xylabs/tsconfig": ^2.15.0
+    "@xyo-network/core": "workspace:^"
+    elliptic: ^6.5.4
+    sha.js: ^2.4.11
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

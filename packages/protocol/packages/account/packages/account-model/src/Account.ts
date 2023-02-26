@@ -1,6 +1,5 @@
 import { DataLike } from '@xyo-network/core'
-
-import { AddressValue, KeyPair } from './Key'
+import { AddressValueModel, KeyPairModel } from '@xyo-network/key-model'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
@@ -30,9 +29,9 @@ export interface AccountModelStatic {
   random(): AccountModel
 }
 
-export interface AccountModel extends KeyPair {
+export interface AccountModel extends KeyPairModel {
   new (opts?: AccountConfig): this
-  get addressValue(): AddressValue
+  get addressValue(): AddressValueModel
   get previousHash(): string
   sign(hash: Uint8Array | string): Uint8Array
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean

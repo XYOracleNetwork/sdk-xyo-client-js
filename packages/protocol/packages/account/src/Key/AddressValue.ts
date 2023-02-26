@@ -1,8 +1,11 @@
+import { staticImplements } from '@xylabs/static-implements'
 import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
+import { AddressValueModel, AddressValueModelStatic } from '@xyo-network/key-model'
 
 import { EllipticKey } from './EllipticKey'
 
-export class AddressValue extends EllipticKey {
+// @staticImplements<AddressValueModelStatic>()
+export class AddressValue extends EllipticKey implements AddressValueModel {
   private _isXyoAddress = true
   constructor(address: DataLike) {
     super(20, AddressValue.addressFromAddressOrPublicKey(address))

@@ -1,10 +1,13 @@
+import { staticImplements } from '@xylabs/static-implements'
 import { DataLike, toUint8Array } from '@xyo-network/core'
+import { PrivateKeyModel, PrivateKeyModelStatic } from '@xyo-network/key-model'
 import EC from 'elliptic'
 
 import { EllipticKey } from './EllipticKey'
 import { XyoPublicKey } from './PublicKey'
 
-export class PrivateKey extends EllipticKey {
+@staticImplements<PrivateKeyModelStatic>()
+export class PrivateKey extends EllipticKey implements PrivateKeyModel {
   private _isXyoPrivateKey = true
   private _keyPair: EC.ec.KeyPair
   private _public?: XyoPublicKey

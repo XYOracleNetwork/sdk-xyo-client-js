@@ -21,7 +21,7 @@
     "@xyo-network/node": "workspace:^",
     "@xyo-network/node-app": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
-    "bip39": "^3.0.4",
+    "bip39": "^3.1.0",
     "lodash": "^4.17.21",
     "tail": "^2.2.6",
     "terminal-kit": "^3.0.0",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "@types/node": "^18.14.1",
+    "@types/node": "^18.14.2",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",
     "@xylabs/ts-scripts-yarn3": "^2.15.0",

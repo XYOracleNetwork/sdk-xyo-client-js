@@ -27,6 +27,7 @@
     "IXSCAN",
     "jsdom",
     "keccak",
+    "keypair",
     "microether",
     "milliether",
     "pako",

@@ -12,6 +12,7 @@
   "dependencies": {
     "@ethersproject/hdnode": "^5.7.0",
     "@xylabs/assert": "^2.7.1",
+    "@xylabs/static-implements": "^2.7.3",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/key-model": "workspace:^",

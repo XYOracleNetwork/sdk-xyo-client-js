@@ -3,17 +3,17 @@ import { AddressValueModel, KeyPairModel } from '@xyo-network/key-model'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
-interface PhraseInitializationConfig {
+export interface PhraseInitializationConfig {
   phrase: string
 }
-interface PrivateKeyInitializationConfig {
+export interface PrivateKeyInitializationConfig {
   privateKey: DataLike
 }
-interface MnemonicInitializationConfig {
+export interface MnemonicInitializationConfig {
   mnemonic: string
   path?: string
 }
-interface AccountOptions {
+export interface AccountOptions {
   previousHash?: Uint8Array | string
 }
 

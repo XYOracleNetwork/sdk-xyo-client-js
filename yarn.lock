@@ -5152,6 +5152,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-module-resolver@workspace:packages/modules/packages/bridge/packages/module-resolver"
   dependencies:
+    "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/address-payload-plugin": "workspace:^"
@@ -6140,7 +6141,6 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/abstract-bridge": "workspace:^"
-    "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
     "@xyo-network/axios": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"

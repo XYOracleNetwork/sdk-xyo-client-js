@@ -11,6 +11,7 @@ import {
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
 export type DivinerParams = ModuleParams
@@ -37,6 +38,8 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
+    //remove the query payload
+    const cleanPayloads = payloads?.filter((payload) => PayloadWrapper.hash(payload) !== query.query)
     const typedQuery = wrapper.query
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
@@ -44,7 +47,7 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
     try {
       switch (typedQuery.schemaName) {
         case XyoDivinerDivineQuerySchema:
-          resultPayloads.push(...(await this.divine(payloads)))
+          resultPayloads.push(...(await this.divine(cleanPayloads)))
           break
         default:
           return super.query(query, payloads)

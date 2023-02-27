@@ -4,6 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher, sortFields } from '@xyo-network/core'
+import { PayloadWrapper } from '@xyo-network/payload'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
 
@@ -39,7 +40,7 @@ export class BoundWitnessBuilder<
     return (
       this._payloadSchemas ??
       this._payloads.map((payload) => {
-        return assertEx(payload.schema, 'Builder: Missing Schema')
+        return assertEx(payload.schema, `Builder: Missing Schema\n${JSON.stringify(this._payloads, null, 2)}`)
       })
     )
   }
@@ -101,9 +102,10 @@ export class BoundWitnessBuilder<
   }
 
   payload(payload?: TPayload) {
+    const unwrappedPayload = PayloadWrapper.unwrap<TPayload>(payload)
     assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
-    if (payload) {
-      this._payloads.push(assertEx(sortFields<TPayload>(payload)))
+    if (unwrappedPayload) {
+      this._payloads.push(assertEx(sortFields<TPayload>(unwrappedPayload)))
     }
     return this
   }

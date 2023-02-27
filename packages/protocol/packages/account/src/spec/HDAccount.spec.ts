@@ -19,6 +19,7 @@ describe('HDAccount', () => {
       const legacy = new Account({ privateKey })
       expect(sut.public.hex).toBe(legacy.public.hex)
       expect(sut.private.hex).toBe(legacy.private.hex)
+      expect(sut.addressValue.hex).toBe(legacy.addressValue.hex)
     })
   })
   describe('sign', () => {

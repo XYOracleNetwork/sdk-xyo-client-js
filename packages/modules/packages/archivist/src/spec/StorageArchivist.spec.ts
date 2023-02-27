@@ -5,6 +5,7 @@
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { CompositeModuleResolver } from '@xyo-network/module'
+import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { StorageArchivistConfigSchema, XyoStorageArchivist } from '../StorageArchivist'
@@ -93,4 +94,36 @@ test('XyoArchivist Parent Write Through', async () => {
 
   expect(fromStorage).toBeArrayOfSize(1)
   expect(fromMemory).toBeArrayOfSize(1)
+})
+
+test('XyoArchivist Parent Reads', async () => {
+  const parent = await MemoryArchivist.create()
+  const memoryNode = await MemoryNode.create()
+
+  memoryNode.register(parent)
+  await memoryNode.attach(parent.address, true)
+
+  const storage = await XyoStorageArchivist.create({
+    config: {
+      namespace: 'test',
+      parents: { read: [parent.address] },
+      persistAccount: true,
+      schema: StorageArchivistConfigSchema,
+      type: 'local',
+    },
+  })
+  memoryNode.register(storage)
+  await memoryNode.attach(storage.address, true)
+
+  const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })
+
+  expect(wrapper).toBeDefined()
+
+  const inserted = await parent.insert([wrapper.payload])
+
+  expect(inserted).toBeArrayOfSize(1)
+
+  const fromStorage = await storage.get([wrapper.hash])
+
+  expect(fromStorage).toBeArrayOfSize(1)
 })

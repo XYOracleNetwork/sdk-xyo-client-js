@@ -34,6 +34,7 @@
     "@xylabs/ts-scripts-yarn3": "^2.15.0",
     "@xylabs/tsconfig": "^2.15.0",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
+    "@xyo-network/node": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
     "typescript": "^4.9.5"
   },

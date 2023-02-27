@@ -158,6 +158,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     const [storageBoundWitness] = await this.bindResult([...storedPayloads])
     const parentBoundWitnesses: XyoBoundWitness[] = []
     const parents = await this.parents()
+    console.log('parents in storageArchivists', parents)
     if (Object.entries(parents.write ?? {}).length) {
       //we store the child bw also
       const [parentBoundWitness] = await this.writeToParents([storageBoundWitness, ...storedPayloads])

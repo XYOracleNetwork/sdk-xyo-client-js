@@ -1,5 +1,14 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
+import { staticImplements } from '@xylabs/static-implements'
+import {
+  AccountConfig,
+  AccountModel,
+  AccountModelStatic,
+  MnemonicInitializationConfig,
+  PhraseInitializationConfig,
+  PrivateKeyInitializationConfig,
+} from '@xyo-network/account-model'
 import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
 import shajs from 'sha.js'
 
@@ -8,24 +17,6 @@ import { KeyPair } from './Key'
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
 const nameOf = <T>(name: keyof T) => name
-
-interface PhraseInitializationConfig {
-  phrase: string
-}
-interface PrivateKeyInitializationConfig {
-  privateKey: DataLike
-}
-interface MnemonicInitializationConfig {
-  mnemonic: string
-  path?: string
-}
-interface AccountOptions {
-  previousHash?: Uint8Array | string
-}
-
-export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitializationConfig | MnemonicInitializationConfig
-
-export type AccountConfig = InitializationConfig & AccountOptions
 
 const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
   const node = HDNode.fromMnemonic(mnemonic)
@@ -37,7 +28,8 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
   return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
 }
 
-export class Account extends KeyPair {
+@staticImplements<AccountModelStatic>()
+export class Account extends KeyPair implements AccountModel {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 
@@ -57,27 +49,12 @@ export class Account extends KeyPair {
     if (opts?.previousHash) this._previousHash = new XyoData(32, opts.previousHash)
   }
 
-  /** @deprecated use addressValue instead */
-  get address() {
-    return this.public.address.hex
-  }
-
   get addressValue() {
     return this.public.address
   }
 
   get previousHash() {
     return this._previousHash
-  }
-
-  /** @deprecated use private instead */
-  get privateKey() {
-    return this.private
-  }
-
-  /** @deprecated use public instead */
-  get publicKey() {
-    return this.public
   }
 
   static fromMnemonic = (mnemonic: string, path?: string): Account => {
@@ -110,6 +87,3 @@ export class Account extends KeyPair {
     return this.public.address.verify(msg, signature)
   }
 }
-
-/** @deprecated use Account instead */
-export class XyoAccount extends Account {}

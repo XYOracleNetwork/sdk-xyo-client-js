@@ -4475,7 +4475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:^2.7.4":
+"@xylabs/assert@npm:^2.7.1, @xylabs/assert@npm:^2.7.4":
   version: 2.7.4
   resolution: "@xylabs/assert@npm:2.7.4"
   checksum: 3ed5166bfc157e82c874ce2485cb83b1647ee85d57a7b89d6e4e48162431c6df707efe86f396b44ee9ca8f421b7619619500ce5f49e64f61e99b712ab1c7eabd
@@ -4584,6 +4584,13 @@ __metadata:
     winston: ^3.8.2
     winston-transport: ^4.5.0
   checksum: 60d16fdf63c5a6c90b323cf5e09e25b025e3fe042e4c72a432cfadb8d02401aedc9d24f8ec7f88055248973806e5b5b46facb64a6946aef16431e9cdeffd6fd6
+  languageName: node
+  linkType: hard
+
+"@xylabs/static-implements@npm:^2.7.4":
+  version: 2.7.4
+  resolution: "@xylabs/static-implements@npm:2.7.4"
+  checksum: 334b3c9e756ec664f23f3101917ec51b3884b6fa9a7b1117085d5f350318f5f8963196c3f99dfabea8f9b1ab4be2485fa29d51bc4651bb8a073893ba061a667f
   languageName: node
   linkType: hard
 
@@ -4750,6 +4757,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/account-model@workspace:^, @xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.15.0
+    "@xylabs/tsconfig": ^2.15.0
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/key-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/protocol/packages/account":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account"
@@ -4758,9 +4777,12 @@ __metadata:
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
     "@xylabs/assert": ^2.7.4
+    "@xylabs/static-implements": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/key-model": "workspace:^"
     elliptic: ^6.5.4
     sha.js: ^2.4.11
     typescript: ^4.9.5
@@ -5140,6 +5162,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-module-resolver@workspace:packages/modules/packages/bridge/packages/module-resolver"
   dependencies:
+    "@xylabs/assert": ^2.7.1
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/address-payload-plugin": "workspace:^"
@@ -5184,6 +5207,7 @@ __metadata:
     "@xylabs/tsconfig-jest": ^2.15.0
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
+    "@xyo-network/axios": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -6128,7 +6152,6 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/abstract-bridge": "workspace:^"
-    "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
     "@xyo-network/axios": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
@@ -6209,6 +6232,17 @@ __metadata:
     "@xyo-network/bowser-system-info-plugin": "workspace:^"
     "@xyo-network/node-system-info-plugin": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/key-model@workspace:^, @xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.15.0
+    "@xylabs/tsconfig": ^2.15.0
+    "@xyo-network/core": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

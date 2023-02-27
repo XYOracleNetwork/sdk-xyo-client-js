@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/bridge-module-resolver",
+  "name": "@xyo-network/key-model",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,21 +10,17 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.7.1",
-    "@xyo-network/address-payload-plugin": "workspace:^",
-    "@xyo-network/bridge-model": "workspace:^",
-    "@xyo-network/module": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "lodash": "^4.17.21"
+    "@xyo-network/core": "workspace:^"
   },
+  "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.15.0",
     "@xylabs/tsconfig": "^2.15.0",
     "typescript": "^4.9.5"
   },
-  "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
@@ -43,8 +39,6 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
   "publishConfig": {

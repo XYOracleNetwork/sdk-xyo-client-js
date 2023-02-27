@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
@@ -41,7 +42,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
 
   protected _parentResolver = new CompositeModuleResolver()
   protected _started = false
-  protected readonly account: Account
+  protected readonly account: AccountInstance
   protected readonly logger?: Logging
   protected readonly moduleConfigQueryValidator: Queryable
 
@@ -185,11 +186,11 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
     return this._started
   }
 
-  subscribe(_queryAccount?: Account) {
+  subscribe(_queryAccount?: AccountInstance) {
     return
   }
 
-  protected bindHashes(hashes: string[], schema: SchemaString[], account?: Account) {
+  protected bindHashes(hashes: string[], schema: SchemaString[], account?: AccountInstance) {
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
       resolve?.(result)
@@ -198,7 +199,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
     return promise
   }
 
-  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: Account): XyoBoundWitness {
+  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): XyoBoundWitness {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (account ? builder.witness(account) : builder).build()[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
@@ -208,9 +209,9 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account?: Account,
-  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account> {
-    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account>((resolve) => {
+    account?: AccountInstance,
+  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], AccountInstance> {
+    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], AccountInstance>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
@@ -221,7 +222,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
   protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account?: Account,
+    account?: AccountInstance,
   ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     const result = (account ? builder.witness(account) : builder).build()
@@ -229,8 +230,8 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
     return result
   }
 
-  protected bindResult(payloads: XyoPayload[], account?: Account): PromiseEx<ModuleQueryResult, Account> {
-    const promise = new PromiseEx<ModuleQueryResult, Account>((resolve) => {
+  protected bindResult(payloads: XyoPayload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
+    const promise = new PromiseEx<ModuleQueryResult, AccountInstance>((resolve) => {
       const result = this.bindResultInternal(payloads, account)
       resolve?.(result)
       return result
@@ -238,14 +239,14 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
     return promise
   }
 
-  protected bindResultInternal(payloads: XyoPayload[], account?: Account): ModuleQueryResult {
+  protected bindResultInternal(payloads: XyoPayload[], account?: AccountInstance): ModuleQueryResult {
     const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
     const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
 
-  protected loadAccount(account?: Account) {
+  protected loadAccount(account?: AccountInstance) {
     return account ?? new Account()
   }
 

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Buffer } from '@xylabs/buffer'
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher, sortFields } from '@xyo-network/core'
@@ -18,7 +18,7 @@ export class BoundWitnessBuilder<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
   TPayload extends XyoPayload = XyoPayload,
 > {
-  private _accounts: Account[] = []
+  private _accounts: AccountInstance[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
   private _payloads: TPayload[] = []
@@ -117,7 +117,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  witness(account: Account) {
+  witness(account: AccountInstance) {
     this._accounts?.push(account)
     return this
   }

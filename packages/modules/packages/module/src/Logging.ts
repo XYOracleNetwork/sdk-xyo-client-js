@@ -1,16 +1,16 @@
 import { getFunctionName, Logger } from '@xyo-network/shared'
 
 export class Logging implements Logger {
-  private _id?: string
+  private _id?: () => string
   private _logger: Logger
 
-  constructor(logger: Logger, id?: string) {
+  constructor(logger: Logger, id?: () => string) {
     this._logger = logger
     this._id = id
   }
 
   set id(id: string) {
-    this._id = id
+    this._id = () => id
   }
 
   debug(message?: unknown) {

@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/account",
+  "name": "@xyo-network/wallet-model",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,21 +9,8 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "dependencies": {
-    "@ethersproject/hdnode": "^5.7.0",
-    "@xylabs/assert": "^2.7.4",
-    "@xylabs/static-implements": "^2.7.4",
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/key-model": "workspace:^",
-    "@xyo-network/wallet-model": "workspace:^",
-    "elliptic": "^6.5.4",
-    "sha.js": "^2.4.11"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/elliptic": "^6.4.14",
-    "@types/sha.js": "^2.4.0",
     "@xylabs/ts-scripts-yarn3": "^2.15.0",
     "@xylabs/tsconfig": "^2.15.0",
     "typescript": "^4.9.5"

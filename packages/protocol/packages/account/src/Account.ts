@@ -3,8 +3,8 @@ import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
-  AccountModel,
-  AccountModelStatic,
+  AccountInstanceModel,
+  AccountStaticModel,
   MnemonicInitializationConfig,
   PhraseInitializationConfig,
   PrivateKeyInitializationConfig,
@@ -28,8 +28,8 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
   return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
 }
 
-@staticImplements<AccountModelStatic>()
-export class Account extends KeyPair implements AccountModel {
+@staticImplements<AccountStaticModel>()
+export class Account extends KeyPair implements AccountInstanceModel {
   private _isXyoWallet = true
   private _previousHash?: XyoData
 

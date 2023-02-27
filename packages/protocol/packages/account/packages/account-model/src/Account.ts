@@ -21,18 +21,18 @@ export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitia
 
 export type AccountConfig = InitializationConfig & AccountOptions
 
-export interface AccountModel extends KeyPairModel {
+export interface AccountInstanceModel extends KeyPairModel {
   get addressValue(): AddressValueModel
   get previousHash(): XyoData | undefined
   sign(hash: Uint8Array | string): Uint8Array
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
 }
 
-export interface AccountModelStatic {
-  new (opts?: AccountConfig): AccountModel
-  fromMnemonic(mnemonic: string, path?: string): AccountModel
-  fromPhrase(phrase: string): AccountModel
-  fromPrivateKey(key: Uint8Array | string): AccountModel
+export interface AccountStaticModel {
+  new (opts?: AccountConfig): AccountInstanceModel
+  fromMnemonic(mnemonic: string, path?: string): AccountInstanceModel
+  fromPhrase(phrase: string): AccountInstanceModel
+  fromPrivateKey(key: Uint8Array | string): AccountInstanceModel
   isXyoWallet(value: unknown): boolean
-  random(): AccountModel
+  random(): AccountInstanceModel
 }

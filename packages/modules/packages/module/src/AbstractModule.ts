@@ -4,6 +4,7 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { Base } from '@xyo-network/core'
 import {
   Module,
   ModuleConfig,
@@ -21,7 +22,6 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
-import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { creatable } from './CreatableModule'
@@ -34,11 +34,8 @@ import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from '
 import { CompositeModuleResolver } from './Resolver'
 
 @creatable()
-export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> implements Module {
+export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends Base<ModuleParams<TConfig>> implements Module<TConfig> {
   static configSchema: string
-  static defaultLogger?: Logger
-
-  _config: TConfig
 
   readonly resolver: CompositeModuleResolver
 
@@ -51,20 +48,20 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: ModuleParams<TConfig>) {
-    this._config = params.config
+    const activeLogger = params.logger ?? AbstractModule.defaultLogger
     //TODO: change wallet to use accountDerivationPath
-    this.account = this.loadAccount(
-      (params as WalletModuleParams<TConfig>).wallet
-        ? (params as WalletModuleParams<TConfig>).wallet.getAccount(0)
-        : (params as AccountModuleParams<TConfig>).account
-        ? (params as AccountModuleParams<TConfig>).account
-        : undefined,
-    )
+    const account = (params as WalletModuleParams<TConfig>).wallet
+      ? (params as WalletModuleParams<TConfig>).wallet.getAccount(0)
+      : (params as AccountModuleParams<TConfig>).account
+      ? (params as AccountModuleParams<TConfig>).account
+      : undefined
+
+    params.logger = activeLogger ? new Logging(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
+    super(params)
+    this.account = this.loadAccount(account)
     this.resolver = (params.resolver ?? new CompositeModuleResolver()).add(this)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
-    const activeLogger = params?.logger ?? AbstractModule.defaultLogger
-    this.logger = activeLogger ? new Logging(activeLogger, `0x${this.account.addressValue.hex}`) : undefined
     this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
   }
 
@@ -77,7 +74,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> impleme
   }
 
   get config() {
-    return this._config
+    return this.params.config ?? {}
   }
 
   get parentResolver(): CompositeModuleResolver {

@@ -29,8 +29,8 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.279.0",
     "@ethersproject/wallet": "^5.7.0",
-    "@xylabs/assert": "^2.7.1",
-    "@xylabs/exists": "^2.7.1",
+    "@xylabs/assert": "^2.7.4",
+    "@xylabs/exists": "^2.7.4",
     "@xylabs/sdk-api-express-ecs": "^1.3.0",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",

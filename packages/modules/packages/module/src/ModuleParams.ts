@@ -1,4 +1,4 @@
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AnyObject } from '@xyo-network/core'
 import { ModuleConfig } from '@xyo-network/module-model'
 import { Logger } from '@xyo-network/shared'
@@ -15,7 +15,7 @@ export type BasicModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAddi
 export type AccountModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends AnyObject = AnyObject> = BasicModuleParams<
   TConfig,
   TAdditionalParams & {
-    account: Account
+    account: AccountInstance
   }
 >
 

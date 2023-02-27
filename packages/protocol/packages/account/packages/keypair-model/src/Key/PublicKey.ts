@@ -1,17 +1,17 @@
 import { DataLike } from '@xyo-network/core'
 
-import { AddressValueModel } from './AddressValue'
-import { EllipticKeyModel } from './EllipticKey'
+import { AddressValueInstance } from './AddressValue'
+import { EllipticKeyInstance } from './EllipticKey'
 
-export interface PublicKeyModel extends EllipticKeyModel {
-  get address(): AddressValueModel
+export interface PublicKeyInstance extends EllipticKeyInstance {
+  get address(): AddressValueInstance
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
 }
 
-export interface PublicKeyModelStatic {
-  new (bytes: DataLike): PublicKeyModel
+export interface PublicKeyStatic {
+  new (bytes: DataLike): PublicKeyInstance
   isXyoPublicKey(value: unknown): boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface XyoPublicKeyModel extends PublicKeyModel {}
+export interface XyoPublicKeyModel extends PublicKeyInstance {}

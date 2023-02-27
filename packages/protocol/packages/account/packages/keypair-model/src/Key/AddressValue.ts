@@ -1,13 +1,13 @@
 import { DataLike } from '@xyo-network/core'
 
-import { EllipticKeyModel } from './EllipticKey'
+import { EllipticKeyInstance } from './EllipticKey'
 
-export interface AddressValueModel extends EllipticKeyModel {
+export interface AddressValueInstance extends EllipticKeyInstance {
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
 }
 
-export interface AddressValueModelStatic {
-  new (address: DataLike): AddressValueModel
+export interface AddressValueStatic {
+  new (address: DataLike): AddressValueInstance
   addressFromAddressOrPublicKey(bytes: DataLike): Uint8Array | string
   addressFromPublicKey(key: DataLike): string
   isXyoAddress(value: unknown): boolean

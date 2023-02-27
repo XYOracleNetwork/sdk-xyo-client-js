@@ -1,12 +1,12 @@
 import { staticImplements } from '@xylabs/static-implements'
 import { DataLike } from '@xyo-network/core'
-import { PublicKeyModel, PublicKeyModelStatic } from '@xyo-network/key-model'
+import { PublicKeyInstance, PublicKeyStatic } from '@xyo-network/key-model'
 
 import { AddressValue } from './AddressValue'
 import { EllipticKey } from './EllipticKey'
 
-@staticImplements<PublicKeyModelStatic>()
-export class PublicKey extends EllipticKey implements PublicKeyModel {
+@staticImplements<PublicKeyStatic>()
+export class PublicKey extends EllipticKey implements PublicKeyInstance {
   private _isXyoPublicKey = true
   constructor(bytes: DataLike) {
     super(64, bytes)

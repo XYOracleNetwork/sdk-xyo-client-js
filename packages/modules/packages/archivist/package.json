@@ -13,6 +13,7 @@
     "@xylabs/promise": "^2.7.4",
     "@xyo-network/abstract-archivist": "workspace:^",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

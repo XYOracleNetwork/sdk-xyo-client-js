@@ -176,7 +176,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
 
   private async resolveArchivists(archivists: string[] = []) {
     const resolvedWrappers: Record<string, ArchivistWrapper> = {}
-    const resolvedModules = await this.resolver?.resolve({ address: archivists })
+    const resolvedModules = await this.resolve({ address: archivists })
     const modules = resolvedModules ?? []
     modules.forEach((module) => {
       const wrapper = new ArchivistWrapper(module)

@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -171,7 +172,7 @@ export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfi
     return this
   }
 
-  protected override loadAccount(account?: Account) {
+  protected override loadAccount(account?: AccountInstance) {
     if (this.persistAccount) {
       const privateKey = this.privateStorage.get('privateKey')
       if (privateKey) {

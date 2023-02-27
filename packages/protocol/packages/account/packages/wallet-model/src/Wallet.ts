@@ -5,19 +5,19 @@ export interface Mnemonic {
 }
 
 export interface WalletInstance {
-  address: string
-  chainCode: string
-  depth: number
-  derivePath: (path: string) => WalletInstance
-  extendedKey: string
-  fingerprint: string
-  index: number
-  mnemonic?: Mnemonic | undefined
-  neuter: () => WalletInstance
-  parentFingerprint: string
-  path: string
-  privateKey: string
-  publicKey: string
+  readonly address: string
+  readonly chainCode: string
+  readonly depth: number
+  readonly derivePath: (path: string) => WalletInstance
+  readonly extendedKey: string
+  readonly fingerprint: string
+  readonly index: number
+  readonly mnemonic?: Mnemonic | undefined
+  readonly neuter: () => WalletInstance
+  readonly parentFingerprint: string
+  readonly path: string
+  readonly privateKey: string
+  readonly publicKey: string
 }
 
 export interface WalletStatic {

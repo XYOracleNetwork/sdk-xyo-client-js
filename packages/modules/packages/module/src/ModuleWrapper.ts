@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   Module,
@@ -27,7 +27,7 @@ export interface WrapperError extends Error {
 }
 
 export type ModuleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>> = {
-  new (module: TModule, account?: Account): TWrapper
+  new (module: TModule, account?: AccountInstance): TWrapper
 }
 
 function moduleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>() {
@@ -42,7 +42,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
 
   readonly module: TWrappedModule
 
-  constructor(module: TWrappedModule, protected readonly account?: Account) {
+  constructor(module: TWrappedModule, protected readonly account?: AccountInstance) {
     //unwrap it if already wrapped
     const wrapper = module as unknown as ModuleWrapper<TWrappedModule>
     if (wrapper.module) {
@@ -134,9 +134,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account: Account | undefined = this.account,
-  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account> {
-    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], Account>((resolve) => {
+    account: AccountInstance | undefined = this.account,
+  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], AccountInstance> {
+    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], AccountInstance>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
@@ -147,7 +147,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
-    account: Account | undefined = this.account,
+    account: AccountInstance | undefined = this.account,
   ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = (account ? builder.witness(account) : builder).build()

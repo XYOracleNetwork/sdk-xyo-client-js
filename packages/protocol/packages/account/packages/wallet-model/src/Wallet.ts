@@ -1,6 +1,23 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Mnemonic {
+  readonly locale: string
+  readonly path: string
+  readonly phrase: string
+}
+
 export interface WalletInstance {
-  //TODO:
+  address: string
+  chainCode: string
+  depth: number
+  derivePath: (path: string) => WalletInstance
+  extendedKey: string
+  fingerprint: string
+  index: number
+  mnemonic: Mnemonic | undefined
+  neuter: () => WalletInstance
+  parentFingerprint: string
+  path: string
+  privateKey: string
+  publicKey: string
 }
 
 export interface WalletStatic {

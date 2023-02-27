@@ -4475,7 +4475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:^2.7.1, @xylabs/assert@npm:^2.7.4":
+"@xylabs/assert@npm:^2.7.4":
   version: 2.7.4
   resolution: "@xylabs/assert@npm:2.7.4"
   checksum: 3ed5166bfc157e82c874ce2485cb83b1647ee85d57a7b89d6e4e48162431c6df707efe86f396b44ee9ca8f421b7619619500ce5f49e64f61e99b712ab1c7eabd
@@ -5162,7 +5162,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-module-resolver@workspace:packages/modules/packages/bridge/packages/module-resolver"
   dependencies:
-    "@xylabs/assert": ^2.7.1
+    "@xylabs/assert": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/address-payload-plugin": "workspace:^"
@@ -5900,7 +5900,7 @@ __metadata:
     rollbar: ^2.26.1
     source-map-support: ^0.5.21
     swagger-autogen: ^2.23.1
-    swagger-ui-express: ^4.6.1
+    swagger-ui-express: ^4.6.2
     typescript: ^4.9.5
     uuid: ^9.0.0
     winston: ^3.8.2
@@ -8859,11 +8859,11 @@ __metadata:
   linkType: hard
 
 "core-js-compat@npm:^3.25.1":
-  version: 3.28.0
-  resolution: "core-js-compat@npm:3.28.0"
+  version: 3.29.0
+  resolution: "core-js-compat@npm:3.29.0"
   dependencies:
     browserslist: ^4.21.5
-  checksum: 41d1d58c99ce7ee7abd8cf070f4c07a8f2655dbed1777d90a26246dddd7fac68315d53d2192584c8621a5328e6fe1a10da39b6bf2666e90fd5c2ff3b8f24e874
+  checksum: ca5d370296c15ebd5f961dae6b6a24a153a84937bff58543099b7f1c407e8d5bbafafa7ca27e65baad522ece762d6356e1d6ea9efa99815f6fefd150fac7e8a5
   languageName: node
   linkType: hard
 
@@ -18855,14 +18855,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-express@npm:^4.6.1":
-  version: 4.6.1
-  resolution: "swagger-ui-express@npm:4.6.1"
+"swagger-ui-express@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "swagger-ui-express@npm:4.6.2"
   dependencies:
     swagger-ui-dist: ">=4.11.0"
   peerDependencies:
     express: ">=4.0.0"
-  checksum: 28a4e4b38130ae6241b67a692f26e33eaaf4e1a2ebe2eba574bfd56dded026169a702b638cf5feee9e929395327a112bfc32dde7204883b3b3bee8ad3c1817af
+  checksum: 3883dc9243ef3fd050ea99edfa14c686dd3477b1ca81655d9c49347b71a540e266fc658b5b6f936c3f9192f224e4cff41bc3d17ab325e9e110a19f0abec551b6
   languageName: node
   linkType: hard
 

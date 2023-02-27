@@ -54,7 +54,7 @@
     "rollbar": "^2.26.1",
     "source-map-support": "^0.5.21",
     "swagger-autogen": "^2.23.1",
-    "swagger-ui-express": "^4.6.1",
+    "swagger-ui-express": "^4.6.2",
     "uuid": "^9.0.0",
     "winston": "^3.8.2",
     "winston-transport": "^4.5.0"

@@ -12,7 +12,7 @@ export interface WalletInstance {
   extendedKey: string
   fingerprint: string
   index: number
-  mnemonic: Mnemonic | undefined
+  mnemonic?: Mnemonic | undefined
   neuter: () => WalletInstance
   parentFingerprint: string
   path: string

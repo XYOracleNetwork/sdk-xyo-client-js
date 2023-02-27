@@ -4475,7 +4475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:^2.7.4":
+"@xylabs/assert@npm:^2.7.1, @xylabs/assert@npm:^2.7.4":
   version: 2.7.4
   resolution: "@xylabs/assert@npm:2.7.4"
   checksum: 3ed5166bfc157e82c874ce2485cb83b1647ee85d57a7b89d6e4e48162431c6df707efe86f396b44ee9ca8f421b7619619500ce5f49e64f61e99b712ab1c7eabd
@@ -4587,12 +4587,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/static-implements@npm:^2.7.3":
-  version: 2.7.3
-  resolution: "@xylabs/static-implements@npm:2.7.3"
-  peerDependencies:
-    jest: "*"
-  checksum: fc88da34be6f35cb88d02872a0bd5247a35cd5962570287c922e51492ff3d1d82b028652b8a572021ac6c85b06bebd5fc213ec23109ca74eb6836005d4d6d4f1
+"@xylabs/static-implements@npm:^2.7.4":
+  version: 2.7.4
+  resolution: "@xylabs/static-implements@npm:2.7.4"
+  checksum: 334b3c9e756ec664f23f3101917ec51b3884b6fa9a7b1117085d5f350318f5f8963196c3f99dfabea8f9b1ab4be2485fa29d51bc4651bb8a073893ba061a667f
   languageName: node
   linkType: hard
 
@@ -4779,7 +4777,7 @@ __metadata:
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
     "@xylabs/assert": ^2.7.4
-    "@xylabs/static-implements": ^2.7.3
+    "@xylabs/static-implements": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.15.0
     "@xylabs/tsconfig": ^2.15.0
     "@xyo-network/account-model": "workspace:^"

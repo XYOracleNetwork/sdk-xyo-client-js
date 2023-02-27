@@ -1,4 +1,4 @@
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
@@ -14,8 +14,8 @@ export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfi
 >
 
 export class ArchivingModule<TConfig extends ArchivingModuleConfig = ArchivingModuleConfig> extends AbstractModule<TConfig> implements Module {
-  protected override bindResult(payloads: XyoPayload[], account?: Account): PromiseEx<ModuleQueryResult, Account> {
-    const promise = new PromiseEx<ModuleQueryResult, Account>(async (resolve) => {
+  protected override bindResult(payloads: XyoPayload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
+    const promise = new PromiseEx<ModuleQueryResult, AccountInstance>(async (resolve) => {
       const result = this.bindResultInternal(payloads, account)
       await this.storeToArchivists([result[0], ...result[1]])
       resolve?.(result)

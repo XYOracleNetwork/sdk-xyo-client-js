@@ -1,5 +1,6 @@
 import { HDNode } from '@ethersproject/hdnode'
 
+import { Account } from '../Account'
 import { HDAccount } from '../HDAccount'
 
 describe('HDAccount', () => {
@@ -11,6 +12,13 @@ describe('HDAccount', () => {
     it('can be created from HDNode', () => {
       const sut = new HDAccount(node)
       expect(sut).toBeDefined()
+    })
+    it('is compatible with legacy Account', () => {
+      const sut = new HDAccount(node)
+      const privateKey = sut.private.hex
+      const legacy = new Account({ privateKey })
+      expect(sut.public.hex).toBe(legacy.public.hex)
+      expect(sut.private.hex).toBe(legacy.private.hex)
     })
   })
   describe('sign', () => {

@@ -246,7 +246,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
     return result
   }
 
-  protected loadAccount(account?: AccountInstance) {
+  protected loadAccount(account?: AccountInstance): AccountInstance {
     return account ?? new Account()
   }
 

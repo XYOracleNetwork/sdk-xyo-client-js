@@ -10,7 +10,9 @@ export type SchemaString = string
 
 export type ModuleConfigBase<T extends AnyObject = AnyObject> = XyoPayload<
   {
+    //friendly name of module (not collision resistent)
     name?: string
+
     //if both allowed and disallowed is specified, then disallowed takes priority
     security?: {
       //will process queries that have unsigned boundwitness in tuples
@@ -22,6 +24,9 @@ export type ModuleConfigBase<T extends AnyObject = AnyObject> = XyoPayload<
       //if schema in record, then anyone except these addresses can access query
       disallowed?: Record<SchemaString, AddressString[]>
     }
+
+    //store the queries made to the module in an archivist if possible
+    storeQueries?: boolean
   } & T
 >
 

@@ -6,6 +6,7 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractDiviner } from '../AbstractDiviner'
 import { AddressHistoryDiviner } from './AddressHistoryDiviner'
@@ -32,14 +33,14 @@ export class MemoryAddressHistoryDiviner extends AbstractDiviner<MemoryAddressHi
   }
 
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
-    assertEx(!payloads, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
-    const archivists =
-      (await this.resolver?.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
+    assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
+    const archivists = (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
+    assertEx(archivists.length > 0, 'Did not find any archivists')
     const bwLists = (
       await Promise.all(
-        archivists.map((archivist) => {
-          //Todo: add address to filter
-          return archivist.find<XyoBoundWitness>({ limit: 10000, schema: XyoBoundWitnessSchema })
+        archivists.map(async (archivist) => {
+          const all = await archivist.all()
+          return all.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
         }),
       )
     ).flat()
@@ -48,8 +49,10 @@ export class MemoryAddressHistoryDiviner extends AbstractDiviner<MemoryAddressHi
 
     const chains = Object.values(this.buildAddressChains(this.config.address, bwRecords))
 
+    console.log(`Chains: ${JSON.stringify(chains, null, 2)}`)
+
     //return the heads of each chain (get the last bw on each chain)
-    return chains.map((chain) => assertEx(chain.pop()))
+    return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
   }
 
   private buildAddressChains(address: string, bwRecords: Record<string, BoundWitnessWrapper>): Record<string, BoundWitnessWrapper[]> {

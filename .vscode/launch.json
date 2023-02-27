@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/bridge/packages/http/src/spec/HttpBridge.spec.ts"
+        "packages/modules/packages/diviner/src/AddressHistory/spec/AddressHistoryDiviner.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

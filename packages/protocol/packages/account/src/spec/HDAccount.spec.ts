@@ -36,5 +36,11 @@ describe('HDAccount', () => {
         expect(sut.previousHash?.hex).toBe(hash)
       })
     })
+    describe('when set via ctor', () => {
+      it('returns last signed value', () => {
+        const sut = new HDAccount(node, { previousHash: hash })
+        expect(sut.previousHash?.hex).toBe(hash)
+      })
+    })
   })
 })

@@ -57,6 +57,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     throw Error('Not implemented')
   }
 
+  /** @deprecated use Diviners instead */
   async find(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
     try {
       const filterSchemaList = filter?.schema ? (Array.isArray(filter.schema) ? filter.schema : [filter.schema]) : []
@@ -87,6 +88,9 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: XyoPayload[] = []
     const queryAccount = new Account()
+    if (this.config.storeQueries) {
+      await this.insert([query])
+    }
     try {
       switch (typedQuery.schema) {
         case ArchivistAllQuerySchema:

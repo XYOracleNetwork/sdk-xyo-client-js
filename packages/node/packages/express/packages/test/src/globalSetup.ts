@@ -3,6 +3,8 @@ config()
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { XyoArchive } from '@xyo-network/api'
+import { PayloadValidator } from '@xyo-network/payload-validator'
+import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 import { claimArchive, getArchive, setArchiveAccessControl, signInUser } from './testUtil'
 
@@ -12,6 +14,7 @@ import { claimArchive, getArchive, setArchiveAccessControl, signInUser } from '.
  * https://jestjs.io/docs/configuration#globalsetup-string
  */
 module.exports = async () => {
+  PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
   const testArchives = [
     { accessControl: false, name: 'temp' },
     { accessControl: true, name: 'temp-private' },

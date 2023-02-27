@@ -48,6 +48,29 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
       return undefined
     }
   }
+
+  static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload): TPayload | undefined
+  static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload[]):(TPayload | undefined)[]
+  static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload | XyoPayload[]): TPayload | (TPayload | undefined)[] | undefined {
+    if (Array.isArray(payload)) {
+      return payload.map((payload) => this.unwrapSinglePayload<TPayload>(payload))
+    } else {
+      return this.unwrapSinglePayload<TPayload>(payload)
+    }
+  }
+
+  private static unwrapSinglePayload<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload) {
+    if (payload === undefined) {
+      return undefined
+    }
+    if (payload instanceof PayloadWrapperBase) {
+      return payload.payload as TPayload
+    }
+    if (!(payload instanceof Object)) {
+      throw 'Can not unwrap class that is not extended from PayloadWrapperBase'
+    }
+    return payload as TPayload
+  }
 }
 
 export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends PayloadWrapperBase<TPayload> {

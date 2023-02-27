@@ -165,8 +165,16 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   }
 
   protected async sendQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(queryPayload: T, payloads?: XyoPayloads): Promise<XyoPayload[]> {
-    const query = await this.bindQuery(queryPayload, payloads)
+    //make sure we did not get wrapped payloads
+    const unwrappedPayloads = payloads?.map((payload) => PayloadWrapper.unwrap(payload))
+    const unwrappedQueryPayload = PayloadWrapper.unwrap(queryPayload)
+
+    //bind them
+    const query = await this.bindQuery(unwrappedQueryPayload, unwrappedPayloads)
+
+    //send them off
     const result = await this.module.query(query[0], query[1])
+
     this.throwErrors(query, result)
     return result[1]
   }

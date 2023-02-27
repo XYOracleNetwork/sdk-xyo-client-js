@@ -1,5 +1,5 @@
 import { DataLike, XyoData } from '@xyo-network/core'
-import { AddressValueModel, KeyPairModel } from '@xyo-network/key-model'
+import { AddressValueInstance, KeyPairInstance } from '@xyo-network/key-model'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
@@ -21,18 +21,18 @@ export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitia
 
 export type AccountConfig = InitializationConfig & AccountOptions
 
-export interface AccountModel extends KeyPairModel {
-  get addressValue(): AddressValueModel
+export interface AccountInstance extends KeyPairInstance {
+  get addressValue(): AddressValueInstance
   get previousHash(): XyoData | undefined
   sign(hash: Uint8Array | string): Uint8Array
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
 }
 
-export interface AccountModelStatic {
-  new (opts?: AccountConfig): AccountModel
-  fromMnemonic(mnemonic: string, path?: string): AccountModel
-  fromPhrase(phrase: string): AccountModel
-  fromPrivateKey(key: Uint8Array | string): AccountModel
+export interface AccountStatic {
+  new (opts?: AccountConfig): AccountInstance
+  fromMnemonic(mnemonic: string, path?: string): AccountInstance
+  fromPhrase(phrase: string): AccountInstance
+  fromPrivateKey(key: Uint8Array | string): AccountInstance
   isXyoWallet(value: unknown): boolean
-  random(): AccountModel
+  random(): AccountInstance
 }

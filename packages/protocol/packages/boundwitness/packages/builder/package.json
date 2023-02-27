@@ -12,7 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.7.4",
     "@xylabs/buffer": "^2.7.4",
-    "@xyo-network/account": "workspace:^",
+    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/core": "workspace:^",

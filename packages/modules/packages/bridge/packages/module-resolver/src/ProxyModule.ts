@@ -14,12 +14,16 @@ export class ProxyModule implements Module {
     return this.bridge.targetConfig(this.address)
   }
 
+  get downResolver() {
+    return this.bridge.targetDownResolver
+  }
+
   get queries() {
     return this.bridge.targetQueries(this.address)
   }
 
-  get resolver() {
-    return this.bridge.targetResolver
+  get upResolver() {
+    return this.bridge.targetUpResolver
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {

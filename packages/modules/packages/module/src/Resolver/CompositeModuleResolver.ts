@@ -6,7 +6,7 @@ import { SimpleModuleResolver } from './SimpleModuleResolver'
 
 export class CompositeModuleResolver<TModule extends Module = Module> implements ModuleRepository<TModule> {
   protected resolvers: ModuleResolver<TModule>[] = []
-  private localResolver: SimpleModuleResolver
+  private localResolver: SimpleModuleResolver<TModule>
 
   constructor() {
     const localResolver = new SimpleModuleResolver<TModule>()
@@ -59,7 +59,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return result
   }
 
-  private addSingleModule(module?: Module) {
+  private addSingleModule(module?: TModule) {
     if (module) {
       this.localResolver.add(module)
     }

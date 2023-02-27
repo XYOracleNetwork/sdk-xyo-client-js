@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Promisable } from '@xyo-network/promise'
 
 import { NodeModule } from './Node'
 import {
@@ -26,10 +25,6 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
   get archivist() {
     this._archivist = this._archivist ?? new ArchivistWrapper(this.module)
     return this._archivist
-  }
-
-  get parentResolver() {
-    return this.module.parentResolver
   }
 
   static override tryWrap(module: Module): NodeWrapper | undefined {
@@ -65,9 +60,5 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
-  }
-
-  override resolve(filter?: ModuleFilter): Promisable<Module[]> {
-    return this.module.resolve(filter)
   }
 }

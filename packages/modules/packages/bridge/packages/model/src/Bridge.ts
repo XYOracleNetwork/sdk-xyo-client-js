@@ -10,7 +10,8 @@ export interface Bridge {
 }
 
 export interface BridgeModule<TConfig extends BridgeConfig = BridgeConfig> extends Bridge, Module<TConfig> {
-  targetResolver: Module['resolver']
+  targetDownResolver: Module['downResolver']
+  targetUpResolver: Module['upResolver']
   targetConfig(address: string): XyoPayload
   targetDiscover(address?: string): Promisable<XyoPayload[] | undefined>
   targetQueries(address: string): string[]

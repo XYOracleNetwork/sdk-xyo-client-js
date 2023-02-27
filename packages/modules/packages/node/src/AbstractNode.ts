@@ -4,6 +4,7 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import {
   AbstractModule,
   CompositeModuleResolver,
+  duplicateModules,
   EventListener,
   Module,
   ModuleConfig,
@@ -38,12 +39,7 @@ import {
 import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = ModuleParams<
-  TConfig,
-  {
-    internalResolver?: CompositeModuleResolver
-  }
->
+export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = ModuleParams<TConfig>
 
 export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
   extends AbstractModule<TConfig>
@@ -51,12 +47,12 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
 {
   static override readonly configSchema = NodeConfigSchema
 
-  protected readonly internalResolver = new CompositeModuleResolver()
-
   protected readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
   protected readonly moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
   protected readonly moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
   protected readonly moduleRegisteredEventListeners: EventListener<ModuleRegisteredEventArgs>[] = []
+
+  protected readonly privateResolver = new CompositeModuleResolver()
 
   private readonly isNode = true
 
@@ -85,7 +81,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
   }
 
   async attachedModules(): Promise<Module[]> {
-    return await (this.internalResolver.resolve() ?? [])
+    return await (this.privateResolver.resolve() ?? [])
   }
 
   override async discover(): Promise<XyoPayload[]> {
@@ -180,10 +176,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
     throw new Error('Method not implemented.')
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return (await this.internalResolver.resolve(filter)) ?? super.resolve(filter) ?? []
-  }
-
   /**
    * Resolves the supplied filter into wrapped modules
    * @example <caption>Example using ArchivistWrapper</caption>
@@ -209,6 +201,10 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
 
   unregister(_module: Module): Promisable<this> {
     throw new Error('Method not implemented.')
+  }
+
+  protected override async resolve(filter?: ModuleFilter): Promise<Module[]> {
+    return [...(await this.privateResolver.resolve(filter)), ...(await super.resolve(filter))].filter(duplicateModules)
   }
 
   abstract attach(address: string, external?: boolean): Promisable<void>

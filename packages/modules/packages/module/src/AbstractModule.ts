@@ -27,7 +27,7 @@ import compact from 'lodash/compact'
 
 import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
-import { serializableField } from './lib'
+import { duplicateModules, serializableField } from './lib'
 import { Logging } from './Logging'
 import { AccountModuleParams, ModuleParams, WalletModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
@@ -38,9 +38,9 @@ import { CompositeModuleResolver } from './Resolver'
 export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends Base<ModuleParams<TConfig>> implements Module<TConfig> {
   static configSchema: string
 
-  readonly resolver: CompositeModuleResolver
+  readonly downResolver = new CompositeModuleResolver()
+  readonly upResolver = new CompositeModuleResolver()
 
-  protected _parentResolver = new CompositeModuleResolver()
   protected _started = false
   protected readonly account: AccountInstance
   protected readonly logger?: Logging
@@ -60,10 +60,10 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
     params.logger = activeLogger ? new Logging(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(params)
     this.account = this.loadAccount(account)
-    this.resolver = (params.resolver ?? new CompositeModuleResolver()).add(this)
+    this.downResolver.add(this)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
-    this.logger?.log(`Resolver: ${!!this.resolver}, Logger: ${!!this.logger}`)
+    this.logger?.log(`Logger: ${!!this.logger}`)
   }
 
   get address() {
@@ -76,10 +76,6 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
 
   get config() {
     return this.params.config ?? {}
-  }
-
-  get parentResolver(): CompositeModuleResolver {
-    return this._parentResolver
   }
 
   get previousHash() {
@@ -157,12 +153,6 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
       : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
     return validators.every((validator) => validator(query, payloads))
-  }
-
-  //resolve will do a resolve from the perspective of the module (i.e. what can it and its children see?)
-  async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    const resolver = assertEx(this._parentResolver, 'Parent resolver is required to call resolve')
-    return (await resolver.resolve(filter)) ?? []
   }
 
   started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
@@ -248,6 +238,12 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
 
   protected loadAccount(account?: AccountInstance): AccountInstance {
     return account ?? new Account()
+  }
+
+  protected async resolve(filter?: ModuleFilter): Promise<Module[]> {
+    return [...(await (this.upResolver ? this.upResolver.resolve(filter) : [])), ...(await this.downResolver.resolve(filter))].filter(
+      duplicateModules,
+    )
   }
 
   protected start(_timeout?: number): Promisable<this> {

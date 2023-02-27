@@ -1,4 +1,12 @@
-import { AddressModuleFilter, Module, ModuleFilter, ModuleRepository, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
+import {
+  AddressModuleFilter,
+  Module,
+  ModuleFilter,
+  ModuleRepository,
+  ModuleResolver,
+  NameModuleFilter,
+  QueryModuleFilter,
+} from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
@@ -23,6 +31,10 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return this
   }
 
+  addResolver(_resolver: ModuleResolver<TModule>): this {
+    throw 'Adding resolvers not supported'
+  }
+
   remove(address: string | string[]): this {
     if (Array.isArray(address)) {
       address.forEach((address) => this.removeSingleModule(address))
@@ -30,6 +42,10 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
       this.removeSingleModule(address)
     }
     return this
+  }
+
+  removeResolver(_resolver: ModuleResolver<TModule>): this {
+    throw 'Removing resolvers not supported'
   }
 
   resolve(filter?: ModuleFilter): Promisable<TModule[]> {

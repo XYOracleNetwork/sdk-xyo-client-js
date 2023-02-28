@@ -20,8 +20,8 @@ export interface WalletInstance {
   readonly publicKey: string
 }
 
-export interface WalletStatic {
-  fromExtendedKey(key: string): WalletInstance
-  fromMnemonic(mnemonic: string): WalletInstance
-  fromSeed(seed: string | Uint8Array): WalletInstance
+export interface WalletStatic<T> {
+  fromExtendedKey(key: string): T
+  fromMnemonic(mnemonic: string): T
+  fromSeed(seed: string | Uint8Array): T
 }

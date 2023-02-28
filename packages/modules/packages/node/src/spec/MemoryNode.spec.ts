@@ -381,28 +381,6 @@ describe('MemoryNode', () => {
       })
     })
   })
-  describe('resolveWrapped', () => {
-    beforeEach(async () => {
-      const modules = await Promise.all([
-        await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
-        await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
-      ])
-      modules.map(async (mod) => {
-        node.register(mod)
-        await node.attach(mod.address, true)
-      })
-    })
-    it('resolves modules wrapped as the specified type', async () => {
-      const filter = { address: [testAccount2.addressValue.hex] }
-      const modules = await node.resolveWrapped(ArchivistWrapper, filter)
-      expect(modules.length).toBeGreaterThan(0)
-      modules.map((mod) => {
-        expect(mod.get).toBeFunction()
-        expect(mod.find).toBeFunction()
-        expect(mod.insert).toBeFunction()
-      })
-    })
-  })
 })
 
 const prettyPrintDescription = (description: ModuleDescription) => {

@@ -30,6 +30,7 @@ import { XyoErrorBuilder } from './Error'
 import { duplicateModules, serializableField } from './lib'
 import { Logging } from './Logging'
 import { AccountModuleParams, ModuleParams, WalletModuleParams } from './ModuleParams'
+import { ModuleConstructable, ModuleWrapper } from './ModuleWrapper'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
@@ -242,6 +243,24 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
 
   protected async resolve(filter?: ModuleFilter): Promise<Module[]> {
     return [...(await this.upResolver.resolve(filter)), ...(await this.downResolver.resolve(filter))].filter(duplicateModules)
+  }
+
+  /**
+   * Resolves the supplied filter into wrapped modules
+   * @example <caption>Example using ArchivistWrapper</caption>
+   * const filter = { address: [address] }
+   * const mods: ArchivistWrapper[] = await node.resolveWrapped(ArchivistWrapper, filter)
+   * @param wrapper The ModuleWrapper class (ArchivistWrapper,
+   * DivinerWrapper, etc.)
+   * @param filter The ModuleFilter
+   * @returns An array of ModuleWrapper instances corresponding to
+   * the underlying modules matching the supplied filter
+   */
+  protected async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
+    wrapper: ModuleConstructable<Module, T>,
+    filter?: ModuleFilter,
+  ): Promise<T[]> {
+    return (await this.resolve(filter)).map((mod) => new wrapper(mod))
   }
 
   protected start(_timeout?: number): Promisable<this> {

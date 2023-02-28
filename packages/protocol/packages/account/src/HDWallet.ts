@@ -57,20 +57,22 @@ export class HDWallet implements WalletInstance {
     const node = HDNode.fromExtendedKey(key)
     return new HDWallet(node)
   }
+
   static fromMnemonic(mnemonic: string) {
     const node = HDNode.fromMnemonic(mnemonic)
     return new HDWallet(node)
   }
+
   static fromSeed(seed: string | Uint8Array) {
     const node = HDNode.fromSeed(seed)
     return new HDWallet(node)
   }
 
-  derivePath: (path: string) => WalletInstance = (path: string) => {
+  derivePath: (path: string) => HDWallet = (path: string) => {
     return new HDWallet(this.node.derivePath(path))
   }
 
-  neuter: () => WalletInstance = () => {
+  neuter: () => HDWallet = () => {
     this.node.neuter()
     return this
   }

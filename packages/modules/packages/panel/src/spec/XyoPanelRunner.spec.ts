@@ -1,7 +1,6 @@
 /* eslint-disable deprecation/deprecation */
 /* eslint-disable import/no-deprecated */
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { CompositeModuleResolver } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'

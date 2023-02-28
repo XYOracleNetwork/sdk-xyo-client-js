@@ -1,4 +1,3 @@
-import { CompositeModuleResolver, Module } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/modules'
 import { AbstractSentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 

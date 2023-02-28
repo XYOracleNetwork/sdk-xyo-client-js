@@ -106,6 +106,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
           await this.delete(typedQuery.hashes)
           break
         case ArchivistFindQuerySchema:
+          // eslint-disable-next-line deprecation/deprecation
           resultPayloads.push(...(await this.find(typedQuery.filter)))
           break
         case ArchivistGetQuerySchema:

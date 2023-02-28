@@ -50,7 +50,7 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
   }
 
   static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload): TPayload | undefined
-  static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload[]):(TPayload | undefined)[]
+  static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload[]): (TPayload | undefined)[]
   static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload | XyoPayload[]): TPayload | (TPayload | undefined)[] | undefined {
     if (Array.isArray(payload)) {
       return payload.map((payload) => this.unwrapSinglePayload<TPayload>(payload))

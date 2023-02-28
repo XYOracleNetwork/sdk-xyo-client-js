@@ -44,8 +44,7 @@ export class AbstractSentinel<TConfig extends SentinelConfig = SentinelConfig> e
   async getArchivists() {
     const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
     this._archivists =
-      this._archivists ||
-      ((await this.resolver?.resolve({ address: addresses })) as AbstractArchivist[]).map((witness) => new ArchivistWrapper(witness))
+      this._archivists || ((await this.resolve({ address: addresses })) as AbstractArchivist[]).map((witness) => new ArchivistWrapper(witness))
 
     return this._archivists
   }
@@ -53,7 +52,7 @@ export class AbstractSentinel<TConfig extends SentinelConfig = SentinelConfig> e
   async getWitnesses() {
     const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
     this._witnesses =
-      this._witnesses || ((await this.resolver?.resolve({ address: addresses })) as AbstractWitness[]).map((witness) => new WitnessWrapper(witness))
+      this._witnesses || ((await this.resolve({ address: addresses })) as AbstractWitness[]).map((witness) => new WitnessWrapper(witness))
 
     return this._witnesses
   }

@@ -11,7 +11,7 @@ export type MemoryNodeParams<TConfig extends NodeConfig = NodeConfig> = Abstract
 export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends AbstractNode<TConfig> {
   static override configSchema = NodeConfigSchema
 
-  private registeredModuleMap = new Map<string, Module>()
+  private registeredModuleMap: Record<string, Module> = {}
 
   static override async create(params?: Partial<MemoryNodeParams>): Promise<MemoryNode> {
     return (await super.create(params)) as MemoryNode
@@ -20,7 +20,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
   override async attach(address: string, external?: boolean) {
     const existingModule = (await this.resolve({ address: [address] })).pop()
     assertEx(!existingModule, `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
-    const module = assertEx(this.registeredModuleMap.get(address), 'No module registered at that address')
+    const module = assertEx(this.registeredModuleMap[address], 'No module registered at that address')
 
     this.privateResolver.addResolver(module.downResolver)
 
@@ -40,15 +40,15 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
   }
 
   override detach(address: string) {
-    const module = assertEx(this.registeredModuleMap.get(address), 'No module found at that address')
+    const module = assertEx(this.registeredModuleMap[address], 'No module found at that address')
 
-    this.upResolver.removeResolver(module.upResolver)
-
-    //remove outside access
-    module.upResolver?.removeResolver?.(this.upResolver)
+    this.privateResolver.removeResolver(module.downResolver)
 
     //remove inside access
     module.upResolver?.removeResolver?.(this.privateResolver)
+
+    //remove outside access
+    module.upResolver?.removeResolver?.(this.upResolver)
 
     //remove external exposure
     this.downResolver.removeResolver(module.downResolver)
@@ -58,28 +58,28 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
   }
 
   override register(module: Module) {
-    assertEx(!this.registeredModuleMap.get(module.address), `Module already registered at that address[${module.address}]`)
-    this.registeredModuleMap.set(module.address, module)
+    assertEx(!this.registeredModuleMap[module.address], `Module already registered at that address[${module.address}]`)
+    this.registeredModuleMap[module.address] = module
     return this
   }
 
   override registered() {
-    return Object.values(this.registeredModuleMap).map((value) => {
-      return value
+    return Object.keys(this.registeredModuleMap).map((key) => {
+      return key
     })
   }
 
   override registeredModules() {
-    return Array.from(this.registeredModuleMap.values()).map((value) => {
+    return Object.values(this.registeredModuleMap).map((value) => {
       return value
     })
   }
 
   override async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const internal: Promise<Module[]> = this.privateResolver.resolve(filter)
-    const external: Promise<Module[]> = this.upResolver?.resolve(filter) || []
-    const local: Promise<Module[]> = this.downResolver?.resolve(filter) || []
-    const resolved = await Promise.allSettled([internal, external, local])
+    const up: Promise<Module[]> = this.upResolver?.resolve(filter) || []
+    const down: Promise<Module[]> = this.downResolver?.resolve(filter) || []
+    const resolved = await Promise.allSettled([internal, up, down])
 
     const errors = resolved.filter(rejected).map((r) => Error(r.reason))
 
@@ -97,7 +97,7 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
 
   override unregister(module: Module) {
     this.detach(module.address)
-    this.registeredModuleMap.delete(module.address)
+    delete this.registeredModuleMap[module.address]
     return this
   }
 }

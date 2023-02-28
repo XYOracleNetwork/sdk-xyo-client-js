@@ -18,7 +18,6 @@ import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig> extends AbstractModule<TConfig> implements BridgeModule {
   abstract targetDownResolver: ModuleResolver
-  abstract targetUpResolver: ModuleResolver
 
   override get queries(): string[] {
     return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries]

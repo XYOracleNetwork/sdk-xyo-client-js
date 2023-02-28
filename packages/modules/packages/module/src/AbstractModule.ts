@@ -241,9 +241,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
   }
 
   protected async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return [...(await (this.upResolver ? this.upResolver.resolve(filter) : [])), ...(await this.downResolver.resolve(filter))].filter(
-      duplicateModules,
-    )
+    return [...(await this.upResolver.resolve(filter)), ...(await this.downResolver.resolve(filter))].filter(duplicateModules)
   }
 
   protected start(_timeout?: number): Promisable<this> {

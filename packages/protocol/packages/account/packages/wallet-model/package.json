@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/boundwitness-builder",
+  "name": "@xyo-network/wallet-model",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,17 +9,6 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "dependencies": {
-    "@xylabs/assert": "^2.7.4",
-    "@xylabs/buffer": "^2.7.4",
-    "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/boundwitness-wrapper": "workspace:^",
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/payload": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/shared": "workspace:^"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.15.0",
@@ -27,6 +16,8 @@
     "typescript": "^4.9.5"
   },
   "browser": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
@@ -45,8 +36,6 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
   "publishConfig": {

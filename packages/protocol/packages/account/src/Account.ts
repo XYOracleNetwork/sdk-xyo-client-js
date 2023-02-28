@@ -31,10 +31,12 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
 @staticImplements<AccountStatic>()
 export class Account extends KeyPair implements AccountInstance {
   private _isXyoWallet = true
+  private _node: HDNode | undefined = undefined
   private _previousHash?: XyoData
 
   constructor(opts?: AccountConfig) {
     let privateKeyToUse: DataLike | undefined = undefined
+    let node: HDNode | undefined = undefined
     if (opts) {
       if (nameOf<PhraseInitializationConfig>('phrase') in opts) {
         privateKeyToUse = toUint8Array(shajs('sha256').update(opts.phrase).digest('hex').padStart(64, '0'))
@@ -42,10 +44,12 @@ export class Account extends KeyPair implements AccountInstance {
         privateKeyToUse = toUint8Array(opts.privateKey)
       } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
         privateKeyToUse = getPrivateKeyFromMnemonic(opts.mnemonic, opts?.path)
+        node = opts?.path ? HDNode.fromMnemonic(opts.mnemonic).derivePath(opts.path) : HDNode.fromMnemonic(opts.mnemonic)
       }
     }
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
+    this._node = node
     if (opts?.previousHash) this._previousHash = new XyoData(32, opts.previousHash)
   }
 

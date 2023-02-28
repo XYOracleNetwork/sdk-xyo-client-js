@@ -169,10 +169,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     const unwrappedPayloads = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload'))
     const unwrappedQueryPayload = assertEx(BoundWitnessWrapper.unwrap<XyoQueryBoundWitness>(queryPayload), 'Unable to parse queryPayload')
 
-    //bind them
+    // Bind them
     const query = await this.bindQuery(unwrappedQueryPayload, unwrappedPayloads)
 
-    //send them off
+    // Send them off
     const result = await this.module.query(query[0], query[1])
 
     this.throwErrors(query, result)

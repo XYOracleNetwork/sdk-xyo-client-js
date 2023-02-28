@@ -4,7 +4,6 @@
 
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { CompositeModuleResolver } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -67,6 +66,7 @@ test('XyoArchivist passed account', async () => {
 })
 
 test('XyoArchivist Parent Write Through', async () => {
+  const node = await MemoryNode.create()
   const memory = await MemoryArchivist.create()
 
   const storage = await XyoStorageArchivist.create({
@@ -77,8 +77,9 @@ test('XyoArchivist Parent Write Through', async () => {
       schema: StorageArchivistConfigSchema,
       type: 'local',
     },
-    resolver: new CompositeModuleResolver().add(memory),
   })
+  await node.register(memory).attach(memory.address)
+  await node.register(storage).attach(storage.address)
   expect(await storage.start()).toBeDefined()
 
   const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })

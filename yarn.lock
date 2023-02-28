@@ -4783,6 +4783,7 @@ __metadata:
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/key-model": "workspace:^"
+    "@xyo-network/wallet-model": "workspace:^"
     elliptic: ^6.5.4
     sha.js: ^2.4.11
     typescript: ^4.9.5
@@ -5049,6 +5050,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     typescript: ^4.9.5
@@ -6021,7 +6023,9 @@ __metadata:
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/schema-name-validator": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     dotenv: ^16.0.3
     express: ^4.18.2
@@ -7221,6 +7225,16 @@ __metadata:
     "@xyo-network/schema-payload-plugin": "workspace:^"
     ajv: ^8.12.0
     lru-cache: ^7.17.0
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/wallet-model@workspace:^, @xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.15.0
+    "@xylabs/tsconfig": ^2.15.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

@@ -16,6 +16,7 @@
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/key-model": "workspace:^",
+    "@xyo-network/wallet-model": "workspace:^",
     "elliptic": "^6.5.4",
     "sha.js": "^2.4.11"
   },

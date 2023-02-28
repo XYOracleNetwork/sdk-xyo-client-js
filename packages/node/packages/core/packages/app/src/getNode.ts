@@ -8,11 +8,17 @@ import { configureEnvironment, configureTransports } from './configuration'
 
 const config = { schema: NodeConfigSchema }
 
+export class DynamicMemoryNode extends MemoryNode {
+  override readonly downResolver = new DynamicModuleResolver()
+  static override async create(params?: Partial<MemoryNodeParams>): Promise<DynamicMemoryNode> {
+    return (await super.create(params)) as DynamicMemoryNode
+  }
+}
+
 export const getNode = async (account = Account.random()): Promise<MemoryNode> => {
   PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
-  const resolver = new DynamicModuleResolver()
-  const params: MemoryNodeParams = { account, config, resolver }
-  const node = await MemoryNode.create(params)
+  const params: MemoryNodeParams = { account, config }
+  const node = await DynamicMemoryNode.create(params)
   await configureEnvironment(node)
   await configureTransports(node)
   return node

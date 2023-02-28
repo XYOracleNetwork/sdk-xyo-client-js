@@ -6,7 +6,8 @@ import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { CompositeModuleResolver, ModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module'
+import { MemoryNode } from '@xyo-network/node'
 import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -17,7 +18,9 @@ import { XyoPanel, XyoPanelConfig, XyoPanelConfigSchema } from '../XyoPanel'
 
 describe('XyoPanel', () => {
   test('all [simple panel send]', async () => {
+    const node = await MemoryNode.create()
     const archivist = await MemoryArchivist.create()
+    await node.register(archivist).attach(archivist.address)
 
     const witnesses: AbstractWitness[] = [
       await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } }),
@@ -31,17 +34,16 @@ describe('XyoPanel', () => {
       }),
     ]
 
+    await Promise.all(witnesses.map(async (witness) => await node.register(witness).attach(witness.address)))
+
     const config: XyoPanelConfig = {
       archivists: [archivist.address],
       schema: XyoPanelConfigSchema,
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const resolver = new CompositeModuleResolver()
-    resolver.add(archivist)
-    witnesses.forEach((witness) => resolver.add(witness))
-
-    const panel = await XyoPanel.create({ config, resolver })
+    const panel = await XyoPanel.create({ config })
+    await node.register(panel).attach(panel.address)
     expect(await panel.getArchivists()).toBeArrayOfSize(1)
     expect(await panel.getWitnesses()).toBeArrayOfSize(2)
     const adhocWitness = await XyoAdhocWitness.create({
@@ -122,33 +124,39 @@ describe('XyoPanel', () => {
         archivistB = await MemoryArchivist.create()
       })
       it('config', async () => {
-        const resolver = new CompositeModuleResolver()
-        resolver.add([witnessA, witnessB, archivistA, archivistB])
+        const node = await MemoryNode.create()
+        await Promise.all([witnessA, witnessB, archivistA, archivistB].map(async (module) => await node.register(module).attach(module.address)))
         const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
+            onReportEnd(_, errors) {
+              expect(errors).toBeUndefined()
+            },
             schema: 'network.xyo.panel.config',
             witnesses: [witnessA.address, witnessB.address],
           },
-          resolver,
         }
         const panel = await XyoPanel.create(params)
+        await node.register(panel).attach(panel.address)
         const result = await panel.report()
         assertPanelReport(result)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {
-        const resolver = new CompositeModuleResolver()
-        resolver.add([witnessA, archivistA, archivistB])
+        const node = await MemoryNode.create()
+        await Promise.all([witnessA, archivistA, archivistB].map(async (module) => await node.register(module).attach(module.address)))
         const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
+            onReportEnd(_, errors) {
+              expect(errors).toBeUndefined()
+            },
             schema: 'network.xyo.panel.config',
             witnesses: [witnessA.address],
           },
-          resolver,
         }
         const panel = await XyoPanel.create(params)
+        await node.register(panel).attach(panel.address)
         const observed = await witnessB.observe()
         expect(observed).toBeArrayOfSize(1)
         const result = await panel.report(observed)
@@ -156,17 +164,20 @@ describe('XyoPanel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('inline', async () => {
-        const resolver = new CompositeModuleResolver()
-        resolver.add([archivistA, archivistB])
+        const node = await MemoryNode.create()
+        await Promise.all([archivistA, archivistB].map(async (module) => await node.register(module).attach(module.address)))
         const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
+            onReportEnd(_, errors) {
+              expect(errors).toBeUndefined()
+            },
             schema: 'network.xyo.panel.config',
             witnesses: [],
           },
-          resolver,
         }
         const panel = await XyoPanel.create(params)
+        await node.register(panel).attach(panel.address)
         const observedA = await witnessA.observe()
         expect(observedA).toBeArrayOfSize(1)
         const observedB = await witnessB.observe()
@@ -194,8 +205,8 @@ describe('XyoPanel', () => {
         }
         const witnessA = await FailingWitness.create(paramsA)
 
-        const resolver = new CompositeModuleResolver()
-        resolver.add([witnessA, witnessB, archivistA, archivistB])
+        const node = await MemoryNode.create()
+        await Promise.all([witnessA, witnessB, archivistA, archivistB].map(async (module) => await node.register(module).attach(module.address)))
         const params: ModuleParams<XyoPanelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
@@ -206,9 +217,9 @@ describe('XyoPanel', () => {
             schema: 'network.xyo.panel.config',
             witnesses: [witnessA.address, witnessB.address],
           },
-          resolver,
         }
         const panel = await XyoPanel.create(params)
+        await node.register(panel).attach(panel.address)
         await panel.report()
         return
       })

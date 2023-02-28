@@ -68,6 +68,10 @@ export class HDWallet implements WalletInstance {
     return new HDWallet(node)
   }
 
+  deriveAccount: (path: string) => AccountInstance = (path: string) => {
+    return new HDAccount(this.node.derivePath(path))
+  }
+
   derivePath: (path: string) => HDWallet = (path: string) => {
     return new HDWallet(this.node.derivePath(path))
   }

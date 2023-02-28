@@ -16,7 +16,10 @@ import {
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig> extends AbstractModule<TConfig> implements BridgeModule {
+export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig, TModule extends Module = Module>
+  extends AbstractModule<TConfig>
+  implements BridgeModule<TConfig, TModule>
+{
   abstract targetDownResolver: ModuleResolver
 
   override get queries(): string[] {
@@ -48,7 +51,7 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
     return await this.bindResult(resultPayloads, queryAccount)
   }
 
-  override async resolve(filter?: ModuleFilter) {
+  protected override async resolve(filter?: ModuleFilter) {
     return [...(await super.resolve(filter)), ...(await this.targetDownResolver.resolve(filter))].filter(duplicateModules)
   }
 
@@ -65,5 +68,5 @@ export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig
 
   abstract targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): boolean
 
-  abstract targetResolve(address: string, filter?: ModuleFilter): Promisable<Module[]>
+  abstract targetResolve(address: string, filter?: ModuleFilter): Promisable<TModule[]>
 }

@@ -16,7 +16,7 @@ export const getNode = async (args: BaseArguments): Promise<NodeWrapper> => {
     const nodeUri = `${apiConfig.apiDomain}/node`
     const axios = new AxiosJson()
     const bridge = await HttpBridge.create({ axios, config: { nodeUri, schema, security } })
-    const node = assertEx((await bridge.resolve({ address: [bridge.rootAddress] }))?.pop(), 'Failed to resolve rootNode')
+    const node = assertEx((await bridge.downResolver.resolve({ address: [bridge.rootAddress] }))?.pop(), 'Failed to resolve rootNode')
     return NodeWrapper.wrap(node as NodeModule)
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

@@ -6,14 +6,14 @@ import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
 
-export interface ModuleResolver<TModule extends Module = Module> {
-  addResolver: (resolver: ModuleResolver<TModule>) => this
+export interface ModuleResolver {
+  addResolver: (resolver: ModuleResolver) => this
   isModuleResolver: boolean
-  removeResolver: (resolver: ModuleResolver<TModule>) => this
-  resolve<T extends TModule = TModule>(filter?: ModuleFilter): Promisable<T[]>
+  removeResolver: (resolver: ModuleResolver) => this
+  resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export interface Module<TConfig extends ModuleConfig = ModuleConfig> {
+export type Module<TConfig extends ModuleConfig = ModuleConfig> = {
   address: string
   config: TConfig
 

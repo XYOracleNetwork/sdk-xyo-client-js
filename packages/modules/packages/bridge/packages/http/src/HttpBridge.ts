@@ -6,6 +6,7 @@ import { BridgeModule } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
+  Module,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
@@ -30,7 +31,10 @@ export type XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeCon
   }
 >
 
-export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractBridge<TConfig> implements BridgeModule<TConfig> {
+export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig>
+  extends AbstractBridge<TConfig, Module>
+  implements BridgeModule<TConfig, Module>
+{
   private _rootAddress?: string
   private _targetConfigs: Record<string, XyoPayload> = {}
   private _targetDownResolver: BridgeModuleResolver

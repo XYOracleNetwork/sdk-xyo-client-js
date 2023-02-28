@@ -4,12 +4,12 @@ import { Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-net
 import { duplicateModules } from '../lib'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
-export class CompositeModuleResolver<TModule extends Module = Module> implements ModuleRepository<TModule> {
-  protected resolvers: ModuleResolver<TModule>[] = []
-  private localResolver: SimpleModuleResolver<TModule>
+export class CompositeModuleResolver implements ModuleRepository, ModuleResolver {
+  protected resolvers: ModuleResolver[] = []
+  private localResolver: SimpleModuleResolver
 
   constructor() {
-    const localResolver = new SimpleModuleResolver<TModule>()
+    const localResolver = new SimpleModuleResolver()
     this.addResolver(localResolver)
     this.localResolver = localResolver
   }
@@ -18,9 +18,9 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return true
   }
 
-  add(module: TModule): this
-  add(module: TModule[]): this
-  add(module: TModule | TModule[]): this {
+  add(module: Module): this
+  add(module: Module[]): this
+  add(module: Module | Module[]): this {
     if (Array.isArray(module)) {
       module.forEach((module) => this.addSingleModule(module))
     } else {
@@ -29,7 +29,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return this
   }
 
-  addResolver(resolver: ModuleResolver<TModule>): this {
+  addResolver(resolver: ModuleResolver): this {
     this.resolvers.push(resolver)
     return this
   }
@@ -43,12 +43,12 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return this
   }
 
-  removeResolver(resolver: ModuleResolver<TModule>): this {
+  removeResolver(resolver: ModuleResolver): this {
     this.resolvers = this.resolvers.filter((item) => item !== resolver)
     return this
   }
 
-  async resolve<T extends TModule = TModule>(filter?: ModuleFilter): Promise<T[]> {
+  async resolve<T extends Module = Module>(filter?: ModuleFilter): Promise<T[]> {
     const modules = this.resolvers.map((resolver) => resolver.resolve(filter))
     const settled = await Promise.allSettled(modules)
     const result = settled
@@ -59,7 +59,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return result as T[]
   }
 
-  private addSingleModule(module?: TModule) {
+  private addSingleModule(module?: Module) {
     if (module) {
       this.localResolver.add(module)
     }

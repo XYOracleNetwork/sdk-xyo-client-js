@@ -12,17 +12,17 @@ import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
 //This class is now package private (not exported from index.ts)
-export class SimpleModuleResolver<TModule extends Module = Module> implements ModuleRepository<TModule> {
+export class SimpleModuleResolver implements ModuleRepository {
   private addressToName: Record<string, string> = {}
-  private modules: Record<string, TModule> = {}
+  private modules: Record<string, Module> = {}
 
   get isModuleResolver() {
     return true
   }
 
-  add(module: TModule): this
-  add(module: TModule[]): this
-  add(module: TModule | TModule[]): this {
+  add(module: Module): this
+  add(module: Module[]): this
+  add(module: Module | Module[]): this {
     if (Array.isArray(module)) {
       module.forEach((module) => this.addSingleModule(module))
     } else {
@@ -31,7 +31,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return this
   }
 
-  addResolver(_resolver: ModuleResolver<TModule>): this {
+  addResolver(_resolver: ModuleResolver): this {
     throw 'Adding resolvers not supported'
   }
 
@@ -44,11 +44,11 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return this
   }
 
-  removeResolver(_resolver: ModuleResolver<TModule>): this {
+  removeResolver(_resolver: ModuleResolver): this {
     throw 'Removing resolvers not supported'
   }
 
-  resolve<T extends TModule = TModule>(filter?: ModuleFilter): Promisable<T[]> {
+  resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]> {
     const filteredByName: T[] = this.resolveByName<T>(Object.values(this.modules) as T[], (filter as NameModuleFilter)?.name)
 
     const filteredByAddress: T[] = (filter as AddressModuleFilter)?.address
@@ -62,7 +62,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return filteredByQuery
   }
 
-  private addSingleModule(module?: TModule) {
+  private addSingleModule(module?: Module) {
     if (module) {
       this.modules[module.address] = module
     }
@@ -80,7 +80,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     }
   }
 
-  private resolveByAddress<T extends TModule = TModule>(modules: T[], address?: string[]): T[] {
+  private resolveByAddress<T extends Module = Module>(modules: T[], address?: string[]): T[] {
     return address
       ? compact(
           flatten(
@@ -92,14 +92,14 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
       : modules
   }
 
-  private resolveByName<T extends TModule = TModule>(modules: T[], name?: string[]): T[] {
+  private resolveByName<T extends Module = Module>(modules: T[], name?: string[]): T[] {
     if (name) {
       return compact(name.map((name) => modules.filter((module) => module.config.name === name)).flat())
     }
     return modules
   }
 
-  private resolveByQuery<T extends TModule = TModule>(modules: T[], query?: string[][]): T[] {
+  private resolveByQuery<T extends Module = Module>(modules: T[], query?: string[][]): T[] {
     return query
       ? compact(
           modules.filter((module) =>

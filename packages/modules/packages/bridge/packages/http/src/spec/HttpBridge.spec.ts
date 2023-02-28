@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xyo-network/axios'
-import { MemoryNode, NodeWrapper } from '@xyo-network/node'
+import { MemoryNode, NodeModule, NodeWrapper } from '@xyo-network/node'
 
 import { HttpBridge } from '../HttpBridge'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
@@ -14,7 +14,12 @@ test('HttpBridge', async () => {
     config: { nodeUri: `${nodeUri}/node`, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
   })
 
-  const wrapper = NodeWrapper.wrap(assertEx((await bridge.resolve({ address: [bridge.rootAddress] }))?.pop(), 'Failed to resolve rootNode'))
+  const wrapper = NodeWrapper.wrap(
+    assertEx(
+      (await bridge.downResolver.resolve<NodeModule>({ address: [bridge.rootAddress] }))?.pop(),
+      `Failed to resolve rootNode [${bridge.rootAddress}]`,
+    ),
+  )
   await memNode.register(wrapper.module).attach(wrapper?.address, true)
   const description = await wrapper.describe()
   expect(description.children).toBeArray()
@@ -22,7 +27,7 @@ test('HttpBridge', async () => {
   expect(description.queries).toBeArray()
   expect(description.queries?.length).toBeGreaterThan(0)
 
-  const [archivistByName] = await memNode.resolve({ name: ['Archivist'] })
+  const [archivistByName] = await NodeWrapper.wrap(memNode).resolve({ name: ['Archivist'] })
   expect(archivistByName).toBeDefined()
 })
 
@@ -40,7 +45,13 @@ test('HttpBridge - Nested', async () => {
     config: { nodeUri: `${nodeUri}/node`, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
   })
 
-  const wrapper = NodeWrapper.wrap(assertEx((await bridge.resolve({ address: [bridge.rootAddress] }))?.pop(), 'Failed to resolve rootNode'))
+  const wrapper = NodeWrapper.wrap(
+    assertEx(
+      (await bridge.downResolver.resolve<NodeModule>({ address: [bridge.rootAddress] }))?.pop(),
+      `Failed to resolve rootNode [${bridge.rootAddress}]`,
+    ),
+  )
+
   await memNode3.register(wrapper.module).attach(wrapper?.address, true)
   const description = await wrapper.describe()
   expect(description.children).toBeArray()
@@ -53,10 +64,11 @@ test('HttpBridge - Nested', async () => {
   //expect(archivistByAddress).toBeDefined()
 
   // Fails to resolve
-  const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
+  const memNodeWrapper1 = NodeWrapper.wrap(memNode1)
+  const [archivistByName] = await memNodeWrapper1.resolve({ name: ['Archivist'] })
   expect(archivistByName).toBeDefined()
-  const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadStatsDiviner'] })
+  const [payloadStatsDivinerByName] = await memNodeWrapper1.resolve({ name: ['PayloadStatsDiviner'] })
   expect(payloadStatsDivinerByName).toBeDefined()
-  const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessStatsDiviner'] })
+  const [boundwitnessStatsDivinerByName] = await memNodeWrapper1.resolve({ name: ['BoundWitnessStatsDiviner'] })
   expect(boundwitnessStatsDivinerByName).toBeDefined()
 })

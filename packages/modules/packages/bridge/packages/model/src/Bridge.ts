@@ -9,12 +9,12 @@ export interface Bridge {
   disconnect: () => Promisable<boolean>
 }
 
-export interface BridgeModule<TConfig extends BridgeConfig = BridgeConfig> extends Bridge, Module<TConfig> {
-  targetDownResolver: Module['downResolver']
+export interface BridgeModule<TConfig extends BridgeConfig = BridgeConfig, TModule extends Module = Module> extends Bridge, Module<TConfig> {
+  targetDownResolver: TModule['downResolver']
   targetConfig(address: string): XyoPayload
   targetDiscover(address?: string): Promisable<XyoPayload[] | undefined>
   targetQueries(address: string): string[]
   targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult | undefined>
   targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): Promisable<boolean>
-  targetResolve(address: string, filter?: ModuleFilter): Promisable<Module[]>
+  targetResolve(address: string, filter?: ModuleFilter): Promisable<TModule[]>
 }

@@ -33,15 +33,15 @@ export type XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeCon
 export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> extends AbstractBridge<TConfig> implements BridgeModule<TConfig> {
   private _rootAddress?: string
   private _targetConfigs: Record<string, XyoPayload> = {}
+  private _targetDownResolver: BridgeModuleResolver
   private _targetQueries: Record<string, string[]> = {}
-  private _targetResolver: BridgeModuleResolver
   private axios: AxiosJson
 
   protected constructor(params: XyoHttpBridgeParams<TConfig>) {
     super(params)
     this.axios = params.axios ?? new AxiosJson()
-    this._targetResolver = new BridgeModuleResolver(this)
-    this.resolver.addResolver(this._targetResolver)
+    this._targetDownResolver = new BridgeModuleResolver(this)
+    this.downResolver.addResolver(this._targetDownResolver)
   }
 
   get nodeUri() {
@@ -52,8 +52,8 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     return assertEx(this._rootAddress, 'missing rootAddress')
   }
 
-  get targetResolver() {
-    return this._targetResolver
+  get targetDownResolver() {
+    return this._targetDownResolver
   }
 
   static override async create(params?: XyoHttpBridgeParams): Promise<HttpBridge> {
@@ -61,12 +61,12 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
     const rootAddress = assertEx(await instance.initRootAddress(), `Failed to get rootAddress [${params?.config.nodeUri}]`)
     await instance.targetDiscover(rootAddress)
 
-    const childAddresses = await instance._targetResolver.getRemoteAddresses()
+    const childAddresses = await instance._targetDownResolver.getRemoteAddresses()
 
     const children = compact(
       await Promise.all(
         childAddresses.map(async (address) => {
-          const resolved = await instance._targetResolver.resolve({ address: [address] })
+          const resolved = await instance._targetDownResolver.resolve({ address: [address] })
           return resolved[0]
         }),
       ),
@@ -147,7 +147,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig> ext
   }
 
   async targetResolve(address: string, filter?: ModuleFilter) {
-    return await this.targetResolver.resolve(filter)
+    return await this.targetDownResolver.resolve(filter)
   }
 
   private async initRootAddress() {

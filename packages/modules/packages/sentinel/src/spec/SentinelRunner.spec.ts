@@ -1,5 +1,5 @@
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { CompositeModuleResolver } from '@xyo-network/module'
+import { MemoryNode } from '@xyo-network/node'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
@@ -13,16 +13,22 @@ describe('SentinelRunner', () => {
   let config: SentinelConfig
 
   beforeEach(async () => {
-    const witnesses: AbstractWitness[] = [await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })]
-    const resolver = new CompositeModuleResolver()
-    witnesses.forEach((witness) => resolver.add(witness))
+    const node = await MemoryNode.create()
+    const witnessModules: AbstractWitness[] = [await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })]
+    const witnesses = await Promise.all(
+      witnessModules.map(async (witness) => {
+        await node.register(witness).attach(witness.address)
+        return witness.address
+      }),
+    )
 
     config = {
       schema: SentinelConfigSchema,
-      witnesses: witnesses.map((witness) => witness.address),
+      witnesses,
     }
 
-    sentinel = await AbstractSentinel.create({ config, resolver })
+    sentinel = await AbstractSentinel.create({ config })
+    await node.register(sentinel).attach(sentinel.address)
   })
 
   it('should output interval results', async () => {

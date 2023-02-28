@@ -18,7 +18,7 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   const { verbose } = argv
   try {
     const node = await getNode(argv)
-    const modules = await node.resolve({ query: [[XyoDivinerDivineQuerySchema]] })
+    const modules = await node.downResolver.resolve({ query: [[XyoDivinerDivineQuerySchema]] })
     const descriptions = await Promise.all(modules.map((a) => new ModuleWrapper(a).describe()))
     printLine(JSON.stringify(descriptions))
   } catch (error) {

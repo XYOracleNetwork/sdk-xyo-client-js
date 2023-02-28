@@ -1,9 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { Module, ModuleConfig, ModuleFilter, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
+import { CompositeModuleResolver, Module, ModuleConfig, ModuleFilter, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 export class ProxyModule implements Module {
+  readonly upResolver = new CompositeModuleResolver()
+
   constructor(protected readonly bridge: BridgeModule, protected readonly _address: string) {}
 
   get address() {
@@ -14,12 +16,12 @@ export class ProxyModule implements Module {
     return this.bridge.targetConfig(this.address)
   }
 
-  get queries() {
-    return this.bridge.targetQueries(this.address)
+  get downResolver() {
+    return this.bridge.targetDownResolver
   }
 
-  get resolver() {
-    return this.bridge.targetResolver
+  get queries() {
+    return this.bridge.targetQueries(this.address)
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {

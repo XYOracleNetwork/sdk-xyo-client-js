@@ -2,6 +2,7 @@
 /* eslint-disable import/no-deprecated */
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { CompositeModuleResolver } from '@xyo-network/module'
+import { MemoryNode } from '@xyo-network/node'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
@@ -14,16 +15,22 @@ describe('XyoPanelRunner', () => {
   let config: XyoPanelConfig
 
   beforeEach(async () => {
-    const witnesses: AbstractWitness[] = [await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })]
-    const resolver = new CompositeModuleResolver()
-    witnesses.forEach((witness) => resolver.add(witness))
+    const node = await MemoryNode.create()
+    const witnessModules: AbstractWitness[] = [await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })]
+    const witnesses = await Promise.all(
+      witnessModules.map(async (witness) => {
+        await node.register(witness).attach(witness.address)
+        return witness.address
+      }),
+    )
 
     config = {
       schema: XyoPanelConfigSchema,
-      witnesses: witnesses.map((witness) => witness.address),
+      witnesses,
     }
 
-    panel = await XyoPanel.create({ config, resolver })
+    panel = await XyoPanel.create({ config })
+    await node.register(panel).attach(panel.address)
   })
 
   it('should output interval results', async () => {

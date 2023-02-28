@@ -158,6 +158,7 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
       read: await this.resolveArchivists(this.config?.parents?.read),
       write: await this.resolveArchivists(this.config?.parents?.write),
     }
+    console.log('parents', this._parents)
     return assertEx(this._parents)
   }
 
@@ -180,8 +181,9 @@ export abstract class AbstractArchivist<TConfig extends ArchivistConfig = Archiv
 
   private async resolveArchivists(archivists: string[] = []) {
     const resolvedWrappers: Record<string, ArchivistWrapper> = {}
-    const resolvedModules = await this.resolver?.resolve({ address: archivists })
-    const modules = resolvedModules ?? []
+    const resolvedModules = await this.resolve({ address: archivists })
+    const downResolvedModules = await this.downResolver.resolve({ address: archivists })
+    const modules = [...resolvedModules, ...downResolvedModules] ?? []
     modules.forEach((module) => {
       const wrapper = new ArchivistWrapper(module)
       resolvedWrappers[wrapper.address] = wrapper

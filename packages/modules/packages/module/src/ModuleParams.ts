@@ -4,12 +4,9 @@ import { ModuleConfig } from '@xyo-network/module-model'
 import { Logger } from '@xyo-network/shared'
 import { XyoWalletBase } from '@xyo-network/wallet'
 
-import { CompositeModuleResolver } from './Resolver'
-
 export type BasicModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends AnyObject = AnyObject> = {
   config: TConfig
   logger?: Logger
-  resolver?: CompositeModuleResolver
 } & TAdditionalParams
 
 export type AccountModuleParams<TConfig extends ModuleConfig = ModuleConfig, TAdditionalParams extends AnyObject = AnyObject> = BasicModuleParams<

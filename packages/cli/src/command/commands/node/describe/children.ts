@@ -17,7 +17,7 @@ export const handler = async (argv: BaseArguments) => {
     const node = await getNode(argv)
     const description = await node.describe()
     const childAddresses = description?.children || []
-    const children = await Promise.all(childAddresses?.map((child) => node.resolve({ address: [child] })))
+    const children = await Promise.all(childAddresses?.map((child) => node.downResolver.resolve({ address: [child] })))
     const childDescriptions = await Promise.all(
       children
         .flat()

@@ -1,14 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   Module,
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
-  ModuleFilter,
   ModuleQueryResult,
-  ModuleResolver,
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
@@ -55,16 +54,21 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   get address() {
     return this.module.address
   }
+
   get config(): TWrappedModule['config'] {
     return this.module.config
+  }
+
+  get downResolver() {
+    return this.module.downResolver
   }
 
   get queries(): string[] {
     return this.module.queries
   }
 
-  get resolver(): ModuleResolver {
-    return this.module.resolver
+  get upResolver() {
+    return this.module.upResolver
   }
 
   static hasRequiredQueries(module: Module) {
@@ -127,10 +131,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return this.module.queryable(query, payloads)
   }
 
-  resolve(filter?: ModuleFilter): Promisable<Module[]> {
-    return this.module.resolve(filter)
-  }
-
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
     payloads?: XyoPayload[],
@@ -165,9 +165,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   }
 
   protected async sendQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(queryPayload: T, payloads?: XyoPayloads): Promise<XyoPayload[]> {
-    // Make sure we did not get wrapped payloads
-    const unwrappedQueryPayload = assertEx(PayloadWrapper.unwrap(queryPayload), 'Error unwrapping query payload')
-    const unwrappedPayloads = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Error unwrapping payload'))
+    //make sure we did not get wrapped payloads
+    const unwrappedPayloads = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload'))
+    const unwrappedQueryPayload = assertEx(BoundWitnessWrapper.unwrap<XyoQueryBoundWitness>(queryPayload), 'Unable to parse queryPayload')
 
     // Bind them
     const query = await this.bindQuery(unwrappedQueryPayload, unwrappedPayloads)

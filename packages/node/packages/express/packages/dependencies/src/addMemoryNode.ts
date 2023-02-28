@@ -52,10 +52,10 @@ const addDependenciesToNodeByType = async (container: Container, node: MemoryNod
 }
 
 const addDynamicArchivists = (container: Container, node: MemoryNode) => {
-  const { resolver } = node
-  if (resolver) {
-    if ((resolver as DynamicModuleResolver)?.resolveImplementation) {
-      const dynamicResolver = resolver as DynamicModuleResolver
+  const { downResolver } = node
+  if (downResolver) {
+    if ((downResolver as DynamicModuleResolver)?.resolveImplementation) {
+      const dynamicResolver = downResolver as DynamicModuleResolver
       const archives = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
       const archiveBoundWitnessArchivistFactory = container.get<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory)
       const archivePayloadsArchivistFactory = container.get<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory)

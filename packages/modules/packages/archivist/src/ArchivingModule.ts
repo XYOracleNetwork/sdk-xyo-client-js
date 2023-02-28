@@ -24,7 +24,7 @@ export class ArchivingModule<TConfig extends ArchivingModuleConfig = ArchivingMo
   }
 
   protected async resolveArchivists() {
-    return (await this.resolver?.resolve({ address: this.config.archivists ?? [] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
+    return (await this.resolve({ address: this.config.archivists ?? [] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
   }
 
   protected async storeToArchivists(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {

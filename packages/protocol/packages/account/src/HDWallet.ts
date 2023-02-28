@@ -5,7 +5,7 @@ import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 
 import { HDAccount } from './HDAccount'
 
-@staticImplements<WalletStatic>()
+@staticImplements<WalletStatic<HDNode>>()
 export class HDWallet extends HDNode implements WalletInstance {
   protected readonly _account = new HDAccount(this)
 

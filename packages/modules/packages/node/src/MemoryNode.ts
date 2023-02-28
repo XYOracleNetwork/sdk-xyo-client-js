@@ -75,7 +75,13 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
     })
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<Module[]> {
+  override unregister(module: Module) {
+    this.detach(module.address)
+    delete this.registeredModuleMap[module.address]
+    return this
+  }
+
+  protected override async resolve(filter?: ModuleFilter): Promise<Module[]> {
     const internal: Promise<Module[]> = this.privateResolver.resolve(filter)
     const up: Promise<Module[]> = this.upResolver?.resolve(filter) || []
     const down: Promise<Module[]> = this.downResolver?.resolve(filter) || []
@@ -93,11 +99,5 @@ export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends Abstrac
       .flat()
       .filter(exists)
       .filter(duplicateModules)
-  }
-
-  override unregister(module: Module) {
-    this.detach(module.address)
-    delete this.registeredModuleMap[module.address]
-    return this
   }
 }

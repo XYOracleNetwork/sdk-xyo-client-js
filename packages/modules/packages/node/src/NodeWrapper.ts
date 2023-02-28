@@ -27,16 +27,16 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return this._archivist
   }
 
-  static override tryWrap(module: Module): NodeWrapper | undefined {
+  static override tryWrap<TModule extends NodeModule = NodeModule>(module: TModule): NodeWrapper<TModule> | undefined {
     const missingRequiredQueries = this.missingRequiredQueries(module)
     if (missingRequiredQueries.length > 0) {
       console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
     } else {
-      return new NodeWrapper(module as NodeModule)
+      return new NodeWrapper<TModule>(module as TModule)
     }
   }
 
-  static override wrap(module: Module): NodeWrapper {
+  static override wrap<TModule extends NodeModule = NodeModule>(module: TModule): NodeWrapper<TModule> {
     return assertEx(this.tryWrap(module), 'Unable to wrap module as NodeWrapper')
   }
 

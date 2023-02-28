@@ -9,12 +9,24 @@ describe('HDWallet', () => {
     })
   })
   describe('deriveAccount', () => {
-    it('works repeatably', () => {
+    const paths = ['m/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]
+    it.each(paths)('works repeatably', (path: string) => {
       const sutA = HDWallet.fromMnemonic(mnemonic)
       const sutB = HDWallet.fromMnemonic(mnemonic)
-      const path = "m/44'/60'/0'/0/0"
       const accountA = sutA.deriveAccount(path)
       const accountB = sutB.deriveAccount(path)
+      expect(accountA.addressValue.hex).toBe(accountB.addressValue.hex)
+      expect(accountA.private.hex).toBe(accountB.private.hex)
+      expect(accountA.public.hex).toBe(accountB.public.hex)
+    })
+    it('works when paths provided incrementally', () => {
+      const base = 'm'
+      const parent = "44'/60'/0'"
+      const child = '0/1'
+      const sutA = HDWallet.fromMnemonic(mnemonic)
+      const sutB = HDWallet.fromMnemonic(mnemonic)
+      const accountA = sutA.derivePath(base).derivePath(parent).deriveAccount(child)
+      const accountB = sutB.deriveAccount([base, parent, child].join('/'))
       expect(accountA.addressValue.hex).toBe(accountB.addressValue.hex)
       expect(accountA.private.hex).toBe(accountB.private.hex)
       expect(accountA.public.hex).toBe(accountB.public.hex)

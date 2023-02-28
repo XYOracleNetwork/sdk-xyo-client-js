@@ -7,6 +7,7 @@ import {
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
+  ModuleFilter,
   ModuleQueryResult,
   XyoQuery,
   XyoQueryBoundWitness,
@@ -17,6 +18,7 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
 import { XyoError, XyoErrorSchema } from './Error'
+import { duplicateModules } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 
 export interface WrapperError extends Error {
@@ -84,7 +86,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     )
   }
 
-  static tryWrap(module: Module): ModuleWrapper | undefined {
+  static tryWrap(module?: Module): ModuleWrapper | undefined {
+    if (!module) return undefined
     const missingRequiredQueries = this.missingRequiredQueries(module)
     if (missingRequiredQueries.length > 0) {
       console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
@@ -129,6 +132,28 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
 
   queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
     return this.module.queryable(query, payloads)
+  }
+
+  async resolve(filter?: ModuleFilter): Promise<Module[]> {
+    return [...(await this.module.downResolver.resolve(filter)), ...(await this.module.upResolver.resolve(filter))].filter(duplicateModules)
+  }
+
+  /**
+   * Resolves the supplied filter into wrapped modules
+   * @example <caption>Example using ArchivistWrapper</caption>
+   * const filter = { address: [address] }
+   * const mods: ArchivistWrapper[] = await node.resolveWrapped(ArchivistWrapper, filter)
+   * @param wrapper The ModuleWrapper class (ArchivistWrapper,
+   * DivinerWrapper, etc.)
+   * @param filter The ModuleFilter
+   * @returns An array of ModuleWrapper instances corresponding to
+   * the underlying modules matching the supplied filter
+   */
+  async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
+    wrapper: ModuleConstructable<Module, T>,
+    filter?: ModuleFilter,
+  ): Promise<T[]> {
+    return (await this.resolve(filter)).map((mod) => new wrapper(mod))
   }
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -134,8 +135,19 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return this.module.queryable(query, payloads)
   }
 
-  async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return [...(await this.module.downResolver.resolve(filter)), ...(await this.module.upResolver.resolve(filter))].filter(duplicateModules)
+  async resolve(nameOrAddress: string): Promise<Module | undefined>
+  async resolve(filter?: ModuleFilter): Promise<Module[]>
+  async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<Module | Module[] | undefined> {
+    switch (typeof nameOrAddressOrFilter) {
+      case 'string': {
+        const byAddress = Account.isAddress(nameOrAddressOrFilter) ? (await this.resolve({ address: [nameOrAddressOrFilter] })).pop() : undefined
+        return byAddress ?? (await this.resolve({ name: [nameOrAddressOrFilter] })).pop()
+      }
+      default: {
+        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+        return [...(await this.module.downResolver.resolve(filter)), ...(await this.module.upResolver.resolve(filter))].filter(duplicateModules)
+      }
+    }
   }
 
   /**
@@ -152,8 +164,26 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
   async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
     wrapper: ModuleConstructable<Module, T>,
     filter?: ModuleFilter,
-  ): Promise<T[]> {
-    return (await this.resolve(filter)).map((mod) => new wrapper(mod))
+  ): Promise<T[]>
+  async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
+    wrapper: ModuleConstructable<Module, T>,
+    nameOrAddress: string,
+  ): Promise<T | undefined>
+  async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
+    wrapper: ModuleConstructable<Module, T>,
+    nameOrAddressOrFilter?: ModuleFilter | string,
+  ): Promise<T[] | T | undefined> {
+    switch (typeof nameOrAddressOrFilter) {
+      case 'string': {
+        const nameOrAddress: string = nameOrAddressOrFilter
+        const mod = await this.resolve(nameOrAddress)
+        return mod ? new wrapper(mod) : undefined
+      }
+      default: {
+        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+        return (await this.resolve(filter)).map((mod) => new wrapper(mod))
+      }
+    }
   }
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(

@@ -74,6 +74,10 @@ export class Account extends KeyPair implements AccountInstance {
     return new Account({ privateKey })
   }
 
+  static isAddress(address: string) {
+    return address.length === 64
+  }
+
   static isXyoWallet(value: unknown): boolean {
     return (value as Account)?._isXyoWallet || false
   }

@@ -22,7 +22,7 @@ export class DynamicModuleResolver<TModule extends Module = Module> extends Comp
     this._resolveImplementation = value
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<TModule[]> {
-    return [...(await this._resolveImplementation(filter)), ...(await super.resolve(filter))].filter(duplicateModules)
+  override async resolve<T extends TModule = TModule>(filter?: ModuleFilter): Promise<T[]> {
+    return [...(await this._resolveImplementation(filter)), ...(await super.resolve(filter))].filter(duplicateModules) as T[]
   }
 }

@@ -135,17 +135,21 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return this.module.queryable(query, payloads)
   }
 
-  async resolve(nameOrAddress: string): Promise<Module | undefined>
-  async resolve(filter?: ModuleFilter): Promise<Module[]>
-  async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<Module | Module[] | undefined> {
+  async resolve<TModule extends Module = Module>(nameOrAddress?: string): Promise<TModule | undefined>
+  async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
+  async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
-        const byAddress = Account.isAddress(nameOrAddressOrFilter) ? (await this.resolve({ address: [nameOrAddressOrFilter] })).pop() : undefined
-        return byAddress ?? (await this.resolve({ name: [nameOrAddressOrFilter] })).pop()
+        const byAddress = Account.isAddress(nameOrAddressOrFilter)
+          ? (await this.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
+          : undefined
+        return byAddress ?? (await this.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
       }
       default: {
         const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return [...(await this.module.downResolver.resolve(filter)), ...(await this.module.upResolver.resolve(filter))].filter(duplicateModules)
+        return [...(await this.module.downResolver.resolve<TModule>(filter)), ...(await this.module.upResolver.resolve<TModule>(filter))].filter(
+          duplicateModules,
+        )
       }
     }
   }
@@ -176,12 +180,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
         const nameOrAddress: string = nameOrAddressOrFilter
-        const mod = await this.resolve(nameOrAddress)
+        const mod = await this.resolve<T['module']>(nameOrAddress)
         return mod ? new wrapper(mod) : undefined
       }
       default: {
         const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return (await this.resolve(filter)).map((mod) => new wrapper(mod))
+        return (await this.resolve<T['module']>(filter)).map((mod) => new wrapper(mod))
       }
     }
   }

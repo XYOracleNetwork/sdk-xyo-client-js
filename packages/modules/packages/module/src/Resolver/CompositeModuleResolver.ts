@@ -48,7 +48,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
     return this
   }
 
-  async resolve(filter?: ModuleFilter): Promise<TModule[]> {
+  async resolve<T extends TModule = TModule>(filter?: ModuleFilter): Promise<T[]> {
     const modules = this.resolvers.map((resolver) => resolver.resolve(filter))
     const settled = await Promise.allSettled(modules)
     const result = settled
@@ -56,7 +56,7 @@ export class CompositeModuleResolver<TModule extends Module = Module> implements
       .map((r) => r.value)
       .flat()
       .filter(duplicateModules)
-    return result
+    return result as T[]
   }
 
   private addSingleModule(module?: TModule) {

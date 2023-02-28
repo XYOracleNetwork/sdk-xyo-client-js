@@ -48,15 +48,15 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     throw 'Removing resolvers not supported'
   }
 
-  resolve(filter?: ModuleFilter): Promisable<TModule[]> {
-    const filteredByName: TModule[] = this.resolveByName(Object.values(this.modules), (filter as NameModuleFilter)?.name)
+  resolve<T extends TModule = TModule>(filter?: ModuleFilter): Promisable<T[]> {
+    const filteredByName: T[] = this.resolveByName<T>(Object.values(this.modules) as T[], (filter as NameModuleFilter)?.name)
 
-    const filteredByAddress: TModule[] = (filter as AddressModuleFilter)?.address
-      ? this.resolveByAddress(filteredByName, (filter as AddressModuleFilter)?.address)
+    const filteredByAddress: T[] = (filter as AddressModuleFilter)?.address
+      ? this.resolveByAddress<T>(filteredByName, (filter as AddressModuleFilter)?.address)
       : filteredByName
 
-    const filteredByQuery: TModule[] = (filter as QueryModuleFilter)?.query
-      ? this.resolveByQuery(filteredByAddress, (filter as QueryModuleFilter)?.query)
+    const filteredByQuery: T[] = (filter as QueryModuleFilter)?.query
+      ? this.resolveByQuery<T>(filteredByAddress, (filter as QueryModuleFilter)?.query)
       : filteredByAddress
 
     return filteredByQuery
@@ -80,7 +80,7 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     }
   }
 
-  private resolveByAddress(modules: TModule[], address?: string[]): TModule[] {
+  private resolveByAddress<T extends TModule = TModule>(modules: T[], address?: string[]): T[] {
     return address
       ? compact(
           flatten(
@@ -92,14 +92,14 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
       : modules
   }
 
-  private resolveByName(modules: TModule[], name?: string[]): TModule[] {
+  private resolveByName<T extends TModule = TModule>(modules: T[], name?: string[]): T[] {
     if (name) {
       return compact(name.map((name) => modules.filter((module) => module.config.name === name)).flat())
     }
     return modules
   }
 
-  private resolveByQuery(modules: TModule[], query?: string[][]): TModule[] {
+  private resolveByQuery<T extends TModule = TModule>(modules: T[], query?: string[][]): T[] {
     return query
       ? compact(
           modules.filter((module) =>

@@ -75,7 +75,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   static isAddress(address: string) {
-    return address.length === 64
+    return address.length === 40
   }
 
   static isXyoWallet(value: unknown): boolean {

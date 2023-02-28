@@ -40,7 +40,7 @@ describe('MemoryNode', () => {
       await node.register(diviner).attach(diviner.address, true)
       expect(node.registered()).toBeArrayOfSize(2)
       expect(await node.attached()).toBeArrayOfSize(2)
-      const foundArchivist = (await node.resolve({ address: [archivist.address] })).shift()
+      const foundArchivist = await NodeWrapper.wrap(node).resolve(archivist.address)
       expect(foundArchivist).toBeDefined()
       expect(foundArchivist?.address).toBe(archivist.address)
       const testPayload = new XyoPayloadBuilder<XyoPayload<{ schema: XyoPayloadSchema; test: boolean }>>({ schema: XyoPayloadSchema })
@@ -59,7 +59,7 @@ describe('MemoryNode', () => {
       if (payloads && payloads[0]) {
         const huri = new PayloadWrapper(payloads[0]).hash
         const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
-        const module = (await node.resolve({ address: [diviner.address] })).shift() as DivinerModule | undefined
+        const module = (await NodeWrapper.wrap(node).resolve(diviner.address)) as DivinerModule | undefined
         const foundDiviner = module ? new DivinerWrapper(module) : null
         expect(foundDiviner).toBeDefined()
         if (foundDiviner) {

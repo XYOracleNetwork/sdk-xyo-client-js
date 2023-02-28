@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/diviner/src/AddressHistory/spec/AddressHistoryDiviner.spec.ts"
+        "packages/modules/packages/node/src/spec/MemoryNode.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

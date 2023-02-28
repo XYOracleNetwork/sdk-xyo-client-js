@@ -10,7 +10,7 @@ export interface ModuleResolver<TModule extends Module = Module> {
   addResolver: (resolver: ModuleResolver<TModule>) => this
   isModuleResolver: boolean
   removeResolver: (resolver: ModuleResolver<TModule>) => this
-  resolve(filter?: ModuleFilter): Promisable<TModule[]>
+  resolve<T extends TModule = TModule>(filter?: ModuleFilter): Promisable<T[]>
 }
 
 export interface Module<TConfig extends ModuleConfig = ModuleConfig> {

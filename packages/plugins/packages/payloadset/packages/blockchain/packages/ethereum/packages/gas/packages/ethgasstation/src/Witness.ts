@@ -6,12 +6,12 @@ import {
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { TimestampWitness } from '@xyo-network/witness'
+import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoEthereumGasEthgasstationWitnessConfig } from './Config'
 import { getGasFromEthgasstation } from './lib'
 
-export class XyoEthereumGasEthgasstationWitness extends TimestampWitness<XyoEthereumGasEthgasstationWitnessConfig> {
+export class XyoEthereumGasEthgasstationWitness extends TimestampWitness<WitnessParams<XyoEthereumGasEthgasstationWitnessConfig>> {
   static override configSchema = XyoEthereumGasEthgasstationWitnessConfigSchema
 
   static override async create(params?: ModuleParams<XyoEthereumGasEthgasstationWitnessConfig>): Promise<XyoEthereumGasEthgasstationWitness> {

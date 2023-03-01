@@ -4,7 +4,7 @@ import { XyoEthereumGasEthersPayload, XyoEthereumGasEthersSchema } from '@xyo-ne
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { TimestampWitness } from '@xyo-network/witness'
+import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoEthereumGasEthersWitnessConfig } from './Config'
 import { getGasFromEthers } from './lib'
@@ -17,7 +17,7 @@ export type XyoEthereumGasEthersWitnessParams = ModuleParams<
   }
 >
 
-export class XyoEthereumGasEthersWitness extends TimestampWitness<XyoEthereumGasEthersWitnessConfig> {
+export class XyoEthereumGasEthersWitness extends TimestampWitness<WitnessParams<XyoEthereumGasEthersWitnessConfig>> {
   static override configSchema = XyoEthereumGasEthersWitnessConfigSchema
 
   protected provider?: Provider

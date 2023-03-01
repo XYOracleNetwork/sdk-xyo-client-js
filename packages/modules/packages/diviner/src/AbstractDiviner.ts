@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AnyObject } from '@xyo-network/core'
 import { DivinerConfig, DivinerModule, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
 import {
   AbstractModule,
@@ -14,9 +15,15 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-export type DivinerParams = ModuleParams
+export type DivinerParams<TConfig extends DivinerConfig = DivinerConfig, TAdditional extends AnyObject | undefined = undefined> = ModuleParams<
+  TConfig,
+  TAdditional
+>
 
-export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractModule<TConfig> implements DivinerModule {
+export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerParams>
+  extends AbstractModule<TParams>
+  implements DivinerModule<TParams['config']>
+{
   static override configSchema: string
   static targetSchema: string
 

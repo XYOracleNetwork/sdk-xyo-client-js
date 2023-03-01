@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { AbstractDiviner, AddressHistoryDiviner, isAddressHistoryQueryPayload } from '@xyo-network/diviner'
+import { AbstractDiviner, AddressHistoryDiviner, DivinerParams, isAddressHistoryQueryPayload } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloads } from '@xyo-network/payload-model'
 
@@ -13,7 +13,7 @@ export type XyoRemoteAddressHistoryDivinerParams = ModuleParams<XyoRemoteDiviner
 }
 
 /** @description Diviner Context that connects to a remote Diviner using the API */
-export class XyoRemoteAddressHistoryDiviner extends AbstractDiviner<XyoRemoteDivinerConfig> implements AddressHistoryDiviner {
+export class XyoRemoteAddressHistoryDiviner extends AbstractDiviner<DivinerParams<XyoRemoteDivinerConfig>> implements AddressHistoryDiviner {
   static override configSchema = XyoRemoteDivinerConfigSchema
   static override targetSchema = XyoBoundWitnessSchema
 

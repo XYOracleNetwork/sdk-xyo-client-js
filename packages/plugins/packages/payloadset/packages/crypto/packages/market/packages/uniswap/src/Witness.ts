@@ -1,25 +1,24 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import {
   XyoUniswapCryptoMarketPayload,
   XyoUniswapCryptoMarketSchema,
   XyoUniswapCryptoMarketWitnessConfigSchema,
 } from '@xyo-network/uniswap-crypto-market-payload-plugin'
-import { AbstractWitness } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 
-export type XyoUniswapCryptoMarketWitnessParams = ModuleParams<
+export type XyoUniswapCryptoMarketWitnessParams = WitnessParams<
   XyoUniswapCryptoMarketWitnessConfig,
   {
     provider: Provider
   }
 >
 
-export class XyoUniswapCryptoMarketWitness extends AbstractWitness<XyoUniswapCryptoMarketWitnessConfig> {
+export class XyoUniswapCryptoMarketWitness extends AbstractWitness<XyoUniswapCryptoMarketWitnessParams> {
   static override configSchema = XyoUniswapCryptoMarketWitnessConfigSchema
 
   protected pairs?: EthersUniSwap3Pair[]

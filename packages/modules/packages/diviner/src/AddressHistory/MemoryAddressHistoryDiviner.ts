@@ -8,7 +8,7 @@ import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { AbstractDiviner } from '../AbstractDiviner'
+import { AbstractDiviner, DivinerParams } from '../AbstractDiviner'
 import { AddressHistoryDiviner } from './AddressHistoryDiviner'
 
 export type MemoryAddressHistoryDivinerConfigSchema = 'network.xyo.diviner.address.history.memory.config'
@@ -25,7 +25,7 @@ export type MemoryAddressHistoryDivinerConfig = DivinerConfig<
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
 
-export class MemoryAddressHistoryDiviner extends AbstractDiviner<MemoryAddressHistoryDivinerConfig> implements AddressHistoryDiviner {
+export class MemoryAddressHistoryDiviner extends AbstractDiviner<DivinerParams<MemoryAddressHistoryDivinerConfig>> implements AddressHistoryDiviner {
   static override configSchema = MemoryAddressHistoryDivinerConfigSchema
 
   static override async create(params?: Partial<ModuleParams<MemoryAddressHistoryDivinerConfig>>): Promise<MemoryAddressHistoryDiviner> {

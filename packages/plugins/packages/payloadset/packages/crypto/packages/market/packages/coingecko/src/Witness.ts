@@ -1,16 +1,15 @@
 import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
 import { pricesFromCoingecko } from './lib'
 import { XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 
-export class XyoCoingeckoCryptoMarketWitness extends AbstractWitness<XyoCoingeckoCryptoMarketWitnessConfig> {
+export class XyoCoingeckoCryptoMarketWitness extends AbstractWitness<WitnessParams<XyoCoingeckoCryptoMarketWitnessConfig>> {
   static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema
 
-  static override async create(params?: ModuleParams<XyoCoingeckoCryptoMarketWitnessConfig>): Promise<XyoCoingeckoCryptoMarketWitness> {
+  static override async create(params?: WitnessParams<XyoCoingeckoCryptoMarketWitnessConfig>): Promise<XyoCoingeckoCryptoMarketWitness> {
     return (await super.create(params)) as XyoCoingeckoCryptoMarketWitness
   }
 

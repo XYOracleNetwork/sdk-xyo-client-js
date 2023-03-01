@@ -15,7 +15,16 @@ import {
 } from '@xyo-network/archivist-interface'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AnyObject } from '@xyo-network/core'
+import {
+  AbstractModule,
+  ModuleConfig,
+  ModuleParams,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
@@ -27,8 +36,13 @@ export interface XyoArchivistParentWrappers {
   write?: Record<string, ArchivistWrapper>
 }
 
-export abstract class AbstractArchivist<TConfig extends ArchivistConfig = ArchivistConfig>
-  extends AbstractModule<TConfig>
+export type ArchivistParams<
+  TConfig extends ArchivistConfig = ArchivistConfig,
+  TAdditionalParams extends AnyObject | undefined = undefined,
+> = ModuleParams<TConfig, TAdditionalParams>
+
+export abstract class AbstractArchivist<TParams extends ArchivistParams = ArchivistParams>
+  extends AbstractModule<TParams>
   implements ArchivistModule
 {
   private _parents?: XyoArchivistParentWrappers

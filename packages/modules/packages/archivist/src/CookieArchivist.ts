@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -30,7 +30,7 @@ export type CookieArchivistConfig = ArchivistConfig<{
   schema: CookieArchivistConfigSchema
 }>
 
-export class CookieArchivist extends AbstractArchivist<CookieArchivistConfig> {
+export class CookieArchivist extends AbstractArchivist<ArchivistParams<CookieArchivistConfig>> {
   static override configSchema = CookieArchivistConfigSchema
 
   get domain() {

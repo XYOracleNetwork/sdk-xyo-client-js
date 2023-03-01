@@ -1,7 +1,7 @@
 import { IdPayload, IdSchema } from '@xyo-network/id-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 
 export type IdWitnessConfigSchema = 'network.xyo.id.witness.config'
 export const IdWitnessConfigSchema: IdWitnessConfigSchema = 'network.xyo.id.witness.config'
@@ -11,7 +11,7 @@ export type IdWitnessConfig = XyoWitnessConfig<{
   schema: IdWitnessConfigSchema
 }>
 
-export class IdWitness extends AbstractWitness<IdWitnessConfig> {
+export class IdWitness extends AbstractWitness<WitnessParams<IdWitnessConfig>> {
   static override configSchema = IdWitnessConfigSchema
 
   get salt() {

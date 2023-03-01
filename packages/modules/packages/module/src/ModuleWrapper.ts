@@ -87,18 +87,19 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     )
   }
 
-  static tryWrap(module?: Module): ModuleWrapper | undefined {
-    if (!module) return undefined
-    const missingRequiredQueries = this.missingRequiredQueries(module)
-    if (missingRequiredQueries.length > 0) {
-      console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
-    } else {
-      return new ModuleWrapper(module as Module)
+  static tryWrap(module?: Module, account?: Account): ModuleWrapper | undefined {
+    if (module) {
+      const missingRequiredQueries = this.missingRequiredQueries(module)
+      if (missingRequiredQueries.length > 0) {
+        console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+      } else {
+        return new ModuleWrapper(module as Module, account)
+      }
     }
   }
 
-  static wrap(module: Module): ModuleWrapper {
-    return assertEx(this.tryWrap(module), 'Unable to wrap module as ModuleWrapper')
+  static wrap(module?: Module, account?: Account): ModuleWrapper {
+    return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ModuleWrapper')
   }
 
   async describe(): Promise<Promise<Promisable<ModuleDescription>>> {

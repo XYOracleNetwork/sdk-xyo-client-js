@@ -6,6 +6,7 @@ import {
   Module,
   ModuleConfig,
   ModuleFilter,
+  ModuleParams,
   ModuleQueryResult,
   ModuleResolver,
   QueryBoundWitnessWrapper,
@@ -16,9 +17,11 @@ import {
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractBridge<TConfig extends BridgeConfig = BridgeConfig, TModule extends Module = Module>
-  extends AbstractModule<TConfig>
-  implements BridgeModule<TConfig, TModule>
+export type BridgeParams<TConfig extends BridgeConfig = BridgeConfig> = ModuleParams<TConfig>
+
+export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module>
+  extends AbstractModule<TParams>
+  implements BridgeModule<TParams['config'], TModule>
 {
   abstract targetDownResolver: ModuleResolver
 

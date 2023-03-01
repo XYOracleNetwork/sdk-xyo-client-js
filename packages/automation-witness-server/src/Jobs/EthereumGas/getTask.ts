@@ -14,7 +14,7 @@ export const getTask = (): Task => {
     try {
       logger.log('Witnessing Ethereum Gas Prices')
       const witnessPanel = await getWitnessPanel()
-      const [, payloads] = await witnessPanel.report()
+      const payloads = await witnessPanel.report()
       logger.log('Witnessed Ethereum Gas Prices')
       logger.log('Divining Aggregated Gas Price')
       const diviner = await getDiviner()

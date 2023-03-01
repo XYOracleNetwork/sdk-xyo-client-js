@@ -14,7 +14,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
-import { AbstractSentinel } from '../AbstractSentinel'
+import { AbstractSentinel, AbstractSentinelParams } from '../AbstractSentinel'
 import { SentinelConfig, SentinelConfigSchema } from '../Config'
 
 describe('XyoPanel', () => {
@@ -86,17 +86,16 @@ describe('XyoPanel', () => {
       let archivistB: AbstractArchivist
       let witnessA: AbstractWitness
       let witnessB: AbstractWitness
-      const assertPanelReport = (panelReport: [XyoBoundWitness, XyoPayload[]]) => {
-        expect(panelReport).toBeArrayOfSize(2)
-        const [bw, payloads] = panelReport
-        expect(new BoundWitnessValidator(bw).validate()).toBeArrayOfSize(0)
+      const assertPanelReport = (panelReport: XyoPayload[]) => {
+        expect(panelReport).toBeArrayOfSize(3)
+        const [bw, ...payloads] = panelReport
+        expect(new BoundWitnessValidator(bw as XyoBoundWitness).validate()).toBeArrayOfSize(0)
         expect(payloads).toBeArrayOfSize(2)
       }
-      const assertArchivistStateMatchesPanelReport = async (panelReport: [XyoBoundWitness, XyoPayload[]], archivists: Archivist[]) => {
-        const [, payloads] = panelReport
+      const assertArchivistStateMatchesPanelReport = async (payloads: XyoPayload[], archivists: Archivist[]) => {
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
-          expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
+          expect(archivistPayloads).toBeArrayOfSize(payloads.length)
           const panelPayloads = payloads.map((payload) => {
             const wrapped = new PayloadWrapper(payload)
             return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
@@ -127,14 +126,15 @@ describe('XyoPanel', () => {
       it('config', async () => {
         const node = await MemoryNode.create()
         await Promise.all([witnessA, witnessB, archivistA, archivistB].map(async (module) => await node.register(module).attach(module.address)))
-        const params: ModuleParams<SentinelConfig> = {
+        const params: AbstractSentinelParams<SentinelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
-            onReportEnd(_, errors) {
-              expect(errors).toBeUndefined()
-            },
+
             schema: 'network.xyo.panel.config',
             witnesses: [witnessA.address, witnessB.address],
+          },
+          onReportEnd(_, errors) {
+            expect(errors).toBeUndefined()
           },
         }
         const panel = await AbstractSentinel.create(params)
@@ -146,14 +146,15 @@ describe('XyoPanel', () => {
       it('config & inline', async () => {
         const node = await MemoryNode.create()
         await Promise.all([witnessA, archivistA, archivistB].map(async (module) => await node.register(module).attach(module.address)))
-        const params: ModuleParams<SentinelConfig> = {
+        const params: AbstractSentinelParams<SentinelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
-            onReportEnd(_, errors) {
-              expect(errors).toBeUndefined()
-            },
+
             schema: 'network.xyo.panel.config',
             witnesses: [witnessA.address],
+          },
+          onReportEnd(_, errors) {
+            expect(errors).toBeUndefined()
           },
         }
         const panel = await AbstractSentinel.create(params)
@@ -167,14 +168,15 @@ describe('XyoPanel', () => {
       it('inline', async () => {
         const node = await MemoryNode.create()
         await Promise.all([archivistA, archivistB].map(async (module) => await node.register(module).attach(module.address)))
-        const params: ModuleParams<SentinelConfig> = {
+        const params: AbstractSentinelParams<SentinelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
-            onReportEnd(_, errors) {
-              expect(errors).toBeUndefined()
-            },
+
             schema: 'network.xyo.panel.config',
             witnesses: [],
+          },
+          onReportEnd(_, errors) {
+            expect(errors).toBeUndefined()
           },
         }
         const panel = await AbstractSentinel.create(params)
@@ -208,15 +210,16 @@ describe('XyoPanel', () => {
 
         const node = await MemoryNode.create()
         await Promise.all([witnessA, witnessB, archivistA, archivistB].map(async (module) => await node.register(module).attach(module.address)))
-        const params: ModuleParams<SentinelConfig> = {
+        const params: AbstractSentinelParams<SentinelConfig> = {
           config: {
             archivists: [archivistA.address, archivistB.address],
-            onReportEnd(_, errors) {
-              expect(errors?.length).toBe(1)
-              expect(errors?.[0]?.message).toBe('observation failed')
-            },
+
             schema: 'network.xyo.panel.config',
             witnesses: [witnessA.address, witnessB.address],
+          },
+          onReportEnd(_, errors) {
+            expect(errors?.length).toBe(1)
+            expect(errors?.[0]?.message).toBe('observation failed')
           },
         }
         const panel = await AbstractSentinel.create(params)

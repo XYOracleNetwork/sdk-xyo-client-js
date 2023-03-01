@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { ModuleWrapper } from '@xyo-network/module'
@@ -27,17 +28,19 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return this._archivist
   }
 
-  static override tryWrap<TModule extends NodeModule = NodeModule>(module: TModule): NodeWrapper<TModule> | undefined {
-    const missingRequiredQueries = this.missingRequiredQueries(module)
-    if (missingRequiredQueries.length > 0) {
-      console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
-    } else {
-      return new NodeWrapper<TModule>(module as TModule)
+  static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: Account): NodeWrapper<TModule> | undefined {
+    if (module) {
+      const missingRequiredQueries = this.missingRequiredQueries(module)
+      if (missingRequiredQueries.length > 0) {
+        console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+      } else {
+        return new NodeWrapper<TModule>(module as TModule, account)
+      }
     }
   }
 
-  static override wrap<TModule extends NodeModule = NodeModule>(module: TModule): NodeWrapper<TModule> {
-    return assertEx(this.tryWrap(module), 'Unable to wrap module as NodeWrapper')
+  static override wrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: Account): NodeWrapper<TModule> {
+    return assertEx(this.tryWrap(module, account), 'Unable to wrap module as NodeWrapper')
   }
 
   async attach(address: string, external?: boolean): Promise<void> {

@@ -1,7 +1,7 @@
 import { AbstractModule, ModuleParams } from '@xyo-network/module'
 import { AbstractModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
 export type AbstractModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
@@ -12,7 +12,7 @@ export type AbstractModuleInstanceWitnessConfig = XyoWitnessConfig<{
   schema: AbstractModuleInstanceWitnessConfigSchema
 }>
 
-export class AbstractModuleInstanceWitness extends AbstractWitness<AbstractModuleInstanceWitnessConfig> {
+export class AbstractModuleInstanceWitness extends AbstractWitness<WitnessParams<AbstractModuleInstanceWitnessConfig>> {
   static override configSchema = AbstractModuleInstanceWitnessConfigSchema
 
   protected get module() {

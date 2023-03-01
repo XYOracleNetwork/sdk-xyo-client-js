@@ -3,13 +3,13 @@ import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { TimestampWitness } from '@xyo-network/witness'
+import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherscanWitnessConfig } from './Config'
 import { getGasFromEtherscan } from './lib'
 import { XyoEthereumGasEtherscanWitnessConfigSchema } from './Schema'
 
-export class XyoEthereumGasEtherscanWitness extends TimestampWitness<XyoEthereumGasEtherscanWitnessConfig> {
+export class XyoEthereumGasEtherscanWitness extends TimestampWitness<WitnessParams<XyoEthereumGasEtherscanWitnessConfig>> {
   static override configSchema = XyoEthereumGasEtherscanWitnessConfigSchema
 
   static override async create(params?: ModuleParams<XyoEthereumGasEtherscanWitnessConfig>): Promise<XyoEthereumGasEtherscanWitness> {

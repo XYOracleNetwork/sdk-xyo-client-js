@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import {
@@ -33,7 +33,7 @@ export type StorageArchivistConfig = ArchivistConfig<{
   type?: 'local' | 'session' | 'page'
 }>
 
-export class XyoStorageArchivist extends AbstractArchivist<StorageArchivistConfig> {
+export class XyoStorageArchivist extends AbstractArchivist<ArchivistParams<StorageArchivistConfig>> {
   static override configSchema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined

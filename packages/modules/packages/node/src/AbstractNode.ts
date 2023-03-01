@@ -39,8 +39,8 @@ import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuer
 
 export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = ModuleParams<TConfig>
 
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
-  extends AbstractModule<TConfig>
+export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams>
+  extends AbstractModule<TParams>
   implements NodeModule, ModuleAttachedEventEmitter, ModuleDetachedEventEmitter, ModuleRegisteredEventEmitter, ModuleQueriedEventEmitter
 {
   static override readonly configSchema = NodeConfigSchema
@@ -54,7 +54,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
 
   private readonly isNode = true
 
-  protected constructor(params: AbstractNodeParams<TConfig>) {
+  protected constructor(params: TParams) {
     super(params)
   }
 
@@ -190,6 +190,3 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig>
   abstract attach(address: string, external?: boolean): Promisable<void>
   abstract detach(address: string): Promisable<void>
 }
-
-/** @deprecated use AbstractNode instead */
-export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig> extends AbstractNode<TConfig> {}

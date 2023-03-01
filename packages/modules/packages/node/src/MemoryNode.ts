@@ -8,7 +8,7 @@ import { NodeConfig, NodeConfigSchema } from './Config'
 
 export type MemoryNodeParams<TConfig extends NodeConfig = NodeConfig> = AbstractNodeParams<TConfig>
 
-export class MemoryNode<TConfig extends NodeConfig = NodeConfig> extends AbstractNode<TConfig> {
+export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> extends AbstractNode<TParams> {
   static override configSchema = NodeConfigSchema
 
   private registeredModuleMap: Record<string, Module> = {}

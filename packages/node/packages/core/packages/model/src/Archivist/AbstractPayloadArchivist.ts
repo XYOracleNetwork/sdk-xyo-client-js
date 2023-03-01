@@ -1,6 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistQuery } from '@xyo-network/archivist'
+import {
+  ArchivistFindQuerySchema,
+  ArchivistGetQuerySchema,
+  ArchivistInsertQuerySchema,
+  ArchivistParams,
+  ArchivistQuery,
+} from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
@@ -11,8 +17,8 @@ import { XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '../Payload'
 import { PayloadArchivist } from './PayloadArchivist'
 import { XyoPayloadFilterPredicate } from './XyoPayloadFilterPredicate'
 
-export abstract class AbstractPayloadArchivist<T extends AnyObject = AnyObject, TConfig extends ModuleConfig = ModuleConfig>
-  extends AbstractModule<TConfig>
+export abstract class AbstractPayloadArchivist<T extends AnyObject = AnyObject, TParams extends ArchivistParams = ArchivistParams>
+  extends AbstractModule<TParams>
   implements PayloadArchivist<T>
 {
   override get queries(): string[] {

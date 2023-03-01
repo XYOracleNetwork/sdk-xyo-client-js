@@ -2,11 +2,11 @@ import { assertEx } from '@xylabs/assert'
 import { LocationHeadingPayload, LocationHeadingSchema, LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
 import { CurrentLocationWitnessConfig, CurrentLocationWitnessConfigSchema, CurrentLocationWitnessParams } from './Config'
 
-export class CurrentLocationWitness extends AbstractWitness<CurrentLocationWitnessConfig> {
+export class CurrentLocationWitness extends AbstractWitness<WitnessParams<CurrentLocationWitnessConfig>> {
   static override configSchema = CurrentLocationWitnessConfigSchema
 
   private _geolocation: Geolocation

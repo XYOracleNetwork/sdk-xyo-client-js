@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
 import { ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ArchivistConfig, ArchivistFindQuerySchema } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
@@ -25,12 +25,14 @@ export type FilesystemArchivistConfig = ArchivistConfig<{
 /** @description Currently only a read-only archivist that loads payloads from filesystem
  * but allows for future expansion to read/write
  */
-export class FilesystemArchivist<TConfig extends FilesystemArchivistConfig = FilesystemArchivistConfig> extends AbstractArchivist<TConfig> {
+export class FilesystemArchivist<
+  TParams extends ArchivistParams<FilesystemArchivistConfig> = ArchivistParams<FilesystemArchivistConfig>,
+> extends AbstractArchivist<TParams> {
   static override configSchema = FilesystemArchivistConfigSchema
 
   private _memoryArchivist?: MemoryArchivist
 
-  protected constructor(params: ModuleParams<TConfig>) {
+  protected constructor(params: TParams) {
     super(params)
   }
 

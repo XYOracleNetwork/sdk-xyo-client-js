@@ -26,8 +26,8 @@ export type MongoDBArchivePayloadArchivistParams<T extends ArchiveModuleConfig =
 >
 
 export class MongoDBArchivePayloadArchivist
-  extends AbstractPayloadArchivist<XyoPayloadWithMeta, ArchiveModuleConfig>
-  implements ArchivePayloadArchivist<XyoPayload, ArchiveModuleConfig>
+  extends AbstractPayloadArchivist<XyoPayloadWithMeta, MongoDBArchivePayloadArchivistParams>
+  implements ArchivePayloadArchivist<XyoPayload, MongoDBArchivePayloadArchivistParams>
 {
   static override configSchema = ArchiveModuleConfigSchema
 

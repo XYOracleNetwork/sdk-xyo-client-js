@@ -1,10 +1,9 @@
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { AbstractWitness } from './AbstractWitness'
-import { XyoWitnessConfig } from './Config'
+import { AbstractWitness, WitnessParams } from './AbstractWitness'
 
-export abstract class TimestampWitness<C extends XyoWitnessConfig = XyoWitnessConfig> extends AbstractWitness<C> {
+export abstract class TimestampWitness<P extends WitnessParams = WitnessParams> extends AbstractWitness<P> {
   override observe(fields?: XyoPayload[] | undefined): Promisable<XyoPayload[]> {
     return super.observe(
       fields?.map((fieldItem) => {

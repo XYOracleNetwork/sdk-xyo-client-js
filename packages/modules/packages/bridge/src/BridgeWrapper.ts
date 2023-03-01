@@ -1,5 +1,8 @@
+import { assertEx } from '@xylabs/assert'
+import { Account } from '@xyo-network/account'
 import { BridgeModule, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
 import {
+  Module,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
@@ -15,6 +18,21 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements BridgeModule {
   get targetDownResolver() {
     return this.module.targetDownResolver
+  }
+
+  static override tryWrap(module?: Module, account?: Account): BridgeWrapper | undefined {
+    if (module) {
+      const missingRequiredQueries = this.missingRequiredQueries(module)
+      if (missingRequiredQueries.length > 0) {
+        console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+      } else {
+        return new BridgeWrapper(module as BridgeModule, account)
+      }
+    }
+  }
+
+  static override wrap(module?: Module, account?: Account): BridgeWrapper {
+    return assertEx(this.tryWrap(module, account), 'Unable to wrap module as DivinerWrapper')
   }
 
   async connect(uri?: string): Promise<boolean> {

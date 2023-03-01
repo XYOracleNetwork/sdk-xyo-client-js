@@ -35,7 +35,7 @@ import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from '
 import { CompositeModuleResolver } from './Resolver'
 
 @creatable()
-export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends Base<ModuleParams<TConfig>> implements Module<TConfig> {
+export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends Base<TParams> implements Module<TParams['config']> {
   static configSchema: string
 
   readonly downResolver = new CompositeModuleResolver()
@@ -48,13 +48,13 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
 
   protected readonly supportedQueryValidator: Queryable
 
-  protected constructor(params: ModuleParams<TConfig>) {
+  protected constructor(params: TParams) {
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
     //TODO: change wallet to use accountDerivationPath
-    const account = (params as WalletModuleParams<TConfig>).wallet
-      ? (params as WalletModuleParams<TConfig>).wallet.getAccount(0)
-      : (params as AccountModuleParams<TConfig>).account
-      ? (params as AccountModuleParams<TConfig>).account
+    const account = (params as WalletModuleParams<TParams['config']>).wallet
+      ? (params as WalletModuleParams<TParams['config']>).wallet.getAccount(0)
+      : (params as AccountModuleParams<TParams['config']>).account
+      ? (params as AccountModuleParams<TParams['config']>).account
       : undefined
 
     params.logger = activeLogger ? new Logging(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
@@ -74,7 +74,7 @@ export class AbstractModule<TConfig extends ModuleConfig = ModuleConfig> extends
     return !!this.config.security?.allowAnonymous
   }
 
-  get config() {
+  get config(): TParams['config'] {
     return this.params.config ?? {}
   }
 

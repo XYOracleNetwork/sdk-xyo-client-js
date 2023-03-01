@@ -5,11 +5,12 @@ import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import compact from 'lodash/compact'
 
+import { DivinerParams } from '../../AbstractDiviner'
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoHuriPayloadDivinerConfig, XyoHuriPayloadDivinerConfigSchema } from './Config'
 
-export class HuriPayloadDiviner extends AbstractPayloadDiviner<XyoHuriPayloadDivinerConfig> {
+export class HuriPayloadDiviner extends AbstractPayloadDiviner<DivinerParams<XyoHuriPayloadDivinerConfig>> {
   static override configSchema: XyoHuriPayloadDivinerConfigSchema
 
   protected get options() {

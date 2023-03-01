@@ -31,7 +31,7 @@ export type XyoPanelConfig = ArchivingModuleConfig<{
 }>
 
 /** @deprecated use Sentinel version instead */
-export class XyoPanel extends ArchivingModule<XyoPanelConfig> implements PanelModule {
+export class XyoPanel extends ArchivingModule<ModuleParams<XyoPanelConfig>> implements PanelModule {
   static override configSchema: XyoPanelConfigSchema
 
   history: XyoBoundWitness[] = []

@@ -1,7 +1,7 @@
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { XyoPentairScreenlogicPayload, XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { Controller } from './screenlogic'
 
@@ -23,7 +23,7 @@ export type XyoPentairScreenlogicWitnessConfig = XyoWitnessConfig<{
   schema: XyoPentairScreenlogicWitnessConfigSchema
 }>
 
-export class XyoPentairScreenlogicWitness extends AbstractWitness<XyoPentairScreenlogicWitnessConfig> {
+export class XyoPentairScreenlogicWitness extends AbstractWitness<WitnessParams<XyoPentairScreenlogicWitnessConfig>> {
   static override configSchema = XyoPentairScreenlogicWitnessConfigSchema
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

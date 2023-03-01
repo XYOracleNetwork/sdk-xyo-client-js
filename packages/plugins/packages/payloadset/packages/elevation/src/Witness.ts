@@ -5,7 +5,7 @@ import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
-import { AbstractWitness, WitnessModule, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 // eslint-disable-next-line import/no-named-as-default
 import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
 
@@ -65,7 +65,7 @@ const locationToQuadkey = (location: Location, zoom = 16) => {
   )
 }
 
-export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> implements WitnessModule {
+export class ElevationWitness extends AbstractWitness<WitnessParams<ElevationWitnessConfig>> implements WitnessModule {
   static override configSchema = ElevationWitnessConfigSchema
 
   private _tiffImages: TiffImages = {}

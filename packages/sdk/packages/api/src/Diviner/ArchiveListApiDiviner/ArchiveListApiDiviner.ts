@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerParams } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 
 import { XyoArchivistApi } from '../../Api'
@@ -7,7 +7,7 @@ import { ArchiveList } from './Payload'
 
 export type XyoArchiveListApiDivinerParams = ModuleParams<XyoArchiveListApiDivinerConfig> & { api: XyoArchivistApi }
 
-export class ArchiveListApiDiviner extends AbstractDiviner<XyoArchiveListApiDivinerConfig> {
+export class ArchiveListApiDiviner extends AbstractDiviner<DivinerParams<XyoArchiveListApiDivinerConfig>> {
   static override configSchema = XyoArchiveListApiDivinerConfigSchema
   static override targetSchema = XyoArchiveSchema
 

@@ -1,13 +1,13 @@
 import { XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessModule } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
 import Bowser from 'bowser'
 import merge from 'lodash/merge'
 
 import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 
-export class XyoBowserSystemInfoWitness extends AbstractWitness<XyoBowserSystemInfoWitnessConfig> implements WitnessModule {
+export class XyoBowserSystemInfoWitness extends AbstractWitness<WitnessParams<XyoBowserSystemInfoWitnessConfig>> implements WitnessModule {
   static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
 
   protected get bowser() {

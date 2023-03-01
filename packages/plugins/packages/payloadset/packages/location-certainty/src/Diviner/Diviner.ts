@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerParams } from '@xyo-network/diviner'
 import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
 import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/elevation-plugin'
 import { LocationCertaintyHeuristic, LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
@@ -10,7 +10,10 @@ import { Job, JobProvider } from '@xyo-network/shared'
 
 import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Config'
 
-export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
+export class LocationCertaintyDiviner
+  extends AbstractDiviner<DivinerParams<LocationCertaintyDivinerConfig>>
+  implements LocationCertaintyDiviner, JobProvider
+{
   static override configSchema = LocationCertaintyDivinerConfigSchema
   static override targetSchema = LocationCertaintySchema
 

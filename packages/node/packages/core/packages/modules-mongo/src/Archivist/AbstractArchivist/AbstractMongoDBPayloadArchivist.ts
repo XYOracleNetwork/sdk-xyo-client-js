@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { ArchivistParams } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { AnyObject } from '@xyo-network/core'
-import { ModuleParams } from '@xyo-network/module'
 import {
   AbstractPayloadArchivist,
   ArchiveModuleConfig,
@@ -30,7 +30,7 @@ const valid = (bw: XyoBoundWitness) => {
 export type AbstractMongoDBPayloadArchivistParams<
   TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,
   T extends AnyObject = AnyObject,
-> = ModuleParams<
+> = ArchivistParams<
   TConfig,
   {
     boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
@@ -40,13 +40,13 @@ export type AbstractMongoDBPayloadArchivistParams<
 
 export abstract class AbstractMongoDBPayloadArchivist<
   T extends AnyObject = AnyObject,
-  TConfig extends ArchiveModuleConfig = ArchiveModuleConfig,
-> extends AbstractPayloadArchivist<T, TConfig> {
+  TParams extends AbstractMongoDBPayloadArchivistParams<ArchiveModuleConfig, T> = AbstractMongoDBPayloadArchivistParams<ArchiveModuleConfig, T>,
+> extends AbstractPayloadArchivist<T, TParams> {
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-  protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta<T>>
+  protected readonly payloads: TParams['payloads']
   protected readonly witnessedPayloads: LruCache<string, XyoPayloadWithMeta<T>> = new LruCache({ max: 1, ttl: 10000 })
 
-  constructor(params: AbstractMongoDBPayloadArchivistParams<TConfig, T>) {
+  constructor(params: TParams) {
     super(params)
     this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta<T>>(COLLECTIONS.Payloads)

@@ -1,13 +1,11 @@
-import { ArchivingModule } from '@xyo-network/archivist'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { Module } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { SentinelConfig } from './Config'
 
 export interface Sentinel {
-  report: (payloads?: XyoPayload[]) => Promisable<[XyoBoundWitness, XyoPayload[]]>
-  tryReport: (payloads?: XyoPayload[]) => Promisable<[XyoBoundWitness | null, XyoPayload[]]>
+  report: (payloads?: XyoPayload[]) => Promisable<XyoPayload[]>
 }
 
-export interface SentinelModule<TConfig extends SentinelConfig = SentinelConfig> extends ArchivingModule<TConfig>, Sentinel {}
+export type SentinelModule<TConfig extends SentinelConfig = SentinelConfig> = Module<TConfig> & Sentinel

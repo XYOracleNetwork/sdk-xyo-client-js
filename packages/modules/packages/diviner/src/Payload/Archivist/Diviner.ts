@@ -6,11 +6,12 @@ import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
+import { DivinerParams } from '../../AbstractDiviner'
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
 
-export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<XyoArchivistPayloadDivinerConfig> {
+export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<DivinerParams<XyoArchivistPayloadDivinerConfig>> {
   static override configSchema: XyoArchivistPayloadDivinerConfigSchema
 
   static override async create(params?: ModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<ArchivistPayloadDiviner> {

@@ -31,9 +31,9 @@ export type XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeCon
   }
 >
 
-export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig>
-  extends AbstractBridge<TConfig, Module>
-  implements BridgeModule<TConfig, Module>
+export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams>
+  extends AbstractBridge<TParams, Module>
+  implements BridgeModule<TParams['config'], Module>
 {
   private _rootAddress?: string
   private _targetConfigs: Record<string, XyoPayload> = {}
@@ -41,7 +41,7 @@ export class HttpBridge<TConfig extends HttpBridgeConfig = HttpBridgeConfig>
   private _targetQueries: Record<string, string[]> = {}
   private axios: AxiosJson
 
-  protected constructor(params: XyoHttpBridgeParams<TConfig>) {
+  protected constructor(params: TParams) {
     super(params)
     this.axios = params.axios ?? new AxiosJson()
     this._targetDownResolver = new BridgeModuleResolver(this)

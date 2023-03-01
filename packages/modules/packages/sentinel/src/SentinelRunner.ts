@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -7,7 +6,7 @@ import { SentinelAutomationPayload, SentinelIntervalAutomationPayload } from './
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper'
 import { SentinelModule } from './SentinelModel'
 
-export type OnSentinelRunnerTriggerResult = (result: [XyoBoundWitness | null, XyoPayload[]]) => void
+export type OnSentinelRunnerTriggerResult = (result: XyoPayload[]) => void
 
 export class SentinelRunner {
   protected _automations: Record<string, SentinelAutomationPayload> = {}
@@ -97,7 +96,7 @@ export class SentinelRunner {
     await this.remove(wrapper.hash, false)
     wrapper.next()
     await this.add(wrapper.payload, false)
-    const triggerResult = await this.sentinel.tryReport()
+    const triggerResult = await this.sentinel.report()
     this.onTriggerResult?.(triggerResult)
     await this.start()
   }

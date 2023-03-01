@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AnyObject } from '@xyo-network/core'
 import {
   AbstractModule,
   ModuleConfig,
@@ -17,7 +18,14 @@ import { XyoWitnessConfig } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { WitnessModule } from './Witness'
 
-export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitnessConfig> extends AbstractModule<TConfig> implements WitnessModule {
+export type WitnessParams<
+  TConfig extends XyoWitnessConfig = XyoWitnessConfig,
+  TAdditionalParams extends AnyObject | undefined = undefined,
+> = ModuleParams<TConfig, TAdditionalParams>
+export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams>
+  extends AbstractModule<TParams>
+  implements WitnessModule<TParams['config']>
+{
   static override configSchema: string
 
   override get queries(): string[] {
@@ -70,9 +78,3 @@ export abstract class AbstractWitness<TConfig extends XyoWitnessConfig = XyoWitn
     }
   }
 }
-
-/** @deprecated use AbstractWitness instead */
-export abstract class XyoWitness<
-  TTarget extends XyoPayload = XyoPayload,
-  TConfig extends XyoWitnessConfig<TTarget> = XyoWitnessConfig<TTarget>,
-> extends AbstractWitness<TConfig> {}

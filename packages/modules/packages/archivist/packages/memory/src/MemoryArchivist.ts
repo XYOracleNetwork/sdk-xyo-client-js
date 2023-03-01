@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -27,12 +27,14 @@ export type MemoryArchivistConfig = ArchivistConfig<{
   schema: MemoryArchivistConfigSchema
 }>
 
-export class MemoryArchivist<TConfig extends MemoryArchivistConfig = MemoryArchivistConfig> extends AbstractArchivist<TConfig> {
+export class MemoryArchivist<
+  TParams extends ArchivistParams<MemoryArchivistConfig> = ArchivistParams<MemoryArchivistConfig>,
+> extends AbstractArchivist<TParams> {
   static override configSchema = MemoryArchivistConfigSchema
 
   private cache: LruCache<string, XyoPayload | null>
 
-  protected constructor(params: ModuleParams<TConfig>) {
+  protected constructor(params: TParams) {
     super(params)
     this.cache = new LruCache<string, XyoPayload | null>({ max: this.max })
   }

@@ -1,6 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistQuery } from '@xyo-network/archivist'
+import {
+  ArchivistFindQuerySchema,
+  ArchivistGetQuerySchema,
+  ArchivistInsertQuerySchema,
+  ArchivistParams,
+  ArchivistQuery,
+} from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -11,7 +17,7 @@ import { ArchiveModuleConfig } from './ArchiveModuleConfig'
 import { BoundWitnessArchivist } from './BoundWitnessArchivist'
 import { XyoBoundWitnessFilterPredicate } from './XyoBoundWitnessFilterPredicate'
 
-export abstract class AbstractBoundWitnessArchivist extends AbstractModule<ArchiveModuleConfig> implements BoundWitnessArchivist {
+export abstract class AbstractBoundWitnessArchivist extends AbstractModule<ArchivistParams<ArchiveModuleConfig>> implements BoundWitnessArchivist {
   override get queries(): string[] {
     return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }

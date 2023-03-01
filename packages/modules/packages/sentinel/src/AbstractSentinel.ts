@@ -13,15 +13,20 @@ import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQuery, SentinelReportQuerySchema } from './Queries'
 import { SentinelModule } from './SentinelModel'
 
-export type AbstractSentinelConfig = SentinelConfig<{
-  onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
-  onReportStart?: () => void
-  onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
-  onWitnessReportStart?: (witness: WitnessWrapper) => void
-  schema: SentinelConfigSchema
-}>
+export type AbstractSentinelParams<TConfig extends SentinelConfig = SentinelConfig> = ModuleParams<
+  TConfig,
+  {
+    onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
+    onReportStart?: () => void
+    onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
+    onWitnessReportStart?: (witness: WitnessWrapper) => void
+  }
+>
 
-export class AbstractSentinel<TConfig extends SentinelConfig = SentinelConfig> extends ArchivingModule<TConfig> implements SentinelModule<TConfig> {
+export class AbstractSentinel<TParams extends AbstractSentinelParams = AbstractSentinelParams>
+  extends ArchivingModule<TParams>
+  implements SentinelModule<TParams['config']>
+{
   static override configSchema: SentinelConfigSchema
 
   history: XyoBoundWitness[] = []
@@ -70,8 +75,7 @@ export class AbstractSentinel<TConfig extends SentinelConfig = SentinelConfig> e
     try {
       switch (typedQuery.schemaName) {
         case SentinelReportQuerySchema: {
-          const reportResult = await this.report(payloads)
-          resultPayloads.push(...(reportResult[0], reportResult[1]))
+          resultPayloads.push(...(await this.report(payloads)))
           break
         }
         default:
@@ -94,9 +98,9 @@ export class AbstractSentinel<TConfig extends SentinelConfig = SentinelConfig> e
     this._witnesses = undefined
   }
 
-  async report(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness, XyoPayload[]]> {
+  async report(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
     const errors: Error[] = []
-    this.config?.onReportStart?.()
+    this.params?.onReportStart?.()
     const allWitnesses = [...(await this.getWitnesses())]
     const allPayloads: XyoPayload[] = []
 
@@ -110,18 +114,8 @@ export class AbstractSentinel<TConfig extends SentinelConfig = SentinelConfig> e
 
     const [newBoundWitness] = await this.bindResult(allPayloads)
     this.history.push(assertEx(newBoundWitness))
-    this.config?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
-    return [newBoundWitness, allPayloads]
-  }
-
-  async tryReport(payloads: XyoPayload[] = []): Promise<[XyoBoundWitness | null, XyoPayload[]]> {
-    try {
-      return await this.report(payloads)
-    } catch (ex) {
-      const error = ex as Error
-      this.logger?.warn(`report failed [${error.message}]`)
-      return [null, []]
-    }
+    this.params?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
+    return [newBoundWitness, ...allPayloads]
   }
 
   private async generatePayloads(witnesses: WitnessWrapper[]): Promise<XyoPayload[]> {

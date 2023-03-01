@@ -1,12 +1,12 @@
 import { ModuleParams } from '@xyo-network/module'
 import { defaultSystemInfoConfig, XyoNodeSystemInfoSchema } from '@xyo-network/node-system-info-payload-plugin'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessModule } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
 import { get } from 'systeminformation'
 
 import { XyoNodeSystemInfoWitnessConfig, XyoNodeSystemInfoWitnessConfigSchema } from './Config'
 
-export class XyoNodeSystemInfoWitness extends AbstractWitness<XyoNodeSystemInfoWitnessConfig> implements WitnessModule {
+export class XyoNodeSystemInfoWitness extends AbstractWitness<WitnessParams<XyoNodeSystemInfoWitnessConfig>> implements WitnessModule {
   static override configSchema = XyoNodeSystemInfoWitnessConfigSchema
 
   static override async create(params?: ModuleParams<XyoNodeSystemInfoWitnessConfig>): Promise<XyoNodeSystemInfoWitness> {

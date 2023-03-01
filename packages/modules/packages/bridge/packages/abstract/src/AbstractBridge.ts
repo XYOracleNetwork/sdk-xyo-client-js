@@ -54,8 +54,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return await this.bindResult(resultPayloads, queryAccount)
   }
 
-  protected override async resolve(filter?: ModuleFilter) {
-    return [...(await super.resolve(filter)), ...(await this.targetDownResolver.resolve(filter))].filter(duplicateModules)
+  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
+    return [...(await super.resolve<TModule>(filter)), ...(await this.targetDownResolver.resolve<TModule>(filter))].filter(duplicateModules)
   }
 
   abstract connect(): Promisable<boolean>

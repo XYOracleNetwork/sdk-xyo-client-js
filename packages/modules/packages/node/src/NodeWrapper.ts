@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { ModuleWrapper } from '@xyo-network/module'
@@ -28,7 +28,7 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
     return this._archivist
   }
 
-  static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: Account): NodeWrapper | undefined {
+  static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
@@ -39,7 +39,7 @@ export class NodeWrapper extends ModuleWrapper implements NodeModule {
     }
   }
 
-  static override wrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: Account): NodeWrapper {
+  static override wrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as NodeWrapper')
   }
 

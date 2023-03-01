@@ -87,7 +87,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     )
   }
 
-  static tryWrap(module?: Module, account?: Account): ModuleWrapper | undefined {
+  static tryWrap(module?: Module, account?: AccountInstance): ModuleWrapper | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
@@ -98,7 +98,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     }
   }
 
-  static wrap(module?: Module, account?: Account): ModuleWrapper {
+  static wrap(module?: Module, account?: AccountInstance): ModuleWrapper {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ModuleWrapper')
   }
 

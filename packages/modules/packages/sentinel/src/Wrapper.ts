@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -11,12 +11,12 @@ import { Sentinel, SentinelModule } from './SentinelModel'
 export class SentinelWrapper extends ModuleWrapper implements Sentinel {
   static override requiredQueries = [SentinelReportQuerySchema, ...super.requiredQueries]
 
-  constructor(module: Module, account?: Account) {
+  constructor(module: Module, account?: AccountInstance) {
     super(module, account)
     assertEx(module.queries.includes(SentinelReportQuerySchema))
   }
 
-  static override tryWrap(module?: Module, account?: Account): SentinelWrapper | undefined {
+  static override tryWrap(module?: Module, account?: AccountInstance): SentinelWrapper | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
@@ -27,7 +27,7 @@ export class SentinelWrapper extends ModuleWrapper implements Sentinel {
     }
   }
 
-  static override wrap(module?: Module, account?: Account): SentinelWrapper {
+  static override wrap(module?: Module, account?: AccountInstance): SentinelWrapper {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as DivinerWrapper')
   }
 

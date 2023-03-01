@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { Diviner, DivinerModule, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
@@ -9,12 +9,12 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 export class DivinerWrapper extends ModuleWrapper implements Diviner {
   static override requiredQueries = [XyoDivinerDivineQuerySchema, ...super.requiredQueries]
 
-  constructor(module: Module, account?: Account) {
+  constructor(module: Module, account?: AccountInstance) {
     super(module, account)
     assertEx(module.queries.includes(XyoDivinerDivineQuerySchema))
   }
 
-  static override tryWrap(module?: Module, account?: Account): DivinerWrapper | undefined {
+  static override tryWrap(module?: Module, account?: AccountInstance): DivinerWrapper | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
@@ -25,7 +25,7 @@ export class DivinerWrapper extends ModuleWrapper implements Diviner {
     }
   }
 
-  static override wrap(module?: Module, account?: Account): DivinerWrapper {
+  static override wrap(module?: Module, account?: AccountInstance): DivinerWrapper {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as DivinerWrapper')
   }
 

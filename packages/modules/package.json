@@ -15,7 +15,6 @@
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node": "workspace:^",
-    "@xyo-network/panel": "workspace:^",
     "@xyo-network/sentinel": "workspace:^",
     "@xyo-network/witness": "workspace:^"
   },

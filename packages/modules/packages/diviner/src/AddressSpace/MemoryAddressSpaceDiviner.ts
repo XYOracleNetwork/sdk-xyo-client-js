@@ -44,7 +44,12 @@ export class MemoryAddressSpaceDiviner extends AbstractDiviner<DivinerParams<Mem
         }),
       )
     ).flat()
-    const addresses = new Set<string>(bwLists.map((bw) => bw.addresses).flat())
+    const addresses = new Set<string>(
+      bwLists
+        .map((bw) => bw.addresses)
+        .flat()
+        .map((address) => address.toLowerCase()),
+    )
     return [...addresses].map((address) => new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
   }
 }

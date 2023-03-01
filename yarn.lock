@@ -5065,7 +5065,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.16.0-rc.2
     "@xylabs/tsconfig": ^2.16.0-rc.2
-    "@xyo-network/payload-model": ^2.50.2
+    "@xyo-network/payload-model": ^2.50.3
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

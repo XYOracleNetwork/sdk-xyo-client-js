@@ -23,6 +23,7 @@ const archivists = [
 
 const diviners = [
   TYPES.AddressHistoryDiviner,
+  TYPES.AddressSpaceDiviner,
   TYPES.BoundWitnessDiviner,
   TYPES.BoundWitnessStatsDiviner,
   TYPES.ModuleAddressDiviner,

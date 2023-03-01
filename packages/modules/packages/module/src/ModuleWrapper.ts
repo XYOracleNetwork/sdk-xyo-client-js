@@ -120,6 +120,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
       }) ?? [],
     )
 
+    description.upResolve = (await this.module.upResolver.resolve()).map((module) => module.address)
+    description.downResolve = (await this.module.downResolver.resolve()).map((module) => module.address)
+
     return description
   }
 

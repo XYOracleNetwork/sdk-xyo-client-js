@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import {
   ArchivistAllQuery,
   ArchivistAllQuerySchema,
@@ -26,7 +26,7 @@ import compact from 'lodash/compact'
 export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
 
-  static override tryWrap(module?: Module, account?: Account): ArchivistWrapper | undefined {
+  static override tryWrap(module?: Module, account?: AccountInstance): ArchivistWrapper | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
@@ -37,7 +37,7 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
     }
   }
 
-  static override wrap(module?: Module, account?: Account): ArchivistWrapper {
+  static override wrap(module?: Module, account?: AccountInstance): ArchivistWrapper {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ArchivistWrapper')
   }
 

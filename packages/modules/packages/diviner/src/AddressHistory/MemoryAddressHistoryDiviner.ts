@@ -9,10 +9,10 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractDiviner, DivinerParams } from '../AbstractDiviner'
-import { AddressHistoryDiviner } from './AddressHistoryDiviner'
+import { AddressHistoryDiviner, AddressHistorySchema } from './AddressHistoryDiviner'
 
-export type MemoryAddressHistoryDivinerConfigSchema = 'network.xyo.diviner.address.history.memory.config'
-export const MemoryAddressHistoryDivinerConfigSchema = 'network.xyo.diviner.address.history.memory.config'
+export type MemoryAddressHistoryDivinerConfigSchema = `${AddressHistorySchema}.memory.config`
+export const MemoryAddressHistoryDivinerConfigSchema: MemoryAddressHistoryDivinerConfigSchema = `${AddressHistorySchema}.memory.config`
 
 export type MemoryAddressHistoryDivinerConfig = DivinerConfig<
   XyoBoundWitness,

@@ -1,14 +1,13 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
 
-import { MemoryAddressHistoryDiviner, MemoryAddressHistoryDivinerConfigSchema } from '../MemoryAddressHistoryDiviner'
+import { MemoryAddressSpaceDiviner, MemoryAddressSpaceDivinerConfigSchema } from '../MemoryAddressSpaceDiviner'
 
-describe('AddressHistoryDiviner', () => {
+describe('MemoryAddressSpaceDiviner', () => {
   describe('divine', () => {
     it('returns divined result', async () => {
       const node = await MemoryNode.create()
@@ -31,17 +30,16 @@ describe('AddressHistoryDiviner', () => {
       expect(all).toBeArrayOfSize(7)
 
       await node.register(archivist).attach(archivist.address)
-      const diviner = await MemoryAddressHistoryDiviner.create({
-        config: { address: account.addressValue.hex, schema: MemoryAddressHistoryDivinerConfigSchema },
+      const diviner = await MemoryAddressSpaceDiviner.create({
+        config: { address: account.addressValue.hex, schema: MemoryAddressSpaceDivinerConfigSchema },
       })
       await node.register(diviner).attach(diviner.address)
       const divinerWrapper = new DivinerWrapper(diviner)
       const result = await divinerWrapper.divine()
       expect(result.length).toBe(1)
-      const bw = BoundWitnessWrapper.parse(result[0])
-      expect(bw.schema).toBe(XyoBoundWitnessSchema)
-      expect(bw.addresses.includes(account.addressValue.hex)).toBeTrue()
-      expect(bw.hash).toBe(account.previousHash?.hex)
+      const payload = PayloadWrapper.parse<AddressPayload>(result[0])
+      expect(payload.schema).toBe(AddressSchema)
+      expect(payload.payload.address).toBe(account.addressValue.hex)
     })
   })
 })

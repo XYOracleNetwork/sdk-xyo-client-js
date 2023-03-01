@@ -20,7 +20,6 @@
     "@xylabs/bignumber": "^2.7.4",
     "@xylabs/delay": "^2.7.4",
     "@xylabs/promise": "^2.7.4",
-    "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/typechain": "^2.1.4",

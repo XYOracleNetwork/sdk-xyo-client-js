@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistGetQuerySchema } from '@xyo-network/archivist'
+import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { DivinerConfig } from '@xyo-network/diviner-model'
@@ -18,6 +18,7 @@ export type MemoryAddressSpaceDivinerConfig = DivinerConfig<
   XyoBoundWitness,
   {
     address: string
+    archivists?: string[]
     schema: MemoryAddressSpaceDivinerConfigSchema
   }
 >
@@ -34,13 +35,13 @@ export class MemoryAddressSpaceDiviner extends AbstractDiviner<DivinerParams<Mem
 
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
-    const archivists = (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
+    const archivists = await this.archivists()
     assertEx(archivists.length > 0, 'Did not find any archivists')
     const bwLists = (
       await Promise.all(
         archivists.map(async (archivist) => {
-          const all = await archivist.all()
-          return all.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
+          const all = await archivist.all?.()
+          return (all?.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]) ?? []
         }),
       )
     ).flat()
@@ -51,5 +52,14 @@ export class MemoryAddressSpaceDiviner extends AbstractDiviner<DivinerParams<Mem
         .map((address) => address.toLowerCase()),
     )
     return [...addresses].map((address) => new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
+  }
+
+  private async archivists(): Promise<ArchivistModule[]> {
+    if (this.config.archivists) {
+      return await this.resolve<ArchivistModule>({ address: this.config.archivists })
+    } else {
+      //get all reachable archivists
+      return (await this.resolve<ArchivistModule>({ query: [[ArchivistGetQuerySchema]] })).map((archivist) => new ArchivistWrapper(archivist))
+    }
   }
 }

@@ -48,6 +48,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: TParams) {
+    //we copy this to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
     //TODO: change wallet to use accountDerivationPath
@@ -239,8 +240,8 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return account ?? new Account()
   }
 
-  protected async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return [...(await this.upResolver.resolve(filter)), ...(await this.downResolver.resolve(filter))].filter(duplicateModules)
+  protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
+    return [...(await this.upResolver.resolve<TModule>(filter)), ...(await this.downResolver.resolve<TModule>(filter))].filter(duplicateModules)
   }
 
   protected start(_timeout?: number): Promisable<this> {

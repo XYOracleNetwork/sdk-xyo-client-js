@@ -183,8 +183,8 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
     throw new Error('Method not implemented.')
   }
 
-  protected override async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return [...(await this.privateResolver.resolve(filter)), ...(await super.resolve(filter))].filter(duplicateModules)
+  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
+    return [...(await this.privateResolver.resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
   }
 
   abstract attach(address: string, external?: boolean): Promisable<void>

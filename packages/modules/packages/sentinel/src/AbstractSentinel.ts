@@ -37,7 +37,7 @@ export class AbstractSentinel<TParams extends AbstractSentinelParams = AbstractS
     return [SentinelReportQuerySchema, ...super.queries]
   }
 
-  static override async create(params?: Partial<ModuleParams<SentinelConfig>>): Promise<AbstractSentinel> {
+  static override async create(params?: AbstractSentinelParams): Promise<AbstractSentinel> {
     return (await super.create(params)) as AbstractSentinel
   }
 

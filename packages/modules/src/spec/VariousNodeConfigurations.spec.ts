@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
-import { MemoryAddressHistoryDiviner, MemoryAddressHistoryDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressHistoryDivinerConfigSchema, MemoryAddressHistoryDiviner } from '@xyo-network/diviner'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { AbstractModule } from '@xyo-network/module'
 import { MemoryNode, NodeConfigSchema, NodeWrapper } from '@xyo-network/node'
@@ -38,7 +38,7 @@ describe('MultiNodeConfiguration', () => {
     leftInternalArchivist2 = await MemoryArchivist.create({ config: { name: 'leftInternalArchivist2', schema: MemoryArchivistConfigSchema } })
     leftExternalArchivist = await MemoryArchivist.create({ config: { name: 'archivist', schema: MemoryArchivistConfigSchema } })
     leftDiviner = await MemoryAddressHistoryDiviner.create({
-      config: { address: leftNode.address, name: 'leftDiviner', schema: MemoryAddressHistoryDivinerConfigSchema },
+      config: { address: leftNode.address, name: 'leftDiviner', schema: AddressHistoryDivinerConfigSchema },
     })
     await leftNode.register(leftInternalArchivist).attach(leftInternalArchivist.address)
     await leftNode.register(leftInternalArchivist2).attach(leftInternalArchivist2.address)

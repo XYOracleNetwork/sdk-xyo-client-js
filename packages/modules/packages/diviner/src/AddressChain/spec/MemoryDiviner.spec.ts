@@ -6,7 +6,8 @@ import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { MemoryAddressHistoryDiviner, MemoryAddressHistoryDivinerConfigSchema } from '../MemoryAddressHistoryDiviner'
+import { AddressChainDivinerConfigSchema } from '../Config'
+import { MemoryAddressChainDiviner } from '../MemoryDiviner'
 
 describe('MemoryAddressHistoryDiviner', () => {
   describe('divine', () => {
@@ -31,8 +32,8 @@ describe('MemoryAddressHistoryDiviner', () => {
       expect(all).toBeArrayOfSize(7)
 
       await node.register(archivist).attach(archivist.address)
-      const diviner = await MemoryAddressHistoryDiviner.create({
-        config: { address: account.addressValue.hex, schema: MemoryAddressHistoryDivinerConfigSchema },
+      const diviner = await MemoryAddressChainDiviner.create({
+        config: { address: account.addressValue.hex, schema: AddressChainDivinerConfigSchema },
       })
       await node.register(diviner).attach(diviner.address)
       const divinerWrapper = new DivinerWrapper(diviner)

@@ -7,7 +7,7 @@ import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
 
 import { MemoryAddressSpaceDiviner, MemoryAddressSpaceDivinerConfigSchema } from '../MemoryAddressSpaceDiviner'
 
-describe('AddressSpaceDiviner', () => {
+describe('MemoryAddressSpaceDiviner', () => {
   describe('divine', () => {
     it('returns divined result', async () => {
       const node = await MemoryNode.create()

@@ -10,6 +10,11 @@ import { request } from '../../testUtil'
 
 describe('Node API', () => {
   const account = Account.random()
+  beforeAll(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {
+      // Stop expected logs from being generated during tests
+    })
+  })
   describe('/', () => {
     const path = '/node'
     describe('GET', () => {

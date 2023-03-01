@@ -25,6 +25,11 @@ describe('MemoryNode', () => {
   const archivistConfig = { schema: MemoryArchivistConfigSchema }
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
+  beforeAll(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {
+      // Stop expected logs from being generated during tests
+    })
+  })
   beforeEach(async () => {
     node = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
   })

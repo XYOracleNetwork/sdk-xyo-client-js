@@ -49,8 +49,6 @@ export class MemoryAddressHistoryDiviner extends AbstractDiviner<DivinerParams<M
 
     const chains = Object.values(this.buildAddressChains(this.config.address, bwRecords))
 
-    console.log(`Chains: ${JSON.stringify(chains, null, 2)}`)
-
     //return the heads of each chain (get the last bw on each chain)
     return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
   }

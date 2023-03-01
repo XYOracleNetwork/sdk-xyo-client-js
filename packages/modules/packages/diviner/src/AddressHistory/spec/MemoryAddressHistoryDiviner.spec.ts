@@ -8,7 +8,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryAddressHistoryDiviner, MemoryAddressHistoryDivinerConfigSchema } from '../MemoryAddressHistoryDiviner'
 
-describe('AddressHistoryDiviner', () => {
+describe('MemoryAddressHistoryDiviner', () => {
   describe('divine', () => {
     it('returns divined result', async () => {
       const node = await MemoryNode.create()

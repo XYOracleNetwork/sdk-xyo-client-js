@@ -18,7 +18,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements NodeModule {
+export class NodeWrapper extends ModuleWrapper implements NodeModule {
   static override requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   private _archivist?: ArchivistWrapper
@@ -28,18 +28,18 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     return this._archivist
   }
 
-  static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: Account): NodeWrapper<TModule> | undefined {
+  static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: Account): NodeWrapper | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
         console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
-        return new NodeWrapper<TModule>(module as TModule, account)
+        return new NodeWrapper(module as TModule, account)
       }
     }
   }
 
-  static override wrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: Account): NodeWrapper<TModule> {
+  static override wrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: Account): NodeWrapper {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as NodeWrapper')
   }
 

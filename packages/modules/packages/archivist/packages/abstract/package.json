@@ -15,6 +15,7 @@
     "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",

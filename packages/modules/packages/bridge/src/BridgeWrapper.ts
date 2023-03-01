@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { BridgeModule, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
 import {
   Module,
@@ -20,7 +20,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return this.module.targetDownResolver
   }
 
-  static override tryWrap(module?: Module, account?: Account): BridgeWrapper | undefined {
+  static override tryWrap(module?: Module, account?: AccountInstance): BridgeWrapper | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
@@ -31,7 +31,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     }
   }
 
-  static override wrap(module?: Module, account?: Account): BridgeWrapper {
+  static override wrap(module?: Module, account?: AccountInstance): BridgeWrapper {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as DivinerWrapper')
   }
 

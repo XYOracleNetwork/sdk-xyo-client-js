@@ -12,6 +12,8 @@
   "dependencies": {
     "@xylabs/assert": "^2.7.4",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/account-model": "workspace:^",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",

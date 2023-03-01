@@ -36,7 +36,7 @@ export const addMemoryNode = async (container: Container, memoryNode?: MemoryNod
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
-  addDynamicArchivists(container, node)
+  //  addDynamicArchivists(container, node)
 }
 
 const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {

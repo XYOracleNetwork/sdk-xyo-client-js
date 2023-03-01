@@ -81,10 +81,10 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
     return this
   }
 
-  protected override async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    const internal: Promise<Module[]> = this.privateResolver.resolve(filter)
-    const up: Promise<Module[]> = this.upResolver?.resolve(filter) || []
-    const down: Promise<Module[]> = this.downResolver?.resolve(filter) || []
+  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
+    const internal: Promise<TModule[]> = this.privateResolver.resolve<TModule>(filter)
+    const up: Promise<TModule[]> = this.upResolver?.resolve<TModule>(filter) || []
+    const down: Promise<TModule[]> = this.downResolver?.resolve<TModule>(filter) || []
     const resolved = await Promise.allSettled([internal, up, down])
 
     const errors = resolved.filter(rejected).map((r) => Error(r.reason))

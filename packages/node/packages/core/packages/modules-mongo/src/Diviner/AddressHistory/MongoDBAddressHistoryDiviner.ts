@@ -13,21 +13,16 @@ import { ModuleParams } from '@xyo-network/module'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider } from '@xyo-network/shared'
 import { Filter } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export class MongoDBAddressHistoryDiviner extends AbstractDiviner implements AddressHistoryDiviner, JobProvider {
+export class MongoDBAddressHistoryDiviner extends AbstractDiviner implements AddressHistoryDiviner {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-
-  get jobs(): Job[] {
-    return []
-  }
 
   static override async create(params?: Partial<ModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBAddressHistoryDiviner> {
     return (await super.create(params)) as MongoDBAddressHistoryDiviner

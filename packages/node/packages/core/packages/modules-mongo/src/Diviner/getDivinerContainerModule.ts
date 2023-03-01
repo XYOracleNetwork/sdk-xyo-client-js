@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { AddressHistoryDiviner, XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressHistoryDiviner, AddressSpaceDiviner, XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
 import { Module } from '@xyo-network/module-model'
 import {
   ArchiveArchivist,
@@ -16,6 +16,7 @@ import { JobProvider } from '@xyo-network/shared'
 import { Container, ContainerModule, interfaces } from 'inversify'
 
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
+import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBArchiveBoundWitnessStatsDiviner, MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
@@ -28,6 +29,9 @@ export const getDivinerContainerModule = async (container: Container) => {
   const archiveArchivist: ArchiveArchivist = container.get<ArchiveArchivist>(TYPES.ArchiveArchivist)
   const mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create({
     config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
+  })
+  const mongoDBAddressSpaceDiviner = await MongoDBAddressSpaceDiviner.create({
+    config: { name: TYPES.AddressSpaceDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
   })
   const mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create({
     config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
@@ -57,8 +61,11 @@ export const getDivinerContainerModule = async (container: Container) => {
   return new ContainerModule((bind: interfaces.Bind) => {
     bind(MongoDBAddressHistoryDiviner).toConstantValue(mongoDBAddressHistoryDiviner)
     bind<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner).toService(MongoDBAddressHistoryDiviner)
-    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBAddressHistoryDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBAddressHistoryDiviner)
+
+    bind(MongoDBAddressSpaceDiviner).toConstantValue(mongoDBAddressSpaceDiviner)
+    bind<AddressSpaceDiviner>(TYPES.AddressSpaceDiviner).toService(MongoDBAddressSpaceDiviner)
+    bind<Module>(TYPES.Module).toService(MongoDBAddressSpaceDiviner)
 
     bind(MongoDBBoundWitnessDiviner).toConstantValue(mongoDBBoundWitnessDiviner)
     bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toService(MongoDBBoundWitnessDiviner)

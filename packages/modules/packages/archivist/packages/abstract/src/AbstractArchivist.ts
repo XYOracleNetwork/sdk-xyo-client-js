@@ -173,7 +173,6 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
       read: await this.resolveArchivists(this.config?.parents?.read),
       write: await this.resolveArchivists(this.config?.parents?.write),
     }
-    console.log('parents', this._parents)
     return assertEx(this._parents)
   }
 

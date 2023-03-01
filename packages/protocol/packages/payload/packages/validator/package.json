@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/schema-name-validator": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.0-rc.2",

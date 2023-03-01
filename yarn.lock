@@ -6734,6 +6734,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.0-rc.2
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/schema-name-validator": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

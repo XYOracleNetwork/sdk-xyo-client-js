@@ -1,8 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
-import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'

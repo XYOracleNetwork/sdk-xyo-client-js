@@ -73,7 +73,7 @@ describe('MultiNodeConfiguration', () => {
     expect((await leftInternalArchivist2Wrapper.resolve({ address: [rightWitness.address] })).length).toBe(0)
     expect((await leftInternalArchivist2Wrapper.resolve({ name: ['rightWitness'] })).length).toBe(0)
 
-    // internal: should be resolvable by rightNode
+    // internal: should not be resolvable by anyone outside of node, including wrapper
 
     expect((await rightNode.downResolver.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
     expect((await rightNode.downResolver.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)

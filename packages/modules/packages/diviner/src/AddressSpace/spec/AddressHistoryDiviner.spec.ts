@@ -5,6 +5,7 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
 
 import { MemoryAddressSpaceDiviner, MemoryAddressSpaceDivinerConfigSchema } from '../MemoryAddressSpaceDiviner'
 
@@ -38,10 +39,9 @@ describe('AddressSpaceDiviner', () => {
       const divinerWrapper = new DivinerWrapper(diviner)
       const result = await divinerWrapper.divine()
       expect(result.length).toBe(1)
-      const bw = BoundWitnessWrapper.parse(result[0])
-      expect(bw.schema).toBe(XyoBoundWitnessSchema)
-      expect(bw.addresses.includes(account.addressValue.hex)).toBeTrue()
-      expect(bw.hash).toBe(account.previousHash?.hex)
+      const payload = PayloadWrapper.parse<AddressPayload>(result[0])
+      expect(payload.schema).toBe(AddressSchema)
+      expect(payload.payload.address).toBe(account.addressValue.hex)
     })
   })
 })

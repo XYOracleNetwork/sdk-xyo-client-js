@@ -1,7 +1,9 @@
 import { Account } from '@xyo-network/account'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
 
@@ -17,10 +19,12 @@ describe('MongoDBAddressSpaceDiviner', () => {
       it('divines', async () => {
         const query: AddressSpaceQueryPayload = { address, limit: 1, schema: AddressSpaceQuerySchema }
         const result = await sut.divine([query])
-        expect(result).toBeArrayOfSize(1)
-        const actual = result[0] as XyoBoundWitnessWithPartialMeta
-        expect(actual).toBeObject()
-        expect(actual.schema).toBe(XyoBoundWitnessSchema)
+        expect(result).toBeArray()
+        result.map((address) => {
+          const payload = PayloadWrapper.parse<AddressPayload>(address)
+          expect(payload.schema).toBe(AddressSchema)
+          expect(payload.payload.address).toBeString()
+        })
       })
     })
   })

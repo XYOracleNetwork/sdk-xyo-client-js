@@ -20,6 +20,7 @@ describe('MongoDBAddressSpaceDiviner', () => {
         const query: AddressSpaceQueryPayload = { address, limit: 1, schema: AddressSpaceQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArray()
+        expect(result.length).toBeGreaterThan(0)
         result.map((address) => {
           const payload = PayloadWrapper.parse<AddressPayload>(address)
           expect(payload.schema).toBe(AddressSchema)

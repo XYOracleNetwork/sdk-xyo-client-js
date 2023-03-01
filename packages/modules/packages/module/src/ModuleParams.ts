@@ -1,7 +1,6 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { AnyObject } from '@xyo-network/core'
+import { AnyObject, BaseParams } from '@xyo-network/core'
 import { ModuleConfig } from '@xyo-network/module-model'
-import { Logger } from '@xyo-network/shared'
 import { XyoWalletBase } from '@xyo-network/wallet'
 
 export type WithAdditional<T, TAdditional extends AnyObject | undefined = undefined> = TAdditional extends AnyObject ? T & TAdditional : T
@@ -10,10 +9,9 @@ export type BasicModuleParams<
   TConfig extends ModuleConfig = ModuleConfig,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = WithAdditional<
-  {
+  BaseParams<{
     config: TConfig
-    logger?: Logger
-  },
+  }>,
   TAdditionalParams
 >
 

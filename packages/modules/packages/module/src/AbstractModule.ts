@@ -27,8 +27,8 @@ import compact from 'lodash/compact'
 
 import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
+import { IdLogger } from './IdLogger'
 import { duplicateModules, serializableField } from './lib'
-import { Logging } from './Logging'
 import { AccountModuleParams, ModuleParams, WalletModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
@@ -43,27 +43,26 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
 
   protected _started = false
   protected readonly account: AccountInstance
-  protected readonly logger?: Logging
   protected readonly moduleConfigQueryValidator: Queryable
 
   protected readonly supportedQueryValidator: Queryable
 
   protected constructor(params: TParams) {
+    const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
     //TODO: change wallet to use accountDerivationPath
-    const account = (params as WalletModuleParams<TParams['config']>).wallet
-      ? (params as WalletModuleParams<TParams['config']>).wallet.getAccount(0)
-      : (params as AccountModuleParams<TParams['config']>).account
-      ? (params as AccountModuleParams<TParams['config']>).account
+    const account = (mutatedParams as WalletModuleParams<TParams['config']>).wallet
+      ? (mutatedParams as WalletModuleParams<TParams['config']>).wallet.getAccount(0)
+      : (mutatedParams as AccountModuleParams<TParams['config']>).account
+      ? (mutatedParams as AccountModuleParams<TParams['config']>).account
       : undefined
 
-    params.logger = activeLogger ? new Logging(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
-    super(params)
+    mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
+    super(mutatedParams)
     this.account = this.loadAccount(account)
     this.downResolver.add(this)
     this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
-    this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(params?.config).queryable
-    this.logger?.log(`Logger: ${!!this.logger}`)
+    this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
   }
 
   get address() {

@@ -1,6 +1,6 @@
 import { getFunctionName, Logger } from '@xyo-network/shared'
 
-export class Logging implements Logger {
+export class IdLogger implements Logger {
   private _id?: () => string
   private _logger: Logger
 

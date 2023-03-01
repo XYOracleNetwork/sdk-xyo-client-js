@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { AddressHistoryDiviner, XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressHistoryDiviner, AddressSpaceDiviner, XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
 import { Module } from '@xyo-network/module-model'
 import {
   ArchiveArchivist,
@@ -16,6 +16,7 @@ import { JobProvider } from '@xyo-network/shared'
 import { ContainerModule, interfaces } from 'inversify'
 
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
+import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBArchiveBoundWitnessStatsDiviner, MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
@@ -25,6 +26,7 @@ import { MongoDBArchivePayloadStatsDiviner, MongoDBArchivePayloadStatsDivinerCon
 import { MongoDBArchiveSchemaStatsDiviner, MongoDBArchiveSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
+let mongoDBAddressSpaceDiviner: MongoDBAddressSpaceDiviner
 let mongoDBBoundWitnessDiviner: MongoDBBoundWitnessDiviner
 let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBArchiveBoundWitnessStatsDiviner
 let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
@@ -38,6 +40,12 @@ const getMongoDBAddressHistoryDiviner = async () => {
   const params = { config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
   return mongoDBAddressHistoryDiviner
+}
+const getMongoDBAddressSpaceDiviner = async () => {
+  if (mongoDBAddressSpaceDiviner) return mongoDBAddressSpaceDiviner
+  const params = { config: { name: TYPES.AddressSpaceDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  mongoDBAddressSpaceDiviner = await MongoDBAddressSpaceDiviner.create(params)
+  return mongoDBAddressSpaceDiviner
 }
 const getMongoDBBoundWitnessDiviner = async () => {
   if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
@@ -100,6 +108,10 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<AddressHistoryDiviner>(TYPES.AddressHistoryDiviner).toDynamicValue(getMongoDBAddressHistoryDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBAddressHistoryDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBAddressHistoryDiviner).inSingletonScope()
+
+  bind(MongoDBAddressSpaceDiviner).toDynamicValue(getMongoDBAddressSpaceDiviner).inSingletonScope()
+  bind<AddressSpaceDiviner>(TYPES.AddressSpaceDiviner).toDynamicValue(getMongoDBAddressSpaceDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBAddressSpaceDiviner).inSingletonScope()
 
   bind(MongoDBBoundWitnessDiviner).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
   bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()

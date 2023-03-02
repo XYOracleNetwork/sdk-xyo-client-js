@@ -1,29 +1,33 @@
-import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { AbstractArchivist, ArchivingModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleConfig, ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AnyObject } from '@xyo-network/core'
+import { ModuleParams, WithAdditional } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
-import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
-import { SentinelQuery, SentinelReportQuerySchema } from './Queries'
+import { SentinelReportQuerySchema } from './Queries'
 import { SentinelModule } from './SentinelModel'
 
-export type AbstractSentinelParams<TConfig extends SentinelConfig = SentinelConfig> = ModuleParams<
+export type SentinelParams<
+  TConfig extends SentinelConfig = SentinelConfig,
+  TAdditionalParams extends AnyObject | undefined = undefined,
+> = ModuleParams<
   TConfig,
-  {
-    onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
-    onReportStart?: () => void
-    onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
-    onWitnessReportStart?: (witness: WitnessWrapper) => void
-  }
+  WithAdditional<
+    {
+      onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
+      onReportStart?: () => void
+      onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
+      onWitnessReportStart?: (witness: WitnessWrapper) => void
+    },
+    TAdditionalParams
+  >
 >
 
-export class AbstractSentinel<TParams extends AbstractSentinelParams = AbstractSentinelParams>
+export abstract class AbstractSentinel<TParams extends SentinelParams<SentinelConfig> = SentinelParams<SentinelConfig>>
   extends ArchivingModule<TParams>
   implements SentinelModule<TParams['config']>
 {
@@ -35,10 +39,6 @@ export class AbstractSentinel<TParams extends AbstractSentinelParams = AbstractS
 
   override get queries(): string[] {
     return [SentinelReportQuerySchema, ...super.queries]
-  }
-
-  static override async create(params?: AbstractSentinelParams): Promise<AbstractSentinel> {
-    return (await super.create(params)) as AbstractSentinel
   }
 
   addWitness(address: string[]) {
@@ -62,32 +62,6 @@ export class AbstractSentinel<TParams extends AbstractSentinelParams = AbstractS
     return this._witnesses
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
-    query: T,
-    payloads?: XyoPayload[],
-    queryConfig?: TConfig,
-  ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQuery>(query, payloads)
-    const typedQuery = wrapper.query
-    assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
-    try {
-      switch (typedQuery.schemaName) {
-        case SentinelReportQuerySchema: {
-          resultPayloads.push(...(await this.report(payloads)))
-          break
-        }
-        default:
-          return super.query(query, payloads)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
-    }
-    return await this.bindResult(resultPayloads, queryAccount)
-  }
-
   removeArchivist(address: string[]) {
     this.config.archivists = (this.config.archivists ?? []).filter((archivist) => !address.includes(archivist))
     this._archivists = undefined
@@ -98,27 +72,5 @@ export class AbstractSentinel<TParams extends AbstractSentinelParams = AbstractS
     this._witnesses = undefined
   }
 
-  async report(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
-    const errors: Error[] = []
-    this.params?.onReportStart?.()
-    const allWitnesses = [...(await this.getWitnesses())]
-    const allPayloads: XyoPayload[] = []
-
-    try {
-      const generatedPayloads = compact(await this.generatePayloads(allWitnesses))
-      const combinedPayloads = [...generatedPayloads, ...payloads]
-      allPayloads.push(...combinedPayloads)
-    } catch (e) {
-      errors.push(e as Error)
-    }
-
-    const [newBoundWitness] = await this.bindResult(allPayloads)
-    this.history.push(assertEx(newBoundWitness))
-    this.params?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
-    return [newBoundWitness, ...allPayloads]
-  }
-
-  private async generatePayloads(witnesses: WitnessWrapper[]): Promise<XyoPayload[]> {
-    return (await Promise.all(witnesses?.map(async (witness) => await witness.observe()))).flat()
-  }
+  abstract report(payloads?: XyoPayload[]): Promise<XyoPayload[]>
 }

@@ -3,13 +3,13 @@ import { MemoryNode } from '@xyo-network/node'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
-import { AbstractSentinel } from '../AbstractSentinel'
 import { SentinelAutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'
 import { SentinelConfig, SentinelConfigSchema } from '../Config'
+import { MemorySentinel } from '../MemorySentinel'
 import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
 
 describe('SentinelRunner', () => {
-  let sentinel: AbstractSentinel
+  let sentinel: MemorySentinel
   let config: SentinelConfig
 
   beforeEach(async () => {
@@ -27,7 +27,7 @@ describe('SentinelRunner', () => {
       witnesses,
     }
 
-    sentinel = await AbstractSentinel.create({ config })
+    sentinel = await MemorySentinel.create({ config })
     await node.register(sentinel).attach(sentinel.address)
   })
 

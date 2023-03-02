@@ -1,12 +1,12 @@
 import { MemoryNode } from '@xyo-network/modules'
-import { AbstractSentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
+import { MemorySentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 
 import { getAccount, WalletPaths } from '../../Account'
 import { getArchivists } from '../../Archivists'
 import { getProvider } from '../../Providers'
 import { getEthereumGasWitness } from '../../Witnesses'
 
-export const getWitnessPanel = async (provider = getProvider()): Promise<AbstractSentinel> => {
+export const getWitnessPanel = async (provider = getProvider()): Promise<MemorySentinel> => {
   const account = getAccount(WalletPaths.CryptoMarketWitnessPanel)
   const archivists = await getArchivists()
   const witnesses = await getEthereumGasWitness(provider)
@@ -17,7 +17,7 @@ export const getWitnessPanel = async (provider = getProvider()): Promise<Abstrac
     witnesses: witnesses.map((mod) => mod.address),
   }
   const node = await MemoryNode.create()
-  const sentinel = await AbstractSentinel.create({ account, config })
+  const sentinel = await MemorySentinel.create({ account, config })
   const witnessAddresses = await Promise.all(
     witnesses.map(async (witness) => {
       await node.register(witness).attach(witness.address)

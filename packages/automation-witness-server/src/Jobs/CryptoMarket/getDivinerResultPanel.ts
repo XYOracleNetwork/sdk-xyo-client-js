@@ -1,6 +1,6 @@
 import { MemoryNode } from '@xyo-network/modules'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractSentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
+import { AbstractSentinel, MemorySentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 import { XyoAdhocWitness, XyoAdhocWitnessConfig, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { getAccount, WalletPaths } from '../../Account'
@@ -17,7 +17,7 @@ export const getDivinerResultPanel = async (prices: XyoPayload): Promise<Abstrac
     witnesses: witnesses.map((mod) => mod.address),
   }
   const node = await MemoryNode.create()
-  const sentinel = await AbstractSentinel.create({ account, config: panelConfig })
+  const sentinel = await MemorySentinel.create({ account, config: panelConfig })
   const witnessAddresses = await Promise.all(
     witnesses.map(async (witness) => {
       await node.register(witness).attach(witness.address)

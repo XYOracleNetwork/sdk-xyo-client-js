@@ -5,8 +5,6 @@ import { Express } from 'express'
 import { getArchive, getArchives, putArchive } from '../routes'
 import { addArchiveSettingsRoutes } from './addArchiveSettingsRoutes'
 
-const addLegacyRoutes = true
-
 export const addArchiveRoutes = (app: Express) => {
   app.get(
     '/archive',

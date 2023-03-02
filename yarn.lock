@@ -4820,14 +4820,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
   dependencies:
-    "@types/lodash": ^4.14.191
     "@xylabs/assert": ^2.7.4
     "@xylabs/delay": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.16.0-rc.2
     "@xylabs/tsconfig": ^2.16.0-rc.2
     "@xyo-network/account": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
-    "@xyo-network/archivist": "workspace:^"
     "@xyo-network/axios": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -4838,9 +4836,6 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/schema-payload-plugin": "workspace:^"
-    lodash: ^4.17.21
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -4936,7 +4931,6 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.0-rc.2
     "@xylabs/tsconfig-jest": ^2.16.0-rc.2
     "@xyo-network/account": "workspace:^"
-    "@xyo-network/api": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
     "@xyo-network/archivist-interface": "workspace:^"
     "@xyo-network/blocknative-ethereum-gas-plugin": "workspace:^"
@@ -5936,7 +5930,6 @@ __metadata:
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/diviner-wrapper": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/express-node-lib": "workspace:^"
     "@xyo-network/express-node-middleware": "workspace:^"
@@ -6031,7 +6024,6 @@ __metadata:
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/schema-name-validator": "workspace:^"
-    "@xyo-network/schema-payload-plugin": "workspace:^"
     dotenv: ^16.0.3
     express: ^4.18.2
     http-status-codes: ^2.2.0

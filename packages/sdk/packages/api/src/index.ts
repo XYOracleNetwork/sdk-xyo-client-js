@@ -1,5 +1,4 @@
 export * from './Api'
-export * from './Archivist'
 export * from './Base'
 export * from './Diviner'
 export * from './models'

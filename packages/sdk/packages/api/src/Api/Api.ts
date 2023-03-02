@@ -7,22 +7,9 @@ import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { XyoApiSimple } from '../Simple'
 import { XyoUserApi } from '../User'
 import { XyoAccountApi } from './Account'
-import { XyoArchivistArchiveApi } from './Archive'
-import { XyoArchivistArchivesApi } from './Archives'
 
 export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<XyoPayloads, C> {
-  private _archives?: XyoArchivistArchivesApi
   private _user?: XyoUserApi
-
-  get archives(): XyoArchivistArchivesApi {
-    this._archives =
-      this._archives ??
-      new XyoArchivistArchivesApi({
-        ...this.config,
-        root: `${this.root}archive/`,
-      })
-    return this._archives
-  }
 
   get user(): XyoUserApi {
     this._user =
@@ -38,14 +25,6 @@ export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoA
     return new XyoAccountApi({
       ...this.config,
       root: `${this.root}wallet/${new AddressValue(address).hex}/`,
-    })
-  }
-
-  archive(archive = 'temp') {
-    const pureArchive = archive.toLowerCase()
-    return new XyoArchivistArchiveApi({
-      ...this.config,
-      root: `${this.root}archive/${pureArchive}/`,
     })
   }
 

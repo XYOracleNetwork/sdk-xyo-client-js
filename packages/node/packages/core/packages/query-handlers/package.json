@@ -41,8 +41,8 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.16.0-rc.2",
-    "@xylabs/tsconfig": "^2.16.0-rc.2",
+    "@xylabs/ts-scripts-yarn3": "^2.16.0",
+    "@xylabs/tsconfig": "^2.16.0",
     "typescript": "^4.9.5"
   },
   "types": "dist/types/index.d.ts"

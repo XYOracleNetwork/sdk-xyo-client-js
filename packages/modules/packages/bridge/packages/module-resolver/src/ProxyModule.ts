@@ -1,10 +1,21 @@
 import { assertEx } from '@xylabs/assert'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { CompositeModuleResolver, Module, ModuleConfig, ModuleFilter, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  CompositeModuleResolver,
+  EventListener,
+  Module,
+  ModuleConfig,
+  ModuleFilter,
+  ModuleQueriedEvent,
+  ModuleQueriedEventArgs,
+  ModuleQueryResult,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 export class ProxyModule implements Module {
   readonly upResolver = new CompositeModuleResolver()
+  protected readonly moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
 
   constructor(protected readonly bridge: BridgeModule, protected readonly _address: string) {}
 
@@ -24,8 +35,20 @@ export class ProxyModule implements Module {
     return this.bridge.targetQueries(this.address)
   }
 
+  on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void): this {
+    switch (event) {
+      case ModuleQueriedEvent:
+        this.moduleQueriedEventListeners?.push(listener as EventListener<ModuleQueriedEventArgs>)
+        break
+    }
+    return this
+  }
+
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    return assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
+    const result = assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
+    const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+    this.moduleQueriedEventListeners?.map((listener) => listener(args))
+    return result
   }
 
   async queryable(query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): Promise<boolean> {

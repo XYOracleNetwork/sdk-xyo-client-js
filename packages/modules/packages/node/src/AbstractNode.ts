@@ -47,7 +47,6 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
 
   protected readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
   protected readonly moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
-  protected readonly moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
   protected readonly moduleRegisteredEventListeners: EventListener<ModuleRegisteredEventArgs>[] = []
 
   protected readonly privateResolver = new CompositeModuleResolver()
@@ -91,11 +90,11 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
     return [...(await super.discover()), ...childModAddresses]
   }
 
-  on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void): this
-  on(event: ModuleAttachedEvent, listener: (args: ModuleAttachedEventArgs) => void): this
-  on(event: ModuleDetachedEvent, listener: (args: ModuleDetachedEventArgs) => void): this
-  on(event: ModuleRegisteredEvent, listener: (args: ModuleRegisteredEventArgs) => void): this
-  on(
+  override on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void): this
+  override on(event: ModuleAttachedEvent, listener: (args: ModuleAttachedEventArgs) => void): this
+  override on(event: ModuleDetachedEvent, listener: (args: ModuleDetachedEventArgs) => void): this
+  override on(event: ModuleRegisteredEvent, listener: (args: ModuleRegisteredEventArgs) => void): this
+  override on(
     event: ModuleQueriedEvent | ModuleAttachedEvent | ModuleDetachedEvent | ModuleRegisteredEvent,
     listener: (args: ModuleQueriedEventArgs) => void,
   ): this {
@@ -109,9 +108,8 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
       case ModuleRegisteredEvent:
         this.moduleRegisteredEventListeners?.push(listener as EventListener<ModuleRegisteredEventArgs>)
         break
-      case ModuleQueriedEvent:
-        this.moduleQueriedEventListeners?.push(listener as EventListener<ModuleQueriedEventArgs>)
-        break
+      default:
+        return super.on(event, listener)
     }
     return this
   }

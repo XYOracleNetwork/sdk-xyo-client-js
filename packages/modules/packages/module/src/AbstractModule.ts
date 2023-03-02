@@ -7,10 +7,13 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { Base } from '@xyo-network/core'
 import {
+  EventListener,
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
+  ModuleQueriedEvent,
+  ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryResult,
   ModuleSubscribeQuerySchema,
@@ -44,6 +47,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
   protected _started = false
   protected readonly account: AccountInstance
   protected readonly moduleConfigQueryValidator: Queryable
+  protected readonly moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
 
   protected readonly supportedQueryValidator: Queryable
 
@@ -106,6 +110,15 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return compact([config, configSchema, address, ...queries])
   }
 
+  on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void): this {
+    switch (event) {
+      case ModuleQueriedEvent:
+        this.moduleQueriedEventListeners?.push(listener as EventListener<ModuleQueriedEventArgs>)
+        break
+    }
+    return this
+  }
+
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
@@ -139,7 +152,12 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
       const error = ex as Error
       resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
     }
-    return this.bindResult(resultPayloads, queryAccount)
+    const result = await this.bindResult(resultPayloads, queryAccount)
+
+    const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+    this.moduleQueriedEventListeners?.map((listener) => listener(args))
+
+    return result
   }
 
   queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

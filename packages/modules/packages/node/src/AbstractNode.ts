@@ -12,7 +12,6 @@ import {
   ModuleParams,
   ModuleQueriedEvent,
   ModuleQueriedEventArgs,
-  ModuleQueriedEventEmitter,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,

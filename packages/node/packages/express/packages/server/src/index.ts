@@ -28,8 +28,6 @@ export class ExpressPayloadTransport extends PayloadTransport {
     this.app.set('etag', false)
     this.app.use(cors())
     this.app.use(compression())
-    const addLegacyRoutes = !process.env?.HIDE_LEGACY_ROUTES
-    this.app.set('addLegacyRoutes', addLegacyRoutes)
     addDependencies(this.app)
     addMiddleware(this.app)
     addAuth(this.app)

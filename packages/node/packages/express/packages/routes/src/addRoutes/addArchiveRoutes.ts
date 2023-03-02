@@ -3,10 +3,7 @@ import { allowAnonymous, requireArchiveAccess, requireArchiveOwner, requireAuth 
 import { Express } from 'express'
 
 import { getArchive, getArchives, putArchive } from '../routes'
-import { addArchiveSchemaRoutes } from './addArchiveSchemaRoutes'
 import { addArchiveSettingsRoutes } from './addArchiveSettingsRoutes'
-
-const addLegacyRoutes = true
 
 export const addArchiveRoutes = (app: Express) => {
   app.get(
@@ -41,9 +38,5 @@ export const addArchiveRoutes = (app: Express) => {
     /* #swagger.tags = ['Archive'] */
     /* #swagger.summary = 'Delete an archive' */
   )
-
-  if (addLegacyRoutes) {
-    addArchiveSchemaRoutes(app)
-  }
   addArchiveSettingsRoutes(app)
 }

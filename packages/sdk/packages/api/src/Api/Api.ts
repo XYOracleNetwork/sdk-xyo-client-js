@@ -8,29 +8,14 @@ import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { XyoApiSimple } from '../Simple'
 import { XyoUserApi } from '../User'
 import { XyoAccountApi } from './Account'
-import { XyoAddressesApi } from './Addresses'
 import { XyoArchivistArchiveApi } from './Archive'
 import { XyoArchivistArchivesApi } from './Archives'
 import { XyoArchivistNodeApi } from './Node'
 
 export class XyoArchivistApi<C extends XyoApiConfig = XyoApiConfig> extends XyoApiSimple<XyoPayloads, C> {
-  private _addresses?: XyoAddressesApi
   private _archives?: XyoArchivistArchivesApi
   private _stats?: XyoApiSimple<unknown[]>
   private _user?: XyoUserApi
-
-  /**
-   * @deprecated Use module API
-   */
-  get addresses(): XyoAddressesApi {
-    this._addresses =
-      this._addresses ??
-      new XyoAddressesApi({
-        ...this.config,
-        root: `${this.root}address/`,
-      })
-    return this._addresses
-  }
 
   get archives(): XyoArchivistArchivesApi {
     this._archives =

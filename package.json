@@ -90,7 +90,8 @@
     "test": "jest --no-cache --forceExit",
     "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "xyo": "node ./packages/cli/dist/cjs/index.js",
-    "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts"
+    "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts",
+    "free-8080": "kill -9 $(lsof -t -i :8080)"
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",

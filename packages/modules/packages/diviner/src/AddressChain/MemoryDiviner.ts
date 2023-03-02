@@ -25,7 +25,7 @@ export class MemoryAddressChainDiviner extends AbstractDiviner<DivinerParams<Add
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
     const archivists = (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
     let currentHash: string | null = this.config.startHash
-    while (currentHash) {
+    while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
       const bwPayload: XyoBoundWitness | undefined = await this.archivistFindHash(archivists, currentHash)
       const bw: BoundWitnessWrapper | undefined = BoundWitnessWrapper.parse(bwPayload)
       if (bw) {

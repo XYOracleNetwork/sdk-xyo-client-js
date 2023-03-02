@@ -1,4 +1,4 @@
-import { getApi, getRandomArchiveName, getTokenForNewUser } from '../ApiUtil.spec'
+import { getApi, getRandomArchiveName, getTokenForNewUser } from '../../ApiUtil.spec'
 
 describe('XyoArchivistArchiveApi', () => {
   const api = getApi()

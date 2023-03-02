@@ -3,8 +3,8 @@ import { StatusCodes } from 'http-status-codes'
 
 const attemptRoute = async (archive: string, token: string | undefined = undefined, expectedStatus: StatusCodes = StatusCodes.OK) => {
   return token
-    ? await (await request()).get(`/archive/${archive}/payload/recent`).auth(token, { type: 'bearer' }).expect(expectedStatus)
-    : await (await request()).get(`/archive/${archive}/payload/recent`).expect(expectedStatus)
+    ? await (await request()).get(`/archive/${archive}`).auth(token, { type: 'bearer' }).expect(expectedStatus)
+    : await (await request()).get(`/archive/${archive}`).expect(expectedStatus)
 }
 describe('ArchiveAccessControlAuthStrategy', () => {
   let ownerToken = ''

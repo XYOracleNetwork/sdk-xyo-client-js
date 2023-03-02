@@ -3,7 +3,6 @@ import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 
 import { XyoApiSimple } from '../../Simple'
 import { WithArchive } from '../../WithArchive'
-import { XyoArchivistArchivePayloadSchemaApi } from './Schema'
 
 export interface XyoPayloadStats {
   count: number
@@ -14,15 +13,6 @@ export class XyoArchivistPayloadApi<
   C extends WithArchive<XyoApiConfig> = WithArchive<XyoApiConfig>,
 > extends XyoApiSimple<T[], T[], PayloadFindFilter, C> {
   private _stats?: XyoApiSimple<XyoPayloadStats>
-  /**
-   * @deprecated Use module API
-   */
-  get schema(): XyoArchivistArchivePayloadSchemaApi {
-    return new XyoArchivistArchivePayloadSchemaApi({
-      ...this.config,
-      root: `${this.root}schema/`,
-    })
-  }
 
   /**
    * @deprecated Use module API

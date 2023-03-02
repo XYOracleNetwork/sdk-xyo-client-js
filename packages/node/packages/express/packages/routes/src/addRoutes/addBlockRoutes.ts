@@ -6,21 +6,10 @@ import {
   getArchiveBlockHash,
   getArchiveBlockHashPayloads,
   getArchiveBlockRecent,
-  getArchiveBlocks,
-  getArchiveBlockStats,
   postArchiveBlock,
 } from '../routes'
 
 export const addBlockRoutes = (app: Express) => {
-  if (app.get('addLegacyRoutes')) {
-    app.get(
-      '/archive/:archive/block',
-      requireArchiveAccess,
-      getArchiveBlocks,
-      /* #swagger.tags = ['Block'] */
-      /* #swagger.summary = 'Get blocks' */
-    )
-  }
   app.post(
     '/archive/:archive/block',
     // requireArchiveAccess,

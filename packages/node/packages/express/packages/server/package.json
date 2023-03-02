@@ -27,7 +27,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.281.0",
+    "@aws-sdk/client-secrets-manager": "^3.282.0",
     "@xylabs/assert": "^2.7.4",
     "@xylabs/delay": "^2.7.4",
     "@xylabs/exists": "^2.7.4",
@@ -67,8 +67,8 @@
     "@types/nconf": "^0.10.3",
     "@types/passport": "^1.0.12",
     "@types/uuid": "^9.0.1",
-    "@xylabs/ts-scripts-yarn3": "^2.16.0-rc.2",
-    "@xylabs/tsconfig": "^2.16.0-rc.2",
+    "@xylabs/ts-scripts-yarn3": "^2.16.0",
+    "@xylabs/tsconfig": "^2.16.0",
     "typescript": "^4.9.5"
   },
   "types": "dist/types/index.d.ts"

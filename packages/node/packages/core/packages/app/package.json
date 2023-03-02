@@ -23,7 +23,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.281.0",
+    "@aws-sdk/client-secrets-manager": "^3.282.0",
     "@xylabs/assert": "^2.7.4",
     "@xylabs/sdk-api-express-ecs": "^1.3.0",
     "@xyo-network/account": "workspace:^",
@@ -43,8 +43,8 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.16.0-rc.2",
-    "@xylabs/tsconfig": "^2.16.0-rc.2",
+    "@xylabs/ts-scripts-yarn3": "^2.16.0",
+    "@xylabs/tsconfig": "^2.16.0",
     "typescript": "^4.9.5"
   },
   "main": "dist/cjs/index.js",

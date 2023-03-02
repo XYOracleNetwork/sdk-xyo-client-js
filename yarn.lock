@@ -4142,7 +4142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.53.0":
+"@typescript-eslint/eslint-plugin@npm:^5.54.0":
   version: 5.54.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.54.0"
   dependencies:
@@ -4177,7 +4177,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.53.0":
+"@typescript-eslint/parser@npm:^5.54.0":
   version: 5.54.0
   resolution: "@typescript-eslint/parser@npm:5.54.0"
   dependencies:
@@ -4508,13 +4508,13 @@ __metadata:
   linkType: hard
 
 "@xylabs/eslint-config@npm:^2.16.0-rc.2":
-  version: 2.16.0-rc.2
-  resolution: "@xylabs/eslint-config@npm:2.16.0-rc.2"
+  version: 2.16.0
+  resolution: "@xylabs/eslint-config@npm:2.16.0"
   dependencies:
-    "@babel/core": ^7.20.12
+    "@babel/core": ^7.21.0
     "@babel/eslint-parser": ^7.19.1
-    "@typescript-eslint/eslint-plugin": ^5.53.0
-    "@typescript-eslint/parser": ^5.53.0
+    "@typescript-eslint/eslint-plugin": ^5.54.0
+    "@typescript-eslint/parser": ^5.54.0
     eslint-config-prettier: ^8.6.0
     eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-deprecation: ^1.3.3
@@ -4533,7 +4533,7 @@ __metadata:
     typescript: ^4.9.5
   peerDependencies:
     eslint: ^8.23.0
-  checksum: 5999b91d4eb92d09bd54db040ae9ed9628874eecbfc73043c0e9dab482307a9caa619b94c5e8c9531fcfbb4ca5ddd8a14b8478874268479025a5e4aba30f90de
+  checksum: 1458700b4334e25d37d87f39616870210ae4b30ef9548f5fae67f83f4acd468d9e63e007dcc8256e9d701f1d9a3b030902b2837f9caaafbd031b3ec280bc1db4
   languageName: node
   linkType: hard
 

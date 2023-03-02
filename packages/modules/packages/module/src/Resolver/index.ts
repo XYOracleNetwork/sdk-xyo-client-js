@@ -1,5 +1,4 @@
 import { CompositeModuleResolver } from './CompositeModuleResolver'
-export * from './DynamicModuleResolver'
 export * from './ResolverEventEmitter'
 
 /** @deprecated use ModuleResolver */

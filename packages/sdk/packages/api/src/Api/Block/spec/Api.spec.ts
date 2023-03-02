@@ -1,7 +1,7 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 
-import { testPayload } from '../../Test'
-import { getApi } from '../ApiUtil.spec'
+import { testPayload } from '../../../Test'
+import { getApi } from '../../ApiUtil.spec'
 
 describe('XyoArchivistArchiveBlockApi', () => {
   const api = getApi()

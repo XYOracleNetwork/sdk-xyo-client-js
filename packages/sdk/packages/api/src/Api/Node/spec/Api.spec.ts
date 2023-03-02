@@ -7,7 +7,7 @@ import { uuid } from '@xyo-network/core'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 
-import { XyoArchivistApi } from '../Api'
+import { XyoArchivistApi } from '../../Api'
 
 const config: XyoApiConfig = {
   apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',

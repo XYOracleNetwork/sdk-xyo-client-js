@@ -1,4 +1,4 @@
-import { getApi } from '../ApiUtil.spec'
+import { getApi } from '../../ApiUtil.spec'
 
 describe('XyoArchivistArchivesApi', () => {
   describe('get', function () {

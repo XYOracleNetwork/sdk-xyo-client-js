@@ -5,7 +5,6 @@ import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitnes
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractDiviner, DivinerParams } from '../AbstractDiviner'
 import { AddressChainDivinerConfig, AddressChainDivinerConfigSchema } from './Config'
@@ -22,55 +21,29 @@ export class MemoryAddressChainDiviner extends AbstractDiviner<DivinerParams<Add
   }
 
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+    const result: XyoPayload[] = []
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
     const archivists = (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
-    assertEx(archivists.length > 0, 'Did not find any archivists')
-    const bwLists = (
-      await Promise.all(
-        archivists.map(async (archivist) => {
-          const all = await archivist.all()
-          return all.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
-        }),
-      )
-    ).flat()
-
-    const bwRecords = this.buildWrapperRecords(bwLists)
-
-    const chains = Object.values(this.buildAddressChains(this.config.address, bwRecords))
-
-    //return the heads of each chain (get the last bw on each chain)
-    return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
-  }
-
-  private buildAddressChains(address: string, bwRecords: Record<string, BoundWitnessWrapper>): Record<string, BoundWitnessWrapper[]> {
-    const arrayedResult = Object.entries(bwRecords).reduce<Record<string, BoundWitnessWrapper[]>>((prev, [key, value]) => {
-      prev[key] = [value]
-      return prev
-    }, {})
-    return Object.entries(bwRecords).reduce<Record<string, BoundWitnessWrapper[]>>((prev, [key, value]) => {
-      //check if key is still there (may have been deleted as prevHash)
-      if (prev[key]) {
-        const previousHash = value.prev(address)
-        if (previousHash) {
-          //if we have the previousHash, move this bw to its chain
-          if (prev[previousHash]) {
-            prev[key].push(...prev[previousHash])
-            delete prev[previousHash]
-          }
-        }
+    let currentHash: string | null = this.config.startHash
+    while (currentHash) {
+      const bwPayload: XyoBoundWitness | undefined = await this.archivistFindHash(archivists, currentHash)
+      const bw: BoundWitnessWrapper | undefined = BoundWitnessWrapper.parse(bwPayload)
+      if (bw) {
+        result.push(bw)
+        currentHash = bw.prev(this.config.address)
       }
-      return prev
-    }, arrayedResult)
+    }
+    return result
   }
 
-  //build object with hashes as keys and wrappers as values
-  private buildWrapperRecords(lists: XyoBoundWitness[]) {
-    return lists
-      .filter((bw) => bw.addresses.includes(this.config.address))
-      .reduce<Record<string, BoundWitnessWrapper>>((bwRecords, bw) => {
-        const wrapper = new BoundWitnessWrapper(bw)
-        bwRecords[wrapper.hash] = wrapper
-        return bwRecords
-      }, {})
+  private async archivistFindHash(archivists: ArchivistWrapper[], hash: string): Promise<XyoBoundWitness | undefined> {
+    let index = 0
+    if (archivists[index]) {
+      const result = (await archivists[index].get([hash])).pop() as XyoBoundWitness
+      if (result) {
+        return result
+      }
+      index++
+    }
   }
 }

@@ -232,7 +232,6 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
   protected bindResultInternal(payloads: XyoPayload[], account?: AccountInstance): ModuleQueryResult {
     const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
     const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
-    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
 

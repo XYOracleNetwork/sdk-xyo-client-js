@@ -10,6 +10,8 @@ export type AddressChainDivinerConfig = DivinerConfig<
   XyoBoundWitness,
   {
     address: string
+    maxResults?: number
     schema: AddressChainDivinerConfigSchema
+    startHash: string
   }
 >

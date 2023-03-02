@@ -1,6 +1,5 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { MemoryNode } from '@xyo-network/node'
@@ -33,16 +32,12 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       await node.register(archivist).attach(archivist.address)
       const diviner = await MemoryAddressChainDiviner.create({
-        config: { address: account.addressValue.hex, schema: AddressChainDivinerConfigSchema },
+        config: { address: account.addressValue.hex, schema: AddressChainDivinerConfigSchema, startHash: BoundWitnessWrapper.parse(all[6]).hash },
       })
       await node.register(diviner).attach(diviner.address)
       const divinerWrapper = new DivinerWrapper(diviner)
       const result = await divinerWrapper.divine()
-      expect(result.length).toBe(1)
-      const bw = BoundWitnessWrapper.parse(result[0])
-      expect(bw.schema).toBe(XyoBoundWitnessSchema)
-      expect(bw.addresses.includes(account.addressValue.hex)).toBeTrue()
-      expect(bw.hash).toBe(account.previousHash?.hex)
+      expect(result.length).toBe(4)
     })
   })
 })

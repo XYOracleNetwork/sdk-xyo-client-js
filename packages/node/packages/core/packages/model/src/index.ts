@@ -1,5 +1,4 @@
 export * from './API'
-export * from './Archive'
 export * from './Archivist'
 export * from './BoundWitness'
 export * from './Diviner'

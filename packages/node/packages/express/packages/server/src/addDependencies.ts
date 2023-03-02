@@ -7,9 +7,7 @@ import {
   ArchiveBoundWitnessArchivistFactory,
   ArchiveKeyRepository,
   ArchivePayloadArchivistFactory,
-  ArchivePermissionsArchivistFactory,
   IdentifiableHuri,
-  Query,
   Queue,
   UserManager,
   WitnessedPayloadArchivist,
@@ -24,7 +22,6 @@ export const addDependencies = (app: Application) => {
   addRepositories(app)
   addManagers(app)
   addArchivists(app)
-  addQueryProcessing(app)
 }
 
 const addArchivists = (app: Application) => {
@@ -36,10 +33,6 @@ const addArchivists = (app: Application) => {
   app.archivePayloadsArchivistFactory = assertEx(
     dependencies.get<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory),
     'Missing ArchivePayloadArchivistFactory',
-  )
-  app.archivePermissionsArchivistFactory = assertEx(
-    dependencies.get<ArchivePermissionsArchivistFactory>(TYPES.ArchivePermissionsArchivistFactory),
-    'Missing ArchivePermissionsArchivistFactory',
   )
   app.archivistWitnessedPayloadArchivist = assertEx(
     dependencies.get<WitnessedPayloadArchivist>(TYPES.WitnessedPayloadArchivist),
@@ -54,14 +47,4 @@ const addRepositories = (app: Application) => {
 
 const addManagers = (app: Application) => {
   app.userManager = assertEx(dependencies.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
-}
-
-const addQueryProcessing = (app: Application) => {
-  app.queryConverters = assertEx(
-    dependencies.get<XyoPayloadToQueryConverterRegistry>(TYPES.PayloadToQueryConverterRegistry),
-    'Missing QueryConverters',
-  )
-  app.queryProcessors = assertEx(dependencies.get<SchemaToQueryProcessorRegistry>(TYPES.SchemaToQueryProcessorRegistry), 'Missing QueryProcessors')
-  app.queryQueue = assertEx(dependencies.get<Queue<Query>>(TYPES.QueryQueue), 'Missing QueryQueue')
-  app.responseQueue = assertEx(dependencies.get<Queue<IdentifiableHuri>>(TYPES.ResponseQueue), 'Missing ResponseQueue')
 }

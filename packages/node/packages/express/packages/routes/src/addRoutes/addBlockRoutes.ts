@@ -3,8 +3,6 @@ import { requireArchiveAccess } from '@xyo-network/express-node-middleware'
 import { Express } from 'express'
 
 import {
-  getArchiveBlockHash,
-  getArchiveBlockHashPayloads,
   getArchiveBlockRecent,
   postArchiveBlock,
 } from '../routes'
@@ -28,30 +26,6 @@ export const addBlockRoutes = (app: Express) => {
   )
 
   if (app.get('addLegacyRoutes')) {
-    app.get(
-      '/archive/:archive/block/stats',
-      requireArchiveAccess,
-      getArchiveBlockStats,
-      /* #swagger.tags = ['Block'] */
-      /* #swagger.summary = 'Get block stats' */
-    )
-
-    app.get(
-      '/archive/:archive/block/hash/:hash',
-      requireArchiveAccess,
-      getArchiveBlockHash,
-      /* #swagger.tags = ['Block'] */
-      /* #swagger.summary = 'Get blocks by block hash' */
-    )
-
-    app.get(
-      '/archive/:archive/block/hash/:hash/payloads',
-      requireArchiveAccess,
-      getArchiveBlockHashPayloads,
-      /* #swagger.tags = ['Block'] */
-      /* #swagger.summary = 'Get block payloads by block hash' */
-    )
-
     app.get(
       '/archive/:archive/block/recent/:limit?',
       requireArchiveAccess,

@@ -39,7 +39,7 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 }
 
 @moduleConstructable()
-export class ModuleWrapper<TWrappedModule extends Module = Module> implements Module {
+export class ModuleWrapper<TWrappedModule extends Module = Module> implements Module<TWrappedModule['config']> {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
   readonly module: TWrappedModule

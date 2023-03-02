@@ -18,7 +18,7 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper extends ModuleWrapper implements NodeModule {
+export class NodeWrapper extends ModuleWrapper<NodeModule> implements NodeModule {
   static override requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   private _archivist?: ArchivistWrapper

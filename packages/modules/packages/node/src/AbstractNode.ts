@@ -26,23 +26,17 @@ import { NodeConfig, NodeConfigSchema } from './Config'
 import {
   ModuleAttachedEvent,
   ModuleAttachedEventArgs,
-  ModuleAttachedEventEmitter,
   ModuleDetachedEvent,
   ModuleDetachedEventArgs,
-  ModuleDetachedEventEmitter,
   ModuleRegisteredEvent,
   ModuleRegisteredEventArgs,
-  ModuleRegisteredEventEmitter,
 } from './Events'
 import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
 export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = ModuleParams<TConfig>
 
-export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams>
-  extends AbstractModule<TParams>
-  implements NodeModule, ModuleAttachedEventEmitter, ModuleDetachedEventEmitter, ModuleRegisteredEventEmitter, ModuleQueriedEventEmitter
-{
+export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams> extends AbstractModule<TParams> implements NodeModule {
   static override readonly configSchema = NodeConfigSchema
 
   protected readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []

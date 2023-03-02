@@ -8,7 +8,6 @@ import { addManagementRoutes } from './addManagementRoutes'
 import { addNodeRoutes } from './addNodeRoutes'
 import { addPayloadRoutes } from './addPayloadRoutes'
 import { addPayloadSchemaRoutes } from './addPayloadSchemaRoutes'
-import { addSchemaRoutes } from './addSchemaRoutes'
 import { addTempNodeRoutes } from './addTempNodeRoutes'
 
 export const addRoutes = (app: Express): Express => {
@@ -21,7 +20,6 @@ export const addRoutes = (app: Express): Express => {
   }
   addManagementRoutes(app)
   if (app.get('addLegacyRoutes')) {
-    addSchemaRoutes(app)
     addDomainRoutes(app)
   }
   addTempNodeRoutes(app)

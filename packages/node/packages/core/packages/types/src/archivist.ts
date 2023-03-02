@@ -5,7 +5,6 @@ export const ARCHIVIST_TYPES: ModuleList = {
   ArchiveBoundWitnessArchivistFactory: Symbol('ArchiveBoundWitnessArchivistFactory'),
   ArchiveKeyRepository: Symbol('ArchiveKeyRepository'),
   ArchivePayloadArchivistFactory: Symbol('ArchivePayloadArchivistFactory'),
-  ArchivePermissionsArchivistFactory: Symbol('ArchivePermissionsArchivistFactory'),
   Archivist: Symbol('Archivist'),
   BoundWitnessArchivist: Symbol('BoundWitnessArchivist'),
   PayloadArchivist: Symbol('PayloadArchivist'),

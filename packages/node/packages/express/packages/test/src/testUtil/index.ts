@@ -1,7 +1,6 @@
 export * from './Account'
 export * from './Archive'
 export * from './Block'
-export * from './Domain'
 export * from './Model'
 export * from './Node'
 export * from './Payload'

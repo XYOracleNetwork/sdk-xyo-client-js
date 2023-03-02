@@ -128,6 +128,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return this.sendQuery(queryPayload)
   }
 
+  on: TWrappedModule['on'] = (event, args) => {
+    return this.module.on(event, args)
+  }
+
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     return await this.module.query(query, payloads)
   }

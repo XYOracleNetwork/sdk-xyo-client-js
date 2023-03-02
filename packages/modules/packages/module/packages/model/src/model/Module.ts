@@ -2,6 +2,7 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { ModuleConfig } from '../Config'
+import { ModuleQueriedEventEmitter } from '../Events'
 import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
@@ -19,6 +20,8 @@ export type Module<TConfig extends ModuleConfig = ModuleConfig> = {
 
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolver
+
+  on: ModuleQueriedEventEmitter['on']
 
   queries: string[]
   query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(

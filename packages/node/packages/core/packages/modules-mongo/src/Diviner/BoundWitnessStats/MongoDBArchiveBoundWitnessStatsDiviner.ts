@@ -42,8 +42,7 @@ export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = 
   }
 >
 export type MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
-  MongoDBArchiveBoundWitnessStatsDivinerConfig<T>,
-  EmptyObject // TODO: Params
+  MongoDBArchiveBoundWitnessStatsDivinerConfig<T>
 >
 
 export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner implements BoundWitnessStatsDiviner, JobProvider {

@@ -42,10 +42,7 @@ export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPa
   }
 >
 
-export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
-  MongoDBArchivePayloadStatsDivinerConfig<T>,
-  EmptyObject // TODO: Params
->
+export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>>
 
 export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implements PayloadStatsDiviner, JobProvider {
   static override configSchema = MongoDBArchivePayloadStatsDivinerConfigSchema

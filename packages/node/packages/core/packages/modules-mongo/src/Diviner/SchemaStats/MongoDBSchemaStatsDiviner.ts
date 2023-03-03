@@ -48,10 +48,7 @@ export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPay
   }
 >
 
-export type MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
-  MongoDBArchiveSchemaStatsDivinerConfig<T>,
-  EmptyObject // TODO: Params
->
+export type MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<MongoDBArchiveSchemaStatsDivinerConfig<T>>
 
 export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements SchemaStatsDiviner, JobProvider {
   static override configSchema = MongoDBArchiveSchemaStatsDivinerConfigSchema

@@ -5,7 +5,11 @@ import { Container } from 'inversify'
 const config = { schema: NodeConfigSchema }
 
 // TODO: Grab from actual type lists (which are not yet exported)
-const archivists = [TYPES.Archivist, TYPES.BoundWitnessArchivist, TYPES.PayloadArchivist]
+const archivists = [
+  TYPES.Archivist,
+  // TYPES.BoundWitnessArchivist,
+  // TYPES.PayloadArchivist
+]
 
 const diviners = [
   TYPES.AddressHistoryDiviner,

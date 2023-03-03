@@ -7,14 +7,6 @@ import {
   adminApiKeyStrategyName,
   AllowUnauthenticatedStrategy,
   allowUnauthenticatedStrategyName,
-  ArchiveAccessControlStrategy,
-  archiveAccessControlStrategyName,
-  ArchiveAccountStrategy,
-  archiveAccountStrategyName,
-  ArchiveApiKeyStrategy,
-  archiveApiKeyStrategyName,
-  ArchiveOwnerStrategy,
-  archiveOwnerStrategyName,
   JwtStrategy,
   jwtStrategyName,
   LocalStrategy,
@@ -31,10 +23,6 @@ decorate(injectable(), Strategy)
 export const addAuth = (app: Application) => {
   passport.use(adminApiKeyStrategyName, dependencies.get(AdminApiKeyStrategy))
   passport.use(allowUnauthenticatedStrategyName, dependencies.get(AllowUnauthenticatedStrategy))
-  passport.use(archiveAccessControlStrategyName, dependencies.get(ArchiveAccessControlStrategy))
-  passport.use(archiveAccountStrategyName, dependencies.get(ArchiveAccountStrategy))
-  passport.use(archiveApiKeyStrategyName, dependencies.get(ArchiveApiKeyStrategy))
-  passport.use(archiveOwnerStrategyName, dependencies.get(ArchiveOwnerStrategy))
   const jwtStrategy = dependencies.get(JwtStrategy)
   passport.use(jwtStrategyName, jwtStrategy)
   addAuthRoutes(jwtStrategy.jwtRequestHandler)

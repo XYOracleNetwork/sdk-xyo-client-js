@@ -18,9 +18,8 @@ import {
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
-import { getBaseMongoSdk, removeId } from '../../Mongo'
+import { removeId } from '../../Mongo'
 
 export type MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> = ModuleParams<
   T,
@@ -36,7 +35,6 @@ export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArc
 
   constructor(params: MongoDBArchiveBoundWitnessArchivistParams) {
     super(params)
-    this.sdk = params?.sdk || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 
   static override async create(params?: Partial<MongoDBArchiveBoundWitnessArchivistParams>) {

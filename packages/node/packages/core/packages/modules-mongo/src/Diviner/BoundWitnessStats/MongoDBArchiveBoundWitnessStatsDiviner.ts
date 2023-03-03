@@ -4,7 +4,6 @@ import { fulfilled, rejected } from '@xylabs/promise'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import {
-  ArchiveArchivist,
   BoundWitnessStatsDiviner,
   BoundWitnessStatsPayload,
   BoundWitnessStatsQueryPayload,
@@ -44,24 +43,23 @@ export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = 
 export type MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
   MongoDBArchiveBoundWitnessStatsDivinerConfig<T>,
   {
-    archiveArchivist: ArchiveArchivist
+    sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
 export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner implements BoundWitnessStatsDiviner, JobProvider {
   static override configSchema = MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
 
-  protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
-  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
   protected constructor(params: MongoDBArchiveBoundWitnessStatsDivinerParams) {
     super(params)
-    this.archiveArchivist = params.archiveArchivist
+    this.sdk = params?.sdk || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 
   get jobs(): Job[] {

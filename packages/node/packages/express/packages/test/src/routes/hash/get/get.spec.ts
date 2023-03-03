@@ -68,7 +68,7 @@ describe('/:hash', () => {
     beforeAll(async () => {
       archive = getArchiveName()
       const blockResponse = await postBlock(boundWitness, archive)
-      expect(blockResponse.length).toBe(1)
+      expect(blockResponse.length).toBe(2)
     })
     describe.each([
       ['bound witness', boundWitnessHash],
@@ -99,7 +99,7 @@ describe('/:hash', () => {
     beforeAll(async () => {
       archive = getArchiveName()
       const blockResponse = await postBlock(boundWitness, archive, ownerToken)
-      expect(blockResponse.length).toBe(1)
+      expect(blockResponse.length).toBe(2)
     })
     describe.each([
       ['bound witness', boundWitnessHash],

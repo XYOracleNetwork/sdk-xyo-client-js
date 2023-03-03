@@ -5,7 +5,6 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper } from '@xyo-network/diviner'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
 import { scrubBoundWitnesses, trimAddressPrefix } from '@xyo-network/node-core-lib'
-import { ArchiveLocals } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { RequestHandler } from 'express'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
@@ -21,11 +20,7 @@ export interface GetAddressHistoryQueryParams extends NoReqQuery {
   offset?: string
 }
 
-const handler: RequestHandler<AddressPathParams, XyoBoundWitness[], NoReqBody, GetAddressHistoryQueryParams, ArchiveLocals> = async (
-  req,
-  res,
-  next,
-) => {
+const handler: RequestHandler<AddressPathParams, XyoBoundWitness[], NoReqBody, GetAddressHistoryQueryParams> = async (req, res, next) => {
   const { limit, offset } = req.query
   const { address } = req.params
   const { node } = req.app

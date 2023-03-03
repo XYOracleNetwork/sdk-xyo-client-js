@@ -1,4 +1,4 @@
-import { Module } from '@xyo-network/module-model'
+import { EventModule } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
@@ -11,4 +11,4 @@ export interface Node {
   registered(): Promisable<string[]>
 }
 
-export type NodeModule = Node & Module<NodeConfig, ModuleAttachedEventEmitter | ModuleDetachedEventEmitter | ModuleRegisteredEventEmitter> & Module
+export type NodeModule = Node & EventModule<NodeConfig, ModuleAttachedEventEmitter | ModuleDetachedEventEmitter | ModuleRegisteredEventEmitter>

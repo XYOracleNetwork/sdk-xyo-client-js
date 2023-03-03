@@ -14,14 +14,16 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type Module<TConfig extends ModuleConfig = ModuleConfig, TModuleEventEmitter extends ModuleEventEmitter | undefined = undefined> = {
+export type EventModule<TConfig extends ModuleConfig = ModuleConfig, TModuleEventEmitter extends ModuleEventEmitter | undefined = undefined> = {
+  on: TModuleEventEmitter extends ModuleEventEmitter ? ModuleQueriedEventEmitter['on'] | TModuleEventEmitter['on'] : ModuleQueriedEventEmitter['on']
+} & Module<TConfig>
+
+export type Module<TConfig extends ModuleConfig = ModuleConfig> = {
   address: string
   config: TConfig
 
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolver
-
-  on: TModuleEventEmitter extends ModuleEventEmitter ? ModuleQueriedEventEmitter['on'] | TModuleEventEmitter['on'] : ModuleQueriedEventEmitter['on']
 
   queries: string[]
   query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(

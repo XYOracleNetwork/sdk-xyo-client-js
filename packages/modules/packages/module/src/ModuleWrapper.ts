@@ -4,6 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
+  EventModule,
   Module,
   ModuleDescription,
   ModuleDiscoverQuery,
@@ -39,7 +40,7 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 }
 
 @moduleConstructable()
-export class ModuleWrapper<TWrappedModule extends Module = Module> implements Module<TWrappedModule['config']> {
+export class ModuleWrapper<TWrappedModule extends Module | EventModule = Module> implements Module<TWrappedModule['config']> {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
   readonly module: TWrappedModule
@@ -128,8 +129,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return this.sendQuery(queryPayload)
   }
 
-  on: TWrappedModule['on'] = (event, args) => {
-    return this.module.on(event, args)
+  on: EventModule['on'] = (event, args) => {
+    return (this.module as EventModule).on?.(event, args)
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {

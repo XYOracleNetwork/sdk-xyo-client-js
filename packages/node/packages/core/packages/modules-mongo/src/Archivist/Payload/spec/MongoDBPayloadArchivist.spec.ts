@@ -1,6 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { DebugPayload, DebugPayloadWithMeta, DebugSchema, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { v4 } from 'uuid'
@@ -10,11 +10,13 @@ import { getBaseMongoSdk } from '../../../Mongo'
 import { MongoDBPayloadArchivist } from '../MongoDBPayloadArchivist'
 
 const count = 2
-const schema = DebugSchema
+const schema = 'network.xyo.debug'
 const limit = 1
 
-const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta<DebugPayload>[] => {
-  const payloads: XyoPayloadWithMeta<DebugPayload>[] = []
+type DebugPayloadWithMeta = XyoPayloadWithMeta & { nonce: string }
+
+const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta[] => {
+  const payloads: XyoPayloadWithMeta[] = []
   for (let i = 0; i < count; i++) {
     const nonce = v4()
     const payload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema }).fields({ nonce }).build()
@@ -29,7 +31,7 @@ describe('MongoDBPayloadArchivist', () => {
   const account = Account.random()
   const params = { account, sdk }
   const archive = `test-${v4()}`
-  const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
+  const payloads: XyoPayloadWithMeta[] = getPayloads(archive, count)
   const hashes: string[] = payloads.map((p) => new PayloadWrapper(p).hash)
   const payload = payloads[0]
   const hash = hashes[0]

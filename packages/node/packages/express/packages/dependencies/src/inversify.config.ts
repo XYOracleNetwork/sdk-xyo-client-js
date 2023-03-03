@@ -9,11 +9,7 @@ import { config } from 'dotenv'
 import { Container } from 'inversify'
 
 import { addAuth } from './addAuth'
-import { addInMemoryQueueing } from './addInMemoryQueueing'
 import { addMemoryNode } from './addMemoryNode'
-import { addPayloadHandlers } from './addPayloadHandlers'
-import { addQueryConverterRegistry } from './addQueryConverterRegistry'
-import { addQueryProcessorRegistry } from './addQueryProcessorRegistry'
 import { tryGetServiceName } from './Util'
 config()
 export const dependencies = new Container({
@@ -51,9 +47,5 @@ export const configureDependencies = async (node?: MemoryNode) => {
   })
   await addMongo(dependencies)
   addAuth(dependencies)
-  addPayloadHandlers(dependencies)
-  addInMemoryQueueing(dependencies)
-  addQueryConverterRegistry(dependencies)
-  addQueryProcessorRegistry(dependencies)
   await addMemoryNode(dependencies, node)
 }

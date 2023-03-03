@@ -2,7 +2,6 @@ import { delay } from '@xylabs/delay'
 import { AbstractDiviner, DivinerConfig, XyoDivinerConfigSchema } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import {
-  ArchiveArchivist,
   isModuleAddressQueryPayload,
   ModuleAddressDiviner,
   ModuleAddressPayload,
@@ -22,7 +21,6 @@ import { getBaseMongoSdk } from '../../Mongo'
 export class MongoDBModuleAddressDiviner extends AbstractDiviner implements ModuleAddressDiviner, JobProvider {
   static override configSchema = XyoDivinerConfigSchema
 
-  protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 

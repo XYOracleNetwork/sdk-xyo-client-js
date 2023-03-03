@@ -12,9 +12,6 @@ import { addAuth } from './addAuth'
 import { addDependencies } from './addDependencies'
 import { addErrorHandlers } from './addErrorHandlers'
 import { addMiddleware } from './addMiddleware'
-import { addQueryConverters } from './addQueryConverters'
-import { addQueryProcessing } from './addQueryProcessing'
-import { addQueryProcessors } from './addQueryProcessors'
 import { configureEnvironment } from './configureEnvironment'
 import { initializeJobs } from './initializeJobs'
 
@@ -28,12 +25,9 @@ export class ExpressPayloadTransport extends PayloadTransport {
     this.app.set('etag', false)
     this.app.use(cors())
     this.app.use(compression())
-    const addLegacyRoutes = !process.env?.HIDE_LEGACY_ROUTES
-    this.app.set('addLegacyRoutes', addLegacyRoutes)
     addDependencies(this.app)
     addMiddleware(this.app)
     addAuth(this.app)
-    addQueryProcessors(this.app)
     addRoutes(this.app)
     addErrorHandlers(this.app)
   }
@@ -51,8 +45,6 @@ export const getApp = async (node?: MemoryNode): Promise<Express> => {
   await configureEnvironment()
   await configureDependencies(node)
   const transport = new ExpressPayloadTransport(node)
-  addQueryConverters()
-  addQueryProcessing()
   await initializeJobs()
   return transport.app
 }

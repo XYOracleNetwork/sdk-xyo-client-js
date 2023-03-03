@@ -1,10 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import {
-  ArchiveArchivist,
   BoundWitnessStatsDiviner,
   BoundWitnessStatsPayload,
   BoundWitnessStatsQueryPayload,
@@ -42,26 +40,22 @@ export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = 
   }
 >
 export type MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
-  MongoDBArchiveBoundWitnessStatsDivinerConfig<T>,
-  {
-    archiveArchivist: ArchiveArchivist
-  }
+  MongoDBArchiveBoundWitnessStatsDivinerConfig<T>
 >
 
 export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner implements BoundWitnessStatsDiviner, JobProvider {
   static override configSchema = MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
 
-  protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
-  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
   protected constructor(params: MongoDBArchiveBoundWitnessStatsDivinerParams) {
     super(params)
-    this.archiveArchivist = params.archiveArchivist
+    this.sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 
   get jobs(): Job[] {
@@ -122,14 +116,16 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner impl
 
   private divineArchivesBatch = async () => {
     this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
-    const archives = result.map((archive) => archive?.archive).filter(exists)
-    this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
-    this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
-    const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
-    const succeeded = results.filter(fulfilled).length
-    const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    await Promise.resolve()
+    // TODO: Look across address space and divine
+    // const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
+    // const archives = result.map((archive) => archive?.archive).filter(exists)
+    // this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
+    // this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
+    // const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
+    // const succeeded = results.filter(fulfilled).length
+    // const failed = results.filter(rejected).length
+    // this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 
   private processChange = (change: ChangeStreamInsertDocument<XyoBoundWitnessWithMeta>) => {

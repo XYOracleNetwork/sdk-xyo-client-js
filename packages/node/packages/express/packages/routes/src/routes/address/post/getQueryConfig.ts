@@ -1,5 +1,4 @@
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { requestCanAccessArchive } from '@xyo-network/express-node-lib'
 import { AbstractModule, Module, ModuleConfig, ModuleConfigSchema, XyoQueryBoundWitness } from '@xyo-network/module'
 import { ArchiveModuleConfig } from '@xyo-network/node-core-model'
 import { XyoPayload } from '@xyo-network/payload-model'
@@ -14,7 +13,9 @@ export const getQueryConfig = async (
   const archivist = mod as unknown as AbstractModule
   const config = archivist?.config as unknown as ArchiveModuleConfig
   const archive = config?.archive
-  if (archive && (await requestCanAccessArchive(req, archive))) {
+  // TODO: Filter based on query addresses?
+  const requestCanAccessArchive = await Promise.resolve(true)
+  if (archive && requestCanAccessArchive) {
     // Recurse through payloads for nested BWs
     const nestedBwAddresses =
       payloads

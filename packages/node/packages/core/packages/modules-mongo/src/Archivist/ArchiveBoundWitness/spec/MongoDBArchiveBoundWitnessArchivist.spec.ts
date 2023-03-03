@@ -6,9 +6,6 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
-  DebugPayload,
-  DebugPayloadWithMeta,
-  DebugSchema,
   XyoBoundWitnessFilterPredicate,
   XyoBoundWitnessWithMeta,
   XyoBoundWitnessWithPartialMeta,
@@ -24,11 +21,13 @@ import { getBaseMongoSdk } from '../../../Mongo'
 import { MongoDBArchiveBoundWitnessArchivist } from '../MongoDBArchiveBoundWitnessArchivist'
 
 const count = 2
-const schema = DebugSchema
+const schema = 'network.xyo.debug'
 const limit = 1
 
-const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta<DebugPayload>[] => {
-  const payloads: XyoPayloadWithMeta<DebugPayload>[] = []
+type DebugPayloadWithMeta = XyoPayloadWithMeta & { nonce: string }
+
+const getPayloads = (archive: string, count = 1): DebugPayloadWithMeta[] => {
+  const payloads: DebugPayloadWithMeta[] = []
   for (let i = 0; i < count; i++) {
     const nonce = v4()
     const payload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema }).fields({ nonce }).build()
@@ -50,7 +49,7 @@ describe('MongoDBArchiveBoundWitnessArchivist', () => {
   const archive = `test-${v4()}`
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const params = { account, config, sdk }
-  const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
+  const payloads = getPayloads(archive, count)
   const boundWitnesses = payloads
     .map((p) => new BoundWitnessBuilder({ inlinePayloads: true }).witness(account).payload(p).build())
     .map((buildResult) => buildResult[0])

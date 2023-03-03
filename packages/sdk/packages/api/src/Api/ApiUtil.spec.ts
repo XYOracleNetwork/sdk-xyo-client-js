@@ -40,15 +40,6 @@ export const getTokenForNewUser = async (api: XyoArchivistApi): Promise<string> 
   return jwtToken
 }
 
-export const getNewArchive = async (api: XyoArchivistApi) => {
-  const jwtToken = await getTokenForNewUser(api)
-  const authenticatedApi = new XyoArchivistApi({ ...api.config, jwtToken })
-  const name = getRandomArchiveName()
-  const response = await authenticatedApi.archives.archive(name).put()
-  const archive = assertEx(response?.archive, 'Missing archive in response')
-  return archive
-}
-
 export const testSchemaPrefix = 'network.xyo.schema.test.'
 export const getSchemaName = (): string => {
   return `${testSchemaPrefix}${uuid()}`

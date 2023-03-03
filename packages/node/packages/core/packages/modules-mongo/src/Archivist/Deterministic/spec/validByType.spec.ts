@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { ArchivistInsertQuery, ArchivistInsertQuerySchema } from '@xyo-network/archivist'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitnessBuilder } from '@xyo-network/module'
-import { DebugPayload, DebugSchema } from '@xyo-network/node-core-model'
+import { XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 
@@ -11,11 +11,13 @@ import { validByType } from '../validByType'
 
 const config: BoundWitnessBuilderConfig = { inlinePayloads: true }
 
+type DebugPayloadWithMeta = XyoPayloadWithMeta & { nonce: string }
+
 describe('validByType', () => {
   const account = Account.random()
   describe('QueryBoundWitness with Payloads & nested BoundWitnesses', () => {
-    const payload1: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '1' }).build()
-    const payload2: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '2' }).build()
+    const payload1: XyoPayload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
+    const payload2: XyoPayload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
     const inner = new BoundWitnessBuilder(config).witness(account).payload(payload2).build()
     const outer = new BoundWitnessBuilder(config).witness(account).payloads([payload1, inner[0]]).build()
     const queryHashes = [outer[0], inner[0], payload1, payload2].map((p) => (p as { _hash?: string })?._hash).filter(exists)
@@ -34,8 +36,8 @@ describe('validByType', () => {
     })
   })
   describe('BoundWitness with Payloads & nested BoundWitnesses', () => {
-    const payload1: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '1' }).build()
-    const payload2: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '2' }).build()
+    const payload1: XyoPayload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
+    const payload2: XyoPayload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
     const inner = new BoundWitnessBuilder(config).witness(account).payload(payload2).build()
     const outer = new BoundWitnessBuilder(config).witness(account).payloads([payload1, inner[0]]).build()
     const values = [outer[0], inner[0], payload1, payload2] as XyoPayload[]
@@ -51,8 +53,8 @@ describe('validByType', () => {
     })
   })
   describe('BoundWitness with Payloads', () => {
-    const payload1: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '1' }).build()
-    const payload2: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '2' }).build()
+    const payload1: XyoPayload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
+    const payload2: XyoPayload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
     const outer = new BoundWitnessBuilder(config).witness(account).payloads([payload1, payload2]).build()
     const values = [outer[0], payload1, payload2] as XyoPayload[]
     const result = values.reduce(validByType, [[], []])

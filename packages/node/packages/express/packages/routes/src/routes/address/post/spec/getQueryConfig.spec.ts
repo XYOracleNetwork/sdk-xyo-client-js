@@ -8,10 +8,6 @@ import { mock } from 'jest-mock-extended'
 
 import { getQueryConfig } from '../getQueryConfig'
 
-let canAccess = true
-jest.mock('@xyo-network/express-node-lib', () => ({
-  requestCanAccessArchive: jest.fn(() => Promise.resolve(canAccess)),
-}))
 const req = mock<Request>()
 const testAccount1 = new Account({ phrase: 'testPhrase1' })
 const testAccount2 = new Account({ phrase: 'testPhrase2' })

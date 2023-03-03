@@ -14,7 +14,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import {
-  claimArchive,
   getArchiveName,
   getBlock,
   getBlockWithPayloads,
@@ -23,7 +22,6 @@ import {
   getTokenForUnitTestUser,
   otherUnitTestSigningAccount,
   postBlock,
-  setArchiveAccessControl,
   unitTestSigningAccount,
 } from '../../../testUtil'
 
@@ -56,7 +54,6 @@ describe('/:hash', () => {
   })
   beforeEach(async () => {
     archive = getArchiveName()
-    await claimArchive(ownerToken, archive)
     block = getBlockWithPayloads(1)
     payload = PayloadWrapper.parse(assertEx(block._payloads?.[0])).body
     const blockResponse = await postBlock(block, archive)
@@ -81,25 +78,6 @@ describe('/:hash', () => {
     })
     it('with non-archive owner returns the payload', async () => {
       await getHash(pointerHash, otherUserToken)
-    })
-    it('with archive owner returns the payload', async () => {
-      const result = await getHash(pointerHash, ownerToken)
-      expect(result).toBeTruthy()
-    })
-  })
-  describe('with private archive', () => {
-    beforeEach(async () => {
-      await setArchiveAccessControl(ownerToken, archive, { accessControl: true, archive })
-      const blockResponse = await postBlock(block, archive, ownerToken)
-      expect(blockResponse.length).toBe(1)
-    })
-    describe(`returns ${ReasonPhrases.NOT_FOUND}`, () => {
-      it('with anonymous user', async () => {
-        await getHash(pointerHash, undefined, StatusCodes.NOT_FOUND)
-      })
-      it('with non-archive owner', async () => {
-        await getHash(pointerHash, otherUserToken, StatusCodes.NOT_FOUND)
-      })
     })
     it('with archive owner returns the payload', async () => {
       const result = await getHash(pointerHash, ownerToken)

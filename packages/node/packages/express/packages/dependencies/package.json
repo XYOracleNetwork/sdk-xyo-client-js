@@ -36,7 +36,6 @@
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-modules-memory": "workspace:^",
     "@xyo-network/node-core-modules-mongo": "workspace:^",
-    "@xyo-network/node-core-query-handlers": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",

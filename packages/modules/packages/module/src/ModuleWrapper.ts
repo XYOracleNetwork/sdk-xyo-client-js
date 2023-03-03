@@ -141,8 +141,8 @@ export class ModuleWrapper<TWrappedModule extends Module | EventModule = Module>
     return this.module.queryable(query, payloads)
   }
 
-  async resolve<TModule extends Module = Module>(nameOrAddress?: string): Promise<TModule | undefined>
   async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
+  async resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
   async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {

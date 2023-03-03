@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { EmptyObject } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import {
@@ -42,9 +43,7 @@ export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = 
 >
 export type MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
   MongoDBArchiveBoundWitnessStatsDivinerConfig<T>,
-  {
-    sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
-  }
+  EmptyObject // TODO: Params
 >
 
 export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner implements BoundWitnessStatsDiviner, JobProvider {
@@ -59,7 +58,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner impl
 
   protected constructor(params: MongoDBArchiveBoundWitnessStatsDivinerParams) {
     super(params)
-    this.sdk = params?.sdk || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    this.sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 
   get jobs(): Job[] {

@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { EmptyObject } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import {
@@ -41,7 +42,10 @@ export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPa
   }
 >
 
-export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>, {}>
+export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
+  MongoDBArchivePayloadStatsDivinerConfig<T>,
+  EmptyObject // TODO: Params
+>
 
 export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implements PayloadStatsDiviner, JobProvider {
   static override configSchema = MongoDBArchivePayloadStatsDivinerConfigSchema

@@ -11,12 +11,14 @@ export const postBlock = async (
   token?: string,
   expectedStatus: StatusCodes = StatusCodes.OK,
 ): Promise<XyoBoundWitnessWithMeta[]> => {
-  const payloads = ([] as XyoBoundWitness[]).concat(Array.isArray(boundWitnesses) ? boundWitnesses : [boundWitnesses])
+  const bws = ([] as XyoBoundWitness[]).concat(Array.isArray(boundWitnesses) ? boundWitnesses : [boundWitnesses])
+  const payloads = bws.map((bw) => (bw as XyoBoundWitnessWithMeta)?._payloads || []).flat()
+  const insertions = [...bws, ...payloads]
   const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
-    payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
+    payloads: insertions.map((payload) => PayloadWrapper.hash(payload)),
     schema: ArchivistInsertQuerySchema,
   })
-  const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(queryPayload)
+  const builder = new QueryBoundWitnessBuilder().payloads(insertions).query(queryPayload)
   const data = builder.build()
   const path = '/Archivist'
   const response = token

@@ -24,7 +24,7 @@ import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBArchivePayloadStatsDiviner, MongoDBArchivePayloadStatsDivinerConfigSchema } from './PayloadStats'
 import { MongoDBArchiveSchemaStatsDiviner, MongoDBArchiveSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
-export const getDivinerContainerModule = async (container: Container) => {
+export const getDivinerContainerModule = async (_container: Container) => {
   const mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create({
     config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
   })

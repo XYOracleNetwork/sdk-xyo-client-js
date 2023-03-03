@@ -1,7 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { EmptyObject } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { ModuleParams } from '@xyo-network/module'
 import {

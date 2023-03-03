@@ -52,7 +52,7 @@ const getMongoDBBoundWitnessDiviner = async () => {
   mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
   return mongoDBBoundWitnessDiviner
 }
-const getMongoDBArchiveBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
+const getMongoDBArchiveBoundWitnessStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
   const params = {
     config: { name: TYPES.ArchiveBoundWitnessStatsDiviner.description, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema },
@@ -79,7 +79,7 @@ const getMongoDBPayloadDiviner = async () => {
   mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
   return mongoDBPayloadDiviner
 }
-const getMongoDBArchivePayloadStatsDiviner = async (context: interfaces.Context) => {
+const getMongoDBArchivePayloadStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchivePayloadStatsDiviner) return mongoDBArchivePayloadStatsDiviner
   const params = {
     config: { name: TYPES.ArchivePayloadStatsDiviner.description, schema: MongoDBArchivePayloadStatsDivinerConfigSchema },
@@ -87,7 +87,7 @@ const getMongoDBArchivePayloadStatsDiviner = async (context: interfaces.Context)
   mongoDBArchivePayloadStatsDiviner = await MongoDBArchivePayloadStatsDiviner.create(params)
   return mongoDBArchivePayloadStatsDiviner
 }
-const getMongoDBArchiveSchemaStatsDiviner = async (context: interfaces.Context) => {
+const getMongoDBArchiveSchemaStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchiveSchemaStatsDiviner) return mongoDBArchiveSchemaStatsDiviner
   const params = {
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },

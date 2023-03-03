@@ -1,7 +1,5 @@
-import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { MemoryNode } from '@xyo-network/modules'
-import { getArchivePermissionsArchivistName, getBoundWitnessArchivistName, getPayloadArchivistName } from '@xyo-network/node-core-lib'
+import { getBoundWitnessArchivistName, getPayloadArchivistName } from '@xyo-network/node-core-lib'
 import {
   ArchiveBoundWitnessArchivist,
   ArchiveBoundWitnessArchivistFactory,

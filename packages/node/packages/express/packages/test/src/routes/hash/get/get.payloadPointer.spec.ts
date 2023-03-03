@@ -57,10 +57,10 @@ describe('/:hash', () => {
     block = getBlockWithPayloads(1)
     payload = PayloadWrapper.parse(assertEx(block._payloads?.[0])).body
     const blockResponse = await postBlock(block, archive)
-    expect(blockResponse.length).toBe(1)
+    expect(blockResponse.length).toBe(2)
     const pointer = getPayloadPointer(archive, payload.schema)
     const pointerResponse = await postBlock(getBlock(pointer), archive)
-    expect(pointerResponse.length).toBe(1)
+    expect(pointerResponse.length).toBe(2)
     pointerHash = pointerResponse[0].payload_hashes[0]
   })
   describe('return format is', () => {
@@ -94,7 +94,7 @@ describe('/:hash', () => {
       const account = unitTestSigningAccount
       const pointer = getPayloadPointer(archive, payload.schema, Date.now(), 'desc', account.addressValue.hex)
       const pointerResponse = await postBlock(getBlock(pointer), archive)
-      expect(pointerResponse.length).toBe(1)
+      expect(pointerResponse.length).toBe(2)
       pointerHash = pointerResponse[0].payload_hashes[0]
       const result = await getHash(pointerHash, ownerToken)
       expect(result).toBeTruthy()
@@ -103,7 +103,7 @@ describe('/:hash', () => {
   it('returns no payloads if not signed by address', async () => {
     const pointer = getPayloadPointer(archive, payload.schema, Date.now(), 'desc', otherUnitTestSigningAccount.addressValue.hex)
     const pointerResponse = await postBlock(getBlock(pointer), archive)
-    expect(pointerResponse.length).toBe(1)
+    expect(pointerResponse.length).toBe(2)
     pointerHash = pointerResponse[0].payload_hashes[0]
     await getHash(pointerHash, ownerToken, StatusCodes.NOT_FOUND)
   })

@@ -4,7 +4,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import {
-  claimArchive,
   getArchiveName,
   getBlocksWithPayloads,
   getBlockWithPayloads,
@@ -12,7 +11,6 @@ import {
   getTokenForOtherUnitTestUser,
   getTokenForUnitTestUser,
   postBlock,
-  setArchiveAccessControl,
 } from '../../../testUtil'
 
 describe('/:hash', () => {
@@ -36,7 +34,6 @@ describe('/:hash', () => {
     expect(payloadHash).toBeTruthy()
     beforeAll(async () => {
       archive = getArchiveName()
-      await claimArchive(ownerToken, archive)
       const blockResponse = await postBlock(block, archive)
       expect(blockResponse.length).toBe(2)
     })
@@ -70,7 +67,6 @@ describe('/:hash', () => {
     expect(payloadHash).toBeTruthy()
     beforeAll(async () => {
       archive = getArchiveName()
-      await claimArchive(ownerToken, archive)
       const blockResponse = await postBlock(boundWitness, archive)
       expect(blockResponse.length).toBe(1)
     })
@@ -102,8 +98,6 @@ describe('/:hash', () => {
     expect(payloadHash).toBeTruthy()
     beforeAll(async () => {
       archive = getArchiveName()
-      await claimArchive(ownerToken, archive)
-      await setArchiveAccessControl(ownerToken, archive, { accessControl: true, archive })
       const blockResponse = await postBlock(boundWitness, archive, ownerToken)
       expect(blockResponse.length).toBe(1)
     })

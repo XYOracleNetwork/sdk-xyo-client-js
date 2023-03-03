@@ -120,14 +120,16 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner impl
 
   private divineArchivesBatch = async () => {
     this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
-    const archives = result.map((archive) => archive?.archive).filter(exists)
-    this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
-    this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
-    const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
-    const succeeded = results.filter(fulfilled).length
-    const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    await Promise.resolve()
+    // TODO: Look across address space and divine
+    // const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
+    // const archives = result.map((archive) => archive?.archive).filter(exists)
+    // this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
+    // this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
+    // const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
+    // const succeeded = results.filter(fulfilled).length
+    // const failed = results.filter(rejected).length
+    // this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 
   private processChange = (change: ChangeStreamInsertDocument<XyoBoundWitnessWithMeta>) => {

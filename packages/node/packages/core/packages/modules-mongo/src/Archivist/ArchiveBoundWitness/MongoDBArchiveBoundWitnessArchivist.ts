@@ -61,7 +61,7 @@ export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArc
     if (addresses?.length) filter.addresses = { $all: addresses }
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }
     if (payload_schemas?.length) filter.payload_schemas = { $in: payload_schemas }
-    const result = (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)
+    const result = (await (await this.boundWitnesses.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)
     return result
   }
   async get(hashes: string[]): Promise<Array<XyoBoundWitnessWithMeta>> {
@@ -71,7 +71,7 @@ export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArc
       return { _archive, _hash }
     })
     const queries = predicates.map(async (predicate) => {
-      const result = (await (await this.sdk.find(predicate)).limit(1).toArray()).map(removeId)
+      const result = (await (await this.boundWitnesses.find(predicate)).limit(1).toArray()).map(removeId)
       return result?.[0] || null
     })
     const results = await Promise.all(queries)
@@ -89,7 +89,7 @@ export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArc
       })
       .map((r) => r.sanitized[0])
     // TODO: Should we insert payloads here too?
-    const result = await this.sdk.insertMany(bws.map<XyoBoundWitnessWithMeta>(removeId))
+    const result = await this.boundWitnesses.insertMany(bws.map<XyoBoundWitnessWithMeta>(removeId))
     if (result.insertedCount != items.length) {
       throw new Error('MongoDBArchiveBoundWitnessArchivist.insert: Error inserting BoundWitnesses')
     }

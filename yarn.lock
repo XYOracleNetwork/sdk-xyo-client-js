@@ -5210,7 +5210,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/api@workspace:^, @xyo-network/api@workspace:packages/sdk/packages/api":
+"@xyo-network/api@workspace:packages/sdk/packages/api":
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
   dependencies:
@@ -6199,11 +6199,8 @@ __metadata:
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.0
     "@xylabs/tsconfig": ^2.16.0
-    "@xyo-network/express-node-lib": "workspace:^"
     "@xyo-network/express-node-middleware": "workspace:^"
     "@xyo-network/modules": "workspace:^"
-    "@xyo-network/node-core-model": "workspace:^"
-    "@xyo-network/node-core-modules-memory": "workspace:^"
     "@xyo-network/node-core-modules-mongo": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
     body-parser: ^1.20.2
@@ -6232,10 +6229,8 @@ __metadata:
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.0
     "@xylabs/tsconfig": ^2.16.0
-    "@xyo-network/api": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
     body-parser: ^1.20.2
     express: ^4.18.2
     express-mung: ^0.5.1
@@ -6265,17 +6260,14 @@ __metadata:
     "@types/swagger-ui-express": ^4.1.3
     "@types/uuid": ^9.0.1
     "@xylabs/assert": ^2.7.4
-    "@xylabs/exists": ^2.7.4
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.0
     "@xylabs/tsconfig": ^2.16.0
-    "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/express-node-lib": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-lib": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     body-parser: ^1.20.2
     express: ^4.18.2
@@ -6373,7 +6365,6 @@ __metadata:
     reflect-metadata: ^0.1.13
     rollbar: ^2.26.1
     typescript: ^4.9.5
-    uuid: ^9.0.0
     winston: ^3.8.2
     winston-transport: ^4.5.0
   languageName: unknown
@@ -6393,6 +6384,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/express-node-server": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -6868,7 +6860,6 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.16.0
     "@xylabs/tsconfig": ^2.16.0
     "@xyo-network/account": "workspace:^"
-    "@xyo-network/api": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
@@ -6878,14 +6869,13 @@ __metadata:
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     ajv: ^8.12.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-core-modules-memory@workspace:^, @xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/packages/modules-memory":
+"@xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/packages/modules-memory":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/packages/modules-memory"
   dependencies:
@@ -6912,7 +6902,6 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"
-    "@xyo-network/api": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"

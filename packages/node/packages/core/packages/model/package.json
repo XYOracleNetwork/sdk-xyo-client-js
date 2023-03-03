@@ -29,7 +29,6 @@
   "dependencies": {
     "@xylabs/assert": "^2.7.4",
     "@xyo-network/account": "workspace:^",
-    "@xyo-network/api": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
@@ -39,7 +38,6 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/promise": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "ajv": "^8.12.0"
   },

@@ -34,7 +34,6 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
-    "@xyo-network/api": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

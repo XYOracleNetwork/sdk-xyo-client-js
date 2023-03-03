@@ -1,9 +1,7 @@
 import { UserCreationAuthInfo } from '@xyo-network/express-node-lib'
 import { AbstractArchivist, AbstractNode } from '@xyo-network/modules'
 import {
-  ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
-  ArchiveKeyRepository,
   ArchivePayloadArchivistFactory,
   IdentifiableHuri,
   Queue,
@@ -30,9 +28,7 @@ declare global {
     interface AuthInfo extends UserCreationAuthInfo {}
 
     interface Application {
-      archiveArchivist: ArchiveArchivist
       archiveBoundWitnessArchivistFactory: ArchiveBoundWitnessArchivistFactory
-      archiveKeyRepository: ArchiveKeyRepository
       archivePayloadsArchivistFactory: ArchivePayloadArchivistFactory
       archivist: AbstractArchivist
       archivistWitnessedPayloadArchivist: WitnessedPayloadArchivist

@@ -24,8 +24,8 @@
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
     "@types/sha.js": "^2.4.0",
-    "@xylabs/ts-scripts-yarn3": "^2.16.0",
-    "@xylabs/tsconfig": "^2.16.0",
+    "@xylabs/ts-scripts-yarn3": "^2.16.1",
+    "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"
   },
   "browser": "dist/esm/index.js",

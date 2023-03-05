@@ -47,7 +47,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
   protected _started = false
   protected readonly account: AccountInstance
   protected readonly moduleConfigQueryValidator: Queryable
-  protected readonly moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
+  protected moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
 
   protected readonly supportedQueryValidator: Queryable
 
@@ -110,11 +110,19 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return compact([config, configSchema, address, ...queries])
   }
 
-  on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void): this {
-    switch (event) {
-      case ModuleQueriedEvent:
-        this.moduleQueriedEventListeners?.push(listener as EventListener<ModuleQueriedEventArgs>)
-        break
+  on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void, remove?: boolean): this {
+    if (remove) {
+      switch (event) {
+        case ModuleQueriedEvent:
+          this.moduleQueriedEventListeners = this.moduleQueriedEventListeners.filter((item) => item !== listener)
+          break
+      }
+    } else {
+      switch (event) {
+        case ModuleQueriedEvent:
+          this.moduleQueriedEventListeners?.push(listener as EventListener<ModuleQueriedEventArgs>)
+          break
+      }
     }
     return this
   }

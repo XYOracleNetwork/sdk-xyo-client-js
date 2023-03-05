@@ -38,9 +38,9 @@ export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = Module
 export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams> extends AbstractModule<TParams> implements NodeModule {
   static override readonly configSchema = NodeConfigSchema
 
-  protected readonly moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
-  protected readonly moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
-  protected readonly moduleRegisteredEventListeners: EventListener<ModuleRegisteredEventArgs>[] = []
+  protected moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
+  protected moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
+  protected moduleRegisteredEventListeners: EventListener<ModuleRegisteredEventArgs>[] = []
 
   protected readonly privateResolver = new CompositeModuleResolver()
 
@@ -83,27 +83,45 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
     return [...(await super.discover()), ...childModAddresses]
   }
 
-  override on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void): this
-  override on(event: ModuleAttachedEvent, listener: (args: ModuleAttachedEventArgs) => void): this
-  override on(event: ModuleDetachedEvent, listener: (args: ModuleDetachedEventArgs) => void): this
-  override on(event: ModuleRegisteredEvent, listener: (args: ModuleRegisteredEventArgs) => void): this
+  override on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs, remove?: boolean) => void): this
+  override on(event: ModuleAttachedEvent, listener: (args: ModuleAttachedEventArgs) => void, remove?: boolean): this
+  override on(event: ModuleDetachedEvent, listener: (args: ModuleDetachedEventArgs) => void, remove?: boolean): this
+  override on(event: ModuleRegisteredEvent, listener: (args: ModuleRegisteredEventArgs) => void, remove?: boolean): this
   override on(
     event: ModuleQueriedEvent | ModuleAttachedEvent | ModuleDetachedEvent | ModuleRegisteredEvent,
     listener: (args: ModuleQueriedEventArgs) => void,
+    remove?: boolean,
   ): this {
-    switch (event) {
-      case ModuleAttachedEvent:
-        this.moduleAttachedEventListeners?.push(listener as EventListener<ModuleAttachedEventArgs>)
-        break
-      case ModuleDetachedEvent:
-        this.moduleDetachedEventListeners?.push(listener as EventListener<ModuleDetachedEventArgs>)
-        break
-      case ModuleRegisteredEvent:
-        this.moduleRegisteredEventListeners?.push(listener as EventListener<ModuleRegisteredEventArgs>)
-        break
-      default:
-        return super.on(event, listener)
+    if (remove) {
+      switch (event) {
+        case ModuleAttachedEvent:
+          this.moduleAttachedEventListeners = this.moduleAttachedEventListeners?.filter((item) => item != listener)
+          break
+        case ModuleDetachedEvent:
+          this.moduleDetachedEventListeners = this.moduleDetachedEventListeners?.filter((item) => item != listener)
+          break
+        case ModuleRegisteredEvent:
+          this.moduleRegisteredEventListeners = this.moduleRegisteredEventListeners?.filter((item) => item != listener)
+          break
+        default:
+          return super.on(event, listener)
+      }
+    } else {
+      switch (event) {
+        case ModuleAttachedEvent:
+          this.moduleAttachedEventListeners?.push(listener as EventListener<ModuleAttachedEventArgs>)
+          break
+        case ModuleDetachedEvent:
+          this.moduleDetachedEventListeners?.push(listener as EventListener<ModuleDetachedEventArgs>)
+          break
+        case ModuleRegisteredEvent:
+          this.moduleRegisteredEventListeners?.push(listener as EventListener<ModuleRegisteredEventArgs>)
+          break
+        default:
+          return super.on(event, listener)
+      }
     }
+
     return this
   }
 

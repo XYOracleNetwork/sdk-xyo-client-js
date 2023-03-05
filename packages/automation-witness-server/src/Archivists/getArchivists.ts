@@ -2,10 +2,10 @@ import { XyoApiConfig } from '@xyo-network/api-models'
 import { ArchivistModule } from '@xyo-network/archivist-interface'
 
 import { getApiConfig } from './getApiConfig'
-import { getArchive } from './getArchive'
+//import { getArchive } from './getArchive'
 
 export const getArchivists = async (configs: XyoApiConfig[] = [getApiConfig()]): Promise<ArchivistModule[]> => {
-  const archive = getArchive()
+  //const archive = getArchive()
   const archivists: ArchivistModule[] = []
   await Promise.resolve()
   // const bridge = await HttpBridge.create({

@@ -42,7 +42,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
     this.moduleAttachedEventListeners?.map((listener) => listener(args))
 
     const wrappedAsNode = NodeWrapper.tryWrap(module as NodeModule)
-    if (wrappedAsNode) {
+    if (wrappedAsNode && external) {
       const attachEmitter = wrappedAsNode.module as ModuleAttachedEventEmitter
       const detachEmitter = wrappedAsNode.module as ModuleDetachedEventEmitter
 

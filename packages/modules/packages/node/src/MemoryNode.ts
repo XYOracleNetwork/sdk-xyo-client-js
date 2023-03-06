@@ -48,10 +48,26 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
 
       attachEmitter.on('moduleAttached', (args: ModuleAttachedEventArgs) => this.moduleAttachedEventListeners?.map((listener) => listener(args)))
       detachEmitter.on('moduleDetached', (args: ModuleDetachedEventArgs) => this.moduleDetachedEventListeners?.map((listener) => listener(args)))
+
+      const notifyOfExistingModules = async (node: NodeWrapper) => {
+        //send attach events for all existing attached modules
+        const childModules = await node.resolve()
+        await Promise.all(
+          childModules.map((child) => {
+            this.moduleAttachedEventListeners?.map((listener) => listener({ module: child }))
+            const wrappedAsNode = NodeWrapper.tryWrap(child as NodeModule)
+            if (wrappedAsNode) {
+              return notifyOfExistingModules(wrappedAsNode)
+            }
+          }),
+        )
+      }
+
+      await notifyOfExistingModules(wrappedAsNode)
     }
   }
 
-  override detach(address: string) {
+  override async detach(address: string) {
     const module = assertEx(this.registeredModuleMap[address], 'No module found at that address')
 
     this.privateResolver.removeResolver(module.downResolver)
@@ -67,6 +83,25 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
 
     const args = { module, name: module.config.name }
     this.moduleDetachedEventListeners?.map((listener) => listener(args))
+
+    //notify of all sub node children detach
+    const wrappedAsNode = NodeWrapper.tryWrap(module as NodeModule)
+    if (wrappedAsNode) {
+      const notifyOfExistingModules = async (node: NodeWrapper) => {
+        //send attach events for all existing attached modules
+        const childModules = await node.resolve()
+        await Promise.all(
+          childModules.map((child) => {
+            this.moduleDetachedEventListeners?.map((listener) => listener({ module: child }))
+            const wrappedAsNode = NodeWrapper.tryWrap(child as NodeModule)
+            if (wrappedAsNode) {
+              return notifyOfExistingModules(wrappedAsNode)
+            }
+          }),
+        )
+      }
+      await notifyOfExistingModules(wrappedAsNode)
+    }
   }
 
   override register(module: Module) {
@@ -87,8 +122,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
     })
   }
 
-  override unregister(module: Module) {
-    this.detach(module.address)
+  override async unregister(module: Module) {
+    await this.detach(module.address)
     delete this.registeredModuleMap[module.address]
     return this
   }

@@ -20,7 +20,7 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.18.1"
+    "lru-cache": "^7.18.3"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.1",

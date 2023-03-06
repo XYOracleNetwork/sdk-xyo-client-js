@@ -5,6 +5,9 @@ import { duplicateModules, Module, ModuleFilter } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
+import { ModuleAttachedEventArgs, ModuleAttachedEventEmitter, ModuleDetachedEventArgs, ModuleDetachedEventEmitter } from './Events'
+import { NodeModule } from './Node'
+import { NodeWrapper } from './NodeWrapper'
 
 export type MemoryNodeParams<TConfig extends NodeConfig = NodeConfig> = AbstractNodeParams<TConfig>
 
@@ -37,6 +40,15 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
 
     const args = { module, name: module.config.name }
     this.moduleAttachedEventListeners?.map((listener) => listener(args))
+
+    const wrappedAsNode = NodeWrapper.tryWrap(module as NodeModule)
+    if (wrappedAsNode) {
+      const attachEmitter = wrappedAsNode.module as ModuleAttachedEventEmitter
+      const detachEmitter = wrappedAsNode.module as ModuleDetachedEventEmitter
+
+      attachEmitter.on('moduleAttached', (args: ModuleAttachedEventArgs) => this.moduleAttachedEventListeners?.map((listener) => listener(args)))
+      detachEmitter.on('moduleDetached', (args: ModuleDetachedEventArgs) => this.moduleDetachedEventListeners?.map((listener) => listener(args)))
+    }
   }
 
   override detach(address: string) {

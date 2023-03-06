@@ -56,7 +56,7 @@ describe('MultiNodeConfiguration', () => {
     const leftInternalArchivist2Wrapper = ArchivistWrapper.wrap(leftInternalArchivist2)
 
     await primaryNode.attach(leftNode.address, true)
-    primaryNode.detach(rightNode.address)
+    await primaryNode.detach(rightNode.address)
     expect((await primaryNodeWrapper.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
     expect((await primaryNodeWrapper.resolve({ name: ['primaryArchivist'] })).length).toBe(1)
 
@@ -121,7 +121,7 @@ describe('MultiNodeConfiguration', () => {
     const rightNodeWrapper = NodeWrapper.wrap(rightNode)
 
     await primaryNode.attach(rightNode.address, true)
-    primaryNode.detach(leftNode.address)
+    await primaryNode.detach(leftNode.address)
     expect((await primaryNodeWrapper.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
     expect((await leftNodeWrapper.resolve({ address: [leftDiviner.address] })).length).toBe(1)
     expect((await rightNodeWrapper.resolve({ address: [rightWitness.address] })).length).toBe(1)
@@ -136,8 +136,8 @@ describe('MultiNodeConfiguration', () => {
   test('leftNode', async () => {
     const primaryNodeWrapper = NodeWrapper.wrap(primaryNode)
 
-    primaryNode.detach(leftNode.address)
-    primaryNode.detach(rightNode.address)
+    await primaryNode.detach(leftNode.address)
+    await primaryNode.detach(rightNode.address)
     await primaryNode.attach(leftNode.address, true)
     await primaryNode.attach(rightNode.address, true)
 

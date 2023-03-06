@@ -206,8 +206,8 @@ describe('MemoryNode', () => {
       node.register(module)
       await node.attach(module.address, true)
     })
-    it('deregisters existing module', () => {
-      node.detach(module.address)
+    it('deregisters existing module', async () => {
+      await node.detach(module.address)
     })
     /*it('allows deregistering non-existent module', () => {
       node.detach('4a15a6c96665931b76c1d2a587ea1132dbfdc266')
@@ -238,7 +238,7 @@ describe('MemoryNode', () => {
       const module = await MemoryArchivist.create()
       node.register(module)
       expect(node.registeredModules()).toContain(module)
-      node.unregister(module)
+      await node.unregister(module)
       expect(node.registeredModules()).not.toContain(module)
     })
   })

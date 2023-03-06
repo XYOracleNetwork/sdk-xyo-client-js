@@ -2,9 +2,7 @@ import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   AbstractDiviner,
   AddressSpaceDiviner,
-  AddressSpaceQueryPayload,
   DivinerConfig,
-  isAddressSpaceQueryPayload,
   XyoArchivistPayloadDivinerConfig,
   XyoArchivistPayloadDivinerConfigSchema,
 } from '@xyo-network/diviner'

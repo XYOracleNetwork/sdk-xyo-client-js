@@ -7,7 +7,7 @@ import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
 
-export type EmitteryFunctions<TEmittery extends Emittery = Emittery> = {
+export interface EmitteryFunctions<TEmittery extends Emittery = Emittery> {
   emit: TEmittery['emit']
   off: TEmittery['off']
   on: TEmittery['on']
@@ -25,7 +25,7 @@ export type EventModule<
   TEmitteryFunctions extends EmitteryFunctions | undefined = undefined,
 > = Module<TConfig> & TEmitteryFunctions
 
-export type Module<TConfig extends ModuleConfig = ModuleConfig> = {
+export type Module<TConfig extends ModuleConfig = ModuleConfig, TEmittery extends Emittery = Emittery> = {
   address: string
   config: TConfig
 
@@ -47,4 +47,4 @@ export type Module<TConfig extends ModuleConfig = ModuleConfig> = {
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
   readonly upResolver: ModuleResolver
-}
+} & EmitteryFunctions<TEmittery>

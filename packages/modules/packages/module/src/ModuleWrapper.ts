@@ -4,6 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
+  EmitteryFunctions,
   EventModule,
   Module,
   ModuleDescription,
@@ -17,8 +18,10 @@ import {
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
+import Emittery from 'emittery'
 import compact from 'lodash/compact'
 
+import { BaseEmitter } from './AbstractModule'
 import { XyoError, XyoErrorSchema } from './Error'
 import { duplicateModules } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
@@ -40,7 +43,7 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 }
 
 @moduleConstructable()
-export class ModuleWrapper<TWrappedModule extends Module | EventModule = Module> implements Module<TWrappedModule['config']> {
+export class ModuleWrapper<TWrappedModule extends Module | EventModule = Module> implements Module<TWrappedModule['config']>, EmitteryFunctions {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
   readonly module: TWrappedModule
@@ -65,6 +68,22 @@ export class ModuleWrapper<TWrappedModule extends Module | EventModule = Module>
 
   get downResolver() {
     return this.module.downResolver
+  }
+
+  get emit() {
+    return this.module.emit
+  }
+
+  get off() {
+    return this.module.off
+  }
+
+  get on() {
+    return this.module.on
+  }
+
+  get once() {
+    return this.module.once
   }
 
   get queries(): string[] {
@@ -127,10 +146,6 @@ export class ModuleWrapper<TWrappedModule extends Module | EventModule = Module>
   discover(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return this.sendQuery(queryPayload)
-  }
-
-  on: EventModule['on'] = (event, args) => {
-    return (this.module as EventModule).on?.(event, args)
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {

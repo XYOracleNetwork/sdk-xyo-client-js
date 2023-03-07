@@ -10,7 +10,6 @@ import {
   ModuleConfig,
   ModuleFilter,
   ModuleParams,
-  ModuleQueriedEvent,
   ModuleQueriedEventArgs,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -20,20 +19,27 @@ import {
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
+import Emittery from 'emittery'
 
 import { NodeConfig, NodeConfigSchema } from './Config'
-import {
-  ModuleAttachedEvent,
-  ModuleAttachedEventArgs,
-  ModuleDetachedEvent,
-  ModuleDetachedEventArgs,
-  ModuleRegisteredEvent,
-  ModuleRegisteredEventArgs,
-} from './Events'
+import { ModuleAttachedEventArgs, ModuleDetachedEventArgs, ModuleRegisteredEventArgs } from './Events'
 import { NodeModule } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = ModuleParams<TConfig>
+export type AbstractNodeParams<
+  TConfig extends NodeConfig = NodeConfig,
+  TEmittery extends Emittery<{
+    moduleAttached: ModuleAttachedEventArgs
+    moduleDetached: ModuleDetachedEventArgs
+    moduleQueried: ModuleQueriedEventArgs
+    moduleRegistered: ModuleRegisteredEventArgs
+  }> = Emittery<{
+    moduleAttached: ModuleAttachedEventArgs
+    moduleDetached: ModuleDetachedEventArgs
+    moduleQueried: ModuleQueriedEventArgs
+    moduleRegistered: ModuleRegisteredEventArgs
+  }>,
+> = ModuleParams<TConfig, TEmittery>
 
 export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams> extends AbstractModule<TParams> implements NodeModule {
   static override readonly configSchema = NodeConfigSchema

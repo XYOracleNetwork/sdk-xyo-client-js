@@ -5,6 +5,7 @@ import { DivinerConfig, DivinerModule, XyoDivinerDivineQuerySchema, XyoDivinerQu
 import {
   AbstractModule,
   ModuleConfig,
+  ModuleEmittery,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -17,6 +18,7 @@ import { Promisable } from '@xyo-network/promise'
 
 export type DivinerParams<TConfig extends DivinerConfig = DivinerConfig, TAdditional extends AnyObject | undefined = undefined> = ModuleParams<
   TConfig,
+  ModuleEmittery,
   TAdditional
 >
 

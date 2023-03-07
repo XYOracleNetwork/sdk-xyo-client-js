@@ -4,6 +4,7 @@ import { AnyObject } from '@xyo-network/core'
 import {
   AbstractModule,
   ModuleConfig,
+  ModuleEmittery,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -21,7 +22,7 @@ import { WitnessModule } from './Witness'
 export type WitnessParams<
   TConfig extends XyoWitnessConfig = XyoWitnessConfig,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TAdditionalParams>
+> = ModuleParams<TConfig, ModuleEmittery, TAdditionalParams>
 export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams>
   extends AbstractModule<TParams>
   implements WitnessModule<TParams['config']>

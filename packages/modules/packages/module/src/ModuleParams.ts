@@ -1,6 +1,6 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { AnyObject, BaseParams } from '@xyo-network/core'
-import { ModuleConfig, ModuleQueriedEventArgs } from '@xyo-network/module-model'
+import { ModuleConfig } from '@xyo-network/module-model'
 import { XyoWalletBase } from '@xyo-network/wallet'
 import Emittery from 'emittery'
 
@@ -19,7 +19,7 @@ export type BaseEmitterParams<
 
 export type BasicModuleParams<
   TConfig extends ModuleConfig = ModuleConfig,
-  TEmittery extends Emittery<{ moduleQueried: ModuleQueriedEventArgs }> = Emittery<{ moduleQueried: ModuleQueriedEventArgs }>,
+  TEmittery extends Emittery = Emittery,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = WithAdditional<
   BaseEmitterParams<
@@ -33,7 +33,7 @@ export type BasicModuleParams<
 
 export type AccountModuleParams<
   TConfig extends ModuleConfig = ModuleConfig,
-  TEmittery extends Emittery<{ moduleQueried: ModuleQueriedEventArgs }> = Emittery<{ moduleQueried: ModuleQueriedEventArgs }>,
+  TEmittery extends Emittery = Emittery,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = BasicModuleParams<
   TConfig,
@@ -48,7 +48,7 @@ export type AccountModuleParams<
 
 export type WalletModuleParams<
   TConfig extends ModuleConfig = ModuleConfig,
-  TEmittery extends Emittery<{ moduleQueried: ModuleQueriedEventArgs }> = Emittery<{ moduleQueried: ModuleQueriedEventArgs }>,
+  TEmittery extends Emittery = Emittery,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = BasicModuleParams<
   TConfig,
@@ -64,7 +64,7 @@ export type WalletModuleParams<
 
 export type ModuleParams<
   TConfig extends ModuleConfig = ModuleConfig,
-  TEmittery extends Emittery<{ moduleQueried: ModuleQueriedEventArgs }> = Emittery<{ moduleQueried: ModuleQueriedEventArgs }>,
+  TEmittery extends Emittery = Emittery,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > =
   | AccountModuleParams<TConfig, TEmittery, TAdditionalParams>

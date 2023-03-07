@@ -1,5 +1,6 @@
 import { Module } from '@xyo-network/module-model'
-import { ModuleParams } from '@xyo-network/module-model/src/model/ModuleParams'
+
+import { ModuleParams } from './ModuleParams'
 
 export interface CreatableModule<T extends Module = Module, TParams extends ModuleParams = ModuleParams> {
   configSchema: string

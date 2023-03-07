@@ -14,7 +14,7 @@ export class WitnessWrapper extends ModuleWrapper implements Witness {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
-        console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+        //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
         return new WitnessWrapper(module as Module, account)
       }

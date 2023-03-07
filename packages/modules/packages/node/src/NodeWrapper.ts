@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { ModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -28,11 +28,16 @@ export class NodeWrapper extends ModuleWrapper<NodeModule> implements NodeModule
     return this._archivist
   }
 
+  static isNodeModule(module: Module) {
+    const missingRequiredQueries = this.missingRequiredQueries(module)
+    return missingRequiredQueries.length === 0
+  }
+
   static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
-        console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+        //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
         return new NodeWrapper(module as TModule, account)
       }

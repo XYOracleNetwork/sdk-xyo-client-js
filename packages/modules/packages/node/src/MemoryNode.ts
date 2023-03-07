@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { duplicateModules, Module, ModuleFilter } from '@xyo-network/module'
+import { duplicateModules, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -25,6 +25,32 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
     assertEx(!existingModule, `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
     const module = assertEx(this.registeredModuleMap[address], 'No module registered at that address')
 
+    const wrapper = ModuleWrapper.wrap(module)
+    const notifiedAddresses: string[] = []
+    const notifyOfExistingModules = async (node: ModuleWrapper) => {
+      //send attach events for all existing attached modules
+      const childModules = await node.resolve()
+      childModules.map((child) => {
+        //don't report self
+        if (node.address === child.address) {
+          return
+        }
+
+        //prevent loop
+        if (notifiedAddresses.includes(child.address)) {
+          return
+        }
+        notifiedAddresses.push(child.address)
+        const args = { module: child, name: child.config.name }
+        this.moduleAttachedEventListeners?.map((listener) => listener(args))
+      })
+    }
+
+    await notifyOfExistingModules(wrapper)
+
+    const args = { module, name: module.config.name }
+    this.moduleAttachedEventListeners?.map((listener) => listener(args))
+
     this.privateResolver.addResolver(module.downResolver)
 
     //give it inside access
@@ -38,32 +64,15 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
       this.downResolver.addResolver(module.downResolver)
     }
 
-    const args = { module, name: module.config.name }
-    this.moduleAttachedEventListeners?.map((listener) => listener(args))
+    if (NodeWrapper.isNodeModule(module)) {
+      if (external) {
+        const wrappedAsNode = NodeWrapper.wrap(module as NodeModule)
+        const attachEmitter = wrappedAsNode.module as ModuleAttachedEventEmitter
+        const detachEmitter = wrappedAsNode.module as ModuleDetachedEventEmitter
 
-    const wrappedAsNode = NodeWrapper.tryWrap(module as NodeModule)
-    if (wrappedAsNode && external) {
-      const attachEmitter = wrappedAsNode.module as ModuleAttachedEventEmitter
-      const detachEmitter = wrappedAsNode.module as ModuleDetachedEventEmitter
-
-      attachEmitter.on('moduleAttached', (args: ModuleAttachedEventArgs) => this.moduleAttachedEventListeners?.map((listener) => listener(args)))
-      detachEmitter.on('moduleDetached', (args: ModuleDetachedEventArgs) => this.moduleDetachedEventListeners?.map((listener) => listener(args)))
-
-      const notifyOfExistingModules = async (node: NodeWrapper) => {
-        //send attach events for all existing attached modules
-        const childModules = await node.resolve()
-        await Promise.all(
-          childModules.map((child) => {
-            this.moduleAttachedEventListeners?.map((listener) => listener({ module: child }))
-            const wrappedAsNode = NodeWrapper.tryWrap(child as NodeModule)
-            if (wrappedAsNode) {
-              return notifyOfExistingModules(wrappedAsNode)
-            }
-          }),
-        )
+        attachEmitter.on('moduleAttached', (args: ModuleAttachedEventArgs) => this.moduleAttachedEventListeners?.map((listener) => listener(args)))
+        detachEmitter.on('moduleDetached', (args: ModuleDetachedEventArgs) => this.moduleDetachedEventListeners?.map((listener) => listener(args)))
       }
-
-      await notifyOfExistingModules(wrappedAsNode)
     }
   }
 
@@ -85,22 +94,27 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
     this.moduleDetachedEventListeners?.map((listener) => listener(args))
 
     //notify of all sub node children detach
-    const wrappedAsNode = NodeWrapper.tryWrap(module as NodeModule)
-    if (wrappedAsNode) {
-      const notifyOfExistingModules = async (node: NodeWrapper) => {
+    const wrapper = ModuleWrapper.tryWrap(module as NodeModule)
+    const notifiedAddresses: string[] = []
+    if (wrapper) {
+      const notifyOfExistingModules = async (node: ModuleWrapper) => {
         //send attach events for all existing attached modules
         const childModules = await node.resolve()
-        await Promise.all(
-          childModules.map((child) => {
-            this.moduleDetachedEventListeners?.map((listener) => listener({ module: child }))
-            const wrappedAsNode = NodeWrapper.tryWrap(child as NodeModule)
-            if (wrappedAsNode) {
-              return notifyOfExistingModules(wrappedAsNode)
-            }
-          }),
-        )
+        childModules.map((child) => {
+          //don't report self
+          if (node.address === child.address) {
+            return
+          }
+
+          //prevent loop
+          if (notifiedAddresses.includes(child.address)) {
+            return
+          }
+          notifiedAddresses.push(child.address)
+          this.moduleDetachedEventListeners?.map((listener) => listener({ module: child }))
+        })
       }
-      await notifyOfExistingModules(wrappedAsNode)
+      await notifyOfExistingModules(wrapper)
     }
   }
 

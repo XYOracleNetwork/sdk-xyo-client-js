@@ -20,7 +20,7 @@ export class SentinelWrapper extends ModuleWrapper implements Sentinel {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
-        console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+        //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
         return new SentinelWrapper(module as SentinelModule, account)
       }

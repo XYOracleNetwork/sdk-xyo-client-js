@@ -92,7 +92,7 @@ export class ModuleWrapper<TWrappedModule extends Module | EventModule = Module>
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
-        console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+        //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
         return new ModuleWrapper(module as Module, account)
       }

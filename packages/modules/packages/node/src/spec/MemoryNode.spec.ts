@@ -18,6 +18,7 @@ import { MemoryNode } from '../MemoryNode'
 import { NodeWrapper } from '../NodeWrapper'
 
 describe('MemoryNode', () => {
+  const testAccount0 = new Account({ phrase: 'testPhrase0' })
   const testAccount1 = new Account({ phrase: 'testPhrase1' })
   const testAccount2 = new Account({ phrase: 'testPhrase2' })
   const testAccount3 = new Account({ phrase: 'testPhrase3' })
@@ -26,9 +27,9 @@ describe('MemoryNode', () => {
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeAll(() => {
-    jest.spyOn(console, 'log').mockImplementation(() => {
-      // Stop expected logs from being generated during tests
-    })
+    //jest.spyOn(console, 'log').mockImplementation(() => {
+    // Stop expected logs from being generated during tests
+    //})
   })
   beforeEach(async () => {
     node = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
@@ -45,7 +46,7 @@ describe('MemoryNode', () => {
       await node.register(diviner).attach(diviner.address, true)
       expect(node.registered()).toBeArrayOfSize(2)
       expect(await node.attached()).toBeArrayOfSize(2)
-      const foundArchivist = await NodeWrapper.wrap(node).resolve(archivist.address)
+      const foundArchivist = await NodeWrapper.wrap(node, testAccount0).resolve(archivist.address)
       expect(foundArchivist).toBeDefined()
       expect(foundArchivist?.address).toBe(archivist.address)
       const testPayload = new XyoPayloadBuilder<XyoPayload<{ schema: XyoPayloadSchema; test: boolean }>>({ schema: XyoPayloadSchema })
@@ -64,7 +65,7 @@ describe('MemoryNode', () => {
       if (payloads && payloads[0]) {
         const huri = new PayloadWrapper(payloads[0]).hash
         const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
-        const module = (await NodeWrapper.wrap(node).resolve(diviner.address)) as DivinerModule | undefined
+        const module = (await NodeWrapper.wrap(node, testAccount0).resolve(diviner.address)) as DivinerModule | undefined
         const foundDiviner = module ? new DivinerWrapper(module) : null
         expect(foundDiviner).toBeDefined()
         if (foundDiviner) {
@@ -253,13 +254,13 @@ describe('MemoryNode', () => {
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const wrapper = NodeWrapper.wrap(node)
+        const wrapper = NodeWrapper.wrap(node, testAccount0)
         const description = await wrapper.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        const wrapper = NodeWrapper.wrap(node)
+        const wrapper = NodeWrapper.wrap(node, testAccount0)
         const description = await wrapper.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
@@ -276,14 +277,14 @@ describe('MemoryNode', () => {
         })
       })
       it('describes node and child modules', async () => {
-        const wrapper = NodeWrapper.wrap(node)
+        const wrapper = NodeWrapper.wrap(node, testAccount0)
         const description = await wrapper.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
         //description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const wrapper = NodeWrapper.wrap(node)
+        const wrapper = NodeWrapper.wrap(node, testAccount0)
         const description = await wrapper.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
@@ -307,7 +308,7 @@ describe('MemoryNode', () => {
         const memoryNode = await MemoryNode.create()
         const archivist1 = await MemoryArchivist.create()
         const archivist2 = await MemoryArchivist.create()
-        const wrapper = NodeWrapper.wrap(memoryNode)
+        const wrapper = NodeWrapper.wrap(memoryNode, testAccount0)
         await memoryNode.register(archivist1).attach(archivist1.address, true)
         await memoryNode.register(archivist2).attach(archivist2.address, true)
         const description = await wrapper.describe()
@@ -316,7 +317,7 @@ describe('MemoryNode', () => {
         //description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const wrapper = NodeWrapper.wrap(node)
+        const wrapper = NodeWrapper.wrap(node, testAccount0)
         const description = await wrapper.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
@@ -367,18 +368,39 @@ describe('MemoryNode', () => {
     })
     describe('node with nested nodes and modules', () => {
       beforeEach(async () => {
+        node = await MemoryNode.create()
+        const attachEvents: Module[] = []
+        node.on('moduleAttached', ({ module }) => {
+          attachEvents.push(module)
+        })
         const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
         const nestedModules = await Promise.all([await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
-        nestedModules.map(async (mod) => {
-          nestedNode.register(mod)
-          await nestedNode.attach(mod.address, true)
-        })
+        await Promise.all(
+          nestedModules.map(async (mod) => {
+            nestedNode.register(mod)
+            await nestedNode.attach(mod.address, true)
+          }),
+        )
         const rootModules: AbstractModule[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
-        rootModules.map(async (mod) => {
-          node.register(mod)
-          await node.attach(mod.address, true)
+        await Promise.all(
+          rootModules.map(async (mod) => {
+            node.register(mod)
+            await node.attach(mod.address, true)
+          }),
+        )
+        expect(attachEvents.includes(nestedNode)).toBeTrue()
+        expect(attachEvents.includes(node)).toBeFalse()
+        expect(nestedModules.length).toBe(1)
+        nestedModules.forEach((nestedModule) => {
+          expect(attachEvents.includes(nestedModule)).toBeTrue()
         })
+        expect(rootModules.length).toBe(2)
+        rootModules.forEach((rootModule) => {
+          expect(attachEvents.includes(rootModule)).toBeTrue()
+        })
+        const eventAddresses = attachEvents.map((module) => module.address)
+        expect(eventAddresses.length).toBe(3)
       })
       it('describes node and all nested nodes and child modules', async () => {
         const description = await node.discover()

@@ -53,9 +53,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
 
     const notificationList = await getModulesToNotifyAbout(wrapper)
 
-    const args = { module, name: module.config.name }
-    this.moduleAttachedEventListeners?.map((listener) => listener(args))
-
     this.privateResolver.addResolver(module.downResolver)
 
     //give it inside access
@@ -68,6 +65,9 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
       //expose it externally
       this.downResolver.addResolver(module.downResolver)
     }
+
+    const args = { module, name: module.config.name }
+    this.moduleAttachedEventListeners?.map((listener) => listener(args))
 
     if (NodeWrapper.isNodeModule(module)) {
       if (external) {
@@ -87,7 +87,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
       })
     }
 
-    await notifyOfExistingModules(notificationList)
+    notifyOfExistingModules(notificationList)
   }
 
   override async detach(address: string) {

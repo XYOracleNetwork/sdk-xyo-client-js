@@ -1,12 +1,28 @@
+import { AnyObject } from '@xyo-network/core'
+import Emittery from 'emittery'
+
+import { Module } from '../model'
 import { EventArgs } from './EventArgs'
-import { EventListener } from './EventListener'
 
-export type EventEmitterFunc<TResult, TEvent extends string = never, TEventArgs extends EventArgs = EventArgs> = (
-  event: TEvent,
-  handler: EventListener<TEventArgs>,
-  remove?: boolean,
-) => TResult
+export type EventName = PropertyKey
 
-export interface ModuleEventEmitter<TEvent extends string = never, TEventArgs extends EventArgs = EventArgs> {
-  on: EventEmitterFunc<this, TEvent, TEventArgs>
+export type ModuleEventArgs<TArgs extends AnyObject | undefined = undefined> = TArgs extends AnyObject
+  ? EventArgs<
+      {
+        module: Module
+      } & TArgs
+    >
+  : EventArgs<{
+      module: Module
+    }>
+
+export interface ModuleEventEmitter<
+  TEmitterEventData extends Record<EventName, ModuleEventArgs> = Record<EventName, ModuleEventArgs>,
+  TEmitter extends Emittery<TEmitterEventData> = Emittery<TEmitterEventData>,
+> {
+  emit: TEmitter['emit']
+  events?: keyof TEmitterEventData
+  off: TEmitter['off']
+  on: TEmitter['on']
+  once: TEmitter['once']
 }

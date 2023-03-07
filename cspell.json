@@ -16,6 +16,7 @@
     "deregistering",
     "deregisters",
     "dotenv",
+    "emittery",
     "ethersproject",
     "ethgasstation",
     "hashable",

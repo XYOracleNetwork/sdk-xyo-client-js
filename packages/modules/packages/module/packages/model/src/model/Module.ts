@@ -1,12 +1,18 @@
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
+import Emittery from 'emittery'
 
 import { ModuleConfig } from '../Config'
-import { ModuleEventEmitter, ModuleQueriedEventEmitter } from '../Events'
 import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
 
+export type EmitteryFunctions<TEmittery extends Emittery = Emittery> = {
+  emit: TEmittery['emit']
+  off: TEmittery['off']
+  on: TEmittery['on']
+  once: TEmittery['once']
+}
 export interface ModuleResolver {
   addResolver: (resolver: ModuleResolver) => this
   isModuleResolver: boolean
@@ -14,9 +20,10 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type EventModule<TConfig extends ModuleConfig = ModuleConfig, TModuleEventEmitter extends ModuleEventEmitter | undefined = undefined> = {
-  on: TModuleEventEmitter extends ModuleEventEmitter ? ModuleQueriedEventEmitter['on'] | TModuleEventEmitter['on'] : ModuleQueriedEventEmitter['on']
-} & Module<TConfig>
+export type EventModule<
+  TConfig extends ModuleConfig = ModuleConfig,
+  TEmitteryFunctions extends EmitteryFunctions | undefined = undefined,
+> = Module<TConfig> & TEmitteryFunctions
 
 export type Module<TConfig extends ModuleConfig = ModuleConfig> = {
   address: string

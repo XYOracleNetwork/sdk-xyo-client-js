@@ -7,12 +7,12 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { Base } from '@xyo-network/core'
 import {
+  EmitteryFunctions,
   EventListener,
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
-  ModuleQueriedEvent,
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryResult,
@@ -32,13 +32,42 @@ import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
 import { IdLogger } from './IdLogger'
 import { duplicateModules, serializableField } from './lib'
-import { AccountModuleParams, ModuleParams, WalletModuleParams } from './ModuleParams'
+import { AccountModuleParams, BaseEmitterParams, ModuleParams, WalletModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
+export class BaseEmitter<TParams extends BaseEmitterParams = BaseEmitterParams>
+  extends Base<TParams>
+  implements EmitteryFunctions<TParams['emittery']>
+{
+  constructor(params: TParams) {
+    super(params)
+  }
+
+  get emit(): TParams['emittery']['emit'] {
+    return this.emittery.emit
+  }
+
+  get emittery() {
+    return this.params.emittery
+  }
+
+  get off(): TParams['emittery']['off'] {
+    return this.emittery.off
+  }
+
+  get on(): TParams['emittery']['on'] {
+    return this.emittery.on
+  }
+
+  get once(): TParams['emittery']['once'] {
+    return this.emittery.once
+  }
+}
+
 @creatable()
-export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends Base<TParams> implements Module<TParams['config']> {
+export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams['config']> {
   static configSchema: string
 
   readonly downResolver = new CompositeModuleResolver()
@@ -108,23 +137,6 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
       schema: ConfigSchema,
     }
     return compact([config, configSchema, address, ...queries])
-  }
-
-  on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs) => void, remove?: boolean): this {
-    if (remove) {
-      switch (event) {
-        case ModuleQueriedEvent:
-          this.moduleQueriedEventListeners = this.moduleQueriedEventListeners.filter((item) => item !== listener)
-          break
-      }
-    } else {
-      switch (event) {
-        case ModuleQueriedEvent:
-          this.moduleQueriedEventListeners?.push(listener as EventListener<ModuleQueriedEventArgs>)
-          break
-      }
-    }
-    return this
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { duplicateModules, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import compact from 'lodash/compact'
 
 import { AbstractNode, AbstractNodeParams } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
@@ -27,26 +28,30 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
 
     const wrapper = ModuleWrapper.wrap(module)
     const notifiedAddresses: string[] = []
-    const notifyOfExistingModules = async (node: ModuleWrapper) => {
+
+    const getModulesToNotifyAbout = async (node: ModuleWrapper) => {
       //send attach events for all existing attached modules
       const childModules = await node.resolve()
-      childModules.map((child) => {
-        //don't report self
-        if (node.address === child.address) {
-          return
-        }
+      return compact(
+        childModules.map((child) => {
+          //don't report self
+          if (node.address === child.address) {
+            return
+          }
 
-        //prevent loop
-        if (notifiedAddresses.includes(child.address)) {
-          return
-        }
-        notifiedAddresses.push(child.address)
-        const args = { module: child, name: child.config.name }
-        this.moduleAttachedEventListeners?.map((listener) => listener(args))
-      })
+          //prevent loop
+          if (notifiedAddresses.includes(child.address)) {
+            return
+          }
+
+          notifiedAddresses.push(child.address)
+
+          return child
+        }),
+      )
     }
 
-    await notifyOfExistingModules(wrapper)
+    const notificationList = await getModulesToNotifyAbout(wrapper)
 
     const args = { module, name: module.config.name }
     this.moduleAttachedEventListeners?.map((listener) => listener(args))
@@ -74,6 +79,15 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
         detachEmitter.on('moduleDetached', (args: ModuleDetachedEventArgs) => this.moduleDetachedEventListeners?.map((listener) => listener(args)))
       }
     }
+
+    const notifyOfExistingModules = (childModules: Module[]) => {
+      childModules.map((child) => {
+        const args = { module: child, name: child.config.name }
+        this.moduleAttachedEventListeners?.map((listener) => listener(args))
+      })
+    }
+
+    await notifyOfExistingModules(notificationList)
   }
 
   override async detach(address: string) {

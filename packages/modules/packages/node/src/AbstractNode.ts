@@ -4,13 +4,14 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import {
   AbstractModule,
   CompositeModuleResolver,
+  creatable,
   duplicateModules,
-  EventListener,
+  EmitteryFunctions,
+  EventData,
   Module,
   ModuleConfig,
   ModuleFilter,
   ModuleParams,
-  ModuleQueriedEventArgs,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
@@ -19,34 +20,19 @@ import {
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import Emittery from 'emittery'
 
 import { NodeConfig, NodeConfigSchema } from './Config'
-import { ModuleAttachedEventArgs, ModuleDetachedEventArgs, ModuleRegisteredEventArgs } from './Events'
-import { NodeModule } from './Node'
+import { NodeModule, NodeModuleEventData } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-export type AbstractNodeParams<
-  TConfig extends NodeConfig = NodeConfig,
-  TEmittery extends Emittery<{
-    moduleAttached: ModuleAttachedEventArgs
-    moduleDetached: ModuleDetachedEventArgs
-    moduleQueried: ModuleQueriedEventArgs
-    moduleRegistered: ModuleRegisteredEventArgs
-  }> = Emittery<{
-    moduleAttached: ModuleAttachedEventArgs
-    moduleDetached: ModuleDetachedEventArgs
-    moduleQueried: ModuleQueriedEventArgs
-    moduleRegistered: ModuleRegisteredEventArgs
-  }>,
-> = ModuleParams<TConfig, TEmittery>
+export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = ModuleParams<TConfig>
 
-export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams> extends AbstractModule<TParams> implements NodeModule {
+@creatable()
+export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams, TEventData extends EventData | undefined = undefined>
+  extends AbstractModule<TParams, TEventData extends EventData ? TEventData & NodeModuleEventData : NodeModuleEventData>
+  implements NodeModule, Module<NodeConfig>
+{
   static override readonly configSchema = NodeConfigSchema
-
-  protected moduleAttachedEventListeners: EventListener<ModuleAttachedEventArgs>[] = []
-  protected moduleDetachedEventListeners: EventListener<ModuleDetachedEventArgs>[] = []
-  protected moduleRegisteredEventListeners: EventListener<ModuleRegisteredEventArgs>[] = []
 
   protected readonly privateResolver = new CompositeModuleResolver()
 
@@ -87,48 +73,6 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
     )
 
     return [...(await super.discover()), ...childModAddresses]
-  }
-
-  override on(event: ModuleQueriedEvent, listener: (args: ModuleQueriedEventArgs, remove?: boolean) => void): this
-  override on(event: ModuleAttachedEvent, listener: (args: ModuleAttachedEventArgs) => void, remove?: boolean): this
-  override on(event: ModuleDetachedEvent, listener: (args: ModuleDetachedEventArgs) => void, remove?: boolean): this
-  override on(event: ModuleRegisteredEvent, listener: (args: ModuleRegisteredEventArgs) => void, remove?: boolean): this
-  override on(
-    event: ModuleQueriedEvent | ModuleAttachedEvent | ModuleDetachedEvent | ModuleRegisteredEvent,
-    listener: (args: ModuleQueriedEventArgs) => void,
-    remove?: boolean,
-  ): this {
-    if (remove) {
-      switch (event) {
-        case ModuleAttachedEvent:
-          this.moduleAttachedEventListeners = this.moduleAttachedEventListeners?.filter((item) => item != listener)
-          break
-        case ModuleDetachedEvent:
-          this.moduleDetachedEventListeners = this.moduleDetachedEventListeners?.filter((item) => item != listener)
-          break
-        case ModuleRegisteredEvent:
-          this.moduleRegisteredEventListeners = this.moduleRegisteredEventListeners?.filter((item) => item != listener)
-          break
-        default:
-          return super.on(event, listener)
-      }
-    } else {
-      switch (event) {
-        case ModuleAttachedEvent:
-          this.moduleAttachedEventListeners?.push(listener as EventListener<ModuleAttachedEventArgs>)
-          break
-        case ModuleDetachedEvent:
-          this.moduleDetachedEventListeners?.push(listener as EventListener<ModuleDetachedEventArgs>)
-          break
-        case ModuleRegisteredEvent:
-          this.moduleRegisteredEventListeners?.push(listener as EventListener<ModuleRegisteredEventArgs>)
-          break
-        default:
-          return super.on(event, listener)
-      }
-    }
-
-    return this
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

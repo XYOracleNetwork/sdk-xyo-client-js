@@ -5,11 +5,11 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   EmitteryFunctions,
-  EventModule,
   Module,
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
+  ModuleEventData,
   ModuleFilter,
   ModuleQueryResult,
   XyoQuery,
@@ -18,10 +18,8 @@ import {
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
-import Emittery from 'emittery'
 import compact from 'lodash/compact'
 
-import { BaseEmitter } from './AbstractModule'
 import { XyoError, XyoErrorSchema } from './Error'
 import { duplicateModules } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
@@ -43,7 +41,7 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
 }
 
 @moduleConstructable()
-export class ModuleWrapper<TWrappedModule extends Module | EventModule = Module> implements Module<TWrappedModule['config']>, EmitteryFunctions {
+export class ModuleWrapper<TWrappedModule extends Module = Module> implements Module<TWrappedModule['config']>, EmitteryFunctions<ModuleEventData> {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
   readonly module: TWrappedModule

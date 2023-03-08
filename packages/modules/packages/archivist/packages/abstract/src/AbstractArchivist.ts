@@ -19,7 +19,6 @@ import { AnyObject } from '@xyo-network/core'
 import {
   AbstractModule,
   ModuleConfig,
-  ModuleEmittery,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -40,7 +39,7 @@ export interface XyoArchivistParentWrappers {
 export type ArchivistParams<
   TConfig extends ArchivistConfig = ArchivistConfig,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, ModuleEmittery, TAdditionalParams>
+> = ModuleParams<TConfig, TAdditionalParams>
 
 export abstract class AbstractArchivist<TParams extends ArchivistParams = ArchivistParams>
   extends AbstractModule<TParams>

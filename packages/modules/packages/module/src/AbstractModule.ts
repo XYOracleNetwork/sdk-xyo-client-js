@@ -5,19 +5,22 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { Base } from '@xyo-network/core'
+import { Base, BaseParams } from '@xyo-network/core'
 import {
   EmitteryFunctions,
+  EventData,
   EventListener,
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
+  ModuleEventData,
   ModuleFilter,
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryResult,
   ModuleSubscribeQuerySchema,
   SchemaString,
+  XyoEmittery,
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
@@ -26,26 +29,33 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
+import Emittery from 'emittery'
 import compact from 'lodash/compact'
 
 import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
 import { IdLogger } from './IdLogger'
 import { duplicateModules, serializableField } from './lib'
-import { AccountModuleParams, BaseEmitterParams, ModuleParams, WalletModuleParams } from './ModuleParams'
+import { AccountModuleParams, ModuleParams, WalletModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
-export class BaseEmitter<TParams extends BaseEmitterParams = BaseEmitterParams>
-  extends Base<TParams>
-  implements EmitteryFunctions<TParams['emittery']>
+export type BaseEmitterParams<TParams extends BaseParams = BaseParams, TEventData extends EventData | undefined = undefined> = TParams & {
+  emittery: XyoEmittery<TEventData extends EventData ? TEventData & EventData : EventData>
+}
+
+export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData extends EventData | undefined = undefined>
+  extends Base<BaseEmitterParams<TParams, TEventData>>
+  implements EmitteryFunctions<TEventData extends EventData ? TEventData & EventData : EventData>
 {
   constructor(params: TParams) {
-    super(params)
+    const mutatedParams = { ...params } as BaseEmitterParams<TParams, TEventData>
+    mutatedParams.emittery = mutatedParams.emittery ?? new Emittery<TEventData extends EventData ? TEventData & EventData : EventData>()
+    super(mutatedParams)
   }
 
-  get emit(): TParams['emittery']['emit'] {
+  get emit() {
     return this.emittery.emit
   }
 
@@ -53,21 +63,24 @@ export class BaseEmitter<TParams extends BaseEmitterParams = BaseEmitterParams>
     return this.params.emittery
   }
 
-  get off(): TParams['emittery']['off'] {
+  get off() {
     return this.emittery.off
   }
 
-  get on(): TParams['emittery']['on'] {
+  get on() {
     return this.emittery.on
   }
 
-  get once(): TParams['emittery']['once'] {
+  get once() {
     return this.emittery.once
   }
 }
 
 @creatable()
-export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams['config']> {
+export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends EventData | undefined = undefined>
+  extends BaseEmitter<TParams, TEventData extends EventData ? TEventData & ModuleEventData : ModuleEventData>
+  implements Module<TParams['config']>
+{
   static configSchema: string
 
   readonly downResolver = new CompositeModuleResolver()

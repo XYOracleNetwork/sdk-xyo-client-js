@@ -1,8 +1,8 @@
-import { EventModule } from '@xyo-network/module-model'
+import { Module } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
-import { ModuleAttachedEventEmitter, ModuleDetachedEventEmitter, ModuleRegisteredEventEmitter } from './Events'
+import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData } from './Events'
 
 export interface Node {
   attach(address: string, external?: boolean): Promisable<void>
@@ -11,4 +11,6 @@ export interface Node {
   registered(): Promisable<string[]>
 }
 
-export type NodeModule = Node & EventModule<NodeConfig, ModuleAttachedEventEmitter | ModuleDetachedEventEmitter | ModuleRegisteredEventEmitter>
+export interface NodeModuleEventData extends ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData {}
+
+export type NodeModule = Node & Module<NodeConfig, NodeModuleEventData>

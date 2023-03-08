@@ -1,9 +1,9 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { XyoPayload } from '@xyo-network/payload-model'
-import Emittery from 'emittery'
 
+import { EventData, XyoEmittery } from '../model'
 import { XyoQueryBoundWitness } from '../Query'
-import { ModuleEventArgs } from './ModuleEventEmitter'
+import { ModuleEventArgs } from './ModuleEventArgs'
 
 export type ModuleQueriedEventArgs = ModuleEventArgs<{
   payloads?: XyoPayload[]
@@ -11,4 +11,8 @@ export type ModuleQueriedEventArgs = ModuleEventArgs<{
   result: [XyoBoundWitness, XyoPayload[]]
 }>
 
-export type ModuleEmittery = Emittery<{ moduleQueried: ModuleQueriedEventArgs }>
+export interface ModuleEventData extends EventData {
+  moduleQueried: ModuleQueriedEventArgs
+}
+
+export type ModuleEmittery = XyoEmittery<ModuleEventData>

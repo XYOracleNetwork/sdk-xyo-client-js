@@ -1,4 +1,4 @@
 export * from './EventArgs'
 export * from './EventListener'
-export * from './ModuleEventEmitter'
+export * from './ModuleEventArgs'
 export * from './ModuleQueried'

@@ -3,8 +3,9 @@ import { Account } from '@xyo-network/account'
 import { AnyObject } from '@xyo-network/core'
 import {
   AbstractModule,
+  creatable,
+  Module,
   ModuleConfig,
-  ModuleEmittery,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -22,10 +23,11 @@ import { WitnessModule } from './Witness'
 export type WitnessParams<
   TConfig extends XyoWitnessConfig = XyoWitnessConfig,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, ModuleEmittery, TAdditionalParams>
+> = ModuleParams<TConfig, TAdditionalParams>
+
 export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams>
   extends AbstractModule<TParams>
-  implements WitnessModule<TParams['config']>
+  implements WitnessModule<TParams['config']>, Module<TParams['config']>
 {
   static override configSchema: string
 
@@ -37,7 +39,7 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     return this.config?.targetSet
   }
 
-  static override async create(params?: Partial<ModuleParams<XyoWitnessConfig>>): Promise<AbstractWitness> {
+  static override async create(params?: Partial<WitnessParams>): Promise<AbstractWitness> {
     const actualParams: Partial<ModuleParams<XyoWitnessConfig>> = params ?? {}
     actualParams.config = params?.config ?? { schema: this.configSchema }
     return (await super.create(actualParams)) as AbstractWitness

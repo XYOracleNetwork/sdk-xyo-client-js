@@ -1,17 +1,26 @@
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import Emittery from 'emittery'
+import type Emittery from 'emittery'
 
 import { ModuleConfig } from '../Config'
+import { ModuleEventData } from '../Events'
 import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
 
-export interface EmitteryFunctions<TEmittery extends Emittery = Emittery> {
-  emit: TEmittery['emit']
-  off: TEmittery['off']
-  on: TEmittery['on']
-  once: TEmittery['once']
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type XyoEmittery<TEventData = Record<EventName, any>> = Omit<Emittery<TEventData>, 'debug'>
+
+export type EventName = PropertyKey
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type EventData = Record<EventName, any>
+
+export interface EmitteryFunctions<TEventData extends EventData> {
+  emit: Emittery<TEventData>['emit']
+  off: Emittery<TEventData>['off']
+  on: Emittery<TEventData>['on']
+  once: Emittery<TEventData>['once']
 }
 export interface ModuleResolver {
   addResolver: (resolver: ModuleResolver) => this
@@ -20,12 +29,7 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type EventModule<
-  TConfig extends ModuleConfig = ModuleConfig,
-  TEmitteryFunctions extends EmitteryFunctions | undefined = undefined,
-> = Module<TConfig> & TEmitteryFunctions
-
-export type Module<TConfig extends ModuleConfig = ModuleConfig, TEmittery extends Emittery = Emittery> = {
+export type Module<TConfig extends ModuleConfig = ModuleConfig, TEventData extends EventData | undefined = undefined> = {
   address: string
   config: TConfig
 
@@ -47,4 +51,4 @@ export type Module<TConfig extends ModuleConfig = ModuleConfig, TEmittery extend
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
   readonly upResolver: ModuleResolver
-} & EmitteryFunctions<TEmittery>
+} & EmitteryFunctions<TEventData extends EventData ? TEventData & ModuleEventData : ModuleEventData>

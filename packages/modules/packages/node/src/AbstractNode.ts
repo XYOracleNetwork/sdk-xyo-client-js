@@ -138,7 +138,7 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
     try {
       switch (typedQuery.schema) {
         case XyoNodeAttachQuerySchema: {
-          await this.attach(typedQuery.address)
+          await this.attach(typedQuery.address, typedQuery.external)
           break
         }
         case XyoNodeDetachQuerySchema: {

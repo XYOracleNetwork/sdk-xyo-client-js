@@ -59,10 +59,6 @@ export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData ext
     return this.emittery.emit
   }
 
-  get emittery() {
-    return this.params.emittery
-  }
-
   get off() {
     return this.emittery.off
   }
@@ -73,6 +69,10 @@ export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData ext
 
   get once() {
     return this.emittery.once
+  }
+
+  private get emittery() {
+    return this.params.emittery
   }
 }
 

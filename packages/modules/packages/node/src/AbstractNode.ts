@@ -6,7 +6,6 @@ import {
   CompositeModuleResolver,
   creatable,
   duplicateModules,
-  EmitteryFunctions,
   EventData,
   Module,
   ModuleConfig,
@@ -30,7 +29,7 @@ export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = Module
 @creatable()
 export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams, TEventData extends EventData | undefined = undefined>
   extends AbstractModule<TParams, TEventData extends EventData ? TEventData & NodeModuleEventData : NodeModuleEventData>
-  implements NodeModule, Module<NodeConfig>
+  implements NodeModule, Module
 {
   static override readonly configSchema = NodeConfigSchema
 
@@ -50,8 +49,8 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
   }
 
-  static override async create(params?: Partial<AbstractNodeParams>): Promise<AbstractNode> {
-    return (await super.create(params)) as AbstractNode
+  static override async create(params: Partial<AbstractNodeParams>): Promise<AbstractModule> {
+    return await super.create(params)
   }
 
   static isNode(module: unknown) {

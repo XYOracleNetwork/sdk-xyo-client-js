@@ -3,8 +3,10 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { BaseParams } from '@xyo-network/core'
 import {
   EmitteryFunctions,
+  EventData,
   Module,
   ModuleDescription,
   ModuleDiscoverQuery,
@@ -20,6 +22,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
+import { BaseEmitter } from './AbstractModule'
 import { XyoError, XyoErrorSchema } from './Error'
 import { duplicateModules } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
@@ -31,7 +34,7 @@ export interface WrapperError extends Error {
 }
 
 export type ModuleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>> = {
-  new (module: TModule, account?: AccountInstance): TWrapper
+  new (params: ModuleWrapperParams): TWrapper
 }
 
 function moduleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>() {
@@ -40,20 +43,30 @@ function moduleConstructable<TModule extends Module = Module, TWrapper extends M
   }
 }
 
+export type ModuleWrapperParams<TWrappedModule extends Module = Module> = BaseParams<{
+  account?: AccountInstance
+  module: TWrappedModule
+}>
+
 @moduleConstructable()
-export class ModuleWrapper<TWrappedModule extends Module = Module> implements Module<TWrappedModule['config']>, EmitteryFunctions<ModuleEventData> {
+export class ModuleWrapper<TWrappedModule extends Module = Module, TEventData extends EventData | undefined = undefined>
+  extends BaseEmitter<ModuleWrapperParams<TWrappedModule>, TEventData extends EventData ? TEventData & ModuleEventData : ModuleEventData>
+  implements Module<TWrappedModule['config']>, EmitteryFunctions<ModuleEventData>
+{
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
-  readonly module: TWrappedModule
-
-  constructor(module: TWrappedModule, protected readonly account?: AccountInstance) {
+  constructor(params: ModuleWrapperParams<TWrappedModule>) {
+    const mutatedParams = { ...params } as ModuleWrapperParams<TWrappedModule>
     //unwrap it if already wrapped
-    const wrapper = module as unknown as ModuleWrapper<TWrappedModule>
+    const wrapper = params.module as unknown as ModuleWrapper<TWrappedModule>
     if (wrapper.module) {
-      this.module = wrapper.module
-    } else {
-      this.module = module
+      mutatedParams.module = wrapper.module
     }
+    super(params)
+  }
+
+  get account() {
+    return this.params.account
   }
 
   get address() {
@@ -68,19 +81,23 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
     return this.module.downResolver
   }
 
-  get emit() {
+  override get emit() {
     return this.module.emit
   }
 
-  get off() {
+  get module() {
+    return this.params.module
+  }
+
+  override get off() {
     return this.module.off
   }
 
-  get on() {
+  override get on() {
     return this.module.on
   }
 
-  get once() {
+  override get once() {
     return this.module.once
   }
 
@@ -111,7 +128,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
       if (missingRequiredQueries.length > 0) {
         //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
-        return new ModuleWrapper(module as Module, account)
+        return new ModuleWrapper({ account, module: module as Module })
       }
     }
   }
@@ -200,11 +217,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> implements Mo
       case 'string': {
         const nameOrAddress: string = nameOrAddressOrFilter
         const mod = await this.resolve<T['module']>(nameOrAddress)
-        return mod ? new wrapper(mod) : undefined
+        return mod ? new wrapper({ account: this.account, module: mod }) : undefined
       }
       default: {
         const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return (await this.resolve<T['module']>(filter)).map((mod) => new wrapper(mod))
+        return (await this.resolve<T['module']>(filter)).map((mod) => new wrapper({ account: this.account, module: mod }))
       }
     }
   }

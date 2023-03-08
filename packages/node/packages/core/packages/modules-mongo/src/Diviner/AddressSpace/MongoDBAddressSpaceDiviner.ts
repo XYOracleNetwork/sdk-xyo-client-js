@@ -38,7 +38,7 @@ export class MongoDBAddressSpaceDiviner extends AbstractDiviner implements Addre
     return (await super.create(params)) as MongoDBAddressSpaceDiviner
   }
 
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
+  override async divine(_payloads?: XyoPayloads): Promise<XyoPayloads> {
     //const query = payloads?.find<AddressSpaceQueryPayload>(isAddressSpaceQueryPayload)
     //if (!query) return []
     // Issue a distinct query against the BoundWitnesses collection

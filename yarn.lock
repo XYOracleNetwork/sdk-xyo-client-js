@@ -5061,7 +5061,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
-    "@xyo-network/payload-model": ^2.51.8
+    "@xyo-network/payload-model": ^2.51.9
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6622,7 +6622,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-model@^2.51.8, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
+"@xyo-network/payload-model@^2.51.9, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:

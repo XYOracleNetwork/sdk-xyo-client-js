@@ -3,7 +3,6 @@ import { Account } from '@xyo-network/account'
 import {
   AbstractModule,
   ModuleConfig,
-  ModuleEventData,
   ModuleParamsWithOptionalConfigSchema,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -23,7 +22,6 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
   implements WitnessModule<TParams>
 {
   static override configSchema: string = XyoWitnessConfigSchema
-  eventData?: ModuleEventData | undefined
 
   override get queries(): string[] {
     return [XyoWitnessObserveQuerySchema, ...super.queries]
@@ -33,10 +31,8 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     return this.config?.targetSet
   }
 
-  static override async create<TModule extends WitnessModule = WitnessModule>(
-    params: ModuleParamsWithOptionalConfigSchema<TModule['params']>,
-  ): Promise<AbstractWitness> {
-    return (await super.create(params)) as AbstractWitness
+  static override async create<TParams extends WitnessParams>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
+    return (await super.create(params)) as AbstractWitness<TParams>
   }
 
   observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {

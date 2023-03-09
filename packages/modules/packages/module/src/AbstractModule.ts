@@ -5,11 +5,11 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { AnyObject, Base, BaseParams } from '@xyo-network/core'
+import { Base } from '@xyo-network/core'
 import {
   AccountModuleParams,
   EmitteryFunctions,
-  EventData,
+  EventDataParams,
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
@@ -26,7 +26,6 @@ import {
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
-import { EventDataParams } from '@xyo-network/module-model/src'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -43,18 +42,12 @@ import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
-export type BaseEmitterParams<TParams extends BaseParams = BaseParams, TEventData extends EventData = AnyObject> = TParams & {
-  emittery: XyoEmittery<TEventData>
-}
+export class BaseEmitter<TParams extends EventDataParams = EventDataParams> extends Base<TParams> implements EmitteryFunctions<TParams['eventData']> {
+  private emittery: XyoEmittery<TParams['eventData']>
 
-export class BaseEmitter<TParams extends EventDataParams = EventDataParams>
-  extends Base<BaseEmitterParams<TParams, TParams['eventData']>>
-  implements EmitteryFunctions<TParams['eventData']>
-{
   constructor(params: TParams) {
-    const mutatedParams = { ...params } as BaseEmitterParams<TParams, TParams['eventData']>
-    mutatedParams.emittery = mutatedParams.emittery ?? new Emittery<TParams['eventData']>()
-    super(mutatedParams)
+    super(params)
+    this.emittery = new Emittery(params.eventData)
   }
 
   get emit() {
@@ -75,10 +68,6 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams>
 
   get once() {
     return this.emittery.once
-  }
-
-  private get emittery() {
-    return this.params.emittery
   }
 }
 
@@ -146,7 +135,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const mutatedConfig = { ...params?.config, schema } as TParams['config']
     const mutatedParams = { ...params, config: mutatedConfig } as TParams
-    return await new this(mutatedParams).start()
+    return (await new this(mutatedParams).start()) as AbstractModule<TParams>
   }
 
   discover(): Promisable<XyoPayload[]> {

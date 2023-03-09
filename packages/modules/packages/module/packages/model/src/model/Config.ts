@@ -30,4 +30,4 @@ export type ModuleConfigBase<T extends AnyObject = AnyObject> = XyoPayload<
   } & T
 >
 
-export type ModuleConfig<TConfig extends XyoPayload = XyoPayload> = ModuleConfigBase<TConfig>
+export type ModuleConfig<TConfig extends AnyObject = AnyObject> = ModuleConfigBase<TConfig>

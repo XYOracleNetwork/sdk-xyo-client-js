@@ -1,4 +1,4 @@
-import { Module } from '@xyo-network/module-model'
+import { Module, ModuleParams } from '@xyo-network/module-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -9,4 +9,6 @@ export interface Diviner {
   divine: (payloads?: XyoPayload[]) => Promisable<XyoPayloads>
 }
 
-export interface DivinerModule<TConfig extends DivinerConfig = DivinerConfig> extends Module<TConfig>, Diviner {}
+export type DivinerParams = ModuleParams<DivinerConfig>
+
+export interface DivinerModule<TParams extends DivinerParams = DivinerParams> extends Module<TParams>, Diviner {}

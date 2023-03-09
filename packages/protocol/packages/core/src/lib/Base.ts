@@ -25,8 +25,8 @@ export type BaseParams<TAdditionalParams extends AnyObject | undefined = undefin
 export abstract class Base<TParams extends BaseParams = BaseParams> {
   static defaultLogger?: Logger
 
-  constructor(protected readonly params: TParams) {
-    params.logger?.log(`AbstractModule constructed [${Object(this).name}]`)
+  constructor(readonly params: TParams) {
+    params.logger?.debug(`Base constructed [${Object(this).name}]`)
   }
 
   protected get logger() {

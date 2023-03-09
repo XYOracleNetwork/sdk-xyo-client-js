@@ -5,13 +5,10 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BaseParams } from '@xyo-network/core'
 import {
-  EmitteryFunctions,
-  EventData,
   Module,
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
-  ModuleEventData,
   ModuleFilter,
   ModuleQueryResult,
   XyoQuery,
@@ -37,7 +34,7 @@ export type ModuleConstructable<TModule extends Module = Module, TWrapper extend
   new (params: ModuleWrapperParams): TWrapper
 }
 
-function moduleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>() {
+export function moduleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>() {
   return <U extends ModuleConstructable<TModule, TWrapper>>(constructor: U) => {
     constructor
   }
@@ -49,11 +46,14 @@ export type ModuleWrapperParams<TWrappedModule extends Module = Module> = BasePa
 }>
 
 @moduleConstructable()
-export class ModuleWrapper<TWrappedModule extends Module = Module, TEventData extends EventData | undefined = undefined>
-  extends BaseEmitter<ModuleWrapperParams<TWrappedModule>, TEventData extends EventData ? TEventData & ModuleEventData : ModuleEventData>
-  implements Module<TWrappedModule['config']>, EmitteryFunctions<ModuleEventData>
+export class ModuleWrapper<TWrappedModule extends Module = Module>
+  extends BaseEmitter<TWrappedModule['params']>
+  implements Module<TWrappedModule['params']>
 {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
+
+  protected readonly account?: AccountInstance
+  protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
 
   constructor(params: ModuleWrapperParams<TWrappedModule>) {
     const mutatedParams = { ...params } as ModuleWrapperParams<TWrappedModule>
@@ -62,11 +62,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module, TEventData ex
     if (wrapper.module) {
       mutatedParams.module = wrapper.module
     }
-    super(params)
-  }
 
-  get account() {
-    return this.params.account
+    //set the root params to the wrapped module params
+    super(params.module.params)
+    this.wrapperParams = params
   }
 
   get address() {
@@ -86,7 +85,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module, TEventData ex
   }
 
   get module() {
-    return this.params.module
+    return this.wrapperParams.module
   }
 
   override get off() {
@@ -128,6 +127,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module, TEventData ex
       if (missingRequiredQueries.length > 0) {
         //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
+        if (!account) {
+          this.defaultLogger?.info('Anonymous Module Wrapper Created')
+        }
         return new ModuleWrapper({ account, module: module as Module })
       }
     }

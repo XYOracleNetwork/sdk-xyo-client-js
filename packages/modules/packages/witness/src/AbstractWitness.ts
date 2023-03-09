@@ -1,12 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AnyObject } from '@xyo-network/core'
 import {
   AbstractModule,
-  creatable,
-  Module,
   ModuleConfig,
-  ModuleParams,
+  ModuleEventData,
+  ModuleParamsWithOptionalConfigSchema,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
@@ -16,20 +14,16 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-import { XyoWitnessConfig } from './Config'
+import { XyoWitnessConfigSchema } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
-import { WitnessModule } from './Witness'
-
-export type WitnessParams<
-  TConfig extends XyoWitnessConfig = XyoWitnessConfig,
-  TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TAdditionalParams>
+import { WitnessModule, WitnessParams } from './Witness'
 
 export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams>
   extends AbstractModule<TParams>
-  implements WitnessModule<TParams['config']>, Module<TParams['config']>
+  implements WitnessModule<TParams>
 {
-  static override configSchema: string
+  static override configSchema: string = XyoWitnessConfigSchema
+  eventData?: ModuleEventData | undefined
 
   override get queries(): string[] {
     return [XyoWitnessObserveQuerySchema, ...super.queries]
@@ -39,10 +33,10 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     return this.config?.targetSet
   }
 
-  static override async create(params?: Partial<WitnessParams>): Promise<AbstractWitness> {
-    const actualParams: Partial<ModuleParams<XyoWitnessConfig>> = params ?? {}
-    actualParams.config = params?.config ?? { schema: this.configSchema }
-    return (await super.create(actualParams)) as AbstractWitness
+  static override async create<TModule extends WitnessModule = WitnessModule>(
+    params: ModuleParamsWithOptionalConfigSchema<TModule['params']>,
+  ): Promise<AbstractWitness> {
+    return (await super.create(params)) as AbstractWitness
   }
 
   observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {

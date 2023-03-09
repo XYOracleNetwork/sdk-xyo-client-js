@@ -21,7 +21,7 @@ export type BridgeParams<TConfig extends BridgeConfig = BridgeConfig> = ModulePa
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module>
   extends AbstractModule<TParams>
-  implements BridgeModule<TParams['config'], TModule>
+  implements BridgeModule<TParams, TModule>
 {
   abstract targetDownResolver: ModuleResolver
 

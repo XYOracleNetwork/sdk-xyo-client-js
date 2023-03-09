@@ -177,7 +177,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: XyoPayload[]) {
-    const wrapper = new ArchivistWrapper(parent)
+    const wrapper = new ArchivistWrapper({ account: this.account, module: parent })
     return await wrapper.insert(payloads)
   }
 
@@ -199,7 +199,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     const downResolvedModules = await this.downResolver.resolve({ address: archivists })
     const modules = [...resolvedModules, ...downResolvedModules] ?? []
     modules.forEach((module) => {
-      const wrapper = new ArchivistWrapper(module)
+      const wrapper = new ArchivistWrapper({ account: this.account, module })
       resolvedWrappers[wrapper.address] = wrapper
     })
     return resolvedWrappers

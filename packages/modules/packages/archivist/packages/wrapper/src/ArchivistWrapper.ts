@@ -32,7 +32,7 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
       if (missingRequiredQueries.length > 0) {
         //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
-        return new ArchivistWrapper(module as ArchivistModule, account)
+        return new ArchivistWrapper({ account, module })
       }
     }
   }

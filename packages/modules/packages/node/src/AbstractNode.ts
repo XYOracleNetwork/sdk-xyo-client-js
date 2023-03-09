@@ -4,13 +4,10 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import {
   AbstractModule,
   CompositeModuleResolver,
-  creatable,
   duplicateModules,
-  EventData,
   Module,
   ModuleConfig,
   ModuleFilter,
-  ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
@@ -20,16 +17,13 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { NodeConfig, NodeConfigSchema } from './Config'
-import { NodeModule, NodeModuleEventData } from './Node'
+import { NodeConfigSchema } from './Config'
+import { NodeModule, NodeModuleParams } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-export type AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> = ModuleParams<TConfig>
-
-@creatable()
-export abstract class AbstractNode<TParams extends AbstractNodeParams = AbstractNodeParams, TEventData extends EventData | undefined = undefined>
-  extends AbstractModule<TParams, TEventData extends EventData ? TEventData & NodeModuleEventData : NodeModuleEventData>
-  implements NodeModule, Module
+export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams>
+  extends AbstractModule<TParams>
+  implements NodeModule<TParams>
 {
   static override readonly configSchema = NodeConfigSchema
 
@@ -47,10 +41,6 @@ export abstract class AbstractNode<TParams extends AbstractNodeParams = Abstract
 
   override get queries(): string[] {
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
-  }
-
-  static override async create(params: Partial<AbstractNodeParams>): Promise<AbstractModule> {
-    return await super.create(params)
   }
 
   static isNode(module: unknown) {

@@ -3,26 +3,43 @@ import { BridgeModule } from '@xyo-network/bridge-model'
 import {
   BaseEmitter,
   CompositeModuleResolver,
-  EventListener,
   Module,
   ModuleConfig,
   ModuleFilter,
+  ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueryResult,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 
-export class ProxyModule extends BaseEmitter implements Module {
-  readonly upResolver = new CompositeModuleResolver()
-  protected readonly moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
+export type ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
+export const ProxyModuleConfigSchema: ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
 
-  constructor(protected readonly bridge: BridgeModule, protected readonly _address: string) {
-    super()
+export type TProxyModuleConfig = ModuleConfig<{ schema: ProxyModuleConfigSchema }>
+
+export type ProxyModuleParams = ModuleParams<
+  TProxyModuleConfig,
+  undefined,
+  {
+    address: string
+    bridge: BridgeModule
+  }
+>
+
+export class ProxyModule extends BaseEmitter<ProxyModuleParams> implements Module {
+  readonly upResolver = new CompositeModuleResolver()
+
+  constructor(params: ProxyModuleParams) {
+    super(params)
   }
 
   get address() {
-    return this._address
+    return this.params.address
+  }
+
+  get bridge() {
+    return this.params.bridge
   }
 
   get config(): ModuleConfig {
@@ -40,7 +57,7 @@ export class ProxyModule extends BaseEmitter implements Module {
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const result = assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
     const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
-    this.moduleQueriedEventListeners?.map((listener) => listener(args))
+    await this.emit('moduleQuery', args)
     return result
   }
 

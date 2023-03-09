@@ -5,25 +5,28 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { Base, BaseParams } from '@xyo-network/core'
+import { AnyObject, Base, BaseParams } from '@xyo-network/core'
 import {
+  AccountModuleParams,
   EmitteryFunctions,
   EventData,
-  EventListener,
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
-  ModuleEventData,
   ModuleFilter,
+  ModuleParams,
+  ModuleParamsWithOptionalConfigSchema,
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryResult,
   ModuleSubscribeQuerySchema,
   SchemaString,
+  WalletModuleParams,
   XyoEmittery,
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
+import { EventDataParams } from '@xyo-network/module-model/src'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -36,27 +39,30 @@ import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
 import { IdLogger } from './IdLogger'
 import { duplicateModules, serializableField } from './lib'
-import { AccountModuleParams, ModuleParams, WalletModuleParams } from './ModuleParams'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
-export type BaseEmitterParams<TParams extends BaseParams = BaseParams, TEventData extends EventData | undefined = undefined> = TParams & {
-  emittery: XyoEmittery<TEventData extends EventData ? TEventData & EventData : EventData>
+export type BaseEmitterParams<TParams extends BaseParams = BaseParams, TEventData extends EventData = AnyObject> = TParams & {
+  emittery: XyoEmittery<TEventData>
 }
 
-export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData extends EventData | undefined = undefined>
-  extends Base<BaseEmitterParams<TParams, TEventData>>
-  implements EmitteryFunctions<TEventData extends EventData ? TEventData & EventData : EventData>
+export class BaseEmitter<TParams extends EventDataParams = EventDataParams>
+  extends Base<BaseEmitterParams<TParams, TParams['eventData']>>
+  implements EmitteryFunctions<TParams['eventData']>
 {
   constructor(params: TParams) {
-    const mutatedParams = { ...params } as BaseEmitterParams<TParams, TEventData>
-    mutatedParams.emittery = mutatedParams.emittery ?? new Emittery<TEventData extends EventData ? TEventData & EventData : EventData>()
+    const mutatedParams = { ...params } as BaseEmitterParams<TParams, TParams['eventData']>
+    mutatedParams.emittery = mutatedParams.emittery ?? new Emittery<TParams['eventData']>()
     super(mutatedParams)
   }
 
   get emit() {
     return this.emittery.emit
+  }
+
+  get eventData(): TParams['eventData'] {
+    return this.params.eventData
   }
 
   get off() {
@@ -77,10 +83,7 @@ export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData ext
 }
 
 @creatable()
-export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends EventData | undefined = undefined>
-  extends BaseEmitter<TParams, TEventData extends EventData ? TEventData & ModuleEventData : ModuleEventData>
-  implements Module<TParams['config']>
-{
+export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams> {
   static configSchema: string
 
   readonly downResolver = new CompositeModuleResolver()
@@ -89,7 +92,6 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   protected _started = false
   protected readonly account: AccountInstance
   protected readonly moduleConfigQueryValidator: Queryable
-  protected moduleQueriedEventListeners: EventListener<ModuleQueriedEventArgs>[] = []
 
   protected readonly supportedQueryValidator: Queryable
 
@@ -98,8 +100,12 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
     //TODO: change wallet to use accountDerivationPath
-    const account = (mutatedParams as WalletModuleParams<TParams['config']>).wallet
-      ? (mutatedParams as WalletModuleParams<TParams['config']>).wallet.getAccount(0)
+    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config']>).wallet
+      ? Account.fromPrivateKey(
+          (mutatedParams as WalletModuleParams<TParams['config']>).wallet.derivePath(
+            (mutatedParams as WalletModuleParams<TParams['config']>).accountDerivationPath,
+          ).privateKey,
+        )
       : (mutatedParams as AccountModuleParams<TParams['config']>).account
       ? (mutatedParams as AccountModuleParams<TParams['config']>).account
       : undefined
@@ -132,11 +138,15 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
 
-  static async create(params?: Partial<ModuleParams<ModuleConfig>>): Promise<AbstractModule> {
+  static async create<TParams extends ModuleParams>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
+    const schema = assertEx(this.configSchema, 'Missing configSchema')
+    if (params?.config.schema) {
+      assertEx(params?.config.schema === schema, `Bad Config Schema [Received ${params?.config.schema}] [Expected ${schema}]`)
+    }
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
-    const actualParams: Partial<ModuleParams<ModuleConfig>> = params ?? {}
-    actualParams.config = params?.config ?? { schema: assertEx(this.configSchema) }
-    return await new this(actualParams as ModuleParams<ModuleConfig>).start()
+    const mutatedConfig = { ...params?.config, schema } as TParams['config']
+    const mutatedParams = { ...params, config: mutatedConfig } as TParams
+    return await new this(mutatedParams).start()
   }
 
   discover(): Promisable<XyoPayload[]> {
@@ -188,7 +198,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     const result = await this.bindResult(resultPayloads, queryAccount)
 
     const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
-    this.moduleQueriedEventListeners?.map((listener) => listener(args))
+    await this.emit('moduleQueried', args)
 
     return result
   }

@@ -4,7 +4,7 @@ import { CompositeModuleResolver } from '@xyo-network/module'
 import { AddressModuleFilter, Module, ModuleFilter, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
 import compact from 'lodash/compact'
 
-import { ProxyModule } from './ProxyModule'
+import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './ProxyModule'
 
 export class BridgeModuleResolver extends CompositeModuleResolver {
   private remoteAddresses?: Promise<string[]>
@@ -79,7 +79,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver {
     this.resolvedModules[targetAddress] =
       this.resolvedModules[targetAddress] ??
       (async (address: string) => {
-        const mod = new ProxyModule(this.bridge, address)
+        const mod = new ProxyModule({ address, bridge: this.bridge, config: { schema: ProxyModuleConfigSchema } } as ProxyModuleParams)
 
         try {
           //discover it to set the config in the bridge

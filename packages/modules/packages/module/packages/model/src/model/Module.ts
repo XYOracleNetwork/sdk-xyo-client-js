@@ -2,11 +2,12 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import type Emittery from 'emittery'
 
-import { ModuleConfig } from '../Config'
 import { ModuleEventData } from '../Events'
 import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
+import { ModuleConfig } from './Config'
+import { ModuleParams } from './ModuleParams'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type XyoEmittery<TEventData = Record<EventName, any>> = Omit<Emittery<TEventData>, 'debug'>
@@ -18,6 +19,10 @@ export type EventData = Record<EventName, any>
 
 export interface EmitteryFunctions<TEventData extends EventData> {
   emit: Emittery<TEventData>['emit']
+
+  //just here to communicate type
+  eventData?: TEventData
+
   off: Emittery<TEventData>['off']
   on: Emittery<TEventData>['on']
   once: Emittery<TEventData>['once']
@@ -29,12 +34,16 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type Module<TConfig extends ModuleConfig = ModuleConfig, TEventData extends EventData | undefined = undefined> = {
+export type Module<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData> = {
   address: string
-  config: TConfig
+  config: TParams['config']
 
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolver
+
+  eventData: TEventData
+
+  params: TParams
 
   queries: string[]
   query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
@@ -51,4 +60,4 @@ export type Module<TConfig extends ModuleConfig = ModuleConfig, TEventData exten
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
   readonly upResolver: ModuleResolver
-} & EmitteryFunctions<TEventData extends EventData ? TEventData & ModuleEventData : ModuleEventData>
+} & EmitteryFunctions<TEventData>

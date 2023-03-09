@@ -1,4 +1,3 @@
-export * from './Config'
 export * from './Events'
 export * from './model'
 export * from './ModuleFilter'

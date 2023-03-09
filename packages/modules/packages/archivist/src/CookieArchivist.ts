@@ -12,7 +12,7 @@ import {
   ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleParams } from '@xyo-network/module'
+import { ModuleParamsWithOptionalConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -27,10 +27,11 @@ export type CookieArchivistConfig = ArchivistConfig<{
   maxEntries?: number
   maxEntrySize?: number
   namespace?: string
-  schema: CookieArchivistConfigSchema
 }>
 
-export class CookieArchivist extends AbstractArchivist<ArchivistParams<CookieArchivistConfig>> {
+export type CookieArchivistParams = ArchivistParams<CookieArchivistConfig>
+
+export class CookieArchivist<TParams extends CookieArchivistParams> extends AbstractArchivist<TParams> {
   static override configSchema = CookieArchivistConfigSchema
 
   get domain() {
@@ -63,8 +64,8 @@ export class CookieArchivist extends AbstractArchivist<ArchivistParams<CookieArc
     ]
   }
 
-  static override async create(params?: ModuleParams<CookieArchivistConfig>): Promise<CookieArchivist> {
-    return (await super.create(params)) as CookieArchivist
+  static override async create<TParams extends CookieArchivistParams>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
+    return (await super.create(params)) as CookieArchivist<TParams>
   }
 
   override all(): PromisableArray<XyoPayload> {

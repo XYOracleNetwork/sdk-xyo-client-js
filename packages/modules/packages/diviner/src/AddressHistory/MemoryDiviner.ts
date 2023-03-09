@@ -3,7 +3,7 @@ import { ArchivistGetQuerySchema } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -14,16 +14,30 @@ import { AddressHistoryDiviner } from './Diviner'
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
 
-export class MemoryAddressHistoryDiviner extends AbstractDiviner<DivinerParams<AddressHistoryDivinerConfig>> implements AddressHistoryDiviner {
+export type MemoryAddressHistoryDivinerParams<
+  TConfig extends AnyConfigSchema<AddressHistoryDivinerConfig> = AnyConfigSchema<AddressHistoryDivinerConfig>,
+> = DivinerParams<TConfig>
+
+export class MemoryAddressHistoryDiviner<TParams extends MemoryAddressHistoryDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements AddressHistoryDiviner
+{
   static override configSchema = AddressHistoryDivinerConfigSchema
 
-  static override async create(params?: Partial<ModuleParams<AddressHistoryDivinerConfig>>): Promise<MemoryAddressHistoryDiviner> {
-    return (await super.create(params)) as MemoryAddressHistoryDiviner
+  get queryAddress() {
+    return assertEx(this.config.address, 'Missing address')
+  }
+
+  static override async create<TParams extends MemoryAddressHistoryDivinerParams>(params?: TParams) {
+    return (await super.create(params)) as MemoryAddressHistoryDiviner<TParams>
   }
 
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
-    const archivists = (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
+    const archivists =
+      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map(
+        (archivist) => new ArchivistWrapper({ account: this.account, module: archivist }),
+      ) ?? []
     assertEx(archivists.length > 0, 'Did not find any archivists')
     const bwLists = (
       await Promise.all(
@@ -36,7 +50,7 @@ export class MemoryAddressHistoryDiviner extends AbstractDiviner<DivinerParams<A
 
     const bwRecords = this.buildWrapperRecords(bwLists)
 
-    const chains = Object.values(this.buildAddressChains(this.config.address, bwRecords))
+    const chains = Object.values(this.buildAddressChains(this.queryAddress, bwRecords))
 
     //return the heads of each chain (get the last bw on each chain)
     return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
@@ -66,7 +80,7 @@ export class MemoryAddressHistoryDiviner extends AbstractDiviner<DivinerParams<A
   //build object with hashes as keys and wrappers as values
   private buildWrapperRecords(lists: XyoBoundWitness[]) {
     return lists
-      .filter((bw) => bw.addresses.includes(this.config.address))
+      .filter((bw) => bw.addresses.includes(this.queryAddress))
       .reduce<Record<string, BoundWitnessWrapper>>((bwRecords, bw) => {
         const wrapper = new BoundWitnessWrapper(bw)
         bwRecords[wrapper.hash] = wrapper

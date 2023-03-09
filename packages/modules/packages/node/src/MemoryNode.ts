@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { duplicateModules, Module, ModuleFilter, ModuleParamsWithOptionalConfigSchema, ModuleWrapper } from '@xyo-network/module'
+import { duplicateModules, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
@@ -17,9 +17,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
 
   private registeredModuleMap: Record<string, Module> = {}
 
-  static override async create<TParams extends MemoryNodeParams = MemoryNodeParams>(
-    params?: ModuleParamsWithOptionalConfigSchema<TParams>,
-  ): Promise<MemoryNode<TParams>> {
+  static override async create<TParams extends MemoryNodeParams = MemoryNodeParams>(params?: TParams): Promise<MemoryNode<TParams>> {
     return (await super.create<TParams>(params)) as MemoryNode<TParams>
   }
 

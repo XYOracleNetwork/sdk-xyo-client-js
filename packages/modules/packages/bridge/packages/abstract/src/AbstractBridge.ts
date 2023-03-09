@@ -1,12 +1,11 @@
 import { Account } from '@xyo-network/account'
-import { BridgeConfig, BridgeModule, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
+import { BridgeModule, BridgeParams, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
 import {
   AbstractModule,
   duplicateModules,
   Module,
   ModuleConfig,
   ModuleFilter,
-  ModuleParams,
   ModuleQueryResult,
   ModuleResolver,
   QueryBoundWitnessWrapper,
@@ -16,8 +15,6 @@ import {
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-
-export type BridgeParams<TConfig extends BridgeConfig = BridgeConfig> = ModuleParams<TConfig>
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module>
   extends AbstractModule<TParams>

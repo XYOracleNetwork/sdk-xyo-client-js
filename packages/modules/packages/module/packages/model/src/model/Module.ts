@@ -7,7 +7,7 @@ import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
 import { ModuleConfig } from './Config'
-import { ModuleParams } from './ModuleParams'
+import { AnyConfigSchema, ModuleParams } from './ModuleParams'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type XyoEmittery<TEventData = Record<EventName, any>> = Omit<Emittery<TEventData>, 'debug'>
@@ -34,7 +34,10 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type Module<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData> = {
+export type Module<
+  TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = {
   address: string
   config: TParams['config']
 

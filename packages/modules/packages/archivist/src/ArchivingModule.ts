@@ -5,6 +5,7 @@ import { AnyObject } from '@xyo-network/core'
 import { AbstractModule, Module, ModuleConfig, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PromiseEx } from '@xyo-network/promise'
+import compact from 'lodash/compact'
 
 export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfig<
   {
@@ -27,7 +28,9 @@ export class ArchivingModule<TParams extends ModuleParams<ArchivingModuleConfig>
   }
 
   protected async resolveArchivists() {
-    return (await this.resolve({ address: this.config.archivists ?? [] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
+    return compact(
+      (await this.resolve({ address: this.config.archivists ?? [] }))?.map((archivist) => ArchivistWrapper.tryWrap(archivist, this.account)) ?? [],
+    )
   }
 
   protected async storeToArchivists(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {

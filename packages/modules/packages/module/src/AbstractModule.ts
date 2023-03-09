@@ -8,6 +8,7 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { Base } from '@xyo-network/core'
 import {
   AccountModuleParams,
+  AnyConfigSchema,
   EmitteryFunctions,
   EventDataParams,
   Module,
@@ -15,7 +16,6 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleParams,
-  ModuleParamsWithOptionalConfigSchema,
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryResult,
@@ -72,7 +72,10 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams> exte
 }
 
 @creatable()
-export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams> {
+export class AbstractModule<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>>>
+  extends BaseEmitter<TParams>
+  implements Module<TParams>, Module
+{
   static configSchema: string
 
   readonly downResolver = new CompositeModuleResolver()
@@ -89,7 +92,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
     //TODO: change wallet to use accountDerivationPath
-    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config']>).wallet
+    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config'], TParams['eventData']>).wallet
       ? Account.fromPrivateKey(
           (mutatedParams as WalletModuleParams<TParams['config']>).wallet.derivePath(
             (mutatedParams as WalletModuleParams<TParams['config']>).accountDerivationPath,
@@ -127,7 +130,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
 
-  static async create<TParams extends ModuleParams>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
+  static async create<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>>>(params?: TParams) {
     const schema = assertEx(this.configSchema, 'Missing configSchema')
     if (params?.config.schema) {
       assertEx(params?.config.schema === schema, `Bad Config Schema [Received ${params?.config.schema}] [Expected ${schema}]`)

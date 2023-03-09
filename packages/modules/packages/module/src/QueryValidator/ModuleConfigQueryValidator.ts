@@ -1,4 +1,4 @@
-import { AddressString, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
+import { AddressString, AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
 
 import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
@@ -7,7 +7,7 @@ export type SortedPipedAddressesString = string
 
 const delimiter = ''
 
-export class ModuleConfigQueryValidator<TConfig extends ModuleConfig = ModuleConfig> implements QueryValidator {
+export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleConfig>> implements QueryValidator {
   protected allowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
   protected disallowed: Record<SchemaString, AddressString[]> = {}
   protected readonly hasAllowedRules: boolean

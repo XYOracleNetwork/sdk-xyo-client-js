@@ -18,7 +18,9 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import {
   AbstractModule,
+  AnyConfigSchema,
   ModuleConfig,
+  ModuleEventData,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -37,9 +39,10 @@ export interface XyoArchivistParentWrappers {
 }
 
 export type ArchivistParams<
-  TConfig extends ArchivistConfig = ArchivistConfig,
+  TConfig extends AnyConfigSchema<ArchivistConfig> = AnyConfigSchema<ArchivistConfig>,
+  TEventData extends ModuleEventData = ModuleEventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TAdditionalParams>
+> = ModuleParams<TConfig, TEventData, TAdditionalParams>
 
 export abstract class AbstractArchivist<TParams extends ArchivistParams = ArchivistParams>
   extends AbstractModule<TParams>

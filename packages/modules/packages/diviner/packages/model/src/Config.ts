@@ -4,8 +4,9 @@ import { XyoPayload } from '@xyo-network/payload-model'
 export type XyoDivinerConfigSchema = 'network.xyo.diviner.config'
 export const XyoDivinerConfigSchema: XyoDivinerConfigSchema = 'network.xyo.diviner.config'
 
-export type DivinerConfig<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoPayload = XyoPayload> = ModuleConfig<
+export type DivinerConfig<TTarget extends XyoPayload = XyoPayload, TConfig extends XyoPayload | undefined = undefined> = ModuleConfig<
   {
+    schema: TConfig extends XyoPayload ? TConfig['schema'] : XyoDivinerConfigSchema
     targetSchema?: TTarget['schema']
-  } & TConfig
+  } & Omit<TConfig, 'schema'>
 >

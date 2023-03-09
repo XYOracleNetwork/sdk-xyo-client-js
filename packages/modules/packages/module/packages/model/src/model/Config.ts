@@ -1,4 +1,3 @@
-import { AnyObject } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 export type ModuleConfigSchema = 'network.xyo.module.config'
@@ -8,10 +7,12 @@ export type AddressString = string
 export type CosigningAddressSet = string[]
 export type SchemaString = string
 
-export type ModuleConfigBase<T extends AnyObject = AnyObject> = XyoPayload<
+export type ModuleConfigBase<TConfig extends XyoPayload | undefined = undefined> = XyoPayload<
   {
     //friendly name of module (not collision resistent)
     name?: string
+
+    schema: TConfig extends XyoPayload ? TConfig['schema'] : ModuleConfigSchema
 
     //if both allowed and disallowed is specified, then disallowed takes priority
     security?: {
@@ -27,7 +28,7 @@ export type ModuleConfigBase<T extends AnyObject = AnyObject> = XyoPayload<
 
     //store the queries made to the module in an archivist if possible
     storeQueries?: boolean
-  } & T
+  } & Omit<TConfig, 'schema'>
 >
 
-export type ModuleConfig<TConfig extends AnyObject = AnyObject> = ModuleConfigBase<TConfig>
+export type ModuleConfig<TConfig extends XyoPayload | undefined = undefined> = ModuleConfigBase<TConfig>

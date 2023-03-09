@@ -5,7 +5,7 @@ import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archiv
 import { ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ArchivistConfig, ArchivistFindQuerySchema } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { ModuleParams } from '@xyo-network/module'
+import { ModuleParamsWithOptionalConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -18,8 +18,7 @@ export type FilesystemArchivistConfigSchema = 'network.xyo.module.config.archivi
 export const FilesystemArchivistConfigSchema: FilesystemArchivistConfigSchema = 'network.xyo.module.config.archivist.filesystem'
 
 export type FilesystemArchivistConfig = ArchivistConfig<{
-  filePath: string
-  schema: FilesystemArchivistConfigSchema
+  filePath?: string
 }>
 
 /** @description Currently only a read-only archivist that loads payloads from filesystem
@@ -48,8 +47,8 @@ export class FilesystemArchivist<
     return assertEx(this._memoryArchivist)
   }
 
-  static override async create(params?: ModuleParams<FilesystemArchivistConfig>): Promise<FilesystemArchivist> {
-    const instance = (await super.create(params)) as FilesystemArchivist
+  static override async create<TParams extends ArchivistParams<FilesystemArchivistConfig>>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
+    const instance = (await super.create<TParams>(params)) as FilesystemArchivist<TParams>
     await instance.loadFromFile()
     return instance
   }

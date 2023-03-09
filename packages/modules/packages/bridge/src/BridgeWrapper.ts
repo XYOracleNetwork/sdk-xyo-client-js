@@ -26,7 +26,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
       if (missingRequiredQueries.length > 0) {
         //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
-        return new BridgeWrapper(module as BridgeModule, account)
+        return new BridgeWrapper({ account, module: module as BridgeModule })
       }
     }
   }

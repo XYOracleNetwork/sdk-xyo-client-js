@@ -4,7 +4,9 @@ import { AnyObject } from '@xyo-network/core'
 import { DivinerConfig, DivinerModule, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
 import {
   AbstractModule,
+  AnyConfigSchema,
   ModuleConfig,
+  ModuleEventData,
   ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -15,14 +17,15 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-export type DivinerParams<TConfig extends DivinerConfig = DivinerConfig, TAdditional extends AnyObject | undefined = undefined> = ModuleParams<
-  TConfig,
-  TAdditional
->
+export type DivinerParams<
+  TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>,
+  TEventData extends ModuleEventData = ModuleEventData,
+  TAdditional extends AnyObject | undefined = undefined,
+> = ModuleParams<TConfig, TEventData, TAdditional>
 
-export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerParams>
+export abstract class AbstractDiviner<TParams extends DivinerParams<AnyConfigSchema<DivinerConfig>> = DivinerParams>
   extends AbstractModule<TParams>
-  implements DivinerModule<TParams['config']>
+  implements DivinerModule<TParams>
 {
   static override configSchema: string
   static targetSchema: string
@@ -33,10 +36,6 @@ export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerPar
 
   get targetSchema() {
     return this.config?.targetSchema
-  }
-
-  static override async create(params?: Partial<ModuleParams<DivinerConfig>>): Promise<AbstractDiviner> {
-    return (await super.create(params)) as AbstractDiviner
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

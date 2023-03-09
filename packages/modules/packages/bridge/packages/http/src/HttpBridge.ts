@@ -2,14 +2,16 @@ import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
-import { BridgeModule } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
+  AnyConfigSchema,
+  creatable,
   Module,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
+  ModuleEventData,
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
@@ -24,17 +26,16 @@ import compact from 'lodash/compact'
 
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
-export type XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> = ModuleParams<
+export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<
   TConfig,
+  ModuleEventData,
   {
     axios?: AxiosJson
   }
 >
 
-export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams>
-  extends AbstractBridge<TParams, Module>
-  implements BridgeModule<TParams['config'], Module>
-{
+@creatable()
+export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams> extends AbstractBridge<TParams, Module> {
   private _rootAddress?: string
   private _targetConfigs: Record<string, XyoPayload> = {}
   private _targetDownResolver: BridgeModuleResolver
@@ -60,8 +61,8 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
     return this._targetDownResolver
   }
 
-  static override async create(params?: XyoHttpBridgeParams): Promise<HttpBridge> {
-    const instance = (await super.create(params)) as HttpBridge
+  static override async create<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams>(params?: TParams) {
+    const instance = (await super.create(params)) as HttpBridge<TParams>
     const rootAddress = assertEx(await instance.initRootAddress(), `Failed to get rootAddress [${params?.config.nodeUri}]`)
     await instance.targetDiscover(rootAddress)
 

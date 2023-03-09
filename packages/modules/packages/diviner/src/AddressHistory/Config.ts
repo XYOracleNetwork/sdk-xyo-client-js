@@ -9,7 +9,7 @@ export const AddressHistoryDivinerConfigSchema: AddressHistoryDivinerConfigSchem
 export type AddressHistoryDivinerConfig = DivinerConfig<
   XyoBoundWitness,
   {
-    address: string
+    address?: string
     schema: AddressHistoryDivinerConfigSchema
   }
 >

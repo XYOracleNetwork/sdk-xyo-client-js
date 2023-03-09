@@ -1,5 +1,5 @@
+import { AnyObject } from '@xyo-network/core'
 import { AddressString, ModuleConfig } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
 
 export interface ArchivistParents {
   commit?: AddressString[]
@@ -7,7 +7,7 @@ export interface ArchivistParents {
   write?: AddressString[]
 }
 
-export type ArchivistConfig<TConfig extends XyoPayload = XyoPayload> = ModuleConfig<
+export type ArchivistConfig<TConfig extends AnyObject = AnyObject> = ModuleConfig<
   {
     /** @field address of one or more parent archivists to read from */
     parents?: ArchivistParents

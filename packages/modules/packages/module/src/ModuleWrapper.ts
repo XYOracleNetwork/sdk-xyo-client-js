@@ -108,6 +108,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.upResolver
   }
 
+  static canWrap(module?: Module) {
+    return !!module && this.missingRequiredQueries(module).length === 0
+  }
+
   static hasRequiredQueries(module: Module) {
     return this.missingRequiredQueries(module).length === 0
   }
@@ -122,16 +126,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   static tryWrap(module?: Module, account?: AccountInstance): ModuleWrapper | undefined {
-    if (module) {
-      const missingRequiredQueries = this.missingRequiredQueries(module)
-      if (missingRequiredQueries.length > 0) {
-        //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
-      } else {
-        if (!account) {
-          this.defaultLogger?.info('Anonymous Module Wrapper Created')
-        }
-        return new ModuleWrapper({ account, module: module as Module })
+    if (this.canWrap(module)) {
+      if (!account) {
+        this.defaultLogger?.info('Anonymous Module Wrapper Created')
       }
+      return new ModuleWrapper({ account, module: module as Module })
     }
   }
 

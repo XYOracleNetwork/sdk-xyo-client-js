@@ -13,7 +13,7 @@ export type EventDataParams<TParams extends BaseParams = BaseParams, TEventData 
 }
 
 export type BasicModuleParams<
-  TConfig extends ModuleConfig = ModuleConfig,
+  TConfig extends AnyConfigSchema<ModuleConfig>,
   TEventData extends EventData = EventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = WithAdditional<
@@ -27,7 +27,7 @@ export type BasicModuleParams<
 >
 
 export type AccountModuleParams<
-  TConfig extends ModuleConfig = ModuleConfig,
+  TConfig extends AnyConfigSchema<ModuleConfig>,
   TEventData extends EventData = EventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = BasicModuleParams<
@@ -42,7 +42,7 @@ export type AccountModuleParams<
 >
 
 export type WalletModuleParams<
-  TConfig extends ModuleConfig = ModuleConfig,
+  TConfig extends AnyConfigSchema<ModuleConfig>,
   TEventData extends EventData = EventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = BasicModuleParams<
@@ -58,7 +58,7 @@ export type WalletModuleParams<
 >
 
 export type ModuleParams<
-  TConfig extends ModuleConfig = ModuleConfig,
+  TConfig extends AnyConfigSchema<ModuleConfig> = ModuleConfig,
   TEventData extends ModuleEventData = ModuleEventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > =
@@ -66,6 +66,10 @@ export type ModuleParams<
   | WalletModuleParams<TConfig, TEventData, TAdditionalParams>
   | BasicModuleParams<TConfig, TEventData, TAdditionalParams>
 
-export type ModuleParamsWithOptionalConfigSchema<TModuleParams extends ModuleParams> = Omit<TModuleParams, 'config'> & {
-  config: Omit<TModuleParams['config'], 'schema'> & { schema?: TModuleParams['config']['schema'] }
-}
+export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string }> = ModuleConfig<
+  Omit<TConfig, 'schema'> & {
+    schema: string
+  }
+>
+
+export type OptionalConfigSchema<TConfig extends AnyConfigSchema<ModuleConfig>> = Omit<TConfig, 'schema'> & { schema?: TConfig['schema'] }

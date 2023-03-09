@@ -1,4 +1,13 @@
-import { Module, ModuleConfig, ModuleFilter, ModuleParams, ModuleQueryResult, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema,
+  Module,
+  ModuleConfig,
+  ModuleFilter,
+  ModuleParams,
+  ModuleQueryResult,
+  XyoQuery,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -9,7 +18,7 @@ export interface Bridge {
   disconnect: () => Promisable<boolean>
 }
 
-export type BridgeParams = ModuleParams<BridgeConfig>
+export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>> = ModuleParams<TConfig>
 
 export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module> extends Bridge, Module<TParams> {
   targetDownResolver: TModule['downResolver']

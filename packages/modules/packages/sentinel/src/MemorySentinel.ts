@@ -1,7 +1,15 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AnyConfigSchema,
+  ModuleConfig,
+  ModuleEventData,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
@@ -11,8 +19,9 @@ import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQuery, SentinelReportQuerySchema } from './Queries'
 import { SentinelModule } from './SentinelModel'
 
-export type MemorySentinelParams<TConfig extends SentinelConfig = SentinelConfig> = SentinelParams<
+export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<
   TConfig,
+  ModuleEventData,
   {
     onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
     onReportStart?: () => void
@@ -23,12 +32,12 @@ export type MemorySentinelParams<TConfig extends SentinelConfig = SentinelConfig
 
 export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentinelParams>
   extends AbstractSentinel<TParams>
-  implements SentinelModule<TParams['config']>
+  implements SentinelModule<TParams>
 {
   static override configSchema: SentinelConfigSchema
 
-  static override async create(params?: MemorySentinelParams): Promise<MemorySentinel> {
-    return (await super.create(params)) as MemorySentinel
+  static override async create<TParams extends MemorySentinelParams>(params?: TParams) {
+    return (await super.create(params)) as MemorySentinel<TParams>
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

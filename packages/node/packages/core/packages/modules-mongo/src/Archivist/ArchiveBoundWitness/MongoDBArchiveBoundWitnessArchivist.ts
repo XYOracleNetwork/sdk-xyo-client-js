@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AnyObject } from '@xyo-network/core'
-import { ModuleParams } from '@xyo-network/module'
+import { ModuleEventData, ModuleParams } from '@xyo-network/module'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
   AbstractBoundWitnessArchivist,
@@ -24,12 +24,18 @@ import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export type MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> = ModuleParams<
   T,
+  ModuleEventData,
   {
     boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
-export class MongoDBArchiveBoundWitnessArchivist extends AbstractBoundWitnessArchivist implements BoundWitnessArchivist {
+export class MongoDBArchiveBoundWitnessArchivist<
+    TParams extends MongoDBArchiveBoundWitnessArchivistParams = MongoDBArchiveBoundWitnessArchivistParams,
+  >
+  extends AbstractBoundWitnessArchivist<TParams>
+  implements BoundWitnessArchivist
+{
   static override configSchema = ArchiveModuleConfigSchema
 
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>

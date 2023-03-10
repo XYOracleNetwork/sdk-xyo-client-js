@@ -1,14 +1,14 @@
 import { Hasher, Validator } from '@xyo-network/core'
+import { DivinerParams } from '@xyo-network/diviner-model'
 import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
-import { WitnessModule } from '@xyo-network/witness'
+import { WitnessModule, WitnessParams } from '@xyo-network/witness'
 
-import { PayloadSetPluginParams } from './Configs'
 import { isPayloadSetDivinerPlugin, isPayloadSetWitnessPlugin, PayloadSetDivinerPlugin, PayloadSetPlugin, PayloadSetWitnessPlugin } from './Plugin'
 
 export class PayloadSetPluginResolver {
   protected _plugins: Record<string, PayloadSetPlugin> = {}
-  protected params: Record<string, PayloadSetPluginParams> = {}
+  protected params: Record<string, PayloadSetPlugin['params'] | undefined> = {}
 
   constructor(
     /** @param plugins The initial set of plugins */
@@ -18,7 +18,7 @@ export class PayloadSetPluginResolver {
   }
 
   async diviner(set: string) {
-    return await isPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this.params[set]?.diviner)
+    return await isPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this.params[set] as DivinerParams)
   }
 
   diviners() {
@@ -40,13 +40,10 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  register<TPlugin extends PayloadSetPlugin = PayloadSetPlugin, TParams extends TPlugin['params'] = TPlugin['params']>(
-    plugin: TPlugin,
-    params?: TParams,
-  ) {
+  register(plugin: PayloadSetPlugin, params?: PayloadSetPlugin['params']) {
     const setHash = Hasher.hash(plugin.set)
     this._plugins[setHash] = plugin
-    this.params[setHash] = params ?? {}
+    this.params[setHash] = params
     return this
   }
 
@@ -73,7 +70,7 @@ export class PayloadSetPluginResolver {
   async witness(set: string): Promise<WitnessModule | undefined>
   async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
     const setHash = typeof set === 'string' ? set : Hasher.hash(set)
-    return await isPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash]?.diviner)
+    return await isPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash] as WitnessParams)
   }
 
   witnesses() {

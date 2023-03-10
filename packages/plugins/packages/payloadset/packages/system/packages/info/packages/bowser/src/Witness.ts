@@ -1,5 +1,5 @@
 import { XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
 import Bowser from 'bowser'
@@ -7,8 +7,12 @@ import merge from 'lodash/merge'
 
 import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchema } from './Config'
 
-export class XyoBowserSystemInfoWitness extends AbstractWitness<WitnessParams<XyoBowserSystemInfoWitnessConfig>> implements WitnessModule {
-  static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
+export type XyoBowserSystemInfoWitnessParams = WitnessParams<AnyConfigSchema<XyoBowserSystemInfoWitnessConfig>>
+export class XyoBowserSystemInfoWitness<TParams extends XyoBowserSystemInfoWitnessParams = XyoBowserSystemInfoWitnessParams>
+  extends AbstractWitness<TParams>
+  implements WitnessModule
+{
+  static override configSchema: string = XyoBowserSystemInfoWitnessConfigSchema
 
   protected get bowser() {
     // we do this to fix importing in node-esm
@@ -16,8 +20,8 @@ export class XyoBowserSystemInfoWitness extends AbstractWitness<WitnessParams<Xy
     return Bowser.parse(window.navigator.userAgent)
   }
 
-  static override async create(params?: ModuleParams<XyoBowserSystemInfoWitnessConfig>): Promise<XyoBowserSystemInfoWitness> {
-    return (await super.create(params)) as XyoBowserSystemInfoWitness
+  static override async create<TParams extends XyoBowserSystemInfoWitnessParams>(params?: TParams) {
+    return (await super.create<TParams>(params)) as XyoBowserSystemInfoWitness<TParams>
   }
 
   override observe(payloads?: XyoPayload[]) {

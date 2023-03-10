@@ -17,7 +17,7 @@ export type EventName = PropertyKey
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventData = Record<EventName, any>
 
-export interface EmitteryFunctions<TEventData extends EventData> {
+export interface EmitteryFunctions<TEventData extends EventData | undefined> {
   emit: Emittery<TEventData>['emit']
 
   //just here to communicate type
@@ -44,7 +44,7 @@ export type Module<
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolver
 
-  eventData: TEventData
+  eventData?: TEventData
 
   params: TParams
 

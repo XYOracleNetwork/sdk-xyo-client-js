@@ -1,12 +1,11 @@
 import { LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
 import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetPlugin, PayloadSetDivinerPlugin } from '@xyo-network/payloadset-plugin'
 
-import { LocationCertaintyDiviner, LocationCertaintyDivinerConfig } from './Diviner'
+import { LocationCertaintyDiviner } from './Diviner'
 
 export const LocationCertaintyPlugin = () =>
-  createPayloadSetPlugin<PayloadSetDivinerPlugin<LocationCertaintyDiviner, ModuleParams<LocationCertaintyDivinerConfig>>>(
+  createPayloadSetPlugin<PayloadSetDivinerPlugin<LocationCertaintyDiviner>>(
     { required: { [LocationCertaintySchema]: 1 }, schema: PayloadSetSchema },
     {
       diviner: async (params) => {

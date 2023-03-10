@@ -1,7 +1,7 @@
-import { Module, ModuleParams } from '@xyo-network/module-model'
+import { ModuleParams } from '@xyo-network/module-model'
 
-export interface CreatableModule<T extends Module = Module, TParams extends ModuleParams = ModuleParams> {
-  create(params?: TParams): Promise<T>
+export interface CreatableModule<TCreatableParams extends ModuleParams = ModuleParams> {
+  create(params?: TCreatableParams): Promise<this>
 }
 
 /**

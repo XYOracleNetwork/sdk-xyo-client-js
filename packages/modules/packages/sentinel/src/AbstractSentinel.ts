@@ -1,33 +1,14 @@
 import { AbstractArchivist, ArchivingModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, ModuleEventData, ModuleParams, WithAdditional } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelReportQuerySchema } from './Queries'
-import { SentinelModule } from './SentinelModel'
-
-export type SentinelParams<
-  TConfig extends AnyConfigSchema<SentinelConfig> = SentinelConfig,
-  TEventData extends ModuleEventData = ModuleEventData,
-  TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<
-  TConfig,
-  TEventData,
-  WithAdditional<
-    {
-      onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
-      onReportStart?: () => void
-      onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
-      onWitnessReportStart?: (witness: WitnessWrapper) => void
-    },
-    TAdditionalParams
-  >
->
+import { SentinelModule, SentinelParams } from './SentinelModel'
 
 export abstract class AbstractSentinel<TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<SentinelConfig>>
   extends ArchivingModule<TParams>

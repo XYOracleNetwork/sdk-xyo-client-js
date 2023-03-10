@@ -1,5 +1,5 @@
 import { AnyObject } from '@xyo-network/core'
-import { Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -10,7 +10,7 @@ export interface Witness {
 }
 
 export type WitnessParams<
-  TConfig extends XyoWitnessConfig = XyoWitnessConfig,
+  TConfig extends AnyConfigSchema<XyoWitnessConfig> = AnyConfigSchema<XyoWitnessConfig>,
   TEventData extends ModuleEventData = ModuleEventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = ModuleParams<TConfig, TEventData, TAdditionalParams>

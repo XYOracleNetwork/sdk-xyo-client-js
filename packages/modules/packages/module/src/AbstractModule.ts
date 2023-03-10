@@ -54,10 +54,6 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams> exte
     return this.emittery.emit
   }
 
-  get eventData(): TParams['eventData'] {
-    return this.params.eventData
-  }
-
   get off() {
     return this.emittery.off
   }
@@ -71,8 +67,7 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams> exte
   }
 }
 
-@creatable()
-export class AbstractModule<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>>>
+export class AbstractModule<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>>
   extends BaseEmitter<TParams>
   implements Module<TParams>, Module
 {
@@ -130,7 +125,7 @@ export class AbstractModule<TParams extends ModuleParams<AnyConfigSchema<ModuleC
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
 
-  static async create<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>>>(params?: TParams) {
+  static async create<TParams extends ModuleParams>(params?: TParams) {
     const schema = assertEx(this.configSchema, 'Missing configSchema')
     if (params?.config.schema) {
       assertEx(params?.config.schema === schema, `Bad Config Schema [Received ${params?.config.schema}] [Expected ${schema}]`)
@@ -138,7 +133,7 @@ export class AbstractModule<TParams extends ModuleParams<AnyConfigSchema<ModuleC
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const mutatedConfig = { ...params?.config, schema } as TParams['config']
     const mutatedParams = { ...params, config: mutatedConfig } as TParams
-    return (await new this(mutatedParams).start()) as AbstractModule<TParams>
+    return await new this(mutatedParams).start()
   }
 
   discover(): Promisable<XyoPayload[]> {

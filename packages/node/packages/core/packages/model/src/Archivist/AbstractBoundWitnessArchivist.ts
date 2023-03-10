@@ -17,7 +17,8 @@ import { ArchiveModuleConfig } from './ArchiveModuleConfig'
 import { BoundWitnessArchivist } from './BoundWitnessArchivist'
 import { XyoBoundWitnessFilterPredicate } from './XyoBoundWitnessFilterPredicate'
 
-export abstract class AbstractBoundWitnessArchivist extends AbstractModule<ArchivistParams<ArchiveModuleConfig>> implements BoundWitnessArchivist {
+export type AbstractBoundWitnessArchivistParams = ArchivistParams<ArchiveModuleConfig>
+export abstract class AbstractBoundWitnessArchivist extends AbstractModule<AbstractBoundWitnessArchivistParams> implements BoundWitnessArchivist {
   override get queries(): string[] {
     return [ArchivistFindQuerySchema, ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }

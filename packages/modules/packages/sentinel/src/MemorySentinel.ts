@@ -1,10 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AnyConfigSchema,
   ModuleConfig,
-  ModuleEventData,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
@@ -14,21 +12,12 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 
-import { AbstractSentinel, SentinelParams } from './AbstractSentinel'
+import { AbstractSentinel } from './AbstractSentinel'
 import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQuery, SentinelReportQuerySchema } from './Queries'
-import { SentinelModule } from './SentinelModel'
+import { SentinelModule, SentinelParams } from './SentinelModel'
 
-export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<
-  TConfig,
-  ModuleEventData,
-  {
-    onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
-    onReportStart?: () => void
-    onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
-    onWitnessReportStart?: (witness: WitnessWrapper) => void
-  }
->
+export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<TConfig>
 
 export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentinelParams>
   extends AbstractSentinel<TParams>

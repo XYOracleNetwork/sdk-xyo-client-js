@@ -3,26 +3,25 @@ import { ArchivistGetQuerySchema } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { AbstractDiviner, DivinerParams } from '../AbstractDiviner'
+import { AbstractDiviner } from '../AbstractDiviner'
 import { AddressHistoryDivinerConfig, AddressHistoryDivinerConfigSchema } from './Config'
 import { AddressHistoryDiviner } from './Diviner'
 
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
 
-export type MemoryAddressHistoryDivinerParams<
-  TConfig extends AnyConfigSchema<AddressHistoryDivinerConfig> = AnyConfigSchema<AddressHistoryDivinerConfig>,
-> = DivinerParams<TConfig>
+export type MemoryAddressHistoryDivinerParams = DivinerParams<AnyConfigSchema<AddressHistoryDivinerConfig>>
 
 export class MemoryAddressHistoryDiviner<TParams extends MemoryAddressHistoryDivinerParams>
   extends AbstractDiviner<TParams>
   implements AddressHistoryDiviner
 {
-  static override configSchema = AddressHistoryDivinerConfigSchema
+  static override configSchema: string = AddressHistoryDivinerConfigSchema
 
   get queryAddress() {
     return assertEx(this.config.address, 'Missing address')

@@ -1,19 +1,19 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
-import { ModuleWrapper } from '@xyo-network/module'
+import { ModuleWrapper, ModuleWrapperParams } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { SentinelReportQuery, SentinelReportQuerySchema } from './Queries'
-import { Sentinel, SentinelModule } from './SentinelModel'
+import { Sentinel } from './SentinelModel'
 
 export class SentinelWrapper extends ModuleWrapper implements Sentinel {
   static override requiredQueries = [SentinelReportQuerySchema, ...super.requiredQueries]
 
-  constructor(module: Module, account?: AccountInstance) {
-    super(module, account)
-    assertEx(module.queries.includes(SentinelReportQuerySchema))
+  constructor(params: ModuleWrapperParams) {
+    super(params)
+    assertEx(params.module.queries.includes(SentinelReportQuerySchema))
   }
 
   static override tryWrap(module?: Module, account?: AccountInstance): SentinelWrapper | undefined {
@@ -22,7 +22,7 @@ export class SentinelWrapper extends ModuleWrapper implements Sentinel {
       if (missingRequiredQueries.length > 0) {
         //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
-        return new SentinelWrapper(module as SentinelModule, account)
+        return new SentinelWrapper({ account, module })
       }
     }
   }

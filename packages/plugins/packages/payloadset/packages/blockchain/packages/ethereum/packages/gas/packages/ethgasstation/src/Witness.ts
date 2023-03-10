@@ -3,7 +3,7 @@ import {
   XyoEthereumGasEthgasstationSchema,
   XyoEthereumGasEthgasstationWitnessConfigSchema,
 } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
@@ -11,11 +11,14 @@ import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
 import { XyoEthereumGasEthgasstationWitnessConfig } from './Config'
 import { getGasFromEthgasstation } from './lib'
 
-export class XyoEthereumGasEthgasstationWitness extends TimestampWitness<WitnessParams<XyoEthereumGasEthgasstationWitnessConfig>> {
-  static override configSchema = XyoEthereumGasEthgasstationWitnessConfigSchema
+export type XyoEthereumGasEthgasstationWitnessParams = WitnessParams<AnyConfigSchema<XyoEthereumGasEthgasstationWitnessConfig>>
+export class XyoEthereumGasEthgasstationWitness<
+  TParams extends XyoEthereumGasEthgasstationWitnessParams = XyoEthereumGasEthgasstationWitnessParams,
+> extends TimestampWitness<TParams> {
+  static override configSchema: string = XyoEthereumGasEthgasstationWitnessConfigSchema
 
-  static override async create(params?: ModuleParams<XyoEthereumGasEthgasstationWitnessConfig>): Promise<XyoEthereumGasEthgasstationWitness> {
-    return (await super.create(params)) as XyoEthereumGasEthgasstationWitness
+  static override async create<TParams extends XyoEthereumGasEthgasstationWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as XyoEthereumGasEthgasstationWitness<TParams>
   }
 
   override async observe(): Promise<XyoPayload[]> {

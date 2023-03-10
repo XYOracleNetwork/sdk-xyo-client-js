@@ -6,12 +6,12 @@ import { Promisable } from '@xyo-network/promise'
 
 import { AbstractDiviner } from './AbstractDiviner'
 
-export type MemoryArchivistParams<TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>> = ArchivistParams<TConfig>
+export type IdentityDivinerParams<TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>> = ArchivistParams<TConfig>
 
-export class IdentityDiviner<TParams extends MemoryArchivistParams> extends AbstractDiviner<TParams> {
+export class IdentityDiviner<TParams extends IdentityDivinerParams> extends AbstractDiviner<TParams> {
   static override targetSchema = 'network.xyo.test'
 
-  static override async create<TParams extends MemoryArchivistParams>(params?: TParams) {
+  static override async create<TParams extends IdentityDivinerParams>(params?: TParams) {
     return (await super.create(params)) as IdentityDiviner<TParams>
   }
 

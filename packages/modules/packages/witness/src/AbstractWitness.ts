@@ -1,14 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import {
-  AbstractModule,
-  ModuleConfig,
-  ModuleParamsWithOptionalConfigSchema,
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -17,10 +9,7 @@ import { XyoWitnessConfigSchema } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { WitnessModule, WitnessParams } from './Witness'
 
-export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams>
-  extends AbstractModule<TParams>
-  implements WitnessModule<TParams>
-{
+export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams> extends AbstractModule<TParams> implements WitnessModule {
   static override configSchema: string = XyoWitnessConfigSchema
 
   override get queries(): string[] {
@@ -31,8 +20,8 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     return this.config?.targetSet
   }
 
-  static override async create<TParams extends WitnessParams>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
-    return (await super.create(params)) as AbstractWitness<TParams>
+  static override async create<TParams extends WitnessParams = WitnessParams>(params?: TParams) {
+    return await super.create<TParams>(params)
   }
 
   observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {

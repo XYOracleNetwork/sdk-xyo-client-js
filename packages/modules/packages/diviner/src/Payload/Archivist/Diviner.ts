@@ -1,21 +1,25 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistGetQuery, ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { DivinerParams } from '../../AbstractDiviner'
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
 import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
 import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
 
-export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<DivinerParams<XyoArchivistPayloadDivinerConfig>> {
+export type ArchivistPayloadDivinerParams<
+  TConfig extends AnyConfigSchema<XyoArchivistPayloadDivinerConfig> = AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+> = DivinerParams<TConfig>
+
+export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
   static override configSchema: XyoArchivistPayloadDivinerConfigSchema
 
-  static override async create(params?: ModuleParams<XyoArchivistPayloadDivinerConfig>): Promise<ArchivistPayloadDiviner> {
-    return (await super.create(params)) as ArchivistPayloadDiviner
+  static override async create<TParams extends ArchivistPayloadDivinerParams>(params?: TParams) {
+    return (await super.create(params)) as ArchivistPayloadDiviner<TParams>
   }
 
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
@@ -40,7 +44,7 @@ export class ArchivistPayloadDiviner extends AbstractPayloadDiviner<DivinerParam
         ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as ArchivistModule[]).shift() ?? null
         : null
       if (resolvedArchivist) {
-        return resolvedArchivist ? new ArchivistWrapper(resolvedArchivist) : null
+        return resolvedArchivist ? new ArchivistWrapper({ account: this.account, module: resolvedArchivist }) : null
       }
     }
     return null

@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
@@ -9,11 +9,16 @@ export const XyoSchemaWitnessConfigSchema: XyoSchemaWitnessConfigSchema = 'netwo
 
 export type XyoSchemaWitnessConfig = XyoWitnessConfig<{ schema: XyoSchemaWitnessConfigSchema }>
 
-export class XyoSchemaWitness extends AbstractWitness<WitnessParams<XyoSchemaWitnessConfig>> implements WitnessModule {
+export type XyoSchemaWitnessParams = WitnessParams<AnyConfigSchema<XyoSchemaWitnessConfig>>
+
+export class XyoSchemaWitness<TParams extends XyoSchemaWitnessParams = XyoSchemaWitnessParams>
+  extends AbstractWitness<TParams>
+  implements WitnessModule
+{
   static override configSchema = XyoSchemaWitnessConfigSchema
 
-  static override async create(params?: ModuleParams<XyoSchemaWitnessConfig>): Promise<XyoSchemaWitness> {
-    return (await super.create(params)) as XyoSchemaWitness
+  static override async create<TParams extends XyoSchemaWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as XyoSchemaWitness<TParams>
   }
 
   override async observe(_payloads?: XyoPayload[]): Promise<XyoSchemaPayload[]> {

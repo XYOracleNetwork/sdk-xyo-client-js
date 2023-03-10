@@ -1,5 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
+import { AnyConfigSchema, ModuleEventData } from '@xyo-network/modules'
 import { XyoPayload } from '@xyo-network/payload-model'
 import {
   XyoUniswapCryptoMarketPayload,
@@ -12,24 +13,25 @@ import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 
 export type XyoUniswapCryptoMarketWitnessParams = WitnessParams<
-  XyoUniswapCryptoMarketWitnessConfig,
+  AnyConfigSchema<XyoUniswapCryptoMarketWitnessConfig>,
+  ModuleEventData,
   {
-    provider: Provider
+    provider?: Provider
   }
 >
 
-export class XyoUniswapCryptoMarketWitness extends AbstractWitness<XyoUniswapCryptoMarketWitnessParams> {
+export class XyoUniswapCryptoMarketWitness<
+  TParams extends XyoUniswapCryptoMarketWitnessParams = XyoUniswapCryptoMarketWitnessParams,
+> extends AbstractWitness<TParams> {
   static override configSchema = XyoUniswapCryptoMarketWitnessConfigSchema
 
   protected pairs?: EthersUniSwap3Pair[]
-  protected provider?: Provider
-  protected constructor(params: XyoUniswapCryptoMarketWitnessParams) {
-    super(params)
-    this.provider = params?.provider
+  protected get provider() {
+    return this.params.provider
   }
 
-  static override async create(params?: XyoUniswapCryptoMarketWitnessParams): Promise<XyoUniswapCryptoMarketWitness> {
-    return (await super.create(params)) as XyoUniswapCryptoMarketWitness
+  static override async create<TParams extends XyoUniswapCryptoMarketWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as XyoUniswapCryptoMarketWitness<TParams>
   }
 
   override async observe(): Promise<XyoPayload[]> {

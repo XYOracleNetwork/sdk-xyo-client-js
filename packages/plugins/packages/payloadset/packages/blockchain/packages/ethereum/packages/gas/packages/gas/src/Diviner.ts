@@ -10,7 +10,10 @@ import { XyoEthereumGasDivinerConfigSchema } from './Schema'
 export type XyoEthereumGasDivinerConfig = DivinerConfig<{ schema: XyoEthereumGasDivinerConfigSchema }>
 export type XyoEthereumGasDivinerParams = DivinerParams<AnyConfigSchema<XyoEthereumGasDivinerConfig>>
 
-export class XyoEthereumGasDiviner<TParams extends XyoEthereumGasDivinerParams> extends AbstractDiviner<TParams> implements DivinerModule {
+export class XyoEthereumGasDiviner<TParams extends XyoEthereumGasDivinerParams = XyoEthereumGasDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements DivinerModule
+{
   static override configSchema: string = XyoEthereumGasDivinerConfigSchema
   static override targetSchema: string = XyoEthereumGasSchema
 

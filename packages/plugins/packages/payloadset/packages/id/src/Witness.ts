@@ -1,4 +1,5 @@
 import { IdPayload, IdSchema } from '@xyo-network/id-payload-plugin'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -10,13 +11,17 @@ export type IdWitnessConfig = XyoWitnessConfig<{
   schema: IdWitnessConfigSchema
 }>
 
-export type IdWitnessParams = WitnessParams<IdWitnessConfig>
+export type IdWitnessParams = WitnessParams<AnyConfigSchema<IdWitnessConfig>>
 
 export class IdWitness<TParams extends IdWitnessParams = IdWitnessParams> extends AbstractWitness<TParams> {
   static override configSchema = IdWitnessConfigSchema
 
   get salt() {
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
+  }
+
+  static override async create<TParams extends IdWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as IdWitness<TParams>
   }
 
   override async observe(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {

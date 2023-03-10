@@ -83,6 +83,7 @@
   },
   "scripts": {
     "coverage": "yarn jest --coverage --forceExit",
+    "compile": "./scripts/clear-scrollback-buffer.sh && yarn xy compile",
     "build": "xy build && xy statics",
     "deploy": "xy deploy",
     "lint-pkg": "npmPkgJsonLint .",

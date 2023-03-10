@@ -1,27 +1,19 @@
 import { assertEx } from '@xylabs/assert'
 import { LocationHeadingPayload, LocationHeadingSchema, LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
+import { AbstractWitness } from '@xyo-network/witness'
 
-import { CurrentLocationWitnessConfig, CurrentLocationWitnessConfigSchema, CurrentLocationWitnessParams } from './Config'
+import { CurrentLocationWitnessConfigSchema, CurrentLocationWitnessParams } from './Config'
 
-export class CurrentLocationWitness extends AbstractWitness<WitnessParams<CurrentLocationWitnessConfig>> {
+export class CurrentLocationWitness<TParams extends CurrentLocationWitnessParams = CurrentLocationWitnessParams> extends AbstractWitness<TParams> {
   static override configSchema = CurrentLocationWitnessConfigSchema
 
-  private _geolocation: Geolocation
-
-  constructor(params: CurrentLocationWitnessParams) {
-    super(params)
-    this._geolocation = params?.geolocation
-  }
-
   get geolocation(): Geolocation {
-    return assertEx(this._geolocation, 'No geolocation provided')
+    return assertEx(this.params.geolocation, 'No geolocation provided')
   }
 
-  static override async create(params?: ModuleParams<CurrentLocationWitnessConfig>): Promise<CurrentLocationWitness> {
-    return (await super.create(params)) as CurrentLocationWitness
+  static override async create<TParams extends CurrentLocationWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as CurrentLocationWitness<TParams>
   }
 
   getCurrentPosition() {

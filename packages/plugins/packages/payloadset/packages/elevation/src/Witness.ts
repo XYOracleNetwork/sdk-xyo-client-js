@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { ElevationPayload, ElevationSchema } from '@xyo-network/elevation-payload-plugin'
 import { GeographicCoordinateSystemLocation, Location, LocationPayload, QuadkeyLocation } from '@xyo-network/location-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
@@ -65,7 +65,12 @@ const locationToQuadkey = (location: Location, zoom = 16) => {
   )
 }
 
-export class ElevationWitness extends AbstractWitness<WitnessParams<ElevationWitnessConfig>> implements WitnessModule {
+export type ElevationWitnessParams = WitnessParams<AnyConfigSchema<ElevationWitnessConfig>>
+
+export class ElevationWitness<TParams extends ElevationWitnessParams = ElevationWitnessParams>
+  extends AbstractWitness<TParams>
+  implements WitnessModule
+{
   static override configSchema = ElevationWitnessConfigSchema
 
   private _tiffImages: TiffImages = {}
@@ -84,8 +89,8 @@ export class ElevationWitness extends AbstractWitness<WitnessParams<ElevationWit
     return this.config?.zoom ?? 16
   }
 
-  static override async create(params?: ModuleParams<ElevationWitnessConfig>): Promise<ElevationWitness> {
-    return (await super.create(params)) as ElevationWitness
+  static override async create<TParams extends ElevationWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as ElevationWitness<TParams>
   }
 
   async getSection(section: keyof Tiffs): Promise<GeoTIFF> {

@@ -9,7 +9,7 @@ import { EventData } from './Module'
 export type WithAdditional<T, TAdditional extends AnyObject | undefined = undefined> = TAdditional extends AnyObject ? T & TAdditional : T
 
 export type EventDataParams<TParams extends BaseParams = BaseParams, TEventData extends EventData = AnyObject> = TParams & {
-  eventData: TEventData
+  eventData?: TEventData
 }
 
 export type BasicModuleParams<

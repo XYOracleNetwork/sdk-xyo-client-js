@@ -2,6 +2,6 @@ import { XyoUniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-
 import { XyoWitnessConfig } from '@xyo-network/witness'
 
 export type XyoUniswapCryptoMarketWitnessConfig = XyoWitnessConfig<{
-  pools: string[]
+  pools?: string[]
   schema: XyoUniswapCryptoMarketWitnessConfigSchema
 }>

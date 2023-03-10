@@ -2,10 +2,16 @@ import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
 import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
-import { ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ArchivistConfig, ArchivistFindQuerySchema } from '@xyo-network/archivist-interface'
+import {
+  ArchivistAllQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistConfig,
+  ArchivistFindQuerySchema,
+  ArchivistModule,
+} from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { ModuleParamsWithOptionalConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, Module } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -19,21 +25,21 @@ export const FilesystemArchivistConfigSchema: FilesystemArchivistConfigSchema = 
 
 export type FilesystemArchivistConfig = ArchivistConfig<{
   filePath?: string
+  schema: FilesystemArchivistConfigSchema
 }>
+
+export type FilesystemArchivistParams = ArchivistParams<AnyConfigSchema<FilesystemArchivistConfig>>
 
 /** @description Currently only a read-only archivist that loads payloads from filesystem
  * but allows for future expansion to read/write
  */
-export class FilesystemArchivist<
-  TParams extends ArchivistParams<FilesystemArchivistConfig> = ArchivistParams<FilesystemArchivistConfig>,
-> extends AbstractArchivist<TParams> {
+export class FilesystemArchivist<TParams extends FilesystemArchivistParams = FilesystemArchivistParams>
+  extends AbstractArchivist<TParams>
+  implements ArchivistModule, Module
+{
   static override configSchema = FilesystemArchivistConfigSchema
 
   private _memoryArchivist?: MemoryArchivist
-
-  protected constructor(params: TParams) {
-    super(params)
-  }
 
   get filePath() {
     return this.config?.filePath ?? 'archivist.xyo.json'
@@ -47,7 +53,7 @@ export class FilesystemArchivist<
     return assertEx(this._memoryArchivist)
   }
 
-  static override async create<TParams extends ArchivistParams<FilesystemArchivistConfig>>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
+  static override async create<TParams extends FilesystemArchivistParams>(params?: Omit<TParams, 'eventData'>) {
     const instance = (await super.create<TParams>(params)) as FilesystemArchivist<TParams>
     await instance.loadFromFile()
     return instance

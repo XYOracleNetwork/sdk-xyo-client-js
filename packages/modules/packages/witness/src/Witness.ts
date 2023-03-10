@@ -11,7 +11,7 @@ export interface Witness {
 
 export type WitnessParams<
   TConfig extends AnyConfigSchema<XyoWitnessConfig> = AnyConfigSchema<XyoWitnessConfig>,
-  TEventData extends ModuleEventData = ModuleEventData,
+  TEventData extends ModuleEventData | undefined = undefined,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = ModuleParams<TConfig, TEventData, TAdditionalParams>
 

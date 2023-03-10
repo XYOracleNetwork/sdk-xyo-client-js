@@ -58,7 +58,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
 
-  abstract targetConfig(address: string): XyoPayload
+  abstract targetConfig(address: string): ModuleConfig
 
   abstract targetDiscover(address: string): Promisable<XyoPayload[]>
 

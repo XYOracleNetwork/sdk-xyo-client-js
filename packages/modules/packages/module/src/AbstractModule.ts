@@ -34,7 +34,6 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import Emittery from 'emittery'
 import compact from 'lodash/compact'
 
-import { creatable } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
 import { IdLogger } from './IdLogger'
 import { duplicateModules, serializableField } from './lib'
@@ -52,6 +51,10 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams> exte
 
   get emit() {
     return this.emittery.emit
+  }
+
+  get events() {
+    return this.emittery.events
   }
 
   get off() {

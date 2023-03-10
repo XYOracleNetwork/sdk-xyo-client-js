@@ -1,6 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AbstractModule,
+  Module,
+  ModuleConfig,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -9,7 +17,10 @@ import { XyoWitnessConfigSchema } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { WitnessModule, WitnessParams } from './Witness'
 
-export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams> extends AbstractModule<TParams> implements WitnessModule {
+export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams>
+  extends AbstractModule<TParams>
+  implements WitnessModule, Module
+{
   static override configSchema: string = XyoWitnessConfigSchema
 
   override get queries(): string[] {

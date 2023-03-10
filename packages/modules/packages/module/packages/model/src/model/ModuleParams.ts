@@ -8,8 +8,8 @@ import { EventData } from './Module'
 
 export type WithAdditional<T, TAdditional extends AnyObject | undefined = undefined> = TAdditional extends AnyObject ? T & TAdditional : T
 
-export type EventDataParams<TParams extends BaseParams = BaseParams, TEventData extends EventData = AnyObject> = TParams & {
-  eventData?: TEventData
+export type EventDataParams<TParams extends BaseParams = BaseParams, TEventData extends EventData | undefined = undefined> = TParams & {
+  eventData: TEventData extends EventData ? TEventData : EventData
 }
 
 export type BasicModuleParams<
@@ -59,7 +59,7 @@ export type WalletModuleParams<
 
 export type ModuleParams<
   TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>,
-  TEventData extends ModuleEventData | undefined = undefined,
+  TEventData extends EventData | undefined = undefined,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > =
   | AccountModuleParams<TConfig, TEventData, TAdditionalParams>

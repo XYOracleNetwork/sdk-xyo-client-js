@@ -22,7 +22,7 @@ export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConf
 
 export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module> extends Bridge, Module<TParams> {
   targetDownResolver: TModule['downResolver']
-  targetConfig(address: string): XyoPayload
+  targetConfig(address: string): ModuleConfig
   targetDiscover(address?: string): Promisable<XyoPayload[] | undefined>
   targetQueries(address: string): string[]
   targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult | undefined>

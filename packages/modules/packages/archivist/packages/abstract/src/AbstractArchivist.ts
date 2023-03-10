@@ -58,6 +58,10 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     return !!this.config?.storeParentReads
   }
 
+  static override async create<TParams extends ArchivistParams = ArchivistParams>(params?: Omit<TParams, 'eventData'>) {
+    return await super.create<TParams>(params)
+  }
+
   all(): PromisableArray<XyoPayload> {
     throw Error('Not implemented')
   }

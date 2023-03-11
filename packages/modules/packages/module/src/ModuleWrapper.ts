@@ -5,6 +5,8 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BaseParams } from '@xyo-network/core'
 import {
+  EventAnyListener,
+  EventListener,
   Module,
   ModuleDescription,
   ModuleDiscoverQuery,
@@ -80,24 +82,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.downResolver
   }
 
-  override get emit() {
-    return this.module.emit
-  }
-
   get module() {
     return this.wrapperParams.module
-  }
-
-  override get off() {
-    return this.module.off
-  }
-
-  override get on() {
-    return this.module.on
-  }
-
-  override get once() {
-    return this.module.once
   }
 
   get queries(): string[] {
@@ -138,6 +124,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ModuleWrapper')
   }
 
+  override clearListeners(eventNames: keyof TWrappedModule['params']['eventData'] | keyof TWrappedModule['params']['eventData'][]) {
+    return this.module.clearListeners(eventNames)
+  }
+
   async describe(): Promise<Promise<Promisable<ModuleDescription>>> {
     const description: ModuleDescription = {
       address: this.module.address,
@@ -162,6 +152,53 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   discover(): Promise<XyoPayload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return this.sendQuery(queryPayload)
+  }
+
+  override emit(
+    eventName: keyof TWrappedModule['params']['eventData'],
+    eventArgs?: TWrappedModule['params']['eventData'][keyof TWrappedModule['params']['eventData']],
+  ) {
+    return this.module.emit(eventName, eventArgs)
+  }
+
+  override emitSerial(
+    eventName: keyof TWrappedModule['params']['eventData'],
+    eventArgs?: TWrappedModule['params']['eventData'][keyof TWrappedModule['params']['eventData']],
+  ) {
+    return this.module.emitSerial(eventName, eventArgs)
+  }
+
+  override listenerCount(eventNames: keyof TWrappedModule['params']['eventData'] | keyof TWrappedModule['params']['eventData'][]) {
+    return this.module.listenerCount(eventNames)
+  }
+
+  override off(
+    eventNames: keyof TWrappedModule['params']['eventData'] | keyof TWrappedModule['params']['eventData'][],
+    listener: EventListener<TWrappedModule['params']['eventData']>,
+  ) {
+    return this.module.off(eventNames, listener)
+  }
+
+  override offAny(listener: EventAnyListener<TWrappedModule['params']['eventData']>) {
+    return this.module.offAny(listener)
+  }
+
+  override on(
+    eventNames: keyof TWrappedModule['params']['eventData'] | keyof TWrappedModule['params']['eventData'][],
+    listener: EventListener<TWrappedModule['params']['eventData']>,
+  ) {
+    return this.module.on(eventNames, listener)
+  }
+
+  override onAny(listener: EventAnyListener<TWrappedModule['params']['eventData']>) {
+    return this.module.onAny(listener)
+  }
+
+  override once(
+    eventNames: keyof TWrappedModule['params']['eventData'] | keyof TWrappedModule['params']['eventData'][],
+    listener: EventListener<TWrappedModule['params']['eventData']>,
+  ) {
+    return this.module.once(eventNames, listener)
   }
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {

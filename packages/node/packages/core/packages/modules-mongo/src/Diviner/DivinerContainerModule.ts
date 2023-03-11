@@ -37,19 +37,19 @@ let mongoDBArchiveSchemaStatsDiviner: MongoDBArchiveSchemaStatsDiviner
 const getMongoDBAddressHistoryDiviner = async () => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
   const params = { config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
-  mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
+  mongoDBAddressHistoryDiviner = (await MongoDBAddressHistoryDiviner.create(params)) as MongoDBAddressHistoryDiviner
   return mongoDBAddressHistoryDiviner
 }
 const getMongoDBAddressSpaceDiviner = async () => {
   if (mongoDBAddressSpaceDiviner) return mongoDBAddressSpaceDiviner
   const params = { config: { name: TYPES.AddressSpaceDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
-  mongoDBAddressSpaceDiviner = await MongoDBAddressSpaceDiviner.create(params)
+  mongoDBAddressSpaceDiviner = (await MongoDBAddressSpaceDiviner.create(params)) as MongoDBAddressSpaceDiviner
   return mongoDBAddressSpaceDiviner
 }
 const getMongoDBBoundWitnessDiviner = async () => {
   if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
   const params = { config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
-  mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
+  mongoDBBoundWitnessDiviner = (await MongoDBBoundWitnessDiviner.create(params)) as MongoDBBoundWitnessDiviner
   return mongoDBBoundWitnessDiviner
 }
 const getMongoDBArchiveBoundWitnessStatsDiviner = async (_context: interfaces.Context) => {
@@ -57,26 +57,26 @@ const getMongoDBArchiveBoundWitnessStatsDiviner = async (_context: interfaces.Co
   const params = {
     config: { name: TYPES.ArchiveBoundWitnessStatsDiviner.description, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema },
   }
-  mongoDBArchiveBoundWitnessStatsDiviner = await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
+  mongoDBArchiveBoundWitnessStatsDiviner = (await MongoDBArchiveBoundWitnessStatsDiviner.create(params)) as MongoDBArchiveBoundWitnessStatsDiviner
   return mongoDBArchiveBoundWitnessStatsDiviner
 }
 const getMongoDBLocationCertaintyDiviner = async () => {
   if (mongoDBLocationCertaintyDiviner) return mongoDBLocationCertaintyDiviner
-  mongoDBLocationCertaintyDiviner = await MongoDBLocationCertaintyDiviner.create({
+  mongoDBLocationCertaintyDiviner = (await MongoDBLocationCertaintyDiviner.create({
     config: { schema: XyoDivinerConfigSchema },
-  })
+  })) as MongoDBLocationCertaintyDiviner
   return mongoDBLocationCertaintyDiviner
 }
 const getMongoDBModuleAddressDiviner = async () => {
   if (mongoDBModuleAddressDiviner) return mongoDBModuleAddressDiviner
   const params = { config: { name: TYPES.ModuleAddressDiviner.description, schema: XyoDivinerConfigSchema } }
-  mongoDBModuleAddressDiviner = await MongoDBModuleAddressDiviner.create(params)
+  mongoDBModuleAddressDiviner = (await MongoDBModuleAddressDiviner.create(params)) as MongoDBModuleAddressDiviner
   return mongoDBModuleAddressDiviner
 }
 const getMongoDBPayloadDiviner = async () => {
   if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
   const params = { config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
-  mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
+  mongoDBPayloadDiviner = (await MongoDBPayloadDiviner.create(params)) as MongoDBPayloadDiviner
   return mongoDBPayloadDiviner
 }
 const getMongoDBArchivePayloadStatsDiviner = async (_context: interfaces.Context) => {
@@ -84,7 +84,7 @@ const getMongoDBArchivePayloadStatsDiviner = async (_context: interfaces.Context
   const params = {
     config: { name: TYPES.ArchivePayloadStatsDiviner.description, schema: MongoDBArchivePayloadStatsDivinerConfigSchema },
   }
-  mongoDBArchivePayloadStatsDiviner = await MongoDBArchivePayloadStatsDiviner.create(params)
+  mongoDBArchivePayloadStatsDiviner = (await MongoDBArchivePayloadStatsDiviner.create(params)) as MongoDBArchivePayloadStatsDiviner
   return mongoDBArchivePayloadStatsDiviner
 }
 const getMongoDBArchiveSchemaStatsDiviner = async (_context: interfaces.Context) => {
@@ -92,7 +92,7 @@ const getMongoDBArchiveSchemaStatsDiviner = async (_context: interfaces.Context)
   const params = {
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },
   }
-  mongoDBArchiveSchemaStatsDiviner = await MongoDBArchiveSchemaStatsDiviner.create(params)
+  mongoDBArchiveSchemaStatsDiviner = (await MongoDBArchiveSchemaStatsDiviner.create(params)) as MongoDBArchiveSchemaStatsDiviner
   return mongoDBArchiveSchemaStatsDiviner
 }
 

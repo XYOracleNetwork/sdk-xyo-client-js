@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { AbstractDiviner, DivinerConfig, DivinerParams } from '@xyo-network/diviner'
+import { AnyConfigSchema, WithAdditional } from '@xyo-network/module'
 import {
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,
@@ -34,15 +34,22 @@ export const MongoDBArchivePayloadStatsDivinerConfigSchema: MongoDBArchivePayloa
   'network.xyo.module.config.diviner.stats.payload'
 
 export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
-  XyoPayload,
-  T & {
-    schema: MongoDBArchivePayloadStatsDivinerConfigSchema
-  }
+  WithAdditional<
+    XyoPayload,
+    T & {
+      schema: MongoDBArchivePayloadStatsDivinerConfigSchema
+    }
+  >
 >
 
-export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>>
+export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+  AnyConfigSchema<MongoDBArchivePayloadStatsDivinerConfig<T>>
+>
 
-export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implements PayloadStatsDiviner, JobProvider {
+export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePayloadStatsDivinerParams = MongoDBArchivePayloadStatsDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements PayloadStatsDiviner, JobProvider
+{
   static override configSchema = MongoDBArchivePayloadStatsDivinerConfigSchema
 
   protected readonly batchLimit = 100
@@ -52,7 +59,7 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
   protected resumeAfter: ResumeToken | undefined = undefined
   protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  protected constructor(params: MongoDBArchivePayloadStatsDivinerParams) {
+  protected constructor(params: TParams) {
     super(params)
   }
 
@@ -74,8 +81,8 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
     ]
   }
 
-  static override async create(params: MongoDBArchivePayloadStatsDivinerParams): Promise<MongoDBArchivePayloadStatsDiviner> {
-    return (await super.create(params)) as MongoDBArchivePayloadStatsDiviner
+  static override async create<TParams extends MongoDBArchivePayloadStatsDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {

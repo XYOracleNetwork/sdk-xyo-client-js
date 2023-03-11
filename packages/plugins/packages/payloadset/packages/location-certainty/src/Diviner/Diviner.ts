@@ -12,9 +12,9 @@ import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } 
 
 export type LocationCertaintyDivinerParams = DivinerParams<AnyConfigSchema<LocationCertaintyDivinerConfig>>
 
-export class LocationCertaintyDiviner
-  extends AbstractDiviner<LocationCertaintyDivinerParams>
-  implements DivinerModule, LocationCertaintyDiviner, JobProvider
+export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerParams = LocationCertaintyDivinerParams>
+  extends AbstractDiviner<TParam>
+  implements DivinerModule, JobProvider
 {
   static override configSchema = LocationCertaintyDivinerConfigSchema
   static override targetSchema = LocationCertaintySchema

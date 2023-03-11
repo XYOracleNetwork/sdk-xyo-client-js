@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { AbstractDiviner, DivinerConfig, DivinerParams } from '@xyo-network/diviner'
+import { AnyConfigSchema, ModuleParams, WithAdditional } from '@xyo-network/module'
 import {
   isSchemaStatsQueryPayload,
   SchemaStatsDiviner,
@@ -40,15 +40,22 @@ export const MongoDBArchiveSchemaStatsDivinerConfigSchema: MongoDBArchiveSchemaS
   'network.xyo.module.config.diviner.stats.schema'
 
 export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
-  XyoPayload,
-  T & {
-    schema: MongoDBArchiveSchemaStatsDivinerConfigSchema
-  }
+  WithAdditional<
+    XyoPayload,
+    T & {
+      schema: MongoDBArchiveSchemaStatsDivinerConfigSchema
+    }
+  >
 >
 
-export type MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<MongoDBArchiveSchemaStatsDivinerConfig<T>>
+export type MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+  AnyConfigSchema<MongoDBArchiveSchemaStatsDivinerConfig<T>>
+>
 
-export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements SchemaStatsDiviner, JobProvider {
+export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSchemaStatsDivinerParams = MongoDBArchiveSchemaStatsDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements SchemaStatsDiviner, JobProvider
+{
   static override configSchema = MongoDBArchiveSchemaStatsDivinerConfigSchema
 
   /**
@@ -91,7 +98,7 @@ export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements
 
   protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  protected constructor(params: MongoDBArchiveSchemaStatsDivinerParams) {
+  protected constructor(params: TParams) {
     super(params)
   }
 
@@ -113,8 +120,8 @@ export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements
     ]
   }
 
-  static override async create(params: MongoDBArchiveSchemaStatsDivinerParams): Promise<MongoDBArchiveSchemaStatsDiviner> {
-    return (await super.create(params)) as MongoDBArchiveSchemaStatsDiviner
+  static override async create<TParams extends MongoDBArchiveSchemaStatsDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<SchemaStatsPayload>> {

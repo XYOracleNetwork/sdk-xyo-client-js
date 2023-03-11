@@ -36,7 +36,7 @@ export type StorageArchivistConfig = ArchivistConfig<{
 
 export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
 @creatableModule()
-export class StorageArchivist<TParams extends StorageArchivistParams> extends AbstractArchivist<TParams> {
+export class StorageArchivist<TParams extends StorageArchivistParams = StorageArchivistParams> extends AbstractArchivist<TParams> {
   static override configSchema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined

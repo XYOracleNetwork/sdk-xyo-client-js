@@ -12,9 +12,9 @@ import { MemoryAddressHistoryDiviner } from '../MemoryDiviner'
 describe('MemoryAddressHistoryDiviner', () => {
   describe('divine', () => {
     it('returns divined result', async () => {
-      const node = await MemoryNode.create()
+      const node = (await MemoryNode.create()) as MemoryNode
       const account = Account.random()
-      const archivist = new ArchivistWrapper(
+      const archivist = ArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, storeQueries: true } }),
         account,
       )
@@ -36,7 +36,7 @@ describe('MemoryAddressHistoryDiviner', () => {
         config: { address: account.addressValue.hex, schema: AddressHistoryDivinerConfigSchema },
       })
       await node.register(diviner).attach(diviner.address)
-      const divinerWrapper = new DivinerWrapper(diviner)
+      const divinerWrapper = DivinerWrapper.wrap(diviner)
       const result = await divinerWrapper.divine()
       expect(result.length).toBe(1)
       const bw = BoundWitnessWrapper.parse(result[0])

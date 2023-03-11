@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { ArchivistConfigSchema } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
@@ -29,7 +30,7 @@ const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta[] => {
 describe('MongoDBPayloadArchivist', () => {
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const account = Account.random()
-  const params = { account, sdk }
+  const params = { account, config: { schema: ArchivistConfigSchema }, sdk }
   const archive = `test-${v4()}`
   const payloads: XyoPayloadWithMeta[] = getPayloads(archive, count)
   const hashes: string[] = payloads.map((p) => new PayloadWrapper(p).hash)
@@ -39,7 +40,7 @@ describe('MongoDBPayloadArchivist', () => {
 
   beforeAll(async () => {
     const sut = await MongoDBPayloadArchivist.create(params)
-    wrapper = new ArchivistWrapper(sut)
+    wrapper = ArchivistWrapper.wrap(sut)
     const result = await wrapper.insert(payloads)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)

@@ -63,7 +63,7 @@ describe('MongoDBArchiveBoundWitnessArchivist', () => {
 
   beforeAll(async () => {
     const sut = await MongoDBArchiveBoundWitnessArchivist.create(params)
-    wrapper = new ArchivistWrapper(sut)
+    wrapper = ArchivistWrapper.wrap(sut)
     const result = await wrapper.insert(boundWitnesses)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)

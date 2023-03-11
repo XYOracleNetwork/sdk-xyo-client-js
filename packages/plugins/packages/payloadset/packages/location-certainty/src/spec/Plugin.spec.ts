@@ -12,7 +12,7 @@ describe('LocationCertaintyPlugin', () => {
   test('Add to Resolver', () => {
     const plugin = LocationCertaintyPlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin, {
-      diviner: { config: { schema: LocationCertaintyDivinerConfigSchema, targetSchema: LocationCertaintySchema } },
+      config: { schema: LocationCertaintyDivinerConfigSchema, targetSchema: LocationCertaintySchema },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.diviner(LocationCertaintySchema)).toBeObject()

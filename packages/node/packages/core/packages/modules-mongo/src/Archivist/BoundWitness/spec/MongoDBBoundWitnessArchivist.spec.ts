@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { ArchivistConfigSchema } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
@@ -57,9 +58,9 @@ describe('MongoDBBoundWitnessArchivist', () => {
   let wrapper: ArchivistWrapper
 
   beforeAll(async () => {
-    const params = { account, sdk }
+    const params = { account, config: { schema: ArchivistConfigSchema }, sdk }
     const sut = await MongoDBBoundWitnessArchivist.create(params)
-    wrapper = new ArchivistWrapper(sut)
+    wrapper = ArchivistWrapper.wrap(sut)
     const result = await wrapper.insert(boundWitnesses)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)

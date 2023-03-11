@@ -1,4 +1,4 @@
-import { AbstractModule, Module, ModuleEventData, ModuleParams } from '@xyo-network/module'
+import { Module, ModuleEventData, ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AbstractWitness } from '../AbstractWitness'
@@ -19,7 +19,7 @@ describe('XyoWitness', () => {
       expect(wrapper).toBeObject()
     })
     it('AbstractModule', async () => {
-      const witness: AbstractModule = await AbstractWitness.create(params)
+      const witness = await AbstractWitness.create(params)
       expect(witness).toBeObject()
       const wrapper = new WitnessWrapper({ module: witness })
       expect(wrapper).toBeObject()

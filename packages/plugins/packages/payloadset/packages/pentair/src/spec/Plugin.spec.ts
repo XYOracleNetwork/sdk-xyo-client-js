@@ -8,11 +8,8 @@ describe('XyoPentairScreenlogicPlugin', () => {
   test('Add to Resolver', () => {
     const plugin = XyoPentairScreenlogicPlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin, {
-      witness: {
-        config: {
-          schema: XyoPentairScreenlogicWitnessConfigSchema,
-          targetSchema: XyoPentairScreenlogicSchema,
-        },
+      config: {
+        schema: XyoPentairScreenlogicWitnessConfigSchema,
       },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()

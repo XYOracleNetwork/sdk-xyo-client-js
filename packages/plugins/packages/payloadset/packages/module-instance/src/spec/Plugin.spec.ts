@@ -12,9 +12,7 @@ describe('AbstractModuleInstancePlugin', () => {
   test('Add to Resolver', () => {
     const plugin = AbstractModuleInstancePlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin, {
-      witness: {
-        config: { schema: AbstractModuleInstanceWitnessConfigSchema, targetSchema: AbstractModuleInstanceSchema },
-      },
+      config: { schema: AbstractModuleInstanceWitnessConfigSchema },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(AbstractModuleInstanceSchema)).toBeObject()

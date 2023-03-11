@@ -1,11 +1,11 @@
 import { XyoEthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 import { PayloadSetSchema } from '@xyo-network/payload-model'
-import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
+import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoEthereumGasBlocknativeWitness } from './Witness'
 
 export const XyoEthereumGasBlocknativePlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoEthereumGasBlocknativeWitness>>(
+  createPayloadSetWitnessPlugin<XyoEthereumGasBlocknativeWitness>(
     { required: { [XyoEthereumGasBlocknativeSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

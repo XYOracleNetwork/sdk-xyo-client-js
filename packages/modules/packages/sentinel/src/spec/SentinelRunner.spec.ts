@@ -13,7 +13,7 @@ describe('SentinelRunner', () => {
   let config: SentinelConfig
 
   beforeEach(async () => {
-    const node = await MemoryNode.create()
+    const node = (await MemoryNode.create()) as MemoryNode
     const witnessModules: AbstractWitness[] = [await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })]
     const witnesses = await Promise.all(
       witnessModules.map(async (witness) => {
@@ -27,7 +27,7 @@ describe('SentinelRunner', () => {
       witnesses,
     }
 
-    sentinel = await MemorySentinel.create({ config })
+    sentinel = (await MemorySentinel.create({ config })) as MemorySentinel
     await node.register(sentinel).attach(sentinel.address)
   })
 

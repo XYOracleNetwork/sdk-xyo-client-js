@@ -19,7 +19,7 @@ describe('XyoAdhocWitness', () => {
       })
       it('uses payload schema with XyoWitnessWrapper', async () => {
         const witness = await XyoAdhocWitness.create(params)
-        const wrapper = new WitnessWrapper(witness)
+        const wrapper = WitnessWrapper.wrap(witness)
         const observation = await wrapper.observe([observed])
         expect(observation).toBeArrayOfSize(1)
         expect(observation?.[0]?.schema).toBe(observed.schema)

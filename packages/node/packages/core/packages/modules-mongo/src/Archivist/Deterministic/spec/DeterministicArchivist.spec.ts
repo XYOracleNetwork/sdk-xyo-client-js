@@ -64,7 +64,7 @@ describe('DeterministicArchivist', () => {
       config: { schema: ModuleConfigSchema },
       payloads,
     })
-    archivist = new ArchivistWrapper(module, archiveAccount)
+    archivist = ArchivistWrapper.wrap(module, archiveAccount)
     const insertions = [
       // TODO: Try simple cases of [payload, BW, mixed BW & Payload]
       [boundWitness1, payload1],

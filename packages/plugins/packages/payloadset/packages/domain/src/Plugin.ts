@@ -1,11 +1,11 @@
 import { XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
 import { PayloadSetSchema } from '@xyo-network/payload-model'
-import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
+import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { XyoDomainWitness } from './Witness'
 
 export const DomainPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoDomainWitness>>(
+  createPayloadSetWitnessPlugin<XyoDomainWitness>(
     { required: { [XyoDomainSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

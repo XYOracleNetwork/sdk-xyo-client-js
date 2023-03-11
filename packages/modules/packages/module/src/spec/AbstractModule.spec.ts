@@ -13,7 +13,7 @@ export class TestAbstractModule extends AbstractModule {
 describe('AbstractModule', () => {
   let sut: TestAbstractModule
   beforeAll(async () => {
-    sut = await TestAbstractModule.create()
+    sut = (await TestAbstractModule.create()) as TestAbstractModule
   })
   it('should instantiate', () => {
     expect(sut).toBeTruthy()

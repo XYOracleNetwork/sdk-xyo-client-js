@@ -12,7 +12,7 @@ describe('XyoEthereumGasEtherscanPlugin', () => {
   testIf(apiKey)('Add to Resolver', () => {
     const plugin = XyoEthereumGasEtherscanPlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin, {
-      witness: { config: { apiKey, schema: XyoEthereumGasEtherscanWitness.configSchema } },
+      config: { apiKey, schema: XyoEthereumGasEtherscanWitness.configSchema },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoEthereumGasEtherscanSchema)).toBeObject()

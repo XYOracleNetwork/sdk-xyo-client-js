@@ -12,12 +12,10 @@ describe('LocationPlugin', () => {
   test('Add to Resolver', () => {
     const plugin = LocationPlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin, {
-      witness: {
-        config: {
-          schema: CurrentLocationWitnessConfigSchema,
-        },
-        geolocation: navigator.geolocation,
+      config: {
+        schema: CurrentLocationWitnessConfigSchema,
       },
+      geolocation: navigator.geolocation,
     })
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(CurrentLocationSchema)).toBeObject()

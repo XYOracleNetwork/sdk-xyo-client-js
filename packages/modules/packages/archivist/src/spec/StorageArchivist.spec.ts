@@ -7,48 +7,48 @@ import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { StorageArchivistConfigSchema, XyoStorageArchivist } from '../StorageArchivist'
+import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'
 import { testArchivistAll, testArchivistRoundTrip } from './testArchivist'
 
-testArchivistRoundTrip(XyoStorageArchivist.create({ config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local' } }), 'local')
+testArchivistRoundTrip(StorageArchivist.create({ config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local' } }), 'local')
 testArchivistRoundTrip(
-  XyoStorageArchivist.create({
+  StorageArchivist.create({
     config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'session' },
   }),
   'session',
 )
 testArchivistRoundTrip(
-  XyoStorageArchivist.create({
+  StorageArchivist.create({
     config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'page' },
   }),
   'page',
 )
 
 testArchivistAll(
-  XyoStorageArchivist.create({
+  StorageArchivist.create({
     config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local' },
   }),
   'local',
 )
 testArchivistAll(
-  XyoStorageArchivist.create({
+  StorageArchivist.create({
     config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'session' },
   }),
   'session',
 )
 testArchivistAll(
-  XyoStorageArchivist.create({
+  StorageArchivist.create({
     config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'page' },
   }),
   'page',
 )
 
 test('XyoArchivist Private Key Save', async () => {
-  const storage = await XyoStorageArchivist.create({
+  const storage = await StorageArchivist.create({
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
   })
   const address = storage.address
-  const storage2 = await XyoStorageArchivist.create({
+  const storage2 = await StorageArchivist.create({
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
   })
   expect(storage2.address).toBe(address)
@@ -57,19 +57,19 @@ test('XyoArchivist Private Key Save', async () => {
 test('XyoArchivist passed account', async () => {
   const account = new Account({ phrase: 'temp' })
 
-  const storage = await XyoStorageArchivist.create({
+  const storage = (await StorageArchivist.create({
     account,
     config: { namespace: 'main', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
-  })
+  })) as StorageArchivist
 
   expect(storage['account'].addressValue.hex).toBe(account.addressValue.hex)
 })
 
 test('XyoArchivist Parent Write Through', async () => {
-  const node = await MemoryNode.create()
+  const node = (await MemoryNode.create()) as MemoryNode
   const memory = await MemoryArchivist.create()
 
-  const storage = await XyoStorageArchivist.create({
+  const storage = (await StorageArchivist.create({
     config: {
       namespace: 'test',
       parents: { write: [memory.address] },
@@ -77,7 +77,7 @@ test('XyoArchivist Parent Write Through', async () => {
       schema: StorageArchivistConfigSchema,
       type: 'local',
     },
-  })
+  })) as StorageArchivist
   await node.register(memory).attach(memory.address)
   await node.register(storage).attach(storage.address)
   expect(await storage.start()).toBeDefined()
@@ -99,12 +99,12 @@ test('XyoArchivist Parent Write Through', async () => {
 
 test('XyoArchivist Parent Reads', async () => {
   const parent = await MemoryArchivist.create()
-  const memoryNode = await MemoryNode.create()
+  const memoryNode = (await MemoryNode.create()) as MemoryNode
 
   memoryNode.register(parent)
   await memoryNode.attach(parent.address, true)
 
-  const storage = await XyoStorageArchivist.create({
+  const storage = await StorageArchivist.create({
     config: {
       namespace: 'test',
       parents: { read: [parent.address] },

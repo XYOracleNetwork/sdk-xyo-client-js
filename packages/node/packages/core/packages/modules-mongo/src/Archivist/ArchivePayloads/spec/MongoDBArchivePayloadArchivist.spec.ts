@@ -40,7 +40,7 @@ describe('MongoDBArchivePayloadArchivist', () => {
 
   beforeAll(async () => {
     const sut = await MongoDBArchivePayloadArchivist.create(params)
-    wrapper = new ArchivistWrapper(sut)
+    wrapper = ArchivistWrapper.wrap(sut)
     const result = await wrapper.insert(payloads)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)

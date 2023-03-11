@@ -1,24 +1,23 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AnyConfigSchema, duplicateModules, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { AnyConfigSchema, duplicateModules, EventListener, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
 import { NodeConfig, NodeConfigSchema } from './Config'
-import { ModuleAttachedEventArgs, ModuleDetachedEventArgs } from './Events'
 import { NodeModule, NodeModuleParams } from './Node'
 import { NodeWrapper } from './NodeWrapper'
 
 export type MemoryNodeParams = NodeModuleParams<AnyConfigSchema<NodeConfig>>
 
-export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> extends AbstractNode<TParams> {
+export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> extends AbstractNode<TParams> implements NodeModule {
   static override configSchema = NodeConfigSchema
 
   private registeredModuleMap: Record<string, Module> = {}
 
   static override async create<TParams extends MemoryNodeParams>(params?: TParams) {
-    return (await super.create(params)) as MemoryNode<TParams>
+    return (await super.create(params)) as MemoryNode
   }
 
   override async attach(address: string, external?: boolean) {
@@ -73,8 +72,14 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> ext
       if (external) {
         const wrappedAsNode = NodeWrapper.wrap(module as NodeModule)
 
-        wrappedAsNode.on('moduleAttached', (args: ModuleAttachedEventArgs) => this.emit('moduleAttached', args))
-        wrappedAsNode.on('moduleDetached', (args: ModuleDetachedEventArgs) => this.emit('moduleDetached', args))
+        const attachedListener: EventListener<TParams['eventData']> = async (args: TParams['eventData']['moduleAttached']) =>
+          await this.emit('moduleAttached', args)
+
+        const detachedListener: EventListener<TParams['eventData']> = async (args: TParams['eventData']['moduleDetached']) =>
+          await this.emit('moduleDetached', args)
+
+        wrappedAsNode.on('moduleAttached', attachedListener)
+        wrappedAsNode.on('moduleDetached', detachedListener)
       }
     }
 

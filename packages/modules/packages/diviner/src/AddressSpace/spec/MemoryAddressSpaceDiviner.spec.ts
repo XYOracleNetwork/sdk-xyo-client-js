@@ -10,9 +10,9 @@ import { MemoryAddressSpaceDiviner, MemoryAddressSpaceDivinerConfigSchema } from
 describe('MemoryAddressSpaceDiviner', () => {
   describe('divine (all archivists)', () => {
     it('returns divined result', async () => {
-      const node = await MemoryNode.create()
+      const node = (await MemoryNode.create()) as MemoryNode
       const account = Account.random()
-      const archivist = new ArchivistWrapper(
+      const archivist = ArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, storeQueries: true } }),
         account,
       )
@@ -34,7 +34,7 @@ describe('MemoryAddressSpaceDiviner', () => {
         config: { address: account.addressValue.hex, schema: MemoryAddressSpaceDivinerConfigSchema },
       })
       await node.register(diviner).attach(diviner.address)
-      const divinerWrapper = new DivinerWrapper(diviner)
+      const divinerWrapper = DivinerWrapper.wrap(diviner)
       const result = await divinerWrapper.divine()
       expect(result.length).toBe(1)
       const payload = PayloadWrapper.parse<AddressPayload>(result[0])
@@ -44,9 +44,9 @@ describe('MemoryAddressSpaceDiviner', () => {
   })
   describe('divine (listed archivists)', () => {
     it('returns divined result', async () => {
-      const node = await MemoryNode.create()
+      const node = (await MemoryNode.create()) as MemoryNode
       const account = Account.random()
-      const archivist = new ArchivistWrapper(
+      const archivist = ArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, storeQueries: true } }),
         account,
       )
@@ -68,7 +68,7 @@ describe('MemoryAddressSpaceDiviner', () => {
         config: { address: account.addressValue.hex, archivists: [archivist.address], schema: MemoryAddressSpaceDivinerConfigSchema },
       })
       await node.register(diviner).attach(diviner.address)
-      const divinerWrapper = new DivinerWrapper(diviner)
+      const divinerWrapper = DivinerWrapper.wrap(diviner)
       const result = await divinerWrapper.divine()
       expect(result.length).toBe(1)
       const payload = PayloadWrapper.parse<AddressPayload>(result[0])

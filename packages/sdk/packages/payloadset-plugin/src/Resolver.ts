@@ -40,7 +40,7 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  register(plugin: PayloadSetPlugin, params?: PayloadSetPlugin['params']) {
+  register<TPlugin extends PayloadSetPlugin>(plugin: TPlugin, params?: TPlugin['params']) {
     const setHash = Hasher.hash(plugin.set)
     this._plugins[setHash] = plugin
     this.params[setHash] = params

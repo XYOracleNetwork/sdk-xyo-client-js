@@ -8,9 +8,7 @@ describe('XyoEthereumGasEthgasstationPlugin', () => {
   test('Add to Resolver', () => {
     const plugin = XyoEthereumGasEthgasstationPlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin, {
-      witness: {
-        config: { schema: XyoEthereumGasEthgasstationWitness.configSchema },
-      },
+      config: { schema: XyoEthereumGasEthgasstationWitness.configSchema },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoEthereumGasEthgasstationSchema)).toBeObject()

@@ -10,7 +10,7 @@ describe('MongoDBAddressSpaceDiviner', () => {
   const address = new Account({ phrase }).addressValue.hex
   let sut: MongoDBAddressSpaceDiviner
   beforeEach(async () => {
-    sut = await MongoDBAddressSpaceDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
+    sut = (await MongoDBAddressSpaceDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })) as MongoDBAddressSpaceDiviner
   })
   describe('divine', () => {
     describe('with valid query', () => {

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist, ArchivistModule, ArchivistParams } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistModule, ArchivistParams } from '@xyo-network/archivist'
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { ArchiveModuleConfig, ArchiveModuleConfigSchema, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
@@ -31,6 +31,10 @@ export class MongoDBArchivePayloadArchivist<
   protected constructor(params: TParams) {
     super(params)
     this.sdk = params?.sdk || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  }
+
+  override get queries(): string[] {
+    return [ArchivistInsertQuerySchema, ArchivistFindQuerySchema, ...super.queries]
   }
 
   static override async create<TParams extends MongoDBArchivePayloadArchivistParams>(params?: TParams) {

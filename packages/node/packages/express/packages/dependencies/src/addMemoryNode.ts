@@ -23,7 +23,7 @@ const diviners = [
 ]
 
 export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
-  const node = memoryNode ?? (await MemoryNode.create({ config }))
+  const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)

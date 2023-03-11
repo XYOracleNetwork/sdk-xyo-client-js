@@ -19,7 +19,7 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   try {
     const node = await getNode(argv)
     const modules = await node.downResolver.resolve({ query: [[ArchivistGetQuerySchema]] })
-    const descriptions = await Promise.all(modules.map((a) => new ModuleWrapper(a).describe()))
+    const descriptions = await Promise.all(modules.map((a) => ModuleWrapper.wrap(a).describe()))
     printLine(JSON.stringify(descriptions))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

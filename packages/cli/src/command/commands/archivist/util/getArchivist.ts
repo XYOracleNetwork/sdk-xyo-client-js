@@ -8,7 +8,7 @@ export const getArchivist = async (args: ModuleArguments): Promise<ArchivistWrap
   const { verbose } = args
   try {
     const module = await getModule(args)
-    const archivist = new ArchivistWrapper(module)
+    const archivist = ArchivistWrapper.wrap(module)
     return archivist
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

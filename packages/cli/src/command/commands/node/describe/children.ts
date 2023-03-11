@@ -21,7 +21,7 @@ export const handler = async (argv: BaseArguments) => {
     const childDescriptions = await Promise.all(
       children
         .flat()
-        .map((child) => new ModuleWrapper(child))
+        .map((child) => ModuleWrapper.wrap(child))
         .map((mod) => mod.describe()),
     )
     printLine(JSON.stringify(childDescriptions))

@@ -1,14 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { AbstractArchivist, ArchivistParams } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import {
-  AbstractPayloadArchivist,
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
-  WitnessedPayloadArchivist,
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
@@ -28,36 +27,37 @@ const valid = (bw: XyoBoundWitness) => {
   return new BoundWitnessValidator(bw).validate().length === 0
 }
 
-export type MongoDBArchivistWitnessedPayloadArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> = ModuleParams<
-  T,
+export type MongoDBArchivistWitnessedPayloadArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> = ArchivistParams<
+  AnyConfigSchema<T>,
+  undefined,
   {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-    payloads: BaseMongoSdk<XyoPayloadWithMeta>
+    boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    payloads?: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 
-export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> implements WitnessedPayloadArchivist {
+export class MongoDBArchivistWitnessedPayloadArchivist<
+  TParams extends MongoDBArchivistWitnessedPayloadArchivistParams = MongoDBArchivistWitnessedPayloadArchivistParams,
+> extends AbstractArchivist<TParams> {
   static override configSchema = ArchiveModuleConfigSchema
 
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
 
-  constructor(params: MongoDBArchivistWitnessedPayloadArchivistParams) {
+  constructor(params: TParams) {
     super(params)
     this.boundWitnesses = params.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
     this.payloads = params.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
-  static override async create(
-    params?: Partial<MongoDBArchivistWitnessedPayloadArchivistParams>,
-  ): Promise<MongoDBArchivistWitnessedPayloadArchivist> {
-    return (await super.create(params)) as MongoDBArchivistWitnessedPayloadArchivist
+  static override async create<TParams extends MongoDBArchivistWitnessedPayloadArchivistParams>(params?: TParams) {
+    return await super.create(params)
   }
 
-  find(_filter: PayloadFindFilter): Promise<XyoPayloadWithMeta[]> {
+  override find(_filter: PayloadFindFilter): Promise<XyoPayloadWithMeta[]> {
     throw new Error('Not implemented')
   }
-  async get(hashes: string[]): Promise<XyoPayloadWithMeta[]> {
+  override async get(hashes: string[]): Promise<XyoPayloadWithMeta[]> {
     // Find bw signed by us that has this hash
     const hash = assertEx(hashes.pop(), 'Missing hash')
     const bound_witnesses = (
@@ -70,7 +70,7 @@ export class MongoDBArchivistWitnessedPayloadArchivist extends AbstractPayloadAr
     return (await this.payloads.find({ _archive: { $in: archives }, _hash: hash })).limit(DefaultLimit).toArray()
   }
 
-  async insert(payloads: XyoPayloadWithMeta[]): Promise<XyoBoundWitness[]> {
+  override async insert(payloads: XyoPayloadWithMeta[]): Promise<XyoBoundWitness[]> {
     // Witness from archivist
     const _timestamp = Date.now()
     const [bw] = new BoundWitnessBuilder({ inlinePayloads: false }).payloads(payloads).build() as [

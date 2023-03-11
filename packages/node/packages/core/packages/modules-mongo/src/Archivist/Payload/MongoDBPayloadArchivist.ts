@@ -1,8 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractArchivist, ArchivistParams } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { ModuleConfig, ModuleConfigSchema, ModuleParams } from '@xyo-network/module'
-import { AbstractPayloadArchivist, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { AnyConfigSchema, ModuleConfig, ModuleConfigSchema, ModuleParams } from '@xyo-network/module'
+import { XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
@@ -10,28 +11,31 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export type MongoDBPayloadArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends AnyObject = AnyObject> = ModuleParams<
-  TConfig,
+export type MongoDBPayloadArchivistParams<TConfig extends ModuleConfig = ModuleConfig, T extends AnyObject = AnyObject> = ArchivistParams<
+  AnyConfigSchema<TConfig>,
+  undefined,
   {
-    sdk: BaseMongoSdk<XyoPayloadWithMeta<T>>
+    sdk?: BaseMongoSdk<XyoPayloadWithMeta<T>>
   }
 >
 
-export class MongoDBPayloadArchivist extends AbstractPayloadArchivist<XyoPayloadWithMeta> {
+export class MongoDBPayloadArchivist<
+  TParams extends MongoDBPayloadArchivistParams = MongoDBPayloadArchivistParams,
+> extends AbstractArchivist<TParams> {
   static override configSchema = ModuleConfigSchema
 
   protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>
 
-  constructor(params: MongoDBPayloadArchivistParams) {
+  constructor(params: TParams) {
     super(params)
     this.sdk = params?.sdk || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
-  static override async create(params?: Partial<MongoDBPayloadArchivistParams>): Promise<MongoDBPayloadArchivist> {
-    return (await super.create(params)) as MongoDBPayloadArchivist
+  static override async create<TParams extends MongoDBPayloadArchivistParams>(params?: TParams) {
+    return await super.create(params)
   }
 
-  async find(predicate: XyoPayloadFilterPredicate<XyoPayloadWithMeta>): Promise<XyoPayloadWithMeta[]> {
+  override async find(predicate: XyoPayloadFilterPredicate<XyoPayloadWithMeta>): Promise<XyoPayloadWithMeta[]> {
     const { _archive, archives, hash, limit, order, schema, schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
@@ -49,7 +53,7 @@ export class MongoDBPayloadArchivist extends AbstractPayloadArchivist<XyoPayload
     return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)
   }
 
-  async get(hashes: string[]): Promise<XyoPayloadWithMeta[]> {
+  override async get(hashes: string[]): Promise<XyoPayloadWithMeta[]> {
     // NOTE: This assumes at most 1 of each hash is stored which is currently not the case
     const limit = hashes.length
     assertEx(limit > 0, 'MongoDBPayloadArchivist.get: No hashes supplied')
@@ -57,7 +61,7 @@ export class MongoDBPayloadArchivist extends AbstractPayloadArchivist<XyoPayload
     return (await (await this.sdk.find({ _hash: { $in: hashes } })).sort({ _timestamp: -1 }).limit(limit).toArray()).map(removeId)
   }
 
-  async insert(items: XyoPayloadWithMeta[]): Promise<XyoBoundWitness[]> {
+  override async insert(items: XyoPayloadWithMeta[]): Promise<XyoBoundWitness[]> {
     const result = await this.sdk.insertMany(items.map(removeId) as XyoPayloadWithMeta[])
     if (result.insertedCount != items.length) {
       throw new Error('MongoDBPayloadArchivist.insert: Error inserting Payloads')

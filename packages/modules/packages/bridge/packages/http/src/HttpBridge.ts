@@ -6,7 +6,7 @@ import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AnyConfigSchema,
-  creatable,
+  creatableModule,
   Module,
   ModuleConfig,
   ModuleDiscoverQuery,
@@ -34,7 +34,7 @@ export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig
   }
 >
 
-@creatable()
+@creatableModule()
 export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams> extends AbstractBridge<TParams, Module> {
   private _rootAddress?: string
   private _targetConfigs: Record<string, ModuleConfig> = {}

@@ -1,6 +1,7 @@
 export * from './AbstractModule'
 export * from './CreatableModule'
 export * from './Error'
+export * from './Events'
 export * from './lib'
 export * from './ModuleWrapper'
 export * from './Query'

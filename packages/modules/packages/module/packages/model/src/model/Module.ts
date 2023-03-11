@@ -1,31 +1,13 @@
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import type Emittery from 'emittery'
 
+import { EventFunctions } from '../Events'
 import { ModuleFilter } from '../ModuleFilter'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 import { XyoQueryBoundWitness } from '../Query'
 import { ModuleConfig } from './Config'
 import { AnyConfigSchema, ModuleParams } from './ModuleParams'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type XyoEmittery<TEventData = Record<EventName, any>> = Omit<Emittery<TEventData>, 'debug'>
-
-export type EventName = PropertyKey
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type EventData = Record<EventName, any>
-
-export interface EmitteryFunctions<TEventData extends EventData> {
-  emit: Emittery<TEventData>['emit']
-
-  //just here to communicate type
-  eventData: TEventData
-
-  off: Emittery<TEventData>['off']
-  on: Emittery<TEventData>['on']
-  once: Emittery<TEventData>['once']
-}
 export interface ModuleResolver {
   addResolver: (resolver: ModuleResolver) => this
   isModuleResolver: boolean
@@ -57,4 +39,4 @@ export type Module<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> =
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
   readonly upResolver: ModuleResolver
-} & EmitteryFunctions<TParams['eventData']>
+} & EventFunctions<TParams['eventData']>

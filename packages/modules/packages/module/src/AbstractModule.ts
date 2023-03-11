@@ -8,8 +8,10 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { Base } from '@xyo-network/core'
 import {
   AccountModuleParams,
-  EmitteryFunctions,
+  EventAnyListener,
   EventDataParams,
+  EventFunctions,
+  EventListener,
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
@@ -21,7 +23,6 @@ import {
   ModuleSubscribeQuerySchema,
   SchemaString,
   WalletModuleParams,
-  XyoEmittery,
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
@@ -30,49 +31,63 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
-import Emittery from 'emittery'
 import compact from 'lodash/compact'
 
+import { creatableModule } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
+import { Events } from './Events'
 import { IdLogger } from './IdLogger'
 import { duplicateModules, serializableField } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
-export class BaseEmitter<TParams extends EventDataParams = EventDataParams> extends Base<TParams> implements EmitteryFunctions<TParams['eventData']> {
-  private emittery: XyoEmittery<TParams['eventData']>
+export class BaseEmitter<TParams extends EventDataParams = EventDataParams> extends Base<TParams> implements EventFunctions<TParams['eventData']> {
+  private events: Events<TParams['eventData']>
 
   constructor(params: TParams) {
     super(params)
-    this.emittery = new Emittery(params.eventData)
+    this.events = new Events(params.eventData)
   }
 
-  get emit() {
-    return this.emittery.emit
+  clearListeners(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][]) {
+    return this.events.clearListeners(eventNames)
   }
 
-  get eventData() {
-    return this.events as TParams['eventData']
+  emit(eventName: keyof TParams['eventData'], eventArgs?: TParams['eventData'][keyof TParams['eventData']]) {
+    return this.events.emit(eventName, eventArgs)
   }
 
-  get events() {
-    return this.emittery.events
+  emitSerial(eventName: keyof TParams['eventData'], eventArgs?: TParams['eventData'][keyof TParams['eventData']]) {
+    return this.events.emitSerial(eventName, eventArgs)
   }
 
-  get off() {
-    return this.emittery.off
+  listenerCount(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][]) {
+    return this.events.listenerCount(eventNames)
   }
 
-  get on() {
-    return this.emittery.on
+  off(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
+    return this.events.off(eventNames, listener)
   }
 
-  get once() {
-    return this.emittery.once
+  offAny(listener: EventAnyListener<TParams['eventData']>) {
+    return this.events.offAny(listener)
+  }
+
+  on(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
+    return this.events.on(eventNames, listener)
+  }
+
+  onAny(listener: EventAnyListener<TParams['eventData']>) {
+    return this.events.onAny(listener)
+  }
+
+  once(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
+    return this.events.once(eventNames, listener)
   }
 }
 
+@creatableModule()
 export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams>, Module {
   static configSchema: string
 
@@ -129,11 +144,16 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
   }
 
   static async create<TParams extends ModuleParams>(params?: TParams): Promise<Module> {
-    const schema = assertEx(this.configSchema, 'Missing configSchema')
-    if (params?.config.schema) {
-      assertEx(params?.config.schema === schema, `Bad Config Schema [Received ${params?.config.schema}] [Expected ${schema}]`)
+    if (!this.configSchema) {
+      this.defaultLogger?.log(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
-    params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
+    const schema = this.configSchema
+    if (params?.config?.schema) {
+      if (params?.config?.schema !== schema) {
+        this.defaultLogger?.log(`Bad Config Schema [Received ${params?.config?.schema}] [Expected ${schema}]`)
+      }
+    }
+    params?.logger?.debug(`config: ${JSON.stringify(params?.config, null, 2)}`)
     const mutatedConfig = { ...params?.config, schema } as TParams['config']
     const mutatedParams = { ...params, config: mutatedConfig } as TParams
     return await new this<TParams>(mutatedParams).start()

@@ -15,7 +15,7 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -35,7 +35,7 @@ export type StorageArchivistConfig = ArchivistConfig<{
 }>
 
 export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
-
+@creatableModule()
 export class StorageArchivist<TParams extends StorageArchivistParams> extends AbstractArchivist<TParams> {
   static override configSchema = StorageArchivistConfigSchema
 

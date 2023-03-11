@@ -5,6 +5,7 @@ import { Account } from '@xyo-network/account'
 import {
   AbstractArchivist,
   ArchivistConfig,
+  ArchivistConfigSchema,
   ArchivistFindQuery,
   ArchivistFindQuerySchema,
   ArchivistGetQuery,
@@ -77,6 +78,7 @@ const searchDepthLimit = 50
 export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
 > extends AbstractArchivist<TParams> {
+  static override configSchema: ArchivistConfigSchema
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
 

@@ -1,5 +1,6 @@
 export * from './Events'
 export * from './model'
+export * from './ModuleEvents'
 export * from './ModuleFilter'
 export * from './ModuleQueryResult'
 export * from './PartialConfig'

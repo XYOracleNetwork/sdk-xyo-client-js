@@ -15,8 +15,7 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "@xyo-network/wallet-model": "workspace:^",
-    "emittery": "^1.0.1"
+    "@xyo-network/wallet-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.1",

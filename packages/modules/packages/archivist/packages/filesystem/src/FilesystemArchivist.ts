@@ -12,7 +12,7 @@ import {
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -34,6 +34,7 @@ export type FilesystemArchivistParams = ArchivistParams<AnyConfigSchema<Filesyst
 /** @description Currently only a read-only archivist that loads payloads from filesystem
  * but allows for future expansion to read/write
  */
+@creatableModule()
 export class FilesystemArchivist<TParams extends FilesystemArchivistParams = FilesystemArchivistParams>
   extends AbstractArchivist<TParams>
   implements ArchivistModule

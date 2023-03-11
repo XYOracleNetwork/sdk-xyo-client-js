@@ -2,8 +2,8 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AnyObject, BaseParams } from '@xyo-network/core'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
+import { EventData } from '../Events'
 import { ModuleConfig } from './Config'
-import { EventData } from './Module'
 
 export type WithAdditional<T, TAdditional extends AnyObject | undefined = undefined> = TAdditional extends AnyObject ? T & TAdditional : T
 

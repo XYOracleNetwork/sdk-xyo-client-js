@@ -28,7 +28,6 @@
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "@xyo-network/shared": "workspace:^",
-    "emittery": "^1.0.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

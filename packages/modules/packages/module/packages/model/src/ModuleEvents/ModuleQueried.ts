@@ -1,7 +1,7 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 
-import { EventData } from '../model'
+import { EventData } from '../Events'
 import { XyoQueryBoundWitness } from '../Query'
 import { ModuleEventArgs } from './ModuleEventArgs'
 

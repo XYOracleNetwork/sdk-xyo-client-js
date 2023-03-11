@@ -12,7 +12,7 @@ import {
   ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule, ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -29,7 +29,7 @@ export type MemoryArchivistConfig = ArchivistConfig<{
 
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
   ModuleParams<TConfig>
-
+@creatableModule()
 export class MemoryArchivist<
   TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
 > extends AbstractArchivist<TParams> {

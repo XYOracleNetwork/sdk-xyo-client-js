@@ -19,8 +19,8 @@ export class XyoCryptoMarketAssetDiviner<TParams extends XyoCryptoMarketAssetDiv
   static override configSchema = XyoCryptoMarketAssetDivinerConfigSchema
   static override targetSchema = XyoCryptoMarketAssetSchema
 
-  static override async create<TParams extends XyoCryptoMarketAssetDivinerParams>(params?: Omit<TParams, 'eventData'>) {
-    return (await super.create(params)) as XyoCryptoMarketAssetDiviner<TParams>
+  static override async create<TParams extends XyoCryptoMarketAssetDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {

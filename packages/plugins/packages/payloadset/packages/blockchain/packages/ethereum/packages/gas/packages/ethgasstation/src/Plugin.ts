@@ -5,7 +5,7 @@ import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/pa
 import { XyoEthereumGasEthgasstationWitness } from './Witness'
 
 export const XyoEthereumGasEthgasstationPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoEthereumGasEthgasstationWitness>>(
+  createPayloadSetPlugin<PayloadSetWitnessPlugin>(
     { required: { [XyoEthereumGasEthgasstationSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

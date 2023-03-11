@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
-import { Diviner, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
+import { DivinerModule, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
 import { ModuleWrapper, ModuleWrapperParams } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-export class DivinerWrapper extends ModuleWrapper implements Diviner {
+export class DivinerWrapper extends ModuleWrapper implements DivinerModule {
   static override requiredQueries = [XyoDivinerDivineQuerySchema, ...super.requiredQueries]
 
   constructor(params: ModuleWrapperParams) {

@@ -6,12 +6,12 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { SentinelReportQuery, SentinelReportQuerySchema } from './Queries'
-import { Sentinel } from './SentinelModel'
+import { SentinelModule } from './SentinelModel'
 
-export class SentinelWrapper extends ModuleWrapper implements Sentinel {
+export class SentinelWrapper extends ModuleWrapper implements SentinelModule {
   static override requiredQueries = [SentinelReportQuerySchema, ...super.requiredQueries]
 
-  constructor(params: ModuleWrapperParams) {
+  constructor(params: ModuleWrapperParams<SentinelModule>) {
     super(params)
     assertEx(params.module.queries.includes(SentinelReportQuerySchema))
   }
@@ -22,7 +22,7 @@ export class SentinelWrapper extends ModuleWrapper implements Sentinel {
       if (missingRequiredQueries.length > 0) {
         //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
-        return new SentinelWrapper({ account, module })
+        return new SentinelWrapper({ account, module: module as SentinelModule })
       }
     }
   }

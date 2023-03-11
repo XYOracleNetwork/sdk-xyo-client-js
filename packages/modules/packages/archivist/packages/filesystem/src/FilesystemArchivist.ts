@@ -1,17 +1,18 @@
 import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistConfig,
   ArchivistFindQuerySchema,
   ArchivistModule,
+  ArchivistParams,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { AnyConfigSchema, Module } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -35,7 +36,7 @@ export type FilesystemArchivistParams = ArchivistParams<AnyConfigSchema<Filesyst
  */
 export class FilesystemArchivist<TParams extends FilesystemArchivistParams = FilesystemArchivistParams>
   extends AbstractArchivist<TParams>
-  implements ArchivistModule, Module
+  implements ArchivistModule
 {
   static override configSchema = FilesystemArchivistConfigSchema
 
@@ -53,10 +54,10 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return assertEx(this._memoryArchivist)
   }
 
-  static override async create<TParams extends FilesystemArchivistParams>(params?: Omit<TParams, 'eventData'>) {
-    const instance = (await super.create<TParams>(params)) as FilesystemArchivist<TParams>
+  static override async create<TParams extends FilesystemArchivistParams>(params?: TParams) {
+    const instance = (await super.create(params)) as FilesystemArchivist<TParams>
     await instance.loadFromFile()
-    return instance
+    return instance as ArchivistModule
   }
 
   private static dataFromRawJson(rawJson: string) {

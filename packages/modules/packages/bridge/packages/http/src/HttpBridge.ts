@@ -37,7 +37,7 @@ export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig
 @creatable()
 export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams> extends AbstractBridge<TParams, Module> {
   private _rootAddress?: string
-  private _targetConfigs: Record<string, XyoPayload> = {}
+  private _targetConfigs: Record<string, ModuleConfig> = {}
   private _targetDownResolver: BridgeModuleResolver
   private _targetQueries: Record<string, string[]> = {}
   private axios: AxiosJson
@@ -90,7 +90,7 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
     return true
   }
 
-  targetConfig(address: string): XyoPayload {
+  targetConfig(address: string): ModuleConfig {
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }
 
@@ -116,7 +116,7 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
     ).config
 
     this._targetConfigs[address] = assertEx(
-      discover?.find((payload) => payload.schema === targetConfigSchema),
+      discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
       `Discover did not return a [${targetConfigSchema}] payload`,
     )
 

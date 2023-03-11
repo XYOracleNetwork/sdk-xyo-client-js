@@ -17,11 +17,11 @@ export type EventName = PropertyKey
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventData = Record<EventName, any>
 
-export interface EmitteryFunctions<TEventData extends EventData | undefined> {
+export interface EmitteryFunctions<TEventData extends EventData> {
   emit: Emittery<TEventData>['emit']
 
   //just here to communicate type
-  eventData?: TEventData
+  eventData: TEventData
 
   off: Emittery<TEventData>['off']
   on: Emittery<TEventData>['on']
@@ -34,17 +34,12 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type Module<
-  TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
-  TEventData extends ModuleEventData = ModuleEventData,
-> = {
+export type Module<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
   address: string
   config: TParams['config']
 
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolver
-
-  eventData?: TEventData
 
   params: TParams
 
@@ -63,4 +58,4 @@ export type Module<
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
   readonly upResolver: ModuleResolver
-} & EmitteryFunctions<TEventData>
+} & EmitteryFunctions<TParams['eventData']>

@@ -1,18 +1,20 @@
-import { AbstractDiviner, DivinerParams } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerModule, DivinerParams } from '@xyo-network/diviner'
 import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
 import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/elevation-plugin'
 import { LocationCertaintyHeuristic, LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { Job, JobProvider } from '@xyo-network/shared'
 
 import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Config'
 
+export type LocationCertaintyDivinerParams = DivinerParams<AnyConfigSchema<LocationCertaintyDivinerConfig>>
+
 export class LocationCertaintyDiviner
-  extends AbstractDiviner<DivinerParams<LocationCertaintyDivinerConfig>>
-  implements LocationCertaintyDiviner, JobProvider
+  extends AbstractDiviner<LocationCertaintyDivinerParams>
+  implements DivinerModule, LocationCertaintyDiviner, JobProvider
 {
   static override configSchema = LocationCertaintyDivinerConfigSchema
   static override targetSchema = LocationCertaintySchema
@@ -27,8 +29,8 @@ export class LocationCertaintyDiviner
     ]
   }
 
-  static override async create(params?: ModuleParams<LocationCertaintyDivinerConfig>) {
-    return (await super.create(params)) as LocationCertaintyDiviner
+  static override async create<TParams extends LocationCertaintyDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   /* Given an array of numbers, find the min/max/mean */

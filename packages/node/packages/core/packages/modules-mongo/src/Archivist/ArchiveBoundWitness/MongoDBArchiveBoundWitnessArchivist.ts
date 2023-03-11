@@ -1,14 +1,13 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractArchivist, ArchivistParams } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AnyObject } from '@xyo-network/core'
-import { ModuleEventData, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
-  AbstractBoundWitnessArchivist,
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
-  BoundWitnessArchivist,
   XyoBoundWitnessFilterPredicate,
   XyoBoundWitnessMeta,
   XyoBoundWitnessWithMeta,
@@ -22,34 +21,33 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export type MongoDBArchiveBoundWitnessArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> = ModuleParams<
-  T,
-  ModuleEventData,
+export type MongoDBArchiveBoundWitnessArchivistParams = ArchivistParams<
+  AnyConfigSchema<ArchiveModuleConfig>,
+  undefined,
   {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
 export class MongoDBArchiveBoundWitnessArchivist<
-    TParams extends MongoDBArchiveBoundWitnessArchivistParams = MongoDBArchiveBoundWitnessArchivistParams,
-  >
-  extends AbstractBoundWitnessArchivist<TParams>
-  implements BoundWitnessArchivist
-{
+  TParams extends MongoDBArchiveBoundWitnessArchivistParams = MongoDBArchiveBoundWitnessArchivistParams,
+> extends AbstractArchivist<TParams> {
   static override configSchema = ArchiveModuleConfigSchema
 
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
-  constructor(params: MongoDBArchiveBoundWitnessArchivistParams) {
+  protected constructor(params: TParams) {
     super(params)
     this.boundWitnesses = params.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 
-  static override async create(params?: Partial<MongoDBArchiveBoundWitnessArchivistParams>) {
-    return (await super.create(params)) as MongoDBArchiveBoundWitnessArchivist
+  static override async create<TParams extends MongoDBArchiveBoundWitnessArchivistParams>(params?: TParams) {
+    return await super.create(params)
   }
 
-  async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta<AnyObject, XyoPayloadWithPartialMeta<AnyObject>>[]> {
+  override async find(
+    predicate: XyoBoundWitnessFilterPredicate,
+  ): Promise<XyoBoundWitnessWithMeta<AnyObject, XyoPayloadWithPartialMeta<AnyObject>>[]> {
     const { addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
@@ -70,7 +68,7 @@ export class MongoDBArchiveBoundWitnessArchivist<
     const result = (await (await this.boundWitnesses.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)
     return result
   }
-  async get(hashes: string[]): Promise<Array<XyoBoundWitnessWithMeta>> {
+  override async get(hashes: string[]): Promise<Array<XyoBoundWitnessWithMeta>> {
     const predicates = hashes.map((hash) => {
       const _archive = assertEx(this.config.archive, 'MongoDBArchiveBoundWitnessArchivist.get: Missing archive')
       const _hash = assertEx(hash, 'MongoDBArchiveBoundWitnessArchivist.get: Missing hash')

@@ -1,12 +1,6 @@
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import {
-  AbstractDiviner,
-  AddressSpaceDiviner,
-  DivinerConfig,
-  XyoArchivistPayloadDivinerConfig,
-  XyoArchivistPayloadDivinerConfigSchema,
-} from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerParams, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayloads } from '@xyo-network/payload-model'
@@ -17,25 +11,29 @@ import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk } from '../../Mongo'
 
-export type MongoDBDeterministicArchivistParams<TConfig extends DivinerConfig = DivinerConfig> = ModuleParams<
-  TConfig,
+export type MongoDBAddressSpaceDivinerParams<TConfig extends DivinerConfig = DivinerConfig> = DivinerParams<
+  AnyConfigSchema<TConfig>,
+  undefined,
   {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
-export class MongoDBAddressSpaceDiviner extends AbstractDiviner implements AddressSpaceDiviner {
+export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivinerParams = MongoDBAddressSpaceDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements AddressSpaceDiviner
+{
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
-  constructor(params: MongoDBDeterministicArchivistParams<DivinerConfig>) {
+  constructor(params: TParams) {
     super(params)
     this.sdk = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 
-  static override async create(params?: Partial<ModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBAddressSpaceDiviner> {
-    return (await super.create(params)) as MongoDBAddressSpaceDiviner
+  static override async create<TParams extends MongoDBAddressSpaceDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   override async divine(_payloads?: XyoPayloads): Promise<XyoPayloads> {

@@ -5,11 +5,12 @@ import {
   AbstractDiviner,
   AddressHistoryDiviner,
   AddressHistoryQueryPayload,
+  DivinerParams,
   isAddressHistoryQueryPayload,
   XyoArchivistPayloadDivinerConfig,
   XyoArchivistPayloadDivinerConfigSchema,
 } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -19,13 +20,18 @@ import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export class MongoDBAddressHistoryDiviner extends AbstractDiviner implements AddressHistoryDiviner {
+export type MongoDBAddressHistoryDivinerParams = DivinerParams<AnyConfigSchema<XyoArchivistPayloadDivinerConfig>>
+
+export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements AddressHistoryDiviner
+{
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
-  static override async create(params?: Partial<ModuleParams<XyoArchivistPayloadDivinerConfig>>): Promise<MongoDBAddressHistoryDiviner> {
-    return (await super.create(params)) as MongoDBAddressHistoryDiviner
+  static override async create<TParams extends MongoDBAddressHistoryDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {

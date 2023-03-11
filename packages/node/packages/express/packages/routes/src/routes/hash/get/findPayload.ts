@@ -14,7 +14,7 @@ const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCrit
 
 const isPayloadSignedByAddress = async (archivist: BoundWitnessesArchivist, hash: string, addresses: string[]): Promise<boolean> => {
   const filter = { addresses, limit: 1, payload_hashes: [hash] }
-  const wrapper = new ArchivistWrapper(archivist)
+  const wrapper = ArchivistWrapper.wrap(archivist)
   const result = await wrapper.find(filter)
   return result?.length > 0
 }
@@ -26,7 +26,7 @@ export const findPayload = async (
 ): Promise<XyoPayload | undefined> => {
   const { addresses } = searchCriteria
   const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
-  const wrapper = new ArchivistWrapper(payloadArchivist)
+  const wrapper = ArchivistWrapper.wrap(payloadArchivist)
   const result = await wrapper.find(filter)
   const payload = result?.[0] ? PayloadWrapper.parse(result[0]) : undefined
   if (payload && addresses.length) {

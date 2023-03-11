@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { XyoEthereumGasEthersPayload, XyoEthereumGasEthersSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
-import { AnyConfigSchema, ModuleEventData, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { TimestampWitness } from '@xyo-network/witness'
@@ -12,7 +12,7 @@ import { XyoEthereumGasEthersWitnessConfigSchema } from './Schema'
 
 export type XyoEthereumGasEthersWitnessParams = ModuleParams<
   AnyConfigSchema<XyoEthereumGasEthersWitnessConfig>,
-  ModuleEventData,
+  undefined,
   {
     provider?: Provider
   }

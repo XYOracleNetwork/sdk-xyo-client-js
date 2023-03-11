@@ -1,5 +1,5 @@
 import { ArchivistParams } from '@xyo-network/archivist'
-import { DivinerConfig } from '@xyo-network/diviner-model'
+import { DivinerConfig, DivinerModule } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
@@ -12,7 +12,7 @@ export class IdentityDiviner<TParams extends IdentityDivinerParams> extends Abst
   static override targetSchema = 'network.xyo.test'
 
   static override async create<TParams extends IdentityDivinerParams>(params?: TParams) {
-    return (await super.create(params)) as IdentityDiviner<TParams>
+    return (await super.create(params)) as DivinerModule
   }
 
   override divine(payloads: XyoPayloads): Promisable<XyoPayloads> {

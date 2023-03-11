@@ -32,7 +32,7 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
   }
 
   static override async create<TParams extends WitnessParams = WitnessParams>(params?: TParams) {
-    return await super.create<TParams>(params)
+    return (await super.create(params)) as WitnessModule
   }
 
   observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {

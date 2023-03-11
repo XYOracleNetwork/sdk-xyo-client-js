@@ -8,7 +8,6 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { Base } from '@xyo-network/core'
 import {
   AccountModuleParams,
-  AnyConfigSchema,
   EmitteryFunctions,
   EventDataParams,
   Module,
@@ -53,6 +52,10 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams> exte
     return this.emittery.emit
   }
 
+  get eventData() {
+    return this.events as TParams['eventData']
+  }
+
   get events() {
     return this.emittery.events
   }
@@ -70,10 +73,7 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams> exte
   }
 }
 
-export class AbstractModule<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>>
-  extends BaseEmitter<TParams>
-  implements Module<TParams>, Module
-{
+export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams>, Module {
   static configSchema: string
 
   readonly downResolver = new CompositeModuleResolver()
@@ -128,7 +128,7 @@ export class AbstractModule<TParams extends ModuleParams<AnyConfigSchema<ModuleC
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
 
-  static async create<TParams extends ModuleParams>(params?: TParams) {
+  static async create<TParams extends ModuleParams>(params?: TParams): Promise<Module> {
     const schema = assertEx(this.configSchema, 'Missing configSchema')
     if (params?.config.schema) {
       assertEx(params?.config.schema === schema, `Bad Config Schema [Received ${params?.config.schema}] [Expected ${schema}]`)
@@ -136,7 +136,7 @@ export class AbstractModule<TParams extends ModuleParams<AnyConfigSchema<ModuleC
     params?.logger?.debug(`config: ${JSON.stringify(params.config, null, 2)}`)
     const mutatedConfig = { ...params?.config, schema } as TParams['config']
     const mutatedParams = { ...params, config: mutatedConfig } as TParams
-    return await new this(mutatedParams).start()
+    return await new this<TParams>(mutatedParams).start()
   }
 
   discover(): Promisable<XyoPayload[]> {

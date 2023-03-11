@@ -17,8 +17,8 @@ export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerPar
     return [XyoDivinerDivineQuerySchema, ...super.queries]
   }
 
-  static override async create<TParams extends DivinerParams = DivinerParams>(params?: Omit<TParams, 'eventData'>) {
-    return (await super.create(params)) as AbstractDiviner<TParams>
+  static override async create<TParams extends DivinerParams = DivinerParams>(params?: TParams) {
+    return (await super.create(params)) as DivinerModule
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

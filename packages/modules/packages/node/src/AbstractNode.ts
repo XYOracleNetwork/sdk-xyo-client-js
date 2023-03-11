@@ -23,7 +23,7 @@ import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuer
 
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams>
   extends AbstractModule<TParams>
-  implements NodeModule<TParams>
+  implements NodeModule<TParams>, Module<TParams>, NodeModule, Module
 {
   static override readonly configSchema = NodeConfigSchema
 
@@ -41,6 +41,10 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   override get queries(): string[] {
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
+  }
+
+  static override async create<TParams extends NodeModuleParams>(params?: TParams): Promise<NodeModule> {
+    return (await super.create(params)) as NodeModule
   }
 
   static isNode(module: unknown) {

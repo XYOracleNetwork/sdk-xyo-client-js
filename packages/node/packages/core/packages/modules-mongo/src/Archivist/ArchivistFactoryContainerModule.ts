@@ -1,11 +1,10 @@
-import { MemoryNode } from '@xyo-network/modules'
+import { ArchivistModule, MemoryNode } from '@xyo-network/modules'
 import { getBoundWitnessArchivistName, getPayloadArchivistName } from '@xyo-network/node-core-lib'
 import {
   ArchiveBoundWitnessArchivist,
   ArchiveBoundWitnessArchivistFactory,
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
-  ArchivePayloadArchivist,
   ArchivePayloadArchivistFactory,
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
@@ -29,17 +28,17 @@ const max = 1000
 const schema = ArchiveModuleConfigSchema
 
 let boundWitnessArchivistCache: LruCache<string, ArchiveBoundWitnessArchivist> | undefined = undefined
-let payloadArchivistCache: LruCache<string, ArchivePayloadArchivist> | undefined = undefined
+let payloadArchivistCache: LruCache<string, ArchivistModule> | undefined = undefined
 
 export const ArchivistFactoryContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   boundWitnessArchivistCache = new LruCache<string, ArchiveBoundWitnessArchivist>({ max })
-  payloadArchivistCache = new LruCache<string, ArchivePayloadArchivist>({ max })
+  payloadArchivistCache = new LruCache<string, ArchivistModule>({ max })
   bind<ArchiveBoundWitnessArchivistFactory>(TYPES.ArchiveBoundWitnessArchivistFactory).toFactory<Promise<ArchiveBoundWitnessArchivist>, [string]>(
     (context) => {
       return (archive: string) => getBoundWitnessArchivist(context, archive)
     },
   )
-  bind<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory).toFactory<Promise<ArchivePayloadArchivist>, [string]>((context) => {
+  bind<ArchivePayloadArchivistFactory>(TYPES.ArchivePayloadArchivistFactory).toFactory<Promise<ArchivistModule>, [string]>((context) => {
     return (archive: string) => getPayloadArchivist(context, archive)
   })
 })

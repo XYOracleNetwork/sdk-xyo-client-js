@@ -29,4 +29,5 @@ export type SentinelParams<
   >
 >
 
-export type SentinelModule<TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams> = Module<TParams> & Sentinel
+export type SentinelModule<TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<AnyConfigSchema<SentinelConfig>>> =
+  Module<TParams> & Sentinel

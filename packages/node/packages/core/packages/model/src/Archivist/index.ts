@@ -1,5 +1,3 @@
-export * from './AbstractBoundWitnessArchivist'
-export * from './AbstractPayloadArchivist'
 export * from './ArchiveBoundWitnessArchivist'
 export * from './ArchiveModuleConfig'
 export * from './ArchivePayloadArchivist'

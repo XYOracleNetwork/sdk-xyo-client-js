@@ -47,7 +47,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return true
   }
 
-  targetConfig(address: string): XyoPayload {
+  targetConfig(address: string): ModuleConfig {
     return this.module.targetConfig(address)
   }
 

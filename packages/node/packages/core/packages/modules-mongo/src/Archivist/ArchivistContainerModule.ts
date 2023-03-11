@@ -11,9 +11,9 @@ export const ArchivistContainerModule = new AsyncContainerModule(async (bind: in
   bind(MongoDBUserArchivist).toConstantValue(new MongoDBUserArchivist())
   bind<UserArchivist>(TYPES.UserArchivist).toService(MongoDBUserArchivist)
 
-  const archivist = await MongoDBDeterministicArchivist.create({
+  const archivist = (await MongoDBDeterministicArchivist.create({
     config: { name: TYPES.Archivist.description, schema: ArchiveModuleConfigSchema },
-  })
+  })) as MongoDBDeterministicArchivist
   bind(MongoDBDeterministicArchivist).toConstantValue(archivist)
   bind<AbstractArchivist>(TYPES.Archivist).toService(MongoDBDeterministicArchivist)
   bind<AbstractModule>(TYPES.Module).toService(MongoDBDeterministicArchivist)

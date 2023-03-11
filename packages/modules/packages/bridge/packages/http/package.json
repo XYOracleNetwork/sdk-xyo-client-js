@@ -17,6 +17,7 @@
     "@xyo-network/bridge-model": "workspace:^",
     "@xyo-network/bridge-module-resolver": "workspace:^",
     "@xyo-network/config-payload-plugin": "workspace:^",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",

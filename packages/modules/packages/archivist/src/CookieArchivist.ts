@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -10,9 +10,10 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistParams,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleParamsWithOptionalConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -27,9 +28,10 @@ export type CookieArchivistConfig = ArchivistConfig<{
   maxEntries?: number
   maxEntrySize?: number
   namespace?: string
+  schema: CookieArchivistConfigSchema
 }>
 
-export type CookieArchivistParams = ArchivistParams<CookieArchivistConfig>
+export type CookieArchivistParams = ArchivistParams<AnyConfigSchema<CookieArchivistConfig>>
 
 export class CookieArchivist<TParams extends CookieArchivistParams> extends AbstractArchivist<TParams> {
   static override configSchema = CookieArchivistConfigSchema
@@ -64,8 +66,8 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     ]
   }
 
-  static override async create<TParams extends CookieArchivistParams>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
-    return (await super.create(params)) as CookieArchivist<TParams>
+  static override async create<TParams extends CookieArchivistParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   override all(): PromisableArray<XyoPayload> {

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import {
@@ -12,9 +12,10 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistParams,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleParamsWithOptionalConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -29,10 +30,11 @@ export type StorageArchivistConfig = ArchivistConfig<{
   maxEntrySize?: number
   namespace?: string
   persistAccount?: boolean
+  schema: StorageArchivistConfigSchema
   type?: 'local' | 'session' | 'page'
 }>
 
-export type StorageArchivistParams = ArchivistParams<StorageArchivistConfig>
+export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
 
 export class StorageArchivist<TParams extends StorageArchivistParams> extends AbstractArchivist<TParams> {
   static override configSchema = StorageArchivistConfigSchema
@@ -84,8 +86,8 @@ export class StorageArchivist<TParams extends StorageArchivistParams> extends Ab
     return this._storage
   }
 
-  static override async create<TParams extends StorageArchivistParams>(params?: ModuleParamsWithOptionalConfigSchema<TParams>) {
-    return (await super.create(params)) as StorageArchivist<TParams>
+  static override async create<TParams extends StorageArchivistParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   override all(): PromisableArray<XyoPayload> {

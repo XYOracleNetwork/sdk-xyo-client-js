@@ -3,13 +3,7 @@ import { Account } from '@xyo-network/account'
 import { ArchivistConfigSchema } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import {
-  XyoBoundWitnessFilterPredicate,
-  XyoBoundWitnessWithMeta,
-  XyoPayloadFilterPredicate,
-  XyoPayloadWithMeta,
-  XyoPayloadWithPartialMeta,
-} from '@xyo-network/node-core-model'
+import { XyoBoundWitnessFilterPredicate, XyoBoundWitnessWithMeta, XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { v4 } from 'uuid'

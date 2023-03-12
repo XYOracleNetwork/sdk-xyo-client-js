@@ -1,7 +1,7 @@
 import { Promisable } from '@xyo-network/promise'
 
 export type EventName = PropertyKey
-export type EventArgs = string | number | object | undefined
+export type EventArgs = string | number | object
 export type EventData = { [key: EventName]: EventArgs }
 export type EventUnsubscribeFunction = () => void
 export type EventAnyListener<TEventData extends EventData> = (

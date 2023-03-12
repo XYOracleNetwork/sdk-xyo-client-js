@@ -1,6 +1,5 @@
+import { WithAdditional } from '@xyo-network/core'
 import { XyoPayload } from '@xyo-network/payload-model'
-
-import { WithAdditional } from './ModuleParams'
 
 export type ModuleConfigSchema = 'network.xyo.module.config'
 export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config'

@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { WithAdditional } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { AnyConfigSchema, ModuleParams, WithAdditional } from '@xyo-network/module'
+import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import {
   BoundWitnessStatsDiviner,
   BoundWitnessStatsPayload,

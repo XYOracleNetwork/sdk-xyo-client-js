@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { WithAdditional } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig, DivinerParams } from '@xyo-network/diviner'
-import { AnyConfigSchema, WithAdditional } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,

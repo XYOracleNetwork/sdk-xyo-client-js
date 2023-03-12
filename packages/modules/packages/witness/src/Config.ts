@@ -1,4 +1,5 @@
-import { ModuleConfig, WithAdditional } from '@xyo-network/module'
+import { WithAdditional } from '@xyo-network/core'
+import { ModuleConfig } from '@xyo-network/module'
 import { PayloadSetPayload, XyoPayload } from '@xyo-network/payload-model'
 
 export type XyoWitnessConfigSchema = 'network.xyo.witness.config'

@@ -1,11 +1,9 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { AnyObject, BaseParams } from '@xyo-network/core'
+import { AnyObject, BaseParams, WithAdditional } from '@xyo-network/core'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { EventData } from '../Events'
 import { ModuleConfig } from './Config'
-
-export type WithAdditional<T, TAdditional extends AnyObject | undefined = undefined> = TAdditional extends AnyObject ? T & TAdditional : T
+import { EventData } from './Events'
 
 export type EventDataParams<TEventData extends EventData | undefined = undefined, TParams extends BaseParams = BaseParams> = TParams & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

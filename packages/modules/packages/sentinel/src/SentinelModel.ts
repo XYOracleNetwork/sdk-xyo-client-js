@@ -1,6 +1,6 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, Module, ModuleEventData, ModuleParams, WithAdditional } from '@xyo-network/module'
+import { AnyObject, WithAdditional } from '@xyo-network/core'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import { WitnessModule } from '@xyo-network/witness'

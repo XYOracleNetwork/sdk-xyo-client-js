@@ -1,12 +1,12 @@
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { EventFunctions } from '../Events'
-import { ModuleFilter } from '../ModuleFilter'
-import { ModuleQueryResult } from '../ModuleQueryResult'
-import { XyoQueryBoundWitness } from '../Query'
 import { ModuleConfig } from './Config'
+import { EventFunctions } from './Events'
+import { ModuleFilter } from './ModuleFilter'
 import { AnyConfigSchema, ModuleParams } from './ModuleParams'
+import { ModuleQueryResult } from './ModuleQueryResult'
+import { XyoQueryBoundWitness } from './Query'
 
 export interface ModuleResolver {
   addResolver: (resolver: ModuleResolver) => this

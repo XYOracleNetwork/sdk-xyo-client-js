@@ -6,13 +6,9 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   ArchiveModuleConfig,
   ArchiveModuleConfigSchema,
-  DebugPayload,
-  DebugPayloadWithMeta,
-  DebugSchema,
   XyoBoundWitnessFilterPredicate,
   XyoBoundWitnessWithMeta,
   XyoBoundWitnessWithPartialMeta,
-  XyoPayloadFilterPredicate,
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
@@ -24,11 +20,13 @@ import { getBaseMongoSdk } from '../../../Mongo'
 import { MongoDBArchiveBoundWitnessArchivist } from '../MongoDBArchiveBoundWitnessArchivist'
 
 const count = 2
-const schema = DebugSchema
+const schema = 'network.xyo.debug'
 const limit = 1
 
-const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta<DebugPayload>[] => {
-  const payloads: XyoPayloadWithMeta<DebugPayload>[] = []
+type DebugPayloadWithMeta = XyoPayloadWithMeta & { nonce: string }
+
+const getPayloads = (archive: string, count = 1): DebugPayloadWithMeta[] => {
+  const payloads: DebugPayloadWithMeta[] = []
   for (let i = 0; i < count; i++) {
     const nonce = v4()
     const payload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema }).fields({ nonce }).build()
@@ -50,7 +48,7 @@ describe('MongoDBArchiveBoundWitnessArchivist', () => {
   const archive = `test-${v4()}`
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
   const params = { account, config, sdk }
-  const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
+  const payloads = getPayloads(archive, count)
   const boundWitnesses = payloads
     .map((p) => new BoundWitnessBuilder({ inlinePayloads: true }).witness(account).payload(p).build())
     .map((buildResult) => buildResult[0])
@@ -64,7 +62,7 @@ describe('MongoDBArchiveBoundWitnessArchivist', () => {
 
   beforeAll(async () => {
     const sut = await MongoDBArchiveBoundWitnessArchivist.create(params)
-    wrapper = new ArchivistWrapper(sut)
+    wrapper = ArchivistWrapper.wrap(sut)
     const result = await wrapper.insert(boundWitnesses)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)
@@ -79,9 +77,8 @@ describe('MongoDBArchiveBoundWitnessArchivist', () => {
     })
   })
   describe('find', () => {
-    it('finds boundWitnesses by hash', async () => {
-      const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const result = await wrapper.find(filter)
+    it('get boundWitnesses by hash', async () => {
+      const result = await wrapper.get([hash])
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([boundWitness].map(removePayloads))
     })

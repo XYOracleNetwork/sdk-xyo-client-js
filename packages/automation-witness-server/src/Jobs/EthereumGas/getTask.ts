@@ -14,11 +14,11 @@ export const getTask = (): Task => {
     try {
       logger.log('Witnessing Ethereum Gas Prices')
       const witnessPanel = await getWitnessPanel()
-      const [, payloads] = await witnessPanel.report()
+      const payloads = await witnessPanel.report()
       logger.log('Witnessed Ethereum Gas Prices')
       logger.log('Divining Aggregated Gas Price')
       const diviner = await getDiviner()
-      const result = (await new DivinerWrapper(diviner).divine(payloads)).find((p) => p.schema === XyoEthereumGasSchema)
+      const result = (await new DivinerWrapper({ module: diviner }).divine(payloads)).find((p) => p.schema === XyoEthereumGasSchema)
       const answer = assertEx(result, 'Empty XyoEthereumGasPayload response from diviner')
       logger.log('Divined Aggregated Gas Price')
       logger.log('Witnessing Aggregated Gas Price')

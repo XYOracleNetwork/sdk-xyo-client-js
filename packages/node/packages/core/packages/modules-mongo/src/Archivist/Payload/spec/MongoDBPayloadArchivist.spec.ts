@@ -1,6 +1,7 @@
 import { Account } from '@xyo-network/account'
+import { ArchivistConfigSchema } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { DebugPayload, DebugPayloadWithMeta, DebugSchema, XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { v4 } from 'uuid'
@@ -10,11 +11,13 @@ import { getBaseMongoSdk } from '../../../Mongo'
 import { MongoDBPayloadArchivist } from '../MongoDBPayloadArchivist'
 
 const count = 2
-const schema = DebugSchema
+const schema = 'network.xyo.debug'
 const limit = 1
 
-const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta<DebugPayload>[] => {
-  const payloads: XyoPayloadWithMeta<DebugPayload>[] = []
+type DebugPayloadWithMeta = XyoPayloadWithMeta & { nonce: string }
+
+const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta[] => {
+  const payloads: XyoPayloadWithMeta[] = []
   for (let i = 0; i < count; i++) {
     const nonce = v4()
     const payload = new XyoPayloadBuilder<DebugPayloadWithMeta>({ schema }).fields({ nonce }).build()
@@ -27,9 +30,9 @@ const getPayloads = (archive: string, count = 1): XyoPayloadWithMeta<DebugPayloa
 describe('MongoDBPayloadArchivist', () => {
   const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const account = Account.random()
-  const params = { account, sdk }
+  const params = { account, config: { schema: ArchivistConfigSchema }, sdk }
   const archive = `test-${v4()}`
-  const payloads: XyoPayloadWithMeta<DebugPayload>[] = getPayloads(archive, count)
+  const payloads: XyoPayloadWithMeta[] = getPayloads(archive, count)
   const hashes: string[] = payloads.map((p) => new PayloadWrapper(p).hash)
   const payload = payloads[0]
   const hash = hashes[0]
@@ -37,7 +40,7 @@ describe('MongoDBPayloadArchivist', () => {
 
   beforeAll(async () => {
     const sut = await MongoDBPayloadArchivist.create(params)
-    wrapper = new ArchivistWrapper(sut)
+    wrapper = ArchivistWrapper.wrap(sut)
     const result = await wrapper.insert(payloads)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)
@@ -58,9 +61,8 @@ describe('MongoDBPayloadArchivist', () => {
       expect(result).toBeArrayOfSize(limit)
       expect(result?.[0]?.schema).toEqual(schema)
     })
-    it('finds payloads by hash', async () => {
-      const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const result = await wrapper.find(filter)
+    it('get payloads by hash', async () => {
+      const result = await wrapper.get([hash])
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([payload])
     })

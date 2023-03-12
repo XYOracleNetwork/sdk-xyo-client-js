@@ -1,12 +1,11 @@
-import { Archivist } from '@xyo-network/archivist'
+import { Archivist, ArchivistModule, ArchivistParams } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { EmptyObject } from '@xyo-network/core'
-import { AbstractModule, AbstractModuleConfig } from '@xyo-network/module'
+import { AnyObject } from '@xyo-network/core'
 
 import { XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '../Payload'
 import { XyoPayloadFilterPredicate } from './XyoPayloadFilterPredicate'
 
-export type PayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extends AbstractModuleConfig = AbstractModuleConfig> = Archivist<
+export type PayloadArchivist<T extends AnyObject = AnyObject, TParams extends ArchivistParams = ArchivistParams> = Archivist<
   XyoPayloadWithMeta<T> | null,
   XyoBoundWitness | null,
   XyoPayloadWithPartialMeta<T>,
@@ -14,4 +13,4 @@ export type PayloadArchivist<T extends EmptyObject = EmptyObject, TConfig extend
   XyoPayloadFilterPredicate<T>,
   string
 > &
-  AbstractModule<TConfig>
+  ArchivistModule<TParams>

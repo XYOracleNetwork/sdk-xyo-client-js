@@ -6,7 +6,7 @@
     "experimentalDecorators": true,
     "typeRoots": []
   },
-  "exclude": ["**/spec/**/*"],
+
   "extends": "@xylabs/tsconfig"
 }
 

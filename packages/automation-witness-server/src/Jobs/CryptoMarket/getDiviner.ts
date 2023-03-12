@@ -2,7 +2,7 @@ import { XyoCryptoMarketAssetDiviner, XyoCryptoMarketAssetDivinerConfigSchema } 
 
 import { getAccount } from '../../Account'
 
-export const getDiviner = async (): Promise<XyoCryptoMarketAssetDiviner> => {
+export const getDiviner = async () => {
   return await XyoCryptoMarketAssetDiviner.create({
     account: getAccount(),
     config: {

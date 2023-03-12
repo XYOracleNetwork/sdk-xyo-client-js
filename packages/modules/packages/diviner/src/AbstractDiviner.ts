@@ -1,42 +1,43 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { DivinerConfig, DivinerModule, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
+import { DivinerModule, DivinerParams, XyoDivinerConfigSchema, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
 import {
   AbstractModule,
-  AbstractModuleConfig,
-  ModuleParams,
+  creatableModule,
+  ModuleConfig,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-export type DivinerParams = ModuleParams
-
-export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerConfig> extends AbstractModule<TConfig> implements DivinerModule {
-  static override configSchema: string
+@creatableModule()
+export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerParams>
+  extends AbstractModule<TParams>
+  implements DivinerModule<TParams>
+{
+  static override configSchema: string = XyoDivinerConfigSchema
   static targetSchema: string
 
-  public get targetSchema() {
-    return this.config?.targetSchema
+  override get queries(): string[] {
+    return [XyoDivinerDivineQuerySchema, ...super.queries]
   }
 
-  static override async create(params?: Partial<ModuleParams<DivinerConfig>>): Promise<AbstractDiviner> {
-    return (await super.create(params)) as AbstractDiviner
+  static override async create<TParams extends DivinerParams = DivinerParams>(params?: TParams) {
+    return (await super.create(params)) as DivinerModule
   }
 
-  public override queries(): string[] {
-    return [XyoDivinerDivineQuerySchema, ...super.queries()]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
+    //remove the query payload
+    const cleanPayloads = payloads?.filter((payload) => PayloadWrapper.hash(payload) !== query.query)
     const typedQuery = wrapper.query
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
@@ -44,7 +45,7 @@ export abstract class AbstractDiviner<TConfig extends DivinerConfig = DivinerCon
     try {
       switch (typedQuery.schemaName) {
         case XyoDivinerDivineQuerySchema:
-          resultPayloads.push(...(await this.divine(payloads)))
+          resultPayloads.push(...(await this.divine(cleanPayloads)))
           break
         default:
           return super.query(query, payloads)

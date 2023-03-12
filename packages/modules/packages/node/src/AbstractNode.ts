@@ -3,15 +3,12 @@ import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   AbstractModule,
-  AbstractModuleConfig,
   CompositeModuleResolver,
+  duplicateModules,
   Module,
-  ModuleConstructable,
-  ModuleDescription,
+  ModuleConfig,
   ModuleFilter,
-  ModuleParams,
   ModuleQueryResult,
-  ModuleWrapper,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
   XyoQueryBoundWitness,
@@ -20,24 +17,21 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { NodeConfig, NodeConfigSchema } from './Config'
-import { NodeModule } from './Node'
+import { NodeConfigSchema } from './Config'
+import { NodeModule, NodeModuleParams } from './Node'
 import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
-//const childModuleDiscoverQueryPayload = PayloadWrapper.parse<AbstractModuleDiscoverQuery>({ schema: AbstractModuleDiscoverQuerySchema })
+export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams>
+  extends AbstractModule<TParams>
+  implements NodeModule<TParams>, Module<TParams>, NodeModule, Module
+{
+  static override readonly configSchema = NodeConfigSchema
 
-export interface AbstractNodeParams<TConfig extends NodeConfig = NodeConfig> extends ModuleParams<TConfig> {
-  internalResolver?: CompositeModuleResolver
-}
-
-export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> extends AbstractModule<TConfig> implements NodeModule<AbstractModule> {
-  static readonly configSchema = NodeConfigSchema
-
-  protected internalResolver = new CompositeModuleResolver()
+  protected readonly privateResolver = new CompositeModuleResolver()
 
   private readonly isNode = true
 
-  protected constructor(params: AbstractNodeParams<TConfig>) {
+  protected constructor(params: TParams) {
     super(params)
   }
 
@@ -45,8 +39,12 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return true
   }
 
-  static override async create(params?: Partial<AbstractNodeParams>): Promise<AbstractNode> {
-    return (await super.create(params)) as AbstractNode
+  override get queries(): string[] {
+    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
+  }
+
+  static override async create<TParams extends NodeModuleParams>(params?: TParams): Promise<NodeModule> {
+    return (await super.create(params)) as NodeModule
   }
 
   static isNode(module: unknown) {
@@ -58,29 +56,19 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
   }
 
   async attachedModules(): Promise<Module[]> {
-    return await (this.internalResolver.resolve() ?? [])
+    return await (this.privateResolver.resolve() ?? [])
   }
 
-  override async description(): Promise<ModuleDescription> {
-    const desc = await super.description()
-    const children = await Promise.all((await this.attachedModules()).map((mod) => mod.description()))
-    return { ...desc, children }
-  }
-  override async discover(_queryAccount?: Account | undefined): Promise<XyoPayload[]> {
-    const parent = await super.discover(_queryAccount)
-    const childMods = (await this.attachedModules()).map((mod) => new ModuleWrapper(mod))
+  override async discover(): Promise<XyoPayload[]> {
+    const childMods = await this.attachedModules()
     const childModAddresses = childMods.map((mod) =>
-      new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address }).build(),
+      new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
     )
 
-    return [...parent, ...childModAddresses]
+    return [...(await super.discover()), ...childModAddresses]
   }
 
-  public override queries() {
-    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries()]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends AbstractModuleConfig = AbstractModuleConfig>(
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],
     queryConfig?: TConfig,
@@ -93,7 +81,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     try {
       switch (typedQuery.schema) {
         case XyoNodeAttachQuerySchema: {
-          await this.attach(typedQuery.address)
+          await this.attach(typedQuery.address, typedQuery.external)
           break
         }
         case XyoNodeDetachQuerySchema: {
@@ -126,7 +114,7 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     return this.bindResult(resultPayloads, queryAccount)
   }
 
-  register(_module: AbstractModule): Promisable<this> {
+  register(_module: Module): Promisable<this> {
     throw new Error('Method not implemented.')
   }
 
@@ -138,28 +126,6 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     throw new Error('Method not implemented.')
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<AbstractModule[]> {
-    return (await this.internalResolver.resolve(filter)) ?? super.resolve(filter) ?? []
-  }
-
-  /**
-   * Resolves the supplied filter into wrapped modules
-   * @example <caption>Example using ArchivistWrapper</caption>
-   * const filter = { address: [address] }
-   * const mods: ArchivistWrapper[] = await node.resolveWrapped(ArchivistWrapper, filter)
-   * @param wrapper The ModuleWrapper class (ArchivistWrapper,
-   * DivinerWrapper, etc.)
-   * @param filter The ModuleFilter
-   * @returns An array of ModuleWrapper instances corresponding to
-   * the underlying modules matching the supplied filter
-   */
-  async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
-    wrapper: ModuleConstructable<Module, T>,
-    filter?: ModuleFilter,
-  ): Promise<T[]> {
-    return (await this.resolve(filter)).map((mod) => new wrapper(mod))
-  }
-
   override async start() {
     await super.start()
     return this
@@ -169,9 +135,10 @@ export abstract class AbstractNode<TConfig extends NodeConfig = NodeConfig> exte
     throw new Error('Method not implemented.')
   }
 
+  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
+    return [...(await this.privateResolver.resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
+  }
+
   abstract attach(address: string, external?: boolean): Promisable<void>
   abstract detach(address: string): Promisable<void>
 }
-
-/** @deprecated use AbstractNode instead */
-export abstract class XyoNode<TConfig extends NodeConfig = NodeConfig> extends AbstractNode<TConfig> {}

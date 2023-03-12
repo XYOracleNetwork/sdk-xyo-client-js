@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.45.0-rc.4",
+  "version": "2.51.9",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -27,12 +27,13 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.7.1",
-    "@xylabs/delay": "^2.7.1",
-    "@xylabs/exists": "^2.7.1",
-    "@xylabs/promise": "^2.7.1",
+    "@xylabs/assert": "^2.7.4",
+    "@xylabs/delay": "^2.7.4",
+    "@xylabs/exists": "^2.7.4",
+    "@xylabs/promise": "^2.7.4",
     "@xyo-network/account": "workspace:^",
-    "@xyo-network/api": "workspace:^",
+    "@xyo-network/account-model": "workspace:^",
+    "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -58,17 +59,16 @@
     "agenda": "^5.0.0",
     "inversify": "^6.0.1",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.15.0",
-    "mongodb": "^5.0.1",
+    "lru-cache": "^7.18.3",
+    "mongodb": "^5.1.0",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "@xylabs/ts-scripts-yarn3": "^2.14.15",
-    "@xylabs/tsconfig": "^2.14.15",
-    "mongodb-memory-server": "^8.11.4",
+    "@xylabs/ts-scripts-yarn3": "^2.16.1",
+    "@xylabs/tsconfig": "^2.16.1",
+    "mongodb-memory-server": "^8.12.0",
     "typescript": "^4.9.5"
   },
-  "types": "dist/types/index.d.ts",
-  "stableVersion": "2.44.1"
+  "types": "dist/types/index.d.ts"
 }

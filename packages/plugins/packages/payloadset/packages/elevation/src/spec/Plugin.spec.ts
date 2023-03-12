@@ -12,9 +12,7 @@ describe('ElevationPlugin', () => {
   test('Add to Resolver', () => {
     const plugin = ElevationPlugin()
     const resolver = new PayloadSetPluginResolver().register(plugin, {
-      witness: {
-        config: { schema: ElevationWitnessConfigSchema, targetSchema: ElevationSchema },
-      },
+      config: { schema: ElevationWitnessConfigSchema },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(ElevationSchema)).toBeObject()

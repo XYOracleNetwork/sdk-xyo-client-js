@@ -1,10 +1,13 @@
+import { staticImplements } from '@xylabs/static-implements'
 import { DataLike, toUint8Array } from '@xyo-network/core'
+import { PrivateKeyInstance, PrivateKeyStatic } from '@xyo-network/key-model'
 import EC from 'elliptic'
 
 import { EllipticKey } from './EllipticKey'
 import { XyoPublicKey } from './PublicKey'
 
-export class PrivateKey extends EllipticKey {
+@staticImplements<PrivateKeyStatic>()
+export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   private _isXyoPrivateKey = true
   private _keyPair: EC.ec.KeyPair
   private _public?: XyoPublicKey
@@ -24,26 +27,26 @@ export class PrivateKey extends EllipticKey {
     }
   }
 
-  public override get bytes() {
+  override get bytes() {
     return toUint8Array(this._keyPair?.getPrivate('hex'))
   }
 
-  public get public() {
+  get public() {
     this._public = this._public ?? new XyoPublicKey(this._keyPair.getPublic('hex').slice(2))
     return this._public
   }
 
-  public static isXyoPrivateKey(value: unknown) {
+  static isXyoPrivateKey(value: unknown) {
     return (value as XyoPrivateKey)._isXyoPrivateKey
   }
 
-  public sign(hash: DataLike) {
+  sign(hash: DataLike) {
     const arrayHash = toUint8Array(hash)
     const signature = this._keyPair.sign(arrayHash)
     return toUint8Array(signature.r.toString('hex', 64) + signature.s.toString('hex', 64))
   }
 
-  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
     return this.public.address.verify(msg, signature)
   }
 

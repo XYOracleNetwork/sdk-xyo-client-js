@@ -1,27 +1,26 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { SentinelAutomationPayload, SentinelIntervalAutomationPayload } from './Automation'
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper'
-import { SentinelModel } from './SentinelModel'
+import { SentinelModule } from './SentinelModel'
 
-export type OnSentinelRunnerTriggerResult = (result: [XyoBoundWitness | null, XyoPayload[]]) => void
+export type OnSentinelRunnerTriggerResult = (result: XyoPayload[]) => void
 
 export class SentinelRunner {
   protected _automations: Record<string, SentinelAutomationPayload> = {}
   protected onTriggerResult: OnSentinelRunnerTriggerResult | undefined
-  protected sentinel: SentinelModel
+  protected sentinel: SentinelModule
   protected timeoutId?: NodeJS.Timer
 
-  constructor(sentinel: SentinelModel, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
+  constructor(sentinel: SentinelModule, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
     this.sentinel = sentinel
     this.onTriggerResult = onTriggerResult
     automations?.forEach((automation) => this.add(automation))
   }
 
-  public get automations() {
+  get automations() {
     return this._automations
   }
 
@@ -33,33 +32,33 @@ export class SentinelRunner {
     }, undefined)
   }
 
-  public async add(automation: SentinelAutomationPayload, restart = true) {
+  async add(automation: SentinelAutomationPayload, restart = true) {
     const hash = new PayloadWrapper(automation).hash
     this._automations[hash] = automation
     if (restart) await this.restart()
     return hash
   }
 
-  public find(hash: string) {
+  find(hash: string) {
     Object.entries(this._automations).find(([key]) => key === hash)
   }
 
-  public async remove(hash: string, restart = true) {
+  async remove(hash: string, restart = true) {
     delete this._automations[hash]
     if (restart) await this.restart()
   }
 
-  public removeAll() {
+  removeAll() {
     this.stop()
     this._automations = {}
   }
 
-  public async restart() {
+  async restart() {
     this.stop()
     await this.start()
   }
 
-  public async start() {
+  async start() {
     assertEx(this.timeoutId === undefined, 'Already started')
     const automation = this.next
     if (automation) {
@@ -79,14 +78,14 @@ export class SentinelRunner {
     }
   }
 
-  public stop() {
+  stop() {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId)
       this.timeoutId = undefined
     }
   }
 
-  public async update(hash: string, automation: SentinelAutomationPayload, restart = true) {
+  async update(hash: string, automation: SentinelAutomationPayload, restart = true) {
     await this.remove(hash, false)
     await this.add(automation, false)
     if (restart) await this.restart()
@@ -97,7 +96,7 @@ export class SentinelRunner {
     await this.remove(wrapper.hash, false)
     wrapper.next()
     await this.add(wrapper.payload, false)
-    const triggerResult = await this.sentinel.tryReport()
+    const triggerResult = await this.sentinel.report()
     this.onTriggerResult?.(triggerResult)
     await this.start()
   }

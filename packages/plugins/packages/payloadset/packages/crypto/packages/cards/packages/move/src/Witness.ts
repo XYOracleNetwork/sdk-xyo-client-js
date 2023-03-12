@@ -1,7 +1,7 @@
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 
 import { XyoCryptoCardsMoveWitnessConfigSchema } from './Schema'
 
@@ -9,11 +9,15 @@ export type XyoCryptoCardsMoveWitnessConfig = XyoWitnessConfig<{
   schema: XyoCryptoCardsMoveWitnessConfigSchema
 }>
 
-export class XyoCryptoCardsMoveWitness extends AbstractWitness<XyoCryptoCardsMoveWitnessConfig> {
+export type XyoCryptoCardsMoveWitnessParams = WitnessParams<AnyConfigSchema<XyoCryptoCardsMoveWitnessConfig>>
+
+export class XyoCryptoCardsMoveWitness<
+  TParams extends XyoCryptoCardsMoveWitnessParams = XyoCryptoCardsMoveWitnessParams,
+> extends AbstractWitness<TParams> {
   static override configSchema = XyoCryptoCardsMoveWitnessConfigSchema
 
-  static override async create(params?: ModuleParams<XyoCryptoCardsMoveWitnessConfig>): Promise<XyoCryptoCardsMoveWitness> {
-    return (await super.create(params)) as XyoCryptoCardsMoveWitness
+  static override async create<TParams extends XyoCryptoCardsMoveWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as XyoCryptoCardsMoveWitness<TParams>
   }
 
   override observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {

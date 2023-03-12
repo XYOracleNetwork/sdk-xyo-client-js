@@ -1,5 +1,14 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
+import { staticImplements } from '@xylabs/static-implements'
+import {
+  AccountConfig,
+  AccountInstance,
+  AccountStatic,
+  MnemonicInitializationConfig,
+  PhraseInitializationConfig,
+  PrivateKeyInitializationConfig,
+} from '@xyo-network/account-model'
 import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
 import shajs from 'sha.js'
 
@@ -8,24 +17,6 @@ import { KeyPair } from './Key'
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
 const nameOf = <T>(name: keyof T) => name
-
-interface PhraseInitializationConfig {
-  phrase: string
-}
-interface PrivateKeyInitializationConfig {
-  privateKey: DataLike
-}
-interface MnemonicInitializationConfig {
-  mnemonic: string
-  path?: string
-}
-interface AccountOptions {
-  previousHash?: Uint8Array | string
-}
-
-export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitializationConfig | MnemonicInitializationConfig
-
-export type AccountConfig = InitializationConfig & AccountOptions
 
 const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
   const node = HDNode.fromMnemonic(mnemonic)
@@ -37,12 +28,15 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
   return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
 }
 
-export class Account extends KeyPair {
+@staticImplements<AccountStatic>()
+export class Account extends KeyPair implements AccountInstance {
   private _isXyoWallet = true
+  private _node: HDNode | undefined = undefined
   private _previousHash?: XyoData
 
   constructor(opts?: AccountConfig) {
     let privateKeyToUse: DataLike | undefined = undefined
+    let node: HDNode | undefined = undefined
     if (opts) {
       if (nameOf<PhraseInitializationConfig>('phrase') in opts) {
         privateKeyToUse = toUint8Array(shajs('sha256').update(opts.phrase).digest('hex').padStart(64, '0'))
@@ -50,34 +44,21 @@ export class Account extends KeyPair {
         privateKeyToUse = toUint8Array(opts.privateKey)
       } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
         privateKeyToUse = getPrivateKeyFromMnemonic(opts.mnemonic, opts?.path)
+        node = opts?.path ? HDNode.fromMnemonic(opts.mnemonic).derivePath(opts.path) : HDNode.fromMnemonic(opts.mnemonic)
       }
     }
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
+    this._node = node
     if (opts?.previousHash) this._previousHash = new XyoData(32, opts.previousHash)
   }
 
-  /** @deprecated use addressValue instead */
-  public get address() {
-    return this.public.address.hex
-  }
-
-  public get addressValue() {
+  get addressValue() {
     return this.public.address
   }
 
-  public get previousHash() {
+  get previousHash() {
     return this._previousHash
-  }
-
-  /** @deprecated use private instead */
-  public get privateKey() {
-    return this.private
-  }
-
-  /** @deprecated use public instead */
-  public get publicKey() {
-    return this.public
   }
 
   static fromMnemonic = (mnemonic: string, path?: string): Account => {
@@ -93,6 +74,10 @@ export class Account extends KeyPair {
     return new Account({ privateKey })
   }
 
+  static isAddress(address: string) {
+    return address.length === 40
+  }
+
   static isXyoWallet(value: unknown): boolean {
     return (value as Account)?._isXyoWallet || false
   }
@@ -101,15 +86,12 @@ export class Account extends KeyPair {
     return new Account()
   }
 
-  public sign(hash: Uint8Array | string) {
+  sign(hash: Uint8Array | string) {
     this._previousHash = new XyoData(32, hash)
     return this.private.sign(hash)
   }
 
-  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
     return this.public.address.verify(msg, signature)
   }
 }
-
-/** @deprecated use Account instead */
-export class XyoAccount extends Account {}

@@ -8,7 +8,7 @@ export const getDiviner = async (args: ModuleArguments): Promise<DivinerWrapper>
   const { verbose } = args
   try {
     const module = await getModule(args)
-    const diviner = new DivinerWrapper(module)
+    const diviner = DivinerWrapper.wrap(module)
     return diviner
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

@@ -6,7 +6,7 @@ import { MongoDBModuleAddressDiviner } from '../MongoDBModuleAddressDiviner'
 describe('MongoDBModuleAddressDiviner', () => {
   let sut: MongoDBModuleAddressDiviner
   beforeEach(async () => {
-    sut = await MongoDBModuleAddressDiviner.create({ config: { schema: XyoDivinerConfigSchema } })
+    sut = (await MongoDBModuleAddressDiviner.create({ config: { schema: XyoDivinerConfigSchema } })) as MongoDBModuleAddressDiviner
   })
   describe('divine', () => {
     describe('with valid query', () => {

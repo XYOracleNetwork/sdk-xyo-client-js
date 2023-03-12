@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { Buffer } from '@xylabs/buffer'
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher, sortFields } from '@xyo-network/core'
+import { PayloadWrapper } from '@xyo-network/payload'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
 
@@ -18,13 +19,13 @@ export class BoundWitnessBuilder<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
   TPayload extends XyoPayload = XyoPayload,
 > {
-  private _accounts: Account[] = []
+  private _accounts: AccountInstance[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
   private _payloads: TPayload[] = []
   private _timestamp = Date.now()
 
-  constructor(public readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
+  constructor(readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
 
   private get _payload_hashes(): string[] {
     return (
@@ -39,12 +40,12 @@ export class BoundWitnessBuilder<
     return (
       this._payloadSchemas ??
       this._payloads.map((payload) => {
-        return assertEx(payload.schema, 'Missing Schema')
+        return assertEx(payload.schema, `Builder: Missing Schema\n${JSON.stringify(this._payloads, null, 2)}`)
       })
     )
   }
 
-  public build(): [TBoundWitness, TPayload[]] {
+  build(): [TBoundWitness, TPayload[]] {
     const hashableFields = this.hashableFields()
     const _hash = BoundWitnessWrapper.hash(hashableFields)
 
@@ -70,7 +71,7 @@ export class BoundWitnessBuilder<
     return [ret, this._payloads]
   }
 
-  public hashableFields(): TBoundWitness {
+  hashableFields(): TBoundWitness {
     const addresses = this._accounts.map((account) => account.addressValue.hex)
     const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
     const result: TBoundWitness = {
@@ -93,22 +94,23 @@ export class BoundWitnessBuilder<
     return result
   }
 
-  public hashes(hashes: string[], schema: string[]) {
+  hashes(hashes: string[], schema: string[]) {
     assertEx(this.payloads.length === 0, 'Can not set hashes when payloads already set')
     this._payloadHashes = hashes
     this._payloadSchemas = schema
     return this
   }
 
-  public payload(payload?: TPayload) {
+  payload(payload?: TPayload) {
+    const unwrappedPayload = PayloadWrapper.unwrap<TPayload>(payload)
     assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
-    if (payload) {
-      this._payloads.push(assertEx(sortFields<TPayload>(payload)))
+    if (unwrappedPayload) {
+      this._payloads.push(assertEx(sortFields<TPayload>(unwrappedPayload)))
     }
     return this
   }
 
-  public payloads(payloads?: (TPayload | null)[]) {
+  payloads(payloads?: (TPayload | null)[]) {
     payloads?.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)
@@ -117,7 +119,7 @@ export class BoundWitnessBuilder<
     return this
   }
 
-  public witness(account: Account) {
+  witness(account: AccountInstance) {
     this._accounts?.push(account)
     return this
   }

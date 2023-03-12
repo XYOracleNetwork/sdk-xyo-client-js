@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { ElevationPayload, ElevationSchema } from '@xyo-network/elevation-payload-plugin'
 import { GeographicCoordinateSystemLocation, Location, LocationPayload, QuadkeyLocation } from '@xyo-network/location-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 // eslint-disable-next-line import/no-named-as-default
 import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
 
@@ -65,30 +65,35 @@ const locationToQuadkey = (location: Location, zoom = 16) => {
   )
 }
 
-export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
+export type ElevationWitnessParams = WitnessParams<AnyConfigSchema<ElevationWitnessConfig>>
+
+export class ElevationWitness<TParams extends ElevationWitnessParams = ElevationWitnessParams>
+  extends AbstractWitness<TParams>
+  implements WitnessModule
+{
   static override configSchema = ElevationWitnessConfigSchema
 
   private _tiffImages: TiffImages = {}
   private _tiffInfos: TiffImageInfos = {}
   private _tiffs: Tiffs = {}
 
-  public get quadkeys() {
+  get quadkeys() {
     return this.config.locations?.map((location) => locationToQuadkey(location)) ?? []
   }
 
-  public get uri() {
+  get uri() {
     return this.config?.uri ?? 'https://api.open-elevation.com/api/v1/lookup'
   }
 
-  public get zoom() {
+  get zoom() {
     return this.config?.zoom ?? 16
   }
 
-  static override async create(params?: ModuleParams<ElevationWitnessConfig>): Promise<ElevationWitness> {
-    return (await super.create(params)) as ElevationWitness
+  static override async create<TParams extends ElevationWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as ElevationWitness<TParams>
   }
 
-  public async getSection(section: keyof Tiffs): Promise<GeoTIFF> {
+  async getSection(section: keyof Tiffs): Promise<GeoTIFF> {
     if (!this._tiffs[section]) {
       this._tiffs[section] = (async () => {
         return await fromFile(assertEx(this.config.files?.[section], `Missing file in config [${section}]`))
@@ -98,7 +103,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
     return await assertEx(this._tiffs[section], `Failed to load section [${section}]`)
   }
 
-  public async getSectionImage(section: keyof TiffImages): Promise<GeoTIFFImage> {
+  async getSectionImage(section: keyof TiffImages): Promise<GeoTIFFImage> {
     if (!this._tiffImages[section]) {
       this._tiffImages[section] = (async () => {
         return await (await this.getSection(section)).getImage()
@@ -108,7 +113,7 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
     return await assertEx(this._tiffImages[section], `Failed to load section [${section}]`)
   }
 
-  public async getSectionInfo(section: keyof TiffImageInfos): Promise<TiffImageInfo> {
+  async getSectionInfo(section: keyof TiffImageInfos): Promise<TiffImageInfo> {
     if (!this._tiffInfos[section]) {
       this._tiffInfos[section] = (async () => {
         const image = await this.getSectionImage(section)
@@ -128,9 +133,9 @@ export class ElevationWitness extends AbstractWitness<ElevationWitnessConfig> {
     return await assertEx(this._tiffInfos[section], `Failed to load section [${section}]`)
   }
 
-  override async observe(payloads?: LocationPayload[]): Promise<XyoPayload[]> {
+  override async observe(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const quadkeys: Quadkey[] = [
-      ...(payloads?.map((location) => locationToQuadkey(location)) ?? []),
+      ...(payloads?.map((location) => locationToQuadkey(location as LocationPayload)) ?? []),
       ...this.quadkeys.map((quadkey) => (typeof quadkey === 'string' ? Quadkey.fromString(12, quadkey) : quadkey)),
     ]
     const results: ElevationPayload[] = await Promise.all(

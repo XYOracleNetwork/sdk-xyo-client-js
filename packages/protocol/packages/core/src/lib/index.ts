@@ -1,3 +1,5 @@
+export * from './AnyObject'
+export * from './Base'
 export * from './dumpErrors'
 export * from './EmptyObject'
 export * from './isBrowser'

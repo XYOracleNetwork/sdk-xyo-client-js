@@ -13,7 +13,7 @@ export class XyoWalletBase {
     this._phrase = phrase
   }
 
-  public static async generate() {
+  static async generate() {
     //delay is here to prep for archivist load
     await delay(0)
     const wordList: string[] = []
@@ -24,7 +24,7 @@ export class XyoWalletBase {
     return new XyoWalletBase(wordList.join(' '))
   }
 
-  public getAccount(index: number, salt?: string) {
+  getAccount(index: number, salt?: string) {
     const hash = shajs('sha256')
       .update(`${index}${this._phrase}${salt ?? ''}`)
       .digest()

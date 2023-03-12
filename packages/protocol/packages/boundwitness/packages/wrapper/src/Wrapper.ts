@@ -18,11 +18,11 @@ export class BoundWitnessWrapper<
     this.payloads = payloads ? compact(payloads) : undefined
   }
 
-  public get addresses() {
+  get addresses() {
     return this.boundwitness.addresses
   }
 
-  public get boundwitness() {
+  get boundwitness() {
     return this.obj
   }
 
@@ -30,23 +30,23 @@ export class BoundWitnessWrapper<
     return new BoundWitnessValidator(this.boundwitness).validate()
   }
 
-  public get missingPayloads() {
+  get missingPayloads() {
     return this.payloadHashes.filter((hash) => !this.payloads[hash])
   }
 
-  public get payloadHashes() {
+  get payloadHashes() {
     return this.boundwitness.payload_hashes
   }
 
-  public get payloadSchemas() {
+  get payloadSchemas() {
     return this.boundwitness.payload_schemas
   }
 
-  public get payloads(): Record<string, PayloadWrapper<TPayload>> {
+  get payloads(): Record<string, PayloadWrapper<TPayload>> {
     return this._payloads ?? {}
   }
 
-  public set payloads(payloads: Record<string, PayloadWrapper<TPayload>> | (TPayload | PayloadWrapper<TPayload>)[] | undefined) {
+  set payloads(payloads: Record<string, PayloadWrapper<TPayload>> | (TPayload | PayloadWrapper<TPayload>)[] | undefined) {
     if (Array.isArray(payloads)) {
       this._payloads = payloads?.reduce((map, payload) => {
         const wrapper = PayloadWrapper.parse<TPayload>(payload)
@@ -67,15 +67,15 @@ export class BoundWitnessWrapper<
     }
   }
 
-  public get payloadsArray(): PayloadWrapper<TPayload>[] {
+  get payloadsArray(): PayloadWrapper<TPayload>[] {
     return Object.values(this._payloads ?? {})
   }
 
-  public get previousHashes() {
+  get previousHashes() {
     return this.boundwitness.previous_hashes
   }
 
-  public static override async load(address: DataLike) {
+  static override async load(address: DataLike) {
     const payload = await PayloadWrapper.load(address)
     assertEx(payload && isXyoBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
 
@@ -83,21 +83,26 @@ export class BoundWitnessWrapper<
     return boundWitness ? new BoundWitnessWrapper(boundWitness) : null
   }
 
-  public static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
+  static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
     obj: unknown,
+    payloads?: P[],
   ): BoundWitnessWrapper<T, P> {
     const hydratedObj = typeof obj === 'string' ? JSON.parse(obj) : obj
     assertEx(!Array.isArray(hydratedObj), 'Array can not be converted to BoundWitnessWrapper')
     switch (typeof hydratedObj) {
       case 'object': {
         const castWrapper = hydratedObj as BoundWitnessWrapper<T, P>
-        return castWrapper?.isBoundWitnessWrapper ? castWrapper : new BoundWitnessWrapper(hydratedObj as T)
+        const newWrapper = castWrapper?.isBoundWitnessWrapper ? castWrapper : new BoundWitnessWrapper(hydratedObj as T, payloads)
+        if (!newWrapper.valid) {
+          console.warn('Wrapped invalid BoundWitness')
+        }
+        return newWrapper
       }
     }
     throw Error(`Unable to parse [${typeof obj}]`)
   }
 
-  public dig(depth?: number): BoundWitnessWrapper<TBoundWitness> {
+  dig(depth?: number): BoundWitnessWrapper<TBoundWitness> {
     if (depth === 0) return this
 
     const innerBoundwitnessIndex: number = this.payloadSchemas.findIndex((item) => item === XyoBoundWitnessSchema)
@@ -118,15 +123,15 @@ export class BoundWitnessWrapper<
     return this
   }
 
-  public payloadsBySchema(schema: string) {
+  payloadsBySchema(schema: string) {
     return Object.values(this.payloads)?.filter((payload) => payload.schemaName === schema)
   }
 
-  public prev(address: string) {
+  prev(address: string) {
     return this.previousHashes[this.addresses.findIndex((addr) => address === addr)]
   }
 
-  public toResult() {
+  toResult() {
     return [this.boundwitness, this.payloadsArray.map((payload) => payload.body)]
   }
 }

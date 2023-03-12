@@ -1,11 +1,7 @@
-import { AbstractModuleConfig } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { ArchivistParams } from '@xyo-network/archivist'
 
 import { PayloadArchivist } from './PayloadArchivist'
 
-export type ArchivePayloadArchivist<
-  T extends XyoPayload = XyoPayload,
-  TConfig extends AbstractModuleConfig = AbstractModuleConfig,
-> = PayloadArchivist<T, TConfig>
+export type ArchivePayloadArchivist<TParams extends ArchivistParams = ArchivistParams> = PayloadArchivist<TParams>
 
 export type ArchivePayloadArchivistFactory = (archive: string) => Promise<ArchivePayloadArchivist>

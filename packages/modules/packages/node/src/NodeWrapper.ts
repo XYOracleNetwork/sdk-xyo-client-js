@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { Module, ModuleWrapper } from '@xyo-network/module'
 import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Promisable } from '@xyo-network/promise'
 
-import { Node, NodeModule } from './Node'
+import { NodeModule } from './Node'
 import {
   XyoNodeAttachedQuery,
   XyoNodeAttachedQuerySchema,
@@ -18,24 +18,34 @@ import {
   XyoNodeRegisteredQuerySchema,
 } from './Queries'
 
-export class NodeWrapper<TModule extends NodeModule = NodeModule> extends ModuleWrapper<TModule> implements Node, NodeModule {
-  static requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
-
-  public isModuleResolver = true
+export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> {
+  static override requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   private _archivist?: ArchivistWrapper
 
-  public get archivist() {
-    this._archivist = this._archivist ?? new ArchivistWrapper(this.module)
+  get archivist() {
+    this._archivist = this._archivist ?? new ArchivistWrapper({ account: this.account, module: this.module })
     return this._archivist
   }
 
-  static tryWrap(module: Module): NodeWrapper | undefined {
-    return this.hasRequiredQueries(module) ? new NodeWrapper(module as NodeModule) : undefined
+  static isNodeModule(module: Module) {
+    const missingRequiredQueries = this.missingRequiredQueries(module)
+    return missingRequiredQueries.length === 0
   }
 
-  static wrap(module: Module): NodeWrapper {
-    return assertEx(this.tryWrap(module), 'Unable to wrap module as NodeWrapper')
+  static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper<TModule> | undefined {
+    if (module) {
+      const missingRequiredQueries = this.missingRequiredQueries(module)
+      if (missingRequiredQueries.length > 0) {
+        this.defaultLogger?.debug(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+      } else {
+        return new NodeWrapper<TModule>({ account, module })
+      }
+    }
+  }
+
+  static override wrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper<TModule> {
+    return assertEx(this.tryWrap(module, account), 'Unable to wrap module as NodeWrapper')
   }
 
   async attach(address: string, external?: boolean): Promise<void> {
@@ -58,9 +68,5 @@ export class NodeWrapper<TModule extends NodeModule = NodeModule> extends Module
     const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
-  }
-
-  resolve(filter?: ModuleFilter): Promisable<Module[]> {
-    return this.module.resolve(filter)
   }
 }

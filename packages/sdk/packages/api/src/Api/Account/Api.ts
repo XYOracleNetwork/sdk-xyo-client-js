@@ -16,14 +16,14 @@ export interface XyoAccountVerify {
 }
 
 export class XyoAccountApi extends XyoApiBase {
-  public get challenge() {
+  get challenge() {
     return new XyoApiSimple<XyoAccountChallenge>({
       ...this.config,
       root: `${this.root}challenge/`,
     })
   }
 
-  public get verify() {
+  get verify() {
     return new XyoApiSimple<XyoAccountVerify>({
       ...this.config,
       root: `${this.root}verify/`,

@@ -2,8 +2,10 @@
   "compilerOptions": {
     "composite": true,
     "declarationDir": "./dist/types",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "typeRoots": []
   },
-  "exclude": ["**/spec/**/*"],
+
   "extends": "@xylabs/tsconfig"
 }

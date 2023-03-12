@@ -1,31 +1,33 @@
 import { IdPayload, IdSchema } from '@xyo-network/id-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 
 export type IdWitnessConfigSchema = 'network.xyo.id.witness.config'
 export const IdWitnessConfigSchema: IdWitnessConfigSchema = 'network.xyo.id.witness.config'
 
 export type IdWitnessConfig = XyoWitnessConfig<{
-  salt: string
+  salt?: string
   schema: IdWitnessConfigSchema
 }>
 
-export class IdWitness extends AbstractWitness<IdWitnessConfig> {
+export type IdWitnessParams = WitnessParams<AnyConfigSchema<IdWitnessConfig>>
+
+export class IdWitness<TParams extends IdWitnessParams = IdWitnessParams> extends AbstractWitness<TParams> {
   static override configSchema = IdWitnessConfigSchema
 
-  public get salt() {
+  get salt() {
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
   }
 
-  static override async create(params?: ModuleParams<IdWitnessConfig>): Promise<IdWitness> {
-    return (await super.create(params)) as IdWitness
+  static override async create<TParams extends IdWitnessParams>(params?: TParams) {
+    return (await super.create(params)) as IdWitness<TParams>
   }
 
-  override async observe(payloads: IdPayload[] = []): Promise<XyoPayload[]> {
+  override async observe(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
     return await super.observe(
       payloads.length > 0
-        ? payloads.map((fieldItems) => {
+        ? (payloads as IdPayload[]).map((fieldItems) => {
             return {
               salt: fieldItems?.salt ?? this.salt,
               schema: IdSchema,

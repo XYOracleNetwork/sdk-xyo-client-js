@@ -1,17 +1,19 @@
 import { XyoEthereumGasEtherchainV2Payload, XyoEthereumGasEtherchainV2Schema } from '@xyo-network/etherchain-ethereum-gas-v2-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { TimestampWitness } from '@xyo-network/witness'
+import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherchainV2WitnessConfig } from './Config'
 import { getV2GasFromEtherchain } from './lib'
 import { XyoEthereumGasEtherchainV2WitnessConfigSchema } from './Schema'
 
-export class XyoEtherchainEthereumGasWitnessV2 extends TimestampWitness<XyoEthereumGasEtherchainV2WitnessConfig> {
+export type XyoEtherchainEthereumGasWitnessV2Params = WitnessParams<AnyConfigSchema<XyoEthereumGasEtherchainV2WitnessConfig>>
+
+export class XyoEtherchainEthereumGasWitnessV2 extends TimestampWitness<XyoEtherchainEthereumGasWitnessV2Params> {
   static override configSchema = XyoEthereumGasEtherchainV2WitnessConfigSchema
 
-  static override async create(params?: ModuleParams<XyoEthereumGasEtherchainV2WitnessConfig>): Promise<XyoEtherchainEthereumGasWitnessV2> {
-    return (await super.create(params)) as XyoEtherchainEthereumGasWitnessV2
+  static override async create<TParams extends XyoEtherchainEthereumGasWitnessV2Params>(params?: TParams) {
+    return await super.create(params)
   }
 
   override async observe(): Promise<XyoPayload[]> {

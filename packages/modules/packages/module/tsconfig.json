@@ -4,8 +4,9 @@
     "declarationDir": "./dist/types",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowJs": true,
     "typeRoots": []
   },
-  "exclude": ["**/spec/**/*"],
+
   "extends": "@xylabs/tsconfig"
 }

@@ -1,15 +1,7 @@
-import { ModuleEventEmitter } from '@xyo-network/module'
-import { Module } from '@xyo-network/module-model'
+import { EventData, ModuleEventArgs } from '@xyo-network/module'
 
-export interface ModuleAttachedEventArgs {
-  module: Module
-  name?: string
+export type ModuleAttachedEventArgs = ModuleEventArgs
+
+export interface ModuleAttachedEventData extends EventData {
+  moduleAttached: ModuleAttachedEventArgs
 }
-
-export interface ModuleDetachedEventArgs {
-  module: Module
-  name?: string
-}
-
-export type ModuleAttachedEventEmitter = ModuleEventEmitter<'moduleAttached', ModuleAttachedEventArgs>
-export type ModuleDetachedEventEmitter = ModuleEventEmitter<'moduleDetached', ModuleDetachedEventArgs>

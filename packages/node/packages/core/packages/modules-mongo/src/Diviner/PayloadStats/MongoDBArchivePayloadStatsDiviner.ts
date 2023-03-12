@@ -1,10 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { AbstractDiviner, DivinerConfig, DivinerParams } from '@xyo-network/diviner'
+import { AnyConfigSchema, WithAdditional } from '@xyo-network/module'
 import {
-  ArchiveArchivist,
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,
   PayloadStatsPayload,
@@ -36,21 +34,24 @@ export const MongoDBArchivePayloadStatsDivinerConfigSchema: MongoDBArchivePayloa
   'network.xyo.module.config.diviner.stats.payload'
 
 export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
-  XyoPayload,
-  T & {
-    schema: MongoDBArchivePayloadStatsDivinerConfigSchema
-  }
+  WithAdditional<
+    XyoPayload,
+    T & {
+      schema: MongoDBArchivePayloadStatsDivinerConfigSchema
+    }
+  >
 >
 
-export interface MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload>
-  extends ModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>> {
-  archiveArchivist: ArchiveArchivist
-}
+export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+  AnyConfigSchema<MongoDBArchivePayloadStatsDivinerConfig<T>>
+>
 
-export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implements PayloadStatsDiviner, JobProvider {
+export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePayloadStatsDivinerParams = MongoDBArchivePayloadStatsDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements PayloadStatsDiviner, JobProvider
+{
   static override configSchema = MongoDBArchivePayloadStatsDivinerConfigSchema
 
-  protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
   protected nextOffset = 0
@@ -58,9 +59,8 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
   protected resumeAfter: ResumeToken | undefined = undefined
   protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  protected constructor(params: MongoDBArchivePayloadStatsDivinerParams) {
+  protected constructor(params: TParams) {
     super(params)
-    this.archiveArchivist = params.archiveArchivist
   }
 
   get jobs(): Job[] {
@@ -81,11 +81,11 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
     ]
   }
 
-  static override async create(params: MongoDBArchivePayloadStatsDivinerParams): Promise<MongoDBArchivePayloadStatsDiviner> {
-    return (await super.create(params)) as MongoDBArchivePayloadStatsDiviner
+  static override async create<TParams extends MongoDBArchivePayloadStatsDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
+  async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     const archive = query?.archive
     const count = archive ? await this.divineArchive(archive) : await this.divineAllArchives()
@@ -121,14 +121,15 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
 
   private divineArchivesBatch = async () => {
     this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
-    const archives = result.map((archive) => archive?.archive).filter(exists)
-    this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
-    this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
-    const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
-    const succeeded = results.filter(fulfilled).length
-    const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    await Promise.resolve()
+    // const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
+    // const archives = result.map((archive) => archive?.archive).filter(exists)
+    // this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
+    // this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
+    // const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
+    // const succeeded = results.filter(fulfilled).length
+    // const failed = results.filter(rejected).length
+    // this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 
   private processChange = (change: ChangeStreamInsertDocument<XyoPayloadWithMeta>) => {

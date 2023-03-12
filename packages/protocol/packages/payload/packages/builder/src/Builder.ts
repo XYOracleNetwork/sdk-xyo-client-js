@@ -13,21 +13,21 @@ export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, 
     this._schema = schema
   }
 
-  public build(): T {
+  build(): T {
     const hashableFields = this.hashableFields()
     const _hash = new Hasher(hashableFields).hash
     const _timestamp = Date.now()
     return { ...hashableFields, _client: 'js', _hash, _timestamp, schema: this._schema }
   }
 
-  public fields(fields?: Partial<T>) {
+  fields(fields?: Partial<T>) {
     if (fields) {
       this._fields = { ...this._fields, ...removeEmptyFields(fields) }
     }
     return this
   }
 
-  public hashableFields() {
+  hashableFields() {
     return {
       ...removeEmptyFields(deepOmitUnderscoreFields(this._fields)),
       schema: this._schema,

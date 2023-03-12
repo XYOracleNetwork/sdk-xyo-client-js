@@ -7,13 +7,13 @@ import {
 } from '@xyo-network/coingecko-crypto-market-plugin'
 import { XyoUniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 import { UniswapPoolContracts, XyoUniswapCryptoMarketWitness } from '@xyo-network/uniswap-crypto-market-plugin'
-import { AbstractWitness } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModule } from '@xyo-network/witness'
 
 import { getAccount, WalletPaths } from '../Account'
 import { getProvider } from '../Providers'
 import { WitnessProvider } from './WitnessProvider'
 
-export const getCryptoMarketWitness: WitnessProvider<Provider> = async (provider = getProvider()): Promise<AbstractWitness[]> => {
+export const getCryptoMarketWitness: WitnessProvider<Provider> = async (provider = getProvider()): Promise<WitnessModule[]> => {
   const witnesses: AbstractWitness[] = [
     await XyoCoingeckoCryptoMarketWitness.create({
       account: getAccount(WalletPaths.XyoCoingeckoCryptoMarketWitness),

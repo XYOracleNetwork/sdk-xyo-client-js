@@ -1,33 +1,40 @@
-import { assertEx } from '@xylabs/assert'
-import { Module, ModuleFilter, ModuleRepository } from '@xyo-network/module-model'
+import {
+  AddressModuleFilter,
+  Module,
+  ModuleFilter,
+  ModuleRepository,
+  ModuleResolver,
+  NameModuleFilter,
+  QueryModuleFilter,
+} from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import flatten from 'lodash/flatten'
 
 //This class is now package private (not exported from index.ts)
-export class SimpleModuleResolver<TModule extends Module = Module> implements ModuleRepository<TModule> {
+export class SimpleModuleResolver implements ModuleRepository {
   private addressToName: Record<string, string> = {}
-  private modules: Record<string, TModule> = {}
-  private nameToAddress: Record<string, string> = {}
+  private modules: Record<string, Module> = {}
 
-  public get isModuleResolver() {
+  get isModuleResolver() {
     return true
   }
 
-  add(module: TModule, name?: string): this
-  add(module: TModule[], name?: string[]): this
-  add(module: TModule | TModule[], name?: string | string[]): this {
+  add(module: Module): this
+  add(module: Module[]): this
+  add(module: Module | Module[]): this {
     if (Array.isArray(module)) {
-      const nameArray = name ? assertEx(Array.isArray(name) ? name : undefined, 'name must be array or undefined') : undefined
-      assertEx((nameArray?.length ?? module.length) === module.length, 'names/modules array mismatch')
-      module.forEach((module, index) => this.addSingleModule(module, nameArray?.[index]))
+      module.forEach((module) => this.addSingleModule(module))
     } else {
-      this.addSingleModule(module, typeof name === 'string' ? name : undefined)
+      this.addSingleModule(module)
     }
     return this
   }
 
-  remove(name: string | string[]): this
+  addResolver(_resolver: ModuleResolver): this {
+    throw 'Adding resolvers not supported'
+  }
+
   remove(address: string | string[]): this {
     if (Array.isArray(address)) {
       address.forEach((address) => this.removeSingleModule(address))
@@ -37,43 +44,43 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
     return this
   }
 
-  resolve(filter?: ModuleFilter): Promisable<TModule[]> {
-    const filteredByName: TModule[] = this.resolveByName(Object.values(this.modules), filter?.name)
+  removeResolver(_resolver: ModuleResolver): this {
+    throw 'Removing resolvers not supported'
+  }
 
-    const filteredByAddress: TModule[] = filter?.address ? this.resolveByAddress(filteredByName, filter?.address) : filteredByName
+  resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]> {
+    const filteredByName: T[] = this.resolveByName<T>(Object.values(this.modules) as T[], (filter as NameModuleFilter)?.name)
 
-    const filteredByConfigSchema: TModule[] = filter?.config ? this.resolveByConfigSchema(filteredByAddress, filter?.config) : filteredByAddress
+    const filteredByAddress: T[] = (filter as AddressModuleFilter)?.address
+      ? this.resolveByAddress<T>(filteredByName, (filter as AddressModuleFilter)?.address)
+      : filteredByName
 
-    const filteredByQuery: TModule[] = filter?.query ? this.resolveByQuery(filteredByConfigSchema, filter?.query) : filteredByConfigSchema
+    const filteredByQuery: T[] = (filter as QueryModuleFilter)?.query
+      ? this.resolveByQuery<T>(filteredByAddress, (filter as QueryModuleFilter)?.query)
+      : filteredByAddress
 
     return filteredByQuery
   }
 
-  private addSingleModule(module?: TModule, name?: string) {
+  private addSingleModule(module?: Module) {
     if (module) {
       this.modules[module.address] = module
-      if (name) {
-        this.nameToAddress[name] = module.address
-        this.addressToName[module.address] = name
-      }
     }
   }
 
-  private removeSingleModule(addressOrName: string) {
-    const resolvedAddress = this.modules[addressOrName] ? addressOrName : this.nameToAddress[addressOrName]
-    if (resolvedAddress) {
-      if (this.modules[resolvedAddress]) {
-        delete this.modules[resolvedAddress]
-        const name = this.addressToName[resolvedAddress]
+  private removeSingleModule(address: string) {
+    if (address) {
+      if (this.modules[address]) {
+        delete this.modules[address]
+        const name = this.addressToName[address]
         if (name) {
-          delete this.nameToAddress[name]
-          delete this.addressToName[resolvedAddress]
+          delete this.addressToName[address]
         }
       }
     }
   }
 
-  private resolveByAddress(modules: TModule[], address?: string[]): TModule[] {
+  private resolveByAddress<T extends Module = Module>(modules: T[], address?: string[]): T[] {
     return address
       ? compact(
           flatten(
@@ -85,34 +92,21 @@ export class SimpleModuleResolver<TModule extends Module = Module> implements Mo
       : modules
   }
 
-  private resolveByConfigSchema(modules: TModule[], schema?: string[]): TModule[] {
-    return schema
-      ? compact(
-          flatten(
-            schema?.map((schema) => {
-              return modules.filter((module) => module.config.schema === schema)
-            }),
-          ),
-        )
-      : modules
-  }
-
-  private resolveByName(modules: TModule[], name?: string[]): TModule[] {
+  private resolveByName<T extends Module = Module>(modules: T[], name?: string[]): T[] {
     if (name) {
-      const address = compact(name.map((name) => this.nameToAddress[name]))
-      return this.resolveByAddress(modules, address)
+      return compact(name.map((name) => modules.filter((module) => module.config.name === name)).flat())
     }
     return modules
   }
 
-  private resolveByQuery(modules: TModule[], query?: string[][]): TModule[] {
+  private resolveByQuery<T extends Module = Module>(modules: T[], query?: string[][]): T[] {
     return query
       ? compact(
           modules.filter((module) =>
             query?.reduce((supported, queryList) => {
               return (
                 queryList.reduce((supported, query) => {
-                  const queryable = module.queries().includes(query)
+                  const queryable = module.queries.includes(query)
                   return supported && queryable
                 }, true) || supported
               )

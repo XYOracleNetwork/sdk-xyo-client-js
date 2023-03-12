@@ -14,7 +14,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import {
-  claimArchive,
   getArchiveName,
   getBlock,
   getBlockWithPayloads,
@@ -23,7 +22,6 @@ import {
   getTokenForUnitTestUser,
   otherUnitTestSigningAccount,
   postBlock,
-  setArchiveAccessControl,
   unitTestSigningAccount,
 } from '../../../testUtil'
 
@@ -56,14 +54,13 @@ describe('/:hash', () => {
   })
   beforeEach(async () => {
     archive = getArchiveName()
-    await claimArchive(ownerToken, archive)
     block = getBlockWithPayloads(1)
     payload = PayloadWrapper.parse(assertEx(block._payloads?.[0])).body
     const blockResponse = await postBlock(block, archive)
-    expect(blockResponse.length).toBe(1)
+    expect(blockResponse.length).toBe(2)
     const pointer = getPayloadPointer(archive, payload.schema)
     const pointerResponse = await postBlock(getBlock(pointer), archive)
-    expect(pointerResponse.length).toBe(1)
+    expect(pointerResponse.length).toBe(2)
     pointerHash = pointerResponse[0].payload_hashes[0]
   })
   describe('return format is', () => {
@@ -87,25 +84,6 @@ describe('/:hash', () => {
       expect(result).toBeTruthy()
     })
   })
-  describe('with private archive', () => {
-    beforeEach(async () => {
-      await setArchiveAccessControl(ownerToken, archive, { accessControl: true, archive })
-      const blockResponse = await postBlock(block, archive, ownerToken)
-      expect(blockResponse.length).toBe(1)
-    })
-    describe(`returns ${ReasonPhrases.NOT_FOUND}`, () => {
-      it('with anonymous user', async () => {
-        await getHash(pointerHash, undefined, StatusCodes.NOT_FOUND)
-      })
-      it('with non-archive owner', async () => {
-        await getHash(pointerHash, otherUserToken, StatusCodes.NOT_FOUND)
-      })
-    })
-    it('with archive owner returns the payload', async () => {
-      const result = await getHash(pointerHash, ownerToken)
-      expect(result).toBeTruthy()
-    })
-  })
   describe('with nonexistent hash', () => {
     it(`returns ${ReasonPhrases.NOT_FOUND}`, async () => {
       await getHash('non_existent_hash', undefined, StatusCodes.NOT_FOUND)
@@ -116,7 +94,7 @@ describe('/:hash', () => {
       const account = unitTestSigningAccount
       const pointer = getPayloadPointer(archive, payload.schema, Date.now(), 'desc', account.addressValue.hex)
       const pointerResponse = await postBlock(getBlock(pointer), archive)
-      expect(pointerResponse.length).toBe(1)
+      expect(pointerResponse.length).toBe(2)
       pointerHash = pointerResponse[0].payload_hashes[0]
       const result = await getHash(pointerHash, ownerToken)
       expect(result).toBeTruthy()
@@ -125,7 +103,7 @@ describe('/:hash', () => {
   it('returns no payloads if not signed by address', async () => {
     const pointer = getPayloadPointer(archive, payload.schema, Date.now(), 'desc', otherUnitTestSigningAccount.addressValue.hex)
     const pointerResponse = await postBlock(getBlock(pointer), archive)
-    expect(pointerResponse.length).toBe(1)
+    expect(pointerResponse.length).toBe(2)
     pointerHash = pointerResponse[0].payload_hashes[0]
     await getHash(pointerHash, ownerToken, StatusCodes.NOT_FOUND)
   })

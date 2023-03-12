@@ -1,26 +1,30 @@
-import { WithAdditional } from '@xyo-network/core'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
 export type XyoAdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 export const XyoAdhocWitnessConfigSchema: XyoAdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 
 export type XyoAdhocWitnessConfig = XyoWitnessConfig<{
-  payload: WithAdditional<XyoPayload>
+  payload?: XyoPayload
   schema: XyoAdhocWitnessConfigSchema
 }>
 
-export class XyoAdhocWitness extends AbstractWitness<XyoAdhocWitnessConfig> {
-  static override configSchema = XyoAdhocWitnessConfigSchema
+export type XyoAdhocWitnessParams = WitnessParams<AnyConfigSchema<XyoAdhocWitnessConfig>>
+
+export class XyoAdhocWitness<TParams extends XyoAdhocWitnessParams = XyoAdhocWitnessParams>
+  extends AbstractWitness<TParams>
+  implements WitnessModule
+{
+  static override configSchema: string = XyoAdhocWitnessConfigSchema
 
   get payload() {
     return this.config?.payload
   }
 
-  static override async create(params: ModuleParams<XyoAdhocWitnessConfig>): Promise<XyoAdhocWitness> {
-    return (await super.create(params)) as XyoAdhocWitness
+  static override async create<TParams extends XyoAdhocWitnessParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   override async observe(fields?: XyoPayload[]): Promise<XyoPayload[]> {

@@ -9,28 +9,30 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.7.1",
-    "@xylabs/promise": "^2.7.1",
+    "@xylabs/assert": "^2.7.4",
+    "@xylabs/promise": "^2.7.4",
+    "@xyo-network/abstract-archivist": "workspace:^",
     "@xyo-network/account": "workspace:^",
+    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-interface": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/memory-archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.15.0",
     "store2": "^2.14.2"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2",
+    "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.191",
-    "@xylabs/delay": "^2.7.1",
-    "@xylabs/ts-scripts-yarn3": "^2.14.15",
-    "@xylabs/tsconfig": "^2.14.15",
+    "@xylabs/delay": "^2.7.4",
+    "@xylabs/ts-scripts-yarn3": "^2.16.1",
+    "@xylabs/tsconfig": "^2.16.1",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
     "typescript": "^4.9.5"
@@ -69,6 +71,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.45.0-rc.4",
-  "stableVersion": "2.44.1"
+  "version": "2.51.9"
 }

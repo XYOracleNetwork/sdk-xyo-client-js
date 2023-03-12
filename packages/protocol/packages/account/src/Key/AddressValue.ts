@@ -1,29 +1,32 @@
+import { staticImplements } from '@xylabs/static-implements'
 import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
+import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
 
 import { EllipticKey } from './EllipticKey'
 
-export class AddressValue extends EllipticKey {
+@staticImplements<AddressValueStatic>()
+export class AddressValue extends EllipticKey implements AddressValueInstance {
   private _isXyoAddress = true
   constructor(address: DataLike) {
     super(20, AddressValue.addressFromAddressOrPublicKey(address))
   }
 
-  public static addressFromAddressOrPublicKey(bytes: DataLike) {
+  static addressFromAddressOrPublicKey(bytes: DataLike) {
     const bytesArray = toUint8Array(bytes)
     return bytesArray.length === 20 ? bytesArray : AddressValue.addressFromPublicKey(bytesArray)
   }
 
-  public static addressFromPublicKey(key: DataLike) {
+  static addressFromPublicKey(key: DataLike) {
     return new XyoData(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
   }
 
-  public static isXyoAddress(value: unknown) {
+  static isXyoAddress(value: unknown) {
     return (value as AddressValue)._isXyoAddress
   }
 
   //there has to be a better way to do this other than trying all four numbers
   //maybe we can get the number from the address more easily
-  public static verify(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
+  static verify(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
     let valid = false
     const sigArray = toUint8Array(signature)
     const r = sigArray.slice(0, 32)
@@ -46,7 +49,7 @@ export class AddressValue extends EllipticKey {
     return valid
   }
 
-  public verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
     return AddressValue.verify(msg, signature, this.bytes)
   }
 }

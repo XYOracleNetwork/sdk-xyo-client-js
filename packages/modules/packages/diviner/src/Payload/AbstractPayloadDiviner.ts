@@ -1,5 +1,5 @@
-import { DivinerConfig } from '@xyo-network/diviner-model'
+import { DivinerParams } from '@xyo-network/diviner-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
 
-export abstract class AbstractPayloadDiviner<C extends DivinerConfig = DivinerConfig> extends AbstractDiviner<C> {}
+export abstract class AbstractPayloadDiviner<P extends DivinerParams = DivinerParams> extends AbstractDiviner<P> {}

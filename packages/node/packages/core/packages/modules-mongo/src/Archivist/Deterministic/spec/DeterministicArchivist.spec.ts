@@ -7,7 +7,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { AbstractModuleConfigSchema } from '@xyo-network/module-model'
+import { ModuleConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
@@ -61,10 +61,10 @@ describe('DeterministicArchivist', () => {
     const module = await MongoDBDeterministicArchivist.create({
       account: moduleAccount,
       boundWitnesses,
-      config: { schema: AbstractModuleConfigSchema },
+      config: { schema: ModuleConfigSchema },
       payloads,
     })
-    archivist = new ArchivistWrapper(module, archiveAccount)
+    archivist = ArchivistWrapper.wrap(module, archiveAccount)
     const insertions = [
       // TODO: Try simple cases of [payload, BW, mixed BW & Payload]
       [boundWitness1, payload1],

@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/blockchain-payload-plugins": "workspace:^",
+    "@xyo-network/config-payload-plugin": "workspace:^",
     "@xyo-network/crypto-payload-plugins": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
@@ -19,11 +20,12 @@
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module-instance-payload-plugin": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/query-payload-plugin": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.14.15",
-    "@xylabs/tsconfig": "^2.14.15",
+    "@xylabs/ts-scripts-yarn3": "^2.16.1",
+    "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -59,6 +61,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.45.0-rc.4",
-  "stableVersion": "2.44.1"
+  "version": "2.51.9"
 }

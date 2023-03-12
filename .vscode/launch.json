@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/http/src/RemoteNode/spec/RemoteNode.spec.ts"
+        "packages/modules/packages/sentinel/src/spec/Sentinel.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

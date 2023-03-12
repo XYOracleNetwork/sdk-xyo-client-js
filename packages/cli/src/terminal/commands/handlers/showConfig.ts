@@ -1,16 +1,16 @@
-import { AbstractModuleConfig } from '@xyo-network/module'
+import { ModuleConfig } from '@xyo-network/module'
 
 import { printLine, printTitle, readFileDeep } from '../../../lib'
 
 export const showConfig = async () => {
   const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
-  let configObj: AbstractModuleConfig | undefined
+  let configObj: ModuleConfig | undefined
   printTitle(`Config found at: ${path}`)
   if (config) {
     if (path?.endsWith('.json')) {
-      configObj = JSON.parse(config) as AbstractModuleConfig
+      configObj = JSON.parse(config) as ModuleConfig
     } else if (path?.endsWith('.cjs') || path?.endsWith('.js')) {
-      configObj = (await import(path)) as AbstractModuleConfig
+      configObj = (await import(path)) as ModuleConfig
     }
   }
   printLine(JSON.stringify(configObj ?? {}))

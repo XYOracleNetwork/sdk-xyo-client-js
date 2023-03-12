@@ -1,18 +1,12 @@
-import { QueryConverterRegistry, UserCreationAuthInfo } from '@xyo-network/express-node-lib'
+import { UserCreationAuthInfo } from '@xyo-network/express-node-lib'
 import { AbstractArchivist, AbstractNode } from '@xyo-network/modules'
 import {
-  ArchiveArchivist,
   ArchiveBoundWitnessArchivistFactory,
-  ArchiveKeyRepository,
   ArchivePayloadArchivistFactory,
-  ArchivePermissionsArchivistFactory,
   IdentifiableHuri,
-  Query,
-  QueryProcessorRegistry,
   Queue,
   UserManager,
   UserWithoutId,
-  WitnessedPayloadArchivist,
 } from '@xyo-network/node-core-model'
 import { Logger } from '@xyo-network/shared'
 // NOTE: Required import since passport types (which we need to extend) extend Express
@@ -33,29 +27,19 @@ declare global {
     interface AuthInfo extends UserCreationAuthInfo {}
 
     interface Application {
-      archiveArchivist: ArchiveArchivist
       archiveBoundWitnessArchivistFactory: ArchiveBoundWitnessArchivistFactory
-      archiveKeyRepository: ArchiveKeyRepository
       archivePayloadsArchivistFactory: ArchivePayloadArchivistFactory
-      archivePermissionsArchivistFactory: ArchivePermissionsArchivistFactory
       archivist: AbstractArchivist
-      archivistWitnessedPayloadArchivist: WitnessedPayloadArchivist
       logger: Logger
       node: AbstractNode
-      queryConverters: QueryConverterRegistry
-      queryProcessors: QueryProcessorRegistry
-      queryQueue: Queue<Query>
       responseQueue: Queue<IdentifiableHuri>
       userManager: UserManager
     }
   }
 }
 
-export * from './archiveLocals'
 export * from './auth'
 export * from './doc'
 export * from './LoggingErrorHandler'
 export * from './nodeEnv'
-export * from './QueryProcessor'
-export * from './RequestToQueryConverter'
 export * from './standardResponses'

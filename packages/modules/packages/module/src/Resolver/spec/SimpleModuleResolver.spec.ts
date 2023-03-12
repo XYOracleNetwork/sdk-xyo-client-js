@@ -1,4 +1,4 @@
-import { Module } from '@xyo-network/module-model'
+import { Module, ModuleConfigSchema } from '@xyo-network/module-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { SimpleModuleResolver } from '../SimpleModuleResolver'
@@ -12,17 +12,17 @@ describe('SimpleModuleResolver', () => {
     let moduleB: MockProxy<Module>
     let sut: SimpleModuleResolver
     beforeEach(() => {
-      moduleA = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a' })
-      moduleB = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b' })
+      moduleA = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a', config: { name: moduleAName, schema: ModuleConfigSchema } })
+      moduleB = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b', config: { name: moduleBName, schema: ModuleConfigSchema } })
       sut = new SimpleModuleResolver()
-      sut.add(moduleA, moduleAName)
+      sut.add(moduleA)
     })
     describe('add', () => {
       it('adds module to resolver', async () => {
         const mod = moduleB
         const address = mod.address
         const name = moduleBName
-        expect(sut.add(mod, name)).toEqual(sut)
+        expect(sut.add(mod)).toEqual(sut)
         expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)
       })

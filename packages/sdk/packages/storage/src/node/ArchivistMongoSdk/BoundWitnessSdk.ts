@@ -14,51 +14,51 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     this._maxTime = maxTime
   }
 
-  public async deleteByHash(hash: string) {
+  async deleteByHash(hash: string) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
       return await collection.deleteMany({ _archive: this._archive, _hash: hash })
     })
   }
 
-  public async fetchCount() {
+  async fetchCount() {
     return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
       return await collection.estimatedDocumentCount()
     })
   }
 
-  public async findAfter(timestamp: number, limit = 20) {
+  async findAfter(timestamp: number, limit = 20) {
     return (await this.findAfterQuery(timestamp, limit)).toArray()
   }
 
-  public async findAfterPlan(timestamp: number, limit = 20) {
+  async findAfterPlan(timestamp: number, limit = 20) {
     return (await this.findAfterQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  public async findBefore(timestamp: number, limit = 20) {
+  async findBefore(timestamp: number, limit = 20) {
     return (await this.findBeforeQuery(timestamp, limit)).toArray()
   }
 
-  public async findBeforePlan(timestamp: number, limit = 20) {
+  async findBeforePlan(timestamp: number, limit = 20) {
     return (await this.findBeforeQuery(timestamp, limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  public async findByHash(hash: string, timestamp?: number) {
+  async findByHash(hash: string, timestamp?: number) {
     return (await this.findByHashQuery(hash, timestamp)).toArray()
   }
 
-  public async findByHashPlan(hash: string, timestamp?: number) {
+  async findByHashPlan(hash: string, timestamp?: number) {
     return (await this.findByHashQuery(hash, timestamp)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  public async findRecent(limit = 20) {
+  async findRecent(limit = 20) {
     return (await this.findRecentQuery(limit)).toArray()
   }
 
-  public async findRecentPlan(limit = 20) {
+  async findRecentPlan(limit = 20) {
     return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  public async insert(item: XyoBoundWitnessWithPartialMeta) {
+  async insert(item: XyoBoundWitnessWithPartialMeta) {
     const _timestamp = Date.now()
     const wrapper = new BoundWitnessWrapper(item)
     return await super.insertOne({
@@ -69,7 +69,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     })
   }
 
-  public override async insertMany(items: XyoBoundWitnessWithPartialMeta[]) {
+  override async insertMany(items: XyoBoundWitnessWithPartialMeta[]) {
     const _timestamp = Date.now()
     const itemsToInsert = items.map((item) => {
       const wrapper = new BoundWitnessWrapper(item)
@@ -83,7 +83,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return await super.insertMany(itemsToInsert)
   }
 
-  public async updateByHash(hash: string, bw: XyoBoundWitnessWithPartialMeta) {
+  async updateByHash(hash: string, bw: XyoBoundWitnessWithPartialMeta) {
     return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
       return await collection.updateMany({ _archive: this._archive, _hash: hash }, bw)
     })

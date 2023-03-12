@@ -29,12 +29,12 @@ export interface FetchedPayload<T extends XyoPayload = XyoPayload> {
 }
 
 export class Huri<T extends XyoPayload = XyoPayload> {
-  public archive?: string
-  public archivist?: string
-  public hash: string
-  public originalHref: string
-  public protocol?: string
-  public token?: string
+  archive?: string
+  archivist?: string
+  hash: string
+  originalHref: string
+  protocol?: string
+  token?: string
 
   private isHuri = true
 
@@ -63,7 +63,7 @@ export class Huri<T extends XyoPayload = XyoPayload> {
   /*
   The full href or the hash
   */
-  public get href() {
+  get href() {
     const parts: string[] = []
     if (this.protocol) {
       parts.push(`${this.protocol}:/`)
@@ -83,7 +83,7 @@ export class Huri<T extends XyoPayload = XyoPayload> {
     return (await axios.get<T>(huri.href, { headers: AuthHeader })).data
   }
 
-  public static isHuri(value: unknown) {
+  static isHuri(value: unknown) {
     if (typeof value === 'object') {
       return (value as Huri).isHuri ? (value as Huri) : undefined
     }
@@ -113,11 +113,11 @@ export class Huri<T extends XyoPayload = XyoPayload> {
     }
   }
 
-  public async fetch(): Promise<T | undefined> {
+  async fetch(): Promise<T | undefined> {
     return await Huri.fetch<T>(this)
   }
 
-  public toString() {
+  toString() {
     return this.href
   }
 

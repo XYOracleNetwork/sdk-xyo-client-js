@@ -7,7 +7,7 @@ import { MongoDBBoundWitnessDiviner } from '../MongoDBBoundWitnessDiviner'
 describe('MongoDBBoundWitnessDiviner', () => {
   let sut: MongoDBBoundWitnessDiviner
   beforeEach(async () => {
-    sut = await MongoDBBoundWitnessDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
+    sut = (await MongoDBBoundWitnessDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })) as MongoDBBoundWitnessDiviner
   })
   describe('divine', () => {
     describe('with valid query', () => {

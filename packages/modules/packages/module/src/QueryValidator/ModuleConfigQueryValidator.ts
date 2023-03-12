@@ -1,4 +1,4 @@
-import { AbstractModuleConfig, AbstractModuleQuery, AddressString, CosigningAddressSet, SchemaString } from '@xyo-network/module-model'
+import { AddressString, AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
 
 import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
@@ -7,7 +7,7 @@ export type SortedPipedAddressesString = string
 
 const delimiter = ''
 
-export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = AbstractModuleConfig> implements QueryValidator {
+export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleConfig>> implements QueryValidator {
   protected allowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
   protected disallowed: Record<SchemaString, AddressString[]> = {}
   protected readonly hasAllowedRules: boolean
@@ -34,7 +34,7 @@ export class ModuleConfigQueryValidator<TConfig extends AbstractModuleConfig = A
     if (!this.hasRules) return true
     const addresses = query.addresses
     if (!addresses.length) return false
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<AbstractModuleQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     const schema = wrapper.query.schema
     return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }

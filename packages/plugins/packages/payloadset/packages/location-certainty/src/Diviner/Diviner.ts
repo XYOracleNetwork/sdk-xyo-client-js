@@ -1,16 +1,21 @@
-import { AbstractDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerModule, DivinerParams } from '@xyo-network/diviner'
 import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
 import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/elevation-plugin'
 import { LocationCertaintyHeuristic, LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { Job, JobProvider } from '@xyo-network/shared'
 
 import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Config'
 
-export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyDivinerConfig> implements LocationCertaintyDiviner, JobProvider {
+export type LocationCertaintyDivinerParams = DivinerParams<AnyConfigSchema<LocationCertaintyDivinerConfig>>
+
+export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerParams = LocationCertaintyDivinerParams>
+  extends AbstractDiviner<TParam>
+  implements DivinerModule, JobProvider
+{
   static override configSchema = LocationCertaintyDivinerConfigSchema
   static override targetSchema = LocationCertaintySchema
 
@@ -24,8 +29,8 @@ export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyD
     ]
   }
 
-  static override async create(params?: ModuleParams<LocationCertaintyDivinerConfig>) {
-    return (await super.create(params)) as LocationCertaintyDiviner
+  static override async create<TParams extends LocationCertaintyDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
   /* Given an array of numbers, find the min/max/mean */
@@ -69,7 +74,7 @@ export class LocationCertaintyDiviner extends AbstractDiviner<LocationCertaintyD
   }
 
   /** @description Given a set of locations, get the expected elevations (witness if needed), and return score/variance */
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
+  async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
     const locations = payloads?.filter<LocationPayload>((payload): payload is LocationPayload => payload?.schema === LocationSchema)
     // If this is a query we support
     if (locations && locations?.length > 0) {

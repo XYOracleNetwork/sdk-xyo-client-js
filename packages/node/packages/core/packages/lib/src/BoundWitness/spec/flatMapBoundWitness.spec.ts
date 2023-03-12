@@ -1,5 +1,4 @@
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
-import { DebugPayload, DebugSchema } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 
@@ -9,8 +8,8 @@ const config: BoundWitnessBuilderConfig = { inlinePayloads: true }
 
 describe('flatMapBoundWitness', () => {
   describe('BoundWitness with Payloads & nested BoundWitnesses', () => {
-    const payload1: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '1' }).build()
-    const payload2: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '2' }).build()
+    const payload1: XyoPayload = new XyoPayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
+    const payload2: XyoPayload = new XyoPayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
     const inner = new BoundWitnessBuilder(config).payload(payload2).build()
     const outer = new BoundWitnessBuilder(config).payloads([payload1, inner[0]]).build()
     const result = flatMapBoundWitness(outer[0])
@@ -27,8 +26,8 @@ describe('flatMapBoundWitness', () => {
     })
   })
   describe('BoundWitness with Payloads', () => {
-    const payload1: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '1' }).build()
-    const payload2: XyoPayload = new XyoPayloadBuilder<DebugPayload>({ schema: DebugSchema }).fields({ nonce: '2' }).build()
+    const payload1: XyoPayload = new XyoPayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
+    const payload2: XyoPayload = new XyoPayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
     const outer = new BoundWitnessBuilder(config).payloads([payload1, payload2]).build()
     const result = flatMapBoundWitness(outer[0])
     it('extracts the BoundWitnesses', () => {

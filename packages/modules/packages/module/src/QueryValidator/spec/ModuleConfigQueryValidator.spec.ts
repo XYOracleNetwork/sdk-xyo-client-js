@@ -1,10 +1,10 @@
 import { Account } from '@xyo-network/account'
 import {
-  AbstractModuleConfig,
-  AbstractModuleConfigSchema,
-  AbstractModuleDiscoverQuerySchema,
   AddressString,
   CosigningAddressSet,
+  ModuleConfig,
+  ModuleConfigSchema,
+  ModuleDiscoverQuerySchema,
   SchemaString,
 } from '@xyo-network/module-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
@@ -12,7 +12,7 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { QueryBoundWitnessBuilder } from '../../Query'
 import { ModuleConfigQueryValidator } from '../ModuleConfigQueryValidator'
 
-const schema = AbstractModuleDiscoverQuerySchema
+const schema = ModuleDiscoverQuerySchema
 
 describe('ModuleConfigQueryValidator', () => {
   const allowed1 = Account.random()
@@ -24,16 +24,16 @@ describe('ModuleConfigQueryValidator', () => {
   const other = Account.random()
   const queryPayload = new XyoPayloadBuilder({ schema }).build()
   const allowed: Record<SchemaString, (AddressString | CosigningAddressSet)[]> = {}
-  allowed[AbstractModuleDiscoverQuerySchema] = [
+  allowed[ModuleDiscoverQuerySchema] = [
     allowed1.addressValue.hex.toUpperCase(),
     allowed2.addressValue.hex,
     [allowedCosigner1.addressValue.hex, allowedCosigner2.addressValue.hex],
   ]
   const disallowed: Record<SchemaString, AddressString[]> = {}
-  disallowed[AbstractModuleDiscoverQuerySchema] = [disallowed1.addressValue.hex.toUpperCase(), disallowed2.addressValue.hex]
+  disallowed[ModuleDiscoverQuerySchema] = [disallowed1.addressValue.hex.toUpperCase(), disallowed2.addressValue.hex]
   describe('queryable', () => {
     describe('allowed', () => {
-      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { allowed } }
+      const config: ModuleConfig = { schema: ModuleConfigSchema, security: { allowed } }
       const sut = new ModuleConfigQueryValidator(config)
       it('allows schema from allowed address', () => {
         const query = new QueryBoundWitnessBuilder().witness(allowed1).query(queryPayload).build()
@@ -66,7 +66,7 @@ describe('ModuleConfigQueryValidator', () => {
       })
     })
     describe('disallowed', () => {
-      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { disallowed } }
+      const config: ModuleConfig = { schema: ModuleConfigSchema, security: { disallowed } }
       const sut = new ModuleConfigQueryValidator(config)
       it('allows schema from non-disallowed address', () => {
         const query = new QueryBoundWitnessBuilder().witness(allowed1).query(queryPayload).build()
@@ -90,7 +90,7 @@ describe('ModuleConfigQueryValidator', () => {
       })
     })
     describe('allowed & disallowed', () => {
-      const config: AbstractModuleConfig = { schema: AbstractModuleConfigSchema, security: { allowed, disallowed } }
+      const config: ModuleConfig = { schema: ModuleConfigSchema, security: { allowed, disallowed } }
       const sut = new ModuleConfigQueryValidator(config)
       it('disallowed takes precedence', () => {
         const query = new QueryBoundWitnessBuilder().witness(allowed1).witness(disallowed1).query(queryPayload).build()

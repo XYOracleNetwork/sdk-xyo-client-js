@@ -2,6 +2,7 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AbstractDiviner, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { BoundWitnessesArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
@@ -45,7 +46,7 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   constructor(
-    protected readonly account: Account = new Account(),
+    account: AccountInstance = new Account(),
     protected readonly payloads: PayloadArchivist,
     protected readonly bws: BoundWitnessesArchivist,
     protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
@@ -63,7 +64,7 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
     ]
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<LocationPayload>> {
+  async divine(payloads?: XyoPayloads): Promise<XyoPayloads<LocationPayload>> {
     const user = payloads?.find<CoinCurrentUserWitnessPayload>(
       (payload): payload is CoinCurrentUserWitnessPayload => payload?.schema === CoinCurrentUserWitnessSchema,
     )

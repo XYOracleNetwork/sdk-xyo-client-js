@@ -6,9 +6,9 @@ import merge from 'lodash/merge'
 import omitBy from 'lodash/omitBy'
 import pickBy from 'lodash/pickBy'
 
-import { EmptyObject } from '../lib'
+import { AnyObject } from '../lib'
 
-export const deepBy = <T extends EmptyObject>(obj: T, predicate: ValueKeyIteratee<T>, func: typeof omitBy | typeof pickBy): T => {
+export const deepBy = <T extends AnyObject>(obj: T, predicate: ValueKeyIteratee<T>, func: typeof omitBy | typeof pickBy): T => {
   if (Array.isArray(obj)) {
     return obj
   }
@@ -27,10 +27,10 @@ export const deepBy = <T extends EmptyObject>(obj: T, predicate: ValueKeyIterate
   return merge(pickedNonObjects, processedObjects) as T
 }
 
-export const deepOmitUnderscoreFields = <T extends EmptyObject>(obj: T) => {
+export const deepOmitUnderscoreFields = <T extends AnyObject>(obj: T) => {
   return deepBy(obj, (_, key) => key.startsWith('_'), omitBy)
 }
 
-export const deepPickUnderscoreFields = <T extends EmptyObject>(obj: T) => {
+export const deepPickUnderscoreFields = <T extends AnyObject>(obj: T) => {
   return deepBy(obj, (_, key) => key.startsWith('_'), pickBy)
 }

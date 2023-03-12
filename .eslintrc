@@ -10,6 +10,7 @@
     "swagger.json"
   ],
   "rules": {
+    "@typescript-eslint/explicit-member-accessibility": ["warn", { "accessibility": "no-public" }],
     "import/no-internal-modules": [
       "warn", {
         "allow": [

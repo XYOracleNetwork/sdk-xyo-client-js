@@ -1,12 +1,13 @@
 import { asyncHandler, NoReqParams } from '@xylabs/sdk-api-express-ecs'
+import { ModuleWrapper } from '@xyo-network/modules'
 // import { setRawResponseFormat } from '@xyo-network/express-node-middleware'
 import { RequestHandler } from 'express'
 
 const handler: RequestHandler<NoReqParams> = async (req, res) => {
   // setRawResponseFormat(res)
   const { node } = req.app
-  const description = await node.description()
-  res.json(description)
+  const wrapper = ModuleWrapper.wrap(node)
+  res.json(await wrapper.discover())
 }
 
 export const getNode = asyncHandler(handler)

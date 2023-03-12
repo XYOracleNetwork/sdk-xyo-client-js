@@ -1,11 +1,11 @@
 export * from './Report'
 
-import { AbstractModuleQuery, XyoQuery } from '@xyo-network/module-model'
+import { ModuleQuery, XyoQuery } from '@xyo-network/module-model'
 
 import { SentinelReportQuery } from './Report'
 
 export type SentinelQueryBase = SentinelReportQuery
 
-export type SentinelQuery<TQuery extends XyoQuery | void = void> = AbstractModuleQuery<
+export type SentinelQuery<TQuery extends XyoQuery | void = void> = ModuleQuery<
   TQuery extends XyoQuery ? SentinelQueryBase | TQuery : SentinelQueryBase
 >

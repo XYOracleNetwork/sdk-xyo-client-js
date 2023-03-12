@@ -12,34 +12,8 @@ exports[`MemoryNode description node with child modules serializes to JSON consi
     "network.xyo.query.module.subscribe"
   ],
   "children": [
-    {
-      "address": "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
-      "queries": [
-        "network.xyo.query.archivist.all",
-        "network.xyo.query.archivist.delete",
-        "network.xyo.query.archivist.clear",
-        "network.xyo.query.archivist.find",
-        "network.xyo.query.archivist.insert",
-        "network.xyo.query.archivist.commit",
-        "network.xyo.query.archivist.get",
-        "network.xyo.query.module.discover",
-        "network.xyo.query.module.subscribe"
-      ]
-    },
-    {
-      "address": "ca2e94ac3ae1084072b3a4407881bf940dc2019c",
-      "queries": [
-        "network.xyo.query.archivist.all",
-        "network.xyo.query.archivist.delete",
-        "network.xyo.query.archivist.clear",
-        "network.xyo.query.archivist.find",
-        "network.xyo.query.archivist.insert",
-        "network.xyo.query.archivist.commit",
-        "network.xyo.query.archivist.get",
-        "network.xyo.query.module.discover",
-        "network.xyo.query.module.subscribe"
-      ]
-    }
+    "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
+    "ca2e94ac3ae1084072b3a4407881bf940dc2019c"
   ]
 }"
 `;
@@ -56,47 +30,9 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
     "network.xyo.query.module.subscribe"
   ],
   "children": [
-    {
-      "address": "f59810a9da8a99e464355a411afe06f8c2d1c4b8",
-      "queries": [
-        "network.xyo.query.archivist.all",
-        "network.xyo.query.archivist.delete",
-        "network.xyo.query.archivist.clear",
-        "network.xyo.query.archivist.find",
-        "network.xyo.query.archivist.insert",
-        "network.xyo.query.archivist.commit",
-        "network.xyo.query.archivist.get",
-        "network.xyo.query.module.discover",
-        "network.xyo.query.module.subscribe"
-      ]
-    },
-    {
-      "address": "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
-      "queries": [
-        "network.xyo.query.node.attach",
-        "network.xyo.query.node.detach",
-        "network.xyo.query.node.attached",
-        "network.xyo.query.node.registered",
-        "network.xyo.query.module.discover",
-        "network.xyo.query.module.subscribe"
-      ],
-      "children": [
-        {
-          "address": "ca2e94ac3ae1084072b3a4407881bf940dc2019c",
-          "queries": [
-            "network.xyo.query.archivist.all",
-            "network.xyo.query.archivist.delete",
-            "network.xyo.query.archivist.clear",
-            "network.xyo.query.archivist.find",
-            "network.xyo.query.archivist.insert",
-            "network.xyo.query.archivist.commit",
-            "network.xyo.query.archivist.get",
-            "network.xyo.query.module.discover",
-            "network.xyo.query.module.subscribe"
-          ]
-        }
-      ]
-    }
+    "f59810a9da8a99e464355a411afe06f8c2d1c4b8",
+    "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
+    "ca2e94ac3ae1084072b3a4407881bf940dc2019c"
   ]
 }"
 `;

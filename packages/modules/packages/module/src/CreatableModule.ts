@@ -1,10 +1,8 @@
-import { Module } from '@xyo-network/module-model'
+import { Module, ModuleParams } from '@xyo-network/module-model'
 
-import { ModuleParams } from './ModuleParams'
-
-export interface CreatableModule<T extends Module = Module, TParams extends ModuleParams = ModuleParams> {
+export interface CreatableModule<TCreatableParams extends ModuleParams = ModuleParams> {
   configSchema: string
-  create(params: TParams): Promise<T>
+  create(params?: TCreatableParams): Promise<Module>
 }
 
 /**
@@ -13,7 +11,7 @@ export interface CreatableModule<T extends Module = Module, TParams extends Modu
  * @returns The decorated Module requiring it implement the members
  * of the CreatableModule as statics properties/methods
  */
-export function creatable() {
+export function creatableModule() {
   return <U extends CreatableModule>(constructor: U) => {
     constructor
   }

@@ -32,7 +32,16 @@ jobs:
         run: yarn install --network-timeout 1000000
 
       - name: compile
-        run: yarn build
+        run: yarn xy compile
+
+      - name: lint
+        run: yarn xy lint
+
+      - name: deps
+        run: yarn xy deps
+
+      - name: statics
+        run: yarn xy statics
 
       - name: cycle
         run: yarn xy cycle

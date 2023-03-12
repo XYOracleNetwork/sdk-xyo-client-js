@@ -1,21 +1,25 @@
-import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { EmptyObject } from '@xyo-network/core'
-import { AbstractModule, AbstractModuleConfig, Module, ModuleQueryResult } from '@xyo-network/module'
+import { AnyObject } from '@xyo-network/core'
+import { AbstractModule, creatableModule, Module, ModuleConfig, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PromiseEx } from '@xyo-network/promise'
+import compact from 'lodash/compact'
 
-export type ArchivingModuleConfig<T extends EmptyObject = EmptyObject> = AbstractModuleConfig<
+export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfig<
   {
     archivists?: string[]
     schema: string
   } & T
 >
-
-export class ArchivingModule<TConfig extends ArchivingModuleConfig = ArchivingModuleConfig> extends AbstractModule<TConfig> implements Module {
-  protected bindResult(payloads: XyoPayload[], account?: Account): PromiseEx<ModuleQueryResult, Account> {
-    const promise = new PromiseEx<ModuleQueryResult, Account>(async (resolve) => {
+@creatableModule()
+export class ArchivingModule<TParams extends ModuleParams<ArchivingModuleConfig> = ModuleParams<ArchivingModuleConfig>>
+  extends AbstractModule<TParams>
+  implements Module
+{
+  protected override bindResult(payloads: XyoPayload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
+    const promise = new PromiseEx<ModuleQueryResult, AccountInstance>(async (resolve) => {
       const result = this.bindResultInternal(payloads, account)
       await this.storeToArchivists([result[0], ...result[1]])
       resolve?.(result)
@@ -24,7 +28,9 @@ export class ArchivingModule<TConfig extends ArchivingModuleConfig = ArchivingMo
   }
 
   protected async resolveArchivists() {
-    return (await this.resolver?.resolve({ address: this.config.archivists ?? [] }))?.map((archivist) => new ArchivistWrapper(archivist)) ?? []
+    return compact(
+      (await this.resolve({ address: this.config.archivists ?? [] }))?.map((archivist) => ArchivistWrapper.tryWrap(archivist, this.account)) ?? [],
+    )
   }
 
   protected async storeToArchivists(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {

@@ -1,8 +1,11 @@
+import { staticImplements } from '@xylabs/static-implements'
 import { DataLike } from '@xyo-network/core'
+import { KeyPairInstance, KeyPairStatic } from '@xyo-network/key-model'
 
 import { XyoPrivateKey } from './PrivateKey'
 
-export class KeyPair {
+@staticImplements<KeyPairStatic>()
+export class KeyPair implements KeyPairInstance {
   private _isXyoKeyPair = true
   private _private?: XyoPrivateKey
 
@@ -10,16 +13,16 @@ export class KeyPair {
     this._private = new XyoPrivateKey(privateKeyData)
   }
 
-  public get private() {
+  get private() {
     this._private = this._private ?? new XyoPrivateKey()
     return this._private
   }
 
-  public get public() {
+  get public() {
     return this.private.public
   }
 
-  public static isXyoKeyPair(value: unknown) {
+  static isXyoKeyPair(value: unknown) {
     return (value as KeyPair)._isXyoKeyPair
   }
 }

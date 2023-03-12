@@ -1,10 +1,25 @@
+import { DivinerModule } from '@xyo-network/diviner-model'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
+import { WitnessModule } from '@xyo-network/witness'
 
-import { PayloadSetPlugin } from './Plugin'
+import { PayloadSetDivinerPlugin, PayloadSetWitnessPlugin } from './Plugin'
 
-export const createPayloadSetPlugin = <T extends PayloadSetPlugin = PayloadSetPlugin>(set: PayloadSetPayload, plugin: Omit<T, 'set'>): T => {
+export const createPayloadSetWitnessPlugin = <TModule extends WitnessModule = WitnessModule>(
+  set: PayloadSetPayload,
+  plugin: Omit<PayloadSetWitnessPlugin<TModule>, 'set'>,
+): PayloadSetWitnessPlugin<TModule> => {
   return {
     ...plugin,
     set,
-  } as T
+  }
+}
+
+export const createPayloadSetDivinerPlugin = <TModule extends DivinerModule = DivinerModule>(
+  set: PayloadSetPayload,
+  plugin: Omit<PayloadSetDivinerPlugin<TModule>, 'set'>,
+): PayloadSetDivinerPlugin<TModule> => {
+  return {
+    ...plugin,
+    set,
+  }
 }

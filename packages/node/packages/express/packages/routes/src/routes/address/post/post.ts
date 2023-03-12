@@ -1,5 +1,5 @@
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
+import { Module, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
@@ -14,8 +14,17 @@ const handler: RequestHandler<AddressPathParams, ModuleQueryResult, PostAddressR
   const { node } = req.app
   const [bw, payloads] = Array.isArray(req.body) ? req.body : []
   if (address && bw) {
+    let modules: Module[] = []
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
-    const modules = node.address === normalizedAddress ? [node] : await node.resolve({ address: [normalizedAddress] })
+    if (node.address === normalizedAddress) modules = [node]
+    else {
+      const byAddress = await node.downResolver.resolve({ address: [normalizedAddress] })
+      if (byAddress.length) modules = byAddress
+      else {
+        const byName = await node.downResolver.resolve({ name: [address] })
+        if (byName.length) modules = byName
+      }
+    }
     if (modules.length) {
       const mod = modules[0]
       const queryConfig = await getQueryConfig(mod, req, bw, payloads)

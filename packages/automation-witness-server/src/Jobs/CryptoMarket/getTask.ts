@@ -14,11 +14,11 @@ export const getTask = (): Task => {
     try {
       logger.log('Witnessing Crypto Prices')
       const witnessPanel = await getWitnessPanel()
-      const [, payloads] = await witnessPanel.report()
+      const payloads = await witnessPanel.report()
       logger.log('Witnessed Crypto Prices')
       logger.log('Divining Aggregated Crypto Prices')
       const diviner = await getDiviner()
-      const result = (await new DivinerWrapper(diviner).divine(payloads)).find((p) => p.schema === XyoCryptoMarketAssetSchema)
+      const result = (await new DivinerWrapper({ module: diviner }).divine(payloads)).find((p) => p.schema === XyoCryptoMarketAssetSchema)
       const answer = assertEx(result, 'Empty XyoCryptoMarketAssetPayload response from diviner')
       logger.log('Divined Aggregated Crypto Prices')
       logger.log('Witnessing Aggregated Crypto Prices')

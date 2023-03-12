@@ -1,8 +1,7 @@
 import { delay } from '@xylabs/delay'
-import { AbstractDiviner, DivinerConfig, XyoDivinerConfigSchema } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { AbstractDiviner, DivinerConfig, DivinerParams, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module'
 import {
-  ArchiveArchivist,
   isModuleAddressQueryPayload,
   ModuleAddressDiviner,
   ModuleAddressPayload,
@@ -19,14 +18,17 @@ import { Job, JobProvider } from '@xyo-network/shared'
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
 
-export class MongoDBModuleAddressDiviner extends AbstractDiviner implements ModuleAddressDiviner, JobProvider {
+export type MongoDBModuleAddressDivinerParams = DivinerParams<AnyConfigSchema<DivinerConfig>>
+export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDivinerParams = MongoDBModuleAddressDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements ModuleAddressDiviner, JobProvider
+{
   static override configSchema = XyoDivinerConfigSchema
 
-  protected archiveArchivist: ArchiveArchivist | undefined
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 
-  protected constructor(params: ModuleParams<DivinerConfig>) {
+  protected constructor(params: TParams) {
     super(params)
   }
 
@@ -40,11 +42,11 @@ export class MongoDBModuleAddressDiviner extends AbstractDiviner implements Modu
     ]
   }
 
-  static override async create(params?: Partial<ModuleParams<DivinerConfig>>): Promise<MongoDBModuleAddressDiviner> {
-    return (await super.create(params)) as MongoDBModuleAddressDiviner
+  static override async create<TParams extends MongoDBModuleAddressDivinerParams>(params?: TParams) {
+    return await super.create(params)
   }
 
-  public async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {
+  async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {
     const query = payloads?.find<ModuleAddressQueryPayload>(isModuleAddressQueryPayload)
     // If this is a query we support
     if (query) {

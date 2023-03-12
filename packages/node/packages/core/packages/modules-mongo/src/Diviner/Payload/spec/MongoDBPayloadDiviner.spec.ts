@@ -6,7 +6,7 @@ import { MongoDBPayloadDiviner } from '../MongoDBPayloadDiviner'
 describe('MongoDBPayloadDiviner', () => {
   let sut: MongoDBPayloadDiviner
   beforeEach(async () => {
-    sut = await MongoDBPayloadDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
+    sut = (await MongoDBPayloadDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })) as MongoDBPayloadDiviner
   })
   describe('divine', () => {
     describe('with valid query', () => {

@@ -1,9 +1,10 @@
-import { MemoryNode } from '@xyo-network/node'
+import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 
 import { printLine, printTitle } from '../../../lib'
 
 export const describeNode = async (node: MemoryNode) => {
   printTitle('Describe Node')
-  const description = (await node.description()) ?? {}
+  const wrapper = NodeWrapper.wrap(node)
+  const description = (await wrapper.describe()) ?? {}
   printLine(JSON.stringify(description, undefined, 2))
 }

@@ -8,7 +8,7 @@ export type PayloadLoader = (address: DataLike) => Promise<XyoPayload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
 
 export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayload> extends Hasher<TPayload> {
-  public get body() {
+  get body() {
     return deepOmitUnderscoreFields<TPayload>(this.obj)
   }
 
@@ -16,16 +16,16 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
     return new PayloadValidator(this.payload).validate()
   }
 
-  public get payload() {
+  get payload() {
     return assertEx(this.obj, 'Missing payload object')
   }
 
-  public get schema() {
+  get schema() {
     return this.payload.schema
   }
 
   //intentionally not naming this 'schema' so that the wrapper is not confused for a XyoPayload
-  public get schemaName() {
+  get schemaName() {
     return assertEx(this.obj.schema, 'Missing payload schema')
   }
 
@@ -33,20 +33,43 @@ export abstract class PayloadWrapperBase<TPayload extends XyoPayload = XyoPayloa
     return this.errors.length === 0
   }
 
-  public static load(_address: DataLike): Promisable<PayloadWrapperBase | null> {
+  static load(_address: DataLike): Promisable<PayloadWrapperBase | null> {
     throw Error('Not implemented')
   }
 
-  public static parse(_obj: unknown): PayloadWrapperBase {
+  static parse(_obj: unknown): PayloadWrapperBase {
     throw Error('Not implemented')
   }
 
-  public static tryParse(obj: unknown) {
+  static tryParse(obj: unknown) {
     try {
       return this.parse(obj)
     } catch (ex) {
       return undefined
     }
+  }
+
+  static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload): TPayload | undefined
+  static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload[]): (TPayload | undefined)[]
+  static unwrap<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload | XyoPayload[]): TPayload | (TPayload | undefined)[] | undefined {
+    if (Array.isArray(payload)) {
+      return payload.map((payload) => this.unwrapSinglePayload<TPayload>(payload))
+    } else {
+      return this.unwrapSinglePayload<TPayload>(payload)
+    }
+  }
+
+  private static unwrapSinglePayload<TPayload extends XyoPayload = XyoPayload>(payload?: XyoPayload) {
+    if (payload === undefined) {
+      return undefined
+    }
+    if (payload instanceof PayloadWrapperBase) {
+      return payload.payload as TPayload
+    }
+    if (!(payload instanceof Object)) {
+      throw 'Can not unwrap class that is not extended from PayloadWrapperBase'
+    }
+    return payload as TPayload
   }
 }
 
@@ -55,7 +78,7 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
 
   private isPayloadWrapper = true
 
-  public static override async load(address: DataLike) {
+  static override async load(address: DataLike) {
     if (this.loaderFactory === null) {
       console.warn('No loader factory set')
       return null
@@ -65,7 +88,7 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
     }
   }
 
-  public static override parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
+  static override parse<T extends XyoPayload = XyoPayload>(obj: unknown): PayloadWrapper<T> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to PayloadWrapper')
     switch (typeof obj) {
       case 'object': {
@@ -79,7 +102,7 @@ export class PayloadWrapper<TPayload extends XyoPayload = XyoPayload> extends Pa
     throw Error(`Unable to parse [${typeof obj}]`)
   }
 
-  public static setLoaderFactory(factory: PayloadLoaderFactory | null) {
+  static setLoaderFactory(factory: PayloadLoaderFactory | null) {
     this.loaderFactory = factory
   }
 }

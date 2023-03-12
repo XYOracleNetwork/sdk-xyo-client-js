@@ -7,12 +7,12 @@ export interface XyoApiEnvelopeBase {
 
 export interface XyoApiEnvelopeSuccess<T> extends XyoApiEnvelopeBase {
   data: T
-  error: never
+  errors: never
 }
 
 export interface XyoApiEnvelopeError extends XyoApiEnvelopeBase {
   data: never
-  error: XyoApiError[]
+  errors: XyoApiError[]
 }
 
 export type XyoApiEnvelope<T> = XyoApiEnvelopeSuccess<T> | XyoApiEnvelopeError

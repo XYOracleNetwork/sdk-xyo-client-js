@@ -5,7 +5,8 @@ import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import { WitnessModule } from '@xyo-network/witness'
 
-export type PayloadSetPluginFunc = () => PayloadSetPlugin
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PayloadSetPluginFunc = () => PayloadSetPlugin<any>
 
 export type PayloadSetDivinerField<TDiviner extends DivinerModule = DivinerModule> = {
   diviner: (params?: TDiviner['params']) => Promisable<TDiviner>

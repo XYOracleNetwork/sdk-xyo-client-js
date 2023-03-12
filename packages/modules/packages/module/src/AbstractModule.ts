@@ -132,7 +132,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
   }
 
   get config(): TParams['config'] {
-    return this.params.config ?? {}
+    return this.params.config
   }
 
   get previousHash() {
@@ -156,6 +156,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     params?.logger?.debug(`config: ${JSON.stringify(params?.config, null, 2)}`)
     const mutatedConfig = { ...params?.config, schema } as TParams['config']
     const mutatedParams = { ...params, config: mutatedConfig } as TParams
+    //console.log(`Create-config: ${JSON.stringify(mutatedConfig)}`)
     return await new this<TParams>(mutatedParams).start()
   }
 
@@ -287,7 +288,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
   ): [XyoQueryBoundWitness, XyoPayload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     const result = (account ? builder.witness(account) : builder).build()
-    this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
+    //this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
 

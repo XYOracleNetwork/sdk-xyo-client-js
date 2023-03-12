@@ -78,7 +78,7 @@ const searchDepthLimit = 50
 export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
 > extends AbstractArchivist<TParams> {
-  static override configSchema: ArchivistConfigSchema
+  static override configSchema = ArchivistConfigSchema
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
 

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist, ArchivistParams } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistParams } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { EmptyObject } from '@xyo-network/core'
 import { AnyConfigSchema, ModuleConfig, ModuleConfigSchema } from '@xyo-network/module-model'
@@ -28,12 +28,16 @@ export class MongoDBBoundWitnessArchivist<
 
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
+  override get queries(): string[] {
+    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
+  }
+
   static override async create<TParams extends MongoDBBoundWitnessArchivistParams>(params?: TParams) {
     return await super.create(params)
   }
 
   override async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta[]> {
-    const { _archive, archives, addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
+    const { _archive, archives, addresses, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
@@ -44,7 +48,6 @@ export class MongoDBBoundWitnessArchivist<
     }
     if (_archive) filter._archive = _archive
     if (archives?.length) filter._archive = { $in: archives }
-    if (hash) filter._hash = hash
     // NOTE: Defaulting to $all since it makes the most sense when singing addresses are supplied
     // but based on how MongoDB implements multi-key indexes $in might be much faster and we could
     // solve the multi-sig problem via multiple API calls when multi-sig is desired instead of

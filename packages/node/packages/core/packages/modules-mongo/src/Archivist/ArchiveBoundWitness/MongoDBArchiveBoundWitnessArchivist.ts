@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist, ArchivistParams } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistParams } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AnyObject } from '@xyo-network/core'
@@ -41,6 +41,10 @@ export class MongoDBArchiveBoundWitnessArchivist<
     this.boundWitnesses = params.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 
+  override get queries(): string[] {
+    return [ArchivistInsertQuerySchema, ArchivistFindQuerySchema, ...super.queries]
+  }
+
   static override async create<TParams extends MongoDBArchiveBoundWitnessArchivistParams>(params?: TParams) {
     return await super.create(params)
   }
@@ -48,7 +52,7 @@ export class MongoDBArchiveBoundWitnessArchivist<
   override async find(
     predicate: XyoBoundWitnessFilterPredicate,
   ): Promise<XyoBoundWitnessWithMeta<AnyObject, XyoPayloadWithPartialMeta<AnyObject>>[]> {
-    const { addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
+    const { addresses, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
@@ -57,7 +61,6 @@ export class MongoDBArchiveBoundWitnessArchivist<
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0
       filter._timestamp = parsedOrder === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
     }
-    if (hash) filter._hash = hash
     // NOTE: Defaulting to $all since it makes the most sense when singing addresses are supplied
     // but based on how MongoDB implements multi-key indexes $in might be much faster and we could
     // solve the multi-sig problem via multiple API calls when multi-sig is desired instead of

@@ -61,9 +61,8 @@ describe('MongoDBPayloadArchivist', () => {
       expect(result).toBeArrayOfSize(limit)
       expect(result?.[0]?.schema).toEqual(schema)
     })
-    it('finds payloads by hash', async () => {
-      const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const result = await wrapper.find(filter)
+    it('get payloads by hash', async () => {
+      const result = await wrapper.get([hash])
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([payload])
     })

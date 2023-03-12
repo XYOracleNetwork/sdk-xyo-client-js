@@ -1,5 +1,5 @@
 import { Hasher, Validator } from '@xyo-network/core'
-import { DivinerParams } from '@xyo-network/diviner-model'
+import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { WitnessModule, WitnessParams } from '@xyo-network/witness'
@@ -14,7 +14,8 @@ export class PayloadSetPluginResolver {
     /** @param plugins The initial set of plugins */
     plugins?: PayloadSetPlugin[],
   ) {
-    plugins?.forEach((plugin) => this.register(plugin))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    plugins?.forEach((plugin) => this.register(plugin as any))
   }
 
   async diviner(set: string) {
@@ -40,7 +41,7 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  register<TPlugin extends PayloadSetPlugin>(plugin: TPlugin, params?: TPlugin['params']) {
+  register<TModule extends WitnessModule | DivinerModule>(plugin: PayloadSetPlugin<TModule>, params?: TModule['params']) {
     const setHash = Hasher.hash(plugin.set)
     this._plugins[setHash] = plugin
     this.params[setHash] = params

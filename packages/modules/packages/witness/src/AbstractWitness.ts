@@ -40,7 +40,7 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     const payloadList = assertEx(payloads, 'Trying to witness nothing')
     assertEx(payloadList.length > 0, 'Trying to witness empty list')
     payloadList?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
-    this.logger?.debug(`result: ${JSON.stringify(payloadList, null, 2)}`)
+    //this.logger?.debug(`result: ${JSON.stringify(payloadList, null, 2)}`)
     return payloadList
   }
 

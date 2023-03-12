@@ -81,7 +81,7 @@ describe.skip('MongoDBLocationCertaintyDiviner', () => {
       },
       resolver: new CompositeModuleResolver().add(payloadsArchivist),
     }
-    sut = await LocationCertaintyDiviner.create(params)
+    sut = (await LocationCertaintyDiviner.create(params)) as LocationCertaintyDiviner
   })
   describe('divine', () => {
     describe('with valid query', () => {

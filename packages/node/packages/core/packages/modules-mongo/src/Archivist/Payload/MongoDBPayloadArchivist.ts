@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist, ArchivistParams } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistParams } from '@xyo-network/archivist'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, ModuleConfig, ModuleConfigSchema, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, ModuleConfig, ModuleConfigSchema } from '@xyo-network/module'
 import { XyoPayloadFilterPredicate, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
@@ -31,12 +31,16 @@ export class MongoDBPayloadArchivist<
     this.sdk = params?.sdk || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
+  override get queries(): string[] {
+    return [ArchivistInsertQuerySchema, ArchivistFindQuerySchema, ...super.queries]
+  }
+
   static override async create<TParams extends MongoDBPayloadArchivistParams>(params?: TParams) {
     return await super.create(params)
   }
 
   override async find(predicate: XyoPayloadFilterPredicate<XyoPayloadWithMeta>): Promise<XyoPayloadWithMeta[]> {
-    const { _archive, archives, hash, limit, order, schema, schemas, timestamp, ...props } = predicate
+    const { _archive, archives, limit, order, schema, schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const filter: Filter<XyoPayloadWithMeta<AnyObject>> = { ...props }
@@ -47,7 +51,6 @@ export class MongoDBPayloadArchivist<
     }
     if (_archive) filter._archive = _archive
     if (archives?.length) filter._archive = { $in: archives }
-    if (hash) filter._hash = hash
     if (schema) filter.schema = schema
     if (schemas?.length) filter.schema = { $in: schemas }
     return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)

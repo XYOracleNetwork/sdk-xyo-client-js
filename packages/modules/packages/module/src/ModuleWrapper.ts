@@ -54,7 +54,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
-  protected readonly account?: AccountInstance
   protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
 
   constructor(params: ModuleWrapperParams<TWrappedModule>) {
@@ -68,6 +67,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     //set the root params to the wrapped module params
     super(params.module.params)
     this.wrapperParams = params
+  }
+
+  get account() {
+    return this.wrapperParams.account
   }
 
   get address() {

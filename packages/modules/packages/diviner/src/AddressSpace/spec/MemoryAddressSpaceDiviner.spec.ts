@@ -36,7 +36,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       await node.register(diviner).attach(diviner.address)
       const divinerWrapper = DivinerWrapper.wrap(diviner)
       const result = await divinerWrapper.divine()
-      expect(result.length).toBe(1)
+      expect(result.length).toBe(2)
       const payload = PayloadWrapper.parse<AddressPayload>(result[0])
       expect(payload.schema).toBe(AddressSchema)
       expect(payload.payload.address).toBe(account.addressValue.hex)

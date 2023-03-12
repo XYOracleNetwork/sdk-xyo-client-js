@@ -7,7 +7,8 @@ describe('AbstractModuleInstanceWitness', () => {
   test('Witnessing', async () => {
     const module = await MemoryArchivist.create()
     const witness = await AbstractModuleInstanceWitness.create({
-      config: { module, schema: AbstractModuleInstanceWitnessConfigSchema },
+      config: { schema: AbstractModuleInstanceWitnessConfigSchema },
+      module,
     })
     const [result] = await witness.observe()
     expect(new PayloadWrapper(result).valid).toBe(true)

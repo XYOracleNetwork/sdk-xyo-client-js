@@ -75,9 +75,8 @@ describe('MongoDBBoundWitnessArchivist', () => {
     })
   })
   describe('find', () => {
-    it('finds boundWitnesses by hash', async () => {
-      const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const result = await wrapper.find(filter)
+    it('get boundWitnesses by hash', async () => {
+      const result = await wrapper.get([hash])
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([boundWitness].map(removePayloads))
     })

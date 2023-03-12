@@ -144,7 +144,7 @@ export class StorageArchivist<TParams extends StorageArchivistParams = StorageAr
   }
 
   async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
-    this.logger?.log(`payloads.length: ${payloads.length}`)
+    //this.logger?.log(`payloads.length: ${payloads.length}`)
 
     const storedPayloads = payloads.map((payload) => {
       const wrapper = new PayloadWrapper(payload)

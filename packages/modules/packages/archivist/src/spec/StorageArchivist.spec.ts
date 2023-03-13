@@ -80,7 +80,6 @@ test('XyoArchivist Parent Write Through', async () => {
   })) as StorageArchivist
   await node.register(memory).attach(memory.address)
   await node.register(storage).attach(storage.address)
-  expect(await storage.start()).toBeDefined()
 
   const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })
 

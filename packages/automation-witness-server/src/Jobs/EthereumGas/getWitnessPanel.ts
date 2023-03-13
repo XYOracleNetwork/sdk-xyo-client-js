@@ -11,7 +11,7 @@ export const getWitnessPanel = async (provider = getProvider()): Promise<Sentine
   const archivists = await getArchivists()
   const witnesses = await getEthereumGasWitness(provider)
 
-  const node = (await MemoryNode.create()) as MemoryNode
+  const node = await MemoryNode.create()
   const witnessAddresses = await Promise.all(
     witnesses.map(async (witness) => {
       await node.register(witness).attach(witness.address)

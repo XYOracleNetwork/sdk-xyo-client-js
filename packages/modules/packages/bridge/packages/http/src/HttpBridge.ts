@@ -152,6 +152,8 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
   }
 
   async targetResolve(address: string, filter?: ModuleFilter) {
+    //TODO: Honor address so that the resolve only is done through that remote module
+    //right now, we check the entire remote hive
     return await this.targetDownResolver.resolve(filter)
   }
 

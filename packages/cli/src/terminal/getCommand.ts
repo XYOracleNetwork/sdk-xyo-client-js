@@ -1,4 +1,4 @@
-import { MemoryNode } from '@xyo-network/node'
+import { NodeModule } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
 import { printLine } from '../lib'
@@ -18,7 +18,7 @@ import {
   unregisterModule,
 } from './commands'
 
-export const getCommand = (node: MemoryNode): Promise<boolean> => {
+export const getCommand = (node: NodeModule): Promise<boolean> => {
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') resolve(true)

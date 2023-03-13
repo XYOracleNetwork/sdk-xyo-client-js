@@ -1,8 +1,8 @@
-import { MemoryNode } from '@xyo-network/node'
+import { NodeModule } from '@xyo-network/node'
 
 import { printError, printTitle } from '../../../../lib'
 
-export const detachModule = (_node: MemoryNode) => {
+export const detachModule = (_node: NodeModule) => {
   printTitle('Detach Module')
   printError('TODO')
   return Promise.resolve()

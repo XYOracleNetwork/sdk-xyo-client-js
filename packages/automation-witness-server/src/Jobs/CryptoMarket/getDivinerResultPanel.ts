@@ -11,7 +11,7 @@ export const getDivinerResultPanel = async (prices: XyoPayload): Promise<Sentine
   const archivists = await getArchivists()
   const witnessConfig: XyoAdhocWitnessConfig = { payload: prices, schema: XyoAdhocWitnessConfigSchema }
   const witnesses: Module[] = [await XyoAdhocWitness.create({ account, config: witnessConfig })]
-  const node = (await MemoryNode.create()) as MemoryNode
+  const node = await MemoryNode.create()
   const witnessAddresses = await Promise.all(
     witnesses.map(async (witness) => {
       await node.register(witness).attach(witness.address)

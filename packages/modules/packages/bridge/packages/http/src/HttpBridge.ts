@@ -3,7 +3,6 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AnyConfigSchema,
@@ -13,10 +12,8 @@ import {
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
-  ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  ModuleResolver,
   ModuleWrapper,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'

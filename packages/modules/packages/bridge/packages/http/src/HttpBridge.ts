@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
+import { BridgeModule } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
@@ -15,6 +16,7 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
+  ModuleResolver,
   ModuleWrapper,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
@@ -35,18 +37,18 @@ export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig
 >
 
 @creatableModule()
-export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams> extends AbstractBridge<TParams, Module> {
+export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams, TModule extends Module = Module>
+  extends AbstractBridge<TParams, TModule>
+  implements BridgeModule<TParams>
+{
+  private _axios?: AxiosJson
   private _rootAddress?: string
   private _targetConfigs: Record<string, ModuleConfig> = {}
-  private _targetDownResolver: BridgeModuleResolver
   private _targetQueries: Record<string, string[]> = {}
-  private axios: AxiosJson
 
-  protected constructor(params: TParams) {
-    super(params)
-    this.axios = params.axios ?? new AxiosJson()
-    this._targetDownResolver = new BridgeModuleResolver(this)
-    this.downResolver.addResolver(this._targetDownResolver)
+  get axios() {
+    this._axios = this._axios ?? this.params.axios ?? new AxiosJson()
+    return this._axios
   }
 
   get nodeUri() {
@@ -57,37 +59,32 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
     return assertEx(this._rootAddress, 'missing rootAddress')
   }
 
-  get targetDownResolver() {
-    return this._targetDownResolver
-  }
-
-  static override async create<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams>(params?: TParams) {
-    const instance = (await super.create(params)) as HttpBridge<TParams>
-    const rootAddress = assertEx(await instance.initRootAddress(), `Failed to get rootAddress [${params?.config.nodeUri}]`)
-    await instance.targetDiscover(rootAddress)
-
-    const childAddresses = await instance._targetDownResolver.getRemoteAddresses()
-
-    const children = compact(
-      await Promise.all(
-        childAddresses.map(async (address) => {
-          const resolved = await instance._targetDownResolver.resolve({ address: [address] })
-          return resolved[0]
-        }),
-      ),
-    )
-
-    await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
-
-    return instance
-  }
-
   connect(): Promisable<boolean> {
     return true
   }
 
   disconnect(): Promisable<boolean> {
     return true
+  }
+
+  override async start() {
+    await super.start()
+    this.downResolver.addResolver(this.targetDownResolver())
+    const rootAddress = assertEx(await this.initRootAddress(), `Failed to get rootAddress [${this.nodeUri}]`)
+    await this.targetDiscover(rootAddress)
+
+    const childAddresses = await this.targetDownResolver().getRemoteAddresses()
+
+    const children = compact(
+      await Promise.all(
+        childAddresses.map(async (address) => {
+          const resolved = await this.targetDownResolver().resolve({ address: [address] })
+          return resolved[0]
+        }),
+      ),
+    )
+
+    await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
   }
 
   targetConfig(address: string): ModuleConfig {
@@ -149,12 +146,6 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
 
   targetQueryable(_address: string, _query: XyoQueryBoundWitness, _payloads?: XyoPayload[], _queryConfig?: ModuleConfig): boolean {
     return true
-  }
-
-  async targetResolve(address: string, filter?: ModuleFilter) {
-    //TODO: Honor address so that the resolve only is done through that remote module
-    //right now, we check the entire remote hive
-    return await this.targetDownResolver.resolve(filter)
   }
 
   private async initRootAddress() {

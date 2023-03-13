@@ -32,10 +32,6 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
     this.sdk = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   }
 
-  static override async create<TParams extends MongoDBAddressSpaceDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async divine(_payloads?: XyoPayloads): Promise<XyoPayloads> {
     //const query = payloads?.find<AddressSpaceQueryPayload>(isAddressSpaceQueryPayload)
     //if (!query) return []

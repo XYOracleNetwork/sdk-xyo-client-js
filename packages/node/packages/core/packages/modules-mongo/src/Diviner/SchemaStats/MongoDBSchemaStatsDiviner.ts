@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, DivinerConfig, DivinerParams } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isSchemaStatsQueryPayload,
@@ -55,7 +55,7 @@ export type MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPay
 
 export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSchemaStatsDivinerParams = MongoDBArchiveSchemaStatsDivinerParams>
   extends AbstractDiviner<TParams>
-  implements SchemaStatsDiviner, JobProvider
+  implements SchemaStatsDiviner, JobProvider, DivinerModule
 {
   static override configSchema = MongoDBArchiveSchemaStatsDivinerConfigSchema
 
@@ -99,10 +99,6 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
 
   protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  protected constructor(params: TParams) {
-    super(params)
-  }
-
   get jobs(): Job[] {
     return [
       {
@@ -121,10 +117,6 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
     ]
   }
 
-  static override async create<TParams extends MongoDBArchiveSchemaStatsDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<SchemaStatsPayload>> {
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
     const archive = query?.archive
@@ -132,9 +124,9 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
     return [new XyoPayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build()]
   }
 
-  protected override async start(): Promise<this> {
+  override async start() {
+    await super.start()
     await this.registerWithChangeStream()
-    return await super.start()
   }
 
   protected override async stop(): Promise<this> {

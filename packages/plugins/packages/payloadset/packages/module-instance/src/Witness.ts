@@ -28,10 +28,6 @@ export class AbstractModuleInstanceWitness<
     return this.params?.module
   }
 
-  static override async create<TParams extends AbstractModuleInstanceWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as AbstractModuleInstanceWitness<TParams>
-  }
-
   override async observe(payloads?: Partial<XyoPayload>[]): Promise<XyoPayload[]> {
     return await super.observe([merge({ queries: this.module?.queries }, payloads?.[0], { schema: AbstractModuleInstanceSchema })])
   }

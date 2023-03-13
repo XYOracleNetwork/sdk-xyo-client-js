@@ -19,10 +19,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams>
 
   private registeredModuleMap: Record<string, Module> = {}
 
-  static override async create<TParams extends MemoryNodeParams>(params?: TParams) {
-    return (await super.create(params)) as MemoryNode
-  }
-
   override async attach(address: string, external?: boolean) {
     const existingModule = (await this.resolve({ address: [address] })).pop()
     assertEx(!existingModule, `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)

@@ -26,10 +26,6 @@ export class MemoryAddressChainDiviner<TParams extends MemoryAddressChainDiviner
     return assertEx(this.config.address, 'Missing address')
   }
 
-  static override async create<TParams extends MemoryAddressChainDivinerParams>(params?: TParams) {
-    return (await super.create(params)) as MemoryAddressChainDiviner<TParams>
-  }
-
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const result: XyoPayload[] = []
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')

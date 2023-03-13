@@ -33,7 +33,7 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 
-import { creatableModule } from './CreatableModule'
+import { CreatableModule, creatableModule } from './CreatableModule'
 import { XyoErrorBuilder } from './Error'
 import { Events } from './Events'
 import { IdLogger } from './IdLogger'
@@ -100,7 +100,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
 
   protected readonly supportedQueryValidator: Queryable
 
-  protected constructor(params: TParams) {
+  constructor(params: TParams) {
     //we copy this to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
@@ -143,7 +143,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
 
-  static async create<TParams extends ModuleParams>(params?: TParams): Promise<Module> {
+  static async create<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']) {
     if (!this.configSchema) {
       this.defaultLogger?.log(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
@@ -154,10 +154,12 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
       }
     }
     params?.logger?.debug(`config: ${JSON.stringify(params?.config, null, 2)}`)
-    const mutatedConfig = { ...params?.config, schema } as TParams['config']
-    const mutatedParams = { ...params, config: mutatedConfig } as TParams
+    const mutatedConfig = { ...params?.config, schema } as TModule['params']['config']
+    const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
     //console.log(`Create-config: ${JSON.stringify(mutatedConfig)}`)
-    return await new this<TParams>(mutatedParams).start()
+    const newModule = new this(mutatedParams)
+    await newModule.start?.()
+    return newModule
   }
 
   discover(): Promisable<XyoPayload[]> {
@@ -225,6 +227,11 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
       : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
     return validators.every((validator) => validator(query, payloads))
+  }
+
+  start(_timeout?: number): Promisable<void> {
+    this.validateConfig()
+    this._started = true
   }
 
   started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
@@ -313,12 +320,6 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
 
   protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
     return [...(await this.upResolver.resolve<TModule>(filter)), ...(await this.downResolver.resolve<TModule>(filter))].filter(duplicateModules)
-  }
-
-  protected start(_timeout?: number): Promisable<this> {
-    this.validateConfig()
-    this._started = true
-    return this
   }
 
   protected stop(_timeout?: number): Promisable<this> {

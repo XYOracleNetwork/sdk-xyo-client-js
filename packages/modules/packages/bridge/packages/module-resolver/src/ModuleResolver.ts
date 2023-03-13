@@ -1,12 +1,12 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { CompositeModuleResolver } from '@xyo-network/module'
-import { AddressModuleFilter, Module, ModuleFilter, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
+import { AddressModuleFilter, Module, ModuleFilter, ModuleResolver, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
 import compact from 'lodash/compact'
 
 import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './ProxyModule'
 
-export class BridgeModuleResolver extends CompositeModuleResolver {
+export class BridgeModuleResolver extends CompositeModuleResolver implements ModuleResolver {
   private remoteAddresses?: Promise<string[]>
   private resolvedModules: Record<string, Promise<Module>> = {}
 

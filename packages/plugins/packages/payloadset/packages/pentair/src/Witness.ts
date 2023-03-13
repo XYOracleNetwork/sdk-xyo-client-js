@@ -33,10 +33,6 @@ export class XyoPentairScreenlogicWitness<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected controller = new Controller()
 
-  static override async create<TParams extends XyoPentairScreenlogicWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as XyoPentairScreenlogicWitness<TParams>
-  }
-
   override async observe(_payloads?: Partial<XyoPayload>[]): Promise<XyoPayload[]> {
     const config = await this.controller.getPoolConfig()
     const status = await this.controller.getPoolStatus()

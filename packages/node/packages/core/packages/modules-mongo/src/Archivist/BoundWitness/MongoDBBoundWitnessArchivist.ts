@@ -32,10 +32,6 @@ export class MongoDBBoundWitnessArchivist<
     return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }
 
-  static override async create<TParams extends MongoDBBoundWitnessArchivistParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async find(predicate: XyoBoundWitnessFilterPredicate): Promise<XyoBoundWitnessWithMeta[]> {
     const { _archive, archives, addresses, limit, order, payload_hashes, payload_schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit

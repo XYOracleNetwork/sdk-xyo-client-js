@@ -47,7 +47,7 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams> implements Modul
   }
 
   get downResolver() {
-    return this.bridge.targetDownResolver
+    return this.bridge.targetDownResolver(this.address)
   }
 
   get queries() {

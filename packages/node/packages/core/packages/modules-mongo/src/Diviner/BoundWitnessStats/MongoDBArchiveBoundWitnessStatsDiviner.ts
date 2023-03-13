@@ -59,12 +59,8 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
-  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
-  protected constructor(params: TParams) {
-    super(params)
-    this.sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  }
+  private _sdk?: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
   get jobs(): Job[] {
     return [
@@ -84,8 +80,9 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
     ]
   }
 
-  static override async create<TParams extends MongoDBArchiveBoundWitnessStatsDivinerParams>(params?: TParams) {
-    return await super.create(params)
+  protected get sdk() {
+    this._sdk = this._sdk ?? getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    return this._sdk
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<BoundWitnessStatsPayload>> {
@@ -95,9 +92,9 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
     return [new XyoPayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build()]
   }
 
-  protected override async start(): Promise<this> {
+  override async start() {
+    await super.start()
     await this.registerWithChangeStream()
-    return await super.start()
   }
 
   protected override async stop(): Promise<this> {

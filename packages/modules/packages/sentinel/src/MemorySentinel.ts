@@ -27,10 +27,6 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
 {
   static override configSchema: SentinelConfigSchema
 
-  static override async create<TParams extends MemorySentinelParams>(params?: TParams) {
-    return (await super.create(params)) as SentinelModule
-  }
-
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: XyoPayload[],

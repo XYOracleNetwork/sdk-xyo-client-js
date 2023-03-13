@@ -20,10 +20,6 @@ export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriP
     return this.config?.options
   }
 
-  static override async create<TParams extends HuriPayloadDivinerParams>(params?: HuriPayloadDivinerParams) {
-    return (await super.create(params)) as HuriPayloadDiviner<TParams>
-  }
-
   override async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),

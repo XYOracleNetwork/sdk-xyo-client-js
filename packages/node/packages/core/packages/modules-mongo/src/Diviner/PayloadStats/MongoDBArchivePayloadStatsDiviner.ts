@@ -60,10 +60,6 @@ export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePay
   protected resumeAfter: ResumeToken | undefined = undefined
   protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  protected constructor(params: TParams) {
-    super(params)
-  }
-
   get jobs(): Job[] {
     return [
       {
@@ -82,10 +78,6 @@ export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePay
     ]
   }
 
-  static override async create<TParams extends MongoDBArchivePayloadStatsDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     const archive = query?.archive
@@ -93,9 +85,9 @@ export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePay
     return [new XyoPayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build()]
   }
 
-  protected override async start(): Promise<this> {
+  override async start() {
+    await super.start()
     await this.registerWithChangeStream()
-    return await super.start()
   }
 
   protected override async stop(): Promise<this> {

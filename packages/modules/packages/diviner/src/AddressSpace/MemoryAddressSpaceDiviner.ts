@@ -33,10 +33,6 @@ export class MemoryAddressSpaceDiviner<TParams extends MemoryAddressSpaceDiviner
 {
   static override configSchema = MemoryAddressSpaceDivinerConfigSchema
 
-  static override async create<TParams extends MemoryAddressSpaceDivinerParams>(params?: TParams) {
-    return (await super.create(params)) as MemoryAddressSpaceDiviner<TParams>
-  }
-
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
     const archivists = await this.archivists()

@@ -14,10 +14,6 @@ export class XyoCoingeckoCryptoMarketWitness<
 > extends AbstractWitness<TParams> {
   static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema
 
-  static override async create<TParams extends XyoCoingeckoCryptoMarketWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as XyoCoingeckoCryptoMarketWitness<TParams>
-  }
-
   override async observe(): Promise<XyoPayload[]> {
     const assets: XyoCoingeckoCryptoMarketPayload['assets'] = await pricesFromCoingecko(this.config?.coins ?? [], this.config?.currencies ?? [])
     const payload: XyoCoingeckoCryptoMarketPayload = {

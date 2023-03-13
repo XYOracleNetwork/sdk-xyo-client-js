@@ -20,10 +20,6 @@ export class XyoBowserSystemInfoWitness<TParams extends XyoBowserSystemInfoWitne
     return Bowser.parse(window.navigator.userAgent)
   }
 
-  static override async create<TParams extends XyoBowserSystemInfoWitnessParams>(params?: TParams) {
-    return (await super.create<TParams>(params)) as XyoBowserSystemInfoWitness<TParams>
-  }
-
   override observe(payloads?: XyoPayload[]) {
     return super.observe([merge({ bowser: this.bowser }, payloads?.[0], { schema: XyoBowserSystemInfoSchema })])
   }

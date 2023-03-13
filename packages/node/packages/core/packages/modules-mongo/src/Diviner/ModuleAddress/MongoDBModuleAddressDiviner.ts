@@ -28,10 +28,6 @@ export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDiv
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 
-  protected constructor(params: TParams) {
-    super(params)
-  }
-
   get jobs(): Job[] {
     return [
       {
@@ -40,10 +36,6 @@ export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDiv
         task: async () => await this.divineModuleAddressBatch(),
       },
     ]
-  }
-
-  static override async create<TParams extends MongoDBModuleAddressDivinerParams>(params?: TParams) {
-    return await super.create(params)
   }
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {

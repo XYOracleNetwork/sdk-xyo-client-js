@@ -30,10 +30,6 @@ export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryD
 
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
-  static override async create<TParams extends MongoDBAddressHistoryDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)
     // TODO: Support multiple queries

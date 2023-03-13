@@ -1,5 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { BridgeModule, BridgeParams, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
+import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
   AbstractModule,
   duplicateModules,
@@ -7,7 +8,6 @@ import {
   ModuleConfig,
   ModuleFilter,
   ModuleQueryResult,
-  ModuleResolver,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
   XyoQuery,
@@ -20,7 +20,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   extends AbstractModule<TParams>
   implements BridgeModule<TParams, TModule>
 {
-  abstract targetDownResolver: ModuleResolver
+  protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
 
   override get queries(): string[] {
     return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries]
@@ -51,8 +51,19 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return await this.bindResult(resultPayloads, queryAccount)
   }
 
+  targetDownResolver(address?: string): BridgeModuleResolver {
+    this._targetDownResolvers[address ?? 'root'] = this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this)
+    return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
+  }
+
+  async targetResolve(address: string, filter?: ModuleFilter) {
+    //TODO: Honor address so that the resolve only is done through that remote module
+    //right now, we check the entire remote hive
+    return (await this.targetDownResolver(address).resolve(filter)) as TModule[]
+  }
+
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
-    return [...(await super.resolve<TModule>(filter)), ...(await this.targetDownResolver.resolve<TModule>(filter))].filter(duplicateModules)
+    return [...(await super.resolve<TModule>(filter)), ...(await this.targetDownResolver().resolve<TModule>(filter))].filter(duplicateModules)
   }
 
   abstract connect(): Promisable<boolean>
@@ -67,6 +78,4 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   abstract targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult | undefined>
 
   abstract targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): boolean
-
-  abstract targetResolve(address: string, filter?: ModuleFilter): Promisable<TModule[]>
 }

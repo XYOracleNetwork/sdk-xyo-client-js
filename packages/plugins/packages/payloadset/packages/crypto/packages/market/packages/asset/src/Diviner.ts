@@ -19,10 +19,6 @@ export class XyoCryptoMarketAssetDiviner<TParams extends XyoCryptoMarketAssetDiv
   static override configSchema = XyoCryptoMarketAssetDivinerConfigSchema
   static override targetSchema = XyoCryptoMarketAssetSchema
 
-  static override async create<TParams extends XyoCryptoMarketAssetDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
     const coinGeckoPayload = payloads?.find((payload) => payload?.schema === XyoCoingeckoCryptoMarketSchema) as XyoCoingeckoCryptoMarketPayload
     const uniswapPayload = payloads?.find((payload) => payload?.schema === XyoUniswapCryptoMarketSchema) as XyoUniswapCryptoMarketPayload

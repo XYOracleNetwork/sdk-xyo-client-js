@@ -36,6 +36,8 @@ export type Module<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> =
     queryConfig?: TConf,
   ) => Promisable<boolean>
 
+  start?: () => Promisable<void>
+
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
   readonly upResolver: ModuleResolver

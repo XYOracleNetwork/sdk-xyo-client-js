@@ -34,19 +34,15 @@ export class MongoDBArchiveBoundWitnessArchivist<
 > extends AbstractArchivist<TParams> {
   static override configSchema = ArchiveModuleConfigSchema
 
-  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-
-  protected constructor(params: TParams) {
-    super(params)
-    this.boundWitnesses = params.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  }
+  private _boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
   override get queries(): string[] {
     return [ArchivistInsertQuerySchema, ArchivistFindQuerySchema, ...super.queries]
   }
 
-  static override async create<TParams extends MongoDBArchiveBoundWitnessArchivistParams>(params?: TParams) {
-    return await super.create(params)
+  protected get boundWitnesses() {
+    this._boundWitnesses = this._boundWitnesses ?? getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    return this._boundWitnesses
   }
 
   override async find(

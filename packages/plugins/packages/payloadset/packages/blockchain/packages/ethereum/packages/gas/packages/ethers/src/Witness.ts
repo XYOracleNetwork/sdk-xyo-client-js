@@ -23,15 +23,11 @@ export class XyoEthereumGasEthersWitness<
 > extends TimestampWitness<TParams> {
   static override configSchema = XyoEthereumGasEthersWitnessConfigSchema
 
-  protected provider?: Provider
+  private _provider?: Provider
 
-  protected constructor(params: TParams) {
-    super(params)
-    this.provider = params?.provider
-  }
-
-  static override async create<TParams extends XyoEthereumGasEthersWitnessParams>(params?: TParams) {
-    return await super.create(params)
+  protected get provider() {
+    this._provider = this._provider ?? this.params?.provider
+    return this._provider
   }
 
   override async observe(): Promise<XyoPayload[]> {

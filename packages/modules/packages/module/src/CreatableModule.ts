@@ -1,8 +1,11 @@
-import { Module, ModuleParams } from '@xyo-network/module-model'
+import { Logger } from '@xyo-network/core'
+import { Module } from '@xyo-network/module-model'
 
-export interface CreatableModule<TCreatableParams extends ModuleParams = ModuleParams> {
+export interface CreatableModule<T extends Module = Module> {
   configSchema: string
-  create(params?: TCreatableParams): Promise<Module>
+  defaultLogger?: Logger
+  new (params: T['params']): T
+  create<T extends Module>(this: CreatableModule<T>, params?: T['params']): Promise<Module>
 }
 
 /**

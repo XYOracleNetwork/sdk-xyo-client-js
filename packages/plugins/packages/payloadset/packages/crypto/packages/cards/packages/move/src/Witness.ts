@@ -16,10 +16,6 @@ export class XyoCryptoCardsMoveWitness<
 > extends AbstractWitness<TParams> {
   static override configSchema = XyoCryptoCardsMoveWitnessConfigSchema
 
-  static override async create<TParams extends XyoCryptoCardsMoveWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as XyoCryptoCardsMoveWitness<TParams>
-  }
-
   override observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
     return super.observe(payloads)
   }

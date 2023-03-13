@@ -86,10 +86,6 @@ export class StorageArchivist<TParams extends StorageArchivistParams = StorageAr
     return this._storage
   }
 
-  static override async create<TParams extends StorageArchivistParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override all(): PromisableArray<XyoPayload> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     return Object.entries(this.storage.getAll()).map(([, value]) => value)
@@ -168,7 +164,6 @@ export class StorageArchivist<TParams extends StorageArchivistParams = StorageAr
   override async start() {
     await super.start()
     this.saveAccount()
-    return this
   }
 
   protected override loadAccount(account?: AccountInstance) {

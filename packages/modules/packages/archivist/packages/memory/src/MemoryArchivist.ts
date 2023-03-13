@@ -35,11 +35,11 @@ export class MemoryArchivist<
 > extends AbstractArchivist<TParams> {
   static override configSchema = MemoryArchivistConfigSchema
 
-  private cache: LruCache<string, XyoPayload | null>
+  private _cache?: LruCache<string, XyoPayload | null>
 
-  protected constructor(params: TParams) {
-    super(params)
-    this.cache = new LruCache<string, XyoPayload | null>({ max: this.max })
+  get cache() {
+    this._cache = this._cache ?? new LruCache<string, XyoPayload | null>({ max: this.max })
+    return this._cache
   }
 
   get max() {
@@ -56,10 +56,6 @@ export class MemoryArchivist<
       ArchivistCommitQuerySchema,
       ...super.queries,
     ]
-  }
-
-  static override async create<TParams extends MemoryArchivistParams>(params?: TParams) {
-    return (await super.create(params)) as MemoryArchivist<TParams>
   }
 
   override all(): PromisableArray<XyoPayload> {

@@ -55,12 +55,6 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return assertEx(this._memoryArchivist)
   }
 
-  static override async create<TParams extends FilesystemArchivistParams>(params?: TParams) {
-    const instance = (await super.create(params)) as FilesystemArchivist<TParams>
-    await instance.loadFromFile()
-    return instance
-  }
-
   private static dataFromRawJson(rawJson: string) {
     const data: FileSystemArchivistData = JSON.parse(rawJson)
     assertEx(typeof data === 'object', 'Archivist Data must be object')
@@ -98,7 +92,8 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return await this.memoryArchivist.insert(payloads)
   }
 
-  protected async loadFromFile() {
+  override async start() {
+    await super.start()
     this._memoryArchivist = await MemoryArchivist.create()
     try {
       const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())

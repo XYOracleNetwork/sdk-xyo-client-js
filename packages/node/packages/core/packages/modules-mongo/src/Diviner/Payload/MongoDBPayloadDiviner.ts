@@ -24,10 +24,6 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
     return []
   }
 
-  static override async create<TParams extends MongoDBPayloadDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoPayload>> {
     const query = payloads?.find<PayloadQueryPayload>(isPayloadQueryPayload)
     // TODO: Support multiple queries

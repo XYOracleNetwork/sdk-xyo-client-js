@@ -9,7 +9,7 @@ export const XyoEthereumGasEthersPlugin = () =>
     { required: { [XyoEthereumGasEthersSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {
-        return (await XyoEthereumGasEthersWitness.create(params)) as XyoEthereumGasEthersWitness
+        return await XyoEthereumGasEthersWitness.create(params)
       },
     },
   )

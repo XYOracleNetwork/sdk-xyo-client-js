@@ -35,10 +35,6 @@ export class MongoDBPayloadArchivist<
     return [ArchivistInsertQuerySchema, ArchivistFindQuerySchema, ...super.queries]
   }
 
-  static override async create<TParams extends MongoDBPayloadArchivistParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async find(predicate: XyoPayloadFilterPredicate<XyoPayloadWithMeta>): Promise<XyoPayloadWithMeta[]> {
     const { _archive, archives, limit, order, schema, schemas, timestamp, ...props } = predicate
     const parsedLimit = limit || DefaultLimit

@@ -31,10 +31,6 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
     ]
   }
 
-  static override async create<TParams extends MongoDBBoundWitnessDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
     const query = payloads?.find<BoundWitnessQueryPayload>(isBoundWitnessQueryPayload)
     // TODO: Support multiple queries

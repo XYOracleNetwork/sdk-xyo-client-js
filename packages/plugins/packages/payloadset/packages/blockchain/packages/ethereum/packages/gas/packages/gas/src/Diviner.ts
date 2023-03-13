@@ -17,10 +17,6 @@ export class XyoEthereumGasDiviner<TParams extends XyoEthereumGasDivinerParams =
   static override configSchema: string = XyoEthereumGasDivinerConfigSchema
   static override targetSchema: string = XyoEthereumGasSchema
 
-  static override async create<TParams extends XyoEthereumGasDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
     const cost = divineGas(payloads ?? [])
     return [cost]

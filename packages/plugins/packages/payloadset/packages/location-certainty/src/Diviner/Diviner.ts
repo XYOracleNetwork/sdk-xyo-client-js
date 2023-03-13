@@ -29,10 +29,6 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
     ]
   }
 
-  static override async create<TParams extends LocationCertaintyDivinerParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   /* Given an array of numbers, find the min/max/mean */
   private static calcHeuristic(heuristic: (number | null)[]): LocationCertaintyHeuristic {
     return {

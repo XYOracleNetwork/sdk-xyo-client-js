@@ -20,10 +20,6 @@ export class IdWitness<TParams extends IdWitnessParams = IdWitnessParams> extend
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
   }
 
-  static override async create<TParams extends IdWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as IdWitness<TParams>
-  }
-
   override async observe(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
     return await super.observe(
       payloads.length > 0

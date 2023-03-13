@@ -10,10 +10,6 @@ export class XyoDomainWitness<TParams extends DomainWitnessParams = DomainWitnes
   static override configSchema = XyoDomainWitnessConfigSchema
   static dmarc = '_xyo'
 
-  static override async create<TParams extends DomainWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as XyoDomainWitness<TParams>
-  }
-
   static generateDmarc(domain: string) {
     return `${XyoDomainWitness.dmarc}.${domain}`
   }

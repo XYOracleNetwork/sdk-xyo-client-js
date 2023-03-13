@@ -27,10 +27,6 @@ export class MemoryAddressHistoryDiviner<TParams extends MemoryAddressHistoryDiv
     return assertEx(this.config.address, 'Missing address')
   }
 
-  static override async create<TParams extends MemoryAddressHistoryDivinerParams>(params?: TParams) {
-    return (await super.create(params)) as MemoryAddressHistoryDiviner<TParams>
-  }
-
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
     const archivists =

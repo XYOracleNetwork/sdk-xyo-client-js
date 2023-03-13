@@ -1,13 +1,10 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ModuleConfigSchema, ModuleParams } from '@xyo-network/module-model'
+import { ModuleConfigSchema } from '@xyo-network/module-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { AbstractModule } from '../AbstractModule'
 export class TestAbstractModule extends AbstractModule {
   static override configSchema = ModuleConfigSchema
-  static override async create<TParams extends ModuleParams>(params?: TParams) {
-    return await super.create<TParams>(params)
-  }
 }
 
 describe('AbstractModule', () => {

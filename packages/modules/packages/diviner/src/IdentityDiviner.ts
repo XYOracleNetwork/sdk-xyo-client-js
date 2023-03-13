@@ -14,10 +14,6 @@ export type IdentityDivinerParams<TConfig extends AnyConfigSchema<DivinerConfig>
 export class IdentityDiviner<TParams extends IdentityDivinerParams = IdentityDivinerParams> extends AbstractDiviner<TParams> {
   static override targetSchema = 'network.xyo.test'
 
-  static override async create<TParams extends IdentityDivinerParams>(params?: TParams) {
-    return (await super.create(params)) as IdentityDiviner
-  }
-
   override divine(payloads?: XyoPayloads): Promisable<XyoPayloads> {
     return assertEx(payloads, 'IdentityDiviner requires passed payload')
   }

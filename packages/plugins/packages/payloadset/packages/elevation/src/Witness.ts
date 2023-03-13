@@ -89,10 +89,6 @@ export class ElevationWitness<TParams extends ElevationWitnessParams = Elevation
     return this.config?.zoom ?? 16
   }
 
-  static override async create<TParams extends ElevationWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as ElevationWitness<TParams>
-  }
-
   async getSection(section: keyof Tiffs): Promise<GeoTIFF> {
     if (!this._tiffs[section]) {
       this._tiffs[section] = (async () => {

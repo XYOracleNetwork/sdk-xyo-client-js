@@ -66,10 +66,6 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     ]
   }
 
-  static override async create<TParams extends CookieArchivistParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override all(): PromisableArray<XyoPayload> {
     try {
       return Object.entries(Cookies.get())

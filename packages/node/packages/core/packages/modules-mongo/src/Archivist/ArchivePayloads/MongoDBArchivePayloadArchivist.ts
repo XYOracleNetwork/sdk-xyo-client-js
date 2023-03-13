@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistModule, ArchivistParams } from '@xyo-network/archivist'
+import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistParams } from '@xyo-network/archivist'
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { ArchiveModuleConfig, ArchiveModuleConfigSchema, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
@@ -26,19 +26,19 @@ export class MongoDBArchivePayloadArchivist<
 > extends AbstractArchivist<TParams> {
   static override configSchema = ArchiveModuleConfigSchema
 
-  protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>
+  private _sdk: BaseMongoSdk<XyoPayloadWithMeta> | undefined
 
-  protected constructor(params: TParams) {
+  constructor(params: TParams) {
     super(params)
-    this.sdk = params?.sdk || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
   override get queries(): string[] {
     return [ArchivistInsertQuerySchema, ArchivistFindQuerySchema, ...super.queries]
   }
 
-  static override async create<TParams extends MongoDBArchivePayloadArchivistParams>(params?: TParams) {
-    return (await super.create(params)) as ArchivistModule
+  get sdk() {
+    this._sdk = this._sdk ?? getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+    return this._sdk
   }
 
   override async find(predicate?: PayloadFindFilter): Promise<XyoPayload[]> {

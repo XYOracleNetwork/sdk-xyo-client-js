@@ -23,10 +23,6 @@ export class XyoAdhocWitness<TParams extends XyoAdhocWitnessParams = XyoAdhocWit
     return this.config?.payload
   }
 
-  static override async create<TParams extends XyoAdhocWitnessParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async observe(fields?: XyoPayload[]): Promise<XyoPayload[]> {
     const result: XyoPayload[] = await super.observe([merge({}, this.payload, fields?.[0])])
 

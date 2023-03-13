@@ -18,10 +18,6 @@ export type ArchivistPayloadDivinerParams<
 export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
   static override configSchema: XyoArchivistPayloadDivinerConfigSchema
 
-  static override async create<TParams extends ArchivistPayloadDivinerParams>(params?: TParams) {
-    return (await super.create(params)) as ArchivistPayloadDiviner<TParams>
-  }
-
   async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),

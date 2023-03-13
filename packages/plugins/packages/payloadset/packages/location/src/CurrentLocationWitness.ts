@@ -12,10 +12,6 @@ export class CurrentLocationWitness<TParams extends CurrentLocationWitnessParams
     return assertEx(this.params.geolocation, 'No geolocation provided')
   }
 
-  static override async create<TParams extends CurrentLocationWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as CurrentLocationWitness<TParams>
-  }
-
   getCurrentPosition() {
     return new Promise<GeolocationPosition>((resolve, reject) => {
       this.geolocation?.getCurrentPosition(

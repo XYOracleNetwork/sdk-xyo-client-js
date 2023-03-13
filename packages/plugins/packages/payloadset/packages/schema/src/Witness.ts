@@ -17,10 +17,6 @@ export class XyoSchemaWitness<TParams extends XyoSchemaWitnessParams = XyoSchema
 {
   static override configSchema = XyoSchemaWitnessConfigSchema
 
-  static override async create<TParams extends XyoSchemaWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as XyoSchemaWitness<TParams>
-  }
-
   override async observe(_payloads?: XyoPayload[]): Promise<XyoSchemaPayload[]> {
     await delay(0)
     throw new Error('Method not implemented.')

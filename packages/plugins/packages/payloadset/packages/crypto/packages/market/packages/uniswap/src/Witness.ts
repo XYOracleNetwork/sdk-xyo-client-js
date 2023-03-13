@@ -30,10 +30,6 @@ export class XyoUniswapCryptoMarketWitness<
     return this.params.provider
   }
 
-  static override async create<TParams extends XyoUniswapCryptoMarketWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as XyoUniswapCryptoMarketWitness<TParams>
-  }
-
   override async observe(): Promise<XyoPayload[]> {
     this.started('throw')
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
@@ -49,7 +45,7 @@ export class XyoUniswapCryptoMarketWitness<
   }
 
   override async start() {
+    await super.start()
     this.pairs = createUniswapPoolContracts(assertEx(this.provider, 'Provider Required'), this.config?.pools ?? UniswapPoolContracts)
-    return await super.start()
   }
 }

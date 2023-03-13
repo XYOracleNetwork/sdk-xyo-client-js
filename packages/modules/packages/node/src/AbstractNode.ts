@@ -43,10 +43,6 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
   }
 
-  static override async create<TParams extends NodeModuleParams>(params?: TParams): Promise<NodeModule> {
-    return (await super.create(params)) as NodeModule
-  }
-
   static isNode(module: unknown) {
     return (module as AbstractNode).isNode
   }

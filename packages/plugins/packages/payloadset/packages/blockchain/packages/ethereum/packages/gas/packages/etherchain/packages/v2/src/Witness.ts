@@ -12,10 +12,6 @@ export type XyoEtherchainEthereumGasWitnessV2Params = WitnessParams<AnyConfigSch
 export class XyoEtherchainEthereumGasWitnessV2 extends TimestampWitness<XyoEtherchainEthereumGasWitnessV2Params> {
   static override configSchema = XyoEthereumGasEtherchainV2WitnessConfigSchema
 
-  static override async create<TParams extends XyoEtherchainEthereumGasWitnessV2Params>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async observe(): Promise<XyoPayload[]> {
     const payload: XyoEthereumGasEtherchainV2Payload = {
       ...(await getV2GasFromEtherchain()),

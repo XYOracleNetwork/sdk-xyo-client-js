@@ -18,10 +18,6 @@ export class XyoEthereumGasEthgasstationWitness<TParams extends XyoEthereumGasEt
 {
   static override configSchema: string = XyoEthereumGasEthgasstationWitnessConfigSchema
 
-  static override async create<TParams extends XyoEthereumGasEthgasstationWitnessParams>(params?: TParams) {
-    return (await super.create(params)) as WitnessModule
-  }
-
   override async observe(): Promise<XyoPayload[]> {
     const payload = new XyoPayloadBuilder<XyoEthereumGasEthgasstationPayload>({ schema: XyoEthereumGasEthgasstationSchema })
       .fields(await getGasFromEthgasstation())

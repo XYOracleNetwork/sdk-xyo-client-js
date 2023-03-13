@@ -50,10 +50,6 @@ export class MongoDBArchivistWitnessedPayloadArchivist<
     this.payloads = params.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
-  static override async create<TParams extends MongoDBArchivistWitnessedPayloadArchivistParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override find(_filter: PayloadFindFilter): Promise<XyoPayloadWithMeta[]> {
     throw new Error('Not implemented')
   }

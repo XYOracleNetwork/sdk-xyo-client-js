@@ -31,10 +31,6 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     return this.config?.targetSet
   }
 
-  static override async create<TParams extends WitnessParams = WitnessParams>(params?: TParams) {
-    return (await super.create(params)) as WitnessModule
-  }
-
   observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
     this.started('throw')
     const payloadList = assertEx(payloads, 'Trying to witness nothing')

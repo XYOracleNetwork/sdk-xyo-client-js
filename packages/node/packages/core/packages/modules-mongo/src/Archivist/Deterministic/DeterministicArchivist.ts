@@ -79,21 +79,21 @@ export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
 > extends AbstractArchivist<TParams> {
   static override configSchema = ArchivistConfigSchema
-  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-  protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
+  protected _boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  protected _payloads?: BaseMongoSdk<XyoPayloadWithMeta>
 
-  protected constructor(params: TParams) {
-    super(params)
-    this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-    this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  get boundWitnesses() {
+    this._boundWitnesses = this._boundWitnesses ?? getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    return this._boundWitnesses
+  }
+
+  get payloads() {
+    this._payloads = this._payloads ?? getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+    return this._payloads
   }
 
   override get queries(): string[] {
     return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
-  }
-
-  static override async create<TParams extends MongoDBDeterministicArchivistParams>(params?: TParams) {
-    return await super.create(params)
   }
 
   override find(_filter?: PayloadFindFilter): Promise<XyoPayload[]> {

@@ -12,10 +12,6 @@ export type XyoEthereumGasBlocknativeWitnessParams = WitnessParams<AnyConfigSche
 export class XyoEthereumGasBlocknativeWitness extends TimestampWitness<XyoEthereumGasBlocknativeWitnessParams> {
   static override configSchema = XyoEthereumGasBlocknativeWitnessConfigSchema
 
-  static override async create<TParams extends XyoEthereumGasBlocknativeWitnessParams>(params?: TParams) {
-    return await super.create(params)
-  }
-
   override async observe(): Promise<XyoPayload[]> {
     const fields = await getGasFromBlocknative()
     const payload = new XyoPayloadBuilder<XyoEthereumGasBlocknativePayload>({

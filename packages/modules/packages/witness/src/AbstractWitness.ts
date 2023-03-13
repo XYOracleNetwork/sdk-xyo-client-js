@@ -17,10 +17,7 @@ import { XyoWitnessConfigSchema } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
 import { WitnessModule, WitnessParams } from './Witness'
 
-export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams>
-  extends AbstractModule<TParams>
-  implements WitnessModule, Module
-{
+export class AbstractWitness<TParams extends WitnessParams = WitnessParams> extends AbstractModule<TParams> implements WitnessModule, Module {
   static override configSchema: string = XyoWitnessConfigSchema
 
   override get queries(): string[] {

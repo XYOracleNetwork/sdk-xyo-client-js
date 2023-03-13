@@ -31,10 +31,6 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   private readonly isNode = true
 
-  protected constructor(params: TParams) {
-    super(params)
-  }
-
   get isModuleResolver(): boolean {
     return true
   }

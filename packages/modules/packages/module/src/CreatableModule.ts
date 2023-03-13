@@ -5,7 +5,7 @@ export interface CreatableModule<T extends Module = Module> {
   configSchema: string
   defaultLogger?: Logger
   new (params: T['params']): T
-  create<T extends Module>(this: CreatableModule<T>, params?: T['params']): Promise<Module>
+  create<T extends Module>(this: CreatableModule<T>, params?: T['params']): Promise<T>
 }
 
 /**

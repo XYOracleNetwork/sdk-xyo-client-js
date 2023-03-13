@@ -15,6 +15,7 @@ import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchem
 
 import { NodeConfigSchema } from '../Config'
 import { MemoryNode } from '../MemoryNode'
+import { NodeModuleParams } from '../Node'
 import { NodeWrapper } from '../NodeWrapper'
 
 describe('MemoryNode', () => {

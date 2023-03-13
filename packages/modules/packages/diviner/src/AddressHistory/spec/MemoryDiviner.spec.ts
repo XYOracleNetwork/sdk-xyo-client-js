@@ -12,7 +12,7 @@ import { MemoryAddressHistoryDiviner } from '../MemoryDiviner'
 describe('MemoryAddressHistoryDiviner', () => {
   describe('divine', () => {
     it('returns divined result', async () => {
-      const node = (await MemoryNode.create()) as MemoryNode
+      const node = await MemoryNode.create()
       const account = Account.random()
       const archivist = ArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, storeQueries: true } }),

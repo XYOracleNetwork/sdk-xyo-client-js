@@ -126,11 +126,6 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     throw new Error('Method not implemented.')
   }
 
-  override async start() {
-    await super.start()
-    return this
-  }
-
   unregister(_module: Module): Promisable<this> {
     throw new Error('Method not implemented.')
   }

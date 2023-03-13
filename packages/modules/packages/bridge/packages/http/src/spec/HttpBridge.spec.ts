@@ -7,7 +7,7 @@ import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 test('HttpBridge', async () => {
   const nodeUri = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
-  const memNode = (await MemoryNode.create()) as MemoryNode
+  const memNode = await MemoryNode.create()
 
   const bridge = await HttpBridge.create({
     axios: new AxiosJson(),

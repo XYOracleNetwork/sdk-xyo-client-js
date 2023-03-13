@@ -18,6 +18,6 @@ export type NodeModuleParams<
   TConfig extends AnyConfigSchema<NodeConfig> = AnyConfigSchema<NodeConfig>,
   TEventData extends EventData | undefined = undefined,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TEventData extends EventData ? NodeModuleEventData & TEventData : NodeModuleEventData, TAdditionalParams>
+> = ModuleParams<TConfig, TEventData extends EventData ? NodeModuleEventData | TEventData : NodeModuleEventData, TAdditionalParams>
 
 export type NodeModule<TParams extends NodeModuleParams = NodeModuleParams> = Node & Module<TParams>

@@ -28,7 +28,7 @@ export interface XyoArchivistParentWrappers {
 }
 export abstract class AbstractArchivist<TParams extends ArchivistParams = ArchivistParams>
   extends AbstractModule<TParams>
-  implements ArchivistModule<TParams>
+  implements ArchivistModule<TParams>, ArchivistModule
 {
   private _parents?: XyoArchivistParentWrappers
 

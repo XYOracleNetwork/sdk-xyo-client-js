@@ -11,7 +11,10 @@ import { NodeWrapper } from './NodeWrapper'
 
 export type MemoryNodeParams = NodeModuleParams<AnyConfigSchema<NodeConfig>>
 
-export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams> extends AbstractNode<TParams> implements NodeModule {
+export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams>
+  extends AbstractNode<TParams>
+  implements NodeModule<TParams>, NodeModule
+{
   static override configSchema = NodeConfigSchema
 
   private registeredModuleMap: Record<string, Module> = {}

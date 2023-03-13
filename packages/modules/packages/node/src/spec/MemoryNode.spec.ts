@@ -33,7 +33,7 @@ describe('MemoryNode', () => {
   })
   beforeEach(async () => {
     const nodeModule = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
-    node = nodeModule as MemoryNode
+    node = nodeModule
   })
   describe('create', () => {
     it('Creates MemoryNode', async () => {

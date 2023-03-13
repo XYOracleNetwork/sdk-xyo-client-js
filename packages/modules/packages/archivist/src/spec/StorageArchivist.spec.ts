@@ -66,7 +66,7 @@ test('XyoArchivist passed account', async () => {
 })
 
 test('XyoArchivist Parent Write Through', async () => {
-  const node = (await MemoryNode.create()) as MemoryNode
+  const node = await MemoryNode.create()
   const memory = await MemoryArchivist.create()
 
   const storage = (await StorageArchivist.create({
@@ -99,7 +99,7 @@ test('XyoArchivist Parent Write Through', async () => {
 
 test('XyoArchivist Parent Reads', async () => {
   const parent = await MemoryArchivist.create()
-  const memoryNode = (await MemoryNode.create()) as MemoryNode
+  const memoryNode = await MemoryNode.create()
 
   memoryNode.register(parent)
   await memoryNode.attach(parent.address, true)

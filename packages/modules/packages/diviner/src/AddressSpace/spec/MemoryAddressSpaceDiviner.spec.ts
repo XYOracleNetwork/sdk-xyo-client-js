@@ -10,7 +10,7 @@ import { MemoryAddressSpaceDiviner, MemoryAddressSpaceDivinerConfigSchema } from
 describe('MemoryAddressSpaceDiviner', () => {
   describe('divine (all archivists)', () => {
     it('returns divined result', async () => {
-      const node = (await MemoryNode.create()) as MemoryNode
+      const node = await MemoryNode.create()
       const account = Account.random()
       const archivist = ArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, storeQueries: true } }),
@@ -44,7 +44,7 @@ describe('MemoryAddressSpaceDiviner', () => {
   })
   describe('divine (listed archivists)', () => {
     it('returns divined result', async () => {
-      const node = (await MemoryNode.create()) as MemoryNode
+      const node = await MemoryNode.create()
       const account = Account.random()
       const archivist = ArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, storeQueries: true } }),

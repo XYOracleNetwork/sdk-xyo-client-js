@@ -58,7 +58,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   static override async create<TParams extends FilesystemArchivistParams>(params?: TParams) {
     const instance = (await super.create(params)) as FilesystemArchivist<TParams>
     await instance.loadFromFile()
-    return instance as ArchivistModule
+    return instance
   }
 
   private static dataFromRawJson(rawJson: string) {

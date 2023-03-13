@@ -4777,6 +4777,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
+    "@xyo-network/bridge-module-resolver": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"

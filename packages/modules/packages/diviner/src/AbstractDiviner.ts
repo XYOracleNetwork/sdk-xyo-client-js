@@ -45,7 +45,9 @@ export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerPar
     try {
       switch (typedQuery.schemaName) {
         case XyoDivinerDivineQuerySchema:
+          await this.emit('reportStart', { inPayload: payloads })
           resultPayloads.push(...(await this.divine(cleanPayloads)))
+          await this.emit('reportEnd', { inPayload: payloads, outPayload: resultPayloads })
           break
         default:
           return super.query(query, payloads)

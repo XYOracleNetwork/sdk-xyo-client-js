@@ -58,7 +58,9 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     try {
       switch (typedQuery.schema) {
         case XyoWitnessObserveQuerySchema: {
+          await this.emit('reportStart', { inPayloads: payloads })
           const resultPayloads = await this.observe(filteredObservation)
+          await this.emit('reportEnd', { inPayloads: payloads, outPayloads: resultPayloads })
           return this.bindResult(resultPayloads, queryAccount)
         }
         default: {

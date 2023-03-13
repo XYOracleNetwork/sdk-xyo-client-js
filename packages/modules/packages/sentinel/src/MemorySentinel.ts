@@ -17,7 +17,9 @@ import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQuery, SentinelReportQuerySchema } from './Queries'
 import { SentinelModule, SentinelParams } from './SentinelModel'
 
-export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<TConfig>
+export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<
+  AnyConfigSchema<TConfig>
+>
 
 export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentinelParams>
   extends AbstractSentinel<TParams>
@@ -57,7 +59,7 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
 
   async report(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
     const errors: Error[] = []
-    this.params?.onReportStart?.()
+    await this.emit('onReportStarted')
     const allWitnesses = [...(await this.getWitnesses())]
     const allPayloads: XyoPayload[] = []
 
@@ -71,7 +73,7 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
 
     const [newBoundWitness] = await this.bindResult(allPayloads)
     this.history.push(assertEx(newBoundWitness))
-    this.params?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
+    await this.emit('onReportEnded', { errors, newBoundWitness })
     return [newBoundWitness, ...allPayloads]
   }
 

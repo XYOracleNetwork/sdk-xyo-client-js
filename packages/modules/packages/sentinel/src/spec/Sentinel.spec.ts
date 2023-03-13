@@ -132,11 +132,11 @@ describe('XyoPanel', () => {
             schema: SentinelConfigSchema,
             witnesses: [witnessA.address, witnessB.address],
           },
-          onReportEnd(_, errors) {
-            expect(errors).toBeUndefined()
-          },
         }
         const panel = await MemorySentinel.create(params)
+        panel.on('reportEnd', ({ errors }) => {
+          expect(errors).toBeUndefined()
+        })
         await node.register(panel).attach(panel.address)
         const result = await panel.report()
         assertPanelReport(result)
@@ -152,11 +152,11 @@ describe('XyoPanel', () => {
             schema: SentinelConfigSchema,
             witnesses: [witnessA.address],
           },
-          onReportEnd(_, errors) {
-            expect(errors).toBeUndefined()
-          },
         }
         const panel = await MemorySentinel.create(params)
+        panel.on('reportEnd', ({ errors }) => {
+          expect(errors).toBeUndefined()
+        })
         await node.register(panel).attach(panel.address)
         const observed = await witnessB.observe()
         expect(observed).toBeArrayOfSize(1)
@@ -174,11 +174,11 @@ describe('XyoPanel', () => {
             schema: SentinelConfigSchema,
             witnesses: [],
           },
-          onReportEnd(_, errors) {
-            expect(errors).toBeUndefined()
-          },
         }
         const panel = await MemorySentinel.create(params)
+        panel.on('reportEnd', ({ errors }) => {
+          expect(errors).toBeUndefined()
+        })
         await node.register(panel).attach(panel.address)
         const observedA = await witnessA.observe()
         expect(observedA).toBeArrayOfSize(1)
@@ -216,14 +216,15 @@ describe('XyoPanel', () => {
             schema: SentinelConfigSchema,
             witnesses: [witnessA.address, witnessB.address],
           },
-          onReportEnd(_, errors) {
-            expect(errors?.length).toBe(1)
-            expect(errors?.[0]?.message).toBe('observation failed')
-          },
         }
-        const panel = await MemorySentinel.create(params)
-        await node.register(panel).attach(panel.address)
-        await panel.report()
+
+        const sentinel = await MemorySentinel.create(params)
+        sentinel.on('reportEnd', ({ errors }) => {
+          expect(errors?.length).toBe(1)
+          expect(errors?.[0]?.message).toBe('observation failed')
+        })
+        await node.register(sentinel).attach(sentinel.address)
+        await sentinel.report()
         return
       })
     })

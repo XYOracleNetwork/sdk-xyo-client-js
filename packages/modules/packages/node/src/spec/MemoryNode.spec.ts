@@ -11,9 +11,9 @@ import {
   XyoHuriSchema,
 } from '@xyo-network/diviner'
 import { AbstractModule, Module, ModuleDescription } from '@xyo-network/module'
+import { NodeConfigSchema } from '@xyo-network/node-model'
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
-import { NodeConfigSchema } from '../Config'
 import { MemoryNode } from '../MemoryNode'
 import { NodeWrapper } from '../NodeWrapper'
 

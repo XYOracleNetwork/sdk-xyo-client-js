@@ -6496,25 +6496,11 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/huri": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     ajv: ^8.12.0
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/packages/modules-memory":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/node-core-modules-memory@workspace:packages/node/packages/core/packages/modules-memory"
-  dependencies:
-    "@types/source-map-support": 0.5.6
-    "@xylabs/ts-scripts-yarn3": ^2.16.1
-    "@xylabs/tsconfig": ^2.16.1
-    "@xyo-network/node-core-model": "workspace:^"
-    source-map-support: ^0.5.21
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6543,7 +6529,6 @@ __metadata:
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-lib": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
@@ -6556,7 +6541,6 @@ __metadata:
     agenda: ^5.0.0
     inversify: ^6.0.1
     lodash: ^4.17.21
-    lru-cache: ^7.18.3
     mongodb: ^5.1.0
     mongodb-memory-server: ^8.12.0
     reflect-metadata: ^0.1.13
@@ -7048,6 +7032,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
+    jest: ^29.5.0
     mongodb: ^5.1.0
     typescript: ^4.9.5
   languageName: unknown

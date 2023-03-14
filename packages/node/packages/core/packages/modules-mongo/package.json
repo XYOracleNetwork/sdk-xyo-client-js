@@ -44,7 +44,6 @@
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/modules": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
@@ -57,7 +56,6 @@
     "agenda": "^5.0.0",
     "inversify": "^6.0.1",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.18.3",
     "mongodb": "^5.1.0",
     "reflect-metadata": "^0.1.13"
   },

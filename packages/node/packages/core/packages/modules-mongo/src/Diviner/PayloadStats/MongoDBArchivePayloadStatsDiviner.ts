@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, DivinerConfig, DivinerParams } from '@xyo-network/diviner'
+import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isPayloadStatsQueryPayload,
@@ -44,7 +44,11 @@ export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPa
 >
 
 export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
-  AnyConfigSchema<MongoDBArchivePayloadStatsDivinerConfig<T>>
+  AnyConfigSchema<MongoDBArchivePayloadStatsDivinerConfig<T>>,
+  DivinerModuleEventData,
+  {
+    addressSpaceDiviner: AddressSpaceDiviner
+  }
 >
 
 export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePayloadStatsDivinerParams = MongoDBArchivePayloadStatsDivinerParams>

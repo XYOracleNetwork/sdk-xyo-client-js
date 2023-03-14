@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.52.0-rc.5",
+  "version": "2.51.10",
   "description": "XYO Express Node Server",
   "sideeffects": false,
   "engines": {
@@ -65,6 +65,5 @@
     "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"
   },
-  "types": "dist/types/index.d.ts",
-  "stableVersion": "2.51.9"
+  "types": "dist/types/index.d.ts"
 }

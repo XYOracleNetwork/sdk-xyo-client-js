@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { Module, NodeModule, NodeWrapper } from '@xyo-network/modules'
+import { Module, NodeWrapper } from '@xyo-network/modules'
+import { NodeModule } from '@xyo-network/node-model'
 
 export const resolveBySymbol = async <T extends Module>(node: NodeModule, name: symbol): Promise<T> => {
   const description = assertEx(name.description, 'Unable to obtain symbol description')

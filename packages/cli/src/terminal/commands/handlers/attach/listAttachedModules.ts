@@ -1,4 +1,4 @@
-import { NodeModule } from '@xyo-network/node'
+import { NodeModule } from '@xyo-network/node-model'
 
 import { printLine, printTitle } from '../../../../lib'
 

@@ -1,5 +1,6 @@
-import { AbstractModule, MemoryNode, NodeConfigSchema } from '@xyo-network/modules'
+import { AbstractModule, MemoryNode } from '@xyo-network/modules'
 import { TYPES } from '@xyo-network/node-core-types'
+import { NodeConfigSchema } from '@xyo-network/node-model'
 import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }

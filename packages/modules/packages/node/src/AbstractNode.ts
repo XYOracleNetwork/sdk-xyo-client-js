@@ -13,13 +13,19 @@ import {
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
+import {
+  NodeConfigSchema,
+  NodeModule,
+  NodeModuleParams,
+  XyoNodeAttachedQuerySchema,
+  XyoNodeAttachQuerySchema,
+  XyoNodeDetachQuerySchema,
+  XyoNodeQuery,
+  XyoNodeRegisteredQuerySchema,
+} from '@xyo-network/node-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-
-import { NodeConfigSchema } from './Config'
-import { NodeModule, NodeModuleParams } from './Node'
-import { XyoNodeAttachedQuerySchema, XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeQuery, XyoNodeRegisteredQuerySchema } from './Queries'
 
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams>
   extends AbstractModule<TParams>

@@ -3,11 +3,8 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { Module, ModuleWrapper } from '@xyo-network/module'
-import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-
-import { NodeModule } from './Node'
 import {
+  NodeModule,
   XyoNodeAttachedQuery,
   XyoNodeAttachedQuerySchema,
   XyoNodeAttachQuery,
@@ -16,7 +13,9 @@ import {
   XyoNodeDetachQuerySchema,
   XyoNodeRegisteredQuery,
   XyoNodeRegisteredQuerySchema,
-} from './Queries'
+} from '@xyo-network/node-model'
+import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> {
   static override requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]

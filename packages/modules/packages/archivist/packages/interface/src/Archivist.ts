@@ -1,6 +1,7 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, EventData, Module, ModuleConfig, ModuleParams } from '@xyo-network/module-model'
+import { EventData } from '@xyo-network/module-events'
+import { AnyConfigSchema, Module, ModuleConfig, ModuleParams } from '@xyo-network/module-model'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 

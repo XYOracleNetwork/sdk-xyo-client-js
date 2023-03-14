@@ -1,5 +1,6 @@
 import { Account } from '@xyo-network/account'
-import { MemoryNode, MemoryNodeParams, NodeConfigSchema } from '@xyo-network/node'
+import { MemoryNode, MemoryNodeParams } from '@xyo-network/node'
+import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 

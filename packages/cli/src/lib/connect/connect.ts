@@ -1,6 +1,7 @@
 import { delay } from '@xylabs/delay'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
-import { NodeModule, NodeWrapper } from '@xyo-network/node'
+import { NodeWrapper } from '@xyo-network/node'
+import { NodeModule } from '@xyo-network/node-model'
 
 import { printError, printLine } from '../print'
 

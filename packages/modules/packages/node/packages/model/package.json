@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/archivist-interface",
+  "name": "@xyo-network/node-model",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,14 +10,24 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xylabs/assert": "^2.7.4",
+    "@xylabs/exists": "^2.7.4",
+    "@xylabs/promise": "^2.7.4",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/account-model": "workspace:^",
+    "@xyo-network/address-payload-plugin": "workspace:^",
+    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/module-events": "workspace:^",
+    "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.191",
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"

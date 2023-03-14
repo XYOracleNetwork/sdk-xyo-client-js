@@ -4867,6 +4867,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/module-events": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
@@ -6615,6 +6616,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/node-model@workspace:^, @xyo-network/node-model@workspace:packages/modules/packages/node/packages/model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/node-model@workspace:packages/modules/packages/node/packages/model"
+  dependencies:
+    "@types/lodash": ^4.14.191
+    "@xylabs/assert": ^2.7.4
+    "@xylabs/exists": ^2.7.4
+    "@xylabs/promise": ^2.7.4
+    "@xylabs/ts-scripts-yarn3": ^2.16.1
+    "@xylabs/tsconfig": ^2.16.1
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/address-payload-plugin": "workspace:^"
+    "@xyo-network/archivist-wrapper": "workspace:^"
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-builder": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    lodash: ^4.17.21
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/node-system-info-payload-plugin@workspace:^, @xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/node":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/node"
@@ -6660,6 +6687,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/node-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"

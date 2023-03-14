@@ -2,11 +2,10 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AnyConfigSchema, duplicateModules, EventListener, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
+import { NodeConfig, NodeConfigSchema, NodeModule, NodeModuleParams } from '@xyo-network/node-model'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
-import { NodeConfig, NodeConfigSchema } from './Config'
-import { NodeModule, NodeModuleParams } from './Node'
 import { NodeWrapper } from './NodeWrapper'
 
 export type MemoryNodeParams = NodeModuleParams<AnyConfigSchema<NodeConfig>>

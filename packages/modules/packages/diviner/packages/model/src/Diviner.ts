@@ -1,5 +1,6 @@
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, EventData, Module, ModuleParams } from '@xyo-network/module-model'
+import { EventData } from '@xyo-network/module'
+import { AnyConfigSchema, Module, ModuleParams } from '@xyo-network/module-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 

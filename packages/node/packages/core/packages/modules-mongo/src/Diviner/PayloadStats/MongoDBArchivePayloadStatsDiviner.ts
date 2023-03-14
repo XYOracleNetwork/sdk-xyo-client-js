@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner'
+import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModuleEventData, DivinerParams, DivinerWrapper } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isPayloadStatsQueryPayload,
@@ -77,15 +78,15 @@ export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePay
       {
         name: 'MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch',
         schedule: '10 minute',
-        task: async () => await this.divineArchivesBatch(),
+        task: async () => await this.divineAddressesBatch(),
       },
     ]
   }
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
-    const archive = query?.archive
-    const count = archive ? await this.divineArchive(archive) : await this.divineAllArchives()
+    const address = query?.archive
+    const count = address ? await this.divineAddress(address) : await this.divineAllAddresses()
     return [new XyoPayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build()]
   }
 
@@ -99,40 +100,41 @@ export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePay
     return await super.stop()
   }
 
-  private divineAllArchives = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
-
-  private divineArchive = async (archive: string) => {
+  private divineAddress = async (address: string) => {
     const stats = await this.sdk.useMongo(async (mongo) => {
-      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive })
+      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive: address })
     })
     const remote = stats?.payloads?.count || 0
-    const local = this.pendingCounts[archive] || 0
+    const local = this.pendingCounts[address] || 0
     return remote + local
   }
 
-  private divineArchiveFull = async (archive: string) => {
-    const count = await this.sdk.useCollection((collection) => collection.countDocuments({ _archive: archive }))
-    await this.storeDivinedResult(archive, count)
+  private divineAddressFull = async (address: string) => {
+    const count = await this.sdk.useCollection((collection) => collection.countDocuments({ _archive: address }))
+    await this.storeDivinedResult(address, count)
     return count
   }
 
-  private divineArchivesBatch = async () => {
-    this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
+  private divineAddressesBatch = async () => {
+    this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
     await Promise.resolve()
-    // const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
-    // const archives = result.map((archive) => archive?.archive).filter(exists)
-    // this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
-    // this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
-    // const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
-    // const succeeded = results.filter(fulfilled).length
-    // const failed = results.filter(rejected).length
-    // this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner)
+    const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
+    const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
+    this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Archives`)
+    this.nextOffset = addresses.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
+    const results = await Promise.allSettled(addresses.map(this.divineAddressFull))
+    const succeeded = results.filter(fulfilled).length
+    const failed = results.filter(rejected).length
+    this.logger?.log(`MongoDBArchivePayloadStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
+
+  private divineAllAddresses = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
 
   private processChange = (change: ChangeStreamInsertDocument<XyoPayloadWithMeta>) => {
     this.resumeAfter = change._id
-    const archive = change.fullDocument._archive
-    if (archive) this.pendingCounts[archive] = (this.pendingCounts[archive] || 0) + 1
+    const address = change.fullDocument._archive
+    if (address) this.pendingCounts[address] = (this.pendingCounts[address] || 0) + 1
   }
 
   private registerWithChangeStream = async () => {
@@ -148,24 +150,24 @@ export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePay
     this.logger?.log('MongoDBArchivePayloadStatsDiviner.RegisterWithChangeStream: Registered')
   }
 
-  private storeDivinedResult = async (archive: string, count: number) => {
+  private storeDivinedResult = async (address: string, count: number) => {
     await this.sdk.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
-        .updateOne({ archive }, { $set: { [`${COLLECTIONS.Payloads}.count`]: count } }, updateOptions)
+        .updateOne({ archive: address }, { $set: { [`${COLLECTIONS.Payloads}.count`]: count } }, updateOptions)
     })
-    this.pendingCounts[archive] = 0
+    this.pendingCounts[address] = 0
   }
 
   private updateChanges = async () => {
     this.logger?.log('MongoDBArchivePayloadStatsDiviner.UpdateChanges: Updating')
-    const updates = Object.keys(this.pendingCounts).map((archive) => {
-      const count = this.pendingCounts[archive]
-      this.pendingCounts[archive] = 0
+    const updates = Object.keys(this.pendingCounts).map((address) => {
+      const count = this.pendingCounts[address]
+      this.pendingCounts[address] = 0
       const $inc = { [`${COLLECTIONS.Payloads}.count`]: count }
       return this.sdk.useMongo(async (mongo) => {
-        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive }, { $inc }, updateOptions)
+        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive: address }, { $inc }, updateOptions)
       })
     })
     const results = await Promise.allSettled(updates)

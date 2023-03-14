@@ -1,1 +1,1 @@
-export * from './MongoDBArchivePayloadStatsDiviner'
+export * from './MongoDBAddressPayloadStatsDiviner'

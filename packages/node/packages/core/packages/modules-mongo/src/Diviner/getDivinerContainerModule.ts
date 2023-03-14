@@ -21,7 +21,7 @@ import { MongoDBArchiveBoundWitnessStatsDiviner, MongoDBArchiveBoundWitnessStats
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBModuleAddressDiviner } from './ModuleAddress'
 import { MongoDBPayloadDiviner } from './Payload'
-import { MongoDBArchivePayloadStatsDiviner, MongoDBArchivePayloadStatsDivinerConfigSchema } from './PayloadStats'
+import { MongoDBAddressPayloadStatsDiviner, MongoDBAddressPayloadStatsDivinerConfigSchema } from './PayloadStats'
 import { MongoDBArchiveSchemaStatsDiviner, MongoDBArchiveSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
 export const getDivinerContainerModule = async (_container: Container) => {
@@ -47,10 +47,10 @@ export const getDivinerContainerModule = async (_container: Container) => {
   const mongoDBPayloadDiviner = (await MongoDBPayloadDiviner.create({
     config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
   })) as MongoDBPayloadDiviner
-  const mongoDBArchivePayloadStatsDiviner = (await MongoDBArchivePayloadStatsDiviner.create({
+  const mongoDBAddressPayloadStatsDiviner = (await MongoDBAddressPayloadStatsDiviner.create({
     addressSpaceDiviner: mongoDBAddressSpaceDiviner,
-    config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBArchivePayloadStatsDivinerConfigSchema },
-  })) as MongoDBArchivePayloadStatsDiviner
+    config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
+  })) as MongoDBAddressPayloadStatsDiviner
   const mongoDBArchiveSchemaStatsDiviner = (await MongoDBArchiveSchemaStatsDiviner.create({
     addressSpaceDiviner: mongoDBAddressSpaceDiviner,
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },
@@ -90,10 +90,10 @@ export const getDivinerContainerModule = async (_container: Container) => {
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBPayloadDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBPayloadDiviner)
 
-    bind(MongoDBArchivePayloadStatsDiviner).toConstantValue(mongoDBArchivePayloadStatsDiviner)
-    bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toService(MongoDBArchivePayloadStatsDiviner)
-    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchivePayloadStatsDiviner)
-    bind<Module>(TYPES.Module).toService(MongoDBArchivePayloadStatsDiviner)
+    bind(MongoDBAddressPayloadStatsDiviner).toConstantValue(mongoDBAddressPayloadStatsDiviner)
+    bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toService(MongoDBAddressPayloadStatsDiviner)
+    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBAddressPayloadStatsDiviner)
+    bind<Module>(TYPES.Module).toService(MongoDBAddressPayloadStatsDiviner)
 
     bind(MongoDBArchiveSchemaStatsDiviner).toConstantValue(mongoDBArchiveSchemaStatsDiviner)
     bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toService(MongoDBArchiveSchemaStatsDiviner)

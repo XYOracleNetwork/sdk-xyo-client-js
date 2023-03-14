@@ -3,18 +3,20 @@ import { AddressSpaceDiviner } from '@xyo-network/diviner'
 import { PayloadStatsQueryPayload, PayloadStatsQuerySchema, PayloadStatsSchema } from '@xyo-network/node-core-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
-import { MongoDBArchivePayloadStatsDiviner, MongoDBArchivePayloadStatsDivinerConfigSchema } from '../MongoDBArchivePayloadStatsDiviner'
+import { MongoDBAddressPayloadStatsDiviner, MongoDBAddressPayloadStatsDivinerConfigSchema } from '../MongoDBAddressPayloadStatsDiviner'
 
-describe('MongoDBArchivePayloadStatsDiviner', () => {
-  const phrase = 'test'
+describe('MongoDBAddressPayloadStatsDiviner', () => {
+  const phrase = 'temp'
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
-  let sut: MongoDBArchivePayloadStatsDiviner
-  beforeEach(async () => {
-    sut = (await MongoDBArchivePayloadStatsDiviner.create({
+  const logger = mock<Console>()
+  let sut: MongoDBAddressPayloadStatsDiviner
+  beforeAll(async () => {
+    sut = (await MongoDBAddressPayloadStatsDiviner.create({
       addressSpaceDiviner,
-      config: { schema: MongoDBArchivePayloadStatsDivinerConfigSchema },
-    })) as MongoDBArchivePayloadStatsDiviner
+      config: { schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
+      logger,
+    })) as MongoDBAddressPayloadStatsDiviner
   })
   describe('divine', () => {
     describe('with address supplied in query', () => {

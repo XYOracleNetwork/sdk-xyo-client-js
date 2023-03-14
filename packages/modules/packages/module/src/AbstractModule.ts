@@ -5,13 +5,10 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { Base } from '@xyo-network/core'
 import {
   AccountModuleParams,
-  EventAnyListener,
-  EventDataParams,
-  EventFunctions,
-  EventListener,
+  CreatableModule,
+  creatableModule,
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
@@ -33,59 +30,13 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 
-import { CreatableModule, creatableModule } from './CreatableModule'
+import { BaseEmitter } from './BaseEmitter'
 import { XyoErrorBuilder } from './Error'
-import { Events } from './Events'
 import { IdLogger } from './IdLogger'
 import { duplicateModules, serializableField } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
-
-export class BaseEmitter<TParams extends EventDataParams = EventDataParams> extends Base<TParams> implements EventFunctions<TParams['eventData']> {
-  private events: Events<TParams['eventData']>
-
-  constructor(params: TParams) {
-    super(params)
-    this.events = new Events(params.eventData)
-  }
-
-  clearListeners(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][]) {
-    return this.events.clearListeners(eventNames)
-  }
-
-  emit(eventName: keyof TParams['eventData'], eventArgs?: TParams['eventData'][keyof TParams['eventData']]) {
-    return this.events.emit(eventName, eventArgs)
-  }
-
-  emitSerial(eventName: keyof TParams['eventData'], eventArgs?: TParams['eventData'][keyof TParams['eventData']]) {
-    return this.events.emitSerial(eventName, eventArgs)
-  }
-
-  listenerCount(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][]) {
-    return this.events.listenerCount(eventNames)
-  }
-
-  off(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
-    return this.events.off(eventNames, listener)
-  }
-
-  offAny(listener: EventAnyListener<TParams['eventData']>) {
-    return this.events.offAny(listener)
-  }
-
-  on(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
-    return this.events.on(eventNames, listener)
-  }
-
-  onAny(listener: EventAnyListener<TParams['eventData']>) {
-    return this.events.onAny(listener)
-  }
-
-  once(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
-    return this.events.once(eventNames, listener)
-  }
-}
 
 @creatableModule()
 export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams>, Module {

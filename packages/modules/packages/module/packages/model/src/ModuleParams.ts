@@ -65,9 +65,12 @@ export type ModuleParams<
   | BasicModuleParams<TConfig, TEventData, TAdditionalParams>
 
 export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string }> = ModuleConfig<
-  Omit<TConfig, 'schema'> & {
-    schema: string
-  }
+  WithAdditional<
+    Omit<TConfig, 'schema'>,
+    {
+      schema: string
+    }
+  >
 >
 
 export type OptionalConfigSchema<TConfig extends AnyConfigSchema<ModuleConfig>> = Omit<TConfig, 'schema'> & { schema?: TConfig['schema'] }

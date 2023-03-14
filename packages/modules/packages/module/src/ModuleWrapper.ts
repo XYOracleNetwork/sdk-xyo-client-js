@@ -21,7 +21,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
-import { BaseEmitter } from './AbstractModule'
+import { BaseEmitter } from './BaseEmitter'
 import { XyoError, XyoErrorSchema } from './Error'
 import { duplicateModules } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'

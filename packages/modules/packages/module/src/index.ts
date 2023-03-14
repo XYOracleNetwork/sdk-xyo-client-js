@@ -1,5 +1,5 @@
 export * from './AbstractModule'
-export * from './CreatableModule'
+export * from './BaseEmitter'
 export * from './Error'
 export * from './Events'
 export * from './lib'

@@ -85,9 +85,9 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
-    const address = query?.archive
-    const count = address ? await this.divineAddress(address) : await this.divineAllAddresses()
-    return [new XyoPayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build()]
+    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
+    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    return counts.map((count) => new XyoPayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build())
   }
 
   override async start() {

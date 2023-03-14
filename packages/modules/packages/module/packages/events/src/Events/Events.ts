@@ -1,5 +1,6 @@
 import { forget } from '@xylabs/forget'
-import { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '@xyo-network/module-model'
+
+import { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '../model'
 
 /**
 Emittery can collect and log debug information.
@@ -99,7 +100,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
 
           const currentTime = new Date()
           const logTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}.${currentTime.getMilliseconds()}`
-          console.log(`[${logTime}][emittery:${type}][${debugName}] Event Name: ${eventNameString}\n\tdata: ${eventDataString}`)
+          console.log(`[${logTime}][events:${type}][${debugName}] Event Name: ${eventNameString}\n\tdata: ${eventDataString}`)
         })
     }
   }

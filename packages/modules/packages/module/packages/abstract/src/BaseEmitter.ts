@@ -1,7 +1,5 @@
 import { Base } from '@xyo-network/core'
-import { EventAnyListener, EventDataParams, EventFunctions, EventListener } from '@xyo-network/module-model'
-
-import { Events } from './Events'
+import { EventAnyListener, EventDataParams, EventFunctions, EventListener, Events } from '@xyo-network/module-events'
 
 export class BaseEmitter<TParams extends EventDataParams = EventDataParams> extends Base<TParams> implements EventFunctions<TParams['eventData']> {
   private events: Events<TParams['eventData']>

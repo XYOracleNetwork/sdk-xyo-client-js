@@ -1,8 +1,8 @@
+import { EventFunctions } from '@xyo-network/module-events'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { ModuleConfig } from './Config'
-import { EventFunctions } from './Events'
 import { ModuleFilter } from './ModuleFilter'
 import { AnyConfigSchema, ModuleParams } from './ModuleParams'
 import { ModuleQueryResult } from './ModuleQueryResult'

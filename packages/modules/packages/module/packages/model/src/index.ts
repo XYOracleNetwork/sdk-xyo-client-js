@@ -1,6 +1,5 @@
 export * from './Config'
 export * from './CreatableModule'
-export * from './Events'
 export * from './Module'
 export * from './ModuleDescription'
 export * from './ModuleEventArgs'

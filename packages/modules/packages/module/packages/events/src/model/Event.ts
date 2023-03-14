@@ -1,4 +1,5 @@
 import { Promisable } from '@xyo-network/promise'
+import { BaseParams } from '@xyo-network/protocol'
 
 export type EventName = PropertyKey
 export type EventArgs = string | number | object
@@ -24,4 +25,9 @@ export interface EventFunctions<TEventData extends EventData> {
   on(eventName: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>): EventUnsubscribeFunction
   onAny(listener: EventAnyListener<TEventData>): EventUnsubscribeFunction
   once(eventName: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>): EventUnsubscribeFunction
+}
+
+export type EventDataParams<TEventData extends EventData | undefined = undefined, TParams extends BaseParams = BaseParams> = TParams & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  eventData?: TEventData extends EventData ? TEventData | any : any
 }

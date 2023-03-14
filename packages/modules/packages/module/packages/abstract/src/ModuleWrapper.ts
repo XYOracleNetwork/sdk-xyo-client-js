@@ -4,9 +4,8 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BaseParams } from '@xyo-network/core'
+import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
-  EventAnyListener,
-  EventListener,
   Module,
   ModuleDescription,
   ModuleDiscoverQuery,

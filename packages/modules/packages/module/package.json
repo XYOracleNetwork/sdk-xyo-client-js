@@ -22,6 +22,8 @@
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/config-payload-plugin": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/module-abstract": "workspace:^",
+    "@xyo-network/module-events": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",

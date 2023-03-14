@@ -1,13 +1,6 @@
 import { UserCreationAuthInfo } from '@xyo-network/express-node-lib'
 import { AbstractArchivist, AbstractNode } from '@xyo-network/modules'
-import {
-  ArchiveBoundWitnessArchivistFactory,
-  ArchivePayloadArchivistFactory,
-  IdentifiableHuri,
-  Queue,
-  UserManager,
-  UserWithoutId,
-} from '@xyo-network/node-core-model'
+import { IdentifiableHuri, Queue, UserManager, UserWithoutId } from '@xyo-network/node-core-model'
 import { Logger } from '@xyo-network/shared'
 // NOTE: Required import since passport types (which we need to extend) extend Express
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,8 +20,6 @@ declare global {
     interface AuthInfo extends UserCreationAuthInfo {}
 
     interface Application {
-      archiveBoundWitnessArchivistFactory: ArchiveBoundWitnessArchivistFactory
-      archivePayloadsArchivistFactory: ArchivePayloadArchivistFactory
       archivist: AbstractArchivist
       logger: Logger
       node: AbstractNode

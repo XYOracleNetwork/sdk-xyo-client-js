@@ -17,9 +17,20 @@ describe('MongoDBArchivePayloadStatsDiviner', () => {
     })) as MongoDBArchivePayloadStatsDiviner
   })
   describe('divine', () => {
-    describe('with valid query', () => {
-      it('divines', async () => {
+    describe('with address supplied in query', () => {
+      it('divines results for the address', async () => {
         const query: PayloadStatsQueryPayload = { archive: address, schema: PayloadStatsQuerySchema }
+        const result = await sut.divine([query])
+        expect(result).toBeArrayOfSize(1)
+        const actual = result[0]
+        expect(actual).toBeObject()
+        expect(actual.schema).toBe(PayloadStatsSchema)
+        expect(actual.count).toBeNumber()
+      })
+    })
+    describe('with no address supplied in query', () => {
+      it('divines results for all addresses', async () => {
+        const query: PayloadStatsQueryPayload = { schema: PayloadStatsQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]

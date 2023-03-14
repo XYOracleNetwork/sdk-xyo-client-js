@@ -1,4 +1,4 @@
-import { AbstractModule, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, Module } from '@xyo-network/module'
 import { AbstractModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
@@ -8,19 +8,24 @@ export type AbstractModuleInstanceWitnessConfigSchema = 'network.xyo.module.inst
 export const AbstractModuleInstanceWitnessConfigSchema: AbstractModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
 
 export type AbstractModuleInstanceWitnessConfig = XyoWitnessConfig<{
-  module?: AbstractModule
   schema: AbstractModuleInstanceWitnessConfigSchema
 }>
 
-export class AbstractModuleInstanceWitness extends AbstractWitness<WitnessParams<AbstractModuleInstanceWitnessConfig>> {
+export type AbstractModuleInstanceWitnessParams = WitnessParams<
+  AnyConfigSchema<AbstractModuleInstanceWitnessConfig>,
+  undefined,
+  {
+    module?: Module
+  }
+>
+
+export class AbstractModuleInstanceWitness<
+  TParams extends AbstractModuleInstanceWitnessParams = AbstractModuleInstanceWitnessParams,
+> extends AbstractWitness<TParams> {
   static override configSchema = AbstractModuleInstanceWitnessConfigSchema
 
   protected get module() {
-    return this.config?.module
-  }
-
-  static override async create(params?: ModuleParams<AbstractModuleInstanceWitnessConfig>): Promise<AbstractModuleInstanceWitness> {
-    return (await super.create(params)) as AbstractModuleInstanceWitness
+    return this.params?.module
   }
 
   override async observe(payloads?: Partial<XyoPayload>[]): Promise<XyoPayload[]> {

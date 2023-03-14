@@ -1,6 +1,6 @@
 import { delay } from '@xylabs/delay'
-import { AbstractDiviner, DivinerConfig, XyoDivinerConfigSchema } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { AbstractDiviner, DivinerConfig, DivinerParams, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isModuleAddressQueryPayload,
   ModuleAddressDiviner,
@@ -18,15 +18,15 @@ import { Job, JobProvider } from '@xyo-network/shared'
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
 
-export class MongoDBModuleAddressDiviner extends AbstractDiviner implements ModuleAddressDiviner, JobProvider {
+export type MongoDBModuleAddressDivinerParams = DivinerParams<AnyConfigSchema<DivinerConfig>>
+export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDivinerParams = MongoDBModuleAddressDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements ModuleAddressDiviner, JobProvider
+{
   static override configSchema = XyoDivinerConfigSchema
 
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
-
-  protected constructor(params: ModuleParams<DivinerConfig>) {
-    super(params)
-  }
 
   get jobs(): Job[] {
     return [
@@ -36,10 +36,6 @@ export class MongoDBModuleAddressDiviner extends AbstractDiviner implements Modu
         task: async () => await this.divineModuleAddressBatch(),
       },
     ]
-  }
-
-  static override async create(params?: Partial<ModuleParams<DivinerConfig>>): Promise<MongoDBModuleAddressDiviner> {
-    return (await super.create(params)) as MongoDBModuleAddressDiviner
   }
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {

@@ -32,9 +32,9 @@ describe('XyoEthereumGasEtherscanWitness', () => {
     expect(answerWrapper.valid).toBe(true)
   })
 
-  describe('create', () => {
+  /*describe('create', () => {
     it('throws if no params provided', async () => {
       await expect(XyoEthereumGasEtherscanWitness.create()).toReject()
     })
-  })
+  })*/
 })

@@ -15,8 +15,8 @@
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
-    "@xyo-network/bridge-module-resolver": "workspace:^",
     "@xyo-network/config-payload-plugin": "workspace:^",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
@@ -62,5 +62,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.51.9"
+  "version": "2.52.0-rc.5",
+  "stableVersion": "2.51.9"
 }

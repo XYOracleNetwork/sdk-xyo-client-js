@@ -8,7 +8,7 @@ describe('DivinerWrapper', () => {
     it('returns divined result', async () => {
       const schema = 'network.xyo.debug'
       const diviner = await IdentityDiviner.create()
-      const sut = new DivinerWrapper(diviner)
+      const sut = DivinerWrapper.wrap(diviner)
       const payloads = [new XyoPayloadBuilder({ schema }).build()]
       const result = await sut.divine(payloads)
       expect(result).toBeArrayOfSize(payloads.length)

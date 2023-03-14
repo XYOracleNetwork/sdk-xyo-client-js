@@ -7,6 +7,7 @@ export const SentinelConfigSchema: SentinelConfigSchema = 'network.xyo.node.sent
 
 export type SentinelConfig<TConfig extends XyoPayload = XyoPayload> = ModuleConfig<
   ArchivingModuleConfig & {
+    schema: SentinelConfigSchema
     witnesses?: string[]
   } & TConfig
 >

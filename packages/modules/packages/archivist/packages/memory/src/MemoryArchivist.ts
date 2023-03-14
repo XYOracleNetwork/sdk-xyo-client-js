@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -12,7 +12,7 @@ import {
   ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule, ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -27,16 +27,19 @@ export type MemoryArchivistConfig = ArchivistConfig<{
   schema: MemoryArchivistConfigSchema
 }>
 
+export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
+  ModuleParams<TConfig>
+@creatableModule()
 export class MemoryArchivist<
-  TParams extends ArchivistParams<MemoryArchivistConfig> = ArchivistParams<MemoryArchivistConfig>,
+  TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
 > extends AbstractArchivist<TParams> {
   static override configSchema = MemoryArchivistConfigSchema
 
-  private cache: LruCache<string, XyoPayload | null>
+  private _cache?: LruCache<string, XyoPayload | null>
 
-  protected constructor(params: TParams) {
-    super(params)
-    this.cache = new LruCache<string, XyoPayload | null>({ max: this.max })
+  get cache() {
+    this._cache = this._cache ?? new LruCache<string, XyoPayload | null>({ max: this.max })
+    return this._cache
   }
 
   get max() {
@@ -53,10 +56,6 @@ export class MemoryArchivist<
       ArchivistCommitQuerySchema,
       ...super.queries,
     ]
-  }
-
-  static override async create(params?: ModuleParams<MemoryArchivistConfig>): Promise<MemoryArchivist> {
-    return (await super.create(params)) as MemoryArchivist
   }
 
   override all(): PromisableArray<XyoPayload> {

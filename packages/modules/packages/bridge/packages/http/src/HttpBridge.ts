@@ -3,14 +3,15 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
+  AnyConfigSchema,
+  creatableModule,
   Module,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
-  ModuleFilter,
+  ModuleEventData,
   ModuleParams,
   ModuleQueryResult,
   ModuleWrapper,
@@ -24,28 +25,27 @@ import compact from 'lodash/compact'
 
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
-export type XyoHttpBridgeParams<TConfig extends HttpBridgeConfig = HttpBridgeConfig> = ModuleParams<
+export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<
   TConfig,
+  ModuleEventData,
   {
     axios?: AxiosJson
   }
 >
 
-export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams>
-  extends AbstractBridge<TParams, Module>
-  implements BridgeModule<TParams['config'], Module>
+@creatableModule()
+export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams, TModule extends Module = Module>
+  extends AbstractBridge<TParams, TModule>
+  implements BridgeModule<TParams>
 {
+  private _axios?: AxiosJson
   private _rootAddress?: string
-  private _targetConfigs: Record<string, XyoPayload> = {}
-  private _targetDownResolver: BridgeModuleResolver
+  private _targetConfigs: Record<string, ModuleConfig> = {}
   private _targetQueries: Record<string, string[]> = {}
-  private axios: AxiosJson
 
-  protected constructor(params: TParams) {
-    super(params)
-    this.axios = params.axios ?? new AxiosJson()
-    this._targetDownResolver = new BridgeModuleResolver(this)
-    this.downResolver.addResolver(this._targetDownResolver)
+  get axios() {
+    this._axios = this._axios ?? this.params.axios ?? new AxiosJson()
+    return this._axios
   }
 
   get nodeUri() {
@@ -56,31 +56,6 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
     return assertEx(this._rootAddress, 'missing rootAddress')
   }
 
-  get targetDownResolver() {
-    return this._targetDownResolver
-  }
-
-  static override async create(params?: XyoHttpBridgeParams): Promise<HttpBridge> {
-    const instance = (await super.create(params)) as HttpBridge
-    const rootAddress = assertEx(await instance.initRootAddress(), `Failed to get rootAddress [${params?.config.nodeUri}]`)
-    await instance.targetDiscover(rootAddress)
-
-    const childAddresses = await instance._targetDownResolver.getRemoteAddresses()
-
-    const children = compact(
-      await Promise.all(
-        childAddresses.map(async (address) => {
-          const resolved = await instance._targetDownResolver.resolve({ address: [address] })
-          return resolved[0]
-        }),
-      ),
-    )
-
-    await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
-
-    return instance
-  }
-
   connect(): Promisable<boolean> {
     return true
   }
@@ -89,7 +64,27 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
     return true
   }
 
-  targetConfig(address: string): XyoPayload {
+  override async start() {
+    await super.start()
+    this.downResolver.addResolver(this.targetDownResolver())
+    const rootAddress = assertEx(await this.initRootAddress(), `Failed to get rootAddress [${this.nodeUri}]`)
+    await this.targetDiscover(rootAddress)
+
+    const childAddresses = await this.targetDownResolver().getRemoteAddresses()
+
+    const children = compact(
+      await Promise.all(
+        childAddresses.map(async (address) => {
+          const resolved = await this.targetDownResolver().resolve({ address: [address] })
+          return resolved[0]
+        }),
+      ),
+    )
+
+    await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
+  }
+
+  targetConfig(address: string): ModuleConfig {
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }
 
@@ -115,7 +110,7 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
     ).config
 
     this._targetConfigs[address] = assertEx(
-      discover?.find((payload) => payload.schema === targetConfigSchema),
+      discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
       `Discover did not return a [${targetConfigSchema}] payload`,
     )
 
@@ -148,10 +143,6 @@ export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParam
 
   targetQueryable(_address: string, _query: XyoQueryBoundWitness, _payloads?: XyoPayload[], _queryConfig?: ModuleConfig): boolean {
     return true
-  }
-
-  async targetResolve(address: string, filter?: ModuleFilter) {
-    return await this.targetDownResolver.resolve(filter)
   }
 
   private async initRootAddress() {

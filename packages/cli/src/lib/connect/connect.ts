@@ -1,6 +1,7 @@
 import { delay } from '@xylabs/delay'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
-import { MemoryNode } from '@xyo-network/node'
+import { NodeWrapper } from '@xyo-network/node'
+import { NodeModule } from '@xyo-network/node-model'
 
 import { printError, printLine } from '../print'
 
@@ -14,10 +15,19 @@ export const connect = async (attempts = 60, interval = 500) => {
   let count = 0
   do {
     try {
-      const node = await HttpBridge.create({ config: { nodeUri: `${apiConfig.apiDomain}/node`, schema: HttpBridgeConfigSchema } })
-      printLine(`Connected to Node at: ${apiDomain}`)
-      printLine(`Node Address: 0x${node.address}`)
-      return node as unknown as MemoryNode
+      const bridge = await HttpBridge.create({ config: { nodeUri: `${apiConfig.apiDomain}/node`, schema: HttpBridgeConfigSchema } })
+      printLine(`Connected Bridge at: ${apiDomain}`)
+      printLine(`Local (Bridge) Address: 0x${bridge.address}`)
+      printLine(`Remote (Root) Address: 0x${bridge.rootAddress}`)
+
+      //we are assuming the root here is a node module, but will check it
+      const nodeModule = (await bridge.targetResolve(bridge.rootAddress, { address: [bridge.rootAddress] })).pop()
+      //tryWrap it to verify it is a node
+      const nodeWrapper = NodeWrapper.tryWrap(nodeModule as NodeModule)
+      if (!nodeWrapper) {
+        printLine(`Tried to connect to a remote module that is not a node [${apiDomain}]`)
+      }
+      return nodeWrapper?.module
     } catch (err) {
       count++
       await delay(interval)

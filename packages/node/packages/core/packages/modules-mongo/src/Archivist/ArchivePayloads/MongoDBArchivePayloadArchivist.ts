@@ -1,49 +1,48 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistParams } from '@xyo-network/archivist'
 import { AnyObject } from '@xyo-network/core'
-import { ModuleParams } from '@xyo-network/module'
-import {
-  AbstractPayloadArchivist,
-  ArchiveModuleConfig,
-  ArchiveModuleConfigSchema,
-  ArchivePayloadArchivist,
-  XyoPayloadFilterPredicate,
-  XyoPayloadWithMeta,
-} from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { AnyConfigSchema } from '@xyo-network/module'
+import { ArchiveModuleConfig, ArchiveModuleConfigSchema, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import compact from 'lodash/compact'
 import { Filter, SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
 import { getBaseMongoSdk, removeId } from '../../Mongo'
 
-export type MongoDBArchivePayloadArchivistParams<T extends ArchiveModuleConfig = ArchiveModuleConfig> = ModuleParams<
-  T,
+export type MongoDBArchivePayloadArchivistParams = ArchivistParams<
+  AnyConfigSchema<ArchiveModuleConfig>,
+  undefined,
   {
-    sdk: BaseMongoSdk<XyoPayloadWithMeta>
+    sdk?: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 
-export class MongoDBArchivePayloadArchivist
-  extends AbstractPayloadArchivist<XyoPayloadWithMeta, MongoDBArchivePayloadArchivistParams>
-  implements ArchivePayloadArchivist<XyoPayload, MongoDBArchivePayloadArchivistParams>
-{
+export class MongoDBArchivePayloadArchivist<
+  TParams extends MongoDBArchivePayloadArchivistParams = MongoDBArchivePayloadArchivistParams,
+> extends AbstractArchivist<TParams> {
   static override configSchema = ArchiveModuleConfigSchema
 
-  protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta>
+  private _sdk: BaseMongoSdk<XyoPayloadWithMeta> | undefined
 
-  constructor(params: MongoDBArchivePayloadArchivistParams) {
+  constructor(params: TParams) {
     super(params)
-    this.sdk = params?.sdk || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   }
 
-  static override async create(params: MongoDBArchivePayloadArchivistParams) {
-    return (await super.create(params)) as MongoDBArchivePayloadArchivist
+  override get queries(): string[] {
+    return [ArchivistInsertQuerySchema, ArchivistFindQuerySchema, ...super.queries]
   }
 
-  async find(predicate?: XyoPayloadFilterPredicate): Promise<XyoPayloadWithMeta[]> {
-    const { hash, limit, order, schema, schemas, timestamp, ...props } = predicate ?? {}
+  get sdk() {
+    this._sdk = this._sdk ?? getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+    return this._sdk
+  }
+
+  override async find(predicate?: PayloadFindFilter): Promise<XyoPayload[]> {
+    const { limit, order, schema, timestamp, ...props } = predicate ?? {}
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
@@ -52,13 +51,18 @@ export class MongoDBArchivePayloadArchivist
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0
       filter._timestamp = parsedOrder === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
     }
-    if (hash) filter._hash = hash
-    if (schema) filter.schema = schema
-    if (schemas?.length) filter.schema = { $in: schemas }
-    return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)
+    if (schema) {
+      if (Array.isArray(schema)) {
+        filter.schema = { $in: schema }
+      } else {
+        filter.schema = schema
+      }
+    }
+
+    return compact(await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(2000).toArray()).map(removeId)
   }
 
-  async get(ids: string[]): Promise<Array<XyoPayloadWithMeta>> {
+  override async get(ids: string[]): Promise<Array<XyoPayloadWithMeta>> {
     const predicates = ids.map((id) => {
       const _archive = assertEx(this.config.archive, 'MongoDBArchivePayloadArchivist.get: Missing archive')
       const _hash = assertEx(id, 'MongoDBArchivePayloadArchivist.get: Missing hash')
@@ -72,7 +76,7 @@ export class MongoDBArchivePayloadArchivist
     return results
   }
 
-  async insert(items: XyoPayloadWithMeta[]) {
+  override async insert(items: XyoPayloadWithMeta[]) {
     const payloads = items.map((p) => {
       return { ...p, _archive: this.config.archive, _hash: new PayloadWrapper(p).hash }
     })

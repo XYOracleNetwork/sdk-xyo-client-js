@@ -1,16 +1,9 @@
 import { delay } from '@xylabs/delay'
-import { ModuleParams } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams, XyoWitnessConfig, XyoWitnessConfigSchema } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams, XyoWitnessConfigSchema } from '@xyo-network/witness'
 
-import { XyoNonFungibleTokenMetaPayload } from './MetaPayload'
-
-export class XyoNonFungibleTokenMetaWitness extends AbstractWitness<WitnessParams<XyoNonFungibleTokenMetaPayload>> {
+export class XyoNonFungibleTokenMetaWitness<TParams extends WitnessParams = WitnessParams> extends AbstractWitness<TParams> {
   static override configSchema = XyoWitnessConfigSchema
-
-  static override async create(params?: ModuleParams<XyoWitnessConfig>): Promise<XyoNonFungibleTokenMetaWitness> {
-    return (await super.create(params)) as XyoNonFungibleTokenMetaWitness
-  }
 
   override async observe(_payloads?: XyoPayload[]) {
     await delay(0)

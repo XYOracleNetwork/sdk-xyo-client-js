@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { WithAdditional } from '@xyo-network/core'
+import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,
@@ -34,15 +35,26 @@ export const MongoDBArchivePayloadStatsDivinerConfigSchema: MongoDBArchivePayloa
   'network.xyo.module.config.diviner.stats.payload'
 
 export type MongoDBArchivePayloadStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
-  XyoPayload,
-  T & {
-    schema: MongoDBArchivePayloadStatsDivinerConfigSchema
+  WithAdditional<
+    XyoPayload,
+    T & {
+      schema: MongoDBArchivePayloadStatsDivinerConfigSchema
+    }
+  >
+>
+
+export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+  AnyConfigSchema<MongoDBArchivePayloadStatsDivinerConfig<T>>,
+  DivinerModuleEventData,
+  {
+    addressSpaceDiviner: AddressSpaceDiviner
   }
 >
 
-export type MongoDBArchivePayloadStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<MongoDBArchivePayloadStatsDivinerConfig<T>>
-
-export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implements PayloadStatsDiviner, JobProvider {
+export class MongoDBArchivePayloadStatsDiviner<TParams extends MongoDBArchivePayloadStatsDivinerParams = MongoDBArchivePayloadStatsDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements PayloadStatsDiviner, JobProvider
+{
   static override configSchema = MongoDBArchivePayloadStatsDivinerConfigSchema
 
   protected readonly batchLimit = 100
@@ -51,10 +63,6 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
   protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
-
-  protected constructor(params: MongoDBArchivePayloadStatsDivinerParams) {
-    super(params)
-  }
 
   get jobs(): Job[] {
     return [
@@ -74,10 +82,6 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
     ]
   }
 
-  static override async create(params: MongoDBArchivePayloadStatsDivinerParams): Promise<MongoDBArchivePayloadStatsDiviner> {
-    return (await super.create(params)) as MongoDBArchivePayloadStatsDiviner
-  }
-
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<PayloadStatsPayload>> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     const archive = query?.archive
@@ -85,9 +89,9 @@ export class MongoDBArchivePayloadStatsDiviner extends AbstractDiviner implement
     return [new XyoPayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build()]
   }
 
-  protected override async start(): Promise<this> {
+  override async start() {
+    await super.start()
     await this.registerWithChangeStream()
-    return await super.start()
   }
 
   protected override async stop(): Promise<this> {

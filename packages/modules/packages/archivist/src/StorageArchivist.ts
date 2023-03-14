@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist, ArchivistParams } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import {
@@ -12,9 +12,10 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistParams,
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -33,15 +34,13 @@ export type StorageArchivistConfig = ArchivistConfig<{
   type?: 'local' | 'session' | 'page'
 }>
 
-export class XyoStorageArchivist extends AbstractArchivist<ArchivistParams<StorageArchivistConfig>> {
+export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
+@creatableModule()
+export class StorageArchivist<TParams extends StorageArchivistParams = StorageArchivistParams> extends AbstractArchivist<TParams> {
   static override configSchema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined
   private _storage: StoreBase | undefined
-
-  constructor(params: ModuleParams<StorageArchivistConfig>) {
-    super(params)
-  }
 
   get maxEntries() {
     return this.config?.maxEntries ?? 1000
@@ -85,10 +84,6 @@ export class XyoStorageArchivist extends AbstractArchivist<ArchivistParams<Stora
   private get storage(): StoreBase {
     this._storage = this._storage ?? store[this.type].namespace(this.namespace)
     return this._storage
-  }
-
-  static override async create(params?: ModuleParams<StorageArchivistConfig>): Promise<XyoStorageArchivist> {
-    return (await super.create(params)) as XyoStorageArchivist
   }
 
   override all(): PromisableArray<XyoPayload> {
@@ -145,7 +140,7 @@ export class XyoStorageArchivist extends AbstractArchivist<ArchivistParams<Stora
   }
 
   async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
-    this.logger?.log(`payloads.length: ${payloads.length}`)
+    //this.logger?.log(`payloads.length: ${payloads.length}`)
 
     const storedPayloads = payloads.map((payload) => {
       const wrapper = new PayloadWrapper(payload)
@@ -169,7 +164,6 @@ export class XyoStorageArchivist extends AbstractArchivist<ArchivistParams<Stora
   override async start() {
     await super.start()
     this.saveAccount()
-    return this
   }
 
   protected override loadAccount(account?: AccountInstance) {

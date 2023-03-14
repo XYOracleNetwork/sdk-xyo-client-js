@@ -5,7 +5,6 @@ export type XyoArchivistPayloadDivinerConfigSchema = 'network.xyo.diviner.payloa
 export const XyoArchivistPayloadDivinerConfigSchema: XyoArchivistPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.archivist.config'
 
 export type XyoArchivistPayloadDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
-  XyoPayload,
   T & {
     archivist?: string
     schema: XyoArchivistPayloadDivinerConfigSchema

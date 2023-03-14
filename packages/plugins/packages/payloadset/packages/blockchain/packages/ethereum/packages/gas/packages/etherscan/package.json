@@ -13,7 +13,7 @@
     "@xylabs/assert": "^2.7.4",
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^",
-    "@xyo-network/module": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
@@ -57,5 +57,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.51.9"
+  "version": "2.52.0-rc.5",
+  "stableVersion": "2.51.9"
 }

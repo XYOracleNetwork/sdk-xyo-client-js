@@ -1,34 +1,33 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { XyoEthereumGasEthersPayload, XyoEthereumGasEthersSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
-import { ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
+import { TimestampWitness } from '@xyo-network/witness'
 
 import { XyoEthereumGasEthersWitnessConfig } from './Config'
 import { getGasFromEthers } from './lib'
 import { XyoEthereumGasEthersWitnessConfigSchema } from './Schema'
 
 export type XyoEthereumGasEthersWitnessParams = ModuleParams<
-  XyoEthereumGasEthersWitnessConfig,
+  AnyConfigSchema<XyoEthereumGasEthersWitnessConfig>,
+  undefined,
   {
-    provider: Provider
+    provider?: Provider
   }
 >
 
-export class XyoEthereumGasEthersWitness extends TimestampWitness<WitnessParams<XyoEthereumGasEthersWitnessConfig>> {
+export class XyoEthereumGasEthersWitness<
+  TParams extends XyoEthereumGasEthersWitnessParams = XyoEthereumGasEthersWitnessParams,
+> extends TimestampWitness<TParams> {
   static override configSchema = XyoEthereumGasEthersWitnessConfigSchema
 
-  protected provider?: Provider
+  private _provider?: Provider
 
-  protected constructor(params: XyoEthereumGasEthersWitnessParams) {
-    super(params)
-    this.provider = params?.provider
-  }
-
-  static override async create(params?: XyoEthereumGasEthersWitnessParams): Promise<XyoEthereumGasEthersWitness> {
-    return (await super.create(params)) as XyoEthereumGasEthersWitness
+  protected get provider() {
+    this._provider = this._provider ?? this.params?.provider
+    return this._provider
   }
 
   override async observe(): Promise<XyoPayload[]> {

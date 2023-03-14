@@ -9,7 +9,6 @@ import {
   XyoBoundWitnessFilterPredicate,
   XyoBoundWitnessWithMeta,
   XyoBoundWitnessWithPartialMeta,
-  XyoPayloadFilterPredicate,
   XyoPayloadWithMeta,
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
@@ -63,7 +62,7 @@ describe('MongoDBArchiveBoundWitnessArchivist', () => {
 
   beforeAll(async () => {
     const sut = await MongoDBArchiveBoundWitnessArchivist.create(params)
-    wrapper = new ArchivistWrapper(sut)
+    wrapper = ArchivistWrapper.wrap(sut)
     const result = await wrapper.insert(boundWitnesses)
     expect(result).toBeArrayOfSize(count)
     expect(result?.[0].addresses).toContain(account.addressValue.hex)
@@ -78,9 +77,8 @@ describe('MongoDBArchiveBoundWitnessArchivist', () => {
     })
   })
   describe('find', () => {
-    it('finds boundWitnesses by hash', async () => {
-      const filter: XyoPayloadFilterPredicate<XyoPayloadWithMeta> = { hash, limit }
-      const result = await wrapper.find(filter)
+    it('get boundWitnesses by hash', async () => {
+      const result = await wrapper.get([hash])
       expect(result).toBeArrayOfSize(limit)
       expect(result).toEqual([boundWitness].map(removePayloads))
     })

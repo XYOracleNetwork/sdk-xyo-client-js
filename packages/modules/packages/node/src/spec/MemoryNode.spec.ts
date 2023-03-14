@@ -10,10 +10,9 @@ import {
   XyoHuriPayload,
   XyoHuriSchema,
 } from '@xyo-network/diviner'
-import { AbstractModule, Module, ModuleDescription } from '@xyo-network/module'
+import { AbstractModule, Module, ModuleDescription, NodeConfigSchema } from '@xyo-network/module'
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
-import { NodeConfigSchema } from '../Config'
 import { MemoryNode } from '../MemoryNode'
 import { NodeWrapper } from '../NodeWrapper'
 
@@ -32,7 +31,8 @@ describe('MemoryNode', () => {
     //})
   })
   beforeEach(async () => {
-    node = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
+    const nodeModule = await MemoryNode.create({ account: testAccount1, config: nodeConfig })
+    node = nodeModule
   })
   describe('create', () => {
     it('Creates MemoryNode', async () => {
@@ -53,7 +53,7 @@ describe('MemoryNode', () => {
         .fields({ test: true })
         .build()
 
-      const foundArchivistWrapper = foundArchivist ? new ArchivistWrapper(foundArchivist) : undefined
+      const foundArchivistWrapper = foundArchivist ? ArchivistWrapper.wrap(foundArchivist) : undefined
       await foundArchivistWrapper?.insert([testPayload])
 
       /*const subscribeQuery: AbstractModuleSubscribeQuery = { payloads: [testPayload], schema: AbstractModuleSubscribeQuerySchema }
@@ -66,10 +66,10 @@ describe('MemoryNode', () => {
         const huri = new PayloadWrapper(payloads[0]).hash
         const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
         const module = (await NodeWrapper.wrap(node, testAccount0).resolve(diviner.address)) as DivinerModule | undefined
-        const foundDiviner = module ? new DivinerWrapper(module) : null
+        const foundDiviner = module ? DivinerWrapper.wrap(module) : null
         expect(foundDiviner).toBeDefined()
         if (foundDiviner) {
-          const foundDivinerWrapper = new DivinerWrapper(foundDiviner)
+          const foundDivinerWrapper = DivinerWrapper.wrap(foundDiviner)
           const payloads = await foundDivinerWrapper.divine([huriPayload])
           expect(payloads?.length).toBe(1)
           expect(payloads[0]).toBeDefined()

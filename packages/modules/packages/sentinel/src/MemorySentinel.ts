@@ -1,35 +1,31 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AnyConfigSchema,
+  ModuleConfig,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 
-import { AbstractSentinel, SentinelParams } from './AbstractSentinel'
+import { AbstractSentinel } from './AbstractSentinel'
 import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQuery, SentinelReportQuerySchema } from './Queries'
-import { SentinelModule } from './SentinelModel'
+import { SentinelModule, SentinelParams } from './SentinelModel'
 
-export type MemorySentinelParams<TConfig extends SentinelConfig = SentinelConfig> = SentinelParams<
-  TConfig,
-  {
-    onReportEnd?: (boundWitness?: XyoBoundWitness, errors?: Error[]) => void
-    onReportStart?: () => void
-    onWitnessReportEnd?: (witness: WitnessWrapper, error?: Error) => void
-    onWitnessReportStart?: (witness: WitnessWrapper) => void
-  }
+export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<
+  AnyConfigSchema<TConfig>
 >
 
 export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentinelParams>
   extends AbstractSentinel<TParams>
-  implements SentinelModule<TParams['config']>
+  implements SentinelModule<TParams>
 {
   static override configSchema: SentinelConfigSchema
-
-  static override async create(params?: MemorySentinelParams): Promise<MemorySentinel> {
-    return (await super.create(params)) as MemorySentinel
-  }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
@@ -59,7 +55,7 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
 
   async report(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
     const errors: Error[] = []
-    this.params?.onReportStart?.()
+    await this.emit('onReportStarted')
     const allWitnesses = [...(await this.getWitnesses())]
     const allPayloads: XyoPayload[] = []
 
@@ -73,7 +69,7 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
 
     const [newBoundWitness] = await this.bindResult(allPayloads)
     this.history.push(assertEx(newBoundWitness))
-    this.params?.onReportEnd?.(newBoundWitness, errors.length > 0 ? errors : undefined)
+    await this.emit('onReportEnded', { errors, newBoundWitness })
     return [newBoundWitness, ...allPayloads]
   }
 

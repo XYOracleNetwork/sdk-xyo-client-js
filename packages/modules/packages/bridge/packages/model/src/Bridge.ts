@@ -1,4 +1,13 @@
-import { Module, ModuleConfig, ModuleFilter, ModuleQueryResult, XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema,
+  Module,
+  ModuleConfig,
+  ModuleFilter,
+  ModuleParams,
+  ModuleQueryResult,
+  XyoQuery,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -9,10 +18,12 @@ export interface Bridge {
   disconnect: () => Promisable<boolean>
 }
 
-export interface BridgeModule<TConfig extends BridgeConfig = BridgeConfig, TModule extends Module = Module> extends Bridge, Module<TConfig> {
-  targetDownResolver: TModule['downResolver']
-  targetConfig(address: string): XyoPayload
+export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>> = ModuleParams<TConfig>
+
+export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module> extends Bridge, Module<TParams> {
+  targetConfig(address: string): ModuleConfig
   targetDiscover(address?: string): Promisable<XyoPayload[] | undefined>
+  targetDownResolver(address?: string): TModule['downResolver']
   targetQueries(address: string): string[]
   targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult | undefined>
   targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): Promisable<boolean>

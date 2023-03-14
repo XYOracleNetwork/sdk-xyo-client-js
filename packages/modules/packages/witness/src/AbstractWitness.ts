@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AnyObject } from '@xyo-network/core'
 import {
   AbstractModule,
+  Module,
   ModuleConfig,
-  ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
@@ -14,19 +13,12 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-import { XyoWitnessConfig } from './Config'
+import { XyoWitnessConfigSchema } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
-import { WitnessModule } from './Witness'
+import { WitnessModule, WitnessParams } from './Witness'
 
-export type WitnessParams<
-  TConfig extends XyoWitnessConfig = XyoWitnessConfig,
-  TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TAdditionalParams>
-export abstract class AbstractWitness<TParams extends WitnessParams = WitnessParams>
-  extends AbstractModule<TParams>
-  implements WitnessModule<TParams['config']>
-{
-  static override configSchema: string
+export class AbstractWitness<TParams extends WitnessParams = WitnessParams> extends AbstractModule<TParams> implements WitnessModule, Module {
+  static override configSchema: string = XyoWitnessConfigSchema
 
   override get queries(): string[] {
     return [XyoWitnessObserveQuerySchema, ...super.queries]
@@ -36,18 +28,12 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     return this.config?.targetSet
   }
 
-  static override async create(params?: Partial<ModuleParams<XyoWitnessConfig>>): Promise<AbstractWitness> {
-    const actualParams: Partial<ModuleParams<XyoWitnessConfig>> = params ?? {}
-    actualParams.config = params?.config ?? { schema: this.configSchema }
-    return (await super.create(actualParams)) as AbstractWitness
-  }
-
   observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
     this.started('throw')
     const payloadList = assertEx(payloads, 'Trying to witness nothing')
     assertEx(payloadList.length > 0, 'Trying to witness empty list')
     payloadList?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
-    this.logger?.debug(`result: ${JSON.stringify(payloadList, null, 2)}`)
+    //this.logger?.debug(`result: ${JSON.stringify(payloadList, null, 2)}`)
     return payloadList
   }
 
@@ -65,7 +51,9 @@ export abstract class AbstractWitness<TParams extends WitnessParams = WitnessPar
     try {
       switch (typedQuery.schema) {
         case XyoWitnessObserveQuerySchema: {
+          await this.emit('reportStart', { inPayloads: payloads })
           const resultPayloads = await this.observe(filteredObservation)
+          await this.emit('reportEnd', { inPayloads: payloads, outPayloads: resultPayloads })
           return this.bindResult(resultPayloads, queryAccount)
         }
         default: {

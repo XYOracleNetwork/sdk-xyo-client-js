@@ -4,7 +4,7 @@ import { XyoWitnessConfig } from '@xyo-network/witness'
 import { XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 
 export type XyoCoingeckoCryptoMarketWitnessConfig = XyoWitnessConfig<{
-  coins: XyoCryptoAsset[]
-  currencies: XyoCryptoAsset[]
+  coins?: XyoCryptoAsset[]
+  currencies?: XyoCryptoAsset[]
   schema: XyoCoingeckoCryptoMarketWitnessConfigSchema
 }>

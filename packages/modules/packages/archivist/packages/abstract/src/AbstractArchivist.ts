@@ -4,27 +4,18 @@ import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
-  ArchivistConfig,
   ArchivistDeleteQuerySchema,
   ArchivistFindQuerySchema,
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistModule,
+  ArchivistParams,
   ArchivistQuery,
 } from '@xyo-network/archivist-interface'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyObject } from '@xyo-network/core'
-import {
-  AbstractModule,
-  ModuleConfig,
-  ModuleParams,
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
@@ -35,15 +26,9 @@ export interface XyoArchivistParentWrappers {
   read?: Record<string, ArchivistWrapper>
   write?: Record<string, ArchivistWrapper>
 }
-
-export type ArchivistParams<
-  TConfig extends ArchivistConfig = ArchivistConfig,
-  TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TAdditionalParams>
-
 export abstract class AbstractArchivist<TParams extends ArchivistParams = ArchivistParams>
   extends AbstractModule<TParams>
-  implements ArchivistModule
+  implements ArchivistModule<TParams>, ArchivistModule
 {
   private _parents?: XyoArchivistParentWrappers
 
@@ -177,7 +162,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: XyoPayload[]) {
-    const wrapper = new ArchivistWrapper(parent)
+    const wrapper = new ArchivistWrapper({ account: this.account, module: parent })
     return await wrapper.insert(payloads)
   }
 
@@ -199,7 +184,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     const downResolvedModules = await this.downResolver.resolve({ address: archivists })
     const modules = [...resolvedModules, ...downResolvedModules] ?? []
     modules.forEach((module) => {
-      const wrapper = new ArchivistWrapper(module)
+      const wrapper = new ArchivistWrapper({ account: this.account, module })
       resolvedWrappers[wrapper.address] = wrapper
     })
     return resolvedWrappers

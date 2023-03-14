@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { WithAdditional } from '@xyo-network/core'
+import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModuleEventData } from '@xyo-network/diviner'
+import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import {
   BoundWitnessStatsDiviner,
   BoundWitnessStatsPayload,
@@ -34,16 +35,27 @@ export const MongoDBArchiveBoundWitnessStatsDivinerConfigSchema: MongoDBArchiveB
   'network.xyo.module.config.diviner.stats.boundwitness'
 
 export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
-  XyoPayload,
-  T & {
-    schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
-  }
+  WithAdditional<
+    XyoPayload,
+    T & {
+      schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
+    }
+  >
 >
 export type MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
-  MongoDBArchiveBoundWitnessStatsDivinerConfig<T>
+  AnyConfigSchema<MongoDBArchiveBoundWitnessStatsDivinerConfig<T>>,
+  DivinerModuleEventData,
+  {
+    addressSpaceDiviner: AddressSpaceDiviner
+  }
 >
 
-export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner implements BoundWitnessStatsDiviner, JobProvider {
+export class MongoDBArchiveBoundWitnessStatsDiviner<
+    TParams extends MongoDBArchiveBoundWitnessStatsDivinerParams = MongoDBArchiveBoundWitnessStatsDivinerParams,
+  >
+  extends AbstractDiviner<TParams>
+  implements BoundWitnessStatsDiviner, JobProvider
+{
   static override configSchema = MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
 
   protected readonly batchLimit = 100
@@ -51,12 +63,8 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner impl
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
-  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
-  protected constructor(params: MongoDBArchiveBoundWitnessStatsDivinerParams) {
-    super(params)
-    this.sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  }
+  private _sdk?: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
   get jobs(): Job[] {
     return [
@@ -76,8 +84,9 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner impl
     ]
   }
 
-  static override async create(params: MongoDBArchiveBoundWitnessStatsDivinerParams): Promise<MongoDBArchiveBoundWitnessStatsDiviner> {
-    return (await super.create(params)) as MongoDBArchiveBoundWitnessStatsDiviner
+  protected get sdk() {
+    this._sdk = this._sdk ?? getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    return this._sdk
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<BoundWitnessStatsPayload>> {
@@ -87,9 +96,9 @@ export class MongoDBArchiveBoundWitnessStatsDiviner extends AbstractDiviner impl
     return [new XyoPayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build()]
   }
 
-  protected override async start(): Promise<this> {
+  override async start() {
+    await super.start()
     await this.registerWithChangeStream()
-    return await super.start()
   }
 
   protected override async stop(): Promise<this> {

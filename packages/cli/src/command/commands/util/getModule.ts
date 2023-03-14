@@ -16,7 +16,7 @@ export const getModule = async (args: ModuleArguments): Promise<ModuleWrapper> =
     const bridge = await HttpBridge.create({ config: { nodeUri: `${apiConfig.apiDomain}/node`, schema, security } })
     const resolved = await bridge.downResolver.resolve({ address: [address] })
     const mod = assertEx(resolved.pop(), `Failed to load module [${address}]`)
-    return new ModuleWrapper(mod)
+    return ModuleWrapper.wrap(mod)
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))
     throw new Error(`Unable to connect to XYO Module at ${address}`)

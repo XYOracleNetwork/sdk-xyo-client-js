@@ -1,12 +1,11 @@
-import { ModuleParams } from '@xyo-network/module'
 import { PayloadSetSchema } from '@xyo-network/payload-model'
-import { createPayloadSetPlugin, PayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
+import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 import { XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
 
-import { XyoPentairScreenlogicWitness, XyoPentairScreenlogicWitnessConfig } from './Witness'
+import { XyoPentairScreenlogicWitness } from './Witness'
 
 export const XyoPentairScreenlogicPlugin = () =>
-  createPayloadSetPlugin<PayloadSetWitnessPlugin<XyoPentairScreenlogicWitness, ModuleParams<XyoPentairScreenlogicWitnessConfig>>>(
+  createPayloadSetWitnessPlugin<XyoPentairScreenlogicWitness>(
     { required: { [XyoPentairScreenlogicSchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {

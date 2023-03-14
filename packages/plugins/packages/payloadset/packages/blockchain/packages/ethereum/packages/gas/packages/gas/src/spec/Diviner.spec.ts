@@ -17,7 +17,7 @@ import { sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sample
 describe('Diviner', () => {
   test('returns divined gas price', async () => {
     const module = await XyoEthereumGasDiviner.create()
-    const wrapper = new DivinerWrapper(module)
+    const wrapper = DivinerWrapper.wrap(module)
 
     const payloads = await wrapper.divine([sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas])
 
@@ -88,7 +88,7 @@ describe('Diviner', () => {
     const observations: XyoPayload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
 
     const module = await XyoEthereumGasDiviner.create()
-    const wrapper = new DivinerWrapper(module)
+    const wrapper = DivinerWrapper.wrap(module)
 
     const payloads = await wrapper.divine(observations)
 

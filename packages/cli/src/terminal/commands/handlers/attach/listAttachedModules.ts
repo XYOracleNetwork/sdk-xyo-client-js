@@ -1,11 +1,13 @@
-import { MemoryNode } from '@xyo-network/node'
+import { NodeModule } from '@xyo-network/node-model'
 
 import { printLine, printTitle } from '../../../../lib'
 
-export const listAttachedModules = async (node: MemoryNode) => {
+export const listAttachedModules = async (node: NodeModule) => {
   printTitle('List Attached Modules')
-  const mods = await node.attachedModules()
-  mods.forEach((mod) => {
-    printLine(`0x${mod.address}`)
+
+  const addresses = await node.attached()
+
+  addresses.forEach((address) => {
+    printLine(`0x${address}`)
   })
 }

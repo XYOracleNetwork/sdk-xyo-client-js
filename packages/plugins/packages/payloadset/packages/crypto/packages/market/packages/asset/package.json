@@ -28,7 +28,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/solidity": "^5.7.0",
     "@uniswap/sdk": "^3.0.3",
-    "@uniswap/sdk-core": "^3.2.0",
+    "@uniswap/sdk-core": "^3.2.2",
     "@uniswap/v3-sdk": "^3.9.0",
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
@@ -77,5 +77,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.51.9"
+  "version": "2.52.0-rc.5",
+  "stableVersion": "2.51.9"
 }

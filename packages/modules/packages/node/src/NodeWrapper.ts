@@ -3,11 +3,8 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { Module, ModuleWrapper } from '@xyo-network/module'
-import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-
-import { NodeModule } from './Node'
 import {
+  NodeModule,
   XyoNodeAttachedQuery,
   XyoNodeAttachedQuerySchema,
   XyoNodeAttachQuery,
@@ -16,15 +13,17 @@ import {
   XyoNodeDetachQuerySchema,
   XyoNodeRegisteredQuery,
   XyoNodeRegisteredQuerySchema,
-} from './Queries'
+} from '@xyo-network/node-model'
+import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-export class NodeWrapper extends ModuleWrapper<NodeModule> implements NodeModule {
+export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> {
   static override requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   private _archivist?: ArchivistWrapper
 
   get archivist() {
-    this._archivist = this._archivist ?? new ArchivistWrapper(this.module)
+    this._archivist = this._archivist ?? new ArchivistWrapper({ account: this.account, module: this.module })
     return this._archivist
   }
 
@@ -33,18 +32,18 @@ export class NodeWrapper extends ModuleWrapper<NodeModule> implements NodeModule
     return missingRequiredQueries.length === 0
   }
 
-  static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper | undefined {
+  static override tryWrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper<TModule> | undefined {
     if (module) {
       const missingRequiredQueries = this.missingRequiredQueries(module)
       if (missingRequiredQueries.length > 0) {
-        //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
+        this.defaultLogger?.debug(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
-        return new NodeWrapper(module as TModule, account)
+        return new NodeWrapper<TModule>({ account, module })
       }
     }
   }
 
-  static override wrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper {
+  static override wrap<TModule extends NodeModule = NodeModule>(module?: TModule, account?: AccountInstance): NodeWrapper<TModule> {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as NodeWrapper')
   }
 

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { describeIf } from '@xylabs/jest-helpers'
 import { uuid } from '@xyo-network/core'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -31,9 +32,7 @@ const getPayloads = (number = 5) => {
   })
 }
 
-const describeSkipIfNoDB = process.env.MONGO_CONNECTION_STRING ? describe : describe.skip
-
-describeSkipIfNoDB('XyoArchivistPayloadMongoSdk', () => {
+describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', () => {
   const numPayloads = 20
   const limit = 10
   let sdk: XyoArchivistPayloadMongoSdk

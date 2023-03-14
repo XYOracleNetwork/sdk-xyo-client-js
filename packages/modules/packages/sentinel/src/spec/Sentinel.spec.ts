@@ -42,11 +42,11 @@ describe('XyoPanel', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const panel = await MemorySentinel.create({ config })
+    const panel = (await MemorySentinel.create({ config })) as MemorySentinel
     await node.register(panel).attach(panel.address)
     expect(await panel.getArchivists()).toBeArrayOfSize(1)
     expect(await panel.getWitnesses()).toBeArrayOfSize(2)
-    const adhocWitness = await XyoAdhocWitness.create({
+    const adhocWitness = (await XyoAdhocWitness.create({
       config: {
         payload: {
           schema: 'network.xyo.test.array',
@@ -62,9 +62,9 @@ describe('XyoPanel', () => {
         },
         schema: XyoAdhocWitnessConfigSchema,
       },
-    })
+    })) as XyoAdhocWitness
 
-    const adhocObserved = await adhocWitness.observe([adhocWitness.config.payload])
+    const adhocObserved = await adhocWitness.observe(adhocWitness.config.payload ? [adhocWitness.config.payload] : [])
 
     const report1Result = await panel.report(adhocObserved)
     const report1 = BoundWitnessWrapper.parse(report1Result[0])
@@ -117,8 +117,8 @@ describe('XyoPanel', () => {
             targetSchema: XyoPayloadSchema,
           },
         }
-        witnessA = await XyoAdhocWitness.create(paramsA)
-        witnessB = await XyoAdhocWitness.create(paramsB)
+        witnessA = (await XyoAdhocWitness.create(paramsA)) as XyoAdhocWitness
+        witnessB = (await XyoAdhocWitness.create(paramsB)) as XyoAdhocWitness
         archivistA = await MemoryArchivist.create()
         archivistB = await MemoryArchivist.create()
       })
@@ -129,14 +129,14 @@ describe('XyoPanel', () => {
           config: {
             archivists: [archivistA.address, archivistB.address],
 
-            schema: 'network.xyo.panel.config',
+            schema: SentinelConfigSchema,
             witnesses: [witnessA.address, witnessB.address],
-          },
-          onReportEnd(_, errors) {
-            expect(errors).toBeUndefined()
           },
         }
         const panel = await MemorySentinel.create(params)
+        panel.on('reportEnd', ({ errors }) => {
+          expect(errors).toBeUndefined()
+        })
         await node.register(panel).attach(panel.address)
         const result = await panel.report()
         assertPanelReport(result)
@@ -149,14 +149,14 @@ describe('XyoPanel', () => {
           config: {
             archivists: [archivistA.address, archivistB.address],
 
-            schema: 'network.xyo.panel.config',
+            schema: SentinelConfigSchema,
             witnesses: [witnessA.address],
-          },
-          onReportEnd(_, errors) {
-            expect(errors).toBeUndefined()
           },
         }
         const panel = await MemorySentinel.create(params)
+        panel.on('reportEnd', ({ errors }) => {
+          expect(errors).toBeUndefined()
+        })
         await node.register(panel).attach(panel.address)
         const observed = await witnessB.observe()
         expect(observed).toBeArrayOfSize(1)
@@ -171,14 +171,14 @@ describe('XyoPanel', () => {
           config: {
             archivists: [archivistA.address, archivistB.address],
 
-            schema: 'network.xyo.panel.config',
+            schema: SentinelConfigSchema,
             witnesses: [],
-          },
-          onReportEnd(_, errors) {
-            expect(errors).toBeUndefined()
           },
         }
         const panel = await MemorySentinel.create(params)
+        panel.on('reportEnd', ({ errors }) => {
+          expect(errors).toBeUndefined()
+        })
         await node.register(panel).attach(panel.address)
         const observedA = await witnessA.observe()
         expect(observedA).toBeArrayOfSize(1)
@@ -213,17 +213,18 @@ describe('XyoPanel', () => {
           config: {
             archivists: [archivistA.address, archivistB.address],
 
-            schema: 'network.xyo.panel.config',
+            schema: SentinelConfigSchema,
             witnesses: [witnessA.address, witnessB.address],
           },
-          onReportEnd(_, errors) {
-            expect(errors?.length).toBe(1)
-            expect(errors?.[0]?.message).toBe('observation failed')
-          },
         }
-        const panel = await MemorySentinel.create(params)
-        await node.register(panel).attach(panel.address)
-        await panel.report()
+
+        const sentinel = await MemorySentinel.create(params)
+        sentinel.on('reportEnd', ({ errors }) => {
+          expect(errors?.length).toBe(1)
+          expect(errors?.[0]?.message).toBe('observation failed')
+        })
+        await node.register(sentinel).attach(sentinel.address)
+        await sentinel.report()
         return
       })
     })

@@ -5,17 +5,26 @@ import { Account } from '@xyo-network/account'
 import {
   AbstractArchivist,
   ArchivistConfig,
+  ArchivistConfigSchema,
   ArchivistFindQuery,
   ArchivistFindQuerySchema,
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistParams,
   ArchivistQuery,
 } from '@xyo-network/archivist'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { ModuleConfig, ModuleParams, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import {
+  AnyConfigSchema,
+  ModuleConfig,
+  ModuleQueryResult,
+  QueryBoundWitnessWrapper,
+  XyoErrorBuilder,
+  XyoQueryBoundWitness,
+} from '@xyo-network/module'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -37,11 +46,12 @@ import {
 } from './QueryHelpers'
 import { validByType } from './validByType'
 
-export type MongoDBDeterministicArchivistParams<TConfig extends ArchivistConfig = ArchivistConfig> = ModuleParams<
-  TConfig,
+export type MongoDBDeterministicArchivistParams = ArchivistParams<
+  AnyConfigSchema<ArchivistConfig>,
+  undefined,
   {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-    payloads: BaseMongoSdk<XyoPayloadWithMeta>
+    boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    payloads?: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 
@@ -65,22 +75,25 @@ const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayload
 
 const searchDepthLimit = 50
 
-export class MongoDBDeterministicArchivist<TConfig extends ArchivistConfig = ArchivistConfig> extends AbstractArchivist {
-  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-  protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta>
+export class MongoDBDeterministicArchivist<
+  TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
+> extends AbstractArchivist<TParams> {
+  static override configSchema = ArchivistConfigSchema
+  protected _boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  protected _payloads?: BaseMongoSdk<XyoPayloadWithMeta>
 
-  constructor(params: MongoDBDeterministicArchivistParams<TConfig>) {
-    super(params)
-    this.boundWitnesses = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-    this.payloads = params?.payloads || getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  get boundWitnesses() {
+    this._boundWitnesses = this._boundWitnesses ?? getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+    return this._boundWitnesses
+  }
+
+  get payloads() {
+    this._payloads = this._payloads ?? getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+    return this._payloads
   }
 
   override get queries(): string[] {
     return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
-  }
-
-  static override async create(params?: Partial<MongoDBDeterministicArchivistParams>): Promise<MongoDBDeterministicArchivist> {
-    return (await super.create(params)) as MongoDBDeterministicArchivist
   }
 
   override find(_filter?: PayloadFindFilter): Promise<XyoPayload[]> {

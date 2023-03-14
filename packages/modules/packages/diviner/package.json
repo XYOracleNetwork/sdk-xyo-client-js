@@ -18,7 +18,6 @@
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
-    "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-wrapper": "workspace:^",
     "@xyo-network/huri": "workspace:^",
@@ -69,5 +68,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.51.9"
+  "version": "2.52.0-rc.5",
+  "stableVersion": "2.51.9"
 }

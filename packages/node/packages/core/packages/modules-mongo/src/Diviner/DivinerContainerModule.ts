@@ -54,7 +54,9 @@ const getMongoDBBoundWitnessDiviner = async () => {
 }
 const getMongoDBArchiveBoundWitnessStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
   const params = {
+    addressSpaceDiviner,
     config: { name: TYPES.ArchiveBoundWitnessStatsDiviner.description, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema },
   }
   mongoDBArchiveBoundWitnessStatsDiviner = await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
@@ -62,9 +64,9 @@ const getMongoDBArchiveBoundWitnessStatsDiviner = async (_context: interfaces.Co
 }
 const getMongoDBLocationCertaintyDiviner = async () => {
   if (mongoDBLocationCertaintyDiviner) return mongoDBLocationCertaintyDiviner
-  mongoDBLocationCertaintyDiviner = await MongoDBLocationCertaintyDiviner.create({
+  mongoDBLocationCertaintyDiviner = (await MongoDBLocationCertaintyDiviner.create({
     config: { schema: XyoDivinerConfigSchema },
-  })
+  })) as MongoDBLocationCertaintyDiviner
   return mongoDBLocationCertaintyDiviner
 }
 const getMongoDBModuleAddressDiviner = async () => {
@@ -81,7 +83,9 @@ const getMongoDBPayloadDiviner = async () => {
 }
 const getMongoDBArchivePayloadStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchivePayloadStatsDiviner) return mongoDBArchivePayloadStatsDiviner
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
   const params = {
+    addressSpaceDiviner,
     config: { name: TYPES.ArchivePayloadStatsDiviner.description, schema: MongoDBArchivePayloadStatsDivinerConfigSchema },
   }
   mongoDBArchivePayloadStatsDiviner = await MongoDBArchivePayloadStatsDiviner.create(params)
@@ -89,7 +93,9 @@ const getMongoDBArchivePayloadStatsDiviner = async (_context: interfaces.Context
 }
 const getMongoDBArchiveSchemaStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchiveSchemaStatsDiviner) return mongoDBArchiveSchemaStatsDiviner
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
   const params = {
+    addressSpaceDiviner,
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },
   }
   mongoDBArchiveSchemaStatsDiviner = await MongoDBArchiveSchemaStatsDiviner.create(params)

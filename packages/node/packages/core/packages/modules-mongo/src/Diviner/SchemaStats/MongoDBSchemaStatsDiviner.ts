@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
-import { ModuleParams } from '@xyo-network/module'
+import { WithAdditional } from '@xyo-network/core'
+import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModule, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isSchemaStatsQueryPayload,
   SchemaStatsDiviner,
@@ -40,15 +41,26 @@ export const MongoDBArchiveSchemaStatsDivinerConfigSchema: MongoDBArchiveSchemaS
   'network.xyo.module.config.diviner.stats.schema'
 
 export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
-  XyoPayload,
-  T & {
-    schema: MongoDBArchiveSchemaStatsDivinerConfigSchema
+  WithAdditional<
+    XyoPayload,
+    T & {
+      schema: MongoDBArchiveSchemaStatsDivinerConfigSchema
+    }
+  >
+>
+
+export type MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+  AnyConfigSchema<MongoDBArchiveSchemaStatsDivinerConfig<T>>,
+  DivinerModuleEventData,
+  {
+    addressSpaceDiviner: AddressSpaceDiviner
   }
 >
 
-export type MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<MongoDBArchiveSchemaStatsDivinerConfig<T>>
-
-export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements SchemaStatsDiviner, JobProvider {
+export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSchemaStatsDivinerParams = MongoDBArchiveSchemaStatsDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements SchemaStatsDiviner, JobProvider, DivinerModule
+{
   static override configSchema = MongoDBArchiveSchemaStatsDivinerConfigSchema
 
   /**
@@ -91,10 +103,6 @@ export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements
 
   protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
-  protected constructor(params: MongoDBArchiveSchemaStatsDivinerParams) {
-    super(params)
-  }
-
   get jobs(): Job[] {
     return [
       {
@@ -113,10 +121,6 @@ export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements
     ]
   }
 
-  static override async create(params: MongoDBArchiveSchemaStatsDivinerParams): Promise<MongoDBArchiveSchemaStatsDiviner> {
-    return (await super.create(params)) as MongoDBArchiveSchemaStatsDiviner
-  }
-
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<SchemaStatsPayload>> {
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
     const archive = query?.archive
@@ -124,9 +128,9 @@ export class MongoDBArchiveSchemaStatsDiviner extends AbstractDiviner implements
     return [new XyoPayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build()]
   }
 
-  protected override async start(): Promise<this> {
+  override async start() {
+    await super.start()
     await this.registerWithChangeStream()
-    return await super.start()
   }
 
   protected override async stop(): Promise<this> {

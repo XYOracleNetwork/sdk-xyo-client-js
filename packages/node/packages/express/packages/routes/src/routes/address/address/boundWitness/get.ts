@@ -32,7 +32,7 @@ const handler: RequestHandler<AddressPathParams, XyoBoundWitness[], NoReqBody, G
     query.offset = offset
   }
   const addressHistoryDiviner = await resolveBySymbol(node, TYPES.AddressHistoryDiviner)
-  const boundWitness = ((await new DivinerWrapper(addressHistoryDiviner).divine([query])) as (XyoBoundWitness | null)[]).filter(exists)
+  const boundWitness = ((await new DivinerWrapper({ module: addressHistoryDiviner }).divine([query])) as (XyoBoundWitness | null)[]).filter(exists)
   if (boundWitness) {
     res.json(scrubBoundWitnesses(boundWitness))
   } else {

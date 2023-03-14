@@ -1,4 +1,4 @@
-import { AbstractModule, Module, ModuleParams } from '@xyo-network/module'
+import { Module, ModuleEventData, ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AbstractWitness } from '../AbstractWitness'
@@ -8,26 +8,26 @@ import { WitnessWrapper } from '../WitnessWrapper'
 
 describe('XyoWitness', () => {
   const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema }
-  const params: ModuleParams<XyoWitnessConfig> = { config }
+  const params: ModuleParams<XyoWitnessConfig> = { config, eventData: {} as ModuleEventData }
   const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
 
   describe('fulfills type of', () => {
     it('Module', async () => {
       const witness: Module = await AbstractWitness.create(params)
       expect(witness).toBeObject()
-      const wrapper = new WitnessWrapper(witness)
+      const wrapper = new WitnessWrapper({ module: witness })
       expect(wrapper).toBeObject()
     })
     it('AbstractModule', async () => {
-      const witness: AbstractModule = await AbstractWitness.create(params)
+      const witness = await AbstractWitness.create(params)
       expect(witness).toBeObject()
-      const wrapper = new WitnessWrapper(witness)
+      const wrapper = new WitnessWrapper({ module: witness })
       expect(wrapper).toBeObject()
     })
     it('WitnessModule', async () => {
       const witness: WitnessModule = await AbstractWitness.create(params)
       expect(witness).toBeObject()
-      const wrapper = new WitnessWrapper(witness)
+      const wrapper = new WitnessWrapper({ module: witness })
       expect(wrapper).toBeObject()
     })
   })
@@ -41,7 +41,7 @@ describe('XyoWitness', () => {
         })
         it('when module queried with XyoWitnessWrapper', async () => {
           const witness = await AbstractWitness.create(params)
-          const wrapper = new WitnessWrapper(witness)
+          const wrapper = new WitnessWrapper({ module: witness })
           const observation = await wrapper.observe([observed])
           expect(observation).toBeArrayOfSize(1)
         })

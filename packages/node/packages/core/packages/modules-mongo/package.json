@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.51.9",
+  "version": "2.52.0-rc.5",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -35,9 +35,7 @@
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
-    "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/boundwitness-validator": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
@@ -46,7 +44,6 @@
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/modules": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
@@ -59,7 +56,6 @@
     "agenda": "^5.0.0",
     "inversify": "^6.0.1",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.18.3",
     "mongodb": "^5.1.0",
     "reflect-metadata": "^0.1.13"
   },
@@ -67,8 +63,9 @@
     "@types/lodash": "^4.14.191",
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
-    "mongodb-memory-server": "^8.11.5",
+    "mongodb-memory-server": "^8.12.0",
     "typescript": "^4.9.5"
   },
-  "types": "dist/types/index.d.ts"
+  "types": "dist/types/index.d.ts",
+  "stableVersion": "2.51.9"
 }

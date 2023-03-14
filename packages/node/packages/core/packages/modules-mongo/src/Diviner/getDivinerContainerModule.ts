@@ -35,6 +35,7 @@ export const getDivinerContainerModule = async (_container: Container) => {
     config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
   })) as MongoDBBoundWitnessDiviner
   const mongoDBArchiveBoundWitnessStatsDiviner = (await MongoDBArchiveBoundWitnessStatsDiviner.create({
+    addressSpaceDiviner: mongoDBAddressSpaceDiviner,
     config: { name: TYPES.BoundWitnessStatsDiviner.description, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema },
   })) as MongoDBArchiveBoundWitnessStatsDiviner
   const mongoDBLocationCertaintyDiviner = (await MongoDBLocationCertaintyDiviner.create({
@@ -47,9 +48,11 @@ export const getDivinerContainerModule = async (_container: Container) => {
     config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
   })) as MongoDBPayloadDiviner
   const mongoDBArchivePayloadStatsDiviner = (await MongoDBArchivePayloadStatsDiviner.create({
+    addressSpaceDiviner: mongoDBAddressSpaceDiviner,
     config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBArchivePayloadStatsDivinerConfigSchema },
   })) as MongoDBArchivePayloadStatsDiviner
   const mongoDBArchiveSchemaStatsDiviner = (await MongoDBArchiveSchemaStatsDiviner.create({
+    addressSpaceDiviner: mongoDBAddressSpaceDiviner,
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },
   })) as MongoDBArchiveSchemaStatsDiviner
 

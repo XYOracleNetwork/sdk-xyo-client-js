@@ -76,7 +76,7 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
         task: async () => await this.updateChanges(),
       },
       {
-        name: 'MongoDBAddressPayloadStatsDiviner.DivineArchivesBatch',
+        name: 'MongoDBAddressPayloadStatsDiviner.DivineAddressesBatch',
         schedule: '10 minute',
         task: async () => await this.divineAddressesBatch(),
       },
@@ -121,7 +121,7 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
     const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner)
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    this.logger?.log(`MongoDBAddressPayloadStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Archives`)
+    this.logger?.log(`MongoDBAddressPayloadStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Addresses`)
     this.nextOffset = addresses.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
     const results = await Promise.allSettled(addresses.map(this.divineAddressFull))
     const succeeded = results.filter(fulfilled).length

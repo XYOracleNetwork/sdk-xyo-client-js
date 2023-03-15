@@ -8,5 +8,5 @@ import { Config } from 'jest'
  * https://jestjs.io/docs/configuration#globalteardown-string
  */
 module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
-  await Promise.resolve()
+  await globalThis?.mongo?.stop()
 }

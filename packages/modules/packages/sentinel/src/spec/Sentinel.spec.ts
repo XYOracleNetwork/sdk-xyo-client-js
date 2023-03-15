@@ -137,7 +137,7 @@ describe('XyoPanel', () => {
         const panel = await MemorySentinel.create(params)
         panel.on('reportEnd', ({ errors }) => {
           console.log('reportEnd')
-          expect(errors).toBeUndefined()
+          expect(errors).toBeArrayOfSize(0)
         })
         await node.register(panel).attach(panel.address)
         const result = await panel.report()
@@ -158,7 +158,7 @@ describe('XyoPanel', () => {
         const panel = await MemorySentinel.create(params)
         panel.on('reportEnd', ({ errors }) => {
           console.log('reportEnd')
-          expect(errors).toBeUndefined()
+          expect(errors).toBeArrayOfSize(0)
         })
         await node.register(panel).attach(panel.address)
         const observed = await witnessB.observe()
@@ -180,7 +180,7 @@ describe('XyoPanel', () => {
         }
         const panel = await MemorySentinel.create(params)
         panel.on('reportEnd', ({ errors }) => {
-          expect(errors).toBeUndefined()
+          expect(errors).toBeArrayOfSize(0)
         })
         await node.register(panel).attach(panel.address)
         const observedA = await witnessA.observe()

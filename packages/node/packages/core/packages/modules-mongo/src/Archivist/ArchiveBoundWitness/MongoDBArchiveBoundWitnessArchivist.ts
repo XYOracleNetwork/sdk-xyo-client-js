@@ -3,7 +3,7 @@ import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, ModuleEventData } from '@xyo-network/module'
 import { prepareBoundWitnesses } from '@xyo-network/node-core-lib'
 import {
   ArchiveModuleConfig,
@@ -23,7 +23,7 @@ import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export type MongoDBArchiveBoundWitnessArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchiveModuleConfig>,
-  undefined,
+  ModuleEventData,
   {
     boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }

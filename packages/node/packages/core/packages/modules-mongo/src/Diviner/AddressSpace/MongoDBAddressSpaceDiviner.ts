@@ -1,5 +1,12 @@
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerParams, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import {
+  AbstractDiviner,
+  AddressSpaceDiviner,
+  DivinerConfig,
+  DivinerModuleEventData,
+  DivinerParams,
+  XyoArchivistPayloadDivinerConfigSchema,
+} from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
@@ -13,7 +20,7 @@ import { getBaseMongoSdk } from '../../Mongo'
 
 export type MongoDBAddressSpaceDivinerParams<TConfig extends DivinerConfig = DivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
-  undefined,
+  DivinerModuleEventData,
   {
     boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }

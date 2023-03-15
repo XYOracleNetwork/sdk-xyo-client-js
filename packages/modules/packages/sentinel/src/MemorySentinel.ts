@@ -55,7 +55,7 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
 
   async report(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
     const errors: Error[] = []
-    await this.emit('onReportStarted')
+    await this.emit('reportStart')
     const allWitnesses = [...(await this.getWitnesses())]
     const allPayloads: XyoPayload[] = []
 
@@ -69,7 +69,7 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
 
     const [newBoundWitness] = await this.bindResult(allPayloads)
     this.history.push(assertEx(newBoundWitness))
-    await this.emit('onReportEnded', { errors, newBoundWitness })
+    await this.emit('reportEnd', { errors, newBoundWitness })
     return [newBoundWitness, ...allPayloads]
   }
 

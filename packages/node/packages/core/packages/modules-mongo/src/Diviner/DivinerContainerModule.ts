@@ -9,11 +9,16 @@ import {
   PayloadDiviner,
   PayloadStatsDiviner,
   SchemaStatsDiviner,
+  XyoBoundWitnessWithMeta,
+  XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
+import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { JobProvider } from '@xyo-network/shared'
 import { ContainerModule, interfaces } from 'inversify'
 
+import { COLLECTIONS } from '../collections'
+import { getBaseMongoSdk } from '../Mongo'
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
@@ -36,27 +41,35 @@ let mongoDBArchiveSchemaStatsDiviner: MongoDBAddressSchemaStatsDiviner
 
 const getMongoDBAddressHistoryDiviner = async () => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
-  const params = { config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  const params = {
+    boundWitnessSdk,
+    config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
+  }
   mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
   return mongoDBAddressHistoryDiviner
 }
 const getMongoDBAddressSpaceDiviner = async () => {
   if (mongoDBAddressSpaceDiviner) return mongoDBAddressSpaceDiviner
-  const params = { config: { name: TYPES.AddressSpaceDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  const params = { boundWitnessSdk, config: { name: TYPES.AddressSpaceDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBAddressSpaceDiviner = await MongoDBAddressSpaceDiviner.create(params)
   return mongoDBAddressSpaceDiviner
 }
 const getMongoDBBoundWitnessDiviner = async () => {
   if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
-  const params = { config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  const params = { boundWitnessSdk, config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
   return mongoDBBoundWitnessDiviner
 }
 const getMongoDBAddressBoundWitnessStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const params = {
     addressSpaceDiviner,
+    boundWitnessSdk,
     config: { name: TYPES.ArchiveBoundWitnessStatsDiviner.description, schema: MongoDBAddressBoundWitnessStatsDivinerConfigSchema },
   }
   mongoDBArchiveBoundWitnessStatsDiviner = await MongoDBAddressBoundWitnessStatsDiviner.create(params)
@@ -77,16 +90,19 @@ const getMongoDBModuleAddressDiviner = async () => {
 }
 const getMongoDBPayloadDiviner = async () => {
   if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
-  const params = { config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  const params = { config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema }, payloadSdk }
   mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
   return mongoDBPayloadDiviner
 }
 const getMongoDBAddressPayloadStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBAddressPayloadStatsDiviner) return mongoDBAddressPayloadStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
+  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const params = {
     addressSpaceDiviner,
     config: { name: TYPES.ArchivePayloadStatsDiviner.description, schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
+    payloadSdk,
   }
   mongoDBAddressPayloadStatsDiviner = await MongoDBAddressPayloadStatsDiviner.create(params)
   return mongoDBAddressPayloadStatsDiviner
@@ -94,9 +110,11 @@ const getMongoDBAddressPayloadStatsDiviner = async (_context: interfaces.Context
 const getMongoDBAddressSchemaStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchiveSchemaStatsDiviner) return mongoDBArchiveSchemaStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
+  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const params = {
     addressSpaceDiviner,
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBAddressSchemaStatsDivinerConfigSchema },
+    payloadSdk,
   }
   mongoDBArchiveSchemaStatsDiviner = await MongoDBAddressSchemaStatsDiviner.create(params)
   return mongoDBArchiveSchemaStatsDiviner

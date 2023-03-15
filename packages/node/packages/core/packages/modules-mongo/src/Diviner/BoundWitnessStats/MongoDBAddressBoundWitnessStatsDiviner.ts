@@ -47,7 +47,7 @@ export type MongoDBAddressBoundWitnessStatsDivinerParams<T extends XyoPayload = 
   DivinerModuleEventData,
   {
     addressSpaceDiviner: AddressSpaceDiviner
-    sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
@@ -84,7 +84,7 @@ export class MongoDBAddressBoundWitnessStatsDiviner<
   }
 
   protected get sdk() {
-    return this.params.sdk
+    return this.params.boundWitnessSdk
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<BoundWitnessStatsPayload>> {

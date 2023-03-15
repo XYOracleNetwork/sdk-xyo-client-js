@@ -23,7 +23,7 @@ describe('MongoDBAddressPayloadStatsDiviner', () => {
       addressSpaceDiviner,
       config: { schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
       logger,
-      sdk,
+      payloadSdk: sdk,
     })
   })
   describe('divine', () => {

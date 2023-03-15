@@ -24,7 +24,7 @@ export type MongoDBAddressHistoryDivinerParams = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
   DivinerModuleEventData,
   {
-    sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
@@ -54,7 +54,9 @@ export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryD
     for (let i = 0; i < limit; i++) {
       const filter: Filter<XyoBoundWitnessWithMeta> = { addresses: address }
       if (nextHash) filter._hash = nextHash
-      const block = (await (await this.params.sdk.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+      const block = (
+        await (await this.params.boundWitnessSdk.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()
+      ).pop()
       if (!block) break
       blocks.push(block)
       const addressIndex = block.addresses.findIndex((value) => value === address)

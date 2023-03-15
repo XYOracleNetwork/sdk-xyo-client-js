@@ -18,7 +18,7 @@ export type MongoDBPayloadDivinerParams = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
   DivinerModuleEventData,
   {
-    sdk: BaseMongoSdk<XyoPayloadWithMeta>
+    payloadSdk: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 
@@ -52,6 +52,6 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
     if (hash) filter._hash = hash
     // TODO: Optimize for single schema supplied too
     if (schemas?.length) filter.schema = { $in: schemas }
-    return (await (await this.params.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
+    return (await (await this.params.payloadSdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
   }
 }

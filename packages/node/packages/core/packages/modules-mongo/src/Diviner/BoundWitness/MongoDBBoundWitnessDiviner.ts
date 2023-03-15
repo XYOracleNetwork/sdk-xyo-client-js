@@ -20,7 +20,7 @@ export type MongoDBBoundWitnessDivinerParams = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
   DivinerModuleEventData,
   {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams>
@@ -52,7 +52,7 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
     if (allAddresses.length) filter.addresses = allAddresses.length === 1 ? allAddresses[0] : { $all: allAddresses }
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }
     if (payload_schemas?.length) filter.payload_schemas = { $in: payload_schemas }
-    return (await (await this.params.boundWitnesses.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
+    return (await (await this.params.boundWitnessSdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
   }
 }
 

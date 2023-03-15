@@ -7,21 +7,11 @@ import {
   ModuleAddressPayload,
   ModuleAddressQueryPayload,
   ModuleAddressSchema,
-  XyoBoundWitnessWithMeta,
-  XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayloads } from '@xyo-network/payload-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
-export type MongoDBModuleAddressDivinerParams = DivinerParams<
-  AnyConfigSchema<DivinerConfig>,
-  DivinerModuleEventData,
-  {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-    payloads: BaseMongoSdk<XyoPayloadWithMeta>
-  }
->
+export type MongoDBModuleAddressDivinerParams = DivinerParams<AnyConfigSchema<DivinerConfig>, DivinerModuleEventData>
 export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDivinerParams = MongoDBModuleAddressDivinerParams>
   extends AbstractDiviner<TParams>
   implements ModuleAddressDiviner

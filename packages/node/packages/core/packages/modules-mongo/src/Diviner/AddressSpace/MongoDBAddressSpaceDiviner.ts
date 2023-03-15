@@ -21,7 +21,7 @@ export type MongoDBAddressSpaceDivinerParams<TConfig extends DivinerConfig = Div
   AnyConfigSchema<TConfig>,
   DivinerModuleEventData,
   {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
@@ -36,7 +36,7 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
     //if (!query) return []
     // Issue a distinct query against the BoundWitnesses collection
     // on the address field
-    const result = await this.params.boundWitnesses.useMongo((db) => {
+    const result = await this.params.boundWitnessSdk.useMongo((db) => {
       return db.db(DATABASES.Archivist).command(
         {
           distinct: COLLECTIONS.BoundWitnesses,

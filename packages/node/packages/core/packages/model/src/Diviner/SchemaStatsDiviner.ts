@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner'
+import { XyoQuery } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 
-import { ArchiveQueryPayload } from './ArchiveQueryPayload'
 import { ArchivistPayloadStatsDivinerConfig } from './PayloadStatsDiviner'
 
 export type SchemaStatsSchema = 'network.xyo.archivist.schema.stats'
@@ -32,7 +32,7 @@ export type SchemaStatsPayload = XyoPayload<{
 
 export const isSchemaStatsPayload = (x?: XyoPayload | null): x is SchemaStatsPayload => x?.schema === SchemaStatsSchema
 
-export type SchemaStatsQueryPayload = ArchiveQueryPayload<{ schema: SchemaStatsQuerySchema }>
+export type SchemaStatsQueryPayload = XyoQuery<{ schema: SchemaStatsQuerySchema }>
 export const isSchemaStatsQueryPayload = (x?: XyoPayload | null): x is SchemaStatsQueryPayload => x?.schema === SchemaStatsQuerySchema
 
 export type SchemaStatsDiviner = AbstractDiviner

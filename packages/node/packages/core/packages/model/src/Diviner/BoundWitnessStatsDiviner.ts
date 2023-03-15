@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner'
+import { XyoQuery } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 
-import { ArchiveQueryPayload } from './ArchiveQueryPayload'
 import { ArchivistPayloadStatsDivinerConfig } from './PayloadStatsDiviner'
 import { StatsPayload } from './StatsPayload'
 
@@ -27,7 +27,7 @@ export type BoundWitnessStatsDivinerConfig<
 export type BoundWitnessStatsPayload = StatsPayload<{ schema: BoundWitnessStatsSchema }>
 export const isBoundWitnessStatsPayload = (x?: XyoPayload | null): x is BoundWitnessStatsPayload => x?.schema === BoundWitnessStatsSchema
 
-export type BoundWitnessStatsQueryPayload = ArchiveQueryPayload<{ schema: BoundWitnessStatsQuerySchema }>
+export type BoundWitnessStatsQueryPayload = XyoQuery<{ schema: BoundWitnessStatsQuerySchema }>
 export const isBoundWitnessStatsQueryPayload = (x?: XyoPayload | null): x is BoundWitnessStatsQueryPayload =>
   x?.schema === BoundWitnessStatsQuerySchema
 

@@ -22,7 +22,7 @@ import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBModuleAddressDiviner } from './ModuleAddress'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBAddressPayloadStatsDiviner, MongoDBAddressPayloadStatsDivinerConfigSchema } from './PayloadStats'
-import { MongoDBArchiveSchemaStatsDiviner, MongoDBArchiveSchemaStatsDivinerConfigSchema } from './SchemaStats'
+import { MongoDBAddressSchemaStatsDiviner, MongoDBAddressSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
 let mongoDBAddressSpaceDiviner: MongoDBAddressSpaceDiviner
@@ -32,7 +32,7 @@ let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
 let mongoDBModuleAddressDiviner: MongoDBModuleAddressDiviner
 let mongoDBPayloadDiviner: MongoDBPayloadDiviner
 let mongoDBAddressPayloadStatsDiviner: MongoDBAddressPayloadStatsDiviner
-let mongoDBArchiveSchemaStatsDiviner: MongoDBArchiveSchemaStatsDiviner
+let mongoDBArchiveSchemaStatsDiviner: MongoDBAddressSchemaStatsDiviner
 
 const getMongoDBAddressHistoryDiviner = async () => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
@@ -91,14 +91,14 @@ const getMongoDBAddressPayloadStatsDiviner = async (_context: interfaces.Context
   mongoDBAddressPayloadStatsDiviner = await MongoDBAddressPayloadStatsDiviner.create(params)
   return mongoDBAddressPayloadStatsDiviner
 }
-const getMongoDBArchiveSchemaStatsDiviner = async (_context: interfaces.Context) => {
+const getMongoDBAddressSchemaStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchiveSchemaStatsDiviner) return mongoDBArchiveSchemaStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
   const params = {
     addressSpaceDiviner,
-    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },
+    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBAddressSchemaStatsDivinerConfigSchema },
   }
-  mongoDBArchiveSchemaStatsDiviner = await MongoDBArchiveSchemaStatsDiviner.create(params)
+  mongoDBArchiveSchemaStatsDiviner = await MongoDBAddressSchemaStatsDiviner.create(params)
   return mongoDBArchiveSchemaStatsDiviner
 }
 
@@ -141,8 +141,8 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBAddressPayloadStatsDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBAddressPayloadStatsDiviner).inSingletonScope()
 
-  bind(MongoDBArchiveSchemaStatsDiviner).toDynamicValue(getMongoDBArchiveSchemaStatsDiviner).inSingletonScope()
-  bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toDynamicValue(getMongoDBArchiveSchemaStatsDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBArchiveSchemaStatsDiviner).inSingletonScope()
-  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBArchiveSchemaStatsDiviner).inSingletonScope()
+  bind(MongoDBAddressSchemaStatsDiviner).toDynamicValue(getMongoDBAddressSchemaStatsDiviner).inSingletonScope()
+  bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toDynamicValue(getMongoDBAddressSchemaStatsDiviner).inSingletonScope()
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBAddressSchemaStatsDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBAddressSchemaStatsDiviner).inSingletonScope()
 })

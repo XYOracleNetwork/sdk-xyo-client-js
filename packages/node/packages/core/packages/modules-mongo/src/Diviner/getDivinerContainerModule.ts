@@ -22,7 +22,7 @@ import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBModuleAddressDiviner } from './ModuleAddress'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBAddressPayloadStatsDiviner, MongoDBAddressPayloadStatsDivinerConfigSchema } from './PayloadStats'
-import { MongoDBArchiveSchemaStatsDiviner, MongoDBArchiveSchemaStatsDivinerConfigSchema } from './SchemaStats'
+import { MongoDBAddressSchemaStatsDiviner, MongoDBAddressSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
 export const getDivinerContainerModule = async (_container: Container) => {
   const mongoDBAddressHistoryDiviner = (await MongoDBAddressHistoryDiviner.create({
@@ -51,10 +51,10 @@ export const getDivinerContainerModule = async (_container: Container) => {
     addressSpaceDiviner: mongoDBAddressSpaceDiviner,
     config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
   })) as MongoDBAddressPayloadStatsDiviner
-  const mongoDBArchiveSchemaStatsDiviner = (await MongoDBArchiveSchemaStatsDiviner.create({
+  const mongoDBArchiveSchemaStatsDiviner = (await MongoDBAddressSchemaStatsDiviner.create({
     addressSpaceDiviner: mongoDBAddressSpaceDiviner,
-    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },
-  })) as MongoDBArchiveSchemaStatsDiviner
+    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBAddressSchemaStatsDivinerConfigSchema },
+  })) as MongoDBAddressSchemaStatsDiviner
 
   return new ContainerModule((bind: interfaces.Bind) => {
     bind(MongoDBAddressHistoryDiviner).toConstantValue(mongoDBAddressHistoryDiviner)
@@ -95,9 +95,9 @@ export const getDivinerContainerModule = async (_container: Container) => {
     bind<JobProvider>(TYPES.JobProvider).toService(MongoDBAddressPayloadStatsDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBAddressPayloadStatsDiviner)
 
-    bind(MongoDBArchiveSchemaStatsDiviner).toConstantValue(mongoDBArchiveSchemaStatsDiviner)
-    bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toService(MongoDBArchiveSchemaStatsDiviner)
-    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBArchiveSchemaStatsDiviner)
-    bind<Module>(TYPES.Module).toService(MongoDBArchiveSchemaStatsDiviner)
+    bind(MongoDBAddressSchemaStatsDiviner).toConstantValue(mongoDBArchiveSchemaStatsDiviner)
+    bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toService(MongoDBAddressSchemaStatsDiviner)
+    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBAddressSchemaStatsDiviner)
+    bind<Module>(TYPES.Module).toService(MongoDBAddressSchemaStatsDiviner)
   })
 }

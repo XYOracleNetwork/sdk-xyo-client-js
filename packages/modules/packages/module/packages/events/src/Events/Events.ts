@@ -117,7 +117,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     isGlobalDebugEnabled = newValue
   }
 
-  clearListeners(eventNames: keyof TEventData | keyof TEventData[]) {
+  clearListeners(eventNames: keyof TEventData | (keyof TEventData)[]) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
 
     for (const eventName of eventNamesArray) {
@@ -221,7 +221,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     return events.get(eventName)
   }
 
-  listenerCount(eventNames: keyof TEventData | keyof TEventData[]) {
+  listenerCount(eventNames: keyof TEventData | (keyof TEventData)[]) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
     let count = 0
 
@@ -252,7 +252,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     }
   }
 
-  off(eventNames: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>) {
+  off(eventNames: keyof TEventData | (keyof TEventData)[], listener: EventListener<TEventData>) {
     assertListener(listener)
 
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
@@ -284,7 +284,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     forget(this.emitMetaEvent(listenerRemoved, { listener }))
   }
 
-  on(eventNames: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>) {
+  on(eventNames: keyof TEventData | (keyof TEventData)[], listener: EventListener<TEventData>) {
     assertListener(listener)
 
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
@@ -319,7 +319,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     return this.offAny.bind(this, listener)
   }
 
-  once(eventNames: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>) {
+  once(eventNames: keyof TEventData | (keyof TEventData)[], listener: EventListener<TEventData>) {
     const subListener = async (args?: TEventData[keyof TEventData]) => {
       this.off(eventNames, subListener)
       await listener(args)

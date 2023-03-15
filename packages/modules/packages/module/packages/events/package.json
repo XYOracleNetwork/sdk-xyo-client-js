@@ -10,9 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/assert": "^2.7.4",
     "@xylabs/forget": "^2.7.4",
-    "@xyo-network/promise": "workspace:^",
-    "@xyo-network/protocol": "workspace:^"
+    "@xyo-network/core": "workspace:^",
+    "@xyo-network/promise": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.1",

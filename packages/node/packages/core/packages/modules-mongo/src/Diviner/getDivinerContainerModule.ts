@@ -67,7 +67,6 @@ export const getDivinerContainerModule = async (_container: Container) => {
 
     bind(MongoDBBoundWitnessDiviner).toConstantValue(mongoDBBoundWitnessDiviner)
     bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toService(MongoDBBoundWitnessDiviner)
-    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBBoundWitnessDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBBoundWitnessDiviner)
 
     bind(MongoDBAddressBoundWitnessStatsDiviner).toConstantValue(mongoDBArchiveBoundWitnessStatsDiviner)
@@ -77,17 +76,14 @@ export const getDivinerContainerModule = async (_container: Container) => {
 
     bind(MongoDBLocationCertaintyDiviner).toConstantValue(mongoDBLocationCertaintyDiviner)
     bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toService(MongoDBLocationCertaintyDiviner)
-    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBLocationCertaintyDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBLocationCertaintyDiviner)
 
     bind(MongoDBModuleAddressDiviner).toConstantValue(mongoDBModuleAddressDiviner)
     bind<ModuleAddressDiviner>(TYPES.ModuleAddressDiviner).toService(MongoDBModuleAddressDiviner)
-    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBModuleAddressDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBModuleAddressDiviner)
 
     bind(MongoDBPayloadDiviner).toConstantValue(mongoDBPayloadDiviner)
     bind<PayloadDiviner>(TYPES.PayloadDiviner).toService(MongoDBPayloadDiviner)
-    bind<JobProvider>(TYPES.JobProvider).toService(MongoDBPayloadDiviner)
     bind<Module>(TYPES.Module).toService(MongoDBPayloadDiviner)
 
     bind(MongoDBAddressPayloadStatsDiviner).toConstantValue(mongoDBAddressPayloadStatsDiviner)

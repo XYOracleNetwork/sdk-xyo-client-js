@@ -19,8 +19,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/shared": "workspace:^"
+    "@xyo-network/payloadset-plugin": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.1",

@@ -5,7 +5,6 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider } from '@xyo-network/shared'
 import { Filter, SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
@@ -15,28 +14,18 @@ import { getBaseMongoSdk, removeId } from '../../Mongo'
 export type MongoDBBoundWitnessDivinerParams = DivinerParams<AnyConfigSchema<XyoArchivistPayloadDivinerConfig>>
 export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams>
   extends AbstractDiviner<TParams>
-  implements BoundWitnessDiviner, JobProvider
+  implements BoundWitnessDiviner
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-
-  get jobs(): Job[] {
-    return [
-      // {
-      //   name: 'MongoDBBoundWitnessDiviner.DivineBatch',
-      //   schedule: '10 minute',
-      //   task: async () => await this.divineArchivesBatch(),
-      // },
-    ]
-  }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
     const query = payloads?.find<BoundWitnessQueryPayload>(isBoundWitnessQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { archive, archives, address, addresses, hash, limit, order, payload_hashes, payload_schemas, schema, timestamp, ...props } = query
+    const { address, addresses, hash, limit, order, payload_hashes, payload_schemas, schema, timestamp, ...props } = query
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
@@ -45,8 +34,6 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0
       filter._timestamp = parsedOrder === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
     }
-    if (archive) filter._archive = archive
-    if (archives?.length) filter._archive = { $in: archives }
     if (hash) filter._hash = hash
     // NOTE: Defaulting to $all since it makes the most sense when singing addresses are supplied
     // but based on how MongoDB implements multi-key indexes $in might be much faster and we could

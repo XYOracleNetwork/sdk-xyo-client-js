@@ -6915,7 +6915,6 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
-    "@xyo-network/shared": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -7003,11 +7002,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-events@workspace:packages/modules/packages/module/packages/events"
   dependencies:
+    "@xylabs/assert": ^2.7.4
     "@xylabs/forget": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    "@xyo-network/protocol": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -7493,7 +7493,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/protocol@workspace:^, @xyo-network/protocol@workspace:packages/protocol":
+"@xyo-network/protocol@workspace:packages/protocol":
   version: 0.0.0-use.local
   resolution: "@xyo-network/protocol@workspace:packages/protocol"
   dependencies:

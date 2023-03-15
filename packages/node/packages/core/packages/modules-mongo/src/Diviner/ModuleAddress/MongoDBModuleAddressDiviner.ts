@@ -13,7 +13,6 @@ import {
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider } from '@xyo-network/shared'
 
 import { COLLECTIONS } from '../../collections'
 import { getBaseMongoSdk } from '../../Mongo'
@@ -21,22 +20,12 @@ import { getBaseMongoSdk } from '../../Mongo'
 export type MongoDBModuleAddressDivinerParams = DivinerParams<AnyConfigSchema<DivinerConfig>>
 export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDivinerParams = MongoDBModuleAddressDivinerParams>
   extends AbstractDiviner<TParams>
-  implements ModuleAddressDiviner, JobProvider
+  implements ModuleAddressDiviner
 {
   static override configSchema = XyoDivinerConfigSchema
 
   protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
-
-  get jobs(): Job[] {
-    return [
-      {
-        name: 'MongoDBModuleAddressDiviner.DivineAddressBatch',
-        schedule: '10 minute',
-        task: async () => await this.divineModuleAddressBatch(),
-      },
-    ]
-  }
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {
     const query = payloads?.find<ModuleAddressQueryPayload>(isModuleAddressQueryPayload)
@@ -51,12 +40,5 @@ export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDiv
     }
     // else return empty response
     return []
-  }
-
-  private divineModuleAddressBatch = async () => {
-    this.logger?.log('MongoDBModuleAddressDiviner.DivineModuleAddressBatch: Divining addresses for batch')
-    // TODO: Any background/batch processing here
-    await Promise.resolve()
-    this.logger?.log('MongoDBModuleAddressDiviner.DivineModuleAddressBatch: Divined addresses for batch')
   }
 }

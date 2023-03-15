@@ -12,11 +12,11 @@ describe('MongoDBAddressSchemaStatsDiviner', () => {
   const logger = mock<Console>()
   let sut: MongoDBAddressSchemaStatsDiviner
   beforeAll(async () => {
-    sut = (await MongoDBAddressSchemaStatsDiviner.create({
+    sut = await MongoDBAddressSchemaStatsDiviner.create({
       addressSpaceDiviner,
       config: { schema: MongoDBAddressSchemaStatsDivinerConfigSchema },
       logger,
-    })) as MongoDBAddressSchemaStatsDiviner
+    })
   })
   describe('divine', () => {
     describe('with address supplied in query', () => {

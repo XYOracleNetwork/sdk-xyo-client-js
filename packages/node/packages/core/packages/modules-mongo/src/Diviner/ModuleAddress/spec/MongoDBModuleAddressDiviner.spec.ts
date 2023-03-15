@@ -1,12 +1,14 @@
 import { XyoDivinerConfigSchema } from '@xyo-network/diviner-model'
 import { ModuleAddressPayload, ModuleAddressQueryPayload, ModuleAddressQuerySchema, ModuleAddressSchema } from '@xyo-network/node-core-model'
+import { mock } from 'jest-mock-extended'
 
 import { MongoDBModuleAddressDiviner } from '../MongoDBModuleAddressDiviner'
 
 describe('MongoDBModuleAddressDiviner', () => {
+  const logger = mock<Console>()
   let sut: MongoDBModuleAddressDiviner
-  beforeEach(async () => {
-    sut = (await MongoDBModuleAddressDiviner.create({ config: { schema: XyoDivinerConfigSchema } })) as MongoDBModuleAddressDiviner
+  beforeAll(async () => {
+    sut = await MongoDBModuleAddressDiviner.create({ config: { schema: XyoDivinerConfigSchema }, logger })
   })
   describe('divine', () => {
     describe('with valid query', () => {

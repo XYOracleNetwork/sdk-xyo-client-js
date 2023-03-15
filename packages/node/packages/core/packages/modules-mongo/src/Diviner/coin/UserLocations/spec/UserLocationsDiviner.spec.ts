@@ -1,24 +1,21 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { mock, MockProxy } from 'jest-mock-extended'
+import { mock } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../../collections'
 import { getBaseMongoSdk } from '../../../../Mongo'
 import { CoinCurrentUserWitnessPayload, CoinCurrentUserWitnessSchema, CoinUserLocationsDiviner } from '../UserLocationsDiviner'
 
 describe('CoinUserLocationsDiviner', () => {
-  let account: Account
-  let sdk: BaseMongoSdk<XyoPayloadWithMeta>
-  let payloadsArchivist: MockProxy<PayloadArchivist>
-  let bwArchivist: MockProxy<BoundWitnessArchivist>
+  const account = Account.random()
+  const payloadsArchivist = mock<PayloadArchivist>()
+  const bwArchivist = mock<BoundWitnessArchivist>()
+  const sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  const logger = mock<Console>()
   let sut: CoinUserLocationsDiviner
-  beforeEach(() => {
-    account = Account.random()
-    payloadsArchivist = mock<PayloadArchivist>()
-    bwArchivist = mock<BoundWitnessArchivist>()
-    sdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  beforeAll(() => {
     sut = new CoinUserLocationsDiviner(account, payloadsArchivist, bwArchivist, sdk)
+    sut.params.logger = logger
   })
   describe('divine', () => {
     describe('with valid query', () => {

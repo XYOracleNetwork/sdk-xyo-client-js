@@ -37,7 +37,6 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
     //if (!query) return []
     // Issue a distinct query against the BoundWitnesses collection
     // on the address field
-    console.log('MongoDBAddressSpaceDiviner-divine')
     const result = await this.sdk.useMongo((db) => {
       return db.db(DATABASES.Archivist).command(
         {

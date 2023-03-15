@@ -1,1 +1,1 @@
-export * from './MongoDBSchemaStatsDiviner'
+export * from './MongoDBAddressSchemaStatsDiviner'

@@ -2,15 +2,20 @@ import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { mock } from 'jest-mock-extended'
 
 import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
 
 describe('MongoDBAddressSpaceDiviner', () => {
-  const phrase = 'test'
+  const phrase = 'temp'
   const address = new Account({ phrase }).addressValue.hex
+  const logger = mock<Console>()
   let sut: MongoDBAddressSpaceDiviner
-  beforeEach(async () => {
-    sut = (await MongoDBAddressSpaceDiviner.create({ config: { schema: XyoArchivistPayloadDivinerConfigSchema } })) as MongoDBAddressSpaceDiviner
+  beforeAll(async () => {
+    sut = await MongoDBAddressSpaceDiviner.create({
+      config: { schema: XyoArchivistPayloadDivinerConfigSchema },
+      logger,
+    })
   })
   describe('divine', () => {
     describe('with valid query', () => {

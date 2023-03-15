@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModuleEventData } from '@xyo-network/diviner'
+import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModuleEventData, DivinerWrapper } from '@xyo-network/diviner'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import {
   BoundWitnessStatsDiviner,
@@ -30,33 +31,33 @@ interface Stats {
   }
 }
 
-export type MongoDBArchiveBoundWitnessStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.boundwitness'
-export const MongoDBArchiveBoundWitnessStatsDivinerConfigSchema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema =
+export type MongoDBAddressBoundWitnessStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.boundwitness'
+export const MongoDBAddressBoundWitnessStatsDivinerConfigSchema: MongoDBAddressBoundWitnessStatsDivinerConfigSchema =
   'network.xyo.module.config.diviner.stats.boundwitness'
 
-export type MongoDBArchiveBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
+export type MongoDBAddressBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
   WithAdditional<
     XyoPayload,
     T & {
-      schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
+      schema: MongoDBAddressBoundWitnessStatsDivinerConfigSchema
     }
   >
 >
-export type MongoDBArchiveBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
-  AnyConfigSchema<MongoDBArchiveBoundWitnessStatsDivinerConfig<T>>,
+export type MongoDBAddressBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
+  AnyConfigSchema<MongoDBAddressBoundWitnessStatsDivinerConfig<T>>,
   DivinerModuleEventData,
   {
     addressSpaceDiviner: AddressSpaceDiviner
   }
 >
 
-export class MongoDBArchiveBoundWitnessStatsDiviner<
-    TParams extends MongoDBArchiveBoundWitnessStatsDivinerParams = MongoDBArchiveBoundWitnessStatsDivinerParams,
+export class MongoDBAddressBoundWitnessStatsDiviner<
+    TParams extends MongoDBAddressBoundWitnessStatsDivinerParams = MongoDBAddressBoundWitnessStatsDivinerParams,
   >
   extends AbstractDiviner<TParams>
   implements BoundWitnessStatsDiviner, JobProvider
 {
-  static override configSchema = MongoDBArchiveBoundWitnessStatsDivinerConfigSchema
+  static override configSchema = MongoDBAddressBoundWitnessStatsDivinerConfigSchema
 
   protected readonly batchLimit = 100
   protected changeStream: ChangeStream | undefined = undefined
@@ -69,7 +70,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
   get jobs(): Job[] {
     return [
       {
-        name: 'MongoDBArchiveBoundWitnessStatsDiviner.UpdateChanges',
+        name: 'MongoDBAddressBoundWitnessStatsDiviner.UpdateChanges',
         onSuccess: () => {
           this.pendingCounts = {}
         },
@@ -77,9 +78,9 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
         task: async () => await this.updateChanges(),
       },
       {
-        name: 'MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch',
+        name: 'MongoDBAddressBoundWitnessStatsDiviner.DivineAddressesBatch',
         schedule: '10 minute',
-        task: async () => await this.divineArchivesBatch(),
+        task: async () => await this.divineAddressesBatch(),
       },
     ]
   }
@@ -91,9 +92,9 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<BoundWitnessStatsPayload>> {
     const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
-    const archive = query?.archive
-    const count = archive ? await this.divineArchive(archive) : await this.divineAllArchives()
-    return [new XyoPayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build()]
+    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
+    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    return counts.map((count) => new XyoPayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build())
   }
 
   override async start() {
@@ -106,9 +107,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
     return await super.stop()
   }
 
-  private divineAllArchives = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
-
-  private divineArchive = async (archive: string) => {
+  private divineAddress = async (archive: string) => {
     const stats = await this.sdk.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive })
     })
@@ -117,25 +116,26 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
     return remote + local
   }
 
-  private divineArchiveFull = async (archive: string) => {
+  private divineAddressFull = async (archive: string) => {
     const count = await this.sdk.useCollection((collection) => collection.countDocuments({ _archive: archive }))
     await this.storeDivinedResult(archive, count)
     return count
   }
 
-  private divineArchivesBatch = async () => {
-    this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    await Promise.resolve()
-    // TODO: Look across address space and divine
-    // const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
-    // const archives = result.map((archive) => archive?.archive).filter(exists)
-    // this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
-    // this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
-    // const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
-    // const succeeded = results.filter(fulfilled).length
-    // const failed = results.filter(rejected).length
-    // this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+  private divineAddressesBatch = async () => {
+    this.logger?.log(`MongoDBAddressBoundWitnessStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
+    const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner)
+    const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
+    const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
+    this.logger?.log(`MongoDBAddressBoundWitnessStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Addresses`)
+    this.nextOffset = addresses.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
+    const results = await Promise.allSettled(addresses.map(this.divineAddressFull))
+    const succeeded = results.filter(fulfilled).length
+    const failed = results.filter(rejected).length
+    this.logger?.log(`MongoDBAddressBoundWitnessStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
+
+  private divineAllAddresses = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
 
   private processChange = (change: ChangeStreamInsertDocument<XyoBoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
@@ -144,7 +144,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
   }
 
   private registerWithChangeStream = async () => {
-    this.logger?.log('MongoDBArchiveBoundWitnessStatsDiviner.RegisterWithChangeStream: Registering')
+    this.logger?.log('MongoDBAddressBoundWitnessStatsDiviner.RegisterWithChangeStream: Registering')
     const wrapper = MongoClientWrapper.get(this.sdk.uri, this.sdk.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, 'Connection failed')
@@ -153,7 +153,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
     this.changeStream = collection.watch([], opts)
     this.changeStream.on('change', this.processChange)
     this.changeStream.on('error', this.registerWithChangeStream)
-    this.logger?.log('MongoDBArchiveBoundWitnessStatsDiviner.RegisterWithChangeStream: Registered')
+    this.logger?.log('MongoDBAddressBoundWitnessStatsDiviner.RegisterWithChangeStream: Registered')
   }
 
   private storeDivinedResult = async (archive: string, count: number) => {
@@ -167,7 +167,7 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
   }
 
   private updateChanges = async () => {
-    this.logger?.log('MongoDBArchiveBoundWitnessStatsDiviner.UpdateChanges: Updating')
+    this.logger?.log('MongoDBAddressBoundWitnessStatsDiviner.UpdateChanges: Updating')
     const updates = Object.keys(this.pendingCounts).map((archive) => {
       const count = this.pendingCounts[archive]
       this.pendingCounts[archive] = 0
@@ -179,6 +179,6 @@ export class MongoDBArchiveBoundWitnessStatsDiviner<
     const results = await Promise.allSettled(updates)
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBArchiveBoundWitnessStatsDiviner.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
+    this.logger?.log(`MongoDBAddressBoundWitnessStatsDiviner.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 }

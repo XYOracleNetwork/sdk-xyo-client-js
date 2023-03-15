@@ -3,8 +3,8 @@ import { XyoPayload } from '@xyo-network/payload-model'
 
 export type DivinerReportEndEventArgs = ModuleEventArgs<{
   errors?: Error[]
-  inPayload?: XyoPayload[]
-  outPayload?: XyoPayload[]
+  inPayloads?: XyoPayload[]
+  outPayloads: XyoPayload[]
 }>
 
 export interface DivinerReportEndEventData extends EventData {

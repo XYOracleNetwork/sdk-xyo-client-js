@@ -4,7 +4,7 @@ import { XyoEthereumGasEthersPayload, XyoEthereumGasEthersSchema } from '@xyo-ne
 import { AnyConfigSchema } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
-import { TimestampWitness, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness'
+import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoEthereumGasEthersWitnessConfig } from './Config'
 import { getGasFromEthers } from './lib'
@@ -12,7 +12,6 @@ import { XyoEthereumGasEthersWitnessConfigSchema } from './Schema'
 
 export type XyoEthereumGasEthersWitnessParams = WitnessParams<
   AnyConfigSchema<XyoEthereumGasEthersWitnessConfig>,
-  WitnessModuleEventData,
   {
     provider?: Provider
   }

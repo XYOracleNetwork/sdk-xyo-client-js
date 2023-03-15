@@ -14,8 +14,10 @@ export interface SentinelModuleEventData extends SentinelReportEndEventData, Sen
 
 export type SentinelParams<
   TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>,
-  TEventData extends SentinelModuleEventData = SentinelModuleEventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TEventData, TAdditionalParams>
+> = ModuleParams<TConfig, TAdditionalParams>
 
-export type SentinelModule<TParams extends SentinelParams = SentinelParams> = Module<TParams> & Sentinel
+export type SentinelModule<
+  TParams extends SentinelParams = SentinelParams,
+  TEventData extends SentinelModuleEventData = SentinelModuleEventData,
+> = Module<TParams, TEventData> & Sentinel

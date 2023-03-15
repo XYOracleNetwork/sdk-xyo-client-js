@@ -21,14 +21,13 @@ export type TProxyModuleConfig = ModuleConfig<{ schema: ProxyModuleConfigSchema 
 
 export type ProxyModuleParams = ModuleParams<
   TProxyModuleConfig,
-  ModuleEventData,
   {
     address: string
     bridge: BridgeModule
   }
 >
 
-export class ProxyModule extends BaseEmitter<ProxyModuleParams> implements Module {
+export class ProxyModule extends BaseEmitter<ProxyModuleParams> implements Module<ModuleParams, ModuleEventData> {
   readonly upResolver = new CompositeModuleResolver()
 
   constructor(params: ProxyModuleParams) {

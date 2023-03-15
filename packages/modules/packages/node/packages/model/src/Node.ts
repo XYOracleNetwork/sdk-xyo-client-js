@@ -16,8 +16,8 @@ export interface NodeModuleEventData extends ModuleAttachedEventData, ModuleDeta
 
 export type NodeModuleParams<
   TConfig extends AnyConfigSchema<NodeConfig> = AnyConfigSchema<NodeConfig>,
-  TEventData extends NodeModuleEventData = NodeModuleEventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TEventData, TAdditionalParams>
+> = ModuleParams<TConfig, TAdditionalParams>
 
-export type NodeModule<TParams extends NodeModuleParams = NodeModuleParams> = Node & Module<TParams>
+export type NodeModule<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData> = Node &
+  Module<TParams, TEventData>

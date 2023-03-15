@@ -6,7 +6,9 @@ import {
   duplicateModules,
   Module,
   ModuleConfig,
+  ModuleEventData,
   ModuleFilter,
+  ModuleParams,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
@@ -16,9 +18,13 @@ import {
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module>
+export abstract class AbstractBridge<
+    TParams extends BridgeParams = BridgeParams,
+    TEventData extends ModuleEventData = ModuleEventData,
+    TModule extends Module<ModuleParams, TParams> = Module<ModuleParams, TEventData>,
+  >
   extends AbstractModule<TParams>
-  implements BridgeModule<TParams, TModule>
+  implements BridgeModule<TParams, TEventData, TModule>
 {
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
 

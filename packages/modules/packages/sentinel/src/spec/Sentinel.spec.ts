@@ -15,6 +15,7 @@ import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { SentinelConfig, SentinelConfigSchema } from '../Config'
+import { SentinelReportEndEventArgs } from '../Events'
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 
 describe('XyoPanel', () => {
@@ -134,13 +135,14 @@ describe('XyoPanel', () => {
             witnesses: [witnessA.address, witnessB.address],
           },
         }
-        const panel = await MemorySentinel.create(params)
-        panel.on('reportEnd', ({ errors }) => {
+        const sentinel = await MemorySentinel.create(params)
+        sentinel.on('reportEnd', (args) => {
+          const { errors } = args as SentinelReportEndEventArgs
           console.log('reportEnd')
           expect(errors).toBeArrayOfSize(0)
         })
-        await node.register(panel).attach(panel.address)
-        const result = await panel.report()
+        await node.register(sentinel).attach(sentinel.address)
+        const result = await sentinel.report()
         assertPanelReport(result)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
@@ -156,7 +158,8 @@ describe('XyoPanel', () => {
           },
         }
         const panel = await MemorySentinel.create(params)
-        panel.on('reportEnd', ({ errors }) => {
+        panel.on('reportEnd', (args) => {
+          const { errors } = args as SentinelReportEndEventArgs
           console.log('reportEnd')
           expect(errors).toBeArrayOfSize(0)
         })
@@ -179,7 +182,8 @@ describe('XyoPanel', () => {
           },
         }
         const panel = await MemorySentinel.create(params)
-        panel.on('reportEnd', ({ errors }) => {
+        panel.on('reportEnd', (args) => {
+          const { errors } = args as SentinelReportEndEventArgs
           expect(errors).toBeArrayOfSize(0)
         })
         await node.register(panel).attach(panel.address)
@@ -222,7 +226,8 @@ describe('XyoPanel', () => {
         }
 
         const sentinel = await MemorySentinel.create(params)
-        sentinel.on('reportEnd', ({ errors }) => {
+        sentinel.on('reportEnd', (args) => {
+          const { errors } = args as SentinelReportEndEventArgs
           console.log('reportEnd')
           expect(errors?.length).toBe(1)
           expect(errors?.[0]?.message).toBe('observation failed')

@@ -1,4 +1,4 @@
-import { AnyConfigSchema, ModuleEventData, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import { XyoWitnessConfig } from '@xyo-network/witness'
 
 export type CurrentLocationWitnessConfigSchema = 'network.xyo.location.current.config'
@@ -8,4 +8,4 @@ export type CurrentLocationWitnessConfig = XyoWitnessConfig<{
   schema: CurrentLocationWitnessConfigSchema
 }>
 
-export type CurrentLocationWitnessParams = ModuleParams<AnyConfigSchema<CurrentLocationWitnessConfig>, ModuleEventData, { geolocation?: Geolocation }>
+export type CurrentLocationWitnessParams = ModuleParams<AnyConfigSchema<CurrentLocationWitnessConfig>, { geolocation?: Geolocation }>

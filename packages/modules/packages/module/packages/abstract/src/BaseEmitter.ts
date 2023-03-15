@@ -1,7 +1,7 @@
-import { Base } from '@xyo-network/core'
-import { EventAnyListener, EventDataParams, EventFunctions, EventListener, Events } from '@xyo-network/module-events'
+import { Base, BaseParams } from '@xyo-network/core'
+import { EventAnyListener, EventData, EventFunctions, EventListener, Events } from '@xyo-network/module-events'
 
-export class BaseEmitter<TParams extends EventDataParams = EventDataParams, TEventData extends TParams['eventData'] = TParams['eventData']>
+export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData extends EventData = EventData>
   extends Base<TParams>
   implements EventFunctions<TEventData>
 {
@@ -9,14 +9,17 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams, TEve
 
   constructor(params: TParams) {
     super(params)
-    this.events = new Events(params.eventData)
+    this.events = new Events<TEventData>()
   }
 
   clearListeners(eventNames: keyof TEventData | (keyof TEventData)[]) {
     return this.events.clearListeners(eventNames)
   }
 
-  emit(eventName: keyof TEventData, eventArgs?: TEventData[keyof TEventData]) {
+  emit<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs?: TEventArgs,
+  ) {
     return this.events.emit(eventName, eventArgs)
   }
 
@@ -32,10 +35,10 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams, TEve
     eventNames: TEventName | TEventName[],
     listener: EventListener<TEventArgs>,
   ) {
-    return this.events.off(eventNames, listener as EventListener<TEventData[keyof TEventData]>)
+    return this.events.off(eventNames, listener)
   }
 
-  offAny(listener: EventAnyListener<TEventData[keyof TEventData]>) {
+  offAny<TEventArgs extends TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>) {
     return this.events.offAny(listener)
   }
 
@@ -46,11 +49,11 @@ export class BaseEmitter<TParams extends EventDataParams = EventDataParams, TEve
     return this.events.on(eventNames, listener)
   }
 
-  onAny(listener: EventAnyListener<TEventData>) {
+  onAny<TEventArgs extends TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>) {
     return this.events.onAny(listener)
   }
 
-  once<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(eventNames: TEventName, listener: EventListener<TEventArgs>) {
-    return this.events.once(eventNames, listener)
+  once<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(eventName: TEventName, listener: EventListener<TEventArgs>) {
+    return this.events.once(eventName, listener)
   }
 }

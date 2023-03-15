@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractArchivist, ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ArchivistParams } from '@xyo-network/archivist'
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, ModuleEventData } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { ArchiveModuleConfig, ArchiveModuleConfigSchema, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -15,7 +15,6 @@ import { getBaseMongoSdk, removeId } from '../../Mongo'
 
 export type MongoDBArchivePayloadArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchiveModuleConfig>,
-  ModuleEventData,
   {
     sdk?: BaseMongoSdk<XyoPayloadWithMeta>
   }

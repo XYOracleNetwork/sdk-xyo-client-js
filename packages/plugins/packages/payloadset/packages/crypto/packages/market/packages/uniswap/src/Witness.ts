@@ -7,14 +7,13 @@ import {
   XyoUniswapCryptoMarketSchema,
   XyoUniswapCryptoMarketWitnessConfigSchema,
 } from '@xyo-network/uniswap-crypto-market-payload-plugin'
-import { AbstractWitness, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 
 export type XyoUniswapCryptoMarketWitnessParams = WitnessParams<
   AnyConfigSchema<XyoUniswapCryptoMarketWitnessConfig>,
-  WitnessModuleEventData,
   {
     provider?: Provider
   }

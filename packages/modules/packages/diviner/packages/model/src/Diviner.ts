@@ -15,8 +15,10 @@ export interface DivinerModuleEventData extends DivinerReportEndEventData, Divin
 
 export type DivinerParams<
   TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>,
-  TEventData extends DivinerModuleEventData = DivinerModuleEventData,
   TAdditional extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TEventData, TAdditional>
+> = ModuleParams<TConfig, TAdditional>
 
-export type DivinerModule<TParams extends DivinerParams = DivinerParams> = Diviner & Module<TParams>
+export type DivinerModule<
+  TParams extends DivinerParams = DivinerParams,
+  TEventData extends DivinerModuleEventData = DivinerModuleEventData,
+> = Diviner & Module<TParams, TEventData>

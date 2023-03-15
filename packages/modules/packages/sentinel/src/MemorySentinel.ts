@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   AnyConfigSchema,
+  Module,
   ModuleConfig,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
@@ -15,15 +16,18 @@ import compact from 'lodash/compact'
 import { AbstractSentinel } from './AbstractSentinel'
 import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQuery, SentinelReportQuerySchema } from './Queries'
-import { SentinelModule, SentinelParams } from './SentinelModel'
+import { SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
 
 export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<
   AnyConfigSchema<TConfig>
 >
 
-export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentinelParams>
-  extends AbstractSentinel<TParams>
-  implements SentinelModule<TParams>
+export class MemorySentinel<
+    TParams extends MemorySentinelParams = MemorySentinelParams,
+    TEventData extends SentinelModuleEventData = SentinelModuleEventData,
+  >
+  extends AbstractSentinel<TParams, TEventData>
+  implements SentinelModule<TParams, TEventData>
 {
   static override configSchema: SentinelConfigSchema
 
@@ -55,7 +59,7 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
 
   async report(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
     const errors: Error[] = []
-    await this.emit('reportStart')
+    await this.emit('reportStart', { inPayloads: payloads, module: this as SentinelModule })
     const allWitnesses = [...(await this.getWitnesses())]
     const allPayloads: XyoPayload[] = []
 
@@ -67,10 +71,10 @@ export class MemorySentinel<TParams extends MemorySentinelParams = MemorySentine
       errors.push(e as Error)
     }
 
-    const [newBoundWitness] = await this.bindResult(allPayloads)
-    this.history.push(assertEx(newBoundWitness))
-    await this.emit('reportEnd', { errors, newBoundWitness })
-    return [newBoundWitness, ...allPayloads]
+    const [boundWitness] = await this.bindResult(allPayloads)
+    this.history.push(assertEx(boundWitness))
+    await this.emit('reportEnd', { boundWitness, errors, inPayloads: payloads, module: this as SentinelModule, outPayloads: allPayloads })
+    return [boundWitness, ...allPayloads]
   }
 
   private async generatePayloads(witnesses: WitnessWrapper[]): Promise<XyoPayload[]> {

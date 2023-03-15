@@ -64,6 +64,7 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
     // If this is a query we support
     if (locations && locations?.length > 0) {
       const elevationWitness = await ElevationWitness.create({
+        account: this.account,
         config: {
           locations,
           schema: ElevationWitnessConfigSchema,

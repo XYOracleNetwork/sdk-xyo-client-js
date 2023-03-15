@@ -20,7 +20,6 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AnyConfigSchema,
   ModuleConfig,
-  ModuleEventData,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,
   XyoErrorBuilder,
@@ -49,7 +48,6 @@ import { validByType } from './validByType'
 
 export type MongoDBDeterministicArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchivistConfig>,
-  ModuleEventData,
   {
     boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
     payloads?: BaseMongoSdk<XyoPayloadWithMeta>

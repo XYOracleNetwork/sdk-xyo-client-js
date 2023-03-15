@@ -2,7 +2,7 @@ import { EventData, ModuleEventArgs } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 export type DivinerReportStartEventArgs = ModuleEventArgs<{
-  inPayload?: XyoPayload[]
+  inPayloads?: XyoPayload[]
 }>
 
 export interface DivinerReportStartEventData extends EventData {

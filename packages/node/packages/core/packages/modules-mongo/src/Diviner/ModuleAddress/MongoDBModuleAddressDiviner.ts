@@ -30,11 +30,11 @@ export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDiv
 
   get jobs(): Job[] {
     return [
-      {
-        name: 'MongoDBModuleAddressDiviner.DivineAddressBatch',
-        schedule: '10 minute',
-        task: async () => await this.divineModuleAddressBatch(),
-      },
+      // {
+      //   name: 'MongoDBModuleAddressDiviner.DivineAddressesBatch',
+      //   schedule: '10 minute',
+      //   task: async () => await this.divineAddressesBatch(),
+      // },
     ]
   }
 
@@ -53,10 +53,10 @@ export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDiv
     return []
   }
 
-  private divineModuleAddressBatch = async () => {
-    this.logger?.log('MongoDBModuleAddressDiviner.DivineModuleAddressBatch: Divining addresses for batch')
+  private divineAddressesBatch = async () => {
+    this.logger?.log('MongoDBModuleAddressDiviner.DivineAddressesBatch: Divining addresses for batch')
     // TODO: Any background/batch processing here
     await Promise.resolve()
-    this.logger?.log('MongoDBModuleAddressDiviner.DivineModuleAddressBatch: Divined addresses for batch')
+    this.logger?.log('MongoDBModuleAddressDiviner.DivineAddressesBatch: Divined addresses for batch')
   }
 }

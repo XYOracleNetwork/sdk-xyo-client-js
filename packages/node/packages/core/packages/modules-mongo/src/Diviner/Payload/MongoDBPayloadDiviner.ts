@@ -3,7 +3,6 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider } from '@xyo-network/shared'
 import { Filter, SortDirection } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
@@ -14,15 +13,11 @@ export type MongoDBPayloadDivinerParams = DivinerParams<AnyConfigSchema<XyoArchi
 
 export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams>
   extends AbstractDiviner<TParams>
-  implements PayloadDiviner, JobProvider
+  implements PayloadDiviner
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
-
-  get jobs(): Job[] {
-    return []
-  }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoPayload>> {
     const query = payloads?.find<PayloadQueryPayload>(isPayloadQueryPayload)

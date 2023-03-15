@@ -9,7 +9,6 @@ import { BoundWitnessesArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { Job, JobProvider } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { COLLECTIONS } from '../../../collections'
@@ -42,7 +41,7 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
 
 export const isLocationPayload = (x?: XyoPayload | null): x is LocationPayload => x?.schema === LocationSchema
 
-export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUserLocationsDiviner, JobProvider {
+export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUserLocationsDiviner {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   constructor(
@@ -52,16 +51,6 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
     protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
   ) {
     super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
-  }
-
-  get jobs(): Job[] {
-    return [
-      {
-        name: 'CoinUserLocationsDiviner.DivineUserLocationsBatch',
-        schedule: '10 minute',
-        task: async () => await this.divineUserLocationsBatch(),
-      },
-    ]
   }
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<LocationPayload>> {
@@ -92,12 +81,5 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
     }
     // else return empty response
     return []
-  }
-
-  private divineUserLocationsBatch = async () => {
-    this.logger?.log('CoinUserLocationsDiviner.DivineUserLocationsBatch: Divining user locations for batch')
-    // TODO: Any background/batch processing here
-    await Promise.resolve()
-    this.logger?.log('CoinUserLocationsDiviner.DivineUserLocationsBatch: Divined user locations for batch')
   }
 }

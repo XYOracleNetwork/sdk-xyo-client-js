@@ -28,6 +28,10 @@ describe('MongoDBAddressSchemaStatsDiviner', () => {
         expect(actual).toBeObject()
         expect(actual.schema).toBe(SchemaStatsSchema)
         expect(actual.count).toBeObject()
+        Object.entries(actual.count).map((entry) => {
+          expect(entry[0]).toBeString()
+          expect(entry[1]).toBeNumber()
+        })
       })
     })
     describe('with no address supplied in query', () => {

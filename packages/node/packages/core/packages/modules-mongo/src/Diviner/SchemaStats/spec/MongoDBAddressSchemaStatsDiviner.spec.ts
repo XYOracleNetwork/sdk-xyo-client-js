@@ -1,6 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { AddressSpaceDiviner } from '@xyo-network/diviner'
-import { BoundWitnessStatsQueryPayload, BoundWitnessStatsQuerySchema, BoundWitnessStatsSchema } from '@xyo-network/node-core-model'
+import { SchemaStatsQueryPayload, SchemaStatsQuerySchema, SchemaStatsSchema } from '@xyo-network/node-core-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { MongoDBAddressSchemaStatsDiviner, MongoDBAddressSchemaStatsDivinerConfigSchema } from '../MongoDBAddressSchemaStatsDiviner'
@@ -21,24 +21,19 @@ describe('MongoDBAddressSchemaStatsDiviner', () => {
   describe('divine', () => {
     describe('with address supplied in query', () => {
       it('divines results for the address', async () => {
-        const query: BoundWitnessStatsQueryPayload = { address, schema: BoundWitnessStatsQuerySchema }
+        const query: SchemaStatsQueryPayload = { address, schema: SchemaStatsQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(BoundWitnessStatsSchema)
-        expect(actual.count).toBeNumber()
+        expect(actual.schema).toBe(SchemaStatsSchema)
+        expect(actual.count).toBeObject()
       })
     })
     describe('with no address supplied in query', () => {
-      it('divines results for all addresses', async () => {
-        const query: BoundWitnessStatsQueryPayload = { schema: BoundWitnessStatsQuerySchema }
-        const result = await sut.divine([query])
-        expect(result).toBeArrayOfSize(1)
-        const actual = result[0]
-        expect(actual).toBeObject()
-        expect(actual.schema).toBe(BoundWitnessStatsSchema)
-        expect(actual.count).toBeNumber()
+      it('is not implemented', async () => {
+        const query: SchemaStatsQueryPayload = { schema: SchemaStatsQuerySchema }
+        await expect(sut.divine([query])).rejects.toBe('Not Implemented')
       })
     })
   })

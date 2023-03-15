@@ -207,7 +207,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
     this.logger?.log(`MongoDBAddressSchemaStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 
-  private divineAllAddresses = async () => await Promise.reject('Not implemented')
+  private divineAllAddresses = async () => await Promise.reject('Not Implemented')
 
   private processChange = (change: ChangeStreamInsertDocument<XyoPayloadWithMeta>) => {
     this.resumeAfter = change._id

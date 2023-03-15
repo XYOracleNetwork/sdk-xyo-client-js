@@ -21,11 +21,11 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
 
   get jobs(): Job[] {
     return [
-      {
-        name: 'LocationCertaintyDiviner.DivineElevationBatch',
-        schedule: '10 minute',
-        task: async () => await this.divineElevationBatch(),
-      },
+      // {
+      //   name: 'LocationCertaintyDiviner.DivineElevationBatch',
+      //   schedule: '10 minute',
+      //   task: async () => await this.divineElevationBatch(),
+      // },
     ]
   }
 

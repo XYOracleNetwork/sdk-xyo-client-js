@@ -29,7 +29,7 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
     // TODO: Support multiple queries
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { archive, archives, hash, limit, order, schema, schemas, timestamp, ...props } = query
+    const { address, hash, limit, order, schema, schemas, timestamp, ...props } = query
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
@@ -38,8 +38,13 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0
       filter._timestamp = parsedOrder === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }
     }
-    if (archive) filter._archive = archive
-    if (archives?.length) filter._archive = { $in: archives }
+    if (address) {
+      if (Array.isArray(address)) {
+        filter._archive = { $in: address }
+      } else {
+        filter._archive = address
+      }
+    }
     if (hash) filter._hash = hash
     // TODO: Optimize for single schema supplied too
     if (schemas?.length) filter.schema = { $in: schemas }

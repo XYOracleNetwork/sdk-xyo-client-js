@@ -49,6 +49,7 @@ export type MongoDBAddressPayloadStatsDivinerParams<T extends XyoPayload = XyoPa
   DivinerModuleEventData,
   {
     addressSpaceDiviner: AddressSpaceDiviner
+    sdk: BaseMongoSdk<XyoPayload>
   }
 >
 
@@ -63,7 +64,6 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
-  protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
 
   get jobs(): Job[] {
     return [
@@ -101,7 +101,7 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
   }
 
   private divineAddress = async (address: string) => {
-    const stats = await this.sdk.useMongo(async (mongo) => {
+    const stats = await this.params.sdk.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive: address })
     })
     const remote = stats?.payloads?.count || 0
@@ -110,7 +110,7 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
   }
 
   private divineAddressFull = async (address: string) => {
-    const count = await this.sdk.useCollection((collection) => collection.countDocuments({ _archive: address }))
+    const count = await this.params.sdk.useCollection((collection) => collection.countDocuments({ _archive: address }))
     await this.storeDivinedResult(address, count)
     return count
   }
@@ -128,7 +128,7 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
     this.logger?.log(`MongoDBAddressPayloadStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 
-  private divineAllAddresses = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
+  private divineAllAddresses = () => this.params.sdk.useCollection((collection) => collection.estimatedDocumentCount())
 
   private processChange = (change: ChangeStreamInsertDocument<XyoPayloadWithMeta>) => {
     this.resumeAfter = change._id
@@ -138,7 +138,7 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
 
   private registerWithChangeStream = async () => {
     this.logger?.log('MongoDBAddressPayloadStatsDiviner.RegisterWithChangeStream: Registering')
-    const wrapper = MongoClientWrapper.get(this.sdk.uri, this.sdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.params.sdk.uri, this.params.sdk.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, 'Connection failed')
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.Payloads)
@@ -150,7 +150,7 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
   }
 
   private storeDivinedResult = async (address: string, count: number) => {
-    await this.sdk.useMongo(async (mongo) => {
+    await this.params.sdk.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
@@ -165,7 +165,7 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
       const count = this.pendingCounts[address]
       this.pendingCounts[address] = 0
       const $inc = { [`${COLLECTIONS.Payloads}.count`]: count }
-      return this.sdk.useMongo(async (mongo) => {
+      return this.params.sdk.useMongo(async (mongo) => {
         await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive: address }, { $inc }, updateOptions)
       })
     })

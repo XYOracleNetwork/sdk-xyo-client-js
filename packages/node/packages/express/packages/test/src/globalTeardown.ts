@@ -1,0 +1,12 @@
+import { config } from 'dotenv'
+config()
+import { Config } from 'jest'
+
+/**
+ * Jest global setup method run before
+ * any tests are run
+ * https://jestjs.io/docs/configuration#globalteardown-string
+ */
+module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
+  await Promise.resolve()
+}

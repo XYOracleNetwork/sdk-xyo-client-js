@@ -1,4 +1,5 @@
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
+import { XyoQuery } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 
 export type LocationCertaintySchema = 'network.xyo.location.certainty'
@@ -19,7 +20,7 @@ export interface LocationCertaintyHeuristic {
   min: number
 }
 
-export type LocationCertaintyPayload = XyoPayload<{
+export type LocationCertaintyPayload = XyoQuery<{
   altitude: LocationCertaintyHeuristic
   /** @field Value between 0 and 100 - Certainty Score */
   certainty: number

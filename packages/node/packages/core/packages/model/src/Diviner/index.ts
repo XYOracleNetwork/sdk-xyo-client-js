@@ -1,4 +1,3 @@
-export * from './ArchiveQueryPayload'
 export * from './BoundWitnessDiviner'
 export * from './BoundWitnessStatsDiviner'
 export * from './coin'

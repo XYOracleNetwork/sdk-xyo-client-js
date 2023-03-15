@@ -195,16 +195,16 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
   }
 
   private divineAddressesBatch = async () => {
-    this.logger?.log(`MongoDBAddressBoundWitnessStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
+    this.logger?.log(`MongoDBAddressSchemaStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
     const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner)
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    this.logger?.log(`MongoDBAddressBoundWitnessStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Addresses`)
+    this.logger?.log(`MongoDBAddressSchemaStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Addresses`)
     this.nextOffset = addresses.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
     const results = await Promise.allSettled(addresses.map(this.divineAddressFull))
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBAddressBoundWitnessStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    this.logger?.log(`MongoDBAddressSchemaStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 
   private divineAllAddresses = async () => await Promise.reject('Not implemented')

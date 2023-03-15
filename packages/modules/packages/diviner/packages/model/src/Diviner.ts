@@ -1,6 +1,5 @@
 import { AnyObject } from '@xyo-network/core'
-import { EventData } from '@xyo-network/module'
-import { AnyConfigSchema, Module, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -12,12 +11,12 @@ export interface Diviner {
   divine: (payloads?: XyoPayload[]) => Promisable<XyoPayloads>
 }
 
-export interface DivinerModuleEventData extends DivinerReportEndEventData, DivinerReportStartEventData {}
+export interface DivinerModuleEventData extends DivinerReportEndEventData, DivinerReportStartEventData, ModuleEventData {}
 
 export type DivinerParams<
   TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>,
-  TEventData extends EventData | undefined = undefined,
+  TEventData extends DivinerModuleEventData = DivinerModuleEventData,
   TAdditional extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TEventData extends EventData ? DivinerModuleEventData | TEventData : DivinerModuleEventData, TAdditional>
+> = ModuleParams<TConfig, TEventData, TAdditional>
 
 export type DivinerModule<TParams extends DivinerParams = DivinerParams> = Diviner & Module<TParams>

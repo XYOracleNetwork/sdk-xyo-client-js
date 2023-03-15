@@ -4,6 +4,7 @@ import { EventData, EventDataParams } from '@xyo-network/module-events'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { ModuleConfig } from './Config'
+import { ModuleEventData } from './ModuleQueried'
 
 export type BasicModuleParams<
   TConfig extends AnyConfigSchema<ModuleConfig>,
@@ -52,7 +53,7 @@ export type WalletModuleParams<
 
 export type ModuleParams<
   TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>,
-  TEventData extends EventData | undefined = undefined,
+  TEventData extends ModuleEventData = ModuleEventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > =
   | AccountModuleParams<TConfig, TEventData, TAdditionalParams>

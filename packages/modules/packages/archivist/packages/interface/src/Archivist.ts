@@ -1,7 +1,7 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { EventData } from '@xyo-network/module-events'
-import { AnyConfigSchema, Module, ModuleConfig, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleConfig, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
@@ -28,7 +28,7 @@ export interface StashArchivist<TWriteResponse> {
 
 export type ArchivistParams<
   TConfig extends AnyConfigSchema<ArchivistConfig> = AnyConfigSchema<ArchivistConfig>,
-  TEventData extends EventData | undefined = undefined,
+  TEventData extends ModuleEventData = ModuleEventData,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = ModuleParams<TConfig, TEventData, TAdditionalParams>
 

@@ -1,20 +1,20 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { AnyConfigSchema, ModuleEventData } from '@xyo-network/modules'
+import { AnyConfigSchema } from '@xyo-network/modules'
 import { XyoPayload } from '@xyo-network/payload-model'
 import {
   XyoUniswapCryptoMarketPayload,
   XyoUniswapCryptoMarketSchema,
   XyoUniswapCryptoMarketWitnessConfigSchema,
 } from '@xyo-network/uniswap-crypto-market-payload-plugin'
-import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
+import { AbstractWitness, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness'
 
 import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 
 export type XyoUniswapCryptoMarketWitnessParams = WitnessParams<
   AnyConfigSchema<XyoUniswapCryptoMarketWitnessConfig>,
-  ModuleEventData,
+  WitnessModuleEventData,
   {
     provider?: Provider
   }

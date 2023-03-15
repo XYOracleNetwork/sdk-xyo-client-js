@@ -5,6 +5,7 @@ import {
   CompositeModuleResolver,
   Module,
   ModuleConfig,
+  ModuleEventData,
   ModuleFilter,
   ModuleParams,
   ModuleQueriedEventArgs,
@@ -20,7 +21,7 @@ export type TProxyModuleConfig = ModuleConfig<{ schema: ProxyModuleConfigSchema 
 
 export type ProxyModuleParams = ModuleParams<
   TProxyModuleConfig,
-  undefined,
+  ModuleEventData,
   {
     address: string
     bridge: BridgeModule

@@ -17,7 +17,7 @@ import { ContainerModule, interfaces } from 'inversify'
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
-import { MongoDBArchiveBoundWitnessStatsDiviner, MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
+import { MongoDBAddressBoundWitnessStatsDiviner, MongoDBAddressBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBModuleAddressDiviner } from './ModuleAddress'
 import { MongoDBPayloadDiviner } from './Payload'
@@ -27,7 +27,7 @@ import { MongoDBArchiveSchemaStatsDiviner, MongoDBArchiveSchemaStatsDivinerConfi
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
 let mongoDBAddressSpaceDiviner: MongoDBAddressSpaceDiviner
 let mongoDBBoundWitnessDiviner: MongoDBBoundWitnessDiviner
-let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBArchiveBoundWitnessStatsDiviner
+let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBAddressBoundWitnessStatsDiviner
 let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
 let mongoDBModuleAddressDiviner: MongoDBModuleAddressDiviner
 let mongoDBPayloadDiviner: MongoDBPayloadDiviner
@@ -52,14 +52,14 @@ const getMongoDBBoundWitnessDiviner = async () => {
   mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
   return mongoDBBoundWitnessDiviner
 }
-const getMongoDBArchiveBoundWitnessStatsDiviner = async (_context: interfaces.Context) => {
+const getMongoDBAddressBoundWitnessStatsDiviner = async (_context: interfaces.Context) => {
   if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
   const params = {
     addressSpaceDiviner,
-    config: { name: TYPES.ArchiveBoundWitnessStatsDiviner.description, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema },
+    config: { name: TYPES.ArchiveBoundWitnessStatsDiviner.description, schema: MongoDBAddressBoundWitnessStatsDivinerConfigSchema },
   }
-  mongoDBArchiveBoundWitnessStatsDiviner = await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
+  mongoDBArchiveBoundWitnessStatsDiviner = await MongoDBAddressBoundWitnessStatsDiviner.create(params)
   return mongoDBArchiveBoundWitnessStatsDiviner
 }
 const getMongoDBLocationCertaintyDiviner = async () => {
@@ -116,10 +116,10 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
 
-  bind(MongoDBArchiveBoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
-  bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
-  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
+  bind(MongoDBAddressBoundWitnessStatsDiviner).toDynamicValue(getMongoDBAddressBoundWitnessStatsDiviner).inSingletonScope()
+  bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toDynamicValue(getMongoDBAddressBoundWitnessStatsDiviner).inSingletonScope()
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBAddressBoundWitnessStatsDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBAddressBoundWitnessStatsDiviner).inSingletonScope()
 
   bind(MongoDBLocationCertaintyDiviner).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
   bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()

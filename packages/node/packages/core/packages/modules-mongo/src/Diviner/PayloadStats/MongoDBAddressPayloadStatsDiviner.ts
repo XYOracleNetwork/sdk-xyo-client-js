@@ -117,7 +117,6 @@ export class MongoDBAddressPayloadStatsDiviner<TParams extends MongoDBAddressPay
 
   private divineAddressesBatch = async () => {
     this.logger?.log(`MongoDBAddressPayloadStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    await Promise.resolve()
     const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner)
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)

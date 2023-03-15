@@ -1,15 +1,15 @@
+import { BaseParams } from '@xyo-network/core'
 import { Promisable } from '@xyo-network/promise'
-import { BaseParams } from '@xyo-network/protocol'
 
 export type EventName = PropertyKey
 export type EventArgs = string | number | object
 export type EventData = { [key: EventName]: EventArgs }
 export type EventUnsubscribeFunction = () => void
-export type EventAnyListener<TEventData extends EventData> = (
+export type EventAnyListener<TEventData extends EventData = EventData> = (
   eventName: keyof TEventData,
   eventData?: TEventData[keyof TEventData],
 ) => Promisable<void>
-export type EventListener<TEventData extends EventData> = (eventData?: TEventData[keyof TEventData]) => Promisable<void>
+export type EventListener<TEventData extends EventData = EventData> = (eventData?: TEventData[keyof TEventData]) => Promisable<void>
 
 export type OncePromise<T> = {
   off(): void

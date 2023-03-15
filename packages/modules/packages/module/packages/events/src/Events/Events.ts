@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
 
 import { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '../model'
@@ -32,7 +33,6 @@ export type Options<TEventData extends EventData> = {
   readonly debug?: DebugOptions<TEventData>
 }
 
-const anyProducer = Symbol('anyProducer')
 const resolvedPromise = Promise.resolve()
 
 const listenerAdded = 'listenerAdded'
@@ -61,19 +61,15 @@ function assertListener(listener: object) {
 const isMetaEvent = (eventName: EventName) => eventName === listenerAdded || eventName === listenerRemoved
 
 export class Events<TEventData extends EventData> implements EventFunctions<TEventData> {
-  static anyMap = new WeakMap()
-  static eventsMap = new WeakMap()
-  static producersMap = new WeakMap()
+  static anyMap = new WeakMap<object, Set<EventAnyListener<any>>>()
+  static eventsMap = new WeakMap<object, Map<keyof EventData, Set<EventListener<any>>>>()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   debug?: DebugOptions<any>
 
   constructor(options: Options<TEventData> = {}) {
-    Events.anyMap.set(this, new Set())
-    Events.eventsMap.set(this, new Map())
-    Events.producersMap.set(this, new Map())
-
-    Events.producersMap.get(this).set(anyProducer, new Set())
+    Events.anyMap.set(this, new Set<EventAnyListener<TEventData>>())
+    Events.eventsMap.set(this, new Map<keyof TEventData, Set<EventListener<TEventData>>>())
 
     this.debug = options.debug
 
@@ -132,30 +128,12 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
         if (set) {
           set.clear()
         }
-
-        const producers = this.getEventProducers(eventName)
-        if (producers) {
-          for (const producer of producers) {
-            producer.finish()
-          }
-
-          producers.clear()
-        }
       } else {
-        Events.anyMap.get(this).clear()
+        Events.anyMap.get(this)?.clear()
 
-        for (const [eventName, listeners] of Events.eventsMap.get(this).entries()) {
+        for (const [eventName, listeners] of assertEx(Events.eventsMap.get(this)).entries()) {
           listeners.clear()
-          Events.eventsMap.get(this).delete(eventName)
-        }
-
-        for (const [eventName, producers] of Events.producersMap.get(this).entries()) {
-          for (const producer of producers) {
-            producer.finish()
-          }
-
-          producers.clear()
-          Events.producersMap.get(this).delete(eventName)
+          Events.eventsMap.get(this)?.delete(eventName)
         }
       }
     }
@@ -174,10 +152,8 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
 
     this.logIfDebugEnabled('emit', eventName, eventArgs)
 
-    this.enqueueProducers(eventName, eventArgs)
-
     const listeners = this.getListeners(eventName) ?? new Set()
-    const anyListeners = Events.anyMap.get(this)
+    const anyListeners = assertEx(Events.anyMap.get(this))
     const staticListeners = [...listeners]
     const staticAnyListeners = isMetaEvent(eventName) ? [] : [...anyListeners]
 
@@ -217,7 +193,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     this.logIfDebugEnabled('emitSerial', eventName, eventData)
 
     const listeners = this.getListeners(eventName) ?? new Set()
-    const anyListeners = Events.anyMap.get(this)
+    const anyListeners = assertEx(Events.anyMap.get(this))
     const staticListeners = [...listeners]
     const staticAnyListeners = [...anyListeners]
 
@@ -236,18 +212,8 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     }
   }
 
-  getEventProducers(eventName?: keyof TEventData) {
-    const key = typeof eventName === 'string' || typeof eventName === 'symbol' || typeof eventName === 'number' ? eventName : anyProducer
-    const producers = Events.producersMap.get(this)
-    if (!producers.has(key)) {
-      return
-    }
-
-    return producers.get(key)
-  }
-
   getListeners(eventName: keyof TEventData) {
-    const events = Events.eventsMap.get(this)
+    const events = assertEx(Events.eventsMap.get(this))
     if (!events.has(eventName)) {
       return
     }
@@ -261,11 +227,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
 
     for (const eventName of eventNamesArray) {
       if (typeof eventName === 'string') {
-        count +=
-          Events.anyMap.get(this).size +
-          (this.getListeners(eventName)?.size ?? 0) +
-          (this.getEventProducers(eventName)?.size ?? 0) +
-          (this.getEventProducers()?.size ?? 0)
+        count += assertEx(Events.anyMap.get(this)).size + (this.getListeners(eventName)?.size ?? 0)
 
         continue
       }
@@ -274,13 +236,9 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
         assertEventName(eventName)
       }
 
-      count += Events.anyMap.get(this).size
+      count += assertEx(Events.anyMap.get(this)).size
 
-      for (const value of Events.eventsMap.get(this).values()) {
-        count += value.size
-      }
-
-      for (const value of Events.producersMap.get(this).values()) {
+      for (const value of assertEx(Events.eventsMap.get(this)).values()) {
         count += value.size
       }
     }
@@ -294,7 +252,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     }
   }
 
-  off(eventNames: keyof TEventData | keyof TEventData[], listener: object) {
+  off(eventNames: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>) {
     assertListener(listener)
 
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
@@ -305,7 +263,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
         set.delete(listener)
         if (set.size === 0) {
           const events = Events.eventsMap.get(this)
-          events.delete(eventName)
+          events?.delete(eventName)
         }
       }
 
@@ -317,16 +275,16 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     }
   }
 
-  offAny(listener: object) {
+  offAny(listener: EventAnyListener<TEventData>) {
     assertListener(listener)
 
     this.logIfDebugEnabled('unsubscribeAny', undefined, undefined)
 
-    Events.anyMap.get(this).delete(listener)
+    Events.anyMap.get(this)?.delete(listener)
     forget(this.emitMetaEvent(listenerRemoved, { listener }))
   }
 
-  on(eventNames: keyof TEventData | keyof TEventData[], listener: object) {
+  on(eventNames: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>) {
     assertListener(listener)
 
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
@@ -336,7 +294,7 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
       if (!set) {
         set = new Set()
         const events = Events.eventsMap.get(this)
-        events.set(eventName, set)
+        events?.set(eventName, set)
       }
 
       set.add(listener)
@@ -356,33 +314,17 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
 
     this.logIfDebugEnabled('subscribeAny', undefined, undefined)
 
-    Events.anyMap.get(this).add(listener)
+    Events.anyMap.get(this)?.add(listener)
     forget(this.emitMetaEvent(listenerAdded, { listener }))
     return this.offAny.bind(this, listener)
   }
 
   once(eventNames: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>) {
-    const subListener = async (args: TEventData[keyof TEventData]) => {
+    const subListener = async (args?: TEventData[keyof TEventData]) => {
       this.off(eventNames, subListener)
       await listener(args)
     }
     this.on(eventNames, subListener)
     return this.off.bind(this, eventNames, subListener)
-  }
-
-  private enqueueProducers<TEventName extends EventName, TEventArgs extends EventArgs>(eventName: TEventName, eventData?: TEventArgs) {
-    const producers = Events.producersMap.get(this)
-    if (producers.has(eventName)) {
-      for (const producer of producers.get(eventName)) {
-        producer.enqueue(eventData)
-      }
-    }
-
-    if (producers.has(anyProducer)) {
-      const item = Promise.all([eventName, eventData])
-      for (const producer of producers.get(anyProducer)) {
-        producer.enqueue(item)
-      }
-    }
   }
 }

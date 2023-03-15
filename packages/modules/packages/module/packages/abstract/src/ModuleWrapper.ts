@@ -175,7 +175,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   override off(
-    eventNames: keyof TWrappedModule['params']['eventData'] | keyof TWrappedModule['params']['eventData'][],
+    eventNames: keyof TWrappedModule['params']['eventData'] | (keyof TWrappedModule['params']['eventData'])[],
     listener: EventListener<TWrappedModule['params']['eventData']>,
   ) {
     return this.module.off(eventNames, listener)
@@ -186,7 +186,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   override on(
-    eventNames: keyof TWrappedModule['params']['eventData'] | keyof TWrappedModule['params']['eventData'][],
+    eventNames: keyof TWrappedModule['params']['eventData'] | (keyof TWrappedModule['params']['eventData'])[],
     listener: EventListener<TWrappedModule['params']['eventData']>,
   ) {
     return this.module.on(eventNames, listener)

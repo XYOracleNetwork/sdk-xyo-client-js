@@ -63,6 +63,7 @@ export type MongoDBAddressSchemaStatsDivinerParams<T extends XyoPayload = XyoPay
   DivinerModuleEventData,
   {
     addressSpaceDiviner: AddressSpaceDiviner
+    sdk: BaseMongoSdk<XyoPayload>
   }
 >
 
@@ -110,8 +111,6 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
    */
   protected resumeAfter: ResumeToken | undefined = undefined
 
-  protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
-
   get jobs(): Job[] {
     return [
       {
@@ -148,7 +147,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
   }
 
   private divineAddress = async (archive: string): Promise<Record<string, number>> => {
-    const stats = await this.sdk.useMongo(async (mongo) => {
+    const stats = await this.params.sdk.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive })
     })
     const remote = Object.fromEntries(
@@ -173,7 +172,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
     const sortStartTime = Date.now()
     const totals: Record<string, number> = {}
     for (let iteration = 0; iteration < this.aggregateMaxIterations; iteration++) {
-      const result: PayloadSchemaCountsAggregateResult[] = await this.sdk.useCollection((collection) => {
+      const result: PayloadSchemaCountsAggregateResult[] = await this.params.sdk.useCollection((collection) => {
         return collection
           .aggregate()
           .sort({ _archive: 1, _timestamp: 1 })
@@ -221,7 +220,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
 
   private registerWithChangeStream = async () => {
     this.logger?.log('MongoDBAddressSchemaStatsDiviner.RegisterWithChangeStream: Registering')
-    const wrapper = MongoClientWrapper.get(this.sdk.uri, this.sdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.params.sdk.uri, this.params.sdk.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, 'Connection failed')
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.Payloads)
@@ -238,7 +237,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
         return [toDbProperty(schema), count]
       }),
     )
-    await this.sdk.useMongo(async (mongo) => {
+    await this.params.sdk.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
@@ -256,7 +255,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
         })
         .reduce((prev, curr) => Object.assign(prev, curr), {})
       this.pendingCounts[archive] = {}
-      return this.sdk.useMongo(async (mongo) => {
+      return this.params.sdk.useMongo(async (mongo) => {
         await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive }, { $inc }, updateOptions)
       })
     })

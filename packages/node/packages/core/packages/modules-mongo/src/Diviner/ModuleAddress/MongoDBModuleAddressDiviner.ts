@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { AbstractDiviner, DivinerConfig, DivinerParams, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig, DivinerModuleEventData, DivinerParams, XyoDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isModuleAddressQueryPayload,
@@ -14,18 +14,19 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
-import { COLLECTIONS } from '../../collections'
-import { getBaseMongoSdk } from '../../Mongo'
-
-export type MongoDBModuleAddressDivinerParams = DivinerParams<AnyConfigSchema<DivinerConfig>>
+export type MongoDBModuleAddressDivinerParams = DivinerParams<
+  AnyConfigSchema<DivinerConfig>,
+  DivinerModuleEventData,
+  {
+    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    payloads: BaseMongoSdk<XyoPayloadWithMeta>
+  }
+>
 export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDivinerParams = MongoDBModuleAddressDivinerParams>
   extends AbstractDiviner<TParams>
   implements ModuleAddressDiviner
 {
   static override configSchema = XyoDivinerConfigSchema
-
-  protected readonly boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  protected readonly payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<ModuleAddressPayload>> {
     const query = payloads?.find<ModuleAddressQueryPayload>(isModuleAddressQueryPayload)

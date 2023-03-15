@@ -28,7 +28,6 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { getBaseMongoSdk } from '../../Mongo'
 import { fromDbProperty, toDbProperty } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }

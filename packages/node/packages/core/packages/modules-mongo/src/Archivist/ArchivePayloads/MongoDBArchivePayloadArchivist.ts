@@ -9,15 +9,14 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import compact from 'lodash/compact'
 import { Filter, SortDirection } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
-import { getBaseMongoSdk, removeId } from '../../Mongo'
+import { removeId } from '../../Mongo'
 
 export type MongoDBArchivePayloadArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchiveModuleConfig>,
   ModuleEventData,
   {
-    sdk?: BaseMongoSdk<XyoPayloadWithMeta>
+    sdk: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 
@@ -25,8 +24,6 @@ export class MongoDBArchivePayloadArchivist<
   TParams extends MongoDBArchivePayloadArchivistParams = MongoDBArchivePayloadArchivistParams,
 > extends AbstractArchivist<TParams> {
   static override configSchema = ArchiveModuleConfigSchema
-
-  private _sdk: BaseMongoSdk<XyoPayloadWithMeta> | undefined
 
   constructor(params: TParams) {
     super(params)
@@ -37,8 +34,7 @@ export class MongoDBArchivePayloadArchivist<
   }
 
   get sdk() {
-    this._sdk = this._sdk ?? getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
-    return this._sdk
+    return this.params.sdk
   }
 
   override async find(predicate?: PayloadFindFilter): Promise<XyoPayload[]> {

@@ -1,23 +1,32 @@
-import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import {
+  AbstractDiviner,
+  DivinerModuleEventData,
+  DivinerParams,
+  XyoArchivistPayloadDivinerConfig,
+  XyoArchivistPayloadDivinerConfigSchema,
+} from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
-import { getBaseMongoSdk, removeId } from '../../Mongo'
+import { removeId } from '../../Mongo'
 
-export type MongoDBPayloadDivinerParams = DivinerParams<AnyConfigSchema<XyoArchivistPayloadDivinerConfig>>
+export type MongoDBPayloadDivinerParams = DivinerParams<
+  AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  DivinerModuleEventData,
+  {
+    sdk: BaseMongoSdk<XyoPayloadWithMeta>
+  }
+>
 
 export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams>
   extends AbstractDiviner<TParams>
   implements PayloadDiviner
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
-
-  protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoPayload>> {
     const query = payloads?.find<PayloadQueryPayload>(isPayloadQueryPayload)
@@ -43,6 +52,6 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
     if (hash) filter._hash = hash
     // TODO: Optimize for single schema supplied too
     if (schemas?.length) filter.schema = { $in: schemas }
-    return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
+    return (await (await this.params.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
   }
 }

@@ -1,18 +1,19 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account-model'
-import { AbstractDiviner, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import {
+  AbstractDiviner,
+  DivinerModuleEventData,
+  DivinerParams,
+  XyoArchivistPayloadDivinerConfig,
+  XyoArchivistPayloadDivinerConfigSchema,
+} from '@xyo-network/diviner'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { BoundWitnessesArchivist, PayloadArchivist, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { AnyConfigSchema } from '@xyo-network/module-model'
+import { BoundWitnessesArchivist, CoinUserLocationsDiviner, PayloadArchivist } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import compact from 'lodash/compact'
-
-import { COLLECTIONS } from '../../../collections'
-import { getBaseMongoSdk } from '../../../Mongo'
 
 export type CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
 export const CoinCurrentUserWitnessSchema: CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
@@ -41,17 +42,20 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
 
 export const isLocationPayload = (x?: XyoPayload | null): x is LocationPayload => x?.schema === LocationSchema
 
-export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUserLocationsDiviner {
-  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
-
-  constructor(
-    account: AccountInstance = new Account(),
-    protected readonly payloads: PayloadArchivist,
-    protected readonly bws: BoundWitnessesArchivist,
-    protected readonly sdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads),
-  ) {
-    super({ account, config: { schema: XyoArchivistPayloadDivinerConfigSchema } })
+export type CoinUserLocationsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+  AnyConfigSchema<XyoArchivistPayloadDivinerConfig<T>>,
+  DivinerModuleEventData,
+  {
+    bws: BoundWitnessesArchivist
+    payloads: PayloadArchivist
   }
+>
+
+export class MemoryCoinUserLocationsDiviner<TParams extends CoinUserLocationsDivinerParams = CoinUserLocationsDivinerParams>
+  extends AbstractDiviner<TParams>
+  implements CoinUserLocationsDiviner
+{
+  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   async divine(payloads?: XyoPayloads): Promise<XyoPayloads<LocationPayload>> {
     const user = payloads?.find<CoinCurrentUserWitnessPayload>(
@@ -63,7 +67,7 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
       // TODO: Extract relevant query values here
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processing query')
       // Simulating work
-      const bwList = (await this.bws.find({ payload_hashes: [wrapper.hash] })) ?? []
+      const bwList = (await this.params.bws.find({ payload_hashes: [wrapper.hash] })) ?? []
       const locationHashes = bwList
         .map((bw) => {
           const locations: string[] = []
@@ -75,7 +79,7 @@ export class CoinUserLocationsDiviner extends AbstractDiviner implements CoinUse
           return locations
         })
         .flat()
-      const locations = compact(await this.payloads.get(locationHashes)) as unknown as LocationPayload[]
+      const locations = compact(await this.params.payloads.get(locationHashes)) as unknown as LocationPayload[]
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processed query')
       return locations
     }

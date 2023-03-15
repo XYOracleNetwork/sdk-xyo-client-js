@@ -16,13 +16,12 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
-import { getBaseMongoSdk } from '../../Mongo'
 
 export type MongoDBAddressSpaceDivinerParams<TConfig extends DivinerConfig = DivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
   DivinerModuleEventData,
   {
-    boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
@@ -32,19 +31,12 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
-  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
-
-  constructor(params: TParams) {
-    super(params)
-    this.sdk = params?.boundWitnesses || getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  }
-
   override async divine(_payloads?: XyoPayloads): Promise<XyoPayloads> {
     //const query = payloads?.find<AddressSpaceQueryPayload>(isAddressSpaceQueryPayload)
     //if (!query) return []
     // Issue a distinct query against the BoundWitnesses collection
     // on the address field
-    const result = await this.sdk.useMongo((db) => {
+    const result = await this.params.boundWitnesses.useMongo((db) => {
       return db.db(DATABASES.Archivist).command(
         {
           distinct: COLLECTIONS.BoundWitnesses,

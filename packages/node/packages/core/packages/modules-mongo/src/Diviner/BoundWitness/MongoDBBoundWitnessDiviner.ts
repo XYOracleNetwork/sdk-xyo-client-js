@@ -1,24 +1,33 @@
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import {
+  AbstractDiviner,
+  DivinerModuleEventData,
+  DivinerParams,
+  XyoArchivistPayloadDivinerConfig,
+  XyoArchivistPayloadDivinerConfigSchema,
+} from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
-import { getBaseMongoSdk, removeId } from '../../Mongo'
+import { removeId } from '../../Mongo'
 
-export type MongoDBBoundWitnessDivinerParams = DivinerParams<AnyConfigSchema<XyoArchivistPayloadDivinerConfig>>
+export type MongoDBBoundWitnessDivinerParams = DivinerParams<
+  AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  DivinerModuleEventData,
+  {
+    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  }
+>
 export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams>
   extends AbstractDiviner<TParams>
   implements BoundWitnessDiviner
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
-
-  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
     const query = payloads?.find<BoundWitnessQueryPayload>(isBoundWitnessQueryPayload)
@@ -43,7 +52,7 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
     if (allAddresses.length) filter.addresses = allAddresses.length === 1 ? allAddresses[0] : { $all: allAddresses }
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }
     if (payload_schemas?.length) filter.payload_schemas = { $in: payload_schemas }
-    return (await (await this.sdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
+    return (await (await this.params.boundWitnesses.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
   }
 }
 

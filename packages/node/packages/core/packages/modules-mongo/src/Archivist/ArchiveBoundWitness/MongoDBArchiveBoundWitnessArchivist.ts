@@ -17,15 +17,14 @@ import {
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultOrder } from '../../defaults'
-import { getBaseMongoSdk, removeId } from '../../Mongo'
+import { removeId } from '../../Mongo'
 
 export type MongoDBArchiveBoundWitnessArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchiveModuleConfig>,
   ModuleEventData,
   {
-    boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
@@ -34,15 +33,12 @@ export class MongoDBArchiveBoundWitnessArchivist<
 > extends AbstractArchivist<TParams> {
   static override configSchema = ArchiveModuleConfigSchema
 
-  private _boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
-
   override get queries(): string[] {
     return [ArchivistInsertQuerySchema, ArchivistFindQuerySchema, ...super.queries]
   }
 
   protected get boundWitnesses() {
-    this._boundWitnesses = this._boundWitnesses ?? getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-    return this._boundWitnesses
+    return this.params.boundWitnesses
   }
 
   override async find(

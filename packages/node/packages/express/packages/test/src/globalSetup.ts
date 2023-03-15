@@ -21,9 +21,8 @@ module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
   // https://nodkz.github.io/mongodb-memory-server/docs/guides/quick-start-guide/#replicaset
   // This will create an new instance of "MongoMemoryReplSet" and automatically start all Servers
   // To use Transactions, the "storageEngine" needs to be changed to `wiredTiger`
-  const mongo = await MongoMemoryReplSet.create({ replSet: { count: 4, storageEngine: 'wiredTiger' } }) // This will create an ReplSet with 4 members and storage-engine "wiredTiger"
+  const mongo = await MongoMemoryReplSet.create({ replSet: { count: 3, storageEngine: 'wiredTiger' } }) // This will create an ReplSet with 4 members and storage-engine "wiredTiger"
   globalThis.mongo = mongo
-  await mongo.start()
   const uri = mongo.getUri()
   process.env.MONGO_CONNECTION_STRING = uri
   await Promise.resolve()

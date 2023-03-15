@@ -1,7 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { AddressSpaceDiviner } from '@xyo-network/diviner'
-import { SchemaStatsQueryPayload, SchemaStatsQuerySchema, SchemaStatsSchema } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { SchemaStatsQueryPayload, SchemaStatsQuerySchema, SchemaStatsSchema, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
@@ -13,7 +12,7 @@ describe('MongoDBAddressSchemaStatsDiviner', () => {
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
-  const sdk: BaseMongoSdk<XyoPayload> = new BaseMongoSdk<XyoPayload>({
+  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk<XyoPayloadWithMeta>({
     collection: COLLECTIONS.Payloads,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
@@ -23,7 +22,7 @@ describe('MongoDBAddressSchemaStatsDiviner', () => {
       addressSpaceDiviner,
       config: { schema: MongoDBAddressSchemaStatsDivinerConfigSchema },
       logger,
-      payloadSdk: sdk,
+      payloadSdk,
     })
   })
   describe('divine', () => {

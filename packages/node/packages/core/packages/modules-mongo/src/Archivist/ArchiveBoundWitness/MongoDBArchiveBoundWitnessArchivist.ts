@@ -24,7 +24,7 @@ export type MongoDBArchiveBoundWitnessArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchiveModuleConfig>,
   ModuleEventData,
   {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
@@ -38,7 +38,7 @@ export class MongoDBArchiveBoundWitnessArchivist<
   }
 
   protected get boundWitnesses() {
-    return this.params.boundWitnesses
+    return this.params.boundWitnessSdk
   }
 
   override async find(

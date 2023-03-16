@@ -142,14 +142,17 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
     }
   }
 
-  async emit<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(eventName: TEventName, eventArgs?: TEventArgs) {
+  async emit<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs: TEventArgs,
+  ) {
     await this.emitInternal(eventName, eventArgs)
   }
 
-  async emitMetaEvent<TEventName extends keyof MetaEventData<TEventData>, TEventArgs extends MetaEventData<TEventData>[TEventName]>(
-    eventName: TEventName,
-    eventArgs?: TEventArgs,
-  ) {
+  async emitMetaEvent<
+    TEventName extends keyof MetaEventData<TEventData> = keyof MetaEventData<TEventData>,
+    TEventArgs extends MetaEventData<TEventData>[TEventName] = MetaEventData<TEventData>[TEventName],
+  >(eventName: TEventName, eventArgs: TEventArgs) {
     if (isMetaEvent(eventName)) {
       try {
         canEmitMetaEvents = true
@@ -160,7 +163,10 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
     }
   }
 
-  async emitSerial<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(eventName: TEventName, eventArgs?: TEventArgs) {
+  async emitSerial<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs: TEventArgs,
+  ) {
     assertEventName(eventName)
 
     if (isMetaEvent(eventName) && !canEmitMetaEvents) {
@@ -229,7 +235,7 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
     }
   }
 
-  off<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
+  off<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
     eventNames: TEventName | TEventName[],
     listener: EventListener<TEventArgs>,
   ) {
@@ -255,7 +261,7 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
     }
   }
 
-  offAny<TEventArgs extends TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>) {
+  offAny<TEventArgs extends TEventData[keyof TEventData] = TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>) {
     assertListener(listener)
 
     this.logIfDebugEnabled('unsubscribeAny', undefined, undefined)
@@ -265,7 +271,7 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
     forget(this.emitMetaEvent('listenerRemoved', { listener: listener as EventAnyListener }))
   }
 
-  on<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
+  on<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
     eventNames: TEventName | TEventName[],
     listener: EventListener<TEventArgs>,
   ) {
@@ -293,7 +299,7 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
     return this.off.bind(this, eventNames, listener as EventListener)
   }
 
-  onAny<TEventArgs extends TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>) {
+  onAny<TEventArgs extends TEventData[keyof TEventData] = TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>) {
     assertListener(listener)
 
     this.logIfDebugEnabled('subscribeAny', undefined, undefined)
@@ -303,8 +309,11 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
     return this.offAny.bind(this, listener as EventAnyListener)
   }
 
-  once<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(eventName: TEventName, listener: EventListener<TEventArgs>) {
-    const subListener = async (args?: TEventArgs) => {
+  once<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    listener: EventListener<TEventArgs>,
+  ) {
+    const subListener = async (args: TEventArgs) => {
       this.off(eventName, subListener)
       await listener(args)
     }
@@ -314,7 +323,7 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
 
   private async emitInternal<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
     eventName: TEventName,
-    eventArgs?: TEventArgs,
+    eventArgs: TEventArgs,
   ) {
     assertEventName(eventName)
 
@@ -346,7 +355,7 @@ export class Events<TEventData extends EventData = EventData> implements EventFu
 
   private async emitMetaEventInternal<TEventName extends keyof MetaEventData<TEventData>, TEventArgs extends MetaEventData<TEventData>[TEventName]>(
     eventName: TEventName,
-    eventArgs?: TEventArgs,
+    eventArgs: TEventArgs,
   ) {
     assertEventName(eventName)
 

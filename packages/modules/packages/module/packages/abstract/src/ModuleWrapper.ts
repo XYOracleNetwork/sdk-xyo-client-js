@@ -157,11 +157,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module, TWrappedModul
     return this.sendQuery(queryPayload)
   }
 
-  override emit<TEventName extends keyof TWrappedModuleEventData>(eventName: TEventName, eventArgs?: TWrappedModuleEventData[TEventName]) {
+  override emit<TEventName extends keyof TWrappedModuleEventData>(eventName: TEventName, eventArgs: TWrappedModuleEventData[TEventName]) {
     return this.module.emit(eventName, eventArgs)
   }
 
-  override emitSerial(eventName: keyof TWrappedModuleEventData, eventArgs?: TWrappedModuleEventData[keyof TWrappedModuleEventData]) {
+  override emitSerial(eventName: keyof TWrappedModuleEventData, eventArgs: TWrappedModuleEventData[keyof TWrappedModuleEventData]) {
     return this.module.emitSerial(eventName, eventArgs)
   }
 

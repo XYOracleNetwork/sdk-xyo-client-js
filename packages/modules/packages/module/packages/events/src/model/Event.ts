@@ -7,10 +7,6 @@ export type EventUnsubscribeFunction = () => void
 export type EventAnyListener<TEventArgs extends EventArgs = EventArgs> = (eventName: EventName, eventData: TEventArgs) => Promisable<void>
 export type EventListener<TEventArgs extends EventArgs = EventArgs> = (eventData: TEventArgs) => Promisable<void>
 
-export type OncePromise<T> = {
-  off(): void
-} & Promise<T>
-
 export interface EventFunctions<TEventData extends EventData> {
   clearListeners(eventNames: keyof TEventData | (keyof TEventData)[]): void
   emit<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(

@@ -1,9 +1,14 @@
 import { EventData, ModuleEventArgs } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 
-export type WitnessReportStartEventArgs = ModuleEventArgs<{
-  inPayloads?: XyoPayload[]
-}>
+import { WitnessModule } from '../Witness'
+
+export type WitnessReportStartEventArgs = ModuleEventArgs<
+  WitnessModule,
+  {
+    inPayloads?: XyoPayload[]
+  }
+>
 
 export interface WitnessReportStartEventData extends EventData {
   reportStart: WitnessReportStartEventArgs

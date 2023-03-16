@@ -16,19 +16,22 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type ModuleEventArgs<TArgs extends EventArgs | undefined = undefined> = TArgs extends EventArgs
+export type ModuleEventArgs<TModule extends Module = Module, TArgs extends EventArgs | undefined = undefined> = TArgs extends EventArgs
   ? {
-      module: Module
+      module: TModule
     } & TArgs
   : {
-      module: Module
+      module: TModule
     }
 
-export type ModuleQueriedEventArgs = ModuleEventArgs<{
-  payloads?: XyoPayload[]
-  query: XyoQueryBoundWitness
-  result: [XyoBoundWitness, XyoPayload[]]
-}>
+export type ModuleQueriedEventArgs = ModuleEventArgs<
+  Module,
+  {
+    payloads?: XyoPayload[]
+    query: XyoQueryBoundWitness
+    result: [XyoBoundWitness, XyoPayload[]]
+  }
+>
 
 export interface ModuleEventData extends EventData {
   moduleQueried: ModuleQueriedEventArgs

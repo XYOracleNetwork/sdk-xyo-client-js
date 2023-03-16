@@ -7,9 +7,12 @@ import { Promisable } from '@xyo-network/promise'
 
 import { XyoWitnessConfigSchema } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
-import { WitnessModuleEventData, WitnessParams } from './Witness'
+import { WitnessModule, WitnessModuleEventData, WitnessParams } from './Witness'
 
-export class AbstractWitness<TParams extends WitnessParams = WitnessParams> extends AbstractModule<TParams, WitnessModuleEventData> {
+export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData>
+  extends AbstractModule<TParams, TEventData>
+  implements WitnessModule<TParams, TEventData>
+{
   static override configSchema: string = XyoWitnessConfigSchema
 
   override get queries(): string[] {

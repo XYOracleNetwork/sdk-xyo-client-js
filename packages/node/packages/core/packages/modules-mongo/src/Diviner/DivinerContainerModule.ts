@@ -5,7 +5,6 @@ import {
   BoundWitnessDiviner,
   BoundWitnessStatsDiviner,
   LocationCertaintyDiviner,
-  ModuleAddressDiviner,
   PayloadDiviner,
   PayloadStatsDiviner,
   SchemaStatsDiviner,
@@ -24,7 +23,6 @@ import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBAddressBoundWitnessStatsDiviner, MongoDBAddressBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
-import { MongoDBModuleAddressDiviner } from './ModuleAddress'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBAddressPayloadStatsDiviner, MongoDBAddressPayloadStatsDivinerConfigSchema } from './PayloadStats'
 import { MongoDBAddressSchemaStatsDiviner, MongoDBAddressSchemaStatsDivinerConfigSchema } from './SchemaStats'
@@ -34,7 +32,6 @@ let mongoDBAddressSpaceDiviner: MongoDBAddressSpaceDiviner
 let mongoDBBoundWitnessDiviner: MongoDBBoundWitnessDiviner
 let mongoDBBoundWitnessStatsDiviner: MongoDBAddressBoundWitnessStatsDiviner
 let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
-let mongoDBModuleAddressDiviner: MongoDBModuleAddressDiviner
 let mongoDBPayloadDiviner: MongoDBPayloadDiviner
 let mongoDBPayloadStatsDiviner: MongoDBAddressPayloadStatsDiviner
 let mongoDBSchemaStatsDiviner: MongoDBAddressSchemaStatsDiviner
@@ -81,12 +78,6 @@ const getMongoDBLocationCertaintyDiviner = async (_context: interfaces.Context) 
     config: { schema: XyoDivinerConfigSchema },
   })) as MongoDBLocationCertaintyDiviner
   return mongoDBLocationCertaintyDiviner
-}
-const getMongoDBModuleAddressDiviner = async (_context: interfaces.Context) => {
-  if (mongoDBModuleAddressDiviner) return mongoDBModuleAddressDiviner
-  const params = { config: { name: TYPES.ModuleAddressDiviner.description, schema: XyoDivinerConfigSchema } }
-  mongoDBModuleAddressDiviner = await MongoDBModuleAddressDiviner.create(params)
-  return mongoDBModuleAddressDiviner
 }
 const getMongoDBPayloadDiviner = async (_context: interfaces.Context) => {
   if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
@@ -141,10 +132,6 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind(MongoDBLocationCertaintyDiviner).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
   bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
-
-  bind(MongoDBModuleAddressDiviner).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
-  bind<ModuleAddressDiviner>(TYPES.ModuleAddressDiviner).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
-  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
 
   bind(MongoDBPayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
   bind<PayloadDiviner>(TYPES.PayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()

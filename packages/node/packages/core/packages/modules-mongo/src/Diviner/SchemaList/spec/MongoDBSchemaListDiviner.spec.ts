@@ -1,37 +1,32 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { AddressSpaceDiviner } from '@xyo-network/diviner'
-import {
-  BoundWitnessStatsQueryPayload,
-  BoundWitnessStatsQuerySchema,
-  BoundWitnessStatsSchema,
-  XyoBoundWitnessWithMeta,
-} from '@xyo-network/node-core-model'
+import { SchemaListQueryPayload, SchemaListQuerySchema, SchemaListSchema, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
-import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfigSchema } from '../MongoDBBoundWitnessStatsDiviner'
+import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerConfigSchema } from '../MongoDBSchemaListDiviner'
 
-describe('MongoDBBoundWitnessStatsDiviner', () => {
+describe('MongoDBSchemaListDiviner', () => {
   const phrase = 'temp'
   const account = new Account({ phrase })
   const address = account.addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
-  const boundWitnessSdk = new BaseMongoSdk<XyoBoundWitnessWithMeta>({
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk<XyoBoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
-  let sut: MongoDBBoundWitnessStatsDiviner
+  let sut: MongoDBSchemaListDiviner
   beforeAll(async () => {
-    sut = (await MongoDBBoundWitnessStatsDiviner.create({
+    sut = await MongoDBSchemaListDiviner.create({
       addressSpaceDiviner,
       boundWitnessSdk,
-      config: { schema: MongoDBBoundWitnessStatsDivinerConfigSchema },
+      config: { schema: MongoDBSchemaListDivinerConfigSchema },
       logger,
-    })) as MongoDBBoundWitnessStatsDiviner
+    })
     // TODO: Insert via archivist
     const payload = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
     const bw = new BoundWitnessBuilder().payload(payload).witness(account).build()[0]
@@ -40,24 +35,30 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
   describe('divine', () => {
     describe('with address supplied in query', () => {
       it('divines results for the address', async () => {
-        const query: BoundWitnessStatsQueryPayload = { address, schema: BoundWitnessStatsQuerySchema }
+        const query: SchemaListQueryPayload = { address, schema: SchemaListQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(BoundWitnessStatsSchema)
-        expect(actual.count).toBeNumber()
+        expect(actual.schema).toBe(SchemaListSchema)
+        expect(actual.schemas).toBeArray()
+        actual.schemas.map((schema) => {
+          expect(schema).toBeString()
+        })
       })
     })
     describe('with no address supplied in query', () => {
       it('divines results for all addresses', async () => {
-        const query: BoundWitnessStatsQueryPayload = { schema: BoundWitnessStatsQuerySchema }
+        const query: SchemaListQueryPayload = { schema: SchemaListQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(BoundWitnessStatsSchema)
-        expect(actual.count).toBeNumber()
+        expect(actual.schema).toBe(SchemaListSchema)
+        expect(actual.schemas).toBeArray()
+        actual.schemas.map((schema) => {
+          expect(schema).toBeString()
+        })
       })
     })
   })

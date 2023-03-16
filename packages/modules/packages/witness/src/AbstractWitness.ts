@@ -1,23 +1,15 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import {
-  AbstractModule,
-  Module,
-  ModuleConfig,
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
+import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
 import { XyoWitnessConfigSchema } from './Config'
 import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
-import { WitnessModule, WitnessParams } from './Witness'
+import { WitnessModuleEventData, WitnessParams } from './Witness'
 
-export class AbstractWitness<TParams extends WitnessParams = WitnessParams> extends AbstractModule<TParams> implements WitnessModule, Module {
+export class AbstractWitness<TParams extends WitnessParams = WitnessParams> extends AbstractModule<TParams, WitnessModuleEventData> {
   static override configSchema: string = XyoWitnessConfigSchema
 
   override get queries(): string[] {
@@ -51,9 +43,9 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams> exte
     try {
       switch (typedQuery.schema) {
         case XyoWitnessObserveQuerySchema: {
-          await this.emit('reportStart', { inPayloads: payloads })
+          await this.emit('reportStart', { inPayloads: payloads, module: this })
           const resultPayloads = await this.observe(filteredObservation)
-          await this.emit('reportEnd', { inPayloads: payloads, outPayloads: resultPayloads })
+          await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
           return this.bindResult(resultPayloads, queryAccount)
         }
         default: {

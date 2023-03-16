@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
-import { ModuleWrapper, ModuleWrapperParams } from '@xyo-network/module'
+import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -8,13 +8,8 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { SentinelReportQuery, SentinelReportQuerySchema } from './Queries'
 import { SentinelModule } from './SentinelModel'
 
-export class SentinelWrapper extends ModuleWrapper implements SentinelModule {
+export class SentinelWrapper<TModule extends SentinelModule = SentinelModule> extends ModuleWrapper<TModule> implements SentinelModule {
   static override requiredQueries = [SentinelReportQuerySchema, ...super.requiredQueries]
-
-  constructor(params: ModuleWrapperParams<SentinelModule>) {
-    super(params)
-    assertEx(params.module.queries.includes(SentinelReportQuerySchema))
-  }
 
   static override tryWrap(module?: Module, account?: AccountInstance): SentinelWrapper | undefined {
     if (module) {

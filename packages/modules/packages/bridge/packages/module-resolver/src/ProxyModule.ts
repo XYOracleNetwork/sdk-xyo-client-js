@@ -8,7 +8,6 @@ import {
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
-  ModuleQueriedEventArgs,
   ModuleQueryResult,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
@@ -27,7 +26,7 @@ export type ProxyModuleParams = ModuleParams<
   }
 >
 
-export class ProxyModule extends BaseEmitter<ProxyModuleParams> implements Module<ModuleParams, ModuleEventData> {
+export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData> implements Module<ModuleParams, ModuleEventData> {
   readonly upResolver = new CompositeModuleResolver()
 
   constructor(params: ProxyModuleParams) {
@@ -56,8 +55,7 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams> implements Modul
 
   async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
     const result = assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
-    const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
-    await this.emit('moduleQuery', args)
+    await this.emit('moduleQueried', { module: this, payloads, query, result })
     return result
   }
 

@@ -5,6 +5,9 @@ export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData ext
   extends Base<TParams>
   implements EventFunctions<TEventData>
 {
+  //just here to query types
+  eventData = {} as TEventData
+
   private events: Events<TEventData>
 
   constructor(params: TParams) {
@@ -34,32 +37,23 @@ export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData ext
     return this.events.listenerCount(eventNames)
   }
 
-  off<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
-    eventNames: TEventName | TEventName[],
-    listener: EventListener<TEventArgs>,
-  ) {
+  off<TEventName extends keyof TEventData>(eventNames: TEventName | TEventName[], listener: EventListener<TEventData[TEventName]>) {
     return this.events.off(eventNames, listener)
   }
 
-  offAny<TEventArgs extends TEventData[keyof TEventData] = TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>) {
+  offAny(listener: EventAnyListener) {
     return this.events.offAny(listener)
   }
 
-  on<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
-    eventNames: TEventName | TEventName[],
-    listener: EventListener<TEventArgs>,
-  ) {
+  on<TEventName extends keyof TEventData>(eventNames: TEventName | TEventName[], listener: EventListener<TEventData[TEventName]>) {
     return this.events.on(eventNames, listener)
   }
 
-  onAny<TEventArgs extends TEventData[keyof TEventData] = TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>) {
+  onAny(listener: EventAnyListener) {
     return this.events.onAny(listener)
   }
 
-  once<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
-    eventName: TEventName,
-    listener: EventListener<TEventArgs>,
-  ) {
+  once<TEventName extends keyof TEventData>(eventName: TEventName, listener: EventListener<TEventData[TEventName]>) {
     return this.events.once(eventName, listener)
   }
 }

@@ -23,7 +23,7 @@ export abstract class AbstractBridge<
     TEventData extends ModuleEventData = ModuleEventData,
     TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
   >
-  extends AbstractModule<TParams>
+  extends AbstractModule<TParams, TEventData>
   implements BridgeModule<TParams, TEventData, TModule>
 {
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}

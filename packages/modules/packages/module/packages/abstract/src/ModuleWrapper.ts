@@ -3,14 +3,13 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { BaseParams } from '@xyo-network/core'
+import { Base, BaseParams } from '@xyo-network/core'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   Module,
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
-  ModuleEventData,
   ModuleFilter,
   ModuleQueryResult,
   XyoQuery,
@@ -21,7 +20,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
-import { BaseEmitter } from './BaseEmitter'
 import { XyoError, XyoErrorSchema } from './Error'
 import { duplicateModules } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
@@ -48,11 +46,13 @@ export type ModuleWrapperParams<TWrappedModule extends Module = Module> = BasePa
 }>
 
 @moduleConstructable()
-export class ModuleWrapper<TWrappedModule extends Module = Module, TWrappedModuleEventData extends ModuleEventData = ModuleEventData>
-  extends BaseEmitter<TWrappedModule['params'], TWrappedModuleEventData>
-  implements Module<TWrappedModule['params'], TWrappedModuleEventData>
+export class ModuleWrapper<TWrappedModule extends Module = Module>
+  extends Base<TWrappedModule['params']>
+  implements Module<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
+
+  eventData = {} as TWrappedModule['eventData']
 
   protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
 
@@ -127,7 +127,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module, TWrappedModul
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ModuleWrapper')
   }
 
-  override clearListeners(eventNames: keyof TWrappedModuleEventData | keyof TWrappedModuleEventData[]) {
+  clearListeners(eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {
     return this.module.clearListeners(eventNames)
   }
 
@@ -157,43 +157,40 @@ export class ModuleWrapper<TWrappedModule extends Module = Module, TWrappedModul
     return this.sendQuery(queryPayload)
   }
 
-  override emit<TEventName extends keyof TWrappedModuleEventData>(eventName: TEventName, eventArgs: TWrappedModuleEventData[TEventName]) {
+  emit(eventName: Parameters<TWrappedModule['emit']>[0], eventArgs: Parameters<TWrappedModule['emit']>[1]) {
     return this.module.emit(eventName, eventArgs)
   }
 
-  override emitSerial(eventName: keyof TWrappedModuleEventData, eventArgs: TWrappedModuleEventData[keyof TWrappedModuleEventData]) {
+  emitSerial(eventName: Parameters<TWrappedModule['emitSerial']>[0], eventArgs: Parameters<TWrappedModule['emitSerial']>[1]) {
     return this.module.emitSerial(eventName, eventArgs)
   }
 
-  override listenerCount(eventNames: keyof TWrappedModuleEventData | keyof TWrappedModuleEventData[]) {
+  listenerCount(eventNames: Parameters<TWrappedModule['listenerCount']>[0]) {
     return this.module.listenerCount(eventNames)
   }
 
-  override off<TEventName extends keyof TWrappedModuleEventData, TEventArgs extends TWrappedModuleEventData[TEventName]>(
-    eventNames: TEventName | TEventName[],
-    listener: EventListener<TEventArgs>,
+  off<TEventName extends keyof TWrappedModule['eventData']>(
+    eventNames: TEventName,
+    listener: EventListener<TWrappedModule['eventData'][TEventName]>,
   ) {
     return this.module.off(eventNames, listener)
   }
 
-  override offAny<TEventArgs extends TWrappedModuleEventData[keyof TWrappedModuleEventData]>(listener: EventAnyListener<TEventArgs>) {
+  offAny(listener: EventAnyListener) {
     return this.module.offAny(listener)
   }
 
-  override on<TEventName extends keyof TWrappedModuleEventData, TEventArgs extends TWrappedModuleEventData[TEventName]>(
-    eventNames: TEventName | TEventName[],
-    listener: EventListener<TEventArgs>,
-  ) {
+  on<TEventName extends keyof TWrappedModule['eventData']>(eventNames: TEventName, listener: EventListener<TWrappedModule['eventData'][TEventName]>) {
     return this.module.on(eventNames, listener)
   }
 
-  override onAny<TEventArgs extends TWrappedModuleEventData[keyof TWrappedModuleEventData]>(listener: EventAnyListener<TEventArgs>) {
+  onAny(listener: EventAnyListener) {
     return this.module.onAny(listener)
   }
 
-  override once<TEventName extends keyof TWrappedModuleEventData, TEventArgs extends TWrappedModuleEventData[TEventName]>(
+  once<TEventName extends keyof TWrappedModule['eventData']>(
     eventName: TEventName,
-    listener: EventListener<TEventArgs>,
+    listener: EventListener<TWrappedModule['eventData'][TEventName]>,
   ) {
     return this.module.once(eventName, listener)
   }

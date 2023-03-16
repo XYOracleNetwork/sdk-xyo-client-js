@@ -1,13 +1,23 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { DivinerModule, DivinerParams, XyoDivinerConfigSchema, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
+import {
+  DivinerModule,
+  DivinerModuleEventData,
+  DivinerParams,
+  XyoDivinerConfigSchema,
+  XyoDivinerDivineQuerySchema,
+  XyoDivinerQuery,
+} from '@xyo-network/diviner-model'
 import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerParams>
-  extends AbstractModule<TParams>
+export abstract class AbstractDiviner<
+    TParams extends DivinerParams = DivinerParams,
+    TEventData extends DivinerModuleEventData = DivinerModuleEventData,
+  >
+  extends AbstractModule<TParams, TEventData>
   implements DivinerModule<TParams>
 {
   static override configSchema: string = XyoDivinerConfigSchema
@@ -32,9 +42,9 @@ export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerPar
     try {
       switch (typedQuery.schemaName) {
         case XyoDivinerDivineQuerySchema:
-          await this.emit('reportStart', { inPayload: payloads })
+          await this.emit('reportStart', { inPayloads: payloads, module: this })
           resultPayloads.push(...(await this.divine(cleanPayloads)))
-          await this.emit('reportEnd', { inPayload: payloads, outPayload: resultPayloads })
+          await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
           break
         default:
           return super.query(query, payloads)

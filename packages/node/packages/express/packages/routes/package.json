@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.52.1",
+  "version": "2.53.0-rc.1",
   "description": "XYO Express Node Routes",
   "sideeffects": false,
   "engines": {
@@ -60,5 +60,6 @@
     "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"
   },
-  "types": "dist/types/index.d.ts"
+  "types": "dist/types/index.d.ts",
+  "stableVersion": "2.52.1"
 }

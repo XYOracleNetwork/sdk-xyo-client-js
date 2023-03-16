@@ -4,10 +4,10 @@ import { ArchivistContainerModule } from './Archivist'
 import { DivinerContainerModule } from './Diviner'
 import { JobQueueContainerModule } from './JobQueue'
 import { ManagerContainerModule } from './Manager'
-import { MongoSdkContainerModule } from './Mongo'
+import { SdkContainerModule } from './Mongo'
 
 export const addMongo = (container: Container) => {
-  container.load(MongoSdkContainerModule)
+  container.load(SdkContainerModule)
   container.load(ArchivistContainerModule)
   container.load(DivinerContainerModule)
   container.load(ManagerContainerModule)

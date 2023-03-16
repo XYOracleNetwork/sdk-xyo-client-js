@@ -6,7 +6,7 @@ import { COLLECTIONS } from '../collections'
 import { MONGO_TYPES } from '../mongoTypes'
 import { getBaseMongoSdk } from './getBaseMongoSdk'
 
-export const MongoSdkContainerModule = new ContainerModule((bind: interfaces.Bind) => {
+export const SdkContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   const boundWitnessSdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const payloadSdk = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const userSdk = getBaseMongoSdk<User>(COLLECTIONS.Users)

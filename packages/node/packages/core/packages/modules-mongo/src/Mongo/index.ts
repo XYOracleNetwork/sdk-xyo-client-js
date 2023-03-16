@@ -1,2 +1,2 @@
-export * from './MongoSdkContainerModule'
 export * from './removeId'
+export * from './SdkContainerModule'

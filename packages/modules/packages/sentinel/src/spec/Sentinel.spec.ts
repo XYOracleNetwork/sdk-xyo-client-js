@@ -15,8 +15,8 @@ import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { SentinelConfig, SentinelConfigSchema } from '../Config'
-import { SentinelReportEndEventArgs } from '../Events'
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
+import { SentinelReportEndEventArgs } from '../SentinelModel'
 
 describe('XyoPanel', () => {
   test('all [simple panel send]', async () => {

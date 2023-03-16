@@ -7,6 +7,7 @@ import {
   LocationCertaintyDiviner,
   PayloadDiviner,
   PayloadStatsDiviner,
+  SchemaListDiviner,
   SchemaStatsDiviner,
   XyoBoundWitnessWithMeta,
   XyoPayloadWithMeta,
@@ -24,6 +25,7 @@ import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfigS
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfigSchema } from './PayloadStats'
+import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerConfigSchema } from './SchemaList'
 import { MongoDBSchemaStatsDiviner, MongoDBSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
@@ -33,6 +35,7 @@ let mongoDBBoundWitnessStatsDiviner: MongoDBBoundWitnessStatsDiviner
 let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
 let mongoDBPayloadDiviner: MongoDBPayloadDiviner
 let mongoDBPayloadStatsDiviner: MongoDBPayloadStatsDiviner
+let mongoDBSchemaListDiviner: MongoDBSchemaListDiviner
 let mongoDBSchemaStatsDiviner: MongoDBSchemaStatsDiviner
 
 const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
@@ -105,6 +108,20 @@ const getMongoDBPayloadStatsDiviner = async (context: interfaces.Context) => {
   mongoDBPayloadStatsDiviner = await MongoDBPayloadStatsDiviner.create(params)
   return mongoDBPayloadStatsDiviner
 }
+const getMongoDBSchemaListDiviner = async (context: interfaces.Context) => {
+  if (mongoDBSchemaListDiviner) return mongoDBSchemaListDiviner
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
+    MONGO_TYPES.BoundWitnessSdk,
+  )
+  const params = {
+    addressSpaceDiviner,
+    boundWitnessSdk,
+    config: { name: TYPES.SchemaListDiviner.description, schema: MongoDBSchemaListDivinerConfigSchema },
+  }
+  mongoDBSchemaListDiviner = await MongoDBSchemaListDiviner.create(params)
+  return mongoDBSchemaListDiviner
+}
 const getMongoDBSchemaStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBSchemaStatsDiviner) return mongoDBSchemaStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
@@ -148,6 +165,10 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
+
+  bind(MongoDBSchemaListDiviner).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
+  bind<SchemaListDiviner>(TYPES.SchemaListDiviner).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
 
   bind(MongoDBSchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
   bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()

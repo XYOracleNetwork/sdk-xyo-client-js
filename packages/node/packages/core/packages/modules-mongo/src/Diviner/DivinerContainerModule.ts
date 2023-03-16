@@ -23,7 +23,7 @@ import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBAddressBoundWitnessStatsDiviner, MongoDBAddressBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
-import { MongoDBAddressPayloadStatsDiviner, MongoDBAddressPayloadStatsDivinerConfigSchema } from './PayloadStats'
+import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfigSchema } from './PayloadStats'
 import { MongoDBAddressSchemaStatsDiviner, MongoDBAddressSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
@@ -32,7 +32,7 @@ let mongoDBBoundWitnessDiviner: MongoDBBoundWitnessDiviner
 let mongoDBBoundWitnessStatsDiviner: MongoDBAddressBoundWitnessStatsDiviner
 let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
 let mongoDBPayloadDiviner: MongoDBPayloadDiviner
-let mongoDBPayloadStatsDiviner: MongoDBAddressPayloadStatsDiviner
+let mongoDBPayloadStatsDiviner: MongoDBPayloadStatsDiviner
 let mongoDBSchemaStatsDiviner: MongoDBAddressSchemaStatsDiviner
 
 const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
@@ -99,10 +99,10 @@ const getMongoDBPayloadStatsDiviner = async (context: interfaces.Context) => {
   const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = {
     addressSpaceDiviner,
-    config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
+    config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBPayloadStatsDivinerConfigSchema },
     payloadSdk,
   }
-  mongoDBPayloadStatsDiviner = await MongoDBAddressPayloadStatsDiviner.create(params)
+  mongoDBPayloadStatsDiviner = await MongoDBPayloadStatsDiviner.create(params)
   return mongoDBPayloadStatsDiviner
 }
 const getMongoDBSchemaStatsDiviner = async (context: interfaces.Context) => {
@@ -144,7 +144,7 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<PayloadDiviner>(TYPES.PayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
 
-  bind(MongoDBAddressPayloadStatsDiviner).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
+  bind(MongoDBPayloadStatsDiviner).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
   bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()

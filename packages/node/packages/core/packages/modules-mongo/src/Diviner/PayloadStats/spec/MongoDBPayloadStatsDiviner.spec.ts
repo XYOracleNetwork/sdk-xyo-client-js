@@ -5,9 +5,9 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
-import { MongoDBAddressPayloadStatsDiviner, MongoDBAddressPayloadStatsDivinerConfigSchema } from '../MongoDBAddressPayloadStatsDiviner'
+import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfigSchema } from '../MongoDBPayloadStatsDiviner'
 
-describe('MongoDBAddressPayloadStatsDiviner', () => {
+describe('MongoDBPayloadStatsDiviner', () => {
   const phrase = 'temp'
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
@@ -16,11 +16,11 @@ describe('MongoDBAddressPayloadStatsDiviner', () => {
     collection: COLLECTIONS.Payloads,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
-  let sut: MongoDBAddressPayloadStatsDiviner
+  let sut: MongoDBPayloadStatsDiviner
   beforeAll(async () => {
-    sut = await MongoDBAddressPayloadStatsDiviner.create({
+    sut = await MongoDBPayloadStatsDiviner.create({
       addressSpaceDiviner,
-      config: { schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
+      config: { schema: MongoDBPayloadStatsDivinerConfigSchema },
       logger,
       payloadSdk: payloadSdk,
     })

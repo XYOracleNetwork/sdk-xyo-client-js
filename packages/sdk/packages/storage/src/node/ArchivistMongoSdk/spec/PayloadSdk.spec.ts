@@ -28,7 +28,7 @@ const getMongoSdk = (archive: string) => {
 
 const getPayloads = (number = 5) => {
   return new Array(number).fill(0).map((_) => {
-    return new XyoPayloadBuilder({ schema }).fields({ prop: uuid() }).build()
+    return new XyoPayloadBuilder({ schema }).fields({ prop: uuid() }).build(true)
   })
 }
 

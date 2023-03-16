@@ -5,19 +5,28 @@ export interface XyoPayloadBuilderOptions {
   schema: string
 }
 
-export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unknown>>> {
+export class PayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unknown>>> {
+  private _client = 'js'
   private _fields: Partial<T> = {}
   private _schema: string
+  private _timestamp = Date.now()
 
   constructor({ schema }: XyoPayloadBuilderOptions) {
     this._schema = schema
   }
 
-  build(): T {
+  get meta() {
+    const _hash = new Hasher(this.hashableFields).hash
+    return { _client: this._client, _hash, _timestamp: this._timestamp, schema: this._schema }
+  }
+
+  build(withMeta = false) {
     const hashableFields = this.hashableFields()
-    const _hash = new Hasher(hashableFields).hash
-    const _timestamp = Date.now()
-    return { ...hashableFields, _client: 'js', _hash, _timestamp, schema: this._schema }
+    if (withMeta) {
+      return { ...hashableFields, ...this.meta }
+    } else {
+      return hashableFields
+    }
   }
 
   fields(fields?: Partial<T>) {
@@ -34,3 +43,5 @@ export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, 
     } as T
   }
 }
+
+export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unknown>>> extends PayloadBuilder<T> {}

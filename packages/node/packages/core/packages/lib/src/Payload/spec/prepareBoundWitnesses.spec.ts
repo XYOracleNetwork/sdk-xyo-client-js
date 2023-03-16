@@ -68,10 +68,10 @@ const validateBeforeSanitization = (boundWitnesses: Array<XyoBoundWitnessWithPar
     expect(bw.schema).toBe(XyoBoundWitnessSchema)
     bw?._payloads?.map((p) => {
       expect(p._archive).toBeUndefined()
-      expect(p._client).toBe(_client)
-      expect(p._hash).toBeDefined()
+      expect(p._client).toBeUndefined
+      expect(p._hash).toBeUndefined()
       expect(p._observeDuration).toBeUndefined()
-      expect(p._timestamp).toBeDefined()
+      expect(p._timestamp).toBeUndefined()
       expect(p.schema).toBeDefined()
     })
   })

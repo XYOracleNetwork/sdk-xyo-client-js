@@ -6604,6 +6604,7 @@ __metadata:
     "@xylabs/forget": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
+    "@xylabs/tsconfig-jest": ^2.16.1
     "@xyo-network/promise": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown

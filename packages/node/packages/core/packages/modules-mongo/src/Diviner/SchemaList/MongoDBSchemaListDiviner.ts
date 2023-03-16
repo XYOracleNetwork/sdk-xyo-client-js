@@ -42,17 +42,6 @@ export class MongoDBSchemaListDiviner<TParams extends MongoDBSchemaListDivinerPa
   static override configSchema = MongoDBSchemaListDivinerConfigSchema
 
   /**
-   * The max number of records to search during the aggregate query
-   */
-  protected readonly aggregateLimit = 5_000_000
-
-  /**
-   * The max number of iterations of aggregate queries to allow when
-   * divining the schema stats within an archive
-   */
-  protected readonly aggregateMaxIterations = 10_000
-
-  /**
    * The amount of time to allow the aggregate query to execute
    */
   protected readonly aggregateTimeoutMs = 10_000
@@ -79,5 +68,10 @@ export class MongoDBSchemaListDiviner<TParams extends MongoDBSchemaListDivinerPa
     return result
   }
 
-  private divineAllAddresses = async () => await Promise.reject('Not Implemented')
+  private divineAllAddresses = async (): Promise<string[]> => {
+    const result = await this.params.boundWitnessSdk.useCollection((collection) => {
+      return collection.distinct('payload_schemas')
+    })
+    return result
+  }
 }

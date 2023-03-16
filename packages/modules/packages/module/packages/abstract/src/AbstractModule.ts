@@ -12,6 +12,8 @@ import {
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
+  ModuleEventData,
+  ModuleFields,
   ModuleFilter,
   ModuleParams,
   ModuleQueriedEventArgs,
@@ -39,7 +41,10 @@ import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from '
 import { CompositeModuleResolver } from './Resolver'
 
 @creatableModule()
-export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams>, Module {
+export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends BaseEmitter<TParams, TEventData>
+  implements ModuleFields<TParams>, ModuleFields
+{
   static configSchema: string
 
   readonly downResolver = new CompositeModuleResolver()
@@ -56,7 +61,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
     //TODO: change wallet to use accountDerivationPath
-    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config'], TParams['eventData']>).wallet
+    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config']>).wallet
       ? Account.fromPrivateKey(
           (mutatedParams as WalletModuleParams<TParams['config']>).wallet.derivePath(
             (mutatedParams as WalletModuleParams<TParams['config']>).accountDerivationPath,
@@ -69,8 +74,8 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
     this.account = this.loadAccount(account)
-    this.downResolver.add(this)
-    this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
+    this.downResolver.add(this as Module)
+    this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
   }
 
@@ -161,7 +166,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     }
     const result = await this.bindResult(resultPayloads, queryAccount)
 
-    const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+    const args: ModuleQueriedEventArgs = { module: this as Module, payloads, query, result }
     await this.emit('moduleQueried', args)
 
     return result

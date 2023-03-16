@@ -2,6 +2,7 @@ import {
   AnyConfigSchema,
   Module,
   ModuleConfig,
+  ModuleEventData,
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
@@ -20,7 +21,12 @@ export interface Bridge {
 
 export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>> = ModuleParams<TConfig>
 
-export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module> extends Bridge, Module<TParams> {
+export interface BridgeModule<
+  TParams extends BridgeParams = BridgeParams,
+  TEventData extends ModuleEventData = ModuleEventData,
+  TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
+> extends Bridge,
+    Module<TParams, TEventData> {
   targetConfig(address: string): ModuleConfig
   targetDiscover(address?: string): Promisable<XyoPayload[] | undefined>
   targetDownResolver(address?: string): TModule['downResolver']

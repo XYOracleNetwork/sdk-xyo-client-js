@@ -2,7 +2,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AbstractModule, creatableModule, Module, ModuleConfig, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
+import { AbstractModule, creatableModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -14,9 +14,12 @@ export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfi
   } & T
 >
 @creatableModule()
-export class ArchivingModule<TParams extends ModuleParams<ArchivingModuleConfig> = ModuleParams<ArchivingModuleConfig>>
-  extends AbstractModule<TParams>
-  implements Module
+export class ArchivingModule<
+    TParams extends ModuleParams<ArchivingModuleConfig> = ModuleParams<ArchivingModuleConfig>,
+    TEventData extends ModuleEventData = ModuleEventData,
+  >
+  extends AbstractModule<TParams, TEventData>
+  implements Module<TParams, TEventData>
 {
   protected override bindResult(payloads: XyoPayload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
     const promise = new PromiseEx<ModuleQueryResult, AccountInstance>(async (resolve) => {

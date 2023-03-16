@@ -14,20 +14,27 @@ export type OncePromise<T> = {
 
 export interface EventFunctions<TEventData extends EventData> {
   clearListeners(eventNames: keyof TEventData | (keyof TEventData)[]): void
-  emit(eventName: keyof TEventData, eventData: TEventData[keyof TEventData]): Promise<void>
-  emitSerial(eventName: keyof TEventData, eventData: TEventData[keyof TEventData]): Promise<void>
+  emit<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs?: TEventArgs,
+  ): Promise<void>
+  emitSerial<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs?: TEventArgs,
+  ): Promise<void>
   listenerCount(eventNames: keyof TEventData | (keyof TEventData)[]): number
-  off<TEventName extends keyof TEventData>(eventNames: TEventName | TEventName[], listener: EventListener): void
-  offAny(listener: EventAnyListener<TEventData[keyof TEventData]> | Promise<void>): void
-  on<TEventName extends keyof TEventData>(
+  off<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
     eventNames: TEventName | TEventName[],
-    listener: EventListener<TEventData[TEventName]>,
+    listener: EventListener<TEventArgs>,
+  ): void
+  offAny<TEventArgs extends TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs> | Promise<void>): void
+  on<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
+    eventNames: TEventName | TEventName[],
+    listener: EventListener<TEventArgs>,
   ): EventUnsubscribeFunction
-  onAny(listener: EventAnyListener<TEventData[keyof TEventData]>): EventUnsubscribeFunction
-  once<TEventName extends keyof TEventData>(eventName: TEventName, listener: EventListener<TEventData[TEventName]>): EventUnsubscribeFunction
-}
-
-export type EventDataParams<TEventData extends EventData | undefined = undefined, TParams extends BaseParams = BaseParams> = TParams & {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  eventData?: TEventData extends EventData ? TEventData | any : any
+  onAny<TEventArgs extends TEventData[keyof TEventData]>(listener: EventAnyListener<TEventArgs>): EventUnsubscribeFunction
+  once<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
+    eventName: TEventName,
+    listener: EventListener<TEventArgs>,
+  ): EventUnsubscribeFunction
 }

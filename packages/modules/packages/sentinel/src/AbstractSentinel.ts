@@ -8,11 +8,14 @@ import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelReportQuerySchema } from './Queries'
-import { SentinelModule, SentinelParams } from './SentinelModel'
+import { SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
 
-export abstract class AbstractSentinel<TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<SentinelConfig>>
-  extends ArchivingModule<TParams>
-  implements SentinelModule<TParams>
+export abstract class AbstractSentinel<
+    TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<SentinelConfig>,
+    TEventData extends SentinelModuleEventData = SentinelModuleEventData,
+  >
+  extends ArchivingModule<TParams, TEventData>
+  implements SentinelModule<TParams, TEventData>
 {
   static override configSchema: SentinelConfigSchema
 

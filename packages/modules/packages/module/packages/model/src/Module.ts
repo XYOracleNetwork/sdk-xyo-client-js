@@ -1,10 +1,11 @@
-import { EventFunctions } from '@xyo-network/module-events'
+import { EventData, EventFunctions } from '@xyo-network/module-events'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { ModuleConfig } from './Config'
 import { ModuleFilter } from './ModuleFilter'
 import { AnyConfigSchema, ModuleParams } from './ModuleParams'
+import { ModuleEventData } from './ModuleQueried'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { XyoQueryBoundWitness } from './Query'
 
@@ -15,7 +16,7 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type Module<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
+export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
   address: string
   config: TParams['config']
 
@@ -41,4 +42,9 @@ export type Module<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> =
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
   readonly upResolver: ModuleResolver
-} & EventFunctions<TParams['eventData']>
+}
+
+export type Module<
+  TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
+  TEventData extends EventData = EventData,
+> = ModuleFields<TParams> & EventFunctions<TEventData>

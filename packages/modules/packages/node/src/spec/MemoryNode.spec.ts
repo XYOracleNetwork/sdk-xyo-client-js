@@ -11,7 +11,7 @@ import {
   XyoHuriSchema,
 } from '@xyo-network/diviner'
 import { AbstractModule, Module, ModuleDescription } from '@xyo-network/module'
-import { NodeConfigSchema } from '@xyo-network/node-model'
+import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
 import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
 
 import { MemoryNode } from '../MemoryNode'
@@ -158,9 +158,10 @@ describe('MemoryNode', () => {
       let eventDone = false
       return await new Promise<void>((resolve, reject) => {
         node.on('moduleAttached', (args) => {
-          expect(args.module).toBeObject()
-          expect(args.module.address).toBe(module.address)
-          expect(args.module).toBe(module)
+          const { module } = args as ModuleAttachedEventArgs
+          expect(module).toBeObject()
+          expect(module.address).toBe(module.address)
+          expect(module).toBe(module)
           eventDone = true
           if (attachDone) {
             resolve()
@@ -371,7 +372,8 @@ describe('MemoryNode', () => {
       beforeEach(async () => {
         node = await MemoryNode.create()
         const attachEvents: Module[] = []
-        node.on('moduleAttached', ({ module }) => {
+        node.on('moduleAttached', (args) => {
+          const { module } = args as ModuleAttachedEventArgs
           attachEvents.push(module)
         })
         const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })

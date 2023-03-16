@@ -1,4 +1,4 @@
-import { Module, ModuleEventData, ModuleParams } from '@xyo-network/module'
+import { Module, ModuleParams } from '@xyo-network/module'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AbstractWitness } from '../AbstractWitness'
@@ -8,7 +8,7 @@ import { WitnessWrapper } from '../WitnessWrapper'
 
 describe('XyoWitness', () => {
   const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema }
-  const params: ModuleParams<XyoWitnessConfig> = { config, eventData: {} as ModuleEventData }
+  const params: ModuleParams<XyoWitnessConfig> = { config }
   const observed = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
 
   describe('fulfills type of', () => {

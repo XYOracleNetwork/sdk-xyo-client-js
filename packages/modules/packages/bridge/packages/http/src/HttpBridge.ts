@@ -27,16 +27,19 @@ import { HttpBridgeConfig } from './HttpBridgeConfig'
 
 export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<
   TConfig,
-  ModuleEventData,
   {
     axios?: AxiosJson
   }
 >
 
 @creatableModule()
-export class HttpBridge<TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams, TModule extends Module = Module>
-  extends AbstractBridge<TParams, TModule>
-  implements BridgeModule<TParams>
+export class HttpBridge<
+    TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams,
+    TEventData extends ModuleEventData = ModuleEventData,
+    TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
+  >
+  extends AbstractBridge<TParams, TEventData, TModule>
+  implements BridgeModule<TParams, TEventData, TModule>
 {
   private _axios?: AxiosJson
   private _rootAddress?: string

@@ -16,6 +16,7 @@ import {
 import {
   NodeConfigSchema,
   NodeModule,
+  NodeModuleEventData,
   NodeModuleParams,
   XyoNodeAttachedQuerySchema,
   XyoNodeAttachQuerySchema,
@@ -27,9 +28,9 @@ import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams>
-  extends AbstractModule<TParams>
-  implements NodeModule<TParams>, Module<TParams>, NodeModule, Module
+export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
+  extends AbstractModule<TParams, TEventData>
+  implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
   static override readonly configSchema = NodeConfigSchema
 

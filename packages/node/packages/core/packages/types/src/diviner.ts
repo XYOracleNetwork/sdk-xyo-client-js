@@ -8,5 +8,6 @@ export const DIVINER_TYPES: ModuleList = {
   ElevationDiviner: Symbol('ElevationDiviner'),
   PayloadDiviner: Symbol('PayloadDiviner'),
   PayloadStatsDiviner: Symbol('PayloadStatsDiviner'),
+  SchemaListDiviner: Symbol('SchemaListDiviner'),
   SchemaStatsDiviner: Symbol('SchemaStatsDiviner'),
 }

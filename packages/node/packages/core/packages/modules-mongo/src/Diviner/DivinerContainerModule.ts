@@ -24,6 +24,7 @@ import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfigS
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfigSchema } from './PayloadStats'
+import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerConfigSchema } from './SchemaList'
 import { MongoDBSchemaStatsDiviner, MongoDBSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
@@ -34,6 +35,7 @@ let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
 let mongoDBPayloadDiviner: MongoDBPayloadDiviner
 let mongoDBPayloadStatsDiviner: MongoDBPayloadStatsDiviner
 let mongoDBSchemaStatsDiviner: MongoDBSchemaStatsDiviner
+let mongoDBSchemaListDiviner: MongoDBSchemaListDiviner
 
 const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
@@ -117,6 +119,20 @@ const getMongoDBSchemaStatsDiviner = async (context: interfaces.Context) => {
   mongoDBSchemaStatsDiviner = await MongoDBSchemaStatsDiviner.create(params)
   return mongoDBSchemaStatsDiviner
 }
+const getMongoDBSchemaListDiviner = async (context: interfaces.Context) => {
+  if (mongoDBSchemaListDiviner) return mongoDBSchemaListDiviner
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
+    MONGO_TYPES.BoundWitnessSdk,
+  )
+  const params = {
+    addressSpaceDiviner,
+    boundWitnessSdk,
+    config: { name: TYPES.SchemaList.description, schema: MongoDBSchemaListDivinerConfigSchema },
+  }
+  mongoDBSchemaListDiviner = await MongoDBSchemaListDiviner.create(params)
+  return mongoDBSchemaListDiviner
+}
 
 export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   bind(MongoDBAddressHistoryDiviner).toDynamicValue(getMongoDBAddressHistoryDiviner).inSingletonScope()
@@ -152,5 +168,10 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind(MongoDBSchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
   bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
+
+  bind(MongoDBSchemaListDiviner).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
+  bind<SchemaStatsDiviner>(TYPES.SchemaListDiviner).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
+  // bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
 })

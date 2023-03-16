@@ -1,19 +1,13 @@
 import { Account } from '@xyo-network/account'
 import { AddressSpaceDiviner } from '@xyo-network/diviner'
-import {
-  SchemaStatsQueryPayload,
-  SchemaStatsQuerySchema,
-  SchemaStatsSchema,
-  XyoBoundWitnessWithMeta,
-  XyoPayloadWithMeta,
-} from '@xyo-network/node-core-model'
+import { SchemaListQueryPayload, SchemaListQuerySchema, SchemaListSchema, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
-import { MongoDBSchemaListDiviner, MongoDBSchemaStatsDivinerConfigSchema } from '../MongoDBSchemaListDiviner'
+import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerConfigSchema } from '../MongoDBSchemaListDiviner'
 
-describe('MongoDBSchemaStatsDiviner', () => {
+describe('MongoDBSchemaListDiviner', () => {
   const phrase = 'temp'
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
@@ -22,40 +16,43 @@ describe('MongoDBSchemaStatsDiviner', () => {
     collection: COLLECTIONS.BoundWitnesses,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk<XyoPayloadWithMeta>({
-    collection: COLLECTIONS.Payloads,
-    dbConnectionString: process.env.MONGO_CONNECTION_STRING,
-  })
+
   let sut: MongoDBSchemaListDiviner
   beforeAll(async () => {
     sut = await MongoDBSchemaListDiviner.create({
       addressSpaceDiviner,
       boundWitnessSdk,
-      config: { schema: MongoDBSchemaStatsDivinerConfigSchema },
+      config: { schema: MongoDBSchemaListDivinerConfigSchema },
       logger,
-      payloadSdk,
     })
   })
   describe('divine', () => {
     describe('with address supplied in query', () => {
       it('divines results for the address', async () => {
-        const query: SchemaStatsQueryPayload = { address, schema: SchemaStatsQuerySchema }
+        const query: SchemaListQueryPayload = { address, schema: SchemaListQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(SchemaStatsSchema)
-        expect(actual.count).toBeObject()
-        Object.entries(actual.count).map((entry) => {
-          expect(entry[0]).toBeString()
-          expect(entry[1]).toBeNumber()
+        expect(actual.schema).toBe(SchemaListSchema)
+        expect(actual.schemas).toBeArray()
+        Object.entries(actual.schemas).map((schema) => {
+          expect(schema).toBeString()
         })
       })
     })
     describe('with no address supplied in query', () => {
-      it('is not implemented', async () => {
-        const query: SchemaStatsQueryPayload = { schema: SchemaStatsQuerySchema }
-        await expect(sut.divine([query])).rejects.toBe('Not Implemented')
+      it('divines results for all addresses', async () => {
+        const query: SchemaListQueryPayload = { schema: SchemaListQuerySchema }
+        const result = await sut.divine([query])
+        expect(result).toBeArrayOfSize(1)
+        const actual = result[0]
+        expect(actual).toBeObject()
+        expect(actual.schema).toBe(SchemaListSchema)
+        expect(actual.schemas).toBeArray()
+        Object.entries(actual.schemas).map((schema) => {
+          expect(schema).toBeString()
+        })
       })
     })
   })

@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/sentinel/src/spec/Sentinel.spec.ts"
+        "packages/node/packages/core/packages/modules-mongo/src/Diviner/SchemaList/spec/MongoDBSchemaListDiviner.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

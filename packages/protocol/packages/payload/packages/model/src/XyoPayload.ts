@@ -2,8 +2,11 @@ import { EmptyPayload } from './EmptyPayload'
 
 export type WithTimestamp<T extends EmptyPayload = EmptyPayload> = T & { timestamp: number }
 
-export type XyoPayloadSchema = 'network.xyo.payload'
-export const XyoPayloadSchema: XyoPayloadSchema = 'network.xyo.payload'
+export type PayloadSchema = 'network.xyo.payload'
+export const PayloadSchema: PayloadSchema = 'network.xyo.payload'
+
+export type XyoPayloadSchema = PayloadSchema
+export const XyoPayloadSchema: XyoPayloadSchema = PayloadSchema
 
 export type SchemaFields = {
   schema: string
@@ -18,7 +21,7 @@ export type PayloadFields = {
 
 export type WithPayload<T extends EmptyPayload | void = void> = WithSchema<T extends EmptyPayload ? PayloadFields & T : PayloadFields>
 
-export type XyoPayload<
+export type Payload<
   T extends void | EmptyPayload | WithSchema = void,
   S extends string = T extends WithSchema ? T['schema'] : string,
 > = T extends WithSchema
@@ -29,3 +32,8 @@ export type XyoPayload<
     WithPayload<T & { schema: S }>
   : /* Type sent is void */
     WithPayload<{ schema: S }>
+
+export type XyoPayload<T extends void | EmptyPayload | WithSchema = void, S extends string = T extends WithSchema ? T['schema'] : string> = Payload<
+  T,
+  S
+>

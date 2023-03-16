@@ -1,11 +1,11 @@
-import { EventFunctions } from '@xyo-network/module-events'
+import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { ModuleConfig } from './Config'
 import { ModuleFilter } from './ModuleFilter'
 import { AnyConfigSchema, ModuleParams } from './ModuleParams'
-import { ModuleEventData } from './ModuleQueried'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { XyoQueryBoundWitness } from './Query'
 
@@ -14,6 +14,24 @@ export interface ModuleResolver {
   isModuleResolver: boolean
   removeResolver: (resolver: ModuleResolver) => this
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
+}
+
+export type ModuleEventArgs<TArgs extends EventArgs | undefined = undefined> = TArgs extends EventArgs
+  ? {
+      module: Module
+    } & TArgs
+  : {
+      module: Module
+    }
+
+export type ModuleQueriedEventArgs = ModuleEventArgs<{
+  payloads?: XyoPayload[]
+  query: XyoQueryBoundWitness
+  result: [XyoBoundWitness, XyoPayload[]]
+}>
+
+export interface ModuleEventData extends EventData {
+  moduleQueried: ModuleQueriedEventArgs
 }
 
 export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {

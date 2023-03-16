@@ -167,9 +167,6 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
 
     const args: ModuleQueriedEventArgs = { module: this as Module, payloads, query, result }
     await this.emit('moduleQueried', args)
-    this.on('moduleQueried', ({ module }) => {
-      return
-    })
 
     return result
   }

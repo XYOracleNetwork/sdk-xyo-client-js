@@ -13,7 +13,6 @@ import {
   ModuleConfig,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
-  ModuleFields,
   ModuleFilter,
   ModuleParams,
   ModuleQueriedEventArgs,
@@ -43,7 +42,7 @@ import { CompositeModuleResolver } from './Resolver'
 @creatableModule()
 export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
-  implements ModuleFields<TParams>, ModuleFields
+  implements Module<TParams, TEventData>
 {
   static configSchema: string
 
@@ -168,6 +167,9 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
 
     const args: ModuleQueriedEventArgs = { module: this as Module, payloads, query, result }
     await this.emit('moduleQueried', args)
+    this.on('moduleQueried', ({ module }) => {
+      return
+    })
 
     return result
   }
@@ -182,6 +184,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
       ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable
       : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
+
     return validators.every((validator) => validator(query, payloads))
   }
 

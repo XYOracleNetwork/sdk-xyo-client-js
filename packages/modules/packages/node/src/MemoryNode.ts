@@ -70,10 +70,10 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
       if (external) {
         const wrappedAsNode = NodeWrapper.wrap(module as NodeModule)
 
-        const attachedListener: EventListener<TEventData['moduleAttached']> = async (args?: TEventData['moduleAttached']) =>
+        const attachedListener: EventListener<TEventData['moduleAttached']> = async (args: TEventData['moduleAttached']) =>
           await this.emit('moduleAttached', args)
 
-        const detachedListener: EventListener<TEventData['moduleDetached']> = async (args?: TEventData['moduleDetached']) =>
+        const detachedListener: EventListener<TEventData['moduleDetached']> = async (args: TEventData['moduleDetached']) =>
           await this.emit('moduleDetached', args)
 
         wrappedAsNode.on('moduleAttached', attachedListener)

@@ -46,5 +46,5 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
 
 export type Module<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
-  TEventData extends EventData = EventData,
+  TEventData extends ModuleEventData = ModuleEventData,
 > = ModuleFields<TParams> & EventFunctions<TEventData>

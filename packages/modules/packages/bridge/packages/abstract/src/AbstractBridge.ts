@@ -21,7 +21,7 @@ import { Promisable } from '@xyo-network/promise'
 export abstract class AbstractBridge<
     TParams extends BridgeParams = BridgeParams,
     TEventData extends ModuleEventData = ModuleEventData,
-    TModule extends Module<ModuleParams, TParams> = Module<ModuleParams, TEventData>,
+    TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
   >
   extends AbstractModule<TParams>
   implements BridgeModule<TParams, TEventData, TModule>

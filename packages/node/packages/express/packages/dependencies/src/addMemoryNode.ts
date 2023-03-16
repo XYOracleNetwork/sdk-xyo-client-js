@@ -19,6 +19,7 @@ const diviners = [
   TYPES.BoundWitnessStatsDiviner,
   TYPES.PayloadDiviner,
   TYPES.PayloadStatsDiviner,
+  TYPES.SchemaListDiviner,
   TYPES.SchemaStatsDiviner,
 ]
 

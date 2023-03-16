@@ -24,10 +24,8 @@ export type SchemaListDivinerConfig<
 >
 
 export type SchemaListPayload = XyoPayload<{
-  count: Record<string, number>
-  //the name of the schema that the count is for.  If name is undefined, then it is the count for all schemas
-  name?: string
   schema: SchemaListSchema
+  schemas: string[]
 }>
 
 export const isSchemaListPayload = (x?: XyoPayload | null): x is SchemaListPayload => x?.schema === SchemaListSchema

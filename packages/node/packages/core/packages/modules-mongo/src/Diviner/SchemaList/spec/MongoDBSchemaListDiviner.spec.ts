@@ -1,25 +1,36 @@
 import { Account } from '@xyo-network/account'
 import { AddressSpaceDiviner } from '@xyo-network/diviner'
-import { SchemaStatsQueryPayload, SchemaStatsQuerySchema, SchemaStatsSchema, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import {
+  SchemaStatsQueryPayload,
+  SchemaStatsQuerySchema,
+  SchemaStatsSchema,
+  XyoBoundWitnessWithMeta,
+  XyoPayloadWithMeta,
+} from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
-import { MongoDBSchemaStatsDiviner, MongoDBSchemaStatsDivinerConfigSchema } from '../MongoDBSchemaListDiviner'
+import { MongoDBSchemaListDiviner, MongoDBSchemaStatsDivinerConfigSchema } from '../MongoDBSchemaListDiviner'
 
 describe('MongoDBSchemaStatsDiviner', () => {
   const phrase = 'temp'
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk<XyoBoundWitnessWithMeta>({
+    collection: COLLECTIONS.BoundWitnesses,
+    dbConnectionString: process.env.MONGO_CONNECTION_STRING,
+  })
   const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk<XyoPayloadWithMeta>({
     collection: COLLECTIONS.Payloads,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
-  let sut: MongoDBSchemaStatsDiviner
+  let sut: MongoDBSchemaListDiviner
   beforeAll(async () => {
-    sut = await MongoDBSchemaStatsDiviner.create({
+    sut = await MongoDBSchemaListDiviner.create({
       addressSpaceDiviner,
+      boundWitnessSdk,
       config: { schema: MongoDBSchemaStatsDivinerConfigSchema },
       logger,
       payloadSdk,

@@ -1,3 +1,4 @@
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import {
@@ -25,6 +26,9 @@ describe('MongoDBBoundWitnessDiviner', () => {
       config: { schema: XyoArchivistPayloadDivinerConfigSchema },
       logger,
     })
+    // TODO: Insert via archivist
+    const bw = new BoundWitnessBuilder().build()[0]
+    await boundWitnessSdk.insertOne(bw as unknown as XyoBoundWitnessWithMeta)
   })
   describe('divine', () => {
     describe('with valid query', () => {

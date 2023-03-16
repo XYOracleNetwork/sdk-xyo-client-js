@@ -1,4 +1,4 @@
-import { EventData, EventFunctions } from '@xyo-network/module-events'
+import { EventFunctions } from '@xyo-network/module-events'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 

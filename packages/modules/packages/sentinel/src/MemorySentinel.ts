@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   AnyConfigSchema,
-  Module,
   ModuleConfig,
   ModuleQueryResult,
   QueryBoundWitnessWrapper,

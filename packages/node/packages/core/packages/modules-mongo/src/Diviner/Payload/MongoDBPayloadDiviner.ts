@@ -1,10 +1,4 @@
-import {
-  AbstractDiviner,
-  DivinerModuleEventData,
-  DivinerParams,
-  XyoArchivistPayloadDivinerConfig,
-  XyoArchivistPayloadDivinerConfigSchema,
-} from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
@@ -16,7 +10,6 @@ import { removeId } from '../../Mongo'
 
 export type MongoDBPayloadDivinerParams = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
-  DivinerModuleEventData,
   {
     payloadSdk: BaseMongoSdk<XyoPayloadWithMeta>
   }

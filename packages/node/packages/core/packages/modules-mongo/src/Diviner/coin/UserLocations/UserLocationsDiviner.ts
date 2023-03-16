@@ -1,13 +1,7 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import {
-  AbstractDiviner,
-  DivinerModuleEventData,
-  DivinerParams,
-  XyoArchivistPayloadDivinerConfig,
-  XyoArchivistPayloadDivinerConfigSchema,
-} from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessesArchivist, CoinUserLocationsDiviner, PayloadArchivist } from '@xyo-network/node-core-model'
@@ -44,7 +38,6 @@ export const isLocationPayload = (x?: XyoPayload | null): x is LocationPayload =
 
 export type CoinUserLocationsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig<T>>,
-  DivinerModuleEventData,
   {
     bws: BoundWitnessesArchivist
     payloads: PayloadArchivist

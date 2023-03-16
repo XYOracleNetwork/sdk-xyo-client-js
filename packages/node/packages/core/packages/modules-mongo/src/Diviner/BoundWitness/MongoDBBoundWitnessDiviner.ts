@@ -1,12 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
-import {
-  AbstractDiviner,
-  DivinerModuleEventData,
-  DivinerParams,
-  XyoArchivistPayloadDivinerConfig,
-  XyoArchivistPayloadDivinerConfigSchema,
-} from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { XyoPayloads } from '@xyo-network/payload-model'
@@ -18,7 +12,6 @@ import { removeId } from '../../Mongo'
 
 export type MongoDBBoundWitnessDivinerParams = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
-  DivinerModuleEventData,
   {
     boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }

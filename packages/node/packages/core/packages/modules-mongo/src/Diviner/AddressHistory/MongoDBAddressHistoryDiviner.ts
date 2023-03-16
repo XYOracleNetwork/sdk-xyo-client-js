@@ -5,7 +5,6 @@ import {
   AbstractDiviner,
   AddressHistoryDiviner,
   AddressHistoryQueryPayload,
-  DivinerModuleEventData,
   DivinerParams,
   isAddressHistoryQueryPayload,
   XyoArchivistPayloadDivinerConfig,
@@ -22,7 +21,6 @@ import { removeId } from '../../Mongo'
 
 export type MongoDBAddressHistoryDivinerParams = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
-  DivinerModuleEventData,
   {
     boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }

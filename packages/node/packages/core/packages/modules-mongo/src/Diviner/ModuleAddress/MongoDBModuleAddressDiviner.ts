@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { AbstractDiviner, DivinerConfig, DivinerModuleEventData, DivinerParams, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { AbstractDiviner, DivinerConfig, DivinerParams, XyoDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isModuleAddressQueryPayload,
@@ -11,7 +11,8 @@ import {
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayloads } from '@xyo-network/payload-model'
 
-export type MongoDBModuleAddressDivinerParams = DivinerParams<AnyConfigSchema<DivinerConfig>, DivinerModuleEventData>
+export type MongoDBModuleAddressDivinerParams = DivinerParams<AnyConfigSchema<DivinerConfig>>
+
 export class MongoDBModuleAddressDiviner<TParams extends MongoDBModuleAddressDivinerParams = MongoDBModuleAddressDivinerParams>
   extends AbstractDiviner<TParams>
   implements ModuleAddressDiviner

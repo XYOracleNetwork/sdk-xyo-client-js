@@ -13,10 +13,10 @@ import {
   XyoPayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { v4 } from 'uuid'
 
 import { COLLECTIONS } from '../../../collections'
-import { getBaseMongoSdk } from '../../../Mongo'
 import { MongoDBArchiveBoundWitnessArchivist } from '../MongoDBArchiveBoundWitnessArchivist'
 
 const count = 2
@@ -43,11 +43,14 @@ const removePayloads = (boundWitness: XyoBoundWitnessWithPartialMeta) => {
 }
 
 describe('MongoDBArchiveBoundWitnessArchivist', () => {
-  const sdk = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const account = Account.random()
   const archive = `test-${v4()}`
+  const boundWitnessSdk = new BaseMongoSdk<XyoBoundWitnessWithMeta>({
+    collection: COLLECTIONS.BoundWitnesses,
+    dbConnectionString: process.env.MONGO_CONNECTION_STRING,
+  })
   const config: ArchiveModuleConfig = { archive, schema: ArchiveModuleConfigSchema }
-  const params = { account, config, sdk }
+  const params = { account, boundWitnessSdk, config }
   const payloads = getPayloads(archive, count)
   const boundWitnesses = payloads
     .map((p) => new BoundWitnessBuilder({ inlinePayloads: true }).witness(account).payload(p).build())

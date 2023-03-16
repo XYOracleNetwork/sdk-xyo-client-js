@@ -31,9 +31,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { SortDirection } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
 import { DefaultMaxTimeMS } from '../../defaults'
-import { getBaseMongoSdk } from '../../Mongo'
 import {
   BoundWitnessesFilter,
   getArchive,
@@ -49,8 +47,8 @@ import { validByType } from './validByType'
 export type MongoDBDeterministicArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchivistConfig>,
   {
-    boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
-    payloads?: BaseMongoSdk<XyoPayloadWithMeta>
+    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    payloads: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 
@@ -78,17 +76,13 @@ export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
 > extends AbstractArchivist<TParams> {
   static override configSchema = ArchivistConfigSchema
-  protected _boundWitnesses?: BaseMongoSdk<XyoBoundWitnessWithMeta>
-  protected _payloads?: BaseMongoSdk<XyoPayloadWithMeta>
 
   get boundWitnesses() {
-    this._boundWitnesses = this._boundWitnesses ?? getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-    return this._boundWitnesses
+    return this.params.boundWitnesses
   }
 
   get payloads() {
-    this._payloads = this._payloads ?? getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
-    return this._payloads
+    return this.params.payloads
   }
 
   override get queries(): string[] {

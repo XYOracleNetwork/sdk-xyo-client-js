@@ -1,8 +1,10 @@
 import { Account } from '@xyo-network/account'
 import { AddressSpaceDiviner } from '@xyo-network/diviner'
-import { PayloadStatsQueryPayload, PayloadStatsQuerySchema, PayloadStatsSchema } from '@xyo-network/node-core-model'
+import { PayloadStatsQueryPayload, PayloadStatsQuerySchema, PayloadStatsSchema, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
+import { COLLECTIONS } from '../../../collections'
 import { MongoDBAddressPayloadStatsDiviner, MongoDBAddressPayloadStatsDivinerConfigSchema } from '../MongoDBAddressPayloadStatsDiviner'
 
 describe('MongoDBAddressPayloadStatsDiviner', () => {
@@ -10,12 +12,17 @@ describe('MongoDBAddressPayloadStatsDiviner', () => {
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
+  const payloadSdk = new BaseMongoSdk<XyoPayloadWithMeta>({
+    collection: COLLECTIONS.Payloads,
+    dbConnectionString: process.env.MONGO_CONNECTION_STRING,
+  })
   let sut: MongoDBAddressPayloadStatsDiviner
   beforeAll(async () => {
     sut = await MongoDBAddressPayloadStatsDiviner.create({
       addressSpaceDiviner,
       config: { schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
       logger,
+      payloadSdk: payloadSdk,
     })
   })
   describe('divine', () => {

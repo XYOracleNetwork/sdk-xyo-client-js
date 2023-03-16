@@ -5,6 +5,7 @@ import {
   AbstractDiviner,
   AddressHistoryDiviner,
   AddressHistoryQueryPayload,
+  DivinerModuleEventData,
   DivinerParams,
   isAddressHistoryQueryPayload,
   XyoArchivistPayloadDivinerConfig,
@@ -16,19 +17,22 @@ import { XyoPayloads } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
-import { getBaseMongoSdk, removeId } from '../../Mongo'
+import { removeId } from '../../Mongo'
 
-export type MongoDBAddressHistoryDivinerParams = DivinerParams<AnyConfigSchema<XyoArchivistPayloadDivinerConfig>>
+export type MongoDBAddressHistoryDivinerParams = DivinerParams<
+  AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  DivinerModuleEventData,
+  {
+    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+  }
+>
 
 export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams>
   extends AbstractDiviner<TParams>
   implements AddressHistoryDiviner
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
-
-  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)
@@ -50,7 +54,9 @@ export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryD
     for (let i = 0; i < limit; i++) {
       const filter: Filter<XyoBoundWitnessWithMeta> = { addresses: address }
       if (nextHash) filter._hash = nextHash
-      const block = (await (await this.sdk.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+      const block = (
+        await (await this.params.boundWitnessSdk.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()
+      ).pop()
       if (!block) break
       blocks.push(block)
       const addressIndex = block.addresses.findIndex((value) => value === address)

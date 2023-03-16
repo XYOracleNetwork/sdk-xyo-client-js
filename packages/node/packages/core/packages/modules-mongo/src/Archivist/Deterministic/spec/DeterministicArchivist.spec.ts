@@ -11,7 +11,6 @@ import { ModuleConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { MongoMemoryServer } from 'mongodb-memory-server'
 
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBDeterministicArchivist } from '../DeterministicArchivist'
@@ -19,7 +18,6 @@ import { MongoDBDeterministicArchivist } from '../DeterministicArchivist'
 describe('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
   const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
-  const server = new MongoMemoryServer()
   const archiveAccount: Account = new Account({ phrase: 'temp' })
   // 0x10cal
   const userAccount: Account = new Account({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })
@@ -52,10 +50,8 @@ describe('DeterministicArchivist', () => {
   const insertResults: XyoBoundWitness[][] = []
   beforeAll(async () => {
     jest.spyOn(Account, 'random').mockImplementation(() => randomAccount)
-    await server.start()
-    const uri = server.getUri()
-    boundWitnessesConfig.dbConnectionString = uri
-    payloadsConfig.dbConnectionString = uri
+    boundWitnessesConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
+    payloadsConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
     const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
     const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const module = await MongoDBDeterministicArchivist.create({
@@ -80,9 +76,6 @@ describe('DeterministicArchivist', () => {
     insertResult1 = insertResults[0]
     // insertResult2 = insertResults[1]
     insertResult3 = insertResults[2]
-  })
-  afterAll(async () => {
-    await server.stop()
   })
   describe('discover', () => {
     it('discovers module', async () => {

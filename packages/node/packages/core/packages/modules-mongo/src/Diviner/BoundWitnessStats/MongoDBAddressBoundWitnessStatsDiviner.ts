@@ -20,7 +20,6 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { getBaseMongoSdk } from '../../Mongo'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -47,6 +46,7 @@ export type MongoDBAddressBoundWitnessStatsDivinerParams<T extends XyoPayload = 
   AnyConfigSchema<MongoDBAddressBoundWitnessStatsDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
+    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
   }
 >
 
@@ -63,8 +63,6 @@ export class MongoDBAddressBoundWitnessStatsDiviner<
   protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
-
-  private _sdk?: BaseMongoSdk<XyoBoundWitnessWithMeta>
 
   get jobs(): Job[] {
     return [
@@ -85,8 +83,7 @@ export class MongoDBAddressBoundWitnessStatsDiviner<
   }
 
   protected get sdk() {
-    this._sdk = this._sdk ?? getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-    return this._sdk
+    return this.params.boundWitnessSdk
   }
 
   override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<BoundWitnessStatsPayload>> {

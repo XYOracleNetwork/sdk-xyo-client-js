@@ -6,9 +6,6 @@ import { XyoPayload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { ObjectId, WithId } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
-import { getBaseMongoSdk } from '../../Mongo'
-
 interface IUpsertFilter {
   $or: {
     address?: string
@@ -17,7 +14,7 @@ interface IUpsertFilter {
 }
 
 export class MongoDBUserArchivist implements UserArchivist {
-  constructor(protected readonly db: BaseMongoSdk<User> = getBaseMongoSdk<User>(COLLECTIONS.Users)) {}
+  constructor(protected readonly db: BaseMongoSdk<User>) {}
   get address(): string {
     throw new Error('Module query not implemented for MongoDBUserArchivist')
   }

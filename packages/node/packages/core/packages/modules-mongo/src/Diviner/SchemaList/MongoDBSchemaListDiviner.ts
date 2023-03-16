@@ -8,7 +8,6 @@ import {
   SchemaListQueryPayload,
   SchemaListSchema,
   XyoBoundWitnessWithMeta,
-  XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
 import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
@@ -31,7 +30,6 @@ export type MongoDBSchemaListDivinerParams<T extends XyoPayload = XyoPayload> = 
   {
     addressSpaceDiviner: AddressSpaceDiviner
     boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
-    payloadSdk: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 

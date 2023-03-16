@@ -24,7 +24,7 @@ import { MongoDBAddressBoundWitnessStatsDiviner, MongoDBAddressBoundWitnessStats
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfigSchema } from './PayloadStats'
-import { MongoDBAddressSchemaStatsDiviner, MongoDBAddressSchemaStatsDivinerConfigSchema } from './SchemaStats'
+import { MongoDBSchemaStatsDiviner, MongoDBSchemaStatsDivinerConfigSchema } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
 let mongoDBAddressSpaceDiviner: MongoDBAddressSpaceDiviner
@@ -33,7 +33,7 @@ let mongoDBBoundWitnessStatsDiviner: MongoDBAddressBoundWitnessStatsDiviner
 let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
 let mongoDBPayloadDiviner: MongoDBPayloadDiviner
 let mongoDBPayloadStatsDiviner: MongoDBPayloadStatsDiviner
-let mongoDBSchemaStatsDiviner: MongoDBAddressSchemaStatsDiviner
+let mongoDBSchemaStatsDiviner: MongoDBSchemaStatsDiviner
 
 const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
@@ -111,10 +111,10 @@ const getMongoDBSchemaStatsDiviner = async (context: interfaces.Context) => {
   const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = {
     addressSpaceDiviner,
-    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBAddressSchemaStatsDivinerConfigSchema },
+    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBSchemaStatsDivinerConfigSchema },
     payloadSdk,
   }
-  mongoDBSchemaStatsDiviner = await MongoDBAddressSchemaStatsDiviner.create(params)
+  mongoDBSchemaStatsDiviner = await MongoDBSchemaStatsDiviner.create(params)
   return mongoDBSchemaStatsDiviner
 }
 
@@ -149,7 +149,7 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
 
-  bind(MongoDBAddressSchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
+  bind(MongoDBSchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
   bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
   bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()

@@ -36,32 +36,31 @@ interface Stats {
   }
 }
 
-export type MongoDBAddressSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
-export const MongoDBAddressSchemaStatsDivinerConfigSchema: MongoDBAddressSchemaStatsDivinerConfigSchema =
-  'network.xyo.module.config.diviner.stats.schema'
+export type MongoDBSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
+export const MongoDBSchemaStatsDivinerConfigSchema: MongoDBSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
 
-export type MongoDBAddressSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
+export type MongoDBSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
   WithAdditional<
     XyoPayload,
     T & {
-      schema: MongoDBAddressSchemaStatsDivinerConfigSchema
+      schema: MongoDBSchemaStatsDivinerConfigSchema
     }
   >
 >
 
-export type MongoDBAddressSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
-  AnyConfigSchema<MongoDBAddressSchemaStatsDivinerConfig<T>>,
+export type MongoDBSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+  AnyConfigSchema<MongoDBSchemaStatsDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
     payloadSdk: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 
-export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSchemaStatsDivinerParams = MongoDBAddressSchemaStatsDivinerParams>
+export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDivinerParams = MongoDBSchemaStatsDivinerParams>
   extends AbstractDiviner<TParams>
   implements SchemaStatsDiviner, JobProvider, DivinerModule
 {
-  static override configSchema = MongoDBAddressSchemaStatsDivinerConfigSchema
+  static override configSchema = MongoDBSchemaStatsDivinerConfigSchema
 
   /**
    * The max number of records to search during the aggregate query
@@ -104,7 +103,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
   get jobs(): Job[] {
     return [
       {
-        name: 'MongoDBAddressSchemaStatsDiviner.UpdateChanges',
+        name: 'MongoDBSchemaStatsDiviner.UpdateChanges',
         onSuccess: () => {
           this.pendingCounts = {}
         },
@@ -112,7 +111,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
         task: async () => await this.updateChanges(),
       },
       {
-        name: 'MongoDBAddressSchemaStatsDiviner.DivineAddressesBatch',
+        name: 'MongoDBSchemaStatsDiviner.DivineAddressesBatch',
         schedule: '20 minute',
         task: async () => await this.divineAddressesBatch(),
       },
@@ -184,16 +183,16 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
   }
 
   private divineAddressesBatch = async () => {
-    this.logger?.log(`MongoDBAddressSchemaStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
+    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
     const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner)
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    this.logger?.log(`MongoDBAddressSchemaStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Addresses`)
+    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Addresses`)
     this.nextOffset = addresses.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
     const results = await Promise.allSettled(addresses.map(this.divineAddressFull))
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBAddressSchemaStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 
   private divineAllAddresses = async () => await Promise.reject('Not Implemented')
@@ -209,7 +208,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
   }
 
   private registerWithChangeStream = async () => {
-    this.logger?.log('MongoDBAddressSchemaStatsDiviner.RegisterWithChangeStream: Registering')
+    this.logger?.log('MongoDBSchemaStatsDiviner.RegisterWithChangeStream: Registering')
     const wrapper = MongoClientWrapper.get(this.params.payloadSdk.uri, this.params.payloadSdk.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, 'Connection failed')
@@ -218,7 +217,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
     this.changeStream = collection.watch([], opts)
     this.changeStream.on('change', this.processChange)
     this.changeStream.on('error', this.registerWithChangeStream)
-    this.logger?.log('MongoDBAddressSchemaStatsDiviner.RegisterWithChangeStream: Registered')
+    this.logger?.log('MongoDBSchemaStatsDiviner.RegisterWithChangeStream: Registered')
   }
 
   private storeDivinedResult = async (archive: string, counts: Record<string, number>) => {
@@ -237,7 +236,7 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
   }
 
   private updateChanges = async () => {
-    this.logger?.log('MongoDBAddressSchemaStatsDiviner.UpdateChanges: Updating')
+    this.logger?.log('MongoDBSchemaStatsDiviner.UpdateChanges: Updating')
     const updates = Object.keys(this.pendingCounts).map((archive) => {
       const $inc = Object.keys(this.pendingCounts[archive])
         .map((schema) => {
@@ -252,6 +251,6 @@ export class MongoDBAddressSchemaStatsDiviner<TParams extends MongoDBAddressSche
     const results = await Promise.allSettled(updates)
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBAddressSchemaStatsDiviner.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
+    this.logger?.log(`MongoDBSchemaStatsDiviner.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 }

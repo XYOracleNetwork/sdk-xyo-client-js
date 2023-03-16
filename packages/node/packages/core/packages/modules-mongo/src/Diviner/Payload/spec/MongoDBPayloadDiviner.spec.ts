@@ -19,6 +19,8 @@ describe('MongoDBPayloadDiviner', () => {
       logger,
       payloadSdk,
     })
+    // TODO: Insert via archivist
+    await payloadSdk.insertOne({ _hash: '', _timestamp: 1, schema: 'network.xyo.test' })
   })
   describe('divine', () => {
     describe('with valid query', () => {

@@ -7201,7 +7201,6 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
     "@xyo-network/shared": "workspace:^"
-    "@xyo-network/storage": "workspace:^"
     agenda: ^5.0.0
     inversify: ^6.0.1
     lodash: ^4.17.21

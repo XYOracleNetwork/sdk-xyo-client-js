@@ -47,8 +47,8 @@ import { validByType } from './validByType'
 export type MongoDBDeterministicArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchivistConfig>,
   {
-    boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta>
-    payloads: BaseMongoSdk<XyoPayloadWithMeta>
+    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    payloadSdk: BaseMongoSdk<XyoPayloadWithMeta>
   }
 >
 
@@ -78,11 +78,11 @@ export class MongoDBDeterministicArchivist<
   static override configSchema = ArchivistConfigSchema
 
   get boundWitnesses() {
-    return this.params.boundWitnesses
+    return this.params.boundWitnessSdk
   }
 
   get payloads() {
-    return this.params.payloads
+    return this.params.payloadSdk
   }
 
   override get queries(): string[] {

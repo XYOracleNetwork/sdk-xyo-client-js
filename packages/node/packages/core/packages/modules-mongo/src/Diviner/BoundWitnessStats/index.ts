@@ -1,1 +1,1 @@
-export * from './MongoDBAddressBoundWitnessStatsDiviner'
+export * from './MongoDBBoundWitnessStatsDiviner'

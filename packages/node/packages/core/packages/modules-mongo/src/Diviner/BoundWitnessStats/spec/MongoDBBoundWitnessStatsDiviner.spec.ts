@@ -10,9 +10,9 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
-import { MongoDBAddressBoundWitnessStatsDiviner, MongoDBAddressBoundWitnessStatsDivinerConfigSchema } from '../MongoDBAddressBoundWitnessStatsDiviner'
+import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfigSchema } from '../MongoDBBoundWitnessStatsDiviner'
 
-describe('MongoDBAddressBoundWitnessStatsDiviner', () => {
+describe('MongoDBBoundWitnessStatsDiviner', () => {
   const phrase = 'temp'
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
@@ -21,14 +21,14 @@ describe('MongoDBAddressBoundWitnessStatsDiviner', () => {
     collection: COLLECTIONS.BoundWitnesses,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
-  let sut: MongoDBAddressBoundWitnessStatsDiviner
+  let sut: MongoDBBoundWitnessStatsDiviner
   beforeAll(async () => {
-    sut = (await MongoDBAddressBoundWitnessStatsDiviner.create({
+    sut = (await MongoDBBoundWitnessStatsDiviner.create({
       addressSpaceDiviner,
       boundWitnessSdk,
-      config: { schema: MongoDBAddressBoundWitnessStatsDivinerConfigSchema },
+      config: { schema: MongoDBBoundWitnessStatsDivinerConfigSchema },
       logger,
-    })) as MongoDBAddressBoundWitnessStatsDiviner
+    })) as MongoDBBoundWitnessStatsDiviner
   })
   describe('divine', () => {
     describe('with address supplied in query', () => {

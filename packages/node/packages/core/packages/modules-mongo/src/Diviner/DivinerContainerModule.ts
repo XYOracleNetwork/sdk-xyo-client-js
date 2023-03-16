@@ -16,8 +16,7 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { JobProvider } from '@xyo-network/shared'
 import { ContainerModule, interfaces } from 'inversify'
 
-import { COLLECTIONS } from '../collections'
-import { getBaseMongoSdk } from '../Mongo'
+import { MONGO_TYPES } from '../mongoTypes'
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
@@ -36,9 +35,11 @@ let mongoDBPayloadDiviner: MongoDBPayloadDiviner
 let mongoDBPayloadStatsDiviner: MongoDBAddressPayloadStatsDiviner
 let mongoDBSchemaStatsDiviner: MongoDBAddressSchemaStatsDiviner
 
-const getMongoDBAddressHistoryDiviner = async (_context: interfaces.Context) => {
+const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
+    MONGO_TYPES.BoundWitnessSdk,
+  )
   const params = {
     boundWitnessSdk,
     config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
@@ -46,16 +47,20 @@ const getMongoDBAddressHistoryDiviner = async (_context: interfaces.Context) => 
   mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
   return mongoDBAddressHistoryDiviner
 }
-const getMongoDBAddressSpaceDiviner = async (_context: interfaces.Context) => {
+const getMongoDBAddressSpaceDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressSpaceDiviner) return mongoDBAddressSpaceDiviner
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
+    MONGO_TYPES.BoundWitnessSdk,
+  )
   const params = { boundWitnessSdk, config: { name: TYPES.AddressSpaceDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBAddressSpaceDiviner = await MongoDBAddressSpaceDiviner.create(params)
   return mongoDBAddressSpaceDiviner
 }
-const getMongoDBBoundWitnessDiviner = async (_context: interfaces.Context) => {
+const getMongoDBBoundWitnessDiviner = async (context: interfaces.Context) => {
   if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
+    MONGO_TYPES.BoundWitnessSdk,
+  )
   const params = { boundWitnessSdk, config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
   return mongoDBBoundWitnessDiviner
@@ -63,7 +68,9 @@ const getMongoDBBoundWitnessDiviner = async (_context: interfaces.Context) => {
 const getMongoDBBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBBoundWitnessStatsDiviner) return mongoDBBoundWitnessStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
+    MONGO_TYPES.BoundWitnessSdk,
+  )
   const params = {
     addressSpaceDiviner,
     boundWitnessSdk,
@@ -79,9 +86,9 @@ const getMongoDBLocationCertaintyDiviner = async (_context: interfaces.Context) 
   })) as MongoDBLocationCertaintyDiviner
   return mongoDBLocationCertaintyDiviner
 }
-const getMongoDBPayloadDiviner = async (_context: interfaces.Context) => {
+const getMongoDBPayloadDiviner = async (context: interfaces.Context) => {
   if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = { config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema }, payloadSdk }
   mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
   return mongoDBPayloadDiviner
@@ -89,7 +96,7 @@ const getMongoDBPayloadDiviner = async (_context: interfaces.Context) => {
 const getMongoDBPayloadStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBPayloadStatsDiviner) return mongoDBPayloadStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = {
     addressSpaceDiviner,
     config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBAddressPayloadStatsDivinerConfigSchema },
@@ -101,7 +108,7 @@ const getMongoDBPayloadStatsDiviner = async (context: interfaces.Context) => {
 const getMongoDBSchemaStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBSchemaStatsDiviner) return mongoDBSchemaStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
+  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = {
     addressSpaceDiviner,
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBAddressSchemaStatsDivinerConfigSchema },

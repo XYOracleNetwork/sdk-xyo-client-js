@@ -56,9 +56,9 @@ describe('DeterministicArchivist', () => {
     const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const module = await MongoDBDeterministicArchivist.create({
       account: moduleAccount,
-      boundWitnesses,
+      boundWitnessSdk: boundWitnesses,
       config: { schema: ModuleConfigSchema },
-      payloads,
+      payloadSdk: payloads,
     })
     archivist = ArchivistWrapper.wrap(module, archiveAccount)
     const insertions = [

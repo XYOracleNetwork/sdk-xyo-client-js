@@ -3,19 +3,25 @@ import { AbstractModule } from '@xyo-network/module'
 import { ArchiveModuleConfigSchema, User, UserArchivist, XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { AsyncContainerModule, interfaces } from 'inversify'
+import { ContainerModule, interfaces } from 'inversify'
 
 import { COLLECTIONS } from '../collections'
 import { getBaseMongoSdk } from '../Mongo'
 import { MongoDBDeterministicArchivist } from './Deterministic'
 import { MongoDBUserArchivist } from './User'
 
-const getMongoDBUserArchivist = () => {
+let userArchivist: MongoDBUserArchivist
+let archivist: MongoDBDeterministicArchivist
+
+const getMongoDBUserArchivist = (_context: interfaces.Context) => {
+  if (userArchivist) return userArchivist
   const sdk = getBaseMongoSdk<User>(COLLECTIONS.Users)
-  return new MongoDBUserArchivist(sdk)
+  userArchivist = new MongoDBUserArchivist(sdk)
+  return userArchivist
 }
 
-const getMongoDBDeterministicArchivist = async () => {
+const getMongoDBDeterministicArchivist = async (_context: interfaces.Context) => {
+  if (archivist) return archivist
   const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const payloads: BaseMongoSdk<XyoPayloadWithMeta> = getBaseMongoSdk<XyoPayloadWithMeta>(COLLECTIONS.Payloads)
   const mongoDBDeterministicArchivist = await MongoDBDeterministicArchivist.create({
@@ -23,16 +29,15 @@ const getMongoDBDeterministicArchivist = async () => {
     config: { name: TYPES.Archivist.description, schema: ArchiveModuleConfigSchema },
     payloads,
   })
-  return mongoDBDeterministicArchivist
+  archivist = mongoDBDeterministicArchivist
+  return archivist
 }
 
-export const ArchivistContainerModule = new AsyncContainerModule(async (bind: interfaces.Bind) => {
-  const userArchivist = getMongoDBUserArchivist()
-  bind(MongoDBUserArchivist).toConstantValue(userArchivist)
-  bind<UserArchivist>(TYPES.UserArchivist).toService(MongoDBUserArchivist)
+export const ArchivistContainerModule = new ContainerModule((bind: interfaces.Bind) => {
+  bind(MongoDBUserArchivist).toDynamicValue(getMongoDBUserArchivist).inSingletonScope()
+  bind<UserArchivist>(TYPES.UserArchivist).toDynamicValue(getMongoDBUserArchivist).inSingletonScope()
 
-  const archivist = await getMongoDBDeterministicArchivist()
-  bind(MongoDBDeterministicArchivist).toConstantValue(archivist)
-  bind<AbstractArchivist>(TYPES.Archivist).toService(MongoDBDeterministicArchivist)
-  bind<AbstractModule>(TYPES.Module).toService(MongoDBDeterministicArchivist)
+  bind(MongoDBDeterministicArchivist).toDynamicValue(getMongoDBDeterministicArchivist).inSingletonScope()
+  bind<AbstractArchivist>(TYPES.Archivist).toDynamicValue(getMongoDBDeterministicArchivist).inSingletonScope()
+  bind<AbstractModule>(TYPES.Module).toDynamicValue(getMongoDBDeterministicArchivist).inSingletonScope()
 })

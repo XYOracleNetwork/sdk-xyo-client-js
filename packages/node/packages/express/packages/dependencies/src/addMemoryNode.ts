@@ -17,7 +17,6 @@ const diviners = [
   TYPES.AddressSpaceDiviner,
   TYPES.BoundWitnessDiviner,
   TYPES.BoundWitnessStatsDiviner,
-  TYPES.ModuleAddressDiviner,
   TYPES.PayloadDiviner,
   TYPES.PayloadStatsDiviner,
   TYPES.SchemaStatsDiviner,

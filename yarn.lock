@@ -7177,7 +7177,6 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.191
     "@xylabs/assert": ^2.7.4
-    "@xylabs/delay": ^2.7.4
     "@xylabs/exists": ^2.7.4
     "@xylabs/promise": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.16.1

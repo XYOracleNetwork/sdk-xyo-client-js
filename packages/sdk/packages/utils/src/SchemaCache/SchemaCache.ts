@@ -20,7 +20,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
    * Object representing `null` since LRU Cache types
    * only allow for types that derive from object
    */
-  static readonly NULL: XyoSchemaCacheEntry = { payload: { definition: {}, schema: XyoSchemaSchema } }
+  protected static readonly NULL: XyoSchemaCacheEntry = { payload: { definition: {}, schema: XyoSchemaSchema } }
 
   private static _instance?: XyoSchemaCache
 
@@ -56,7 +56,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   async get(schema?: string): Promise<XyoSchemaCacheEntry | undefined | null> {
     if (schema) {
       await this.getDebounce.one(schema, async () => {
-        //if we did not find it, mark it as not found (null)
+        // If we've never looked for it before, it will be undefined
         if (this._cache.get(schema) === undefined) {
           await this.fetchSchema(schema)
         }

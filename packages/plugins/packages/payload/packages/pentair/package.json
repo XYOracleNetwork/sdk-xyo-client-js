@@ -12,7 +12,7 @@
   "dependencies": {
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
-    "node-screenlogic": "^1.10.1"
+    "node-screenlogic": "^2.0.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.1",

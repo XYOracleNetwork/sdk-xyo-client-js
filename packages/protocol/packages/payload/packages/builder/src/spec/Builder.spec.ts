@@ -4,10 +4,6 @@ import { PayloadBuilder } from '../Builder'
 
 const schema = 'network.xyo.temp'
 
-const payloadHash = '57b78b1b7df3ac0369654642e879cdf2f3c95f9c5949bcb34ea3cb8309c538b4'
-
-const ADDITIONAL_FIELD_COUNT = 4
-
 describe('BoundWitnessBuilder', () => {
   test('build', () => {
     let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })

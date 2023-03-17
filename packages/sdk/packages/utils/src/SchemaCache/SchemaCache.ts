@@ -2,7 +2,7 @@ import { XyoDomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import { FetchedPayload } from '@xyo-network/huri'
 import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 import Ajv, { SchemaObject } from 'ajv'
-import LRU from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 
 import { Debounce } from '../Debounce'
 import { XyoSchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
@@ -16,12 +16,18 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
 export type XyoSchemaCacheEntry = FetchedPayload<XyoSchemaPayload>
 
 export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
+  /**
+   * Object representing `null` since LRU Cache types
+   * only allow for types that derive from object
+   */
+  static readonly NULL: XyoSchemaCacheEntry = { payload: { definition: {}, schema: XyoSchemaSchema } }
+
   private static _instance?: XyoSchemaCache
 
   onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
   proxy?: string
 
-  private _cache = new LRU<string, XyoSchemaCacheEntry | null>({ max: 500, ttl: 1000 * 60 * 5 })
+  private _cache = new LRUCache<string, XyoSchemaCacheEntry>({ max: 500, ttl: 1000 * 60 * 5 })
   private _validators: T = {} as T
 
   //prevents double discovery
@@ -47,7 +53,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
     return this._validators
   }
 
-  async get(schema?: string) {
+  async get(schema?: string): Promise<XyoSchemaCacheEntry | undefined | null> {
     if (schema) {
       await this.getDebounce.one(schema, async () => {
         //if we did not find it, mark it as not found (null)
@@ -55,8 +61,10 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
           await this.fetchSchema(schema)
         }
       })
-      return this._cache.get(schema)
+      const value = this._cache.get(schema)
+      return value === XyoSchemaCache.NULL ? null : value
     }
+    return undefined
   }
 
   private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
@@ -90,7 +98,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
 
     //if it is still undefined, mark it as null (not found)
     if (this._cache.get(schema) === undefined) {
-      this._cache.set(schema, null)
+      this._cache.set(schema, XyoSchemaCache.NULL)
     }
   }
 }

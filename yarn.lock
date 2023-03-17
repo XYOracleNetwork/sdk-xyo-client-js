@@ -6383,6 +6383,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xylabs/tsconfig-jest": ^2.16.1
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown

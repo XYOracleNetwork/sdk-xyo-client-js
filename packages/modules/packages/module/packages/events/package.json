@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.7.4",
     "@xylabs/forget": "^2.7.4",
+    "@xyo-network/core": "workspace:^",
     "@xyo-network/promise": "workspace:^"
   },
   "devDependencies": {

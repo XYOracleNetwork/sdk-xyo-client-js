@@ -17,7 +17,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
-import LruCache from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 
 export type MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 export const MemoryArchivistConfigSchema: MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
@@ -35,10 +35,10 @@ export class MemoryArchivist<
 > extends AbstractArchivist<TParams> {
   static override configSchema = MemoryArchivistConfigSchema
 
-  private _cache?: LruCache<string, Payload | null>
+  private _cache?: LRUCache<string, Payload>
 
   get cache() {
-    this._cache = this._cache ?? new LruCache<string, Payload | null>({ max: this.max })
+    this._cache = this._cache ?? new LRUCache<string, Payload>({ max: this.max })
     return this._cache
   }
 

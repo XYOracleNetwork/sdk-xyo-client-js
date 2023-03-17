@@ -2,7 +2,7 @@ import { XyoDomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import { FetchedPayload } from '@xyo-network/huri'
 import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 import Ajv, { SchemaObject } from 'ajv'
-import { LRUCache } from 'lru-cache'
+import LruCache from 'lru-cache'
 
 import { Debounce } from '../Debounce'
 import { XyoSchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
@@ -27,7 +27,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
   onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
   proxy?: string
 
-  private _cache = new LRUCache<string, XyoSchemaCacheEntry>({ max: 500, ttl: 1000 * 60 * 5 })
+  private _cache = new LruCache<string, XyoSchemaCacheEntry>({ max: 500, ttl: 1000 * 60 * 5 })
   private _validators: T = {} as T
 
   //prevents double discovery

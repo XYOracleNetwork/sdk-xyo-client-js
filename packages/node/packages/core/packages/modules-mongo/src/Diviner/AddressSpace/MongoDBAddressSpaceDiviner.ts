@@ -2,8 +2,8 @@ import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerParams, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayloads } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from '../../collections'
@@ -23,7 +23,7 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
-  override async divine(_payloads?: XyoPayloads): Promise<XyoPayloads> {
+  override async divine(_payloads?: Payload[]): Promise<Payload[]> {
     //const query = payloads?.find<AddressSpaceQueryPayload>(isAddressSpaceQueryPayload)
     //if (!query) return []
     // Issue a distinct query against the BoundWitnesses collection
@@ -39,6 +39,6 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
     })
     // Ensure uniqueness on case
     const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()))
-    return [...addresses].map((address) => new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
+    return [...addresses].map((address) => new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
   }
 }

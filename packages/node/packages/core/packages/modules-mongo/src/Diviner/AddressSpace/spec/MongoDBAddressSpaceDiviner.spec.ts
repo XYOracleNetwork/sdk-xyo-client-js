@@ -3,7 +3,7 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
@@ -29,7 +29,7 @@ describe('MongoDBAddressSpaceDiviner', () => {
       logger,
     })
     // TODO: Insert via archivist
-    const payload = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
+    const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
     const bw = new BoundWitnessBuilder().payload(payload).witness(account).build()[0]
     await boundWitnessSdk.insertOne(bw as unknown as XyoBoundWitnessWithMeta)
   })

@@ -1,4 +1,4 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export type ArchiveConfigPayload = DivinerConfig<XyoPayload<{ archive?: string }>>
+export type ArchiveConfigPayload = DivinerConfig<Payload<{ archive?: string }>>

@@ -25,8 +25,8 @@ import {
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
-import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWithMeta, PayloadWithPartialMeta, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { SortDirection } from 'mongodb'
@@ -48,7 +48,7 @@ export type MongoDBDeterministicArchivistParams = ArchivistParams<
   AnyConfigSchema<ArchivistConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
-    payloadSdk: BaseMongoSdk<XyoPayloadWithMeta>
+    payloadSdk: BaseMongoSdk<PayloadWithMeta>
   }
 >
 
@@ -57,16 +57,16 @@ const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitness
   return { ...bw, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
-const toReturnValue = (value: XyoPayload | XyoBoundWitness): XyoPayload => {
+const toReturnValue = (value: Payload | XyoBoundWitness): Payload => {
   const _signatures = (value as XyoBoundWitness)?._signatures
   if (_signatures) {
-    return { ...PayloadWrapper.parse(value).body, _signatures } as XyoPayload
+    return { ...PayloadWrapper.parse(value).body, _signatures } as Payload
   } else {
     return { ...PayloadWrapper.parse(value).body }
   }
 }
 
-const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): XyoPayloadWithMeta => {
+const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): PayloadWithMeta => {
   return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
@@ -89,27 +89,27 @@ export class MongoDBDeterministicArchivist<
     return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }
 
-  override find(_filter?: PayloadFindFilter): Promise<XyoPayload[]> {
+  override find(_filter?: PayloadFindFilter): Promise<Payload[]> {
     throw new Error('find method must be called via query')
   }
 
-  override get(_items: string[]): Promise<XyoPayload[]> {
+  override get(_items: string[]): Promise<Payload[]> {
     throw new Error('get method must be called via query')
   }
 
-  insert(_items: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  insert(_items: Payload[]): Promise<XyoBoundWitness[]> {
     throw new Error('insert method must be called via query')
   }
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
-    const resultPayloads: XyoPayload[] = []
+    const resultPayloads: Payload[] = []
     // TODO: Use new Account once we mock Account.new in Jest
     const queryAccount = Account.random()
     // const queryAccount = new Account()
@@ -144,10 +144,10 @@ export class MongoDBDeterministicArchivist<
     return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
   }
 
-  protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<XyoPayload[]> {
+  protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<Payload[]> {
     const limit = getLimit(typedQuery)
     const [bwFilter, payloadFilter] = getFilter(wrapper, typedQuery)
-    const resultPayloads: (XyoBoundWitnessWithMeta | XyoPayloadWithMeta)[] = []
+    const resultPayloads: (XyoBoundWitnessWithMeta | PayloadWithMeta)[] = []
     const findBWs = shouldFindBoundWitnesses(typedQuery)
     const findPayloads = shouldFindPayloads(typedQuery)
     const payloadSchemas = getPayloadSchemas(typedQuery)
@@ -188,7 +188,7 @@ export class MongoDBDeterministicArchivist<
     return resultPayloads.map(toReturnValue)
   }
 
-  protected async findPayload(filter: PayloadsFilter): Promise<XyoPayloadWithMeta | undefined> {
+  protected async findPayload(filter: PayloadsFilter): Promise<PayloadWithMeta | undefined> {
     const { _archive, order, offset, schema, _hash } = filter as PayloadFindFilter & PayloadsFilter
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'asc' ? 0 : Date.now()
@@ -200,12 +200,12 @@ export class MongoDBDeterministicArchivist<
     return result.pop()
   }
 
-  protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<XyoPayload[]> {
+  protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<Payload[]> {
     const hashes = typedQuery.hashes
     const payloads = hashes.map((_hash) => this.payloads.findOne({ _hash }))
     const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
     const gets = await Promise.allSettled([payloads, bws].flat())
-    const succeeded = gets.reduce<(XyoPayloadWithPartialMeta | null)[]>(fulfilledValues, [])
+    const succeeded = gets.reduce<(PayloadWithPartialMeta | null)[]>(fulfilledValues, [])
     return succeeded.filter(exists).map(toReturnValue)
   }
 

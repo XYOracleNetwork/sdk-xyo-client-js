@@ -9,7 +9,7 @@ import {
   XyoDivinerQuery,
 } from '@xyo-network/diviner-model'
 import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
@@ -29,7 +29,7 @@ export abstract class AbstractDiviner<
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
@@ -38,7 +38,7 @@ export abstract class AbstractDiviner<
     const typedQuery = wrapper.query
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
+    const resultPayloads: Payload[] = []
     try {
       switch (typedQuery.schemaName) {
         case XyoDivinerDivineQuerySchema:
@@ -56,5 +56,5 @@ export abstract class AbstractDiviner<
     return await this.bindResult(resultPayloads, queryAccount)
   }
 
-  abstract divine(payloads?: XyoPayload[]): Promisable<XyoPayload[]>
+  abstract divine(payloads?: Payload[]): Promisable<Payload[]>
 }

@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { describeIf } from '@xylabs/jest-helpers'
 import { uuid } from '@xyo-network/core'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import dotenv from 'dotenv'
 
-import { XyoPayloadWithPartialMeta } from '../Meta'
+import { PayloadWithPartialMeta } from '../Meta'
 import { XyoArchivistPayloadMongoSdk } from '../PayloadSdk'
 
 const schema = 'network.xyo.temp'
@@ -28,7 +28,7 @@ const getMongoSdk = (archive: string) => {
 
 const getPayloads = (number = 5) => {
   return new Array(number).fill(0).map((_) => {
-    return new XyoPayloadBuilder({ schema }).fields({ prop: uuid() }).build(true)
+    return new PayloadBuilder({ schema }).fields({ prop: uuid() }).build(true)
   })
 }
 
@@ -36,14 +36,14 @@ describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', (
   const numPayloads = 20
   const limit = 10
   let sdk: XyoArchivistPayloadMongoSdk
-  let payloads: XyoPayloadWithPartialMeta[] = []
+  let payloads: PayloadWithPartialMeta[] = []
   beforeAll(async () => {
     sdk = getMongoSdk('test')
     payloads = getPayloads(numPayloads)
     await payloads.map(async (p) => await sdk.insert(p))
   })
   describe('findAfter', () => {
-    let payload: XyoPayloadWithPartialMeta | undefined
+    let payload: PayloadWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
@@ -70,7 +70,7 @@ describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', (
     })
   })
   describe('findBefore', () => {
-    let payload: XyoPayloadWithPartialMeta | undefined
+    let payload: PayloadWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
@@ -106,7 +106,7 @@ describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', (
     })
   })
   describe('findByHash', () => {
-    let payload: XyoPayloadWithPartialMeta | undefined
+    let payload: PayloadWithPartialMeta | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {

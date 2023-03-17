@@ -1,5 +1,5 @@
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -16,7 +16,7 @@ export class XyoCryptoCardsMoveWitness<
 > extends AbstractWitness<TParams> {
   static override configSchema = XyoCryptoCardsMoveWitnessConfigSchema
 
-  override observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
+  override observe(payloads?: Payload[]): Promisable<Payload[]> {
     return super.observe(payloads)
   }
 }

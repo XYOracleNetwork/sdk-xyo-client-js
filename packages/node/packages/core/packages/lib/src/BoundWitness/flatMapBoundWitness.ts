@@ -1,22 +1,22 @@
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export type BoundWitnessMapResult = [Array<XyoBoundWitness>, Array<XyoPayload>]
+export type BoundWitnessMapResult = [Array<XyoBoundWitness>, Array<Payload>]
 
 export const flatMapBoundWitness = (boundWitness: XyoBoundWitnessWithPartialMeta): BoundWitnessMapResult => {
   const all = flatten(boundWitness)
   const boundWitnesses: XyoBoundWitness[] = all.filter((x) => x.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
-  const payloads: XyoPayload[] = all.filter((x) => x.schema !== XyoBoundWitnessSchema)
+  const payloads: Payload[] = all.filter((x) => x.schema !== XyoBoundWitnessSchema)
   return [boundWitnesses, payloads]
 }
 
-const flatten = (boundWitness: XyoBoundWitnessWithPartialMeta): XyoPayload[] => {
-  const payloads: XyoPayload[] =
+const flatten = (boundWitness: XyoBoundWitnessWithPartialMeta): Payload[] => {
+  const payloads: Payload[] =
     boundWitness?._payloads
       ?.map((payload) => {
         return payload.schema === XyoBoundWitnessSchema ? flatten(payload as XyoBoundWitnessWithPartialMeta) : payload
       })
       .flat() || []
-  return ([boundWitness] as XyoPayload[]).concat(payloads)
+  return ([boundWitness] as Payload[]).concat(payloads)
 }

@@ -5,14 +5,14 @@ import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoAr
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessesArchivist, CoinUserLocationsDiviner, PayloadArchivist } from '@xyo-network/node-core-model'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
 export type CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
 export const CoinCurrentUserWitnessSchema: CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
 
-export type CoinCurrentUserWitnessPayload = XyoPayload<{
+export type CoinCurrentUserWitnessPayload = Payload<{
   balance?: number
   daysOld?: number
   deviceId?: string
@@ -25,7 +25,7 @@ export type CoinCurrentUserWitnessPayload = XyoPayload<{
 export type CoinCurrentLocationWitnessSchema = 'co.coinapp.current.location.witness'
 export const CoinCurrentLocationWitnessSchema: CoinCurrentLocationWitnessSchema = 'co.coinapp.current.location.witness'
 
-export type CoinCurrentLocationWitnessPayload = XyoPayload<{
+export type CoinCurrentLocationWitnessPayload = Payload<{
   altitudeMeters: number
   directionDegrees: number
   latitude: number
@@ -34,9 +34,9 @@ export type CoinCurrentLocationWitnessPayload = XyoPayload<{
   speedKph: number
 }>
 
-export const isLocationPayload = (x?: XyoPayload | null): x is LocationPayload => x?.schema === LocationSchema
+export const isLocationPayload = (x?: Payload | null): x is LocationPayload => x?.schema === LocationSchema
 
-export type CoinUserLocationsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig<T>>,
   {
     bws: BoundWitnessesArchivist
@@ -50,7 +50,7 @@ export class MemoryCoinUserLocationsDiviner<TParams extends CoinUserLocationsDiv
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
-  async divine(payloads?: XyoPayloads): Promise<XyoPayloads<LocationPayload>> {
+  async divine(payloads?: Payload[]): Promise<Payload<LocationPayload>[]> {
     const user = payloads?.find<CoinCurrentUserWitnessPayload>(
       (payload): payload is CoinCurrentUserWitnessPayload => payload?.schema === CoinCurrentUserWitnessSchema,
     )

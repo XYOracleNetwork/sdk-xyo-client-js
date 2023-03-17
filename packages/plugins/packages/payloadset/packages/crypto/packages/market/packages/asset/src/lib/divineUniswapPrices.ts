@@ -7,7 +7,7 @@ import {
   XyoCryptoMarketAssetPayload,
   XyoCryptoMarketAssetSchema,
 } from '@xyo-network/crypto-asset-payload-plugin'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoPair, XyoUniswapCryptoToken } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 const schema = XyoCryptoMarketAssetSchema
@@ -61,5 +61,5 @@ export const divineUniswapPrices = (uniswapPayload: XyoUniswapCryptoMarketPayloa
     )
   }
   const timestamp = Date.now()
-  return new XyoPayloadBuilder<XyoCryptoMarketAssetPayload>({ schema }).fields({ assets, timestamp }).build()
+  return new PayloadBuilder<XyoCryptoMarketAssetPayload>({ schema }).fields({ assets, timestamp }).build()
 }

@@ -1,9 +1,9 @@
-import { createXyoPayloadPlugin } from '@xyo-network/payload-plugin'
+import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
 import { XyoEthereumGasEthgasstationPayload } from './Payload'
 import { XyoEthereumGasEthgasstationSchema } from './Schema'
 
 export const XyoEthereumGasPayloadPlugin = () =>
-  createXyoPayloadPlugin<XyoEthereumGasEthgasstationPayload>({
+  createPayloadPlugin<XyoEthereumGasEthgasstationPayload>({
     schema: XyoEthereumGasEthgasstationSchema,
   })

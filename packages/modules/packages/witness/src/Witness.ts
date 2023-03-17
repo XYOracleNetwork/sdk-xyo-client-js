@@ -1,21 +1,21 @@
 import { AnyObject } from '@xyo-network/core'
 import { EventData } from '@xyo-network/module'
 import { AnyConfigSchema, Module, ModuleEventArgs, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { XyoWitnessConfig } from './Config'
 
 export interface Witness {
-  observe: (payloads?: XyoPayload[]) => Promisable<XyoPayload[]>
+  observe: (payloads?: Payload[]) => Promisable<Payload[]>
 }
 
 export type WitnessReportEndEventArgs = ModuleEventArgs<
   WitnessModule,
   {
     errors?: Error[]
-    inPayloads?: XyoPayload[]
-    outPayloads?: XyoPayload[]
+    inPayloads?: Payload[]
+    outPayloads?: Payload[]
   }
 >
 
@@ -26,7 +26,7 @@ export interface WitnessReportEndEventData extends EventData {
 export type WitnessReportStartEventArgs = ModuleEventArgs<
   WitnessModule,
   {
-    inPayloads?: XyoPayload[]
+    inPayloads?: Payload[]
   }
 >
 

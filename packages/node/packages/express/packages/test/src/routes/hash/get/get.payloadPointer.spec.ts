@@ -8,8 +8,8 @@ import {
   SortDirection,
   XyoBoundWitnessWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
@@ -25,19 +25,13 @@ import {
   unitTestSigningAccount,
 } from '../../../testUtil'
 
-const getPayloadPointer = (
-  archive: string,
-  schema: string,
-  timestamp = Date.now(),
-  direction: SortDirection = 'desc',
-  address?: string,
-): XyoPayload => {
+const getPayloadPointer = (archive: string, schema: string, timestamp = Date.now(), direction: SortDirection = 'desc', address?: string): Payload => {
   const archiveRule: PayloadArchiveRule = { archive }
   const schemaRule: PayloadSchemaRule = { schema }
   const timestampRule: PayloadTimestampDirectionRule = { direction, timestamp }
   const fields: PayloadPointerBody = { reference: [[archiveRule], [schemaRule], [timestampRule]], schema: payloadPointerSchema }
   if (address) fields.reference.push([{ address }])
-  return new XyoPayloadBuilder<PayloadPointerBody>({ schema: payloadPointerSchema }).fields(fields).build()
+  return new PayloadBuilder<PayloadPointerBody>({ schema: payloadPointerSchema }).fields(fields).build()
 }
 
 describe('/:hash', () => {
@@ -45,7 +39,7 @@ describe('/:hash', () => {
   let otherUserToken: string
   let archive: string
   let block: XyoBoundWitnessWithPartialMeta
-  let payload: XyoPayload
+  let payload: Payload
   let pointerHash: string
   beforeAll(async () => {
     jest.spyOn(console, 'error').mockImplementation()

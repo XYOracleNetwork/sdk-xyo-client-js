@@ -9,7 +9,7 @@ import { XyoEthereumGasEthersWitness, XyoEthereumGasEthersWitnessConfigSchema } 
 import { XyoEthereumGasEtherscanWitness, XyoEthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
 import { XyoEthereumGasEthgasstationWitness, XyoEthereumGasEthgasstationWitnessConfigSchema } from '@xyo-network/ethgasstation-ethereum-gas-plugin'
 import { XyoEthereumGasPayload, XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { XyoEthereumGasDiviner } from '../Diviner'
 import { sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas } from '../test'
@@ -85,7 +85,7 @@ describe('Diviner', () => {
         })
       ).observe()
     )?.[0]
-    const observations: XyoPayload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
+    const observations: Payload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
 
     const module = await XyoEthereumGasDiviner.create()
     const wrapper = DivinerWrapper.wrap(module)

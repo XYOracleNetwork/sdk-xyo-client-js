@@ -6,7 +6,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { uuid } from '@xyo-network/core'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import dotenv from 'dotenv'
 
 import { XyoArchivistBoundWitnessMongoSdk } from '../BoundWitnessSdk'
@@ -36,7 +36,7 @@ const getBoundWitnesses = (number = 5) => {
       new BoundWitnessBuilder({ inlinePayloads: true })
         .witness(address)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .payload(new XyoPayloadBuilder({ schema }).fields({ prop: uuid() } as any).build())
+        .payload(new PayloadBuilder({ schema }).fields({ prop: uuid() } as any).build())
         .build()[0]
     )
   })

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import { Module, ModuleWrapper } from '@xyo-network/module'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Queries'
@@ -25,7 +25,7 @@ export class WitnessWrapper extends ModuleWrapper implements Witness {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ModuleWrapper')
   }
 
-  observe(payloads?: XyoPayload[]): Promise<XyoPayloads> {
+  observe(payloads?: Payload[]): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<XyoWitnessObserveQuery>({ schema: XyoWitnessObserveQuerySchema })
     return this.sendQuery(queryPayload, [queryPayload.payload, ...(payloads ?? [])])
   }

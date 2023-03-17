@@ -5,7 +5,7 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
 import { AddressChainDivinerConfig, AddressChainDivinerConfigSchema } from './Config'
@@ -26,8 +26,8 @@ export class MemoryAddressChainDiviner<TParams extends MemoryAddressChainDiviner
     return assertEx(this.config.address, 'Missing address')
   }
 
-  async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
-    const result: XyoPayload[] = []
+  async divine(payloads?: Payload[]): Promise<Payload[]> {
+    const result: Payload[] = []
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
     const archivists =
       (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map(

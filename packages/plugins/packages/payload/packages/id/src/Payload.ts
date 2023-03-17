@@ -1,8 +1,8 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { IdSchema } from './Schema'
 
-export type IdPayload = XyoPayload<{
+export type IdPayload = Payload<{
   salt: string
   schema: IdSchema
 }>

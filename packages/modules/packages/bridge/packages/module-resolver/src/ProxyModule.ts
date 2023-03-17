@@ -11,7 +11,7 @@ import {
   ModuleQueryResult,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
 export const ProxyModuleConfigSchema: ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
@@ -53,13 +53,13 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
     return this.bridge.targetQueries(this.address)
   }
 
-  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     const result = assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
     await this.emit('moduleQueried', { module: this, payloads, query, result })
     return result
   }
 
-  async queryable(query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): Promise<boolean> {
+  async queryable(query: XyoQueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promise<boolean> {
     return await this.bridge.targetQueryable(this.address, query, payloads, queryConfig)
   }
 

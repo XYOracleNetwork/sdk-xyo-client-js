@@ -1,11 +1,11 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type XyoNetworkNodeType = 'archivist' | 'diviner' | 'bridge' | 'sentinel'
 
 export type XyoNetworkNodeSchema = 'network.xyo.network.node'
 export const XyoNetworkNodeSchema: XyoNetworkNodeSchema = 'network.xyo.network.node'
 
-export type XyoNetworkNodePayload = XyoPayload<
+export type XyoNetworkNodePayload = Payload<
   {
     docs?: string
     name?: string

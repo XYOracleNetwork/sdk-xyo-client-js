@@ -12,8 +12,8 @@ import {
   isBoundWitnessStatsQueryPayload,
   XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
@@ -34,15 +34,15 @@ export type MongoDBBoundWitnessStatsDivinerConfigSchema = 'network.xyo.module.co
 export const MongoDBBoundWitnessStatsDivinerConfigSchema: MongoDBBoundWitnessStatsDivinerConfigSchema =
   'network.xyo.module.config.diviner.stats.boundwitness'
 
-export type MongoDBBoundWitnessStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
+export type MongoDBBoundWitnessStatsDivinerConfig<T extends Payload = Payload> = DivinerConfig<
   WithAdditional<
-    XyoPayload,
+    Payload,
     T & {
       schema: MongoDBBoundWitnessStatsDivinerConfigSchema
     }
   >
 >
-export type MongoDBBoundWitnessStatsDivinerParams<T extends XyoPayload = XyoPayload> = ModuleParams<
+export type MongoDBBoundWitnessStatsDivinerParams<T extends Payload = Payload> = ModuleParams<
   AnyConfigSchema<MongoDBBoundWitnessStatsDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
@@ -84,11 +84,11 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     return this.params.boundWitnessSdk
   }
 
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<BoundWitnessStatsPayload>> {
+  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitnessStatsPayload>[]> {
     const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new XyoPayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build())
+    return counts.map((count) => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build())
   }
 
   override async start() {

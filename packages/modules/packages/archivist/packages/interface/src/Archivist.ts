@@ -1,7 +1,7 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, Module, ModuleConfig, ModuleParams } from '@xyo-network/module-model'
-import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
+import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
 import { ArchivistConfig } from './Config'
@@ -31,7 +31,7 @@ export type ArchivistParams<
 > = ModuleParams<TConfig, TAdditionalParams>
 
 export interface Archivist<
-  TReadResponse = XyoPayload,
+  TReadResponse = Payload,
   TWriteResponse = XyoBoundWitness,
   TWrite = TReadResponse,
   TFindResponse = TReadResponse,
@@ -43,7 +43,7 @@ export interface Archivist<
     StashArchivist<TWriteResponse> {}
 
 export type ArchivistModule<TParams extends ArchivistParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> =
-  Module<TParams> & Archivist<XyoPayload, XyoPayload, XyoPayload, XyoPayload, PayloadFindFilter, string>
+  Module<TParams> & Archivist<Payload, Payload, Payload, Payload, PayloadFindFilter, string>
 
 /** @deprecated use ArchivistModule instead */
 export type PayloadArchivist = ArchivistModule

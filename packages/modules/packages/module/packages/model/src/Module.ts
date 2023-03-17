@@ -1,6 +1,6 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { ModuleConfig } from './Config'
@@ -27,9 +27,9 @@ export type ModuleEventArgs<TModule extends Module = Module, TArgs extends Event
 export type ModuleQueriedEventArgs = ModuleEventArgs<
   Module,
   {
-    payloads?: XyoPayload[]
+    payloads?: Payload[]
     query: XyoQueryBoundWitness
-    result: [XyoBoundWitness, XyoPayload[]]
+    result: [XyoBoundWitness, Payload[]]
   }
 >
 
@@ -49,12 +49,12 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
   queries: string[]
   query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConf,
   ) => Promisable<ModuleQueryResult>
   queryable: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConf,
   ) => Promisable<boolean>
 

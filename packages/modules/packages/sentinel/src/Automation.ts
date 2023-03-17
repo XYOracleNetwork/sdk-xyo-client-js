@@ -1,10 +1,10 @@
 import { AnyObject } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type SentinelAutomationSchema = 'network.xyo.automation'
 export const SentinelAutomationSchema: SentinelAutomationSchema = 'network.xyo.automation'
 
-export type SentinelBaseAutomationPayload<T extends AnyObject = AnyObject> = XyoPayload<
+export type SentinelBaseAutomationPayload<T extends AnyObject = AnyObject> = Payload<
   T & {
     schema: SentinelAutomationSchema
     type?: 'interval' | 'change'

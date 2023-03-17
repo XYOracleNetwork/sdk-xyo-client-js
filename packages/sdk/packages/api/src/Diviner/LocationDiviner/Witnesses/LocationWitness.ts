@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type LocationWitnessSchema = 'network.xyo.location'
 export const LocationWitnessSchema: LocationWitnessSchema = 'network.xyo.location'
@@ -17,7 +17,7 @@ export interface CurrentLocation {
   timestamp: number
 }
 
-export type LocationWitnessPayload = XyoPayload<{
+export type LocationWitnessPayload = Payload<{
   currentLocation: CurrentLocation
   schema: LocationWitnessSchema
 }>

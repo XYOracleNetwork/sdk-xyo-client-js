@@ -4,7 +4,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
@@ -18,7 +18,7 @@ export type ArchivistPayloadDivinerParams<
 export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
   static override configSchema: XyoArchivistPayloadDivinerConfigSchema
 
-  async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  async divine(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
       `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,

@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { GeographicCoordinateSystemLocationSchema, QuadkeyLocationSchema } from './GeographicCoordinateSystemLocationSchema'
 
@@ -19,8 +19,8 @@ export interface QuadkeyLocation {
 
 export type Location = GeographicCoordinateSystemLocation | QuadkeyLocation
 
-export type GeographicCoordinateSystemLocationPayload = XyoPayload<GeographicCoordinateSystemLocation, GeographicCoordinateSystemLocationSchema>
+export type GeographicCoordinateSystemLocationPayload = Payload<GeographicCoordinateSystemLocation, GeographicCoordinateSystemLocationSchema>
 
-export type QuadkeyLocationPayload = XyoPayload<QuadkeyLocation, QuadkeyLocationSchema>
+export type QuadkeyLocationPayload = Payload<QuadkeyLocation, QuadkeyLocationSchema>
 
-export type LocationPayload = XyoPayload<Location>
+export type LocationPayload = Payload<Location>

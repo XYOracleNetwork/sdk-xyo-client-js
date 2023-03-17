@@ -3,7 +3,7 @@ import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
@@ -22,7 +22,7 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
+  override async divine(payloads?: Payload[]): Promise<Payload<XyoBoundWitness>[]> {
     const query = payloads?.find<BoundWitnessQueryPayload>(isBoundWitnessQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []

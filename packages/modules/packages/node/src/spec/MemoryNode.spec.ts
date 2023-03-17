@@ -12,7 +12,7 @@ import {
 } from '@xyo-network/diviner'
 import { AbstractModule, Module, ModuleDescription } from '@xyo-network/module'
 import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
-import { Account, PayloadWrapper, XyoPayload, XyoPayloadBuilder, XyoPayloadSchema } from '@xyo-network/protocol'
+import { Account, Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from '@xyo-network/protocol'
 
 import { MemoryNode } from '../MemoryNode'
 import { NodeWrapper } from '../NodeWrapper'
@@ -50,7 +50,7 @@ describe('MemoryNode', () => {
       const foundArchivist = await NodeWrapper.wrap(node, testAccount0).resolve(archivist.address)
       expect(foundArchivist).toBeDefined()
       expect(foundArchivist?.address).toBe(archivist.address)
-      const testPayload = new XyoPayloadBuilder<XyoPayload<{ schema: XyoPayloadSchema; test: boolean }>>({ schema: XyoPayloadSchema })
+      const testPayload = new PayloadBuilder<Payload<{ schema: PayloadSchema; test: boolean }>>({ schema: PayloadSchema })
         .fields({ test: true })
         .build()
 
@@ -327,7 +327,7 @@ describe('MemoryNode', () => {
   })
   describe('discover', () => {
     const archivistConfig = { schema: MemoryArchivistConfigSchema }
-    const validateDiscoveryResponse = (mod: Module, response: XyoPayload[]) => {
+    const validateDiscoveryResponse = (mod: Module, response: Payload[]) => {
       expect(response).toBeArray()
       const address = response.find((p) => p.schema === AddressSchema) as AddressPayload
       expect(address).toBeObject()

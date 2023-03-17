@@ -1,7 +1,7 @@
 import { XyoEthereumGasBlocknativePayload, XyoEthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoEthereumGasBlocknativeWitnessConfig } from './Config'
@@ -12,9 +12,9 @@ export type XyoEthereumGasBlocknativeWitnessParams = WitnessParams<AnyConfigSche
 export class XyoEthereumGasBlocknativeWitness extends TimestampWitness<XyoEthereumGasBlocknativeWitnessParams> {
   static override configSchema = XyoEthereumGasBlocknativeWitnessConfigSchema
 
-  override async observe(): Promise<XyoPayload[]> {
+  override async observe(): Promise<Payload[]> {
     const fields = await getGasFromBlocknative()
-    const payload = new XyoPayloadBuilder<XyoEthereumGasBlocknativePayload>({
+    const payload = new PayloadBuilder<XyoEthereumGasBlocknativePayload>({
       schema: XyoEthereumGasBlocknativeSchema,
     })
       .fields(fields)

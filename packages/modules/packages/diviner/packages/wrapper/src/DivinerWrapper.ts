@@ -3,7 +3,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { DivinerModule, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule> extends ModuleWrapper<TWrappedModule> implements DivinerModule {
@@ -24,7 +24,7 @@ export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as DivinerWrapper')
   }
 
-  async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  async divine(payloads?: Payload[]): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<XyoDivinerDivineQuery>({ schema: XyoDivinerDivineQuerySchema })
     const result = await this.sendQuery(queryPayload, payloads)
     return result

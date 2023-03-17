@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { ArchivistQuery } from '@xyo-network/archivist'
 import { ModuleQueryResult } from '@xyo-network/module-model'
 import { UpsertResult, User, UserArchivist, UserWithoutId } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { ObjectId, WithId } from 'mongodb'
 
@@ -57,7 +57,7 @@ export class MongoDBUserArchivist implements UserArchivist {
   queries(): string[] {
     throw new Error('Module query not implemented for MongoDBUserArchivist')
   }
-  query(_query: ArchivistQuery, _payloads: XyoPayload[]): Promise<ModuleQueryResult> {
+  query(_query: ArchivistQuery, _payloads: Payload[]): Promise<ModuleQueryResult> {
     throw new Error('Module query not implemented for MongoDBUserArchivist')
   }
   queryable(_schema: string): boolean {

@@ -1,7 +1,7 @@
 import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
@@ -11,7 +11,7 @@ import { removeId } from '../../Mongo'
 export type MongoDBPayloadDivinerParams = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
   {
-    payloadSdk: BaseMongoSdk<XyoPayloadWithMeta>
+    payloadSdk: BaseMongoSdk<PayloadWithMeta>
   }
 >
 
@@ -21,7 +21,7 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoPayload>> {
+  override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<PayloadQueryPayload>(isPayloadQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []
@@ -30,7 +30,7 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
-    const filter: Filter<XyoPayloadWithMeta> = { ...props }
+    const filter: Filter<PayloadWithMeta> = { ...props }
     if (timestamp) {
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0
       filter._timestamp = parsedOrder === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }

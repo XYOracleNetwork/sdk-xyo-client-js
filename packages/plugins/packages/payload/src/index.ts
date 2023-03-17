@@ -18,11 +18,11 @@ import { IdPayloadPlugin } from '@xyo-network/id-payload-plugin'
 import { LocationCertaintyPayloadPlugin } from '@xyo-network/location-certainty-payload-plugin'
 import { LocationPayloadPlugin } from '@xyo-network/location-payload-plugin'
 import { ModuleInstancePayloadPlugin } from '@xyo-network/module-instance-payload-plugin'
-import { XyoPayloadPluginFunc } from '@xyo-network/payload-plugin'
+import { PayloadPluginFunc } from '@xyo-network/payload-plugin'
 import { QueryPayloadPlugin } from '@xyo-network/query-payload-plugin'
 import { SchemaPayloadPlugin } from '@xyo-network/schema-payload-plugin'
 
-export const PayloadPlugins: XyoPayloadPluginFunc[] = [
+export const PayloadPlugins: PayloadPluginFunc[] = [
   AddressPayloadPlugin,
   SchemaPayloadPlugin,
   LocationPayloadPlugin,

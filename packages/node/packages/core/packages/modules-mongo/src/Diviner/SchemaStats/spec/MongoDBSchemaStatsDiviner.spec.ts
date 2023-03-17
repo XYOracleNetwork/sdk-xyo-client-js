@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AddressSpaceDiviner } from '@xyo-network/diviner'
-import { SchemaStatsQueryPayload, SchemaStatsQuerySchema, SchemaStatsSchema, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadWithMeta, SchemaStatsQueryPayload, SchemaStatsQuerySchema, SchemaStatsSchema } from '@xyo-network/node-core-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
@@ -13,7 +13,7 @@ describe('MongoDBSchemaStatsDiviner', () => {
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk<XyoPayloadWithMeta>({
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = new BaseMongoSdk<PayloadWithMeta>({
     collection: COLLECTIONS.Payloads,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
@@ -26,8 +26,8 @@ describe('MongoDBSchemaStatsDiviner', () => {
       payloadSdk,
     })
     // TODO: Insert via archivist
-    const payload = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
-    await payloadSdk.insertOne(payload as unknown as XyoPayloadWithMeta)
+    const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
+    await payloadSdk.insertOne(payload as unknown as PayloadWithMeta)
   })
   describe('divine', () => {
     describe('with address supplied in query', () => {

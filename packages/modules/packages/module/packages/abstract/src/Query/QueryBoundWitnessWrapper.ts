@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { XyoQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
-import { PayloadSetPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { Payload, PayloadSetPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { QueryBoundWitnessValidator } from './QueryBoundWitnessValidator'
@@ -38,7 +38,7 @@ export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends Bou
     )
   }
 
-  static parseQuery<T extends XyoQuery = XyoQuery>(obj: unknown, payloads?: XyoPayloads): QueryBoundWitnessWrapper<T> {
+  static parseQuery<T extends XyoQuery = XyoQuery>(obj: unknown, payloads?: Payload[]): QueryBoundWitnessWrapper<T> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to QueryBoundWitnessWrapper')
     switch (typeof obj) {
       case 'object': {

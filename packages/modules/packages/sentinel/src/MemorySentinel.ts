@@ -8,7 +8,7 @@ import {
   XyoErrorBuilder,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 
@@ -32,14 +32,14 @@ export class MemorySentinel<
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQuery>(query, payloads)
     const typedQuery = wrapper.query
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
+    const resultPayloads: Payload[] = []
     try {
       switch (typedQuery.schemaName) {
         case SentinelReportQuerySchema: {
@@ -56,11 +56,11 @@ export class MemorySentinel<
     return await this.bindResult(resultPayloads, queryAccount)
   }
 
-  async report(payloads: XyoPayload[] = []): Promise<XyoPayload[]> {
+  async report(payloads: Payload[] = []): Promise<Payload[]> {
     const errors: Error[] = []
     await this.emit('reportStart', { inPayloads: payloads, module: this as SentinelModule })
     const allWitnesses = [...(await this.getWitnesses())]
-    const allPayloads: XyoPayload[] = []
+    const allPayloads: Payload[] = []
 
     try {
       const generatedPayloads = compact(await this.generatePayloads(allWitnesses))
@@ -76,7 +76,7 @@ export class MemorySentinel<
     return [boundWitness, ...allPayloads]
   }
 
-  private async generatePayloads(witnesses: WitnessWrapper[]): Promise<XyoPayload[]> {
+  private async generatePayloads(witnesses: WitnessWrapper[]): Promise<Payload[]> {
     return (await Promise.all(witnesses?.map(async (witness) => await witness.observe()))).flat()
   }
 }

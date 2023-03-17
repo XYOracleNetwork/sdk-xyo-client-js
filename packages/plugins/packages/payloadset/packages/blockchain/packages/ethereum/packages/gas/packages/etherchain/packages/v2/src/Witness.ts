@@ -1,6 +1,6 @@
 import { XyoEthereumGasEtherchainV2Payload, XyoEthereumGasEtherchainV2Schema } from '@xyo-network/etherchain-ethereum-gas-v2-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
 
 import { XyoEthereumGasEtherchainV2WitnessConfig } from './Config'
@@ -12,7 +12,7 @@ export type XyoEtherchainEthereumGasWitnessV2Params = WitnessParams<AnyConfigSch
 export class XyoEtherchainEthereumGasWitnessV2 extends TimestampWitness<XyoEtherchainEthereumGasWitnessV2Params> {
   static override configSchema = XyoEthereumGasEtherchainV2WitnessConfigSchema
 
-  override async observe(): Promise<XyoPayload[]> {
+  override async observe(): Promise<Payload[]> {
     const payload: XyoEthereumGasEtherchainV2Payload = {
       ...(await getV2GasFromEtherchain()),
       schema: XyoEthereumGasEtherchainV2Schema,

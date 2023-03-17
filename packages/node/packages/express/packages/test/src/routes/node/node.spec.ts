@@ -2,8 +2,8 @@ import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder, XyoQueryBoundWitness } from '@xyo-network/modules'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { StatusCodes } from 'http-status-codes'
 
 import { request } from '../../testUtil'
@@ -25,7 +25,7 @@ describe('Node API', () => {
     })
     describe('POST', () => {
       it('issues query to Node', async () => {
-        const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
+        const queryPayload = new PayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
         const send = [query[0], [...query[1]]]
         const response = await (await request()).post(path).send(send).redirects(1).expect(StatusCodes.OK)
@@ -60,16 +60,16 @@ describe('Node API', () => {
     })
     describe('POST', () => {
       it('issues query to module at address', async () => {
-        const queryPayload = new XyoPayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
+        const queryPayload = new PayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
-        const data = [query[0], [...query[1]]] as [XyoQueryBoundWitness, XyoPayloads]
+        const data = [query[0], [...query[1]]] as [XyoQueryBoundWitness, Payload[]]
         await postModuleQuery(data, address)
       })
     })
   })
 })
 
-const validateModuleDiscoverQueryResponse = (data: XyoPayload[]) => {
+const validateModuleDiscoverQueryResponse = (data: Payload[]) => {
   expect(data).toBeArray()
   expect(data.length).toBeGreaterThan(0)
   const addressPayload = data.find((p) => p.schema === AddressSchema) as AddressPayload
@@ -79,17 +79,17 @@ const validateModuleDiscoverQueryResponse = (data: XyoPayload[]) => {
   return { address }
 }
 
-const getModuleResponse = async (address?: string): Promise<XyoPayload[]> => {
+const getModuleResponse = async (address?: string): Promise<Payload[]> => {
   const path = address ? `/node/${address}` : '/node'
   const redirects = address ? 0 : 1
   const response = await (await request()).get(path).redirects(redirects).expect(StatusCodes.OK)
   expect(response).toBeTruthy()
   expect(response.body).toBeTruthy()
   expect(response.body.data).toBeArray()
-  return response.body.data as XyoPayload[]
+  return response.body.data as Payload[]
 }
 
-const postModuleQuery = async (data: [XyoQueryBoundWitness, XyoPayloads], address?: string): Promise<[XyoBoundWitness, XyoPayloads]> => {
+const postModuleQuery = async (data: [XyoQueryBoundWitness, Payload[]], address?: string): Promise<[XyoBoundWitness, Payload[]]> => {
   const path = address ? `/node/${address}` : '/node'
   const redirects = address ? 0 : 1
   const response = await (await request()).post(path).redirects(redirects).send(data).expect(StatusCodes.OK)

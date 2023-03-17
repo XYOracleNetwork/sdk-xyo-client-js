@@ -1,5 +1,5 @@
 import { Module, ModuleQuery, XyoQueryBoundWitness } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
@@ -7,7 +7,7 @@ import { Queryable, QueryValidator } from './QueryValidator'
 export const isQuerySupportedByModule = <T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
   mod: Module,
   query: T,
-  payloads?: XyoPayload[],
+  payloads?: Payload[],
 ): boolean => {
   const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
   const schema = wrapper.query.schema

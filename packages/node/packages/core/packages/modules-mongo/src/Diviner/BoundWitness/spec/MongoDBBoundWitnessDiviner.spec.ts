@@ -8,7 +8,7 @@ import {
   XyoBoundWitnessWithMeta,
   XyoBoundWitnessWithPartialMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
@@ -32,7 +32,7 @@ describe('MongoDBBoundWitnessDiviner', () => {
       logger,
     })
     // TODO: Insert via archivist
-    const payload = new XyoPayloadBuilder({ schema: 'network.xyo.test' }).build()
+    const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
     const bw = new BoundWitnessBuilder().payload(payload).witness(account).build()[0]
     await boundWitnessSdk.insertOne(bw as unknown as XyoBoundWitnessWithMeta)
   })

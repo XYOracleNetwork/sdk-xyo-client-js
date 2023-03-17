@@ -3,7 +3,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AbstractModule, creatableModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
@@ -21,7 +21,7 @@ export class ArchivingModule<
   extends AbstractModule<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
-  protected override bindResult(payloads: XyoPayload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
+  protected override bindResult(payloads: Payload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
     const promise = new PromiseEx<ModuleQueryResult, AccountInstance>(async (resolve) => {
       const result = this.bindResultInternal(payloads, account)
       await this.storeToArchivists([result[0], ...result[1]])
@@ -36,7 +36,7 @@ export class ArchivingModule<
     )
   }
 
-  protected async storeToArchivists(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  protected async storeToArchivists(payloads: Payload[]): Promise<XyoBoundWitness[]> {
     const archivists = await this.resolveArchivists()
     return (
       await Promise.all(

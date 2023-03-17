@@ -2,12 +2,12 @@ import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
 
 import { AddressPathParams } from '../AddressPathParams'
 
-const handler: RequestHandler<AddressPathParams, XyoPayload[]> = async (req, res, next) => {
+const handler: RequestHandler<AddressPathParams, Payload[]> = async (req, res, next) => {
   const { address } = req.params
   const { node } = req.app
   if (address) {

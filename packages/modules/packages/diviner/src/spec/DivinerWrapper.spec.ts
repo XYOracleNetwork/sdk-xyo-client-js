@@ -1,5 +1,5 @@
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { IdentityDiviner } from '../IdentityDiviner'
 
@@ -9,7 +9,7 @@ describe('DivinerWrapper', () => {
       const schema = 'network.xyo.debug'
       const diviner = await IdentityDiviner.create()
       const sut = DivinerWrapper.wrap(diviner)
-      const payloads = [new XyoPayloadBuilder({ schema }).build()]
+      const payloads = [new PayloadBuilder({ schema }).build()]
       const result = await sut.divine(payloads)
       expect(result).toBeArrayOfSize(payloads.length)
       const [answer] = result

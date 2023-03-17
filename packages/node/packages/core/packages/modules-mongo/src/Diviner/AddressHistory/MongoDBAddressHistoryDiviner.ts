@@ -12,7 +12,7 @@ import {
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter } from 'mongodb'
 
@@ -32,7 +32,7 @@ export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryD
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
+  override async divine(payloads?: Payload[]): Promise<Payload<XyoBoundWitness>[]> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []

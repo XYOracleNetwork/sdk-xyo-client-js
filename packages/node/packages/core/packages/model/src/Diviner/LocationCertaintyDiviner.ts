@@ -1,6 +1,6 @@
 import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
 import { XyoQuery } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type LocationCertaintySchema = 'network.xyo.location.certainty'
 export const LocationCertaintySchema: LocationCertaintySchema = 'network.xyo.location.certainty'
@@ -8,7 +8,7 @@ export const LocationCertaintySchema: LocationCertaintySchema = 'network.xyo.loc
 export type LocationCertaintyDivinerConfigSchema = 'network.xyo.location.elevation.diviner.config'
 export const LocationCertaintyDivinerConfigSchema: LocationCertaintyDivinerConfigSchema = 'network.xyo.location.elevation.diviner.config'
 
-export type LocationCertaintyDivinerConfig<S extends string = string, T extends XyoPayload = XyoPayload> = DivinerConfig<
+export type LocationCertaintyDivinerConfig<S extends string = string, T extends Payload = Payload> = DivinerConfig<
   T & {
     schema: S
   }
@@ -29,6 +29,6 @@ export type LocationCertaintyPayload = XyoQuery<{
   variance: LocationCertaintyHeuristic
 }>
 
-export const isLocationCertaintyPayload = (x?: XyoPayload | null): x is LocationCertaintyPayload => x?.schema === LocationCertaintySchema
+export const isLocationCertaintyPayload = (x?: Payload | null): x is LocationCertaintyPayload => x?.schema === LocationCertaintySchema
 
 export type LocationCertaintyDiviner = AbstractDiviner

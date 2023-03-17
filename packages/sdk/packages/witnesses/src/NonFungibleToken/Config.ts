@@ -1,11 +1,11 @@
 import { AnyObject } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { XyoWitnessConfig } from '@xyo-network/witness'
 
 export type XyoExternalAddressSchema = 'network.xyo.address.external'
 export const XyoExternalAddressSchema = 'network.xyo.address.external'
 
-export type XyoExternalAddress = XyoPayload<{
+export type XyoExternalAddress = Payload<{
   address: string
   chain: {
     network: string
@@ -14,9 +14,9 @@ export type XyoExternalAddress = XyoPayload<{
   schema: XyoExternalAddressSchema
 }>
 
-export type XyoNonFungibleTokenPayload<T extends AnyObject = AnyObject> = XyoPayload<{ schema: 'network.xyo.nft' } & T>
+export type XyoNonFungibleTokenPayload<T extends AnyObject = AnyObject> = Payload<{ schema: 'network.xyo.nft' } & T>
 
-export type XyoContractTermPayload<T extends AnyObject = AnyObject> = XyoPayload<{ schema: 'network.xyo.contract.term' } & T>
+export type XyoContractTermPayload<T extends AnyObject = AnyObject> = Payload<{ schema: 'network.xyo.contract.term' } & T>
 
 export type XyoOwnerContractTermPayload = XyoContractTermPayload<{
   owner?: string
@@ -24,7 +24,7 @@ export type XyoOwnerContractTermPayload = XyoContractTermPayload<{
   write?: string | string[]
 }>
 
-export type XyoContractPayload<T extends AnyObject = AnyObject> = XyoPayload<
+export type XyoContractPayload<T extends AnyObject = AnyObject> = Payload<
   { schema: 'network.xyo.contract' } & T & {
       terms?: string[]
     }

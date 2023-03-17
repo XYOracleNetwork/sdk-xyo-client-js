@@ -15,7 +15,7 @@ import {
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractBridge<
@@ -32,11 +32,11 @@ export abstract class AbstractBridge<
     return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
+    const resultPayloads: Payload[] = []
     try {
       switch (typedQuery.schema) {
         case XyoBridgeConnectQuerySchema: {
@@ -77,11 +77,11 @@ export abstract class AbstractBridge<
 
   abstract targetConfig(address: string): ModuleConfig
 
-  abstract targetDiscover(address: string): Promisable<XyoPayload[]>
+  abstract targetDiscover(address: string): Promisable<Payload[]>
 
   abstract targetQueries(address: string): string[]
 
-  abstract targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult | undefined>
+  abstract targetQuery(address: string, query: XyoQuery, payloads?: Payload[]): Promisable<ModuleQueryResult | undefined>
 
-  abstract targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): boolean
+  abstract targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): boolean
 }

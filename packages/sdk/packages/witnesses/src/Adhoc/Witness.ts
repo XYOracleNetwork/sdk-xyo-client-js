@@ -1,5 +1,5 @@
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
@@ -8,7 +8,7 @@ export const XyoAdhocWitnessConfigSchema: XyoAdhocWitnessConfigSchema = 'network
 
 export type XyoAdhocWitnessConfig = XyoWitnessConfig<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload?: XyoPayload<any>
+  payload?: Payload<any>
   schema: XyoAdhocWitnessConfigSchema
 }>
 
@@ -24,8 +24,8 @@ export class XyoAdhocWitness<TParams extends XyoAdhocWitnessParams = XyoAdhocWit
     return this.config?.payload
   }
 
-  override async observe(fields?: XyoPayload[]): Promise<XyoPayload[]> {
-    const result: XyoPayload[] = await super.observe([merge({}, this.payload, fields?.[0])])
+  override async observe(fields?: Payload[]): Promise<Payload[]> {
+    const result: Payload[] = await super.observe([merge({}, this.payload, fields?.[0])])
 
     return result.map((payload, index) => {
       return { ...payload, schema: fields?.[index]?.schema ?? payload.schema }

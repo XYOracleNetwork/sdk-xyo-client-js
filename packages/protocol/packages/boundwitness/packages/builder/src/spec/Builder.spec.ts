@@ -3,12 +3,12 @@
 
 import { Account, AddressValue } from '@xyo-network/account'
 import { Hasher, StringKeyObject } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessBuilder } from '../Builder'
 
 const schema = 'network.xyo.temp'
-const payload1: XyoPayload<StringKeyObject & { schema: string }> = {
+const payload1: Payload<StringKeyObject & { schema: string }> = {
   number_field: 1,
   object_field: {
     number_value: 2,
@@ -18,7 +18,7 @@ const payload1: XyoPayload<StringKeyObject & { schema: string }> = {
   string_field: 'there',
   timestamp: 1618603439107,
 }
-const payload2: XyoPayload<StringKeyObject & { schema: string }> = {
+const payload2: Payload<StringKeyObject & { schema: string }> = {
   timestamp: 1618603439107,
   string_field: 'there',
   schema,

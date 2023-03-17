@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { LocationHeadingPayload, LocationHeadingSchema, LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { CurrentLocationWitnessConfigSchema, CurrentLocationWitnessParams } from './Config'
@@ -25,7 +25,7 @@ export class CurrentLocationWitness<TParams extends CurrentLocationWitnessParams
     })
   }
 
-  override async observe(): Promise<XyoPayload[]> {
+  override async observe(): Promise<Payload[]> {
     const location = await this.getCurrentPosition()
     const locationPayload: LocationPayload = {
       altitude: location.coords.altitude ?? undefined,

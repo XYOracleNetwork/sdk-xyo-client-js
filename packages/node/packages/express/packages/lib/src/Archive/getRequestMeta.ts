@@ -1,12 +1,12 @@
 import { getHttpHeader } from '@xylabs/sdk-api-express-ecs'
-import { XyoBoundWitnessMeta, XyoPayloadMeta } from '@xyo-network/node-core-model'
+import { PayloadMeta, XyoBoundWitnessMeta } from '@xyo-network/node-core-model'
 import { Request } from 'express'
 
 export type RequestWithArchive = {
   archive?: string
 }
 
-export const getRequestMeta = <T extends RequestWithArchive>(req: Request<T>): [XyoBoundWitnessMeta, XyoPayloadMeta] => {
+export const getRequestMeta = <T extends RequestWithArchive>(req: Request<T>): [XyoBoundWitnessMeta, PayloadMeta] => {
   const { archive } = req.params || 'temp'
   const _source_ip = req.ip ?? undefined
   const _timestamp = Date.now()
@@ -17,9 +17,9 @@ export const getRequestMeta = <T extends RequestWithArchive>(req: Request<T>): [
     _timestamp,
     _user_agent,
   }
-  const payloadMetaData: Partial<XyoPayloadMeta> = {
+  const payloadMetaData: Partial<PayloadMeta> = {
     _archive: archive,
     _timestamp,
   }
-  return [boundWitnessMetaData as XyoBoundWitnessMeta, payloadMetaData as XyoPayloadMeta]
+  return [boundWitnessMetaData as XyoBoundWitnessMeta, payloadMetaData as PayloadMeta]
 }

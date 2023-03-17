@@ -5,8 +5,8 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { DivinerConfig, DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
 import { AddressSpaceDiviner, AddressSpaceSchema } from './AddressSpaceDiviner'
@@ -33,7 +33,7 @@ export class MemoryAddressSpaceDiviner<TParams extends MemoryAddressSpaceDiviner
 {
   static override configSchema = MemoryAddressSpaceDivinerConfigSchema
 
-  async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  async divine(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
     const archivists = await this.archivists()
     assertEx(archivists.length > 0, 'Did not find any archivists')
@@ -51,7 +51,7 @@ export class MemoryAddressSpaceDiviner<TParams extends MemoryAddressSpaceDiviner
         .flat()
         .map((address) => address.toLowerCase()),
     )
-    return [...addresses].map((address) => new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
+    return [...addresses].map((address) => new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
   }
 
   private async archivists(): Promise<ArchivistModule[]> {

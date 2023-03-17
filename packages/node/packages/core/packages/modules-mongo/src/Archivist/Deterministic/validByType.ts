@@ -2,10 +2,10 @@ import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { XyoQueryBoundWitnessSchema } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-export const validByType = (results: [BoundWitnessWrapper[], PayloadWrapper[]] = [[], []], value?: XyoPayload) => {
+export const validByType = (results: [BoundWitnessWrapper[], PayloadWrapper[]] = [[], []], value?: Payload) => {
   const payload = PayloadWrapper.parse(value)
   if (payload.valid) {
     if (payload?.schema.startsWith(XyoBoundWitnessSchema)) {

@@ -13,7 +13,7 @@ import {
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleParams } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -35,10 +35,10 @@ export class MemoryArchivist<
 > extends AbstractArchivist<TParams> {
   static override configSchema = MemoryArchivistConfigSchema
 
-  private _cache?: LruCache<string, XyoPayload | null>
+  private _cache?: LruCache<string, Payload | null>
 
   get cache() {
-    this._cache = this._cache ?? new LruCache<string, XyoPayload | null>({ max: this.max })
+    this._cache = this._cache ?? new LruCache<string, Payload | null>({ max: this.max })
     return this._cache
   }
 
@@ -58,7 +58,7 @@ export class MemoryArchivist<
     ]
   }
 
-  override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<Payload> {
     return compact(this.cache.dump().map((value) => value[1].value))
   }
 
@@ -90,7 +90,7 @@ export class MemoryArchivist<
     })
   }
 
-  override async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<Payload[]> {
     return compact(
       await Promise.all(
         hashes.map(async (hash) => {
@@ -104,7 +104,7 @@ export class MemoryArchivist<
     )
   }
 
-  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
     payloads.map((payload) => {
       const wrapper = new PayloadWrapper(payload)
       const payloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }

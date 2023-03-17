@@ -19,7 +19,7 @@ import {
 } from '@xyo-network/archivist-interface'
 import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { Module, ModuleWrapper } from '@xyo-network/module'
-import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
+import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
@@ -41,7 +41,7 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ArchivistWrapper')
   }
 
-  async all(): Promise<XyoPayload[]> {
+  async all(): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return compact(result)
@@ -66,19 +66,19 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
     return result[0].payload_hashes.map(() => true)
   }
 
-  async find<R extends XyoPayload = XyoPayload>(filter?: PayloadFindFilter): Promise<R[]> {
+  async find<R extends Payload = Payload>(filter?: PayloadFindFilter): Promise<R[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistFindQuery>({ filter, schema: ArchivistFindQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return compact(result) as R[]
   }
 
-  async get(hashes: string[]): Promise<XyoPayload[]> {
+  async get(hashes: string[]): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return result
   }
 
-  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
       payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
       schema: ArchivistInsertQuerySchema,

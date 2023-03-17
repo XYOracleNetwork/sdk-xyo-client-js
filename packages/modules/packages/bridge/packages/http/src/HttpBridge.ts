@@ -17,7 +17,7 @@ import {
   ModuleWrapper,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -91,7 +91,7 @@ export class HttpBridge<
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }
 
-  async targetDiscover(address: string): Promise<XyoPayload[]> {
+  async targetDiscover(address: string): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
     const discover = assertEx(await this.targetQuery(address, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
@@ -124,7 +124,7 @@ export class HttpBridge<
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: XyoPayload[] = []): Promise<ModuleQueryResult | undefined> {
+  async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {
     try {
       const path = `${this.nodeUri}/${address ? address : ''}`
       const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, [query, payloads])
@@ -144,7 +144,7 @@ export class HttpBridge<
     }
   }
 
-  targetQueryable(_address: string, _query: XyoQueryBoundWitness, _payloads?: XyoPayload[], _queryConfig?: ModuleConfig): boolean {
+  targetQueryable(_address: string, _query: XyoQueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
     return true
   }
 

@@ -16,7 +16,7 @@ import {
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -86,7 +86,7 @@ export class StorageArchivist<TParams extends StorageArchivistParams = StorageAr
     return this._storage
   }
 
-  override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<Payload> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     return Object.entries(this.storage.getAll()).map(([, value]) => value)
   }
@@ -125,7 +125,7 @@ export class StorageArchivist<TParams extends StorageArchivistParams = StorageAr
     })
   }
 
-  override async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<Payload[]> {
     this.logger?.log(`hashes.length: ${hashes.length}`)
 
     return await Promise.all(
@@ -139,7 +139,7 @@ export class StorageArchivist<TParams extends StorageArchivistParams = StorageAr
     )
   }
 
-  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
     //this.logger?.log(`payloads.length: ${payloads.length}`)
 
     const storedPayloads = payloads.map((payload) => {

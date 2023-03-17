@@ -1,13 +1,13 @@
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { ArchivistModule } from '@xyo-network/modules'
-import { BoundWitnessesArchivist, PayloadSearchCriteria, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { BoundWitnessesArchivist, PayloadFilterPredicate, PayloadSearchCriteria } from '@xyo-network/node-core-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): XyoPayloadFilterPredicate => {
+const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): PayloadFilterPredicate => {
   const { archives, direction, schemas, timestamp } = searchCriteria
   const order = direction === 'asc' ? 'asc' : 'desc'
-  const query: XyoPayloadFilterPredicate = { limit: 1, order, timestamp }
+  const query: PayloadFilterPredicate = { limit: 1, order, timestamp }
   if (archives?.length) query.archives = archives
   if (schemas?.length) query.schemas = schemas
   return query
@@ -24,7 +24,7 @@ export const findPayload = async (
   boundWitnessArchivist: BoundWitnessesArchivist,
   payloadArchivist: ArchivistModule,
   searchCriteria: PayloadSearchCriteria,
-): Promise<XyoPayload | undefined> => {
+): Promise<Payload | undefined> => {
   const { addresses } = searchCriteria
   const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
   const wrapper = ArchivistWrapper.wrap(payloadArchivist)

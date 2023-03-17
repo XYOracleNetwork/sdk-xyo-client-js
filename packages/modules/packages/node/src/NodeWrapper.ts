@@ -14,7 +14,7 @@ import {
   XyoNodeRegisteredQuery,
   XyoNodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
-import { isXyoPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> {
@@ -54,7 +54,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
 
   async attached(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeAttachedQuery>({ schema: XyoNodeAttachedQuerySchema })
-    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
+    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
   }
 
@@ -65,7 +65,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
 
   async registered(): Promise<string[]> {
     const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
-    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isXyoPayloadOfSchemaType<AddressPayload>(AddressSchema))
+    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
   }
 }

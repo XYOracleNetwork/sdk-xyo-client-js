@@ -1,13 +1,13 @@
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, EventData, Module, ModuleEventArgs, ModuleEventData, ModuleParams } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { SentinelConfig } from './Config'
 
 export interface Sentinel {
-  report: (payloads?: XyoPayload[]) => Promisable<XyoPayload[]>
+  report: (payloads?: Payload[]) => Promisable<Payload[]>
 }
 
 export type SentinelReportEndEventArgs = ModuleEventArgs<
@@ -15,8 +15,8 @@ export type SentinelReportEndEventArgs = ModuleEventArgs<
   {
     boundWitness?: XyoBoundWitness
     errors?: Error[]
-    inPayloads?: XyoPayload[]
-    outPayloads: XyoPayload[]
+    inPayloads?: Payload[]
+    outPayloads: Payload[]
   }
 >
 
@@ -27,7 +27,7 @@ export interface SentinelReportEndEventData extends EventData {
 export type SentinelReportStartEventArgs = ModuleEventArgs<
   SentinelModule,
   {
-    inPayloads?: XyoPayload[]
+    inPayloads?: Payload[]
   }
 >
 

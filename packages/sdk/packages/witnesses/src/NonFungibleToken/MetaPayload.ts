@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 /* https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md */
 export interface Erc721Meta {
@@ -22,7 +22,7 @@ export interface Eip1155Property {
 }
 
 /* https://docs.opensea.io/docs/metadata-standards */
-export interface OpenSeaMeta extends XyoPayload, Erc721Meta {
+export interface OpenSeaMeta extends Payload, Erc721Meta {
   animation_url?: string
   attributes?: OpenSeaAttribute[]
   background_color?: string
@@ -33,7 +33,7 @@ export interface OpenSeaMeta extends XyoPayload, Erc721Meta {
   youtube_url?: string
 }
 
-export interface XyoNonFungibleTokenMetaPayload extends XyoPayload, Erc721Meta, OpenSeaMeta {
+export interface XyoNonFungibleTokenMetaPayload extends Payload, Erc721Meta, OpenSeaMeta {
   /** @field The token that this meta data applies to */
   address: string
 }

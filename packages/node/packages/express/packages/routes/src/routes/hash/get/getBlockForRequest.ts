@@ -1,11 +1,11 @@
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { PayloadPointerPayload, payloadPointerSchema } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Request } from 'express'
 
 import { resolvePayloadPointer } from './resolvePayloadPointer'
 
-export const getBlockForRequest = async (req: Request, hash: string): Promise<XyoPayload | undefined> => {
+export const getBlockForRequest = async (req: Request, hash: string): Promise<Payload | undefined> => {
   const { archivist } = req.app
   const block = (await ArchivistWrapper.wrap(archivist).get([hash])).pop()
   if (block) {

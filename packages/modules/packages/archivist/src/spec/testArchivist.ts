@@ -6,14 +6,14 @@ import { delay } from '@xylabs/delay'
 import { ArchivistModule } from '@xyo-network/archivist-interface'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { IdSchema } from '@xyo-network/plugins'
 import { Promisable } from '@xyo-network/promise'
 
 export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, name: string) => {
   test(`XyoArchivist RoundTrip [${name}]`, async () => {
-    const idPayload: XyoPayload<{ salt: string }> = {
+    const idPayload: Payload<{ salt: string }> = {
       salt: Date.now().toString(),
       schema: IdSchema,
     }

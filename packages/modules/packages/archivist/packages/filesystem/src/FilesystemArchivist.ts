@@ -13,12 +13,12 @@ import {
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 
 export interface FileSystemArchivistData {
-  payloads: XyoPayload[]
+  payloads: Payload[]
 }
 
 export type FilesystemArchivistConfigSchema = 'network.xyo.module.config.archivist.filesystem'
@@ -63,12 +63,12 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return data
   }
 
-  private static payloadsFromRawPayloads(rawPayloads: XyoPayload[]) {
+  private static payloadsFromRawPayloads(rawPayloads: Payload[]) {
     //validation should be done in here.  I don't believe parse does much validation yet.
     return rawPayloads.map((payload) => PayloadWrapper.parse(payload).payload)
   }
 
-  override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<Payload> {
     return this.memoryArchivist.all()
   }
 
@@ -84,11 +84,11 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return this.memoryArchivist.delete(hashes)
   }
 
-  override async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<Payload[]> {
     return await this.memoryArchivist.get(hashes)
   }
 
-  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
     return await this.memoryArchivist.insert(payloads)
   }
 

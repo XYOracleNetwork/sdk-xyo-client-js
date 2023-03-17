@@ -22,7 +22,7 @@ describe('MemoryCoinUserLocationsDiviner', () => {
         const query: CoinCurrentUserWitnessPayload = { schema: CoinCurrentUserWitnessSchema, uid: 'test' }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(0)
-        //const actual = result[0] as XyoPayload
+        //const actual = result[0] as Payload
         //expect(actual).toBeObject()
         //expect(actual.schema).toBe(XyoLocationSchema)
       })

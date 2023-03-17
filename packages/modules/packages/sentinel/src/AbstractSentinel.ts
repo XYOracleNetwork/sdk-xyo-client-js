@@ -2,7 +2,7 @@ import { AbstractArchivist, ArchivingModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
 
@@ -64,5 +64,5 @@ export abstract class AbstractSentinel<
     this._witnesses = undefined
   }
 
-  abstract report(payloads?: XyoPayload[]): Promise<XyoPayload[]>
+  abstract report(payloads?: Payload[]): Promise<Payload[]>
 }

@@ -5,7 +5,7 @@ import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitnes
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
 
 export interface BoundWitnessBuilderConfig {
@@ -15,10 +15,7 @@ export interface BoundWitnessBuilderConfig {
   readonly timestamp?: boolean
 }
 
-export class BoundWitnessBuilder<
-  TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
-  TPayload extends XyoPayload = XyoPayload,
-> {
+export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness, TPayload extends Payload = Payload> {
   private _accounts: AccountInstance[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined

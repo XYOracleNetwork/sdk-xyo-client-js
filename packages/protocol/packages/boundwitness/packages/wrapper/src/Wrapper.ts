@@ -2,13 +2,13 @@ import { assertEx } from '@xylabs/assert'
 import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { DataLike } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
 export class BoundWitnessWrapper<
   TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
-  TPayload extends XyoPayload = XyoPayload,
+  TPayload extends Payload = Payload,
 > extends PayloadWrapperBase<TBoundWitness> {
   protected _payloads: Record<string, PayloadWrapper<TPayload>> | undefined
   private isBoundWitnessWrapper = true
@@ -83,7 +83,7 @@ export class BoundWitnessWrapper<
     return boundWitness ? new BoundWitnessWrapper(boundWitness) : null
   }
 
-  static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
+  static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends Payload = Payload>(
     obj: unknown,
     payloads?: P[],
   ): BoundWitnessWrapper<T, P> {

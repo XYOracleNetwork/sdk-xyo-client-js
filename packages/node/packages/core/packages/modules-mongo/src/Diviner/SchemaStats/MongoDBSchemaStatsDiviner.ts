@@ -6,14 +6,14 @@ import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModule, Div
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
   isSchemaStatsQueryPayload,
+  PayloadWithMeta,
   SchemaStatsDiviner,
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
   SchemaStatsSchema,
-  XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
@@ -39,20 +39,20 @@ interface Stats {
 export type MongoDBSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
 export const MongoDBSchemaStatsDivinerConfigSchema: MongoDBSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
 
-export type MongoDBSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
+export type MongoDBSchemaStatsDivinerConfig<T extends Payload = Payload> = DivinerConfig<
   WithAdditional<
-    XyoPayload,
+    Payload,
     T & {
       schema: MongoDBSchemaStatsDivinerConfigSchema
     }
   >
 >
 
-export type MongoDBSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
+export type MongoDBSchemaStatsDivinerParams<T extends Payload = Payload> = DivinerParams<
   AnyConfigSchema<MongoDBSchemaStatsDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
-    payloadSdk: BaseMongoSdk<XyoPayloadWithMeta>
+    payloadSdk: BaseMongoSdk<PayloadWithMeta>
   }
 >
 
@@ -118,11 +118,11 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     ]
   }
 
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<SchemaStatsPayload>> {
+  override async divine(payloads?: Payload[]): Promise<Payload<SchemaStatsPayload>[]> {
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new XyoPayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build())
+    return counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build())
   }
 
   override async start() {
@@ -197,7 +197,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
 
   private divineAllAddresses = async () => await Promise.reject('Not Implemented')
 
-  private processChange = (change: ChangeStreamInsertDocument<XyoPayloadWithMeta>) => {
+  private processChange = (change: ChangeStreamInsertDocument<PayloadWithMeta>) => {
     this.resumeAfter = change._id
     const archive = change.fullDocument._archive
     const schema = change.fullDocument.schema

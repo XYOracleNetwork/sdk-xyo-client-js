@@ -16,7 +16,7 @@ import {
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
-import { PayloadFindFilter, XyoPayload } from '@xyo-network/payload-model'
+import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -40,7 +40,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     return !!this.config?.storeParentReads
   }
 
-  all(): PromisableArray<XyoPayload> {
+  all(): PromisableArray<Payload> {
     throw Error('Not implemented')
   }
 
@@ -57,7 +57,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
   }
 
   /** @deprecated use Diviners instead */
-  async find(filter?: PayloadFindFilter): Promise<XyoPayload[]> {
+  async find(filter?: PayloadFindFilter): Promise<Payload[]> {
     try {
       const filterSchemaList = filter?.schema ? (Array.isArray(filter.schema) ? filter.schema : [filter.schema]) : []
       return (await this.all()).filter((payload) => filterSchemaList.includes(payload.schema))
@@ -67,7 +67,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     }
   }
 
-  async get(hashes: string[]): Promise<XyoPayload[]> {
+  async get(hashes: string[]): Promise<Payload[]> {
     return compact(
       await Promise.all(
         hashes.map(async (hash) => {
@@ -79,13 +79,13 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
-    const resultPayloads: XyoPayload[] = []
+    const resultPayloads: Payload[] = []
     const queryAccount = new Account()
     if (this.config.storeQueries) {
       await this.insert([query])
@@ -161,12 +161,12 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     return assertEx(this._parents)
   }
 
-  protected async writeToParent(parent: ArchivistModule, payloads: XyoPayload[]) {
+  protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {
     const wrapper = new ArchivistWrapper({ account: this.account, module: parent })
     return await wrapper.insert(payloads)
   }
 
-  protected async writeToParents(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  protected async writeToParents(payloads: Payload[]): Promise<XyoBoundWitness[]> {
     const parents = await this.parents()
     this.logger?.log(parents.write?.length ?? 0)
     return compact(
@@ -190,5 +190,5 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     return resolvedWrappers
   }
 
-  abstract insert(item: XyoPayload[]): PromisableArray<XyoBoundWitness>
+  abstract insert(item: Payload[]): PromisableArray<XyoBoundWitness>
 }

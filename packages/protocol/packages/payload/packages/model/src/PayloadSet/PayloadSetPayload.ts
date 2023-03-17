@@ -1,4 +1,4 @@
-import { XyoPayload } from '../XyoPayload'
+import { Payload } from '../Payload'
 import { PayloadSetSchema } from './PayloadSetSchema'
 
 export interface PayloadSet {
@@ -6,4 +6,4 @@ export interface PayloadSet {
   required?: Record<string, number>
 }
 
-export type PayloadSetPayload = XyoPayload<PayloadSet, PayloadSetSchema>
+export type PayloadSetPayload = Payload<PayloadSet, PayloadSetSchema>

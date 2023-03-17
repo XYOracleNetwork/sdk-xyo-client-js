@@ -1,5 +1,5 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
@@ -13,14 +13,14 @@ describe('/', () => {
     })
     it('the root node discover', async () => {
       const result = await (await request()).get('/')
-      const response: XyoPayloads = result.body.data
+      const response: Payload[] = result.body.data
       expect(response).toBeDefined()
       expect(response).toBeArray()
     })
 
     it('address', async () => {
       const result = await (await request()).get('/')
-      const response: XyoPayloads = result.body.data
+      const response: Payload[] = result.body.data
       expect(response).toBeArray()
       const addressPayload = response?.find((p) => p.schema === AddressSchema) as AddressPayload
       expect(addressPayload).toBeObject()
@@ -28,7 +28,7 @@ describe('/', () => {
     })
     it('supported queries', async () => {
       const result = await (await request()).get('/')
-      const response: XyoPayloads = result.body.data
+      const response: Payload[] = result.body.data
       expect(response).toBeArray()
       const queries = response?.filter((d) => d.schema === QuerySchema) as QueryPayload[]
       expect(queries.length).toBeGreaterThan(0)

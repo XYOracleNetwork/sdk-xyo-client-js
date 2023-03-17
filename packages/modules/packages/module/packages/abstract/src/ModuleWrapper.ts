@@ -15,7 +15,7 @@ import {
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -26,7 +26,7 @@ import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 
 export interface WrapperError extends Error {
   errors: (XyoError | null)[]
-  query: [XyoQueryBoundWitness, XyoPayloads]
+  query: [XyoQueryBoundWitness, Payload[]]
   result: ModuleQueryResult | undefined
 }
 
@@ -152,7 +152,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return description
   }
 
-  discover(): Promise<XyoPayload[]> {
+  discover(): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return this.sendQuery(queryPayload)
   }
@@ -195,11 +195,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.once(eventName, listener)
   }
 
-  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     return await this.module.query(query, payloads)
   }
 
-  queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]) {
+  queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: Payload[]) {
     return this.module.queryable(query, payloads)
   }
 
@@ -260,10 +260,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
-  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], AccountInstance> {
-    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], AccountInstance>((resolve) => {
+  ): PromiseEx<[XyoQueryBoundWitness, Payload[]], AccountInstance> {
+    const promise = new PromiseEx<[XyoQueryBoundWitness, Payload[]], AccountInstance>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
@@ -273,15 +273,15 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
-  ): [XyoQueryBoundWitness, XyoPayload[]] {
+  ): [XyoQueryBoundWitness, Payload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = (account ? builder.witness(account) : builder).build()
     return result
   }
 
-  protected filterErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult | undefined): (XyoError | null)[] {
+  protected filterErrors(query: [XyoQueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined): (XyoError | null)[] {
     return (result?.[1]?.filter((payload) => {
       if (payload?.schema === XyoErrorSchema) {
         const wrapper = new QueryBoundWitnessWrapper(query[0])
@@ -291,7 +291,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     }) ?? []) as XyoError[]
   }
 
-  protected async sendQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(queryPayload: T, payloads?: XyoPayloads): Promise<XyoPayload[]> {
+  protected async sendQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {
     //make sure we did not get wrapped payloads
     const unwrappedPayloads = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload'))
     const unwrappedQueryPayload = assertEx(BoundWitnessWrapper.unwrap<XyoQueryBoundWitness>(queryPayload), 'Unable to parse queryPayload')
@@ -306,7 +306,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return result[1]
   }
 
-  protected throwErrors(query: [XyoQueryBoundWitness, XyoPayloads], result: ModuleQueryResult | undefined) {
+  protected throwErrors(query: [XyoQueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined) {
     const errors = this.filterErrors(query, result)
     if (errors?.length > 0) {
       const error: WrapperError = {

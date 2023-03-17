@@ -1,8 +1,8 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { XyoCryptoCardsGameSchema } from './Schema'
 
-export type XyoCryptoCardsGamePayload = XyoPayload<{
+export type XyoCryptoCardsGamePayload = Payload<{
   /** @field The set of weights to pick from */
   allowedWeights: number[]
   /** @field The length [ms] of the game */

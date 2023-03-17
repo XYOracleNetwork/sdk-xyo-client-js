@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { LocationCertaintySchema } from './Schema'
 
@@ -17,6 +17,6 @@ export type LocationCertainty = {
   variance: LocationCertaintyHeuristic
 }
 
-export const isLocationCertaintyPayload = (x?: XyoPayload): x is LocationCertaintyPayload => x?.schema === LocationCertaintySchema
+export const isLocationCertaintyPayload = (x?: Payload): x is LocationCertaintyPayload => x?.schema === LocationCertaintySchema
 
-export type LocationCertaintyPayload = XyoPayload<{ schema: LocationCertaintySchema } & LocationCertainty>
+export type LocationCertaintyPayload = Payload<{ schema: LocationCertaintySchema } & LocationCertainty>

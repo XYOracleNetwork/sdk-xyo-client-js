@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { SentinelReportQuery, SentinelReportQuerySchema } from './Queries'
@@ -26,7 +26,7 @@ export class SentinelWrapper<TModule extends SentinelModule = SentinelModule> ex
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as DivinerWrapper')
   }
 
-  async report(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  async report(payloads?: Payload[]): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<SentinelReportQuery>({ schema: SentinelReportQuerySchema })
     const result = await this.sendQuery(queryPayload, payloads)
     return result

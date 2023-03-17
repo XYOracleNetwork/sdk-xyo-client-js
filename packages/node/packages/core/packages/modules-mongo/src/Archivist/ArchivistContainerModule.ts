@@ -1,6 +1,6 @@
 import { AbstractArchivist } from '@xyo-network/archivist'
 import { AbstractModule } from '@xyo-network/module'
-import { ArchiveModuleConfigSchema, User, UserArchivist, XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { ArchiveModuleConfigSchema, PayloadWithMeta, User, UserArchivist, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { ContainerModule, interfaces } from 'inversify'
@@ -24,7 +24,7 @@ const getMongoDBDeterministicArchivist = async (context: interfaces.Context) => 
   const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
     MONGO_TYPES.BoundWitnessSdk,
   )
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const mongoDBDeterministicArchivist = await MongoDBDeterministicArchivist.create({
     boundWitnessSdk,
     config: { name: TYPES.Archivist.description, schema: ArchiveModuleConfigSchema },

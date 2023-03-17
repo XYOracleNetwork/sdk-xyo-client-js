@@ -9,7 +9,7 @@ import { Hasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node'
 import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
-import { XyoPayload, XyoPayloadSchema } from '@xyo-network/payload-model'
+import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { AbstractWitness } from '@xyo-network/witness'
 import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
@@ -87,13 +87,13 @@ describe('XyoPanel', () => {
       let archivistB: AbstractArchivist
       let witnessA: AbstractWitness
       let witnessB: AbstractWitness
-      const assertPanelReport = (panelReport: XyoPayload[]) => {
+      const assertPanelReport = (panelReport: Payload[]) => {
         expect(panelReport).toBeArrayOfSize(3)
         const [bw, ...payloads] = panelReport
         expect(new BoundWitnessValidator(bw as XyoBoundWitness).validate()).toBeArrayOfSize(0)
         expect(payloads).toBeArrayOfSize(2)
       }
-      const assertArchivistStateMatchesPanelReport = async (payloads: XyoPayload[], archivists: Archivist[]) => {
+      const assertArchivistStateMatchesPanelReport = async (payloads: Payload[], archivists: Archivist[]) => {
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
           expect(archivistPayloads).toBeArrayOfSize(payloads.length)
@@ -109,14 +109,14 @@ describe('XyoPanel', () => {
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
             schema: XyoAdhocWitnessConfigSchema,
-            targetSchema: XyoPayloadSchema,
+            targetSchema: PayloadSchema,
           },
         }
         const paramsB = {
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
             schema: XyoAdhocWitnessConfigSchema,
-            targetSchema: XyoPayloadSchema,
+            targetSchema: PayloadSchema,
           },
         }
         witnessA = (await XyoAdhocWitness.create(paramsA)) as XyoAdhocWitness
@@ -207,7 +207,7 @@ describe('XyoPanel', () => {
           },
         }
         class FailingWitness extends XyoAdhocWitness {
-          override async observe(): Promise<XyoPayload[]> {
+          override async observe(): Promise<Payload[]> {
             await Promise.reject(Error('observation failed'))
             return [{ schema: 'fake.result' }]
           }

@@ -8,7 +8,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
-import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { PayloadWithMeta, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
@@ -53,7 +53,7 @@ describe('DeterministicArchivist', () => {
     boundWitnessesConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
     payloadsConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
     const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
-    const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
+    const payloads: BaseMongoSdk<PayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const module = await MongoDBDeterministicArchivist.create({
       account: moduleAccount,
       boundWitnessSdk: boundWitnesses,

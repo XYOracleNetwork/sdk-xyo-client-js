@@ -1,5 +1,5 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
@@ -9,7 +9,7 @@ describe('/:address', () => {
   let url = ''
   beforeAll(async () => {
     const result = await (await request()).get('/')
-    const node: XyoPayloads = result.body.data
+    const node: Payload[] = result.body.data
     expect(node).toBeArray()
     const parentAddress = ''
     const child = node.find((p) => p.schema === AddressSchema && (p as AddressPayload)?.address !== parentAddress) as AddressPayload
@@ -23,7 +23,7 @@ describe('/:address', () => {
   })
   it('returns the address for the module', async () => {
     const result = await (await request()).get(url)
-    const data = result.body.data as XyoPayload[]
+    const data = result.body.data as Payload[]
     expect(data).toBeArray()
     expect(data.length).toBeGreaterThan(0)
     const addressPayload = data.find((p) => p.schema === AddressSchema) as AddressPayload
@@ -34,7 +34,7 @@ describe('/:address', () => {
   })
   it('returns the supported queries for the module', async () => {
     const result = await (await request()).get(url)
-    const data = result.body.data as XyoPayload[]
+    const data = result.body.data as Payload[]
     expect(data).toBeArray()
     expect(data.length).toBeGreaterThan(0)
     const queries = data.filter((d) => d.schema === QuerySchema) as QueryPayload[]

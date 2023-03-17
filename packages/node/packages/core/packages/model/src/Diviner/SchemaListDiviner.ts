@@ -1,6 +1,6 @@
 import { AbstractDiviner } from '@xyo-network/diviner'
 import { XyoQuery } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { ArchivistPayloadStatsDivinerConfig } from './PayloadStatsDiviner'
 
@@ -13,24 +13,21 @@ export const SchemaListQuerySchema: SchemaListQuerySchema = 'network.xyo.archivi
 export type SchemaListConfigSchema = 'network.xyo.archivist.schema.list.config'
 export const SchemaListConfigSchema: SchemaListConfigSchema = 'network.xyo.archivist.schema.list.config'
 
-export type SchemaListDivinerConfig<
-  S extends string = SchemaListConfigSchema,
-  T extends XyoPayload = XyoPayload,
-> = ArchivistPayloadStatsDivinerConfig<
+export type SchemaListDivinerConfig<S extends string = SchemaListConfigSchema, T extends Payload = Payload> = ArchivistPayloadStatsDivinerConfig<
   S,
   T & {
     schema: S
   }
 >
 
-export type SchemaListPayload = XyoPayload<{
+export type SchemaListPayload = Payload<{
   schema: SchemaListSchema
   schemas: string[]
 }>
 
-export const isSchemaListPayload = (x?: XyoPayload | null): x is SchemaListPayload => x?.schema === SchemaListSchema
+export const isSchemaListPayload = (x?: Payload | null): x is SchemaListPayload => x?.schema === SchemaListSchema
 
 export type SchemaListQueryPayload = XyoQuery<{ schema: SchemaListQuerySchema }>
-export const isSchemaListQueryPayload = (x?: XyoPayload | null): x is SchemaListQueryPayload => x?.schema === SchemaListQuerySchema
+export const isSchemaListQueryPayload = (x?: Payload | null): x is SchemaListQueryPayload => x?.schema === SchemaListQuerySchema
 
 export type SchemaListDiviner = AbstractDiviner

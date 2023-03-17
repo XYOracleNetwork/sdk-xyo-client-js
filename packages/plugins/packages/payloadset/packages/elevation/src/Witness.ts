@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { ElevationPayload, ElevationSchema } from '@xyo-network/elevation-payload-plugin'
 import { GeographicCoordinateSystemLocation, Location, LocationPayload, QuadkeyLocation } from '@xyo-network/location-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
 import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
@@ -129,7 +129,7 @@ export class ElevationWitness<TParams extends ElevationWitnessParams = Elevation
     return await assertEx(this._tiffInfos[section], `Failed to load section [${section}]`)
   }
 
-  override async observe(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  override async observe(payloads?: Payload[]): Promise<Payload[]> {
     const quadkeys: Quadkey[] = [
       ...(payloads?.map((location) => locationToQuadkey(location as LocationPayload)) ?? []),
       ...this.quadkeys.map((quadkey) => (typeof quadkey === 'string' ? Quadkey.fromString(12, quadkey) : quadkey)),

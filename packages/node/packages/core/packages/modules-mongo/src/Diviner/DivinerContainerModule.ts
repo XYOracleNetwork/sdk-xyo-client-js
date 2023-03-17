@@ -7,10 +7,10 @@ import {
   LocationCertaintyDiviner,
   PayloadDiviner,
   PayloadStatsDiviner,
+  PayloadWithMeta,
   SchemaListDiviner,
   SchemaStatsDiviner,
   XyoBoundWitnessWithMeta,
-  XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -91,7 +91,7 @@ const getMongoDBLocationCertaintyDiviner = async (_context: interfaces.Context) 
 }
 const getMongoDBPayloadDiviner = async (context: interfaces.Context) => {
   if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = { config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema }, payloadSdk }
   mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
   return mongoDBPayloadDiviner
@@ -99,7 +99,7 @@ const getMongoDBPayloadDiviner = async (context: interfaces.Context) => {
 const getMongoDBPayloadStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBPayloadStatsDiviner) return mongoDBPayloadStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = {
     addressSpaceDiviner,
     config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBPayloadStatsDivinerConfigSchema },
@@ -125,7 +125,7 @@ const getMongoDBSchemaListDiviner = async (context: interfaces.Context) => {
 const getMongoDBSchemaStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBSchemaStatsDiviner) return mongoDBSchemaStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
-  const payloadSdk: BaseMongoSdk<XyoPayloadWithMeta> = context.container.get<BaseMongoSdk<XyoPayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = {
     addressSpaceDiviner,
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBSchemaStatsDivinerConfigSchema },

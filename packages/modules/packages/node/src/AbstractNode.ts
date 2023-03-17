@@ -24,8 +24,8 @@ import {
   XyoNodeQuery,
   XyoNodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
@@ -58,10 +58,10 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return await (this.privateResolver.resolve() ?? [])
   }
 
-  override async discover(): Promise<XyoPayload[]> {
+  override async discover(): Promise<Payload[]> {
     const childMods = await this.attachedModules()
     const childModAddresses = childMods.map((mod) =>
-      new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
+      new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
     )
 
     return [...(await super.discover()), ...childModAddresses]
@@ -69,14 +69,14 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
+    const resultPayloads: Payload[] = []
     try {
       switch (typedQuery.schema) {
         case XyoNodeAttachQuerySchema: {
@@ -90,7 +90,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
         case XyoNodeAttachedQuerySchema: {
           const addresses = await this.attached()
           for (const address of addresses) {
-            const payload = new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
             resultPayloads.push(payload)
           }
           break
@@ -98,7 +98,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
         case XyoNodeRegisteredQuerySchema: {
           const addresses = await this.registered()
           for (const address of addresses) {
-            const payload = new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
             resultPayloads.push(payload)
           }
           break

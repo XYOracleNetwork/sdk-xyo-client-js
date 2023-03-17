@@ -1,17 +1,17 @@
 import { deepOmitUnderscoreFields, Hasher, removeEmptyFields } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export interface XyoPayloadBuilderOptions {
+export interface PayloadBuilderOptions {
   schema: string
 }
 
-export class PayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unknown>>> {
+export class PayloadBuilder<T extends Payload = Payload<Record<string, unknown>>> {
   private _client = 'js'
   private _fields: Partial<T> = {}
   private _schema: string
   private _timestamp = Date.now()
 
-  constructor({ schema }: XyoPayloadBuilderOptions) {
+  constructor({ schema }: PayloadBuilderOptions) {
     this._schema = schema
   }
 
@@ -44,4 +44,4 @@ export class PayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unk
   }
 }
 
-export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unknown>>> extends PayloadBuilder<T> {}
+export class XyoPayloadBuilder<T extends Payload = Payload<Record<string, unknown>>> extends PayloadBuilder<T> {}

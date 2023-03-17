@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { AnyConfigSchema } from '@xyo-network/modules'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import {
   XyoUniswapCryptoMarketPayload,
   XyoUniswapCryptoMarketSchema,
@@ -29,7 +29,7 @@ export class XyoUniswapCryptoMarketWitness<
     return this.params.provider
   }
 
-  override async observe(): Promise<XyoPayload[]> {
+  override async observe(): Promise<Payload[]> {
     this.started('throw')
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()

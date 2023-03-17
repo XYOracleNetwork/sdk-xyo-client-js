@@ -5,7 +5,7 @@ import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitnes
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractDiviner } from '../AbstractDiviner'
@@ -27,7 +27,7 @@ export class MemoryAddressHistoryDiviner<TParams extends MemoryAddressHistoryDiv
     return assertEx(this.config.address, 'Missing address')
   }
 
-  async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  async divine(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
     const archivists =
       (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map(

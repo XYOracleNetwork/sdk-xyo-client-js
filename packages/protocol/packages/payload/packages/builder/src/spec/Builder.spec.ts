@@ -1,6 +1,6 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-import { XyoPayloadBuilder } from '../Builder'
+import { PayloadBuilder } from '../Builder'
 
 const schema = 'network.xyo.temp'
 
@@ -10,7 +10,7 @@ const ADDITIONAL_FIELD_COUNT = 4
 
 describe('XyoBoundWitnessBuilder', () => {
   test('build', () => {
-    let builder = new XyoPayloadBuilder<XyoPayload<Record<string, unknown>>>({ schema })
+    let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builder).toBeDefined()
     builder = builder.fields({
       testArray: [1, 2, 3],

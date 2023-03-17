@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { XyoEthereumGasBlocknativeSchema } from './Schema'
 
@@ -39,7 +39,7 @@ export interface EthereumGasBlocknativeResponse {
   unit: 'gwei'
 }
 
-export type XyoEthereumGasBlocknativePayload = XyoPayload<
+export type XyoEthereumGasBlocknativePayload = Payload<
   EthereumGasBlocknativeResponse & {
     schema: XyoEthereumGasBlocknativeSchema
     timestamp: number

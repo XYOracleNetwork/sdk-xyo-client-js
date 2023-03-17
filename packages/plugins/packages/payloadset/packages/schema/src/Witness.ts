@@ -1,6 +1,6 @@
 import { delay } from '@xylabs/delay'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
 import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 
@@ -17,7 +17,7 @@ export class XyoSchemaWitness<TParams extends XyoSchemaWitnessParams = XyoSchema
 {
   static override configSchema = XyoSchemaWitnessConfigSchema
 
-  override async observe(_payloads?: XyoPayload[]): Promise<XyoSchemaPayload[]> {
+  override async observe(_payloads?: Payload[]): Promise<XyoSchemaPayload[]> {
     await delay(0)
     throw new Error('Method not implemented.')
   }

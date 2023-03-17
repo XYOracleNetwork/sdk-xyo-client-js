@@ -1,6 +1,6 @@
 import { XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
 
 import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
@@ -14,7 +14,7 @@ export class XyoDomainWitness<TParams extends DomainWitnessParams = DomainWitnes
     return `${XyoDomainWitness.dmarc}.${domain}`
   }
 
-  override async observe(_payload?: XyoPayload[]): Promise<XyoPayload[]> {
+  override async observe(_payload?: Payload[]): Promise<Payload[]> {
     return await super.observe([{ schema: XyoDomainSchema }])
   }
 }

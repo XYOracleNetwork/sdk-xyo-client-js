@@ -14,7 +14,7 @@ import {
 } from '@xyo-network/archivist-interface'
 import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
@@ -66,7 +66,7 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     ]
   }
 
-  override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<Payload> {
     try {
       return Object.entries(Cookies.get())
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
@@ -126,7 +126,7 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     }
   }
 
-  override async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<Payload[]> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {
@@ -140,9 +140,9 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     }
   }
 
-  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
     try {
-      const storedPayloads: XyoPayload[] = payloads.map((payload) => {
+      const storedPayloads: Payload[] = payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
         const key = this.keyFromHash(wrapper.hash)
         const value = JSON.stringify(wrapper.payload)

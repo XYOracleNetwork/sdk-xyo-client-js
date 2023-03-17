@@ -2,13 +2,13 @@ import { assertEx } from '@xylabs/assert'
 import { ArchivistFindQuery, ArchivistQuery } from '@xyo-network/archivist'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/module'
-import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { PayloadWithMeta, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Filter } from 'mongodb'
 
 import { getArchive } from '../getArchive'
 
 export type BoundWitnessesFilter = Filter<XyoBoundWitnessWithMeta>
-export type PayloadsFilter = Filter<XyoPayloadWithMeta>
+export type PayloadsFilter = Filter<PayloadWithMeta>
 
 export const getFilter = (
   wrapper: QueryBoundWitnessWrapper<ArchivistQuery>,

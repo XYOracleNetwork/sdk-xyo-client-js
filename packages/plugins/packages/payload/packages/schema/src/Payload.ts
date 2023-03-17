@@ -1,8 +1,8 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { XyoSchemaSchema } from './Schema'
 
-export type XyoSchemaPayload = XyoPayload<{
+export type XyoSchemaPayload = Payload<{
   definition: {
     [key: string]: unknown
     $id?: string

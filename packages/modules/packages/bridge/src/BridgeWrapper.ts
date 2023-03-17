@@ -12,7 +12,7 @@ import {
   XyoQuery,
   XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements BridgeModule {
@@ -51,7 +51,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return this.module.targetConfig(address)
   }
 
-  async targetDiscover(address: string): Promise<XyoPayload[] | undefined> {
+  async targetDiscover(address: string): Promise<Payload[] | undefined> {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return await this.sendTargetQuery(address, queryPayload)
   }
@@ -63,12 +63,12 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
   async targetQuery<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
     address: string,
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
   ): Promise<ModuleQueryResult | undefined> {
     return await this.module.targetQuery(address, query, payloads)
   }
 
-  async targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): Promise<boolean> {
+  async targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promise<boolean> {
     return await this.module.targetQueryable(address, query, payloads, queryConfig)
   }
 
@@ -79,8 +79,8 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
   protected async sendTargetQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
     address: string,
     queryPayload: T,
-    payloads?: XyoPayloads,
-  ): Promise<XyoPayload[] | undefined> {
+    payloads?: Payload[],
+  ): Promise<Payload[] | undefined> {
     const query = await this.bindQuery(queryPayload, payloads)
     const result = await this.module.targetQuery(address, query[0], query[1])
     this.throwErrors(query, result)

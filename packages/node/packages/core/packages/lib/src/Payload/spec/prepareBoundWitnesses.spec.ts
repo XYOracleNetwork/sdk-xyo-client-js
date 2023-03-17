@@ -1,8 +1,8 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { XyoBoundWitnessMeta, XyoBoundWitnessWithPartialMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWithPartialMeta, XyoBoundWitnessMeta, XyoBoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { v4 } from 'uuid'
 
@@ -35,20 +35,20 @@ const payloadMeta = {
   _user_agent,
 }
 
-const getPayloads = (numPayloads: number): XyoPayload[] => {
-  return new Array(numPayloads).fill(0).map(() => new XyoPayloadBuilder({ schema: 'network.xyo.test' }).fields({ ...payloadMeta, uid: v4() }).build())
+const getPayloads = (numPayloads: number): Payload[] => {
+  return new Array(numPayloads).fill(0).map(() => new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ ...payloadMeta, uid: v4() }).build())
 }
 
 const getNewBlockWithBoundWitnessesWithPayloads = (
   numBoundWitnesses = 1,
   numPayloads = 1,
-): Array<XyoBoundWitnessWithPartialMeta & XyoPayloadWithPartialMeta> => {
+): Array<XyoBoundWitnessWithPartialMeta & PayloadWithPartialMeta> => {
   return new Array(numBoundWitnesses).fill(0).map(() => {
     return new BoundWitnessBuilder({ inlinePayloads: true }).payloads(getPayloads(numPayloads)).build()[0]
   })
 }
 
-const validateBeforeSanitization = (boundWitnesses: Array<XyoBoundWitnessWithPartialMeta & XyoPayloadWithPartialMeta>) => {
+const validateBeforeSanitization = (boundWitnesses: Array<XyoBoundWitnessWithPartialMeta & PayloadWithPartialMeta>) => {
   boundWitnesses.map((bw) => {
     expect(bw._archive).toBeUndefined()
     expect(bw._client).toBe(_client)

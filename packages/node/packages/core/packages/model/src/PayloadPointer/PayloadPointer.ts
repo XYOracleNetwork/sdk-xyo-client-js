@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { PayloadRule } from './PayloadRules'
 
@@ -9,5 +9,5 @@ export interface PayloadPointer {
   reference: PayloadRule[][]
 }
 
-export type PayloadPointerBody = PayloadPointer & XyoPayload
-export type PayloadPointerPayload = XyoPayload<PayloadPointerBody>
+export type PayloadPointerBody = PayloadPointer & Payload
+export type PayloadPointerPayload = Payload<PayloadPointerBody>

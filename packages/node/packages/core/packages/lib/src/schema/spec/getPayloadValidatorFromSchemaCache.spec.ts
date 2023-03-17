@@ -1,9 +1,9 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { XyoSchemaCache, XyoSchemaCacheEntry } from '@xyo-network/utils'
 
 import { getPayloadValidatorFromSchemaCache } from '../getPayloadValidatorFromSchemaCache'
 
-const getPayload = (): XyoPayload => {
+const getPayload = (): Payload => {
   return {
     schema: 'network.xyo.test',
   }

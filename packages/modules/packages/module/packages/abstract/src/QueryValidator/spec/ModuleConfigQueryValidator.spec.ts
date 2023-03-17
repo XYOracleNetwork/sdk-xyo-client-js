@@ -7,7 +7,7 @@ import {
   ModuleDiscoverQuerySchema,
   SchemaString,
 } from '@xyo-network/module-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { QueryBoundWitnessBuilder } from '../../Query'
 import { ModuleConfigQueryValidator } from '../ModuleConfigQueryValidator'
@@ -22,7 +22,7 @@ describe('ModuleConfigQueryValidator', () => {
   const disallowed1 = Account.random()
   const disallowed2 = Account.random()
   const other = Account.random()
-  const queryPayload = new XyoPayloadBuilder({ schema }).build()
+  const queryPayload = new PayloadBuilder({ schema }).build()
   const allowed: Record<SchemaString, (AddressString | CosigningAddressSet)[]> = {}
   allowed[ModuleDiscoverQuerySchema] = [
     allowed1.addressValue.hex.toUpperCase(),
@@ -60,7 +60,7 @@ describe('ModuleConfigQueryValidator', () => {
         expect(sut.queryable(query[0], query[1])).toBeFalse()
       })
       it('disallows non-allowed schema from allowed address', () => {
-        const queryPayload = new XyoPayloadBuilder({ schema: 'foo.bar.baz' }).build()
+        const queryPayload = new PayloadBuilder({ schema: 'foo.bar.baz' }).build()
         const query = new QueryBoundWitnessBuilder().witness(allowed1).query(queryPayload).build()
         expect(sut.queryable(query[0], query[1])).toBeFalse()
       })

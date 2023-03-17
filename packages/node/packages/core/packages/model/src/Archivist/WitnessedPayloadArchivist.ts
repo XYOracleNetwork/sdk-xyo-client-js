@@ -1,6 +1,6 @@
 import { Archivist } from '@xyo-network/archivist'
 import { AbstractModule } from '@xyo-network/module'
 
-import { XyoPayloadWithMeta } from '../Payload'
+import { PayloadWithMeta } from '../Payload'
 
-export type WitnessedPayloadArchivist = Archivist<XyoPayloadWithMeta> & AbstractModule
+export type WitnessedPayloadArchivist = Archivist<PayloadWithMeta> & AbstractModule

@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { SentinelAutomationPayload, SentinelIntervalAutomationPayload } from './Automation'
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper'
 import { SentinelModule } from './SentinelModel'
 
-export type OnSentinelRunnerTriggerResult = (result: XyoPayload[]) => void
+export type OnSentinelRunnerTriggerResult = (result: Payload[]) => void
 
 export class SentinelRunner {
   protected _automations: Record<string, SentinelAutomationPayload> = {}

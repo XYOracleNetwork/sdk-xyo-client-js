@@ -1,8 +1,8 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { ConfigSchema } from './Schema'
 
-export type ConfigPayload = XyoPayload<{
+export type ConfigPayload = Payload<{
   config: string
   schema: ConfigSchema
 }>

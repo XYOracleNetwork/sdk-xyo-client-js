@@ -1,22 +1,22 @@
 import { AnyObject } from '@xyo-network/core'
 import { EventData } from '@xyo-network/module'
 import { AnyConfigSchema, Module, ModuleEventArgs, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { DivinerConfig } from './Config'
 
 export interface Diviner {
   /* context is the hash of the payload that defines the divining */
-  divine: (payloads?: XyoPayload[]) => Promisable<XyoPayloads>
+  divine: (payloads?: Payload[]) => Promisable<Payload[]>
 }
 
 export type DivinerReportEndEventArgs = ModuleEventArgs<
   DivinerModule,
   {
     errors?: Error[]
-    inPayloads?: XyoPayload[]
-    outPayloads: XyoPayload[]
+    inPayloads?: Payload[]
+    outPayloads: Payload[]
   }
 >
 
@@ -27,7 +27,7 @@ export interface DivinerReportEndEventData extends EventData {
 export type DivinerReportStartEventArgs = ModuleEventArgs<
   DivinerModule,
   {
-    inPayloads?: XyoPayload[]
+    inPayloads?: Payload[]
   }
 >
 

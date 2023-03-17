@@ -1,6 +1,4 @@
-export * from './ArchiveBoundWitnessArchivist'
 export * from './ArchiveModuleConfig'
-export * from './ArchivePayloadArchivist'
 export * from './BoundWitnessArchivist'
 export * from './BoundWitnessesArchivist'
 export * from './BoundWitnessFilterPredicate'

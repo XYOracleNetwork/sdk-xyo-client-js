@@ -35,10 +35,10 @@ export class MemoryArchivist<
 > extends AbstractArchivist<TParams> {
   static override configSchema = MemoryArchivistConfigSchema
 
-  private _cache?: LruCache<string, Payload | null>
+  private _cache?: LruCache<string, Payload>
 
   get cache() {
-    this._cache = this._cache ?? new LruCache<string, Payload | null>({ max: this.max })
+    this._cache = this._cache ?? new LruCache<string, Payload>({ max: this.max })
     return this._cache
   }
 
@@ -96,6 +96,9 @@ export class MemoryArchivist<
         hashes.map(async (hash) => {
           const payload = this.cache.get(hash) ?? (await super.get([hash]))[0] ?? null
           if (this.storeParentReads) {
+            // NOTE: `payload` can actually be `null` here but TS doesn't seem
+            // to recognize it. LRUCache claims not to support `null`s via their
+            // types but seems to under the hood just fine.
             this.cache.set(hash, payload)
           }
           return payload

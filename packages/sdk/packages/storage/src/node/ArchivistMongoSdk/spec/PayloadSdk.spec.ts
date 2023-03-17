@@ -1,7 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { describeIf } from '@xylabs/jest-helpers'
 import { uuid } from '@xyo-network/core'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import dotenv from 'dotenv'
 
@@ -26,10 +28,13 @@ const getMongoSdk = (archive: string) => {
   )
 }
 
-const getPayloads = (number = 5) => {
-  return new Array(number).fill(0).map((_) => {
-    return new PayloadBuilder({ schema }).fields({ prop: uuid() }).build(true)
-  })
+const getPayloads = async (number = 5): Promise<Payload[]> => {
+  return await Promise.all(
+    new Array(number).fill(0).map(async (_) => {
+      await delay(2)
+      return new PayloadBuilder({ schema }).fields({ prop: uuid() }).build(true)
+    }),
+  )
 }
 
 describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', () => {
@@ -39,8 +44,10 @@ describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', (
   let payloads: PayloadWithPartialMeta[] = []
   beforeAll(async () => {
     sdk = getMongoSdk('test')
-    payloads = getPayloads(numPayloads)
-    await payloads.map(async (p) => await sdk.insert(p))
+    payloads = await getPayloads(numPayloads)
+    for (let payload = 0; payload < payloads.length; payload++) {
+      await sdk.insert(payloads[payload])
+    }
   })
   describe('findAfter', () => {
     let payload: PayloadWithPartialMeta | undefined

@@ -1,4 +1,4 @@
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { MemoryNode } from '@xyo-network/node'
 import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
@@ -43,7 +43,7 @@ describe('SentinelRunner', () => {
     }
     const onTriggerResult: OnSentinelRunnerTriggerResult = (results) => {
       expect(results.length).toBe(2)
-      expect(results[0]?.schema).toBe(XyoBoundWitnessSchema)
+      expect(results[0]?.schema).toBe(BoundWitnessSchema)
       expect(results[1]?.schema).toBe(IdSchema)
     }
 

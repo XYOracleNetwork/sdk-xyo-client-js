@@ -1,4 +1,4 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, Module, ModuleConfig, ModuleParams } from '@xyo-network/module-model'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
@@ -32,7 +32,7 @@ export type ArchivistParams<
 
 export interface Archivist<
   TReadResponse = Payload,
-  TWriteResponse = XyoBoundWitness,
+  TWriteResponse = BoundWitness,
   TWrite = TReadResponse,
   TFindResponse = TReadResponse,
   TFindFilter = PayloadFindFilter,

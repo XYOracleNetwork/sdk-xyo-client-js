@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import {
+  BoundWitnessWithPartialMeta,
   PayloadArchiveRule,
   PayloadPointerBody,
   payloadPointerSchema,
   PayloadSchemaRule,
   PayloadTimestampDirectionRule,
   SortDirection,
-  XyoBoundWitnessWithPartialMeta,
 } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -38,7 +38,7 @@ describe('/:hash', () => {
   let ownerToken: string
   let otherUserToken: string
   let archive: string
-  let block: XyoBoundWitnessWithPartialMeta
+  let block: BoundWitnessWithPartialMeta
   let payload: Payload
   let pointerHash: string
   beforeAll(async () => {

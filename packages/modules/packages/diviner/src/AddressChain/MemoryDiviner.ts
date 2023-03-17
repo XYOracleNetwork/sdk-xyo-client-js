@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistGetQuerySchema } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
@@ -35,7 +35,7 @@ export class MemoryAddressChainDiviner<TParams extends MemoryAddressChainDiviner
       ) ?? []
     let currentHash: string | null = assertEx(this.config.startHash, 'Missing startHash')
     while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
-      const bwPayload: XyoBoundWitness | undefined = await this.archivistFindHash(archivists, currentHash)
+      const bwPayload: BoundWitness | undefined = await this.archivistFindHash(archivists, currentHash)
       const bw: BoundWitnessWrapper | undefined = BoundWitnessWrapper.parse(bwPayload)
       if (bw) {
         result.push(bw)
@@ -45,10 +45,10 @@ export class MemoryAddressChainDiviner<TParams extends MemoryAddressChainDiviner
     return result
   }
 
-  private async archivistFindHash(archivists: ArchivistWrapper[], hash: string): Promise<XyoBoundWitness | undefined> {
+  private async archivistFindHash(archivists: ArchivistWrapper[], hash: string): Promise<BoundWitness | undefined> {
     let index = 0
     if (archivists[index]) {
-      const result = (await archivists[index].get([hash])).pop() as XyoBoundWitness
+      const result = (await archivists[index].get([hash])).pop() as BoundWitness
       if (result) {
         return result
       }

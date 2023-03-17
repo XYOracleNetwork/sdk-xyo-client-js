@@ -1,2 +1,2 @@
-export * from './isXyoBoundWitnessPayload'
+export * from './isBoundWitnessPayload'
 export * from './models'

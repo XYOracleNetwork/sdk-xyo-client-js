@@ -2,12 +2,12 @@ import { WithAdditional } from '@xyo-network/core'
 import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
+  BoundWitnessWithMeta,
   isSchemaListQueryPayload,
   SchemaListDiviner,
   SchemaListPayload,
   SchemaListQueryPayload,
   SchemaListSchema,
-  XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -29,7 +29,7 @@ export type MongoDBSchemaListDivinerParams<T extends Payload = Payload> = Divine
   AnyConfigSchema<MongoDBSchemaListDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
-    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
 

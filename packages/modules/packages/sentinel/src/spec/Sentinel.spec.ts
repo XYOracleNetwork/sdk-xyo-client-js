@@ -2,7 +2,7 @@
 /* eslint-disable import/no-deprecated */
 
 import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/archivist'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher } from '@xyo-network/core'
@@ -70,7 +70,7 @@ describe('XyoPanel', () => {
 
     const report1Result = await panel.report(adhocObserved)
     const report1 = BoundWitnessWrapper.parse(report1Result[0])
-    expect(report1.schemaName).toBe(XyoBoundWitnessSchema)
+    expect(report1.schemaName).toBe(BoundWitnessSchema)
     expect(report1.payloadHashes).toBeArrayOfSize(3)
     const report2 = BoundWitnessWrapper.parse((await panel.report())[0])
     expect(report2.schemaName).toBeDefined()
@@ -90,7 +90,7 @@ describe('XyoPanel', () => {
       const assertPanelReport = (panelReport: Payload[]) => {
         expect(panelReport).toBeArrayOfSize(3)
         const [bw, ...payloads] = panelReport
-        expect(new BoundWitnessValidator(bw as XyoBoundWitness).validate()).toBeArrayOfSize(0)
+        expect(new BoundWitnessValidator(bw as BoundWitness).validate()).toBeArrayOfSize(0)
         expect(payloads).toBeArrayOfSize(2)
       }
       const assertArchivistStateMatchesPanelReport = async (payloads: Payload[], archivists: Archivist[]) => {

@@ -14,7 +14,7 @@ import {
   ArchivistQuery,
 } from '@xyo-network/archivist-interface'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -48,7 +48,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     throw Error('Not implemented')
   }
 
-  commit(): Promisable<XyoBoundWitness[]> {
+  commit(): Promisable<BoundWitness[]> {
     throw Error('Not implemented')
   }
 
@@ -166,7 +166,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     return await wrapper.insert(payloads)
   }
 
-  protected async writeToParents(payloads: Payload[]): Promise<XyoBoundWitness[]> {
+  protected async writeToParents(payloads: Payload[]): Promise<BoundWitness[]> {
     const parents = await this.parents()
     this.logger?.log(parents.write?.length ?? 0)
     return compact(
@@ -190,5 +190,5 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     return resolvedWrappers
   }
 
-  abstract insert(item: Payload[]): PromisableArray<XyoBoundWitness>
+  abstract insert(item: Payload[]): PromisableArray<BoundWitness>
 }

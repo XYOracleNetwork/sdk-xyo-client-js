@@ -5,7 +5,7 @@ import {
   BoundWitnessStatsQueryPayload,
   BoundWitnessStatsQuerySchema,
   BoundWitnessStatsSchema,
-  XyoBoundWitnessWithMeta,
+  BoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -20,7 +20,7 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
   const address = account.addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
-  const boundWitnessSdk = new BaseMongoSdk<XyoBoundWitnessWithMeta>({
+  const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
@@ -35,7 +35,7 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
     // TODO: Insert via archivist
     const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
     const bw = new BoundWitnessBuilder().payload(payload).witness(account).build()[0]
-    await boundWitnessSdk.insertOne(bw as unknown as XyoBoundWitnessWithMeta)
+    await boundWitnessSdk.insertOne(bw as unknown as BoundWitnessWithMeta)
   })
   describe('divine', () => {
     describe('with address supplied in query', () => {

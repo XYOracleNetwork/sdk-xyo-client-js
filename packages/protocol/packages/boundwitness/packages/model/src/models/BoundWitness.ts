@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoBoundWitnessSchema } from './XyoBoundWitnessSchema'
+import { BoundWitnessSchema } from './BoundWitnessSchema'
 
 export type BoundWitnessFields = {
   _signatures: string[]
@@ -15,8 +15,8 @@ export type BoundWitnessFields = {
 export type XyoBoundWitnessFields = BoundWitnessFields
 
 export type BoundWitness<T extends Payload | void = void> = Payload<
-  T extends Payload ? XyoBoundWitnessFields & T : XyoBoundWitnessFields,
-  T extends Payload ? T['schema'] : XyoBoundWitnessSchema
+  T extends Payload ? BoundWitnessFields & T : BoundWitnessFields,
+  T extends Payload ? T['schema'] : BoundWitnessSchema
 >
 
 export type XyoBoundWitness<T extends Payload | void = void> = BoundWitness<T>

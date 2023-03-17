@@ -4,13 +4,13 @@ import { Module } from '@xyo-network/module-model'
 import {
   BoundWitnessDiviner,
   BoundWitnessStatsDiviner,
+  BoundWitnessWithMeta,
   LocationCertaintyDiviner,
   PayloadDiviner,
   PayloadStatsDiviner,
   PayloadWithMeta,
   SchemaListDiviner,
   SchemaStatsDiviner,
-  XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -40,9 +40,7 @@ let mongoDBSchemaStatsDiviner: MongoDBSchemaStatsDiviner
 
 const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
-    MONGO_TYPES.BoundWitnessSdk,
-  )
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const params = {
     boundWitnessSdk,
     config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema },
@@ -52,18 +50,14 @@ const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
 }
 const getMongoDBAddressSpaceDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressSpaceDiviner) return mongoDBAddressSpaceDiviner
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
-    MONGO_TYPES.BoundWitnessSdk,
-  )
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const params = { boundWitnessSdk, config: { name: TYPES.AddressSpaceDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBAddressSpaceDiviner = await MongoDBAddressSpaceDiviner.create(params)
   return mongoDBAddressSpaceDiviner
 }
 const getMongoDBBoundWitnessDiviner = async (context: interfaces.Context) => {
   if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
-    MONGO_TYPES.BoundWitnessSdk,
-  )
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const params = { boundWitnessSdk, config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
   mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
   return mongoDBBoundWitnessDiviner
@@ -71,9 +65,7 @@ const getMongoDBBoundWitnessDiviner = async (context: interfaces.Context) => {
 const getMongoDBBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
   if (mongoDBBoundWitnessStatsDiviner) return mongoDBBoundWitnessStatsDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
-    MONGO_TYPES.BoundWitnessSdk,
-  )
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const params = {
     addressSpaceDiviner,
     boundWitnessSdk,
@@ -111,9 +103,7 @@ const getMongoDBPayloadStatsDiviner = async (context: interfaces.Context) => {
 const getMongoDBSchemaListDiviner = async (context: interfaces.Context) => {
   if (mongoDBSchemaListDiviner) return mongoDBSchemaListDiviner
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
-  const boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = context.container.get<BaseMongoSdk<XyoBoundWitnessWithMeta>>(
-    MONGO_TYPES.BoundWitnessSdk,
-  )
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const params = {
     addressSpaceDiviner,
     boundWitnessSdk,

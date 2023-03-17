@@ -10,7 +10,7 @@ import {
   ArchivistModule,
   ArchivistParams,
 } from '@xyo-network/archivist-interface'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
@@ -76,7 +76,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return this.memoryArchivist.clear()
   }
 
-  override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<BoundWitness[]> {
     return await this.memoryArchivist.commit()
   }
 
@@ -88,7 +88,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return await this.memoryArchivist.get(hashes)
   }
 
-  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     return await this.memoryArchivist.insert(payloads)
   }
 

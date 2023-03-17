@@ -1,4 +1,4 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
@@ -29,7 +29,7 @@ export type ModuleQueriedEventArgs = ModuleEventArgs<
   {
     payloads?: Payload[]
     query: XyoQueryBoundWitness
-    result: [XyoBoundWitness, Payload[]]
+    result: [BoundWitness, Payload[]]
   }
 >
 

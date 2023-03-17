@@ -1,4 +1,4 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, EventData, Module, ModuleEventArgs, ModuleEventData, ModuleParams } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
@@ -13,7 +13,7 @@ export interface Sentinel {
 export type SentinelReportEndEventArgs = ModuleEventArgs<
   SentinelModule,
   {
-    boundWitness?: XyoBoundWitness
+    boundWitness?: BoundWitness
     errors?: Error[]
     inPayloads?: Payload[]
     outPayloads: Payload[]

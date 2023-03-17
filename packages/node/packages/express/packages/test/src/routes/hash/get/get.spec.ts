@@ -1,4 +1,4 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
@@ -41,7 +41,7 @@ describe('/:hash', () => {
       const response = await getHash(boundWitnessHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
-      const actual = response as XyoBoundWitness
+      const actual = response as BoundWitness
       expect(actual.addresses).toEqual(boundWitness.addresses)
       expect(actual.payload_hashes).toEqual(boundWitness.payload_hashes)
       expect(actual.payload_schemas).toEqual(boundWitness.payload_schemas)

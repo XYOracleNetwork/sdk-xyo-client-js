@@ -9,8 +9,8 @@ import {
   BoundWitnessStatsPayload,
   BoundWitnessStatsQueryPayload,
   BoundWitnessStatsSchema,
+  BoundWitnessWithMeta,
   isBoundWitnessStatsQueryPayload,
-  XyoBoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -46,7 +46,7 @@ export type MongoDBBoundWitnessStatsDivinerParams<T extends Payload = Payload> =
   AnyConfigSchema<MongoDBBoundWitnessStatsDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
-    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
 
@@ -131,7 +131,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
 
   private divineAllAddresses = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
 
-  private processChange = (change: ChangeStreamInsertDocument<XyoBoundWitnessWithMeta>) => {
+  private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
     const archive = change.fullDocument._archive
     if (archive) this.pendingCounts[archive] = (this.pendingCounts[archive] || 0) + 1

@@ -1,6 +1,6 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AbstractModule, creatableModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
@@ -36,7 +36,7 @@ export class ArchivingModule<
     )
   }
 
-  protected async storeToArchivists(payloads: Payload[]): Promise<XyoBoundWitness[]> {
+  protected async storeToArchivists(payloads: Payload[]): Promise<BoundWitness[]> {
     const archivists = await this.resolveArchivists()
     return (
       await Promise.all(

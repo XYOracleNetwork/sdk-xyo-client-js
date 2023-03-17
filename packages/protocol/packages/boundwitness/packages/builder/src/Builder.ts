@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Buffer } from '@xylabs/buffer'
 import { AccountInstance } from '@xyo-network/account-model'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
@@ -15,7 +15,7 @@ export interface BoundWitnessBuilderConfig {
   readonly timestamp?: boolean
 }
 
-export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness, TPayload extends Payload = Payload> {
+export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness, TPayload extends Payload = Payload> {
   private _accounts: AccountInstance[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
@@ -76,7 +76,7 @@ export class BoundWitnessBuilder<TBoundWitness extends XyoBoundWitness<{ schema:
       payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
       payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
       previous_hashes,
-      schema: XyoBoundWitnessSchema,
+      schema: BoundWitnessSchema,
     } as TBoundWitness
 
     assertEx(result.payload_hashes?.length === result.payload_schemas?.length, 'Payload hash/schema mismatch')

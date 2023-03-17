@@ -1,7 +1,7 @@
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerParams, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -13,7 +13,7 @@ import { DefaultMaxTimeMS } from '../../defaults'
 export type MongoDBAddressSpaceDivinerParams<TConfig extends DivinerConfig = DivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
   {
-    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
 

@@ -1,8 +1,8 @@
 import { exists } from '@xylabs/exists'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { BoundWitnessDiviner, BoundWitnessQueryPayload, isBoundWitnessQueryPayload, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessDiviner, BoundWitnessQueryPayload, BoundWitnessWithMeta, isBoundWitnessQueryPayload } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
@@ -13,7 +13,7 @@ import { removeId } from '../../Mongo'
 export type MongoDBBoundWitnessDivinerParams = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
   {
-    boundWitnessSdk: BaseMongoSdk<XyoBoundWitnessWithMeta>
+    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
 export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams>
@@ -22,7 +22,7 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
-  override async divine(payloads?: Payload[]): Promise<Payload<XyoBoundWitness>[]> {
+  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<BoundWitnessQueryPayload>(isBoundWitnessQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []
@@ -31,7 +31,7 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
-    const filter: Filter<XyoBoundWitnessWithMeta> = { ...props }
+    const filter: Filter<BoundWitnessWithMeta> = { ...props }
     if (timestamp) {
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0
       filter._timestamp = parsedOrder === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }

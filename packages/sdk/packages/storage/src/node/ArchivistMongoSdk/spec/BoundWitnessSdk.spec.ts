@@ -3,7 +3,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { uuid } from '@xyo-network/core'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -47,14 +47,14 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
   const numBoundWitnesses = 20
   const limit = 10
   let sdk: XyoArchivistBoundWitnessMongoSdk
-  let boundWitnesses: XyoBoundWitness[] = []
+  let boundWitnesses: BoundWitness[] = []
   beforeAll(async () => {
     sdk = getMongoSdk('temp')
     boundWitnesses = getBoundWitnesses(numBoundWitnesses)
     await sdk.insertMany(boundWitnesses)
   })
   describe('findAfter', () => {
-    let boundWitness: XyoBoundWitness | undefined
+    let boundWitness: BoundWitness | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
@@ -81,7 +81,7 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
     })
   })
   describe('findBefore', () => {
-    let boundWitness: XyoBoundWitness | undefined
+    let boundWitness: BoundWitness | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {
@@ -117,7 +117,7 @@ describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
     })
   })
   describe('findByHash', () => {
-    let boundWitness: XyoBoundWitness | undefined
+    let boundWitness: BoundWitness | undefined
     let hash = ''
     let timestamp = 0
     beforeAll(async () => {

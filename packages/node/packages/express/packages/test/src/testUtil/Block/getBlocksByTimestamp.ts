@@ -1,4 +1,4 @@
-import { SortDirection, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, SortDirection } from '@xyo-network/node-core-model'
 import { StatusCodes } from 'http-status-codes'
 
 import { request } from '../Server'
@@ -10,7 +10,7 @@ export const getBlocksByTimestamp = async (
   limit = 10,
   order: SortDirection = 'asc',
   expectedStatus: StatusCodes = StatusCodes.OK,
-): Promise<XyoBoundWitnessWithMeta[]> => {
+): Promise<BoundWitnessWithMeta[]> => {
   const response = await (await request())
     .get(`/archive/${archive}/block`)
     .query({ limit, order, timestamp })

@@ -3,9 +3,9 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity } from 'mongodb'
 
-import { XyoBoundWitnessWithPartialMeta } from './Meta'
+import { BoundWitnessWithPartialMeta } from './Meta'
 
-export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitnessWithPartialMeta> {
+export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<BoundWitnessWithPartialMeta> {
   private _archive: string
   private _maxTime: number
   constructor(config: BaseMongoSdkConfig, archive: string, maxTime = 2000) {
@@ -15,13 +15,13 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
   }
 
   async deleteByHash(hash: string) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+    return await this.useCollection(async (collection: Collection<BoundWitnessWithPartialMeta>) => {
       return await collection.deleteMany({ _archive: this._archive, _hash: hash })
     })
   }
 
   async fetchCount() {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+    return await this.useCollection(async (collection: Collection<BoundWitnessWithPartialMeta>) => {
       return await collection.estimatedDocumentCount()
     })
   }
@@ -58,7 +58,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return (await this.findRecentQuery(limit)).explain(ExplainVerbosity.allPlansExecution)
   }
 
-  async insert(item: XyoBoundWitnessWithPartialMeta) {
+  async insert(item: BoundWitnessWithPartialMeta) {
     const _timestamp = Date.now()
     const wrapper = new BoundWitnessWrapper(item)
     return await super.insertOne({
@@ -69,7 +69,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     })
   }
 
-  override async insertMany(items: XyoBoundWitnessWithPartialMeta[]) {
+  override async insertMany(items: BoundWitnessWithPartialMeta[]) {
     const _timestamp = Date.now()
     const itemsToInsert = items.map((item) => {
       const wrapper = new BoundWitnessWrapper(item)
@@ -83,15 +83,15 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
     return await super.insertMany(itemsToInsert)
   }
 
-  async updateByHash(hash: string, bw: XyoBoundWitnessWithPartialMeta) {
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+  async updateByHash(hash: string, bw: BoundWitnessWithPartialMeta) {
+    return await this.useCollection(async (collection: Collection<BoundWitnessWithPartialMeta>) => {
       return await collection.updateMany({ _archive: this._archive, _hash: hash }, bw)
     })
   }
 
   private async findAfterQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+    return await this.useCollection((collection: Collection<BoundWitnessWithPartialMeta>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
         .sort({ _timestamp: 1 })
@@ -102,7 +102,7 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
 
   private async findBeforeQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+    return await this.useCollection((collection: Collection<BoundWitnessWithPartialMeta>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
         .sort({ _timestamp: -1 })
@@ -113,14 +113,14 @@ export class XyoArchivistBoundWitnessMongoSdk extends BaseMongoSdk<XyoBoundWitne
 
   private async findByHashQuery(hash: string, timestamp?: number) {
     const predicate = timestamp ? { _archive: this._archive, _hash: hash, _timestamp: timestamp } : { _archive: this._archive, _hash: hash }
-    return await this.useCollection(async (collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+    return await this.useCollection(async (collection: Collection<BoundWitnessWithPartialMeta>) => {
       return await collection.find(predicate).maxTimeMS(this._maxTime)
     })
   }
 
   private async findRecentQuery(limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoBoundWitnessWithPartialMeta>) => {
+    return await this.useCollection((collection: Collection<BoundWitnessWithPartialMeta>) => {
       return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
     })
   }

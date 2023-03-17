@@ -1,6 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder, XyoQueryBoundWitness } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -33,7 +33,7 @@ describe('Node API', () => {
         expect(data).toBeTruthy()
         const [bw, payloads] = data
         expect(bw).toBeObject()
-        expect(bw.schema).toBe(XyoBoundWitnessSchema)
+        expect(bw.schema).toBe(BoundWitnessSchema)
         validateModuleDiscoverQueryResponse(payloads)
       })
     })
@@ -89,7 +89,7 @@ const getModuleResponse = async (address?: string): Promise<Payload[]> => {
   return response.body.data as Payload[]
 }
 
-const postModuleQuery = async (data: [XyoQueryBoundWitness, Payload[]], address?: string): Promise<[XyoBoundWitness, Payload[]]> => {
+const postModuleQuery = async (data: [XyoQueryBoundWitness, Payload[]], address?: string): Promise<[BoundWitness, Payload[]]> => {
   const path = address ? `/node/${address}` : '/node'
   const redirects = address ? 0 : 1
   const response = await (await request()).post(path).redirects(redirects).send(data).expect(StatusCodes.OK)
@@ -98,7 +98,7 @@ const postModuleQuery = async (data: [XyoQueryBoundWitness, Payload[]], address?
   expect(response.body.data).toBeArray()
   const [bw, payloads] = response.body.data
   expect(bw).toBeObject()
-  expect(bw.schema).toBe(XyoBoundWitnessSchema)
+  expect(bw.schema).toBe(BoundWitnessSchema)
   expect(payloads).toBeArray()
   expect(payloads.length).toBeGreaterThan(0)
   return [bw, payloads]

@@ -3,7 +3,7 @@
     "WithPayloadMeta",
     "Payload",
     "PayloadFull",
-    "XyoBoundWitness",
+    "BoundWitness",
     "DataLike",
     "Huri",
     "XyoSchemaPayload"

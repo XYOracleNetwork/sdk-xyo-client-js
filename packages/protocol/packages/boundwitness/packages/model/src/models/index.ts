@@ -1,3 +1,3 @@
-export * from './XyoBoundWitness'
-export * from './XyoBoundWitnessJsonSchema'
-export * from './XyoBoundWitnessSchema'
+export * from './BoundWitness'
+export * from './BoundWitnessJsonSchema'
+export * from './BoundWitnessSchema'

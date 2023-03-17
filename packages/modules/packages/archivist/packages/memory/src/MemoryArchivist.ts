@@ -11,7 +11,7 @@ import {
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
 } from '@xyo-network/archivist-interface'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleParams } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -66,7 +66,7 @@ export class MemoryArchivist<
     this.cache.clear()
   }
 
-  override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<BoundWitness[]> {
     const payloads = assertEx(await this.all(), 'Nothing to commit')
     const settled = await Promise.allSettled(
       compact(
@@ -104,7 +104,7 @@ export class MemoryArchivist<
     )
   }
 
-  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     payloads.map((payload) => {
       const wrapper = new PayloadWrapper(payload)
       const payloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
@@ -113,7 +113,7 @@ export class MemoryArchivist<
     })
 
     const result = await this.bindResult([...payloads])
-    const parentBoundWitnesses: XyoBoundWitness[] = []
+    const parentBoundWitnesses: BoundWitness[] = []
     const parents = await this.parents()
     if (Object.entries(parents.write ?? {}).length) {
       //we store the child bw also

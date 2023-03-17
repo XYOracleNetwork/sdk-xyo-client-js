@@ -17,7 +17,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistModule,
 } from '@xyo-network/archivist-interface'
-import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { Module, ModuleWrapper } from '@xyo-network/module'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -52,10 +52,10 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
     await this.sendQuery(queryPayload)
   }
 
-  async commit(): Promise<XyoBoundWitness[]> {
+  async commit(): Promise<BoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistCommitQuery>({ schema: ArchivistCommitQuerySchema })
     const result = await this.sendQuery(queryPayload)
-    return result.filter(isXyoBoundWitnessPayload)
+    return result.filter(isBoundWitnessPayload)
   }
 
   async delete(hashes: string[]) {
@@ -78,15 +78,14 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
     return result
   }
 
-  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
       payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
       schema: ArchivistInsertQuerySchema,
     })
     const query = await this.bindQuery(queryPayload, payloads)
     const result = await this.module.query(query[0], [queryPayload.payload, ...payloads])
-    const innerBoundWitnesses =
-      result[1]?.filter<XyoBoundWitness>((payload): payload is XyoBoundWitness => payload?.schema === XyoBoundWitnessSchema) ?? []
+    const innerBoundWitnesses = result[1]?.filter<BoundWitness>((payload): payload is BoundWitness => payload?.schema === BoundWitnessSchema) ?? []
     this.throwErrors(query, result)
     return [result[0], ...innerBoundWitnesses]
   }

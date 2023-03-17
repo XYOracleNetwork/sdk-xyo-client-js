@@ -1,4 +1,4 @@
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AbstractModule, Module, ModuleConfig, ModuleConfigSchema, XyoQueryBoundWitness } from '@xyo-network/module'
 import { ArchiveModuleConfig } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -20,7 +20,7 @@ export const getQueryConfig = async (
     const nestedBwAddresses =
       payloads
         ?.flat(5)
-        .filter<XyoBoundWitness>((payload): payload is XyoBoundWitness => payload?.schema === XyoBoundWitnessSchema)
+        .filter<BoundWitness>((payload): payload is BoundWitness => payload?.schema === BoundWitnessSchema)
         .map((bw) => bw.addresses) || []
     const addresses = [bw.addresses, ...nestedBwAddresses].filter((address) => address.length)
     const allowed = addresses.length ? Object.fromEntries(archivist.queries.map((schema) => [schema, addresses])) : {}

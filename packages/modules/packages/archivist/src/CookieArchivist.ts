@@ -12,7 +12,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistParams,
 } from '@xyo-network/archivist-interface'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -90,7 +90,7 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     }
   }
 
-  override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<BoundWitness[]> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
@@ -140,7 +140,7 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     }
   }
 
-  async insert(payloads: Payload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     try {
       const storedPayloads: Payload[] = payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
@@ -151,7 +151,7 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
         return wrapper.payload
       })
       const result = await this.bindResult([...storedPayloads])
-      const parentBoundWitnesses: XyoBoundWitness[] = []
+      const parentBoundWitnesses: BoundWitness[] = []
       const parents = await this.parents()
       if (Object.entries(parents.write ?? {}).length) {
         //we store the child bw also

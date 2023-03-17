@@ -1,7 +1,7 @@
-//Should type as JSONSchemaType<XyoBoundWitness> once ajv/eslint issue is fixed
+//Should type as JSONSchemaType<BoundWitness> once ajv/eslint issue is fixed
 //https://github.com/microsoft/TypeScript/issues/44851
 
-export const XyoBoundWitnessJsonSchema = () => {
+export const BoundWitnessJsonSchema = () => {
   return {
     $id: 'https://schemas.xyo.network/2.0/boundwitness',
     additionalProperties: false,

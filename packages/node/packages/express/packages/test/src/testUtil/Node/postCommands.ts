@@ -1,10 +1,10 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { StatusCodes } from 'http-status-codes'
 
 import { request } from '../Server'
 
 export const postCommandsToArchive = async (
-  commands: XyoBoundWitness[],
+  commands: BoundWitness[],
   archive: string,
   token?: string,
   expectedStatus: StatusCodes = StatusCodes.ACCEPTED,

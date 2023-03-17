@@ -5,10 +5,10 @@ Date.now = jest.fn(() => timestamp)
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
-import { PayloadWithMeta, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
@@ -44,15 +44,15 @@ describe('DeterministicArchivist', () => {
   boundWitnessWrapper3.payloads = [payload3, payload4]
 
   let archivist: ArchivistWrapper
-  let insertResult1: XyoBoundWitness[]
-  // let insertResult2: XyoBoundWitness[]
-  let insertResult3: XyoBoundWitness[]
-  const insertResults: XyoBoundWitness[][] = []
+  let insertResult1: BoundWitness[]
+  // let insertResult2: BoundWitness[]
+  let insertResult3: BoundWitness[]
+  const insertResults: BoundWitness[][] = []
   beforeAll(async () => {
     jest.spyOn(Account, 'random').mockImplementation(() => randomAccount)
     boundWitnessesConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
     payloadsConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
-    const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
+    const boundWitnesses: BaseMongoSdk<BoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
     const payloads: BaseMongoSdk<PayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const module = await MongoDBDeterministicArchivist.create({
       account: moduleAccount,
@@ -130,7 +130,7 @@ describe('DeterministicArchivist', () => {
   })
   describe.skip('find', () => {
     describe('with schema for BoundWitness', () => {
-      const schema = XyoBoundWitnessSchema
+      const schema = BoundWitnessSchema
       it.each([
         ['finds single boundwitness', [boundWitnessWrapper1]],
         ['finds multiple boundwitness', [boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3]],

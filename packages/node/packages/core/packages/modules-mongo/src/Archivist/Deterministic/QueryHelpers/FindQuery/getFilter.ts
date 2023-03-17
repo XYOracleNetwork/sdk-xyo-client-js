@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistFindQuery, ArchivistQuery } from '@xyo-network/archivist'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/module'
-import { PayloadWithMeta, XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Filter } from 'mongodb'
 
 import { getArchive } from '../getArchive'
 
-export type BoundWitnessesFilter = Filter<XyoBoundWitnessWithMeta>
+export type BoundWitnessesFilter = Filter<BoundWitnessWithMeta>
 export type PayloadsFilter = Filter<PayloadWithMeta>
 
 export const getFilter = (
@@ -25,7 +25,7 @@ export const getFilter = (
   let schema: string[] | undefined = undefined
   if (typedQuery?.filter?.schema) {
     schema = Array.isArray(typedQuery?.filter?.schema) ? typedQuery?.filter?.schema : [typedQuery?.filter?.schema]
-    const payload_schemas = schema.filter((s) => s !== XyoBoundWitnessSchema)
+    const payload_schemas = schema.filter((s) => s !== BoundWitnessSchema)
     if (payload_schemas.length) {
       // bwFilter.payload_schemas = { $in: payload_schemas }
       payloadFilter.schema = { $in: payload_schemas }

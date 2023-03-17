@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AccountModuleParams,
@@ -224,7 +224,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     return promise
   }
 
-  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): XyoBoundWitness {
+  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): BoundWitness {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (account ? builder.witness(account) : builder).build()[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)

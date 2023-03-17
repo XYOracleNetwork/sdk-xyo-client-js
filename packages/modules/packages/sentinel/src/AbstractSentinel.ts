@@ -1,6 +1,6 @@
 import { AbstractArchivist, ArchivingModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
@@ -19,7 +19,7 @@ export abstract class AbstractSentinel<
 {
   static override configSchema: SentinelConfigSchema
 
-  history: XyoBoundWitness[] = []
+  history: BoundWitness[] = []
   private _archivists: ArchivistWrapper[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 

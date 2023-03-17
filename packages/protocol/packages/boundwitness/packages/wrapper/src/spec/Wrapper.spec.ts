@@ -1,4 +1,4 @@
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { BoundWitnessWrapper } from '../Wrapper'
@@ -9,13 +9,13 @@ describe('BoundWitnessWrapper', () => {
     const included2 = PayloadWrapper.parse({ schema: 'network.xyo.test.2' })
     const excluded1 = PayloadWrapper.parse({ schema: 'network.xyo.test.3' })
     const payloads = [included1, included2]
-    const bw: XyoBoundWitness = {
+    const bw: BoundWitness = {
       _signatures: [],
       addresses: [],
       payload_hashes: payloads.map((p) => p.hash),
       payload_schemas: payloads.map((p) => p.schema),
       previous_hashes: [],
-      schema: XyoBoundWitnessSchema,
+      schema: BoundWitnessSchema,
     }
     describe('get', () => {
       describe('when no payloads set', () => {

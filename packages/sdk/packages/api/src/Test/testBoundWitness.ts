@@ -1,6 +1,6 @@
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 
-const testBoundWitness: XyoBoundWitness = {
+const testBoundWitness: BoundWitness = {
   _archive: 'temp',
   _client: 'js',
   _hash: 'b0ffb9ebf872dc316b7be48327256c5316f7cb84d7c706861b18b86af1942dea',
@@ -10,7 +10,7 @@ const testBoundWitness: XyoBoundWitness = {
   payload_hashes: ['20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c'],
   payload_schemas: ['network.xyo.test'],
   previous_hashes: [null],
-  schema: XyoBoundWitnessSchema,
-} as XyoBoundWitness
+  schema: BoundWitnessSchema,
+} as BoundWitness
 
 export { testBoundWitness }

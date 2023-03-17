@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { DivinerConfig, DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -41,7 +41,7 @@ export class MemoryAddressSpaceDiviner<TParams extends MemoryAddressSpaceDiviner
       await Promise.all(
         archivists.map(async (archivist) => {
           const all = await archivist.all?.()
-          return (all?.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]) ?? []
+          return (all?.filter((payload) => payload.schema === BoundWitnessSchema) as BoundWitness[]) ?? []
         }),
       )
     ).flat()

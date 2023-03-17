@@ -1,6 +1,6 @@
 {
   "intentionallyNotExported": [
-    "XyoBoundWitness",
+    "BoundWitness",
     "XyoAccount",
     "XyoArchivistApi",
     "XyoWitness",

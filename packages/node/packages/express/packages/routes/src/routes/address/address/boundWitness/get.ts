@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { asyncHandler, NoReqBody, NoReqQuery, tryParseInt } from '@xylabs/sdk-api-express-ecs'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper } from '@xyo-network/diviner'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
 import { scrubBoundWitnesses, trimAddressPrefix } from '@xyo-network/node-core-lib'
@@ -20,7 +20,7 @@ export interface GetAddressHistoryQueryParams extends NoReqQuery {
   offset?: string
 }
 
-const handler: RequestHandler<AddressPathParams, XyoBoundWitness[], NoReqBody, GetAddressHistoryQueryParams> = async (req, res, next) => {
+const handler: RequestHandler<AddressPathParams, BoundWitness[], NoReqBody, GetAddressHistoryQueryParams> = async (req, res, next) => {
   const { limit, offset } = req.query
   const { address } = req.params
   const { node } = req.app
@@ -32,7 +32,7 @@ const handler: RequestHandler<AddressPathParams, XyoBoundWitness[], NoReqBody, G
     query.offset = offset
   }
   const addressHistoryDiviner = await resolveBySymbol(node, TYPES.AddressHistoryDiviner)
-  const boundWitness = ((await DivinerWrapper.wrap(addressHistoryDiviner).divine([query])) as (XyoBoundWitness | null)[]).filter(exists)
+  const boundWitness = ((await DivinerWrapper.wrap(addressHistoryDiviner).divine([query])) as (BoundWitness | null)[]).filter(exists)
   if (boundWitness) {
     res.json(scrubBoundWitnesses(boundWitness))
   } else {

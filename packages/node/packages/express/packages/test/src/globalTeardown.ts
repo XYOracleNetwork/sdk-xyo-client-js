@@ -8,5 +8,4 @@ import { Config } from 'jest'
  */
 module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
   await globalThis.mongo.stop()
-  globalThis.sever.close()
 }

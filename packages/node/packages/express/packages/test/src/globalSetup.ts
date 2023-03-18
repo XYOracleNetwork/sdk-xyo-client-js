@@ -1,19 +1,19 @@
 /* eslint-disable no-var */
 import { config } from 'dotenv'
 config()
-import { getServer } from '@xyo-network/express-node-server'
+import { getApp } from '@xyo-network/express-node-server'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
-import { Server } from 'http'
+import { Express } from 'express'
 import { Config } from 'jest'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
-import { agent, SuperAgentTest } from 'supertest'
+import supertest, { SuperTest, Test } from 'supertest'
 
 // Augment global scope with shared variables (must be var)
 declare global {
+  var app: Express
   var mongo: MongoMemoryReplSet
-  var req: SuperAgentTest
-  var sever: Server
+  var req: SuperTest<Test>
 }
 
 const database = process.env.MONGO_DATABASE || 'archivist'
@@ -34,12 +34,9 @@ const setupMongo = async () => {
 }
 
 const setupNode = async () => {
-  const port = parseInt(process.env.APP_PORT || '8080')
-  const server = await getServer(port)
-  globalThis.sever = server
-  globalThis.req = agent(server)
-  const baseURL = req.get('/').url
-  process.env.baseURL = baseURL
+  globalThis.app = await getApp()
+  globalThis.req = supertest(app)
+  process.env.API_DOMAIN = req.get('/').url
 }
 
 /**

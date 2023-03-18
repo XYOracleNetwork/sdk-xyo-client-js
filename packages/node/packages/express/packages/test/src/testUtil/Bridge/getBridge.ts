@@ -5,7 +5,7 @@ let bridge: HttpBridge
 
 export const getBridge = async (): Promise<HttpBridge> => {
   if (bridge) return bridge
-  const baseURL = process.env.baseURL
+  const baseURL = process.env.API_DOMAIN
   const axios = new AxiosJson({ baseURL })
   const nodeUri = '/node'
   const schema = HttpBridgeConfigSchema

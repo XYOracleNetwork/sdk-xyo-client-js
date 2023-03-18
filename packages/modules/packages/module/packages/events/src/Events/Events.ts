@@ -13,6 +13,11 @@ See API for more information on how debugging works.
 */
 export type DebugLogger = (type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => void
 
+type EventListenerInfo<TEventArgs extends EventArgs = EventArgs> = {
+  filter?: TEventArgs
+  listener: EventListener<TEventArgs>
+}
+
 /**
 Configure debug options of an instance.
 */
@@ -41,7 +46,7 @@ export type EventsParams = BaseParams<{ readonly debug?: DebugOptions }>
 
 export class Events<TEventData extends EventData = EventData> extends Base<EventsParams> implements EventFunctions<TEventData> {
   protected static anyMap = new WeakMap<object, Set<EventAnyListener>>()
-  protected static eventsMap = new WeakMap<object, Map<EventName, Set<EventListener>>>()
+  protected static eventsMap = new WeakMap<object, Map<EventName, Set<EventListenerInfo>>>()
 
   private static canEmitMetaEvents = false
   private static isGlobalDebugEnabled = false
@@ -76,7 +81,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     }
     super(mutatedParams)
     Events.anyMap.set(this, new Set<EventAnyListener>())
-    Events.eventsMap.set(this, new Map<keyof TEventData, Set<EventListener>>())
+    Events.eventsMap.set(this, new Map<keyof TEventData, Set<EventListenerInfo>>())
   }
 
   static get isDebugEnabled() {
@@ -136,7 +141,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     }
   }
 
-  async emitSerial<TEventName extends keyof TEventData>(eventName: TEventName, eventArgs: TEventData[TEventName]) {
+  async emitSerial<TEventName extends keyof TEventData>(eventName: TEventName, eventArgs: TEventData[TEventName], filter?: TEventData[TEventName]) {
     if (isMetaEvent(eventName) && !Events.canEmitMetaEvents) {
       throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
     }
@@ -144,22 +149,19 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     this.logIfDebugEnabled('emitSerial', eventName, eventArgs)
 
     const listeners = this.getListeners(eventName) ?? new Set()
+    const filteredListeners = [...listeners.values()].filter((value) => (filter ? value.listener : true)).map((info) => info.listener)
     const anyListeners = assertEx(Events.anyMap.get(this))
-    const staticListeners = [...listeners]
+    const staticListeners = [...filteredListeners]
     const staticAnyListeners = [...anyListeners]
 
     await resolvedPromise
 
     for (const listener of staticListeners) {
-      if (listeners.has(listener)) {
-        await this.safeCallListener(eventName, eventArgs, listener)
-      }
+      await this.safeCallListener(eventName, eventArgs, listener)
     }
 
     for (const listener of staticAnyListeners) {
-      if (anyListeners.has(listener)) {
-        await this.safeCallAnyListener(eventName, eventArgs, listener)
-      }
+      await this.safeCallAnyListener(eventName, eventArgs, listener)
     }
   }
 
@@ -191,10 +193,13 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     }
   }
 
-  off<TEventName extends keyof TEventData>(eventNames: TEventName | TEventName[], listener: EventListener<TEventData[TEventName]>) {
+  off<TEventName extends keyof TEventData, TEventListener = EventListener<TEventData[TEventName]>>(
+    eventNames: TEventName | TEventName[],
+    listener: TEventListener,
+  ) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
     for (const eventName of eventNamesArray) {
-      const set = this.getListeners(eventName) as Set<EventListener<TEventData[TEventName]>>
+      const set = this.getListeners(eventName) as Set<TEventListener>
       if (set) {
         set.delete(listener)
         if (set.size === 0) {
@@ -219,7 +224,11 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     forget(this.emitMetaEvent('listenerRemoved', { listener: listener as EventAnyListener }))
   }
 
-  on<TEventName extends keyof TEventData = keyof TEventData>(eventNames: TEventName | TEventName[], listener: EventListener<TEventData[TEventName]>) {
+  on<TEventName extends keyof TEventData = keyof TEventData>(
+    eventNames: TEventName | TEventName[],
+    listener: EventListener<TEventData[TEventName]>,
+    filter?: TEventData[TEventName],
+  ) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
     for (const eventName of eventNamesArray) {
       let set = this.getListeners(eventName)
@@ -229,7 +238,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
         events?.set(eventName, set)
       }
 
-      set.add(listener as EventListener)
+      set.add({ filter, listener: listener as EventListener })
 
       this.logIfDebugEnabled('subscribe', eventName, undefined)
 
@@ -261,6 +270,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
   private async emitInternal<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
     eventName: TEventName,
     eventArgs: TEventArgs,
+    filter?: TEventArgs,
   ) {
     if (isMetaEvent(eventName) && !Events.canEmitMetaEvents) {
       throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
@@ -269,16 +279,15 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     this.logIfDebugEnabled('emit', eventName, eventArgs)
 
     const listeners = this.getListeners(eventName) ?? new Set()
+    const filteredListeners = [...listeners.values()].filter((value) => (filter ? value.listener : true)).map((info) => info.listener)
     const anyListeners = assertEx(Events.anyMap.get(this))
-    const staticListeners = [...listeners]
+    const staticListeners = [...filteredListeners]
     const staticAnyListeners = isMetaEvent(eventName) ? [] : [...anyListeners]
 
     await resolvedPromise
     await Promise.all([
       ...staticListeners.map(async (listener) => {
-        if (listeners.has(listener)) {
-          await this.safeCallListener(eventName, eventArgs, listener)
-        }
+        await this.safeCallListener(eventName, eventArgs, listener)
       }),
       ...staticAnyListeners.map(async (listener) => {
         if (anyListeners.has(listener)) {
@@ -299,16 +308,15 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     this.logIfDebugEnabled('emit', eventName, eventArgs)
 
     const listeners = this.getListeners(eventName) ?? new Set()
+    const filteredListeners = [...listeners.values()].map((info) => info.listener)
     const anyListeners = assertEx(Events.anyMap.get(this))
-    const staticListeners = [...listeners]
+    const staticListeners = [...filteredListeners]
     const staticAnyListeners = isMetaEvent(eventName) ? [] : [...anyListeners]
 
     await resolvedPromise
     await Promise.all([
       ...staticListeners.map(async (listener) => {
-        if (listeners.has(listener)) {
-          await this.safeCallListener(eventName, eventArgs, listener)
-        }
+        await this.safeCallListener(eventName, eventArgs, listener)
       }),
       ...staticAnyListeners.map(async (listener) => {
         if (anyListeners.has(listener)) {
@@ -318,7 +326,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     ])
   }
 
-  private getListeners(eventName: keyof TEventData) {
+  private getListeners<TEventName extends keyof TEventData>(eventName: TEventName) {
     const events = assertEx(Events.eventsMap.get(this))
     if (!events.has(eventName)) {
       return

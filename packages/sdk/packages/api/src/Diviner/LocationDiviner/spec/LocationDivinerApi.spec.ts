@@ -18,7 +18,7 @@ const getLocationApiConfig = (): ApiConfig => {
 }
 
 const getArchiveConfig = (): XyoApiConfig => {
-  const apiDomain = (process.env.API_DOMAIN || 'http://localhost:8080').replace(/\/$/, '')
+  const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   return { apiDomain }
 }
 

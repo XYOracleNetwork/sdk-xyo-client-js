@@ -13,7 +13,7 @@ test('Must have tests defined', () => {
 export const getApiConfig = (configData: Partial<XyoApiConfig> = {}): XyoApiConfig => {
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   const defaults: XyoApiConfig = {
-    apiDomain: apiDomain.replace(/\/$/, ''),
+    apiDomain,
     onError: (error) => error,
     onFailure: (response) => response,
     onSuccess: (response) => response,

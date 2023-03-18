@@ -36,7 +36,7 @@ const setupMongo = async () => {
 const setupNode = async () => {
   globalThis.app = await getApp()
   globalThis.req = supertest(app)
-  process.env.API_DOMAIN = req.get('/').url
+  process.env.API_DOMAIN = req.get('/').url.replace(/\/$/, '')
 }
 
 /**

@@ -1,32 +1,27 @@
 /* eslint-disable no-var */
 import { config } from 'dotenv'
 config()
-import { getApp } from '@xyo-network/express-node-server'
+import { HttpBridge } from '@xyo-network/http-bridge'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { Express } from 'express'
 import { Config } from 'jest'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
-import supertest, { SuperTest, Test } from 'supertest'
+import { SuperTest, Test } from 'supertest'
 
 // Augment global scope with shared variables (must be var)
 declare global {
   var app: Express
   var baseURL: string
+  var bridge: HttpBridge
   var mongo: MongoMemoryReplSet
   var req: SuperTest<Test>
 }
 
 const database = process.env.MONGO_DATABASE || 'archivist'
 
-/**
- * Jest global setup method runs before any tests are run
- * https://jestjs.io/docs/configuration#globalsetup-string
- */
-module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
-  PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
-
-  // https://nodkz.github.io/mongodb-memory-server/docs/guides/quick-start-guide/#replicaset
+const setupMongo = async () => {
+  // https://nodkz.async github.io/mongodb-memory-server/docs/guides/quick-start-guide/#replicaset
   // This will create an new instance of "MongoMemoryReplSet" and automatically start all Servers
   // To use Transactions, the "storageEngine" needs to be changed to `wiredTiger`
   const mongo = await MongoMemoryReplSet.create({
@@ -38,10 +33,13 @@ module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
   const mongoConnectionString = uri.split('/').slice(0, -1).concat(database).join('/') + uri.split('/').slice(-1)
   // Recreate connection string to ReplicaSet adding default DB in the proper place
   process.env.MONGO_CONNECTION_STRING = mongoConnectionString
+}
 
-  globalThis.app = await getApp()
-  globalThis.req = supertest(app)
-  globalThis.baseURL = req.get('/').url
-
-  await Promise.resolve()
+/**
+ * Jest global setup method runs before any tests are run
+ * https://jestjs.io/docs/configuration#globalsetup-string
+ */
+module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
+  PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
+  await setupMongo()
 }

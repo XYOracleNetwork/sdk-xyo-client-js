@@ -9,7 +9,7 @@ const generateJestConfig = ({ esModules }) => {
     },
     preset: 'ts-jest/presets/default-esm',
     setupFiles: ['dotenv/config'],
-    setupFilesAfterEnv: ['jest-sorted', 'jest-extended/all'],
+    setupFilesAfterEnv: ['jest-sorted', 'jest-extended/all', './packages/node/packages/express/packages/test/src/setupFiles.ts'],
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
     testTimeout: 20000,
     transform: {

@@ -49,7 +49,7 @@ export const getApp = async (node?: MemoryNode): Promise<Express> => {
   return transport.app
 }
 
-export const server = async (port = 80, node?: MemoryNode) => {
+export const getServer = async (port = 80, node?: MemoryNode) => {
   node = node ?? (await MemoryNode.create())
   const app = await getApp(node)
   const logger = dependencies.get<Logger>(TYPES.Logger)

@@ -59,4 +59,5 @@ export const server = async (port = 80, node?: MemoryNode) => {
     logger.log(`Server listening at http://localhost:${port}`)
   })
   server.setTimeout(3000)
+  return server
 }

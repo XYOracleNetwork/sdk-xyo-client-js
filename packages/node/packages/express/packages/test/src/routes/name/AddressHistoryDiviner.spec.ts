@@ -4,9 +4,9 @@ import { getApp } from '@xyo-network/express-node-server'
 import { HttpBridge, HttpBridgeConfigSchema, XyoHttpBridgeParams } from '@xyo-network/http-bridge'
 import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
-import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import supertest, { SuperTest, Test } from 'supertest'
+
+import { validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
 
 const moduleName = 'AddressHistoryDiviner'
 
@@ -49,12 +49,3 @@ describe(`/${moduleName}`, () => {
     })
   })
 })
-
-// TODO: Move to helpers lib
-const validateDiscoverResponseContainsQuerySchemas = (response: XyoPayload[], querySchemas: string[]) => {
-  const queries = response.filter<QueryPayload>((p): p is QueryPayload => p.schema === QuerySchema)
-  expect(queries.length).toBeGreaterThan(0)
-  querySchemas.forEach((querySchema) => {
-    expect(queries.some((p) => p.query === querySchema)).toBeTrue()
-  })
-}

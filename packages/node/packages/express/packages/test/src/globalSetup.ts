@@ -4,18 +4,16 @@ config()
 import { HttpBridge } from '@xyo-network/http-bridge'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
-import { Express } from 'express'
+import { Server } from 'http'
 import { Config } from 'jest'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
-import { SuperTest, Test } from 'supertest'
 
 // Augment global scope with shared variables (must be var)
 declare global {
-  var app: Express
+  var app: Server
   var baseURL: string
   var bridge: HttpBridge
   var mongo: MongoMemoryReplSet
-  var req: SuperTest<Test>
 }
 
 const database = process.env.MONGO_DATABASE || 'archivist'

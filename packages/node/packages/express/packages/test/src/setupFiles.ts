@@ -1,21 +1,11 @@
 import { AxiosJson } from '@xyo-network/axios'
-import { getApp } from '@xyo-network/express-node-server'
+import { server } from '@xyo-network/express-node-server'
 import { HttpBridge, HttpBridgeConfigSchema, XyoHttpBridgeParams } from '@xyo-network/http-bridge'
-import { Express } from 'express'
-import supertest, { SuperTest, Test } from 'supertest'
-
-/* eslint-disable no-var */
-declare global {
-  var app: Express
-  var baseURL: string
-  var bridge: HttpBridge
-  var req: SuperTest<Test>
-}
 
 const setupNode = async () => {
-  globalThis.app = await getApp()
-  globalThis.req = supertest(app)
-  globalThis.baseURL = req.get('/').url
+  const port = parseInt(process.env.APP_PORT || '8080')
+  globalThis.app = await server(port)
+  globalThis.baseURL = `http://localhost:${port}`
 }
 
 const setupBridge = async () => {

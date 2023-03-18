@@ -1,6 +1,5 @@
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
 import { createServer, Server } from 'http'
 import compact from 'lodash/compact'

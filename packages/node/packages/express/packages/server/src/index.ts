@@ -49,14 +49,15 @@ export const getApp = async (node?: MemoryNode): Promise<Express> => {
   return transport.app
 }
 
-export const server = async (port = 80, node?: MemoryNode) => {
+export const getServer = async (port = 80, node?: MemoryNode) => {
   node = node ?? (await MemoryNode.create())
   const app = await getApp(node)
   const logger = dependencies.get<Logger>(TYPES.Logger)
   const host = process.env.PUBLIC_ORIGIN || `http://localhost:${port}`
   await configureDoc(app, { host })
-  const server = app.listen(port, () => {
+  const server = app.listen(port, '0.0.0.0', () => {
     logger.log(`Server listening at http://localhost:${port}`)
   })
   server.setTimeout(3000)
+  return server
 }

@@ -6,12 +6,12 @@ import { HttpBridge } from '../HttpBridge'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 test('HttpBridge', async () => {
-  const nodeUri = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
+  const baseURL = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
   const memNode = await MemoryNode.create()
 
   const bridge = await HttpBridge.create({
-    axios: new AxiosJson(),
-    config: { nodeUri: `${nodeUri}/node`, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+    axios: new AxiosJson({ baseURL }),
+    config: { nodeUri: '/node', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
   })
 
   const wrapper = NodeWrapper.wrap(
@@ -32,7 +32,7 @@ test('HttpBridge', async () => {
 })
 
 test('HttpBridge - Nested', async () => {
-  const nodeUri = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
+  const baseURL = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
   const memNode1 = await MemoryNode.create()
   const memNode2 = await MemoryNode.create()
   const memNode3 = await MemoryNode.create()
@@ -41,8 +41,8 @@ test('HttpBridge - Nested', async () => {
   await memNode2.register(memNode3).attach(memNode3.address, true)
 
   const bridge = await HttpBridge.create({
-    axios: new AxiosJson(),
-    config: { nodeUri: `${nodeUri}/node`, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+    axios: new AxiosJson({ baseURL }),
+    config: { nodeUri: '/node', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
   })
 
   const wrapper = NodeWrapper.wrap(

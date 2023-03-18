@@ -9,7 +9,7 @@ import { configureEnvironment, configureTransports } from './configuration'
 const config = { schema: NodeConfigSchema }
 
 export const getNode = async (account = Account.random()): Promise<MemoryNode> => {
-  PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
+  PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new XyoSchemaNameValidator(schema))
   const params: MemoryNodeParams = { account, config }
   const node = (await MemoryNode.create(params)) as MemoryNode
   await configureEnvironment(node)

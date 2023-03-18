@@ -1,30 +1,17 @@
-import { AxiosJson } from '@xyo-network/axios'
 import { uuid } from '@xyo-network/core'
-import { getApp } from '@xyo-network/express-node-server'
-import { HttpBridge, HttpBridgeConfigSchema, XyoHttpBridgeParams } from '@xyo-network/http-bridge'
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
-import supertest, { SuperTest, Test } from 'supertest'
 
-describe('/Archivist', () => {
-  let req: SuperTest<Test>
+import { getBridge, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+
+const moduleName = 'Archivist'
+
+describe(`/${moduleName}`, () => {
   let archivist: ArchivistWrapper
   beforeAll(async () => {
-    req = supertest(await getApp())
-    const baseURL = req.get('/').url
-    expect(baseURL).toBeTruthy()
-    const axios = new AxiosJson({ baseURL })
-    const name = ['Archivist']
-    const nodeUri = '/node'
-    const schema = HttpBridgeConfigSchema
-    const security = { allowAnonymous: true }
-    const config = { nodeUri, schema, security }
-    const params: XyoHttpBridgeParams = { axios, config }
-    const bridge = await HttpBridge.create(params)
-    const modules = await bridge.downResolver.resolve({ name })
+    const name = [moduleName]
+    const modules = await (await getBridge()).downResolver.resolve({ name })
     expect(modules).toBeArrayOfSize(1)
     const mod = modules.pop()
     expect(mod).toBeTruthy()
@@ -65,12 +52,3 @@ describe('/Archivist', () => {
     })
   })
 })
-
-// TODO: Move to helpers lib
-const validateDiscoverResponseContainsQuerySchemas = (response: XyoPayload[], querySchemas: string[]) => {
-  const queries = response.filter<QueryPayload>((p): p is QueryPayload => p.schema === QuerySchema)
-  expect(queries.length).toBeGreaterThan(0)
-  querySchemas.forEach((querySchema) => {
-    expect(queries.some((p) => p.query === querySchema)).toBeTrue()
-  })
-}

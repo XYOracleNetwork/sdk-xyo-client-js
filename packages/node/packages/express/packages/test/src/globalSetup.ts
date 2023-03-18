@@ -7,10 +7,12 @@ import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { Server } from 'http'
 import { Config } from 'jest'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
+import { agent, SuperAgentTest } from 'supertest'
 
 // Augment global scope with shared variables (must be var)
 declare global {
   var mongo: MongoMemoryReplSet
+  var req: SuperAgentTest
   var sever: Server
 }
 
@@ -33,8 +35,10 @@ const setupMongo = async () => {
 
 const setupNode = async () => {
   const port = parseInt(process.env.APP_PORT || '8080')
-  globalThis.sever = await getServer(port)
-  const baseURL = `http://localhost:${port}`
+  const server = await getServer(port)
+  globalThis.sever = server
+  globalThis.req = agent(server)
+  const baseURL = req.get('/').url
   process.env.baseURL = baseURL
 }
 
@@ -43,7 +47,7 @@ const setupNode = async () => {
  * https://jestjs.io/docs/configuration#globalsetup-string
  */
 module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
-  PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
+  PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new XyoSchemaNameValidator(schema))
   await setupMongo()
   await setupNode()
 }

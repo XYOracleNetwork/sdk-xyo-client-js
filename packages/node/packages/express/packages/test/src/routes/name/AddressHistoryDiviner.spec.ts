@@ -2,7 +2,7 @@ import { uuid } from '@xyo-network/core'
 import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { getBridge, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
 
 const moduleName = 'AddressHistoryDiviner'
 
@@ -10,7 +10,7 @@ describe(`/${moduleName}`, () => {
   let sut: DivinerWrapper
   beforeAll(async () => {
     const name = [moduleName]
-    const modules = await bridge.downResolver.resolve({ name })
+    const modules = await (await getBridge()).downResolver.resolve({ name })
     expect(modules).toBeArrayOfSize(1)
     const mod = modules.pop()
     expect(mod).toBeTruthy()

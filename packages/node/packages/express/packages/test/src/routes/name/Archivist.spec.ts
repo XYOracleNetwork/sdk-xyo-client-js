@@ -3,7 +3,7 @@ import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper }
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { getBridge, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
 
 const moduleName = 'Archivist'
 
@@ -11,7 +11,7 @@ describe(`/${moduleName}`, () => {
   let archivist: ArchivistWrapper
   beforeAll(async () => {
     const name = [moduleName]
-    const modules = await bridge.downResolver.resolve({ name })
+    const modules = await (await getBridge()).downResolver.resolve({ name })
     expect(modules).toBeArrayOfSize(1)
     const mod = modules.pop()
     expect(mod).toBeTruthy()

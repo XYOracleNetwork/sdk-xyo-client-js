@@ -45,18 +45,19 @@ const setupNode = async () => {
   globalThis.app = await getApp()
   globalThis.req = supertest(app)
   globalThis.baseURL = req.get('/').url
+  process.env.baseURL = baseURL
 }
 
-const setupBridge = async () => {
-  const axios = new AxiosJson({ baseURL })
-  const nodeUri = '/node'
-  const schema = HttpBridgeConfigSchema
-  const security = { allowAnonymous: true }
-  const config = { nodeUri, schema, security }
-  const params: XyoHttpBridgeParams = { axios, config }
-  const bridge = await HttpBridge.create(params)
-  globalThis.bridge = bridge
-}
+// const setupBridge = async () => {
+//   const axios = new AxiosJson({ baseURL })
+//   const nodeUri = '/node'
+//   const schema = HttpBridgeConfigSchema
+//   const security = { allowAnonymous: true }
+//   const config = { nodeUri, schema, security }
+//   const params: XyoHttpBridgeParams = { axios, config }
+//   const bridge = await HttpBridge.create(params)
+//   globalThis.bridge = bridge
+// }
 
 /**
  * Jest global setup method runs before any tests are run
@@ -66,5 +67,5 @@ module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
   PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
   await setupMongo()
   await setupNode()
-  await setupBridge()
+  // await setupBridge()
 }

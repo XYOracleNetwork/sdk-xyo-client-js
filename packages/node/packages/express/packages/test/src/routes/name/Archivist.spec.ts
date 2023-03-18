@@ -40,8 +40,14 @@ describe('/Archivist', () => {
   describe('ArchivistInsertQuerySchema', () => {
     it('issues query', async () => {
       const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
+      const hash = PayloadWrapper.parse(payload).hash
       const response = await archivist.insert([payload])
-      expect(response).toBeArrayOfSize(1)
+      expect(response).toBeArray()
+      expect(response.length).toBeGreaterThan(0)
+      const bw = response.at(-1)
+      expect(bw).toBeObject()
+      expect(bw?.payload_hashes).toBeArray()
+      expect(bw?.payload_hashes).toContain(hash)
     })
   })
   describe('ArchivistGetQuerySchema', () => {

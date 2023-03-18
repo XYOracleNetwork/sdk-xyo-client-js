@@ -1,3 +1,4 @@
+import { describeIf } from '@xylabs/jest-helpers'
 import { XyoApiConfig } from '@xyo-network/api-models'
 
 import { ApiConfig } from '../ApiConfig'
@@ -17,7 +18,7 @@ const getLocationApiConfig = (): ApiConfig => {
 }
 
 const getArchiveConfig = (): XyoApiConfig => {
-  const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
+  const apiDomain = (process.env.API_DOMAIN || 'http://localhost:8080').replace(/\/$/, '')
   return { apiDomain }
 }
 
@@ -55,9 +56,7 @@ const getLocationHeatmapQueryCreationRequest = (): LocationHeatmapQueryCreationR
   }
 }
 
-const describeSkipIfNoDiviner = process.env.LOCATION_API_DOMAIN ? describe : describe.skip
-
-describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
+describeIf(process.env.LOCATION_API_DOMAIN)('XyoLocationDivinerApi', () => {
   describe('constructor', () => {
     it('returns a new XyoLocationDivinerApi', () => {
       const api = new XyoLocationDivinerApi(getLocationApiConfig())

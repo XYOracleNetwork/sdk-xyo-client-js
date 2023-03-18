@@ -1,11 +1,10 @@
 import { InfuraProvider } from '@ethersproject/providers'
+import { testIf } from '@xylabs/jest-helpers'
 
 import { getGasFromEthers } from '../getGasFromEthers'
 
 const projectId = process.env.INFURA_PROJECT_ID || ''
 const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
-
-const testIf = (condition: boolean | string | null | undefined) => (condition ? it : it.skip)
 
 describe('getGasFromEthers', () => {
   testIf(projectId && projectSecret)('returns prices', async () => {

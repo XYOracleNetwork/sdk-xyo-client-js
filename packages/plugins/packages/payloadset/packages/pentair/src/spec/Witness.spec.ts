@@ -1,8 +1,7 @@
+import { testIf } from '@xylabs/jest-helpers'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { XyoPentairScreenlogicWitness } from '../Witness'
-
-const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 
 describe('XyoPentairScreenLogicWitness', () => {
   testIf(process.env.TEST_PENTAIR)('Witnessing [no config]', async () => {

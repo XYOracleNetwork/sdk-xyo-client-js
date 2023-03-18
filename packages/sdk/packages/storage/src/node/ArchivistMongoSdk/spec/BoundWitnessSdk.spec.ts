@@ -1,6 +1,7 @@
 /* eslint-disable deprecation/deprecation */
 /* eslint-disable import/no-deprecated */
 import { assertEx } from '@xylabs/assert'
+import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -41,9 +42,8 @@ const getBoundWitnesses = (number = 5) => {
     )
   })
 }
-const describeSkipIfNoDB = process.env.MONGO_CONNECTION_STRING ? describe : describe.skip
 
-describeSkipIfNoDB('XyoArchivistBoundWitnessMongoSdk', () => {
+describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistBoundWitnessMongoSdk', () => {
   const numBoundWitnesses = 20
   const limit = 10
   let sdk: XyoArchivistBoundWitnessMongoSdk

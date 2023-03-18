@@ -8,7 +8,7 @@ import { XyoEthereumGasEthersWitness } from './Witness'
 const projectId = process.env.INFURA_PROJECT_ID || ''
 const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
 
-const testIf = (condition: string | undefined) => (condition ? it : it.skip)
+import { testIf } from '@xylabs/jest-helpers'
 
 describe('XyoEthereumGasEthersWitness', () => {
   testIf(projectId && projectSecret)('returns observation', async () => {

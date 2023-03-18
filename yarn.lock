@@ -4853,6 +4853,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
   dependencies:
+    "@xylabs/jest-helpers": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"

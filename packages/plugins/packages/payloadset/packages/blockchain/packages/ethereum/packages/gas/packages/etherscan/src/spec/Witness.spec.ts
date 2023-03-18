@@ -1,3 +1,4 @@
+import { testIf } from '@xylabs/jest-helpers'
 import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -5,8 +6,6 @@ import { XyoEthereumGasEtherscanWitnessConfigSchema } from '../Schema'
 import { XyoEthereumGasEtherscanWitness } from '../Witness'
 
 const apiKey = process.env.ETHERSCAN_API_KEY || ''
-
-const testIf = (condition: string | undefined) => (condition ? it : it.skip)
 
 describe('XyoEthereumGasEtherscanWitness', () => {
   testIf(apiKey)('returns observation', async () => {

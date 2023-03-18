@@ -20,6 +20,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
+    "@xylabs/jest-helpers": "^2.7.4",
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"

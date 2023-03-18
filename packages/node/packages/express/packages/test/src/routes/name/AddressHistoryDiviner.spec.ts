@@ -10,7 +10,7 @@ describe(`/${moduleName}`, () => {
   let sut: DivinerWrapper
   beforeAll(async () => {
     const name = [moduleName]
-    const modules = await globalThis.bridge.downResolver.resolve({ name })
+    const modules = await bridge.downResolver.resolve({ name })
     expect(modules).toBeArrayOfSize(1)
     const mod = modules.pop()
     expect(mod).toBeTruthy()

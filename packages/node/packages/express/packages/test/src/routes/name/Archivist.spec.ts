@@ -14,13 +14,14 @@ describe('/Archivist', () => {
       expect(response.body.data).toBeArray()
       const data: Payload[] = response.body.data
       expect(data).toBeArray()
-      validateDiscoverResponseContains(data, [ArchivistGetQuerySchema, ArchivistInsertQuerySchema])
+      validateDiscoverResponseContainsQuerySchemas(data, [ArchivistGetQuerySchema, ArchivistInsertQuerySchema])
     })
   })
 })
 
-const validateDiscoverResponseContains = (data: XyoPayload[], querySchemas: string[]) => {
-  const queries = data.filter<QueryPayload>((p): p is QueryPayload => p.schema === QuerySchema)
+// TODO: Move to helpers lib
+const validateDiscoverResponseContainsQuerySchemas = (response: XyoPayload[], querySchemas: string[]) => {
+  const queries = response.filter<QueryPayload>((p): p is QueryPayload => p.schema === QuerySchema)
   expect(queries.length).toBeGreaterThan(0)
   querySchemas.forEach((querySchema) => {
     expect(queries.some((p) => p.query === querySchema)).toBeTrue()

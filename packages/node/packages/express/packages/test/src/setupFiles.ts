@@ -29,7 +29,11 @@ const setupBridge = async () => {
   globalThis.bridge = bridge
 }
 
+let setup = false
+
 beforeAll(async () => {
+  if (setup) return
+  setup = true
   await setupNode()
   await setupBridge()
 })

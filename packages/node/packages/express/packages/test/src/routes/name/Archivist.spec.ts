@@ -1,52 +1,61 @@
-import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { AxiosJson } from '@xyo-network/axios'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { uuid } from '@xyo-network/core'
 import { getApp } from '@xyo-network/express-node-server'
 import { HttpBridge, HttpBridgeConfigSchema, XyoHttpBridgeParams } from '@xyo-network/http-bridge'
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, XyoPayload } from '@xyo-network/payload-model'
+import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
-import { Express } from 'express'
-import { StatusCodes } from 'http-status-codes'
 import supertest, { SuperTest, Test } from 'supertest'
 
-import { request } from '../../testUtil'
-
-const name = ['Archivist']
-const path = '/Archivist'
-const security = { allowAnonymous: true }
-
 describe('/Archivist', () => {
-  const account = Account.random()
-  let bridge: HttpBridge
   let req: SuperTest<Test>
-  let app: Express
+  let archivist: ArchivistWrapper
   beforeAll(async () => {
-    app = await getApp()
-    req = supertest(app)
+    req = supertest(await getApp())
     const baseURL = req.get('/').url
-    // const discover = await req.get('/')
-    // const address = assertEx((discover.body.data as XyoPayload[]).find<AddressPayload>((p): p is AddressPayload => p.schema === AddressSchema))
+    expect(baseURL).toBeTruthy()
+    const axios = new AxiosJson({ baseURL })
+    const name = ['Archivist']
     const nodeUri = '/node'
-    const params: XyoHttpBridgeParams = {
-      axios: new AxiosJson({ baseURL }),
-      config: { nodeUri, schema: HttpBridgeConfigSchema, security },
-    }
-    bridge = await HttpBridge.create(params)
+    const schema = HttpBridgeConfigSchema
+    const security = { allowAnonymous: true }
+    const config = { nodeUri, schema, security }
+    const params: XyoHttpBridgeParams = { axios, config }
+    const bridge = await HttpBridge.create(params)
+    const modules = await bridge.downResolver.resolve({ name })
+    expect(modules).toBeArrayOfSize(1)
+    const mod = modules.pop()
+    expect(mod).toBeTruthy()
+    archivist = ArchivistWrapper.wrap(mod)
   })
-  describe('Discover', () => {
-    it('issues Discover query', async () => {
-      const modules = await bridge.downResolver.resolve({ name })
-      expect(modules).toBeArrayOfSize(1)
-      const mod = modules.pop()
-      expect(mod).toBeTruthy()
-      const archivist = ArchivistWrapper.wrap(mod)
-      const discover = await archivist.discover()
-      expect(discover).toBeArray()
-      validateDiscoverResponseContainsQuerySchemas(discover, [ArchivistGetQuerySchema, ArchivistInsertQuerySchema])
+  describe('ModuleDiscoverQuerySchema', () => {
+    it('issues query', async () => {
+      const response = await archivist.discover()
+      expect(response).toBeArray()
+      validateDiscoverResponseContainsQuerySchemas(response, [ArchivistGetQuerySchema, ArchivistInsertQuerySchema])
+    })
+  })
+  describe('ArchivistInsertQuerySchema', () => {
+    it('issues query', async () => {
+      const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
+      const response = await archivist.insert([payload])
+      expect(response).toBeArrayOfSize(1)
+    })
+  })
+  describe('ArchivistGetQuerySchema', () => {
+    const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
+    beforeAll(async () => {
+      const result = await archivist.insert([payload])
+      expect(result).toBeTruthy()
+    })
+    it('issues query', async () => {
+      const hash = PayloadWrapper.parse(payload).hash
+      const response = await archivist.get([hash])
+      expect(response).toBeArrayOfSize(1)
+      const actual = response.pop()
+      expect(PayloadWrapper.parse(actual).hash).toBe(hash)
     })
   })
 })

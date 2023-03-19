@@ -141,15 +141,29 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     }
   }
 
-  async emitSerial<TEventName extends keyof TEventData>(eventName: TEventName, eventArgs: TEventData[TEventName], filter?: TEventData[TEventName]) {
+  async emitSerial<TEventName extends keyof TEventData>(eventName: TEventName, eventArgs: TEventData[TEventName]) {
     if (isMetaEvent(eventName) && !Events.canEmitMetaEvents) {
       throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
+    }
+
+    const filterMatch = (args: TEventData[TEventName], filter: TEventData[TEventName]) => {
+      if (filter) {
+        switch (typeof filter) {
+          case 'object':
+            return Object.entries(args).reduce((prev, [key, value]) => ((filter as Record<PropertyKey, unknown>)[key] === value ? true : prev), false)
+          default:
+            return args === filter
+        }
+      }
+      return true
     }
 
     this.logIfDebugEnabled('emitSerial', eventName, eventArgs)
 
     const listeners = this.getListeners(eventName) ?? new Set()
-    const filteredListeners = [...listeners.values()].filter((value) => (filter ? value.listener : true)).map((info) => info.listener)
+    const filteredListeners = [...listeners.values()]
+      .filter((value) => (value.filter ? filterMatch(eventArgs, value.filter as TEventData[TEventName]) : true))
+      .map((info) => info.listener)
     const anyListeners = assertEx(Events.anyMap.get(this))
     const staticListeners = [...filteredListeners]
     const staticAnyListeners = [...anyListeners]

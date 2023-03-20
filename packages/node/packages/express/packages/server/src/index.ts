@@ -1,5 +1,5 @@
 import { Logger } from '@xylabs/sdk-api-express-ecs'
-import { configureDependencies, dependencies } from '@xyo-network/express-node-dependencies'
+import { configureDependencies, container } from '@xyo-network/express-node-dependencies'
 import { configureDoc } from '@xyo-network/express-node-middleware'
 import { addRoutes } from '@xyo-network/express-node-routes'
 import { AbstractNode, MemoryNode } from '@xyo-network/modules'
@@ -52,7 +52,7 @@ export const getApp = async (node?: MemoryNode): Promise<Express> => {
 export const getServer = async (port = 80, node?: MemoryNode) => {
   node = node ?? (await MemoryNode.create())
   const app = await getApp(node)
-  const logger = dependencies.get<Logger>(TYPES.Logger)
+  const logger = container.get<Logger>(TYPES.Logger)
   const host = process.env.PUBLIC_ORIGIN || `http://localhost:${port}`
   await configureDoc(app, { host })
   const server = app.listen(port, '0.0.0.0', () => {

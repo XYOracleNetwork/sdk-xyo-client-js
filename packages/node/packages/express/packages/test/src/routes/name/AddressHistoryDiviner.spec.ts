@@ -1,8 +1,8 @@
 import { uuid } from '@xyo-network/core'
-import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
+import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { getBridge, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { getArchivist, getBridge, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
 
 const moduleName = 'AddressHistoryDiviner'
 
@@ -24,9 +24,18 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe.skip('XyoDivinerDivineQuerySchema', () => {
+    let address: string
+    beforeAll(async () => {
+      const archivist = await getArchivist()
+      for (let i = 0; i < 10; i++) {
+        const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
+        await archivist.insert([payload])
+      }
+      address = archivist.address
+    })
     it('issues query', async () => {
-      const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
-      const response = await sut.divine([payload])
+      const query: AddressHistoryQueryPayload = { address, limit: 1, schema: AddressHistoryQuerySchema }
+      const response = await sut.divine([query])
       expect(response).toBeArray()
       expect(response.length).toBeGreaterThan(0)
       const result = response.pop()

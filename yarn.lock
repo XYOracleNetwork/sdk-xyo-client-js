@@ -4864,6 +4864,7 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/huri": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    jest: ^29.5.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6856,12 +6857,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/prometheus-node-plugin@workspace:packages/plugins/packages/payloadset/packages/prometheus"
   dependencies:
+    "@types/lodash": ^4.14.191
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
+    lodash: ^4.17.21
     prom-client: ^14.2.0
     typescript: ^4.9.5
   languageName: unknown

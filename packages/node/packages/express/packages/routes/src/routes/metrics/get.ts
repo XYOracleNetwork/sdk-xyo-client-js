@@ -4,9 +4,9 @@ import { RequestHandler } from 'express'
 
 const handler: RequestHandler<NoReqParams> = async (req, res) => {
   setRawResponseFormat(res)
-  const { node } = req.app
-  await Promise.resolve()
-  res.send()
+  const { prometheusNodeWitness: Prometheus } = req.app
+  res.contentType(Prometheus.registry.contentType)
+  res.end(await Prometheus.registry.metrics())
 }
 
 export const getMetrics = asyncHandler(handler)

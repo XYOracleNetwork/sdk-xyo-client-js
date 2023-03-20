@@ -23,11 +23,14 @@ const diviners = [
   TYPES.SchemaStatsDiviner,
 ]
 
+const witnesses = [TYPES.PrometheusWitness]
+
 export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   await addDependenciesToNodeByType(container, node, archivists)
   await addDependenciesToNodeByType(container, node, diviners)
+  await addDependenciesToNodeByType(container, node, witnesses)
 }
 
 const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {

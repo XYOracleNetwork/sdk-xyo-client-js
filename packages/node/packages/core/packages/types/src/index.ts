@@ -1,23 +1,19 @@
 import { ARCHIVIST_TYPES } from './archivist'
 import { DIVINER_TYPES } from './diviner'
+import { JOB_TYPES } from './job'
 import { MODULE_TYPES } from './module'
-import { ModuleList } from './ModuleList'
+import { WITNESS_TYPES } from './witness'
 
-export { ModuleList } from './ModuleList'
-
-export const TYPES: ModuleList = {
+export const TYPES = {
   ...ARCHIVIST_TYPES,
   ...DIVINER_TYPES,
+  ...JOB_TYPES,
   ...MODULE_TYPES,
+  ...WITNESS_TYPES,
   ApiKey: Symbol('ApiKey'),
-  JobProvider: Symbol('JobProvider'),
-  JobQueue: Symbol('JobQueue'),
   JwtSecret: Symbol('JwtSecret'),
   Logger: Symbol('Logger'),
   PasswordHasher: Symbol('PasswordHasher'),
-  PayloadToQueryConverterRegistry: Symbol('PayloadToQueryConverterRegistry'),
-  QueryQueue: Symbol('QueryQueue'),
-  ResponseQueue: Symbol('ResponseQueue'),
   SchemaToQueryProcessorRegistry: Symbol('SchemaToQueryProcessorRegistry'),
   UserManager: Symbol('UserManager'),
 }

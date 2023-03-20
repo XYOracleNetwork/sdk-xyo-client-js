@@ -1,4 +1,6 @@
 ignores:
   [
-    "@xylabs/jest-helpers"
+    "@types/jest",
+    "@xylabs/jest-helpers",
+    "jest"
   ]

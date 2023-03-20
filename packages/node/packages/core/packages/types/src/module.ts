@@ -1,6 +1,4 @@
-import { ModuleList } from './ModuleList'
-
-export const MODULE_TYPES: ModuleList = {
+export const MODULE_TYPES = {
   Module: Symbol('Module'),
   Node: Symbol('Node'),
 }

@@ -1,3 +1,4 @@
+import { Account } from '@xyo-network/account'
 import { uuid } from '@xyo-network/core'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -23,18 +24,17 @@ describe(`/${moduleName}`, () => {
       validateDiscoverResponseContainsQuerySchemas(response, [XyoDivinerDivineQuerySchema])
     })
   })
-  describe.skip('XyoDivinerDivineQuerySchema', () => {
-    let address: string
+  describe('XyoDivinerDivineQuerySchema', () => {
+    const account = Account.random()
     beforeAll(async () => {
-      const archivist = await getArchivist()
+      const archivist = await getArchivist(account)
       for (let i = 0; i < 10; i++) {
         const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
         await archivist.insert([payload])
       }
-      address = archivist.address
     })
     it('issues query', async () => {
-      const query: AddressSpaceQueryPayload = { address, limit: 1, schema: AddressSpaceQuerySchema }
+      const query: AddressSpaceQueryPayload = { schema: AddressSpaceQuerySchema }
       const response = await sut.divine([query])
       expect(response).toBeArray()
       expect(response.length).toBeGreaterThan(0)

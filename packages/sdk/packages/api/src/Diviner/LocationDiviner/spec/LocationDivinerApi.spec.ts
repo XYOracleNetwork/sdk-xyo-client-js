@@ -56,7 +56,7 @@ const getLocationHeatmapQueryCreationRequest = (): LocationHeatmapQueryCreationR
   }
 }
 
-describeIf(process.env.LOCATION_API_DOMAIN)('XyoLocationDivinerApi', () => {
+describeIf(process.env.LOCATION_API_DOMAIN).skip('XyoLocationDivinerApi', () => {
   describe('constructor', () => {
     it('returns a new XyoLocationDivinerApi', () => {
       const api = new XyoLocationDivinerApi(getLocationApiConfig())

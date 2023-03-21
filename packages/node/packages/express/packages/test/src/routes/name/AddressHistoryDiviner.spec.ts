@@ -3,7 +3,7 @@ import { uuid } from '@xyo-network/core'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { getArchivist, getDivinerByName, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { getArchivist, getDivinerByName, validateDiscoverResponse } from '../../testUtil'
 
 const divinerName = 'AddressHistoryDiviner'
 
@@ -16,7 +16,7 @@ describe(`/${divinerName}`, () => {
     it('issues query', async () => {
       const response = await sut.discover()
       expect(response).toBeArray()
-      validateDiscoverResponseContainsQuerySchemas(response, [XyoDivinerDivineQuerySchema])
+      validateDiscoverResponse(response, [XyoDivinerDivineQuerySchema])
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {

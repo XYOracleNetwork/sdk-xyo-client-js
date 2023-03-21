@@ -1,16 +1,8 @@
-import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
-import { StatusCodes } from 'http-status-codes'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { Payload } from '@xyo-network/payload-model'
 
-import { request } from '../Server'
+import { getExistingPayloadByHash } from '../Payload'
 
-export const getHash = async (
-  hash: string,
-  token?: string,
-  expectedStatus: StatusCodes = StatusCodes.OK,
-): Promise<BoundWitnessWithMeta | PayloadWithMeta> => {
-  const path = `/${hash}`
-  const response = token
-    ? await (await request()).get(path).auth(token, { type: 'bearer' }).expect(expectedStatus)
-    : await (await request()).get(path).expect(expectedStatus)
-  return response.body
+export const getHash = <T extends Payload>(hash: string): Promise<BoundWitness | Payload> => {
+  return getExistingPayloadByHash<T>(hash)
 }

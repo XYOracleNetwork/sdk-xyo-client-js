@@ -1,15 +1,15 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
-import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { request } from '../../testUtil'
+import { getRequestClient, validateDiscoverResponse } from '../../testUtil'
 
 describe('/:address', () => {
   let url = ''
+  const client = getRequestClient()
   beforeAll(async () => {
-    const result = await (await request()).get('/')
-    const node: Payload[] = result.body.data
+    const result = await client.get('/')
+    const node: Payload[] = result.data.data
     expect(node).toBeArray()
     const parentAddress = ''
     const child = node.find((p) => p.schema === AddressSchema && (p as AddressPayload)?.address !== parentAddress) as AddressPayload
@@ -18,26 +18,12 @@ describe('/:address', () => {
     url = `/${address}`
   })
   it(`returns ${ReasonPhrases.OK}`, async () => {
-    const result = await (await request()).get(url)
+    const result = await client.get(url)
     expect(result.status).toBe(StatusCodes.OK)
   })
-  it('returns the address for the module', async () => {
-    const result = await (await request()).get(url)
-    const data = result.body.data as Payload[]
-    expect(data).toBeArray()
-    expect(data.length).toBeGreaterThan(0)
-    const addressPayload = data.find((p) => p.schema === AddressSchema) as AddressPayload
-    expect(addressPayload).toBeObject()
-    expect(addressPayload.address).toBeString()
-    const { address } = addressPayload
-    return { address }
-  })
-  it('returns the supported queries for the module', async () => {
-    const result = await (await request()).get(url)
-    const data = result.body.data as Payload[]
-    expect(data).toBeArray()
-    expect(data.length).toBeGreaterThan(0)
-    const queries = data.filter((d) => d.schema === QuerySchema) as QueryPayload[]
-    expect(queries.length).toBeGreaterThan(0)
+  it('returns the discover query for the module', async () => {
+    const result = await client.get(url)
+    const data = result.data.data as Payload[]
+    validateDiscoverResponse(data)
   })
 })

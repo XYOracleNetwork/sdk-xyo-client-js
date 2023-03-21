@@ -6750,6 +6750,7 @@ __metadata:
     "@xylabs/tsconfig-jest": ^2.16.1
     "@xyo-network/account": "workspace:^"
     "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/axios": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
@@ -6758,6 +6759,7 @@ __metadata:
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"

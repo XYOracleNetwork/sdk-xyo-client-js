@@ -1,5 +1,4 @@
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
-import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { getArchivist, getNewPayload, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'

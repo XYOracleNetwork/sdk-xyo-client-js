@@ -10,9 +10,11 @@ export const signInUser = async (user: TestWeb3User): Promise<string> => {
   expect(challengeResponse.status).toBe(StatusCodes.OK)
   const { state } = challengeResponse.data
   const wallet = new Wallet(user.privateKey)
+  const { address } = wallet
   const signature = await wallet.signMessage(state)
-  const verifyBody = { address: wallet.address, message: state, signature }
-  const tokenResponse = await client.post(`/account/${wallet.address}/verify`, verifyBody)
+  const message = state
+  const verifyBody = { address, message, signature }
+  const tokenResponse = await client.post(`/account/${address}/verify`, verifyBody)
   expect(tokenResponse.status).toBe(StatusCodes.OK)
   const { token } = tokenResponse.data
   expect(token).toBeString()

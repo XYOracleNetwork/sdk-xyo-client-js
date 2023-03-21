@@ -5,9 +5,10 @@ import { AsyncContainerModule, interfaces } from 'inversify'
 import { COLLECTIONS } from '../collections'
 import { MONGO_TYPES } from '../mongoTypes'
 import { getBaseMongoSdk } from './getBaseMongoSdk'
+import { addIndexes } from './Indexes'
 
 export const SdkContainerModule = new AsyncContainerModule(async (bind: interfaces.Bind) => {
-  await Promise.resolve()
+  await addIndexes()
   const boundWitnessSdk = getBaseMongoSdk<BoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
   const payloadSdk = getBaseMongoSdk<PayloadWithMeta>(COLLECTIONS.Payloads)
   const userSdk = getBaseMongoSdk<User>(COLLECTIONS.Users)

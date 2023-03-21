@@ -1,15 +1,10 @@
-import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistModule, ArchivistWrapper } from '@xyo-network/archivist'
 
-import { getBridge } from '../Bridge'
+import { unitTestSigningAccount } from '../Account'
+import { getModuleByName } from '../Node'
 
-export const getArchivist = async (account?: AccountInstance): Promise<ArchivistWrapper> => {
-  const name = ['Archivist']
-  const modules = await (await getBridge()).downResolver.resolve({ name })
-  expect(modules).toBeArrayOfSize(1)
-  const archivist = modules.pop()
-  expect(archivist).toBeObject()
-  const module = assertEx(archivist)
-  return account ? new ArchivistWrapper({ account, module }) : ArchivistWrapper.wrap(archivist)
+export const getArchivist = async (account: AccountInstance = unitTestSigningAccount): Promise<ArchivistWrapper> => {
+  const module = await getModuleByName<ArchivistModule>('Archivist')
+  return new ArchivistWrapper({ account, module })
 }

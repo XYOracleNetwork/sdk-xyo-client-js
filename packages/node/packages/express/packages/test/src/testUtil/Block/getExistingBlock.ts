@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 
 import { request } from '../Server'
 
-export const getBlockByHash = async (
+export const getExistingBlockByHash = async (
   token: string,
   archive: string,
   hash: string,

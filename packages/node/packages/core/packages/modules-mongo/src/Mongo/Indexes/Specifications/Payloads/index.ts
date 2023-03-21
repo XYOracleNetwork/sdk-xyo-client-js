@@ -1,3 +1,3 @@
 import { IndexDescription } from 'mongodb'
 
-export const Payloads: IndexDescription[] = []
+export const PayloadsIndexes: IndexDescription[] = []

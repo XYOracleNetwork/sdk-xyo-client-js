@@ -1,3 +1,3 @@
 import { IndexDescription } from 'mongodb'
 
-export const BoundWitnesses: IndexDescription[] = []
+export const BoundWitnessesIndexes: IndexDescription[] = []

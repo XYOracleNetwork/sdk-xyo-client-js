@@ -1,3 +1,5 @@
 import { IndexDescription } from 'mongodb'
 
-export const ArchivistStats: IndexDescription[] = []
+import { UX_archive } from './UX_archive'
+
+export const ArchivistStatsIndexes: IndexDescription[] = [UX_archive]

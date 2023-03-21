@@ -1,3 +1,5 @@
-export const addIndexes = async () => {
+import { Db } from 'mongodb'
+
+export const addIndexes = async (db: Db) => {
   await Promise.resolve()
 }

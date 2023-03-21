@@ -1,3 +1,3 @@
 export * from './getExistingBlock'
 export * from './getNewBlock'
-export * from './postBlock'
+export * from './insertBlock'

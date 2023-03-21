@@ -6,7 +6,7 @@ type ValueOf<T> = T[keyof T]
 
 type Collection = ValueOf<typeof COLLECTIONS>
 
-const indexes: Record<Collection, IndexDescription[]> = {
+const indexesByCollection: Record<Collection, IndexDescription[]> = {
   archive_keys: [],
   archives: [],
   archivist_stats: [],
@@ -16,7 +16,9 @@ const indexes: Record<Collection, IndexDescription[]> = {
 }
 
 export const addIndexes = async (db: Db) => {
-  for (const [collection, indexSpecs] of Object.entries(indexes)) {
-    await db.collection(collection).createIndexes(indexSpecs)
+  for (const [collection, indexSpecs] of Object.entries(indexesByCollection)) {
+    if (indexSpecs.length > 0) {
+      await db.collection(collection).createIndexes(indexSpecs)
+    }
   }
 }

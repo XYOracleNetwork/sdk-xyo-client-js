@@ -1,6 +1,3 @@
-export * from './getBlocks'
-export * from './getBlocksByTimestamp'
 export * from './getExistingBlock'
 export * from './getNewBlock'
-export * from './getRecentBlocks'
 export * from './postBlock'

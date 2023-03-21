@@ -1,9 +1,9 @@
 import { AxiosJson } from '@xyo-network/axios'
-import { PayloadWithMeta } from '@xyo-network/node-core-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export const getExistingPayloadByHash = async (hash: string): Promise<PayloadWithMeta> => {
+export const getExistingPayloadByHash = async <T extends Payload = Payload>(hash: string): Promise<T> => {
   const baseURL = process.env.API_DOMAIN
   const axios = new AxiosJson({ baseURL })
-  const response = await axios.get<PayloadWithMeta>(`/${hash}`)
+  const response = await axios.get<T>(`/${hash}`)
   return response.data
 }

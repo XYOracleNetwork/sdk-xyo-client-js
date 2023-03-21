@@ -4,7 +4,8 @@ import { uuid } from '@xyo-network/core'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { getArchivist, getBridge, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { getArchivist, getBridge, getNewPayload, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { insertPayload } from '../../testUtil/Payload/insertPayload'
 
 const moduleName = 'AddressSpaceDiviner'
 
@@ -28,10 +29,8 @@ describe(`/${moduleName}`, () => {
   describe('XyoDivinerDivineQuerySchema', () => {
     const account = Account.random()
     beforeAll(async () => {
-      const archivist = await getArchivist(account)
-      for (let i = 0; i < 10; i++) {
-        const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
-        await archivist.insert([payload])
+      for (let i = 0; i < 5; i++) {
+        await insertPayload(getNewPayload(), account)
       }
     })
     it('issues query', async () => {

@@ -36,6 +36,6 @@ export const insertBlock = async (
   account: AccountInstance = unitTestSigningAccount,
 ): Promise<BoundWitness[]> => {
   const archivist = await getArchivist(account)
-  const payloads = Array.isArray(boundWitnesses) ? boundWitnesses : [boundWitnesses]
-  return archivist.insert(payloads)
+  const data = Array.isArray(boundWitnesses) ? boundWitnesses : [boundWitnesses]
+  return archivist.insert(data)
 }

@@ -6,8 +6,8 @@ import { JobQueueContainerModule } from './JobQueue'
 import { ManagerContainerModule } from './Manager'
 import { SdkContainerModule } from './Mongo'
 
-export const addMongo = (container: Container) => {
-  container.load(SdkContainerModule)
+export const addMongo = async (container: Container) => {
+  await container.loadAsync(SdkContainerModule)
   container.load(ArchivistContainerModule)
   container.load(DivinerContainerModule)
   container.load(ManagerContainerModule)

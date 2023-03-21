@@ -1,10 +1,11 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases } from 'http-status-codes'
 
-import { getHash, getNewBlocksWithPayloads, getNewBlockWithPayloads, insertBlock } from '../../../testUtil'
+import { getHash, getNewBlocksWithPayloads, getNewBlockWithPayloads, insertBlock, insertPayload } from '../../../testUtil'
 
 describe('/:hash', () => {
   const account = Account.random()
@@ -22,6 +23,8 @@ describe('/:hash', () => {
     beforeAll(async () => {
       const blockResponse = await insertBlock(block, account)
       expect(blockResponse.length).toBe(2)
+      const payloadResponse = await insertPayload(payload, account)
+      expect(payloadResponse.length).toBe(2)
     })
     it('a single bound witness', async () => {
       const response = await getHash(boundWitnessHash)
@@ -44,7 +47,7 @@ describe('/:hash', () => {
   describe('with public archive', () => {
     const boundWitness = getNewBlockWithPayloads(1)
     expect(boundWitness).toBeTruthy()
-    const boundWitnessHash = boundWitness?._hash as string
+    const boundWitnessHash = BoundWitnessWrapper.parse(boundWitness).hash
     expect(boundWitnessHash).toBeTruthy()
     const payload = boundWitness._payloads?.[0]
     expect(payload).toBeTruthy()
@@ -73,7 +76,7 @@ describe('/:hash', () => {
   describe('with private archive', () => {
     const boundWitness = getNewBlockWithPayloads(1)
     expect(boundWitness).toBeTruthy()
-    const boundWitnessHash = boundWitness?._hash as string
+    const boundWitnessHash = BoundWitnessWrapper.parse(boundWitness).hash
     expect(boundWitnessHash).toBeTruthy()
     const payload = boundWitness._payloads?.[0]
     expect(payload).toBeTruthy()

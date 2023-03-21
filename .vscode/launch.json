@@ -59,7 +59,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/node/packages/express/packages/test/src/routes/name/Archivist.spec.ts"
+        "packages/node/packages/express/packages/test/src/routes/hash/get/get.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

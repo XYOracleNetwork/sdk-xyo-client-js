@@ -30,7 +30,7 @@ describe('Node API', () => {
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
         const send = [query[0], [...query[1]]]
         const response = await client.post(path, send)
-        const { data } = response.data.data
+        const data = response.data.data
         expect(data).toBeTruthy()
         const [bw, payloads] = data
         expect(bw).toBeObject()
@@ -42,7 +42,7 @@ describe('Node API', () => {
   describe('/<address>', () => {
     let address: string | undefined = undefined
     beforeAll(async () => {
-      const response = await client.get<Payload[]>(path)
+      const response = await client.get<{ data: Payload[] }>(path)
       const data = response.data.data
       const { address: parentAddress } = getModuleAddress(data)
       const child = data.find((p) => p.schema === AddressSchema && (p as AddressPayload)?.address !== parentAddress) as AddressPayload
@@ -50,15 +50,15 @@ describe('Node API', () => {
     })
     describe('GET', () => {
       it('returns module describe', async () => {
-        const response = await client.get<Payload[]>(path)
+        const response = await client.get<{ data: Payload[] }>(path)
         const data = response.data.data
         validateDiscoverResponse(data)
       })
       it('can get Node by address', async () => {
-        const nodeResponse = await client.get<Payload[]>(path)
+        const nodeResponse = await client.get<{ data: Payload[] }>(path)
         const data = nodeResponse.data.data
         const { address: nodeAddress } = getModuleAddress(data)
-        const response = await client.get<Payload[]>(`/${nodeAddress}`)
+        const response = await client.get<{ data: Payload[] }>(`/${nodeAddress}`)
         validateDiscoverResponse(response.data.data)
       })
     })

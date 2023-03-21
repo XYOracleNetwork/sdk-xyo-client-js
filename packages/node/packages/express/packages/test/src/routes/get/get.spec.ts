@@ -13,7 +13,7 @@ describe('/', () => {
     })
     it('the root node discover', async () => {
       const result = await client.get('/')
-      const response: Payload[] = result.data
+      const response: Payload[] = result.data.data
       expect(response).toBeDefined()
       expect(response).toBeArray()
       validateDiscoverResponse(response, [

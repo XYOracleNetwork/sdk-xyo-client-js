@@ -3,19 +3,14 @@ import { uuid } from '@xyo-network/core'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { getArchivist, getBridge, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { getArchivist, getDivinerByName, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
 
-const moduleName = 'AddressHistoryDiviner'
+const divinerName = 'AddressHistoryDiviner'
 
-describe(`/${moduleName}`, () => {
+describe(`/${divinerName}`, () => {
   let sut: DivinerWrapper
   beforeAll(async () => {
-    const name = [moduleName]
-    const modules = await (await getBridge()).downResolver.resolve({ name })
-    expect(modules).toBeArrayOfSize(1)
-    const mod = modules.pop()
-    expect(mod).toBeTruthy()
-    sut = DivinerWrapper.wrap(mod)
+    sut = await getDivinerByName(divinerName)
   })
   describe('ModuleDiscoverQuerySchema', () => {
     it('issues query', async () => {

@@ -3,19 +3,14 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 
-import { getBridge, getNewPayload, insertPayload, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { getDivinerByName, getNewPayload, insertPayload, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
 
-const moduleName = 'AddressSpaceDiviner'
+const divinerName = 'AddressSpaceDiviner'
 
-describe(`/${moduleName}`, () => {
+describe(`/${divinerName}`, () => {
   let sut: DivinerWrapper
   beforeAll(async () => {
-    const name = [moduleName]
-    const modules = await (await getBridge()).downResolver.resolve({ name })
-    expect(modules).toBeArrayOfSize(1)
-    const mod = modules.pop()
-    expect(mod).toBeTruthy()
-    sut = DivinerWrapper.wrap(mod)
+    sut = await getDivinerByName(divinerName)
   })
   describe('ModuleDiscoverQuerySchema', () => {
     it('issues query', async () => {

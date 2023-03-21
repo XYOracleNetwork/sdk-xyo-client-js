@@ -1,10 +1,12 @@
+import { Account } from '@xyo-network/account'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { uuid } from '@xyo-network/core'
-import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
+import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { getArchivist, getBridge, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
 
-const moduleName = 'AddressHistoryDiviner'
+const moduleName = 'AddressSpaceDiviner'
 
 describe(`/${moduleName}`, () => {
   let sut: DivinerWrapper
@@ -23,23 +25,25 @@ describe(`/${moduleName}`, () => {
       validateDiscoverResponseContainsQuerySchemas(response, [XyoDivinerDivineQuerySchema])
     })
   })
-  describe.skip('XyoDivinerDivineQuerySchema', () => {
-    let address: string
+  describe('XyoDivinerDivineQuerySchema', () => {
+    const account = Account.random()
     beforeAll(async () => {
-      const archivist = await getArchivist()
+      const archivist = await getArchivist(account)
       for (let i = 0; i < 10; i++) {
         const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
         await archivist.insert([payload])
       }
-      address = archivist.address
     })
     it('issues query', async () => {
-      const query: AddressHistoryQueryPayload = { address, limit: 1, schema: AddressHistoryQuerySchema }
+      const query: AddressSpaceQueryPayload = { schema: AddressSpaceQuerySchema }
       const response = await sut.divine([query])
       expect(response).toBeArray()
       expect(response.length).toBeGreaterThan(0)
-      const result = response.pop()
-      expect(result).toBeObject()
+      const addressPayloads = response.filter((p): p is AddressPayload => p.schema === AddressSchema)
+      const addresses = addressPayloads.map((p) => p.address)
+      expect(addresses).toBeArray()
+      expect(addresses.length).toBeGreaterThan(0)
+      expect(addresses).toContain(account.addressValue.hex)
     })
   })
 })

@@ -1,5 +1,5 @@
 export * from './Account'
-export * from './Archive'
+export * from './Archivist'
 export * from './Block'
 export * from './Bridge'
 export * from './Domain'

@@ -1,1 +1,1 @@
-export * from './ModuleDiscoverQuerySchema'
+export * from './ModuleDiscoverQuery'

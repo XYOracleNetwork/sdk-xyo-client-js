@@ -1,7 +1,7 @@
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { getArchivist, getNewPayload, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
+import { getArchivist, getNewPayload, validateDiscoverResponse } from '../../testUtil'
 
 const moduleName = 'Archivist'
 
@@ -15,7 +15,7 @@ describe(`/${moduleName}`, () => {
     it('issues query', async () => {
       const response = await archivist.discover()
       expect(response).toBeArray()
-      validateDiscoverResponseContainsQuerySchemas(response, [ArchivistGetQuerySchema, ArchivistInsertQuerySchema])
+      validateDiscoverResponse(response, [ArchivistGetQuerySchema, ArchivistInsertQuerySchema])
     })
   })
   describe('ArchivistInsertQuerySchema', () => {

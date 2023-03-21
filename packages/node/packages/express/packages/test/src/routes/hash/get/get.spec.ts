@@ -98,7 +98,7 @@ describe('/:hash', () => {
     expect(payloadHash).toBeTruthy()
     beforeAll(async () => {
       archive = getArchiveName()
-      const blockResponse = await postBlock(boundWitness, archive, ownerToken)
+      const blockResponse = await postBlock(boundWitness, ownerToken)
       expect(blockResponse.length).toBe(2)
     })
     describe.each([

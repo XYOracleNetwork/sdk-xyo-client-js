@@ -51,9 +51,9 @@ describe('Events', () => {
     })
   })
 
-  it('should emit parentTestNumber event', async () => {
+  it('should emit testNumber event', async () => {
     await callbackTest(async (complete) => {
-      sut.on('parentTestNumber', ({ testNumber }) => {
+      sut.on('testNumber', ({ testNumber }) => {
         expect(testNumber).toBeNumber()
         complete()
       })

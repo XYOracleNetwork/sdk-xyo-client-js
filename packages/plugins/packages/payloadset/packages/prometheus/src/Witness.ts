@@ -32,12 +32,14 @@ export class PrometheusNodeWitness<TParams extends PrometheusNodeWitnessParams =
 
   override async start(timeout?: number) {
     collectDefaultMetrics({ register: this._registry })
-    this.server = createServer(async (_request, response) => {
-      response.writeHead(200)
+    if (this.config.port) {
+      this.server = createServer(async (_request, response) => {
+        response.writeHead(200)
 
-      response.end(await this._registry.metrics())
-    })
-    this.server.listen(this.config.port ?? 3033)
+        response.end(await this._registry.metrics())
+      })
+      this.server.listen(this.config.port)
+    }
     return await super.start(timeout)
   }
 

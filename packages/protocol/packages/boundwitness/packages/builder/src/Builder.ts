@@ -42,7 +42,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     )
   }
 
-  build(): [TBoundWitness, TPayload[]] {
+  build(meta = false): [TBoundWitness, TPayload[]] {
     const hashableFields = this.hashableFields()
     const _hash = BoundWitnessWrapper.hash(hashableFields)
 
@@ -51,7 +51,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
       _signatures: this.signatures(_hash),
     }
 
-    if (this.config?.meta ?? true) {
+    if (meta ?? this.config?.meta) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const bwWithMeta = ret as any
       bwWithMeta._client = 'js'

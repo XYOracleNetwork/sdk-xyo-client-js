@@ -20,7 +20,7 @@ describe('Node API', () => {
     describe('GET', () => {
       it('returns node describe', async () => {
         const response = await client.get(path)
-        const data = response.data
+        const data = response.data.data
         validateDiscoverResponse(data)
       })
     })
@@ -30,7 +30,7 @@ describe('Node API', () => {
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
         const send = [query[0], [...query[1]]]
         const response = await client.post(path, send)
-        const { data } = response.data
+        const { data } = response.data.data
         expect(data).toBeTruthy()
         const [bw, payloads] = data
         expect(bw).toBeObject()
@@ -43,7 +43,7 @@ describe('Node API', () => {
     let address: string | undefined = undefined
     beforeAll(async () => {
       const response = await client.get<Payload[]>(path)
-      const data = response.data
+      const data = response.data.data
       const { address: parentAddress } = getModuleAddress(data)
       const child = data.find((p) => p.schema === AddressSchema && (p as AddressPayload)?.address !== parentAddress) as AddressPayload
       address = child.address
@@ -51,15 +51,15 @@ describe('Node API', () => {
     describe('GET', () => {
       it('returns module describe', async () => {
         const response = await client.get<Payload[]>(path)
-        const data = response.data
+        const data = response.data.data
         validateDiscoverResponse(data)
       })
       it('can get Node by address', async () => {
         const nodeResponse = await client.get<Payload[]>(path)
-        const data = nodeResponse.data
+        const data = nodeResponse.data.data
         const { address: nodeAddress } = getModuleAddress(data)
         const response = await client.get<Payload[]>(`/${nodeAddress}`)
-        validateDiscoverResponse(response.data)
+        validateDiscoverResponse(response.data.data)
       })
     })
     describe('POST', () => {
@@ -67,8 +67,8 @@ describe('Node API', () => {
         const path = address ? `/node/${address}` : '/node'
         const response = await client.post(path, data)
         expect(response).toBeTruthy()
-        expect(response.data).toBeArray()
-        const [bw, payloads] = response.data
+        expect(response.data.data).toBeArray()
+        const [bw, payloads] = response.data.data
         expect(bw).toBeObject()
         expect(bw.schema).toBe(BoundWitnessSchema)
         expect(payloads).toBeArray()

@@ -8,5 +8,5 @@ export const getDomain = async (domain: string): Promise<XyoDomainPayload> => {
   const client = getRequestClient()
   const response = await client.get(path)
   expect(response.status).toBe(StatusCodes.OK)
-  return response.data
+  return response.data.data
 }

@@ -11,6 +11,6 @@ describe('Web3AuthStrategy', () => {
     await verifySignIn(await getExistingUser())
   })
   it('Successful sign-in creates user if they do not already exist', async () => {
-    await verifySignIn(await getNewUser())
+    await verifySignIn(getNewUser())
   })
 })

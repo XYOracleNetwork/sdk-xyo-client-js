@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { uuid } from '@xyo-network/core'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -38,8 +39,11 @@ describe(`/${moduleName}`, () => {
       const response = await sut.divine([query])
       expect(response).toBeArray()
       expect(response.length).toBeGreaterThan(0)
-      const result = response.pop()
-      expect(result).toBeObject()
+      const addressPayloads = response.filter((p): p is AddressPayload => p.schema === AddressSchema)
+      const addresses = addressPayloads.map((p) => p.address)
+      expect(addresses).toBeArray()
+      expect(addresses.length).toBeGreaterThan(0)
+      expect(addresses).toContain(account.addressValue.hex)
     })
   })
 })

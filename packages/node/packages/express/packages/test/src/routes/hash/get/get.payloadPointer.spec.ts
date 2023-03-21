@@ -15,9 +15,9 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import {
   getArchiveName,
-  getBlock,
-  getBlockWithPayloads,
   getHash,
+  getNewBlock,
+  getNewBlockWithPayloads,
   getTokenForOtherUnitTestUser,
   getTokenForUnitTestUser,
   otherUnitTestSigningAccount,
@@ -48,12 +48,12 @@ describe('/:hash', () => {
   })
   beforeEach(async () => {
     archive = getArchiveName()
-    block = getBlockWithPayloads(1)
+    block = getNewBlockWithPayloads(1)
     payload = PayloadWrapper.parse(assertEx(block._payloads?.[0])).body
     const blockResponse = await postBlock(block, archive)
     expect(blockResponse.length).toBe(2)
     const pointer = getPayloadPointer(archive, payload.schema)
-    const pointerResponse = await postBlock(getBlock(pointer), archive)
+    const pointerResponse = await postBlock(getNewBlock(pointer), archive)
     expect(pointerResponse.length).toBe(2)
     pointerHash = pointerResponse[0].payload_hashes[0]
   })
@@ -87,7 +87,7 @@ describe('/:hash', () => {
     it('returns only payloads signed by the address', async () => {
       const account = unitTestSigningAccount
       const pointer = getPayloadPointer(archive, payload.schema, Date.now(), 'desc', account.addressValue.hex)
-      const pointerResponse = await postBlock(getBlock(pointer), archive)
+      const pointerResponse = await postBlock(getNewBlock(pointer), archive)
       expect(pointerResponse.length).toBe(2)
       pointerHash = pointerResponse[0].payload_hashes[0]
       const result = await getHash(pointerHash, ownerToken)
@@ -96,7 +96,7 @@ describe('/:hash', () => {
   })
   it('returns no payloads if not signed by address', async () => {
     const pointer = getPayloadPointer(archive, payload.schema, Date.now(), 'desc', otherUnitTestSigningAccount.addressValue.hex)
-    const pointerResponse = await postBlock(getBlock(pointer), archive)
+    const pointerResponse = await postBlock(getNewBlock(pointer), archive)
     expect(pointerResponse.length).toBe(2)
     pointerHash = pointerResponse[0].payload_hashes[0]
     await getHash(pointerHash, ownerToken, StatusCodes.NOT_FOUND)

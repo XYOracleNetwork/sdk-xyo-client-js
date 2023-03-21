@@ -1,13 +1,17 @@
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ArchivistInsertQuery, ArchivistInsertQuerySchema, QueryBoundWitnessBuilder } from '@xyo-network/modules'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { StatusCodes } from 'http-status-codes'
 
+import { unitTestSigningAccount } from '../Account'
+import { getArchivist } from '../Archivist'
 import { request } from '../Server'
+import { getNewBlock } from './getNewBlock'
+
 export const postBlock = async (
   boundWitnesses: BoundWitness | BoundWitness[],
-  archive: string,
   token?: string,
   expectedStatus: StatusCodes = StatusCodes.OK,
 ): Promise<BoundWitnessWithMeta[]> => {
@@ -25,4 +29,13 @@ export const postBlock = async (
     ? await (await request()).post(path).auth(token, { type: 'bearer' }).send(data).expect(expectedStatus)
     : await (await request()).post(path).send(data).expect(expectedStatus)
   return response.body.data
+}
+
+export const insertBlock = async (
+  boundWitnesses: BoundWitness | BoundWitness[] = getNewBlock(),
+  account: AccountInstance = unitTestSigningAccount,
+): Promise<BoundWitness[]> => {
+  const archivist = await getArchivist(account)
+  const data = Array.isArray(boundWitnesses) ? boundWitnesses : [boundWitnesses]
+  return archivist.insert(data)
 }

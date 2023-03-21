@@ -5,9 +5,9 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import {
   getArchiveName,
-  getBlocksWithPayloads,
-  getBlockWithPayloads,
   getHash,
+  getNewBlocksWithPayloads,
+  getNewBlockWithPayloads,
   getTokenForOtherUnitTestUser,
   getTokenForUnitTestUser,
   postBlock,
@@ -22,7 +22,7 @@ describe('/:hash', () => {
   })
   describe('return format is', () => {
     let archive = ''
-    const block = getBlocksWithPayloads(2, 2)
+    const block = getNewBlocksWithPayloads(2, 2)
     expect(block).toBeTruthy()
     const boundWitness = block[0]
     expect(boundWitness).toBeTruthy()
@@ -57,7 +57,7 @@ describe('/:hash', () => {
   })
   describe('with public archive', () => {
     let archive = ''
-    const boundWitness = getBlockWithPayloads(1)
+    const boundWitness = getNewBlockWithPayloads(1)
     expect(boundWitness).toBeTruthy()
     const boundWitnessHash = boundWitness?._hash as string
     expect(boundWitnessHash).toBeTruthy()
@@ -88,7 +88,7 @@ describe('/:hash', () => {
   })
   describe('with private archive', () => {
     let archive = ''
-    const boundWitness = getBlockWithPayloads(1)
+    const boundWitness = getNewBlockWithPayloads(1)
     expect(boundWitness).toBeTruthy()
     const boundWitnessHash = boundWitness?._hash as string
     expect(boundWitnessHash).toBeTruthy()

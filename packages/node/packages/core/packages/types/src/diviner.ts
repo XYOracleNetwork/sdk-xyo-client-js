@@ -1,6 +1,4 @@
-import { ModuleList } from './ModuleList'
-
-export const DIVINER_TYPES: ModuleList = {
+export const DIVINER_TYPES = {
   AddressHistoryDiviner: Symbol('AddressHistoryDiviner'),
   AddressSpaceDiviner: Symbol('AddressSpaceDiviner'),
   BoundWitnessDiviner: Symbol('BoundWitnessDiviner'),

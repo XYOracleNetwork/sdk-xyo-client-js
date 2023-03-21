@@ -4864,6 +4864,7 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/huri": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    jest: ^29.5.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -5847,6 +5848,7 @@ __metadata:
     "@xyo-network/node-core-modules-mongo": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
+    "@xyo-network/prometheus-node-plugin": "workspace:^"
     body-parser: ^1.20.2
     dotenv: ^16.0.3
     express: ^4.18.2
@@ -5913,6 +5915,7 @@ __metadata:
     "@xyo-network/node-core-lib": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
+    "@xyo-network/prometheus-node-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     body-parser: ^1.20.2
     express: ^4.18.2
@@ -5996,6 +5999,7 @@ __metadata:
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/prometheus-node-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     body-parser: ^1.20.2
     compression: ^1.7.4
@@ -6026,9 +6030,12 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig-jest": ^2.16.1
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/archivist": "workspace:^"
     "@xyo-network/axios": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"
@@ -6852,16 +6859,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/prometheus-node-plugin@workspace:packages/plugins/packages/payloadset/packages/prometheus":
+"@xyo-network/prometheus-node-plugin@workspace:^, @xyo-network/prometheus-node-plugin@workspace:packages/plugins/packages/payloadset/packages/prometheus":
   version: 0.0.0-use.local
   resolution: "@xyo-network/prometheus-node-plugin@workspace:packages/plugins/packages/payloadset/packages/prometheus"
   dependencies:
+    "@types/lodash": ^4.14.191
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
+    lodash: ^4.17.21
     prom-client: ^14.2.0
     typescript: ^4.9.5
   languageName: unknown

@@ -23,7 +23,7 @@ describe(`/${moduleName}`, () => {
       validateDiscoverResponseContainsQuerySchemas(response, [XyoDivinerDivineQuerySchema])
     })
   })
-  describe.skip('XyoDivinerDivineQuerySchema', () => {
+  describe('XyoDivinerDivineQuerySchema', () => {
     let address: string
     beforeAll(async () => {
       const archivist = await getArchivist()

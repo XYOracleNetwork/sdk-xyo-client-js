@@ -1,4 +1,4 @@
-import { PayloadAddressRule, PayloadArchiveRule, PayloadRule, PayloadSchemaRule, PayloadTimestampDirectionRule } from '@xyo-network/node-core-model'
+import { PayloadAddressRule, PayloadRule, PayloadSchemaRule, PayloadTimestampDirectionRule } from '@xyo-network/node-core-model'
 
 import { combineRules } from '../combineRules'
 
@@ -7,7 +7,7 @@ const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
 const validRules = (): PayloadRule[][] => {
-  return [[{ archive: 'foo' }], [{ schema: 'network.xyo.debug' }], [{ direction: 'desc', timestamp: Date.now() }]]
+  return [[{ schema: 'network.xyo.debug' }], [{ direction: 'desc', timestamp: Date.now() }]]
 }
 
 describe('combineRules', () => {
@@ -21,12 +21,6 @@ describe('combineRules', () => {
       const rules = validRules()
       const actual = combineRules(rules)
       expect(actual.addresses.length).toBe(0)
-    })
-    it('for archive should throw', () => {
-      expect(() => {
-        const rules = validRules().filter((rule) => !(rule?.[0] as PayloadArchiveRule)?.archive)
-        combineRules(rules)
-      }).toThrow()
     })
     it('for schema should throw', () => {
       expect(() => {
@@ -56,16 +50,12 @@ describe('combineRules', () => {
       expect(actual.addresses.sort()).toEqual(['bar', 'foo'])
     })
   })
-  describe('with PayloadArchiveRule rules', () => {
-    it('combines multiple rules', () => {
-      const rules = [[{ archive: 'foo' }, { archive: 'bar' }], [{ schema: 'network.xyo.debug' }]]
-      const actual = combineRules(rules)
-      expect(actual.archives.sort()).toEqual(['bar', 'foo'])
-    })
-  })
   describe('with PayloadSchemaRule rules', () => {
     it('combines multiple rules', () => {
-      const rules = [[{ archive: 'foo' }], [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }]]
+      const rules: PayloadRule[][] = [
+        [{ direction: 'desc', timestamp: Date.now() }],
+        [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
+      ]
       const actual = combineRules(rules)
       expect(actual.schemas.sort()).toEqual(['network.xyo.debug', 'network.xyo.test'])
     })
@@ -73,7 +63,6 @@ describe('combineRules', () => {
   describe('with PayloadTimestampDirectionRule rules', () => {
     it('should only allow one rule', () => {
       const rules: PayloadRule[][] = [
-        [{ archive: 'foo' }],
         [{ schema: 'network.xyo.debug' }],
         [
           { direction: 'desc', timestamp: Date.now() },

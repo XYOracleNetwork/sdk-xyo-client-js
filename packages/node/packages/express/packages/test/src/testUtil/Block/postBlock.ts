@@ -7,7 +7,6 @@ import { StatusCodes } from 'http-status-codes'
 import { request } from '../Server'
 export const postBlock = async (
   boundWitnesses: BoundWitness | BoundWitness[],
-  archive: string,
   token?: string,
   expectedStatus: StatusCodes = StatusCodes.OK,
 ): Promise<BoundWitnessWithMeta[]> => {

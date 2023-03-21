@@ -38,7 +38,7 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.23.27",
+    "typedoc": "^0.23.28",
     "typescript": "^4.9.5"
   },
   "resolutions": {
@@ -93,7 +93,8 @@
     "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "xyo": "node ./packages/cli/dist/cjs/index.js",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts",
-    "free-8080": "kill -9 $(lsof -t -i :8080)"
+    "free-8080": "kill -9 $(lsof -t -i :8080)",
+    "free-3033": "kill -9 $(lsof -t -i :3033)"
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",

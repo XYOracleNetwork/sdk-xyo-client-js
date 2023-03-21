@@ -1,11 +1,9 @@
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { uuid } from '@xyo-network/core'
 import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { getArchivist, getBridge, getNewPayload, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
-import { insertPayload } from '../../testUtil/Payload/insertPayload'
+import { getBridge, getNewPayload, insertPayload, validateDiscoverResponseContainsQuerySchemas } from '../../testUtil'
 
 const moduleName = 'AddressSpaceDiviner'
 
@@ -27,13 +25,15 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {
-    const account = Account.random()
+    const accounts: AccountInstance[] = []
     beforeAll(async () => {
       for (let i = 0; i < 5; i++) {
+        const account = Account.random()
+        accounts.push(account)
         await insertPayload(getNewPayload(), account)
       }
     })
-    it('issues query', async () => {
+    it('returns addresses in use', async () => {
       const query: AddressSpaceQueryPayload = { schema: AddressSpaceQuerySchema }
       const response = await sut.divine([query])
       expect(response).toBeArray()
@@ -42,7 +42,7 @@ describe(`/${moduleName}`, () => {
       const addresses = addressPayloads.map((p) => p.address)
       expect(addresses).toBeArray()
       expect(addresses.length).toBeGreaterThan(0)
-      expect(addresses).toContain(account.addressValue.hex)
+      expect(addresses).toIncludeAllMembers(accounts.map((account) => account.addressValue.hex))
     })
   })
 })

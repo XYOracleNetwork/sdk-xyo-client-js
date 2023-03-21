@@ -9,7 +9,7 @@ describe('/:address', () => {
   const client = getRequestClient()
   beforeAll(async () => {
     const result = await client.get('/')
-    const node: Payload[] = result.data
+    const node: Payload[] = result.data.data
     expect(node).toBeArray()
     const parentAddress = ''
     const child = node.find((p) => p.schema === AddressSchema && (p as AddressPayload)?.address !== parentAddress) as AddressPayload
@@ -23,7 +23,7 @@ describe('/:address', () => {
   })
   it('returns the discover query for the module', async () => {
     const result = await client.get(url)
-    const data = result.data as Payload[]
+    const data = result.data.data as Payload[]
     validateDiscoverResponse(data)
   })
 })

@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import {
   BoundWitnessWithPartialMeta,
   PayloadPointerBody,
-  payloadPointerSchema,
+  PayloadPointerSchema,
   PayloadSchemaRule,
   PayloadTimestampDirectionRule,
   SortDirection,
@@ -26,9 +26,9 @@ import {
 const getPayloadPointer = (schema: string, timestamp = Date.now(), direction: SortDirection = 'desc', address?: string): Payload => {
   const schemaRule: PayloadSchemaRule = { schema }
   const timestampRule: PayloadTimestampDirectionRule = { direction, timestamp }
-  const fields: PayloadPointerBody = { reference: [[schemaRule], [timestampRule]], schema: payloadPointerSchema }
+  const fields: PayloadPointerBody = { reference: [[schemaRule], [timestampRule]], schema: PayloadPointerSchema }
   if (address) fields.reference.push([{ address }])
-  return new PayloadBuilder<PayloadPointerBody>({ schema: payloadPointerSchema }).fields(fields).build()
+  return new PayloadBuilder<PayloadPointerBody>({ schema: PayloadPointerSchema }).fields(fields).build()
 }
 
 describe('/:hash', () => {

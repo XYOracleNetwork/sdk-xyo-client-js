@@ -1,5 +1,7 @@
 import { PrometheusNodePlugin } from './Plugin'
 
+export * from './Payload'
+export * from './Schema'
 export * from './Witness'
 
 export { PrometheusNodePlugin }

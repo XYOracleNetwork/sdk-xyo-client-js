@@ -5,7 +5,15 @@ import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/module
 import { PayloadQueryPayload, PayloadQuerySchema } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { getArchivist, getDivinerByName, getNewBoundWitness, getNewPayload, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
+import {
+  getArchivist,
+  getDivinerByName,
+  getNewBoundWitness,
+  getNewPayload,
+  getTestSchemaName,
+  unitTestSigningAccount,
+  validateDiscoverResponse,
+} from '../../testUtil'
 
 const moduleName = 'PayloadDiviner'
 
@@ -99,13 +107,23 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('schema', () => {
-      it.skip('divines Payloads by schema', async () => {
-        const query: PayloadQueryPayload = {
-          schema: PayloadQuerySchema,
-        }
-        const response = await diviner.divine([query])
-        expect(response).toBeArray()
-        expect(response.length).toBeGreaterThan(0)
+      describe('with single schema', () => {
+        const schema = getTestSchemaName()
+        it('divines Payload by schema', async () => {
+          const payloadBase = getNewPayload()
+          payloadBase.schema = schema
+          const payload: PayloadWrapper = PayloadWrapper.parse(payloadBase)
+          await archivist.insert([payload.payload])
+
+          const query: PayloadQueryPayload = {
+            schema: PayloadQuerySchema,
+            schemas: [schema],
+          }
+          const response = await diviner.divine([query])
+          expect(response).toBeArrayOfSize(1)
+          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+          expect(responseHashes).toContain(payload.hash)
+        })
       })
     })
   })

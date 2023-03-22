@@ -19,20 +19,27 @@ const indexesByCollection: Record<Collection, IndexDescription[]> = {
   users: [],
 }
 
+const oneMinute = 60 * 1000
+
+const getMongoClientForIndexCreation = () => {
+  const env = getMongoDBConfig()
+  const uri = assertEx(env.MONGO_CONNECTION_STRING)
+  const client: MongoClient = new MongoClient(uri, {
+    connectTimeoutMS: oneMinute,
+    maxIdleTimeMS: oneMinute,
+    serverSelectionTimeoutMS: oneMinute,
+    socketTimeoutMS: oneMinute,
+    waitQueueTimeoutMS: oneMinute,
+    writeConcern: new WriteConcern(1),
+  })
+  return client
+}
+
 // TODO: Use injected client. However, we control
 // timeout and relevant params for index creation
 // with this client.
 export const addIndexes = async (_db: Db) => {
-  const env = getMongoDBConfig()
-  const uri = assertEx(env.MONGO_CONNECTION_STRING)
-  const client: MongoClient = new MongoClient(uri, {
-    connectTimeoutMS: 100000,
-    maxIdleTimeMS: 100000,
-    serverSelectionTimeoutMS: 100000,
-    socketTimeoutMS: 1000000,
-    waitQueueTimeoutMS: 100000,
-    writeConcern: new WriteConcern(1),
-  })
+  const client = getMongoClientForIndexCreation()
   try {
     for (const [collection, indexSpecs] of Object.entries(indexesByCollection)) {
       if (indexSpecs.length > 0) {

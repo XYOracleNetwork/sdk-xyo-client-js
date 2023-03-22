@@ -1,15 +1,25 @@
 import { Account } from '@xyo-network/account'
-import { uuid } from '@xyo-network/core'
-import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
+import {
+  AddressHistoryQueryPayload,
+  AddressHistoryQuerySchema,
+  ArchivistWrapper,
+  DivinerWrapper,
+  XyoDivinerDivineQuerySchema,
+} from '@xyo-network/modules'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { getArchivist, getDivinerByName, validateDiscoverResponse } from '../../testUtil'
+import { getArchivist, getDivinerByName, getNewBoundWitnesses, validateDiscoverResponse } from '../../testUtil'
+
+const schema = AddressHistoryQuerySchema
 
 const divinerName = 'AddressHistoryDiviner'
 
 describe(`/${divinerName}`, () => {
+  const account = Account.random()
   let sut: DivinerWrapper
+  let archivist: ArchivistWrapper
   beforeAll(async () => {
+    archivist = await getArchivist(account)
     sut = await getDivinerByName(divinerName)
   })
   describe('ModuleDiscoverQuerySchema', () => {
@@ -20,22 +30,22 @@ describe(`/${divinerName}`, () => {
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {
+    const limit = 10
     const account = Account.random()
+    const data = getNewBoundWitnesses([account], limit, 1)
     beforeAll(async () => {
-      const archivist = await getArchivist(account)
-      for (let i = 0; i < 10; i++) {
-        const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: uuid() }).build()
-        await archivist.insert([payload])
+      for (const [bw, payloads] of data) {
+        await archivist.insert([bw, ...payloads])
       }
     })
     it('issues query', async () => {
       const address = account.addressValue.hex
-      const query: AddressHistoryQueryPayload = { address, limit: 1, schema: AddressHistoryQuerySchema }
+      const query: AddressHistoryQueryPayload = { address, limit, schema }
       const response = await sut.divine([query])
-      expect(response).toBeArray()
-      expect(response.length).toBeGreaterThan(0)
-      const result = response.pop()
-      expect(result).toBeObject()
+      expect(response).toBeArrayOfSize(limit)
+      const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+      const dataHashes = data.map((d) => PayloadWrapper.hash(d[0]))
+      expect(responseHashes).toIncludeAllMembers(dataHashes)
     })
   })
 })

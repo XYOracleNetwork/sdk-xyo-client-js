@@ -3,6 +3,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { BoundWitnessQueryPayload, BoundWitnessQuerySchema } from '@xyo-network/node-core-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import {
@@ -39,33 +40,19 @@ describe(`/${moduleName}`, () => {
     const accountA = Account.random()
     const accountB = Account.random()
     describe.skip('address', () => {
-      it('divines Payloads by address', async () => {
-        const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness([accountA], [payload])[0])
-        await archivist.insert([boundWitness.payload, payload.payload])
-
-        const address = accountA.addressValue.hex
-        const query: BoundWitnessQueryPayload = { address, schema }
-        const response = await diviner.divine([query])
-
-        expect(response).toBeArray()
-        expect(response.length).toBeGreaterThan(0)
+      it('divines BoundWitnesses by address', async () => {
+        await Promise.resolve()
+        throw new Error('Not Implemented')
       })
-      it.skip('divines Payloads by addresses', async () => {
-        const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness([accountA, accountB], [payload])[0])
-        await archivist.insert([boundWitness.payload, payload.payload])
-        const address = [accountA.addressValue.hex, accountB.addressValue.hex] as unknown as (string | string[]) & (string | [string])
-        const query: BoundWitnessQueryPayload = { address: address, schema }
-        const response = await diviner.divine([query])
-        expect(response).toBeArray()
-        expect(response.length).toBeGreaterThan(0)
+      it.skip('divines BoundWitnesses by addresses', async () => {
+        await Promise.resolve()
+        throw new Error('Not Implemented')
       })
     })
     describe('hash', () => {
       const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
       beforeAll(async () => await archivist.insert([payload.payload]))
-      it('divines Payloads by hash', async () => {
+      it('divines BoundWitnesses by hash', async () => {
         const hash = payload.hash
         const query: BoundWitnessQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
@@ -81,37 +68,24 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('limit', () => {
-      const schemaA = getTestSchemaName()
-      const schemaB = getTestSchemaName()
-      const payloadBaseA = getNewPayload()
-      payloadBaseA.schema = schemaA
-      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
-      const payloadBaseB = getNewPayload()
-      payloadBaseB.schema = schemaB
-      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
-      beforeAll(async () => {
-        await archivist.insert([payloadA.payload, payloadB.payload])
-      })
-      it.each([1, 2])('returns the specified number of Payloads', async (limit) => {
+      const boundWitnesses = [getNewBoundWitness()[0], getNewBoundWitness()[0]]
+      beforeAll(async () => await archivist.insert(boundWitnesses))
+      it.each([1, 2])('returns the specified number of BoundWitnesses', async (limit) => {
         const query: BoundWitnessQueryPayload = { limit, schema }
         const response = await diviner.divine([query])
         expect(response).toBeArrayOfSize(limit)
       })
     })
     describe('offset', () => {
-      it.skip('divines Payloads from offset', async () => {
-        const query: BoundWitnessQueryPayload = { schema }
-        const response = await diviner.divine([query])
-        expect(response).toBeArray()
-        expect(response.length).toBeGreaterThan(0)
+      it.skip('divines BoundWitnesses from offset', async () => {
+        await Promise.resolve()
+        throw new Error('Not Implemented')
       })
     })
     describe('order', () => {
-      it.skip('divines Payloads in order', async () => {
-        const query: BoundWitnessQueryPayload = { schema }
-        const response = await diviner.divine([query])
-        expect(response).toBeArray()
-        expect(response.length).toBeGreaterThan(0)
+      it.skip('divines BoundWitnesses in order', async () => {
+        await Promise.resolve()
+        throw new Error('Not Implemented')
       })
     })
     describe('schema', () => {
@@ -120,20 +94,22 @@ describe(`/${moduleName}`, () => {
       const payloadBaseA = getNewPayload()
       payloadBaseA.schema = schemaA
       const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
+      const boundWitnessA = BoundWitnessWrapper.parse(getNewBoundWitness([account], [payloadA])[0])
       const payloadBaseB = getNewPayload()
       payloadBaseB.schema = schemaB
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      const boundWitnessB = BoundWitnessWrapper.parse(getNewBoundWitness([account], [payloadB])[0])
       beforeAll(async () => {
         await archivist.insert([payloadA.payload, payloadB.payload])
       })
-      const cases: [string, PayloadWrapper[]][] = [
-        ['single schema', [payloadA]],
-        ['multiple schemas', [payloadA, payloadB]],
+      const cases: [string, BoundWitnessWrapper[]][] = [
+        ['single schema', [boundWitnessA]],
+        ['multiple schemas', [boundWitnessA, boundWitnessB]],
       ]
       describe.each(cases)('with %s', (_schema, payloads) => {
-        it('divines Payloads by schema', async () => {
-          const schemas = payloads.map((p) => p.schema)
-          const query: BoundWitnessQueryPayload = { schema, schemas }
+        it('divines BoundWitnesses by schema', async () => {
+          const payload_schemas = payloads.map((p) => p.schema)
+          const query: BoundWitnessQueryPayload = { payload_schemas, schema }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(payloads.length)
           const responseHashes = response.map((p) => PayloadWrapper.hash(p))

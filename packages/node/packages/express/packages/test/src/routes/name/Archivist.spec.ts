@@ -4,6 +4,8 @@ import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper
 
 import { getArchivist, getNewBoundWitness, getNewPayload, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
 
+const nonExistentHash = '4b19d691dd348c711b2e83ed975c8009856e3001a84cdc63b5226124e08eb4af'
+
 const moduleName = 'Archivist'
 
 describe(`/${moduleName}`, () => {
@@ -54,13 +56,21 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('ArchivistGetQuerySchema', () => {
-    it.each(cases)('finds %s by hash', async (_, wrapped) => {
-      const hashes = wrapped.map((w) => w.hash)
-      const response = await archivist.get(hashes)
-      expect(response).toBeArray()
-      expect(response).toBeArrayOfSize(wrapped.length)
-      const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-      expect(responseHashes).toContainValues(hashes)
+    describe('with existing hash', () => {
+      it.each(cases)('finds %s by hash', async (_, wrapped) => {
+        const hashes = wrapped.map((w) => w.hash)
+        const response = await archivist.get(hashes)
+        expect(response).toBeArray()
+        expect(response).toBeArrayOfSize(wrapped.length)
+        const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+        expect(responseHashes).toContainValues(hashes)
+      })
+    })
+    describe('with non-existent hash', () => {
+      it('returns nothing', async () => {
+        const response = await archivist.get([nonExistentHash])
+        expect(response).toBeArrayOfSize(0)
+      })
     })
   })
 })

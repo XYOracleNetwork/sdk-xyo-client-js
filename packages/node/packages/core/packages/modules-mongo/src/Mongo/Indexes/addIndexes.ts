@@ -1,6 +1,9 @@
-import { Db, IndexDescription } from 'mongodb'
+import { assertEx } from '@xylabs/assert'
+import { Db, IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
+import { DATABASES } from '../../databases'
+import { getMongoDBConfig } from '../getMongoDBConfig'
 import { ArchivesIndexes, ArchivistStatsIndexes, BoundWitnessesIndexes, PayloadsIndexes } from './Specifications'
 
 type ValueOf<T> = T[keyof T]
@@ -17,9 +20,27 @@ const indexesByCollection: Record<Collection, IndexDescription[]> = {
 }
 
 export const addIndexes = async (db: Db) => {
-  for (const [collection, indexSpecs] of Object.entries(indexesByCollection)) {
-    if (indexSpecs.length > 0) {
-      await db.collection(collection).createIndexes(indexSpecs)
+  const env = getMongoDBConfig()
+  const uri = assertEx(env.MONGO_CONNECTION_STRING)
+  const client: MongoClient = new MongoClient(uri, {
+    connectTimeoutMS: 100000,
+    maxIdleTimeMS: 100000,
+    serverSelectionTimeoutMS: 100000,
+    socketTimeoutMS: 1000000,
+    waitQueueTimeoutMS: 100000,
+    writeConcern: new WriteConcern(1),
+  })
+  try {
+    for (const [collection, indexSpecs] of Object.entries(indexesByCollection)) {
+      if (indexSpecs.length > 0) {
+        try {
+          await client.db(DATABASES.Archivist).collection(collection).createIndexes(indexSpecs)
+        } catch (error) {
+          console.log(error)
+        }
+      }
     }
+  } finally {
+    await client.close(true)
   }
 }

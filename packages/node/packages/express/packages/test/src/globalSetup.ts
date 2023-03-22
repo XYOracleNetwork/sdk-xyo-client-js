@@ -19,24 +19,33 @@ declare global {
 const database = process.env.MONGO_DATABASE || 'archivist'
 
 const setupMongo = async () => {
+  console.log('Mongo: Starting')
   // https://nodkz.async github.io/mongodb-memory-server/docs/guides/quick-start-guide/#replicaset
   // This will create an new instance of "MongoMemoryReplSet" and automatically start all Servers
   // To use Transactions, the "storageEngine" needs to be changed to `wiredTiger`
   const mongo = await MongoMemoryReplSet.create({
-    instanceOpts: [],
+    instanceOpts: [
+      { replicaMemberConfig: { buildIndexes: true } },
+      { replicaMemberConfig: { buildIndexes: true } },
+      { replicaMemberConfig: { buildIndexes: true } },
+    ],
     replSet: { count: 3, storageEngine: 'wiredTiger' },
-  }) // This will create an ReplSet with 4 members and storage-engine "wiredTiger"
+  }) // This will create an ReplSet with 3 members and storage-engine "wiredTiger"
+  await mongo.waitUntilRunning()
   globalThis.mongo = mongo
   const uri = mongo.getUri()
   const mongoConnectionString = uri.split('/').slice(0, -1).concat(database).join('/') + uri.split('/').slice(-1)
   // Recreate connection string to ReplicaSet adding default DB in the proper place
   process.env.MONGO_CONNECTION_STRING = mongoConnectionString
+  console.log('Mongo: Started')
 }
 
 const setupNode = async () => {
+  console.log('Node: Starting')
   globalThis.app = await getApp()
   globalThis.req = supertest(app)
   process.env.API_DOMAIN = req.get('/').url.replace(/\/$/, '')
+  console.log('Node: Started')
 }
 
 /**
@@ -44,6 +53,7 @@ const setupNode = async () => {
  * https://jestjs.io/docs/configuration#globalsetup-string
  */
 module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
+  console.log('')
   PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new XyoSchemaNameValidator(schema))
   await setupMongo()
   await setupNode()

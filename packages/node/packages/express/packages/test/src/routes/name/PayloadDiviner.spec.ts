@@ -10,17 +10,7 @@ import { getArchivist, getDivinerByName, getNewBoundWitness, getNewPayload, unit
 const moduleName = 'PayloadDiviner'
 
 describe(`/${moduleName}`, () => {
-  const account = Account.random()
-
-  const payloadB: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-  const boundWitnessB: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payloadA])[0])
-  const payloadC: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-  const boundWitnessC: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payloadA])[0])
-  const payloadD: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-  const boundWitnessD: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payloadA])[0])
-  const payloadE: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-  const boundWitnessE: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payloadA])[0])
-
+  const account = unitTestSigningAccount
   let diviner: DivinerWrapper
   let archivist: ArchivistWrapper
 
@@ -36,6 +26,7 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {
+    const account = Account.random()
     describe('address', () => {
       it('divines Payloads by address', async () => {
         const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
@@ -61,7 +52,7 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('hash', () => {
-      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+      it.skip('divines Payloads by schema', async () => {
         const query: PayloadQueryPayload = {
           schema: PayloadQuerySchema,
         }
@@ -71,7 +62,7 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('limit', () => {
-      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+      it.skip('divines Payloads by schema', async () => {
         const query: PayloadQueryPayload = {
           schema: PayloadQuerySchema,
         }
@@ -81,7 +72,7 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('offset', () => {
-      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+      it.skip('divines Payloads by schema', async () => {
         const query: PayloadQueryPayload = {
           schema: PayloadQuerySchema,
         }
@@ -91,7 +82,7 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('order', () => {
-      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+      it.skip('divines Payloads by schema', async () => {
         const query: PayloadQueryPayload = {
           schema: PayloadQuerySchema,
         }
@@ -101,7 +92,7 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('schema', () => {
-      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+      it.skip('divines Payloads by schema', async () => {
         const query: PayloadQueryPayload = {
           schema: PayloadQuerySchema,
         }

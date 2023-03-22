@@ -1,15 +1,13 @@
-import { Account } from '@xyo-network/account'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
-import { getArchivist, getNewBoundWitness, getNewPayload, validateDiscoverResponse } from '../../testUtil'
+import { getArchivist, getNewBoundWitness, getNewPayload, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
 
 const moduleName = 'Archivist'
 
 describe(`/${moduleName}`, () => {
-  let archivist: ArchivistWrapper
-  const account = Account.random()
+  const account = unitTestSigningAccount
 
   const payloadA: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
   const boundWitnessA: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payloadA])[0])
@@ -29,6 +27,8 @@ describe(`/${moduleName}`, () => {
     ['BoundWitnesses', [boundWitnessB, boundWitnessC]],
     ['Payloads & BoundWitnesses', [boundWitnessD, payloadD, boundWitnessE, payloadE]],
   ]
+
+  let archivist: ArchivistWrapper
 
   beforeAll(async () => {
     archivist = await getArchivist()

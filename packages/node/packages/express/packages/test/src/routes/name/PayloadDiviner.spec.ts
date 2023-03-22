@@ -1,17 +1,17 @@
+import { Account } from '@xyo-network/account'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { PayloadQueryPayload, PayloadQuerySchema } from '@xyo-network/node-core-model'
-import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { getDivinerByName, getNewBoundWitness, getNewPayload, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
+import { getArchivist, getDivinerByName, getNewBoundWitness, getNewPayload, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
 
 const moduleName = 'PayloadDiviner'
 
 describe(`/${moduleName}`, () => {
-  const account = unitTestSigningAccount
+  const account = Account.random()
 
-  const payloadA: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-  const boundWitnessA: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payloadA])[0])
   const payloadB: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
   const boundWitnessB: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payloadA])[0])
   const payloadC: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
@@ -21,18 +21,12 @@ describe(`/${moduleName}`, () => {
   const payloadE: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
   const boundWitnessE: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payloadA])[0])
 
-  const cases: [string, PayloadWrapperBase[]][] = [
-    ['Payload', [payloadA]],
-    ['BoundWitness', [boundWitnessA]],
-    ['Payloads', [payloadB, payloadC]],
-    ['BoundWitnesses', [boundWitnessB, boundWitnessC]],
-    ['Payloads & BoundWitnesses', [boundWitnessD, payloadD, boundWitnessE, payloadE]],
-  ]
-
   let diviner: DivinerWrapper
+  let archivist: ArchivistWrapper
 
   beforeAll(async () => {
     diviner = await getDivinerByName(moduleName)
+    archivist = await getArchivist()
   })
   describe('ModuleDiscoverQuerySchema', () => {
     it('discovers', async () => {
@@ -43,7 +37,21 @@ describe(`/${moduleName}`, () => {
   })
   describe('XyoDivinerDivineQuerySchema', () => {
     describe('address', () => {
-      it.skip('divines Payloads by address', async (_, _wrapped) => {
+      it('divines Payloads by address', async () => {
+        const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
+        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payload])[0])
+        await archivist.insert([boundWitness, payload])
+
+        const query: PayloadQueryPayload = {
+          address: account.addressValue.hex,
+          schema: PayloadQuerySchema,
+        }
+        const response = await diviner.divine([query])
+
+        expect(response).toBeArray()
+        expect(response.length).toBeGreaterThan(0)
+      })
+      it.skip('divines Payloads by addresses', async () => {
         const query: PayloadQueryPayload = {
           schema: PayloadQuerySchema,
         }

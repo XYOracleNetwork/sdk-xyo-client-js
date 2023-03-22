@@ -16,9 +16,9 @@ import {
 } from '../../testUtil'
 
 const schema = PayloadQuerySchema
+const nonExistentHash = '4b19d691dd348c711b2e83ed975c8009856e3001a84cdc63b5226124e08eb4af'
 
 const moduleName = 'PayloadDiviner'
-
 describe(`/${moduleName}`, () => {
   const account = unitTestSigningAccount
   let diviner: DivinerWrapper
@@ -63,11 +63,21 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('hash', () => {
-      it.skip('divines Payloads by schema', async () => {
-        const query: PayloadQueryPayload = { schema }
+      const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
+      beforeAll(async () => await archivist.insert([payload.payload]))
+      it('divines Payloads by hash', async () => {
+        const hash = payload.hash
+        const query: PayloadQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
-        expect(response).toBeArray()
-        expect(response.length).toBeGreaterThan(0)
+        expect(response).toBeArrayOfSize(0)
+      })
+      it('returns empty array for non-existent hash', async () => {
+        const hash = nonExistentHash
+        const query: PayloadQueryPayload = { hash, schema }
+        const response = await diviner.divine([query])
+        expect(response).toBeArrayOfSize(1)
+        const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+        expect(responseHashes).toContainAllValues([payload.hash])
       })
     })
     describe('limit', () => {

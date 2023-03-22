@@ -31,7 +31,7 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
-    const filter: Filter<BoundWitnessWithMeta> = { ...props }
+    const filter: Filter<BoundWitnessWithMeta> = {}
     if (timestamp) {
       const parsedTimestamp = timestamp ? timestamp : parsedOrder === 'desc' ? Date.now() : 0
       filter._timestamp = parsedOrder === 'desc' ? { $lt: parsedTimestamp } : { $gt: parsedTimestamp }

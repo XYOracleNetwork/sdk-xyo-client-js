@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { isDevelopment, isProduction } from '@xyo-network/express-node-middleware'
+import { isProduction } from '@xyo-network/express-node-middleware'
 import { Db, IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'

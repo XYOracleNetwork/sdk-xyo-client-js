@@ -107,16 +107,20 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('schema', () => {
+      const schemaA = getTestSchemaName()
+      const schemaB = getTestSchemaName()
+      const payloadBaseA = getNewPayload()
+      payloadBaseA.schema = schemaA
+      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
+      const payloadBaseB = getNewPayload()
+      payloadBaseB.schema = schemaA
+      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      beforeAll(async () => {
+        await archivist.insert([payloadA.payload, payloadB.payload])
+      })
       describe('with single schema', () => {
-        const schema = getTestSchemaName()
-        const schemas = [schema]
-        const payloadBase = getNewPayload()
-        payloadBase.schema = schema
-        const payload: PayloadWrapper = PayloadWrapper.parse(payloadBase)
-        const payloads = [payload]
-        beforeAll(async () => {
-          await archivist.insert([payload.payload])
-        })
+        const schemas = [schemaA]
+        const payloads = [payloadA]
         it('divines Payload by schema', async () => {
           const query: PayloadQueryPayload = { schema: PayloadQuerySchema, schemas }
           const response = await diviner.divine([query])
@@ -126,19 +130,8 @@ describe(`/${moduleName}`, () => {
         })
       })
       describe('with multiple schemas', () => {
-        const schemaA = getTestSchemaName()
-        const schemaB = getTestSchemaName()
         const schemas = [schemaA, schemaB]
-        const payloadBaseA = getNewPayload()
-        payloadBaseA.schema = schemaA
-        const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
-        const payloadBaseB = getNewPayload()
-        payloadBaseB.schema = schemaA
-        const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
         const payloads = [payloadA, payloadB]
-        beforeAll(async () => {
-          await archivist.insert([payloadA.payload, payloadB.payload])
-        })
         it('divines Payload by schema', async () => {
           const query: PayloadQueryPayload = { schema: PayloadQuerySchema, schemas }
           const response = await diviner.divine([query])

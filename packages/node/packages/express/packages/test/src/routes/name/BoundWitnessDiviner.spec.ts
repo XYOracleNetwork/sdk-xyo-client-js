@@ -50,15 +50,15 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('hash', () => {
-      const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-      beforeAll(async () => await archivist.insert([payload.payload]))
+      const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness([account])[0])
+      beforeAll(async () => await archivist.insert([boundWitness.payload]))
       it('divines BoundWitnesses by hash', async () => {
-        const hash = payload.hash
+        const hash = boundWitness.hash
         const query: BoundWitnessQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
         expect(response).toBeArrayOfSize(1)
         const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-        expect(responseHashes).toContainAllValues([payload.hash])
+        expect(responseHashes).toContainAllValues([boundWitness.hash])
       })
       it('returns empty array for non-existent hash', async () => {
         const hash = nonExistentHash
@@ -106,14 +106,14 @@ describe(`/${moduleName}`, () => {
         ['single schema', [boundWitnessA]],
         ['multiple schemas', [boundWitnessA, boundWitnessB]],
       ]
-      describe.each(cases)('with %s', (_schema, payloads) => {
+      describe.each(cases)('with %s', (_schema, boundWitnesses) => {
         it('divines BoundWitnesses by schema', async () => {
-          const payload_schemas = payloads.map((p) => p.schema)
+          const payload_schemas = boundWitnesses.map((p) => p.payloadSchemas).flat()
           const query: BoundWitnessQueryPayload = { payload_schemas, schema }
           const response = await diviner.divine([query])
-          expect(response).toBeArrayOfSize(payloads.length)
+          expect(response).toBeArrayOfSize(boundWitnesses.length)
           const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-          expect(responseHashes).toContainAllValues(payloads.map((p) => p.hash))
+          expect(responseHashes).toContainAllValues(boundWitnesses.map((p) => p.hash))
         })
       })
     })

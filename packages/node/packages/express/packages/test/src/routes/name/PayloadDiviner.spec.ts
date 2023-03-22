@@ -12,7 +12,6 @@ import {
   getNewPayload,
   getTestSchemaName,
   nonExistentHash,
-  unitTestSigningAccount,
   validateDiscoverResponse,
 } from '../../testUtil'
 
@@ -20,7 +19,6 @@ const schema = PayloadQuerySchema
 
 const moduleName = 'PayloadDiviner'
 describe(`/${moduleName}`, () => {
-  const account = unitTestSigningAccount
   let diviner: DivinerWrapper
   let archivist: ArchivistWrapper
 

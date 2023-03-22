@@ -36,8 +36,6 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {
-    const accountA = Account.random()
-    const accountB = Account.random()
     describe.skip('address', () => {
       it('divines BoundWitnesses by address', async () => {
         await Promise.resolve()

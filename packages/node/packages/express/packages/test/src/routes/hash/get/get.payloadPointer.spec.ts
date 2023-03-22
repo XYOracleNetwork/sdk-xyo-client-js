@@ -17,7 +17,7 @@ import { ReasonPhrases } from 'http-status-codes'
 import {
   getHash,
   getNewBlock,
-  getNewBlockWithPayloads,
+  getNewBoundWitness,
   insertBlock,
   insertPayload,
   otherUnitTestSigningAccount,
@@ -41,39 +41,37 @@ describe('/:hash', () => {
     jest.spyOn(console, 'error').mockImplementation()
   })
   beforeEach(async () => {
-    block = getNewBlockWithPayloads(1)
-    payload = PayloadWrapper.parse(assertEx(block._payloads?.[0])).body
-    const blockResponse = await insertBlock(block)
+    // Create data pointer will reference
+    const [bw, payloads] = getNewBoundWitness(account)
+    block = bw
+    payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
+    const blockResponse = await insertBlock(block, account)
     expect(blockResponse.length).toBe(2)
-    const payloadResponse = await insertPayload(block._payloads)
+    const payloadResponse = await insertPayload(payloads, account)
     expect(payloadResponse.length).toBe(2)
+    // Create pointer to reference data
     const pointer = getPayloadPointer(payload.schema)
-    const pointerResponse = await insertBlock(getNewBlock(pointer), account)
+    const pointerResponse = await insertPayload(pointer, account)
     expect(pointerResponse.length).toBe(2)
-    pointerHash = pointerResponse[0].payload_hashes[0]
+    pointerHash = PayloadWrapper.hash(pointer)
   })
   describe('return format is', () => {
     it('a single payload', async () => {
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
-      expect(response.schema).toEqual(payload?.schema)
+      expect(response.schema).toEqual(payload.schema)
+      expect(PayloadWrapper.parse(response).valid).toBeTrue()
       expect(response).toEqual(payload)
     })
   })
-  describe('with public archive', () => {
-    it('with anonymous user returns the payload', async () => {
-      await getHash(pointerHash)
-    })
-    it('with non-archive owner returns the payload', async () => {
-      await getHash(pointerHash)
-    })
-    it('with archive owner returns the payload', async () => {
+  describe('with existing payload pointer hash', () => {
+    it('returns the referenced payload', async () => {
       const result = await getHash(pointerHash)
       expect(result).toBeTruthy()
     })
   })
-  describe('with nonexistent hash', () => {
+  describe('with nonexistent payload pointer hash', () => {
     it(`returns ${ReasonPhrases.NOT_FOUND}`, async () => {
       const result = await getHash('non_existent_hash')
       const error = result as unknown as { errors: { detail: string; status: string }[] }

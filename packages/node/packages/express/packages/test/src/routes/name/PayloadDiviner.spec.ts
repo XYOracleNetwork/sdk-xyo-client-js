@@ -113,26 +113,18 @@ describe(`/${moduleName}`, () => {
       payloadBaseA.schema = schemaA
       const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
       const payloadBaseB = getNewPayload()
-      payloadBaseB.schema = schemaA
+      payloadBaseB.schema = schemaB
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
       beforeAll(async () => {
         await archivist.insert([payloadA.payload, payloadB.payload])
       })
-      describe('with single schema', () => {
-        const schemas = [schemaA]
-        const payloads = [payloadA]
-        it('divines Payload by schema', async () => {
-          const query: PayloadQueryPayload = { schema: PayloadQuerySchema, schemas }
-          const response = await diviner.divine([query])
-          expect(response).toBeArrayOfSize(payloads.length)
-          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-          expect(responseHashes).toContainAllValues(payloads.map((p) => p.hash))
-        })
-      })
-      describe('with multiple schemas', () => {
-        const schemas = [schemaA, schemaB]
-        const payloads = [payloadA, payloadB]
-        it('divines Payload by schema', async () => {
+      const cases: [string, PayloadWrapper[]][] = [
+        ['single schema', [payloadA]],
+        ['multiple schemas', [payloadA, payloadB]],
+      ]
+      describe.each(cases)('with %s', (_schema, payloads) => {
+        it('divines Payloads by schema', async () => {
+          const schemas = payloads.map((p) => p.schema)
           const query: PayloadQueryPayload = { schema: PayloadQuerySchema, schemas }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(payloads.length)

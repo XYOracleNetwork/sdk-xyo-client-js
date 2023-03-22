@@ -11,12 +11,12 @@ import {
   getNewBoundWitness,
   getNewPayload,
   getTestSchemaName,
+  nonExistentHash,
   unitTestSigningAccount,
   validateDiscoverResponse,
 } from '../../testUtil'
 
 const schema = PayloadQuerySchema
-const nonExistentHash = '4b19d691dd348c711b2e83ed975c8009856e3001a84cdc63b5226124e08eb4af'
 
 const moduleName = 'PayloadDiviner'
 describe(`/${moduleName}`, () => {

@@ -3,7 +3,6 @@ import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
 import { BoundWitnessQueryPayload, BoundWitnessQuerySchema } from '@xyo-network/node-core-model'
-import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import {
@@ -12,12 +11,12 @@ import {
   getNewBoundWitness,
   getNewPayload,
   getTestSchemaName,
+  nonExistentHash,
   unitTestSigningAccount,
   validateDiscoverResponse,
 } from '../../testUtil'
 
 const schema = BoundWitnessQuerySchema
-const nonExistentHash = '4b19d691dd348c711b2e83ed975c8009856e3001a84cdc63b5226124e08eb4af'
 
 const moduleName = 'BoundWitnessDiviner'
 describe(`/${moduleName}`, () => {

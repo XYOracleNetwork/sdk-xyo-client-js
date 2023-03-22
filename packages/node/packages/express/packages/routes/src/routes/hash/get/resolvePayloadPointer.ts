@@ -1,6 +1,5 @@
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
-import { BoundWitnessesArchivist, PayloadPointerPayload } from '@xyo-network/node-core-model'
+import { BoundWitnessDiviner, PayloadDiviner, PayloadPointerPayload } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Payload } from '@xyo-network/payload-model'
 import { Request } from 'express'
@@ -11,7 +10,7 @@ import { findPayload } from './findPayload'
 export const resolvePayloadPointer = async (req: Request, pointer: PayloadPointerPayload): Promise<Payload | undefined> => {
   const { node } = req.app
   const searchCriteria = combineRules(pointer.reference)
-  const payloadArchivist = ArchivistWrapper.wrap(await resolveBySymbol(node, TYPES.PayloadArchivist))
-  const boundWitnessArchivist = await resolveBySymbol<BoundWitnessesArchivist>(node, TYPES.BoundWitnessArchivist)
-  return findPayload(boundWitnessArchivist, payloadArchivist, searchCriteria)
+  const boundWitnessDiviner = await resolveBySymbol<BoundWitnessDiviner>(node, TYPES.BoundWitnessDiviner)
+  const payloadDiviner = await resolveBySymbol<PayloadDiviner>(node, TYPES.PayloadDiviner)
+  return findPayload(boundWitnessDiviner, payloadDiviner, searchCriteria)
 }

@@ -1,37 +1,45 @@
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { ArchivistModule } from '@xyo-network/modules'
-import { BoundWitnessesArchivist, PayloadFilterPredicate, PayloadSearchCriteria } from '@xyo-network/node-core-model'
+import { DivinerWrapper } from '@xyo-network/modules'
+import {
+  BoundWitnessDiviner,
+  BoundWitnessQueryPayload,
+  BoundWitnessQuerySchema,
+  PayloadDiviner,
+  PayloadQueryPayload,
+  PayloadQuerySchema,
+  PayloadSearchCriteria,
+} from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): PayloadFilterPredicate => {
+const limit = 1
+
+const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
   const { direction, schemas, timestamp } = searchCriteria
   const order = direction === 'asc' ? 'asc' : 'desc'
-  const query: PayloadFilterPredicate = { limit: 1, order, timestamp }
-  if (schemas?.length) query.schemas = schemas
-  return query
+  const query: PayloadQueryPayload = { limit, order, schema: PayloadQuerySchema, schemas, timestamp }
+  return [query]
 }
 
-const isPayloadSignedByAddress = async (archivist: BoundWitnessesArchivist, hash: string, addresses: string[]): Promise<boolean> => {
-  const filter = { addresses, limit: 1, payload_hashes: [hash] }
-  const wrapper = ArchivistWrapper.wrap(archivist)
-  const result = await wrapper.find(filter)
+const isPayloadSignedByAddress = async (diviner: BoundWitnessDiviner, hash: string, addresses: string[]): Promise<boolean> => {
+  const query: BoundWitnessQueryPayload = { addresses, limit, payload_hashes: [hash], schema: BoundWitnessQuerySchema }
+  const wrapper = DivinerWrapper.wrap(diviner)
+  const result = await wrapper.divine([query])
   return result?.length > 0
 }
 
 export const findPayload = async (
-  boundWitnessArchivist: BoundWitnessesArchivist,
-  payloadArchivist: ArchivistModule,
+  boundWitnessDiviner: BoundWitnessDiviner,
+  payloadDiviner: PayloadDiviner,
   searchCriteria: PayloadSearchCriteria,
 ): Promise<Payload | undefined> => {
   const { addresses } = searchCriteria
   const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
-  const wrapper = ArchivistWrapper.wrap(payloadArchivist)
-  const result = await wrapper.find(filter)
+  const wrapper = DivinerWrapper.wrap(payloadDiviner)
+  const result = await wrapper.divine(filter)
   const payload = result?.[0] ? PayloadWrapper.parse(result[0]) : undefined
   if (payload && addresses.length) {
     const hash = payload.hash
-    const signed = await isPayloadSignedByAddress(boundWitnessArchivist, hash, addresses)
+    const signed = await isPayloadSignedByAddress(boundWitnessDiviner, hash, addresses)
     if (!signed) return undefined
   }
   return payload?.body

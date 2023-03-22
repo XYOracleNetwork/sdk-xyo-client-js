@@ -53,10 +53,10 @@ describe('/:hash', () => {
     const pointer = getPayloadPointer(payload.schema)
     const pointerResponse = await insertPayload(pointer, account)
     expect(pointerResponse.length).toBe(2)
-    pointerHash = pointerResponse[0].payload_hashes[0]
+    pointerHash = PayloadWrapper.hash(pointer)
   })
   describe('return format is', () => {
-    it.only('a single payload', async () => {
+    it('a single payload', async () => {
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)

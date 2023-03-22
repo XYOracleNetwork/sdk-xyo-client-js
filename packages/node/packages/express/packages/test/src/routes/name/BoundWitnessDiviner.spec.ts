@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'

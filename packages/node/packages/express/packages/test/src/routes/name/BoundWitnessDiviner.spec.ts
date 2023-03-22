@@ -96,21 +96,23 @@ describe(`/${moduleName}`, () => {
       payloadBaseB.schema = schemaB
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
       const boundWitnessB = BoundWitnessWrapper.parse(getNewBoundWitness([account], [payloadB.payload])[0])
+      const boundWitnessC = BoundWitnessWrapper.parse(getNewBoundWitness([account], [payloadA.payload, payloadB.payload])[0])
+      const boundWitnesses = [boundWitnessA, boundWitnessB, boundWitnessC]
       beforeAll(async () => {
-        await archivist.insert([boundWitnessA.payload, boundWitnessB.payload])
+        await archivist.insert(boundWitnesses.map((b) => b.payload))
       })
-      const cases: [string, BoundWitnessWrapper[]][] = [
-        ['single schema', [boundWitnessA]],
-        ['multiple schemas', [boundWitnessA, boundWitnessB]],
+      const cases: [title: string, payload_schemas: string[], expected: BoundWitnessWrapper[]][] = [
+        ['single schema', [schemaA], [boundWitnessA, boundWitnessC]],
+        ['single schema', [schemaB], [boundWitnessB, boundWitnessC]],
+        ['multiple schemas', [schemaA, schemaB], [boundWitnessA, boundWitnessB, boundWitnessC]],
       ]
-      describe.each(cases)('with %s', (_schema, boundWitnesses) => {
-        it('divines BoundWitnesses by payload_schemas', async () => {
-          const payload_schemas = boundWitnesses.map((p) => p.payloadSchemas).flat()
+      describe.each(cases)('with %s', (_title, payload_schemas, expected) => {
+        it('divines BoundWitnesses that contain any of the supplied schemas in payload_schemas', async () => {
           const query: BoundWitnessQueryPayload = { payload_schemas, schema }
           const response = await diviner.divine([query])
-          expect(response).toBeArrayOfSize(boundWitnesses.length)
+          expect(response).toBeArrayOfSize(expected.length)
           const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-          expect(responseHashes).toContainAllValues(boundWitnesses.map((p) => p.hash))
+          expect(responseHashes).toContainAllValues(expected.map((p) => p.hash))
         })
       })
     })

@@ -1,18 +1,17 @@
 import { adminApiKeyStrategy, allowAnonymous, isDevelopment } from '@xyo-network/express-node-middleware'
 import { Express } from 'express'
+import { ReasonPhrases } from 'http-status-codes'
 
 import { getMetrics } from '../routes'
-
+const message = ReasonPhrases.OK
 export const addMetricsRoutes = (app: Express) => {
   app.get(
     '/healthz',
     allowAnonymous,
     (req, res) => {
-      const data = {
-        date: new Date(),
-        message: 'Ok',
-        uptime: process.uptime(),
-      }
+      const date = new Date()
+      const { cpuUsage, memoryUsage, uptime } = process
+      const data = { cpuUsage, date, memoryUsage, message, uptime }
       res.status(200).send(data)
     },
     /* #swagger.tags = ['Health'] */

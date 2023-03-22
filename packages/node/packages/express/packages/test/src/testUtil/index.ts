@@ -1,6 +1,7 @@
 export * from './Account'
 export * from './Archivist'
 export * from './Block'
+export * from './BoundWitness'
 export * from './Bridge'
 export * from './Diviner'
 export * from './Domain'

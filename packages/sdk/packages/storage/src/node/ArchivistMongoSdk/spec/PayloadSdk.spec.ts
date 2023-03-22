@@ -10,7 +10,6 @@ import dotenv from 'dotenv'
 import { PayloadWithPartialMeta } from '../Meta'
 import { XyoArchivistPayloadMongoSdk } from '../PayloadSdk'
 
-const archive = 'test'
 const schema = 'network.xyo.temp'
 
 const getMongoSdk = (archive: string) => {
@@ -39,7 +38,7 @@ describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', (
   const numPayloads = 20
   const limit = 10
   const payloads: PayloadWithPartialMeta[] = []
-  const sdk: XyoArchivistPayloadMongoSdk = getMongoSdk(archive)
+  const sdk: XyoArchivistPayloadMongoSdk = getMongoSdk('temp')
   beforeAll(async () => {
     const testData = getPayloads(numPayloads)
     for (let i = 0; i < testData.length; i++) {

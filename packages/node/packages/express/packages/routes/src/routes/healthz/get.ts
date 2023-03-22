@@ -9,7 +9,7 @@ const handler: RequestHandler<NoReqParams> = (_req, res) => {
   setRawResponseFormat(res)
   const date = new Date()
   const { cpuUsage, memoryUsage, uptime } = process
-  const data = { cpuUsage, date, memoryUsage, message, uptime }
+  const data = { cpuUsage: cpuUsage(), date, memoryUsage: memoryUsage(), message, uptime: uptime() }
   res.status(200).send(data)
 }
 

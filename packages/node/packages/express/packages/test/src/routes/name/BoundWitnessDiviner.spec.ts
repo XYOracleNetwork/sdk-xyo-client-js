@@ -88,26 +88,26 @@ describe(`/${moduleName}`, () => {
         throw new Error('Not Implemented')
       })
     })
-    describe('schema', () => {
+    describe('payload_schemas', () => {
       const schemaA = getTestSchemaName()
       const schemaB = getTestSchemaName()
       const payloadBaseA = getNewPayload()
       payloadBaseA.schema = schemaA
       const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
-      const boundWitnessA = BoundWitnessWrapper.parse(getNewBoundWitness([account], [payloadA])[0])
+      const boundWitnessA = BoundWitnessWrapper.parse(getNewBoundWitness([account], [payloadA.payload])[0])
       const payloadBaseB = getNewPayload()
       payloadBaseB.schema = schemaB
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
-      const boundWitnessB = BoundWitnessWrapper.parse(getNewBoundWitness([account], [payloadB])[0])
+      const boundWitnessB = BoundWitnessWrapper.parse(getNewBoundWitness([account], [payloadB.payload])[0])
       beforeAll(async () => {
-        await archivist.insert([payloadA.payload, payloadB.payload])
+        await archivist.insert([boundWitnessA.payload, boundWitnessB.payload])
       })
       const cases: [string, BoundWitnessWrapper[]][] = [
         ['single schema', [boundWitnessA]],
         ['multiple schemas', [boundWitnessA, boundWitnessB]],
       ]
       describe.each(cases)('with %s', (_schema, boundWitnesses) => {
-        it('divines BoundWitnesses by schema', async () => {
+        it('divines BoundWitnesses by payload_schemas', async () => {
           const payload_schemas = boundWitnesses.map((p) => p.payloadSchemas).flat()
           const query: BoundWitnessQueryPayload = { payload_schemas, schema }
           const response = await diviner.divine([query])

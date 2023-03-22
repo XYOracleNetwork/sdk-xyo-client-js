@@ -121,6 +121,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
+  witnesses(...accounts: AccountInstance[]) {
+    this._accounts?.push(...accounts)
+    return this
+  }
+
   protected signatures(_hash: string) {
     return this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
   }

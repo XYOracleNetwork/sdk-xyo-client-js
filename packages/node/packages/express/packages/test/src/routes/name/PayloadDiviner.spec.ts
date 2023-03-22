@@ -42,13 +42,65 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {
-    it.skip.each(cases)('divines payload by %s', async (_, wrapped) => {
-      const query: PayloadQueryPayload = {
-        schema: PayloadQuerySchema,
-      }
-      const response = await diviner.divine([query])
-      expect(response).toBeArray()
-      expect(response.length).toBeGreaterThan(0)
+    describe('address', () => {
+      it.skip('divines Payloads by address', async (_, _wrapped) => {
+        const query: PayloadQueryPayload = {
+          schema: PayloadQuerySchema,
+        }
+        const response = await diviner.divine([query])
+        expect(response).toBeArray()
+        expect(response.length).toBeGreaterThan(0)
+      })
+    })
+    describe('hash', () => {
+      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+        const query: PayloadQueryPayload = {
+          schema: PayloadQuerySchema,
+        }
+        const response = await diviner.divine([query])
+        expect(response).toBeArray()
+        expect(response.length).toBeGreaterThan(0)
+      })
+    })
+    describe('limit', () => {
+      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+        const query: PayloadQueryPayload = {
+          schema: PayloadQuerySchema,
+        }
+        const response = await diviner.divine([query])
+        expect(response).toBeArray()
+        expect(response.length).toBeGreaterThan(0)
+      })
+    })
+    describe('offset', () => {
+      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+        const query: PayloadQueryPayload = {
+          schema: PayloadQuerySchema,
+        }
+        const response = await diviner.divine([query])
+        expect(response).toBeArray()
+        expect(response.length).toBeGreaterThan(0)
+      })
+    })
+    describe('order', () => {
+      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+        const query: PayloadQueryPayload = {
+          schema: PayloadQuerySchema,
+        }
+        const response = await diviner.divine([query])
+        expect(response).toBeArray()
+        expect(response.length).toBeGreaterThan(0)
+      })
+    })
+    describe('schema', () => {
+      it.skip('divines Payloads by schema', async (_, _wrapped) => {
+        const query: PayloadQueryPayload = {
+          schema: PayloadQuerySchema,
+        }
+        const response = await diviner.divine([query])
+        expect(response).toBeArray()
+        expect(response.length).toBeGreaterThan(0)
+      })
     })
   })
 })

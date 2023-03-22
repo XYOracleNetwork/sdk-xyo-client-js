@@ -5,7 +5,8 @@ import { createServer, Server } from 'http'
 import compact from 'lodash/compact'
 import { collectDefaultMetrics, Registry } from 'prom-client'
 
-import { PrometheusMetricValuePayload, PrometheusMetricValueSchema } from './Plugin'
+import { PrometheusMetricValuePayload } from './Payload'
+import { PrometheusMetricValueSchema } from './Schema'
 
 export type PrometheusNodeWitnessConfigSchema = 'network.xyo.prometheus.node.witness.config'
 export const PrometheusNodeWitnessConfigSchema: PrometheusNodeWitnessConfigSchema = 'network.xyo.prometheus.node.witness.config'

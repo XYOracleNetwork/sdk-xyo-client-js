@@ -1,21 +1,8 @@
-import { Payload, PayloadSetSchema } from '@xyo-network/payload-model'
+import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
-import { Aggregator, MetricType } from 'prom-client'
 
+import { PrometheusMetricValueSchema } from './Schema'
 import { PrometheusNodeWitness } from './Witness'
-
-export type PrometheusMetricValueSchema = 'network.xyo.prometheus.metric.value'
-export const PrometheusMetricValueSchema: PrometheusMetricValueSchema = 'network.xyo.prometheus.metric.value'
-
-export type PrometheusMetricValuePayload = Payload<
-  {
-    aggregator: Aggregator
-    name: string
-    type: MetricType
-    values: (number | string | object)[]
-  },
-  PrometheusMetricValueSchema
->
 
 export const PrometheusNodePlugin = () =>
   createPayloadSetWitnessPlugin<PrometheusNodeWitness>(

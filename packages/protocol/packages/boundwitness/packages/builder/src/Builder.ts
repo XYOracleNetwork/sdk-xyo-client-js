@@ -121,7 +121,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  witnesses(...accounts: AccountInstance[]) {
+  witnesses(accounts: AccountInstance[]) {
     this._accounts?.push(...accounts)
     return this
   }

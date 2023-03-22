@@ -19,7 +19,10 @@ const indexesByCollection: Record<Collection, IndexDescription[]> = {
   users: [],
 }
 
-export const addIndexes = async (db: Db) => {
+// TODO: Use injected client. However, we control
+// timeout and relevant params for index creation
+// with this client.
+export const addIndexes = async (_db: Db) => {
   const env = getMongoDBConfig()
   const uri = assertEx(env.MONGO_CONNECTION_STRING)
   const client: MongoClient = new MongoClient(uri, {

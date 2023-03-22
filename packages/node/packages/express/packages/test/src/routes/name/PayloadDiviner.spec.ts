@@ -77,17 +77,25 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('limit', () => {
-      it.skip('divines Payloads by schema', async () => {
-        const query: PayloadQueryPayload = {
-          schema: PayloadQuerySchema,
-        }
+      const schemaA = getTestSchemaName()
+      const schemaB = getTestSchemaName()
+      const payloadBaseA = getNewPayload()
+      payloadBaseA.schema = schemaA
+      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
+      const payloadBaseB = getNewPayload()
+      payloadBaseB.schema = schemaB
+      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      beforeAll(async () => {
+        await archivist.insert([payloadA.payload, payloadB.payload])
+      })
+      it.each([1, 2])('returns the specified number of Payloads', async (limit) => {
+        const query: PayloadQueryPayload = { limit, schema: PayloadQuerySchema }
         const response = await diviner.divine([query])
-        expect(response).toBeArray()
-        expect(response.length).toBeGreaterThan(0)
+        expect(response).toBeArrayOfSize(limit)
       })
     })
     describe('offset', () => {
-      it.skip('divines Payloads by schema', async () => {
+      it.skip('divines Payloads from offset', async () => {
         const query: PayloadQueryPayload = {
           schema: PayloadQuerySchema,
         }
@@ -97,7 +105,7 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('order', () => {
-      it.skip('divines Payloads by schema', async () => {
+      it.skip('divines Payloads in order', async () => {
         const query: PayloadQueryPayload = {
           schema: PayloadQuerySchema,
         }

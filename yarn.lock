@@ -6578,6 +6578,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/express-node-middleware": "workspace:^"
     "@xyo-network/location-certainty-plugin": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"

@@ -42,7 +42,7 @@ describe('/:hash', () => {
   })
   beforeEach(async () => {
     // Create data pointer will reference
-    const [bw, payloads] = getNewBoundWitness(account)
+    const [bw, payloads] = getNewBoundWitness([account])
     block = bw
     payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
     const blockResponse = await insertBlock(block, account)

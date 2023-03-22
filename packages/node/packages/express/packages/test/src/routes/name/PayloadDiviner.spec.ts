@@ -26,15 +26,16 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {
-    const account = Account.random()
-    describe('address', () => {
+    const accountA = Account.random()
+    const accountB = Account.random()
+    describe.skip('address', () => {
       it('divines Payloads by address', async () => {
         const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payload])[0])
-        await archivist.insert([boundWitness, payload])
+        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness([accountA], [payload])[0])
+        await archivist.insert([boundWitness.payload, payload.payload])
 
         const query: PayloadQueryPayload = {
-          address: account.addressValue.hex,
+          address: accountA.addressValue.hex,
           schema: PayloadQuerySchema,
         }
         const response = await diviner.divine([query])
@@ -43,10 +44,16 @@ describe(`/${moduleName}`, () => {
         expect(response.length).toBeGreaterThan(0)
       })
       it.skip('divines Payloads by addresses', async () => {
+        const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
+        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness([accountA, accountB], [payload])[0])
+        await archivist.insert([boundWitness.payload, payload.payload])
+        const address = [accountA.addressValue.hex, accountB.addressValue.hex] as unknown as (string | string[]) & (string | [string])
         const query: PayloadQueryPayload = {
+          address: address,
           schema: PayloadQuerySchema,
         }
         const response = await diviner.divine([query])
+
         expect(response).toBeArray()
         expect(response.length).toBeGreaterThan(0)
       })

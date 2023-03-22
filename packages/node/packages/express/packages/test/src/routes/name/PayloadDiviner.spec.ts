@@ -69,15 +69,15 @@ describe(`/${moduleName}`, () => {
         const hash = payload.hash
         const query: PayloadQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
-        expect(response).toBeArrayOfSize(0)
+        expect(response).toBeArrayOfSize(1)
+        const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+        expect(responseHashes).toContainAllValues([payload.hash])
       })
       it('returns empty array for non-existent hash', async () => {
         const hash = nonExistentHash
         const query: PayloadQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
-        expect(response).toBeArrayOfSize(1)
-        const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-        expect(responseHashes).toContainAllValues([payload.hash])
+        expect(response).toBeArrayOfSize(0)
       })
     })
     describe('limit', () => {

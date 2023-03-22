@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { describeIf } from '@xylabs/jest-helpers'
 import { uuid } from '@xyo-network/core'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -9,6 +10,7 @@ import dotenv from 'dotenv'
 import { PayloadWithPartialMeta } from '../Meta'
 import { XyoArchivistPayloadMongoSdk } from '../PayloadSdk'
 
+const archive = 'test'
 const schema = 'network.xyo.temp'
 
 const getMongoSdk = (archive: string) => {
@@ -28,33 +30,41 @@ const getMongoSdk = (archive: string) => {
 }
 
 const getPayloads = (number = 5): Payload[] => {
-  return new Array(number).fill(0).map((_val, idx) => {
-    const payload = new PayloadBuilder({ schema }).fields({ prop: uuid() }).build(true)
-    payload._timestamp = idx + 1
-    return payload
+  return new Array(number).fill(0).map((_) => {
+    return new PayloadBuilder({ schema }).fields({ prop: uuid() }).build(true)
   })
 }
 
 describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', () => {
   const numPayloads = 20
   const limit = 10
-  const payloads: PayloadWithPartialMeta[] = getPayloads(numPayloads)
-  const sdk: XyoArchivistPayloadMongoSdk = getMongoSdk('test')
+  const payloads: PayloadWithPartialMeta[] = []
+  const sdk: XyoArchivistPayloadMongoSdk = getMongoSdk(archive)
   beforeAll(async () => {
-    for (let payload = 0; payload < payloads.length; payload++) {
-      await sdk.insert(payloads[payload])
+    const testData = getPayloads(numPayloads)
+    for (let i = 0; i < testData.length; i++) {
+      await sdk.insert(testData[i])
+      const read = await sdk.findByHash(PayloadWrapper.hash(testData[i]))
+      const payload = assertEx(read.pop())
+      payloads.push(payload)
+      await delay(2)
     }
   })
   describe('findAfter', () => {
-    const payload: PayloadWithPartialMeta = payloads[0]
-    const firstPayloadHash = PayloadWrapper.hash(payload)
-    const timestamp = assertEx(payload._timestamp)
+    let payload: PayloadWithPartialMeta
+    let hash: string
+    let timestamp: number
+    beforeAll(() => {
+      payload = payloads[0]
+      hash = PayloadWrapper.hash(payload)
+      timestamp = assertEx(payload._timestamp)
+    })
     it('finds all records after the specified timestamp', async () => {
       const actual = await sdk.findAfter(timestamp, limit)
       expect(actual.length).toBe(limit)
       expect(actual).toBeSortedBy('_timestamp', { descending: false })
       const hashes = actual?.map?.((p) => p._hash)
-      expect(hashes).not.toContain(firstPayloadHash)
+      expect(hashes).not.toContain(hash)
     })
     it('uses an index to perform the query', async () => {
       const plan = await sdk.findAfterPlan(timestamp, limit)
@@ -65,9 +75,14 @@ describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', (
     })
   })
   describe('findBefore', () => {
-    const payload: PayloadWithPartialMeta = payloads[payloads.length - 1]
-    const hash = PayloadWrapper.hash(payload)
-    const timestamp = assertEx(payload._timestamp)
+    let payload: PayloadWithPartialMeta
+    let hash: string
+    let timestamp: number
+    beforeAll(() => {
+      payload = payloads[payloads.length - 1]
+      hash = PayloadWrapper.hash(payload)
+      timestamp = assertEx(payload._timestamp)
+    })
     it('finds all records before the specified timestamp', async () => {
       const actual = await sdk.findBefore(timestamp, limit)
       expect(actual.length).toBe(limit)
@@ -93,9 +108,14 @@ describeIf(process.env.MONGO_CONNECTION_STRING)('XyoArchivistPayloadMongoSdk', (
     })
   })
   describe('findByHash', () => {
-    const payload = payloads[Math.floor(Math.random() * payloads.length)]
-    const hash = PayloadWrapper.hash(payload)
-    const timestamp = assertEx(payload._timestamp)
+    let payload: PayloadWithPartialMeta
+    let hash: string
+    let timestamp: number
+    beforeAll(() => {
+      payload = payloads[Math.floor(Math.random() * payloads.length)]
+      hash = PayloadWrapper.hash(payload)
+      timestamp = assertEx(payload._timestamp)
+    })
     it('uses an index to perform the query by hash', async () => {
       const plan = await sdk.findByHashPlan(hash)
       expect(plan?.queryPlanner?.winningPlan?.inputStage?.stage).toBe('IXSCAN')

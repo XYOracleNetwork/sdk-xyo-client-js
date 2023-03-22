@@ -1,7 +1,8 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { Payload } from '@xyo-network/payload-model'
+import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
 import { getArchivist, getNewBoundWitness, getNewPayload, validateDiscoverResponse } from '../../testUtil'
 
@@ -24,23 +25,20 @@ describe(`/${moduleName}`, () => {
   describe('ArchivistInsertQuerySchema', () => {
     const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
     const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness(account, [payload])[0])
-    it('inserts payload', async () => {
-      const response = await archivist.insert([payload.payload])
+    const cases: [string, PayloadWrapperBase[]][] = [
+      ['payload', [payload]],
+      ['boundwitness', [boundWitness]],
+    ]
+    it.each(cases)('inserts %s', async (_, wrapped) => {
+      const payloads = wrapped.map((w) => w.payload)
+      const hashes = wrapped.map((w) => w.hash)
+      const response = await archivist.insert(payloads)
       expect(response).toBeArray()
       expect(response.length).toBeGreaterThan(0)
       const bw = response.at(-1)
       expect(bw).toBeObject()
       expect(bw?.payload_hashes).toBeArray()
-      expect(bw?.payload_hashes).toContain(payload.hash)
-    })
-    it('inserts boundWitness', async () => {
-      const response = await archivist.insert([boundWitness.boundwitness])
-      expect(response).toBeArray()
-      expect(response.length).toBeGreaterThan(0)
-      const bw = response.at(-1)
-      expect(bw).toBeObject()
-      expect(bw?.payload_hashes).toBeArray()
-      expect(bw?.payload_hashes).toContain(boundWitness.hash)
+      expect(bw?.payload_hashes).toContainValues(hashes)
     })
   })
   describe('ArchivistGetQuerySchema', () => {

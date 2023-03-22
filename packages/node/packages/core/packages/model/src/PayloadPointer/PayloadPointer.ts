@@ -2,12 +2,12 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { PayloadRule } from './PayloadRules'
 
-export const payloadPointerSchema = 'network.xyo.payload.pointer'
-export type PayloadPointerSchema = typeof payloadPointerSchema
+export type PayloadPointerSchema = 'network.xyo.payload.pointer'
+export const PayloadPointerSchema: PayloadPointerSchema = 'network.xyo.payload.pointer'
 
-export interface PayloadPointer {
+export type PayloadPointerPayload = Payload<{
   reference: PayloadRule[][]
-}
+  schema: PayloadPointerSchema
+}>
 
-export type PayloadPointerBody = PayloadPointer & Payload
-export type PayloadPointerPayload = Payload<PayloadPointerBody>
+export const isPayloadPointer = (x?: Payload | null): x is PayloadPointerPayload => x?.schema === PayloadPointerSchema

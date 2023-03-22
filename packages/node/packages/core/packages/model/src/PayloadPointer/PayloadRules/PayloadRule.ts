@@ -1,3 +1,3 @@
-import { PayloadAddressRule, PayloadArchiveRule, PayloadSchemaRule, PayloadTimestampDirectionRule } from './Rules'
+import { PayloadAddressRule, PayloadSchemaRule, PayloadTimestampDirectionRule } from './Rules'
 
-export type PayloadRule = PayloadAddressRule | PayloadArchiveRule | PayloadTimestampDirectionRule | PayloadSchemaRule
+export type PayloadRule = PayloadAddressRule | PayloadTimestampDirectionRule | PayloadSchemaRule

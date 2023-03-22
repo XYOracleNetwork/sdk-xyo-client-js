@@ -2,8 +2,9 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   BoundWitnessWithPartialMeta,
-  PayloadPointerBody,
-  payloadPointerSchema,
+  PayloadPointerPayload,
+  PayloadPointerSchema,
+  PayloadRule,
   PayloadSchemaRule,
   PayloadTimestampDirectionRule,
   SortDirection,
@@ -26,9 +27,9 @@ import {
 const getPayloadPointer = (schema: string, timestamp = Date.now(), direction: SortDirection = 'desc', address?: string): Payload => {
   const schemaRule: PayloadSchemaRule = { schema }
   const timestampRule: PayloadTimestampDirectionRule = { direction, timestamp }
-  const fields: PayloadPointerBody = { reference: [[schemaRule], [timestampRule]], schema: payloadPointerSchema }
-  if (address) fields.reference.push([{ address }])
-  return new PayloadBuilder<PayloadPointerBody>({ schema: payloadPointerSchema }).fields(fields).build()
+  const reference: PayloadRule[][] = [[schemaRule], [timestampRule]]
+  if (address) reference.push([{ address }])
+  return new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields({ reference }).build()
 }
 
 describe('/:hash', () => {

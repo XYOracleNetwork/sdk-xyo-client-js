@@ -23,6 +23,7 @@
     "hashable",
     "Hasher",
     "hdnode",
+    "healthz",
     "huri",
     "Initializable",
     "initializables",

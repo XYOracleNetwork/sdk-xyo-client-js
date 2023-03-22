@@ -2,9 +2,7 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
-import { getArchivist, getNewBoundWitness, getNewPayload, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
-
-const nonExistentHash = '4b19d691dd348c711b2e83ed975c8009856e3001a84cdc63b5226124e08eb4af'
+import { getArchivist, getNewBoundWitness, getNewPayload, nonExistentHash, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
 
 const moduleName = 'Archivist'
 

@@ -16,3 +16,5 @@ export const knownPayload = new PayloadBuilder<Payload<Record<string, unknown>>>
   .build()
 
 export const knownPayloadHash = new PayloadWrapper(knownPayload).hash
+
+export const nonExistentHash = '4b19d691dd348c711b2e83ed975c8009856e3001a84cdc63b5226124e08eb4af'

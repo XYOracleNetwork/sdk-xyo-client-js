@@ -18,7 +18,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/indexBrowser.js",

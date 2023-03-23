@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xyo-network/axios'
 import { MemoryNode, NodeModule, NodeWrapper } from '@xyo-network/node'
 
 import { HttpBridge } from '../HttpBridge'

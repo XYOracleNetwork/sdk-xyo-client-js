@@ -10,8 +10,7 @@ test('HttpBridge', async () => {
   const memNode = await MemoryNode.create()
 
   const bridge = await HttpBridge.create({
-    axios: new AxiosJson({ baseURL }),
-    config: { nodeUri: '/node', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+    config: { nodeUrl: `${baseURL}/node`, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
   })
 
   const wrapper = NodeWrapper.wrap(
@@ -41,8 +40,7 @@ test('HttpBridge - Nested', async () => {
   await memNode2.register(memNode3).attach(memNode3.address, true)
 
   const bridge = await HttpBridge.create({
-    axios: new AxiosJson({ baseURL }),
-    config: { nodeUri: '/node', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+    config: { nodeUrl: `${baseURL}/node`, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
   })
 
   const wrapper = NodeWrapper.wrap(

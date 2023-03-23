@@ -4,6 +4,8 @@ import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { URL } from 'url'
+
 import {
   AnyConfigSchema,
   creatableModule,
@@ -51,12 +53,15 @@ export class HttpBridge<
     return this._axios
   }
 
-  get nodeUri() {
-    return assertEx(this.config?.nodeUri, 'Missing nodeUri')
+  get nodeUrl() {
+    return new URL(this.config?.nodeUrl ?? '/')
   }
 
   get rootAddress() {
-    return assertEx(this._rootAddress, 'missing rootAddress')
+    if (this._rootAddress) {
+      return this._rootAddress
+    }
+    throw(Error('rootAddress not set'))
   }
 
   connect(): Promisable<boolean> {
@@ -70,7 +75,7 @@ export class HttpBridge<
   override async start() {
     await super.start()
     this.downResolver.addResolver(this.targetDownResolver())
-    const rootAddress = assertEx(await this.initRootAddress(), `Failed to get rootAddress [${this.nodeUri}]`)
+    const rootAddress = await this.initRootAddress()
     await this.targetDiscover(rootAddress)
 
     const childAddresses = await this.targetDownResolver().getRemoteAddresses()
@@ -91,12 +96,13 @@ export class HttpBridge<
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }
 
-  async targetDiscover(address: string): Promise<Payload[]> {
+  async targetDiscover(address?: string): Promise<Payload[]> {
+    const addressToDiscover = address ?? this.rootAddress
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
-    const discover = assertEx(await this.targetQuery(address, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
+    const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
 
-    this._targetQueries[address] = compact(
+    this._targetQueries[addressToDiscover] = compact(
       discover?.map((payload) => {
         if (payload.schema === QuerySchema) {
           const schemaPayload = payload as QueryPayload
@@ -112,7 +118,7 @@ export class HttpBridge<
       `Discover did not return a [${ConfigSchema}] payload`,
     ).config
 
-    this._targetConfigs[address] = assertEx(
+    this._targetConfigs[addressToDiscover] = assertEx(
       discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
       `Discover did not return a [${targetConfigSchema}] payload`,
     )
@@ -124,16 +130,20 @@ export class HttpBridge<
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
+  moduleUrl(address: string) {
+    return new URL(address, this.nodeUrl.toString())
+  }
+
   async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {
     try {
-      const path = `${this.nodeUri}/${address ? address : ''}`
-      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(path, [query, payloads])
+      const moduleUrlString = this.moduleUrl(address).toString()
+      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
       if (result.status === 404) {
         return undefined
       }
       if (result.status >= 400) {
-        this.logger?.error(`targetQuery failed [${path}]`)
-        throw `targetQuery failed [${path}] [${result.status}]`
+        this.logger?.error(`targetQuery failed [${moduleUrlString}]`)
+        throw `targetQuery failed [${moduleUrlString}] [${result.status}]`
       }
       return result.data.data
     } catch (ex) {
@@ -151,7 +161,7 @@ export class HttpBridge<
   private async initRootAddress() {
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
-    const response = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUri, boundQuery)
+    const response = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
     this._rootAddress = AxiosJson.finalPath(response)
     return this._rootAddress
   }

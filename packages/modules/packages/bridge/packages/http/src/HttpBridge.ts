@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
-import { BridgeModule } from '@xyo-network/bridge-model'
+import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { URL } from 'url'
 
@@ -24,6 +24,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
+import LruCache from 'lru-cache'
 
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
@@ -44,6 +45,7 @@ export class HttpBridge<
   implements BridgeModule<TParams, TEventData, TModule>
 {
   private _axios?: AxiosJson
+  private _discoverCache?: LruCache<string, Payload[]>
   private _rootAddress?: string
   private _targetConfigs: Record<string, ModuleConfig> = {}
   private _targetQueries: Record<string, string[]> = {}
@@ -51,6 +53,17 @@ export class HttpBridge<
   get axios() {
     this._axios = this._axios ?? this.params.axios ?? new AxiosJson()
     return this._axios
+  }
+
+  get discoverCacheConfig(): LruCache.Options<string, Payload[], unknown> {
+    const discoverCacheConfig: CacheConfig | undefined = this.config.discoverCache === true ? {} : this.config.discoverCache
+    return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
+  }
+
+  get discoverCache() {
+    const config = this.discoverCacheConfig
+    this._discoverCache = this._discoverCache ?? new LruCache<string, Payload[]>({ttlAutopurge: true, ...config})
+    return this._discoverCache
   }
 
   get nodeUrl() {
@@ -97,6 +110,11 @@ export class HttpBridge<
   }
 
   async targetDiscover(address?: string): Promise<Payload[]> {
+    //if caching, return cached result if exists
+    const cachedResult = this.discoverCache?.get(address ?? 'root')
+    if (cachedResult) {
+      return cachedResult
+    }
     const addressToDiscover = address ?? this.rootAddress
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
@@ -122,6 +140,9 @@ export class HttpBridge<
       discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
       `Discover did not return a [${targetConfigSchema}] payload`,
     )
+
+    //if caching, set entry
+    this.discoverCache?.set(address ?? 'root', discover)
 
     return discover
   }

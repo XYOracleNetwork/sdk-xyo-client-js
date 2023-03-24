@@ -13,11 +13,13 @@ export const SdkContainerModule = new AsyncContainerModule(async (bind: interfac
     await addIndexes(client.db(DATABASES.Archivist))
   })
 
-  const boundWitnessSdk = getBaseMongoSdk<BoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-  const payloadSdk = getBaseMongoSdk<PayloadWithMeta>(COLLECTIONS.Payloads)
-  const userSdk = getBaseMongoSdk<User>(COLLECTIONS.Users)
+  // const boundWitnessSdk = getBaseMongoSdk<BoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
+  // const payloadSdk = getBaseMongoSdk<PayloadWithMeta>(COLLECTIONS.Payloads)
+  // const userSdk = getBaseMongoSdk<User>(COLLECTIONS.Users)
 
-  bind<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk).toConstantValue(boundWitnessSdk)
-  bind<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk).toConstantValue(payloadSdk)
-  bind<BaseMongoSdk<User>>(MONGO_TYPES.UserSdk).toConstantValue(userSdk)
+  bind<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk).toDynamicValue(() =>
+    getBaseMongoSdk<BoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses),
+  )
+  bind<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk).toDynamicValue(() => getBaseMongoSdk<PayloadWithMeta>(COLLECTIONS.Payloads))
+  bind<BaseMongoSdk<User>>(MONGO_TYPES.UserSdk).toDynamicValue(() => getBaseMongoSdk<User>(COLLECTIONS.Users))
 })

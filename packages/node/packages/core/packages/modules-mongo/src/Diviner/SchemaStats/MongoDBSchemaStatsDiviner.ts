@@ -65,7 +65,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   /**
    * The max number of records to search during the aggregate query
    */
-  protected readonly aggregateLimit = 5_000_000
+  protected readonly aggregateLimit = 100_000
 
   /**
    * The max number of iterations of aggregate queries to allow when
@@ -166,7 +166,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
           .aggregate()
           .sort({ _archive: 1, _timestamp: 1 })
           .match({ _archive: archive, _timestamp: { $lt: sortStartTime } })
-          .skip(iteration)
+          .skip(iteration * this.aggregateLimit)
           .limit(this.aggregateLimit)
           .group<PayloadSchemaCountsAggregateResult>({ _id: '$schema', count: { $sum: 1 } })
           .maxTimeMS(this.aggregateTimeoutMs)

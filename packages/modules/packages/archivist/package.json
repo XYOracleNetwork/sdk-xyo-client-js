@@ -35,7 +35,7 @@
     "@xylabs/tsconfig": "^2.16.1",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
-    "typescript": "^5.0.2"
+    "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

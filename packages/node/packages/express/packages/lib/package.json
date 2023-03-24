@@ -48,7 +48,7 @@
     "@types/passport": "^1.0.12",
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
-    "typescript": "^5.0.2"
+    "typescript": "^4.9.5"
   },
   "types": "dist/types/index.d.ts"
 }

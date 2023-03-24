@@ -1,7 +1,5 @@
 export * from './address'
 export * from './domain'
-export * from './get'
 export * from './hash'
 export * from './healthz'
 export * from './metrics'
-export * from './post'

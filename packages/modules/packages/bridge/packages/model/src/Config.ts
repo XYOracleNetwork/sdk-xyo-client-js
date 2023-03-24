@@ -6,8 +6,8 @@ export type XyoBridgeConfigSchema = 'network.xyo.bridge.config'
 export const XyoBridgeConfigSchema: XyoBridgeConfigSchema = 'network.xyo.bridge.config'
 
 export interface CacheConfig {
-  ttl?: number
   max?: number
+  ttl?: number
 }
 
 export type BridgeConfig<TConfig extends Payload | undefined = undefined> = ModuleConfig<
@@ -15,5 +15,7 @@ export type BridgeConfig<TConfig extends Payload | undefined = undefined> = Modu
     {
       discoverCache?: CacheConfig | true
       schema: TConfig extends Payload ? TConfig['schema'] : XyoBridgeConfigSchema
-    }, TConfig>
+    },
+    TConfig
+  >
 >

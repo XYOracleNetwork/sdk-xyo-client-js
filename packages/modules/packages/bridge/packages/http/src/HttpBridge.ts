@@ -4,8 +4,6 @@ import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { URL } from 'url'
-
 import {
   AnyConfigSchema,
   creatableModule,
@@ -25,15 +23,11 @@ import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
+import { URL } from 'url'
 
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
-export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<
-  TConfig,
-  {
-    axios?: AxiosJson
-  }
->
+export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<TConfig>
 
 @creatableModule()
 export class HttpBridge<
@@ -51,19 +45,19 @@ export class HttpBridge<
   private _targetQueries: Record<string, string[]> = {}
 
   get axios() {
-    this._axios = this._axios ?? this.params.axios ?? new AxiosJson()
+    this._axios = this._axios ?? new AxiosJson()
     return this._axios
+  }
+
+  get discoverCache() {
+    const config = this.discoverCacheConfig
+    this._discoverCache = this._discoverCache ?? new LruCache<string, Payload[]>({ ttlAutopurge: true, ...config })
+    return this._discoverCache
   }
 
   get discoverCacheConfig(): LruCache.Options<string, Payload[], unknown> {
     const discoverCacheConfig: CacheConfig | undefined = this.config.discoverCache === true ? {} : this.config.discoverCache
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
-  }
-
-  get discoverCache() {
-    const config = this.discoverCacheConfig
-    this._discoverCache = this._discoverCache ?? new LruCache<string, Payload[]>({ttlAutopurge: true, ...config})
-    return this._discoverCache
   }
 
   get nodeUrl() {
@@ -74,7 +68,7 @@ export class HttpBridge<
     if (this._rootAddress) {
       return this._rootAddress
     }
-    throw(Error('rootAddress not set'))
+    throw Error('rootAddress not set')
   }
 
   connect(): Promisable<boolean> {
@@ -83,6 +77,10 @@ export class HttpBridge<
 
   disconnect(): Promisable<boolean> {
     return true
+  }
+
+  moduleUrl(address: string) {
+    return new URL(address, this.nodeUrl.toString())
   }
 
   override async start() {
@@ -149,10 +147,6 @@ export class HttpBridge<
 
   targetQueries(address: string): string[] {
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
-  }
-
-  moduleUrl(address: string) {
-    return new URL(address, this.nodeUrl.toString())
   }
 
   async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {

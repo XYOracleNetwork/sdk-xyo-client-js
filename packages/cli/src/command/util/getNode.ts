@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xyo-network/axios'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { NodeModule, NodeWrapper } from '@xyo-network/modules'
 
@@ -14,8 +13,7 @@ export const getNode = async (args: BaseArguments): Promise<NodeWrapper> => {
   try {
     const apiConfig = await getApiConfig(args)
     const nodeUrl = `${apiConfig.apiDomain}`
-    const axios = new AxiosJson()
-    const bridge = await HttpBridge.create({ axios, config: { nodeUrl, schema, security } })
+    const bridge = await HttpBridge.create({ config: { nodeUrl, schema, security } })
     const node = assertEx((await bridge.downResolver.resolve({ address: [bridge.rootAddress] }))?.pop(), 'Failed to resolve rootNode')
     return NodeWrapper.wrap(node as NodeModule)
   } catch (error) {

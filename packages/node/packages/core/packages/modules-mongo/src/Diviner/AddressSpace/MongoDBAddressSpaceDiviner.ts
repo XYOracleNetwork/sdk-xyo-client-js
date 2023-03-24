@@ -1,3 +1,4 @@
+import { exists } from '@xylabs/exists'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerParams, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
@@ -39,7 +40,12 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
       )
     })
     // Ensure uniqueness on case
-    const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()))
+    const addresses = new Set<string>(
+      result?.values
+        ?.slice(1, 20)
+        ?.map((address: string) => address?.toLowerCase())
+        .filter(exists),
+    )
     return [...addresses].map((address) => {
       return { address, schema: AddressSchema }
     })

@@ -4,8 +4,10 @@ import { JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Job, JobProvider } from '@xyo-network/shared'
 
+const runJobs = false
+
 export const initializeJobs = async () => {
-  const jobs = (await container.getAllAsync<JobProvider>(TYPES.JobProvider)).flatMap((provider) => provider?.jobs).filter(exists)
+  const jobs = runJobs ? (await container.getAllAsync<JobProvider>(TYPES.JobProvider)).flatMap((provider) => provider?.jobs).filter(exists) : []
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   defineJobs(jobQueue, jobs)
   await jobQueue.start()

@@ -1,17 +1,16 @@
-import { HttpBridge, HttpBridgeConfigSchema, XyoHttpBridgeParams } from '@xyo-network/http-bridge'
-
-import { getRequestClient } from '../Server'
+import { assertEx } from '@xylabs/assert'
+import { HttpBridge, HttpBridgeConfig, HttpBridgeConfigSchema, XyoHttpBridgeParams } from '@xyo-network/http-bridge'
+import path from 'path'
 
 let bridge: HttpBridge
 
 export const getBridge = async (): Promise<HttpBridge> => {
   if (bridge) return bridge
-  const client = getRequestClient()
-  const nodeUri = '/node'
+  const nodeUrl = path.join(assertEx(process.env.API_DOMAIN, 'Missing API_DOMAIN'), '/node')
   const schema = HttpBridgeConfigSchema
   const security = { allowAnonymous: true }
-  const config = { nodeUri, schema, security }
-  const params: XyoHttpBridgeParams = { axios: client, config }
+  const config: HttpBridgeConfig = { nodeUrl, schema, security }
+  const params: XyoHttpBridgeParams = { config }
   bridge = await HttpBridge.create(params)
   return bridge
 }

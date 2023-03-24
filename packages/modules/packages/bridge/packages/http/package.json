@@ -23,9 +23,11 @@
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "lodash": "^4.17.21",
-    "lru-cache": "^8.0.4"
+    "lru-cache": "^8.0.4",
+    "url-parse": "^1.5.10"
   },
   "devDependencies": {
+    "@types/url-parse": "^1.4.8",
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"

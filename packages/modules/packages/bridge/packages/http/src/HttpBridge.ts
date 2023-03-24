@@ -23,7 +23,7 @@ import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
-import { URL } from 'url'
+import Url from 'url-parse'
 
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
@@ -61,7 +61,7 @@ export class HttpBridge<
   }
 
   get nodeUrl() {
-    return new URL(this.config?.nodeUrl ?? '/')
+    return new Url(this.config?.nodeUrl ?? '/')
   }
 
   get rootAddress() {

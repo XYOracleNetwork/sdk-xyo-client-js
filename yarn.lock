@@ -4134,6 +4134,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/url-parse@npm:^1.4.8":
+  version: 1.4.8
+  resolution: "@types/url-parse@npm:1.4.8"
+  checksum: 44a5e96ed4b579c43750f3578bfa9165f97a359c3b2a85ee126e9c16db964f6ea105e152afd3d1adbd15850a8b812043215f3820112177bb4255a60b432dbd85
+  languageName: node
+  linkType: hard
+
 "@types/uuid@npm:^9.0.1":
   version: 9.0.1
   resolution: "@types/uuid@npm:9.0.1"
@@ -6176,6 +6183,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
+    "@types/url-parse": ^1.4.8
     "@xylabs/assert": ^2.7.4
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
@@ -6193,6 +6201,7 @@ __metadata:
     lodash: ^4.17.21
     lru-cache: ^8.0.4
     typescript: ^4.9.5
+    url-parse: ^1.5.10
   languageName: unknown
   linkType: soft
 
@@ -19983,7 +19992,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"url-parse@npm:^1.5.3":
+"url-parse@npm:^1.5.10, url-parse@npm:^1.5.3":
   version: 1.5.10
   resolution: "url-parse@npm:1.5.10"
   dependencies:

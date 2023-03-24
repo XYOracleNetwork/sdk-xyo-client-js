@@ -23,7 +23,7 @@ export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriP
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
-      `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
+      () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const huriList = huriPayloads
       .map((huriPayload, index) => huriPayload.huri.map((huri) => new Huri(huri, { token: huriPayload.tokens?.[index] })))

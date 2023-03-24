@@ -28,7 +28,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return (
       this._payloadHashes ??
       this._payloads.map((payload) => {
-        return assertEx(new Hasher(payload).hash)
+        return assertEx(Hasher.hash(payload))
       })
     )
   }
@@ -37,7 +37,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return (
       this._payloadSchemas ??
       this._payloads.map((payload) => {
-        return assertEx(payload.schema, `Builder: Missing Schema\n${JSON.stringify(this._payloads, null, 2)}`)
+        return assertEx(payload.schema, () => this.missingSchemaMessage(payload))
       })
     )
   }
@@ -45,12 +45,10 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   build(meta = false): [TBoundWitness, TPayload[]] {
     const hashableFields = this.hashableFields()
     const _hash = BoundWitnessWrapper.hash(hashableFields)
-
     const ret: TBoundWitness = {
       ...hashableFields,
       _signatures: this.signatures(_hash),
     }
-
     if (meta ?? this.config?.meta) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const bwWithMeta = ret as any
@@ -58,7 +56,6 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
       bwWithMeta._hash = _hash
       bwWithMeta._timestamp = this._timestamp
     }
-
     if (this.config.inlinePayloads) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const anyRet = ret as any
@@ -71,10 +68,12 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   hashableFields(): TBoundWitness {
     const addresses = this._accounts.map((account) => account.addressValue.hex)
     const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
+    const payload_hashes = assertEx(this._payload_hashes, 'Missing payload_hashes')
+    const payload_schemas = assertEx(this._payload_schemas, 'Missing payload_schemas')
     const result: TBoundWitness = {
       addresses: assertEx(addresses, 'Missing addresses'),
-      payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
-      payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
+      payload_hashes,
+      payload_schemas,
       previous_hashes,
       schema: BoundWitnessSchema,
     } as TBoundWitness
@@ -88,6 +87,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     if (this.config.timestamp ?? true) {
       result.timestamp = this._timestamp
     }
+
     return result
   }
 
@@ -137,5 +137,9 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
         schema: this._payload_schemas[index],
       }
     })
+  }
+
+  private missingSchemaMessage(payload: Payload) {
+    return `Builder: Missing Schema\n${JSON.stringify(payload, null, 2)}`
   }
 }

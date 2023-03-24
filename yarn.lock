@@ -124,28 +124,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-secrets-manager@npm:^3.298.0":
-  version: 3.298.0
-  resolution: "@aws-sdk/client-secrets-manager@npm:3.298.0"
+"@aws-sdk/client-secrets-manager@npm:^3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/client-secrets-manager@npm:3.299.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.298.0
-    "@aws-sdk/config-resolver": 3.296.0
-    "@aws-sdk/credential-provider-node": 3.298.0
+    "@aws-sdk/client-sts": 3.299.0
+    "@aws-sdk/config-resolver": 3.299.0
+    "@aws-sdk/credential-provider-node": 3.299.0
     "@aws-sdk/fetch-http-handler": 3.296.0
     "@aws-sdk/hash-node": 3.296.0
     "@aws-sdk/invalid-dependency": 3.296.0
     "@aws-sdk/middleware-content-length": 3.296.0
-    "@aws-sdk/middleware-endpoint": 3.296.0
+    "@aws-sdk/middleware-endpoint": 3.299.0
     "@aws-sdk/middleware-host-header": 3.296.0
     "@aws-sdk/middleware-logger": 3.296.0
     "@aws-sdk/middleware-recursion-detection": 3.296.0
     "@aws-sdk/middleware-retry": 3.296.0
     "@aws-sdk/middleware-serde": 3.296.0
-    "@aws-sdk/middleware-signing": 3.296.0
+    "@aws-sdk/middleware-signing": 3.299.0
     "@aws-sdk/middleware-stack": 3.296.0
-    "@aws-sdk/middleware-user-agent": 3.296.0
+    "@aws-sdk/middleware-user-agent": 3.299.0
     "@aws-sdk/node-config-provider": 3.296.0
     "@aws-sdk/node-http-handler": 3.296.0
     "@aws-sdk/protocol-http": 3.296.0
@@ -156,15 +156,15 @@ __metadata:
     "@aws-sdk/util-body-length-browser": 3.295.0
     "@aws-sdk/util-body-length-node": 3.295.0
     "@aws-sdk/util-defaults-mode-browser": 3.296.0
-    "@aws-sdk/util-defaults-mode-node": 3.296.0
+    "@aws-sdk/util-defaults-mode-node": 3.299.0
     "@aws-sdk/util-endpoints": 3.296.0
     "@aws-sdk/util-retry": 3.296.0
-    "@aws-sdk/util-user-agent-browser": 3.296.0
-    "@aws-sdk/util-user-agent-node": 3.296.0
+    "@aws-sdk/util-user-agent-browser": 3.299.0
+    "@aws-sdk/util-user-agent-node": 3.299.0
     "@aws-sdk/util-utf8": 3.295.0
     tslib: ^2.5.0
     uuid: ^8.3.2
-  checksum: a36ab2b9973878ad8291fc1fc98af40bf5f4efc4eb9cb0424ca768d712c74e131756999210b9eee7922a9867eb07f435b3590bd083c4172619aa16216faacc94
+  checksum: 5beb971d47aa9e82a8413839025cf2acef784b1026214f909ed43abf279a73c58469740665685e352eda218923d34933da12f3b60cce782371590e8ff562e89b
   languageName: node
   linkType: hard
 
@@ -208,6 +208,46 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/client-sso-oidc@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/client-sso-oidc@npm:3.299.0"
+  dependencies:
+    "@aws-crypto/sha256-browser": 3.0.0
+    "@aws-crypto/sha256-js": 3.0.0
+    "@aws-sdk/config-resolver": 3.299.0
+    "@aws-sdk/fetch-http-handler": 3.296.0
+    "@aws-sdk/hash-node": 3.296.0
+    "@aws-sdk/invalid-dependency": 3.296.0
+    "@aws-sdk/middleware-content-length": 3.296.0
+    "@aws-sdk/middleware-endpoint": 3.299.0
+    "@aws-sdk/middleware-host-header": 3.296.0
+    "@aws-sdk/middleware-logger": 3.296.0
+    "@aws-sdk/middleware-recursion-detection": 3.296.0
+    "@aws-sdk/middleware-retry": 3.296.0
+    "@aws-sdk/middleware-serde": 3.296.0
+    "@aws-sdk/middleware-stack": 3.296.0
+    "@aws-sdk/middleware-user-agent": 3.299.0
+    "@aws-sdk/node-config-provider": 3.296.0
+    "@aws-sdk/node-http-handler": 3.296.0
+    "@aws-sdk/protocol-http": 3.296.0
+    "@aws-sdk/smithy-client": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    "@aws-sdk/url-parser": 3.296.0
+    "@aws-sdk/util-base64": 3.295.0
+    "@aws-sdk/util-body-length-browser": 3.295.0
+    "@aws-sdk/util-body-length-node": 3.295.0
+    "@aws-sdk/util-defaults-mode-browser": 3.296.0
+    "@aws-sdk/util-defaults-mode-node": 3.299.0
+    "@aws-sdk/util-endpoints": 3.296.0
+    "@aws-sdk/util-retry": 3.296.0
+    "@aws-sdk/util-user-agent-browser": 3.299.0
+    "@aws-sdk/util-user-agent-node": 3.299.0
+    "@aws-sdk/util-utf8": 3.295.0
+    tslib: ^2.5.0
+  checksum: 67ab9a7a85cd6802e3247baa0932dbad6a385075975ba6ee939115fa9531ddb2c38a0829dff6def2a62e1d868a6f6bf340e2ba494c075128fafcc851ad352ab6
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/client-sso@npm:3.298.0":
   version: 3.298.0
   resolution: "@aws-sdk/client-sso@npm:3.298.0"
@@ -245,6 +285,46 @@ __metadata:
     "@aws-sdk/util-utf8": 3.295.0
     tslib: ^2.5.0
   checksum: 226b8c211e78a384db7106c6c5ed4d8ae7cfb672ed31c595c6f8531d17b5704315b06cba07aabbc35d8dbccc3fe0ed4f1c290e33d9e599e2f75af9d51afdb1fe
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/client-sso@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/client-sso@npm:3.299.0"
+  dependencies:
+    "@aws-crypto/sha256-browser": 3.0.0
+    "@aws-crypto/sha256-js": 3.0.0
+    "@aws-sdk/config-resolver": 3.299.0
+    "@aws-sdk/fetch-http-handler": 3.296.0
+    "@aws-sdk/hash-node": 3.296.0
+    "@aws-sdk/invalid-dependency": 3.296.0
+    "@aws-sdk/middleware-content-length": 3.296.0
+    "@aws-sdk/middleware-endpoint": 3.299.0
+    "@aws-sdk/middleware-host-header": 3.296.0
+    "@aws-sdk/middleware-logger": 3.296.0
+    "@aws-sdk/middleware-recursion-detection": 3.296.0
+    "@aws-sdk/middleware-retry": 3.296.0
+    "@aws-sdk/middleware-serde": 3.296.0
+    "@aws-sdk/middleware-stack": 3.296.0
+    "@aws-sdk/middleware-user-agent": 3.299.0
+    "@aws-sdk/node-config-provider": 3.296.0
+    "@aws-sdk/node-http-handler": 3.296.0
+    "@aws-sdk/protocol-http": 3.296.0
+    "@aws-sdk/smithy-client": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    "@aws-sdk/url-parser": 3.296.0
+    "@aws-sdk/util-base64": 3.295.0
+    "@aws-sdk/util-body-length-browser": 3.295.0
+    "@aws-sdk/util-body-length-node": 3.295.0
+    "@aws-sdk/util-defaults-mode-browser": 3.296.0
+    "@aws-sdk/util-defaults-mode-node": 3.299.0
+    "@aws-sdk/util-endpoints": 3.296.0
+    "@aws-sdk/util-retry": 3.296.0
+    "@aws-sdk/util-user-agent-browser": 3.299.0
+    "@aws-sdk/util-user-agent-node": 3.299.0
+    "@aws-sdk/util-utf8": 3.295.0
+    tslib: ^2.5.0
+  checksum: e83a26facdf0f08677f883df4e382654db6850a71a370c7f60afba1c00ecf7aac315477fcfc571e7300dd016804445d416fce3edd14966aa1b366e662a3697be
   languageName: node
   linkType: hard
 
@@ -292,6 +372,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/client-sts@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/client-sts@npm:3.299.0"
+  dependencies:
+    "@aws-crypto/sha256-browser": 3.0.0
+    "@aws-crypto/sha256-js": 3.0.0
+    "@aws-sdk/config-resolver": 3.299.0
+    "@aws-sdk/credential-provider-node": 3.299.0
+    "@aws-sdk/fetch-http-handler": 3.296.0
+    "@aws-sdk/hash-node": 3.296.0
+    "@aws-sdk/invalid-dependency": 3.296.0
+    "@aws-sdk/middleware-content-length": 3.296.0
+    "@aws-sdk/middleware-endpoint": 3.299.0
+    "@aws-sdk/middleware-host-header": 3.296.0
+    "@aws-sdk/middleware-logger": 3.296.0
+    "@aws-sdk/middleware-recursion-detection": 3.296.0
+    "@aws-sdk/middleware-retry": 3.296.0
+    "@aws-sdk/middleware-sdk-sts": 3.299.0
+    "@aws-sdk/middleware-serde": 3.296.0
+    "@aws-sdk/middleware-signing": 3.299.0
+    "@aws-sdk/middleware-stack": 3.296.0
+    "@aws-sdk/middleware-user-agent": 3.299.0
+    "@aws-sdk/node-config-provider": 3.296.0
+    "@aws-sdk/node-http-handler": 3.296.0
+    "@aws-sdk/protocol-http": 3.296.0
+    "@aws-sdk/smithy-client": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    "@aws-sdk/url-parser": 3.296.0
+    "@aws-sdk/util-base64": 3.295.0
+    "@aws-sdk/util-body-length-browser": 3.295.0
+    "@aws-sdk/util-body-length-node": 3.295.0
+    "@aws-sdk/util-defaults-mode-browser": 3.296.0
+    "@aws-sdk/util-defaults-mode-node": 3.299.0
+    "@aws-sdk/util-endpoints": 3.296.0
+    "@aws-sdk/util-retry": 3.296.0
+    "@aws-sdk/util-user-agent-browser": 3.299.0
+    "@aws-sdk/util-user-agent-node": 3.299.0
+    "@aws-sdk/util-utf8": 3.295.0
+    fast-xml-parser: 4.1.2
+    tslib: ^2.5.0
+  checksum: 4a9160e0e79a3f5d39646d56dbd9a0cb52063164df42e88640019ca74e88e49f7c36ddb98beae537051eb0798d912e283262657bdf420c6640ed04783f2d3d72
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/config-resolver@npm:3.296.0":
   version: 3.296.0
   resolution: "@aws-sdk/config-resolver@npm:3.296.0"
@@ -302,6 +426,18 @@ __metadata:
     "@aws-sdk/util-middleware": 3.296.0
     tslib: ^2.5.0
   checksum: 0c9c58940434317108410f4d532b170f651d47e952dcdab16e711cbb3d29dec08b2f17c50f66064a32889ea5fb4c27283f364d9db7990720d513d8f8aa5953cd
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/config-resolver@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/config-resolver@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/types": 3.296.0
+    "@aws-sdk/util-config-provider": 3.295.0
+    "@aws-sdk/util-middleware": 3.296.0
+    tslib: ^2.5.0
+  checksum: 2fc2bd424a3b24cabf1df549b6102a47657ddf77f6d81cf2d477fd7eec407071febc5ec5e21384903104526b753c71777106c24dfdfd055e2b8cd810d7d50730
   languageName: node
   linkType: hard
 
@@ -358,6 +494,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/credential-provider-ini@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/credential-provider-ini@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/credential-provider-env": 3.296.0
+    "@aws-sdk/credential-provider-imds": 3.296.0
+    "@aws-sdk/credential-provider-process": 3.296.0
+    "@aws-sdk/credential-provider-sso": 3.299.0
+    "@aws-sdk/credential-provider-web-identity": 3.296.0
+    "@aws-sdk/property-provider": 3.296.0
+    "@aws-sdk/shared-ini-file-loader": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    tslib: ^2.5.0
+  checksum: 2bb3b76ee7083cd861ac81bfd3f9e3f2a610277e23a4235503101d262d3ed9e4fd9f2fff079549f0b180e7383e0388c30f965e55eb107f90dc3b9aef69a51946
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/credential-provider-node@npm:3.298.0":
   version: 3.298.0
   resolution: "@aws-sdk/credential-provider-node@npm:3.298.0"
@@ -373,6 +526,24 @@ __metadata:
     "@aws-sdk/types": 3.296.0
     tslib: ^2.5.0
   checksum: 7ac85fff40f4c266f5890ae02998f166c10cda43c6ce50b59c475e776be3356cadca8bf00f0f687c62a38ce6030597e850f98068c862a1103fee62198c206f3a
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/credential-provider-node@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/credential-provider-node@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/credential-provider-env": 3.296.0
+    "@aws-sdk/credential-provider-imds": 3.296.0
+    "@aws-sdk/credential-provider-ini": 3.299.0
+    "@aws-sdk/credential-provider-process": 3.296.0
+    "@aws-sdk/credential-provider-sso": 3.299.0
+    "@aws-sdk/credential-provider-web-identity": 3.296.0
+    "@aws-sdk/property-provider": 3.296.0
+    "@aws-sdk/shared-ini-file-loader": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    tslib: ^2.5.0
+  checksum: e622fe0c550cdfc6df247591becfdb747c6a0aecc1142f954a728f72677a00391302b90ee90b019861093d2c79050ba4bc038430235c56a0f5bb8f131865a4ca
   languageName: node
   linkType: hard
 
@@ -399,6 +570,20 @@ __metadata:
     "@aws-sdk/types": 3.296.0
     tslib: ^2.5.0
   checksum: cabb308ec19016f7ab416e2f77b9ec4293c1b8a7e129c60133f19532cd9fedb2dbef6471e48119b8e084539cd095b08ad810680d82d2059288ac43d69cea2163
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/credential-provider-sso@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/credential-provider-sso@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/client-sso": 3.299.0
+    "@aws-sdk/property-provider": 3.296.0
+    "@aws-sdk/shared-ini-file-loader": 3.296.0
+    "@aws-sdk/token-providers": 3.299.0
+    "@aws-sdk/types": 3.296.0
+    tslib: ^2.5.0
+  checksum: b837ea99a623f0d7e427db70160dcc1ac4c0c6e497ec4b4dadc9fdd16aa6fc0a0434998b48af50e3490be3c591c5fe7601a4b70e71b03118ce45d38cb22dd846
   languageName: node
   linkType: hard
 
@@ -507,6 +692,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/middleware-endpoint@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/middleware-endpoint@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/middleware-serde": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    "@aws-sdk/url-parser": 3.296.0
+    "@aws-sdk/util-middleware": 3.296.0
+    tslib: ^2.5.0
+  checksum: 7e8c6a85575019871c87dc5c1b19c47999bd5ae3fc2546b72e3e617bf8bdea1392fb385e25a51f382b37d01d171de51dfaf2f53b79fb09adc10049ee571fbc13
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/middleware-host-header@npm:3.296.0":
   version: 3.296.0
   resolution: "@aws-sdk/middleware-host-header@npm:3.296.0"
@@ -568,6 +766,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/middleware-sdk-sts@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/middleware-sdk-sts@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/middleware-signing": 3.299.0
+    "@aws-sdk/types": 3.296.0
+    tslib: ^2.5.0
+  checksum: b1e2b28d29d924bbe176203c9a0abbe05a48748845da970a5aa61723b5ad118d50b3790baf63cecb69db63b89dc6e4abca218f14ce258bce87858acf339696de
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/middleware-serde@npm:3.296.0":
   version: 3.296.0
   resolution: "@aws-sdk/middleware-serde@npm:3.296.0"
@@ -592,6 +801,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/middleware-signing@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/middleware-signing@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/property-provider": 3.296.0
+    "@aws-sdk/protocol-http": 3.296.0
+    "@aws-sdk/signature-v4": 3.299.0
+    "@aws-sdk/types": 3.296.0
+    "@aws-sdk/util-middleware": 3.296.0
+    tslib: ^2.5.0
+  checksum: 4eaa0a3b51eefa0f5e839a55ffa98f7cc79644fb7e8e3a3fbbdc4de2e2d10fb07cbd5201f44464a5550462af5efe47977feb6f057e6bd2160eed0904cd9d1752
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/middleware-stack@npm:3.296.0":
   version: 3.296.0
   resolution: "@aws-sdk/middleware-stack@npm:3.296.0"
@@ -610,6 +833,18 @@ __metadata:
     "@aws-sdk/util-endpoints": 3.296.0
     tslib: ^2.5.0
   checksum: ac72cace0df77edaeba789f15e9f6b9bc28ac8f60cf3af5f4a5b45415346f9eb8c32a76294150ed73bdb9b1a777bf1e21d649e11d1e0c9c316b18068e2176719
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/middleware-user-agent@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/middleware-user-agent@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/protocol-http": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    "@aws-sdk/util-endpoints": 3.296.0
+    tslib: ^2.5.0
+  checksum: 7ae91b41d2a9ab6d016e749458c30eb99f7fc1b11093410e6e2b0f0258aba8269fd5e22a980eb54bcbf8456679bf65c7e76fbf5bb145a13ff7d31398a82821ae
   languageName: node
   linkType: hard
 
@@ -711,6 +946,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/signature-v4@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/signature-v4@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/is-array-buffer": 3.295.0
+    "@aws-sdk/types": 3.296.0
+    "@aws-sdk/util-hex-encoding": 3.295.0
+    "@aws-sdk/util-middleware": 3.296.0
+    "@aws-sdk/util-uri-escape": 3.295.0
+    "@aws-sdk/util-utf8": 3.295.0
+    tslib: ^2.5.0
+  checksum: 642e49ef1cb87649a0fdceb82c55f5153f9d662d5429d49fb18601c3ff8c12a1b050d8856fb18c041511be9d4d38fa741628c23f4be508cb816be696446139cd
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/smithy-client@npm:3.296.0":
   version: 3.296.0
   resolution: "@aws-sdk/smithy-client@npm:3.296.0"
@@ -732,6 +982,19 @@ __metadata:
     "@aws-sdk/types": 3.296.0
     tslib: ^2.5.0
   checksum: aed172e630a4d5de12f77564782486989cf12fe90b837bf0b82347cf1ed6c73c086aacad284d753a9e47676d4bdf251232b845d57f2f9943e5c815bb9321b465
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/token-providers@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/token-providers@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/client-sso-oidc": 3.299.0
+    "@aws-sdk/property-provider": 3.296.0
+    "@aws-sdk/shared-ini-file-loader": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    tslib: ^2.5.0
+  checksum: 37fac12eead196c717385511344a0125871a2a1a745ce85fc7c2cf086023aeb19ce9cd0c5289ba425cb7df1182d346f8c6c50087467243850c879b3d74dc4a17
   languageName: node
   linkType: hard
 
@@ -828,6 +1091,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/util-defaults-mode-node@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/util-defaults-mode-node@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/config-resolver": 3.299.0
+    "@aws-sdk/credential-provider-imds": 3.296.0
+    "@aws-sdk/node-config-provider": 3.296.0
+    "@aws-sdk/property-provider": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    tslib: ^2.5.0
+  checksum: f0a30f8a58a5f92ea8ee6bc0239f635f318f16b3cf00ef00ce622715a267c598f55791532bd845070344f35d4ba7e8b6063ecb7bc76caac3c2eb90cca3150657
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/util-endpoints@npm:3.296.0":
   version: 3.296.0
   resolution: "@aws-sdk/util-endpoints@npm:3.296.0"
@@ -895,6 +1172,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/util-user-agent-browser@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/util-user-agent-browser@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/types": 3.296.0
+    bowser: ^2.11.0
+    tslib: ^2.5.0
+  checksum: 60ebb1c0f5de624c212f00641fdcc8b667dac6442413d0d882745b660f72a6d1107cd6b04e7a5eee4013f0444b9fedfe151317937ac1f7d333dd3feeefa027b0
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/util-user-agent-node@npm:3.296.0":
   version: 3.296.0
   resolution: "@aws-sdk/util-user-agent-node@npm:3.296.0"
@@ -908,6 +1196,22 @@ __metadata:
     aws-crt:
       optional: true
   checksum: 20b370e1ebee13f70d7f2ee804c6069e5bcaa676591ba2aed09ef28fbd05ac8e201b0473dd0572e9e47c98bbc27f5b55d61ad469f330833576a7972c5c387be9
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/util-user-agent-node@npm:3.299.0":
+  version: 3.299.0
+  resolution: "@aws-sdk/util-user-agent-node@npm:3.299.0"
+  dependencies:
+    "@aws-sdk/node-config-provider": 3.296.0
+    "@aws-sdk/types": 3.296.0
+    tslib: ^2.5.0
+  peerDependencies:
+    aws-crt: ">=1.0.0"
+  peerDependenciesMeta:
+    aws-crt:
+      optional: true
+  checksum: 50bfcaf9bc0ee6f0ca87bfbcbacf10394631d62dba508f0b43b7c3cf2a6febe75ca1160e18d0abc96caddb0608504ab7ceb4a92078184764669a935db1af7cf8
   languageName: node
   linkType: hard
 
@@ -3922,10 +4226,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.15.6":
-  version: 18.15.6
-  resolution: "@types/node@npm:18.15.6"
-  checksum: 46a1b04553a03574fb845bb4414292d47338d29c40fa25861d3c9e8a957455dfb23ff6385428da1613b02ddc3b5b5fe91c9227c55db80a46a655799ea2add285
+"@types/node@npm:*, @types/node@npm:^18.15.7":
+  version: 18.15.7
+  resolution: "@types/node@npm:18.15.7"
+  checksum: 08d1dd1898be10cd274955ed7f491bcab5b7e70ce66b6a1e996a582d5467f7517046b0d9c5f4e15871df94dd72d1ad9e7be236d2cff1a1450ec906d7fa3062d2
   languageName: node
   linkType: hard
 
@@ -4514,35 +4818,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/assert@npm:2.7.4"
-  checksum: 3ed5166bfc157e82c874ce2485cb83b1647ee85d57a7b89d6e4e48162431c6df707efe86f396b44ee9ca8f421b7619619500ce5f49e64f61e99b712ab1c7eabd
+"@xylabs/assert@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/assert@npm:2.7.6"
+  checksum: 105d2d3a83787e7b9c85430d9fe983a4656e77d2b748c0b406081edb1612b666c52e492dff8f8815e74a17f8066692be4eb61fff0b4df6cc36483fc3b7cc26af
   languageName: node
   linkType: hard
 
-"@xylabs/bignumber@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/bignumber@npm:2.7.4"
+"@xylabs/bignumber@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/bignumber@npm:2.7.6"
   dependencies:
     bn.js: ^5.2.1
-  checksum: 334d4b18a1635567149dc227bb79d028383730d81806114f6fae2d5fb0b73d650e30fae9d9c3ea2bde717990c7a164c46e94ff928c3515656cf5e8fb8f051f8c
+  checksum: ce635fd3138f5707af16b9a3e20f559dcc249ba9fe9d93647113d493a4c687737791afb104ff1be6688e70437d3aae58be25beaa9581a2af409cf2a0a06de0cb
   languageName: node
   linkType: hard
 
-"@xylabs/buffer@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/buffer@npm:2.7.4"
+"@xylabs/buffer@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/buffer@npm:2.7.6"
   dependencies:
     buffer: ^6.0.3
-  checksum: 7e3522e354a3106a2110c2fe1c8963b559f1ce6097d11095827f41fe0516c022b347787f67b55ef7c26e073d6ebd8a921bad4c7e8ec838f76798bc80e7a261d6
+  checksum: d79f61c89f072ccd7e097584ab9b3e8a3668fea35cd52ac8b2bbee5f9c407f6145d9c7029835634b0213e3c7db72439c11277b158b378af311c8164a2e0f4386
   languageName: node
   linkType: hard
 
-"@xylabs/delay@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/delay@npm:2.7.4"
-  checksum: a7f0a5dab545356c325189d0949e9f2905fe4a9beb181f42f536229d9dcd6a4d07c829ea55d33b9f998d79dde1ac9292cdd251e192805682d7a2a62df7bfc8d8
+"@xylabs/delay@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/delay@npm:2.7.6"
+  checksum: 59d252f39eed52c5c43655225a3e94fdb3aaa06a354522746f326fba37592a925b7a790cd727a07ec4f8851cbc97eff2f013a22dce6585bb1e553664ae96dd98
   languageName: node
   linkType: hard
 
@@ -4576,35 +4880,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/exists@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/exists@npm:2.7.4"
-  checksum: 6697e6ff7be0fa79a6126e5403597de51292e84fc591c2f400aa7db9bb7c848bc6f10b818e0dec2e44a42b1de25cb97ac19ca4336d0547ba4821583031befbf0
+"@xylabs/exists@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/exists@npm:2.7.6"
+  checksum: 9e94b4273eb28dd3601d8c7795bf48297b047801d3724e1db8b5fcaeafe71b48d3adec72592ee40d5f7cbc7d6cd8b1c8bb9fb56a7b54f5d594c4ce2bca343228
   languageName: node
   linkType: hard
 
-"@xylabs/forget@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/forget@npm:2.7.4"
+"@xylabs/forget@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/forget@npm:2.7.6"
   dependencies:
-    "@xylabs/delay": ^2.7.4
-  checksum: cf3c768d66447336d379184d3f306e1297948405c08644813c29be54cdedc39ec7666d3b41dd19b8571b4a8426e0515e8827e69dc2da486b929b57f578b9b4db
+    "@xylabs/delay": ^2.7.6
+  checksum: e31bc47d7eae78a69e66fe5d3cfe4d6a0def52c3fbd615cce381f5e097fe74d992c1cb9e628b70f63af41d1ff51efc0557d6a2bacccf6ef24c2f34428f407f06
   languageName: node
   linkType: hard
 
-"@xylabs/jest-helpers@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/jest-helpers@npm:2.7.4"
+"@xylabs/jest-helpers@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/jest-helpers@npm:2.7.6"
   peerDependencies:
     jest: "*"
-  checksum: 36ccac5e1052479381b0663cac7afbc6a87027dec8a1ccdf086ee70c72bbcf0e4fe84e44ea5b7fd4a4a9a55f16d72b6af80294604d185fd277373e5a29327849
+  checksum: bbd4b5adbff522db41aed8b67b3120fc268b557305fff8b165bfdb198333329728e9d6c182827383cf8c72dbed957e089cb2c9e99b15ff160e99563bf1d97368
   languageName: node
   linkType: hard
 
-"@xylabs/promise@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/promise@npm:2.7.4"
-  checksum: 886a85598d102ba16a7eceb45d1182d122b804dbd16f837a01387a118d357fb90fbbca3ac2c53da5af54016fe908d543830dcce626c03325dba05f182ea726e6
+"@xylabs/promise@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/promise@npm:2.7.6"
+  checksum: a364d44a25cffe5db59160cad3c1c94e3f4d02eff63465ced6e0dbffe29805169a5017a4cf80c82015b2e6dfe8e7c065c8077397658b06ac74d1b9543f994dd5
   languageName: node
   linkType: hard
 
@@ -4626,10 +4930,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/static-implements@npm:^2.7.4":
-  version: 2.7.4
-  resolution: "@xylabs/static-implements@npm:2.7.4"
-  checksum: 334b3c9e756ec664f23f3101917ec51b3884b6fa9a7b1117085d5f350318f5f8963196c3f99dfabea8f9b1ab4be2485fa29d51bc4651bb8a073893ba061a667f
+"@xylabs/static-implements@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@xylabs/static-implements@npm:2.7.6"
+  checksum: a98c4b793f559d4e0fef79d81ce6c28d1a4cfee82e8ce877a141495559bce50f00b35d2b9cfb6968f1d700b6cb4540f361592da7a73ef4a3f2c5f9c1ef660d6f
   languageName: node
   linkType: hard
 
@@ -4767,7 +5071,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -4818,8 +5122,8 @@ __metadata:
     "@ethersproject/hdnode": ^5.7.0
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/static-implements": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/static-implements": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account-model": "workspace:^"
@@ -4859,7 +5163,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
   dependencies:
-    "@xylabs/jest-helpers": ^2.7.4
+    "@xylabs/jest-helpers": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -4895,7 +5199,7 @@ __metadata:
   resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
   dependencies:
     "@types/lodash": ^4.14.191
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account-model": "workspace:^"
@@ -4915,9 +5219,9 @@ __metadata:
   dependencies:
     "@types/js-cookie": ^3.0.3
     "@types/lodash": ^4.14.191
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/delay": ^2.7.4
-    "@xylabs/promise": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/delay": ^2.7.6
+    "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/abstract-archivist": "workspace:^"
@@ -4945,7 +5249,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/automation-witness-server@workspace:packages/automation-witness-server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.298.0
+    "@aws-sdk/client-secrets-manager": ^3.299.0
     "@ethersproject/address": ^5.7.0
     "@ethersproject/bytes": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
@@ -4961,7 +5265,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.2.2
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
@@ -5075,8 +5379,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-builder@workspace:packages/protocol/packages/boundwitness/packages/builder"
   dependencies:
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/buffer": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/buffer": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account-model": "workspace:^"
@@ -5123,7 +5427,7 @@ __metadata:
   resolution: "@xyo-network/boundwitness-wrapper@workspace:packages/protocol/packages/boundwitness/packages/wrapper"
   dependencies:
     "@types/lodash": ^4.14.191
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -5200,7 +5504,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-module-resolver@workspace:packages/modules/packages/bridge/packages/module-resolver"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/address-payload-plugin": "workspace:^"
@@ -5217,7 +5521,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge@workspace:packages/modules/packages/bridge"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/abstract-bridge": "workspace:^"
@@ -5237,11 +5541,11 @@ __metadata:
   resolution: "@xyo-network/cli@workspace:packages/cli"
   dependencies:
     "@types/lodash": ^4.14.191
-    "@types/node": ^18.15.6
+    "@types/node": ^18.15.7
     "@types/tail": ^2.2.1
     "@types/terminal-kit": ^2.5.1
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/delay": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/delay": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xylabs/tsconfig-jest": ^2.16.1
@@ -5316,9 +5620,9 @@ __metadata:
     "@types/lodash": ^4.14.191
     "@types/sha.js": ^2.4.0
     "@types/uuid": ^9.0.1
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/bignumber": ^2.7.4
-    "@xylabs/buffer": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/bignumber": ^2.7.6
+    "@xylabs/buffer": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/typeof": "workspace:^"
@@ -5354,7 +5658,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.2.2
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/exists": ^2.7.4
+    "@xylabs/exists": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^"
@@ -5542,7 +5846,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account-model": "workspace:^"
@@ -5560,8 +5864,8 @@ __metadata:
   resolution: "@xyo-network/diviner@workspace:packages/modules/packages/diviner"
   dependencies:
     "@types/lodash": ^4.14.191
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/promise": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -5657,8 +5961,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/elevation-plugin@workspace:packages/plugins/packages/payloadset/packages/elevation"
   dependencies:
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/jest-helpers": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/jest-helpers": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/elevation-payload-plugin": "workspace:^"
@@ -5768,7 +6072,7 @@ __metadata:
   resolution: "@xyo-network/ethers-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethers"
   dependencies:
     "@ethersproject/providers": ^5.7.2
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^"
@@ -5797,7 +6101,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherscan-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/etherscan"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/axios": "workspace:^"
@@ -5844,8 +6148,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-dependencies@workspace:packages/node/packages/express/packages/dependencies"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.298.0
-    "@xylabs/assert": ^2.7.4
+    "@aws-sdk/client-secrets-manager": ^3.299.0
+    "@xylabs/assert": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
@@ -5874,10 +6178,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-lib@workspace:packages/node/packages/express/packages/lib"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.298.0
+    "@aws-sdk/client-secrets-manager": ^3.299.0
     "@types/express": 4.17.17
     "@types/passport": ^1.0.12
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
@@ -5901,7 +6205,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/packages/middleware"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.298.0
+    "@aws-sdk/client-secrets-manager": ^3.299.0
     "@ethersproject/wallet": ^5.7.0
     "@types/express": 4.17.17
     "@types/express-mung": ^0.5.2
@@ -5912,7 +6216,7 @@ __metadata:
     "@types/source-map-support": 0.5.6
     "@types/swagger-ui-express": ^4.1.3
     "@types/uuid": ^9.0.1
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
@@ -5949,10 +6253,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-routes@workspace:packages/node/packages/express/packages/routes"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.298.0
+    "@aws-sdk/client-secrets-manager": ^3.299.0
     "@types/express": 4.17.17
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/exists": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/exists": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
@@ -5985,14 +6289,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/packages/server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.298.0
+    "@aws-sdk/client-secrets-manager": ^3.299.0
     "@types/compression": ^1.7.2
     "@types/cors": ^2.8.13
     "@types/express": 4.17.17
     "@types/nconf": ^0.10.3
     "@types/passport": ^1.0.12
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/exists": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/exists": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
@@ -6031,7 +6335,7 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@types/jest": ^29.5.0
     "@types/uuid": ^9.0.1
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig-jest": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -6084,7 +6388,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/abstract-archivist": "workspace:^"
@@ -6150,7 +6454,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.2.2
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/exists": ^2.7.4
+    "@xylabs/exists": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:^"
@@ -6184,7 +6488,7 @@ __metadata:
   resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
     "@types/url-parse": ^1.4.8
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/abstract-bridge": "workspace:^"
@@ -6209,7 +6513,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/huri@workspace:packages/protocol/packages/payload/packages/huri"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -6333,7 +6637,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-plugin@workspace:packages/plugins/packages/payloadset/packages/location"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig-dom": ^2.16.1
     "@xyo-network/location-payload-plugin": "workspace:^"
@@ -6349,8 +6653,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/promise": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/abstract-archivist": "workspace:^"
@@ -6370,8 +6674,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-abstract@workspace:packages/modules/packages/module/packages/abstract"
   dependencies:
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/promise": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -6400,8 +6704,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-events@workspace:packages/modules/packages/module/packages/events"
   dependencies:
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/forget": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/forget": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xylabs/tsconfig-jest": ^2.16.1
@@ -6491,7 +6795,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/sdk/packages/network"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/payload-model": "workspace:^"
@@ -6504,8 +6808,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/packages/app"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.298.0
-    "@xylabs/assert": ^2.7.4
+    "@aws-sdk/client-secrets-manager": ^3.299.0
+    "@xylabs/assert": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
@@ -6574,9 +6878,9 @@ __metadata:
   resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/node/packages/core/packages/modules-mongo"
   dependencies:
     "@types/lodash": ^4.14.191
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/exists": ^2.7.4
-    "@xylabs/promise": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/exists": ^2.7.6
+    "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -6668,9 +6972,9 @@ __metadata:
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
     "@types/lodash": ^4.14.191
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/exists": ^2.7.4
-    "@xylabs/promise": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/exists": ^2.7.6
+    "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -6714,7 +7018,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-plugin@workspace:packages/sdk/packages/payload-plugin"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/core": "workspace:^"
@@ -6765,7 +7069,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-wrapper@workspace:packages/protocol/packages/payload/packages/wrapper"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/core": "workspace:^"
@@ -6926,9 +7230,9 @@ __metadata:
   resolution: "@xyo-network/quadkey@workspace:packages/sdk/packages/quadkey"
   dependencies:
     "@types/mapbox-gl": ^2.7.10
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/bignumber": ^2.7.4
-    "@xylabs/buffer": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/bignumber": ^2.7.6
+    "@xylabs/buffer": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/sdk-geo": ^2.8.0
@@ -6976,7 +7280,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-plugin@workspace:packages/plugins/packages/payloadset/packages/schema"
   dependencies:
-    "@xylabs/delay": ^2.7.4
+    "@xylabs/delay": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/module": "workspace:^"
@@ -7034,9 +7338,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-xyo-mongo-js@workspace:packages/mongo"
   dependencies:
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/delay": ^2.7.4
-    "@xylabs/forget": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/delay": ^2.7.6
+    "@xylabs/forget": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     async-mutex: ^0.4.0
@@ -7071,7 +7375,7 @@ __metadata:
   resolution: "@xyo-network/sentinel@workspace:packages/modules/packages/sentinel"
   dependencies:
     "@types/lodash": ^4.14.191
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -7114,8 +7418,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/storage@workspace:packages/sdk/packages/storage"
   dependencies:
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/jest-helpers": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/jest-helpers": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xylabs/tsconfig-jest": ^2.16.1
@@ -7199,10 +7503,10 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.2.2
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/bignumber": ^2.7.4
-    "@xylabs/delay": ^2.7.4
-    "@xylabs/promise": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/bignumber": ^2.7.6
+    "@xylabs/delay": ^2.7.6
+    "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/modules": "workspace:^"
@@ -7245,7 +7549,7 @@ __metadata:
   dependencies:
     "@ethersproject/providers": ^5.7.2
     "@metamask/providers": ^10.2.1
-    "@xylabs/delay": ^2.7.4
+    "@xylabs/delay": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig-dom": ^2.16.1
     "@xyo-network/domain-payload-plugin": "workspace:^"
@@ -7273,8 +7577,8 @@ __metadata:
   resolution: "@xyo-network/wallet@workspace:packages/sdk/packages/wallet"
   dependencies:
     "@types/sha.js": ^2.4.0
-    "@xylabs/assert": ^2.7.4
-    "@xylabs/delay": ^2.7.4
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/delay": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig-dom": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -7288,7 +7592,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/modules/packages/witness"
   dependencies:
-    "@xylabs/assert": ^2.7.4
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
@@ -7308,7 +7612,7 @@ __metadata:
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/packages/witnesses"
   dependencies:
     "@types/lodash": ^4.14.191
-    "@xylabs/delay": ^2.7.4
+    "@xylabs/delay": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/core": "workspace:^"

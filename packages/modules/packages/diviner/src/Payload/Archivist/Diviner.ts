@@ -21,7 +21,7 @@ export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerPara
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
-      `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
+      () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
     const activeArchivist = await this.archivist()

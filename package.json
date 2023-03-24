@@ -89,6 +89,7 @@
     "deploy": "xy deploy",
     "lint-pkg": "npmPkgJsonLint .",
     "start": "nodemon",
+    "perf": "yarn jest -c jest.config.perf.cjs",
     "test": "jest --no-cache --forceExit",
     "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "xyo": "node ./packages/cli/dist/cjs/index.js",

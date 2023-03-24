@@ -5,7 +5,6 @@ import { StatusCodes } from 'http-status-codes'
 import { getAddress, postAddress } from '../routes'
 
 export const addTempNodeRoutes = (app: Express) => {
-  // TODO: Allow other default modules to be mounted at root
   const defaultModule = app.node
   const address = defaultModule.address
   const defaultModuleEndpoint = `/node/${address}`

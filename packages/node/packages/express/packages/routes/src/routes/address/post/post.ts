@@ -1,8 +1,10 @@
+import { assertEx } from '@xylabs/assert'
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
 import { Module, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { Payload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
+import { StatusCodes } from 'http-status-codes'
 
 import { AddressPathParams } from '../AddressPathParams'
 import { getQueryConfig } from './getQueryConfig'
@@ -22,7 +24,11 @@ const handler: RequestHandler<AddressPathParams, ModuleQueryResult, PostAddressR
       if (byAddress.length) modules = byAddress
       else {
         const byName = await node.downResolver.resolve({ name: [address] })
-        if (byName.length) modules = byName
+        if (byName.length) {
+          const moduleAddress = assertEx(byName.pop()?.address, 'Error redirecting to module by address')
+          res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${moduleAddress}`)
+          return
+        }
       }
     }
     if (modules.length) {

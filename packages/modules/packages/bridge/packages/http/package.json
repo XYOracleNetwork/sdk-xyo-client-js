@@ -22,7 +22,8 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "lru-cache": "^8.0.4"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.1",

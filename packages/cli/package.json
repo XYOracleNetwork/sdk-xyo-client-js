@@ -14,7 +14,6 @@
     "@xylabs/delay": "^2.7.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
-    "@xyo-network/axios": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/http-bridge": "workspace:^",
     "@xyo-network/module": "workspace:^",

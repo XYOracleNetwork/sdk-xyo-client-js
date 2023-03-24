@@ -39,12 +39,7 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
       )
     })
     // Ensure uniqueness on case
-    const addresses = new Set<string>(
-      result?.values
-        ?.slice(1, 20)
-        ?.map((address: string) => address?.toLowerCase())
-        .filter(exists),
-    )
+    const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()).filter(exists))
     return [...addresses].map((address) => {
       return { address, schema: AddressSchema }
     })

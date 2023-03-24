@@ -1,8 +1,8 @@
+import { exists } from '@xylabs/exists'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerParams, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
@@ -28,6 +28,7 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
     //if (!query) return []
     // Issue a distinct query against the BoundWitnesses collection
     // on the address field
+    // TODO: Most Recently Used, Most Frequently Used, Addresses of Value/Importance to Me
     const result = await this.params.boundWitnessSdk.useMongo((db) => {
       return db.db(DATABASES.Archivist).command(
         {
@@ -38,7 +39,14 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
       )
     })
     // Ensure uniqueness on case
-    const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()))
-    return [...addresses].map((address) => new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
+    const addresses = new Set<string>(
+      result?.values
+        ?.slice(1, 20)
+        ?.map((address: string) => address?.toLowerCase())
+        .filter(exists),
+    )
+    return [...addresses].map((address) => {
+      return { address, schema: AddressSchema }
+    })
   }
 }

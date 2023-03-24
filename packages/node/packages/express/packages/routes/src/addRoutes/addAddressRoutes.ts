@@ -2,7 +2,7 @@ import { notImplemented } from '@xylabs/sdk-api-express-ecs'
 import { allowAnonymous } from '@xyo-network/express-node-middleware'
 import { Express } from 'express'
 
-import { getAddress, getAddressHistory, postAddress } from '../routes'
+import { getAddress, postAddress } from '../routes'
 
 export const addAddressRoutes = (app: Express) => {
   app.get(
@@ -25,12 +25,5 @@ export const addAddressRoutes = (app: Express) => {
     postAddress,
     /* #swagger.tags = ['Address'] */
     /* #swagger.summary = 'Issues a query to the address' */
-  )
-  app.get(
-    '/address/:address/boundwitness',
-    allowAnonymous,
-    getAddressHistory,
-    /* #swagger.tags = ['Archive'] */
-    /* #swagger.summary = 'Get BoundWitnesses history for Address' */
   )
 }

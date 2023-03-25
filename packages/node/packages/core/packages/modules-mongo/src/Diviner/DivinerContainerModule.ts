@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { AddressHistoryDiviner, AddressSpaceDiviner, XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressHistoryDiviner, AddressSpaceDiviner, DivinerConfigSchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { Module } from '@xyo-network/module-model'
 import {
   BoundWitnessDiviner,
@@ -77,7 +77,7 @@ const getMongoDBBoundWitnessStatsDiviner = async (context: interfaces.Context) =
 const getMongoDBLocationCertaintyDiviner = async (_context: interfaces.Context) => {
   if (mongoDBLocationCertaintyDiviner) return mongoDBLocationCertaintyDiviner
   mongoDBLocationCertaintyDiviner = (await MongoDBLocationCertaintyDiviner.create({
-    config: { schema: XyoDivinerConfigSchema },
+    config: { schema: DivinerConfigSchema },
   })) as MongoDBLocationCertaintyDiviner
   return mongoDBLocationCertaintyDiviner
 }

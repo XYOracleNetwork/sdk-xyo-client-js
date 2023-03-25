@@ -1,3 +1,4 @@
+import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
@@ -35,7 +36,16 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {
-    describe.skip('address', () => {
+    const accountA = Account.random()
+    const accountB = Account.random()
+    const boundWitnessA = BoundWitnessWrapper.parse(getNewBoundWitness([accountA], [getNewPayload()])[0])
+    const boundWitnessB = BoundWitnessWrapper.parse(getNewBoundWitness([accountB], [getNewPayload()])[0])
+    const boundWitnessC = BoundWitnessWrapper.parse(getNewBoundWitness([accountA, accountB], [getNewPayload(), getNewPayload()])[0])
+    const boundWitnesses = [boundWitnessA, boundWitnessB, boundWitnessC]
+    beforeAll(async () => {
+      await archivist.insert(boundWitnesses.map((b) => b.payload))
+    })
+    describe('address', () => {
       it('divines BoundWitnesses by address', async () => {
         await Promise.resolve()
         throw new Error('Not Implemented')

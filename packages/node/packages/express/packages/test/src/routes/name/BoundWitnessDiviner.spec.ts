@@ -1,3 +1,4 @@
+import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
@@ -35,14 +36,34 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {
-    describe.skip('address', () => {
-      it('divines BoundWitnesses by address', async () => {
-        await Promise.resolve()
-        throw new Error('Not Implemented')
-      })
-      it.skip('divines BoundWitnesses by addresses', async () => {
-        await Promise.resolve()
-        throw new Error('Not Implemented')
+    const accountA = Account.random()
+    const accountB = Account.random()
+    const boundWitnessA = BoundWitnessWrapper.parse(getNewBoundWitness([accountA], [getNewPayload()])[0])
+    const boundWitnessB = BoundWitnessWrapper.parse(getNewBoundWitness([accountB], [getNewPayload()])[0])
+    const boundWitnessC = BoundWitnessWrapper.parse(getNewBoundWitness([accountA, accountB], [getNewPayload(), getNewPayload()])[0])
+    const boundWitnesses = [boundWitnessA, boundWitnessB, boundWitnessC]
+    beforeAll(async () => {
+      await archivist.insert(boundWitnesses.map((b) => b.payload))
+    })
+    const cases: [title: string, addresses: string[], expected: BoundWitnessWrapper[]][] = [
+      ['single address returns boundWitnesses signed by address', [accountA.addressValue.hex], [boundWitnessA, boundWitnessC]],
+      ['single address returns boundWitnesses signed by address', [accountB.addressValue.hex], [boundWitnessB, boundWitnessC]],
+      ['multiple addresses returns boundWitnesses signed by both addresses', [accountA.addressValue.hex, accountB.addressValue.hex], [boundWitnessC]],
+      [
+        'multiple addresses returns boundWitnesses signed by both addresses (independent of order)',
+        [accountB.addressValue.hex, accountA.addressValue.hex],
+        [boundWitnessC],
+      ],
+    ]
+    describe('address', () => {
+      describe.each(cases)('with %s', (_title, addresses, expected) => {
+        it('divines BoundWitnesses by address', async () => {
+          const query: BoundWitnessQueryPayload = { addresses, schema }
+          const response = await diviner.divine([query])
+          expect(response).toBeArrayOfSize(expected.length)
+          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+          expect(responseHashes).toContainAllValues(expected.map((p) => p.hash))
+        })
       })
     })
     describe('hash', () => {

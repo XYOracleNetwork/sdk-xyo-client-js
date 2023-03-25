@@ -1,5 +1,4 @@
 {
-  "name": "@xyo-network/cli",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,39 +9,22 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.7.6",
+    "@ethersproject/providers": "^5.7.2",
+    "@metamask/providers": "^10.2.1",
     "@xylabs/delay": "^2.7.6",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/api-models": "workspace:^",
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/http-bridge": "workspace:^",
-    "@xyo-network/module": "workspace:^",
-    "@xyo-network/modules": "workspace:^",
-    "@xyo-network/node": "workspace:^",
-    "@xyo-network/node-app": "workspace:^",
-    "@xyo-network/node-model": "workspace:^",
-    "@xyo-network/query-payload-plugin": "workspace:^",
-    "bip39": "^3.1.0",
-    "lodash": "^4.17.21",
-    "tail": "^2.2.6",
-    "terminal-kit": "^3.0.0",
-    "yargs": "^17.7.1"
-  },
-  "bin": {
-    "xyo": "dist/cjs/index.js"
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.14.191",
-    "@types/node": "^18.15.9",
-    "@types/tail": "^2.2.1",
-    "@types/terminal-kit": "^2.5.1",
-    "@xylabs/ts-scripts-yarn3": "^2.16.1",
-    "@xylabs/tsconfig": "^2.16.1",
-    "@xylabs/tsconfig-jest": "^2.16.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "@xyo-network/domain-payload-plugin": "workspace:^",
+    "@xyo-network/huri": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/schema-payload-plugin": "workspace:^",
+    "ajv": "^8.12.0",
+    "lru-cache": "^8.0.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.16.1",
+    "@xylabs/tsconfig-dom": "^2.16.1",
+    "typescript": "^4.9.5"
+  },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
@@ -66,6 +48,7 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
+  "name": "@xyo-network/schema-cache",
   "publishConfig": {
     "access": "public"
   },
@@ -74,9 +57,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "scripts": {
-    "xyo-ts": "ts-node src/index.ts"
-  },
   "types": "dist/types/index.d.ts",
   "version": "2.53.17"
 }

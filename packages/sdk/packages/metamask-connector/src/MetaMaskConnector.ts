@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { MetaMaskInpageProvider } from '@metamask/providers'
 
-class XyoMetaMaskConnector {
+export class MetaMaskConnector {
   private account = ''
   private ethereum = window.ethereum as MetaMaskInpageProvider
   private provider: Web3Provider | undefined
@@ -63,5 +63,3 @@ class XyoMetaMaskConnector {
     console.warn('Cannot call this method because there is no web3 provider connected.  Please confirm that metamask is installed')
   }
 }
-
-export { XyoMetaMaskConnector }

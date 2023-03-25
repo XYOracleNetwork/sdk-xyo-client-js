@@ -25,17 +25,17 @@
     "@xylabs/tsconfig-dom": "^2.16.1",
     "typescript": "^4.9.5"
   },
-  "browser": "dist/esm/browserIndex.js",
+  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
       "node": {
-        "import": "./dist/esm/nodeIndex.js",
-        "require": "./dist/cjs/nodeIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "browser": {
-        "import": "./dist/esm/browserIndex.js",
-        "require": "./dist/cjs/browserIndex.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
     },
@@ -48,7 +48,7 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
-  "name": "@xyo-network/utils",
+  "name": "@xyo-network/metamask-connector",
   "publishConfig": {
     "access": "public"
   },

@@ -5,7 +5,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
 
-import { XyoSchemaCache } from '../SchemaCache'
+import { SchemaCache } from '../SchemaCache'
 
 const proxy = 'https://beta.api.archivist.xyo.network/domain'
 
@@ -37,11 +37,11 @@ const exampleDomainConfig: XyoDomainPayload = {
 
 describe('XyoSchemaCache', () => {
   beforeEach(() => {
-    XyoSchemaCache.instance.proxy = proxy
+    SchemaCache.instance.proxy = proxy
   })
 
   test('Valid', async () => {
-    const cache = XyoSchemaCache.instance
+    const cache = SchemaCache.instance
     const fetchedPayload = await cache.get(XyoSchemaSchema)
     expect(fetchedPayload?.payload.schema).toBe(XyoSchemaSchema)
   })
@@ -50,7 +50,7 @@ describe('XyoSchemaCache', () => {
     describe('provides strongly typed validator for known schema type', () => {
       test('Payload', async () => {
         const schema = PayloadSchema
-        const cache = XyoSchemaCache.instance
+        const cache = SchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
         const payloads: Payload[] = [
@@ -65,7 +65,7 @@ describe('XyoSchemaCache', () => {
       })
       test('XyoDomainConfig', async () => {
         const schema = XyoDomainSchema
-        const cache = XyoSchemaCache.instance
+        const cache = SchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
         const payloads = [new PayloadBuilder<XyoDomainPayload>({ schema }).fields(exampleDomainConfig).build()]
@@ -78,13 +78,13 @@ describe('XyoSchemaCache', () => {
   })
 
   test('Not In Cache', async () => {
-    const cache = XyoSchemaCache.instance
+    const cache = SchemaCache.instance
     const fetchedPayload = await cache.get('foo.domain.com')
     expect(fetchedPayload).toBeNull()
   })
 
   test('Set Proxy', () => {
-    const cache = XyoSchemaCache.instance
+    const cache = SchemaCache.instance
     const testProxy = 'http://foo.com'
     cache.proxy = testProxy
     expect(cache?.proxy).toBe(testProxy)

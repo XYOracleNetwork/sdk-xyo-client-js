@@ -4,8 +4,8 @@ import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-p
 import Ajv, { SchemaObject } from 'ajv'
 import LruCache from 'lru-cache'
 
-import { Debounce } from '../Debounce'
-import { XyoSchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
+import { Debounce } from './Debounce'
+import { SchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {
@@ -13,21 +13,21 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
   }
 }
 
-export type XyoSchemaCacheEntry = FetchedPayload<XyoSchemaPayload>
+export type SchemaCacheEntry = FetchedPayload<XyoSchemaPayload>
 
-export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNameToValidatorMap> {
+export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValidatorMap> {
   /**
    * Object representing `null` since LRU Cache types
    * only allow for types that derive from object
    */
-  protected static readonly NULL: XyoSchemaCacheEntry = { payload: { definition: {}, schema: XyoSchemaSchema } }
+  protected static readonly NULL: SchemaCacheEntry = { payload: { definition: {}, schema: XyoSchemaSchema } }
 
-  private static _instance?: XyoSchemaCache
+  private static _instance?: SchemaCache
 
-  onSchemaCached?: (name: string, entry: XyoSchemaCacheEntry) => void
+  onSchemaCached?: (name: string, entry: SchemaCacheEntry) => void
   proxy?: string
 
-  private _cache = new LruCache<string, XyoSchemaCacheEntry>({ max: 500, ttl: 1000 * 60 * 5 })
+  private _cache = new LruCache<string, SchemaCacheEntry>({ max: 500, ttl: 1000 * 60 * 5 })
   private _validators: T = {} as T
 
   //prevents double discovery
@@ -39,7 +39,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
 
   static get instance() {
     if (!this._instance) {
-      this._instance = new XyoSchemaCache()
+      this._instance = new SchemaCache()
     }
     return this._instance
   }
@@ -53,7 +53,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
     return this._validators
   }
 
-  async get(schema?: string): Promise<XyoSchemaCacheEntry | undefined | null> {
+  async get(schema?: string): Promise<SchemaCacheEntry | undefined | null> {
     if (schema) {
       await this.getDebounce.one(schema, async () => {
         // If we've never looked for it before, it will be undefined
@@ -62,12 +62,12 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
         }
       })
       const value = this._cache.get(schema)
-      return value === XyoSchemaCache.NULL ? null : value
+      return value === SchemaCache.NULL ? null : value
     }
     return undefined
   }
 
-  private cacheSchemaIfValid(entry: XyoSchemaCacheEntry) {
+  private cacheSchemaIfValid(entry: SchemaCacheEntry) {
     //only store them if they match the schema root
     if (entry.payload.definition) {
       const ajv = new Ajv({ strict: false })
@@ -87,7 +87,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
     aliasEntries
       ?.filter((entry) => entry.payload.schema === XyoSchemaSchema)
       .forEach((entry) => {
-        this.cacheSchemaIfValid(entry as XyoSchemaCacheEntry)
+        this.cacheSchemaIfValid(entry as SchemaCacheEntry)
       })
   }
 
@@ -98,7 +98,7 @@ export class XyoSchemaCache<T extends XyoSchemaNameToValidatorMap = XyoSchemaNam
 
     //if it is still undefined, mark it as null (not found)
     if (this._cache.get(schema) === undefined) {
-      this._cache.set(schema, XyoSchemaCache.NULL)
+      this._cache.set(schema, SchemaCache.NULL)
     }
   }
 }

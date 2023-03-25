@@ -4,7 +4,7 @@ import { AnyConfigSchema, Module, ModuleEventArgs, ModuleEventData, ModuleParams
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { XyoWitnessConfig } from './Config'
+import { WitnessConfig } from './Config'
 
 export interface Witness {
   observe: (payloads?: Payload[]) => Promisable<Payload[]>
@@ -37,7 +37,7 @@ export interface WitnessReportStartEventData extends EventData {
 export interface WitnessModuleEventData extends WitnessReportEndEventData, WitnessReportStartEventData, ModuleEventData {}
 
 export type WitnessParams<
-  TConfig extends AnyConfigSchema<XyoWitnessConfig> = AnyConfigSchema<XyoWitnessConfig>,
+  TConfig extends AnyConfigSchema<WitnessConfig> = AnyConfigSchema<WitnessConfig>,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = ModuleParams<TConfig, TAdditionalParams>
 

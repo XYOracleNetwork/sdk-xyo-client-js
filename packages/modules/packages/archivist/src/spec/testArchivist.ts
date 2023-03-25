@@ -3,7 +3,7 @@
  */
 
 import { delay } from '@xylabs/delay'
-import { ArchivistModule } from '@xyo-network/archivist-interface'
+import { ArchivistModule } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Payload } from '@xyo-network/payload-model'

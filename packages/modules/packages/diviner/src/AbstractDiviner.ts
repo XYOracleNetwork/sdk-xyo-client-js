@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
+  DivinerConfigSchema,
+  DivinerDivineQuerySchema,
   DivinerModule,
   DivinerModuleEventData,
   DivinerParams,
-  XyoDivinerConfigSchema,
-  XyoDivinerDivineQuerySchema,
-  XyoDivinerQuery,
+  DivinerQuery,
 } from '@xyo-network/diviner-model'
 import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
@@ -20,11 +20,11 @@ export abstract class AbstractDiviner<
   extends AbstractModule<TParams, TEventData>
   implements DivinerModule<TParams>
 {
-  static override configSchema: string = XyoDivinerConfigSchema
+  static override configSchema: string = DivinerConfigSchema
   static targetSchema: string
 
   override get queries(): string[] {
-    return [XyoDivinerDivineQuerySchema, ...super.queries]
+    return [DivinerDivineQuerySchema, ...super.queries]
   }
 
   override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -32,7 +32,7 @@ export abstract class AbstractDiviner<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
     //remove the query payload
     const cleanPayloads = payloads?.filter((payload) => PayloadWrapper.hash(payload) !== query.query)
     const typedQuery = wrapper.query
@@ -41,7 +41,7 @@ export abstract class AbstractDiviner<
     const resultPayloads: Payload[] = []
     try {
       switch (typedQuery.schemaName) {
-        case XyoDivinerDivineQuerySchema:
+        case DivinerDivineQuerySchema:
           await this.emit('reportStart', { inPayloads: payloads, module: this })
           resultPayloads.push(...(await this.divine(cleanPayloads)))
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })

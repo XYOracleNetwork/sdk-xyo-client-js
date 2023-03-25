@@ -5,7 +5,7 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
-import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessConfig, WitnessModule, WitnessParams } from '@xyo-network/witness'
 // eslint-disable-next-line import/no-named-as-default
 import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
 
@@ -41,7 +41,7 @@ interface TiffImageInfos {
   west?: Promise<TiffImageInfo>
 }
 
-export type ElevationWitnessConfig = XyoWitnessConfig<{
+export type ElevationWitnessConfig = WitnessConfig<{
   files?: {
     northEast: string
     southEast: string

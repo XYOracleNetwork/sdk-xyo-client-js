@@ -1,7 +1,7 @@
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { XyoPentairScreenlogicPayload, XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
-import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
 
 import { Controller } from './screenlogic'
 
@@ -19,7 +19,7 @@ export interface PentairServer {
   type: number
 }
 
-export type XyoPentairScreenlogicWitnessConfig = XyoWitnessConfig<{
+export type XyoPentairScreenlogicWitnessConfig = WitnessConfig<{
   schema: XyoPentairScreenlogicWitnessConfigSchema
 }>
 

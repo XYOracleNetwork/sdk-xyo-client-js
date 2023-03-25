@@ -2,7 +2,7 @@
   "intentionallyNotExported": [
     "PayloadFull",
     "HuriOptions",
-    "XyoWitnessConfig",
+    "WitnessConfig",
     "XyoFetchedPayload",
     "XyoNetworkPayload"
   ]

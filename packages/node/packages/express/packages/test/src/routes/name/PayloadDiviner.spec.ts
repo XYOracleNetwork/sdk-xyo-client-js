@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
+import { DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
 import { PayloadQueryPayload, PayloadQuerySchema } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -30,7 +30,7 @@ describe(`/${moduleName}`, () => {
     it('discovers', async () => {
       const response = await diviner.discover()
       expect(response).toBeArray()
-      validateDiscoverResponse(response, [XyoDivinerDivineQuerySchema])
+      validateDiscoverResponse(response, [DivinerDivineQuerySchema])
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {

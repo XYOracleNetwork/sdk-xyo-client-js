@@ -4,11 +4,11 @@ import { Module, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { XyoWitnessObserveQuery, XyoWitnessObserveQuerySchema } from './Queries'
+import { WitnessObserveQuery, WitnessObserveQuerySchema } from './Queries'
 import { Witness } from './Witness'
 
 export class WitnessWrapper extends ModuleWrapper implements Witness {
-  static override requiredQueries = [XyoWitnessObserveQuerySchema, ...super.requiredQueries]
+  static override requiredQueries = [WitnessObserveQuerySchema, ...super.requiredQueries]
 
   static override tryWrap(module?: Module, account?: AccountInstance): WitnessWrapper | undefined {
     if (module) {
@@ -26,7 +26,7 @@ export class WitnessWrapper extends ModuleWrapper implements Witness {
   }
 
   observe(payloads?: Payload[]): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse<XyoWitnessObserveQuery>({ schema: XyoWitnessObserveQuerySchema })
+    const queryPayload = PayloadWrapper.parse<WitnessObserveQuery>({ schema: WitnessObserveQuerySchema })
     return this.sendQuery(queryPayload, [queryPayload.payload, ...(payloads ?? [])])
   }
 }

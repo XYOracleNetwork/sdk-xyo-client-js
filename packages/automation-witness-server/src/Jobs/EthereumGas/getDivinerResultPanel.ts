@@ -1,7 +1,7 @@
 import { MemoryNode } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
 import { MemorySentinel, SentinelConfig, SentinelConfigSchema, SentinelModule } from '@xyo-network/sentinel'
-import { XyoAdhocWitness, XyoAdhocWitnessConfig, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
+import { AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { getAccount, WalletPaths } from '../../Account'
 import { getArchivists } from '../../Archivists'
@@ -9,8 +9,8 @@ import { getArchivists } from '../../Archivists'
 export const getDivinerResultPanel = async (prices: Payload): Promise<SentinelModule> => {
   const account = getAccount(WalletPaths.CryptoMarketDivinerResultPanel)
   const archivists = await getArchivists()
-  const witnessConfig: XyoAdhocWitnessConfig = { payload: prices, schema: XyoAdhocWitnessConfigSchema }
-  const witnesses = [await XyoAdhocWitness.create({ account, config: witnessConfig })]
+  const witnessConfig: AdhocWitnessConfig = { payload: prices, schema: AdhocWitnessConfigSchema }
+  const witnesses = [await AdhocWitness.create({ account, config: witnessConfig })]
 
   const node = await MemoryNode.create()
 

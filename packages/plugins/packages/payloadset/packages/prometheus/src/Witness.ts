@@ -1,6 +1,6 @@
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
 import { createServer, Server } from 'http'
 import compact from 'lodash/compact'
 import { collectDefaultMetrics, Registry } from 'prom-client'
@@ -11,7 +11,7 @@ import { PrometheusMetricValueSchema } from './Schema'
 export type PrometheusNodeWitnessConfigSchema = 'network.xyo.prometheus.node.witness.config'
 export const PrometheusNodeWitnessConfigSchema: PrometheusNodeWitnessConfigSchema = 'network.xyo.prometheus.node.witness.config'
 
-export type PrometheusNodeWitnessConfig = XyoWitnessConfig<{
+export type PrometheusNodeWitnessConfig = WitnessConfig<{
   port?: number
   schema: PrometheusNodeWitnessConfigSchema
 }>

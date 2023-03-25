@@ -1,12 +1,12 @@
 import { IdPayload, IdSchema } from '@xyo-network/id-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
 
 export type IdWitnessConfigSchema = 'network.xyo.id.witness.config'
 export const IdWitnessConfigSchema: IdWitnessConfigSchema = 'network.xyo.id.witness.config'
 
-export type IdWitnessConfig = XyoWitnessConfig<{
+export type IdWitnessConfig = WitnessConfig<{
   salt?: string
   schema: IdWitnessConfigSchema
 }>

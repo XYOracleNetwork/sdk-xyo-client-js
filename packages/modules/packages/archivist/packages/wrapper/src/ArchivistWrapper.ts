@@ -16,7 +16,7 @@ import {
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistModule,
-} from '@xyo-network/archivist-interface'
+} from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { Module, ModuleWrapper } from '@xyo-network/module'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'

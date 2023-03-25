@@ -1,5 +1,5 @@
 import { XyoApiConfig } from '@xyo-network/api-models'
-import { ArchivistModule } from '@xyo-network/archivist-interface'
+import { ArchivistModule } from '@xyo-network/archivist-model'
 
 import { getApiConfig } from './getApiConfig'
 //import { getArchive } from './getArchive'

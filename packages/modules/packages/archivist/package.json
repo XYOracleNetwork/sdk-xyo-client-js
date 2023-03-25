@@ -14,7 +14,7 @@
     "@xyo-network/abstract-archivist": "workspace:^",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
-    "@xyo-network/archivist-interface": "workspace:^",
+    "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",

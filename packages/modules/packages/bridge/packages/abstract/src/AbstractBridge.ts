@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { BridgeModule, BridgeParams, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
+import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeModule, BridgeParams, BridgeQuery } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
   AbstractModule,
@@ -29,21 +29,21 @@ export abstract class AbstractBridge<
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
 
   override get queries(): string[] {
-    return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries]
+    return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, ...super.queries]
   }
 
   override async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     const queryAccount = new Account()
     const resultPayloads: Payload[] = []
     try {
       switch (typedQuery.schema) {
-        case XyoBridgeConnectQuerySchema: {
+        case BridgeConnectQuerySchema: {
           await this.connect()
           break
         }
-        case XyoBridgeDisconnectQuerySchema: {
+        case BridgeDisconnectQuerySchema: {
           await this.disconnect()
           break
         }

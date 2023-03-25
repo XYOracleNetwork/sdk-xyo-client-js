@@ -2,13 +2,13 @@ import { Module, ModuleParams } from '@xyo-network/module'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AbstractWitness } from '../AbstractWitness'
-import { XyoWitnessConfig, XyoWitnessConfigSchema } from '../Config'
+import { WitnessConfig, WitnessConfigSchema } from '../Config'
 import { WitnessModule } from '../Witness'
 import { WitnessWrapper } from '../WitnessWrapper'
 
 describe('XyoWitness', () => {
-  const config: XyoWitnessConfig = { schema: XyoWitnessConfigSchema }
-  const params: ModuleParams<XyoWitnessConfig> = { config }
+  const config: WitnessConfig = { schema: WitnessConfigSchema }
+  const params: ModuleParams<WitnessConfig> = { config }
   const observed = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
 
   describe('fulfills type of', () => {

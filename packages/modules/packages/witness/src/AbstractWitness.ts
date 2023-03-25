@@ -5,18 +5,18 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-import { XyoWitnessConfigSchema } from './Config'
-import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
+import { WitnessConfigSchema } from './Config'
+import { WitnessObserveQuerySchema, WitnessQuery } from './Queries'
 import { WitnessModule, WitnessModuleEventData, WitnessParams } from './Witness'
 
 export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData>
   extends AbstractModule<TParams, TEventData>
   implements WitnessModule<TParams, TEventData>
 {
-  static override configSchema: string = XyoWitnessConfigSchema
+  static override configSchema: string = WitnessConfigSchema
 
   override get queries(): string[] {
-    return [XyoWitnessObserveQuerySchema, ...super.queries]
+    return [WitnessObserveQuerySchema, ...super.queries]
   }
 
   get targetSet() {
@@ -37,7 +37,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoWitnessQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<WitnessQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     // Remove the query payload from the arguments passed to us so we don't observe it
@@ -45,7 +45,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
-        case XyoWitnessObserveQuerySchema: {
+        case WitnessObserveQuerySchema: {
           await this.emit('reportStart', { inPayloads: payloads, module: this })
           const resultPayloads = await this.observe(filteredObservation)
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })

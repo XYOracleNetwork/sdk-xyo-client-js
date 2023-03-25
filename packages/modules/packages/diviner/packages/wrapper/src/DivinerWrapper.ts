@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
-import { DivinerModule, XyoDivinerDivineQuery, XyoDivinerDivineQuerySchema } from '@xyo-network/diviner-model'
+import { DivinerDivineQuery, DivinerDivineQuerySchema, DivinerModule } from '@xyo-network/diviner-model'
 import { ModuleWrapper } from '@xyo-network/module'
 import { Module } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule> extends ModuleWrapper<TWrappedModule> implements DivinerModule {
-  static override requiredQueries = [XyoDivinerDivineQuerySchema, ...super.requiredQueries]
+  static override requiredQueries = [DivinerDivineQuerySchema, ...super.requiredQueries]
 
   static override tryWrap(module?: Module, account?: AccountInstance): DivinerWrapper | undefined {
     if (module) {
@@ -25,7 +25,7 @@ export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule
   }
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse<XyoDivinerDivineQuery>({ schema: XyoDivinerDivineQuerySchema })
+    const queryPayload = PayloadWrapper.parse<DivinerDivineQuery>({ schema: DivinerDivineQuerySchema })
     const result = await this.sendQuery(queryPayload, payloads)
     return result
   }

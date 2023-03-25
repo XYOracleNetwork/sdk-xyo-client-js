@@ -1,9 +1,9 @@
 import { delay } from '@xylabs/delay'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams, XyoWitnessConfigSchema } from '@xyo-network/witness'
+import { AbstractWitness, WitnessConfigSchema, WitnessParams } from '@xyo-network/witness'
 
 export class XyoNonFungibleTokenMetaWitness<TParams extends WitnessParams = WitnessParams> extends AbstractWitness<TParams> {
-  static override configSchema = XyoWitnessConfigSchema
+  static override configSchema = WitnessConfigSchema
 
   override async observe(_payloads?: Payload[]) {
     await delay(0)

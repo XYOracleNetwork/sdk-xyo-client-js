@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
-import { BridgeModule, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
+import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeModule, BridgeQuery } from '@xyo-network/bridge-model'
 import {
   Module,
   ModuleConfig,
@@ -36,13 +36,13 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
   }
 
   async connect(uri?: string): Promise<boolean> {
-    const queryPayload = PayloadWrapper.parse<XyoBridgeQuery>({ schema: XyoBridgeConnectQuerySchema, uri })
+    const queryPayload = PayloadWrapper.parse<BridgeQuery>({ schema: BridgeConnectQuerySchema, uri })
     await this.sendQuery(queryPayload)
     return true
   }
 
   async disconnect(uri?: string): Promise<boolean> {
-    const queryPayload = PayloadWrapper.parse<XyoBridgeQuery>({ schema: XyoBridgeDisconnectQuerySchema, uri })
+    const queryPayload = PayloadWrapper.parse<BridgeQuery>({ schema: BridgeDisconnectQuerySchema, uri })
     await this.sendQuery(queryPayload)
     return true
   }

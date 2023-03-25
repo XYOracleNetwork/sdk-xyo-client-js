@@ -1,11 +1,11 @@
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import { AbstractWitness, WitnessModule, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessConfig, WitnessModule, WitnessParams } from '@xyo-network/witness'
 
 import { XyoCryptoCardsGameWitnessConfigSchema } from './Schema'
 
-export type XyoCryptoCardsGameWitnessConfig = XyoWitnessConfig<{
+export type XyoCryptoCardsGameWitnessConfig = WitnessConfig<{
   schema: XyoCryptoCardsGameWitnessConfigSchema
 }>
 

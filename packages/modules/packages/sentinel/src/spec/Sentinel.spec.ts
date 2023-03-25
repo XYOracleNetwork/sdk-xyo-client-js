@@ -12,7 +12,7 @@ import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { AbstractWitness } from '@xyo-network/witness'
-import { XyoAdhocWitness, XyoAdhocWitnessConfigSchema } from '@xyo-network/witnesses'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { SentinelConfig, SentinelConfigSchema } from '../Config'
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
@@ -48,7 +48,7 @@ describe('XyoPanel', () => {
     await node.register(panel).attach(panel.address)
     expect(await panel.getArchivists()).toBeArrayOfSize(1)
     expect(await panel.getWitnesses()).toBeArrayOfSize(2)
-    const adhocWitness = (await XyoAdhocWitness.create({
+    const adhocWitness = (await AdhocWitness.create({
       config: {
         payload: {
           schema: 'network.xyo.test.array',
@@ -62,9 +62,9 @@ describe('XyoPanel', () => {
           testString: 'hi',
           testUndefined: undefined,
         },
-        schema: XyoAdhocWitnessConfigSchema,
+        schema: AdhocWitnessConfigSchema,
       },
-    })) as XyoAdhocWitness
+    })) as AdhocWitness
 
     const adhocObserved = await adhocWitness.observe(adhocWitness.config.payload ? [adhocWitness.config.payload] : [])
 
@@ -108,19 +108,19 @@ describe('XyoPanel', () => {
         const paramsA = {
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
-            schema: XyoAdhocWitnessConfigSchema,
+            schema: AdhocWitnessConfigSchema,
             targetSchema: PayloadSchema,
           },
         }
         const paramsB = {
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
-            schema: XyoAdhocWitnessConfigSchema,
+            schema: AdhocWitnessConfigSchema,
             targetSchema: PayloadSchema,
           },
         }
-        witnessA = (await XyoAdhocWitness.create(paramsA)) as XyoAdhocWitness
-        witnessB = (await XyoAdhocWitness.create(paramsB)) as XyoAdhocWitness
+        witnessA = (await AdhocWitness.create(paramsA)) as AdhocWitness
+        witnessB = (await AdhocWitness.create(paramsB)) as AdhocWitness
         archivistA = await MemoryArchivist.create()
         archivistB = await MemoryArchivist.create()
       })
@@ -203,10 +203,10 @@ describe('XyoPanel', () => {
         const paramsA = {
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
-            schema: XyoAdhocWitnessConfigSchema,
+            schema: AdhocWitnessConfigSchema,
           },
         }
-        class FailingWitness extends XyoAdhocWitness {
+        class FailingWitness extends AdhocWitness {
           override async observe(): Promise<Payload[]> {
             await Promise.reject(Error('observation failed'))
             return [{ schema: 'fake.result' }]

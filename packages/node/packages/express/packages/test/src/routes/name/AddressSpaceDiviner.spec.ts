@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerWrapper, XyoDivinerDivineQuerySchema } from '@xyo-network/modules'
+import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
 
 import { getDivinerByName, getNewPayload, insertPayload, validateDiscoverResponse } from '../../testUtil'
 
@@ -16,7 +16,7 @@ describe(`/${divinerName}`, () => {
     it('issues query', async () => {
       const response = await sut.discover()
       expect(response).toBeArray()
-      validateDiscoverResponse(response, [XyoDivinerDivineQuerySchema])
+      validateDiscoverResponse(response, [DivinerDivineQuerySchema])
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {

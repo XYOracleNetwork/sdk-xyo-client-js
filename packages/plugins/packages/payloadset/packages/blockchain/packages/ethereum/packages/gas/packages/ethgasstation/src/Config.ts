@@ -1,6 +1,6 @@
 import { XyoEthereumGasEthgasstationWitnessConfigSchema } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
-import { XyoWitnessConfig } from '@xyo-network/witness'
+import { WitnessConfig } from '@xyo-network/witness'
 
-export type XyoEthereumGasEthgasstationWitnessConfig = XyoWitnessConfig<{
+export type XyoEthereumGasEthgasstationWitnessConfig = WitnessConfig<{
   schema: XyoEthereumGasEthgasstationWitnessConfigSchema
 }>

@@ -9,7 +9,7 @@ import {
   ArchivistFindQuerySchema,
   ArchivistModule,
   ArchivistParams,
-} from '@xyo-network/archivist-interface'
+} from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'

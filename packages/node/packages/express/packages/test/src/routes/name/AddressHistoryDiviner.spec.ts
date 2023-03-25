@@ -3,8 +3,8 @@ import {
   AddressHistoryQueryPayload,
   AddressHistoryQuerySchema,
   ArchivistWrapper,
+  DivinerDivineQuerySchema,
   DivinerWrapper,
-  XyoDivinerDivineQuerySchema,
 } from '@xyo-network/modules'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -26,7 +26,7 @@ describe(`/${divinerName}`, () => {
     it('issues query', async () => {
       const response = await sut.discover()
       expect(response).toBeArray()
-      validateDiscoverResponse(response, [XyoDivinerDivineQuerySchema])
+      validateDiscoverResponse(response, [DivinerDivineQuerySchema])
     })
   })
   describe('XyoDivinerDivineQuerySchema', () => {

@@ -46,10 +46,14 @@ describe(`/${moduleName}`, () => {
       await archivist.insert(boundWitnesses.map((b) => b.payload))
     })
     const cases: [title: string, addresses: string[], expected: BoundWitnessWrapper[]][] = [
-      ['single address', [accountA.addressValue.hex], [boundWitnessA, boundWitnessC]],
-      ['single address', [accountB.addressValue.hex], [boundWitnessB, boundWitnessC]],
-      ['multiple addresses', [accountA.addressValue.hex, accountB.addressValue.hex], [boundWitnessC]],
-      ['multiple addresses', [accountB.addressValue.hex, accountA.addressValue.hex], [boundWitnessC]],
+      ['single address returns boundWitnesses signed by address', [accountA.addressValue.hex], [boundWitnessA, boundWitnessC]],
+      ['single address returns boundWitnesses signed by address', [accountB.addressValue.hex], [boundWitnessB, boundWitnessC]],
+      ['multiple addresses returns boundWitnesses signed by both addresses', [accountA.addressValue.hex, accountB.addressValue.hex], [boundWitnessC]],
+      [
+        'multiple addresses returns boundWitnesses signed by both addresses (independent of order)',
+        [accountB.addressValue.hex, accountA.addressValue.hex],
+        [boundWitnessC],
+      ],
     ]
     describe('address', () => {
       describe.each(cases)('with %s', (_title, addresses, expected) => {

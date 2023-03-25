@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AnyObject, DataLike, deepOmitUnderscoreFields, Hasher } from '@xyo-network/core'
+import { DataLike, deepOmitUnderscoreFields, Hasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { Promisable } from '@xyo-network/promise'

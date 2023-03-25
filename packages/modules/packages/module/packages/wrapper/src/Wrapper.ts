@@ -4,6 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Base, BaseParams } from '@xyo-network/core'
+import { duplicateModules, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoError, XyoErrorSchema } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   Module,
@@ -19,10 +20,6 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
-
-import { XyoError, XyoErrorSchema } from './Error'
-import { duplicateModules } from './lib'
-import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 
 export interface WrapperError extends Error {
   errors: (XyoError | null)[]

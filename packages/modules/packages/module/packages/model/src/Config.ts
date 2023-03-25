@@ -14,6 +14,9 @@ export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = 
       //friendly name of module (not collision resistent)
       name?: string
 
+      //paging settings for queries
+      paging?: Record<string, { size?: number }>
+
       schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
 
       //if both allowed and disallowed is specified, then disallowed takes priority

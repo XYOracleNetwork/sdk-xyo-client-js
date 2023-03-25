@@ -45,19 +45,20 @@ describe(`/${moduleName}`, () => {
     beforeAll(async () => {
       await archivist.insert(boundWitnesses.map((b) => b.payload))
     })
-    const cases: [title: string, address: string[], expected: BoundWitnessWrapper[]][] = [
+    const cases: [title: string, addresses: string[], expected: BoundWitnessWrapper[]][] = [
       ['single address', [accountA.addressValue.hex], [boundWitnessA, boundWitnessC]],
       ['single address', [accountB.addressValue.hex], [boundWitnessB, boundWitnessC]],
       ['multiple addresses', [accountA.addressValue.hex, accountB.addressValue.hex], [boundWitnessA, boundWitnessB, boundWitnessC]],
     ]
-    describe.each(cases)('address', () => {
-      it('divines BoundWitnesses by address', async () => {
-        await Promise.resolve()
-        throw new Error('Not Implemented')
-      })
-      it.skip('divines BoundWitnesses by addresses', async () => {
-        await Promise.resolve()
-        throw new Error('Not Implemented')
+    describe('address', () => {
+      describe.each(cases)('with %s', (_title, addresses, expected) => {
+        it('divines BoundWitnesses by address', async () => {
+          const query: BoundWitnessQueryPayload = { addresses, schema }
+          const response = await diviner.divine([query])
+          expect(response).toBeArrayOfSize(expected.length)
+          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+          expect(responseHashes).toContainAllValues(expected.map((p) => p.hash))
+        })
       })
     })
     describe('hash', () => {

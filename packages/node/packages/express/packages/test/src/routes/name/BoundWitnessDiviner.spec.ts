@@ -45,7 +45,12 @@ describe(`/${moduleName}`, () => {
     beforeAll(async () => {
       await archivist.insert(boundWitnesses.map((b) => b.payload))
     })
-    describe('address', () => {
+    const cases: [title: string, address: string[], expected: BoundWitnessWrapper[]][] = [
+      ['single address', [accountA.addressValue.hex], [boundWitnessA, boundWitnessC]],
+      ['single address', [accountB.addressValue.hex], [boundWitnessB, boundWitnessC]],
+      ['multiple addresses', [accountA.addressValue.hex, accountB.addressValue.hex], [boundWitnessA, boundWitnessB, boundWitnessC]],
+    ]
+    describe.each(cases)('address', () => {
       it('divines BoundWitnesses by address', async () => {
         await Promise.resolve()
         throw new Error('Not Implemented')

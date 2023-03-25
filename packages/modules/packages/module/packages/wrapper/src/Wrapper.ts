@@ -4,7 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Base, BaseParams } from '@xyo-network/core'
-import { duplicateModules, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper, XyoError, XyoErrorSchema } from '@xyo-network/module-abstract'
+import { duplicateModules, ModuleError, ModuleErrorSchema, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   Module,
@@ -22,7 +22,7 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
 export interface WrapperError extends Error {
-  errors: (XyoError | null)[]
+  errors: (ModuleError | null)[]
   query: [XyoQueryBoundWitness, Payload[]]
   result: ModuleQueryResult | undefined
 }
@@ -278,14 +278,14 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return result
   }
 
-  protected filterErrors(query: [XyoQueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined): (XyoError | null)[] {
+  protected filterErrors(query: [XyoQueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined): (ModuleError | null)[] {
     return (result?.[1]?.filter((payload) => {
-      if (payload?.schema === XyoErrorSchema) {
+      if (payload?.schema === ModuleErrorSchema) {
         const wrapper = new QueryBoundWitnessWrapper(query[0])
         return payload.sources?.includes(wrapper.hash)
       }
       return false
-    }) ?? []) as XyoError[]
+    }) ?? []) as ModuleError[]
   }
 
   protected async sendQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {

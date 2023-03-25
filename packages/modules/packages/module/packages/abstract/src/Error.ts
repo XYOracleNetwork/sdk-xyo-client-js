@@ -6,7 +6,7 @@ export const ModuleErrorSchema: ModuleErrorSchema = 'network.xyo.error.module'
 
 export type ModuleError = Payload<{ message?: string; schema: ModuleErrorSchema; sources: string[] }>
 
-export class XyoErrorBuilder extends PayloadBuilder {
+export class ModuleErrorBuilder extends PayloadBuilder {
   message?: string
   sources: string[]
   constructor(sources: string[], message?: string) {

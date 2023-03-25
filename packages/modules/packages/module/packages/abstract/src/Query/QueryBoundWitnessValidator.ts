@@ -1,15 +1,15 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { XyoQuery, XyoQueryBoundWitness, XyoQueryBoundWitnessSchema } from '@xyo-network/module-model'
+import { Query, QueryBoundWitness, QueryBoundWitnessSchema } from '@xyo-network/module-model'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-export class QueryBoundWitnessValidator<T extends XyoQuery = XyoQuery> extends BoundWitnessValidator<XyoQueryBoundWitness> {
+export class QueryBoundWitnessValidator<T extends Query = Query> extends BoundWitnessValidator<QueryBoundWitness> {
   private _query: PayloadWrapper<T> | undefined
 
   protected override get expectedSchema(): string {
-    return XyoQueryBoundWitnessSchema
+    return QueryBoundWitnessSchema
   }
 
   static isQueryBoundWitnessValidator(obj: unknown) {

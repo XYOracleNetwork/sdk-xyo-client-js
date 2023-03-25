@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder, XyoQueryBoundWitness } from '@xyo-network/modules'
+import { ModuleDiscoverQuerySchema, QueryBoundWitness, QueryBoundWitnessBuilder } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -63,7 +63,7 @@ describe('Node API', () => {
       })
     })
     describe('POST', () => {
-      const postModuleQuery = async (data: [XyoQueryBoundWitness, Payload[]], address?: string): Promise<[BoundWitness, Payload[]]> => {
+      const postModuleQuery = async (data: [QueryBoundWitness, Payload[]], address?: string): Promise<[BoundWitness, Payload[]]> => {
         const path = address ? `/node/${address}` : '/node'
         const response = await client.post(path, data)
         expect(response).toBeTruthy()
@@ -78,7 +78,7 @@ describe('Node API', () => {
       it('issues query to module at address', async () => {
         const queryPayload = new PayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
-        const data = [query[0], [...query[1]]] as [XyoQueryBoundWitness, Payload[]]
+        const data = [query[0], [...query[1]]] as [QueryBoundWitness, Payload[]]
         await postModuleQuery(data, address)
       })
     })

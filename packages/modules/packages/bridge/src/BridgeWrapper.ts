@@ -9,8 +9,8 @@ import {
   ModuleFilter,
   ModuleQueryResult,
   ModuleWrapper,
-  XyoQuery,
-  XyoQueryBoundWitness,
+  Query,
+  QueryBoundWitness,
 } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -60,7 +60,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return this.module.targetQueries(address)
   }
 
-  async targetQuery<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(
+  async targetQuery<T extends QueryBoundWitness = QueryBoundWitness>(
     address: string,
     query: T,
     payloads?: Payload[],
@@ -68,7 +68,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return await this.module.targetQuery(address, query, payloads)
   }
 
-  async targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promise<boolean> {
+  async targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promise<boolean> {
     return await this.module.targetQueryable(address, query, payloads, queryConfig)
   }
 
@@ -76,7 +76,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return await this.module.targetResolve(address, filter)
   }
 
-  protected async sendTargetQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
+  protected async sendTargetQuery<T extends Query | PayloadWrapper<Query>>(
     address: string,
     queryPayload: T,
     payloads?: Payload[],

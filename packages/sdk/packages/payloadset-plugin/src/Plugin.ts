@@ -1,6 +1,6 @@
 import { Validator } from '@xyo-network/core'
 import { DivinerModule } from '@xyo-network/diviner'
-import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import { WitnessModule } from '@xyo-network/witness'
@@ -20,8 +20,8 @@ export type PayloadSetWitnessField<TWitness extends WitnessModule = WitnessModul
 
 export type PayloadSetPluginShared = {
   set: PayloadSetPayload
-  validate?: (boundwitness: XyoQueryBoundWitness) => Validator
-  wrap?: (boundwitness: XyoQueryBoundWitness) => QueryBoundWitnessWrapper
+  validate?: (boundwitness: QueryBoundWitness) => Validator
+  wrap?: (boundwitness: QueryBoundWitness) => QueryBoundWitnessWrapper
 }
 
 export type PayloadSetWitnessPlugin<TWitness extends WitnessModule = WitnessModule> = PayloadSetPluginShared & PayloadSetWitnessField<TWitness>

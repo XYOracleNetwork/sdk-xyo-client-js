@@ -1,8 +1,8 @@
-import { XyoQuery } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/module-model'
 
 export type SentinelReportQuerySchema = 'network.xyo.query.sentinel.report'
 export const SentinelReportQuerySchema: SentinelReportQuerySchema = 'network.xyo.query.sentinel.report'
 
-export type SentinelReportQuery = XyoQuery<{
+export type SentinelReportQuery = Query<{
   schema: SentinelReportQuerySchema
 }>

@@ -1,4 +1,4 @@
-import { XyoQuery } from '../Query'
+import { Query } from '../Query'
 
 export type ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe'
 export const ModuleSubscribeQuerySchema: ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe'
@@ -9,7 +9,7 @@ export interface ModuleSubscribeFilter {
 }
 
 //requests notification when a boundwitness is added to the modules chain that meets the filter criteria
-export type ModuleSubscribeQuery = XyoQuery<{
+export type ModuleSubscribeQuery = Query<{
   /** @field The address that will receive notifications */
   address: string
   /** @field A subscribe with a null for filter is an unsubscribe */

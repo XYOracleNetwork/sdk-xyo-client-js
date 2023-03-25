@@ -20,10 +20,10 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AnyConfigSchema,
   ModuleConfig,
+  ModuleErrorBuilder,
   ModuleQueryResult,
+  QueryBoundWitness,
   QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
@@ -101,7 +101,7 @@ export class MongoDBDeterministicArchivist<
     throw new Error('insert method must be called via query')
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -132,7 +132,7 @@ export class MongoDBDeterministicArchivist<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
   }

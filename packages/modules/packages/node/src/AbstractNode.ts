@@ -7,11 +7,11 @@ import {
   duplicateModules,
   Module,
   ModuleConfig,
+  ModuleErrorBuilder,
   ModuleFilter,
   ModuleQueryResult,
+  QueryBoundWitness,
   QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import {
   NodeConfigSchema,
@@ -67,7 +67,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return [...(await super.discover()), ...childModAddresses]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -108,7 +108,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
   }

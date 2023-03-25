@@ -1,4 +1,4 @@
-import { XyoQuery } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/module-model'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
@@ -12,7 +12,7 @@ export const AddressHistoryQuerySchema: AddressHistoryQuerySchema = 'network.xyo
 export type AddressHistoryPayload = Payload<{ schema: AddressHistorySchema }>
 export const isAddressHistoryPayload = (x?: Payload | null): x is AddressHistoryPayload => x?.schema === AddressHistorySchema
 
-export type AddressHistoryQueryPayload = XyoQuery<{ schema: AddressHistoryQuerySchema } & PayloadFindFilter>
+export type AddressHistoryQueryPayload = Query<{ schema: AddressHistoryQuerySchema } & PayloadFindFilter>
 export const isAddressHistoryQueryPayload = (x?: Payload | null): x is AddressHistoryQueryPayload => x?.schema === AddressHistoryQuerySchema
 
 export type AddressHistoryDiviner = AbstractDiviner

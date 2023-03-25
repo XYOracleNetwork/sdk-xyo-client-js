@@ -6,8 +6,8 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  XyoQuery,
-  XyoQueryBoundWitness,
+  Query,
+  QueryBoundWitness,
 } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
@@ -31,7 +31,7 @@ export interface BridgeModule<
   targetDiscover(address?: string): Promisable<Payload[] | undefined>
   targetDownResolver(address?: string): TModule['downResolver']
   targetQueries(address: string): string[]
-  targetQuery(address: string, query: XyoQuery, payloads?: Payload[]): Promisable<ModuleQueryResult | undefined>
-  targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>
+  targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult | undefined>
+  targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>
   targetResolve(address: string, filter?: ModuleFilter): Promisable<TModule[]>
 }

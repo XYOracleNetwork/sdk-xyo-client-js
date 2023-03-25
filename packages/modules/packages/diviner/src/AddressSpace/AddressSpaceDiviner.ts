@@ -1,4 +1,4 @@
-import { XyoQuery } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/module-model'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
@@ -12,7 +12,7 @@ export const AddressSpaceQuerySchema: AddressSpaceQuerySchema = 'network.xyo.div
 export type AddressSpacePayload = Payload<{ schema: AddressSpaceSchema }>
 export const isAddressSpacePayload = (x?: Payload | null): x is AddressSpacePayload => x?.schema === AddressSpaceSchema
 
-export type AddressSpaceQueryPayload = XyoQuery<{ schema: AddressSpaceQuerySchema } & PayloadFindFilter>
+export type AddressSpaceQueryPayload = Query<{ schema: AddressSpaceQuerySchema } & PayloadFindFilter>
 export const isAddressSpaceQueryPayload = (x?: Payload | null): x is AddressSpaceQueryPayload => x?.schema === AddressSpaceQuerySchema
 
 export type AddressSpaceDiviner = AbstractDiviner

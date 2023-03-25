@@ -15,7 +15,7 @@ import {
   ModuleParams,
   ModuleQueryResult,
   ModuleWrapper,
-  XyoQueryBoundWitness,
+  QueryBoundWitness,
 } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -149,7 +149,7 @@ export class HttpBridge<
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: XyoQueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {
+  async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {
     try {
       const moduleUrlString = this.moduleUrl(address).toString()
       const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
@@ -169,7 +169,7 @@ export class HttpBridge<
     }
   }
 
-  targetQueryable(_address: string, _query: XyoQueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
+  targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
     return true
   }
 

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { Module, ModuleQueryResult, XyoQueryBoundWitness } from '@xyo-network/module'
+import { Module, ModuleQueryResult, QueryBoundWitness } from '@xyo-network/module'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { Payload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
@@ -9,7 +9,7 @@ import { StatusCodes } from 'http-status-codes'
 import { AddressPathParams } from '../AddressPathParams'
 import { getQueryConfig } from './getQueryConfig'
 
-export type PostAddressRequestBody = [XyoQueryBoundWitness, undefined | Payload[]]
+export type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
 
 const handler: RequestHandler<AddressPathParams, ModuleQueryResult, PostAddressRequestBody> = async (req, res, next) => {
   const { address } = req.params

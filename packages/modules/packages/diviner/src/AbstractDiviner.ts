@@ -8,7 +8,7 @@ import {
   XyoDivinerDivineQuerySchema,
   XyoDivinerQuery,
 } from '@xyo-network/diviner-model'
-import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -27,7 +27,7 @@ export abstract class AbstractDiviner<
     return [XyoDivinerDivineQuerySchema, ...super.queries]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -51,7 +51,7 @@ export abstract class AbstractDiviner<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
     }
     return await this.bindResult(resultPayloads, queryAccount)
   }

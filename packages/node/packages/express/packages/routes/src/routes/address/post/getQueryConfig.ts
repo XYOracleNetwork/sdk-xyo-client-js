@@ -1,15 +1,10 @@
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { AbstractModule, Module, ModuleConfig, ModuleConfigSchema, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AbstractModule, Module, ModuleConfig, ModuleConfigSchema, QueryBoundWitness } from '@xyo-network/module'
 import { ArchiveModuleConfig } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Request } from 'express'
 
-export const getQueryConfig = async (
-  mod: Module,
-  req: Request,
-  bw: XyoQueryBoundWitness,
-  payloads?: Payload[],
-): Promise<ModuleConfig | undefined> => {
+export const getQueryConfig = async (mod: Module, req: Request, bw: QueryBoundWitness, payloads?: Payload[]): Promise<ModuleConfig | undefined> => {
   const archivist = mod as unknown as AbstractModule
   const config = archivist?.config as unknown as ArchiveModuleConfig
   const archive = config?.archive

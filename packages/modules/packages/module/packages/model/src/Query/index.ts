@@ -1,2 +1,2 @@
 export * from './Payload'
-export * from './XyoQueryBoundWitness'
+export * from './QueryBoundWitness'

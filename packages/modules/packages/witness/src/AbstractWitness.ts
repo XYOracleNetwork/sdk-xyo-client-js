@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
+import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -32,7 +32,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     return payloadList
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -57,7 +57,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindResult([new XyoErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
+      return this.bindResult([new ModuleErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
     }
   }
 }

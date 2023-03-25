@@ -3,10 +3,10 @@ import { Account } from '@xyo-network/account'
 import {
   AnyConfigSchema,
   ModuleConfig,
+  ModuleErrorBuilder,
   ModuleQueryResult,
+  QueryBoundWitness,
   QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { WitnessWrapper } from '@xyo-network/witness'
@@ -30,7 +30,7 @@ export class MemorySentinel<
 {
   static override configSchema: SentinelConfigSchema
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -51,7 +51,7 @@ export class MemorySentinel<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
     }
     return await this.bindResult(resultPayloads, queryAccount)
   }

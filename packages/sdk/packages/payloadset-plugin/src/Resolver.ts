@@ -1,6 +1,6 @@
 import { Hasher, Validator } from '@xyo-network/core'
 import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
-import { QueryBoundWitnessWrapper, XyoQueryBoundWitness } from '@xyo-network/module'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { WitnessModule, WitnessParams } from '@xyo-network/witness'
 
@@ -63,7 +63,7 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  validate(boundwitness: XyoQueryBoundWitness): Validator<XyoQueryBoundWitness> | undefined {
+  validate(boundwitness: QueryBoundWitness): Validator<QueryBoundWitness> | undefined {
     return this.resolve(boundwitness.resultSet)?.validate?.(boundwitness)
   }
 
@@ -85,7 +85,7 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  wrap(boundwitness: XyoQueryBoundWitness): QueryBoundWitnessWrapper | undefined {
+  wrap(boundwitness: QueryBoundWitness): QueryBoundWitnessWrapper | undefined {
     return this.resolve(boundwitness.resultSet)?.wrap?.(boundwitness)
   }
 }

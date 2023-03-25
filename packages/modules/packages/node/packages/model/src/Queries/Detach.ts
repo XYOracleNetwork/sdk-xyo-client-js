@@ -1,9 +1,9 @@
-import { XyoQuery } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/module-model'
 
 export type XyoNodeDetachQuerySchema = 'network.xyo.query.node.detach'
 export const XyoNodeDetachQuerySchema: XyoNodeDetachQuerySchema = 'network.xyo.query.node.detach'
 
-export type XyoNodeDetachQuery = XyoQuery<{
+export type XyoNodeDetachQuery = Query<{
   address: string
   schema: XyoNodeDetachQuerySchema
 }>

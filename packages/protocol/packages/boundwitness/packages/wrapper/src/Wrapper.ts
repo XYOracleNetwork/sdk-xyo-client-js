@@ -26,10 +26,6 @@ export class BoundWitnessWrapper<
     return this.obj
   }
 
-  override get errors() {
-    return new BoundWitnessValidator(this.boundwitness).validate()
-  }
-
   get missingPayloads() {
     return this.payloadHashes.filter((hash) => !this.payloads[hash])
   }
@@ -83,7 +79,7 @@ export class BoundWitnessWrapper<
     return boundWitness ? new BoundWitnessWrapper(boundWitness) : null
   }
 
-  static override parse<T extends BoundWitness = BoundWitness, P extends Payload = Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> {
+  static override parse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> {
     const hydratedObj = typeof obj === 'string' ? JSON.parse(obj) : obj
     assertEx(!Array.isArray(hydratedObj), 'Array can not be converted to BoundWitnessWrapper')
     switch (typeof hydratedObj) {
@@ -130,5 +126,9 @@ export class BoundWitnessWrapper<
 
   toResult() {
     return [this.boundwitness, this.payloadsArray.map((payload) => payload.body)]
+  }
+
+  override validate(): Error[] {
+    return new BoundWitnessValidator(this.boundwitness).validate()
   }
 }

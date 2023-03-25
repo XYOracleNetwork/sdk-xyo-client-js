@@ -7,7 +7,7 @@ import { ModuleConfig } from './Config'
 import { ModuleFilter } from './ModuleFilter'
 import { AnyConfigSchema, ModuleParams } from './ModuleParams'
 import { ModuleQueryResult } from './ModuleQueryResult'
-import { XyoQueryBoundWitness } from './Query'
+import { QueryBoundWitness } from './Query'
 
 export interface ModuleResolver {
   addResolver: (resolver: ModuleResolver) => this
@@ -28,7 +28,7 @@ export type ModuleQueriedEventArgs = ModuleEventArgs<
   Module,
   {
     payloads?: Payload[]
-    query: XyoQueryBoundWitness
+    query: QueryBoundWitness
     result: [BoundWitness, Payload[]]
   }
 >
@@ -47,12 +47,12 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
   params: TParams
 
   queries: string[]
-  query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
+  query: <T extends QueryBoundWitness = QueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConf,
   ) => Promisable<ModuleQueryResult>
-  queryable: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
+  queryable: <T extends QueryBoundWitness = QueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConf,

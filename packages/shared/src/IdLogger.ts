@@ -1,4 +1,4 @@
-import { getFunctionName, Logger } from '@xyo-network/shared'
+import { getFunctionName, Logger } from './Logger'
 
 export class IdLogger implements Logger {
   private _id?: () => string

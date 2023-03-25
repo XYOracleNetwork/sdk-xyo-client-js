@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { DataLike, deepOmitUnderscoreFields, Hasher } from '@xyo-network/core'
+import { AnyObject, DataLike, deepOmitUnderscoreFields, Hasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { Promisable } from '@xyo-network/promise'
@@ -8,12 +8,15 @@ export type PayloadLoader = (address: DataLike) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
 
 export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> extends Hasher<TPayload> {
+  private _errors?: Error[]
+
   get body() {
     return deepOmitUnderscoreFields<TPayload>(this.obj)
   }
 
   get errors() {
-    return new PayloadValidator(this.payload).validate()
+    this._errors = this._errors ?? this.validate()
+    return this._errors
   }
 
   get payload() {
@@ -26,7 +29,7 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
 
   //intentionally not naming this 'schema' so that the wrapper is not confused for a Payload
   get schemaName() {
-    return assertEx(this.obj.schema, 'Missing payload schema')
+    return assertEx(this.payload.schema, 'Missing payload schema')
   }
 
   get valid() {
@@ -71,6 +74,8 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     }
     return payload as TPayload
   }
+
+  abstract validate(): Error[]
 }
 
 export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadWrapperBase<TPayload> {
@@ -88,21 +93,27 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     }
   }
 
-  static override parse<T extends Payload = Payload>(obj: unknown): PayloadWrapper<T> {
-    assertEx(!Array.isArray(obj), 'Array can not be converted to PayloadWrapper')
-    switch (typeof obj) {
+  static override parse<T extends Payload>(payload: unknown): PayloadWrapper<T> {
+    assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
+    switch (typeof payload) {
       case 'object': {
-        const castWrapper = obj as PayloadWrapper<T>
+        const castWrapper = payload as PayloadWrapper<T>
+        const typedPayload = payload as T
         return assertEx(
-          castWrapper?.isPayloadWrapper ? castWrapper : (obj as Payload).schema ? new PayloadWrapper(obj as T) : null,
+          castWrapper?.isPayloadWrapper ? castWrapper : typedPayload.schema ? new PayloadWrapper(typedPayload) : null,
           'Unable to parse payload object',
         )
       }
+      default:
+        throw Error('Can only parse objects')
     }
-    throw Error(`Unable to parse [${typeof obj}]`)
   }
 
   static setLoaderFactory(factory: PayloadLoaderFactory | null) {
     this.loaderFactory = factory
+  }
+
+  override validate(): Error[] {
+    return new PayloadValidator(this.payload).validate()
   }
 }

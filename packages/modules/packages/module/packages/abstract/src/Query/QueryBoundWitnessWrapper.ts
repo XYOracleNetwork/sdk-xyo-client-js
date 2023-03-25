@@ -19,7 +19,7 @@ export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends Bou
   get query() {
     return assertEx(
       (this._query =
-        this._query ?? this.payloads[this.boundwitness.query] ? PayloadWrapper.parse<T>(this.payloads[this.boundwitness.query]) : undefined),
+        this._query ?? this.payloads[this.boundwitness.query] ? (this.payloads[this.boundwitness.query] as PayloadWrapper<T>) : undefined),
       () => `Missing Query [${this.boundwitness}, ${JSON.stringify(this.payloads, null, 2)}]`,
     )
   }
@@ -31,7 +31,7 @@ export class QueryBoundWitnessWrapper<T extends XyoQuery = XyoQuery> extends Bou
         this._resultSet ??
         (resultSetHash
           ? this.payloads[resultSetHash]
-            ? PayloadWrapper.parse<PayloadSetPayload>(this.payloads[resultSetHash])
+            ? (this.payloads[resultSetHash] as PayloadWrapper<PayloadSetPayload>)
             : undefined
           : undefined)),
       () => `Missing resultSet [${resultSetHash}, ${JSON.stringify(this.payloads, null, 2)}]`,

@@ -6766,27 +6766,19 @@ __metadata:
   resolution: "@xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper"
   dependencies:
     "@xylabs/assert": ^2.7.6
-    "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"
-    "@xyo-network/boundwitness-builder": "workspace:^"
-    "@xyo-network/boundwitness-model": "workspace:^"
-    "@xyo-network/boundwitness-validator": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
-    "@xyo-network/config-payload-plugin": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module-abstract": "workspace:^"
     "@xyo-network/module-events": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    "@xyo-network/query-payload-plugin": "workspace:^"
-    "@xyo-network/shared": "workspace:^"
     lodash: ^4.17.21
     typescript: ^4.9.5
   languageName: unknown

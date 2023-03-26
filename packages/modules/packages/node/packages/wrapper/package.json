@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/node",
+  "name": "@xyo-network/node-wrapper",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -11,20 +11,15 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.7.6",
-    "@xylabs/exists": "^2.7.6",
-    "@xylabs/promise": "^2.7.6",
-    "@xyo-network/account": "workspace:^",
+    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
+    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
-    "@xyo-network/node-wrapper": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/promise": "workspace:^",
-    "lodash": "^4.17.21"
+    "@xyo-network/payload-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191",
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"

@@ -3,10 +3,10 @@ import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AnyConfigSchema, duplicateModules, EventListener, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
 import { NodeConfig, NodeConfigSchema, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
+import { NodeWrapper } from '@xyo-network/node-wrapper'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
-import { NodeWrapper } from './NodeWrapper'
 
 export type MemoryNodeParams = NodeModuleParams<AnyConfigSchema<NodeConfig>>
 

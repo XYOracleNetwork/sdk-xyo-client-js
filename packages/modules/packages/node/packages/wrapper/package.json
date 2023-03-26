@@ -13,7 +13,6 @@
     "@xylabs/assert": "^2.7.6",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
-    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",

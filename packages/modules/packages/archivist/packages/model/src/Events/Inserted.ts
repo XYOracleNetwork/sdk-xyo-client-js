@@ -1,5 +1,6 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { EventData, ModuleEventArgs } from '@xyo-network/module'
+import { EventData } from '@xyo-network/module-events'
+import { ModuleEventArgs } from '@xyo-network/module-model'
 
 import { ArchivistModule } from '../Archivist'
 

@@ -10,6 +10,7 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistModuleEventData,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleParams } from '@xyo-network/module'
@@ -32,7 +33,8 @@ export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivis
 @creatableModule()
 export class MemoryArchivist<
   TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
-> extends AbstractArchivist<TParams> {
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+> extends AbstractArchivist<TParams, TEventData> {
   static override configSchema = MemoryArchivistConfigSchema
 
   private _cache?: LruCache<string, Payload>
@@ -84,10 +86,12 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  override delete(hashes: string[]): PromisableArray<boolean> {
-    return hashes.map((hash) => {
+  override async delete(hashes: string[]): Promise<boolean[]> {
+    const found = hashes.map((hash) => {
       return this.cache.delete(hash)
     })
+    await this.emit('deleted', { found, hashes, module: this })
+    return found
   }
 
   override async get(hashes: string[]): Promise<Payload[]> {
@@ -122,6 +126,8 @@ export class MemoryArchivist<
       //we store the child bw also
       parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
     }
-    return [result[0], ...parentBoundWitnesses]
+    const boundWitnesses = [result[0], ...parentBoundWitnesses]
+    await this.emit('inserted', { boundWitnesses, module: this })
+    return boundWitnesses
   }
 }

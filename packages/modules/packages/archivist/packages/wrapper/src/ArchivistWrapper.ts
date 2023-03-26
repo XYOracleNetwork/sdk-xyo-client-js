@@ -23,7 +23,10 @@ import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
-export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
+export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
+  extends ModuleWrapper<TWrappedModule>
+  implements ArchivistModule
+{
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
 
   static override tryWrap(module?: Module, account?: AccountInstance): ArchivistWrapper | undefined {
@@ -32,7 +35,7 @@ export class ArchivistWrapper extends ModuleWrapper implements ArchivistModule {
       if (missingRequiredQueries.length > 0) {
         //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
       } else {
-        return new ArchivistWrapper({ account, module })
+        return new ArchivistWrapper({ account, module: module as ArchivistModule })
       }
     }
   }

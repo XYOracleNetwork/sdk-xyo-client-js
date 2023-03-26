@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { Module, ModuleWrapper } from '@xyo-network/module'
 import {
   NodeModule,
@@ -19,13 +18,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> {
   static override requiredQueries = [XyoNodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
-
-  private _archivist?: ArchivistWrapper
-
-  get archivist() {
-    this._archivist = this._archivist ?? new ArchivistWrapper({ account: this.account, module: this.module })
-    return this._archivist
-  }
 
   static isNodeModule(module: Module) {
     const missingRequiredQueries = this.missingRequiredQueries(module)

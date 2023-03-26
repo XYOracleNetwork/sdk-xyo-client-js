@@ -10,6 +10,7 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistModuleEventData,
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -33,7 +34,10 @@ export type CookieArchivistConfig = ArchivistConfig<{
 
 export type CookieArchivistParams = ArchivistParams<AnyConfigSchema<CookieArchivistConfig>>
 @creatableModule()
-export class CookieArchivist<TParams extends CookieArchivistParams> extends AbstractArchivist<TParams> {
+export class CookieArchivist<
+  TParams extends CookieArchivistParams,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+> extends AbstractArchivist<TParams, TEventData> {
   static override configSchema = CookieArchivistConfigSchema
 
   get domain() {
@@ -114,12 +118,14 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     }
   }
 
-  override delete(hashes: string[]): PromisableArray<boolean> {
+  override async delete(hashes: string[]): Promise<boolean[]> {
     try {
-      return hashes.map((hash) => {
+      const found = hashes.map((hash) => {
         Cookies.remove(this.keyFromHash(hash))
         return true
       })
+      await this.emit('deleted', { found, hashes, module: this })
+      return found
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
@@ -157,7 +163,9 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
         //we store the child bw also
         parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...storedPayloads])))
       }
-      return [result[0], ...parentBoundWitnesses]
+      const boundWitnesses = [result[0], ...parentBoundWitnesses]
+      await this.emit('inserted', { boundWitnesses, module: this })
+      return boundWitnesses
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

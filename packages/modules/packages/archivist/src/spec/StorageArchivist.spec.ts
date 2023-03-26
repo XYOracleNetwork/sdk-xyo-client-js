@@ -85,6 +85,10 @@ test('XyoArchivist Parent Write Through', async () => {
 
   expect(wrapper).toBeDefined()
 
+  storage.on('inserted', ({ boundWitnesses }) => {
+    expect(boundWitnesses.length).toBeGreaterThan(0)
+  })
+
   const inserted = await storage.insert([wrapper.payload])
 
   expect(inserted).toBeArrayOfSize(2)

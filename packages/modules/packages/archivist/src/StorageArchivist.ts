@@ -12,6 +12,7 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistModuleEventData,
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -36,7 +37,10 @@ export type StorageArchivistConfig = ArchivistConfig<{
 
 export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
 @creatableModule()
-export class StorageArchivist<TParams extends StorageArchivistParams = StorageArchivistParams> extends AbstractArchivist<TParams> {
+export class StorageArchivist<
+  TParams extends StorageArchivistParams = StorageArchivistParams,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+> extends AbstractArchivist<TParams, TEventData> {
   static override configSchema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined
@@ -117,16 +121,18 @@ export class StorageArchivist<TParams extends StorageArchivistParams = StorageAr
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  override delete(hashes: string[]): PromisableArray<boolean> {
-    this.logger?.log(`hashes.length: ${hashes.length}`)
-    return hashes.map((hash) => {
+  override async delete(hashes: string[]): Promise<boolean[]> {
+    this.logger?.log(`delete: hashes.length: ${hashes.length}`)
+    const found = hashes.map((hash) => {
       this.storage.remove(hash)
       return true
     })
+    await this.emit('deleted', { found, hashes, module: this })
+    return found
   }
 
   override async get(hashes: string[]): Promise<Payload[]> {
-    this.logger?.log(`hashes.length: ${hashes.length}`)
+    this.logger?.log(`get: hashes.length: ${hashes.length}`)
 
     return await Promise.all(
       hashes.map(async (hash) => {
@@ -158,7 +164,9 @@ export class StorageArchivist<TParams extends StorageArchivistParams = StorageAr
       const [parentBoundWitness] = await this.writeToParents([storageBoundWitness, ...storedPayloads])
       parentBoundWitnesses.push(parentBoundWitness)
     }
-    return [storageBoundWitness, ...parentBoundWitnesses]
+    const boundWitnesses = [storageBoundWitness, ...parentBoundWitnesses]
+    await this.emit('inserted', { boundWitnesses, module: this })
+    return boundWitnesses
   }
 
   override async start() {

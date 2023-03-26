@@ -10,6 +10,7 @@ import {
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistModule,
+  ArchivistModuleEventData,
   ArchivistParams,
   ArchivistQuery,
 } from '@xyo-network/archivist-model'
@@ -26,9 +27,12 @@ export interface XyoArchivistParentWrappers {
   read?: Record<string, ArchivistWrapper>
   write?: Record<string, ArchivistWrapper>
 }
-export abstract class AbstractArchivist<TParams extends ArchivistParams = ArchivistParams>
-  extends AbstractModule<TParams>
-  implements ArchivistModule<TParams>, ArchivistModule
+export abstract class AbstractArchivist<
+    TParams extends ArchivistParams = ArchivistParams,
+    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+  >
+  extends AbstractModule<TParams, TEventData>
+  implements ArchivistModule<TParams>
 {
   private _parents?: XyoArchivistParentWrappers
 
@@ -184,7 +188,7 @@ export abstract class AbstractArchivist<TParams extends ArchivistParams = Archiv
     const downResolvedModules = await this.downResolver.resolve({ address: archivists })
     const modules = [...resolvedModules, ...downResolvedModules] ?? []
     modules.forEach((module) => {
-      const wrapper = new ArchivistWrapper({ account: this.account, module })
+      const wrapper = new ArchivistWrapper({ account: this.account, module: module as ArchivistModule })
       resolvedWrappers[wrapper.address] = wrapper
     })
     return resolvedWrappers

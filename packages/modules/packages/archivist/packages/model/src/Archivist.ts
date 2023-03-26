@@ -5,7 +5,7 @@ import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
 import { ArchivistConfig } from './Config'
-import { DeletedEventArgs, DeletedEventData, InsertedEventArgs, InsertedEventData } from './Events'
+import { DeletedEventData, InsertedEventData } from './Events'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
   all?(): PromisableArray<TReadResponse>

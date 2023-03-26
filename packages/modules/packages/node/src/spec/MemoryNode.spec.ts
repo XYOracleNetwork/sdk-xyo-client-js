@@ -12,10 +12,10 @@ import {
 } from '@xyo-network/diviner'
 import { AbstractModule, Module, ModuleDescription } from '@xyo-network/module'
 import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
+import { NodeWrapper } from '@xyo-network/node-wrapper'
 import { Account, Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from '@xyo-network/protocol'
 
 import { MemoryNode } from '../MemoryNode'
-import { NodeWrapper } from '../NodeWrapper'
 
 describe('MemoryNode', () => {
   const testAccount0 = new Account({ phrase: 'testPhrase0' })

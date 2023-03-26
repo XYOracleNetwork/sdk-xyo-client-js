@@ -33,7 +33,7 @@ const exampleDomainConfig: XyoDomainPayload = {
   schema: XyoDomainSchema,
 }
 
-describe('XyoSchemaCache', () => {
+describe('SchemaCache', () => {
   test('Valid', async () => {
     const cache = SchemaCache.instance
     const fetchedPayload = await cache.get(XyoSchemaSchema)

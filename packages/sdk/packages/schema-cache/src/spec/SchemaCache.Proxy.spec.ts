@@ -35,7 +35,7 @@ const exampleDomainConfig: XyoDomainPayload = {
   schema: XyoDomainSchema,
 }
 
-describe('XyoSchemaCache', () => {
+describe('SchemaCache', () => {
   beforeEach(() => {
     SchemaCache.instance.proxy = proxy
   })

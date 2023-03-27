@@ -5,25 +5,25 @@ import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { Task } from '@xyo-network/shared'
 
 import { getDiviner } from './getDiviner'
-import { getWitnessPanel } from './getWitnessPanel'
+import { reportCryptoPrices } from './reportCryptoPrices'
 import { reportDivinerResult } from './reportDivinerResult'
 
 export const getTask = (): Task => {
   const logger = getDefaultLogger()
   const task: Task = async () => {
     try {
-      logger.log('Witnessing Crypto Prices')
-      const witnessPanel = await getWitnessPanel()
-      const payloads = await witnessPanel.report()
-      logger.log('Witnessed Crypto Prices')
+      logger.log('Reporting Crypto Prices')
+      const payloads = await reportCryptoPrices()
+      logger.log('Reported Crypto Prices')
       logger.log('Divining Aggregated Crypto Prices')
       const diviner = await getDiviner()
-      const result = (await new DivinerWrapper({ module: diviner }).divine(payloads)).find((p) => p.schema === XyoCryptoMarketAssetSchema)
+      const results = await new DivinerWrapper({ module: diviner }).divine(payloads)
+      const result = results.find((p) => p.schema === XyoCryptoMarketAssetSchema)
       const answer = assertEx(result, 'Empty XyoCryptoMarketAssetPayload response from diviner')
       logger.log('Divined Aggregated Crypto Prices')
-      logger.log('Witnessing Aggregated Crypto Prices')
+      logger.log('Reporting Aggregated Crypto Prices')
       await reportDivinerResult(answer)
-      logger.log('Witnessed Aggregated Crypto Prices')
+      logger.log('Reported Aggregated Crypto Prices')
     } catch (error) {
       logger.error(error)
     }

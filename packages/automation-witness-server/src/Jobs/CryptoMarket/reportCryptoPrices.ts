@@ -1,35 +1,29 @@
 import { MemoryNode } from '@xyo-network/modules'
-import { MemorySentinel, SentinelConfig, SentinelConfigSchema, SentinelModule } from '@xyo-network/sentinel'
+import { Payload } from '@xyo-network/payload-model'
+import { MemorySentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 
 import { getAccount, WalletPaths } from '../../Account'
 import { getArchivists } from '../../Archivists'
 import { getProvider } from '../../Providers'
 import { getCryptoMarketWitness } from '../../Witnesses'
 
-export const getWitnessPanel = async (provider = getProvider()): Promise<SentinelModule> => {
+export const reportCryptoPrices = async (provider = getProvider()): Promise<Payload[]> => {
   const account = getAccount(WalletPaths.CryptoMarketWitnessPanel)
   const archivists = await getArchivists()
   const witnesses = await getCryptoMarketWitness(provider)
-
+  const modules = [...archivists, ...witnesses]
   const node = await MemoryNode.create()
-
-  const witnessAddresses = await Promise.all(
-    witnesses.map(async (witness) => {
-      await node.register(witness).attach(witness.address)
-      return witness.address
-    }),
-  )
   await Promise.all(
-    archivists.map(async (archivist) => {
-      await node.register(archivist).attach(archivist.address)
-      return archivist.address
+    modules.map(async (mod) => {
+      await node.register(mod).attach(mod.address)
     }),
   )
   const config: SentinelConfig = {
     archivists: archivists.map((mod) => mod.address),
     schema: SentinelConfigSchema,
-    witnesses: witnessAddresses,
+    witnesses: witnesses.map((mod) => mod.address),
   }
   const sentinel = await MemorySentinel.create({ account, config })
-  return sentinel
+  const report = sentinel.report()
+  return report
 }

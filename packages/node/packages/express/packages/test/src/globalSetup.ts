@@ -25,9 +25,9 @@ const setupMongo = async () => {
   // To use Transactions, the "storageEngine" needs to be changed to `wiredTiger`
   const mongo = await MongoMemoryReplSet.create({
     instanceOpts: [
-      { replicaMemberConfig: { buildIndexes: true } },
-      { replicaMemberConfig: { buildIndexes: true } },
-      { replicaMemberConfig: { buildIndexes: true } },
+      { port: 55391, replicaMemberConfig: { buildIndexes: true } },
+      { port: 55392, replicaMemberConfig: { buildIndexes: true } },
+      { port: 55393, replicaMemberConfig: { buildIndexes: true } },
     ],
     replSet: { count: 3, storageEngine: 'wiredTiger' },
   }) // This will create an ReplSet with 3 members and storage-engine "wiredTiger"

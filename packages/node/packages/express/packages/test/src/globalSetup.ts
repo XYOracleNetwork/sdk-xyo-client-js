@@ -44,7 +44,9 @@ const setupNode = async () => {
   console.log('Node: Starting')
   globalThis.app = await getApp()
   globalThis.req = supertest(app)
-  process.env.API_DOMAIN = req.get('/').url.replace(/\/$/, '')
+  const apiDomain = req.get('/').url.replace(/\/$/, '')
+  process.env.API_DOMAIN = apiDomain
+  process.env.ARCHIVIST_API_DOMAIN = apiDomain
   console.log('Node: Started')
 }
 

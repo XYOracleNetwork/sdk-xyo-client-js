@@ -1,7 +1,5 @@
-import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
-  BoundWitnessWithPartialMeta,
   PayloadAddressRule,
   PayloadPointerPayload,
   PayloadPointerSchema,
@@ -99,8 +97,10 @@ describe('/:hash', () => {
     const payloads = [...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG]
     const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
     beforeAll(async () => {
-      await insertPayload(payloads)
-      await insertBlock(boundWitnesses)
+      const blockResponse = await insertBlock(boundWitnesses)
+      expect(blockResponse.length).toBe(2)
+      const payloadResponse = await insertPayload(payloads)
+      expect(payloadResponse.length).toBe(2)
     })
     describe('address', () => {
       describe('single address', () => {
@@ -132,8 +132,7 @@ describe('/:hash', () => {
         })
       })
       it('no matching address', async () => {
-        const account = Account.random()
-        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[payloads[0].schema]])
+        const pointerHash = await createPayloadPointer([[Account.random().addressValue.hex]], [[payloads[0].schema]])
         const result = await getHash(pointerHash)
         expectHashNotFound(result)
       })
@@ -150,7 +149,8 @@ describe('/:hash', () => {
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
       const schemas = [schemaA, schemaB]
       beforeAll(async () => {
-        await insertPayload([payloadA.payload, payloadB.payload], account)
+        const payloadResponse = await insertPayload([payloadA.payload, payloadB.payload], account)
+        expect(payloadResponse.length).toBe(2)
       })
       describe('single schema', () => {
         it.each([

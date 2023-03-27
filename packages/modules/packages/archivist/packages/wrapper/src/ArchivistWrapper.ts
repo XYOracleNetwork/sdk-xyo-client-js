@@ -1,5 +1,3 @@
-import { assertEx } from '@xylabs/assert'
-import { AccountInstance } from '@xyo-network/account-model'
 import {
   ArchivistAllQuery,
   ArchivistAllQuerySchema,
@@ -18,31 +16,17 @@ import {
   ArchivistModule,
 } from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
-import { Module, ModuleWrapper } from '@xyo-network/module'
+import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
+constructableModuleWrapper()
 export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
   extends ModuleWrapper<TWrappedModule>
   implements ArchivistModule
 {
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
-
-  static override tryWrap(module?: Module, account?: AccountInstance): ArchivistWrapper | undefined {
-    if (module) {
-      const missingRequiredQueries = this.missingRequiredQueries(module)
-      if (missingRequiredQueries.length > 0) {
-        //console.warn(`Missing queries: ${JSON.stringify(missingRequiredQueries, null, 2)}`)
-      } else {
-        return new ArchivistWrapper({ account, module: module as ArchivistModule })
-      }
-    }
-  }
-
-  static override wrap(module?: Module, account?: AccountInstance): ArchivistWrapper {
-    return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ArchivistWrapper')
-  }
 
   async all(): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })

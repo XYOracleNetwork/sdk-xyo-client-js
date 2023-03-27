@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Base, BaseParams } from '@xyo-network/core'
+import { Base } from '@xyo-network/core'
 import { duplicateModules, ModuleError, ModuleErrorSchema, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
@@ -19,7 +19,10 @@ import {
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
+import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
+
+import { ModuleWrapperParams } from './models'
 
 export interface WrapperError extends Error {
   errors: (ModuleError | null)[]
@@ -27,22 +30,24 @@ export interface WrapperError extends Error {
   result: ModuleQueryResult | undefined
 }
 
-export type ModuleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>> = {
-  new (params: ModuleWrapperParams): TWrapper
+export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
+  defaultLogger?: Logger
+  new (params: ModuleWrapperParams<TWrapper['module']>): TWrapper
+  canWrap(module?: Module): boolean
+  tryWrap<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    module?: Module,
+    account?: AccountInstance,
+  ): TModuleWrapper | undefined
 }
 
-export function moduleConstructable<TModule extends Module = Module, TWrapper extends ModuleWrapper<TModule> = ModuleWrapper<TModule>>() {
-  return <U extends ModuleConstructable<TModule, TWrapper>>(constructor: U) => {
+export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
+  return <U extends ConstructableModuleWrapper<TWrapper>>(constructor: U) => {
     constructor
   }
 }
 
-export type ModuleWrapperParams<TWrappedModule extends Module = Module> = BaseParams<{
-  account?: AccountInstance
-  module: TWrappedModule
-}>
-
-@moduleConstructable()
+@constructableModuleWrapper()
 export class ModuleWrapper<TWrappedModule extends Module = Module>
   extends Base<TWrappedModule['params']>
   implements Module<TWrappedModule['params'], TWrappedModule['eventData']>
@@ -111,16 +116,24 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     )
   }
 
-  static tryWrap(module?: Module, account?: AccountInstance): ModuleWrapper | undefined {
+  static tryWrap<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    module?: Module,
+    account?: AccountInstance,
+  ): TModuleWrapper | undefined {
     if (this.canWrap(module)) {
       if (!account) {
         this.defaultLogger?.info('Anonymous Module Wrapper Created')
       }
-      return new ModuleWrapper({ account, module: module as Module })
+      return new this({ account, module: module as Module })
     }
   }
 
-  static wrap(module?: Module, account?: AccountInstance): ModuleWrapper {
+  static wrap<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    module?: Module,
+    account?: AccountInstance,
+  ): TModuleWrapper {
     return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ModuleWrapper')
   }
 
@@ -231,15 +244,15 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
    * the underlying modules matching the supplied filter
    */
   async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
-    wrapper: ModuleConstructable<Module, T>,
+    wrapper: ConstructableModuleWrapper<T>,
     filter?: ModuleFilter,
   ): Promise<T[]>
   async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
-    wrapper: ModuleConstructable<Module, T>,
+    wrapper: ConstructableModuleWrapper<T>,
     nameOrAddress: string,
   ): Promise<T | undefined>
   async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
-    wrapper: ModuleConstructable<Module, T>,
+    wrapper: ConstructableModuleWrapper<T>,
     nameOrAddressOrFilter?: ModuleFilter | string,
   ): Promise<T[] | T | undefined> {
     switch (typeof nameOrAddressOrFilter) {

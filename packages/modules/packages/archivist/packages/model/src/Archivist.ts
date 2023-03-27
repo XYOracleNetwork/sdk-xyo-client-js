@@ -1,6 +1,6 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, Module, ModuleConfig, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
@@ -46,7 +46,7 @@ export interface Archivist<
 export interface ArchivistModuleEventData extends InsertedEventData, DeletedEventData, ModuleEventData {}
 
 export type ArchivistModule<
-  TParams extends ArchivistParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
+  TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > = Module<TParams, TEventData> & Archivist<Payload, Payload, Payload, Payload, PayloadFindFilter, string>
 

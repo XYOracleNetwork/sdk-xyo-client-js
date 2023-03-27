@@ -7,5 +7,11 @@ export const addHealthChecks = (app: Express) => {
     res.json({ alive: true })
     next()
   })
+  app.get('/healthz', (_req, res, next) => {
+    /* #swagger.tags = ['Health'] */
+    /* #swagger.summary = 'Get the health check for the server' */
+    res.json({ alive: true })
+    next()
+  })
   return app
 }

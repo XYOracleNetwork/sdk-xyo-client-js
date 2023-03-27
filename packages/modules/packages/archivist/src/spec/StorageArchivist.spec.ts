@@ -45,7 +45,7 @@ testArchivistAll(
   'page',
 )
 
-test('XyoArchivist Private Key Save', async () => {
+test('Archivist Private Key Save', async () => {
   const storage = await StorageArchivist.create({
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
   })
@@ -56,7 +56,7 @@ test('XyoArchivist Private Key Save', async () => {
   expect(storage2.address).toBe(address)
 })
 
-test('XyoArchivist passed account', async () => {
+test('Archivist passed account', async () => {
   const account = new Account({ phrase: 'temp' })
 
   const storage = (await StorageArchivist.create({
@@ -67,7 +67,7 @@ test('XyoArchivist passed account', async () => {
   expect(storage['account'].addressValue.hex).toBe(account.addressValue.hex)
 })
 
-test('XyoArchivist Parent Write Through', async () => {
+test('Archivist Parent Write Through', async () => {
   const node = await MemoryNode.create()
   const memory = await MemoryArchivist.create()
 
@@ -101,7 +101,7 @@ test('XyoArchivist Parent Write Through', async () => {
 
   const inserted = await storageWrapper.insert([wrapper.payload])
 
-  expect(inserted).toBeArrayOfSize(2)
+  expect(inserted).toBeArrayOfSize(3)
 
   const fromStorage = await storage.get([wrapper.hash])
   const fromMemory = await memory.get([wrapper.hash])
@@ -110,7 +110,7 @@ test('XyoArchivist Parent Write Through', async () => {
   expect(fromMemory).toBeArrayOfSize(1)
 })
 
-test('XyoArchivist Parent Reads', async () => {
+test('Archivist Parent Reads', async () => {
   const parent = await MemoryArchivist.create()
   const memoryNode = await MemoryNode.create()
 

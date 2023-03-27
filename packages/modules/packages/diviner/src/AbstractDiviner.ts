@@ -27,7 +27,7 @@ export abstract class AbstractDiviner<
     return [DivinerDivineQuerySchema, ...super.queries]
   }
 
-  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -47,7 +47,7 @@ export abstract class AbstractDiviner<
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
           break
         default:
-          return super.query(query, payloads)
+          return super.queryHandler(query, payloads)
       }
     } catch (ex) {
       const error = ex as Error

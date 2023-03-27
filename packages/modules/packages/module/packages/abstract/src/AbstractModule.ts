@@ -136,34 +136,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
-    if (!this.allowAnonymous) {
-      if (query.addresses.length === 0) {
-        console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
-      }
-    }
-    const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query, payloads, queryConfig))
-    const resultPayloads: Payload[] = []
-    const queryAccount = new Account()
-    try {
-      switch (typedQuery.schema) {
-        case ModuleDiscoverQuerySchema: {
-          resultPayloads.push(...(await this.discover()))
-          break
-        }
-        case ModuleSubscribeQuerySchema: {
-          this.subscribe(queryAccount)
-          break
-        }
-        default:
-          console.error(`Unsupported Query [${query.schema}]`)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
-    }
-    const result = await this.bindResult(resultPayloads, queryAccount)
+    const result = await this.queryHandler(query, payloads, queryConfig)
 
     const args: ModuleQueriedEventArgs = { module: this as Module, payloads, query, result }
     await this.emit('moduleQueried', args)
@@ -272,6 +245,42 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
 
   protected loadAccount(account?: AccountInstance): AccountInstance {
     return account ?? new Account()
+  }
+
+  protected async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+    query: T,
+    payloads?: Payload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
+    this.started('throw')
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    if (!this.allowAnonymous) {
+      if (query.addresses.length === 0) {
+        console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
+      }
+    }
+    const typedQuery = wrapper.query.payload
+    assertEx(this.queryable(query, payloads, queryConfig))
+    const resultPayloads: Payload[] = []
+    const queryAccount = new Account()
+    try {
+      switch (typedQuery.schema) {
+        case ModuleDiscoverQuerySchema: {
+          resultPayloads.push(...(await this.discover()))
+          break
+        }
+        case ModuleSubscribeQuerySchema: {
+          this.subscribe(queryAccount)
+          break
+        }
+        default:
+          console.error(`Unsupported Query [${query.schema}]`)
+      }
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+    }
+    return await this.bindResult(resultPayloads, queryAccount)
   }
 
   protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

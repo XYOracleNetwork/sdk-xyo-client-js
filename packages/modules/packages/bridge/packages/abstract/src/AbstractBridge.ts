@@ -32,7 +32,18 @@ export abstract class AbstractBridge<
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, ...super.queries]
   }
 
-  override async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
+  targetDownResolver(address?: string): BridgeModuleResolver {
+    this._targetDownResolvers[address ?? 'root'] = this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this)
+    return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
+  }
+
+  async targetResolve(address: string, filter?: ModuleFilter) {
+    //TODO: Honor address so that the resolve only is done through that remote module
+    //right now, we check the entire remote hive
+    return (await this.targetDownResolver(address).resolve(filter)) as TModule[]
+  }
+
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     const queryAccount = new Account()
@@ -48,24 +59,13 @@ export abstract class AbstractBridge<
           break
         }
         default:
-          return await super.query(query, payloads)
+          return await super.queryHandler(query, payloads)
       }
     } catch (ex) {
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
     }
     return await this.bindResult(resultPayloads, queryAccount)
-  }
-
-  targetDownResolver(address?: string): BridgeModuleResolver {
-    this._targetDownResolvers[address ?? 'root'] = this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this)
-    return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
-  }
-
-  async targetResolve(address: string, filter?: ModuleFilter) {
-    //TODO: Honor address so that the resolve only is done through that remote module
-    //right now, we check the entire remote hive
-    return (await this.targetDownResolver(address).resolve(filter)) as TModule[]
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

@@ -32,7 +32,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     return payloadList
   }
 
-  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -52,7 +52,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
           return this.bindResult(resultPayloads, queryAccount)
         }
         default: {
-          return super.query(query, payloads)
+          return super.queryHandler(query, payloads)
         }
       }
     } catch (ex) {

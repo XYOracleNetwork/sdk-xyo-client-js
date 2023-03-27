@@ -81,7 +81,39 @@ export abstract class AbstractArchivist<
     )
   }
 
-  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  protected async getFromParents(hash: string) {
+    const parents = await this.parents()
+    if (Object.entries(parents.read ?? {}).length > 0) {
+      const results = compact(
+        await Promise.all(
+          Object.values(parents.read ?? {}).map(async (parent) => {
+            const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
+            const query = await this.bindQuery(queryPayload)
+            const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
+            const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
+            if (wrapper && wrapper.hash !== hash) {
+              console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hash}]`)
+              return null
+            }
+            return wrapper?.payload
+          }),
+        ),
+      )
+      return results[0]
+    }
+    return null
+  }
+
+  protected async parents() {
+    this._parents = this._parents ?? {
+      commit: await this.resolveArchivists(this.config?.parents?.commit),
+      read: await this.resolveArchivists(this.config?.parents?.read),
+      write: await this.resolveArchivists(this.config?.parents?.write),
+    }
+    return assertEx(this._parents)
+  }
+
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -124,45 +156,13 @@ export abstract class AbstractArchivist<
           break
         }
         default:
-          return super.query(query, payloads)
+          return super.queryHandler(query, payloads)
       }
     } catch (ex) {
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
-  }
-
-  protected async getFromParents(hash: string) {
-    const parents = await this.parents()
-    if (Object.entries(parents.read ?? {}).length > 0) {
-      const results = compact(
-        await Promise.all(
-          Object.values(parents.read ?? {}).map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
-            const query = await this.bindQuery(queryPayload)
-            const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
-            const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
-            if (wrapper && wrapper.hash !== hash) {
-              console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hash}]`)
-              return null
-            }
-            return wrapper?.payload
-          }),
-        ),
-      )
-      return results[0]
-    }
-    return null
-  }
-
-  protected async parents() {
-    this._parents = this._parents ?? {
-      commit: await this.resolveArchivists(this.config?.parents?.commit),
-      read: await this.resolveArchivists(this.config?.parents?.read),
-      write: await this.resolveArchivists(this.config?.parents?.write),
-    }
-    return assertEx(this._parents)
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {

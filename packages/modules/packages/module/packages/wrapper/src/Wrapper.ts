@@ -32,6 +32,7 @@ export interface WrapperError extends Error {
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger
+  requiredQueries: string[]
   new (params: ModuleWrapperParams<TWrapper['module']>): TWrapper
   canWrap(module?: Module): boolean
   tryWrap<TModuleWrapper extends ModuleWrapper>(
@@ -39,6 +40,11 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
     module?: Module,
     account?: AccountInstance,
   ): TModuleWrapper | undefined
+  wrap<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    module?: Module,
+    account?: AccountInstance,
+  ): TModuleWrapper
 }
 
 export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {

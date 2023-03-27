@@ -54,10 +54,9 @@ export const findPayload = async (
       const { schemas, direction } = searchCriteria
       let payloadIndex = direction === 'asc' ? 0 : bw.payloadHashes.length - 1
       if (schemas) {
+        const schemaInSearchCriteria = (schema: string) => schemas.includes(schema)
         payloadIndex =
-          direction === 'asc'
-            ? bw.payloadSchemas.findIndex((schema) => schemas.includes(schema))
-            : bw.payloadSchemas.findLastIndex((schema) => schemas.includes(schema))
+          direction === 'asc' ? bw.payloadSchemas.findIndex(schemaInSearchCriteria) : bw.payloadSchemas.findLastIndex(schemaInSearchCriteria)
       }
       const hash = bw.payloadHashes[payloadIndex]
       const payloads = ArchivistWrapper.wrap(archivist)

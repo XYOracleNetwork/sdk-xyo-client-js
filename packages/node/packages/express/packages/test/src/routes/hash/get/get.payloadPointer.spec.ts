@@ -15,7 +15,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { getHash, getNewBoundWitness, insertBlock, insertPayload, unitTestSigningAccount } from '../../../testUtil'
+import { getHash, getNewBoundWitness, getNewPayload, getTestSchemaName, insertBlock, insertPayload, unitTestSigningAccount } from '../../../testUtil'
 
 const createPayloadPointer = async (
   addresses: string[][] = [],
@@ -146,8 +146,64 @@ describe('/:hash', () => {
         expectHashNotFound(result)
       })
     })
-    describe.skip('schema', () => {
-      // TODO: Match address rule tests shape
+    describe('schema', () => {
+      const schemaA = getTestSchemaName()
+      const schemaB = getTestSchemaName()
+      const payloadBaseA = getNewPayload()
+      payloadBaseA.schema = schemaA
+      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
+      const payloadBaseB = getNewPayload()
+      payloadBaseB.schema = schemaB
+      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      beforeAll(async () => {
+        await insertPayload([payloadA.payload, payloadB.payload])
+      })
+      describe('single schema', () => {
+        it('returns payload of schema type', async () => {
+          const pointerHash = await createPayloadPointer([], [[payloadA.schema]])
+          const result = await getHash(pointerHash)
+          expect(result).toBeTruthy()
+          expect(result).toEqual(payloadA.payload)
+        })
+      })
+      describe.skip('multiple address rules', () => {
+        describe('combined serially', () => {
+          it('returns payload signed by addresses', async () => {
+            const accountA = Account.random()
+            const accountB = Account.random()
+            const data = getNewBoundWitness([accountA, accountB])
+            const payload = data[1][0]
+            const payloadResponse = await insertPayload(payload, account)
+            expect(payloadResponse.length).toBe(2)
+            const blockResponse = await insertBlock(block, account)
+            expect(blockResponse.length).toBe(2)
+            const pointerHash = await createPayloadPointer([[accountA.addressValue.hex], [accountB.addressValue.hex]], [[payload.schema]])
+            const result = await getHash(pointerHash)
+            expect(result).toEqual(payload)
+          })
+        })
+        describe('combined in parallel', () => {
+          it('returns payload signed by either address', async () => {
+            const accountA = Account.random()
+            const accountB = Account.random()
+            const data = getNewBoundWitness([accountA, accountB])
+            const payload = data[1][0]
+            const payloadResponse = await insertPayload(payload, account)
+            expect(payloadResponse.length).toBe(2)
+            const blockResponse = await insertBlock(block, account)
+            expect(blockResponse.length).toBe(2)
+            const pointerHash = await createPayloadPointer([[accountA.addressValue.hex, accountB.addressValue.hex]], [[payload.schema]])
+            const result = await getHash(pointerHash)
+            expect(result).toEqual(payload)
+          })
+        })
+      })
+      it('no matching address', async () => {
+        const account = Account.random()
+        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[payload.schema]])
+        const result = await getHash(pointerHash)
+        expectHashNotFound(result)
+      })
     })
     describe.skip('timestamp direction', () => {
       it('ascending', async () => {

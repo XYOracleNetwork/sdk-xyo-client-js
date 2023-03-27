@@ -23,6 +23,6 @@ export const reportDivinerResult = async (payload: Payload): Promise<Payload[]> 
     witnesses: witnesses.map((mod) => mod.address),
   }
   const sentinel = await MemorySentinel.create({ account, config })
-  const report = await sentinel.report([payload])
+  const report = await sentinel.report()
   return report
 }

@@ -15,6 +15,6 @@ export const canUseEtherscanProvider = (): boolean => {
 }
 
 export const getEtherscanProviderConfig = (): string => {
-  const projectKey = assertEx(process.env.ETHERSCAN_API_KEY)
+  const projectKey = assertEx(process.env.ETHERSCAN_API_KEY, 'Missing ETHERSCAN_API_KEY ENV VAR')
   return projectKey
 }

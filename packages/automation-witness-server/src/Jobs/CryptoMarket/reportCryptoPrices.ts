@@ -24,6 +24,6 @@ export const reportCryptoPrices = async (provider = getProvider()): Promise<Payl
     witnesses: witnesses.map((mod) => mod.address),
   }
   const sentinel = await MemorySentinel.create({ account, config })
-  const report = sentinel.report()
+  const report = await sentinel.report()
   return report
 }

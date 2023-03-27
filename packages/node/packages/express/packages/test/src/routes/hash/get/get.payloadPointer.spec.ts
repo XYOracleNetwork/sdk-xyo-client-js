@@ -14,7 +14,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { getHash, getNewBoundWitness, getNewPayload, getTestSchemaName, insertBlock, insertPayload, unitTestSigningAccount } from '../../../testUtil'
+import { getHash, getNewBoundWitness, getNewPayload, getTestSchemaName, insertBlock, insertPayload } from '../../../testUtil'
 
 const createPayloadPointer = async (
   addresses: string[][] = [],
@@ -48,14 +48,19 @@ const createPayloadPointer = async (
   return PayloadWrapper.hash(pointer)
 }
 
-const expectHashNotFound = (result: Payload) => {
+const expectError = (result: Payload, detail: string, status: string) => {
   expect(result).toBeObject()
   const error = result as unknown as { errors: { detail: string; status: string }[] }
   expect(error.errors).toBeArrayOfSize(1)
-  expect(error.errors[0]).toEqual({
-    detail: 'Hash not found',
-    status: `${StatusCodes.NOT_FOUND}`,
-  })
+  expect(error.errors[0]).toEqual({ detail, status })
+}
+
+const expectHashNotFoundError = (result: Payload) => {
+  expectError(result, 'Hash not found', `${StatusCodes.NOT_FOUND}`)
+}
+
+const expectSchemaNotSuppliedError = (result: Payload) => {
+  expectError(result, 'At least one schema must be supplied', `${StatusCodes.INTERNAL_SERVER_ERROR}`)
 }
 
 describe('/:hash', () => {
@@ -80,7 +85,7 @@ describe('/:hash', () => {
     })
     it(`${ReasonPhrases.NOT_FOUND} if no payloads match the criteria`, async () => {
       const result = await getHash('non_existent_hash')
-      expectHashNotFound(result)
+      expectHashNotFoundError(result)
     })
   })
   describe('with rules for', () => {
@@ -135,7 +140,7 @@ describe('/:hash', () => {
       it('no matching address', async () => {
         const pointerHash = await createPayloadPointer([[Account.random().addressValue.hex]], [[payloads[0].schema]])
         const result = await getHash(pointerHash)
-        expectHashNotFound(result)
+        expectHashNotFoundError(result)
       })
     })
     describe('schema', () => {
@@ -182,7 +187,7 @@ describe('/:hash', () => {
       it('no matching schema', async () => {
         const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [['network.xyo.test']])
         const result = await getHash(pointerHash)
-        expectHashNotFound(result)
+        expectError(result)
       })
     })
     describe('timestamp direction', () => {
@@ -211,15 +216,17 @@ describe('/:hash', () => {
         expect(result).toEqual(expected)
       })
       it('no matching timestamp', async () => {
-        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [], Date.now(), 'asc')
+        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[payloadsA[0].schema]], Date.now(), 'asc')
         const result = await getHash(pointerHash)
-        expectHashNotFound(result)
+        expectHashNotFoundError(result)
       })
     })
   })
   describe('with no rules', () => {
-    it('is valid', () => {
-      // TODO:
+    it('returns error ', async () => {
+      const pointerHash = await createPayloadPointer([], [])
+      const result = await getHash(pointerHash)
+      expectSchemaNotSuppliedError(result)
     })
   })
 })

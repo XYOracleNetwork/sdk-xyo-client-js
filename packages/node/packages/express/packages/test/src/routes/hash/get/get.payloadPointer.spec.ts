@@ -48,11 +48,12 @@ const createPayloadPointer = async (
   return PayloadWrapper.hash(pointer)
 }
 
-const expectError = (result: Payload, detail: string, status: string) => {
+const expectError = (result: Payload, detail: string, status: string, title?: string) => {
   expect(result).toBeObject()
-  const error = result as unknown as { errors: { detail: string; status: string }[] }
+  const error = result as unknown as { errors: { detail: string; status: string; title?: string }[] }
   expect(error.errors).toBeArrayOfSize(1)
-  expect(error.errors[0]).toEqual({ detail, status })
+  const expected = title ? { detail, status, title } : { detail, status }
+  expect(error.errors[0]).toEqual(expected)
 }
 
 const expectHashNotFoundError = (result: Payload) => {
@@ -60,7 +61,7 @@ const expectHashNotFoundError = (result: Payload) => {
 }
 
 const expectSchemaNotSuppliedError = (result: Payload) => {
-  expectError(result, 'At least one schema must be supplied', `${StatusCodes.INTERNAL_SERVER_ERROR}`)
+  expectError(result, 'At least one schema must be supplied', `${StatusCodes.INTERNAL_SERVER_ERROR}`, 'Error')
 }
 
 describe('/:hash', () => {
@@ -187,7 +188,7 @@ describe('/:hash', () => {
       it('no matching schema', async () => {
         const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [['network.xyo.test']])
         const result = await getHash(pointerHash)
-        expectError(result)
+        expectHashNotFoundError(result)
       })
     })
     describe('timestamp direction', () => {

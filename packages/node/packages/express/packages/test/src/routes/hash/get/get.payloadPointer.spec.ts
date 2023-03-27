@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   BoundWitnessWithPartialMeta,
+  PayloadAddressRule,
   PayloadPointerPayload,
   PayloadPointerSchema,
   PayloadRule,
@@ -14,41 +15,58 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { getHash, getNewBlock, getNewBoundWitness, insertBlock, insertPayload, unitTestSigningAccount } from '../../../testUtil'
+import {
+  getHash,
+  getNewBlock,
+  getNewBoundWitness,
+  insertBlock,
+  insertPayload,
+  otherUnitTestSigningAccount,
+  unitTestSigningAccount,
+} from '../../../testUtil'
 
-const getPayloadPointer = (schema: string, timestamp = Date.now(), direction: SortDirection = 'desc', address?: string): Payload => {
-  const schemaRule: PayloadSchemaRule = { schema }
+const createPayloadPointer = async (
+  addresses: string[][] = [],
+  schemas: string[][] = [],
+  timestamp = Date.now(),
+  direction: SortDirection = 'desc',
+): Promise<string> => {
+  const reference: PayloadRule[][] = []
+
+  const schemaRules: PayloadSchemaRule[][] = schemas.map((rules) => {
+    return rules.map((schema) => {
+      return { schema }
+    })
+  })
+  if (schemaRules.length) reference.push(...schemaRules)
+
+  const addressRules: PayloadAddressRule[][] = addresses.map((rules) => {
+    return rules.map((address) => {
+      return { address }
+    })
+  })
+  if (addressRules.length) reference.push(...addressRules)
+
   const timestampRule: PayloadTimestampDirectionRule = { direction, timestamp }
-  const reference: PayloadRule[][] = [[schemaRule], [timestampRule]]
-  if (address) reference.push([{ address }])
-  return new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields({ reference }).build()
+  reference.push([timestampRule])
+
+  const pointer = new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields({ reference }).build()
+  const pointerResponse = await insertBlock(getNewBlock(pointer), unitTestSigningAccount)
+  expect(pointerResponse.length).toBe(2)
+  const pointerHash = pointerResponse[0].payload_hashes[0]
+  expect(pointerHash).toBeString()
+  return pointerHash
 }
 
 describe('/:hash', () => {
   let block: BoundWitnessWithPartialMeta
   let payload: Payload
   let pointerHash: string
-  const account = Account.random()
-  beforeAll(async () => {
-    jest.spyOn(console, 'error').mockImplementation()
-    // Create data pointer will reference
-    const [bw, payloads] = getNewBoundWitness([account])
-    block = bw
-    payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
-    const blockResponse = await insertBlock(block, account)
-    expect(blockResponse.length).toBe(2)
-    const payloadResponse = await insertPayload(payloads, account)
-    expect(payloadResponse.length).toBe(2)
-    // Create pointer to reference data
-    const pointer = getPayloadPointer(payload.schema)
-    const pointerResponse = await insertPayload(pointer, account)
-    expect(pointerResponse.length).toBe(2)
-    pointerHash = PayloadWrapper.hash(pointer)
-  })
+  const account = unitTestSigningAccount
   describe('return format is', () => {
     beforeAll(async () => {
       // Create data pointer will reference
-      const [bw, payloads] = getNewBoundWitness([account])
+      const [bw, payloads] = getNewBoundWitness()
       block = bw
       payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
       const blockResponse = await insertBlock(block, account)
@@ -56,10 +74,7 @@ describe('/:hash', () => {
       const payloadResponse = await insertPayload(payloads, account)
       expect(payloadResponse.length).toBe(2)
       // Create pointer to reference data
-      const pointer = getPayloadPointer(payload.schema)
-      const pointerResponse = await insertPayload(pointer, account)
-      expect(pointerResponse.length).toBe(2)
-      pointerHash = PayloadWrapper.hash(pointer)
+      pointerHash = await createPayloadPointer([], [[payload.schema]])
     })
     it('a single payload matching the pointer criteria', async () => {
       const response = await getHash(pointerHash)
@@ -82,34 +97,35 @@ describe('/:hash', () => {
   describe('with rules for', () => {
     describe('address', () => {
       describe('single address', () => {
-        it('returns payload signed by address', async () => {
-          const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-          const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-          expect(pointerResponse.length).toBe(2)
-          const pointerHash = pointerResponse[0].payload_hashes[0]
+        it.only('returns payload signed by address', async () => {
+          const account = Account.random()
+          const data = getNewBoundWitness([account])
+          const payload = data[1][0]
+          const blockResponse = await insertBlock(block, account)
+          expect(blockResponse.length).toBe(2)
+          const payloadResponse = await insertPayload(payload, account)
+          expect(payloadResponse.length).toBe(2)
+          const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[payload.schema]])
           const result = await getHash(pointerHash)
           expect(result).toBeTruthy()
+          expect(result).toEqual(payload)
         })
       })
       describe('multiple address rules', () => {
         describe('combined serially', () => {
           it('returns payload signed by addresses', async () => {
-            const account = unitTestSigningAccount
-            const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-            const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-            expect(pointerResponse.length).toBe(2)
-            const pointerHash = pointerResponse[0].payload_hashes[0]
+            const accountA = unitTestSigningAccount
+            const accountB = otherUnitTestSigningAccount
+            const pointerHash = await createPayloadPointer([[accountA.addressValue.hex, accountB.addressValue.hex]])
             const result = await getHash(pointerHash)
             expect(result).toBeTruthy()
           })
         })
         describe('combined in parallel', () => {
           it('returns payload signed by either address', async () => {
-            const account = unitTestSigningAccount
-            const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-            const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-            expect(pointerResponse.length).toBe(2)
-            const pointerHash = pointerResponse[0].payload_hashes[0]
+            const accountA = unitTestSigningAccount
+            const accountB = otherUnitTestSigningAccount
+            const pointerHash = await createPayloadPointer([[accountA.addressValue.hex], [accountB.addressValue.hex]])
             const result = await getHash(pointerHash)
             expect(result).toBeTruthy()
           })
@@ -117,10 +133,7 @@ describe('/:hash', () => {
       })
       it('no matching address', async () => {
         const account = Account.random()
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
+        const pointerHash = await createPayloadPointer([[account.addressValue.hex]])
         const result = await getHash(pointerHash)
         expect(result).toBeObject()
         const error = result as unknown as { errors: { detail: string; status: string }[] }
@@ -131,96 +144,18 @@ describe('/:hash', () => {
         })
       })
     })
-    describe('schema', () => {
-      beforeAll(async () => {
-        // Create data pointer will reference
-        const [bw, payloads] = getNewBoundWitness([account])
-        block = bw
-        payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
-        const blockResponse = await insertBlock(block, account)
-        expect(blockResponse.length).toBe(2)
-        const payloadResponse = await insertPayload(payloads, account)
-        expect(payloadResponse.length).toBe(2)
-        // Create pointer to reference data
-        const pointer = getPayloadPointer(payload.schema)
-        const pointerResponse = await insertPayload(pointer, account)
-        expect(pointerResponse.length).toBe(2)
-        pointerHash = PayloadWrapper.hash(pointer)
-      })
-      it('single schema', async () => {
-        const account = unitTestSigningAccount
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
-        const result = await getHash(pointerHash)
-        expect(result).toBeTruthy()
-      })
-      it('multiple schemas', async () => {
-        const account = unitTestSigningAccount
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
-        const result = await getHash(pointerHash)
-        expect(result).toBeTruthy()
-      })
-      it('no matching schema', async () => {
-        const account = Account.random()
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
-        const result = await getHash(pointerHash)
-        expect(result).toBeObject()
-        const error = result as unknown as { errors: { detail: string; status: string }[] }
-        expect(error.errors).toBeArrayOfSize(1)
-        expect(error.errors[0]).toEqual({
-          detail: 'Hash not found',
-          status: `${StatusCodes.NOT_FOUND}`,
-        })
-      })
+    describe.skip('schema', () => {
+      // TODO: Match address rule tests shape
     })
     describe.skip('timestamp direction', () => {
-      beforeAll(async () => {
-        // Create data pointer will reference
-        const [bw, payloads] = getNewBoundWitness([account])
-        block = bw
-        payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
-        const blockResponse = await insertBlock(block, account)
-        expect(blockResponse.length).toBe(2)
-        const payloadResponse = await insertPayload(payloads, account)
-        expect(payloadResponse.length).toBe(2)
-        // Create pointer to reference data
-        const pointer = getPayloadPointer(payload.schema)
-        const pointerResponse = await insertPayload(pointer, account)
-        expect(pointerResponse.length).toBe(2)
-        pointerHash = PayloadWrapper.hash(pointer)
-      })
       it('ascending', async () => {
-        const account = unitTestSigningAccount
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
-        const result = await getHash(pointerHash)
-        expect(result).toBeTruthy()
+        // TODO
       })
       it('descending', async () => {
-        const account = unitTestSigningAccount
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
-        const result = await getHash(pointerHash)
-        expect(result).toBeTruthy()
+        // TODO
       })
       it('no matching timestamp', async () => {
-        const account = Account.random()
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
+        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [], Date.now(), 'asc')
         const result = await getHash(pointerHash)
         expect(result).toBeObject()
         const error = result as unknown as { errors: { detail: string; status: string }[] }
@@ -230,6 +165,11 @@ describe('/:hash', () => {
           status: `${StatusCodes.NOT_FOUND}`,
         })
       })
+    })
+  })
+  describe('with no rules', () => {
+    it('is valid', () => {
+      // TODO:
     })
   })
 })

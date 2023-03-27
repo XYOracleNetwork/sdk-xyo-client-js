@@ -1,6 +1,7 @@
 {
   "version": "0.2.0",
   "configurations": [
+
     {
       "type": "node",
       "request": "launch",
@@ -38,6 +39,27 @@
       "args": [
         "config",
         "show",
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**"
+      ],
+      "pauseForSourceMap": true,
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "AutomationWitness",
+      "program": "${workspaceFolder}/packages/automation-witness-server/src/launchServer.ts",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "runtimeArgs": [
+        // "--inspect",
+        "--max-old-space-size=8192",
+        "--experimental-specifier-resolution=node",
+        "--loader=ts-node/esm"
       ],
       "envFile": "${workspaceFolder}/.env",
       "sourceMaps": true,

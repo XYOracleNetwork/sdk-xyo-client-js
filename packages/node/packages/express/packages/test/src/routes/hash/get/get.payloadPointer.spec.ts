@@ -198,6 +198,7 @@ describe('/:hash', () => {
       const [bwC, payloadsC] = getNewBoundWitness([account])
       const payloads = [...payloadsA, ...payloadsB, ...payloadsC]
       const boundWitnesses = [bwA, bwB, bwC]
+      const expectedSchema = payloadsA[0].schema
       beforeAll(async () => {
         const blockResponse = await insertBlock(boundWitnesses)
         expect(blockResponse.length).toBe(2)
@@ -206,13 +207,13 @@ describe('/:hash', () => {
       })
       it('ascending', async () => {
         const expected = assertEx(payloads.at(0))
-        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expected.schema]], 0, 'asc')
+        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expectedSchema]], 0, 'asc')
         const result = await getHash(pointerHash)
         expect(result).toEqual(expected)
       })
       it('descending', async () => {
         const expected = assertEx(payloads.at(-1))
-        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expected.schema]], Date.now(), 'desc')
+        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expectedSchema]], Date.now(), 'desc')
         const result = await getHash(pointerHash)
         expect(result).toEqual(expected)
       })

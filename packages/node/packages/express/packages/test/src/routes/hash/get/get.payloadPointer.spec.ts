@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import {
   PayloadAddressRule,
@@ -83,26 +84,26 @@ describe('/:hash', () => {
     })
   })
   describe('with rules for', () => {
-    const accountA = Account.random()
-    const accountB = Account.random()
-    const accountC = Account.random()
-    const accountD = Account.random()
-    const [bwA, payloadsA] = getNewBoundWitness([accountA])
-    const [bwB, payloadsB] = getNewBoundWitness([accountB])
-    const [bwC, payloadsC] = getNewBoundWitness([accountC])
-    const [bwD, payloadsD] = getNewBoundWitness([accountD])
-    const [bwE, payloadsE] = getNewBoundWitness([accountC, accountD])
-    const [bwF, payloadsF] = getNewBoundWitness([accountC])
-    const [bwG, payloadsG] = getNewBoundWitness([accountD])
-    const payloads = [...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG]
-    const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
-    beforeAll(async () => {
-      const blockResponse = await insertBlock(boundWitnesses)
-      expect(blockResponse.length).toBe(2)
-      const payloadResponse = await insertPayload(payloads)
-      expect(payloadResponse.length).toBe(2)
-    })
     describe('address', () => {
+      const accountA = Account.random()
+      const accountB = Account.random()
+      const accountC = Account.random()
+      const accountD = Account.random()
+      const [bwA, payloadsA] = getNewBoundWitness([accountA])
+      const [bwB, payloadsB] = getNewBoundWitness([accountB])
+      const [bwC, payloadsC] = getNewBoundWitness([accountC])
+      const [bwD, payloadsD] = getNewBoundWitness([accountD])
+      const [bwE, payloadsE] = getNewBoundWitness([accountC, accountD])
+      const [bwF, payloadsF] = getNewBoundWitness([accountC])
+      const [bwG, payloadsG] = getNewBoundWitness([accountD])
+      const payloads = [...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG]
+      const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
+      beforeAll(async () => {
+        const blockResponse = await insertBlock(boundWitnesses)
+        expect(blockResponse.length).toBe(2)
+        const payloadResponse = await insertPayload(payloads)
+        expect(payloadResponse.length).toBe(2)
+      })
       describe('single address', () => {
         it.each([
           [accountA, payloadsA[0]],
@@ -184,13 +185,30 @@ describe('/:hash', () => {
         expectHashNotFound(result)
       })
     })
-    describe.skip('timestamp direction', () => {
-      const account = unitTestSigningAccount
+    describe('timestamp direction', () => {
+      const account = Account.random()
+      const [bwA, payloadsA] = getNewBoundWitness([account])
+      const [bwB, payloadsB] = getNewBoundWitness([account])
+      const [bwC, payloadsC] = getNewBoundWitness([account])
+      const payloads = [...payloadsA, ...payloadsB, ...payloadsC]
+      const boundWitnesses = [bwA, bwB, bwC]
+      beforeAll(async () => {
+        const blockResponse = await insertBlock(boundWitnesses)
+        expect(blockResponse.length).toBe(2)
+        const payloadResponse = await insertPayload(payloads)
+        expect(payloadResponse.length).toBe(2)
+      })
       it('ascending', async () => {
-        // TODO
+        const expected = assertEx(payloads.at(0))
+        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expected.schema]], 0, 'asc')
+        const result = await getHash(pointerHash)
+        expect(result).toEqual(expected)
       })
       it('descending', async () => {
-        // TODO
+        const expected = assertEx(payloads.at(-1))
+        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expected.schema]], Date.now(), 'desc')
+        const result = await getHash(pointerHash)
+        expect(result).toEqual(expected)
       })
       it('no matching timestamp', async () => {
         const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [], Date.now(), 'asc')

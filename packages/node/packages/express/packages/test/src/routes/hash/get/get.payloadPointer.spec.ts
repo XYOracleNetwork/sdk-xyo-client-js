@@ -155,6 +155,7 @@ describe('/:hash', () => {
       const payloadBaseB = getNewPayload()
       payloadBaseB.schema = schemaB
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      const schemas = [schemaA, schemaB]
       beforeAll(async () => {
         await insertPayload([payloadA.payload, payloadB.payload])
       })
@@ -166,35 +167,19 @@ describe('/:hash', () => {
           expect(result).toEqual(payloadA.payload)
         })
       })
-      describe.skip('multiple address rules', () => {
+      describe('multiple schema rules', () => {
         describe('combined serially', () => {
-          it('returns payload signed by addresses', async () => {
-            const accountA = Account.random()
-            const accountB = Account.random()
-            const data = getNewBoundWitness([accountA, accountB])
-            const payload = data[1][0]
-            const payloadResponse = await insertPayload(payload, account)
-            expect(payloadResponse.length).toBe(2)
-            const blockResponse = await insertBlock(block, account)
-            expect(blockResponse.length).toBe(2)
-            const pointerHash = await createPayloadPointer([[accountA.addressValue.hex], [accountB.addressValue.hex]], [[payload.schema]])
+          it('returns payload of either schema', async () => {
+            const pointerHash = await createPayloadPointer([], [[payloadA.schema, payloadB.schema]])
             const result = await getHash(pointerHash)
-            expect(result).toEqual(payload)
+            expect(schemas).toContain(result.schema)
           })
         })
         describe('combined in parallel', () => {
-          it('returns payload signed by either address', async () => {
-            const accountA = Account.random()
-            const accountB = Account.random()
-            const data = getNewBoundWitness([accountA, accountB])
-            const payload = data[1][0]
-            const payloadResponse = await insertPayload(payload, account)
-            expect(payloadResponse.length).toBe(2)
-            const blockResponse = await insertBlock(block, account)
-            expect(blockResponse.length).toBe(2)
-            const pointerHash = await createPayloadPointer([[accountA.addressValue.hex, accountB.addressValue.hex]], [[payload.schema]])
+          it('returns payload of either schema', async () => {
+            const pointerHash = await createPayloadPointer([], [[payloadA.schema], [payloadB.schema]])
             const result = await getHash(pointerHash)
-            expect(result).toEqual(payload)
+            expect(schemas).toContain(result.schema)
           })
         })
       })

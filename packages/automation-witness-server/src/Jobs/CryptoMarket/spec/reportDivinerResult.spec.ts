@@ -5,6 +5,6 @@ import { reportDivinerResult } from '../reportDivinerResult'
 describe('reportDivinerResult', () => {
   it('reports diviner results', async () => {
     const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
-    await reportDivinerResult(payload)
+    expect(await reportDivinerResult(payload)).toBeArray()
   })
 })

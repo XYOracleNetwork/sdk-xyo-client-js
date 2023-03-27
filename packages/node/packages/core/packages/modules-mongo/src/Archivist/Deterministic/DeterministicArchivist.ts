@@ -101,42 +101,6 @@ export class MongoDBDeterministicArchivist<
     throw new Error('insert method must be called via query')
   }
 
-  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
-    query: T,
-    payloads?: Payload[],
-    queryConfig?: TConfig,
-  ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query, payloads, queryConfig))
-    const resultPayloads: Payload[] = []
-    // TODO: Use new Account once we mock Account.new in Jest
-    const queryAccount = Account.random()
-    // const queryAccount = new Account()
-    try {
-      switch (typedQuery.schema) {
-        case ArchivistFindQuerySchema: {
-          resultPayloads.push(...(await this.findInternal(wrapper, typedQuery)))
-          break
-        }
-        case ArchivistGetQuerySchema: {
-          resultPayloads.push(...(await this.getInternal(wrapper, typedQuery)))
-          break
-        }
-        case ArchivistInsertQuerySchema: {
-          resultPayloads.push(...(await this.insertInternal(wrapper, typedQuery)))
-          break
-        }
-        default:
-          return super.query(query, payloads)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
-    }
-    return this.bindResult(resultPayloads, queryAccount)
-  }
-
   protected async findBoundWitness(
     filter: BoundWitnessesFilter,
     sort: { [key: string]: SortDirection } = { _timestamp: -1 },
@@ -227,5 +191,41 @@ export class MongoDBDeterministicArchivist<
     }
     const result = await this.bindResult([wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)])
     return [result[0]]
+  }
+
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+    query: T,
+    payloads?: Payload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
+    const typedQuery = wrapper.query.payload
+    assertEx(this.queryable(query, payloads, queryConfig))
+    const resultPayloads: Payload[] = []
+    // TODO: Use new Account once we mock Account.new in Jest
+    const queryAccount = Account.random()
+    // const queryAccount = new Account()
+    try {
+      switch (typedQuery.schema) {
+        case ArchivistFindQuerySchema: {
+          resultPayloads.push(...(await this.findInternal(wrapper, typedQuery)))
+          break
+        }
+        case ArchivistGetQuerySchema: {
+          resultPayloads.push(...(await this.getInternal(wrapper, typedQuery)))
+          break
+        }
+        case ArchivistInsertQuerySchema: {
+          resultPayloads.push(...(await this.insertInternal(wrapper, typedQuery)))
+          break
+        }
+        default:
+          return super.queryHandler(query, payloads)
+      }
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+    }
+    return this.bindResult(resultPayloads, queryAccount)
   }
 }

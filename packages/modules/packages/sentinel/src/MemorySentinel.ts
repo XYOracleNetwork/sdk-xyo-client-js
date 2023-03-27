@@ -30,32 +30,6 @@ export class MemorySentinel<
 {
   static override configSchema: SentinelConfigSchema
 
-  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
-    query: T,
-    payloads?: Payload[],
-    queryConfig?: TConfig,
-  ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQuery>(query, payloads)
-    const typedQuery = wrapper.query
-    assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = new Account()
-    const resultPayloads: Payload[] = []
-    try {
-      switch (typedQuery.schemaName) {
-        case SentinelReportQuerySchema: {
-          resultPayloads.push(...(await this.report(payloads)))
-          break
-        }
-        default:
-          return super.query(query, payloads)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
-    }
-    return await this.bindResult(resultPayloads, queryAccount)
-  }
-
   async report(payloads: Payload[] = []): Promise<Payload[]> {
     const errors: Error[] = []
     await this.emit('reportStart', { inPayloads: payloads, module: this as SentinelModule })
@@ -74,6 +48,32 @@ export class MemorySentinel<
     this.history.push(assertEx(boundWitness))
     await this.emit('reportEnd', { boundWitness, errors, inPayloads: payloads, module: this as SentinelModule, outPayloads: allPayloads })
     return [boundWitness, ...allPayloads]
+  }
+
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+    query: T,
+    payloads?: Payload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQuery>(query, payloads)
+    const typedQuery = wrapper.query
+    assertEx(this.queryable(query, payloads, queryConfig))
+    const queryAccount = new Account()
+    const resultPayloads: Payload[] = []
+    try {
+      switch (typedQuery.schemaName) {
+        case SentinelReportQuerySchema: {
+          resultPayloads.push(...(await this.report(payloads)))
+          break
+        }
+        default:
+          return super.queryHandler(query, payloads)
+      }
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+    }
+    return await this.bindResult(resultPayloads, queryAccount)
   }
 
   private async generatePayloads(witnesses: WitnessWrapper[]): Promise<Payload[]> {

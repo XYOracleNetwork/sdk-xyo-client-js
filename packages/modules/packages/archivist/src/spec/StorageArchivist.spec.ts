@@ -3,7 +3,9 @@
  */
 
 import { Account } from '@xyo-network/account'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
+import { ModuleQuery, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -89,7 +91,15 @@ test('XyoArchivist Parent Write Through', async () => {
     expect(boundWitnesses.length).toBeGreaterThan(0)
   })
 
-  const inserted = await storage.insert([wrapper.payload])
+  storage.on('moduleQueried', ({ query, payloads }) => {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    expect(wrapper.query).toBeDefined()
+    console.log(`Queried: ${wrapper.query.schema}`)
+  })
+
+  const storageWrapper = ArchivistWrapper.wrap(storage)
+
+  const inserted = await storageWrapper.insert([wrapper.payload])
 
   expect(inserted).toBeArrayOfSize(2)
 

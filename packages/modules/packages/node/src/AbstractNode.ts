@@ -67,7 +67,23 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return [...(await super.discover()), ...childModAddresses]
   }
 
-  override async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  register(_module: Module): Promisable<this> {
+    throw new Error('Method not implemented.')
+  }
+
+  registered(): Promisable<string[]> {
+    throw new Error('Method not implemented.')
+  }
+
+  registeredModules(): Promisable<Module[]> {
+    throw new Error('Method not implemented.')
+  }
+
+  unregister(_module: Module): Promisable<this> {
+    throw new Error('Method not implemented.')
+  }
+
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
@@ -104,29 +120,13 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
           break
         }
         default:
-          return await super.query(query, payloads)
+          return await super.queryHandler(query, payloads)
       }
     } catch (ex) {
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
-  }
-
-  register(_module: Module): Promisable<this> {
-    throw new Error('Method not implemented.')
-  }
-
-  registered(): Promisable<string[]> {
-    throw new Error('Method not implemented.')
-  }
-
-  registeredModules(): Promisable<Module[]> {
-    throw new Error('Method not implemented.')
-  }
-
-  unregister(_module: Module): Promisable<this> {
-    throw new Error('Method not implemented.')
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

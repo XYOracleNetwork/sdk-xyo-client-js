@@ -12,17 +12,9 @@ import {
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { ReasonPhrases } from 'http-status-codes'
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import {
-  getHash,
-  getNewBlock,
-  getNewBoundWitness,
-  insertBlock,
-  insertPayload,
-  otherUnitTestSigningAccount,
-  unitTestSigningAccount,
-} from '../../../testUtil'
+import { getHash, getNewBlock, getNewBoundWitness, insertBlock, insertPayload, unitTestSigningAccount } from '../../../testUtil'
 
 const getPayloadPointer = (schema: string, timestamp = Date.now(), direction: SortDirection = 'desc', address?: string): Payload => {
   const schemaRule: PayloadSchemaRule = { schema }
@@ -40,23 +32,23 @@ describe('/:hash', () => {
   beforeAll(() => {
     jest.spyOn(console, 'error').mockImplementation()
   })
-  beforeEach(async () => {
-    // Create data pointer will reference
-    const [bw, payloads] = getNewBoundWitness([account])
-    block = bw
-    payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
-    const blockResponse = await insertBlock(block, account)
-    expect(blockResponse.length).toBe(2)
-    const payloadResponse = await insertPayload(payloads, account)
-    expect(payloadResponse.length).toBe(2)
-    // Create pointer to reference data
-    const pointer = getPayloadPointer(payload.schema)
-    const pointerResponse = await insertPayload(pointer, account)
-    expect(pointerResponse.length).toBe(2)
-    pointerHash = PayloadWrapper.hash(pointer)
-  })
   describe('return format is', () => {
-    it('a single payload', async () => {
+    beforeAll(async () => {
+      // Create data pointer will reference
+      const [bw, payloads] = getNewBoundWitness([account])
+      block = bw
+      payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
+      const blockResponse = await insertBlock(block, account)
+      expect(blockResponse.length).toBe(2)
+      const payloadResponse = await insertPayload(payloads, account)
+      expect(payloadResponse.length).toBe(2)
+      // Create pointer to reference data
+      const pointer = getPayloadPointer(payload.schema)
+      const pointerResponse = await insertPayload(pointer, account)
+      expect(pointerResponse.length).toBe(2)
+      pointerHash = PayloadWrapper.hash(pointer)
+    })
+    it('a single payload matching the pointer criteria', async () => {
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
@@ -64,21 +56,13 @@ describe('/:hash', () => {
       expect(PayloadWrapper.parse(response).valid).toBeTrue()
       expect(response).toEqual(payload)
     })
-  })
-  describe('with existing payload pointer hash', () => {
-    it('returns the referenced payload', async () => {
-      const result = await getHash(pointerHash)
-      expect(result).toBeTruthy()
-    })
-  })
-  describe('with nonexistent payload pointer hash', () => {
-    it(`returns ${ReasonPhrases.NOT_FOUND}`, async () => {
+    it(`${ReasonPhrases.NOT_FOUND} if no payloads match the criteria`, async () => {
       const result = await getHash('non_existent_hash')
       const error = result as unknown as { errors: { detail: string; status: string }[] }
       expect(error.errors).toBeArrayOfSize(1)
       expect(error.errors[0]).toEqual({
         detail: 'Hash not found',
-        status: '404',
+        status: `${StatusCodes.NOT_FOUND}`,
       })
     })
   })
@@ -88,16 +72,17 @@ describe('/:hash', () => {
       const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
       const pointerResponse = await insertBlock(getNewBlock(pointer), account)
       expect(pointerResponse.length).toBe(2)
-      pointerHash = pointerResponse[0].payload_hashes[0]
+      const pointerHash = pointerResponse[0].payload_hashes[0]
       const result = await getHash(pointerHash)
       expect(result).toBeTruthy()
     })
   })
   it('returns no payloads if not signed by address', async () => {
-    const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', otherUnitTestSigningAccount.addressValue.hex)
+    const account = Account.random()
+    const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
     const pointerResponse = await insertBlock(getNewBlock(pointer), account)
     expect(pointerResponse.length).toBe(2)
-    pointerHash = pointerResponse[0].payload_hashes[0]
+    const pointerHash = pointerResponse[0].payload_hashes[0]
     const result = await getHash(pointerHash)
     expect(result).toBeObject()
     const error = result as unknown as { errors: { detail: string; status: string }[] }

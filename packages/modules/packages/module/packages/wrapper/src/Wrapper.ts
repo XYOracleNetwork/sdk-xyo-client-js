@@ -32,6 +32,7 @@ export interface WrapperError extends Error {
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger
+  requiredQueries: string[]
   new (params: ModuleWrapperParams<TWrapper['module']>): TWrapper
   canWrap(module?: Module): boolean
   tryWrap<TModuleWrapper extends ModuleWrapper>(

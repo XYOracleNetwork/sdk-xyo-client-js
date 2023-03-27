@@ -29,8 +29,21 @@ describe('/:hash', () => {
   let payload: Payload
   let pointerHash: string
   const account = Account.random()
-  beforeAll(() => {
+  beforeAll(async () => {
     jest.spyOn(console, 'error').mockImplementation()
+    // Create data pointer will reference
+    const [bw, payloads] = getNewBoundWitness([account])
+    block = bw
+    payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
+    const blockResponse = await insertBlock(block, account)
+    expect(blockResponse.length).toBe(2)
+    const payloadResponse = await insertPayload(payloads, account)
+    expect(payloadResponse.length).toBe(2)
+    // Create pointer to reference data
+    const pointer = getPayloadPointer(payload.schema)
+    const pointerResponse = await insertPayload(pointer, account)
+    expect(pointerResponse.length).toBe(2)
+    pointerHash = PayloadWrapper.hash(pointer)
   })
   describe('return format is', () => {
     beforeAll(async () => {
@@ -68,38 +81,39 @@ describe('/:hash', () => {
   })
   describe('with rules for', () => {
     describe('address', () => {
-      beforeAll(async () => {
-        // Create data pointer will reference
-        const [bw, payloads] = getNewBoundWitness([account])
-        block = bw
-        payload = PayloadWrapper.parse(assertEx(payloads?.[0])).body
-        const blockResponse = await insertBlock(block, account)
-        expect(blockResponse.length).toBe(2)
-        const payloadResponse = await insertPayload(payloads, account)
-        expect(payloadResponse.length).toBe(2)
-        // Create pointer to reference data
-        const pointer = getPayloadPointer(payload.schema)
-        const pointerResponse = await insertPayload(pointer, account)
-        expect(pointerResponse.length).toBe(2)
-        pointerHash = PayloadWrapper.hash(pointer)
+      describe('single address', () => {
+        it('returns payload signed by address', async () => {
+          const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
+          const pointerResponse = await insertBlock(getNewBlock(pointer), account)
+          expect(pointerResponse.length).toBe(2)
+          const pointerHash = pointerResponse[0].payload_hashes[0]
+          const result = await getHash(pointerHash)
+          expect(result).toBeTruthy()
+        })
       })
-      it('single address', async () => {
-        const account = unitTestSigningAccount
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
-        const result = await getHash(pointerHash)
-        expect(result).toBeTruthy()
-      })
-      it('multiple addresses', async () => {
-        const account = unitTestSigningAccount
-        const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
-        const pointerResponse = await insertBlock(getNewBlock(pointer), account)
-        expect(pointerResponse.length).toBe(2)
-        const pointerHash = pointerResponse[0].payload_hashes[0]
-        const result = await getHash(pointerHash)
-        expect(result).toBeTruthy()
+      describe('multiple address rules', () => {
+        describe('combined serially', () => {
+          it('returns payload signed by addresses', async () => {
+            const account = unitTestSigningAccount
+            const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
+            const pointerResponse = await insertBlock(getNewBlock(pointer), account)
+            expect(pointerResponse.length).toBe(2)
+            const pointerHash = pointerResponse[0].payload_hashes[0]
+            const result = await getHash(pointerHash)
+            expect(result).toBeTruthy()
+          })
+        })
+        describe('combined in parallel', () => {
+          it('returns payload signed by either address', async () => {
+            const account = unitTestSigningAccount
+            const pointer = getPayloadPointer(payload.schema, Date.now(), 'desc', account.addressValue.hex)
+            const pointerResponse = await insertBlock(getNewBlock(pointer), account)
+            expect(pointerResponse.length).toBe(2)
+            const pointerHash = pointerResponse[0].payload_hashes[0]
+            const result = await getHash(pointerHash)
+            expect(result).toBeTruthy()
+          })
+        })
       })
       it('no matching address', async () => {
         const account = Account.random()

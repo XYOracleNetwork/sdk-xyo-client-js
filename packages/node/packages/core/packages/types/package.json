@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.53.22",
+  "version": "2.53.23",
   "description": "XYO Node Core Types",
   "sideeffects": false,
   "engines": {

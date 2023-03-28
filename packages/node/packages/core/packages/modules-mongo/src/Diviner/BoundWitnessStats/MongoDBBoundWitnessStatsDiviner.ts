@@ -52,7 +52,7 @@ export type MongoDBBoundWitnessStatsDivinerParams<T extends Payload = Payload> =
   }
 >
 
-const moduleName = 'MongoDBSchemaStatsDiviner'
+const moduleName = 'MongoDBBoundWitnessStatsDiviner'
 
 export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitnessStatsDivinerParams = MongoDBBoundWitnessStatsDivinerParams>
   extends AbstractDiviner<TParams>

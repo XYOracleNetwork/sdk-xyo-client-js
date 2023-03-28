@@ -57,6 +57,8 @@ export type MongoDBSchemaStatsDivinerParams<T extends Payload = Payload> = Divin
   }
 >
 
+const moduleName = 'MongoDBSchemaStatsDiviner'
+
 export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDivinerParams = MongoDBSchemaStatsDivinerParams>
   extends AbstractDiviner<TParams>
   implements SchemaStatsDiviner, JobProvider, DivinerModule
@@ -107,7 +109,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   get jobs(): Job[] {
     return [
       {
-        name: 'MongoDBSchemaStatsDiviner.UpdateChanges',
+        name: `${moduleName}.UpdateChanges`,
         onSuccess: () => {
           this.pendingCounts = {}
         },
@@ -115,7 +117,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
         task: async () => await this.updateChanges(),
       },
       {
-        name: 'MongoDBSchemaStatsDiviner.DivineAddressesBatch',
+        name: `${moduleName}.DivineAddressesBatch`,
         schedule: '5 minute',
         task: async () => await this.divineAddressesBatch(),
       },
@@ -144,7 +146,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
       try {
         await this.divineAddressFull(address)
       } catch (error) {
-        this.logger?.error(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
+        this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
       await delay(50)
     }
@@ -199,15 +201,12 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private divineAddressesBatch = async () => {
-    this.logger?.log('MongoDBSchemaStatsDiviner.DivineAddressesBatch: Updating Addresses')
-    const addressSpaceDiviner = assertEx(
-      this.params.addressSpaceDiviner,
-      'MongoDBSchemaStatsDiviner.DivineAddressesBatch: Missing AddressSpaceDiviner',
-    )
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating Addresses`)
+    const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner, `${moduleName}.DivineAddressesBatch: Missing AddressSpaceDiviner`)
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
-    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Updating with ${additions} new addresses`)
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating with ${additions} new addresses`)
     if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
   }
 
@@ -224,16 +223,16 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private registerWithChangeStream = async () => {
-    this.logger?.log('MongoDBSchemaStatsDiviner.RegisterWithChangeStream: Registering')
+    this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
     const wrapper = MongoClientWrapper.get(this.params.payloadSdk.uri, this.params.payloadSdk.config.maxPoolSize)
     const connection = await wrapper.connect()
-    assertEx(connection, 'Connection failed')
+    assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.Payloads)
     const opts: ChangeStreamOptions = this.resumeAfter ? { resumeAfter: this.resumeAfter } : {}
     this.changeStream = collection.watch([], opts)
     this.changeStream.on('change', this.processChange)
     this.changeStream.on('error', this.registerWithChangeStream)
-    this.logger?.log('MongoDBSchemaStatsDiviner.RegisterWithChangeStream: Registered')
+    this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registered`)
   }
 
   private storeDivinedResult = async (archive: string, counts: Record<string, number>) => {
@@ -252,7 +251,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private updateChanges = async () => {
-    this.logger?.log('MongoDBSchemaStatsDiviner.UpdateChanges: Updating')
+    this.logger?.log(`${moduleName}.UpdateChanges: Updating`)
     const updates = Object.keys(this.pendingCounts).map((archive) => {
       const $inc = Object.keys(this.pendingCounts[archive])
         .map((schema) => {
@@ -267,6 +266,6 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const results = await Promise.allSettled(updates)
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBSchemaStatsDiviner.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
+    this.logger?.log(`${moduleName}.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 }

@@ -1,4 +1,4 @@
-import { union } from './SetOperations'
+import { difference, union } from './SetOperations'
 
 export class BatchIterator<T> implements Iterator<T[]> {
   private batchSize: number
@@ -26,11 +26,10 @@ export class BatchIterator<T> implements Iterator<T[]> {
       this.done = new Set<T>()
     }
 
-    // const todo = Array.from(this.todo)
-    // const _batch = todo.slice(0, this.batchSize)
-    // const _remaining = todo.slice(this.batchSize)
+    const todo = Array.from(this.todo)
+    const batch = todo.slice(0, this.batchSize)
+    const remaining = todo.slice(this.batchSize)
 
-    const batch = Array.from(this.todo).slice(0, this.batchSize)
     batch.forEach((value) => {
       this.todo.delete(value)
       this.done.add(value)

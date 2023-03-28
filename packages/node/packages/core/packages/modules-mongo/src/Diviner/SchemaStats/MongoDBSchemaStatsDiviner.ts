@@ -79,6 +79,10 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
    */
   protected readonly aggregateTimeoutMs = 10_000
 
+  /**
+   * A reference to the background task to ensure that the
+   * continuous background divine stays running
+   */
   protected backgroundDivineTask: Promise<void> | undefined
 
   /**
@@ -144,10 +148,10 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
       for (const address of addresses) {
         try {
           await this.divineAddressFull(address)
-          await delay(10)
         } catch (error) {
           this.logger?.log(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
         }
+        await delay(10)
       }
     }
     this.backgroundDivineTask = undefined

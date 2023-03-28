@@ -20,7 +20,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { fromDbProperty, toDbProperty } from '../../Util'
+import { BatchIterator, fromDbProperty, toDbProperty } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -82,15 +82,16 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
    * The max number of simultaneous archives to divine at once
    */
   protected readonly batchLimit = 100
+
+  // Lint rule required to allow for use of batchLimit constant
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  protected readonly batchIterator: BatchIterator<string> = new BatchIterator([], this.batchLimit)
+
   /**
    * The stream with which the diviner is notified of insertions
    * to the payloads collection
    */
   protected changeStream: ChangeStream | undefined = undefined
-  /**
-   * The next offset from which to begin batch divining archives
-   */
-  protected nextOffset = 0
   /**
    * The counts per schema to update on the next update interval
    */
@@ -112,7 +113,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
       },
       {
         name: 'MongoDBSchemaStatsDiviner.DivineAddressesBatch',
-        schedule: '10 minute',
+        schedule: '5 minute',
         task: async () => await this.divineAddressesBatch(),
       },
     ]
@@ -183,16 +184,16 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private divineAddressesBatch = async () => {
-    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
+    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit}`)
     const addressSpaceDiviner = assertEx(
       this.params.addressSpaceDiviner,
       'MongoDBSchemaStatsDiviner.DivineAddressesBatch: Missing AddressSpaceDiviner',
     )
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Addresses`)
-    this.nextOffset = addresses.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
-    const results = await Promise.allSettled(addresses.map(this.divineAddressFull))
+    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Updating with ${addresses.length} Addresses`)
+    this.batchIterator.addValues(addresses)
+    const results = await Promise.allSettled(this.batchIterator.next().value.map(this.divineAddressFull))
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
     this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)

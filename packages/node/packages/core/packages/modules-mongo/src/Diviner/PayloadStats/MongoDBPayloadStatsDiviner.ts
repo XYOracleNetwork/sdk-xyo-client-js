@@ -20,6 +20,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
+import { BatchIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -57,8 +58,10 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   static override configSchema = MongoDBPayloadStatsDivinerConfigSchema
 
   protected readonly batchLimit = 100
+  // Lint rule required to allow for use of batchLimit constant
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  protected readonly batchIterator: BatchIterator<string> = new BatchIterator([], this.batchLimit)
   protected changeStream: ChangeStream | undefined = undefined
-  protected nextOffset = 0
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
 
@@ -74,7 +77,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       },
       {
         name: 'MongoDBPayloadStatsDiviner.DivineAddressesBatch',
-        schedule: '10 minute',
+        schedule: '5 minute',
         task: async () => await this.divineAddressesBatch(),
       },
     ]
@@ -113,16 +116,16 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   }
 
   private divineAddressesBatch = async () => {
-    this.logger?.log(`MongoDBPayloadStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
+    this.logger?.log(`MongoDBPayloadStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit}`)
     const addressSpaceDiviner = assertEx(
       this.params.addressSpaceDiviner,
       'MongoDBPayloadStatsDiviner.DivineAddressesBatch: Missing AddressSpaceDiviner',
     )
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    this.logger?.log(`MongoDBPayloadStatsDiviner.DivineAddressesBatch: Divining ${addresses.length} Addresses`)
-    this.nextOffset = addresses.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
-    const results = await Promise.allSettled(addresses.map(this.divineAddressFull))
+    this.logger?.log(`MongoDBPayloadStatsDiviner.DivineAddressesBatch: Updating with ${addresses.length} Addresses`)
+    this.batchIterator.addValues(addresses)
+    const results = await Promise.allSettled(this.batchIterator.next().value.map(this.divineAddressFull))
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
     this.logger?.log(`MongoDBPayloadStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)

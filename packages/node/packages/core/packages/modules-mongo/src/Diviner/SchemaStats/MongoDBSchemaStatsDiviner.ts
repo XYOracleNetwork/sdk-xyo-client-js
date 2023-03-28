@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
@@ -78,6 +79,8 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
    */
   protected readonly aggregateTimeoutMs = 10_000
 
+  protected backgroundDivineRunning = false
+
   /**
    * The max number of simultaneous archives to divine at once
    */
@@ -134,6 +137,20 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   protected override async stop(): Promise<this> {
     await this.changeStream?.close()
     return await super.stop()
+  }
+
+  private backgroundDivine = async (): Promise<void> => {
+    this.backgroundDivineRunning = true
+    for (const addresses of this.batchIterator) {
+      for (const address of addresses) {
+        try {
+          await this.divineAddressFull(address)
+        } catch (error) {
+          this.logger?.log(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
+        }
+      }
+    }
+    this.backgroundDivineRunning = false
   }
 
   private divineAddress = async (archive: string): Promise<Record<string, number>> => {
@@ -193,10 +210,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Updating with ${addresses.length} Addresses`)
     this.batchIterator.addValues(addresses)
-    const results = await Promise.allSettled(this.batchIterator.next().value.map(this.divineAddressFull))
-    const succeeded = results.filter(fulfilled).length
-    const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    if (!this.backgroundDivineRunning) forget(this.backgroundDivine())
   }
 
   private divineAllAddresses = async () => await Promise.reject('Not Implemented')

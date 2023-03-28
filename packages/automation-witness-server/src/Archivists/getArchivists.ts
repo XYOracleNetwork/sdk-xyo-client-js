@@ -6,7 +6,6 @@ import { ArchivistWrapper } from '@xyo-network/modules'
 
 import { getApiConfig } from './getApiConfig'
 
-const bridges: Record<string, HttpBridge> = {}
 const schema = HttpBridgeConfigSchema
 const security = { allowAnonymous: true }
 
@@ -14,8 +13,7 @@ export const getArchivists = async (configs: XyoApiConfig[] = [getApiConfig()]):
   const archivists: ArchivistModule[] = []
   for (let i = 0; i < configs.length; i++) {
     const nodeUrl = `${configs[i].apiDomain}/node`
-    const bridge = bridges[nodeUrl] || (await HttpBridge.create({ config: { nodeUrl, schema, security } }))
-    bridges[nodeUrl] = bridge
+    const bridge = await HttpBridge.create({ config: { nodeUrl, schema, security } })
     const modules = await bridge.downResolver.resolve({ name: ['Archivist'] })
     const mod = assertEx(modules.pop(), 'Error resolving Archivist')
     const archivist = ArchivistWrapper.wrap(mod)

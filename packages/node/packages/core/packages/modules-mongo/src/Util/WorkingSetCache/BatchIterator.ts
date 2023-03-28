@@ -22,6 +22,12 @@ export class BatchIterator<T> implements Iterator<T[]> {
 
   next(): IteratorResult<T[]> {
     if (this.todo.size === 0) {
+      if (this.done.size === 0) {
+        return {
+          done: true,
+          value: [],
+        }
+      }
       this.todo = new Set(this.done)
       this.done = new Set<T>()
     }

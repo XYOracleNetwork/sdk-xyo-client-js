@@ -16,6 +16,8 @@ describe('BatchIterator', () => {
       expect(result1.value).toEqual(values.slice(0, batchSize))
       expect(result1.done).toBe(false)
 
+      iterator.addValues(additional)
+
       const result2 = iterator.next()
       expect(result2.value).toEqual(values.slice(batchSize))
       expect(result2.done).toBe(false)
@@ -59,6 +61,13 @@ describe('BatchIterator', () => {
       const result4 = iterator.next()
       expect(result4.value).toEqual(additional)
       expect(result4.done).toBe(false)
+    })
+    it('Handles empty values', () => {
+      const iterator = new BatchIterator([], values.length)
+
+      const result1 = iterator.next()
+      expect(result1.value).toEqual([])
+      expect(result1.done).toBe(true)
     })
   })
 })

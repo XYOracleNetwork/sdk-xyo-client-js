@@ -81,7 +81,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/node/packages/express/packages/test/src/routes/hash/get/get.payloadPointer.spec.ts"
+        "packages/automation-witness-server/src/Jobs/CryptoMarket/spec/reportCryptoPrices.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

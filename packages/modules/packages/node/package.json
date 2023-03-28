@@ -24,7 +24,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191",
+    "@types/lodash": "^4.14.192",
     "@xylabs/ts-scripts-yarn3": "^2.16.1",
     "@xylabs/tsconfig": "^2.16.1",
     "typescript": "^4.9.5"

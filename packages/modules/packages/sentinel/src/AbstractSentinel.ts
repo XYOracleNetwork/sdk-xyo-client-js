@@ -1,9 +1,10 @@
-import { AbstractArchivist, ArchivingModule } from '@xyo-network/archivist'
+import { AccountInstance } from '@xyo-network/account-model'
+import { ArchivingModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessWrapper } from '@xyo-network/witness'
+import { WitnessWrapper } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
@@ -27,29 +28,32 @@ export abstract class AbstractSentinel<
     return [SentinelReportQuerySchema, ...super.queries]
   }
 
+  addArchivist(address: string[]) {
+    this.config.archivists = uniq([...address, ...(this.config.archivists ?? [])])
+    this._archivists = undefined
+  }
+
   addWitness(address: string[]) {
     this.config.witnesses = uniq([...address, ...(this.config.witnesses ?? [])])
     this._witnesses = undefined
   }
 
-  async getArchivists() {
+  async getArchivists(account?: AccountInstance) {
     const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
     this._archivists =
-      this._archivists ||
-      ((await this.resolve({ address: addresses })) as AbstractArchivist[]).map(
-        (witness) => new ArchivistWrapper({ account: this.account, module: witness }),
-      )
+      this._archivists ?? (await this.resolve({ address: addresses })).map((witness) => ArchivistWrapper.wrap(witness, account ?? this.account))
+
+    this.logger?.warn(`Not all archivists found [Requested: ${addresses.length}, Found: ${this._archivists.length}]`)
 
     return this._archivists
   }
 
-  async getWitnesses() {
+  async getWitnesses(account?: AccountInstance) {
     const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
     this._witnesses =
-      this._witnesses ||
-      ((await this.resolve({ address: addresses })) as AbstractWitness[]).map(
-        (witness) => new WitnessWrapper({ account: this.account, module: witness }),
-      )
+      this._witnesses ?? (await this.resolve({ address: addresses })).map((witness) => WitnessWrapper.wrap(witness, account ?? this.account))
+
+    this.logger?.warn(`Not all witnesses found [Requested: ${addresses.length}, Found: ${this._witnesses.length}]`)
 
     return this._witnesses
   }

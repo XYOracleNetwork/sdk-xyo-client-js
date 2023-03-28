@@ -32,7 +32,7 @@
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191",
+    "@types/lodash": "^4.14.192",
     "@types/node": "^18.15.10",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",

@@ -1,4 +1,4 @@
-import { union } from './SetOperations'
+import { difference, intersection, union } from './SetOperations'
 
 export class BatchIterator<T> implements Iterator<T[]> {
   private batchSize: number
@@ -15,9 +15,14 @@ export class BatchIterator<T> implements Iterator<T[]> {
     return this
   }
 
-  addValues(values: Iterable<T> | Readonly<T>[] | null | undefined): void {
+  addValues(values: Iterable<T> | Readonly<T>[] | null | undefined): number {
     const incoming = new Set(values)
-    this.todo = union(this.todo, incoming)
+    const knownTodo = intersection(this.todo, incoming)
+    const knownDone = intersection(this.done, incoming)
+    const known = union(knownTodo, knownDone)
+    const unknown = difference(incoming, known)
+    this.todo = union(this.todo, unknown)
+    return unknown.size
   }
 
   next(): IteratorResult<T[]> {

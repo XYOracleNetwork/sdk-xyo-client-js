@@ -1,2 +1,2 @@
-export * from './BatchIterator'
 export * from './dbProperty'
+export * from './SetIterator'

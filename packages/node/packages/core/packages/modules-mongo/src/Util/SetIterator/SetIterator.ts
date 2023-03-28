@@ -1,17 +1,15 @@
 import { difference, intersection, union } from './SetOperations'
 
-export class BatchIterator<T> implements Iterator<T[]> {
-  private batchSize: number
+export class SetIterator<T> implements Iterator<T> {
   private done: Set<T>
   private todo: Set<T>
 
-  constructor(values: T[], batchSize: number) {
+  constructor(values: T[]) {
     this.todo = new Set(values)
     this.done = new Set<T>()
-    this.batchSize = batchSize
   }
 
-  [Symbol.iterator](): IterableIterator<T[]> {
+  [Symbol.iterator](): IterableIterator<T> {
     return this
   }
 
@@ -25,28 +23,25 @@ export class BatchIterator<T> implements Iterator<T[]> {
     return unknown.size
   }
 
-  next(): IteratorResult<T[]> {
+  next(): IteratorResult<T> {
     if (this.todo.size === 0) {
       if (this.done.size === 0) {
         return {
           done: true,
-          value: [],
+          value: undefined,
         }
       }
       this.todo = new Set(this.done)
       this.done = new Set<T>()
     }
 
-    const todo = Array.from(this.todo)
-    const batch = todo.slice(0, this.batchSize)
-    const remaining = todo.slice(this.batchSize)
-
-    this.todo = new Set(remaining)
-    this.done = union(this.done, new Set(batch))
+    const value = Array.from(this.todo)?.[0]
+    this.todo.delete(value)
+    this.done.add(value)
 
     return {
       done: false,
-      value: batch,
+      value,
     }
   }
 }

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { forget } from '@xylabs/forget'
+import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
@@ -79,7 +79,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
    */
   protected readonly aggregateTimeoutMs = 10_000
 
-  protected backgroundDivineRunning = false
+  protected backgroundDivineTask: Promise<void> | undefined
 
   /**
    * The max number of simultaneous archives to divine at once
@@ -140,17 +140,17 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private backgroundDivine = async (): Promise<void> => {
-    this.backgroundDivineRunning = true
     for (const addresses of this.batchIterator) {
       for (const address of addresses) {
         try {
           await this.divineAddressFull(address)
+          await delay(10)
         } catch (error) {
           this.logger?.log(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
         }
       }
     }
-    this.backgroundDivineRunning = false
+    this.backgroundDivineTask = undefined
   }
 
   private divineAddress = async (archive: string): Promise<Record<string, number>> => {
@@ -201,16 +201,16 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private divineAddressesBatch = async () => {
-    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit}`)
+    this.logger?.log('MongoDBSchemaStatsDiviner.DivineAddressesBatch: Updating Addresses')
     const addressSpaceDiviner = assertEx(
       this.params.addressSpaceDiviner,
       'MongoDBSchemaStatsDiviner.DivineAddressesBatch: Missing AddressSpaceDiviner',
     )
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Updating with ${addresses.length} Addresses`)
-    this.batchIterator.addValues(addresses)
-    if (!this.backgroundDivineRunning) forget(this.backgroundDivine())
+    const additions = this.batchIterator.addValues(addresses)
+    this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Updating with ${additions} new addresses`)
+    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
   }
 
   private divineAllAddresses = async () => await Promise.reject('Not Implemented')

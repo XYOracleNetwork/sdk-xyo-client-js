@@ -1,16 +1,16 @@
-import { BatchIterator } from '../BatchIterator'
+import { SetIterator } from '../SetIterator'
 
-describe('BatchIterator', () => {
+describe('SetIterator', () => {
   const values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   const additional = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
   describe('addValues', () => {
     it('Adds values in bulk', () => {
-      const iterator = new BatchIterator(values, values.length)
+      const iterator = new SetIterator(values)
       iterator.addValues(additional)
     })
     it('Supports addition while iterating', () => {
       const batchSize = values.length / 2
-      const iterator = new BatchIterator(values, batchSize)
+      const iterator = new SetIterator(values)
 
       const result1 = iterator.next()
       expect(result1.value).toEqual(values.slice(0, batchSize))
@@ -35,7 +35,7 @@ describe('BatchIterator', () => {
   })
   describe('next', () => {
     it.each([1, 3, 5, 10])('Gets values in bulk according to the batch size', (batchSize) => {
-      const iterator = new BatchIterator(values, batchSize)
+      const iterator = new SetIterator(values)
       for (let i = 0; i < 20; i++) {
         const result = iterator.next()
         expect(result.value.length).toBeLessThanOrEqual(batchSize)
@@ -43,7 +43,7 @@ describe('BatchIterator', () => {
       }
     })
     it('Overflows back to the beginning', () => {
-      const iterator = new BatchIterator(values, values.length)
+      const iterator = new SetIterator(values)
       iterator.addValues(additional)
 
       const result1 = iterator.next()
@@ -63,20 +63,18 @@ describe('BatchIterator', () => {
       expect(result4.done).toBe(false)
     })
     it('Handles empty values', () => {
-      const iterator = new BatchIterator([], values.length)
+      const iterator = new SetIterator([])
 
       const result1 = iterator.next()
       expect(result1.value).toEqual([])
       expect(result1.done).toBe(true)
     })
     it('Works with for-of loop', () => {
-      const batchSize = values.length / 2
       const maxIterations = 5
-      const iterator = new BatchIterator(values, batchSize)
+      const iterator = new SetIterator(values)
       let iterations = 0
       for (const batch of iterator) {
-        expect(batch).toBeArray()
-        expect(batch.length).toBe(batchSize)
+        expect(batch).toBeNumber()
         iterations++
         if (iterations > maxIterations) break
       }

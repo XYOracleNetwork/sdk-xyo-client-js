@@ -151,7 +151,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
         } catch (error) {
           this.logger?.log(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
         }
-        await delay(10)
+        await delay(50)
       }
     }
     this.backgroundDivineTask = undefined

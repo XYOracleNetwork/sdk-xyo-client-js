@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
@@ -20,7 +21,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { BatchSetIterator } from '../../Util'
+import { SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -57,10 +58,17 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
 {
   static override configSchema = MongoDBPayloadStatsDivinerConfigSchema
 
-  protected readonly batchLimit = 100
-  // Lint rule required to allow for use of batchLimit constant
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  protected readonly batchIterator: BatchSetIterator<string> = new BatchSetIterator([], this.batchLimit)
+  /**
+   * Iterates over know addresses obtained from AddressDiviner
+   */
+  protected readonly addressIterator: SetIterator<string> = new SetIterator([])
+
+  /**
+   * A reference to the background task to ensure that the
+   * continuous background divine stays running
+   */
+  protected backgroundDivineTask: Promise<void> | undefined
+
   protected changeStream: ChangeStream | undefined = undefined
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
@@ -100,6 +108,18 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     return await super.stop()
   }
 
+  private backgroundDivine = async (): Promise<void> => {
+    for (const address of this.addressIterator) {
+      try {
+        await this.divineAddressFull(address)
+      } catch (error) {
+        this.logger?.error(`MongoDBPayloadStatsDiviner.BackgroundDivine: ${error}`)
+      }
+      await delay(50)
+    }
+    this.backgroundDivineTask = undefined
+  }
+
   private divineAddress = async (address: string) => {
     const stats = await this.params.payloadSdk.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive: address })
@@ -123,12 +143,9 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     )
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    this.logger?.log(`MongoDBPayloadStatsDiviner.DivineAddressesBatch: Updating with ${addresses.length} Addresses`)
-    this.batchIterator.addValues(addresses)
-    const results = await Promise.allSettled(this.batchIterator.next().value.map(this.divineAddressFull))
-    const succeeded = results.filter(fulfilled).length
-    const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBPayloadStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    const additions = this.addressIterator.addValues(addresses)
+    this.logger?.log(`MongoDBPayloadStatsDiviner.DivineAddressesBatch: Updating with ${additions} new addresses`)
+    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
   }
 
   private divineAllAddresses = () => this.params.payloadSdk.useCollection((collection) => collection.estimatedDocumentCount())

@@ -21,7 +21,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { BatchSetIterator } from '../../Util'
+import { BatchSetIterator, SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -59,15 +59,16 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   static override configSchema = MongoDBBoundWitnessStatsDivinerConfigSchema
 
   /**
+   * Iterates over know addresses obtained from AddressDiviner
+   */
+  protected readonly addressIterator: SetIterator<string> = new SetIterator([])
+
+  /**
    * A reference to the background task to ensure that the
    * continuous background divine stays running
    */
   protected backgroundDivineTask: Promise<void> | undefined
 
-  protected readonly batchLimit = 100
-  // Lint rule required to allow for use of batchLimit constant
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  protected readonly batchIterator: BatchSetIterator<string> = new BatchSetIterator([], this.batchLimit)
   protected changeStream: ChangeStream | undefined = undefined
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
@@ -112,15 +113,13 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private backgroundDivine = async (): Promise<void> => {
-    for (const addresses of this.batchIterator) {
-      for (const address of addresses) {
-        try {
-          await this.divineAddressFull(address)
-        } catch (error) {
-          this.logger?.log(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
-        }
-        await delay(50)
+    for (const address of this.addressIterator) {
+      try {
+        await this.divineAddressFull(address)
+      } catch (error) {
+        this.logger?.error(`MongoDBBoundWitnessStatsDiviner.BackgroundDivine: ${error}`)
       }
+      await delay(50)
     }
     this.backgroundDivineTask = undefined
   }
@@ -149,8 +148,8 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     this.logger?.log(`MongoDBBoundWitnessStatsDiviner.DivineAddressesBatch: Updating with ${addresses.length} Addresses`)
-    this.batchIterator.addValues(addresses)
-    const results = await Promise.allSettled(this.batchIterator.next().value.map(this.divineAddressFull))
+    this.addressIterator.addValues(addresses)
+    const results = await Promise.allSettled(this.addressIterator.next().value.map(this.divineAddressFull))
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
     this.logger?.log(`MongoDBBoundWitnessStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)

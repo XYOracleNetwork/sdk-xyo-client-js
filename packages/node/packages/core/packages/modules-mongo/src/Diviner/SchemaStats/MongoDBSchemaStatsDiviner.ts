@@ -21,7 +21,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { BatchSetIterator, fromDbProperty, toDbProperty } from '../../Util'
+import { fromDbProperty, SetIterator, toDbProperty } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -64,6 +64,11 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   static override configSchema = MongoDBSchemaStatsDivinerConfigSchema
 
   /**
+   * Iterates over know addresses obtained from AddressDiviner
+   */
+  protected readonly addressIterator: SetIterator<string> = new SetIterator([])
+
+  /**
    * The max number of records to search during the aggregate query
    */
   protected readonly aggregateLimit = 100_000
@@ -84,15 +89,6 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
    * continuous background divine stays running
    */
   protected backgroundDivineTask: Promise<void> | undefined
-
-  /**
-   * The max number of simultaneous archives to divine at once
-   */
-  protected readonly batchLimit = 100
-
-  // Lint rule required to allow for use of batchLimit constant
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  protected readonly batchIterator: BatchSetIterator<string> = new BatchSetIterator([], this.batchLimit)
 
   /**
    * The stream with which the diviner is notified of insertions
@@ -144,15 +140,13 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private backgroundDivine = async (): Promise<void> => {
-    for (const addresses of this.batchIterator) {
-      for (const address of addresses) {
-        try {
-          await this.divineAddressFull(address)
-        } catch (error) {
-          this.logger?.log(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
-        }
-        await delay(50)
+    for (const address of this.addressIterator) {
+      try {
+        await this.divineAddressFull(address)
+      } catch (error) {
+        this.logger?.error(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
       }
+      await delay(50)
     }
     this.backgroundDivineTask = undefined
   }
@@ -212,7 +206,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     )
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    const additions = this.batchIterator.addValues(addresses)
+    const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`MongoDBSchemaStatsDiviner.DivineAddressesBatch: Updating with ${additions} new addresses`)
     if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
   }

@@ -21,7 +21,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { BatchSetIterator, SetIterator } from '../../Util'
+import { SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -52,6 +52,8 @@ export type MongoDBBoundWitnessStatsDivinerParams<T extends Payload = Payload> =
   }
 >
 
+const moduleName = 'MongoDBSchemaStatsDiviner'
+
 export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitnessStatsDivinerParams = MongoDBBoundWitnessStatsDivinerParams>
   extends AbstractDiviner<TParams>
   implements BoundWitnessStatsDiviner, JobProvider
@@ -76,7 +78,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   get jobs(): Job[] {
     return [
       {
-        name: 'MongoDBBoundWitnessStatsDiviner.UpdateChanges',
+        name: `${moduleName}.UpdateChanges`,
         onSuccess: () => {
           this.pendingCounts = {}
         },
@@ -84,7 +86,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
         task: async () => await this.updateChanges(),
       },
       {
-        name: 'MongoDBBoundWitnessStatsDiviner.DivineAddressesBatch',
+        name: `${moduleName}.DivineAddressesBatch`,
         schedule: '5 minute',
         task: async () => await this.divineAddressesBatch(),
       },
@@ -117,7 +119,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
       try {
         await this.divineAddressFull(address)
       } catch (error) {
-        this.logger?.error(`MongoDBBoundWitnessStatsDiviner.BackgroundDivine: ${error}`)
+        this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
       await delay(50)
     }
@@ -140,19 +142,13 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private divineAddressesBatch = async () => {
-    this.logger?.log(`MongoDBBoundWitnessStatsDiviner.DivineAddressesBatch: Divining - Limit: ${this.batchLimit}`)
-    const addressSpaceDiviner = assertEx(
-      this.params.addressSpaceDiviner,
-      'MongoDBBoundWitnessStatsDiviner.DivineAddressesBatch: Missing AddressSpaceDiviner',
-    )
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating Addresses`)
+    const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner, `${moduleName}.DivineAddressesBatch: Missing AddressSpaceDiviner`)
     const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
-    this.logger?.log(`MongoDBBoundWitnessStatsDiviner.DivineAddressesBatch: Updating with ${addresses.length} Addresses`)
-    this.addressIterator.addValues(addresses)
-    const results = await Promise.allSettled(this.addressIterator.next().value.map(this.divineAddressFull))
-    const succeeded = results.filter(fulfilled).length
-    const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBBoundWitnessStatsDiviner.DivineAddressesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+    const additions = this.addressIterator.addValues(addresses)
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating with ${additions} new addresses`)
+    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
   }
 
   private divineAllAddresses = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
@@ -164,16 +160,16 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private registerWithChangeStream = async () => {
-    this.logger?.log('MongoDBBoundWitnessStatsDiviner.RegisterWithChangeStream: Registering')
+    this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
     const wrapper = MongoClientWrapper.get(this.sdk.uri, this.sdk.config.maxPoolSize)
     const connection = await wrapper.connect()
-    assertEx(connection, 'Connection failed')
+    assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
     const opts: ChangeStreamOptions = this.resumeAfter ? { resumeAfter: this.resumeAfter } : {}
     this.changeStream = collection.watch([], opts)
     this.changeStream.on('change', this.processChange)
     this.changeStream.on('error', this.registerWithChangeStream)
-    this.logger?.log('MongoDBBoundWitnessStatsDiviner.RegisterWithChangeStream: Registered')
+    this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registered`)
   }
 
   private storeDivinedResult = async (archive: string, count: number) => {
@@ -187,7 +183,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private updateChanges = async () => {
-    this.logger?.log('MongoDBBoundWitnessStatsDiviner.UpdateChanges: Updating')
+    this.logger?.log(`${moduleName}.UpdateChanges: Updating`)
     const updates = Object.keys(this.pendingCounts).map((archive) => {
       const count = this.pendingCounts[archive]
       this.pendingCounts[archive] = 0
@@ -199,6 +195,6 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     const results = await Promise.allSettled(updates)
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBBoundWitnessStatsDiviner.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
+    this.logger?.log(`${moduleName}.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 }

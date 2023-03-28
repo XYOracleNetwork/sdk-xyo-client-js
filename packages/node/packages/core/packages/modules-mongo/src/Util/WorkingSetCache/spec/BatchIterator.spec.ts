@@ -69,5 +69,17 @@ describe('BatchIterator', () => {
       expect(result1.value).toEqual([])
       expect(result1.done).toBe(true)
     })
+    it('Works with for-of loop', () => {
+      const batchSize = values.length / 2
+      const maxIterations = 5
+      const iterator = new BatchIterator(values, batchSize)
+      let iterations = 0
+      for (const batch of iterator) {
+        expect(batch).toBeArray()
+        expect(batch.length).toBe(batchSize)
+        iterations++
+        if (iterations > maxIterations) break
+      }
+    })
   })
 })

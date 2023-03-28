@@ -113,7 +113,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
       },
       {
         name: 'MongoDBSchemaStatsDiviner.DivineAddressesBatch',
-        schedule: '10 minute',
+        schedule: '5 minute',
         task: async () => await this.divineAddressesBatch(),
       },
     ]

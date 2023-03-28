@@ -77,7 +77,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       },
       {
         name: 'MongoDBPayloadStatsDiviner.DivineAddressesBatch',
-        schedule: '10 minute',
+        schedule: '5 minute',
         task: async () => await this.divineAddressesBatch(),
       },
     ]

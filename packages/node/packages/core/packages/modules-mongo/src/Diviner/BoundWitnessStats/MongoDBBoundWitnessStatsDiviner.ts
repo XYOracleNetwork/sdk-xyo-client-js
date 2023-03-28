@@ -77,7 +77,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
       },
       {
         name: 'MongoDBBoundWitnessStatsDiviner.DivineAddressesBatch',
-        schedule: '10 minute',
+        schedule: '5 minute',
         task: async () => await this.divineAddressesBatch(),
       },
     ]

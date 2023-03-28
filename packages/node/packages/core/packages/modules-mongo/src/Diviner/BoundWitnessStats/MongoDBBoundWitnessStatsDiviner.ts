@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
@@ -20,7 +21,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { BatchIterator } from '../../Util'
+import { BatchSetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -57,10 +58,16 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
 {
   static override configSchema = MongoDBBoundWitnessStatsDivinerConfigSchema
 
+  /**
+   * A reference to the background task to ensure that the
+   * continuous background divine stays running
+   */
+  protected backgroundDivineTask: Promise<void> | undefined
+
   protected readonly batchLimit = 100
   // Lint rule required to allow for use of batchLimit constant
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  protected readonly batchIterator: BatchIterator<string> = new BatchIterator([], this.batchLimit)
+  protected readonly batchIterator: BatchSetIterator<string> = new BatchSetIterator([], this.batchLimit)
   protected changeStream: ChangeStream | undefined = undefined
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
@@ -102,6 +109,20 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   protected override async stop(): Promise<this> {
     await this.changeStream?.close()
     return await super.stop()
+  }
+
+  private backgroundDivine = async (): Promise<void> => {
+    for (const addresses of this.batchIterator) {
+      for (const address of addresses) {
+        try {
+          await this.divineAddressFull(address)
+        } catch (error) {
+          this.logger?.log(`MongoDBSchemaStatsDiviner.BackgroundDivine: ${error}`)
+        }
+        await delay(50)
+      }
+    }
+    this.backgroundDivineTask = undefined
   }
 
   private divineAddress = async (archive: string) => {

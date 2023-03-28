@@ -1,6 +1,6 @@
 import { difference, intersection, union } from './SetOperations'
 
-export class BatchIterator<T> implements Iterator<T[]> {
+export class BatchSetIterator<T> implements Iterator<T[]> {
   private batchSize: number
   private done: Set<T>
   private todo: Set<T>

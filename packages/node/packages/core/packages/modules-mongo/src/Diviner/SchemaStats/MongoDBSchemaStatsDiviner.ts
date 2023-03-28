@@ -21,7 +21,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { BatchIterator, fromDbProperty, toDbProperty } from '../../Util'
+import { BatchSetIterator, fromDbProperty, toDbProperty } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -92,7 +92,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
 
   // Lint rule required to allow for use of batchLimit constant
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  protected readonly batchIterator: BatchIterator<string> = new BatchIterator([], this.batchLimit)
+  protected readonly batchIterator: BatchSetIterator<string> = new BatchSetIterator([], this.batchLimit)
 
   /**
    * The stream with which the diviner is notified of insertions

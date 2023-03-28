@@ -20,7 +20,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { BatchIterator } from '../../Util'
+import { BatchSetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -60,7 +60,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   protected readonly batchLimit = 100
   // Lint rule required to allow for use of batchLimit constant
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  protected readonly batchIterator: BatchIterator<string> = new BatchIterator([], this.batchLimit)
+  protected readonly batchIterator: BatchSetIterator<string> = new BatchSetIterator([], this.batchLimit)
   protected changeStream: ChangeStream | undefined = undefined
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined

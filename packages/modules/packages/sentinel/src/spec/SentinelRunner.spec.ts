@@ -17,7 +17,8 @@ describe('SentinelRunner', () => {
     const witnessModules: AbstractWitness[] = [await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })]
     const witnesses = await Promise.all(
       witnessModules.map(async (witness) => {
-        await node.register(witness).attach(witness.address)
+        await node.register(witness)
+        await node.attach(witness.address)
         return witness.address
       }),
     )
@@ -28,7 +29,8 @@ describe('SentinelRunner', () => {
     }
 
     sentinel = (await MemorySentinel.create({ config })) as MemorySentinel
-    await node.register(sentinel).attach(sentinel.address)
+    await node.register(sentinel)
+    await node.attach(sentinel.address)
   })
 
   it('should output interval results', async () => {

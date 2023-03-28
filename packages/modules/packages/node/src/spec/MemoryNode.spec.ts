@@ -43,8 +43,10 @@ describe('MemoryNode', () => {
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
       })
-      await node.register(archivist).attach(archivist.address, true)
-      await node.register(diviner).attach(diviner.address, true)
+      await node.register(archivist)
+      await node.attach(archivist.address, true)
+      await node.register(diviner)
+      await node.attach(diviner.address, true)
       expect(node.registered()).toBeArrayOfSize(2)
       expect(await node.attached()).toBeArrayOfSize(2)
       const foundArchivist = await NodeWrapper.wrap(node, testAccount0).resolve(archivist.address)
@@ -121,7 +123,7 @@ describe('MemoryNode', () => {
   describe('register', () => {
     it('registers module', async () => {
       const module = await MemoryArchivist.create()
-      node.register(module)
+      await node.register(module)
     })
   })
   describe('registered', () => {
@@ -135,7 +137,7 @@ describe('MemoryNode', () => {
       let module: AbstractModule
       beforeEach(async () => {
         module = await MemoryArchivist.create()
-        node.register(module)
+        await node.register(module)
       })
       it('lists addresses of registered modules', () => {
         const result = node.registered()
@@ -148,7 +150,7 @@ describe('MemoryNode', () => {
     let module: AbstractModule
     beforeEach(async () => {
       module = await MemoryArchivist.create()
-      node.register(module)
+      await node.register(module)
     })
     it('attaches module', async () => {
       await node.attach(module.address, true)
@@ -185,7 +187,7 @@ describe('MemoryNode', () => {
     let module: AbstractModule
     beforeEach(async () => {
       module = await MemoryArchivist.create()
-      node.register(module)
+      await node.register(module)
     })
     describe('with no modules attached', () => {
       it('returns empty array', async () => {
@@ -206,7 +208,7 @@ describe('MemoryNode', () => {
     let module: AbstractModule
     beforeEach(async () => {
       module = await MemoryArchivist.create()
-      node.register(module)
+      await node.register(module)
       await node.attach(module.address, true)
     })
     it('deregisters existing module', async () => {
@@ -228,8 +230,8 @@ describe('MemoryNode', () => {
       })
     })
     describe('with modules registered', () => {
-      it('returns registered modules', () => {
-        node.register(module)
+      it('returns registered modules', async () => {
+        await node.register(module)
         const modules = node.registeredModules()
         expect(modules).toBeArrayOfSize(1)
         expect(modules).toContain(module)
@@ -239,7 +241,7 @@ describe('MemoryNode', () => {
   describe('unregister', () => {
     it('un-registers module', async () => {
       const module = await MemoryArchivist.create()
-      node.register(module)
+      await node.register(module)
       expect(node.registeredModules()).toContain(module)
       await node.unregister(module)
       expect(node.registeredModules()).not.toContain(module)
@@ -274,7 +276,7 @@ describe('MemoryNode', () => {
           await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
         modules.map(async (mod) => {
-          node.register(mod)
+          await node.register(mod)
           await node.attach(mod.address, true)
         })
       })
@@ -296,13 +298,13 @@ describe('MemoryNode', () => {
         const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
         const nestedModules = await Promise.all([await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
         nestedModules.map(async (mod) => {
-          nestedNode.register(mod)
+          await nestedNode.register(mod)
           await nestedNode.attach(mod.address, true)
         })
         const rootModules: AbstractModule[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
         rootModules.map(async (mod) => {
-          node.register(mod)
+          await node.register(mod)
           await node.attach(mod.address, true)
         })
       })
@@ -311,8 +313,10 @@ describe('MemoryNode', () => {
         const archivist1 = await MemoryArchivist.create()
         const archivist2 = await MemoryArchivist.create()
         const wrapper = NodeWrapper.wrap(memoryNode, testAccount0)
-        await memoryNode.register(archivist1).attach(archivist1.address, true)
-        await memoryNode.register(archivist2).attach(archivist2.address, true)
+        await memoryNode.register(archivist1)
+        await node.attach(archivist1.address, true)
+        await memoryNode.register(archivist2)
+        await node.attach(archivist2.address, true)
         const description = await wrapper.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
@@ -356,7 +360,7 @@ describe('MemoryNode', () => {
         ])
         await Promise.all(
           modules.map(async (mod) => {
-            memoryNode.register(mod)
+            await memoryNode.register(mod)
             await memoryNode.attach(mod.address, true)
           }),
         )
@@ -380,7 +384,7 @@ describe('MemoryNode', () => {
         const nestedModules = await Promise.all([await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
         await Promise.all(
           nestedModules.map(async (mod) => {
-            nestedNode.register(mod)
+            await nestedNode.register(mod)
             await nestedNode.attach(mod.address, true)
           }),
         )
@@ -388,7 +392,7 @@ describe('MemoryNode', () => {
         rootModules.push(nestedNode)
         await Promise.all(
           rootModules.map(async (mod) => {
-            node.register(mod)
+            await node.register(mod)
             await node.attach(mod.address, true)
           }),
         )

@@ -80,8 +80,10 @@ test('Archivist Parent Write Through', async () => {
       type: 'local',
     },
   })) as StorageArchivist
-  await node.register(memory).attach(memory.address)
-  await node.register(storage).attach(storage.address)
+  await node.register(memory)
+  await node.attach(memory.address)
+  await node.register(storage)
+  await node.attach(storage.address)
 
   const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })
 
@@ -114,7 +116,7 @@ test('Archivist Parent Reads', async () => {
   const parent = await MemoryArchivist.create()
   const memoryNode = await MemoryNode.create()
 
-  memoryNode.register(parent)
+  await memoryNode.register(parent)
   await memoryNode.attach(parent.address, true)
 
   const storage = await StorageArchivist.create({
@@ -126,7 +128,7 @@ test('Archivist Parent Reads', async () => {
       type: 'local',
     },
   })
-  memoryNode.register(storage)
+  await memoryNode.register(storage)
   await memoryNode.attach(storage.address, true)
 
   const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })

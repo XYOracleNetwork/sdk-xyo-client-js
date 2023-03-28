@@ -15,7 +15,8 @@ export const reportGasPrices = async (provider = getProvider()): Promise<Payload
   const node = await MemoryNode.create()
   await Promise.all(
     modules.map(async (mod) => {
-      await node.register(mod).attach(mod.address)
+      await node.register(mod)
+      await node.attach(mod.address)
     }),
   )
   const config: SentinelConfig = {
@@ -24,7 +25,8 @@ export const reportGasPrices = async (provider = getProvider()): Promise<Payload
     witnesses: witnesses.map((mod) => mod.address),
   }
   const sentinel = await MemorySentinel.create({ account, config })
-  await node.register(sentinel).attach(account.addressValue.hex, true)
+  await node.register(sentinel)
+  await node.attach(account.addressValue.hex, true)
   const report = await sentinel.report()
   return report
 }

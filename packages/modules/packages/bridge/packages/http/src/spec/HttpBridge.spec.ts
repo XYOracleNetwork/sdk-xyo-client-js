@@ -23,7 +23,8 @@ describe('HttpBridge', () => {
         `Failed to resolve rootNode [${bridge.rootAddress}]`,
       ),
     )
-    await memNode.register(wrapper.module).attach(wrapper?.address, true)
+    await memNode.register(wrapper.module)
+    await memNode.attach(wrapper?.address, true)
     const description = await wrapper.describe()
     expect(description.children).toBeArray()
     expect(description.children?.length).toBeGreaterThan(0)
@@ -38,8 +39,10 @@ describe('HttpBridge', () => {
     const memNode2 = await MemoryNode.create()
     const memNode3 = await MemoryNode.create()
 
-    await memNode1.register(memNode2).attach(memNode2.address, true)
-    await memNode2.register(memNode3).attach(memNode3.address, true)
+    await memNode1.register(memNode2)
+    await memNode1.attach(memNode2.address, true)
+    await memNode2.register(memNode3)
+    await memNode2.attach(memNode3.address, true)
 
     const bridge = await HttpBridge.create({
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
@@ -52,7 +55,8 @@ describe('HttpBridge', () => {
       ),
     )
 
-    await memNode3.register(wrapper.module).attach(wrapper?.address, true)
+    await memNode3.register(wrapper.module)
+    await memNode3.attach(wrapper?.address, true)
     const description = await wrapper.describe()
     expect(description.children).toBeArray()
     expect(description.children?.length).toBeGreaterThan(0)

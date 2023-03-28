@@ -42,8 +42,9 @@ export abstract class AbstractSentinel<
     const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
     this._archivists =
       this._archivists ?? (await this.resolve({ address: addresses })).map((witness) => ArchivistWrapper.wrap(witness, account ?? this.account))
-
-    this.logger?.warn(`Not all archivists found [Requested: ${addresses.length}, Found: ${this._archivists.length}]`)
+    if (addresses.length !== this._archivists.length) {
+      this.logger?.warn(`Not all archivists found [Requested: ${addresses.length}, Found: ${this._archivists.length}]`)
+    }
 
     return this._archivists
   }
@@ -53,7 +54,9 @@ export abstract class AbstractSentinel<
     this._witnesses =
       this._witnesses ?? (await this.resolve({ address: addresses })).map((witness) => WitnessWrapper.wrap(witness, account ?? this.account))
 
-    this.logger?.warn(`Not all witnesses found [Requested: ${addresses.length}, Found: ${this._witnesses.length}]`)
+    if (addresses.length !== this._witnesses.length) {
+      this.logger?.warn(`Not all witnesses found [Requested: ${addresses.length}, Found: ${this._witnesses.length}]`)
+    }
 
     return this._witnesses
   }

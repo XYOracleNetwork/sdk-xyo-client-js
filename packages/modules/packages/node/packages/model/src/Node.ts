@@ -3,7 +3,7 @@ import { AnyConfigSchema, Module, ModuleEventData, ModuleParams } from '@xyo-net
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
-import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData } from './Events'
+import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './Events'
 
 export interface Node {
   attach(address: string, external?: boolean): Promisable<void>
@@ -12,7 +12,12 @@ export interface Node {
   registered(): Promisable<string[]>
 }
 
-export interface NodeModuleEventData extends ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleEventData {}
+export interface NodeModuleEventData
+  extends ModuleAttachedEventData,
+    ModuleDetachedEventData,
+    ModuleRegisteredEventData,
+    ModuleUnregisteredEventData,
+    ModuleEventData {}
 
 export type NodeModuleParams<
   TConfig extends AnyConfigSchema<NodeConfig> = AnyConfigSchema<NodeConfig>,

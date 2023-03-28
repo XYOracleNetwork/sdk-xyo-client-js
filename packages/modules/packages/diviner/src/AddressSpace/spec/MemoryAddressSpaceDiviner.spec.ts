@@ -29,11 +29,13 @@ describe('MemoryAddressSpaceDiviner', () => {
 
       expect(all).toBeArrayOfSize(7)
 
-      await node.register(archivist).attach(archivist.address)
+      await node.register(archivist)
+      await node.attach(archivist.address)
       const diviner = await MemoryAddressSpaceDiviner.create({
         config: { address: account.addressValue.hex, schema: MemoryAddressSpaceDivinerConfigSchema },
       })
-      await node.register(diviner).attach(diviner.address)
+      await node.register(diviner)
+      await node.attach(diviner.address)
       const divinerWrapper = DivinerWrapper.wrap(diviner)
       const result = await divinerWrapper.divine()
       expect(result.length).toBe(2)
@@ -63,11 +65,13 @@ describe('MemoryAddressSpaceDiviner', () => {
 
       expect(all).toBeArrayOfSize(7)
 
-      await node.register(archivist).attach(archivist.address)
+      await node.register(archivist)
+      await node.attach(archivist.address)
       const diviner = await MemoryAddressSpaceDiviner.create({
         config: { address: account.addressValue.hex, archivists: [archivist.address], schema: MemoryAddressSpaceDivinerConfigSchema },
       })
-      await node.register(diviner).attach(diviner.address)
+      await node.register(diviner)
+      await node.attach(diviner.address)
       const divinerWrapper = DivinerWrapper.wrap(diviner)
       const result = await divinerWrapper.divine()
       expect(result.length).toBe(1)

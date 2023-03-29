@@ -7,7 +7,7 @@ import { getAccount, WalletPaths } from '../../Account'
 import { getArchivists } from '../../Archivists'
 
 export const reportDivinerResult = async (payload: Payload): Promise<Payload[]> => {
-  const adHocWitnessAccount = getAccount(WalletPaths.EthereumGas.AdHocWitness.DivinerResult)
+  const adHocWitnessAccount = getAccount(WalletPaths.EthereumGas.AdHocWitness.PriceDivinerResult)
   const archivists = await getArchivists()
   const witnesses = [await AdhocWitness.create({ account: adHocWitnessAccount, config: { payload, schema: AdhocWitnessConfigSchema } })]
   const modules = [...archivists, ...witnesses]
@@ -23,7 +23,7 @@ export const reportDivinerResult = async (payload: Payload): Promise<Payload[]> 
     schema: SentinelConfigSchema,
     witnesses: witnesses.map((mod) => mod.address),
   }
-  const sentinelAccount = getAccount(WalletPaths.EthereumGas.Sentinel.DivinerResult)
+  const sentinelAccount = getAccount(WalletPaths.EthereumGas.Sentinel.PriceDivinerResult)
   const sentinel = await MemorySentinel.create({ account: sentinelAccount, config })
   await node.register(sentinel)
   await node.attach(sentinelAccount.addressValue.hex, true)

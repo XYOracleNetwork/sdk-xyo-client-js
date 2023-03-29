@@ -16,7 +16,7 @@ import { WitnessProvider } from './WitnessProvider'
 export const getCryptoMarketWitness: WitnessProvider<Provider> = async (provider = getProvider()): Promise<WitnessModule[]> => {
   const witnesses: AbstractWitness[] = [
     await XyoCoingeckoCryptoMarketWitness.create({
-      account: getAccount(WalletPaths.XyoCoingeckoCryptoMarketWitness),
+      account: getAccount(WalletPaths.CoingeckoCryptoMarketWitness),
       config: {
         coins: defaultCoins,
         currencies: defaultCurrencies,
@@ -24,7 +24,7 @@ export const getCryptoMarketWitness: WitnessProvider<Provider> = async (provider
       },
     }),
     await XyoUniswapCryptoMarketWitness.create({
-      account: getAccount(WalletPaths.XyoUniswapCryptoMarketWitness),
+      account: getAccount(WalletPaths.UniswapCryptoMarketWitness),
       config: {
         pools: UniswapPoolContracts,
         schema: XyoUniswapCryptoMarketWitnessConfigSchema,

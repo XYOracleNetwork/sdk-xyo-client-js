@@ -1,13 +1,19 @@
+import { Account } from '@xyo-network/account'
 import { Module } from '@xyo-network/modules'
-import { TYPES } from '@xyo-network/node-core-types'
+import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
 import { ContainerModule, interfaces } from 'inversify'
 
 let prometheusNodeWitness: PrometheusNodeWitness
 
-const getPrometheusNodeWitness = async (_context: interfaces.Context) => {
+const getPrometheusNodeWitness = async (context: interfaces.Context) => {
   if (prometheusNodeWitness) return prometheusNodeWitness
-  prometheusNodeWitness = await PrometheusNodeWitness.create()
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Witnesses.Prometheus)
+  prometheusNodeWitness = await PrometheusNodeWitness.create({
+    account,
+    config: { schema: PrometheusNodeWitness.configSchema },
+  })
   return prometheusNodeWitness
 }
 

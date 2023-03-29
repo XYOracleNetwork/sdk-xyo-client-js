@@ -23,7 +23,9 @@ const diviners = [
   TYPES.SchemaStatsDiviner,
 ]
 
-const witnesses = [TYPES.PrometheusWitness]
+const witnesses: symbol[] = [
+  // TYPES.PrometheusWitness
+]
 
 export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)

@@ -29,5 +29,8 @@ export const WALLET_PATHS = {
     SchemaStats: `${ModulePath.Diviner}/8'` as const,
     LocationCertainty: `${ModulePath.Diviner}/9'` as const,
   } as const,
-  Witnesses: {} as const,
+  Witnesses: {
+    Witness: `${ModulePath.Witness}/0'` as const,
+    Prometheus: `${ModulePath.Witness}/1'` as const,
+  } as const,
 } as const

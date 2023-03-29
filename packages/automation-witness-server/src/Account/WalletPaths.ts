@@ -13,4 +13,6 @@ export const WalletPaths = {
   XyoEthereumGasEthgasstationWitness: "m/44'/60'/11'/0/0",
   EthereumGasWitnessPanel: "m/44'/60'/12'/0/0",
   EthereumGasDivinerResultPanel: "m/44'/60'/13'/0/0",
+  CryptoMarketAssetDivinerAdHocWitness: "m/44'/60'/14'/0/0",
+  EthereumGasDivinerAdHocWitness: "m/44'/60'/15'/0/0",
 }

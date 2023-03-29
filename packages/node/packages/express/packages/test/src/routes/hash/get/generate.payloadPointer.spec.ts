@@ -2,6 +2,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { PayloadAddressRule, PayloadPointerPayload, PayloadPointerSchema, PayloadSchemaRule } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 type DappInfo = [schema: string, address: string]
 
@@ -24,9 +25,9 @@ const nodeUrl = beta ? 'https://beta.api.archivist.xyo.network' : 'https://api.a
 describe.skip('Generation of automation payload pointers', () => {
   let archivist: ArchivistWrapper
   beforeAll(async () => {
-    const bridge = await HttpBridge.create({
-      config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
-    })
+    const schema = HttpBridgeConfigSchema
+    const security = { allowAnonymous: true }
+    const bridge = await HttpBridge.create({ config: { nodeUrl, schema, security } })
     const modules = await bridge.downResolver.resolve({ name: ['Archivist'] })
     const module = modules.pop()
     expect(module).toBeDefined()
@@ -38,5 +39,8 @@ describe.skip('Generation of automation payload pointers', () => {
     const fields = { reference: [[addressRule], [schemaRule]], schema: PayloadPointerSchema }
     const payload = new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields(fields).build()
     await archivist.insert([payload])
+    const hash = PayloadWrapper.hash(payload)
+    const url = `${nodeUrl}/${hash}`
+    console.log(`Dapp: ${schema} Pointer: ${url}`)
   })
 })

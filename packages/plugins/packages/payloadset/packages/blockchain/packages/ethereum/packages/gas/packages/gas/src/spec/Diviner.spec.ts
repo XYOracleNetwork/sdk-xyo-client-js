@@ -21,6 +21,7 @@ describe('Diviner', () => {
     ['XyoEthereumGasEtherscanPayload', [sampleEtherscanGas]],
     ['XyoEthereumGasEthersPayload', [sampleEthersGas]],
     ['XyoEthereumGasEthgasstationPayload', [sampleEthgasstationGas]],
+    ['no gas payloads', []],
     ['all supported gas payloads', [sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas]],
   ]
   test.each(cases)('with %s returns divined gas price', async (_title: string, data: Payload[]) => {

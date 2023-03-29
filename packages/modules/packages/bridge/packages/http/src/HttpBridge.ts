@@ -17,6 +17,7 @@ import {
   ModuleWrapper,
   QueryBoundWitness,
 } from '@xyo-network/module'
+import { XyoNodeAttachQuerySchema } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -101,6 +102,11 @@ export class HttpBridge<
     )
 
     await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
+
+    const parentNodes = await this.upResolver.resolve({ query: [[XyoNodeAttachQuerySchema]] })
+    //notify parents of child modules
+    //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
+    parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
   }
 
   targetConfig(address: string): ModuleConfig {

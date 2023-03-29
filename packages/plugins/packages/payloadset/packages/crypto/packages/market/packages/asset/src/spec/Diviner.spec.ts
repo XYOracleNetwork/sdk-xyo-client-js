@@ -9,15 +9,16 @@ const coinGeckoPayload = sampleCoinGeckoPayload
 const uniswapPayload = sampleUniswapPayload
 
 describe('Diviner', () => {
-  const cases: [string, Payload[]][] = [
-    ['only CoinGecko Payload', [coinGeckoPayload]],
-    ['only Uniswap Payload', [uniswapPayload]],
-    ['CoinGecko & Uniswap Payload', [coinGeckoPayload, uniswapPayload]],
+  const cases: [input: string, expected: string, data: Payload[]][] = [
+    ['only CoinGecko Payload', 'observation', [coinGeckoPayload]],
+    ['only Uniswap Payload', 'observation', [uniswapPayload]],
+    ['CoinGecko & Uniswap Payload', 'observation', [coinGeckoPayload, uniswapPayload]],
+    ['no inputs', 'empty observation', []],
   ]
-  test.each(cases)('with %s returns observation', async (_title: string, inputs: Payload[]) => {
+  test.each(cases)('with %s returns %s', async (_input: string, _expected: string, data: Payload[]) => {
     const module = await XyoCryptoMarketAssetDiviner.create()
     const wrapper = DivinerWrapper.wrap(module)
-    const payloads = await wrapper.divine(inputs)
+    const payloads = await wrapper.divine(data)
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
     payloads.map((payload) => {

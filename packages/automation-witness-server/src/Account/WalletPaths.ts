@@ -5,6 +5,7 @@ const RootPath = "m/44'/60'" as const
 const AutomationPath = {
   CryptoMarket: `${RootPath}/1'` as const,
   EthereumGas: `${RootPath}/2'` as const,
+  Node: `${RootPath}/3'` as const,
 }
 
 const ModulePath = {

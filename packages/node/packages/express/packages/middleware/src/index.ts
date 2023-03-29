@@ -1,5 +1,5 @@
 import { UserCreationAuthInfo } from '@xyo-network/express-node-lib'
-import { AbstractArchivist, AbstractNode } from '@xyo-network/modules'
+import { AbstractNode } from '@xyo-network/modules'
 import { UserManager, UserWithoutId } from '@xyo-network/node-core-model'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
 import { Logger } from '@xyo-network/shared'

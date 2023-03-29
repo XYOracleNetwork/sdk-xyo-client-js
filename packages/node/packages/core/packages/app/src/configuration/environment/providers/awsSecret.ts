@@ -1,9 +1,6 @@
 import { getEnvFromAws } from '@xylabs/sdk-api-express-ecs'
-import { MemoryNode } from '@xyo-network/modules'
 
-import { NodeConfigurationFunction } from '../../../model'
-
-export const configureEnvironmentFromAWSSecret: NodeConfigurationFunction = async (_node: MemoryNode) => {
+export const configureEnvironmentFromAWSSecret: ConfigurationFunction = async () => {
   // If an AWS ARN was supplied for Secrets Manager
   const awsEnvSecret = process.env.AWS_ENV_SECRET_ARN
   if (awsEnvSecret) {

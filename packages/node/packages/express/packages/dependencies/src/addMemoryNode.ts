@@ -25,10 +25,10 @@ const modules: ModuleNameWithVisibility[] = [...archivists, ...diviners, ...witn
 export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
-  await addDependenciesToNodeByType(container, node, modules)
+  await addDependenciesToNode(container, node, modules)
 }
 
-const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, modules: ModuleNameWithVisibility[]) => {
+const addDependenciesToNode = async (container: Container, node: MemoryNode, modules: ModuleNameWithVisibility[]) => {
   await Promise.all(
     modules.map(async ([name, visibility]) => {
       const mod = await container.getAsync<AbstractModule>(name)

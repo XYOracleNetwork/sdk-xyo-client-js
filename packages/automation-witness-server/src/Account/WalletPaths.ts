@@ -1,18 +1,54 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
+
+const RootPath = "m/44'/60'" as const
+
+const AutomationPath = {
+  CryptoMarket: `${RootPath}/1'` as const,
+  EthereumGas: `${RootPath}/2'` as const,
+}
+
+const ModulePath = {
+  AdHocWitness: "/1'" as const,
+  Diviner: "/2'" as const,
+  Sentinel: "/3'" as const,
+  Witness: "/4'" as const,
+}
+
 export const WalletPaths = {
-  CryptoMarketDivinerResultPanel: "m/44'/60'/1'/0/0" as const,
-  CryptoMarketWitnessPanel: "m/44'/60'/2'/0/0" as const,
-  CoingeckoCryptoMarketWitness: "m/44'/60'/3'/0/0" as const,
-  CryptoMarketAssetDiviner: "m/44'/60'/4'/0/0" as const,
-  EtherchainEthereumGasWitnessV1: "m/44'/60'/5'/0/0" as const,
-  EtherchainEthereumGasWitnessV2: "m/44'/60'/6'/0/0" as const,
-  EtherscanEthereumGasWitness: "m/44'/60'/7'/0/0" as const,
-  UniswapCryptoMarketWitness: "m/44'/60'/8'/0/0" as const,
-  EthereumGasBlocknativeWitness: "m/44'/60'/9'/0/0" as const,
-  EthereumGasEthersWitness: "m/44'/60'/10'/0/0" as const,
-  EthereumGasEthgasstationWitness: "m/44'/60'/11'/0/0" as const,
-  EthereumGasWitnessPanel: "m/44'/60'/12'/0/0" as const,
-  EthereumGasDivinerResultPanel: "m/44'/60'/13'/0/0" as const,
-  CryptoMarketAssetDivinerAdHocWitness: "m/44'/60'/14'/0/0" as const,
-  EthereumGasDivinerAdHocWitness: "m/44'/60'/15'/0/0" as const,
+  CryptoMarket: {
+    Witness: {
+      CoingeckoCryptoMarketWitness: `${AutomationPath.CryptoMarket}${ModulePath.Witness}/1` as const,
+      UniswapCryptoMarketWitness: `${AutomationPath.CryptoMarket}${ModulePath.Witness}/2` as const,
+    } as const,
+    Diviner: {
+      CryptoMarketAssetDiviner: `${AutomationPath.CryptoMarket}${ModulePath.Diviner}/1` as const,
+    } as const,
+    AdHocWitness: {
+      CryptoMarketAssetDivinerAdHocWitness: `${AutomationPath.CryptoMarket}${ModulePath.AdHocWitness}/1` as const,
+    } as const,
+    Sentinel: {
+      CryptoMarketWitnessPanel: `${AutomationPath.CryptoMarket}${ModulePath.Sentinel}/1` as const,
+      CryptoMarketDivinerResultPanel: `${AutomationPath.CryptoMarket}${ModulePath.Sentinel}/2` as const,
+    } as const,
+  } as const,
+  EthereumGas: {
+    Witness: {
+      EtherchainEthereumGasWitnessV1: `${AutomationPath.EthereumGas}${ModulePath.Witness}/1` as const,
+      EtherchainEthereumGasWitnessV2: `${AutomationPath.EthereumGas}${ModulePath.Witness}/2` as const,
+      EtherscanEthereumGasWitness: `${AutomationPath.EthereumGas}${ModulePath.Witness}/3` as const,
+      EthereumGasBlocknativeWitness: `${AutomationPath.EthereumGas}${ModulePath.Witness}/4` as const,
+      EthereumGasEthersWitness: `${AutomationPath.EthereumGas}${ModulePath.Witness}/5` as const,
+      EthereumGasEthgasstationWitness: `${AutomationPath.EthereumGas}${ModulePath.Witness}/6` as const,
+    } as const,
+    Diviner: {
+      EthereumGasDiviner: `${AutomationPath.EthereumGas}${ModulePath.Diviner}/1` as const,
+    } as const,
+    AdHocWitness: {
+      DivinerResult: `${AutomationPath.EthereumGas}${ModulePath.AdHocWitness}/1` as const,
+    } as const,
+    Sentinel: {
+      EthereumGasWitnessPanel: `${AutomationPath.EthereumGas}${ModulePath.Sentinel}/1` as const,
+      DivinerResult: `${AutomationPath.EthereumGas}${ModulePath.Sentinel}/2` as const,
+    } as const,
+  } as const,
 }

@@ -11,13 +11,13 @@ const ModulePath = {
 }
 
 export const WALLET_PATHS = {
-  Node: {
+  Nodes: {
     Node: `${ModulePath.Node}/0'` as const,
   } as const,
-  Archivist: {
+  Archivists: {
     Archivist: `${ModulePath.Archivist}/0'` as const,
   } as const,
-  Diviner: {
+  Diviners: {
     Diviner: `${ModulePath.Diviner}/0'` as const,
     AddressHistoryDiviner: `${ModulePath.Diviner}/1'` as const,
     AddressSpaceDiviner: `${ModulePath.Diviner}/2'` as const,
@@ -28,6 +28,5 @@ export const WALLET_PATHS = {
     PayloadStatsDiviner: `${ModulePath.Diviner}/7'` as const,
     SchemaStatsDiviner: `${ModulePath.Diviner}/8'` as const,
   } as const,
-  Manager: {} as const,
-  Witness: {} as const,
+  Witnesses: {} as const,
 } as const

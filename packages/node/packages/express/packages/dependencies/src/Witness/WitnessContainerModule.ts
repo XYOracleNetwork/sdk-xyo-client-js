@@ -12,7 +12,7 @@ const getPrometheusNodeWitness = async (context: interfaces.Context) => {
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Witnesses.Prometheus)
   prometheusNodeWitness = await PrometheusNodeWitness.create({
     account,
-    config: { schema: PrometheusNodeWitness.configSchema },
+    config: { name: TYPES.PrometheusWitness.description, schema: PrometheusNodeWitness.configSchema },
   })
   return prometheusNodeWitness
 }

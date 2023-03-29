@@ -17,7 +17,7 @@ export const getTask = (): Task => {
       logger.log('Reported Crypto Prices')
       logger.log('Divining Aggregated Crypto Prices')
       const diviner = await getDiviner()
-      const results = await new DivinerWrapper({ module: diviner }).divine(payloads)
+      const results = await DivinerWrapper.wrap(diviner).divine(payloads)
       const result = results.find((p) => p.schema === XyoCryptoMarketAssetSchema)
       const answer = assertEx(result, 'Empty XyoCryptoMarketAssetPayload response from diviner')
       logger.log('Divined Aggregated Crypto Prices')

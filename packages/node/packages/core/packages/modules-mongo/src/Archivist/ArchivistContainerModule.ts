@@ -1,7 +1,8 @@
+import { Account } from '@xyo-network/account'
 import { AbstractArchivist } from '@xyo-network/archivist'
 import { AbstractModule } from '@xyo-network/module'
 import { ArchiveModuleConfigSchema, BoundWitnessWithMeta, PayloadWithMeta, User, UserArchivist } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
+import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { ContainerModule, interfaces } from 'inversify'
 
@@ -19,16 +20,18 @@ const getMongoDBUserArchivist = (context: interfaces.Context) => {
   return userArchivist
 }
 
-const getMongoDBDeterministicArchivist = async (context: interfaces.Context) => {
+const getMongoDBArchivist = async (context: interfaces.Context) => {
   if (archivist) return archivist
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Archivists.Archivist)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
-  const mongoDBDeterministicArchivist = await MongoDBDeterministicArchivist.create({
+  archivist = await MongoDBDeterministicArchivist.create({
+    account,
     boundWitnessSdk,
     config: { name: TYPES.Archivist.description, schema: ArchiveModuleConfigSchema },
     payloadSdk,
   })
-  archivist = mongoDBDeterministicArchivist
   return archivist
 }
 
@@ -36,7 +39,7 @@ export const ArchivistContainerModule = new ContainerModule((bind: interfaces.Bi
   bind(MongoDBUserArchivist).toDynamicValue(getMongoDBUserArchivist).inSingletonScope()
   bind<UserArchivist>(TYPES.UserArchivist).toDynamicValue(getMongoDBUserArchivist).inSingletonScope()
 
-  bind(MongoDBDeterministicArchivist).toDynamicValue(getMongoDBDeterministicArchivist).inSingletonScope()
-  bind<AbstractArchivist>(TYPES.Archivist).toDynamicValue(getMongoDBDeterministicArchivist).inSingletonScope()
-  bind<AbstractModule>(TYPES.Module).toDynamicValue(getMongoDBDeterministicArchivist).inSingletonScope()
+  bind(MongoDBDeterministicArchivist).toDynamicValue(getMongoDBArchivist).inSingletonScope()
+  bind<AbstractArchivist>(TYPES.Archivist).toDynamicValue(getMongoDBArchivist).inSingletonScope()
+  bind<AbstractModule>(TYPES.Module).toDynamicValue(getMongoDBArchivist).inSingletonScope()
 })

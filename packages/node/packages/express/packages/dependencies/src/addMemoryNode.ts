@@ -5,42 +5,39 @@ import { Container } from 'inversify'
 
 const config = { schema: NodeConfigSchema }
 
-// TODO: Grab from actual type lists (which are not yet exported)
-const archivists = [
-  TYPES.Archivist,
-  // TYPES.BoundWitnessArchivist,
-  // TYPES.PayloadArchivist
+type ModuleNameWithVisibility = [name: symbol, visibility: boolean]
+
+const archivists: ModuleNameWithVisibility[] = [[TYPES.Archivist, true]]
+const diviners: ModuleNameWithVisibility[] = [
+  [TYPES.AddressHistoryDiviner, true],
+  [TYPES.AddressSpaceDiviner, true],
+  [TYPES.BoundWitnessDiviner, true],
+  [TYPES.BoundWitnessStatsDiviner, true],
+  [TYPES.PayloadDiviner, true],
+  [TYPES.PayloadStatsDiviner, true],
+  [TYPES.SchemaListDiviner, true],
+  [TYPES.SchemaStatsDiviner, true],
+]
+const witnesses: ModuleNameWithVisibility[] = [
+  [TYPES.PrometheusWitness, true], // TODO: If we set this to false the visible modules stop resolving
 ]
 
-const diviners = [
-  TYPES.AddressHistoryDiviner,
-  TYPES.AddressSpaceDiviner,
-  TYPES.BoundWitnessDiviner,
-  TYPES.BoundWitnessStatsDiviner,
-  TYPES.PayloadDiviner,
-  TYPES.PayloadStatsDiviner,
-  TYPES.SchemaListDiviner,
-  TYPES.SchemaStatsDiviner,
-]
-
-const witnesses = [TYPES.PrometheusWitness]
+const modules: ModuleNameWithVisibility[] = [...archivists, ...diviners, ...witnesses]
 
 export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
-  await addDependenciesToNodeByType(container, node, archivists)
-  await addDependenciesToNodeByType(container, node, diviners)
-  await addDependenciesToNodeByType(container, node, witnesses)
+  await addDependenciesToNode(container, node, modules)
 }
 
-const addDependenciesToNodeByType = async (container: Container, node: MemoryNode, types: symbol[]) => {
+const addDependenciesToNode = async (container: Container, node: MemoryNode, modules: ModuleNameWithVisibility[]) => {
   await Promise.all(
-    types.map(async (type) => {
-      const mod = await container.getAsync<AbstractModule>(type)
-      const address: string | undefined = mod?.address
-      if (address) {
+    modules.map(async ([name, visibility]) => {
+      const mod = await container.getAsync<AbstractModule>(name)
+      if (mod) {
+        const { address } = mod
         await node.register(mod)
-        await node.attach(address, true)
+        await node.attach(address, visibility)
       }
     }),
   )

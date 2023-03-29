@@ -1,7 +1,10 @@
 /* eslint-disable no-var */
 import { config } from 'dotenv'
 config()
+import { Account } from '@xyo-network/account'
 import { getApp } from '@xyo-network/express-node-server'
+import { MemoryNode, MemoryNodeParams } from '@xyo-network/modules'
+import { WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { Express } from 'express'
@@ -42,7 +45,13 @@ const setupMongo = async () => {
 
 const setupNode = async () => {
   console.log('Node: Starting')
-  globalThis.app = await getApp()
+  const mnemonic = process.env.MNEMONIC || ''
+  const path = WALLET_PATHS.Nodes.Node
+  const account = Account.fromMnemonic(mnemonic, path)
+  const config = { schema: MemoryNode.configSchema }
+  const params: MemoryNodeParams = { account, config }
+  const node = await MemoryNode.create(params)
+  globalThis.app = await getApp(node)
   globalThis.req = supertest(app)
   const apiDomain = req.get('/').url.replace(/\/$/, '')
   process.env.API_DOMAIN = apiDomain

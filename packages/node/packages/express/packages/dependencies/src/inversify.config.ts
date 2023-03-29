@@ -33,9 +33,11 @@ export const configureDependencies = async (node?: MemoryNode) => {
 
   const apiKey = assertEx(process.env.API_KEY, 'API_KEY ENV VAR required to create Archivist')
   const jwtSecret = assertEx(process.env.JWT_SECRET, 'JWT_SECRET ENV VAR required to create Archivist')
+  const mnemonic = assertEx(process.env.MNEMONIC, 'MNEMONIC ENV VAR required to create Archivist')
   const verbosity: LoggerVerbosity = (process.env.VERBOSITY as LoggerVerbosity) ?? process.env.NODE_ENV === 'test' ? 'error' : 'info'
   const logger = getLogger(verbosity)
 
+  container.bind<string>(TYPES.AccountMnemonic).toConstantValue(mnemonic)
   container.bind<string>(TYPES.ApiKey).toConstantValue(apiKey)
   container.bind<string>(TYPES.JwtSecret).toConstantValue(jwtSecret)
 

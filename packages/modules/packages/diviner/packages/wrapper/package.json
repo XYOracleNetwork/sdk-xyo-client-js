@@ -10,11 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.7.6",
-    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^"
   },

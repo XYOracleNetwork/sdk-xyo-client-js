@@ -1,5 +1,7 @@
 import { getEnvFromAws } from '@xylabs/sdk-api-express-ecs'
 
+import { ConfigurationFunction } from '../../../model'
+
 export const configureEnvironmentFromAWSSecret: ConfigurationFunction = async () => {
   // If an AWS ARN was supplied for Secrets Manager
   const awsEnvSecret = process.env.AWS_ENV_SECRET_ARN

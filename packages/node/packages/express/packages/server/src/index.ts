@@ -40,7 +40,6 @@ export class ExpressPayloadTransport extends PayloadTransport {
 }
 
 export const getApp = async (node?: MemoryNode): Promise<Express> => {
-  //const config = getConfig()
   node = node ?? (await MemoryNode.create())
   await configureEnvironment()
   await configureDependencies(node)

@@ -18,7 +18,9 @@ const diviners: ModuleNameWithVisibility[] = [
   [TYPES.SchemaListDiviner, true],
   [TYPES.SchemaStatsDiviner, true],
 ]
-const witnesses: ModuleNameWithVisibility[] = [[TYPES.PrometheusWitness, false]]
+const witnesses: ModuleNameWithVisibility[] = [
+  [TYPES.PrometheusWitness, true], // TODO: If we set this to false the visible modules stop resolving
+]
 
 const modules: ModuleNameWithVisibility[] = [...archivists, ...diviners, ...witnesses]
 

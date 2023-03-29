@@ -1,10 +1,10 @@
 import { XyoCryptoMarketAssetDiviner, XyoCryptoMarketAssetDivinerConfigSchema } from '@xyo-network/crypto-asset-plugin'
 
-import { getAccount } from '../../Account'
+import { getAccount, WalletPaths } from '../../Account'
 
 export const getDiviner = async () => {
   return await XyoCryptoMarketAssetDiviner.create({
-    account: getAccount(),
+    account: getAccount(WalletPaths.CryptoMarket.Diviner.CryptoMarketAssetDiviner),
     config: {
       schema: XyoCryptoMarketAssetDivinerConfigSchema,
     },

@@ -15,11 +15,6 @@ import { MongoDBUserArchivist } from './User'
 let userArchivist: MongoDBUserArchivist
 let archivist: MongoDBDeterministicArchivist
 
-const getAccount = (path: string): AccountInstance => {
-  const mnemonic = assertEx(process.env.MNEMONIC, 'Missing mnemonic for wallet creation')
-  return Account.fromMnemonic(mnemonic, path)
-}
-
 const getMongoDBUserArchivist = (context: interfaces.Context) => {
   if (userArchivist) return userArchivist
   const sdk: BaseMongoSdk<User> = context.container.get<BaseMongoSdk<User>>(MONGO_TYPES.UserSdk)
@@ -29,7 +24,8 @@ const getMongoDBUserArchivist = (context: interfaces.Context) => {
 
 const getMongoDBArchivist = async (context: interfaces.Context) => {
   if (archivist) return archivist
-  const account = getAccount(WALLET_PATHS.Archivist.Archivist)
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Archivists.Archivist)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   archivist = await MongoDBDeterministicArchivist.create({

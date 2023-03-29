@@ -17,3 +17,5 @@ export const TYPES = {
   SchemaToQueryProcessorRegistry: Symbol('SchemaToQueryProcessorRegistry'),
   UserManager: Symbol('UserManager'),
 }
+
+export * from './Wallet'

@@ -22,7 +22,6 @@ declare global {
     interface AuthInfo extends UserCreationAuthInfo {}
 
     interface Application {
-      archivist: AbstractArchivist
       logger: Logger
       node: AbstractNode
       prometheusNodeWitness: PrometheusNodeWitness

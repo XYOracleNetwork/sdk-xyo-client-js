@@ -27,6 +27,7 @@ export const WALLET_PATHS = {
     BoundWitnessStatsDiviner: `${ModulePath.Diviner}/6'` as const,
     PayloadStatsDiviner: `${ModulePath.Diviner}/7'` as const,
     SchemaStatsDiviner: `${ModulePath.Diviner}/8'` as const,
+    LocationCertainty: `${ModulePath.Diviner}/9'` as const,
   } as const,
   Witnesses: {} as const,
 } as const

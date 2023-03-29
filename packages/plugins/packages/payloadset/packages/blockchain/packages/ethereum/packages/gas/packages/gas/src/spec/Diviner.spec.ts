@@ -15,22 +15,27 @@ import { XyoEthereumGasDiviner } from '../Diviner'
 import { sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas } from '../test'
 
 describe('Diviner', () => {
-  test('returns divined gas price', async () => {
+  const cases: [title: string, data: Payload[]][] = [
+    ['XyoEthereumGasBlocknativePayload', [sampleBlocknativeGas]],
+    ['XyoEthereumGasEtherchainV2Payload', [sampleEtherchainGasV2]],
+    ['XyoEthereumGasEtherscanPayload', [sampleEtherscanGas]],
+    ['XyoEthereumGasEthersPayload', [sampleEthersGas]],
+    ['XyoEthereumGasEthgasstationPayload', [sampleEthgasstationGas]],
+    ['no gas payloads', []],
+    ['all supported gas payloads', [sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas]],
+  ]
+  test.each(cases)('with %s returns divined gas price', async (_title: string, data: Payload[]) => {
     const module = await XyoEthereumGasDiviner.create()
     const wrapper = DivinerWrapper.wrap(module)
-
-    const payloads = await wrapper.divine([sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas])
-
+    const payloads = await wrapper.divine(data)
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
-    payloads.map((payload) => {
-      if (payload?.schema === XyoEthereumGasSchema) {
-        const gasPayload = payload as XyoEthereumGasPayload
-        expect(gasPayload).toBeObject()
-        expect(gasPayload.schema).toBe(XyoEthereumGasSchema)
-        expect(gasPayload.timestamp).toBeNumber()
-      }
-    })
+    const gasPayload = payloads.pop() as XyoEthereumGasPayload
+    expect(gasPayload).toBeObject()
+    expect(gasPayload.schema).toBe(XyoEthereumGasSchema)
+    expect(gasPayload.timestamp).toBeNumber()
+    expect(gasPayload.feePerGas).toBeObject()
+    expect(gasPayload.priorityFeePerGas).toBeObject()
   })
   test.skip('diviner calibration', async () => {
     // NOTE: This test is for obtaining concurrent witnessed

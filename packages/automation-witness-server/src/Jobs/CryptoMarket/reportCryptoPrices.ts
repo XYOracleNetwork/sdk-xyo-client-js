@@ -8,7 +8,6 @@ import { getProvider } from '../../Providers'
 import { getCryptoMarketWitness } from '../../Witnesses'
 
 export const reportCryptoPrices = async (provider = getProvider()): Promise<Payload[]> => {
-  const account = getAccount(WalletPaths.CryptoMarketWitnessPanel)
   const archivists = await getArchivists()
   const witnesses = await getCryptoMarketWitness(provider)
   const modules = [...archivists, ...witnesses]
@@ -24,6 +23,7 @@ export const reportCryptoPrices = async (provider = getProvider()): Promise<Payl
     schema: SentinelConfigSchema,
     witnesses: witnesses.map((mod) => mod.address),
   }
+  const account = getAccount(WalletPaths.CryptoMarket.Sentinel.Market)
   const sentinel = await MemorySentinel.create({ account, config })
   await node.register(sentinel)
   await node.attach(account.addressValue.hex, true)

@@ -1,6 +1,4 @@
-import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account-model'
 import { AbstractArchivist } from '@xyo-network/archivist'
 import { AbstractModule } from '@xyo-network/module'
 import { ArchiveModuleConfigSchema, BoundWitnessWithMeta, PayloadWithMeta, User, UserArchivist } from '@xyo-network/node-core-model'

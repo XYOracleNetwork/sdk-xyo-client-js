@@ -10,6 +10,7 @@ export const TYPES = {
   ...JOB_TYPES,
   ...MODULE_TYPES,
   ...WITNESS_TYPES,
+  AccountMnemonic: Symbol('AccountMnemonic'),
   ApiKey: Symbol('ApiKey'),
   JwtSecret: Symbol('JwtSecret'),
   Logger: Symbol('Logger'),

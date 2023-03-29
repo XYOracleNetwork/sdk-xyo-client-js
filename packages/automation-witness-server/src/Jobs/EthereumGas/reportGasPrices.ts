@@ -8,7 +8,7 @@ import { getProvider } from '../../Providers'
 import { getEthereumGasWitness } from '../../Witnesses'
 
 export const reportGasPrices = async (provider = getProvider()): Promise<Payload[]> => {
-  const account = getAccount(WalletPaths.CryptoMarketWitnessPanel)
+  const account = getAccount(WalletPaths.EthereumGasWitnessPanel)
   const archivists = await getArchivists()
   const witnesses = await getEthereumGasWitness(provider)
   const modules = [...archivists, ...witnesses]

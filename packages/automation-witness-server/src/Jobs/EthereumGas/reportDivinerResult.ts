@@ -7,7 +7,7 @@ import { getAccount, WalletPaths } from '../../Account'
 import { getArchivists } from '../../Archivists'
 
 export const reportDivinerResult = async (payload: Payload): Promise<Payload[]> => {
-  const account = getAccount(WalletPaths.CryptoMarketDivinerResultPanel)
+  const account = getAccount(WalletPaths.EthereumGasDivinerResultPanel)
   const archivists = await getArchivists()
   const witnesses = [await AdhocWitness.create({ account, config: { payload, schema: AdhocWitnessConfigSchema } })]
   const modules = [...archivists, ...witnesses]

@@ -35,7 +35,7 @@ export class SetIterator<T> implements Iterator<T> {
       this.done = new Set<T>()
     }
 
-    const value = Array.from(this.todo)?.[0]
+    const value = this.todo.values().next().value
     this.todo.delete(value)
     this.done.add(value)
 

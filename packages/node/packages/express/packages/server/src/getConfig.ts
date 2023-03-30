@@ -10,7 +10,6 @@ const defaults = {
  * unintended serialization of entire ENV to config.
  */
 const supportedEnvVars = [
-  'ACCOUNT_SEED',
   'API_DOMAIN',
   'API_KEY',
   'ETHERSCAN_API_KEY',

@@ -4938,14 +4938,10 @@ __metadata:
   dependencies:
     "@aws-sdk/client-secrets-manager": ^3.301.0
     "@ethersproject/address": ^5.7.0
-    "@ethersproject/bytes": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/hdnode": ^5.7.0
     "@ethersproject/networks": ^5.7.1
     "@ethersproject/providers": ^5.7.2
-    "@ethersproject/sha2": ^5.7.0
     "@ethersproject/solidity": ^5.7.0
-    "@ethersproject/strings": ^5.7.0
     "@types/compression": ^1.7.2
     "@types/cors": ^2.8.13
     "@types/express": 4.17.17
@@ -5849,6 +5845,7 @@ __metadata:
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
+    "@xyo-network/account": "workspace:^"
     "@xyo-network/express-node-middleware": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-modules-mongo": "workspace:^"
@@ -6049,6 +6046,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
+    "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-validator": "workspace:^"
@@ -6549,9 +6547,11 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.16.1
     "@xylabs/tsconfig": ^2.16.1
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node": "workspace:^"
+    "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
     "@xyo-network/payload-validator": "workspace:^"
     "@xyo-network/schema-name-validator": "workspace:^"

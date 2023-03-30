@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { MemoryNode, MemoryNodeParams } from '@xyo-network/node'
 import { WALLET_PATHS } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
@@ -9,14 +10,16 @@ import { configureEnvironment, configureTransports } from './configuration'
 
 const config = { schema: NodeConfigSchema }
 
-const mnemonic = process.env.MNEMONIC || ''
-const path = WALLET_PATHS.Nodes.Node
-
-export const getNode = async (account = Account.fromMnemonic(mnemonic, path)): Promise<MemoryNode> => {
+export const getNode = async (account?: AccountInstance): Promise<MemoryNode> => {
+  await configureEnvironment()
+  if (!account) {
+    const mnemonic = process.env.MNEMONIC || ''
+    const path = WALLET_PATHS.Nodes.Node
+    account = Account.fromMnemonic(mnemonic, path)
+  }
   PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new XyoSchemaNameValidator(schema))
   const params: MemoryNodeParams = { account, config }
   const node = await MemoryNode.create(params)
-  await configureEnvironment(node)
   await configureTransports(node)
   return node
 }

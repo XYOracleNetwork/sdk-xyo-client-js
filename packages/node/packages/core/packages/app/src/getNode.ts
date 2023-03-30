@@ -8,7 +8,8 @@ import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 import { configureEnvironment, configureTransports } from './configuration'
 
-const config = { schema: NodeConfigSchema }
+const name = 'XYO Public'
+const config = { name, schema: NodeConfigSchema }
 
 export const getNode = async (account?: AccountInstance): Promise<MemoryNode> => {
   await configureEnvironment()

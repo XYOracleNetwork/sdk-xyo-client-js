@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
   AnyConfigSchema,
@@ -77,6 +78,9 @@ export class MemorySentinel<
   }
 
   private async generatePayloads(witnesses: WitnessWrapper[]): Promise<Payload[]> {
-    return (await Promise.all(witnesses?.map(async (witness) => await witness.observe()))).flat()
+    return (await Promise.allSettled(witnesses?.map((witness) => witness.observe())))
+      .filter(fulfilled)
+      .map((result) => result.value)
+      .flat()
   }
 }

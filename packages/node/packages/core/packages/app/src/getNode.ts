@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account/packages/account-model'
+import { AccountInstance } from '@xyo-network/account-model'
 import { MemoryNode, MemoryNodeParams } from '@xyo-network/node'
 import { WALLET_PATHS } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'

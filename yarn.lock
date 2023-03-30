@@ -9578,9 +9578,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.342
-  resolution: "electron-to-chromium@npm:1.4.342"
-  checksum: 61ecf9f3ea65a6044cdcea092dd56b42d0961fdb8fb3942ba808c6aa6ab3213d3218e599748d6d6ae8b43ddc9f76f428af0b96eaee2f0b4b2f0195c643f36f3d
+  version: 1.4.343
+  resolution: "electron-to-chromium@npm:1.4.343"
+  checksum: 576fc7363fb86341e9d9eaa84c3ab1fbe176ad5edff9ae1cdd1cba9ff1c28ff5791fec69f5dad82f3f5dfbf04674dd7d3842b8a8c30f23eb18584550685110bf
   languageName: node
   linkType: hard
 
@@ -14938,8 +14938,8 @@ __metadata:
   linkType: hard
 
 "npm-check-updates@npm:^16.7.10":
-  version: 16.8.2
-  resolution: "npm-check-updates@npm:16.8.2"
+  version: 16.9.0
+  resolution: "npm-check-updates@npm:16.9.0"
   dependencies:
     chalk: ^5.2.0
     cli-table3: ^0.6.3
@@ -14974,7 +14974,7 @@ __metadata:
   bin:
     ncu: build/src/bin/cli.js
     npm-check-updates: build/src/bin/cli.js
-  checksum: d7a809621e9d5d1b0741e0b5b102e1d7a8796ec4a5647e6c65d76bcb34e7c4bcfb50a11dc7cd17f41cd071c5c0b8d43de2023738c486ed0e7bfb90dfe9aa47c9
+  checksum: dbd87d56633a5bb85cd0fd3a634f08260816ea9ff2295f60b6008dbf9076418d207d82c403c4e74bf9e8a1f71ee68a6c29f9f5525825a8c027500f6307550ade
   languageName: node
   linkType: hard
 

@@ -87,12 +87,6 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   protected readonly aggregateTimeoutMs = 10_000
 
   /**
-   * A reference to the background task to ensure that the
-   * continuous background divine stays running
-   */
-  protected backgroundDivineTask: Promise<void> | undefined
-
-  /**
    * The stream with which the diviner is notified of insertions
    * to the payloads collection
    */
@@ -141,16 +135,19 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     return await super.stop()
   }
 
-  private backgroundDivine = async (): Promise<void> => {
-    for (const address of this.addressIterator) {
+  private backgroundDivine = async (batchSize = 1000): Promise<void> => {
+    for (let i = 0; i < batchSize; i++) {
       try {
+        const next = this.addressIterator.next()
+        if (next?.done) break
+        if (!next?.value) continue
+        const address = next.value
         await this.divineAddressFull(address)
       } catch (error) {
         this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
       await delay(50)
     }
-    this.backgroundDivineTask = undefined
   }
 
   private divineAddress = async (archive: string): Promise<Record<string, number>> => {
@@ -207,7 +204,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating with ${additions} new addresses`)
-    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
+    await this.backgroundDivine()
   }
 
   private divineAllAddresses = async () => await Promise.reject('Not Implemented')

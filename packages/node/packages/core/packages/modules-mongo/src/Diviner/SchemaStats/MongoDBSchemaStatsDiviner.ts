@@ -8,7 +8,6 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import {
   BoundWitnessWithMeta,
   isSchemaStatsQueryPayload,
-  PayloadWithMeta,
   SchemaStatsDiviner,
   SchemaStatsPayload,
   SchemaStatsQueryPayload,

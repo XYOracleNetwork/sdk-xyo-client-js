@@ -65,6 +65,12 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
    */
   protected readonly addressIterator: SetIterator<string> = new SetIterator([])
 
+  /**
+   * A reference to the background task to ensure that the
+   * continuous background divine stays running
+   */
+  protected backgroundDivineTask: Promise<void> | undefined
+
   protected changeStream: ChangeStream | undefined = undefined
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
@@ -87,10 +93,6 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     ]
   }
 
-  protected get sdk() {
-    return this.params.boundWitnessSdk
-  }
-
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitnessStatsPayload>[]> {
     const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
@@ -108,23 +110,20 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     return await super.stop()
   }
 
-  private backgroundDivine = async (batchSize = 1000): Promise<void> => {
-    for (let i = 0; i < batchSize; i++) {
+  private backgroundDivine = async (): Promise<void> => {
+    for (const address of this.addressIterator) {
       try {
-        const next = this.addressIterator.next()
-        if (next?.done) break
-        if (!next?.value) continue
-        const address = next.value
         await this.divineAddressFull(address)
       } catch (error) {
         this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
       await delay(50)
     }
+    this.backgroundDivineTask = undefined
   }
 
   private divineAddress = async (archive: string) => {
-    const stats = await this.sdk.useMongo(async (mongo) => {
+    const stats = await this.params.boundWitnessSdk.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive })
     })
     const remote = stats?.bound_witnesses?.count || 0
@@ -132,9 +131,9 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     return remote + local
   }
 
-  private divineAddressFull = async (archive: string) => {
-    const count = await this.sdk.useCollection((collection) => collection.countDocuments({ _archive: archive }))
-    await this.storeDivinedResult(archive, count)
+  private divineAddressFull = async (address: string) => {
+    const count = await this.params.boundWitnessSdk.useCollection((collection) => collection.countDocuments({ addresses: { $in: [address] } }))
+    await this.storeDivinedResult(address, count)
     return count
   }
 
@@ -145,21 +144,23 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Incoming Addresses Total: ${addresses.length} New: ${additions}`)
-    await this.backgroundDivine()
+    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
-  private divineAllAddresses = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
+  private divineAllAddresses = () => this.params.boundWitnessSdk.useCollection((collection) => collection.estimatedDocumentCount())
 
   private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
-    const archive = change.fullDocument._archive
-    if (archive) this.pendingCounts[archive] = (this.pendingCounts[archive] || 0) + 1
+    const addresses = change?.fullDocument?.addresses
+    for (const address of addresses) {
+      if (address) this.pendingCounts[address] = (this.pendingCounts[address] || 0) + 1
+    }
   }
 
   private registerWithChangeStream = async () => {
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
-    const wrapper = MongoClientWrapper.get(this.sdk.uri, this.sdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.params.boundWitnessSdk.uri, this.params.boundWitnessSdk.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
@@ -170,14 +171,14 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registered`)
   }
 
-  private storeDivinedResult = async (archive: string, count: number) => {
-    await this.sdk.useMongo(async (mongo) => {
+  private storeDivinedResult = async (address: string, count: number) => {
+    await this.params.boundWitnessSdk.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
-        .updateOne({ archive }, { $set: { [`${COLLECTIONS.BoundWitnesses}.count`]: count } }, updateOptions)
+        .updateOne({ archive: address }, { $set: { [`${COLLECTIONS.BoundWitnesses}.count`]: count } }, updateOptions)
     })
-    this.pendingCounts[archive] = 0
+    this.pendingCounts[address] = 0
   }
 
   private updateChanges = async () => {
@@ -186,7 +187,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
       const count = this.pendingCounts[archive]
       this.pendingCounts[archive] = 0
       const $inc = { [`${COLLECTIONS.BoundWitnesses}.count`]: count }
-      return this.sdk.useMongo(async (mongo) => {
+      return this.params.boundWitnessSdk.useMongo(async (mongo) => {
         await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive }, { $inc }, updateOptions)
       })
     })

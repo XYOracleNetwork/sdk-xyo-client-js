@@ -6,6 +6,7 @@ import { WithAdditional } from '@xyo-network/core'
 import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModule, DivinerParams, DivinerWrapper } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
+  BoundWitnessWithMeta,
   isSchemaStatsQueryPayload,
   PayloadWithMeta,
   SchemaStatsDiviner,
@@ -53,6 +54,7 @@ export type MongoDBSchemaStatsDivinerParams<T extends Payload = Payload> = Divin
   AnyConfigSchema<MongoDBSchemaStatsDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
+    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
     payloadSdk: BaseMongoSdk<PayloadWithMeta>
   }
 >
@@ -179,7 +181,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const sortStartTime = Date.now()
     const totals: Record<string, number> = {}
     for (let iteration = 0; iteration < this.aggregateMaxIterations; iteration++) {
-      const result: PayloadSchemaCountsAggregateResult[] = await this.params.payloadSdk.useCollection((collection) => {
+      const result: PayloadSchemaCountsAggregateResult[] = await this.params.boundWitnessSdk.useCollection((collection) => {
         return collection
           .aggregate()
           .sort({ _timestamp: 1 })

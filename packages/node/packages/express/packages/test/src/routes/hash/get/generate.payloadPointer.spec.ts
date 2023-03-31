@@ -14,9 +14,9 @@ const betaDapps: DappInfo[] = [
   ['network.xyo.crypto.market.uniswap', '2d0fb5708b9d68bfaa96c6e426cbc66a341f117d'],
 ]
 const prodDapps: DappInfo[] = [
-  ['network.xyo.blockchain.ethereum.gas', 'TODO'],
-  ['network.xyo.crypto.asset', 'TODO'],
-  ['network.xyo.crypto.market.uniswap', 'TODO'],
+  ['network.xyo.blockchain.ethereum.gas', '5b1037aa01cbba864f0908a7916b6c1de2f2be20'],
+  ['network.xyo.crypto.asset', 'fce4ff8050a80076d2f95b77c61c847ae0d8b77f'],
+  ['network.xyo.crypto.market.uniswap', 'd6ceab805cd617bb5b1ce86d11f24aae8ec7e26f'],
 ]
 
 const cases = beta ? betaDapps : prodDapps

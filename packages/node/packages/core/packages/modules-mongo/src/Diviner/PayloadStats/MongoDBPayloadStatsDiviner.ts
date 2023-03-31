@@ -27,7 +27,7 @@ import { SetIterator } from '../../Util'
 const updateOptions: UpdateOptions = { upsert: true }
 
 interface Stats {
-  archive: string
+  address: string
   payloads?: {
     count?: number
   }
@@ -131,7 +131,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
 
   private divineAddress = async (address: string) => {
     const stats = await this.params.payloadSdk.useMongo(async (mongo) => {
-      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive: address })
+      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = stats?.payloads?.count || 0
     const local = this.pendingCounts[address] || 0
@@ -201,7 +201,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
-        .updateOne({ archive: address }, { $set: { [`${COLLECTIONS.Payloads}.count`]: count } }, updateOptions)
+        .updateOne({ address }, { $set: { [`${COLLECTIONS.Payloads}.count`]: count } }, updateOptions)
     })
     this.pendingCounts[address] = 0
   }
@@ -213,7 +213,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       this.pendingCounts[address] = 0
       const $inc = { [`${COLLECTIONS.Payloads}.count`]: count }
       return this.params.payloadSdk.useMongo(async (mongo) => {
-        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive: address }, { $inc }, updateOptions)
+        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })
     const results = await Promise.allSettled(updates)

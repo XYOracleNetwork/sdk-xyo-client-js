@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
-import { AddressHistoryDiviner, AddressSpaceDiviner, DivinerConfigSchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressHistoryDiviner, AddressSpaceDiviner } from '@xyo-network/diviner'
 import { Module } from '@xyo-network/module-model'
 import {
   BoundWitnessDiviner,
@@ -22,12 +22,12 @@ import { MONGO_TYPES } from '../mongoTypes'
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
-import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
+import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
-import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfigSchema } from './PayloadStats'
-import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerConfigSchema } from './SchemaList'
-import { MongoDBSchemaStatsDiviner, MongoDBSchemaStatsDivinerConfigSchema } from './SchemaStats'
+import { MongoDBPayloadStatsDiviner } from './PayloadStats'
+import { MongoDBSchemaListDiviner } from './SchemaList'
+import { MongoDBSchemaStatsDiviner } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
 let mongoDBAddressSpaceDiviner: MongoDBAddressSpaceDiviner

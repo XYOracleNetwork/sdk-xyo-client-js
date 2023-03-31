@@ -142,6 +142,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating with ${additions} new addresses`)
     await this.backgroundDivine()
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
   private divineAllAddresses = () => this.params.payloadSdk.useCollection((collection) => collection.estimatedDocumentCount())

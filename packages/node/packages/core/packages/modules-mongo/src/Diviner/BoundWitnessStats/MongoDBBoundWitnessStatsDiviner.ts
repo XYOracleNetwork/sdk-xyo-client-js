@@ -146,6 +146,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating with ${additions} new addresses`)
     await this.backgroundDivine()
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
   private divineAllAddresses = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())

@@ -205,6 +205,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating with ${additions} new addresses`)
     await this.backgroundDivine()
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
   private divineAllAddresses = async () => await Promise.reject('Not Implemented')

@@ -65,6 +65,12 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
    */
   protected readonly addressIterator: SetIterator<string> = new SetIterator([])
 
+  /**
+   * A reference to the background task to ensure that the
+   * continuous background divine stays running
+   */
+  protected backgroundDivineTask: Promise<void> | undefined
+
   protected changeStream: ChangeStream | undefined = undefined
   protected pendingCounts: Record<string, number> = {}
   protected resumeAfter: ResumeToken | undefined = undefined
@@ -104,19 +110,16 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     return await super.stop()
   }
 
-  private backgroundDivine = async (batchSize = 1000): Promise<void> => {
-    for (let i = 0; i < batchSize; i++) {
+  private backgroundDivine = async (): Promise<void> => {
+    for (const address of this.addressIterator) {
       try {
-        const next = this.addressIterator.next()
-        if (next?.done) break
-        if (!next?.value) continue
-        const address = next.value
         await this.divineAddressFull(address)
       } catch (error) {
         this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
       await delay(50)
     }
+    this.backgroundDivineTask = undefined
   }
 
   private divineAddress = async (archive: string) => {
@@ -141,7 +144,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Incoming Addresses Total: ${addresses.length} New: ${additions}`)
-    await this.backgroundDivine()
+    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 

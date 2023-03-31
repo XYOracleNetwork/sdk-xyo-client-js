@@ -68,6 +68,11 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   protected readonly addressIterator: SetIterator<string> = new SetIterator([])
 
   /**
+   * The amount of time to allow the aggregate query to execute
+   */
+  protected readonly aggregateTimeoutMs = 10_000
+
+  /**
    * A reference to the background task to ensure that the
    * continuous background divine stays running
    */
@@ -134,8 +139,23 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   }
 
   private divineAddressFull = async (address: string) => {
-    const count = await this.params.payloadSdk.useCollection((collection) => collection.countDocuments({ _archive: address }))
-    await this.storeDivinedResult(address, count)
+    // eslint-disable-next-line deprecation/deprecation
+    const count = await this.params.boundWitnessSdk.useCollection((collection) => {
+      return collection
+        .aggregate<{ payload_hashes: number }>([
+          // Find all BoundWitnesses containing this address
+          { $match: { addresses: { $in: [address] } } },
+          // Flatten the payload_hashes to individual documents
+          { $unwind: { path: '$payload_hashes' } },
+          // Count all the payload hashes witnessed for this address
+          { $count: 'payload_hashes' },
+        ])
+        .maxTimeMS(this.aggregateTimeoutMs)
+        .next()
+    })
+    if (count != null) {
+      await this.storeDivinedResult(address, count.payload_hashes)
+    }
     return count
   }
 

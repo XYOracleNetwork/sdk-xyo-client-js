@@ -153,8 +153,10 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
 
   private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
-    const archive = change.fullDocument._archive
-    if (archive) this.pendingCounts[archive] = (this.pendingCounts[archive] || 0) + 1
+    const addresses = change?.fullDocument?.addresses
+    for (const address of addresses) {
+      if (address) this.pendingCounts[address] = (this.pendingCounts[address] || 0) + 1
+    }
   }
 
   private registerWithChangeStream = async () => {

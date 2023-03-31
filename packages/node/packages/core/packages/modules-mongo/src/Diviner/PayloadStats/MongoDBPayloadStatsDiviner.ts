@@ -27,7 +27,7 @@ import { SetIterator } from '../../Util'
 const updateOptions: UpdateOptions = { upsert: true }
 
 interface Stats {
-  archive: string
+  address: string
   payloads?: {
     count?: number
   }
@@ -66,6 +66,17 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
    * Iterates over know addresses obtained from AddressDiviner
    */
   protected readonly addressIterator: SetIterator<string> = new SetIterator([])
+
+  /**
+   * The amount of time to allow the aggregate query to execute
+   */
+  protected readonly aggregateTimeoutMs = 10_000
+
+  /**
+   * A reference to the background task to ensure that the
+   * continuous background divine stays running
+   */
+  protected backgroundDivineTask: Promise<void> | undefined
 
   protected changeStream: ChangeStream | undefined = undefined
   protected pendingCounts: Record<string, number> = {}
@@ -106,24 +117,21 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     return await super.stop()
   }
 
-  private backgroundDivine = async (batchSize = 1000): Promise<void> => {
-    for (let i = 0; i < batchSize; i++) {
+  private backgroundDivine = async (): Promise<void> => {
+    for (const address of this.addressIterator) {
       try {
-        const next = this.addressIterator.next()
-        if (next?.done) break
-        if (!next?.value) continue
-        const address = next.value
         await this.divineAddressFull(address)
       } catch (error) {
         this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
       await delay(50)
     }
+    this.backgroundDivineTask = undefined
   }
 
   private divineAddress = async (address: string) => {
     const stats = await this.params.payloadSdk.useMongo(async (mongo) => {
-      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive: address })
+      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = stats?.payloads?.count || 0
     const local = this.pendingCounts[address] || 0
@@ -131,8 +139,23 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   }
 
   private divineAddressFull = async (address: string) => {
-    const count = await this.params.payloadSdk.useCollection((collection) => collection.countDocuments({ _archive: address }))
-    await this.storeDivinedResult(address, count)
+    // eslint-disable-next-line deprecation/deprecation
+    const count = await this.params.boundWitnessSdk.useCollection((collection) => {
+      return collection
+        .aggregate<{ payload_hashes: number }>([
+          // Find all BoundWitnesses containing this address
+          { $match: { addresses: { $in: [address] } } },
+          // Flatten the payload_hashes to individual documents
+          { $unwind: { path: '$payload_hashes' } },
+          // Count all the payload hashes witnessed for this address
+          { $count: 'payload_hashes' },
+        ])
+        .maxTimeMS(this.aggregateTimeoutMs)
+        .next()
+    })
+    if (count != null) {
+      await this.storeDivinedResult(address, count.payload_hashes)
+    }
     return count
   }
 
@@ -143,24 +166,29 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Incoming Addresses Total: ${addresses.length} New: ${additions}`)
-    await this.backgroundDivine()
+    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
   private divineAllAddresses = () => this.params.payloadSdk.useCollection((collection) => collection.estimatedDocumentCount())
 
-  private processChange = (change: ChangeStreamInsertDocument<PayloadWithMeta>) => {
+  private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
-    const address = change.fullDocument._archive
-    if (address) this.pendingCounts[address] = (this.pendingCounts[address] || 0) + 1
+    const addresses = change.fullDocument.addresses
+    const count = change.fullDocument?.payload_hashes?.length || 0
+    if (addresses?.length && count) {
+      for (const address of addresses) {
+        if (address) this.pendingCounts[address] = (this.pendingCounts[address] || 0) + count
+      }
+    }
   }
 
   private registerWithChangeStream = async () => {
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
-    const wrapper = MongoClientWrapper.get(this.params.payloadSdk.uri, this.params.payloadSdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.params.boundWitnessSdk.uri, this.params.boundWitnessSdk.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
-    const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.Payloads)
+    const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
     const opts: ChangeStreamOptions = this.resumeAfter ? { resumeAfter: this.resumeAfter } : {}
     this.changeStream = collection.watch([], opts)
     this.changeStream.on('change', this.processChange)
@@ -173,7 +201,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
-        .updateOne({ archive: address }, { $set: { [`${COLLECTIONS.Payloads}.count`]: count } }, updateOptions)
+        .updateOne({ address }, { $set: { [`${COLLECTIONS.Payloads}.count`]: count } }, updateOptions)
     })
     this.pendingCounts[address] = 0
   }
@@ -185,7 +213,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       this.pendingCounts[address] = 0
       const $inc = { [`${COLLECTIONS.Payloads}.count`]: count }
       return this.params.payloadSdk.useMongo(async (mongo) => {
-        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive: address }, { $inc }, updateOptions)
+        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })
     const results = await Promise.allSettled(updates)

@@ -55,7 +55,6 @@ export type MongoDBSchemaStatsDivinerParams<T extends Payload = Payload> = Divin
   {
     addressSpaceDiviner: AddressSpaceDiviner
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-    payloadSdk: BaseMongoSdk<PayloadWithMeta>
   }
 >
 
@@ -156,7 +155,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private divineAddress = async (address: string): Promise<Record<string, number>> => {
-    const stats = await this.params.payloadSdk.useMongo(async (mongo) => {
+    const stats = await this.params.boundWitnessSdk.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = Object.fromEntries(
@@ -216,7 +215,20 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
 
   private divineAllAddresses = async () => await Promise.reject('Not Implemented')
 
-  private processChange = (change: ChangeStreamInsertDocument<PayloadWithMeta>) => {
+  private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
+    this.resumeAfter = change._id
+    const addresses = change.fullDocument.addresses
+    const schemas = change.fullDocument.payload_schemas
+    if (addresses?.length) {
+      for (const address of addresses) {
+        if (address) {
+          for (const schema of schemas) {
+            if (!this.pendingCounts[address]) this.pendingCounts[address] = {}
+            this.pendingCounts[address][schema] = (this.pendingCounts[address][schema] || 0) + 1
+          }
+        }
+      }
+    }
     this.resumeAfter = change._id
     const address = change.fullDocument._archive
     const schema = change.fullDocument.schema
@@ -228,10 +240,10 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
 
   private registerWithChangeStream = async () => {
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
-    const wrapper = MongoClientWrapper.get(this.params.payloadSdk.uri, this.params.payloadSdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.params.boundWitnessSdk.uri, this.params.boundWitnessSdk.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
-    const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.Payloads)
+    const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
     const opts: ChangeStreamOptions = this.resumeAfter ? { resumeAfter: this.resumeAfter } : {}
     this.changeStream = collection.watch([], opts)
     this.changeStream.on('change', this.processChange)
@@ -245,7 +257,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
         return [toDbProperty(schema), count]
       }),
     )
-    await this.params.payloadSdk.useMongo(async (mongo) => {
+    await this.params.boundWitnessSdk.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
@@ -263,7 +275,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
         })
         .reduce((prev, curr) => Object.assign(prev, curr), {})
       this.pendingCounts[address] = {}
-      return this.params.payloadSdk.useMongo(async (mongo) => {
+      return this.params.boundWitnessSdk.useMongo(async (mongo) => {
         await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })

@@ -154,13 +154,11 @@ const getMongoDBSchemaStatsDiviner = async (context: interfaces.Context) => {
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaStats)
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = {
     account,
     addressSpaceDiviner,
     boundWitnessSdk,
     config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBSchemaStatsDiviner.configSchema },
-    payloadSdk,
   }
   mongoDBSchemaStatsDiviner = await MongoDBSchemaStatsDiviner.create(params)
   return mongoDBSchemaStatsDiviner

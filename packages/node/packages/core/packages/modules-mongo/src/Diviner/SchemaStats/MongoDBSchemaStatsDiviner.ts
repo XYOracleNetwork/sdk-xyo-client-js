@@ -31,7 +31,7 @@ interface PayloadSchemaCountsAggregateResult {
 }
 
 interface Stats {
-  archive: string
+  address: string
   schema?: {
     count?: Record<string, number>
   }
@@ -77,7 +77,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
 
   /**
    * The max number of iterations of aggregate queries to allow when
-   * divining the schema stats within an archive
+   * divining the schema stats for a single address
    */
   protected readonly aggregateMaxIterations = 10_000
 
@@ -150,16 +150,16 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     }
   }
 
-  private divineAddress = async (archive: string): Promise<Record<string, number>> => {
+  private divineAddress = async (address: string): Promise<Record<string, number>> => {
     const stats = await this.params.payloadSdk.useMongo(async (mongo) => {
-      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive })
+      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = Object.fromEntries(
       Object.entries(stats?.schema?.count || {}).map(([schema, count]) => {
         return [fromDbProperty(schema), count]
       }),
     )
-    const local = this.pendingCounts[archive] || {}
+    const local = this.pendingCounts[address] || {}
     const keys = [...Object.keys(local), ...Object.keys(remote).map(fromDbProperty)]
     const ret = Object.fromEntries(
       keys.map((key) => {
@@ -172,15 +172,15 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     return ret
   }
 
-  private divineAddressFull = async (archive: string): Promise<Record<string, number>> => {
+  private divineAddressFull = async (address: string): Promise<Record<string, number>> => {
     const sortStartTime = Date.now()
     const totals: Record<string, number> = {}
     for (let iteration = 0; iteration < this.aggregateMaxIterations; iteration++) {
       const result: PayloadSchemaCountsAggregateResult[] = await this.params.payloadSdk.useCollection((collection) => {
         return collection
           .aggregate()
-          .sort({ _archive: 1, _timestamp: 1 })
-          .match({ _archive: archive, _timestamp: { $lt: sortStartTime } })
+          .sort({ _timestamp: 1 })
+          .match({ _timestamp: { $lt: sortStartTime }, addresses: { $in: [address] } })
           .skip(iteration * this.aggregateLimit)
           .limit(this.aggregateLimit)
           .group<PayloadSchemaCountsAggregateResult>({ _id: '$schema', count: { $sum: 1 } })
@@ -193,7 +193,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
         totals[schema._id] = totals[schema._id] || 0 + schema.count
       })
     }
-    await this.storeDivinedResult(archive, totals)
+    await this.storeDivinedResult(address, totals)
     return totals
   }
 
@@ -212,11 +212,11 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
 
   private processChange = (change: ChangeStreamInsertDocument<PayloadWithMeta>) => {
     this.resumeAfter = change._id
-    const archive = change.fullDocument._archive
+    const address = change.fullDocument._archive
     const schema = change.fullDocument.schema
-    if (archive && schema) {
-      if (!this.pendingCounts[archive]) this.pendingCounts[archive] = {}
-      this.pendingCounts[archive][schema] = (this.pendingCounts[archive][schema] || 0) + 1
+    if (address && schema) {
+      if (!this.pendingCounts[address]) this.pendingCounts[address] = {}
+      this.pendingCounts[address][schema] = (this.pendingCounts[address][schema] || 0) + 1
     }
   }
 
@@ -233,7 +233,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registered`)
   }
 
-  private storeDivinedResult = async (archive: string, counts: Record<string, number>) => {
+  private storeDivinedResult = async (address: string, counts: Record<string, number>) => {
     const sanitizedCounts: Record<string, number> = Object.fromEntries(
       Object.entries(counts).map(([schema, count]) => {
         return [toDbProperty(schema), count]
@@ -243,22 +243,22 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
-        .updateOne({ archive }, { $set: { ['schema.count']: sanitizedCounts } }, updateOptions)
+        .updateOne({ address }, { $set: { ['schema.count']: sanitizedCounts } }, updateOptions)
     })
-    this.pendingCounts[archive] = {}
+    this.pendingCounts[address] = {}
   }
 
   private updateChanges = async () => {
     this.logger?.log(`${moduleName}.UpdateChanges: Updating`)
-    const updates = Object.keys(this.pendingCounts).map((archive) => {
-      const $inc = Object.keys(this.pendingCounts[archive])
+    const updates = Object.keys(this.pendingCounts).map((address) => {
+      const $inc = Object.keys(this.pendingCounts[address])
         .map((schema) => {
-          return { [`schema.count.${toDbProperty(schema)}`]: this.pendingCounts[archive][schema] }
+          return { [`schema.count.${toDbProperty(schema)}`]: this.pendingCounts[address][schema] }
         })
         .reduce((prev, curr) => Object.assign(prev, curr), {})
-      this.pendingCounts[archive] = {}
+      this.pendingCounts[address] = {}
       return this.params.payloadSdk.useMongo(async (mongo) => {
-        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive }, { $inc }, updateOptions)
+        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })
     const results = await Promise.allSettled(updates)

@@ -26,7 +26,7 @@ import { SetIterator } from '../../Util'
 const updateOptions: UpdateOptions = { upsert: true }
 
 interface Stats {
-  archive: string
+  address: string
   bound_witnesses?: {
     count?: number
   }
@@ -122,12 +122,12 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     this.backgroundDivineTask = undefined
   }
 
-  private divineAddress = async (archive: string) => {
+  private divineAddress = async (address: string) => {
     const stats = await this.params.boundWitnessSdk.useMongo(async (mongo) => {
-      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive })
+      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = stats?.bound_witnesses?.count || 0
-    const local = this.pendingCounts[archive] || 0
+    const local = this.pendingCounts[address] || 0
     return remote + local
   }
 
@@ -176,19 +176,19 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
-        .updateOne({ archive: address }, { $set: { [`${COLLECTIONS.BoundWitnesses}.count`]: count } }, updateOptions)
+        .updateOne({ address }, { $set: { [`${COLLECTIONS.BoundWitnesses}.count`]: count } }, updateOptions)
     })
     this.pendingCounts[address] = 0
   }
 
   private updateChanges = async () => {
     this.logger?.log(`${moduleName}.UpdateChanges: Updating`)
-    const updates = Object.keys(this.pendingCounts).map((archive) => {
-      const count = this.pendingCounts[archive]
-      this.pendingCounts[archive] = 0
+    const updates = Object.keys(this.pendingCounts).map((address) => {
+      const count = this.pendingCounts[address]
+      this.pendingCounts[address] = 0
       const $inc = { [`${COLLECTIONS.BoundWitnesses}.count`]: count }
       return this.params.boundWitnessSdk.useMongo(async (mongo) => {
-        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive }, { $inc }, updateOptions)
+        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })
     const results = await Promise.allSettled(updates)

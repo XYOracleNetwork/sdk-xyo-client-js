@@ -132,9 +132,9 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     return remote + local
   }
 
-  private divineAddressFull = async (archive: string) => {
-    const count = await this.sdk.useCollection((collection) => collection.countDocuments({ _archive: archive }))
-    await this.storeDivinedResult(archive, count)
+  private divineAddressFull = async (address: string) => {
+    const count = await this.sdk.useCollection((collection) => collection.countDocuments({ addresses: { $in: [address] } }))
+    await this.storeDivinedResult(address, count)
     return count
   }
 
@@ -170,14 +170,14 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registered`)
   }
 
-  private storeDivinedResult = async (archive: string, count: number) => {
+  private storeDivinedResult = async (address: string, count: number) => {
     await this.sdk.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
-        .updateOne({ archive }, { $set: { [`${COLLECTIONS.BoundWitnesses}.count`]: count } }, updateOptions)
+        .updateOne({ archive: address }, { $set: { [`${COLLECTIONS.BoundWitnesses}.count`]: count } }, updateOptions)
     })
-    this.pendingCounts[archive] = 0
+    this.pendingCounts[address] = 0
   }
 
   private updateChanges = async () => {

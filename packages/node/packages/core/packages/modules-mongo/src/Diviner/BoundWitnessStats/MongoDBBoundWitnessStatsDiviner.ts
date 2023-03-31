@@ -87,7 +87,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     ]
   }
 
-  protected get sdk() {
+  protected get boundWitnessSdk() {
     return this.params.boundWitnessSdk
   }
 
@@ -124,7 +124,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private divineAddress = async (archive: string) => {
-    const stats = await this.sdk.useMongo(async (mongo) => {
+    const stats = await this.boundWitnessSdk.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive })
     })
     const remote = stats?.bound_witnesses?.count || 0
@@ -133,7 +133,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private divineAddressFull = async (address: string) => {
-    const count = await this.sdk.useCollection((collection) => collection.countDocuments({ addresses: { $in: [address] } }))
+    const count = await this.boundWitnessSdk.useCollection((collection) => collection.countDocuments({ addresses: { $in: [address] } }))
     await this.storeDivinedResult(address, count)
     return count
   }
@@ -149,7 +149,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
-  private divineAllAddresses = () => this.sdk.useCollection((collection) => collection.estimatedDocumentCount())
+  private divineAllAddresses = () => this.boundWitnessSdk.useCollection((collection) => collection.estimatedDocumentCount())
 
   private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
@@ -159,7 +159,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
 
   private registerWithChangeStream = async () => {
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
-    const wrapper = MongoClientWrapper.get(this.sdk.uri, this.sdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.boundWitnessSdk.uri, this.boundWitnessSdk.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
@@ -171,7 +171,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private storeDivinedResult = async (address: string, count: number) => {
-    await this.sdk.useMongo(async (mongo) => {
+    await this.boundWitnessSdk.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
@@ -186,7 +186,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
       const count = this.pendingCounts[archive]
       this.pendingCounts[archive] = 0
       const $inc = { [`${COLLECTIONS.BoundWitnesses}.count`]: count }
-      return this.sdk.useMongo(async (mongo) => {
+      return this.boundWitnessSdk.useMongo(async (mongo) => {
         await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive }, { $inc }, updateOptions)
       })
     })

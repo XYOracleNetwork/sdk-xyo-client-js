@@ -6,6 +6,7 @@ import { WithAdditional } from '@xyo-network/core'
 import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerParams, DivinerWrapper } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
+  BoundWitnessWithMeta,
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,
   PayloadStatsPayload,
@@ -48,6 +49,7 @@ export type MongoDBPayloadStatsDivinerParams<T extends Payload = Payload> = Divi
   AnyConfigSchema<MongoDBPayloadStatsDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
+    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
     payloadSdk: BaseMongoSdk<PayloadWithMeta>
   }
 >

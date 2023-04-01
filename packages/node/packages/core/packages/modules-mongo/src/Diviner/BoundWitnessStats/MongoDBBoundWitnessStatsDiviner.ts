@@ -66,6 +66,12 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   protected readonly addressIterator: SetIterator<string> = new SetIterator([])
 
   /**
+   * The interval at which the background divine task will run. Prevents
+   * continuously iterating over DB and exhausting DB resources
+   */
+  protected readonly backgroundDivineIntervalMs = 100
+
+  /**
    * A reference to the background task to ensure that the
    * continuous background divine stays running
    */
@@ -117,7 +123,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
       } catch (error) {
         this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
-      await delay(50)
+      await delay(this.backgroundDivineIntervalMs)
     }
     this.backgroundDivineTask = undefined
   }

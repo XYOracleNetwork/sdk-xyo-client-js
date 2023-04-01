@@ -68,9 +68,26 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   protected readonly addressIterator: SetIterator<string> = new SetIterator([])
 
   /**
+   * The max number of records to search during the aggregate query
+   */
+  protected readonly aggregateLimit = 1_000
+
+  /**
+   * The max number of iterations of aggregate queries to allow when
+   * divining the schema stats for a single address
+   */
+  protected readonly aggregateMaxIterations = 1_000_000
+
+  /**
    * The amount of time to allow the aggregate query to execute
    */
   protected readonly aggregateTimeoutMs = 10_000
+
+  /**
+   * The interval at which the background divine task will run. Prevents
+   * continuously iterating over DB and exhausting DB resources
+   */
+  protected readonly backgroundDivineIntervalMs = 100
 
   /**
    * A reference to the background task to ensure that the
@@ -124,7 +141,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       } catch (error) {
         this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
-      await delay(50)
+      await delay(this.backgroundDivineIntervalMs)
     }
     this.backgroundDivineTask = undefined
   }
@@ -139,24 +156,32 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   }
 
   private divineAddressFull = async (address: string) => {
-    // eslint-disable-next-line deprecation/deprecation
-    const count = await this.params.boundWitnessSdk.useCollection((collection) => {
-      return collection
-        .aggregate<{ payload_hashes: number }>([
-          // Find all BoundWitnesses containing this address
-          { $match: { addresses: { $in: [address] } } },
-          // Flatten the payload_hashes to individual documents
-          { $unwind: { path: '$payload_hashes' } },
-          // Count all the payload hashes witnessed for this address
-          { $count: 'payload_hashes' },
-        ])
-        .maxTimeMS(this.aggregateTimeoutMs)
-        .next()
-    })
-    if (count != null) {
-      await this.storeDivinedResult(address, count.payload_hashes)
+    let total = 0
+    for (let iteration = 0; iteration < this.aggregateMaxIterations; iteration++) {
+      const count = await this.params.boundWitnessSdk.useCollection((collection) => {
+        return collection
+          .aggregate<{ payload_hashes: number }>([
+            // Find all BoundWitnesses containing this address
+            { $match: { addresses: { $in: [address] } } },
+            // In batches
+            { $skip: iteration * this.aggregateLimit },
+            { $limit: this.aggregateLimit },
+            // Flatten the payload_hashes to individual documents
+            { $unwind: { path: '$payload_hashes' } },
+            // Count all the payload hashes witnessed for this address
+            { $count: 'payload_hashes' },
+          ])
+          .maxTimeMS(this.aggregateTimeoutMs)
+          .next()
+      })
+      if (count != null) {
+        total += count.payload_hashes
+        continue
+      }
+      break
     }
-    return count
+    await this.storeDivinedResult(address, total)
+    return total
   }
 
   private divineAddressesBatch = async () => {

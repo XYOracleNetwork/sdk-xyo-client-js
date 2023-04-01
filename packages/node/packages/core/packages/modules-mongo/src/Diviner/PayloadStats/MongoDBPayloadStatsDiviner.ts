@@ -87,7 +87,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
    * The interval at which the background divine task will run. Prevents
    * continuously iterating over DB and exhausting DB resources
    */
-  protected readonly backgroundDivineIntervalMs = 100
+  protected readonly backgroundDivineIntervalMs = 250
 
   /**
    * A reference to the background task to ensure that the

@@ -73,18 +73,24 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   /**
    * The max number of records to search during the aggregate query
    */
-  protected readonly aggregateLimit = 100_000
+  protected readonly aggregateLimit = 1_000
 
   /**
    * The max number of iterations of aggregate queries to allow when
    * divining the schema stats for a single address
    */
-  protected readonly aggregateMaxIterations = 10_000
+  protected readonly aggregateMaxIterations = 1_000_000
 
   /**
    * The amount of time to allow the aggregate query to execute
    */
   protected readonly aggregateTimeoutMs = 10_000
+
+  /**
+   * The interval at which the background divine task will run. Prevents
+   * continuously iterating over DB and exhausting DB resources
+   */
+  protected readonly backgroundDivineIntervalMs = 100
 
   /**
    * A reference to the background task to ensure that the
@@ -148,7 +154,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
       } catch (error) {
         this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
       }
-      await delay(50)
+      await delay(this.backgroundDivineIntervalMs)
     }
     this.backgroundDivineTask = undefined
   }

@@ -43,7 +43,8 @@ yarn add @xyo-network/sdk-xyo-client-js
 
 ## Building the sdk locally
 
-First clone the repo to your local computer.  Once you have done that, from inside the folder where it was cloned, these are some commands you can do.
+First clone the repo to your local computer.  Once you have done that, from
+inside the folder where it was cloned, these are some commands you can do.
 
 See list of XY scripts.
 

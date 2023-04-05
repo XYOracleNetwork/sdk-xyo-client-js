@@ -37,8 +37,8 @@
     "@xyo-network/express-node-server": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.16.1",
-    "@xylabs/tsconfig": "^2.16.1",
+    "@xylabs/ts-scripts-yarn3": "^2.16.4",
+    "@xylabs/tsconfig": "^2.16.4",
     "typescript": "^4.9.5"
   },
   "packageManager": "yarn@3.2.3",

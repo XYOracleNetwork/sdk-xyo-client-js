@@ -15,12 +15,12 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/schema-payload-plugin": "workspace:^",
     "ajv": "^8.12.0",
-    "lru-cache": "^8.0.4"
+    "lru-cache": "^8.0.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.16.1",
-    "@xylabs/tsconfig-dom": "^2.16.1",
+    "@xylabs/ts-scripts-yarn3": "^2.16.4",
+    "@xylabs/tsconfig-dom": "^2.16.4",
     "typescript": "^4.9.5"
   },
   "browser": "dist/esm/index.js",

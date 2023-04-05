@@ -60,8 +60,8 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.192",
-    "@xylabs/ts-scripts-yarn3": "^2.16.1",
-    "@xylabs/tsconfig": "^2.16.1",
+    "@xylabs/ts-scripts-yarn3": "^2.16.4",
+    "@xylabs/tsconfig": "^2.16.4",
     "mongodb-memory-server": "^8.12.2",
     "typescript": "^4.9.5"
   },

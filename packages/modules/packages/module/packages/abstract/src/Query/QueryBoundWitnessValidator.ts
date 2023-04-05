@@ -1,14 +1,15 @@
+import { assertEx } from '@xylabs/assert'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
-import { XyoQuery, XyoQueryBoundWitness, XyoQueryBoundWitnessSchema } from '@xyo-network/module-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { Query, QueryBoundWitness, QueryBoundWitnessSchema } from '@xyo-network/module-model'
+import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { QueryBoundWitnessWrapper } from './QueryBoundWitnessWrapper'
-
-export class QueryBoundWitnessValidator<T extends XyoQuery = XyoQuery> extends BoundWitnessValidator<XyoQueryBoundWitness> {
+export class QueryBoundWitnessValidator<T extends Query = Query> extends BoundWitnessValidator<QueryBoundWitness> {
   private _query: PayloadWrapper<T> | undefined
 
   protected override get expectedSchema(): string {
-    return XyoQueryBoundWitnessSchema
+    return QueryBoundWitnessSchema
   }
 
   static isQueryBoundWitnessValidator(obj: unknown) {
@@ -24,17 +25,23 @@ export class QueryBoundWitnessValidator<T extends XyoQuery = XyoQuery> extends B
 
   validateResultSet() {
     const errors: Error[] = []
-    const wrapper = new QueryBoundWitnessWrapper(this.obj)
-    const required = wrapper.resultSet.payload.required
-    if (required) {
-      Object.entries(required).forEach(([key, value]) => {
-        const found = wrapper.payloadSchemas.reduce((count, schema) => {
-          return count + (schema === key ? 1 : 0)
-        }, 0)
-        if (found !== value) {
-          errors.push(Error(`validateResultSet: Missing Schema [${key}:${found}:${value}]`))
-        }
-      })
+    try {
+      const resultSetHash = assertEx(this.obj.resultSet, 'Missing ResultSet')
+      const wrapper = BoundWitnessWrapper.parse(this.obj)
+      const resultSet = PayloadWrapper.parse<PayloadSetPayload>(wrapper.payloads[resultSetHash] as PayloadSetPayload)
+      const required = resultSet?.payload.required
+      if (required) {
+        Object.entries(required).forEach(([key, value]) => {
+          const found = wrapper.payloadSchemas.reduce((count, schema) => {
+            return count + (schema === key ? 1 : 0)
+          }, 0)
+          if (found !== value) {
+            errors.push(Error(`validateResultSet: Missing Schema [${key}:${found}:${value}]`))
+          }
+        })
+      }
+    } catch (ex) {
+      errors.push(ex as Error)
     }
     return errors
   }

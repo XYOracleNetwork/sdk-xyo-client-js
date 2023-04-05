@@ -2,17 +2,17 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AnyConfigSchema, duplicateModules, EventListener, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
-import { NodeConfig, NodeConfigSchema, NodeModule, NodeModuleParams } from '@xyo-network/node-model'
+import { NodeConfig, NodeConfigSchema, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
+import { NodeWrapper } from '@xyo-network/node-wrapper'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
-import { NodeWrapper } from './NodeWrapper'
 
 export type MemoryNodeParams = NodeModuleParams<AnyConfigSchema<NodeConfig>>
 
-export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams>
-  extends AbstractNode<TParams>
-  implements NodeModule<TParams>, NodeModule
+export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
+  extends AbstractNode<TParams, TEventData>
+  implements NodeModule<TParams, TEventData>
 {
   static override configSchema = NodeConfigSchema
 
@@ -70,10 +70,10 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams>
       if (external) {
         const wrappedAsNode = NodeWrapper.wrap(module as NodeModule)
 
-        const attachedListener: EventListener<TParams['eventData']> = async (args: TParams['eventData']['moduleAttached']) =>
+        const attachedListener: EventListener<TEventData['moduleAttached']> = async (args: TEventData['moduleAttached']) =>
           await this.emit('moduleAttached', args)
 
-        const detachedListener: EventListener<TParams['eventData']> = async (args: TParams['eventData']['moduleDetached']) =>
+        const detachedListener: EventListener<TEventData['moduleDetached']> = async (args: TEventData['moduleDetached']) =>
           await this.emit('moduleDetached', args)
 
         wrappedAsNode.on('moduleAttached', attachedListener)
@@ -137,9 +137,11 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams>
     }
   }
 
-  override register(module: Module) {
+  override async register(module: Module) {
     assertEx(!this.registeredModuleMap[module.address], `Module already registered at that address[${module.address}]`)
     this.registeredModuleMap[module.address] = module
+    const args = { module, name: module.config.name }
+    await this.emit('moduleRegistered', args)
     return this
   }
 
@@ -158,6 +160,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams>
   override async unregister(module: Module) {
     await this.detach(module.address)
     delete this.registeredModuleMap[module.address]
+    const args = { module, name: module.config.name }
+    await this.emit('moduleUnregistered', args)
     return this
   }
 

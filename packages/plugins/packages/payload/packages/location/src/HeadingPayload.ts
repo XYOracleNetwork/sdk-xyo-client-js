@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { LocationHeadingSchema } from './HeadingSchema'
 
@@ -20,4 +20,4 @@ export type Motion = Velocity & Partial<Acceleration>
 
 export type LocationHeading = Motion | Heading
 
-export type LocationHeadingPayload = XyoPayload<LocationHeading, LocationHeadingSchema>
+export type LocationHeadingPayload = Payload<LocationHeading, LocationHeadingSchema>

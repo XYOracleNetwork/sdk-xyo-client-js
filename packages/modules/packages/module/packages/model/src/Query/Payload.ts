@@ -1,6 +1,6 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export interface XyoQueryFields {
+export interface QueryFields {
   /** @field The addresses of the intended handlers */
   address?: string | [string]
 
@@ -14,4 +14,4 @@ export interface XyoQueryFields {
   minBid?: number
 }
 
-export type XyoQuery<T extends XyoPayload | void = void> = T extends XyoPayload ? XyoPayload<T & XyoQueryFields> : XyoPayload<XyoQueryFields>
+export type Query<T extends Payload | void = void> = T extends Payload ? Payload<T & QueryFields> : Payload<QueryFields>

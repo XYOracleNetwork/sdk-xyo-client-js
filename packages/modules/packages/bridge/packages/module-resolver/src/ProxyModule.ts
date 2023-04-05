@@ -5,13 +5,13 @@ import {
   CompositeModuleResolver,
   Module,
   ModuleConfig,
+  ModuleEventData,
   ModuleFilter,
   ModuleParams,
-  ModuleQueriedEventArgs,
   ModuleQueryResult,
-  XyoQueryBoundWitness,
+  QueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
 export const ProxyModuleConfigSchema: ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
@@ -20,14 +20,13 @@ export type TProxyModuleConfig = ModuleConfig<{ schema: ProxyModuleConfigSchema 
 
 export type ProxyModuleParams = ModuleParams<
   TProxyModuleConfig,
-  undefined,
   {
     address: string
     bridge: BridgeModule
   }
 >
 
-export class ProxyModule extends BaseEmitter<ProxyModuleParams> implements Module {
+export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData> implements Module<ModuleParams, ModuleEventData> {
   readonly upResolver = new CompositeModuleResolver()
 
   constructor(params: ProxyModuleParams) {
@@ -54,14 +53,13 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams> implements Modul
     return this.bridge.targetQueries(this.address)
   }
 
-  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
+  async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     const result = assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
-    const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
-    await this.emit('moduleQuery', args)
+    await this.emit('moduleQueried', { module: this, payloads, query, result })
     return result
   }
 
-  async queryable(query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): Promise<boolean> {
+  async queryable(query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promise<boolean> {
     return await this.bridge.targetQueryable(this.address, query, payloads, queryConfig)
   }
 

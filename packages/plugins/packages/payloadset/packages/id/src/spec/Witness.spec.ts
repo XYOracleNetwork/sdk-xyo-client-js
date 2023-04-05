@@ -1,5 +1,5 @@
 import { IdPayload, IdSchema } from '@xyo-network/id-payload-plugin'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { IdWitness, IdWitnessConfigSchema } from '../Witness'
@@ -51,7 +51,7 @@ describe('IdWitness', () => {
         })
         it('with salt uses payload salt', async () => {
           const witness = await IdWitness.create()
-          const observations = (await witness.observe([{ salt: payloadSalt, schema: IdSchema } as XyoPayload])) as IdPayload[]
+          const observations = (await witness.observe([{ salt: payloadSalt, schema: IdSchema } as Payload])) as IdPayload[]
           validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(payloadSalt)

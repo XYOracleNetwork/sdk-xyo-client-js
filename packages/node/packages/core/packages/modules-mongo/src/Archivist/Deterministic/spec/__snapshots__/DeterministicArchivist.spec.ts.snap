@@ -373,13 +373,10 @@ exports[`DeterministicArchivist get gets single payload 1`] = `
 exports[`DeterministicArchivist insert inserts multiple payloads 1`] = `
 [
   {
-    "_client": "js",
-    "_hash": "947fef39577c16ce890c2a2993650e82a8034a7f82e27a4ca345c0cfd3d4af86",
     "_signatures": [
       "f96585b002a44de673000dac2db724da31f1ff95b300495e5b22b1d3c94871a12c8df1681d5feccf7ca914cd9180592f8c1be113fbb4d51998942fad4a60555b",
       "ead2a867b47de7367eb338edc69bbbc405f700de3dc14cd95a7a5690bb803670b947e7f69df776cc3cbc774389a3bdc9c9cf4d83c59cfabb4d435810ef6a7980",
     ],
-    "_timestamp": 123456789002,
     "addresses": [
       "daddab0e0468c920bd5aff4b14fd94c20a598055",
       "babe1d55e51844ea1cdc6b4dcbb649bb08e3cc3c",
@@ -398,12 +395,9 @@ exports[`DeterministicArchivist insert inserts multiple payloads 1`] = `
     "timestamp": 123456789002,
   },
   {
-    "_client": "js",
-    "_hash": "e6abe43218cb409c4e6d33863b680977ef164d4b96fb90edd710b5703a0a474f",
     "_signatures": [
       "cdb2be0da56398260d6aa880bc5817d4206d85b7aedcd11bc71f571aefd2983b4b3836199d5ebc741636b36892743c808d35b8184dc969c4b82f059e83132488",
     ],
-    "_timestamp": 123456789002,
     "addresses": [
       "daddab0e0468c920bd5aff4b14fd94c20a598055",
     ],
@@ -433,13 +427,10 @@ exports[`DeterministicArchivist insert inserts multiple payloads 1`] = `
 exports[`DeterministicArchivist insert inserts single payload 1`] = `
 [
   {
-    "_client": "js",
-    "_hash": "84f93db9c00b4b9a04be797490f98d152a4b9a54a16f89a8a19098aa0e5b8814",
     "_signatures": [
       "6eee91bc03e08d49f2bc17c8247212172148fa614970e3358b5d682dc6492a1344d9e0adfa50538d620709f6a30ef9907f1906735899e351b195614ea207583b",
       "4b7195c2ab88cb296369aec412e720e507cda35df8d34deb9b27c6734fae1795aac8cc10905e5b2f216b74c86b1c29077c9876cb2909092375a81138bfecfd85",
     ],
-    "_timestamp": 123456789000,
     "addresses": [
       "daddab0e0468c920bd5aff4b14fd94c20a598055",
       "babe1d55e51844ea1cdc6b4dcbb649bb08e3cc3c",
@@ -458,12 +449,9 @@ exports[`DeterministicArchivist insert inserts single payload 1`] = `
     "timestamp": 123456789000,
   },
   {
-    "_client": "js",
-    "_hash": "41cbafba020bda2860631c34fb9db7e8f984d31280b8f5ecc3b631150907baec",
     "_signatures": [
       "149acaabd0b1309fcac8eaf05ad58dcd0bc9ecb77e8a20b363483d771e5097c26a7ebb0dfc44141738832ed4c08383cdf3076433d077700b4e46cc19ca0d63af",
     ],
-    "_timestamp": 123456789000,
     "addresses": [
       "daddab0e0468c920bd5aff4b14fd94c20a598055",
     ],

@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistGetQuerySchema } from '@xyo-network/archivist'
+import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractDiviner } from '../AbstractDiviner'
@@ -27,18 +27,18 @@ export class MemoryAddressHistoryDiviner<TParams extends MemoryAddressHistoryDiv
     return assertEx(this.config.address, 'Missing address')
   }
 
-  async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  async divine(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
     const archivists =
       (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map(
-        (archivist) => new ArchivistWrapper({ account: this.account, module: archivist }),
+        (archivist) => new ArchivistWrapper({ account: this.account, module: archivist as ArchivistModule }),
       ) ?? []
     assertEx(archivists.length > 0, 'Did not find any archivists')
     const bwLists = (
       await Promise.all(
         archivists.map(async (archivist) => {
           const all = await archivist.all()
-          return all.filter((payload) => payload.schema === XyoBoundWitnessSchema) as XyoBoundWitness[]
+          return all.filter((payload) => payload.schema === BoundWitnessSchema) as BoundWitness[]
         }),
       )
     ).flat()
@@ -73,7 +73,7 @@ export class MemoryAddressHistoryDiviner<TParams extends MemoryAddressHistoryDiv
   }
 
   //build object with hashes as keys and wrappers as values
-  private buildWrapperRecords(lists: XyoBoundWitness[]) {
+  private buildWrapperRecords(lists: BoundWitness[]) {
     return lists
       .filter((bw) => bw.addresses.includes(this.queryAddress))
       .reduce<Record<string, BoundWitnessWrapper>>((bwRecords, bw) => {

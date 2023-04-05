@@ -1,12 +1,12 @@
-import { XyoPayload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams, XyoWitnessConfigSchema } from '@xyo-network/witness'
+import { Payload } from '@xyo-network/payload-model'
+import { AbstractWitness, WitnessConfigSchema, WitnessParams } from '@xyo-network/witness'
 
-import { XyoPluginPayload } from './Payload'
+import { PluginPayload } from './Payload'
 
-export class XyoNonFungibleTokenWitness extends AbstractWitness<WitnessParams<XyoPluginPayload>> {
-  static override configSchema = XyoWitnessConfigSchema
+export class NonFungibleTokenWitness extends AbstractWitness<WitnessParams<PluginPayload>> {
+  static override configSchema = WitnessConfigSchema
 
-  override observe(_payloads: XyoPayload[]): Promise<XyoPluginPayload[]> {
+  override observe(_payloads: Payload[]): Promise<PluginPayload[]> {
     throw new Error('Method not implemented.')
   }
 }

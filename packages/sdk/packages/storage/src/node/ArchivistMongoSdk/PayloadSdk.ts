@@ -3,9 +3,9 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Collection, ExplainVerbosity, Filter, SortDirection } from 'mongodb'
 
-import { XyoPayloadWithPartialMeta } from './Meta'
+import { PayloadWithPartialMeta } from './Meta'
 
-export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPartialMeta> {
+export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<PayloadWithPartialMeta> {
   private _archive: string
   private _maxTime: number
   constructor(config: BaseMongoSdkConfig, archive: string, maxTime = 2000) {
@@ -15,13 +15,13 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
   }
 
   async deleteByHash(hash: string) {
-    return await this.useCollection(async (collection: Collection<XyoPayloadWithPartialMeta>) => {
+    return await this.useCollection(async (collection: Collection<PayloadWithPartialMeta>) => {
       return await collection.deleteMany({ _archive: this._archive, _hash: hash })
     })
   }
 
   async fetchCount() {
-    return await this.useCollection(async (collection: Collection<XyoPayloadWithPartialMeta>) => {
+    return await this.useCollection(async (collection: Collection<PayloadWithPartialMeta>) => {
       return await collection.estimatedDocumentCount()
     })
   }
@@ -51,12 +51,12 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
   }
 
   async findByHashes(hashes: string[]) {
-    return await this.useCollection(async (collection: Collection<XyoPayloadWithPartialMeta>) => {
+    return await this.useCollection(async (collection: Collection<PayloadWithPartialMeta>) => {
       const promises = hashes.map((hash) => {
         return collection.find({ _archive: this._archive, _hash: hash }).maxTimeMS(this._maxTime).toArray()
       })
       const results = await Promise.allSettled(promises)
-      const finalResult: XyoPayloadWithPartialMeta[] = []
+      const finalResult: PayloadWithPartialMeta[] = []
       results.forEach((result) => {
         if (result.status === 'fulfilled') {
           finalResult.push(...result.value)
@@ -76,7 +76,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
 
   async findRecentQuery(limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoPayloadWithPartialMeta>) => {
+    return await this.useCollection((collection: Collection<PayloadWithPartialMeta>) => {
       return collection.find({ _archive: this._archive }).sort({ _timestamp: -1 }).limit(limit).maxTimeMS(this._maxTime)
     })
   }
@@ -85,7 +85,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
     return (await this.findSortedQuery(timestamp, limit, order, schema)).toArray()
   }
 
-  async insert(item: XyoPayloadWithPartialMeta) {
+  async insert(item: PayloadWithPartialMeta) {
     const _timestamp = Date.now()
     const wrapper = new PayloadWrapper(item)
     return await super.insertOne({
@@ -96,7 +96,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
     })
   }
 
-  override async insertMany(items: XyoPayloadWithPartialMeta[]) {
+  override async insertMany(items: PayloadWithPartialMeta[]) {
     const _timestamp = Date.now()
     const itemsToInsert = items.map((item) => {
       const wrapper = new PayloadWrapper(item)
@@ -110,15 +110,15 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
     return await super.insertMany(itemsToInsert)
   }
 
-  async updateByHash(hash: string, payload: XyoPayloadWithPartialMeta) {
-    return await this.useCollection(async (collection: Collection<XyoPayloadWithPartialMeta>) => {
+  async updateByHash(hash: string, payload: PayloadWithPartialMeta) {
+    return await this.useCollection(async (collection: Collection<PayloadWithPartialMeta>) => {
       return await collection.updateMany({ _archive: this._archive, _hash: hash }, payload)
     })
   }
 
   private async findAfterQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoPayloadWithPartialMeta>) => {
+    return await this.useCollection((collection: Collection<PayloadWithPartialMeta>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $gt: timestamp } })
         .sort({ _timestamp: 1 })
@@ -129,7 +129,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
 
   private async findBeforeQuery(timestamp: number, limit: number) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
-    return await this.useCollection((collection: Collection<XyoPayloadWithPartialMeta>) => {
+    return await this.useCollection((collection: Collection<PayloadWithPartialMeta>) => {
       return collection
         .find({ _archive: this._archive, _timestamp: { $lt: timestamp } })
         .sort({ _timestamp: -1 })
@@ -140,7 +140,7 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
 
   private async findByHashQuery(hash: string, timestamp?: number) {
     const predicate = timestamp ? { _archive: this._archive, _hash: hash, _timestamp: timestamp } : { _archive: this._archive, _hash: hash }
-    return await this.useCollection(async (collection: Collection<XyoPayloadWithPartialMeta>) => {
+    return await this.useCollection(async (collection: Collection<PayloadWithPartialMeta>) => {
       return await collection.find(predicate).maxTimeMS(this._maxTime)
     })
   }
@@ -148,12 +148,12 @@ export class XyoArchivistPayloadMongoSdk extends BaseMongoSdk<XyoPayloadWithPart
   private async findSortedQuery(timestamp: number, limit: number, order: 'asc' | 'desc', schema?: string) {
     assertEx(limit <= 100, `limit must be <= 100 [${limit}]`)
     const _queryTimestamp = order === 'desc' ? { $lt: timestamp } : { $gt: timestamp }
-    const query: Filter<XyoPayloadWithPartialMeta> = { _archive: this._archive, _timestamp: _queryTimestamp }
+    const query: Filter<PayloadWithPartialMeta> = { _archive: this._archive, _timestamp: _queryTimestamp }
     if (schema) {
       query.schema = schema
     }
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    return await this.useCollection((collection: Collection<XyoPayloadWithPartialMeta>) => {
+    return await this.useCollection((collection: Collection<PayloadWithPartialMeta>) => {
       return collection.find(query).sort(sort).limit(limit).maxTimeMS(this._maxTime)
     })
   }

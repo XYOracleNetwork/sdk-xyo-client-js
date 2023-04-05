@@ -1,7 +1,9 @@
 import { UserCreationAuthInfo } from '@xyo-network/express-node-lib'
-import { AbstractArchivist, AbstractNode } from '@xyo-network/modules'
+import { AbstractNode } from '@xyo-network/modules'
 import { UserManager, UserWithoutId } from '@xyo-network/node-core-model'
+import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
 import { Logger } from '@xyo-network/shared'
+
 // NOTE: Required import since passport types (which we need to extend) extend Express
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -20,9 +22,9 @@ declare global {
     interface AuthInfo extends UserCreationAuthInfo {}
 
     interface Application {
-      archivist: AbstractArchivist
       logger: Logger
       node: AbstractNode
+      prometheusNodeWitness: PrometheusNodeWitness
       userManager: UserManager
     }
   }

@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { AnyConfigSchema, ModuleEventData } from '@xyo-network/modules'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { AnyConfigSchema } from '@xyo-network/modules'
+import { Payload } from '@xyo-network/payload-model'
 import {
   XyoUniswapCryptoMarketPayload,
   XyoUniswapCryptoMarketSchema,
@@ -14,7 +14,6 @@ import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, Uni
 
 export type XyoUniswapCryptoMarketWitnessParams = WitnessParams<
   AnyConfigSchema<XyoUniswapCryptoMarketWitnessConfig>,
-  ModuleEventData,
   {
     provider?: Provider
   }
@@ -30,7 +29,7 @@ export class XyoUniswapCryptoMarketWitness<
     return this.params.provider
   }
 
-  override async observe(): Promise<XyoPayload[]> {
+  override async observe(): Promise<Payload[]> {
     this.started('throw')
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()

@@ -1,7 +1,7 @@
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { XyoPentairScreenlogicPayload, XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
-import { AbstractWitness, WitnessParams, XyoWitnessConfig } from '@xyo-network/witness'
+import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
 
 import { Controller } from './screenlogic'
 
@@ -19,7 +19,7 @@ export interface PentairServer {
   type: number
 }
 
-export type XyoPentairScreenlogicWitnessConfig = XyoWitnessConfig<{
+export type XyoPentairScreenlogicWitnessConfig = WitnessConfig<{
   schema: XyoPentairScreenlogicWitnessConfigSchema
 }>
 
@@ -33,7 +33,7 @@ export class XyoPentairScreenlogicWitness<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected controller = new Controller()
 
-  override async observe(_payloads?: Partial<XyoPayload>[]): Promise<XyoPayload[]> {
+  override async observe(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
     const config = await this.controller.getPoolConfig()
     const status = await this.controller.getPoolStatus()
     return await super.observe([{ config, schema: XyoPentairScreenlogicSchema, status }] as XyoPentairScreenlogicPayload[])

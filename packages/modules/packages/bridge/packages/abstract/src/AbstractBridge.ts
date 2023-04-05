@@ -1,54 +1,35 @@
 import { Account } from '@xyo-network/account'
-import { BridgeModule, BridgeParams, XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, XyoBridgeQuery } from '@xyo-network/bridge-model'
+import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeModule, BridgeParams, BridgeQuery } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
   AbstractModule,
   duplicateModules,
   Module,
   ModuleConfig,
+  ModuleErrorBuilder,
+  ModuleEventData,
   ModuleFilter,
+  ModuleParams,
   ModuleQueryResult,
+  Query,
+  QueryBoundWitness,
   QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQuery,
-  XyoQueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TModule extends Module = Module>
-  extends AbstractModule<TParams>
-  implements BridgeModule<TParams, TModule>
+export abstract class AbstractBridge<
+    TParams extends BridgeParams = BridgeParams,
+    TEventData extends ModuleEventData = ModuleEventData,
+    TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
+  >
+  extends AbstractModule<TParams, TEventData>
+  implements BridgeModule<TParams, TEventData, TModule>
 {
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
 
   override get queries(): string[] {
-    return [XyoBridgeConnectQuerySchema, XyoBridgeDisconnectQuerySchema, ...super.queries]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness>(query: T, payloads?: XyoPayload[]): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoBridgeQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
-    const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
-    try {
-      switch (typedQuery.schema) {
-        case XyoBridgeConnectQuerySchema: {
-          await this.connect()
-          break
-        }
-        case XyoBridgeDisconnectQuerySchema: {
-          await this.disconnect()
-          break
-        }
-        default:
-          return await super.query(query, payloads)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
-    }
-    return await this.bindResult(resultPayloads, queryAccount)
+    return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, ...super.queries]
   }
 
   targetDownResolver(address?: string): BridgeModuleResolver {
@@ -62,6 +43,31 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return (await this.targetDownResolver(address).resolve(filter)) as TModule[]
   }
 
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)
+    const typedQuery = wrapper.query.payload
+    const queryAccount = new Account()
+    const resultPayloads: Payload[] = []
+    try {
+      switch (typedQuery.schema) {
+        case BridgeConnectQuerySchema: {
+          await this.connect()
+          break
+        }
+        case BridgeDisconnectQuerySchema: {
+          await this.disconnect()
+          break
+        }
+        default:
+          return await super.queryHandler(query, payloads)
+      }
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+    }
+    return await this.bindResult(resultPayloads, queryAccount)
+  }
+
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
     return [...(await super.resolve<TModule>(filter)), ...(await this.targetDownResolver().resolve<TModule>(filter))].filter(duplicateModules)
   }
@@ -71,11 +77,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 
   abstract targetConfig(address: string): ModuleConfig
 
-  abstract targetDiscover(address: string): Promisable<XyoPayload[]>
+  abstract targetDiscover(address: string): Promisable<Payload[]>
 
   abstract targetQueries(address: string): string[]
 
-  abstract targetQuery(address: string, query: XyoQuery, payloads?: XyoPayload[]): Promisable<ModuleQueryResult | undefined>
+  abstract targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult | undefined>
 
-  abstract targetQueryable(address: string, query: XyoQueryBoundWitness, payloads?: XyoPayload[], queryConfig?: ModuleConfig): boolean
+  abstract targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): boolean
 }

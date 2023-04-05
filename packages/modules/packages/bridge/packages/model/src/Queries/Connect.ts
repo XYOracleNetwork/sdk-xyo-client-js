@@ -1,9 +1,9 @@
-import { XyoQuery } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/module-model'
 
-export type XyoBridgeConnectQuerySchema = 'network.xyo.query.bridge.connect'
-export const XyoBridgeConnectQuerySchema: XyoBridgeConnectQuerySchema = 'network.xyo.query.bridge.connect'
+export type BridgeConnectQuerySchema = 'network.xyo.query.bridge.connect'
+export const BridgeConnectQuerySchema: BridgeConnectQuerySchema = 'network.xyo.query.bridge.connect'
 
-export type XyoBridgeConnectQuery = XyoQuery<{
-  schema: XyoBridgeConnectQuerySchema
+export type BridgeConnectQuery = Query<{
+  schema: BridgeConnectQuerySchema
   uri?: string
 }>

@@ -1,5 +1,5 @@
 import { Validator, XyoValidatorBase } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 export type AllValidator = {
@@ -10,9 +10,9 @@ export type AllValidatorFactory = (schema: string) => AllValidator
 
 const defaultSchemaNameValidatorFactory: AllValidatorFactory = (schema: string) => new XyoSchemaNameValidator(schema)
 
-export class PayloadValidator<T extends XyoPayload = XyoPayload> extends XyoValidatorBase<T> implements Validator<T> {
+export class PayloadValidator<T extends Payload = Payload> extends XyoValidatorBase<T> implements Validator<T> {
   protected static schemaNameValidatorFactory: AllValidatorFactory = defaultSchemaNameValidatorFactory
-  protected payload: XyoPayload
+  protected payload: Payload
 
   private _schemaValidator?: AllValidator
 

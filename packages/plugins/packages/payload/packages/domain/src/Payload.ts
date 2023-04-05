@@ -1,5 +1,5 @@
 import { XyoNetworkPayload } from '@xyo-network/network'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { XyoDomainSchema } from './Schema'
 
@@ -10,7 +10,7 @@ export interface XyoAlias {
   name?: string
 }
 
-export type XyoDomainPayload = XyoPayload<{
+export type XyoDomainPayload = Payload<{
   /** @field Additional config files [huri] [out] */
   additional?: string[]
   /** @field Values associated with this domain [out] */

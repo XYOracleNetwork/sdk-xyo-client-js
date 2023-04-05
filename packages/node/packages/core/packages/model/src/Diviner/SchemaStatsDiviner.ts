@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Query } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 
-import { ArchiveQueryPayload } from './ArchiveQueryPayload'
 import { ArchivistPayloadStatsDivinerConfig } from './PayloadStatsDiviner'
 
 export type SchemaStatsSchema = 'network.xyo.archivist.schema.stats'
@@ -13,26 +13,23 @@ export const SchemaStatsQuerySchema: SchemaStatsQuerySchema = 'network.xyo.archi
 export type SchemaStatsConfigSchema = 'network.xyo.archivist.schema.stats.config'
 export const SchemaStatsConfigSchema: SchemaStatsConfigSchema = 'network.xyo.archivist.schema.stats.config'
 
-export type SchemaStatsDivinerConfig<
-  S extends string = SchemaStatsConfigSchema,
-  T extends XyoPayload = XyoPayload,
-> = ArchivistPayloadStatsDivinerConfig<
+export type SchemaStatsDivinerConfig<S extends string = SchemaStatsConfigSchema, T extends Payload = Payload> = ArchivistPayloadStatsDivinerConfig<
   S,
   T & {
     schema: S
   }
 >
 
-export type SchemaStatsPayload = XyoPayload<{
+export type SchemaStatsPayload = Payload<{
   count: Record<string, number>
   //the name of the schema that the count is for.  If name is undefined, then it is the count for all schemas
   name?: string
   schema: SchemaStatsSchema
 }>
 
-export const isSchemaStatsPayload = (x?: XyoPayload | null): x is SchemaStatsPayload => x?.schema === SchemaStatsSchema
+export const isSchemaStatsPayload = (x?: Payload | null): x is SchemaStatsPayload => x?.schema === SchemaStatsSchema
 
-export type SchemaStatsQueryPayload = ArchiveQueryPayload<{ schema: SchemaStatsQuerySchema }>
-export const isSchemaStatsQueryPayload = (x?: XyoPayload | null): x is SchemaStatsQueryPayload => x?.schema === SchemaStatsQuerySchema
+export type SchemaStatsQueryPayload = Query<{ schema: SchemaStatsQuerySchema }>
+export const isSchemaStatsQueryPayload = (x?: Payload | null): x is SchemaStatsQueryPayload => x?.schema === SchemaStatsQuerySchema
 
 export type SchemaStatsDiviner = AbstractDiviner

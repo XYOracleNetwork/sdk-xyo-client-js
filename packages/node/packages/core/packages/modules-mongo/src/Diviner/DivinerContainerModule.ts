@@ -1,105 +1,167 @@
 /* eslint-disable max-statements */
-import { AddressHistoryDiviner, AddressSpaceDiviner, XyoArchivistPayloadDivinerConfigSchema, XyoDivinerConfigSchema } from '@xyo-network/diviner'
+import { Account } from '@xyo-network/account'
+import { AddressHistoryDiviner, AddressSpaceDiviner } from '@xyo-network/diviner'
 import { Module } from '@xyo-network/module-model'
 import {
   BoundWitnessDiviner,
   BoundWitnessStatsDiviner,
+  BoundWitnessWithMeta,
   LocationCertaintyDiviner,
-  ModuleAddressDiviner,
   PayloadDiviner,
   PayloadStatsDiviner,
+  PayloadWithMeta,
+  SchemaListDiviner,
   SchemaStatsDiviner,
 } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
+import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
+import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { JobProvider } from '@xyo-network/shared'
 import { ContainerModule, interfaces } from 'inversify'
 
+import { MONGO_TYPES } from '../mongoTypes'
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
-import { MongoDBArchiveBoundWitnessStatsDiviner, MongoDBArchiveBoundWitnessStatsDivinerConfigSchema } from './BoundWitnessStats'
+import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
-import { MongoDBModuleAddressDiviner } from './ModuleAddress'
 import { MongoDBPayloadDiviner } from './Payload'
-import { MongoDBArchivePayloadStatsDiviner, MongoDBArchivePayloadStatsDivinerConfigSchema } from './PayloadStats'
-import { MongoDBArchiveSchemaStatsDiviner, MongoDBArchiveSchemaStatsDivinerConfigSchema } from './SchemaStats'
+import { MongoDBPayloadStatsDiviner } from './PayloadStats'
+import { MongoDBSchemaListDiviner } from './SchemaList'
+import { MongoDBSchemaStatsDiviner } from './SchemaStats'
 
 let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
 let mongoDBAddressSpaceDiviner: MongoDBAddressSpaceDiviner
 let mongoDBBoundWitnessDiviner: MongoDBBoundWitnessDiviner
-let mongoDBArchiveBoundWitnessStatsDiviner: MongoDBArchiveBoundWitnessStatsDiviner
+let mongoDBBoundWitnessStatsDiviner: MongoDBBoundWitnessStatsDiviner
 let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
-let mongoDBModuleAddressDiviner: MongoDBModuleAddressDiviner
 let mongoDBPayloadDiviner: MongoDBPayloadDiviner
-let mongoDBArchivePayloadStatsDiviner: MongoDBArchivePayloadStatsDiviner
-let mongoDBArchiveSchemaStatsDiviner: MongoDBArchiveSchemaStatsDiviner
+let mongoDBPayloadStatsDiviner: MongoDBPayloadStatsDiviner
+let mongoDBSchemaListDiviner: MongoDBSchemaListDiviner
+let mongoDBSchemaStatsDiviner: MongoDBSchemaStatsDiviner
 
-const getMongoDBAddressHistoryDiviner = async () => {
+const getMongoDBAddressHistoryDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
-  const params = { config: { name: TYPES.AddressHistoryDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.AddressHistory)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
+  const params = {
+    account,
+    boundWitnessSdk,
+    config: { name: TYPES.AddressHistoryDiviner.description, schema: MongoDBAddressHistoryDiviner.configSchema },
+  }
   mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
   return mongoDBAddressHistoryDiviner
 }
-const getMongoDBAddressSpaceDiviner = async () => {
+const getMongoDBAddressSpaceDiviner = async (context: interfaces.Context) => {
   if (mongoDBAddressSpaceDiviner) return mongoDBAddressSpaceDiviner
-  const params = { config: { name: TYPES.AddressSpaceDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.AddressSpace)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
+  const params = {
+    account,
+    boundWitnessSdk,
+    config: { name: TYPES.AddressSpaceDiviner.description, schema: MongoDBAddressSpaceDiviner.configSchema },
+  }
   mongoDBAddressSpaceDiviner = await MongoDBAddressSpaceDiviner.create(params)
   return mongoDBAddressSpaceDiviner
 }
-const getMongoDBBoundWitnessDiviner = async () => {
+const getMongoDBBoundWitnessDiviner = async (context: interfaces.Context) => {
   if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
-  const params = { config: { name: TYPES.BoundWitnessDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitness)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
+  const params = {
+    account,
+    boundWitnessSdk,
+    config: { name: TYPES.BoundWitnessDiviner.description, schema: MongoDBBoundWitnessDiviner.configSchema },
+  }
   mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
   return mongoDBBoundWitnessDiviner
 }
-const getMongoDBArchiveBoundWitnessStatsDiviner = async (_context: interfaces.Context) => {
-  if (mongoDBArchiveBoundWitnessStatsDiviner) return mongoDBArchiveBoundWitnessStatsDiviner
-  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
+const getMongoDBBoundWitnessStatsDiviner = async (context: interfaces.Context) => {
+  if (mongoDBBoundWitnessStatsDiviner) return mongoDBBoundWitnessStatsDiviner
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitnessStats)
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const params = {
+    account,
     addressSpaceDiviner,
-    config: { name: TYPES.ArchiveBoundWitnessStatsDiviner.description, schema: MongoDBArchiveBoundWitnessStatsDivinerConfigSchema },
+    boundWitnessSdk,
+    config: { name: TYPES.BoundWitnessStatsDiviner.description, schema: MongoDBBoundWitnessStatsDiviner.configSchema },
   }
-  mongoDBArchiveBoundWitnessStatsDiviner = await MongoDBArchiveBoundWitnessStatsDiviner.create(params)
-  return mongoDBArchiveBoundWitnessStatsDiviner
+  mongoDBBoundWitnessStatsDiviner = await MongoDBBoundWitnessStatsDiviner.create(params)
+  return mongoDBBoundWitnessStatsDiviner
 }
-const getMongoDBLocationCertaintyDiviner = async () => {
+const getMongoDBLocationCertaintyDiviner = async (context: interfaces.Context) => {
   if (mongoDBLocationCertaintyDiviner) return mongoDBLocationCertaintyDiviner
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.LocationCertainty)
   mongoDBLocationCertaintyDiviner = (await MongoDBLocationCertaintyDiviner.create({
-    config: { schema: XyoDivinerConfigSchema },
+    account,
+    config: { schema: MongoDBLocationCertaintyDiviner.configSchema },
   })) as MongoDBLocationCertaintyDiviner
   return mongoDBLocationCertaintyDiviner
 }
-const getMongoDBModuleAddressDiviner = async () => {
-  if (mongoDBModuleAddressDiviner) return mongoDBModuleAddressDiviner
-  const params = { config: { name: TYPES.ModuleAddressDiviner.description, schema: XyoDivinerConfigSchema } }
-  mongoDBModuleAddressDiviner = await MongoDBModuleAddressDiviner.create(params)
-  return mongoDBModuleAddressDiviner
-}
-const getMongoDBPayloadDiviner = async () => {
+const getMongoDBPayloadDiviner = async (context: interfaces.Context) => {
   if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
-  const params = { config: { name: TYPES.PayloadDiviner.description, schema: XyoArchivistPayloadDivinerConfigSchema } }
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.Payload)
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
+  const params = {
+    account,
+    config: { name: TYPES.PayloadDiviner.description, schema: MongoDBPayloadDiviner.configSchema },
+    payloadSdk,
+  }
   mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
   return mongoDBPayloadDiviner
 }
-const getMongoDBArchivePayloadStatsDiviner = async (_context: interfaces.Context) => {
-  if (mongoDBArchivePayloadStatsDiviner) return mongoDBArchivePayloadStatsDiviner
-  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
+const getMongoDBPayloadStatsDiviner = async (context: interfaces.Context) => {
+  if (mongoDBPayloadStatsDiviner) return mongoDBPayloadStatsDiviner
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.PayloadStats)
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
   const params = {
+    account,
     addressSpaceDiviner,
-    config: { name: TYPES.ArchivePayloadStatsDiviner.description, schema: MongoDBArchivePayloadStatsDivinerConfigSchema },
+    boundWitnessSdk,
+    config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBPayloadStatsDiviner.configSchema },
+    payloadSdk,
   }
-  mongoDBArchivePayloadStatsDiviner = await MongoDBArchivePayloadStatsDiviner.create(params)
-  return mongoDBArchivePayloadStatsDiviner
+  mongoDBPayloadStatsDiviner = await MongoDBPayloadStatsDiviner.create(params)
+  return mongoDBPayloadStatsDiviner
 }
-const getMongoDBArchiveSchemaStatsDiviner = async (_context: interfaces.Context) => {
-  if (mongoDBArchiveSchemaStatsDiviner) return mongoDBArchiveSchemaStatsDiviner
-  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner()
+const getMongoDBSchemaListDiviner = async (context: interfaces.Context) => {
+  if (mongoDBSchemaListDiviner) return mongoDBSchemaListDiviner
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaList)
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const params = {
+    account,
     addressSpaceDiviner,
-    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBArchiveSchemaStatsDivinerConfigSchema },
+    boundWitnessSdk,
+    config: { name: TYPES.SchemaListDiviner.description, schema: MongoDBSchemaListDiviner.configSchema },
   }
-  mongoDBArchiveSchemaStatsDiviner = await MongoDBArchiveSchemaStatsDiviner.create(params)
-  return mongoDBArchiveSchemaStatsDiviner
+  mongoDBSchemaListDiviner = await MongoDBSchemaListDiviner.create(params)
+  return mongoDBSchemaListDiviner
+}
+const getMongoDBSchemaStatsDiviner = async (context: interfaces.Context) => {
+  if (mongoDBSchemaStatsDiviner) return mongoDBSchemaStatsDiviner
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaStats)
+  const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(context)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
+  const params = {
+    account,
+    addressSpaceDiviner,
+    boundWitnessSdk,
+    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBSchemaStatsDiviner.configSchema },
+  }
+  mongoDBSchemaStatsDiviner = await MongoDBSchemaStatsDiviner.create(params)
+  return mongoDBSchemaStatsDiviner
 }
 
 export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind) => {
@@ -113,36 +175,32 @@ export const DivinerContainerModule = new ContainerModule((bind: interfaces.Bind
 
   bind(MongoDBBoundWitnessDiviner).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
   bind<BoundWitnessDiviner>(TYPES.BoundWitnessDiviner).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBBoundWitnessDiviner).inSingletonScope()
 
-  bind(MongoDBArchiveBoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
-  bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
-  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBArchiveBoundWitnessStatsDiviner).inSingletonScope()
+  bind(MongoDBBoundWitnessStatsDiviner).toDynamicValue(getMongoDBBoundWitnessStatsDiviner).inSingletonScope()
+  bind<BoundWitnessStatsDiviner>(TYPES.BoundWitnessStatsDiviner).toDynamicValue(getMongoDBBoundWitnessStatsDiviner).inSingletonScope()
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBBoundWitnessStatsDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBBoundWitnessStatsDiviner).inSingletonScope()
 
   bind(MongoDBLocationCertaintyDiviner).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
   bind<LocationCertaintyDiviner>(TYPES.ElevationDiviner).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBLocationCertaintyDiviner).inSingletonScope()
-
-  bind(MongoDBModuleAddressDiviner).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
-  bind<ModuleAddressDiviner>(TYPES.ModuleAddressDiviner).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
-  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBModuleAddressDiviner).inSingletonScope()
 
   bind(MongoDBPayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
   bind<PayloadDiviner>(TYPES.PayloadDiviner).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
   bind<Module>(TYPES.Module).toDynamicValue(getMongoDBPayloadDiviner).inSingletonScope()
 
-  bind(MongoDBArchivePayloadStatsDiviner).toDynamicValue(getMongoDBArchivePayloadStatsDiviner).inSingletonScope()
-  bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toDynamicValue(getMongoDBArchivePayloadStatsDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBArchivePayloadStatsDiviner).inSingletonScope()
-  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBArchivePayloadStatsDiviner).inSingletonScope()
+  bind(MongoDBPayloadStatsDiviner).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
+  bind<PayloadStatsDiviner>(TYPES.PayloadStatsDiviner).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
 
-  bind(MongoDBArchiveSchemaStatsDiviner).toDynamicValue(getMongoDBArchiveSchemaStatsDiviner).inSingletonScope()
-  bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toDynamicValue(getMongoDBArchiveSchemaStatsDiviner).inSingletonScope()
-  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBArchiveSchemaStatsDiviner).inSingletonScope()
-  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBArchiveSchemaStatsDiviner).inSingletonScope()
+  bind(MongoDBSchemaListDiviner).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
+  bind<SchemaListDiviner>(TYPES.SchemaListDiviner).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBSchemaListDiviner).inSingletonScope()
+
+  bind(MongoDBSchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
+  bind<SchemaStatsDiviner>(TYPES.SchemaStatsDiviner).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
+  bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
+  bind<Module>(TYPES.Module).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
 })

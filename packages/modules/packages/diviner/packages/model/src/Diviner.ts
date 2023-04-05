@@ -1,23 +1,48 @@
 import { AnyObject } from '@xyo-network/core'
 import { EventData } from '@xyo-network/module'
-import { AnyConfigSchema, Module, ModuleParams } from '@xyo-network/module-model'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { AnyConfigSchema, Module, ModuleEventArgs, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { DivinerConfig } from './Config'
-import { DivinerReportEndEventData, DivinerReportStartEventData } from './Events'
 
 export interface Diviner {
   /* context is the hash of the payload that defines the divining */
-  divine: (payloads?: XyoPayload[]) => Promisable<XyoPayloads>
+  divine: (payloads?: Payload[]) => Promisable<Payload[]>
 }
 
-export interface DivinerModuleEventData extends DivinerReportEndEventData, DivinerReportStartEventData {}
+export type DivinerReportEndEventArgs = ModuleEventArgs<
+  DivinerModule,
+  {
+    errors?: Error[]
+    inPayloads?: Payload[]
+    outPayloads: Payload[]
+  }
+>
+
+export interface DivinerReportEndEventData extends EventData {
+  reportEnd: DivinerReportEndEventArgs
+}
+
+export type DivinerReportStartEventArgs = ModuleEventArgs<
+  DivinerModule,
+  {
+    inPayloads?: Payload[]
+  }
+>
+
+export interface DivinerReportStartEventData extends EventData {
+  reportStart: DivinerReportStartEventArgs
+}
+
+export interface DivinerModuleEventData extends DivinerReportEndEventData, DivinerReportStartEventData, ModuleEventData {}
 
 export type DivinerParams<
   TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>,
-  TEventData extends EventData | undefined = undefined,
   TAdditional extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TEventData extends EventData ? DivinerModuleEventData | TEventData : DivinerModuleEventData, TAdditional>
+> = ModuleParams<TConfig, TAdditional>
 
-export type DivinerModule<TParams extends DivinerParams = DivinerParams> = Diviner & Module<TParams>
+export type DivinerModule<
+  TParams extends DivinerParams = DivinerParams,
+  TEventData extends DivinerModuleEventData = DivinerModuleEventData,
+> = Diviner & Module<TParams, TEventData>

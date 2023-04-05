@@ -1,14 +1,14 @@
 import { assertEx } from '@xylabs/assert'
-import { isXyoBoundWitnessPayload, XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { DataLike } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
 export class BoundWitnessWrapper<
-  TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
-  TPayload extends XyoPayload = XyoPayload,
+  TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness,
+  TPayload extends Payload = Payload,
 > extends PayloadWrapperBase<TBoundWitness> {
   protected _payloads: Record<string, PayloadWrapper<TPayload>> | undefined
   private isBoundWitnessWrapper = true
@@ -24,10 +24,6 @@ export class BoundWitnessWrapper<
 
   get boundwitness() {
     return this.obj
-  }
-
-  override get errors() {
-    return new BoundWitnessValidator(this.boundwitness).validate()
   }
 
   get missingPayloads() {
@@ -77,16 +73,13 @@ export class BoundWitnessWrapper<
 
   static override async load(address: DataLike) {
     const payload = await PayloadWrapper.load(address)
-    assertEx(payload && isXyoBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
+    assertEx(payload && isBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
 
-    const boundWitness: XyoBoundWitness | undefined = payload && isXyoBoundWitnessPayload(payload) ? payload : undefined
+    const boundWitness: BoundWitness | undefined = payload && isBoundWitnessPayload(payload) ? payload : undefined
     return boundWitness ? new BoundWitnessWrapper(boundWitness) : null
   }
 
-  static override parse<T extends XyoBoundWitness = XyoBoundWitness, P extends XyoPayload = XyoPayload>(
-    obj: unknown,
-    payloads?: P[],
-  ): BoundWitnessWrapper<T, P> {
+  static override parse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> {
     const hydratedObj = typeof obj === 'string' ? JSON.parse(obj) : obj
     assertEx(!Array.isArray(hydratedObj), 'Array can not be converted to BoundWitnessWrapper')
     switch (typeof hydratedObj) {
@@ -105,7 +98,7 @@ export class BoundWitnessWrapper<
   dig(depth?: number): BoundWitnessWrapper<TBoundWitness> {
     if (depth === 0) return this
 
-    const innerBoundwitnessIndex: number = this.payloadSchemas.findIndex((item) => item === XyoBoundWitnessSchema)
+    const innerBoundwitnessIndex: number = this.payloadSchemas.findIndex((item) => item === BoundWitnessSchema)
     if (innerBoundwitnessIndex > -1) {
       const innerBoundwitnessHash: string = this.payloadHashes[innerBoundwitnessIndex]
       const innerBoundwitnessPayload = this.payloads[innerBoundwitnessHash]
@@ -133,5 +126,9 @@ export class BoundWitnessWrapper<
 
   toResult() {
     return [this.boundwitness, this.payloadsArray.map((payload) => payload.body)]
+  }
+
+  override validate(): Error[] {
+    return new BoundWitnessValidator(this.boundwitness).validate()
   }
 }

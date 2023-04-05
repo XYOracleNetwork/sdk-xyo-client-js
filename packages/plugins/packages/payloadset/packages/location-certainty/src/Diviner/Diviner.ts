@@ -4,9 +4,8 @@ import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/ele
 import { LocationCertaintyHeuristic, LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayloads } from '@xyo-network/payload-model'
-import { Job, JobProvider } from '@xyo-network/shared'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 
 import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } from './Config'
 
@@ -14,20 +13,10 @@ export type LocationCertaintyDivinerParams = DivinerParams<AnyConfigSchema<Locat
 
 export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerParams = LocationCertaintyDivinerParams>
   extends AbstractDiviner<TParam>
-  implements DivinerModule, JobProvider
+  implements DivinerModule
 {
   static override configSchema = LocationCertaintyDivinerConfigSchema
   static override targetSchema = LocationCertaintySchema
-
-  get jobs(): Job[] {
-    return [
-      {
-        name: 'LocationCertaintyDiviner.DivineElevationBatch',
-        schedule: '10 minute',
-        task: async () => await this.divineElevationBatch(),
-      },
-    ]
-  }
 
   /* Given an array of numbers, find the min/max/mean */
   private static calcHeuristic(heuristic: (number | null)[]): LocationCertaintyHeuristic {
@@ -70,11 +59,12 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
   }
 
   /** @description Given a set of locations, get the expected elevations (witness if needed), and return score/variance */
-  async divine(payloads?: XyoPayloads): Promise<XyoPayloads> {
+  async divine(payloads?: Payload[]): Promise<Payload[]> {
     const locations = payloads?.filter<LocationPayload>((payload): payload is LocationPayload => payload?.schema === LocationSchema)
     // If this is a query we support
     if (locations && locations?.length > 0) {
       const elevationWitness = await ElevationWitness.create({
+        account: this.account,
         config: {
           locations,
           schema: ElevationWitnessConfigSchema,
@@ -84,7 +74,7 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
 
       const heuristics = LocationCertaintyDiviner.locationsToHeuristics(elevations, locations)
 
-      const result = new XyoPayloadBuilder<LocationCertaintyPayload>({ schema: LocationCertaintySchema })
+      const result = new PayloadBuilder<LocationCertaintyPayload>({ schema: LocationCertaintySchema })
         .fields({
           altitude: LocationCertaintyDiviner.calcHeuristic(heuristics.altitude),
           elevation: LocationCertaintyDiviner.calcHeuristic(heuristics.elevation),
@@ -96,13 +86,5 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
       return [result]
     }
     return []
-  }
-
-  /** @description Is the goal here to prime/index the diviner? */
-  private divineElevationBatch = async () => {
-    this.logger?.log('LocationCertaintyDiviner.DivineElevationBatch: Divining elevations for batch')
-    // TODO: Any background/batch processing here
-    await Promise.resolve()
-    this.logger?.log('LocationCertaintyDiviner.DivineElevationBatch: Divined elevations for batch')
   }
 }

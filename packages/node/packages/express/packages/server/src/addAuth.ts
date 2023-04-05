@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 
-import { dependencies } from '@xyo-network/express-node-dependencies'
+import { container } from '@xyo-network/express-node-dependencies'
 import {
   addAuthRoutes,
   AdminApiKeyStrategy,
@@ -21,13 +21,13 @@ import passport, { Strategy } from 'passport'
 decorate(injectable(), Strategy)
 
 export const addAuth = (app: Application) => {
-  passport.use(adminApiKeyStrategyName, dependencies.get(AdminApiKeyStrategy))
-  passport.use(allowUnauthenticatedStrategyName, dependencies.get(AllowUnauthenticatedStrategy))
-  const jwtStrategy = dependencies.get(JwtStrategy)
+  passport.use(adminApiKeyStrategyName, container.get(AdminApiKeyStrategy))
+  passport.use(allowUnauthenticatedStrategyName, container.get(AllowUnauthenticatedStrategy))
+  const jwtStrategy = container.get(JwtStrategy)
   passport.use(jwtStrategyName, jwtStrategy)
   addAuthRoutes(jwtStrategy.jwtRequestHandler)
-  passport.use(localStrategyName, dependencies.get(LocalStrategy))
-  passport.use(web3StrategyName, dependencies.get(Web3AuthStrategy))
+  passport.use(localStrategyName, container.get(LocalStrategy))
+  passport.use(web3StrategyName, container.get(Web3AuthStrategy))
 
   const userRoutes = addAuthRoutes(jwtStrategy.jwtRequestHandler)
   app.use('', userRoutes)

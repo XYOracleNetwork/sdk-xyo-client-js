@@ -7,6 +7,7 @@
     "**/dist",
     "**/node_modules",
     "coverage",
+    "docker",
     "swagger.json"
   ],
   "rules": {

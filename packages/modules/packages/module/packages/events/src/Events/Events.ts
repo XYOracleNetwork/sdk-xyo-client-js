@@ -1,4 +1,6 @@
+import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
+import { Base, BaseParams } from '@xyo-network/core'
 
 import { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '../model'
 
@@ -9,84 +11,58 @@ To enable this feature set the `DEBUG` environment variable to `emittery` or `*`
 
 See API for more information on how debugging works.
 */
-export type DebugLogger<TEventData extends EventData, TName extends keyof TEventData> = (
-  type: string,
-  debugName: string,
-  eventName?: TName,
-  eventData?: TEventData[TName],
-) => void
+export type DebugLogger = (type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => void
+
+type EventListenerInfo<TEventArgs extends EventArgs = EventArgs> = {
+  filter?: TEventArgs
+  listener: EventListener<TEventArgs>
+}
 
 /**
 Configure debug options of an instance.
 */
-export type DebugOptions<TEventData extends EventData> = {
+export type DebugOptions = {
   enabled?: boolean
-  logger?: DebugLogger<TEventData, keyof TEventData>
+  logger?: DebugLogger
   readonly name: string
 }
 
-/**
-Configuration options for Emittery.
-*/
-export type Options<TEventData extends EventData> = {
-  readonly debug?: DebugOptions<TEventData>
-}
-
-const anyProducer = Symbol('anyProducer')
 const resolvedPromise = Promise.resolve()
 
-const listenerAdded = 'listenerAdded'
-const listenerRemoved = 'listenerRemoved'
-
 export type MetaEventData<TEventData extends EventData> = {
-  listenerAdded: { eventName?: keyof TEventData; listener: EventListener<TEventData> }
-  listenerRemoved: { eventName?: keyof TEventData; listener: EventListener<TEventData> }
-}
-
-let canEmitMetaEvents = false
-let isGlobalDebugEnabled = false
-
-function assertEventName(eventName: EventName) {
-  if (typeof eventName !== 'string' && typeof eventName !== 'symbol' && typeof eventName !== 'number') {
-    throw new TypeError('`eventName` must be a string, symbol, or number')
+  listenerAdded: {
+    eventName?: keyof TEventData
+    listener: EventListener<TEventData[keyof TEventData]> | EventAnyListener<TEventData[keyof TEventData]>
+  }
+  listenerRemoved: {
+    eventName?: keyof TEventData
+    listener: EventListener<TEventData[keyof TEventData]> | EventAnyListener<TEventData[keyof TEventData]>
   }
 }
 
-function assertListener(listener: object) {
-  if (typeof listener !== 'function') {
-    throw new TypeError('listener must be a function')
-  }
-}
+const isMetaEvent = (eventName: EventName) => eventName === 'listenerAdded' || eventName === 'listenerRemoved'
 
-const isMetaEvent = (eventName: EventName) => eventName === listenerAdded || eventName === listenerRemoved
+export type EventsParams = BaseParams<{ readonly debug?: DebugOptions }>
 
-export class Events<TEventData extends EventData> implements EventFunctions<TEventData> {
-  static anyMap = new WeakMap()
-  static eventsMap = new WeakMap()
-  static producersMap = new WeakMap()
+export class Events<TEventData extends EventData = EventData> extends Base<EventsParams> implements EventFunctions<TEventData> {
+  protected static anyMap = new WeakMap<object, Set<EventAnyListener>>()
+  protected static eventsMap = new WeakMap<object, Map<EventName, Set<EventListenerInfo>>>()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  debug?: DebugOptions<any>
+  private static canEmitMetaEvents = false
+  private static isGlobalDebugEnabled = false
 
-  constructor(options: Options<TEventData> = {}) {
-    Events.anyMap.set(this, new Set())
-    Events.eventsMap.set(this, new Map())
-    Events.producersMap.set(this, new Map())
+  //this is here to be able to query the type, not use
+  eventData = {} as TEventData
 
-    Events.producersMap.get(this).set(anyProducer, new Set())
-
-    this.debug = options.debug
-
-    if (this.debug) {
-      this.debug.enabled = !!this.debug.enabled
-
-      this.debug.logger =
-        this.debug.logger ??
-        ((type: string, debugName: string, eventName?: keyof TEventData, eventData?: TEventData[keyof TEventData]) => {
+  constructor(params: EventsParams = {}) {
+    const mutatedParams = { ...params }
+    if (mutatedParams.debug) {
+      mutatedParams.debug.logger =
+        mutatedParams.debug.logger ??
+        ((type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => {
           let eventDataString: string
           let eventNameString: string | undefined
           try {
-            // TODO: Use https://github.com/sindresorhus/safe-stringify when the package is more mature. Just copy-paste the code.
             eventDataString = JSON.stringify(eventData)
           } catch {
             eventDataString = `Object with the following keys failed to stringify: ${Object.keys(eventData ?? {}).join(',')}`
@@ -100,9 +76,12 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
 
           const currentTime = new Date()
           const logTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}.${currentTime.getMilliseconds()}`
-          console.log(`[${logTime}][events:${type}][${debugName}] Event Name: ${eventNameString}\n\tdata: ${eventDataString}`)
+          this.logger.log(`[${logTime}][events:${type}][${debugName}] Event Name: ${eventNameString}\n\tdata: ${eventDataString}`)
         })
     }
+    super(mutatedParams)
+    Events.anyMap.set(this, new Set<EventAnyListener>())
+    Events.eventsMap.set(this, new Map<keyof TEventData, Set<EventListenerInfo>>())
   }
 
   static get isDebugEnabled() {
@@ -110,18 +89,22 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     // so instead of just type checking `globalThis.process`, we need to make sure that `globalThis.process.env` exists.
 
     if (typeof globalThis.process?.env !== 'object') {
-      return isGlobalDebugEnabled
+      return Events.isGlobalDebugEnabled
     }
 
     const { env } = globalThis.process ?? { env: {} }
-    return env.DEBUG === 'emittery' || env.DEBUG === '*' || isGlobalDebugEnabled
+    return env.DEBUG === 'events' || env.DEBUG === '*' || Events.isGlobalDebugEnabled
   }
 
   static set isDebugEnabled(newValue) {
-    isGlobalDebugEnabled = newValue
+    Events.isGlobalDebugEnabled = newValue
   }
 
-  clearListeners(eventNames: keyof TEventData | keyof TEventData[]) {
+  get debug() {
+    return this.params.debug
+  }
+
+  clearListeners(eventNames: keyof TEventData | (keyof TEventData)[]) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
 
     for (const eventName of eventNamesArray) {
@@ -132,155 +115,85 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
         if (set) {
           set.clear()
         }
-
-        const producers = this.getEventProducers(eventName)
-        if (producers) {
-          for (const producer of producers) {
-            producer.finish()
-          }
-
-          producers.clear()
-        }
       } else {
-        Events.anyMap.get(this).clear()
+        Events.anyMap.get(this)?.clear()
 
-        for (const [eventName, listeners] of Events.eventsMap.get(this).entries()) {
+        for (const [eventName, listeners] of assertEx(Events.eventsMap.get(this)).entries()) {
           listeners.clear()
-          Events.eventsMap.get(this).delete(eventName)
-        }
-
-        for (const [eventName, producers] of Events.producersMap.get(this).entries()) {
-          for (const producer of producers) {
-            producer.finish()
-          }
-
-          producers.clear()
-          Events.producersMap.get(this).delete(eventName)
+          Events.eventsMap.get(this)?.delete(eventName)
         }
       }
     }
   }
 
-  async emit(eventName: keyof TEventData, eventData?: TEventData[keyof TEventData]) {
-    await this.emitInternal(eventName, eventData)
+  async emit<TEventName extends keyof TEventData>(eventName: TEventName, eventArgs: TEventData[TEventName]) {
+    await this.emitInternal(eventName, eventArgs)
   }
 
-  async emitInternal<TEventName extends EventName, TEventArgs extends EventArgs>(eventName: TEventName, eventArgs?: TEventArgs) {
-    assertEventName(eventName)
-
-    if (isMetaEvent(eventName) && !canEmitMetaEvents) {
-      throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
-    }
-
-    this.logIfDebugEnabled('emit', eventName, eventArgs)
-
-    this.enqueueProducers(eventName, eventArgs)
-
-    const listeners = this.getListeners(eventName) ?? new Set()
-    const anyListeners = Events.anyMap.get(this)
-    const staticListeners = [...listeners]
-    const staticAnyListeners = isMetaEvent(eventName) ? [] : [...anyListeners]
-
-    await resolvedPromise
-    await Promise.all([
-      ...staticListeners.map(async (listener) => {
-        if (listeners.has(listener)) {
-          return await listener(eventArgs)
-        }
-      }),
-      ...staticAnyListeners.map(async (listener) => {
-        if (anyListeners.has(listener)) {
-          return await listener(eventName, eventArgs)
-        }
-      }),
-    ])
-  }
-
-  async emitMetaEvent<TEventName extends EventName, TEventArgs extends EventArgs>(eventName: TEventName, eventArgs: TEventArgs) {
+  async emitMetaEvent<TEventName extends keyof MetaEventData<TEventData>>(eventName: TEventName, eventArgs: MetaEventData<TEventData>[TEventName]) {
     if (isMetaEvent(eventName)) {
       try {
-        canEmitMetaEvents = true
-        await this.emitInternal(eventName, eventArgs)
+        Events.canEmitMetaEvents = true
+        await this.emitMetaEventInternal(eventName, eventArgs)
       } finally {
-        canEmitMetaEvents = false
+        Events.canEmitMetaEvents = false
       }
     }
   }
 
-  async emitSerial(eventName: keyof TEventData, eventData: TEventData[keyof TEventData]) {
-    assertEventName(eventName)
-
-    if (isMetaEvent(eventName) && !canEmitMetaEvents) {
+  async emitSerial<TEventName extends keyof TEventData>(eventName: TEventName, eventArgs: TEventData[TEventName]) {
+    if (isMetaEvent(eventName) && !Events.canEmitMetaEvents) {
       throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
     }
 
-    this.logIfDebugEnabled('emitSerial', eventName, eventData)
+    const filterMatch = (args: TEventData[TEventName], filter: TEventData[TEventName]) => {
+      if (filter) {
+        switch (typeof filter) {
+          case 'object':
+            return Object.entries(args).reduce((prev, [key, value]) => ((filter as Record<PropertyKey, unknown>)[key] === value ? true : prev), false)
+          default:
+            return args === filter
+        }
+      }
+      return true
+    }
+
+    this.logIfDebugEnabled('emitSerial', eventName, eventArgs)
 
     const listeners = this.getListeners(eventName) ?? new Set()
-    const anyListeners = Events.anyMap.get(this)
-    const staticListeners = [...listeners]
+    const filteredListeners = [...listeners.values()]
+      .filter((value) => (value.filter ? filterMatch(eventArgs, value.filter as TEventData[TEventName]) : true))
+      .map((info) => info.listener)
+    const anyListeners = assertEx(Events.anyMap.get(this))
+    const staticListeners = [...filteredListeners]
     const staticAnyListeners = [...anyListeners]
 
     await resolvedPromise
 
     for (const listener of staticListeners) {
-      if (listeners.has(listener)) {
-        await listener(eventData)
-      }
+      await this.safeCallListener(eventName, eventArgs, listener)
     }
 
     for (const listener of staticAnyListeners) {
-      if (anyListeners.has(listener)) {
-        await listener(eventName, eventData)
-      }
+      await this.safeCallAnyListener(eventName, eventArgs, listener)
     }
   }
 
-  getEventProducers(eventName?: keyof TEventData) {
-    const key = typeof eventName === 'string' || typeof eventName === 'symbol' || typeof eventName === 'number' ? eventName : anyProducer
-    const producers = Events.producersMap.get(this)
-    if (!producers.has(key)) {
-      return
-    }
-
-    return producers.get(key)
-  }
-
-  getListeners(eventName: keyof TEventData) {
-    const events = Events.eventsMap.get(this)
-    if (!events.has(eventName)) {
-      return
-    }
-
-    return events.get(eventName)
-  }
-
-  listenerCount(eventNames: keyof TEventData | keyof TEventData[]) {
+  //TODO: Make test for this
+  listenerCount(eventNames?: keyof TEventData | (keyof TEventData)[]) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
     let count = 0
 
     for (const eventName of eventNamesArray) {
       if (typeof eventName === 'string') {
-        count +=
-          Events.anyMap.get(this).size +
-          (this.getListeners(eventName)?.size ?? 0) +
-          (this.getEventProducers(eventName)?.size ?? 0) +
-          (this.getEventProducers()?.size ?? 0)
+        count += assertEx(Events.anyMap.get(this)).size + (this.getListeners(eventName)?.size ?? 0)
 
         continue
       }
 
-      if (typeof eventName !== 'undefined') {
-        assertEventName(eventName)
-      }
+      count += assertEx(Events.anyMap.get(this)).size
 
-      count += Events.anyMap.get(this).size
-
-      for (const value of Events.eventsMap.get(this).values()) {
-        count += value.size
-      }
-
-      for (const value of Events.producersMap.get(this).values()) {
+      for (const value of assertEx(Events.eventsMap.get(this)).values()) {
         count += value.size
       }
     }
@@ -288,101 +201,177 @@ export class Events<TEventData extends EventData> implements EventFunctions<TEve
     return count
   }
 
-  logIfDebugEnabled<TEventName extends EventName, TEventArgs extends EventArgs>(type: string, eventName?: TEventName, eventArgs?: TEventArgs) {
+  logIfDebugEnabled<TEventName extends EventName>(type: string, eventName?: TEventName, eventArgs?: EventArgs) {
     if (Events.isDebugEnabled || this.debug?.enabled) {
       this.debug?.logger?.(type, this.debug.name, eventName, eventArgs)
     }
   }
 
-  off(eventNames: keyof TEventData | keyof TEventData[], listener: object) {
-    assertListener(listener)
-
+  off<TEventName extends keyof TEventData, TEventListener = EventListener<TEventData[TEventName]>>(
+    eventNames: TEventName | TEventName[],
+    listener: TEventListener,
+  ) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
     for (const eventName of eventNamesArray) {
-      assertEventName(eventName)
-      const set = this.getListeners(eventName)
+      const set = this.getListeners(eventName) as Set<TEventListener>
       if (set) {
         set.delete(listener)
         if (set.size === 0) {
           const events = Events.eventsMap.get(this)
-          events.delete(eventName)
+          events?.delete(eventName)
         }
       }
 
       this.logIfDebugEnabled('unsubscribe', eventName, undefined)
 
       if (!isMetaEvent(eventName)) {
-        forget(this.emitMetaEvent(listenerRemoved, { eventName, listener }))
+        forget(this.emitMetaEvent('listenerRemoved', { eventName, listener: listener as EventListener }))
       }
     }
   }
 
-  offAny(listener: object) {
-    assertListener(listener)
-
+  offAny(listener: EventAnyListener) {
     this.logIfDebugEnabled('unsubscribeAny', undefined, undefined)
 
-    Events.anyMap.get(this).delete(listener)
-    forget(this.emitMetaEvent(listenerRemoved, { listener }))
+    const typedMap = Events.anyMap.get(this) as Set<EventAnyListener<TEventData[keyof TEventData]>>
+    typedMap?.delete(listener)
+    forget(this.emitMetaEvent('listenerRemoved', { listener: listener as EventAnyListener }))
   }
 
-  on(eventNames: keyof TEventData | keyof TEventData[], listener: object) {
-    assertListener(listener)
-
+  on<TEventName extends keyof TEventData = keyof TEventData>(
+    eventNames: TEventName | TEventName[],
+    listener: EventListener<TEventData[TEventName]>,
+    filter?: TEventData[TEventName],
+  ) {
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
     for (const eventName of eventNamesArray) {
-      assertEventName(eventName)
       let set = this.getListeners(eventName)
       if (!set) {
         set = new Set()
         const events = Events.eventsMap.get(this)
-        events.set(eventName, set)
+        events?.set(eventName, set)
       }
 
-      set.add(listener)
+      set.add({ filter, listener: listener as EventListener })
 
       this.logIfDebugEnabled('subscribe', eventName, undefined)
 
       if (!isMetaEvent(eventName)) {
-        forget(this.emitMetaEvent(listenerAdded, { eventName, listener }))
+        forget(this.emitMetaEvent('listenerAdded', { eventName, listener: listener as EventListener }))
       }
     }
 
-    return this.off.bind(this, eventNames, listener)
+    return this.off.bind(this, eventNames, listener as EventListener)
   }
 
-  onAny(listener: EventAnyListener<TEventData>) {
-    assertListener(listener)
-
+  onAny(listener: EventAnyListener) {
     this.logIfDebugEnabled('subscribeAny', undefined, undefined)
 
-    Events.anyMap.get(this).add(listener)
-    forget(this.emitMetaEvent(listenerAdded, { listener }))
-    return this.offAny.bind(this, listener)
+    Events.anyMap.get(this)?.add(listener as EventAnyListener)
+    forget(this.emitMetaEvent('listenerAdded', { listener: listener as EventAnyListener }))
+    return this.offAny.bind(this, listener as EventAnyListener)
   }
 
-  once(eventNames: keyof TEventData | keyof TEventData[], listener: EventListener<TEventData>) {
-    const subListener = async (args: TEventData[keyof TEventData]) => {
-      this.off(eventNames, subListener)
-      await listener(args)
+  once<TEventName extends keyof TEventData>(eventName: TEventName, listener: EventListener<TEventData[TEventName]>) {
+    const subListener = async (args: TEventData[TEventName]) => {
+      this.off(eventName, subListener)
+      await this.safeCallListener(eventName, args, listener)
     }
-    this.on(eventNames, subListener)
-    return this.off.bind(this, eventNames, subListener)
+    this.on(eventName, subListener)
+    return this.off.bind(this, eventName, subListener as EventListener)
   }
 
-  private enqueueProducers<TEventName extends EventName, TEventArgs extends EventArgs>(eventName: TEventName, eventData?: TEventArgs) {
-    const producers = Events.producersMap.get(this)
-    if (producers.has(eventName)) {
-      for (const producer of producers.get(eventName)) {
-        producer.enqueue(eventData)
-      }
+  private async emitInternal<TEventName extends keyof TEventData, TEventArgs extends TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs: TEventArgs,
+    filter?: TEventArgs,
+  ) {
+    if (isMetaEvent(eventName) && !Events.canEmitMetaEvents) {
+      throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
     }
 
-    if (producers.has(anyProducer)) {
-      const item = Promise.all([eventName, eventData])
-      for (const producer of producers.get(anyProducer)) {
-        producer.enqueue(item)
-      }
+    this.logIfDebugEnabled('emit', eventName, eventArgs)
+
+    const listeners = this.getListeners(eventName) ?? new Set()
+    const filteredListeners = [...listeners.values()].filter((value) => (filter ? value.listener : true)).map((info) => info.listener)
+    const anyListeners = assertEx(Events.anyMap.get(this))
+    const staticListeners = [...filteredListeners]
+    const staticAnyListeners = isMetaEvent(eventName) ? [] : [...anyListeners]
+
+    await resolvedPromise
+    await Promise.all([
+      ...staticListeners.map(async (listener) => {
+        await this.safeCallListener(eventName, eventArgs, listener)
+      }),
+      ...staticAnyListeners.map(async (listener) => {
+        if (anyListeners.has(listener)) {
+          await this.safeCallAnyListener(eventName, eventArgs, listener)
+        }
+      }),
+    ])
+  }
+
+  private async emitMetaEventInternal<TEventName extends keyof MetaEventData<TEventData>>(
+    eventName: TEventName,
+    eventArgs: MetaEventData<TEventData>[TEventName],
+  ) {
+    if (isMetaEvent(eventName) && !Events.canEmitMetaEvents) {
+      throw new TypeError('`eventName` cannot be meta event `listenerAdded` or `listenerRemoved`')
+    }
+
+    this.logIfDebugEnabled('emit', eventName, eventArgs)
+
+    const listeners = this.getListeners(eventName) ?? new Set()
+    const filteredListeners = [...listeners.values()].map((info) => info.listener)
+    const anyListeners = assertEx(Events.anyMap.get(this))
+    const staticListeners = [...filteredListeners]
+    const staticAnyListeners = isMetaEvent(eventName) ? [] : [...anyListeners]
+
+    await resolvedPromise
+    await Promise.all([
+      ...staticListeners.map(async (listener) => {
+        await this.safeCallListener(eventName, eventArgs, listener)
+      }),
+      ...staticAnyListeners.map(async (listener) => {
+        if (anyListeners.has(listener)) {
+          await this.safeCallAnyListener(eventName, eventArgs, listener)
+        }
+      }),
+    ])
+  }
+
+  private getListeners<TEventName extends keyof TEventData>(eventName: TEventName) {
+    const events = assertEx(Events.eventsMap.get(this))
+    if (!events.has(eventName)) {
+      return
+    }
+
+    return events.get(eventName)
+  }
+
+  private async safeCallAnyListener<TEventData extends EventData, TEventName extends keyof EventData>(
+    eventName: TEventName,
+    eventArgs: TEventData[TEventName],
+    listener: EventAnyListener<TEventData[TEventName]>,
+  ) {
+    try {
+      return await listener(eventName, eventArgs)
+    } catch (ex) {
+      const error = ex as Error
+      this.logger?.error(`Listener[${String(eventName)}] Excepted: ${error.message}`)
+    }
+  }
+
+  private async safeCallListener<TEventData extends EventData, TEventName extends keyof EventData>(
+    eventName: TEventName,
+    eventArgs: TEventData[TEventName],
+    listener: EventListener<TEventData[TEventName]>,
+  ) {
+    try {
+      return await listener(eventArgs)
+    } catch (ex) {
+      const error = ex as Error
+      this.logger?.error(`Listener[${String(eventName)}] Excepted: ${error.message}`)
     }
   }
 }

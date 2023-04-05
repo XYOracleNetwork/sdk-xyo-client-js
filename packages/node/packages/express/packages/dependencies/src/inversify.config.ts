@@ -11,8 +11,9 @@ import { Container } from 'inversify'
 import { addAuth } from './addAuth'
 import { addMemoryNode } from './addMemoryNode'
 import { tryGetServiceName } from './Util'
+import { WitnessContainerModule } from './Witness'
 config()
-export const dependencies = new Container({
+export const container = new Container({
   autoBindInjectable: true,
   // Set to true to prevent warning when child constructor has less
   // parameters than the parent
@@ -32,20 +33,23 @@ export const configureDependencies = async (node?: MemoryNode) => {
 
   const apiKey = assertEx(process.env.API_KEY, 'API_KEY ENV VAR required to create Archivist')
   const jwtSecret = assertEx(process.env.JWT_SECRET, 'JWT_SECRET ENV VAR required to create Archivist')
+  const mnemonic = assertEx(process.env.MNEMONIC, 'MNEMONIC ENV VAR required to create Archivist')
   const verbosity: LoggerVerbosity = (process.env.VERBOSITY as LoggerVerbosity) ?? process.env.NODE_ENV === 'test' ? 'error' : 'info'
   const logger = getLogger(verbosity)
 
-  dependencies.bind<string>(TYPES.ApiKey).toConstantValue(apiKey)
-  dependencies.bind<string>(TYPES.JwtSecret).toConstantValue(jwtSecret)
+  container.bind<string>(TYPES.AccountMnemonic).toConstantValue(mnemonic)
+  container.bind<string>(TYPES.ApiKey).toConstantValue(apiKey)
+  container.bind<string>(TYPES.JwtSecret).toConstantValue(jwtSecret)
 
-  dependencies.bind<Logger>(TYPES.Logger).toDynamicValue((context) => {
+  container.bind<Logger>(TYPES.Logger).toDynamicValue((context) => {
     const service = tryGetServiceName(context)
     // TODO: Configure logger with service name
     // const defaultMeta = { service }
     // const config = { defaultMeta }
     return service ? logger : logger
   })
-  await addMongo(dependencies)
-  addAuth(dependencies)
-  await addMemoryNode(dependencies, node)
+  await addMongo(container)
+  addAuth(container)
+  container.load(WitnessContainerModule)
+  await addMemoryNode(container, node)
 }

@@ -1,26 +1,27 @@
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModule, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner'
+import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModule, DivinerParams, DivinerWrapper } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import {
+  BoundWitnessWithMeta,
   isSchemaStatsQueryPayload,
   SchemaStatsDiviner,
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
   SchemaStatsSchema,
-  XyoPayloadWithMeta,
 } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload, XyoPayloads } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
-import { getBaseMongoSdk } from '../../Mongo'
-import { fromDbProperty, toDbProperty } from '../../Util'
+import { fromDbProperty, SetIterator, toDbProperty } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
 
@@ -30,49 +31,55 @@ interface PayloadSchemaCountsAggregateResult {
 }
 
 interface Stats {
-  archive: string
+  address: string
   schema?: {
     count?: Record<string, number>
   }
 }
 
-export type MongoDBArchiveSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
-export const MongoDBArchiveSchemaStatsDivinerConfigSchema: MongoDBArchiveSchemaStatsDivinerConfigSchema =
-  'network.xyo.module.config.diviner.stats.schema'
+export type MongoDBSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
+export const MongoDBSchemaStatsDivinerConfigSchema: MongoDBSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
 
-export type MongoDBArchiveSchemaStatsDivinerConfig<T extends XyoPayload = XyoPayload> = DivinerConfig<
+export type MongoDBSchemaStatsDivinerConfig<T extends Payload = Payload> = DivinerConfig<
   WithAdditional<
-    XyoPayload,
+    Payload,
     T & {
-      schema: MongoDBArchiveSchemaStatsDivinerConfigSchema
+      schema: MongoDBSchemaStatsDivinerConfigSchema
     }
   >
 >
 
-export type MongoDBArchiveSchemaStatsDivinerParams<T extends XyoPayload = XyoPayload> = DivinerParams<
-  AnyConfigSchema<MongoDBArchiveSchemaStatsDivinerConfig<T>>,
-  DivinerModuleEventData,
+export type MongoDBSchemaStatsDivinerParams<T extends Payload = Payload> = DivinerParams<
+  AnyConfigSchema<MongoDBSchemaStatsDivinerConfig<T>>,
   {
     addressSpaceDiviner: AddressSpaceDiviner
+    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
 
-export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSchemaStatsDivinerParams = MongoDBArchiveSchemaStatsDivinerParams>
+const moduleName = 'MongoDBSchemaStatsDiviner'
+
+export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDivinerParams = MongoDBSchemaStatsDivinerParams>
   extends AbstractDiviner<TParams>
   implements SchemaStatsDiviner, JobProvider, DivinerModule
 {
-  static override configSchema = MongoDBArchiveSchemaStatsDivinerConfigSchema
+  static override configSchema = MongoDBSchemaStatsDivinerConfigSchema
+
+  /**
+   * Iterates over know addresses obtained from AddressDiviner
+   */
+  protected readonly addressIterator: SetIterator<string> = new SetIterator([])
 
   /**
    * The max number of records to search during the aggregate query
    */
-  protected readonly aggregateLimit = 5_000_000
+  protected readonly aggregateLimit = 1_000
 
   /**
    * The max number of iterations of aggregate queries to allow when
-   * divining the schema stats within an archive
+   * divining the schema stats for a single address
    */
-  protected readonly aggregateMaxIterations = 10_000
+  protected readonly aggregateMaxIterations = 1_000_000
 
   /**
    * The amount of time to allow the aggregate query to execute
@@ -80,18 +87,22 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
   protected readonly aggregateTimeoutMs = 10_000
 
   /**
-   * The max number of simultaneous archives to divine at once
+   * The interval at which the background divine task will run. Prevents
+   * continuously iterating over DB and exhausting DB resources
    */
-  protected readonly batchLimit = 100
+  protected readonly backgroundDivineIntervalMs = 250
+
+  /**
+   * A reference to the background task to ensure that the
+   * continuous background divine stays running
+   */
+  protected backgroundDivineTask: Promise<void> | undefined
+
   /**
    * The stream with which the diviner is notified of insertions
    * to the payloads collection
    */
   protected changeStream: ChangeStream | undefined = undefined
-  /**
-   * The next offset from which to begin batch divining archives
-   */
-  protected nextOffset = 0
   /**
    * The counts per schema to update on the next update interval
    */
@@ -101,12 +112,10 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
    */
   protected resumeAfter: ResumeToken | undefined = undefined
 
-  protected readonly sdk: BaseMongoSdk<XyoPayload> = getBaseMongoSdk<XyoPayload>(COLLECTIONS.Payloads)
-
   get jobs(): Job[] {
     return [
       {
-        name: 'MongoDBArchiveSchemaStatsDiviner.UpdateChanges',
+        name: `${moduleName}.UpdateChanges`,
         onSuccess: () => {
           this.pendingCounts = {}
         },
@@ -114,18 +123,18 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
         task: async () => await this.updateChanges(),
       },
       {
-        name: 'MongoDBArchiveSchemaStatsDiviner.DivineArchivesBatch',
-        schedule: '20 minute',
-        task: async () => await this.divineArchivesBatch(),
+        name: `${moduleName}.DivineAddressesBatch`,
+        schedule: '5 minute',
+        task: async () => await this.divineAddressesBatch(),
       },
     ]
   }
 
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<SchemaStatsPayload>> {
+  override async divine(payloads?: Payload[]): Promise<Payload<SchemaStatsPayload>[]> {
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
-    const archive = query?.archive
-    const count = archive ? await this.divineArchive(archive) : await this.divineAllArchives()
-    return [new XyoPayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build()]
+    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
+    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    return counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build())
   }
 
   override async start() {
@@ -138,18 +147,28 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
     return await super.stop()
   }
 
-  private divineAllArchives = async () => await Promise.reject('Not implemented')
+  private backgroundDivine = async (): Promise<void> => {
+    for (const address of this.addressIterator) {
+      try {
+        await this.divineAddressFull(address)
+      } catch (error) {
+        this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
+      }
+      await delay(this.backgroundDivineIntervalMs)
+    }
+    this.backgroundDivineTask = undefined
+  }
 
-  private divineArchive = async (archive: string): Promise<Record<string, number>> => {
-    const stats = await this.sdk.useMongo(async (mongo) => {
-      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ archive })
+  private divineAddress = async (address: string): Promise<Record<string, number>> => {
+    const stats = await this.params.boundWitnessSdk.useMongo(async (mongo) => {
+      return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = Object.fromEntries(
       Object.entries(stats?.schema?.count || {}).map(([schema, count]) => {
         return [fromDbProperty(schema), count]
       }),
     )
-    const local = this.pendingCounts[archive] || {}
+    const local = this.pendingCounts[address] || {}
     const keys = [...Object.keys(local), ...Object.keys(remote).map(fromDbProperty)]
     const ret = Object.fromEntries(
       keys.map((key) => {
@@ -162,18 +181,19 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
     return ret
   }
 
-  private divineArchiveFull = async (archive: string): Promise<Record<string, number>> => {
+  private divineAddressFull = async (address: string): Promise<Record<string, number>> => {
     const sortStartTime = Date.now()
     const totals: Record<string, number> = {}
     for (let iteration = 0; iteration < this.aggregateMaxIterations; iteration++) {
-      const result: PayloadSchemaCountsAggregateResult[] = await this.sdk.useCollection((collection) => {
+      const result: PayloadSchemaCountsAggregateResult[] = await this.params.boundWitnessSdk.useCollection((collection) => {
         return collection
           .aggregate()
-          .sort({ _archive: 1, _timestamp: 1 })
-          .match({ _archive: archive, _timestamp: { $lt: sortStartTime } })
-          .skip(iteration)
+          .sort({ _timestamp: 1 })
+          .match({ _timestamp: { $lt: sortStartTime }, addresses: { $in: [address] } })
+          .skip(iteration * this.aggregateLimit)
           .limit(this.aggregateLimit)
-          .group<PayloadSchemaCountsAggregateResult>({ _id: '$schema', count: { $sum: 1 } })
+          .unwind({ path: '$payload_schemas' })
+          .group<PayloadSchemaCountsAggregateResult>({ _id: '$payload_schemas', count: { $sum: 1 } })
           .maxTimeMS(this.aggregateTimeoutMs)
           .toArray()
       })
@@ -183,77 +203,90 @@ export class MongoDBArchiveSchemaStatsDiviner<TParams extends MongoDBArchiveSche
         totals[schema._id] = totals[schema._id] || 0 + schema.count
       })
     }
-    await this.storeDivinedResult(archive, totals)
+    await this.storeDivinedResult(address, totals)
     return totals
   }
 
-  private divineArchivesBatch = async () => {
-    this.logger?.log(`MongoDBArchiveSchemaStatsDiviner.DivineArchivesBatch: Divining - Limit: ${this.batchLimit} Offset: ${this.nextOffset}`)
-    await Promise.resolve()
-    // const result = (await this.archiveArchivist?.find({ limit: this.batchLimit, offset: this.nextOffset })) || []
-    // const archives = result.map((archive) => archive?.archive).filter(exists)
-    // this.logger?.log(`MongoDBArchiveSchemaStatsDiviner.DivineArchivesBatch: Divining ${archives.length} Archives`)
-    // this.nextOffset = archives.length < this.batchLimit ? 0 : this.nextOffset + this.batchLimit
-    // const results = await Promise.allSettled(archives.map(this.divineArchiveFull))
-    // const succeeded = results.filter(fulfilled).length
-    // const failed = results.filter(rejected).length
-    // this.logger?.log(`MongoDBArchiveSchemaStatsDiviner.DivineArchivesBatch: Divined - Succeeded: ${succeeded} Failed: ${failed}`)
+  private divineAddressesBatch = async () => {
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating Addresses`)
+    const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner, `${moduleName}.DivineAddressesBatch: Missing AddressSpaceDiviner`)
+    const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
+    const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
+    const additions = this.addressIterator.addValues(addresses)
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Incoming Addresses Total: ${addresses.length} New: ${additions}`)
+    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
+    this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
-  private processChange = (change: ChangeStreamInsertDocument<XyoPayloadWithMeta>) => {
+  private divineAllAddresses = async () => await Promise.reject('Not Implemented')
+
+  private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
-    const archive = change.fullDocument._archive
+    const addresses = change.fullDocument.addresses
+    const schemas = change.fullDocument.payload_schemas
+    if (addresses?.length) {
+      for (const address of addresses) {
+        if (address) {
+          for (const schema of schemas) {
+            if (!this.pendingCounts[address]) this.pendingCounts[address] = {}
+            this.pendingCounts[address][schema] = (this.pendingCounts[address][schema] || 0) + 1
+          }
+        }
+      }
+    }
+    this.resumeAfter = change._id
+    const address = change.fullDocument._archive
     const schema = change.fullDocument.schema
-    if (archive && schema) {
-      if (!this.pendingCounts[archive]) this.pendingCounts[archive] = {}
-      this.pendingCounts[archive][schema] = (this.pendingCounts[archive][schema] || 0) + 1
+    if (address && schema) {
+      if (!this.pendingCounts[address]) this.pendingCounts[address] = {}
+      this.pendingCounts[address][schema] = (this.pendingCounts[address][schema] || 0) + 1
     }
   }
 
   private registerWithChangeStream = async () => {
-    this.logger?.log('MongoDBArchiveSchemaStatsDiviner.RegisterWithChangeStream: Registering')
-    const wrapper = MongoClientWrapper.get(this.sdk.uri, this.sdk.config.maxPoolSize)
+    this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
+    const wrapper = MongoClientWrapper.get(this.params.boundWitnessSdk.uri, this.params.boundWitnessSdk.config.maxPoolSize)
     const connection = await wrapper.connect()
-    assertEx(connection, 'Connection failed')
-    const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.Payloads)
+    assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
+    const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
     const opts: ChangeStreamOptions = this.resumeAfter ? { resumeAfter: this.resumeAfter } : {}
     this.changeStream = collection.watch([], opts)
     this.changeStream.on('change', this.processChange)
     this.changeStream.on('error', this.registerWithChangeStream)
-    this.logger?.log('MongoDBArchiveSchemaStatsDiviner.RegisterWithChangeStream: Registered')
+    this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registered`)
   }
 
-  private storeDivinedResult = async (archive: string, counts: Record<string, number>) => {
+  private storeDivinedResult = async (address: string, counts: Record<string, number>) => {
     const sanitizedCounts: Record<string, number> = Object.fromEntries(
       Object.entries(counts).map(([schema, count]) => {
         return [toDbProperty(schema), count]
       }),
     )
-    await this.sdk.useMongo(async (mongo) => {
+    await this.params.boundWitnessSdk.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
-        .updateOne({ archive }, { $set: { ['schema.count']: sanitizedCounts } }, updateOptions)
+        .updateOne({ address }, { $set: { ['schema.count']: sanitizedCounts } }, updateOptions)
     })
-    this.pendingCounts[archive] = {}
+    this.pendingCounts[address] = {}
   }
 
   private updateChanges = async () => {
-    this.logger?.log('MongoDBArchiveSchemaStatsDiviner.UpdateChanges: Updating')
-    const updates = Object.keys(this.pendingCounts).map((archive) => {
-      const $inc = Object.keys(this.pendingCounts[archive])
+    this.logger?.log(`${moduleName}.UpdateChanges: Updating`)
+    const updates = Object.keys(this.pendingCounts).map((address) => {
+      const $inc = Object.keys(this.pendingCounts[address])
         .map((schema) => {
-          return { [`schema.count.${toDbProperty(schema)}`]: this.pendingCounts[archive][schema] }
+          return { [`schema.count.${toDbProperty(schema)}`]: this.pendingCounts[address][schema] }
         })
         .reduce((prev, curr) => Object.assign(prev, curr), {})
-      this.pendingCounts[archive] = {}
-      return this.sdk.useMongo(async (mongo) => {
-        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ archive }, { $inc }, updateOptions)
+      this.pendingCounts[address] = {}
+      return this.params.boundWitnessSdk.useMongo(async (mongo) => {
+        await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })
     const results = await Promise.allSettled(updates)
     const succeeded = results.filter(fulfilled).length
     const failed = results.filter(rejected).length
-    this.logger?.log(`MongoDBArchiveSchemaStatsDiviner.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
+    this.logger?.log(`${moduleName}.UpdateChanges: Updated - Succeeded: ${succeeded} Failed: ${failed}`)
   }
 }

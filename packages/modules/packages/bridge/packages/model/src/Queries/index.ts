@@ -1,10 +1,10 @@
-import { ModuleQuery, XyoQuery } from '@xyo-network/module-model'
+import { ModuleQuery, Query } from '@xyo-network/module-model'
 
-import { XyoBridgeConnectQuery } from './Connect'
-import { XyoBridgeDisconnectQuery } from './Disconnect'
+import { BridgeConnectQuery } from './Connect'
+import { BridgeDisconnectQuery } from './Disconnect'
 
 export * from './Connect'
 export * from './Disconnect'
 
-export type XyoBridgeQueryBase = XyoBridgeConnectQuery | XyoBridgeDisconnectQuery
-export type XyoBridgeQuery<T extends XyoQuery | void = void> = ModuleQuery<T extends XyoQuery ? XyoBridgeQueryBase | T : XyoBridgeQueryBase>
+export type BridgeQueryBase = BridgeConnectQuery | BridgeDisconnectQuery
+export type BridgeQuery<T extends Query | void = void> = ModuleQuery<T extends Query ? BridgeQueryBase | T : BridgeQueryBase>

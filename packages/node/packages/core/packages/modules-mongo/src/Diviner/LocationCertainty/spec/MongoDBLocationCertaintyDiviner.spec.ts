@@ -1,12 +1,17 @@
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/node-core-model'
+import { LocationCertaintyDivinerConfigSchema, LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/node-core-model'
+import { mock } from 'jest-mock-extended'
 
 import { MongoDBLocationCertaintyDiviner } from '../MongoDBLocationCertaintyDiviner'
 
 describe.skip('MongoDBLocationCertaintyDiviner', () => {
+  const logger = mock<Console>()
   let sut: MongoDBLocationCertaintyDiviner
-  beforeEach(async () => {
-    sut = (await MongoDBLocationCertaintyDiviner.create()) as MongoDBLocationCertaintyDiviner
+  beforeAll(async () => {
+    sut = await MongoDBLocationCertaintyDiviner.create({
+      config: { schema: LocationCertaintyDivinerConfigSchema },
+      logger,
+    })
   })
   describe('divine', () => {
     describe('with valid query', () => {

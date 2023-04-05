@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { XyoEthereumGasEtherscanSchema } from './Schema'
 
@@ -36,7 +36,7 @@ export interface EthereumGasEtherscanResponse {
   status: string
 }
 
-export type XyoEthereumGasEtherscanPayload = XyoPayload<
+export type XyoEthereumGasEtherscanPayload = Payload<
   EthereumGasEtherscanResponse & {
     schema: XyoEthereumGasEtherscanSchema
     timestamp: number

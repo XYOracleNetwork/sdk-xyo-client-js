@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Query } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 
-import { ArchiveQueryPayload } from './ArchiveQueryPayload'
 import { ArchivistPayloadStatsDivinerConfig } from './PayloadStatsDiviner'
 import { StatsPayload } from './StatsPayload'
 
@@ -16,7 +16,7 @@ export const BoundWitnessStatsConfigSchema: BoundWitnessStatsConfigSchema = 'net
 
 export type BoundWitnessStatsDivinerConfig<
   S extends string = BoundWitnessStatsConfigSchema,
-  T extends XyoPayload = XyoPayload,
+  T extends Payload = Payload,
 > = ArchivistPayloadStatsDivinerConfig<
   S,
   T & {
@@ -25,10 +25,9 @@ export type BoundWitnessStatsDivinerConfig<
 >
 
 export type BoundWitnessStatsPayload = StatsPayload<{ schema: BoundWitnessStatsSchema }>
-export const isBoundWitnessStatsPayload = (x?: XyoPayload | null): x is BoundWitnessStatsPayload => x?.schema === BoundWitnessStatsSchema
+export const isBoundWitnessStatsPayload = (x?: Payload | null): x is BoundWitnessStatsPayload => x?.schema === BoundWitnessStatsSchema
 
-export type BoundWitnessStatsQueryPayload = ArchiveQueryPayload<{ schema: BoundWitnessStatsQuerySchema }>
-export const isBoundWitnessStatsQueryPayload = (x?: XyoPayload | null): x is BoundWitnessStatsQueryPayload =>
-  x?.schema === BoundWitnessStatsQuerySchema
+export type BoundWitnessStatsQueryPayload = Query<{ schema: BoundWitnessStatsQuerySchema }>
+export const isBoundWitnessStatsQueryPayload = (x?: Payload | null): x is BoundWitnessStatsQueryPayload => x?.schema === BoundWitnessStatsQuerySchema
 
 export type BoundWitnessStatsDiviner = AbstractDiviner

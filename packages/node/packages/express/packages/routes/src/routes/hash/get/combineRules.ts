@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import {
   isPayloadAddressRule,
-  isPayloadArchiveRule,
   isPayloadSchemaRule,
   isPayloadTimestampDirectionRule,
   PayloadRule,
@@ -20,13 +19,6 @@ export const combineRules = (rules: PayloadRule[][]): PayloadSearchCriteria => {
     .map((r) => r.address)
     .filter(exists)
 
-  const archives = rules
-    .flat()
-    .filter(isPayloadArchiveRule)
-    .map((r) => r.archive)
-    .filter(exists)
-  assertEx(archives.length, 'At least one archive must be supplied')
-
   const schemas = rules
     .flat()
     .filter(isPayloadSchemaRule)
@@ -42,7 +34,6 @@ export const combineRules = (rules: PayloadRule[][]): PayloadSearchCriteria => {
 
   return {
     addresses,
-    archives,
     direction,
     schemas,
     timestamp,

@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { Buffer } from '@xylabs/buffer'
 import { AccountInstance } from '@xyo-network/account-model'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Hasher, sortFields } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
 
 export interface BoundWitnessBuilderConfig {
@@ -15,10 +15,7 @@ export interface BoundWitnessBuilderConfig {
   readonly timestamp?: boolean
 }
 
-export class BoundWitnessBuilder<
-  TBoundWitness extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness,
-  TPayload extends XyoPayload = XyoPayload,
-> {
+export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness, TPayload extends Payload = Payload> {
   private _accounts: AccountInstance[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
@@ -31,7 +28,7 @@ export class BoundWitnessBuilder<
     return (
       this._payloadHashes ??
       this._payloads.map((payload) => {
-        return assertEx(new Hasher(payload).hash)
+        return assertEx(Hasher.hash(payload))
       })
     )
   }
@@ -40,28 +37,25 @@ export class BoundWitnessBuilder<
     return (
       this._payloadSchemas ??
       this._payloads.map((payload) => {
-        return assertEx(payload.schema, `Builder: Missing Schema\n${JSON.stringify(this._payloads, null, 2)}`)
+        return assertEx(payload.schema, () => this.missingSchemaMessage(payload))
       })
     )
   }
 
-  build(): [TBoundWitness, TPayload[]] {
+  build(meta = false): [TBoundWitness, TPayload[]] {
     const hashableFields = this.hashableFields()
     const _hash = BoundWitnessWrapper.hash(hashableFields)
-
     const ret: TBoundWitness = {
       ...hashableFields,
       _signatures: this.signatures(_hash),
     }
-
-    if (this.config?.meta ?? true) {
+    if (meta ?? this.config?.meta) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const bwWithMeta = ret as any
       bwWithMeta._client = 'js'
       bwWithMeta._hash = _hash
       bwWithMeta._timestamp = this._timestamp
     }
-
     if (this.config.inlinePayloads) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const anyRet = ret as any
@@ -74,12 +68,14 @@ export class BoundWitnessBuilder<
   hashableFields(): TBoundWitness {
     const addresses = this._accounts.map((account) => account.addressValue.hex)
     const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
+    const payload_hashes = assertEx(this._payload_hashes, 'Missing payload_hashes')
+    const payload_schemas = assertEx(this._payload_schemas, 'Missing payload_schemas')
     const result: TBoundWitness = {
       addresses: assertEx(addresses, 'Missing addresses'),
-      payload_hashes: assertEx(this._payload_hashes, 'Missing payload_hashes'),
-      payload_schemas: assertEx(this._payload_schemas, 'Missing payload_schemas'),
+      payload_hashes,
+      payload_schemas,
       previous_hashes,
-      schema: XyoBoundWitnessSchema,
+      schema: BoundWitnessSchema,
     } as TBoundWitness
 
     assertEx(result.payload_hashes?.length === result.payload_schemas?.length, 'Payload hash/schema mismatch')
@@ -91,6 +87,7 @@ export class BoundWitnessBuilder<
     if (this.config.timestamp ?? true) {
       result.timestamp = this._timestamp
     }
+
     return result
   }
 
@@ -124,6 +121,11 @@ export class BoundWitnessBuilder<
     return this
   }
 
+  witnesses(accounts: AccountInstance[]) {
+    this._accounts?.push(...accounts)
+    return this
+  }
+
   protected signatures(_hash: string) {
     return this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
   }
@@ -135,5 +137,9 @@ export class BoundWitnessBuilder<
         schema: this._payload_schemas[index],
       }
     })
+  }
+
+  private missingSchemaMessage(payload: Payload) {
+    return `Builder: Missing Schema\n${JSON.stringify(payload, null, 2)}`
   }
 }

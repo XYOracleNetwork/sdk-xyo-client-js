@@ -13,18 +13,19 @@
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/dns": "workspace:^",
+    "@xyo-network/metamask-connector": "workspace:^",
     "@xyo-network/network": "workspace:^",
     "@xyo-network/payload-plugin": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/schema-cache": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",
     "@xyo-network/storage": "workspace:^",
-    "@xyo-network/utils": "workspace:^",
     "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.16.1",
-    "@xylabs/tsconfig": "^2.16.1",
+    "@xylabs/ts-scripts-yarn3": "^2.16.4",
+    "@xylabs/tsconfig": "^2.16.4",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -60,6 +61,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.52.0-rc.5",
-  "stableVersion": "2.51.9"
+  "version": "2.54.7"
 }

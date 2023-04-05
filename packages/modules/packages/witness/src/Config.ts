@@ -1,14 +1,14 @@
 import { WithAdditional } from '@xyo-network/core'
 import { ModuleConfig } from '@xyo-network/module'
-import { PayloadSetPayload, XyoPayload } from '@xyo-network/payload-model'
+import { Payload, PayloadSetPayload } from '@xyo-network/payload-model'
 
-export type XyoWitnessConfigSchema = 'network.xyo.witness.config'
-export const XyoWitnessConfigSchema: XyoWitnessConfigSchema = 'network.xyo.witness.config'
+export type WitnessConfigSchema = 'network.xyo.witness.config'
+export const WitnessConfigSchema: WitnessConfigSchema = 'network.xyo.witness.config'
 
-export type XyoWitnessConfig<TConfig extends XyoPayload | undefined = undefined> = ModuleConfig<
+export type WitnessConfig<TConfig extends Payload | undefined = undefined> = ModuleConfig<
   WithAdditional<
     {
-      schema: TConfig extends XyoPayload ? TConfig['schema'] : XyoWitnessConfigSchema
+      schema: TConfig extends Payload ? TConfig['schema'] : WitnessConfigSchema
       targetSet?: PayloadSetPayload
     },
     TConfig

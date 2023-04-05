@@ -1,6 +1,6 @@
 import { asyncHandler, NoReqBody, NoReqQuery } from '@xylabs/sdk-api-express-ecs'
 import { setRawResponseFormat } from '@xyo-network/express-node-middleware'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
 import { StatusCodes } from 'http-status-codes'
 
@@ -9,7 +9,7 @@ import { HashPathParams } from './HashPathParams'
 
 const reservedHashes = ['archive', 'schema', 'doc', 'domain']
 
-const handler: RequestHandler<HashPathParams, XyoPayload, NoReqBody, NoReqQuery> = async (req, res, next) => {
+const handler: RequestHandler<HashPathParams, Payload, NoReqBody, NoReqQuery> = async (req, res, next) => {
   if (res.headersSent) {
     return
   }

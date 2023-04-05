@@ -1,21 +1,27 @@
 import { allowAnonymous } from '@xyo-network/express-node-middleware'
 import { Express } from 'express'
+import { StatusCodes } from 'http-status-codes'
 
-import { getAddress, getByHash, getNode, postAddress, postNode } from '../routes'
+import { getAddress, getByHash, postAddress } from '../routes'
 
 export const addNodeRoutes = (app: Express) => {
+  // TODO: Allow other default modules to be mounted at root
+  const defaultModule = app.node
+  const address = defaultModule.address
+  const defaultModuleEndpoint = `/${address}`
   app.get(
     '/',
     allowAnonymous,
-    getNode /* #swagger.tags = ['Node'] */,
-    /* #swagger.summary = 'Gets modules on the Node' */
+    (_req, res) => res.redirect(StatusCodes.MOVED_TEMPORARILY, defaultModuleEndpoint),
+    /* #swagger.tags = ['Node'] */
+    /* #swagger.summary = 'Discovers the Node' */
   )
   app.post(
     '/',
     allowAnonymous,
-    postNode,
+    (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, defaultModuleEndpoint),
     /* #swagger.tags = ['Node'] */
-    /* #swagger.summary = 'Execute the supplied queries, contained as Payloads in one or more Bound Witnesses. Implementation is specific to the supplied payload schemas.' */
+    /* #swagger.summary = 'Execute the supplied queries, contained as Payloads in one or more Bound Witnesses, against the Node. Implementation is specific to the supplied payload schemas.' */
   )
   app.get(
     '/:address',
@@ -24,18 +30,18 @@ export const addNodeRoutes = (app: Express) => {
     /* #swagger.tags = ['Node'] */
     /* #swagger.summary = 'Get the module info for the supplied address' */
   )
-  app.get(
-    '/:hash',
-    allowAnonymous,
-    getByHash,
-    /* #swagger.tags = ['Node'] */
-    /* #swagger.summary = 'Get the HURI from the archivist' */
-  )
   app.post(
     '/:address',
     allowAnonymous,
     postAddress,
     /* #swagger.tags = ['Node'] */
     /* #swagger.summary = 'Execute the supplied queries, contained as Payloads in one or more Bound Witnesses. Implementation is specific to the supplied payload schemas.' */
+  )
+  app.get(
+    '/:hash',
+    allowAnonymous,
+    getByHash,
+    /* #swagger.tags = ['Node'] */
+    /* #swagger.summary = 'Get the HURI from the archivist' */
   )
 }

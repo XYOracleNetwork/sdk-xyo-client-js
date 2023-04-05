@@ -1,2 +1,2 @@
-export * from './XyoPayloadMeta'
-export * from './XyoPayloadWithMeta'
+export * from './PayloadMeta'
+export * from './PayloadWithMeta'

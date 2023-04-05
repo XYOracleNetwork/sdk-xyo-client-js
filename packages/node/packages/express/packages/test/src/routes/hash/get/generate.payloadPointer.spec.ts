@@ -1,29 +1,46 @@
-import { Account } from '@xyo-network/account'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { PayloadAddressRule, PayloadArchiveRule, PayloadPointerBody, payloadPointerSchema, PayloadSchemaRule } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { ArchivistWrapper } from '@xyo-network/archivist'
+import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
+import { PayloadAddressRule, PayloadPointerPayload, PayloadPointerSchema, PayloadSchemaRule } from '@xyo-network/node-core-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-const gasSchemas = [
-  'network.xyo.blockchain.ethereum.gas.ethgasstation',
-  'network.xyo.blockchain.ethereum.gas.etherchain.v2',
-  'network.xyo.blockchain.ethereum.gas.etherscan',
-  'network.xyo.blockchain.ethereum.gas.blocknative',
-  'network.xyo.blockchain.ethereum.gas.ethers',
-  'network.xyo.blockchain.ethereum.gas',
+type DappInfo = [schema: string, address: string]
+
+const beta = true
+
+const betaDapps: DappInfo[] = [
+  ['network.xyo.blockchain.ethereum.gas', '85e7a0494c1feb184a80d64aca7bef07d8efd960'],
+  ['network.xyo.crypto.asset', 'f90b9ad30ea94d3df17d51c727c416b46faf18b6'],
+  ['network.xyo.crypto.market.uniswap', '2d0fb5708b9d68bfaa96c6e426cbc66a341f117d'],
 ]
-const assetSchemas = ['network.xyo.crypto.market.uniswap', 'network.xyo.crypto.market.coingecko', 'network.xyo.crypto.asset']
+const prodDapps: DappInfo[] = [
+  ['network.xyo.blockchain.ethereum.gas', '5b1037aa01cbba864f0908a7916b6c1de2f2be20'],
+  ['network.xyo.crypto.asset', 'fce4ff8050a80076d2f95b77c61c847ae0d8b77f'],
+  ['network.xyo.crypto.market.uniswap', 'd6ceab805cd617bb5b1ce86d11f24aae8ec7e26f'],
+]
+
+const cases = beta ? betaDapps : prodDapps
+const nodeUrl = beta ? 'https://beta.api.archivist.xyo.network' : 'https://api.archivist.xyo.network'
 
 describe.skip('Generation of automation payload pointers', () => {
-  it.each([...gasSchemas, ...assetSchemas])('Generates automation witness payload for %s schema', (schema) => {
-    const addressRule: PayloadAddressRule = { address: '1d8cb128afeed493e0c3d9de7bfc415aecfde283' } // Beta
-    // const addressRule: PayloadAddressRule = { address: '4618fce2a84b9cbc64bb07f7249caa6df2a892c7' } // Prod
-    const archiveRule: PayloadArchiveRule = { archive: 'crypto-price-witness' }
+  let archivist: ArchivistWrapper
+  beforeAll(async () => {
+    const schema = HttpBridgeConfigSchema
+    const security = { allowAnonymous: true }
+    const bridge = await HttpBridge.create({ config: { nodeUrl, schema, security } })
+    const modules = await bridge.downResolver.resolve({ name: ['Archivist'] })
+    const module = modules.pop()
+    expect(module).toBeDefined()
+    archivist = ArchivistWrapper.wrap(module)
+  })
+  it.each(cases)('Generates automation witness payload for %s schema', async (schema, address) => {
+    const addressRule: PayloadAddressRule = { address }
     const schemaRule: PayloadSchemaRule = { schema }
-    const fields: PayloadPointerBody = { reference: [[addressRule], [archiveRule], [schemaRule]], schema: payloadPointerSchema }
-    const payload = new XyoPayloadBuilder<PayloadPointerBody>({ schema: payloadPointerSchema }).fields(fields).build()
-    const bw = new BoundWitnessBuilder({ inlinePayloads: true }).witness(Account.random()).payload(payload).build()
-    console.log(`==== ${schema} ====`)
-    console.log(JSON.stringify(bw, undefined, 2))
-    console.log('===========================================')
+    const fields = { reference: [[addressRule], [schemaRule]], schema: PayloadPointerSchema }
+    const payload = new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields(fields).build()
+    await archivist.insert([payload])
+    const hash = PayloadWrapper.hash(payload)
+    const url = `${nodeUrl}/${hash}`
+    console.log(`Dapp: ${schema} Pointer: ${url}`)
   })
 })

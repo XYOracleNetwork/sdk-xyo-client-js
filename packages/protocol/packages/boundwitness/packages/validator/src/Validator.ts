@@ -1,5 +1,5 @@
 import { AddressValue } from '@xyo-network/account'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { Hasher } from '@xyo-network/core'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { validateType } from '@xyo-network/typeof'
@@ -9,13 +9,13 @@ const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array l
   return a.length != b.length ? [Error(`${message} []`)] : []
 }
 
-export class BoundWitnessValidator<T extends XyoBoundWitness<{ schema: string }> = XyoBoundWitness> extends PayloadValidator<T> {
+export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = BoundWitness> extends PayloadValidator<T> {
   get hash() {
     return new Hasher(this.obj).hash
   }
 
   protected get expectedSchema(): string {
-    return XyoBoundWitnessSchema
+    return BoundWitnessSchema
   }
 
   static validateSignature(hash: string, address: string, signature?: string): Error[] {

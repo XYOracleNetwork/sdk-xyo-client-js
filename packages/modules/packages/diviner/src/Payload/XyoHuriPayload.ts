@@ -1,9 +1,9 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type XyoHuriSchema = 'network.xyo.huri'
 export const XyoHuriSchema: XyoHuriSchema = 'network.xyo.huri'
 
-export type XyoHuriPayload = XyoPayload<{
+export type XyoHuriPayload = Payload<{
   huri: string[]
   schema: 'network.xyo.huri'
   tokens?: string[]

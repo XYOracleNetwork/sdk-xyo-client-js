@@ -1,34 +1,29 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import {
-  AbstractModule,
-  Module,
-  ModuleConfig,
-  ModuleQueryResult,
-  QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
-} from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-import { XyoWitnessConfigSchema } from './Config'
-import { XyoWitnessObserveQuerySchema, XyoWitnessQuery } from './Queries'
-import { WitnessModule, WitnessParams } from './Witness'
+import { WitnessConfigSchema } from './Config'
+import { WitnessObserveQuerySchema, WitnessQuery } from './Queries'
+import { WitnessModule, WitnessModuleEventData, WitnessParams } from './Witness'
 
-export class AbstractWitness<TParams extends WitnessParams = WitnessParams> extends AbstractModule<TParams> implements WitnessModule, Module {
-  static override configSchema: string = XyoWitnessConfigSchema
+export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData>
+  extends AbstractModule<TParams, TEventData>
+  implements WitnessModule<TParams, TEventData>
+{
+  static override configSchema: string = WitnessConfigSchema
 
   override get queries(): string[] {
-    return [XyoWitnessObserveQuerySchema, ...super.queries]
+    return [WitnessObserveQuerySchema, ...super.queries]
   }
 
   get targetSet() {
     return this.config?.targetSet
   }
 
-  observe(payloads?: XyoPayload[]): Promisable<XyoPayload[]> {
+  observe(payloads?: Payload[]): Promisable<Payload[]> {
     this.started('throw')
     const payloadList = assertEx(payloads, 'Trying to witness nothing')
     assertEx(payloadList.length > 0, 'Trying to witness empty list')
@@ -37,12 +32,12 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams> exte
     return payloadList
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoWitnessQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<WitnessQuery>(query, payloads)
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     // Remove the query payload from the arguments passed to us so we don't observe it
@@ -50,19 +45,19 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams> exte
     const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
-        case XyoWitnessObserveQuerySchema: {
-          await this.emit('reportStart', { inPayloads: payloads })
+        case WitnessObserveQuerySchema: {
+          await this.emit('reportStart', { inPayloads: payloads, module: this })
           const resultPayloads = await this.observe(filteredObservation)
-          await this.emit('reportEnd', { inPayloads: payloads, outPayloads: resultPayloads })
+          await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
           return this.bindResult(resultPayloads, queryAccount)
         }
         default: {
-          return super.query(query, payloads)
+          return super.queryHandler(query, payloads)
         }
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindResult([new XyoErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
+      return this.bindResult([new ModuleErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
     }
   }
 }

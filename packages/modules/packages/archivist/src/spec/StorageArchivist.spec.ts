@@ -3,7 +3,9 @@
  */
 
 import { Account } from '@xyo-network/account'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
+import { ModuleQuery, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -43,7 +45,7 @@ testArchivistAll(
   'page',
 )
 
-test('XyoArchivist Private Key Save', async () => {
+test('Archivist Private Key Save', async () => {
   const storage = await StorageArchivist.create({
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
   })
@@ -54,7 +56,7 @@ test('XyoArchivist Private Key Save', async () => {
   expect(storage2.address).toBe(address)
 })
 
-test('XyoArchivist passed account', async () => {
+test('Archivist passed account', async () => {
   const account = new Account({ phrase: 'temp' })
 
   const storage = (await StorageArchivist.create({
@@ -65,7 +67,7 @@ test('XyoArchivist passed account', async () => {
   expect(storage['account'].addressValue.hex).toBe(account.addressValue.hex)
 })
 
-test('XyoArchivist Parent Write Through', async () => {
+test('Archivist Parent Write Through', async () => {
   const node = await MemoryNode.create()
   const memory = await MemoryArchivist.create()
 
@@ -78,16 +80,30 @@ test('XyoArchivist Parent Write Through', async () => {
       type: 'local',
     },
   })) as StorageArchivist
-  await node.register(memory).attach(memory.address)
-  await node.register(storage).attach(storage.address)
+  await node.register(memory)
+  await node.attach(memory.address)
+  await node.register(storage)
+  await node.attach(storage.address)
 
   const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })
 
   expect(wrapper).toBeDefined()
 
-  const inserted = await storage.insert([wrapper.payload])
+  storage.on('inserted', ({ boundWitnesses }) => {
+    expect(boundWitnesses.length).toBeGreaterThan(0)
+  })
 
-  expect(inserted).toBeArrayOfSize(2)
+  storage.on('moduleQueried', ({ query, payloads }) => {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    expect(wrapper.query).toBeDefined()
+    console.log(`Queried: ${wrapper.query.schema}`)
+  })
+
+  const storageWrapper = ArchivistWrapper.wrap(storage)
+
+  const inserted = await storageWrapper.insert([wrapper.payload])
+
+  expect(inserted).toBeArrayOfSize(3)
 
   const fromStorage = await storage.get([wrapper.hash])
   const fromMemory = await memory.get([wrapper.hash])
@@ -96,11 +112,11 @@ test('XyoArchivist Parent Write Through', async () => {
   expect(fromMemory).toBeArrayOfSize(1)
 })
 
-test('XyoArchivist Parent Reads', async () => {
+test('Archivist Parent Reads', async () => {
   const parent = await MemoryArchivist.create()
   const memoryNode = await MemoryNode.create()
 
-  memoryNode.register(parent)
+  await memoryNode.register(parent)
   await memoryNode.attach(parent.address, true)
 
   const storage = await StorageArchivist.create({
@@ -112,7 +128,7 @@ test('XyoArchivist Parent Reads', async () => {
       type: 'local',
     },
   })
-  memoryNode.register(storage)
+  await memoryNode.register(storage)
   await memoryNode.attach(storage.address, true)
 
   const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })

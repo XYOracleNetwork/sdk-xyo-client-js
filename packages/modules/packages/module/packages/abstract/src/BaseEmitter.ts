@@ -1,47 +1,59 @@
-import { Base } from '@xyo-network/core'
-import { EventAnyListener, EventDataParams, EventFunctions, EventListener, Events } from '@xyo-network/module-events'
+import { Base, BaseParams } from '@xyo-network/core'
+import { EventAnyListener, EventData, EventFunctions, EventListener, Events } from '@xyo-network/module-events'
 
-export class BaseEmitter<TParams extends EventDataParams = EventDataParams> extends Base<TParams> implements EventFunctions<TParams['eventData']> {
-  private events: Events<TParams['eventData']>
+export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData extends EventData = EventData>
+  extends Base<TParams>
+  implements EventFunctions<TEventData>
+{
+  //just here to query types
+  eventData = {} as TEventData
+
+  private events: Events<TEventData>
 
   constructor(params: TParams) {
     super(params)
-    this.events = new Events(params.eventData)
+    this.events = new Events<TEventData>()
   }
 
-  clearListeners(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][]) {
+  clearListeners(eventNames: keyof TEventData | (keyof TEventData)[]) {
     return this.events.clearListeners(eventNames)
   }
 
-  emit(eventName: keyof TParams['eventData'], eventArgs?: TParams['eventData'][keyof TParams['eventData']]) {
+  emit<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs: TEventArgs,
+  ) {
     return this.events.emit(eventName, eventArgs)
   }
 
-  emitSerial(eventName: keyof TParams['eventData'], eventArgs?: TParams['eventData'][keyof TParams['eventData']]) {
+  emitSerial<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs: TEventArgs,
+  ) {
     return this.events.emitSerial(eventName, eventArgs)
   }
 
-  listenerCount(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][]) {
+  listenerCount(eventNames: keyof TEventData | (keyof TEventData)[]) {
     return this.events.listenerCount(eventNames)
   }
 
-  off(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
+  off<TEventName extends keyof TEventData>(eventNames: TEventName | TEventName[], listener: EventListener<TEventData[TEventName]>) {
     return this.events.off(eventNames, listener)
   }
 
-  offAny(listener: EventAnyListener<TParams['eventData']>) {
+  offAny(listener: EventAnyListener) {
     return this.events.offAny(listener)
   }
 
-  on(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
+  on<TEventName extends keyof TEventData>(eventNames: TEventName | TEventName[], listener: EventListener<TEventData[TEventName]>) {
     return this.events.on(eventNames, listener)
   }
 
-  onAny(listener: EventAnyListener<TParams['eventData']>) {
+  onAny(listener: EventAnyListener) {
     return this.events.onAny(listener)
   }
 
-  once(eventNames: keyof TParams['eventData'] | keyof TParams['eventData'][], listener: EventListener<TParams['eventData']>) {
-    return this.events.once(eventNames, listener)
+  once<TEventName extends keyof TEventData>(eventName: TEventName, listener: EventListener<TEventData[TEventName]>) {
+    return this.events.once(eventName, listener)
   }
 }

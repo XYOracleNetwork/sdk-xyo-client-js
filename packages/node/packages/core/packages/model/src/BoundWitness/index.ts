@@ -1,2 +1,2 @@
-export * from './XyoBoundWitnessMeta'
-export * from './XyoBoundWitnessWithMeta'
+export * from './BoundWitnessMeta'
+export * from './BoundWitnessWithMeta'

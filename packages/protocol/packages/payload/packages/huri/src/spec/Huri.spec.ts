@@ -1,6 +1,6 @@
 import { delay } from '@xylabs/delay'
 import { axios } from '@xyo-network/axios'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { Huri } from '../Huri'
 
@@ -89,7 +89,7 @@ describe('Huri', () => {
     invalid.map((item) => {
       test(`invalid [${item}]`, async () => {
         const oldFetch = Huri.fetch
-        Huri.fetch = async <T extends XyoPayload = XyoPayload>(huri: Huri): Promise<T | undefined> => {
+        Huri.fetch = async <T extends Payload = Payload>(huri: Huri): Promise<T | undefined> => {
           await delay(0)
           const payload: T = {
             schema: huri.hash,

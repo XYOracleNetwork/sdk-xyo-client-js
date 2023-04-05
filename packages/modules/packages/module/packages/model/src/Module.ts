@@ -1,12 +1,13 @@
-import { EventFunctions } from '@xyo-network/module-events'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { ModuleConfig } from './Config'
 import { ModuleFilter } from './ModuleFilter'
 import { AnyConfigSchema, ModuleParams } from './ModuleParams'
 import { ModuleQueryResult } from './ModuleQueryResult'
-import { XyoQueryBoundWitness } from './Query'
+import { QueryBoundWitness } from './Query'
 
 export interface ModuleResolver {
   addResolver: (resolver: ModuleResolver) => this
@@ -15,7 +16,28 @@ export interface ModuleResolver {
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
 }
 
-export type Module<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
+export type ModuleEventArgs<TModule extends Module = Module, TArgs extends EventArgs | undefined = undefined> = TArgs extends EventArgs
+  ? {
+      module: TModule
+    } & TArgs
+  : {
+      module: TModule
+    }
+
+export type ModuleQueriedEventArgs = ModuleEventArgs<
+  Module,
+  {
+    payloads?: Payload[]
+    query: QueryBoundWitness
+    result: [BoundWitness, Payload[]]
+  }
+>
+
+export interface ModuleEventData extends EventData {
+  moduleQueried: ModuleQueriedEventArgs
+}
+
+export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
   address: string
   config: TParams['config']
 
@@ -25,14 +47,14 @@ export type Module<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> =
   params: TParams
 
   queries: string[]
-  query: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
+  query: <T extends QueryBoundWitness = QueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConf,
   ) => Promisable<ModuleQueryResult>
-  queryable: <T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
+  queryable: <T extends QueryBoundWitness = QueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConf,
   ) => Promisable<boolean>
 
@@ -41,4 +63,9 @@ export type Module<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> =
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
   readonly upResolver: ModuleResolver
-} & EventFunctions<TParams['eventData']>
+}
+
+export type Module<
+  TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = ModuleFields<TParams> & EventFunctions<TEventData>

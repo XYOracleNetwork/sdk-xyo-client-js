@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AbstractDiviner,
   AddressHistoryDiviner,
@@ -11,16 +11,20 @@ import {
   XyoArchivistPayloadDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { XyoBoundWitnessWithMeta } from '@xyo-network/node-core-model'
-import { XyoPayloads } from '@xyo-network/payload-model'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
-import { getBaseMongoSdk, removeId } from '../../Mongo'
+import { removeId } from '../../Mongo'
 
-export type MongoDBAddressHistoryDivinerParams = DivinerParams<AnyConfigSchema<XyoArchivistPayloadDivinerConfig>>
+export type MongoDBAddressHistoryDivinerParams = DivinerParams<
+  AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  {
+    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
+  }
+>
 
 export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams>
   extends AbstractDiviner<TParams>
@@ -28,9 +32,7 @@ export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryD
 {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
-  protected readonly sdk: BaseMongoSdk<XyoBoundWitnessWithMeta> = getBaseMongoSdk<XyoBoundWitnessWithMeta>(COLLECTIONS.BoundWitnesses)
-
-  override async divine(payloads?: XyoPayloads): Promise<XyoPayloads<XyoBoundWitness>> {
+  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []
@@ -44,13 +46,15 @@ export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryD
     return blocks.map(removeId)
   }
 
-  private getBlocks = async (hash: string, address: string, limit: number): Promise<XyoBoundWitnessWithMeta[]> => {
+  private getBlocks = async (hash: string, address: string, limit: number): Promise<BoundWitnessWithMeta[]> => {
     let nextHash = hash
-    const blocks: XyoBoundWitnessWithMeta[] = []
+    const blocks: BoundWitnessWithMeta[] = []
     for (let i = 0; i < limit; i++) {
-      const filter: Filter<XyoBoundWitnessWithMeta> = { addresses: address }
+      const filter: Filter<BoundWitnessWithMeta> = { addresses: address }
       if (nextHash) filter._hash = nextHash
-      const block = (await (await this.sdk.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
+      const block = (
+        await (await this.params.boundWitnessSdk.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()
+      ).pop()
       if (!block) break
       blocks.push(block)
       const addressIndex = block.addresses.findIndex((value) => value === address)

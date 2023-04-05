@@ -3,13 +3,14 @@ const generateJestConfig = ({ esModules }) => {
   return {
     coveragePathIgnorePatterns: ['<rootDir>/(.*)/dist'],
     globalSetup: './packages/node/packages/express/packages/test/src/globalSetup.ts',
+    globalTeardown: './packages/node/packages/express/packages/test/src/globalTeardown.ts',
     moduleNameMapper: {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     preset: 'ts-jest/presets/default-esm',
     setupFiles: ['dotenv/config'],
-    setupFilesAfterEnv: ['jest-sorted', 'jest-extended/all'],
-    testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
+    setupFilesAfterEnv: ['jest-sorted', 'jest-extended/all', './packages/node/packages/express/packages/test/src/setupFiles.ts'],
+    testRegex: '(/__tests__/.*|(\\.|/)((!perf\\.)test|spec))\\.tsx?$',
     testTimeout: 20000,
     transform: {
       [`(${esModulesList}).+\\.js$`]: 'babel-jest',

@@ -13,6 +13,10 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
         node: [18]
     runs-on: ${{ matrix.os }}
+    env:
+      NODE_OPTIONS: "--max_old_space_size=5120"
+      YARN_CACHE_FOLDER: ./.yarn/cache
+
     steps:
       # Turn off windows-defender for this folder to speed up compile
       - if: runner.os == 'Windows'

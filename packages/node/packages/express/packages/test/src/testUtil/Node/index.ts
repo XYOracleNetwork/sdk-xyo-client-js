@@ -1,3 +1,1 @@
-export * from './getHash'
-export * from './postCommands'
-export * from './queryCommandResult'
+export * from './getModule'

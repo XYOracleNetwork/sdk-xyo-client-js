@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ScreenLogic from 'node-screenlogic'
+import { FindUnits, RemoteLogin, UnitConnection } from 'node-screenlogic'
 
 /* From https://github.com/schemers/homebridge-screenlogic */
 
@@ -36,7 +36,7 @@ export class Controller {
     this.password = settings?.password
   }
 
-  _getConnection(): Promise<ScreenLogic.UnitConnection> {
+  _getConnection(): Promise<UnitConnection> {
     if (this.ip_address) {
       return this._getConnectionByIPAddress()
     } else if (this.username && this.password) {
@@ -47,13 +47,13 @@ export class Controller {
   }
 
   /** get a connection by udp broadcast */
-  _getConnectionByBroadcast(): Promise<ScreenLogic.UnitConnection> {
+  _getConnectionByBroadcast(): Promise<UnitConnection> {
     return new Promise((resolve, reject) => {
-      const finder = new ScreenLogic.FindUnits()
+      const finder = new FindUnits()
       finder
         .on('serverFound', (server: { gatewayName: any }) => {
           finder.close()
-          const connection = new ScreenLogic.UnitConnection(server)
+          const connection = new UnitConnection(server)
           connection.gatewayName = server.gatewayName
           resolve(connection)
         })
@@ -65,23 +65,23 @@ export class Controller {
   }
 
   /** get a connection by IP address */
-  _getConnectionByIPAddress(): Promise<ScreenLogic.UnitConnection> {
+  _getConnectionByIPAddress(): Promise<UnitConnection> {
     return new Promise((resolve, _reject) => {
-      const connection = new ScreenLogic.UnitConnection(this.port || 80, this.ip_address, this.password)
+      const connection = new UnitConnection(this.port || 80, this.ip_address, this.password)
       connection.gatewayName = this.username ?? 'Pentair: XX-XX-XX'
       resolve(connection)
     })
   }
 
   /** find a unit by remote login */
-  _getConnectionByRemoteLogin(): Promise<ScreenLogic.UnitConnection> {
+  _getConnectionByRemoteLogin(): Promise<UnitConnection> {
     return new Promise((resolve, reject) => {
-      const remote = new ScreenLogic.RemoteLogin(this.username)
+      const remote = new RemoteLogin(this.username)
       remote
         .on('gatewayFound', (unit: { gatewayFound: any; ipAddr: any; port: any }) => {
           remote.close()
           if (unit && unit.gatewayFound) {
-            const connection = new ScreenLogic.UnitConnection(unit.port, unit.ipAddr, this.password)
+            const connection = new UnitConnection(unit.port, unit.ipAddr, this.password)
             connection.gatewayName = this.username
             resolve(connection)
           } else {
@@ -95,7 +95,7 @@ export class Controller {
     })
   }
 
-  _getPoolConfig(connection: ScreenLogic.UnitConnection): Promise<PoolConfig> {
+  _getPoolConfig(connection: UnitConnection): Promise<PoolConfig> {
     let softwareVersion = ''
     return new Promise((resolve, reject) => {
       connection
@@ -114,7 +114,7 @@ export class Controller {
     })
   }
 
-  _getPoolStatus(connection: ScreenLogic.UnitConnection): Promise<PoolStatus> {
+  _getPoolStatus(connection: UnitConnection): Promise<PoolStatus> {
     return new Promise((resolve, reject) => {
       connection
         .once('poolStatus', (status) => {
@@ -128,7 +128,7 @@ export class Controller {
     })
   }
 
-  _login(connection: ScreenLogic.UnitConnection): Promise<void> {
+  _login(connection: UnitConnection): Promise<void> {
     return new Promise((resolve, reject) => {
       connection
         .once('loggedIn', () => {
@@ -144,7 +144,7 @@ export class Controller {
     })
   }
 
-  _sendLightCommand(connection: ScreenLogic.UnitConnection, cmd: number): Promise<void> {
+  _sendLightCommand(connection: UnitConnection, cmd: number): Promise<void> {
     return new Promise((resolve, reject) => {
       connection
         .once('sentLightCommand', () => {
@@ -160,7 +160,7 @@ export class Controller {
     })
   }
 
-  _setCircuitState(connection: ScreenLogic.UnitConnection, circuitId: number, circuitState: boolean): Promise<void> {
+  _setCircuitState(connection: UnitConnection, circuitId: number, circuitState: boolean): Promise<void> {
     return new Promise((resolve, reject) => {
       connection
         .once('circuitStateChanged', () => {
@@ -176,7 +176,7 @@ export class Controller {
     })
   }
 
-  _setHeatMode(connection: ScreenLogic.UnitConnection, bodyType: number, heatMode: number): Promise<void> {
+  _setHeatMode(connection: UnitConnection, bodyType: number, heatMode: number): Promise<void> {
     return new Promise((resolve, reject) => {
       connection
         .once('heatModeChanged', () => {
@@ -192,7 +192,7 @@ export class Controller {
     })
   }
 
-  _setHeatPoint(connection: ScreenLogic.UnitConnection, bodyType: number, heatPoint: number): Promise<void> {
+  _setHeatPoint(connection: UnitConnection, bodyType: number, heatPoint: number): Promise<void> {
     return new Promise((resolve, reject) => {
       connection
         .once('setPointChanged', () => {

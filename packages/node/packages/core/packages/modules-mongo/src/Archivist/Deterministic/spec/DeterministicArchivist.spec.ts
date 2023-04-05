@@ -5,13 +5,12 @@ Date.now = jest.fn(() => timestamp)
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { XyoBoundWitness, XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
-import { XyoBoundWitnessWithMeta, XyoPayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
-import { MongoMemoryServer } from 'mongodb-memory-server'
 
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBDeterministicArchivist } from '../DeterministicArchivist'
@@ -19,7 +18,6 @@ import { MongoDBDeterministicArchivist } from '../DeterministicArchivist'
 describe('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
   const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
-  const server = new MongoMemoryServer()
   const archiveAccount: Account = new Account({ phrase: 'temp' })
   // 0x10cal
   const userAccount: Account = new Account({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })
@@ -46,23 +44,21 @@ describe('DeterministicArchivist', () => {
   boundWitnessWrapper3.payloads = [payload3, payload4]
 
   let archivist: ArchivistWrapper
-  let insertResult1: XyoBoundWitness[]
-  // let insertResult2: XyoBoundWitness[]
-  let insertResult3: XyoBoundWitness[]
-  const insertResults: XyoBoundWitness[][] = []
+  let insertResult1: BoundWitness[]
+  // let insertResult2: BoundWitness[]
+  let insertResult3: BoundWitness[]
+  const insertResults: BoundWitness[][] = []
   beforeAll(async () => {
     jest.spyOn(Account, 'random').mockImplementation(() => randomAccount)
-    await server.start()
-    const uri = server.getUri()
-    boundWitnessesConfig.dbConnectionString = uri
-    payloadsConfig.dbConnectionString = uri
-    const boundWitnesses: BaseMongoSdk<XyoBoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
-    const payloads: BaseMongoSdk<XyoPayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
+    boundWitnessesConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
+    payloadsConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
+    const boundWitnesses: BaseMongoSdk<BoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)
+    const payloads: BaseMongoSdk<PayloadWithMeta> = new BaseMongoSdk(payloadsConfig)
     const module = await MongoDBDeterministicArchivist.create({
       account: moduleAccount,
-      boundWitnesses,
+      boundWitnessSdk: boundWitnesses,
       config: { schema: ModuleConfigSchema },
-      payloads,
+      payloadSdk: payloads,
     })
     archivist = ArchivistWrapper.wrap(module, archiveAccount)
     const insertions = [
@@ -80,9 +76,6 @@ describe('DeterministicArchivist', () => {
     insertResult1 = insertResults[0]
     // insertResult2 = insertResults[1]
     insertResult3 = insertResults[2]
-  })
-  afterAll(async () => {
-    await server.stop()
   })
   describe('discover', () => {
     it('discovers module', async () => {
@@ -137,7 +130,7 @@ describe('DeterministicArchivist', () => {
   })
   describe.skip('find', () => {
     describe('with schema for BoundWitness', () => {
-      const schema = XyoBoundWitnessSchema
+      const schema = BoundWitnessSchema
       it.each([
         ['finds single boundwitness', [boundWitnessWrapper1]],
         ['finds multiple boundwitness', [boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3]],

@@ -23,15 +23,19 @@ describe('MultiNodeConfiguration', () => {
   beforeAll(async () => {
     primaryNode = await MemoryNode.create({ config: { name: 'primaryNode', schema: NodeConfigSchema } })
     primaryArchivist = await MemoryArchivist.create({ config: { name: 'primaryArchivist', schema: MemoryArchivistConfigSchema } })
-    await primaryNode.register(primaryArchivist).attach(primaryArchivist.address, true)
+    await primaryNode.register(primaryArchivist)
+    await primaryNode.attach(primaryArchivist.address, true)
 
     rightNode = await MemoryNode.create({ config: { name: 'rightNode', schema: NodeConfigSchema } })
     rightInternalArchivist = await MemoryArchivist.create({ config: { name: 'rightInternalArchivist', schema: MemoryArchivistConfigSchema } })
     rightExternalArchivist = await MemoryArchivist.create({ config: { name: 'archivist', schema: MemoryArchivistConfigSchema } })
     rightWitness = await IdWitness.create({ config: { name: 'rightWitness', salt: 'test', schema: IdWitnessConfigSchema } })
-    await rightNode.register(rightInternalArchivist).attach(rightInternalArchivist.address)
-    await rightNode.register(rightExternalArchivist).attach(rightExternalArchivist.address, true)
-    await rightNode.register(rightWitness).attach(rightWitness.address, true)
+    await rightNode.register(rightInternalArchivist)
+    await rightNode.attach(rightInternalArchivist.address)
+    await rightNode.register(rightExternalArchivist)
+    await rightNode.attach(rightExternalArchivist.address, true)
+    await rightNode.register(rightWitness)
+    await rightNode.attach(rightWitness.address, true)
 
     leftNode = await MemoryNode.create({ config: { name: 'leftNode', schema: NodeConfigSchema } })
     leftInternalArchivist = await MemoryArchivist.create({ config: { name: 'leftInternalArchivist', schema: MemoryArchivistConfigSchema } })
@@ -40,13 +44,17 @@ describe('MultiNodeConfiguration', () => {
     leftDiviner = await MemoryAddressHistoryDiviner.create({
       config: { address: leftNode.address, name: 'leftDiviner', schema: AddressHistoryDivinerConfigSchema },
     })
-    await leftNode.register(leftInternalArchivist).attach(leftInternalArchivist.address)
-    await leftNode.register(leftInternalArchivist2).attach(leftInternalArchivist2.address)
-    await leftNode.register(leftExternalArchivist).attach(leftExternalArchivist.address, true)
-    await leftNode.register(leftDiviner).attach(leftDiviner.address, true)
+    await leftNode.register(leftInternalArchivist)
+    await leftNode.attach(leftInternalArchivist.address)
+    await leftNode.register(leftInternalArchivist2)
+    await leftNode.attach(leftInternalArchivist2.address)
+    await leftNode.register(leftExternalArchivist)
+    await leftNode.attach(leftExternalArchivist.address, true)
+    await leftNode.register(leftDiviner)
+    await leftNode.attach(leftDiviner.address, true)
 
-    primaryNode.register(leftNode)
-    primaryNode.register(rightNode)
+    await primaryNode.register(leftNode)
+    await primaryNode.register(rightNode)
   })
   test('leftNode', async () => {
     const primaryNodeWrapper = NodeWrapper.wrap(primaryNode)

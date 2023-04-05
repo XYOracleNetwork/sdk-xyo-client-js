@@ -2,7 +2,7 @@
 import { ArchivistGetQuerySchema, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
-import { XyoWitnessObserveQuerySchema } from '@xyo-network/witness'
+import { WitnessObserveQuerySchema } from '@xyo-network/witness'
 
 describe('XyoModuleResolver', () => {
   let archivist: AbstractModule
@@ -23,9 +23,9 @@ describe('XyoModuleResolver', () => {
     expect((await resolver.resolve({ name: ['memory-archivist'] })).length).toBe(1)
   })
   test('simple by query', async () => {
-    expect((await resolver.resolve({ query: [[ArchivistGetQuerySchema, XyoWitnessObserveQuerySchema]] })).length).toBe(0)
+    expect((await resolver.resolve({ query: [[ArchivistGetQuerySchema, WitnessObserveQuerySchema]] })).length).toBe(0)
     expect((await resolver.resolve({ query: [[ArchivistGetQuerySchema]] })).length).toBe(1)
-    expect((await resolver.resolve({ query: [[XyoWitnessObserveQuerySchema]] })).length).toBe(1)
-    expect((await resolver.resolve({ query: [[ArchivistGetQuerySchema], [XyoWitnessObserveQuerySchema]] })).length).toBe(2)
+    expect((await resolver.resolve({ query: [[WitnessObserveQuerySchema]] })).length).toBe(1)
+    expect((await resolver.resolve({ query: [[ArchivistGetQuerySchema], [WitnessObserveQuerySchema]] })).length).toBe(2)
   })
 })

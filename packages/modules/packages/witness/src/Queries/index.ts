@@ -1,11 +1,9 @@
-import { ModuleQuery, XyoQuery } from '@xyo-network/module-model'
+import { ModuleQuery, Query } from '@xyo-network/module-model'
 
-import { XyoWitnessObserveQuery } from './Observe'
+import { WitnessObserveQuery } from './Observe'
 
 export * from './Observe'
 
-export type XyoWitnessQueryBase = XyoWitnessObserveQuery
+export type WitnessQueryBase = WitnessObserveQuery
 
-export type XyoWitnessQuery<TQuery extends XyoQuery | void = void> = ModuleQuery<
-  TQuery extends XyoQuery ? XyoWitnessQueryBase | TQuery : XyoWitnessQueryBase
->
+export type WitnessQuery<TQuery extends Query | void = void> = ModuleQuery<TQuery extends Query ? WitnessQueryBase | TQuery : WitnessQueryBase>

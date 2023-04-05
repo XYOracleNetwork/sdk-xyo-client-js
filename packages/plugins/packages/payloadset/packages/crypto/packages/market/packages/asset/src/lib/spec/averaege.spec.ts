@@ -1,5 +1,5 @@
 import { AssetInfo, XyoCryptoMarketAssetPayload, XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { average } from '../average'
 
@@ -8,7 +8,7 @@ const schema = XyoCryptoMarketAssetSchema
 const getPayloadWithPrice = (price: number): XyoCryptoMarketAssetPayload => {
   const assets: Record<string, AssetInfo> = { xyo: { value: { usd: price.toString() } } }
   const timestamp = Date.now()
-  return new XyoPayloadBuilder<XyoCryptoMarketAssetPayload>({ schema }).fields({ assets, timestamp }).build()
+  return new PayloadBuilder<XyoCryptoMarketAssetPayload>({ schema }).fields({ assets, timestamp }).build()
 }
 
 describe('average', () => {

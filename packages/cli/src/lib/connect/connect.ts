@@ -15,7 +15,7 @@ export const connect = async (attempts = 60, interval = 500) => {
   let count = 0
   do {
     try {
-      const bridge = await HttpBridge.create({ config: { nodeUri: `${apiConfig.apiDomain}/node`, schema: HttpBridgeConfigSchema } })
+      const bridge = await HttpBridge.create({ config: { nodeUrl: `${apiConfig.apiDomain}`, schema: HttpBridgeConfigSchema } })
       printLine(`Connected Bridge at: ${apiDomain}`)
       printLine(`Local (Bridge) Address: 0x${bridge.address}`)
       printLine(`Remote (Root) Address: 0x${bridge.rootAddress}`)

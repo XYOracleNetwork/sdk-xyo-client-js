@@ -7,15 +7,16 @@ import {
   duplicateModules,
   Module,
   ModuleConfig,
+  ModuleErrorBuilder,
   ModuleFilter,
   ModuleQueryResult,
+  QueryBoundWitness,
   QueryBoundWitnessWrapper,
-  XyoErrorBuilder,
-  XyoQueryBoundWitness,
 } from '@xyo-network/module'
 import {
   NodeConfigSchema,
   NodeModule,
+  NodeModuleEventData,
   NodeModuleParams,
   XyoNodeAttachedQuerySchema,
   XyoNodeAttachQuerySchema,
@@ -23,13 +24,13 @@ import {
   XyoNodeQuery,
   XyoNodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams>
-  extends AbstractModule<TParams>
-  implements NodeModule<TParams>, Module<TParams>, NodeModule, Module
+export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
+  extends AbstractModule<TParams, TEventData>
+  implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
   static override readonly configSchema = NodeConfigSchema
 
@@ -57,59 +58,13 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return await (this.privateResolver.resolve() ?? [])
   }
 
-  override async discover(): Promise<XyoPayload[]> {
+  override async discover(): Promise<Payload[]> {
     const childMods = await this.attachedModules()
     const childModAddresses = childMods.map((mod) =>
-      new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
+      new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
     )
 
     return [...(await super.discover()), ...childModAddresses]
-  }
-
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
-    query: T,
-    payloads?: XyoPayload[],
-    queryConfig?: TConfig,
-  ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
-    try {
-      switch (typedQuery.schema) {
-        case XyoNodeAttachQuerySchema: {
-          await this.attach(typedQuery.address, typedQuery.external)
-          break
-        }
-        case XyoNodeDetachQuerySchema: {
-          await this.detach(typedQuery.address)
-          break
-        }
-        case XyoNodeAttachedQuerySchema: {
-          const addresses = await this.attached()
-          for (const address of addresses) {
-            const payload = new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
-            resultPayloads.push(payload)
-          }
-          break
-        }
-        case XyoNodeRegisteredQuerySchema: {
-          const addresses = await this.registered()
-          for (const address of addresses) {
-            const payload = new XyoPayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
-            resultPayloads.push(payload)
-          }
-          break
-        }
-        default:
-          return await super.query(query, payloads)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
-    }
-    return this.bindResult(resultPayloads, queryAccount)
   }
 
   register(_module: Module): Promisable<this> {
@@ -126,6 +81,52 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   unregister(_module: Module): Promisable<this> {
     throw new Error('Method not implemented.')
+  }
+
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+    query: T,
+    payloads?: Payload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
+    const typedQuery = wrapper.query.payload
+    assertEx(this.queryable(query, payloads, queryConfig))
+    const queryAccount = new Account()
+    const resultPayloads: Payload[] = []
+    try {
+      switch (typedQuery.schema) {
+        case XyoNodeAttachQuerySchema: {
+          await this.attach(typedQuery.address, typedQuery.external)
+          break
+        }
+        case XyoNodeDetachQuerySchema: {
+          await this.detach(typedQuery.address)
+          break
+        }
+        case XyoNodeAttachedQuerySchema: {
+          const addresses = await this.attached()
+          for (const address of addresses) {
+            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+            resultPayloads.push(payload)
+          }
+          break
+        }
+        case XyoNodeRegisteredQuerySchema: {
+          const addresses = await this.registered()
+          for (const address of addresses) {
+            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+            resultPayloads.push(payload)
+          }
+          break
+        }
+        default:
+          return await super.queryHandler(query, payloads)
+      }
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+    }
+    return this.bindResult(resultPayloads, queryAccount)
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

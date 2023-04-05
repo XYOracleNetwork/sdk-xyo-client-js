@@ -1,16 +1,16 @@
 import { Archivist } from '@xyo-network/archivist'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModule } from '@xyo-network/module'
 
-import { XyoBoundWitnessWithPartialMeta } from '../BoundWitness'
-import { XyoBoundWitnessFilterPredicate } from './XyoBoundWitnessFilterPredicate'
+import { BoundWitnessWithPartialMeta } from '../BoundWitness'
+import { BoundWitnessFilterPredicate } from './BoundWitnessFilterPredicate'
 
 export type BoundWitnessArchivist = Archivist<
-  XyoBoundWitnessWithPartialMeta | null,
-  XyoBoundWitness | null,
-  XyoBoundWitnessWithPartialMeta,
-  XyoBoundWitnessWithPartialMeta | null,
-  XyoBoundWitnessFilterPredicate,
+  BoundWitnessWithPartialMeta | null,
+  BoundWitness | null,
+  BoundWitnessWithPartialMeta,
+  BoundWitnessWithPartialMeta | null,
+  BoundWitnessFilterPredicate,
   string
 > &
   AbstractModule

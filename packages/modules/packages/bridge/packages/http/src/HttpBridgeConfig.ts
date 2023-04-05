@@ -6,7 +6,7 @@ export const HttpBridgeConfigSchema: HttpBridgeConfigSchema = 'network.xyo.bridg
 
 export type HttpBridgeConfig<TConfig extends AnyObject = AnyObject> = BridgeConfig<
   {
-    nodeUri?: string
+    nodeUrl?: string
     schema: HttpBridgeConfigSchema
   } & TConfig
 >

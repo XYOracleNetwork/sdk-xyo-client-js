@@ -1,39 +1,77 @@
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { ArchivistModule } from '@xyo-network/modules'
-import { BoundWitnessesArchivist, PayloadSearchCriteria, XyoPayloadFilterPredicate } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { ArchivistWrapper, DivinerWrapper } from '@xyo-network/modules'
+import {
+  BoundWitnessDiviner,
+  BoundWitnessQueryPayload,
+  BoundWitnessQuerySchema,
+  PayloadArchivist,
+  PayloadDiviner,
+  PayloadQueryPayload,
+  PayloadQuerySchema,
+  PayloadSearchCriteria,
+} from '@xyo-network/node-core-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): XyoPayloadFilterPredicate => {
-  const { archives, direction, schemas, timestamp } = searchCriteria
-  const order = direction === 'asc' ? 'asc' : 'desc'
-  const query: XyoPayloadFilterPredicate = { limit: 1, order, timestamp }
-  if (archives?.length) query.archives = archives
-  if (schemas?.length) query.schemas = schemas
-  return query
+const limit = 1
+
+// TODO: Remove once we upgrade to TypeScript 5.0 as this definition is included natively
+// https://github.com/microsoft/TypeScript/issues/48829
+declare global {
+  interface Array<T> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    findLastIndex(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): number
+  }
 }
 
-const isPayloadSignedByAddress = async (archivist: BoundWitnessesArchivist, hash: string, addresses: string[]): Promise<boolean> => {
-  const filter = { addresses, limit: 1, payload_hashes: [hash] }
-  const wrapper = ArchivistWrapper.wrap(archivist)
-  const result = await wrapper.find(filter)
-  return result?.length > 0
+const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
+  const { addresses, direction, schemas, timestamp } = searchCriteria
+  const order = direction === 'asc' ? 'asc' : 'desc'
+  const query: BoundWitnessQueryPayload = { addresses, limit, order, payload_schemas: schemas, schema: BoundWitnessQuerySchema, timestamp }
+  return [query]
+}
+
+const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
+  const { direction, schemas, timestamp } = searchCriteria
+  const order = direction === 'asc' ? 'asc' : 'desc'
+  const query: PayloadQueryPayload = { limit, order, schema: PayloadQuerySchema, schemas, timestamp }
+  return [query]
 }
 
 export const findPayload = async (
-  boundWitnessArchivist: BoundWitnessesArchivist,
-  payloadArchivist: ArchivistModule,
+  archivist: PayloadArchivist,
+  boundWitnessDiviner: BoundWitnessDiviner,
+  payloadDiviner: PayloadDiviner,
   searchCriteria: PayloadSearchCriteria,
-): Promise<XyoPayload | undefined> => {
+): Promise<Payload | undefined> => {
+  let response: Payload | undefined
+  // Find witnessed payload
   const { addresses } = searchCriteria
-  const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
-  const wrapper = ArchivistWrapper.wrap(payloadArchivist)
-  const result = await wrapper.find(filter)
-  const payload = result?.[0] ? PayloadWrapper.parse(result[0]) : undefined
-  if (payload && addresses.length) {
-    const hash = payload.hash
-    const signed = await isPayloadSignedByAddress(boundWitnessArchivist, hash, addresses)
-    if (!signed) return undefined
+  if (addresses?.length) {
+    const filter = createBoundWitnessFilterFromSearchCriteria(searchCriteria)
+    const boundWitnesses = DivinerWrapper.wrap(boundWitnessDiviner)
+    const result = await boundWitnesses.divine(filter)
+    const bw = result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined
+    if (bw) {
+      const { schemas, direction } = searchCriteria
+      let payloadIndex = direction === 'asc' ? 0 : bw.payloadHashes.length - 1
+      if (schemas) {
+        const schemaInSearchCriteria = (schema: string) => schemas.includes(schema)
+        payloadIndex =
+          direction === 'asc' ? bw.payloadSchemas.findIndex(schemaInSearchCriteria) : bw.payloadSchemas.findLastIndex(schemaInSearchCriteria)
+      }
+      const hash = bw.payloadHashes[payloadIndex]
+      const payloads = ArchivistWrapper.wrap(archivist)
+      const result = await payloads.get([hash])
+      response = result?.[0]
+    }
   }
-  return payload?.body
+  // Find payload
+  else {
+    const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
+    const payloads = DivinerWrapper.wrap(payloadDiviner)
+    const result = await payloads.divine(filter)
+    response = result?.[0]
+  }
+  return response ? PayloadWrapper.parse(response).body : undefined
 }

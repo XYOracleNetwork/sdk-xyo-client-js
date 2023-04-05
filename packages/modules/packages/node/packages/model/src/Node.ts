@@ -1,10 +1,9 @@
 import { AnyObject } from '@xyo-network/core'
-import { EventData } from '@xyo-network/module'
-import { AnyConfigSchema, Module, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
-import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData } from './Events'
+import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './Events'
 
 export interface Node {
   attach(address: string, external?: boolean): Promisable<void>
@@ -13,12 +12,17 @@ export interface Node {
   registered(): Promisable<string[]>
 }
 
-export interface NodeModuleEventData extends ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData {}
+export interface NodeModuleEventData
+  extends ModuleAttachedEventData,
+    ModuleDetachedEventData,
+    ModuleRegisteredEventData,
+    ModuleUnregisteredEventData,
+    ModuleEventData {}
 
 export type NodeModuleParams<
   TConfig extends AnyConfigSchema<NodeConfig> = AnyConfigSchema<NodeConfig>,
-  TEventData extends EventData | undefined = undefined,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TEventData extends EventData ? NodeModuleEventData | TEventData : NodeModuleEventData, TAdditionalParams>
+> = ModuleParams<TConfig, TAdditionalParams>
 
-export type NodeModule<TParams extends NodeModuleParams = NodeModuleParams> = Node & Module<TParams>
+export type NodeModule<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData> = Node &
+  Module<TParams, TEventData>

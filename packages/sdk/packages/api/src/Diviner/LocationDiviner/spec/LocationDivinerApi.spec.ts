@@ -1,3 +1,4 @@
+import { describeIf } from '@xylabs/jest-helpers'
 import { XyoApiConfig } from '@xyo-network/api-models'
 
 import { ApiConfig } from '../ApiConfig'
@@ -55,9 +56,7 @@ const getLocationHeatmapQueryCreationRequest = (): LocationHeatmapQueryCreationR
   }
 }
 
-const describeSkipIfNoDiviner = process.env.LOCATION_API_DOMAIN ? describe : describe.skip
-
-describeSkipIfNoDiviner('XyoLocationDivinerApi', () => {
+describeIf(process.env.LOCATION_API_DOMAIN).skip('XyoLocationDivinerApi', () => {
   describe('constructor', () => {
     it('returns a new XyoLocationDivinerApi', () => {
       const api = new XyoLocationDivinerApi(getLocationApiConfig())

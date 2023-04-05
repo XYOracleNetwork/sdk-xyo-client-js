@@ -10,10 +10,11 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
-} from '@xyo-network/archivist-interface'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+  ArchivistModuleEventData,
+} from '@xyo-network/archivist-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleParams } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -32,13 +33,14 @@ export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivis
 @creatableModule()
 export class MemoryArchivist<
   TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
-> extends AbstractArchivist<TParams> {
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+> extends AbstractArchivist<TParams, TEventData> {
   static override configSchema = MemoryArchivistConfigSchema
 
-  private _cache?: LruCache<string, XyoPayload | null>
+  private _cache?: LruCache<string, Payload>
 
   get cache() {
-    this._cache = this._cache ?? new LruCache<string, XyoPayload | null>({ max: this.max })
+    this._cache = this._cache ?? new LruCache<string, Payload>({ max: this.max })
     return this._cache
   }
 
@@ -58,7 +60,7 @@ export class MemoryArchivist<
     ]
   }
 
-  override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<Payload> {
     return compact(this.cache.dump().map((value) => value[1].value))
   }
 
@@ -66,7 +68,7 @@ export class MemoryArchivist<
     this.cache.clear()
   }
 
-  override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<BoundWitness[]> {
     const payloads = assertEx(await this.all(), 'Nothing to commit')
     const settled = await Promise.allSettled(
       compact(
@@ -84,18 +86,23 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  override delete(hashes: string[]): PromisableArray<boolean> {
-    return hashes.map((hash) => {
+  override async delete(hashes: string[]): Promise<boolean[]> {
+    const found = hashes.map((hash) => {
       return this.cache.delete(hash)
     })
+    await this.emit('deleted', { found, hashes, module: this })
+    return found
   }
 
-  override async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<Payload[]> {
     return compact(
       await Promise.all(
         hashes.map(async (hash) => {
           const payload = this.cache.get(hash) ?? (await super.get([hash]))[0] ?? null
           if (this.storeParentReads) {
+            // NOTE: `payload` can actually be `null` here but TS doesn't seem
+            // to recognize it. LRUCache claims not to support `null`s via their
+            // types but seems to under the hood just fine.
             this.cache.set(hash, payload)
           }
           return payload
@@ -104,7 +111,7 @@ export class MemoryArchivist<
     )
   }
 
-  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     payloads.map((payload) => {
       const wrapper = new PayloadWrapper(payload)
       const payloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
@@ -113,12 +120,14 @@ export class MemoryArchivist<
     })
 
     const result = await this.bindResult([...payloads])
-    const parentBoundWitnesses: XyoBoundWitness[] = []
+    const parentBoundWitnesses: BoundWitness[] = []
     const parents = await this.parents()
     if (Object.entries(parents.write ?? {}).length) {
       //we store the child bw also
       parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
     }
-    return [result[0], ...parentBoundWitnesses]
+    const boundWitnesses = [result[0], ...parentBoundWitnesses]
+    await this.emit('inserted', { boundWitnesses, module: this })
+    return boundWitnesses
   }
 }

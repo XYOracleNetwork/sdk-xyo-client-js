@@ -1,11 +1,11 @@
 import { GetValidator } from '@xyo-network/node-core-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { getPayloadValidatorFromSchemaCache } from './getPayloadValidatorFromSchemaCache'
 
 export const validatePayloadSchema = async (
-  payload: XyoPayload,
-  getValidator: GetValidator<XyoPayload> = getPayloadValidatorFromSchemaCache,
+  payload: Payload,
+  getValidator: GetValidator<Payload> = getPayloadValidatorFromSchemaCache,
 ): Promise<boolean> => {
   const validate = await getValidator(payload)
   if (!validate) return true

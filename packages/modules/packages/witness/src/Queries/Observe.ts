@@ -1,9 +1,9 @@
-import { XyoQuery } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/module-model'
 
-export type XyoWitnessObserveQuerySchema = 'network.xyo.query.witness.observe'
-export const XyoWitnessObserveQuerySchema: XyoWitnessObserveQuerySchema = 'network.xyo.query.witness.observe'
+export type WitnessObserveQuerySchema = 'network.xyo.query.witness.observe'
+export const WitnessObserveQuerySchema: WitnessObserveQuerySchema = 'network.xyo.query.witness.observe'
 
-export type XyoWitnessObserveQuery = XyoQuery<{
+export type WitnessObserveQuery = Query<{
   payloads?: string[]
-  schema: XyoWitnessObserveQuerySchema
+  schema: WitnessObserveQuerySchema
 }>

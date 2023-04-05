@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.52.0-rc.5",
+  "version": "2.54.7",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -27,12 +27,11 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.7.4",
-    "@xylabs/delay": "^2.7.4",
-    "@xylabs/exists": "^2.7.4",
-    "@xylabs/promise": "^2.7.4",
+    "@xylabs/assert": "^2.7.6",
+    "@xylabs/delay": "^2.7.6",
+    "@xylabs/exists": "^2.7.6",
+    "@xylabs/promise": "^2.7.6",
     "@xyo-network/account": "workspace:^",
-    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
@@ -40,6 +39,7 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
+    "@xyo-network/express-node-middleware": "workspace:^",
     "@xyo-network/location-certainty-plugin": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",
@@ -52,20 +52,18 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^",
     "@xyo-network/shared": "workspace:^",
-    "@xyo-network/storage": "workspace:^",
     "agenda": "^5.0.0",
     "inversify": "^6.0.1",
     "lodash": "^4.17.21",
-    "mongodb": "^5.1.0",
+    "mongodb": "^5.2.0",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191",
-    "@xylabs/ts-scripts-yarn3": "^2.16.1",
-    "@xylabs/tsconfig": "^2.16.1",
-    "mongodb-memory-server": "^8.12.0",
+    "@types/lodash": "^4.14.192",
+    "@xylabs/ts-scripts-yarn3": "^2.16.4",
+    "@xylabs/tsconfig": "^2.16.4",
+    "mongodb-memory-server": "^8.12.2",
     "typescript": "^4.9.5"
   },
-  "types": "dist/types/index.d.ts",
-  "stableVersion": "2.51.9"
+  "types": "dist/types/index.d.ts"
 }

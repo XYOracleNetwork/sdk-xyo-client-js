@@ -1,5 +1,5 @@
 import { WithAdditional } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type ModuleConfigSchema = 'network.xyo.module.config'
 export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config'
@@ -8,13 +8,16 @@ export type AddressString = string
 export type CosigningAddressSet = string[]
 export type SchemaString = string
 
-export type ModuleConfigBase<TConfig extends XyoPayload | undefined = undefined> = XyoPayload<
+export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = Payload<
   WithAdditional<
     {
       //friendly name of module (not collision resistent)
       name?: string
 
-      schema: TConfig extends XyoPayload ? TConfig['schema'] : ModuleConfigSchema
+      //paging settings for queries
+      paging?: Record<string, { size?: number }>
+
+      schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
 
       //if both allowed and disallowed is specified, then disallowed takes priority
       security?: {
@@ -35,4 +38,4 @@ export type ModuleConfigBase<TConfig extends XyoPayload | undefined = undefined>
   >
 >
 
-export type ModuleConfig<TConfig extends XyoPayload | undefined = undefined> = ModuleConfigBase<TConfig>
+export type ModuleConfig<TConfig extends Payload | undefined = undefined> = ModuleConfigBase<TConfig>

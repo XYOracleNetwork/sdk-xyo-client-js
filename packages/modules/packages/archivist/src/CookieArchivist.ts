@@ -10,11 +10,12 @@ import {
   ArchivistFindQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistModuleEventData,
   ArchivistParams,
-} from '@xyo-network/archivist-interface'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+} from '@xyo-network/archivist-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
@@ -33,7 +34,10 @@ export type CookieArchivistConfig = ArchivistConfig<{
 
 export type CookieArchivistParams = ArchivistParams<AnyConfigSchema<CookieArchivistConfig>>
 @creatableModule()
-export class CookieArchivist<TParams extends CookieArchivistParams> extends AbstractArchivist<TParams> {
+export class CookieArchivist<
+  TParams extends CookieArchivistParams,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+> extends AbstractArchivist<TParams, TEventData> {
   static override configSchema = CookieArchivistConfigSchema
 
   get domain() {
@@ -66,7 +70,7 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     ]
   }
 
-  override all(): PromisableArray<XyoPayload> {
+  override all(): PromisableArray<Payload> {
     try {
       return Object.entries(Cookies.get())
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
@@ -90,7 +94,7 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     }
   }
 
-  override async commit(): Promise<XyoBoundWitness[]> {
+  override async commit(): Promise<BoundWitness[]> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
@@ -114,19 +118,21 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     }
   }
 
-  override delete(hashes: string[]): PromisableArray<boolean> {
+  override async delete(hashes: string[]): Promise<boolean[]> {
     try {
-      return hashes.map((hash) => {
+      const found = hashes.map((hash) => {
         Cookies.remove(this.keyFromHash(hash))
         return true
       })
+      await this.emit('deleted', { found, hashes, module: this })
+      return found
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex
     }
   }
 
-  override async get(hashes: string[]): Promise<XyoPayload[]> {
+  override async get(hashes: string[]): Promise<Payload[]> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {
@@ -140,9 +146,9 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
     }
   }
 
-  async insert(payloads: XyoPayload[]): Promise<XyoBoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     try {
-      const storedPayloads: XyoPayload[] = payloads.map((payload) => {
+      const storedPayloads: Payload[] = payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
         const key = this.keyFromHash(wrapper.hash)
         const value = JSON.stringify(wrapper.payload)
@@ -151,13 +157,15 @@ export class CookieArchivist<TParams extends CookieArchivistParams> extends Abst
         return wrapper.payload
       })
       const result = await this.bindResult([...storedPayloads])
-      const parentBoundWitnesses: XyoBoundWitness[] = []
+      const parentBoundWitnesses: BoundWitness[] = []
       const parents = await this.parents()
       if (Object.entries(parents.write ?? {}).length) {
         //we store the child bw also
         parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...storedPayloads])))
       }
-      return [result[0], ...parentBoundWitnesses]
+      const boundWitnesses = [result[0], ...parentBoundWitnesses]
+      await this.emit('inserted', { boundWitnesses, module: this })
+      return boundWitnesses
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

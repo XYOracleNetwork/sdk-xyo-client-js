@@ -1,5 +1,0 @@
-releases:
-  "@xyo-network/sdk-xyo-client-js": patch
-
-undecided:
-  - "@xyo-network/module-model"

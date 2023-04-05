@@ -1,23 +1,23 @@
 import {
-  XyoBoundWitnessMeta,
-  XyoBoundWitnessWithMeta,
-  XyoBoundWitnessWithPartialMeta,
-  XyoPayloadMeta,
-  XyoPayloadWithMeta,
-  XyoPayloadWithPartialMeta,
+  BoundWitnessMeta,
+  BoundWitnessWithMeta,
+  BoundWitnessWithPartialMeta,
+  PayloadMeta,
+  PayloadWithMeta,
+  PayloadWithPartialMeta,
 } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-export const augmentWithMetadata = <T extends XyoPayloadWithPartialMeta[] | XyoBoundWitnessWithPartialMeta[]>(
+export const augmentWithMetadata = <T extends PayloadWithPartialMeta[] | BoundWitnessWithPartialMeta[]>(
   payloads: T,
-  meta: T extends XyoPayloadWithPartialMeta[] ? XyoPayloadMeta : XyoBoundWitnessMeta,
-): T extends XyoPayloadWithPartialMeta ? XyoPayloadWithMeta[] : XyoBoundWitnessWithMeta[] => {
+  meta: T extends PayloadWithPartialMeta[] ? PayloadMeta : BoundWitnessMeta,
+): T extends PayloadWithPartialMeta ? PayloadWithMeta[] : BoundWitnessWithMeta[] => {
   return payloads.map((payload) => {
     const wrapper = new PayloadWrapper(payload)
     return {
       ...payload,
       ...meta,
       _hash: wrapper.hash,
-    } as T extends XyoPayloadWithPartialMeta ? XyoPayloadWithMeta : XyoBoundWitnessWithMeta
+    } as T extends PayloadWithPartialMeta ? PayloadWithMeta : BoundWitnessWithMeta
   })
 }

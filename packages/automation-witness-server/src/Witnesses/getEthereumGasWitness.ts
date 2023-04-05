@@ -13,26 +13,26 @@ import { WitnessProvider } from './WitnessProvider'
 export const getEthereumGasWitness: WitnessProvider<Provider> = async (provider = getProvider()): Promise<WitnessModule[]> => {
   const witnesses: WitnessModule[] = [
     await XyoEthereumGasBlocknativeWitness.create({
-      account: getAccount(WalletPaths.XyoEthereumGasBlocknativeWitness),
+      account: getAccount(WalletPaths.EthereumGas.Witness.Blocknative),
       config: {
         schema: XyoEthereumGasBlocknativeWitnessConfigSchema,
       },
     }),
     await XyoEtherchainEthereumGasWitnessV2.create({
-      account: getAccount(WalletPaths.XyoEtherchainEthereumGasWitnessV2),
+      account: getAccount(WalletPaths.EthereumGas.Witness.EtherchainV2),
       config: {
         schema: XyoEthereumGasEtherchainV2WitnessConfigSchema,
       },
     }),
     await XyoEthereumGasEthersWitness.create({
-      account: getAccount(WalletPaths.XyoEthereumGasEthersWitness),
+      account: getAccount(WalletPaths.EthereumGas.Witness.Ethers),
       config: {
         schema: XyoEthereumGasEthersWitnessConfigSchema,
       },
       provider,
     }),
     await XyoEthereumGasEthgasstationWitness.create({
-      account: getAccount(WalletPaths.XyoEthereumGasEthgasstationWitness),
+      account: getAccount(WalletPaths.EthereumGas.Witness.Ethgasstation),
       config: {
         schema: XyoEthereumGasEthgasstationWitnessConfigSchema,
       },
@@ -42,7 +42,7 @@ export const getEthereumGasWitness: WitnessProvider<Provider> = async (provider 
     const apiKey = getEtherscanProviderConfig()
     witnesses.push(
       await XyoEthereumGasEtherscanWitness.create({
-        account: getAccount(WalletPaths.XyoEtherscanEthereumGasWitness),
+        account: getAccount(WalletPaths.EthereumGas.Witness.Etherscan),
         config: {
           apiKey,
           schema: XyoEthereumGasEtherscanWitnessConfigSchema,

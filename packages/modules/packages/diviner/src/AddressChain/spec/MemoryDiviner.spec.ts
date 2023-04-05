@@ -30,11 +30,13 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       expect(all).toBeArrayOfSize(7)
 
-      await node.register(archivist).attach(archivist.address)
+      await node.register(archivist)
+      await node.attach(archivist.address)
       const diviner = await MemoryAddressChainDiviner.create({
         config: { address: account.addressValue.hex, schema: AddressChainDivinerConfigSchema, startHash: BoundWitnessWrapper.parse(all[6]).hash },
       })
-      await node.register(diviner).attach(diviner.address)
+      await node.register(diviner)
+      await node.attach(diviner.address)
       const divinerWrapper = DivinerWrapper.wrap(diviner)
       const result = await divinerWrapper.divine()
       expect(result.length).toBe(4)

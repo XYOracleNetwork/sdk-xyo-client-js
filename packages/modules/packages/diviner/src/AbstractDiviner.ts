@@ -1,50 +1,60 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { DivinerModule, DivinerParams, XyoDivinerConfigSchema, XyoDivinerDivineQuerySchema, XyoDivinerQuery } from '@xyo-network/diviner-model'
-import { AbstractModule, ModuleConfig, ModuleQueryResult, QueryBoundWitnessWrapper, XyoErrorBuilder, XyoQueryBoundWitness } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import {
+  DivinerConfigSchema,
+  DivinerDivineQuerySchema,
+  DivinerModule,
+  DivinerModuleEventData,
+  DivinerParams,
+  DivinerQuery,
+} from '@xyo-network/diviner-model'
+import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractDiviner<TParams extends DivinerParams = DivinerParams>
-  extends AbstractModule<TParams>
+export abstract class AbstractDiviner<
+    TParams extends DivinerParams = DivinerParams,
+    TEventData extends DivinerModuleEventData = DivinerModuleEventData,
+  >
+  extends AbstractModule<TParams, TEventData>
   implements DivinerModule<TParams>
 {
-  static override configSchema: string = XyoDivinerConfigSchema
+  static override configSchema: string = DivinerConfigSchema
   static targetSchema: string
 
   override get queries(): string[] {
-    return [XyoDivinerDivineQuerySchema, ...super.queries]
+    return [DivinerDivineQuerySchema, ...super.queries]
   }
 
-  override async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoDivinerQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
     //remove the query payload
     const cleanPayloads = payloads?.filter((payload) => PayloadWrapper.hash(payload) !== query.query)
     const typedQuery = wrapper.query
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
-    const resultPayloads: XyoPayload[] = []
+    const resultPayloads: Payload[] = []
     try {
       switch (typedQuery.schemaName) {
-        case XyoDivinerDivineQuerySchema:
-          await this.emit('reportStart', { inPayload: payloads })
+        case DivinerDivineQuerySchema:
+          await this.emit('reportStart', { inPayloads: payloads, module: this })
           resultPayloads.push(...(await this.divine(cleanPayloads)))
-          await this.emit('reportEnd', { inPayload: payloads, outPayload: resultPayloads })
+          await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
           break
         default:
-          return super.query(query, payloads)
+          return super.queryHandler(query, payloads)
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
     }
     return await this.bindResult(resultPayloads, queryAccount)
   }
 
-  abstract divine(payloads?: XyoPayload[]): Promisable<XyoPayload[]>
+  abstract divine(payloads?: Payload[]): Promisable<Payload[]>
 }

@@ -1,22 +1,47 @@
 import { AnyObject } from '@xyo-network/core'
 import { EventData } from '@xyo-network/module'
-import { AnyConfigSchema, Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { AnyConfigSchema, Module, ModuleEventArgs, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { XyoWitnessConfig } from './Config'
-import { WitnessReportEndEventData, WitnessReportStartEventData } from './Events'
+import { WitnessConfig } from './Config'
 
 export interface Witness {
-  observe: (payloads?: XyoPayload[]) => Promisable<XyoPayload[]>
+  observe: (payloads?: Payload[]) => Promisable<Payload[]>
 }
 
-export interface WitnessModuleEventData extends WitnessReportEndEventData, WitnessReportStartEventData {}
+export type WitnessReportEndEventArgs = ModuleEventArgs<
+  WitnessModule,
+  {
+    errors?: Error[]
+    inPayloads?: Payload[]
+    outPayloads?: Payload[]
+  }
+>
+
+export interface WitnessReportEndEventData extends EventData {
+  reportEnd: WitnessReportEndEventArgs
+}
+
+export type WitnessReportStartEventArgs = ModuleEventArgs<
+  WitnessModule,
+  {
+    inPayloads?: Payload[]
+  }
+>
+
+export interface WitnessReportStartEventData extends EventData {
+  reportStart: WitnessReportStartEventArgs
+}
+
+export interface WitnessModuleEventData extends WitnessReportEndEventData, WitnessReportStartEventData, ModuleEventData {}
 
 export type WitnessParams<
-  TConfig extends AnyConfigSchema<XyoWitnessConfig> = AnyConfigSchema<XyoWitnessConfig>,
-  TEventData extends ModuleEventData | undefined = undefined,
+  TConfig extends AnyConfigSchema<WitnessConfig> = AnyConfigSchema<WitnessConfig>,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TEventData extends EventData ? WitnessModuleEventData | TEventData : WitnessModuleEventData, TAdditionalParams>
+> = ModuleParams<TConfig, TAdditionalParams>
 
-export type WitnessModule<TParams extends WitnessParams = WitnessParams> = Witness & Module<TParams>
+export type WitnessModule<
+  TParams extends WitnessParams = WitnessParams,
+  TEventData extends WitnessModuleEventData = WitnessModuleEventData,
+> = Witness & Module<TParams, TEventData>

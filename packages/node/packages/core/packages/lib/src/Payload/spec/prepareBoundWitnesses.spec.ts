@@ -1,8 +1,8 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { XyoBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { XyoBoundWitnessMeta, XyoBoundWitnessWithPartialMeta, XyoPayloadWithPartialMeta } from '@xyo-network/node-core-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitnessMeta, BoundWitnessWithPartialMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { v4 } from 'uuid'
 
@@ -16,7 +16,7 @@ const _timestamp = 1655137984429
 const _user_agent = 'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36'
 const _hash = new PayloadWrapper({ schema: 'network.xyo.test' }).hash
 
-const boundWitnessMeta: XyoBoundWitnessMeta = {
+const boundWitnessMeta: BoundWitnessMeta = {
   _archive,
   _client,
   _hash,
@@ -35,20 +35,20 @@ const payloadMeta = {
   _user_agent,
 }
 
-const getPayloads = (numPayloads: number): XyoPayload[] => {
-  return new Array(numPayloads).fill(0).map(() => new XyoPayloadBuilder({ schema: 'network.xyo.test' }).fields({ ...payloadMeta, uid: v4() }).build())
+const getPayloads = (numPayloads: number): Payload[] => {
+  return new Array(numPayloads).fill(0).map(() => new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ ...payloadMeta, uid: v4() }).build())
 }
 
 const getNewBlockWithBoundWitnessesWithPayloads = (
   numBoundWitnesses = 1,
   numPayloads = 1,
-): Array<XyoBoundWitnessWithPartialMeta & XyoPayloadWithPartialMeta> => {
+): Array<BoundWitnessWithPartialMeta & PayloadWithPartialMeta> => {
   return new Array(numBoundWitnesses).fill(0).map(() => {
-    return new BoundWitnessBuilder({ inlinePayloads: true }).payloads(getPayloads(numPayloads)).build()[0]
+    return new BoundWitnessBuilder({ inlinePayloads: true }).payloads(getPayloads(numPayloads)).build(true)[0]
   })
 }
 
-const validateBeforeSanitization = (boundWitnesses: Array<XyoBoundWitnessWithPartialMeta & XyoPayloadWithPartialMeta>) => {
+const validateBeforeSanitization = (boundWitnesses: Array<BoundWitnessWithPartialMeta & PayloadWithPartialMeta>) => {
   boundWitnesses.map((bw) => {
     expect(bw._archive).toBeUndefined()
     expect(bw._client).toBe(_client)
@@ -65,13 +65,13 @@ const validateBeforeSanitization = (boundWitnesses: Array<XyoBoundWitnessWithPar
     expect(Array.isArray(bw.payload_hashes)).toBeTruthy()
     expect(bw.payload_schemas).toBeDefined()
     expect(Array.isArray(bw.payload_schemas)).toBeTruthy()
-    expect(bw.schema).toBe(XyoBoundWitnessSchema)
+    expect(bw.schema).toBe(BoundWitnessSchema)
     bw?._payloads?.map((p) => {
       expect(p._archive).toBeUndefined()
-      expect(p._client).toBe(_client)
-      expect(p._hash).toBeDefined()
+      expect(p._client).toBeUndefined
+      expect(p._hash).toBeUndefined()
       expect(p._observeDuration).toBeUndefined()
-      expect(p._timestamp).toBeDefined()
+      expect(p._timestamp).toBeUndefined()
       expect(p.schema).toBeDefined()
     })
   })
@@ -93,7 +93,7 @@ const validateAfterSanitization = (actual: PrepareBoundWitnessesResult) => {
     expect(Array.isArray(bw.payload_hashes)).toBeTruthy()
     expect(bw.payload_schemas).toBeDefined()
     expect(Array.isArray(bw.payload_schemas)).toBeTruthy()
-    expect(bw.schema).toBe(XyoBoundWitnessSchema)
+    expect(bw.schema).toBe(BoundWitnessSchema)
   })
   actual.payloads.map((p) => {
     expect(p._archive).toBe(_archive)

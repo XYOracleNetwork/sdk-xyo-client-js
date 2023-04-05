@@ -1,40 +1,39 @@
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export interface XyoPayloadMetaBase {
+export interface PayloadMetaBase {
   _archive?: string
   _client?: string
   _hash: string
   _observeDuration?: number
   _reportedHash?: string
   _schemaValid?: boolean
-  _sources?: XyoPayload[]
+  _sources?: Payload[]
   _timestamp: number
   _user_agent?: string
 }
 
-export type XyoPayloadMeta<T extends AnyObject = AnyObject> = T & XyoPayloadMetaBase
-export type XyoPartialPayloadMeta<T extends AnyObject = AnyObject> = T & Partial<XyoPayloadMetaBase>
-export type XyoPayloadWithMeta<T extends AnyObject = AnyObject> = XyoPayload<T & XyoPayloadMetaBase>
-export type XyoPayloadWithPartialMeta<T extends AnyObject = AnyObject> = XyoPayload<T & Partial<XyoPayloadMetaBase>>
+export type PayloadMeta<T extends AnyObject = AnyObject> = T & PayloadMetaBase
+export type XyoPartialPayloadMeta<T extends AnyObject = AnyObject> = T & Partial<PayloadMetaBase>
+export type PayloadWithMeta<T extends AnyObject = AnyObject> = Payload<T & PayloadMetaBase>
+export type PayloadWithPartialMeta<T extends AnyObject = AnyObject> = Payload<T & Partial<PayloadMetaBase>>
 
-export type XyoBoundWitnessMetaBase<P extends XyoPayloadWithPartialMeta = XyoPayloadWithPartialMeta> = XyoPayloadMeta<{
+export type BoundWitnessMetaBase<P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = PayloadMeta<{
   _payloads?: P[]
   _source_ip?: string
   _user_agent?: string
 }>
 
-export type XyoBoundWitnessMeta<T extends AnyObject = AnyObject, P extends XyoPayloadWithPartialMeta = XyoPayloadWithPartialMeta> = T &
-  XyoBoundWitnessMetaBase<P>
+export type BoundWitnessMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = T & BoundWitnessMetaBase<P>
 
-export type XyoPartialBoundWitnessMeta<T extends AnyObject = AnyObject, P extends XyoPayloadWithPartialMeta = XyoPayloadWithPartialMeta> = T &
-  Partial<XyoBoundWitnessMetaBase<P>>
+export type XyoPartialBoundWitnessMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = T &
+  Partial<BoundWitnessMetaBase<P>>
 
-export type XyoBoundWitnessWithMeta<T extends AnyObject = AnyObject, P extends XyoPayloadWithPartialMeta = XyoPayloadWithPartialMeta> = T &
-  XyoBoundWitnessMetaBase<P> &
-  XyoBoundWitness
+export type BoundWitnessWithMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = T &
+  BoundWitnessMetaBase<P> &
+  BoundWitness
 
-export type XyoBoundWitnessWithPartialMeta<T extends AnyObject = AnyObject, P extends XyoPayloadWithPartialMeta = XyoPayloadWithPartialMeta> = T &
-  Partial<XyoBoundWitnessMetaBase<P>> &
-  XyoBoundWitness
+export type BoundWitnessWithPartialMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = T &
+  Partial<BoundWitnessMetaBase<P>> &
+  BoundWitness

@@ -1,24 +1,24 @@
 import { dumpErrors } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 import { PayloadValidator } from '../Validator'
 
 PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
 
-const testPayloadNoSchema: XyoPayload = {} as XyoPayload
-const testPayloadMixedCase: XyoPayload = {
+const testPayloadNoSchema: Payload = {} as Payload
+const testPayloadMixedCase: Payload = {
   schema: 'network.xyo.testMixedCaseSchema',
-} as XyoPayload
-const testPayloadTooFewLevels: XyoPayload = {
+} as Payload
+const testPayloadTooFewLevels: Payload = {
   schema: 'network.xyo',
-} as XyoPayload
-const testPayloadDoesNotExist: XyoPayload = {
+} as Payload
+const testPayloadDoesNotExist: Payload = {
   schema: 'network.dfd-sf-sf-s.blahblah',
-} as XyoPayload
-const testPayloadValid: XyoPayload = {
+} as Payload
+const testPayloadValid: Payload = {
   schema: 'network.xyo.test',
-} as XyoPayload
+} as Payload
 
 test('all [missing schema]', () => {
   const validator = new PayloadValidator(testPayloadNoSchema)

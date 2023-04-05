@@ -1,12 +1,14 @@
 import { exists } from '@xylabs/exists'
-import { dependencies } from '@xyo-network/express-node-dependencies'
+import { container } from '@xyo-network/express-node-dependencies'
 import { JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Job, JobProvider } from '@xyo-network/shared'
 
+const runJobs = true
+
 export const initializeJobs = async () => {
-  const jobs = (await dependencies.getAllAsync<JobProvider>(TYPES.JobProvider)).flatMap((provider) => provider?.jobs).filter(exists)
-  const jobQueue = dependencies.get<JobQueue>(TYPES.JobQueue)
+  const jobs = runJobs ? (await container.getAllAsync<JobProvider>(TYPES.JobProvider)).flatMap((provider) => provider?.jobs).filter(exists) : []
+  const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   defineJobs(jobQueue, jobs)
   await jobQueue.start()
   await scheduleJobs(jobQueue, jobs)

@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.52.0-rc.5",
+  "version": "2.54.7",
   "description": "XYO Express Node Middleware",
   "sideeffects": false,
   "engines": {
@@ -27,15 +27,16 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.289.0",
+    "@aws-sdk/client-secrets-manager": "^3.306.0",
     "@ethersproject/wallet": "^5.7.0",
-    "@xylabs/assert": "^2.7.4",
+    "@xylabs/assert": "^2.7.6",
     "@xylabs/sdk-api-express-ecs": "^1.3.0",
     "@xyo-network/express-node-lib": "workspace:^",
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/node-core-lib": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
+    "@xyo-network/prometheus-node-plugin": "workspace:^",
     "@xyo-network/shared": "workspace:^",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
@@ -66,10 +67,9 @@
     "@types/source-map-support": "0.5.6",
     "@types/swagger-ui-express": "^4.1.3",
     "@types/uuid": "^9.0.1",
-    "@xylabs/ts-scripts-yarn3": "^2.16.1",
-    "@xylabs/tsconfig": "^2.16.1",
+    "@xylabs/ts-scripts-yarn3": "^2.16.4",
+    "@xylabs/tsconfig": "^2.16.4",
     "typescript": "^4.9.5"
   },
-  "types": "dist/types/index.d.ts",
-  "stableVersion": "2.51.9"
+  "types": "dist/types/index.d.ts"
 }

@@ -2,11 +2,11 @@ import { assertEx } from '@xylabs/assert'
 import { AddressValue } from '@xyo-network/account'
 import { axios } from '@xyo-network/axios'
 import { DataLike } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 export type XyoObjectCategory = 'block' | 'payload'
 
-export type HuriFetchFunction = (huri: Huri) => Promise<XyoPayload | undefined>
+export type HuriFetchFunction = (huri: Huri) => Promise<Payload | undefined>
 
 /* 
   Valid Huri:
@@ -23,12 +23,12 @@ export interface HuriOptions {
   token?: string
 }
 
-export interface FetchedPayload<T extends XyoPayload = XyoPayload> {
+export interface FetchedPayload<T extends Payload = Payload> {
   huri?: Huri
   payload: T
 }
 
-export class Huri<T extends XyoPayload = XyoPayload> {
+export class Huri<T extends Payload = Payload> {
   archive?: string
   archivist?: string
   hash: string
@@ -78,7 +78,7 @@ export class Huri<T extends XyoPayload = XyoPayload> {
     return parts.join('/')
   }
 
-  static async fetch<T extends XyoPayload = XyoPayload>(huri: Huri): Promise<T | undefined> {
+  static async fetch<T extends Payload = Payload>(huri: Huri): Promise<T | undefined> {
     const AuthHeader = huri.token ? { Authorization: `Bearer ${huri.token}` } : undefined
     return (await axios.get<T>(huri.href, { headers: AuthHeader })).data
   }

@@ -1,4 +1,4 @@
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 // eslint-disable-next-line import/no-named-as-default
 import Ajv from 'ajv'
 
@@ -16,7 +16,7 @@ const payloadSchema = {
 }
 const validate = ajv.compile(payloadSchema)
 
-const getPayload = (): XyoPayload => {
+const getPayload = (): Payload => {
   return {
     schema: 'foo',
   }
@@ -31,7 +31,7 @@ describe('validatePayloadSchema', () => {
     })
     it('and payload is not valid against schema returns false', async () => {
       const payload = getPayload()
-      delete (payload as Partial<XyoPayload>).schema
+      delete (payload as Partial<Payload>).schema
       const answer = await validatePayloadSchema(payload, () => Promise.resolve(validate))
       expect(answer).toBeFalsy()
     })

@@ -1,20 +1,45 @@
+import { Account } from '@xyo-network/account'
 import { AbstractArchivist } from '@xyo-network/archivist'
 import { AbstractModule } from '@xyo-network/module'
-import { ArchiveModuleConfigSchema, UserArchivist } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
-import { AsyncContainerModule, interfaces } from 'inversify'
+import { ArchiveModuleConfigSchema, BoundWitnessWithMeta, PayloadWithMeta, User, UserArchivist } from '@xyo-network/node-core-model'
+import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
+import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { ContainerModule, interfaces } from 'inversify'
 
+import { MONGO_TYPES } from '../mongoTypes'
 import { MongoDBDeterministicArchivist } from './Deterministic'
 import { MongoDBUserArchivist } from './User'
 
-export const ArchivistContainerModule = new AsyncContainerModule(async (bind: interfaces.Bind) => {
-  bind(MongoDBUserArchivist).toConstantValue(new MongoDBUserArchivist())
-  bind<UserArchivist>(TYPES.UserArchivist).toService(MongoDBUserArchivist)
+let userArchivist: MongoDBUserArchivist
+let archivist: MongoDBDeterministicArchivist
 
-  const archivist = await MongoDBDeterministicArchivist.create({
+const getMongoDBUserArchivist = (context: interfaces.Context) => {
+  if (userArchivist) return userArchivist
+  const sdk: BaseMongoSdk<User> = context.container.get<BaseMongoSdk<User>>(MONGO_TYPES.UserSdk)
+  userArchivist = new MongoDBUserArchivist(sdk)
+  return userArchivist
+}
+
+const getMongoDBArchivist = async (context: interfaces.Context) => {
+  if (archivist) return archivist
+  const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Archivists.Archivist)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
+  archivist = await MongoDBDeterministicArchivist.create({
+    account,
+    boundWitnessSdk,
     config: { name: TYPES.Archivist.description, schema: ArchiveModuleConfigSchema },
+    payloadSdk,
   })
-  bind(MongoDBDeterministicArchivist).toConstantValue(archivist)
-  bind<AbstractArchivist>(TYPES.Archivist).toService(MongoDBDeterministicArchivist)
-  bind<AbstractModule>(TYPES.Module).toService(MongoDBDeterministicArchivist)
+  return archivist
+}
+
+export const ArchivistContainerModule = new ContainerModule((bind: interfaces.Bind) => {
+  bind(MongoDBUserArchivist).toDynamicValue(getMongoDBUserArchivist).inSingletonScope()
+  bind<UserArchivist>(TYPES.UserArchivist).toDynamicValue(getMongoDBUserArchivist).inSingletonScope()
+
+  bind(MongoDBDeterministicArchivist).toDynamicValue(getMongoDBArchivist).inSingletonScope()
+  bind<AbstractArchivist>(TYPES.Archivist).toDynamicValue(getMongoDBArchivist).inSingletonScope()
+  bind<AbstractModule>(TYPES.Module).toDynamicValue(getMongoDBArchivist).inSingletonScope()
 })

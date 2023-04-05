@@ -1,8 +1,7 @@
-import { MemoryNode } from '@xyo-network/modules'
 import { config } from 'dotenv'
 
-import { NodeConfigurationFunction } from '../../../model'
+import { ConfigurationFunction } from '../../../model'
 
-export const configureEnvironmentFromDotEnv: NodeConfigurationFunction = (_node: MemoryNode) => {
+export const configureEnvironmentFromDotEnv: ConfigurationFunction = () => {
   config()
 }

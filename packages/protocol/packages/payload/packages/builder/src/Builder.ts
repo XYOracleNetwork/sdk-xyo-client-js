@@ -1,23 +1,32 @@
 import { deepOmitUnderscoreFields, Hasher, removeEmptyFields } from '@xyo-network/core'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export interface XyoPayloadBuilderOptions {
+export interface PayloadBuilderOptions {
   schema: string
 }
 
-export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, unknown>>> {
+export class PayloadBuilder<T extends Payload = Payload<Record<string, unknown>>> {
+  private _client = 'js'
   private _fields: Partial<T> = {}
   private _schema: string
+  private _timestamp = Date.now()
 
-  constructor({ schema }: XyoPayloadBuilderOptions) {
+  constructor({ schema }: PayloadBuilderOptions) {
     this._schema = schema
   }
 
-  build(): T {
+  get meta() {
+    const _hash = new Hasher(this.hashableFields).hash
+    return { _client: this._client, _hash, _timestamp: this._timestamp, schema: this._schema }
+  }
+
+  build(withMeta = false) {
     const hashableFields = this.hashableFields()
-    const _hash = new Hasher(hashableFields).hash
-    const _timestamp = Date.now()
-    return { ...hashableFields, _client: 'js', _hash, _timestamp, schema: this._schema }
+    if (withMeta) {
+      return { ...hashableFields, ...this.meta }
+    } else {
+      return hashableFields
+    }
   }
 
   fields(fields?: Partial<T>) {
@@ -34,3 +43,5 @@ export class XyoPayloadBuilder<T extends XyoPayload = XyoPayload<Record<string, 
     } as T
   }
 }
+
+export class XyoPayloadBuilder<T extends Payload = Payload<Record<string, unknown>>> extends PayloadBuilder<T> {}

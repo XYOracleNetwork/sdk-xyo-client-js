@@ -1,6 +1,6 @@
 import { FeeData, XyoEthereumGasPayload, XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayloads } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 
 import { average } from './average'
 import {
@@ -18,7 +18,7 @@ import {
   transformGasFromEthgasstation,
 } from './transforms'
 
-export const divineGas = (payloads: XyoPayloads): XyoEthereumGasPayload => {
+export const divineGas = (payloads: Payload[]): XyoEthereumGasPayload => {
   const blocknative = payloads.filter(isXyoEthereumGasBlocknativePayload).map(transformGasFromBlocknative)
   const etherchainV2 = payloads.filter(isXyoEthereumGasEtherchainV2Payload).map(transformGasFromEtherchainV2)
   const ethers = payloads.filter(isXyoEthereumGasEthersPayload).map(transformGasFromEthers)
@@ -27,6 +27,6 @@ export const divineGas = (payloads: XyoPayloads): XyoEthereumGasPayload => {
   const transactionCosts: FeeData[] = [...blocknative, ...etherchainV2, ...ethers, ...etherscan, ...ethgasstation]
   const avg = average(transactionCosts)
   const timestamp = Date.now()
-  const payload = new XyoPayloadBuilder<XyoEthereumGasPayload>({ schema: XyoEthereumGasSchema }).fields({ ...avg, timestamp }).build()
+  const payload = new PayloadBuilder<XyoEthereumGasPayload>({ schema: XyoEthereumGasSchema }).fields({ ...avg, timestamp }).build()
   return payload
 }

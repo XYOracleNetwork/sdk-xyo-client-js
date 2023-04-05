@@ -1,4 +1,4 @@
-import { XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { defaultCoins, defaultCurrencies } from '../lib'
@@ -17,8 +17,12 @@ describe('XyoCoingeckoCryptoMarketWitness', () => {
     const [actual] = await sut.observe()
 
     expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
-    const answerWrapper = new PayloadWrapper(actual)
+    const answerWrapper = new PayloadWrapper(actual) as PayloadWrapper<XyoCoingeckoCryptoMarketPayload>
     expect(answerWrapper.valid).toBe(true)
+    expect(answerWrapper.body.assets).toBeObject()
+    const assets = Object.keys(answerWrapper.body.assets)
+    expect(assets).toBeArray()
+    expect(assets.length).toBeGreaterThan(0)
   })
 
   test('returns observation [no config]', async () => {
@@ -26,7 +30,11 @@ describe('XyoCoingeckoCryptoMarketWitness', () => {
     const [actual] = await sut.observe()
 
     expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
-    const answerWrapper = new PayloadWrapper(actual)
+    const answerWrapper = new PayloadWrapper(actual) as PayloadWrapper<XyoCoingeckoCryptoMarketPayload>
     expect(answerWrapper.valid).toBe(true)
+    expect(answerWrapper.body.assets).toBeObject()
+    const assets = Object.keys(answerWrapper.body.assets)
+    expect(assets).toBeArray()
+    expect(assets.length).toBeGreaterThan(0)
   })
 })

@@ -1,5 +1,5 @@
 import { Logger } from '@xylabs/sdk-api-express-ecs'
-import { configureDependencies, dependencies } from '@xyo-network/express-node-dependencies'
+import { configureDependencies, container } from '@xyo-network/express-node-dependencies'
 import { configureDoc } from '@xyo-network/express-node-middleware'
 import { addRoutes } from '@xyo-network/express-node-routes'
 import { AbstractNode, MemoryNode } from '@xyo-network/modules'
@@ -40,7 +40,6 @@ export class ExpressPayloadTransport extends PayloadTransport {
 }
 
 export const getApp = async (node?: MemoryNode): Promise<Express> => {
-  //const config = getConfig()
   node = node ?? (await MemoryNode.create())
   await configureEnvironment()
   await configureDependencies(node)
@@ -49,14 +48,15 @@ export const getApp = async (node?: MemoryNode): Promise<Express> => {
   return transport.app
 }
 
-export const server = async (port = 80, node?: MemoryNode) => {
+export const getServer = async (port = 80, node?: MemoryNode) => {
   node = node ?? (await MemoryNode.create())
   const app = await getApp(node)
-  const logger = dependencies.get<Logger>(TYPES.Logger)
+  const logger = container.get<Logger>(TYPES.Logger)
   const host = process.env.PUBLIC_ORIGIN || `http://localhost:${port}`
   await configureDoc(app, { host })
-  const server = app.listen(port, () => {
+  const server = app.listen(port, '0.0.0.0', () => {
     logger.log(`Server listening at http://localhost:${port}`)
   })
   server.setTimeout(3000)
+  return server
 }

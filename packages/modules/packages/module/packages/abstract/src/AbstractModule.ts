@@ -3,7 +3,7 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { XyoBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AccountModuleParams,
@@ -12,34 +12,38 @@ import {
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
+  ModuleEventData,
   ModuleFilter,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryResult,
   ModuleSubscribeQuerySchema,
+  Query,
+  QueryBoundWitness,
   SchemaString,
   WalletModuleParams,
-  XyoQuery,
-  XyoQueryBoundWitness,
 } from '@xyo-network/module-model'
-import { XyoPayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
+import { IdLogger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { BaseEmitter } from './BaseEmitter'
-import { XyoErrorBuilder } from './Error'
-import { IdLogger } from './IdLogger'
+import { ModuleErrorBuilder } from './Error'
 import { duplicateModules, serializableField } from './lib'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
 @creatableModule()
-export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends BaseEmitter<TParams> implements Module<TParams>, Module {
+export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends BaseEmitter<TParams, TEventData>
+  implements Module<TParams, TEventData>
+{
   static configSchema: string
 
   readonly downResolver = new CompositeModuleResolver()
@@ -56,7 +60,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
     //TODO: change wallet to use accountDerivationPath
-    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config'], TParams['eventData']>).wallet
+    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config']>).wallet
       ? Account.fromPrivateKey(
           (mutatedParams as WalletModuleParams<TParams['config']>).wallet.derivePath(
             (mutatedParams as WalletModuleParams<TParams['config']>).accountDerivationPath,
@@ -69,8 +73,8 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
     this.account = this.loadAccount(account)
-    this.downResolver.add(this)
-    this.supportedQueryValidator = new SupportedQueryValidator(this).queryable
+    this.downResolver.add(this as Module)
+    this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
   }
 
@@ -113,11 +117,11 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return newModule
   }
 
-  discover(): Promisable<XyoPayload[]> {
+  discover(): Promisable<Payload[]> {
     const config = this.config
-    const address = new XyoPayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
+    const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
     const queries = this.queries.map((query) => {
-      return new XyoPayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
+      return new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
     })
     const configSchema: ConfigPayload = {
       config: config.schema,
@@ -126,50 +130,23 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return compact([config, configSchema, address, ...queries])
   }
 
-  async query<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
-    if (!this.allowAnonymous) {
-      if (query.addresses.length === 0) {
-        console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
-      }
-    }
-    const typedQuery = wrapper.query.payload
-    assertEx(this.queryable(query, payloads, queryConfig))
-    const resultPayloads: XyoPayload[] = []
-    const queryAccount = new Account()
-    try {
-      switch (typedQuery.schema) {
-        case ModuleDiscoverQuerySchema: {
-          resultPayloads.push(...(await this.discover()))
-          break
-        }
-        case ModuleSubscribeQuerySchema: {
-          this.subscribe(queryAccount)
-          break
-        }
-        default:
-          console.error(`Unsupported Query [${query.schema}]`)
-      }
-    } catch (ex) {
-      const error = ex as Error
-      resultPayloads.push(new XyoErrorBuilder([wrapper.hash], error.message).build())
-    }
-    const result = await this.bindResult(resultPayloads, queryAccount)
+    const result = await this.queryHandler(query, payloads, queryConfig)
 
-    const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+    const args: ModuleQueriedEventArgs = { module: this as Module, payloads, query, result }
     await this.emit('moduleQueried', args)
 
     return result
   }
 
-  queryable<T extends XyoQueryBoundWitness = XyoQueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     queryConfig?: TConfig,
   ): boolean {
     if (!this.started('warn')) return false
@@ -177,6 +154,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
       ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable
       : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
+
     return validators.every((validator) => validator(query, payloads))
   }
 
@@ -219,19 +197,19 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return promise
   }
 
-  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): XyoBoundWitness {
+  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): BoundWitness {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (account ? builder.witness(account) : builder).build()[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
 
-  protected bindQuery<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
+  protected bindQuery<T extends Query | PayloadWrapper<Query>>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     account?: AccountInstance,
-  ): PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], AccountInstance> {
-    const promise = new PromiseEx<[XyoQueryBoundWitness, XyoPayload[]], AccountInstance>((resolve) => {
+  ): PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance> {
+    const promise = new PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance>((resolve) => {
       const result = this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
@@ -239,18 +217,18 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return promise
   }
 
-  protected bindQueryInternal<T extends XyoQuery | PayloadWrapper<XyoQuery>>(
+  protected bindQueryInternal<T extends Query | PayloadWrapper<Query>>(
     query: T,
-    payloads?: XyoPayload[],
+    payloads?: Payload[],
     account?: AccountInstance,
-  ): [XyoQueryBoundWitness, XyoPayload[]] {
+  ): [QueryBoundWitness, Payload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     const result = (account ? builder.witness(account) : builder).build()
     //this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
 
-  protected bindResult(payloads: XyoPayload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
+  protected bindResult(payloads: Payload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
     const promise = new PromiseEx<ModuleQueryResult, AccountInstance>((resolve) => {
       const result = this.bindResultInternal(payloads, account)
       resolve?.(result)
@@ -259,7 +237,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
     return promise
   }
 
-  protected bindResultInternal(payloads: XyoPayload[], account?: AccountInstance): ModuleQueryResult {
+  protected bindResultInternal(payloads: Payload[], account?: AccountInstance): ModuleQueryResult {
     const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
     const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
     return result
@@ -267,6 +245,42 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams> extends
 
   protected loadAccount(account?: AccountInstance): AccountInstance {
     return account ?? new Account()
+  }
+
+  protected async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+    query: T,
+    payloads?: Payload[],
+    queryConfig?: TConfig,
+  ): Promise<ModuleQueryResult> {
+    this.started('throw')
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    if (!this.allowAnonymous) {
+      if (query.addresses.length === 0) {
+        console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
+      }
+    }
+    const typedQuery = wrapper.query.payload
+    assertEx(this.queryable(query, payloads, queryConfig))
+    const resultPayloads: Payload[] = []
+    const queryAccount = new Account()
+    try {
+      switch (typedQuery.schema) {
+        case ModuleDiscoverQuerySchema: {
+          resultPayloads.push(...(await this.discover()))
+          break
+        }
+        case ModuleSubscribeQuerySchema: {
+          this.subscribe(queryAccount)
+          break
+        }
+        default:
+          console.error(`Unsupported Query [${query.schema}]`)
+      }
+    } catch (ex) {
+      const error = ex as Error
+      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+    }
+    return await this.bindResult(resultPayloads, queryAccount)
   }
 
   protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

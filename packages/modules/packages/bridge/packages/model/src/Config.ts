@@ -1,7 +1,21 @@
+import { WithAdditional } from '@xyo-network/core'
 import { ModuleConfig } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export type XyoBridgeConfigSchema = 'network.xyo.bridge.config'
-export const XyoBridgeConfigSchema: XyoBridgeConfigSchema = 'network.xyo.bridge.config'
+export type BridgeConfigSchema = 'network.xyo.bridge.config'
+export const BridgeConfigSchema: BridgeConfigSchema = 'network.xyo.bridge.config'
 
-export type BridgeConfig<TConfig extends XyoPayload | undefined = undefined> = ModuleConfig<TConfig>
+export interface CacheConfig {
+  max?: number
+  ttl?: number
+}
+
+export type BridgeConfig<TConfig extends Payload | undefined = undefined> = ModuleConfig<
+  WithAdditional<
+    {
+      discoverCache?: CacheConfig | true
+      schema: TConfig extends Payload ? TConfig['schema'] : BridgeConfigSchema
+    },
+    TConfig
+  >
+>

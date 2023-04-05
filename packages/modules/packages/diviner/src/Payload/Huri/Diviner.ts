@@ -3,7 +3,7 @@ import { fulfilled } from '@xylabs/promise'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import compact from 'lodash/compact'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
@@ -20,10 +20,10 @@ export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriP
     return this.config?.options
   }
 
-  override async divine(payloads?: XyoPayload[]): Promise<XyoPayload[]> {
+  override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
-      `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
+      () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const huriList = huriPayloads
       .map((huriPayload, index) => huriPayload.huri.map((huri) => new Huri(huri, { token: huriPayload.tokens?.[index] })))

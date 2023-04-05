@@ -12,7 +12,7 @@ export class XyoBowserSystemInfoWitness<TParams extends XyoBowserSystemInfoWitne
   extends AbstractWitness<TParams>
   implements WitnessModule
 {
-  static override configSchema: string = XyoBowserSystemInfoWitnessConfigSchema
+  static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
 
   protected get bowser() {
     // we do this to fix importing in node-esm

@@ -16,7 +16,7 @@ export type ArchivistPayloadDivinerParams<
 > = DivinerParams<TConfig>
 
 export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
-  static override configSchema: XyoArchivistPayloadDivinerConfigSchema
+  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(

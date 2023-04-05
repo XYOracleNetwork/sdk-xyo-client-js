@@ -14,7 +14,7 @@ export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<XyoHuriPayl
   DivinerParams<TConfig>
 
 export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
-  static override configSchema: XyoHuriPayloadDivinerConfigSchema
+  static override configSchema = XyoHuriPayloadDivinerConfigSchema
 
   protected get options() {
     return this.config?.options

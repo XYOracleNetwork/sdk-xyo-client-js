@@ -27,7 +27,7 @@
 > Primary SDK for using the XYO Protocol 2.0 from TypeScript/JavaScript.
 > Designed to work in both browser based and Node JS based solutions.
 
-## Install
+## Use the sdk in another project
 
 Using npm:
 
@@ -39,6 +39,22 @@ Using yarn:
 
 ```sh
 yarn add @xyo-network/sdk-xyo-client-js
+```
+
+## Building the sdk locally
+
+First clone the repo to your local computer.  Once you have done that, from inside the folder where it was cloned, these are some commands you can do.
+
+See list of XY scripts.
+
+```sh
+yarn xy help
+```
+
+Compile the mono repo
+
+```sh
+yarn xy compile
 ```
 
 ## Maintainers

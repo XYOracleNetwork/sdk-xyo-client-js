@@ -16,7 +16,7 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^",
-    "mongodb": "^5.1.0"
+    "mongodb": "^5.2.0"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.7.6",

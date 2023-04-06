@@ -1,5 +1,12 @@
 import { Account } from '@xyo-network/account'
-import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeModule, BridgeParams, BridgeQuery } from '@xyo-network/bridge-model'
+import {
+  BridgeConfigSchema,
+  BridgeConnectQuerySchema,
+  BridgeDisconnectQuerySchema,
+  BridgeModule,
+  BridgeParams,
+  BridgeQuery,
+} from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
   AbstractModule,
@@ -26,6 +33,8 @@ export abstract class AbstractBridge<
   extends AbstractModule<TParams, TEventData>
   implements BridgeModule<TParams, TEventData, TModule>
 {
+  static override configSchema: string = BridgeConfigSchema
+
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
 
   override get queries(): string[] {

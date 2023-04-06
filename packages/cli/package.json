@@ -78,5 +78,5 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/types/index.d.ts",
-  "version": "2.54.7"
+  "version": "2.55.0"
 }

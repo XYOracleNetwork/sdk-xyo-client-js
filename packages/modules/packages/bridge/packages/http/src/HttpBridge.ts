@@ -26,7 +26,7 @@ import compact from 'lodash/compact'
 import LruCache from 'lru-cache'
 import Url from 'url-parse'
 
-import { HttpBridgeConfig } from './HttpBridgeConfig'
+import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
 
 export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<TConfig>
 
@@ -39,6 +39,8 @@ export class HttpBridge<
   extends AbstractBridge<TParams, TEventData, TModule>
   implements BridgeModule<TParams, TEventData, TModule>
 {
+  static override configSchema = HttpBridgeConfigSchema
+
   private _axios?: AxiosJson
   private _discoverCache?: LruCache<string, Payload[]>
   private _rootAddress?: string

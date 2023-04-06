@@ -100,18 +100,17 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
 
   static async create<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']) {
     if (!this.configSchema) {
-      this.defaultLogger?.log(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
+      throw Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
     const schema = this.configSchema
     if (params?.config?.schema) {
       if (params?.config?.schema !== schema) {
-        this.defaultLogger?.log(`Bad Config Schema [Received ${params?.config?.schema}] [Expected ${schema}]`)
+        this.defaultLogger?.warn(`Bad Config Schema [Received ${params?.config?.schema}] [Expected ${schema}]`)
       }
     }
     params?.logger?.debug(`config: ${JSON.stringify(params?.config, null, 2)}`)
     const mutatedConfig = { ...params?.config, schema } as TModule['params']['config']
     const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
-    //console.log(`Create-config: ${JSON.stringify(mutatedConfig)}`)
     const newModule = new this(mutatedParams)
     await newModule.start?.()
     return newModule

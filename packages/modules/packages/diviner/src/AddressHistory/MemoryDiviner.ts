@@ -21,7 +21,7 @@ export class MemoryAddressHistoryDiviner<TParams extends MemoryAddressHistoryDiv
   extends AbstractDiviner<TParams>
   implements AddressHistoryDiviner
 {
-  static override configSchema: string = AddressHistoryDivinerConfigSchema
+  static override configSchema = AddressHistoryDivinerConfigSchema
 
   get queryAddress() {
     return assertEx(this.config.address, 'Missing address')

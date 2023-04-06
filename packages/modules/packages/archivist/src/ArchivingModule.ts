@@ -22,9 +22,16 @@ export class ArchivingModule<
   implements Module<TParams, TEventData>
 {
   protected override bindResult(payloads: Payload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
-    const promise = new PromiseEx<ModuleQueryResult, AccountInstance>(async (resolve) => {
-      const result = this.bindResultInternal(payloads, account)
-      await this.storeToArchivists([result[0], ...result[1]])
+    const promise = new PromiseEx<ModuleQueryResult, AccountInstance>(async (resolve, reject) => {
+      let result: ModuleQueryResult | undefined = undefined
+      try {
+        result = this.bindResultInternal(payloads, account)
+        await this.storeToArchivists([result[0], ...result[1]])
+      } catch (ex) {
+        //Todo: We need to update PromiseEx to not require a result for reject
+        reject?.(result as ModuleQueryResult)
+        return
+      }
       resolve?.(result)
     }, account)
     return promise

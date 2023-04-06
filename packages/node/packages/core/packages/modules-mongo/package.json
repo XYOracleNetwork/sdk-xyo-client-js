@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.55.0-rc.1",
+  "version": "2.55.0",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -65,6 +65,5 @@
     "mongodb-memory-server": "^8.12.2",
     "typescript": "^4.9.5"
   },
-  "types": "dist/types/index.d.ts",
-  "stableVersion": "2.54.7"
+  "types": "dist/types/index.d.ts"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-xyo-mongo-js",
-  "version": "2.55.0-rc.1",
+  "version": "2.55.0",
   "homepage": "https://xyo.network",
   "bugs": {
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js/issues",
@@ -55,6 +55,5 @@
     "@xylabs/tsconfig": "^2.16.4",
     "typescript": "^4.9.5"
   },
-  "packageManager": "yarn@3.1.1",
-  "stableVersion": "2.54.7"
+  "packageManager": "yarn@3.1.1"
 }

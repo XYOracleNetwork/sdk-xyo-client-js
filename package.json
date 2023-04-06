@@ -99,11 +99,10 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.55.0-rc.1",
+  "version": "2.55.0",
   "packageManager": "yarn@3.5.0",
   "volta": {
     "node": "18.13.0",
     "yarn": "1.22.19"
-  },
-  "stableVersion": "2.54.7"
+  }
 }

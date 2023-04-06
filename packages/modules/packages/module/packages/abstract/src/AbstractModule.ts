@@ -105,7 +105,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     const schema = this.configSchema
     if (params?.config?.schema) {
       if (params?.config?.schema !== schema) {
-        this.defaultLogger?.warn(`Bad Config Schema [Received ${params?.config?.schema}] [Expected ${schema}]`)
+        throw Error(`Bad Config Schema [Received ${params?.config?.schema}] [Expected ${schema}]`)
       }
     }
     params?.logger?.debug(`config: ${JSON.stringify(params?.config, null, 2)}`)

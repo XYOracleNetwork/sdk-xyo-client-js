@@ -26,10 +26,7 @@ describe('MongoDBPayloadStatsDiviner', () => {
     collection: COLLECTIONS.Payloads,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
-  const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
-    collection: COLLECTIONS.BoundWitnesses,
-    dbConnectionString: process.env.MONGO_CONNECTION_STRING,
-  })
+
   let sut: MongoDBPayloadStatsDiviner
   beforeAll(async () => {
     sut = await MongoDBPayloadStatsDiviner.create({

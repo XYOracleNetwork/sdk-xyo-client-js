@@ -29,7 +29,7 @@ const getMongoDBArchivist = async (context: interfaces.Context) => {
   archivist = await MongoDBDeterministicArchivist.create({
     account,
     boundWitnessSdk,
-    config: { name: TYPES.Archivist.description, schema: ArchiveModuleConfigSchema },
+    config: { name: TYPES.Archivist.description, schema: MongoDBDeterministicArchivist.configSchema },
     payloadSdk,
   })
   return archivist

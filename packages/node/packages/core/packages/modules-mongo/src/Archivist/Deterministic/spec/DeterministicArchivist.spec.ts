@@ -57,7 +57,7 @@ describe('DeterministicArchivist', () => {
     const module = await MongoDBDeterministicArchivist.create({
       account: moduleAccount,
       boundWitnessSdk: boundWitnesses,
-      config: { schema: ModuleConfigSchema },
+      config: { schema: MongoDBDeterministicArchivist.configSchema },
       payloadSdk: payloads,
     })
     archivist = ArchivistWrapper.wrap(module, archiveAccount)

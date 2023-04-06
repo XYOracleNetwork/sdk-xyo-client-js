@@ -1,6 +1,12 @@
 import { Account } from '@xyo-network/account'
 import { AddressSpaceDiviner } from '@xyo-network/diviner'
-import { PayloadWithMeta, SchemaStatsQueryPayload, SchemaStatsQuerySchema, SchemaStatsSchema } from '@xyo-network/node-core-model'
+import {
+  BoundWitnessWithMeta,
+  PayloadWithMeta,
+  SchemaStatsQueryPayload,
+  SchemaStatsQuerySchema,
+  SchemaStatsSchema,
+} from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
@@ -13,6 +19,10 @@ describe('MongoDBSchemaStatsDiviner', () => {
   const address = new Account({ phrase }).addressValue.hex
   const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
+  const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
+    collection: COLLECTIONS.BoundWitnesses,
+    dbConnectionString: process.env.MONGO_CONNECTION_STRING,
+  })
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = new BaseMongoSdk<PayloadWithMeta>({
     collection: COLLECTIONS.Payloads,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
@@ -21,9 +31,9 @@ describe('MongoDBSchemaStatsDiviner', () => {
   beforeAll(async () => {
     sut = await MongoDBSchemaStatsDiviner.create({
       addressSpaceDiviner,
+      boundWitnessSdk,
       config: { schema: MongoDBSchemaStatsDivinerConfigSchema },
       logger,
-      payloadSdk,
     })
     // TODO: Insert via archivist
     const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()

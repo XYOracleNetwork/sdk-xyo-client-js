@@ -24,8 +24,8 @@
     "@xyo-network/uniswap-crypto-market-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.16.4",
-    "@xylabs/tsconfig": "^2.16.4",
+    "@xylabs/ts-scripts-yarn3": "^2.16.5",
+    "@xylabs/tsconfig": "^2.16.5",
     "typescript": "^4.9.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

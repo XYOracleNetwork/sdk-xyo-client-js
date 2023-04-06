@@ -1,14 +1,16 @@
 import { fulfilled } from '@xylabs/promise'
+import { Base, BaseParams } from '@xyo-network/core'
 import { Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
 import { duplicateModules } from '../lib'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
-export class CompositeModuleResolver implements ModuleRepository, ModuleResolver {
+export class CompositeModuleResolver extends Base implements ModuleRepository, ModuleResolver {
   protected resolvers: ModuleResolver[] = []
   private localResolver: SimpleModuleResolver
 
-  constructor() {
+  constructor(params: BaseParams = {}) {
+    super(params)
     const localResolver = new SimpleModuleResolver()
     this.addResolver(localResolver)
     this.localResolver = localResolver

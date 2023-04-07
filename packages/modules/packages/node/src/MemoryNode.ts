@@ -21,14 +21,14 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   override async attach(nameOrAddress: string, external?: boolean) {
     assertEx(
       (await this.attachUsingAddress(nameOrAddress, external)) ?? (await this.attachUsingName(nameOrAddress, external)),
-      'No module registered at that address or name',
+      `No module registered at that address or name [${nameOrAddress}]`,
     )
   }
 
   override async detach(nameOrAddress: string) {
     assertEx(
       (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress)),
-      'No module attached at that address or name',
+      `No module attached at that address or name [${nameOrAddress}]`,
     )
   }
 

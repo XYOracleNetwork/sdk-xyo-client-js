@@ -81,7 +81,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/automation-witness-server/src/Jobs/CryptoMarket/spec/reportCryptoPrices.spec.ts"
+        "packages/modules/packages/node/src/spec/MemoryNode.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

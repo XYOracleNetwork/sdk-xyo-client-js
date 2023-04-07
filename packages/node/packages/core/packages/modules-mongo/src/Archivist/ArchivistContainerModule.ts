@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AbstractArchivist } from '@xyo-network/archivist'
 import { AbstractModule } from '@xyo-network/module'
-import { ArchiveModuleConfigSchema, BoundWitnessWithMeta, PayloadWithMeta, User, UserArchivist } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, PayloadWithMeta, User, UserArchivist } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { ContainerModule, interfaces } from 'inversify'

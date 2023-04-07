@@ -18,10 +18,76 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   private registeredModuleMap: Record<string, Module> = {}
 
-  override async attach(address: string, external?: boolean) {
+  override async attach(nameOrAddress: string, external?: boolean) {
+    assertEx(
+      (await this.attachUsingAddress(nameOrAddress, external)) ?? (await this.attachUsingName(nameOrAddress, external)),
+      'No module registered at that address or name',
+    )
+  }
+
+  override async detach(nameOrAddress: string) {
+    assertEx(
+      (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress)),
+      'No module attached at that address or name',
+    )
+  }
+
+  override async register(module: Module) {
+    assertEx(!this.registeredModuleMap[module.address], `Module already registered at that address[${module.address}]`)
+    this.registeredModuleMap[module.address] = module
+    const args = { module, name: module.config.name }
+    await this.emit('moduleRegistered', args)
+    return this
+  }
+
+  override registered() {
+    return Object.keys(this.registeredModuleMap).map((key) => {
+      return key
+    })
+  }
+
+  override registeredModules() {
+    return Object.values(this.registeredModuleMap).map((value) => {
+      return value
+    })
+  }
+
+  override async unregister(module: Module) {
+    await this.detach(module.address)
+    delete this.registeredModuleMap[module.address]
+    const args = { module, name: module.config.name }
+    await this.emit('moduleUnregistered', args)
+    return this
+  }
+
+  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
+    const internal: Promise<TModule[]> = this.privateResolver.resolve<TModule>(filter)
+    const up: Promise<TModule[]> = this.upResolver?.resolve<TModule>(filter) || []
+    const down: Promise<TModule[]> = this.downResolver?.resolve<TModule>(filter) || []
+    const resolved = await Promise.allSettled([internal, up, down])
+
+    const errors = resolved.filter(rejected).map((r) => Error(r.reason))
+
+    if (errors.length) {
+      this.logger?.error(`Resolve Errors: ${JSON.stringify(errors, null, 2)}`)
+    }
+
+    return resolved
+      .filter(fulfilled)
+      .map((r) => r.value)
+      .flat()
+      .filter(exists)
+      .filter(duplicateModules)
+  }
+
+  private async attachUsingAddress(address: string, external?: boolean) {
     const existingModule = (await this.resolve({ address: [address] })).pop()
     assertEx(!existingModule, `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
-    const module = assertEx(this.registeredModuleMap[address], 'No module registered at that address')
+    const module = this.registeredModuleMap[address]
+
+    if (!module) {
+      return false
+    }
 
     const wrapper = ModuleWrapper.wrap(module)
     const notifiedAddresses: string[] = []
@@ -91,10 +157,24 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     }
 
     await notifyOfExistingModules(notificationList)
+
+    return true
   }
 
-  override async detach(address: string) {
-    const module = assertEx(this.registeredModuleMap[address], 'No module found at that address')
+  private async attachUsingName(name: string, external?: boolean) {
+    const address = this.moduleAddressFromName(name)
+    if (address) {
+      return await this.attachUsingAddress(address, external)
+    }
+    return false
+  }
+
+  private async detachUsingAddress(address: string) {
+    const module = this.registeredModuleMap[address]
+
+    if (!module) {
+      return false
+    }
 
     this.privateResolver.removeResolver(module.downResolver)
 
@@ -135,53 +215,20 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
       }
       await notifyOfExistingModules(wrapper)
     }
+    return true
   }
 
-  override async register(module: Module) {
-    assertEx(!this.registeredModuleMap[module.address], `Module already registered at that address[${module.address}]`)
-    this.registeredModuleMap[module.address] = module
-    const args = { module, name: module.config.name }
-    await this.emit('moduleRegistered', args)
-    return this
-  }
-
-  override registered() {
-    return Object.keys(this.registeredModuleMap).map((key) => {
-      return key
-    })
-  }
-
-  override registeredModules() {
-    return Object.values(this.registeredModuleMap).map((value) => {
-      return value
-    })
-  }
-
-  override async unregister(module: Module) {
-    await this.detach(module.address)
-    delete this.registeredModuleMap[module.address]
-    const args = { module, name: module.config.name }
-    await this.emit('moduleUnregistered', args)
-    return this
-  }
-
-  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
-    const internal: Promise<TModule[]> = this.privateResolver.resolve<TModule>(filter)
-    const up: Promise<TModule[]> = this.upResolver?.resolve<TModule>(filter) || []
-    const down: Promise<TModule[]> = this.downResolver?.resolve<TModule>(filter) || []
-    const resolved = await Promise.allSettled([internal, up, down])
-
-    const errors = resolved.filter(rejected).map((r) => Error(r.reason))
-
-    if (errors.length) {
-      this.logger?.error(`Resolve Errors: ${JSON.stringify(errors, null, 2)}`)
+  private async detachUsingName(name: string) {
+    const address = this.moduleAddressFromName(name)
+    if (address) {
+      return await this.detachUsingAddress(address)
     }
+    return false
+  }
 
-    return resolved
-      .filter(fulfilled)
-      .map((r) => r.value)
-      .flat()
-      .filter(exists)
-      .filter(duplicateModules)
+  private moduleAddressFromName(name: string) {
+    return Object.values(this.registeredModuleMap).reduce<string | undefined>((prev, value) => {
+      return prev ?? value.config.name === name ? value.address : undefined
+    }, undefined)
   }
 }

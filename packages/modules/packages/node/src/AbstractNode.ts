@@ -96,11 +96,11 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     try {
       switch (typedQuery.schema) {
         case XyoNodeAttachQuerySchema: {
-          await this.attach(typedQuery.address, typedQuery.external)
+          await this.attach(typedQuery.nameOrAddress, typedQuery.external)
           break
         }
         case XyoNodeDetachQuerySchema: {
-          await this.detach(typedQuery.address)
+          await this.detach(typedQuery.nameOrAddress)
           break
         }
         case XyoNodeAttachedQuerySchema: {
@@ -133,6 +133,6 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return [...(await this.privateResolver.resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
   }
 
-  abstract attach(address: string, external?: boolean): Promisable<void>
-  abstract detach(address: string): Promisable<void>
+  abstract attach(nameOrAddress: string, external?: boolean): Promisable<void>
+  abstract detach(nameOrAddress: string): Promisable<void>
 }

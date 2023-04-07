@@ -23,8 +23,8 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
     return missingRequiredQueries.length === 0
   }
 
-  async attach(address: string, external?: boolean): Promise<void> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ address, external, schema: XyoNodeAttachQuerySchema })
+  async attach(nameOrAddress: string, external?: boolean): Promise<void> {
+    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ external, nameOrAddress, schema: XyoNodeAttachQuerySchema })
     await this.sendQuery(queryPayload)
   }
 
@@ -34,8 +34,8 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
     return payloads.map((p) => p.address)
   }
 
-  async detach(address: string): Promise<void> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ address, schema: XyoNodeDetachQuerySchema })
+  async detach(nameOrAddress: string): Promise<void> {
+    const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ nameOrAddress, schema: XyoNodeDetachQuerySchema })
     await this.sendQuery(queryPayload)
   }
 

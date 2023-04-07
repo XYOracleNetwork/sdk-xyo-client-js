@@ -4,6 +4,6 @@ export type XyoNodeDetachQuerySchema = 'network.xyo.query.node.detach'
 export const XyoNodeDetachQuerySchema: XyoNodeDetachQuerySchema = 'network.xyo.query.node.detach'
 
 export type XyoNodeDetachQuery = Query<{
-  address: string
+  nameOrAddress: string
   schema: XyoNodeDetachQuerySchema
 }>

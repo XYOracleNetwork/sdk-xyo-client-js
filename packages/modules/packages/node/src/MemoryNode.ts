@@ -157,7 +157,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   private async attachUsingName(name: string, external?: boolean) {
     const address = this.moduleAddressFromName(name)
-    console.log(`attachUsingName: ${name}: [${address}]`)
     if (address) {
       return await this.attachUsingAddress(address, external)
     }
@@ -224,7 +223,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const address = Object.values(this.registeredModuleMap).find((value) => {
       return value.config.name === name
     }, undefined)?.address
-    console.log(`moduleAddressFromName-check: ${name} : ${address}`)
     return address
   }
 }

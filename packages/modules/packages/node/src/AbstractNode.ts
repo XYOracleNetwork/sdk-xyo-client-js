@@ -96,11 +96,19 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     try {
       switch (typedQuery.schema) {
         case XyoNodeAttachQuerySchema: {
-          await this.attach(typedQuery.nameOrAddress, typedQuery.external)
+          const address = await this.attach(typedQuery.nameOrAddress, typedQuery.external)
+          if (address) {
+            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+            resultPayloads.push(payload)
+          }
           break
         }
         case XyoNodeDetachQuerySchema: {
-          await this.detach(typedQuery.nameOrAddress)
+          const address = await this.detach(typedQuery.nameOrAddress)
+          if (address) {
+            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+            resultPayloads.push(payload)
+          }
           break
         }
         case XyoNodeAttachedQuerySchema: {
@@ -124,7 +132,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
   }
@@ -133,6 +141,6 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return [...(await this.privateResolver.resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
   }
 
-  abstract attach(nameOrAddress: string, external?: boolean): Promisable<void>
-  abstract detach(nameOrAddress: string): Promisable<void>
+  abstract attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
+  abstract detach(nameOrAddress: string): Promisable<string | undefined>
 }

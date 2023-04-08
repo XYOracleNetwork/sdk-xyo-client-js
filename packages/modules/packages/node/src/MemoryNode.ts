@@ -19,17 +19,11 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   private registeredModuleMap: Record<string, Module> = {}
 
   override async attach(nameOrAddress: string, external?: boolean) {
-    assertEx(
-      (await this.attachUsingAddress(nameOrAddress, external)) ?? (await this.attachUsingName(nameOrAddress, external)),
-      `No module registered at that address or name [${nameOrAddress}]`,
-    )
+    return (await this.attachUsingAddress(nameOrAddress, external)) ?? (await this.attachUsingName(nameOrAddress, external))
   }
 
   override async detach(nameOrAddress: string) {
-    assertEx(
-      (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress)),
-      `No module attached at that address or name [${nameOrAddress}]`,
-    )
+    return (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress))
   }
 
   override async register(module: Module) {
@@ -86,7 +80,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const module = this.registeredModuleMap[address]
 
     if (!module) {
-      return false
+      return
     }
 
     const wrapper = ModuleWrapper.wrap(module)
@@ -158,22 +152,22 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     await notifyOfExistingModules(notificationList)
 
-    return true
+    return address
   }
 
   private async attachUsingName(name: string, external?: boolean) {
     const address = this.moduleAddressFromName(name)
+    console.log(`attachUsingName: ${name}: [${address}]`)
     if (address) {
       return await this.attachUsingAddress(address, external)
     }
-    return false
   }
 
   private async detachUsingAddress(address: string) {
     const module = this.registeredModuleMap[address]
 
     if (!module) {
-      return false
+      return
     }
 
     this.privateResolver.removeResolver(module.downResolver)
@@ -215,7 +209,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
       }
       await notifyOfExistingModules(wrapper)
     }
-    return true
+    return address
   }
 
   private async detachUsingName(name: string) {
@@ -223,12 +217,14 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     if (address) {
       return await this.detachUsingAddress(address)
     }
-    return false
+    return
   }
 
   private moduleAddressFromName(name: string) {
-    return Object.values(this.registeredModuleMap).reduce<string | undefined>((prev, value) => {
-      return prev ?? value.config.name === name ? value.address : undefined
-    }, undefined)
+    const address = Object.values(this.registeredModuleMap).find((value) => {
+      return value.config.name === name
+    }, undefined)?.address
+    console.log(`moduleAddressFromName-check: ${name} : ${address}`)
+    return address
   }
 }

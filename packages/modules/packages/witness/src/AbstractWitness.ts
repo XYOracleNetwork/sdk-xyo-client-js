@@ -57,7 +57,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindResult([new ModuleErrorBuilder([wrapper.hash], error.message).build()], queryAccount)
+      return this.bindResult([new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build()], queryAccount)
     }
   }
 }

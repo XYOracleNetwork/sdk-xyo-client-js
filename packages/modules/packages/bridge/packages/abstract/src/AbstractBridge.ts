@@ -72,7 +72,7 @@ export abstract class AbstractBridge<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
     return await this.bindResult(resultPayloads, queryAccount)
   }

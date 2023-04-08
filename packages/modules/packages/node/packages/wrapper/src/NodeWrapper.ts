@@ -23,9 +23,10 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
     return missingRequiredQueries.length === 0
   }
 
-  async attach(nameOrAddress: string, external?: boolean): Promise<void> {
+  async attach(nameOrAddress: string, external?: boolean): Promise<string | undefined> {
     const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ external, nameOrAddress, schema: XyoNodeAttachQuerySchema })
-    await this.sendQuery(queryPayload)
+    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
+    return payloads.pop()?.address
   }
 
   async attached(): Promise<string[]> {
@@ -34,9 +35,10 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
     return payloads.map((p) => p.address)
   }
 
-  async detach(nameOrAddress: string): Promise<void> {
+  async detach(nameOrAddress: string): Promise<string | undefined> {
     const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ nameOrAddress, schema: XyoNodeDetachQuerySchema })
-    await this.sendQuery(queryPayload)
+    const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
+    return payloads.pop()?.address
   }
 
   async registered(): Promise<string[]> {

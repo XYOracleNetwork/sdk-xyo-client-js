@@ -6,9 +6,9 @@ import { NodeConfig } from './Config'
 import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './Events'
 
 export interface Node {
-  attach(nameOrAddress: string, external?: boolean): Promisable<void>
+  attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
   attached(): Promisable<string[]>
-  detach(nameOrAddress: string): Promisable<void>
+  detach(nameOrAddress: string): Promisable<string | undefined>
   registered(): Promisable<string[]>
 }
 

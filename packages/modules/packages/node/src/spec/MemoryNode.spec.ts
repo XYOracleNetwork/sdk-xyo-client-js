@@ -272,13 +272,21 @@ describe('MemoryNode', () => {
     describe('node with child modules', () => {
       beforeEach(async () => {
         const modules = await Promise.all([
-          await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
-          await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
+          await MemoryArchivist.create({ account: testAccount2, config: { ...archivistConfig, name: 'testAccount2' } }),
+          await MemoryArchivist.create({ account: testAccount3, config: { ...archivistConfig, name: 'testAccount3' } }),
         ])
-        modules.map(async (mod) => {
-          await node.register(mod)
-          await node.attach(mod.address, true)
-        })
+        await Promise.all(
+          modules.map(async (mod) => {
+            expect(await node.register(mod)).toBeDefined()
+            expect(await node.attach(mod.address, true)).toEqual(mod.address)
+            expect(await node.detach(mod.address)).toEqual(mod.address)
+            if (mod.config.name) {
+              expect(await node.attach(mod.config.name, true)).toEqual(mod.address)
+              expect(await node.detach(mod.config.name)).toEqual(mod.address)
+            }
+            expect(await node.attach(mod.address, true)).toEqual(mod.address)
+          }),
+        )
       })
       it('describes node and child modules', async () => {
         const wrapper = NodeWrapper.wrap(node, testAccount0)

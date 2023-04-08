@@ -160,7 +160,7 @@ export abstract class AbstractArchivist<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder([wrapper.hash], error.message).build())
+      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
     return this.bindResult(resultPayloads, queryAccount)
   }

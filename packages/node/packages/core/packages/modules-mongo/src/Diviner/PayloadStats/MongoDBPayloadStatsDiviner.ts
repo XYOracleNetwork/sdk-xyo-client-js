@@ -161,6 +161,8 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       const count = await this.params.boundWitnessSdk.useCollection((collection) => {
         return collection
           .aggregate<{ payload_hashes: number }>([
+            // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+            { $sort: { addresses: 1, _timestamp: -1 } },
             // Find all BoundWitnesses containing this address
             { $match: { addresses: { $in: [address] } } },
             // In batches
@@ -191,7 +193,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Incoming Addresses Total: ${addresses.length} New: ${additions}`)
-    if (!this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
+    if (addresses.length && !this.backgroundDivineTask) this.backgroundDivineTask = this.backgroundDivine()
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 

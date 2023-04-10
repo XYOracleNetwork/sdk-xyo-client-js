@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { isProduction } from '@xyo-network/express-node-middleware'
 import { Db, IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
@@ -40,21 +39,19 @@ const getMongoClientForIndexCreation = () => {
 // timeout and relevant params for index creation
 // with this client.
 export const addIndexes = async (_db: Db) => {
-  // Create the proper indexes for tests/development
-  if (!isProduction()) {
-    const client = getMongoClientForIndexCreation()
-    try {
-      for (const [collection, indexSpecs] of Object.entries(indexesByCollection)) {
-        if (indexSpecs.length > 0) {
-          try {
-            await client.db(DATABASES.Archivist).collection(collection).createIndexes(indexSpecs)
-          } catch (error) {
-            console.log(error)
-          }
+  // Create the required indexes
+  const client = getMongoClientForIndexCreation()
+  try {
+    for (const [collection, indexSpecs] of Object.entries(indexesByCollection)) {
+      if (indexSpecs.length > 0) {
+        try {
+          await client.db(DATABASES.Archivist).collection(collection).createIndexes(indexSpecs)
+        } catch (error) {
+          console.log(error)
         }
       }
-    } finally {
-      await client.close(true)
     }
+  } finally {
+    await client.close(true)
   }
 }

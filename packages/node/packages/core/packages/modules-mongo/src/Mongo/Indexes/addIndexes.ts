@@ -4,15 +4,13 @@ import { Db, IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { getMongoDBConfig } from '../getMongoDBConfig'
-import { ArchivesIndexes, ArchivistStatsIndexes, BoundWitnessesIndexes, PayloadsIndexes } from './Specifications'
+import { ArchivistStatsIndexes, BoundWitnessesIndexes, PayloadsIndexes } from './Specifications'
 
 type ValueOf<T> = T[keyof T]
 
 type Collection = ValueOf<typeof COLLECTIONS>
 
 const indexesByCollection: Record<Collection, IndexDescription[]> = {
-  archive_keys: [],
-  archives: ArchivesIndexes,
   archivist_stats: ArchivistStatsIndexes,
   bound_witnesses: BoundWitnessesIndexes,
   payloads: PayloadsIndexes,

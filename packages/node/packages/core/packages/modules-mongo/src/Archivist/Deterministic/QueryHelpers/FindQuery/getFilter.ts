@@ -5,8 +5,6 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Filter } from 'mongodb'
 
-import { getArchive } from '../getArchive'
-
 export type BoundWitnessesFilter = Filter<BoundWitnessWithMeta>
 export type PayloadsFilter = Filter<PayloadWithMeta>
 
@@ -33,8 +31,5 @@ export const getFilter = (
   }
   assertEx(wrapper.addresses.length, 'Find query requires at least one address')
   // bwFilter.addresses = { $all: wrapper.addresses }
-  const archive = getArchive(wrapper)
-  bwFilter._archive = archive
-  payloadFilter._archive = archive
   return [bwFilter, payloadFilter]
 }

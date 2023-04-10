@@ -226,20 +226,11 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const schemas = change.fullDocument.payload_schemas
     if (addresses?.length) {
       for (const address of addresses) {
-        if (address) {
-          for (const schema of schemas) {
-            if (!this.pendingCounts[address]) this.pendingCounts[address] = {}
-            this.pendingCounts[address][schema] = (this.pendingCounts[address][schema] || 0) + 1
-          }
+        for (const schema of schemas) {
+          if (!this.pendingCounts[address]) this.pendingCounts[address] = {}
+          this.pendingCounts[address][schema] = (this.pendingCounts[address][schema] || 0) + 1
         }
       }
-    }
-    this.resumeAfter = change._id
-    const address = change.fullDocument._archive
-    const schema = change.fullDocument.schema
-    if (address && schema) {
-      if (!this.pendingCounts[address]) this.pendingCounts[address] = {}
-      this.pendingCounts[address][schema] = (this.pendingCounts[address][schema] || 0) + 1
     }
   }
 

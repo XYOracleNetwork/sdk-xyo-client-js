@@ -34,7 +34,6 @@ import { SortDirection } from 'mongodb'
 import { DefaultMaxTimeMS } from '../../defaults'
 import {
   BoundWitnessesFilter,
-  getArchive,
   getFilter,
   getLimit,
   getPayloadSchemas,
@@ -52,9 +51,9 @@ export type MongoDBDeterministicArchivistParams = ArchivistParams<
   }
 >
 
-const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper, archive: string): BoundWitnessWithMeta => {
+const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper): BoundWitnessWithMeta => {
   const bw = wrapper.boundwitness as BoundWitness
-  return { ...bw, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
+  return { ...bw, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
 const toReturnValue = (value: Payload | BoundWitness): Payload => {
@@ -66,8 +65,8 @@ const toReturnValue = (value: Payload | BoundWitness): Payload => {
   }
 }
 
-const toPayloadWithMeta = (wrapper: PayloadWrapper, archive: string): PayloadWithMeta => {
-  return { ...wrapper.payload, _archive: archive, _hash: wrapper.hash, _timestamp: Date.now() }
+const toPayloadWithMeta = (wrapper: PayloadWrapper): PayloadWithMeta => {
+  return { ...wrapper.payload, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
 const searchDepthLimit = 50
@@ -123,7 +122,6 @@ export class MongoDBDeterministicArchivist<
       if (!currentBw) break
       if (findBWs) resultPayloads.push(currentBw)
       if (findPayloads) {
-        const _archive = getArchive(currentBw)
         const payloadHashes = payloadSchemas.length
           ? currentBw?.payload_schemas.reduce((schemas, schema, idx) => {
               if (payloadSchemas.includes(schema) && currentBw?.payload_hashes[idx]) schemas.push(currentBw.payload_hashes[idx])
@@ -134,9 +132,7 @@ export class MongoDBDeterministicArchivist<
           await Promise.all(
             payloadHashes.map((_hash) => {
               const schema = currentBw?.payload_schemas[currentBw.payload_hashes.indexOf(_hash)]
-              return schema?.startsWith(BoundWitnessSchema)
-                ? this.findBoundWitness({ _archive, _hash })
-                : this.findPayload({ ...payloadFilter, _archive, _hash })
+              return schema?.startsWith(BoundWitnessSchema) ? this.findBoundWitness({ _hash }) : this.findPayload({ ...payloadFilter, _hash })
             }),
           )
         ).filter(exists)
@@ -153,11 +149,11 @@ export class MongoDBDeterministicArchivist<
   }
 
   protected async findPayload(filter: PayloadsFilter): Promise<PayloadWithMeta | undefined> {
-    const { _archive, order, offset, schema, _hash } = filter as PayloadFindFilter & PayloadsFilter
+    const { order, offset, schema, _hash } = filter as PayloadFindFilter & PayloadsFilter
     const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
     const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'asc' ? 0 : Date.now()
     const _timestamp = order === 'asc' ? { $gte: parsedTimestamp } : { $lte: parsedTimestamp }
-    const find: PayloadsFilter = { _archive, _timestamp }
+    const find: PayloadsFilter = { _timestamp }
     if (schema) find.schema = schema
     if (_hash) find._hash = _hash
     const result = await (await this.payloads.find(find)).limit(1).sort(sort).maxTimeMS(DefaultMaxTimeMS).toArray()
@@ -174,11 +170,10 @@ export class MongoDBDeterministicArchivist<
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<BoundWitness[]> {
-    const archive = this.address
     const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)]
     const [bw, p] = toStore.reduce(validByType, [[], []])
-    const boundWitnesses = bw.map((x) => toBoundWitnessWithMeta(x, archive))
-    const payloads = p.map((x) => toPayloadWithMeta(x, archive))
+    const boundWitnesses = bw.map((x) => toBoundWitnessWithMeta(x))
+    const payloads = p.map((x) => toPayloadWithMeta(x))
     if (boundWitnesses.length) {
       const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
       if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)

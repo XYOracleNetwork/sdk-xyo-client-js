@@ -5,6 +5,45 @@ volumes:
   grafana_data: {}
 
 services:
+  mongo:
+    container_name: mongo
+    image: mongo:6
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: archivist
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/usr/bin/mongosh",
+          "-u",
+          "root",
+          "-p",
+          "example",
+          "--quiet",
+          "/opt/mongo/joinReplicaSet.js",
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 1s
+    volumes:
+      - ./scripts/mongo/opt/mongo:/opt/mongo
+      - ./scripts/mongo/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    command:
+      [
+        "--auth",
+        "--bind_ip_all",
+        "--keyFile",
+        "/tmp/mongodb.key",
+        "--replSet",
+        "dbrs",
+      ]
+
   prometheus:
     image: prom/prometheus:v2.37.6
     container_name: prometheus

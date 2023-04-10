@@ -8,7 +8,6 @@ import { v4 } from 'uuid'
 
 import { prepareBoundWitnesses, PrepareBoundWitnessesResult } from '../prepareBoundWitnesses'
 
-const _archive = 'temp'
 const _client = 'js'
 const _observeDuration = 10
 const _source_ip = '192.168.1.20'
@@ -17,7 +16,6 @@ const _user_agent = 'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36
 const _hash = new PayloadWrapper({ schema: 'network.xyo.test' }).hash
 
 const boundWitnessMeta: BoundWitnessMeta = {
-  _archive,
   _client,
   _hash,
   _observeDuration,
@@ -26,7 +24,6 @@ const boundWitnessMeta: BoundWitnessMeta = {
   _user_agent,
 }
 const payloadMeta = {
-  _archive,
   _client,
   _hash,
   _observeDuration,
@@ -50,7 +47,6 @@ const getNewBlockWithBoundWitnessesWithPayloads = (
 
 const validateBeforeSanitization = (boundWitnesses: Array<BoundWitnessWithPartialMeta & PayloadWithPartialMeta>) => {
   boundWitnesses.map((bw) => {
-    expect(bw._archive).toBeUndefined()
     expect(bw._client).toBe(_client)
     expect(bw._hash).toBeDefined()
     expect(bw._observeDuration).toBeUndefined()
@@ -67,7 +63,6 @@ const validateBeforeSanitization = (boundWitnesses: Array<BoundWitnessWithPartia
     expect(Array.isArray(bw.payload_schemas)).toBeTruthy()
     expect(bw.schema).toBe(BoundWitnessSchema)
     bw?._payloads?.map((p) => {
-      expect(p._archive).toBeUndefined()
       expect(p._client).toBeUndefined
       expect(p._hash).toBeUndefined()
       expect(p._observeDuration).toBeUndefined()
@@ -79,7 +74,6 @@ const validateBeforeSanitization = (boundWitnesses: Array<BoundWitnessWithPartia
 
 const validateAfterSanitization = (actual: PrepareBoundWitnessesResult) => {
   actual.sanitized.map((bw) => {
-    expect(bw._archive).toBe(_archive)
     expect(bw._client).toBe(_client)
     expect(bw._hash).toBeTruthy()
     expect(bw._observeDuration).toBe(_observeDuration)
@@ -96,7 +90,6 @@ const validateAfterSanitization = (actual: PrepareBoundWitnessesResult) => {
     expect(bw.schema).toBe(BoundWitnessSchema)
   })
   actual.payloads.map((p) => {
-    expect(p._archive).toBe(_archive)
     expect(p._client).toBe(_client)
     expect(p._hash).toBeTruthy()
     expect(p._observeDuration).toBe(_observeDuration)

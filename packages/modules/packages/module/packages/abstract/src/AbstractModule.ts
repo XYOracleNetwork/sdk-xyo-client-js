@@ -90,10 +90,6 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     return this.params.config
   }
 
-  get previousHash() {
-    return this.account.previousHash
-  }
-
   get queries(): string[] {
     return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
   }
@@ -127,6 +123,14 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
       schema: ConfigSchema,
     }
     return compact([config, configSchema, address, ...queries])
+  }
+
+  previousHash(): Promisable<Payload[]> {
+    const previous = {
+      huri: [this.account.previousHash?.hex],
+      schema: 'network.xyo.huri',
+    }
+    return [previous]
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

@@ -15,6 +15,7 @@ import {
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
+  ModulePreviousHashQuerySchema,
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryResult,
@@ -91,7 +92,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   }
 
   get queries(): string[] {
-    return [ModuleDiscoverQuerySchema, ModuleSubscribeQuerySchema]
+    return [ModuleDiscoverQuerySchema, ModulePreviousHashQuerySchema, ModuleSubscribeQuerySchema]
   }
 
   static async create<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']) {
@@ -270,6 +271,10 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
       switch (typedQuery.schema) {
         case ModuleDiscoverQuerySchema: {
           resultPayloads.push(...(await this.discover()))
+          break
+        }
+        case ModulePreviousHashQuerySchema: {
+          resultPayloads.push(...(await this.previousHash()))
           break
         }
         case ModuleSubscribeQuerySchema: {

@@ -8,14 +8,14 @@ import { getModule } from '../util'
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
   yargs.usage('Usage: $0 module describe <address>').positional('address', { demandOption: true, type: 'string' })
-export const command = 'describe <address>'
+export const command = 'previousHash <address>'
 export const deprecated = false
-export const describe = 'Issue a describe query against the XYO Module'
+export const describe = 'Issue a PreviousHash Query against the XYO Module'
 export const handler = async (argv: ModuleArguments) => {
   const { verbose } = argv
   try {
     const mod = await getModule(argv)
-    const result = await mod.describe()
+    const result = await mod.previousHash()
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

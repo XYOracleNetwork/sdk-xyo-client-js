@@ -19,7 +19,7 @@ export const handler = async (argv: ModuleArguments) => {
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))
-    throw new Error('Error querying for archivists')
+    throw new Error('Error Querying Module')
   }
 }
 

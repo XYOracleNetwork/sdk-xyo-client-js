@@ -17,7 +17,7 @@ export const handler = async (argv: BaseArguments) => {
     printLine(node.address)
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))
-    throw new Error('Error retrieving Node Address')
+    throw new Error('Error Querying Node')
   }
 }
 

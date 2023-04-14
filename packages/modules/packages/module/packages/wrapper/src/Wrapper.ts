@@ -12,6 +12,8 @@ import {
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
+  ModulePreviousHashQuery,
+  ModulePreviousHashQuerySchema,
   ModuleQueryResult,
   Query,
   QueryBoundWitness,
@@ -209,6 +211,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     listener: EventListener<TWrappedModule['eventData'][TEventName]>,
   ) {
     return this.module.once(eventName, listener)
+  }
+
+  previousHash(): Promise<Payload[]> {
+    const queryPayload = PayloadWrapper.parse<ModulePreviousHashQuery>({ schema: ModulePreviousHashQuerySchema })
+    return this.sendQuery(queryPayload)
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {

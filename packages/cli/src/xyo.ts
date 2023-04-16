@@ -16,7 +16,6 @@ void yargs(hideBin(process.argv))
     config: {
       config: true,
     },
-    // TODO: Network selection
     network: {
       choices: ['local', 'kerplunk', 'main'],
       default: 'kerplunk',

@@ -5229,7 +5229,6 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.5
     "@xylabs/tsconfig-jest": ^2.16.5
     "@xyo-network/account": "workspace:^"
-    "@xyo-network/api-models": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"
     "@xyo-network/module": "workspace:^"

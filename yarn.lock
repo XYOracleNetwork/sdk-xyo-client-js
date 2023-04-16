@@ -5234,6 +5234,7 @@ __metadata:
     "@xyo-network/http-bridge": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/modules": "workspace:^"
+    "@xyo-network/network": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/node-app": "workspace:^"
     "@xyo-network/node-model": "workspace:^"

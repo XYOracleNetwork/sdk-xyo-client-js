@@ -20,8 +20,8 @@ void yargs(hideBin(process.argv))
     network: {
       choices: ['local', 'kerplunk', 'main'],
       default: 'kerplunk',
-      demandOption: true,
-      describe: 'Known network to target (custom networks/ports supported via config)',
+      demandOption: false,
+      describe: 'Known network to target.',
       type: 'string',
     },
   })

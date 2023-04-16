@@ -11,6 +11,20 @@ void yargs(hideBin(process.argv))
   .help()
   .alias('h', 'help')
   .boolean('verbose')
+  .options({
+    // TODO: Config file
+    config: {
+      config: true,
+    },
+    // TODO: Network selection
+    network: {
+      choices: ['local', 'kerplunk', 'main'],
+      default: 'kerplunk',
+      demandOption: true,
+      describe: 'Known network to target (custom networks/ports supported via config)',
+      type: 'string',
+    },
+  })
   .option('output', {
     alias: 'o',
     choices: ['json', 'raw'] as OutputType[],

@@ -83,5 +83,6 @@
     "typechain",
     "userid",
     "xylabs"
-  ]
+  ],
+  "npm.packageManager": "yarn"
 }

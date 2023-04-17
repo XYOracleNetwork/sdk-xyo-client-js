@@ -8,7 +8,6 @@ import compression from 'compression'
 import cors from 'cors'
 import express, { Express } from 'express'
 
-import { addAuth } from './addAuth'
 import { addDependencies } from './addDependencies'
 import { addErrorHandlers } from './addErrorHandlers'
 import { addMiddleware } from './addMiddleware'
@@ -27,7 +26,6 @@ export class ExpressPayloadTransport extends PayloadTransport {
     this.app.use(compression())
     addDependencies(this.app)
     addMiddleware(this.app)
-    addAuth(this.app)
     addRoutes(this.app)
     addErrorHandlers(this.app)
   }

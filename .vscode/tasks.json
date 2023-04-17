@@ -3,8 +3,8 @@
   "tasks": [
     {
       "label": "build",
-      "type": "npm",
-      "script": "build",
+      "type": "shell",
+      "command": "yarn xy build",
       "problemMatcher": ["$tsc", "$eslint-stylish"],
       "group": {
         "kind": "build",

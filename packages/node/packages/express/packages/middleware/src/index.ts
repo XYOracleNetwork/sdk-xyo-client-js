@@ -29,7 +29,6 @@ declare global {
   }
 }
 
-export * from './auth'
 export * from './doc'
 export * from './LoggingErrorHandler'
 export * from './nodeEnv'

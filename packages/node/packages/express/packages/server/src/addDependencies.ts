@@ -11,5 +11,5 @@ export const addDependencies = (app: Application) => {
   app.logger = assertEx(container.get<Logger>(TYPES.Logger), 'Missing Logger')
   app.node = assertEx(container.get<AbstractNode>(TYPES.Node), 'Missing Node')
   app.prometheusNodeWitness = assertEx(container.get<PrometheusNodeWitness>(TYPES.PrometheusWitness), 'Missing PrometheusNodeWitness')
-  app.userManager = assertEx(container.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
+  // app.userManager = assertEx(container.get<UserManager>(TYPES.UserManager), 'Missing UserManager')
 }

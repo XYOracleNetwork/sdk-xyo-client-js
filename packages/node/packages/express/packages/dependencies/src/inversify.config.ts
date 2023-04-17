@@ -9,7 +9,6 @@ import { TYPES } from '@xyo-network/node-core-types'
 import { config } from 'dotenv'
 import { Container } from 'inversify'
 
-import { addAuth } from './addAuth'
 import { addMemoryNode } from './addMemoryNode'
 import { tryGetServiceName } from './Util'
 import { WitnessContainerModule } from './Witness'
@@ -32,15 +31,11 @@ export const configureDependencies = async (node?: MemoryNode) => {
   if (configured) return
   configured = true
 
-  const apiKey = assertEx(process.env.API_KEY, 'API_KEY ENV VAR required to create Archivist')
-  const jwtSecret = assertEx(process.env.JWT_SECRET, 'JWT_SECRET ENV VAR required to create Archivist')
   const mnemonic = assertEx(process.env.MNEMONIC, 'MNEMONIC ENV VAR required to create Archivist')
   const verbosity: LoggerVerbosity = (process.env.VERBOSITY as LoggerVerbosity) ?? process.env.NODE_ENV === 'test' ? 'error' : 'info'
   const logger = getLogger(verbosity)
 
   container.bind<string>(TYPES.AccountMnemonic).toConstantValue(mnemonic)
-  container.bind<string>(TYPES.ApiKey).toConstantValue(apiKey)
-  container.bind<string>(TYPES.JwtSecret).toConstantValue(jwtSecret)
   container.bind<ConfigModuleFactoryDictionary>(TYPES.ConfigModuleFactoryDictionary).toConstantValue({})
 
   container.bind<Logger>(TYPES.Logger).toDynamicValue((context) => {
@@ -51,7 +46,6 @@ export const configureDependencies = async (node?: MemoryNode) => {
     return service ? logger : logger
   })
   await addMongo(container)
-  addAuth(container)
   container.load(WitnessContainerModule)
   await addMemoryNode(container, node)
 }

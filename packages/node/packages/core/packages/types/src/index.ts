@@ -11,11 +11,8 @@ export const TYPES = {
   ...MODULE_TYPES,
   ...WITNESS_TYPES,
   AccountMnemonic: Symbol('AccountMnemonic'),
-  ApiKey: Symbol('ApiKey'),
   ConfigModuleFactoryDictionary: Symbol('ConfigModuleFactoryDictionary'),
-  JwtSecret: Symbol('JwtSecret'),
   Logger: Symbol('Logger'),
-  PasswordHasher: Symbol('PasswordHasher'),
   SchemaToQueryProcessorRegistry: Symbol('SchemaToQueryProcessorRegistry'),
 }
 

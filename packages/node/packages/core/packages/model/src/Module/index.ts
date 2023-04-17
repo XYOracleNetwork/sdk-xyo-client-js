@@ -1,1 +1,1 @@
-export * from './ModuleRegistry'
+export * from './ModuleFactory'

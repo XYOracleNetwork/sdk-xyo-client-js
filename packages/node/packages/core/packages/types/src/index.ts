@@ -11,12 +11,9 @@ export const TYPES = {
   ...MODULE_TYPES,
   ...WITNESS_TYPES,
   AccountMnemonic: Symbol('AccountMnemonic'),
-  ApiKey: Symbol('ApiKey'),
-  JwtSecret: Symbol('JwtSecret'),
+  ConfigModuleFactoryDictionary: Symbol('ConfigModuleFactoryDictionary'),
   Logger: Symbol('Logger'),
-  PasswordHasher: Symbol('PasswordHasher'),
   SchemaToQueryProcessorRegistry: Symbol('SchemaToQueryProcessorRegistry'),
-  UserManager: Symbol('UserManager'),
 }
 
 export * from './Wallet'

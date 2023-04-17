@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
-import { AbstractArchivist } from '@xyo-network/archivist'
-import { AbstractModule } from '@xyo-network/module'
-import { BoundWitnessWithMeta, PayloadWithMeta, User, UserArchivist } from '@xyo-network/node-core-model'
+import { AbstractArchivist, ArchivistConfig } from '@xyo-network/archivist'
+import { AnyConfigSchema } from '@xyo-network/module'
+import { BoundWitnessWithMeta, ConfigModuleFactory, PayloadWithMeta, User, UserArchivist } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { ContainerModule, interfaces } from 'inversify'
@@ -11,7 +11,7 @@ import { MongoDBDeterministicArchivist } from './Deterministic'
 import { MongoDBUserArchivist } from './User'
 
 let userArchivist: MongoDBUserArchivist
-let archivist: MongoDBDeterministicArchivist
+let archivistFactory: ConfigModuleFactory<MongoDBDeterministicArchivist>
 
 const getMongoDBUserArchivist = (context: interfaces.Context) => {
   if (userArchivist) return userArchivist
@@ -20,26 +20,25 @@ const getMongoDBUserArchivist = (context: interfaces.Context) => {
   return userArchivist
 }
 
-const getMongoDBArchivist = async (context: interfaces.Context) => {
-  if (archivist) return archivist
+const getMongoDBArchivistFactory = (context: interfaces.Context): ConfigModuleFactory<AbstractArchivist> => {
+  if (archivistFactory) return archivistFactory
   const mnemonic = context.container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Archivists.Archivist)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = context.container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = context.container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
-  archivist = await MongoDBDeterministicArchivist.create({
-    account,
-    boundWitnessSdk,
-    config: { name: TYPES.Archivist.description, schema: MongoDBDeterministicArchivist.configSchema },
-    payloadSdk,
-  })
-  return archivist
+  archivistFactory = async (config: AnyConfigSchema<ArchivistConfig>) =>
+    await MongoDBDeterministicArchivist.create({
+      account,
+      boundWitnessSdk,
+      config: { ...config, name: TYPES.Archivist.description, schema: MongoDBDeterministicArchivist.configSchema },
+      payloadSdk,
+    })
+  return archivistFactory
 }
 
 export const ArchivistContainerModule = new ContainerModule((bind: interfaces.Bind) => {
   bind(MongoDBUserArchivist).toDynamicValue(getMongoDBUserArchivist).inSingletonScope()
   bind<UserArchivist>(TYPES.UserArchivist).toDynamicValue(getMongoDBUserArchivist).inSingletonScope()
 
-  bind(MongoDBDeterministicArchivist).toDynamicValue(getMongoDBArchivist).inSingletonScope()
-  bind<AbstractArchivist>(TYPES.Archivist).toDynamicValue(getMongoDBArchivist).inSingletonScope()
-  bind<AbstractModule>(TYPES.Module).toDynamicValue(getMongoDBArchivist).inSingletonScope()
+  bind<ConfigModuleFactory>(TYPES.Archivist).toDynamicValue(getMongoDBArchivistFactory).inSingletonScope()
 })

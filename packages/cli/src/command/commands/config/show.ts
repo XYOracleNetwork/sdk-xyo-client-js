@@ -6,6 +6,13 @@ import { readFileDeep } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'
 import { outputContext } from '../../util'
 
+// TODO: We don't want a single config payload
+// as we're really configuring an entire node
+// so we'd want an array of payloads.
+/**
+ * Loads the XYO config from disk
+ * @returns Returns a single ModuleConfig Payload
+ */
 const getConfig = async (): Promise<ModuleConfig> => {
   const [config, path] = readFileDeep(['xyo-config.json', 'xyo-config.js'])
   let configObj: ModuleConfig | undefined

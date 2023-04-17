@@ -17,7 +17,6 @@ export const TYPES = {
   Logger: Symbol('Logger'),
   PasswordHasher: Symbol('PasswordHasher'),
   SchemaToQueryProcessorRegistry: Symbol('SchemaToQueryProcessorRegistry'),
-  UserManager: Symbol('UserManager'),
 }
 
 export * from './Wallet'

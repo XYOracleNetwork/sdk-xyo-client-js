@@ -1,6 +1,6 @@
 import { UserCreationAuthInfo } from '@xyo-network/express-node-lib'
 import { AbstractNode } from '@xyo-network/modules'
-import { UserManager, UserWithoutId } from '@xyo-network/node-core-model'
+import { UserWithoutId } from '@xyo-network/node-core-model'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
 import { Logger } from '@xyo-network/shared'
 
@@ -25,7 +25,6 @@ declare global {
       logger: Logger
       node: AbstractNode
       prometheusNodeWitness: PrometheusNodeWitness
-      userManager: UserManager
     }
   }
 }

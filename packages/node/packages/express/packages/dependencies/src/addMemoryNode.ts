@@ -1,5 +1,5 @@
-import { AbstractModule, ArchivistConfigSchema, MemoryNode, ModuleConfig } from '@xyo-network/modules'
-import { ConfigModuleFactory } from '@xyo-network/node-core-model'
+import { AbstractModule, AnyConfigSchema, ArchivistConfigSchema, MemoryNode, ModuleConfig } from '@xyo-network/modules'
+import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { Container } from 'inversify'
@@ -7,9 +7,10 @@ import { Container } from 'inversify'
 const config = { schema: NodeConfigSchema }
 
 type ModuleNameWithVisibility = [name: symbol, visibility: boolean]
-type ModuleConfigWithVisibility = [config: ModuleConfig, visibility: boolean]
+type ModuleConfigWithVisibility = [config: AnyConfigSchema<ModuleConfig>, visibility: boolean]
 
-const archivists: ModuleNameWithVisibility[] = [[TYPES.Archivist, true]]
+const archivists: ModuleConfigWithVisibility[] = [[{ schema: ArchivistConfigSchema }, true]]
+
 const diviners: ModuleNameWithVisibility[] = [
   [TYPES.AddressHistoryDiviner, true],
   [TYPES.AddressSpaceDiviner, true],
@@ -25,13 +26,13 @@ const witnesses: ModuleNameWithVisibility[] = [
 ]
 
 const modules: ModuleNameWithVisibility[] = [...diviners, ...witnesses]
-const moduleFactories: ModuleNameWithVisibility[] = [...archivists]
+const configs: ModuleConfigWithVisibility[] = [...archivists]
 
 export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   await addModulesToNode(container, node, modules)
-  await addModulesToNodeFromConfig(container, node, moduleFactories)
+  await addModulesToNodeFromConfig(container, node, configs)
 }
 
 const addModulesToNode = async (container: Container, node: MemoryNode, modules: ModuleNameWithVisibility[]) => {
@@ -47,12 +48,13 @@ const addModulesToNode = async (container: Container, node: MemoryNode, modules:
   )
 }
 
-const addModulesToNodeFromConfig = async (container: Container, node: MemoryNode, modules: ModuleNameWithVisibility[]) => {
+const addModulesToNodeFromConfig = async (container: Container, node: MemoryNode, configs: ModuleConfigWithVisibility[]) => {
+  const configModuleFactoryDictionary = container.get<ConfigModuleFactoryDictionary>(TYPES.ConfigModuleFactoryDictionary)
   await Promise.all(
-    modules.map(async ([name, visibility]) => {
-      const factory = await container.getAsync<ConfigModuleFactory<AbstractModule>>(name)
-      if (factory) {
-        const mod = await factory({ schema: ArchivistConfigSchema })
+    configs.map(async ([config, visibility]) => {
+      const configModuleFactory = configModuleFactoryDictionary[config.schema]
+      if (configModuleFactory) {
+        const mod = await configModuleFactory(config)
         const { address } = mod
         await node.register(mod)
         await node.attach(address, visibility)

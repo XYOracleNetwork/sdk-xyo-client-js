@@ -14,3 +14,7 @@ export type ParamsConfigModuleFactory<
   TParams extends ModuleParams = ModuleParams,
   TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>,
 > = (params: TParams) => ConfigModuleFactory<T, TConfig> | Promise<ConfigModuleFactory<T, TConfig>>
+
+export interface ConfigModuleFactoryDictionary {
+  [key: string]: ConfigModuleFactory<AbstractModule, AnyConfigSchema<{ schema: typeof key }>>
+}

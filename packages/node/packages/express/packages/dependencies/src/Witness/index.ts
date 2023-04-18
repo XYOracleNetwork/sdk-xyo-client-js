@@ -1,1 +1,1 @@
-export * from './WitnessContainerModule'
+export * from './addDivinerConfigModuleFactories'

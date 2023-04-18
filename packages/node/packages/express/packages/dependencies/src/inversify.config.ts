@@ -11,7 +11,7 @@ import { Container } from 'inversify'
 
 import { addMemoryNode } from './addMemoryNode'
 import { tryGetServiceName } from './Util'
-import { addWitnessConfigModuleFactory } from './Witness'
+import { addWitnessConfigModuleFactories } from './Witness'
 config()
 export const container = new Container({
   autoBindInjectable: true,
@@ -46,6 +46,6 @@ export const configureDependencies = async (node?: MemoryNode) => {
     return service ? logger : logger
   })
   await addMongo(container)
-  addWitnessConfigModuleFactory(container)
+  addWitnessConfigModuleFactories(container)
   await addMemoryNode(container, node)
 }

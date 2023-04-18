@@ -1,6 +1,8 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
-import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module-model'
+import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, LocationCertaintyDivinerConfig, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -9,146 +11,142 @@ import { MONGO_TYPES } from '../mongoTypes'
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
-import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
+import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfig } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
-import { MongoDBPayloadStatsDiviner } from './PayloadStats'
-import { MongoDBSchemaListDiviner } from './SchemaList'
+import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfig } from './PayloadStats'
+import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerConfig } from './SchemaList'
 import { MongoDBSchemaStatsDiviner } from './SchemaStats'
 
-let mongoDBAddressHistoryDiviner: MongoDBAddressHistoryDiviner
-let mongoDBAddressSpaceDiviner: MongoDBAddressSpaceDiviner
-let mongoDBBoundWitnessDiviner: MongoDBBoundWitnessDiviner
-let mongoDBBoundWitnessStatsDiviner: MongoDBBoundWitnessStatsDiviner
-let mongoDBLocationCertaintyDiviner: MongoDBLocationCertaintyDiviner
-let mongoDBPayloadDiviner: MongoDBPayloadDiviner
-let mongoDBPayloadStatsDiviner: MongoDBPayloadStatsDiviner
-let mongoDBSchemaListDiviner: MongoDBSchemaListDiviner
-let mongoDBSchemaStatsDiviner: MongoDBSchemaStatsDiviner
-
-const getMongoDBAddressHistoryDiviner = async (container: Container) => {
-  if (mongoDBAddressHistoryDiviner) return mongoDBAddressHistoryDiviner
+const getMongoDBAddressHistoryDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.AddressHistory)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const params = {
-    account,
-    boundWitnessSdk,
-    config: { name: TYPES.AddressHistoryDiviner.description, schema: MongoDBAddressHistoryDiviner.configSchema },
+  const factory = (config: AnyConfigSchema<XyoArchivistPayloadDivinerConfig>) => {
+    const params = {
+      account,
+      boundWitnessSdk,
+      config: { ...config, name: TYPES.AddressHistoryDiviner.description },
+    }
+    return MongoDBAddressHistoryDiviner.create(params)
   }
-  mongoDBAddressHistoryDiviner = await MongoDBAddressHistoryDiviner.create(params)
-  return mongoDBAddressHistoryDiviner
+  return factory
 }
-const getMongoDBAddressSpaceDiviner = async (container: Container) => {
-  if (mongoDBAddressSpaceDiviner) return mongoDBAddressSpaceDiviner
+const getMongoDBAddressSpaceDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.AddressSpace)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const params = {
-    account,
-    boundWitnessSdk,
-    config: { name: TYPES.AddressSpaceDiviner.description, schema: MongoDBAddressSpaceDiviner.configSchema },
+  const factory = (config: AnyConfigSchema<XyoArchivistPayloadDivinerConfig>) => {
+    const params = {
+      account,
+      boundWitnessSdk,
+      config: { ...config, name: TYPES.AddressSpaceDiviner.description },
+    }
+    return MongoDBAddressSpaceDiviner.create(params)
   }
-  mongoDBAddressSpaceDiviner = await MongoDBAddressSpaceDiviner.create(params)
-  return mongoDBAddressSpaceDiviner
+  return factory
 }
-const getMongoDBBoundWitnessDiviner = async (container: Container) => {
-  if (mongoDBBoundWitnessDiviner) return mongoDBBoundWitnessDiviner
+const getMongoDBBoundWitnessDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitness)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const params = {
-    account,
-    boundWitnessSdk,
-    config: { name: TYPES.BoundWitnessDiviner.description, schema: MongoDBBoundWitnessDiviner.configSchema },
+  const factory = (config: AnyConfigSchema<XyoArchivistPayloadDivinerConfig>) => {
+    const params = {
+      account,
+      boundWitnessSdk,
+      config: { ...config, name: TYPES.BoundWitnessDiviner.description },
+    }
+    return MongoDBBoundWitnessDiviner.create(params)
   }
-  mongoDBBoundWitnessDiviner = await MongoDBBoundWitnessDiviner.create(params)
-  return mongoDBBoundWitnessDiviner
+  return factory
 }
-const getMongoDBBoundWitnessStatsDiviner = async (container: Container) => {
-  if (mongoDBBoundWitnessStatsDiviner) return mongoDBBoundWitnessStatsDiviner
+const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitnessStats)
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const params = {
-    account,
-    addressSpaceDiviner,
-    boundWitnessSdk,
-    config: { name: TYPES.BoundWitnessStatsDiviner.description, schema: MongoDBBoundWitnessStatsDiviner.configSchema },
+  const factory = (config: AnyConfigSchema<MongoDBBoundWitnessStatsDivinerConfig>) => {
+    const params = {
+      account,
+      addressSpaceDiviner,
+      boundWitnessSdk,
+      config: { ...config, name: TYPES.BoundWitnessStatsDiviner.description },
+    }
+    return MongoDBBoundWitnessStatsDiviner.create(params)
   }
-  mongoDBBoundWitnessStatsDiviner = await MongoDBBoundWitnessStatsDiviner.create(params)
-  return mongoDBBoundWitnessStatsDiviner
+  return factory
 }
-const getMongoDBLocationCertaintyDiviner = async (container: Container) => {
-  if (mongoDBLocationCertaintyDiviner) return mongoDBLocationCertaintyDiviner
+const getMongoDBLocationCertaintyDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.LocationCertainty)
-  mongoDBLocationCertaintyDiviner = (await MongoDBLocationCertaintyDiviner.create({
-    account,
-    config: { schema: MongoDBLocationCertaintyDiviner.configSchema },
-  })) as MongoDBLocationCertaintyDiviner
-  return mongoDBLocationCertaintyDiviner
+  const factory = (config: AnyConfigSchema<LocationCertaintyDivinerConfig>) => {
+    return MongoDBLocationCertaintyDiviner.create({ account, config: { ...config, schema: MongoDBLocationCertaintyDiviner.configSchema } })
+  }
+  return factory
 }
-const getMongoDBPayloadDiviner = async (container: Container) => {
-  if (mongoDBPayloadDiviner) return mongoDBPayloadDiviner
+const getMongoDBPayloadDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.Payload)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
-  const params = {
-    account,
-    config: { name: TYPES.PayloadDiviner.description, schema: MongoDBPayloadDiviner.configSchema },
-    payloadSdk,
+  const factory = (config: AnyConfigSchema<XyoArchivistPayloadDivinerConfig>) => {
+    const params = {
+      account,
+      config: { ...config, name: TYPES.PayloadDiviner.description },
+      payloadSdk,
+    }
+    return MongoDBPayloadDiviner.create(params)
   }
-  mongoDBPayloadDiviner = await MongoDBPayloadDiviner.create(params)
-  return mongoDBPayloadDiviner
+  return factory
 }
-const getMongoDBPayloadStatsDiviner = async (container: Container) => {
-  if (mongoDBPayloadStatsDiviner) return mongoDBPayloadStatsDiviner
+const getMongoDBPayloadStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.PayloadStats)
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
-  const params = {
-    account,
-    addressSpaceDiviner,
-    boundWitnessSdk,
-    config: { name: TYPES.PayloadStatsDiviner.description, schema: MongoDBPayloadStatsDiviner.configSchema },
-    payloadSdk,
+  const payloadSdk: BaseMongoSdk<Paylo adWithMeta> = container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
+  const factory = (config: AnyConfigSchema<MongoDBPayloadStatsDivinerConfig>) => {
+    const params = {
+      account,
+      addressSpaceDiviner,
+      boundWitnessSdk,
+      config: { ...config, name: TYPES.PayloadStatsDiviner.description },
+      payloadSdk,
+    }
+    return MongoDBPayloadStatsDiviner.create(params)
   }
-  mongoDBPayloadStatsDiviner = await MongoDBPayloadStatsDiviner.create(params)
-  return mongoDBPayloadStatsDiviner
+  return factory
 }
-const getMongoDBSchemaListDiviner = async (container: Container) => {
-  if (mongoDBSchemaListDiviner) return mongoDBSchemaListDiviner
+const getMongoDBSchemaListDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaList)
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const params = {
-    account,
-    addressSpaceDiviner,
-    boundWitnessSdk,
-    config: { name: TYPES.SchemaListDiviner.description, schema: MongoDBSchemaListDiviner.configSchema },
+  const factory = (config: AnyConfig Schema<MongoDBSchemaListDivinerConfig>) => {
+    const params = {
+      account,
+      addressSpaceDiviner,
+      boundWitnessSdk,
+      config: { ...config, name: TYPES.SchemaListDiviner.description },
+    }
+    return MongoDBSchemaListDiviner.create(params)
   }
-  mongoDBSchemaListDiviner = await MongoDBSchemaListDiviner.create(params)
-  return mongoDBSchemaListDiviner
+  return factory
 }
-const getMongoDBSchemaStatsDiviner = async (container: Container) => {
-  if (mongoDBSchemaStatsDiviner) return mongoDBSchemaStatsDiviner
+const getMongoDBSchemaStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaStats)
   const addressSpaceDiviner = await getMongoDBAddressSpaceDiviner(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const params = {
-    account,
-    addressSpaceDiviner,
-    boundWitnessSdk,
-    config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBSchemaStatsDiviner.configSchema },
+  const factory = (config: AnyConfigS chema<MongoDBSchemaListDivinerConfig>) => {
+    const params = {
+      account,
+      addressSpaceDiviner,
+      boundWitnessSdk,
+      config: { name: TYPES.SchemaStatsDiviner.description, schema: MongoDBSchemaStatsDiviner.configSchema },
+    }
+    return MongoDBSchemaStatsDiviner.create(params)
   }
-  mongoDBSchemaStatsDiviner = await MongoDBSchemaStatsDiviner.create(params)
-  return mongoDBSchemaStatsDiviner
+  return factory
 }
 
 export const addDivinerConfigModuleFactory = (container: Container) => {

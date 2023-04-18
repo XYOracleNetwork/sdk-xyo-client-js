@@ -28,7 +28,6 @@ export type MongoDBSchemaListDivinerConfig<T extends Payload = Payload> = Divine
 export type MongoDBSchemaListDivinerParams<T extends Payload = Payload> = DivinerParams<
   AnyConfigSchema<MongoDBSchemaListDivinerConfig<T>>,
   {
-    addressSpaceDiviner: AddressSpaceDiviner
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >

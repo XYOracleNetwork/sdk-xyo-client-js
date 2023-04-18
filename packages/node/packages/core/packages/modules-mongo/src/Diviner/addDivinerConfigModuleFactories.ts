@@ -141,7 +141,7 @@ const getMongoDBSchemaStatsDiviner = (container: Container) => {
   return factory
 }
 
-export const addDivinerConfigModuleFactory = (container: Container) => {
+export const addDivinerConfigModuleFactories = (container: Container) => {
   const dictionary = container.get<ConfigModuleFactoryDictionary>(TYPES.ConfigModuleFactoryDictionary)
   dictionary[MongoDBAddressHistoryDiviner.configSchema] = getMongoDBAddressHistoryDiviner(container)
   dictionary[MongoDBSchemaStatsDiviner.configSchema] = getMongoDBAddressSpaceDiviner(container)

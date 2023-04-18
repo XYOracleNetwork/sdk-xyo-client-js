@@ -1,2 +1,2 @@
-export * from './addDivinerConfigModuleFactory'
+export * from './addDivinerConfigModuleFactories'
 export * from './DivinerContainerModule'

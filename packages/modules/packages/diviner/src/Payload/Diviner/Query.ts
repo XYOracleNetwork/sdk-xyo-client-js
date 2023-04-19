@@ -1,7 +1,7 @@
 import { Query } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { PayloadDivinerPredicate } from './PayloadDivinerPredicate'
+import { PayloadDivinerPredicate } from './Predicate'
 import { PayloadDivinerSchema } from './Schema'
 
 export type PayloadDivinerQuerySchema = `${PayloadDivinerSchema}.query`

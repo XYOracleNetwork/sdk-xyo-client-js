@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { AddressHistoryQueryPayload, AddressHistoryQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressHistoryDivinerConfigSchema, AddressHistoryQueryPayload, AddressHistoryQuerySchema } from '@xyo-network/diviner'
 import { BoundWitnessWithMeta, BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -23,7 +23,7 @@ describe('MongoDBAddressHistoryDiviner', () => {
   beforeAll(async () => {
     sut = await MongoDBAddressHistoryDiviner.create({
       boundWitnessSdk,
-      config: { schema: XyoArchivistPayloadDivinerConfigSchema },
+      config: { schema: AddressHistoryDivinerConfigSchema },
       logger,
     })
     // TODO: Insert via archivist

@@ -6,8 +6,8 @@ import { LocationCertaintyDivinerSchema } from './Schema'
 export type LocationCertaintyDivinerConfigSchema = `${LocationCertaintyDivinerSchema}.config`
 export const LocationCertaintyDivinerConfigSchema: LocationCertaintyDivinerConfigSchema = `${LocationCertaintyDivinerSchema}.config`
 
-export type LocationCertaintyDivinerConfig<S extends string = string, T extends Payload = Payload> = DivinerConfig<
+export type LocationCertaintyDivinerConfig<T extends Payload = Payload> = DivinerConfig<
   T & {
-    schema: S
+    schema: LocationCertaintyDivinerConfigSchema
   }
 >

@@ -1,7 +1,6 @@
 export * from './API'
 export * from './Archivist'
 export * from './BoundWitness'
-export * from './Diviner'
 export * from './Domain'
 export * from './GetValidator'
 export * from './Job'

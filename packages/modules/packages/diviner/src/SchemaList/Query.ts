@@ -6,5 +6,5 @@ import { SchemaListDivinerSchema } from './Schema'
 export type SchemaListDivinerQuerySchema = `${SchemaListDivinerSchema}.query`
 export const SchemaListDivinerQuerySchema: SchemaListDivinerQuerySchema = `${SchemaListDivinerSchema}.query`
 
-export type SchemaListQueryPayload = Query<{ schema: SchemaListDivinerQuerySchema }>
-export const isSchemaListQueryPayload = (x?: Payload | null): x is SchemaListQueryPayload => x?.schema === SchemaListDivinerQuerySchema
+export type SchemaListDivinerQueryPayload = Query<{ schema: SchemaListDivinerQuerySchema }>
+export const isSchemaListDivinerQueryPayload = (x?: Payload | null): x is SchemaListDivinerQueryPayload => x?.schema === SchemaListDivinerQuerySchema

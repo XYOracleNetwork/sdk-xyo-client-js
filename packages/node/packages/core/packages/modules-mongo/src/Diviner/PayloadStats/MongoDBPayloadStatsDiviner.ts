@@ -3,17 +3,19 @@ import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, DivinerConfig, DivinerParams, DivinerWrapper } from '@xyo-network/diviner'
-import { AnyConfigSchema } from '@xyo-network/module'
 import {
-  BoundWitnessWithMeta,
+  AbstractDiviner,
+  DivinerConfig,
+  DivinerParams,
+  DivinerWrapper,
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,
+  PayloadStatsDivinerSchema,
   PayloadStatsPayload,
   PayloadStatsQueryPayload,
-  PayloadStatsSchema,
-  PayloadWithMeta,
-} from '@xyo-network/node-core-model'
+} from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -121,7 +123,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsSchema }).fields({ count }).build())
+    return counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build())
   }
 
   override async start() {

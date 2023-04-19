@@ -1,9 +1,9 @@
-import { AbstractDiviner } from '@xyo-network/diviner'
 import { Query } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ArchivistPayloadStatsDivinerConfig } from './PayloadStatsDiviner'
-import { StatsPayload } from './StatsPayload'
+import { AbstractDiviner } from '../AbstractDiviner'
+import { PayloadStatsDivinerConfig } from '../PayloadStats'
+import { StatsDivinerPayload } from '../Stats'
 
 export type BoundWitnessStatsDivinerSchema = 'network.xyo.diviner.boundwitness.stats'
 export const BoundWitnessStatsDivinerSchema: BoundWitnessStatsDivinerSchema = 'network.xyo.diviner.boundwitness.stats'
@@ -17,14 +17,14 @@ export const BoundWitnessStatsDivinerConfigSchema: BoundWitnessStatsDivinerConfi
 export type BoundWitnessStatsDivinerConfig<
   S extends string = BoundWitnessStatsDivinerConfigSchema,
   T extends Payload = Payload,
-> = ArchivistPayloadStatsDivinerConfig<
+> = PayloadStatsDivinerConfig<
   S,
   T & {
     schema: S
   }
 >
 
-export type BoundWitnessStatsDivinerPayload = StatsPayload<{ schema: BoundWitnessStatsDivinerSchema }>
+export type BoundWitnessStatsDivinerPayload = StatsDivinerPayload<{ schema: BoundWitnessStatsDivinerSchema }>
 export const isBoundWitnessStatsDivinerPayload = (x?: Payload | null): x is BoundWitnessStatsDivinerPayload =>
   x?.schema === BoundWitnessStatsDivinerSchema
 

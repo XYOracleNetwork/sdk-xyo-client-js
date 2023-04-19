@@ -1,6 +1,13 @@
-import { AddressHistoryDivinerConfigSchema, BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner'
+import {
+  AddressHistoryDivinerConfigSchema,
+  BoundWitnessDivinerConfigSchema,
+  BoundWitnessStatsDivinerConfigSchema,
+  PayloadDivinerConfigSchema,
+  PayloadStatsDivinerConfigSchema,
+  SchemaStatsConfigSchema,
+} from '@xyo-network/diviner'
 import { AddressSpaceDivinerConfigSchema, AnyConfigSchema, ArchivistConfigSchema, MemoryNode, ModuleConfig } from '@xyo-network/modules'
-import { BoundWitnessStatsDivinerConfigSchema, ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
+import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
@@ -17,10 +24,10 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: AddressSpaceDivinerConfigSchema }, true],
   [{ schema: BoundWitnessDivinerConfigSchema }, true],
   [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
-  // [{ schema: 'TYPES.PayloadDiviner' }, true],
-  // [{ schema: 'TYPES.PayloadStatsDiviner' }, true],
+  [{ schema: PayloadDivinerConfigSchema }, true],
+  [{ schema: PayloadStatsDivinerConfigSchema }, true],
   // [{ schema: 'TYPES.SchemaListDiviner' }, true],
-  // [{ schema: 'TYPES.SchemaStatsDiviner' }, true],
+  [{ schema: SchemaStatsConfigSchema }, true],
 ]
 const witnesses: ModuleConfigWithVisibility[] = [[{ schema: PrometheusNodeWitnessConfigSchema }, true]] // TODO: If we set this to false the visible modules stop resolving
 

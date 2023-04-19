@@ -3,16 +3,20 @@ import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, DivinerConfig, DivinerModule, DivinerParams, DivinerWrapper } from '@xyo-network/diviner'
-import { AnyConfigSchema } from '@xyo-network/module'
 import {
-  BoundWitnessWithMeta,
+  AbstractDiviner,
+  DivinerConfig,
+  DivinerModule,
+  DivinerParams,
+  DivinerWrapper,
   isSchemaStatsQueryPayload,
   SchemaStatsDiviner,
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
   SchemaStatsSchema,
-} from '@xyo-network/node-core-model'
+} from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'

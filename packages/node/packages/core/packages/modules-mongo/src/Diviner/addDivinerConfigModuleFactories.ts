@@ -4,16 +4,13 @@ import {
   AddressHistoryDivinerConfig,
   AddressSpaceDivinerConfig,
   BoundWitnessDivinerConfig,
+  BoundWitnessStatsDivinerConfig,
+  PayloadStatsDivinerConfig,
+  SchemaStatsDivinerConfig,
   XyoArchivistPayloadDivinerConfig,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import {
-  BoundWitnessStatsDivinerConfig,
-  BoundWitnessWithMeta,
-  ConfigModuleFactoryDictionary,
-  LocationCertaintyDivinerConfig,
-  PayloadWithMeta,
-} from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, LocationCertaintyDivinerConfig, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -25,7 +22,7 @@ import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
-import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfig } from './PayloadStats'
+import { MongoDBPayloadStatsDiviner } from './PayloadStats'
 import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerConfig } from './SchemaList'
 import { MongoDBSchemaStatsDiviner } from './SchemaStats'
 
@@ -112,7 +109,7 @@ const getMongoDBPayloadStatsDiviner = (container: Container) => {
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.PayloadStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
-  const factory = (config: AnyConfigSchema<MongoDBPayloadStatsDivinerConfig>) => {
+  const factory = (config: AnyConfigSchema<PayloadStatsDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,
@@ -141,7 +138,7 @@ const getMongoDBSchemaStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const factory = (config: AnyConfigSchema<MongoDBSchemaListDivinerConfig>) => {
+  const factory = (config: AnyConfigSchema<SchemaStatsDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,

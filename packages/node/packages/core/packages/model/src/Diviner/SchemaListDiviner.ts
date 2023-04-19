@@ -1,8 +1,6 @@
-import { AbstractDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner, PayloadStatsDivinerConfig } from '@xyo-network/diviner'
 import { Query } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-
-import { ArchivistPayloadStatsDivinerConfig } from './PayloadStatsDiviner'
 
 export type SchemaListSchema = 'network.xyo.archivist.schema.list'
 export const SchemaListSchema: SchemaListSchema = 'network.xyo.archivist.schema.list'
@@ -13,7 +11,7 @@ export const SchemaListQuerySchema: SchemaListQuerySchema = 'network.xyo.archivi
 export type SchemaListConfigSchema = 'network.xyo.archivist.schema.list.config'
 export const SchemaListConfigSchema: SchemaListConfigSchema = 'network.xyo.archivist.schema.list.config'
 
-export type SchemaListDivinerConfig<S extends string = SchemaListConfigSchema, T extends Payload = Payload> = ArchivistPayloadStatsDivinerConfig<
+export type SchemaListDivinerConfig<S extends string = SchemaListConfigSchema, T extends Payload = Payload> = PayloadStatsDivinerConfig<
   S,
   T & {
     schema: S

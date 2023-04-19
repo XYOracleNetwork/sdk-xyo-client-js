@@ -1,6 +1,7 @@
+import { PayloadDivinerPredicate } from '@xyo-network/diviner'
+
 import { BoundWitnessWithMeta } from '../BoundWitness'
 import { PayloadWithMeta } from '../Payload'
-import { PayloadDivinerPredicate } from './PayloadDivinerPredicate'
 
 type WithoutSchema<T> = Omit<Omit<T, 'schema'>, 'schemas'>
 

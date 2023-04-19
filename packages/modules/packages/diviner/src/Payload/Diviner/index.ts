@@ -1,4 +1,5 @@
 export * from './Config'
+export * from './Diviner'
 export * from './PayloadDivinerPredicate'
 export * from './Query'
 export * from './Schema'

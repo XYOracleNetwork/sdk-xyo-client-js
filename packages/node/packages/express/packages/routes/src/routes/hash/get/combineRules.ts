@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { SortDirection } from '@xyo-network/diviner'
 import {
   isPayloadAddressRule,
   isPayloadSchemaRule,
   isPayloadTimestampDirectionRule,
   PayloadRule,
   PayloadSearchCriteria,
-  SortDirection,
 } from '@xyo-network/node-core-model'
 
 // TODO: Could make it so that composability is such that we:

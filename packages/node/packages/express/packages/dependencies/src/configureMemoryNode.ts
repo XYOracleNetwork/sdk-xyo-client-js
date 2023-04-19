@@ -1,4 +1,4 @@
-import { AnyConfigSchema, ArchivistConfigSchema, MemoryNode, ModuleConfig } from '@xyo-network/modules'
+import { AddressSpaceDivinerConfigSchema, AnyConfigSchema, ArchivistConfigSchema, MemoryNode, ModuleConfig } from '@xyo-network/modules'
 import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
@@ -12,18 +12,18 @@ type ModuleConfigWithVisibility = [config: AnyConfigSchema<ModuleConfig>, visibi
 const archivists: ModuleConfigWithVisibility[] = [[{ schema: ArchivistConfigSchema }, true]]
 
 const diviners: ModuleConfigWithVisibility[] = [
-  [{ schema: 'TYPES.AddressHistoryDiviner' }, true],
-  [{ schema: 'TYPES.AddressSpaceDiviner' }, true],
-  [{ schema: 'TYPES.BoundWitnessDiviner' }, true],
-  [{ schema: 'TYPES.BoundWitnessStatsDiviner' }, true],
-  [{ schema: 'TYPES.PayloadDiviner' }, true],
-  [{ schema: 'TYPES.PayloadStatsDiviner' }, true],
-  [{ schema: 'TYPES.SchemaListDiviner' }, true],
-  [{ schema: 'TYPES.SchemaStatsDiviner' }, true],
+  // [{ schema: 'TYPES.AddressHistoryDiviner' }, true],
+  [{ schema: AddressSpaceDivinerConfigSchema }, true],
+  // [{ schema: 'TYPES.BoundWitnessDiviner' }, true],
+  // [{ schema: 'TYPES.BoundWitnessStatsDiviner' }, true],
+  // [{ schema: 'TYPES.PayloadDiviner' }, true],
+  // [{ schema: 'TYPES.PayloadStatsDiviner' }, true],
+  // [{ schema: 'TYPES.SchemaListDiviner' }, true],
+  // [{ schema: 'TYPES.SchemaStatsDiviner' }, true],
 ]
 const witnesses: ModuleConfigWithVisibility[] = [[{ schema: PrometheusNodeWitnessConfigSchema }, true]] // TODO: If we set this to false the visible modules stop resolving
 
-const configs: ModuleConfigWithVisibility[] = [...archivists, ...witnesses]
+const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]
 
 export const configureMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)

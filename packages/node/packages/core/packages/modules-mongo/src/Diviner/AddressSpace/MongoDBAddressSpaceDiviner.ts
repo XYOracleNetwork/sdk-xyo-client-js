@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerParams, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { AbstractDiviner, AddressSpaceDiviner, AddressSpaceDivinerConfig, AddressSpaceDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -10,7 +10,7 @@ import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
 
-export type MongoDBAddressSpaceDivinerParams<TConfig extends DivinerConfig = DivinerConfig> = DivinerParams<
+export type MongoDBAddressSpaceDivinerParams<TConfig extends AddressSpaceDivinerConfig = AddressSpaceDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
@@ -21,7 +21,7 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
   extends AbstractDiviner<TParams>
   implements AddressSpaceDiviner
 {
-  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+  static override configSchema = AddressSpaceDivinerConfigSchema
 
   override async divine(_payloads?: Payload[]): Promise<Payload[]> {
     // TODO: Most Recently Used, Most Frequently Used, Addresses of Value/Importance to Me

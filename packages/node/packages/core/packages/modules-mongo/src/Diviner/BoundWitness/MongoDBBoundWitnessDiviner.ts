@@ -2,7 +2,7 @@ import { exists } from '@xylabs/exists'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner, BoundWitnessDivinerConfig, BoundWitnessDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { BoundWitnessDiviner, BoundWitnessQueryPayload, BoundWitnessWithMeta, isBoundWitnessQueryPayload } from '@xyo-network/node-core-model'
+import { BoundWitnessQueryPayload, BoundWitnessWithMeta, isBoundWitnessQueryPayload } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
@@ -16,10 +16,9 @@ export type MongoDBBoundWitnessDivinerParams = DivinerParams<
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
-export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements BoundWitnessDiviner
-{
+export class MongoDBBoundWitnessDiviner<
+  TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams,
+> extends AbstractDiviner<TParams> {
   static override configSchema = BoundWitnessDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {

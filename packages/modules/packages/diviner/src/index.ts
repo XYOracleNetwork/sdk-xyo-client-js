@@ -1,6 +1,7 @@
 export * from './AbstractDiviner'
 export * from './AddressHistory'
 export * from './AddressSpace'
+export * from './BoundWitness'
 export * from './IdentityDiviner'
 export * from './Payload'
 export * from '@xyo-network/diviner-model'

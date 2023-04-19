@@ -1,8 +1,15 @@
 import { exists } from '@xylabs/exists'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractDiviner, BoundWitnessDivinerConfig, BoundWitnessDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner'
+import {
+  AbstractDiviner,
+  BoundWitnessDivinerConfig,
+  BoundWitnessDivinerConfigSchema,
+  BoundWitnessDivinerQueryPayload,
+  DivinerParams,
+  isBoundWitnessDivinerQueryPayload,
+} from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { BoundWitnessQueryPayload, BoundWitnessWithMeta, isBoundWitnessQueryPayload } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
@@ -22,7 +29,7 @@ export class MongoDBBoundWitnessDiviner<
   static override configSchema = BoundWitnessDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
-    const query = payloads?.find<BoundWitnessQueryPayload>(isBoundWitnessQueryPayload)
+    const query = payloads?.find<BoundWitnessDivinerQueryPayload>(isBoundWitnessDivinerQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

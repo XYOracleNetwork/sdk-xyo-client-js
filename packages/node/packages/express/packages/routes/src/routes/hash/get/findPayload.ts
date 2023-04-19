@@ -1,7 +1,14 @@
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { BoundWitnessDiviner, PayloadDiviner, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner'
+import {
+  BoundWitnessDiviner,
+  BoundWitnessDivinerQueryPayload,
+  BoundWitnessDivinerQuerySchema,
+  PayloadDiviner,
+  PayloadDivinerQueryPayload,
+  PayloadDivinerQuerySchema,
+} from '@xyo-network/diviner'
 import { ArchivistWrapper, DivinerWrapper } from '@xyo-network/modules'
-import { BoundWitnessQueryPayload, BoundWitnessQuerySchema, PayloadArchivist, PayloadSearchCriteria } from '@xyo-network/node-core-model'
+import { PayloadArchivist, PayloadSearchCriteria } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -19,7 +26,14 @@ declare global {
 const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
   const { addresses, direction, schemas, timestamp } = searchCriteria
   const order = direction === 'asc' ? 'asc' : 'desc'
-  const query: BoundWitnessQueryPayload = { addresses, limit, order, payload_schemas: schemas, schema: BoundWitnessQuerySchema, timestamp }
+  const query: BoundWitnessDivinerQueryPayload = {
+    addresses,
+    limit,
+    order,
+    payload_schemas: schemas,
+    schema: BoundWitnessDivinerQuerySchema,
+    timestamp,
+  }
   return [query]
 }
 

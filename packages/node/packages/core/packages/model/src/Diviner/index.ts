@@ -1,5 +1,3 @@
-export * from './BoundWitnessDiviner'
-export * from './BoundWitnessDivinerPredicate'
 export * from './BoundWitnessStatsDiviner'
 export * from './coin'
 export * from './LocationCertaintyDiviner'

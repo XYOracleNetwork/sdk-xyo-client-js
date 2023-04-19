@@ -1,9 +1,9 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
-  BoundWitnessStatsQueryPayload,
-  BoundWitnessStatsQuerySchema,
-  BoundWitnessStatsSchema,
+  BoundWitnessStatsDivinerQueryPayload,
+  BoundWitnessStatsDivinerQuerySchema,
+  BoundWitnessStatsDivinerSchema,
   BoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -37,23 +37,23 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
   describe('divine', () => {
     describe('with address supplied in query', () => {
       it('divines results for the address', async () => {
-        const query: BoundWitnessStatsQueryPayload = { address, schema: BoundWitnessStatsQuerySchema }
+        const query: BoundWitnessStatsDivinerQueryPayload = { address, schema: BoundWitnessStatsDivinerQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(BoundWitnessStatsSchema)
+        expect(actual.schema).toBe(BoundWitnessStatsDivinerSchema)
         expect(actual.count).toBeNumber()
       })
     })
     describe('with no address supplied in query', () => {
       it('divines results for all addresses', async () => {
-        const query: BoundWitnessStatsQueryPayload = { schema: BoundWitnessStatsQuerySchema }
+        const query: BoundWitnessStatsDivinerQueryPayload = { schema: BoundWitnessStatsDivinerQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(BoundWitnessStatsSchema)
+        expect(actual.schema).toBe(BoundWitnessStatsDivinerSchema)
         expect(actual.count).toBeNumber()
       })
     })

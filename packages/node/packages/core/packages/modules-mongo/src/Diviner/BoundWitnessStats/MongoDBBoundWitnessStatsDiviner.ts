@@ -6,13 +6,13 @@ import { WithAdditional } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig, DivinerWrapper } from '@xyo-network/diviner'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import {
-  BoundWitnessStatsConfigSchema,
   BoundWitnessStatsDiviner,
-  BoundWitnessStatsPayload,
-  BoundWitnessStatsQueryPayload,
-  BoundWitnessStatsSchema,
+  BoundWitnessStatsDivinerConfigSchema,
+  BoundWitnessStatsDivinerPayload,
+  BoundWitnessStatsDivinerQueryPayload,
+  BoundWitnessStatsDivinerSchema,
   BoundWitnessWithMeta,
-  isBoundWitnessStatsQueryPayload,
+  isBoundWitnessStatsDivinerQueryPayload,
 } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -59,7 +59,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   extends AbstractDiviner<TParams>
   implements BoundWitnessStatsDiviner, JobProvider
 {
-  static override configSchema = BoundWitnessStatsConfigSchema
+  static override configSchema = BoundWitnessStatsDivinerConfigSchema
 
   /**
    * Iterates over know addresses obtained from AddressDiviner
@@ -100,11 +100,13 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     ]
   }
 
-  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitnessStatsPayload>[]> {
-    const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
+  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitnessStatsDivinerPayload>[]> {
+    const query = payloads?.find<BoundWitnessStatsDivinerQueryPayload>(isBoundWitnessStatsDivinerQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsSchema }).fields({ count }).build())
+    return counts.map((count) =>
+      new PayloadBuilder<BoundWitnessStatsDivinerPayload>({ schema: BoundWitnessStatsDivinerSchema }).fields({ count }).build(),
+    )
   }
 
   override async start() {

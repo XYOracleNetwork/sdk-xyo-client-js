@@ -11,9 +11,9 @@ import {
   DivinerWrapper,
   isSchemaStatsQueryPayload,
   SchemaStatsDiviner,
+  SchemaStatsDivinerSchema,
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
-  SchemaStatsSchema,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
@@ -138,7 +138,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build())
+    return counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsDivinerSchema }).fields({ count }).build())
   }
 
   override async start() {

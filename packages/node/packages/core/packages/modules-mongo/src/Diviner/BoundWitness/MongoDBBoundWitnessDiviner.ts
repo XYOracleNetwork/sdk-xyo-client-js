@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { AbstractDiviner, BoundWitnessDivinerConfig, BoundWitnessDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessDiviner, BoundWitnessQueryPayload, BoundWitnessWithMeta, isBoundWitnessQueryPayload } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -11,7 +11,7 @@ import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { removeId } from '../../Mongo'
 
 export type MongoDBBoundWitnessDivinerParams = DivinerParams<
-  AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  AnyConfigSchema<BoundWitnessDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
@@ -20,7 +20,7 @@ export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivin
   extends AbstractDiviner<TParams>
   implements BoundWitnessDiviner
 {
-  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+  static override configSchema = BoundWitnessDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<BoundWitnessQueryPayload>(isBoundWitnessQueryPayload)

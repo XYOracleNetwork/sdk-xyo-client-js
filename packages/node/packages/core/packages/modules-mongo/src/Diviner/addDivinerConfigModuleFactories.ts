@@ -1,6 +1,11 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
-import { AddressHistoryDivinerConfig, AddressSpaceDivinerConfig, XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
+import {
+  AddressHistoryDivinerConfig,
+  AddressSpaceDivinerConfig,
+  BoundWitnessDivinerConfig,
+  XyoArchivistPayloadDivinerConfig,
+} from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, LocationCertaintyDivinerConfig, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
@@ -50,7 +55,7 @@ const getMongoDBBoundWitnessDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitness)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const factory = (config: AnyConfigSchema<XyoArchivistPayloadDivinerConfig>) => {
+  const factory = (config: AnyConfigSchema<BoundWitnessDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,

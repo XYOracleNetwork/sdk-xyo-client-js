@@ -1,4 +1,4 @@
-import { AbstractDiviner, DivinerConfig } from '@xyo-network/diviner'
+import { DivinerConfig } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export type CoinUserLocationsDivinerConfigSchema = 'co.coinapp.user.locations'
@@ -9,5 +9,3 @@ export type CoinUserLocationsDivinerConfig<S extends string = string, T extends 
     schema: S
   }
 >
-
-export type CoinUserLocationsDiviner = AbstractDiviner

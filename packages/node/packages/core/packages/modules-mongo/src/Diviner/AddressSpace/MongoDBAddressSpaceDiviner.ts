@@ -24,10 +24,6 @@ export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivin
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   override async divine(_payloads?: Payload[]): Promise<Payload[]> {
-    //const query = payloads?.find<AddressSpaceQueryPayload>(isAddressSpaceQueryPayload)
-    //if (!query) return []
-    // Issue a distinct query against the BoundWitnesses collection
-    // on the address field
     // TODO: Most Recently Used, Most Frequently Used, Addresses of Value/Importance to Me
     const result = await this.params.boundWitnessSdk.useMongo((db) => {
       return db.db(DATABASES.Archivist).command(

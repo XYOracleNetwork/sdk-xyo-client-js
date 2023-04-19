@@ -4,11 +4,11 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AbstractDiviner,
   AddressHistoryDiviner,
+  AddressHistoryDivinerConfig,
+  AddressHistoryDivinerConfigSchema,
   AddressHistoryQueryPayload,
   DivinerParams,
   isAddressHistoryQueryPayload,
-  XyoArchivistPayloadDivinerConfig,
-  XyoArchivistPayloadDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
@@ -20,7 +20,7 @@ import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { removeId } from '../../Mongo'
 
 export type MongoDBAddressHistoryDivinerParams = DivinerParams<
-  AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  AnyConfigSchema<AddressHistoryDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
@@ -30,7 +30,7 @@ export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryD
   extends AbstractDiviner<TParams>
   implements AddressHistoryDiviner
 {
-  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+  static override configSchema = AddressHistoryDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)

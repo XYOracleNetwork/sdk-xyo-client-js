@@ -1,3 +1,4 @@
+import { AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner'
 import { AddressSpaceDivinerConfigSchema, AnyConfigSchema, ArchivistConfigSchema, MemoryNode, ModuleConfig } from '@xyo-network/modules'
 import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
@@ -12,7 +13,7 @@ type ModuleConfigWithVisibility = [config: AnyConfigSchema<ModuleConfig>, visibi
 const archivists: ModuleConfigWithVisibility[] = [[{ schema: ArchivistConfigSchema }, true]]
 
 const diviners: ModuleConfigWithVisibility[] = [
-  // [{ schema: 'TYPES.AddressHistoryDiviner' }, true],
+  [{ schema: AddressHistoryDivinerConfigSchema }, true],
   [{ schema: AddressSpaceDivinerConfigSchema }, true],
   // [{ schema: 'TYPES.BoundWitnessDiviner' }, true],
   // [{ schema: 'TYPES.BoundWitnessStatsDiviner' }, true],

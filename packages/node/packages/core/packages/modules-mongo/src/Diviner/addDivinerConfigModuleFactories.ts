@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
-import { XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
+import { AddressHistoryDivinerConfig, AddressSpaceDivinerConfig, XyoArchivistPayloadDivinerConfig } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, LocationCertaintyDivinerConfig, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
@@ -22,7 +22,7 @@ const getMongoDBAddressHistoryDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.AddressHistory)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const factory = (config: AnyConfigSchema<XyoArchivistPayloadDivinerConfig>) => {
+  const factory = (config: AnyConfigSchema<AddressHistoryDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,
@@ -36,7 +36,7 @@ const getMongoDBAddressSpaceDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.AddressSpace)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const factory = (config: AnyConfigSchema<XyoArchivistPayloadDivinerConfig>) => {
+  const factory = (config: AnyConfigSchema<AddressSpaceDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,
@@ -144,7 +144,7 @@ const getMongoDBSchemaStatsDiviner = (container: Container) => {
 export const addDivinerConfigModuleFactories = (container: Container) => {
   const dictionary = container.get<ConfigModuleFactoryDictionary>(TYPES.ConfigModuleFactoryDictionary)
   dictionary[MongoDBAddressHistoryDiviner.configSchema] = getMongoDBAddressHistoryDiviner(container)
-  dictionary[MongoDBSchemaStatsDiviner.configSchema] = getMongoDBAddressSpaceDiviner(container)
+  dictionary[MongoDBAddressSpaceDiviner.configSchema] = getMongoDBAddressSpaceDiviner(container)
   dictionary[MongoDBBoundWitnessDiviner.configSchema] = getMongoDBBoundWitnessDiviner(container)
   dictionary[MongoDBBoundWitnessStatsDiviner.configSchema] = getMongoDBBoundWitnessStatsDiviner(container)
   dictionary[MongoDBLocationCertaintyDiviner.configSchema] = getMongoDBLocationCertaintyDiviner(container)

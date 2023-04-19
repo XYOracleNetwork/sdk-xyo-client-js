@@ -6,14 +6,14 @@ import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
 
-import { MONGO_TYPES } from '../mongoTypes'
+import { getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
 import { MongoDBDeterministicArchivist } from './Deterministic'
 
 const getMongoDBArchivistFactory = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Archivists.Archivist)
-  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = container.get<BaseMongoSdk<BoundWitnessWithMeta>>(MONGO_TYPES.BoundWitnessSdk)
-  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = container.get<BaseMongoSdk<PayloadWithMeta>>(MONGO_TYPES.PayloadSdk)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
   const factory = async (config: AnyConfigSchema<ArchivistConfig>) =>
     await MongoDBDeterministicArchivist.create({
       account,

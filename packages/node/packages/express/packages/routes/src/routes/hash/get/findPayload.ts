@@ -1,7 +1,7 @@
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { BoundWitnessDiviner } from '@xyo-network/diviner'
 import { ArchivistWrapper, DivinerWrapper } from '@xyo-network/modules'
 import {
-  BoundWitnessDiviner,
   BoundWitnessQueryPayload,
   BoundWitnessQuerySchema,
   PayloadArchivist,

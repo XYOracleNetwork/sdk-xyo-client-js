@@ -1,5 +1,6 @@
+import { BoundWitnessDiviner } from '@xyo-network/diviner'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
-import { BoundWitnessDiviner, PayloadArchivist, PayloadDiviner, PayloadPointerPayload } from '@xyo-network/node-core-model'
+import { PayloadArchivist, PayloadDiviner, PayloadPointerPayload } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { Payload } from '@xyo-network/payload-model'
 import { Request } from 'express'

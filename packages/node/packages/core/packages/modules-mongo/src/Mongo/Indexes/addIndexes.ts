@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Db, IndexDescription, MongoClient, WriteConcern } from 'mongodb'
+import { IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
@@ -36,7 +36,7 @@ const getMongoClientForIndexCreation = () => {
 // TODO: Use injected client. However, we control
 // timeout and relevant params for index creation
 // with this client.
-export const addIndexes = async (_db: Db) => {
+export const addIndexes = async () => {
   // Create the required indexes
   const client = getMongoClientForIndexCreation()
   try {

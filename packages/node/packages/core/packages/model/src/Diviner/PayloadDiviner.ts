@@ -4,13 +4,13 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { PayloadDivinerPredicate } from './PayloadDivinerPredicate'
 
-export type PayloadQuerySchema = 'network.xyo.diviner.payload.query'
-export const PayloadQuerySchema: PayloadQuerySchema = 'network.xyo.diviner.payload.query'
+export type PayloadDivinerQuerySchema = 'network.xyo.diviner.payload.query'
+export const PayloadDivinerQuerySchema: PayloadDivinerQuerySchema = 'network.xyo.diviner.payload.query'
 
-export type PayloadConfigSchema = 'network.xyo.diviner.payload.config'
-export const PayloadConfigSchema: PayloadConfigSchema = 'network.xyo.diviner.payload.config'
+export type PayloadDivinerConfigSchema = 'network.xyo.diviner.payload.config'
+export const PayloadDivinerConfigSchema: PayloadDivinerConfigSchema = 'network.xyo.diviner.payload.config'
 
-export type PayloadQueryPayload = Query<{ schema: PayloadQuerySchema } & PayloadDivinerPredicate>
-export const isPayloadQueryPayload = (x?: Payload | null): x is PayloadQueryPayload => x?.schema === PayloadQuerySchema
+export type PayloadDivinerQueryPayload = Query<{ schema: PayloadDivinerQuerySchema } & PayloadDivinerPredicate>
+export const isPayloadDivinerQueryPayload = (x?: Payload | null): x is PayloadDivinerQueryPayload => x?.schema === PayloadDivinerQuerySchema
 
 export type PayloadDiviner = AbstractDiviner

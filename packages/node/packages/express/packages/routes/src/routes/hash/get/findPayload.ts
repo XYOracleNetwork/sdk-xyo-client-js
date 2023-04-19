@@ -6,8 +6,8 @@ import {
   BoundWitnessQuerySchema,
   PayloadArchivist,
   PayloadDiviner,
-  PayloadQueryPayload,
-  PayloadQuerySchema,
+  PayloadDivinerQueryPayload,
+  PayloadDivinerQuerySchema,
   PayloadSearchCriteria,
 } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -34,7 +34,7 @@ const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearc
 const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
   const { direction, schemas, timestamp } = searchCriteria
   const order = direction === 'asc' ? 'asc' : 'desc'
-  const query: PayloadQueryPayload = { limit, order, schema: PayloadQuerySchema, schemas, timestamp }
+  const query: PayloadDivinerQueryPayload = { limit, order, schema: PayloadDivinerQuerySchema, schemas, timestamp }
   return [query]
 }
 

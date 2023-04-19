@@ -5850,6 +5850,7 @@ __metadata:
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/prometheus-node-plugin": "workspace:^"
     body-parser: ^1.20.2
     express: ^4.18.2
     express-mung: ^0.5.1
@@ -5884,7 +5885,6 @@ __metadata:
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/prometheus-node-plugin": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     body-parser: ^1.20.2
     compression: ^1.7.4

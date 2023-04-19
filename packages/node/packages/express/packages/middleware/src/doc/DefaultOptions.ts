@@ -7,8 +7,8 @@ export const defaultOptions: SwaggerOptions = {
   definitions: {},
   host: '',
   info: {
-    description: 'API for storing & retrieving blocks/payloads in the Archivist',
-    title: 'XYO Archivist API',
+    description: 'API for querying Modules in the Node',
+    title: 'XYO Node API',
     version: '2.0',
   },
   produces: ['application/json'],
@@ -16,36 +16,12 @@ export const defaultOptions: SwaggerOptions = {
   securityDefinitions: {},
   tags: [
     {
-      description: 'Create and manage archives',
-      name: 'Archive',
-    },
-    {
-      description: 'Add and query boundwitness blocks',
-      name: 'Block',
-    },
-    {
-      description: 'Check the health of the archivist',
+      description: 'Check the health of the Node',
       name: 'Health',
     },
     {
-      description: 'View metrics of the archivist',
+      description: 'View metrics of the Node',
       name: 'Metrics',
-    },
-    {
-      description: 'Add and query payloads',
-      name: 'Payload',
-    },
-    {
-      description: 'View data about schemas used in payloads',
-      name: 'Schema',
-    },
-    {
-      description: 'Add and query payloads',
-      name: 'Payload',
-    },
-    {
-      description: 'Manage user accounts and profiles',
-      name: 'User',
     },
   ],
 }

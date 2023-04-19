@@ -25,7 +25,7 @@ const witnesses: ModuleConfigWithVisibility[] = [[{ schema: PrometheusNodeWitnes
 
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...witnesses]
 
-export const addMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
+export const configureMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
   const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   await addModulesToNodeByConfig(container, node, configs)

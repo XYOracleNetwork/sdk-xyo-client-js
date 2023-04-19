@@ -9,7 +9,7 @@ import { TYPES } from '@xyo-network/node-core-types'
 import { config } from 'dotenv'
 import { Container } from 'inversify'
 
-import { addMemoryNode } from './addMemoryNode'
+import { configureMemoryNode } from './configureMemoryNode'
 import { addMemoryModules } from './Module'
 import { tryGetServiceName } from './Util'
 config()
@@ -48,5 +48,5 @@ export const configureDependencies = async (node?: MemoryNode) => {
   })
   await addMemoryModules(container)
   await addMongoModules(container)
-  await addMemoryNode(container, node)
+  await configureMemoryNode(container, node)
 }

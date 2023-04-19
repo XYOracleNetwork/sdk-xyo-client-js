@@ -1,6 +1,5 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { AddressSpaceDiviner } from '@xyo-network/diviner'
 import {
   BoundWitnessStatsQueryPayload,
   BoundWitnessStatsQuerySchema,
@@ -9,7 +8,7 @@ import {
 } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { mock, MockProxy } from 'jest-mock-extended'
+import { mock } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfigSchema } from '../MongoDBBoundWitnessStatsDiviner'
@@ -18,7 +17,6 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
   const phrase = 'temp'
   const account = new Account({ phrase })
   const address = account.addressValue.hex
-  const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
@@ -27,7 +25,6 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
   let sut: MongoDBBoundWitnessStatsDiviner
   beforeAll(async () => {
     sut = (await MongoDBBoundWitnessStatsDiviner.create({
-      addressSpaceDiviner,
       boundWitnessSdk,
       config: { schema: MongoDBBoundWitnessStatsDivinerConfigSchema },
       logger,

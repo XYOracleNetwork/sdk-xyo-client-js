@@ -6,6 +6,7 @@ import { WithAdditional } from '@xyo-network/core'
 import { AbstractDiviner, DivinerConfig, DivinerWrapper } from '@xyo-network/diviner'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import {
+  BoundWitnessStatsConfigSchema,
   BoundWitnessStatsDiviner,
   BoundWitnessStatsPayload,
   BoundWitnessStatsQueryPayload,
@@ -58,7 +59,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   extends AbstractDiviner<TParams>
   implements BoundWitnessStatsDiviner, JobProvider
 {
-  static override configSchema = MongoDBBoundWitnessStatsDivinerConfigSchema
+  static override configSchema = BoundWitnessStatsConfigSchema
 
   /**
    * Iterates over know addresses obtained from AddressDiviner

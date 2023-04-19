@@ -1,6 +1,6 @@
 import { AddressHistoryDivinerConfigSchema, BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner'
 import { AddressSpaceDivinerConfigSchema, AnyConfigSchema, ArchivistConfigSchema, MemoryNode, ModuleConfig } from '@xyo-network/modules'
-import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
+import { BoundWitnessStatsConfigSchema, ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
@@ -16,7 +16,7 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: AddressHistoryDivinerConfigSchema }, true],
   [{ schema: AddressSpaceDivinerConfigSchema }, true],
   [{ schema: BoundWitnessDivinerConfigSchema }, true],
-  // [{ schema: 'TYPES.BoundWitnessStatsDiviner' }, true],
+  [{ schema: BoundWitnessStatsConfigSchema }, true],
   // [{ schema: 'TYPES.PayloadDiviner' }, true],
   // [{ schema: 'TYPES.PayloadStatsDiviner' }, true],
   // [{ schema: 'TYPES.SchemaListDiviner' }, true],

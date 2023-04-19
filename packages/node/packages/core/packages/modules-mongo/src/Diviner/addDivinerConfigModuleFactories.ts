@@ -7,7 +7,13 @@ import {
   XyoArchivistPayloadDivinerConfig,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, LocationCertaintyDivinerConfig, PayloadWithMeta } from '@xyo-network/node-core-model'
+import {
+  BoundWitnessStatsDivinerConfig,
+  BoundWitnessWithMeta,
+  ConfigModuleFactoryDictionary,
+  LocationCertaintyDivinerConfig,
+  PayloadWithMeta,
+} from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -16,7 +22,7 @@ import { getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
-import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfig } from './BoundWitnessStats'
+import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfig } from './PayloadStats'
@@ -69,7 +75,7 @@ const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitnessStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const factory = (config: AnyConfigSchema<MongoDBBoundWitnessStatsDivinerConfig>) => {
+  const factory = (config: AnyConfigSchema<BoundWitnessStatsDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,

@@ -1,4 +1,4 @@
-import { BoundWitnessWithMeta, PayloadWithMeta, User } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { AsyncContainerModule, interfaces } from 'inversify'
 

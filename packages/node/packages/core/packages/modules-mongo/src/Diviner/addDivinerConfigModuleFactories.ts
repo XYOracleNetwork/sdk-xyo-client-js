@@ -2,13 +2,23 @@
 import { Account } from '@xyo-network/account'
 import {
   AddressHistoryDivinerConfig,
+  AddressHistoryDivinerConfigSchema,
   AddressSpaceDivinerConfig,
+  AddressSpaceDivinerConfigSchema,
   BoundWitnessDivinerConfig,
+  BoundWitnessDivinerConfigSchema,
   BoundWitnessStatsDivinerConfig,
+  BoundWitnessStatsDivinerConfigSchema,
   LocationCertaintyDivinerConfig,
+  LocationCertaintyDivinerConfigSchema,
+  PayloadDivinerConfig,
+  PayloadDivinerConfigSchema,
   PayloadStatsDivinerConfig,
+  PayloadStatsDivinerConfigSchema,
+  SchemaListDivinerConfig,
+  SchemaListDivinerConfigSchema,
   SchemaStatsDivinerConfig,
-  XyoArchivistPayloadDivinerConfig,
+  SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, PayloadWithMeta } from '@xyo-network/node-core-model'
@@ -24,7 +34,7 @@ import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
 import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBPayloadStatsDiviner } from './PayloadStats'
-import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerConfig } from './SchemaList'
+import { MongoDBSchemaListDiviner } from './SchemaList'
 import { MongoDBSchemaStatsDiviner } from './SchemaStats'
 
 const getMongoDBAddressHistoryDiviner = (container: Container) => {
@@ -95,7 +105,7 @@ const getMongoDBPayloadDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.Payload)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
-  const factory = (config: AnyConfigSchema<XyoArchivistPayloadDivinerConfig>) => {
+  const factory = (config: AnyConfigSchema<PayloadDivinerConfig>) => {
     const params = {
       account,
       config: { ...config, name: TYPES.PayloadDiviner.description },
@@ -125,7 +135,7 @@ const getMongoDBSchemaListDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaList)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const factory = (config: AnyConfigSchema<MongoDBSchemaListDivinerConfig>) => {
+  const factory = (config: AnyConfigSchema<SchemaListDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,
@@ -152,15 +162,15 @@ const getMongoDBSchemaStatsDiviner = (container: Container) => {
 
 export const addDivinerConfigModuleFactories = (container: Container) => {
   const dictionary = container.get<ConfigModuleFactoryDictionary>(TYPES.ConfigModuleFactoryDictionary)
-  dictionary[MongoDBAddressHistoryDiviner.configSchema] = getMongoDBAddressHistoryDiviner(container)
-  dictionary[MongoDBAddressSpaceDiviner.configSchema] = getMongoDBAddressSpaceDiviner(container)
-  dictionary[MongoDBBoundWitnessDiviner.configSchema] = getMongoDBBoundWitnessDiviner(container)
-  dictionary[MongoDBBoundWitnessStatsDiviner.configSchema] = getMongoDBBoundWitnessStatsDiviner(container)
-  dictionary[MongoDBLocationCertaintyDiviner.configSchema] = getMongoDBLocationCertaintyDiviner(container)
-  dictionary[MongoDBPayloadDiviner.configSchema] = getMongoDBPayloadDiviner(container)
-  dictionary[MongoDBPayloadStatsDiviner.configSchema] = getMongoDBPayloadStatsDiviner(container)
-  dictionary[MongoDBSchemaListDiviner.configSchema] = getMongoDBSchemaListDiviner(container)
-  dictionary[MongoDBSchemaStatsDiviner.configSchema] = getMongoDBSchemaStatsDiviner(container)
+  dictionary[AddressHistoryDivinerConfigSchema] = getMongoDBAddressHistoryDiviner(container)
+  dictionary[AddressSpaceDivinerConfigSchema] = getMongoDBAddressSpaceDiviner(container)
+  dictionary[BoundWitnessDivinerConfigSchema] = getMongoDBBoundWitnessDiviner(container)
+  dictionary[BoundWitnessStatsDivinerConfigSchema] = getMongoDBBoundWitnessStatsDiviner(container)
+  dictionary[LocationCertaintyDivinerConfigSchema] = getMongoDBLocationCertaintyDiviner(container)
+  dictionary[PayloadDivinerConfigSchema] = getMongoDBPayloadDiviner(container)
+  dictionary[PayloadStatsDivinerConfigSchema] = getMongoDBPayloadStatsDiviner(container)
+  dictionary[SchemaListDivinerConfigSchema] = getMongoDBSchemaListDiviner(container)
+  dictionary[SchemaStatsDivinerConfigSchema] = getMongoDBSchemaStatsDiviner(container)
 
   // bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBBoundWitnessStatsDiviner).inSingletonScope()
   // bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()

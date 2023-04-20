@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json.schemastore.org/package.json",
+  "name": "@xyo-network/diviner-forecasting-method-autoregressive-integrated-moving-average",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "2.55.4",
+  "description": "XYO Archivist",
+  "sideeffects": false,
+  "engines": {
+    "node": ">=16 <17"
+  },
+  "esm5": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "esm5": "./dist/esm/index.js",
+      "node": {
+        "import": "./dist/cjs/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "author": "Arie Trouw",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/node-core-model": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
+    "@xyo-network/schema-cache": "workspace:^",
+    "@xyo-network/schema-payload-plugin": "workspace:^",
+    "ajv": "^8.12.0",
+    "arima": "^0.2.5",
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {
+    "@types/source-map-support": "0.5.6",
+    "@xylabs/ts-scripts-yarn3": "^2.16.5",
+    "@xylabs/tsconfig": "^2.16.5",
+    "typescript": "^4.9.5"
+  },
+  "types": "dist/types/index.d.ts"
+}

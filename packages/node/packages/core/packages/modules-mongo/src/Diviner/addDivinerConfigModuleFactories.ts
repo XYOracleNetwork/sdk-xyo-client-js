@@ -9,8 +9,6 @@ import {
   BoundWitnessDivinerConfigSchema,
   BoundWitnessStatsDivinerConfig,
   BoundWitnessStatsDivinerConfigSchema,
-  LocationCertaintyDivinerConfig,
-  LocationCertaintyDivinerConfigSchema,
   PayloadDivinerConfig,
   PayloadDivinerConfigSchema,
   PayloadStatsDivinerConfig,
@@ -31,7 +29,6 @@ import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
-import { MongoDBLocationCertaintyDiviner } from './LocationCertainty'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBPayloadStatsDiviner } from './PayloadStats'
 import { MongoDBSchemaListDiviner } from './SchemaList'
@@ -90,14 +87,6 @@ const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
       config: { ...config, name: TYPES.BoundWitnessStatsDiviner.description },
     }
     return MongoDBBoundWitnessStatsDiviner.create(params)
-  }
-  return factory
-}
-const getMongoDBLocationCertaintyDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.LocationCertainty)
-  const factory = (config: AnyConfigSchema<LocationCertaintyDivinerConfig>) => {
-    return MongoDBLocationCertaintyDiviner.create({ account, config: { ...config, schema: MongoDBLocationCertaintyDiviner.configSchema } })
   }
   return factory
 }
@@ -166,7 +155,6 @@ export const addDivinerConfigModuleFactories = (container: Container) => {
   dictionary[AddressSpaceDivinerConfigSchema] = getMongoDBAddressSpaceDiviner(container)
   dictionary[BoundWitnessDivinerConfigSchema] = getMongoDBBoundWitnessDiviner(container)
   dictionary[BoundWitnessStatsDivinerConfigSchema] = getMongoDBBoundWitnessStatsDiviner(container)
-  dictionary[LocationCertaintyDivinerConfigSchema] = getMongoDBLocationCertaintyDiviner(container)
   dictionary[PayloadDivinerConfigSchema] = getMongoDBPayloadDiviner(container)
   dictionary[PayloadStatsDivinerConfigSchema] = getMongoDBPayloadStatsDiviner(container)
   dictionary[SchemaListDivinerConfigSchema] = getMongoDBSchemaListDiviner(container)

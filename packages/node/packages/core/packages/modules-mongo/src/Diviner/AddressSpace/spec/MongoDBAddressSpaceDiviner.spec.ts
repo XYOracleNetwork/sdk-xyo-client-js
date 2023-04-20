@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressSpaceDivinerConfigSchema, AddressSpaceQueryPayload, AddressSpaceQuerySchema } from '@xyo-network/diviner'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -25,7 +25,7 @@ describe('MongoDBAddressSpaceDiviner', () => {
     sut = await MongoDBAddressSpaceDiviner.create({
       account,
       boundWitnessSdk,
-      config: { schema: XyoArchivistPayloadDivinerConfigSchema },
+      config: { schema: AddressSpaceDivinerConfigSchema },
       logger,
     })
     // TODO: Insert via archivist

@@ -9,7 +9,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

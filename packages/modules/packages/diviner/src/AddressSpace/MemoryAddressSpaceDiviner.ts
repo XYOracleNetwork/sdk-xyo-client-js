@@ -9,7 +9,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
-import { AddressSpaceDiviner, AddressSpaceSchema } from './AddressSpaceDiviner'
+import { AddressSpaceDiviner } from './Diviner'
+import { AddressSpaceSchema } from './Schema'
 
 export type MemoryAddressSpaceDivinerConfigSchema = `${AddressSpaceSchema}.memory.config`
 export const MemoryAddressSpaceDivinerConfigSchema: MemoryAddressSpaceDivinerConfigSchema = `${AddressSpaceSchema}.memory.config`

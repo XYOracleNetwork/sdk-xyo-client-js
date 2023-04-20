@@ -1,34 +1,24 @@
-import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/diviner'
-import { AnyConfigSchema } from '@xyo-network/module'
 import {
-  BoundWitnessWithMeta,
-  isSchemaListQueryPayload,
+  AbstractDiviner,
+  DivinerModule,
+  DivinerParams,
+  isSchemaListDivinerQueryPayload,
   SchemaListDiviner,
+  SchemaListDivinerConfig,
+  SchemaListDivinerConfigSchema,
+  SchemaListDivinerQueryPayload,
+  SchemaListDivinerSchema,
   SchemaListPayload,
-  SchemaListQueryPayload,
-  SchemaListSchema,
-} from '@xyo-network/node-core-model'
+} from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
-export type MongoDBSchemaListDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
-export const MongoDBSchemaListDivinerConfigSchema: MongoDBSchemaListDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
-
-export type MongoDBSchemaListDivinerConfig<T extends Payload = Payload> = DivinerConfig<
-  WithAdditional<
-    Payload,
-    T & {
-      schema: MongoDBSchemaListDivinerConfigSchema
-    }
-  >
->
-
-export type MongoDBSchemaListDivinerParams<T extends Payload = Payload> = DivinerParams<
-  AnyConfigSchema<MongoDBSchemaListDivinerConfig<T>>,
+export type MongoDBSchemaListDivinerParams = DivinerParams<
+  AnyConfigSchema<SchemaListDivinerConfig>,
   {
-    addressSpaceDiviner: AddressSpaceDiviner
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
@@ -37,7 +27,7 @@ export class MongoDBSchemaListDiviner<TParams extends MongoDBSchemaListDivinerPa
   extends AbstractDiviner<TParams>
   implements SchemaListDiviner, DivinerModule
 {
-  static override configSchema = MongoDBSchemaListDivinerConfigSchema
+  static override configSchema = SchemaListDivinerConfigSchema
 
   /**
    * The amount of time to allow the aggregate query to execute
@@ -45,10 +35,10 @@ export class MongoDBSchemaListDiviner<TParams extends MongoDBSchemaListDivinerPa
   protected readonly aggregateTimeoutMs = 10_000
 
   override async divine(payloads?: Payload[]): Promise<Payload<SchemaListPayload>[]> {
-    const query = payloads?.find<SchemaListQueryPayload>(isSchemaListQueryPayload)
+    const query = payloads?.find<SchemaListDivinerQueryPayload>(isSchemaListDivinerQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((schemas) => new PayloadBuilder<SchemaListPayload>({ schema: SchemaListSchema }).fields({ schemas }).build())
+    return counts.map((schemas) => new PayloadBuilder<SchemaListPayload>({ schema: SchemaListDivinerSchema }).fields({ schemas }).build())
   }
 
   override async start() {

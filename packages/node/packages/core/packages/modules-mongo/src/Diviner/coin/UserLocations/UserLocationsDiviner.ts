@@ -1,10 +1,16 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import {
+  AbstractDiviner,
+  CoinUserLocationsDiviner,
+  DivinerParams,
+  XyoArchivistPayloadDivinerConfig,
+  XyoArchivistPayloadDivinerConfigSchema,
+} from '@xyo-network/diviner'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessesArchivist, CoinUserLocationsDiviner, PayloadArchivist } from '@xyo-network/node-core-model'
+import { BoundWitnessesArchivist, PayloadArchivist } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'

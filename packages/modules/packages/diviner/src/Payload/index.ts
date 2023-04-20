@@ -1,4 +1,5 @@
 export * from './AbstractPayloadDiviner'
-export * from './Archivist'
+export * from './ArchivistDiviner'
+export * from './Diviner'
 export * from './Huri'
 export * from './XyoHuriPayload'

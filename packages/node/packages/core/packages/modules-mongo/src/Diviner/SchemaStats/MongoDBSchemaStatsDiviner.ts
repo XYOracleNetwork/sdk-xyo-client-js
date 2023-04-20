@@ -2,17 +2,22 @@ import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { WithAdditional } from '@xyo-network/core'
-import { AbstractDiviner, AddressSpaceDiviner, DivinerConfig, DivinerModule, DivinerParams, DivinerWrapper } from '@xyo-network/diviner'
-import { AnyConfigSchema } from '@xyo-network/module'
 import {
-  BoundWitnessWithMeta,
+  AbstractDiviner,
+  DivinerModule,
+  DivinerParams,
+  DivinerWrapper,
   isSchemaStatsQueryPayload,
   SchemaStatsDiviner,
+  SchemaStatsDivinerConfig,
+  SchemaStatsDivinerConfigSchema,
+  SchemaStatsDivinerSchema,
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
-  SchemaStatsSchema,
-} from '@xyo-network/node-core-model'
+} from '@xyo-network/diviner'
+import { AnyConfigSchema } from '@xyo-network/module'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
@@ -37,22 +42,9 @@ interface Stats {
   }
 }
 
-export type MongoDBSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
-export const MongoDBSchemaStatsDivinerConfigSchema: MongoDBSchemaStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
-
-export type MongoDBSchemaStatsDivinerConfig<T extends Payload = Payload> = DivinerConfig<
-  WithAdditional<
-    Payload,
-    T & {
-      schema: MongoDBSchemaStatsDivinerConfigSchema
-    }
-  >
->
-
-export type MongoDBSchemaStatsDivinerParams<T extends Payload = Payload> = DivinerParams<
-  AnyConfigSchema<MongoDBSchemaStatsDivinerConfig<T>>,
+export type MongoDBSchemaStatsDivinerParams = DivinerParams<
+  AnyConfigSchema<SchemaStatsDivinerConfig>,
   {
-    addressSpaceDiviner: AddressSpaceDiviner
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
@@ -63,7 +55,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   extends AbstractDiviner<TParams>
   implements SchemaStatsDiviner, JobProvider, DivinerModule
 {
-  static override configSchema = MongoDBSchemaStatsDivinerConfigSchema
+  static override configSchema = SchemaStatsDivinerConfigSchema
 
   /**
    * Iterates over know addresses obtained from AddressDiviner
@@ -134,7 +126,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsSchema }).fields({ count }).build())
+    return counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsDivinerSchema }).fields({ count }).build())
   }
 
   override async start() {
@@ -209,8 +201,9 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
 
   private divineAddressesBatch = async () => {
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating Addresses`)
-    const addressSpaceDiviner = assertEx(this.params.addressSpaceDiviner, `${moduleName}.DivineAddressesBatch: Missing AddressSpaceDiviner`)
-    const result = (await new DivinerWrapper({ module: addressSpaceDiviner }).divine([])) || []
+    const addressSpaceDiviners = await this.upResolver.resolve({ name: [assertEx(TYPES.AddressSpaceDiviner.description)] })
+    const addressSpaceDiviner = assertEx(addressSpaceDiviners.pop(), `${moduleName}.DivineAddressesBatch: Missing AddressSpaceDiviner`)
+    const result = (await DivinerWrapper.wrap(addressSpaceDiviner, this.account).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Incoming Addresses Total: ${addresses.length} New: ${additions}`)

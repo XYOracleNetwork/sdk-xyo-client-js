@@ -1,6 +1,14 @@
-import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import {
+  AbstractDiviner,
+  DivinerParams,
+  isPayloadDivinerQueryPayload,
+  PayloadDiviner,
+  PayloadDivinerConfig,
+  PayloadDivinerConfigSchema,
+  PayloadDivinerQueryPayload,
+} from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { isPayloadQueryPayload, PayloadDiviner, PayloadQueryPayload, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
@@ -9,7 +17,7 @@ import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { removeId } from '../../Mongo'
 
 export type MongoDBPayloadDivinerParams = DivinerParams<
-  AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  AnyConfigSchema<PayloadDivinerConfig>,
   {
     payloadSdk: BaseMongoSdk<PayloadWithMeta>
   }
@@ -19,10 +27,10 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
   extends AbstractDiviner<TParams>
   implements PayloadDiviner
 {
-  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+  static override configSchema = PayloadDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
-    const query = payloads?.find<PayloadQueryPayload>(isPayloadQueryPayload)
+    const query = payloads?.find<PayloadDivinerQueryPayload>(isPayloadDivinerQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

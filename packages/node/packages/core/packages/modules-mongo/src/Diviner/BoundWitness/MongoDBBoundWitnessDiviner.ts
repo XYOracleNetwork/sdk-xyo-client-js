@@ -1,8 +1,15 @@
 import { exists } from '@xylabs/exists'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractDiviner, DivinerParams, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import {
+  AbstractDiviner,
+  BoundWitnessDivinerConfig,
+  BoundWitnessDivinerConfigSchema,
+  BoundWitnessDivinerQueryPayload,
+  DivinerParams,
+  isBoundWitnessDivinerQueryPayload,
+} from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { BoundWitnessDiviner, BoundWitnessQueryPayload, BoundWitnessWithMeta, isBoundWitnessQueryPayload } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
@@ -11,19 +18,18 @@ import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { removeId } from '../../Mongo'
 
 export type MongoDBBoundWitnessDivinerParams = DivinerParams<
-  AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  AnyConfigSchema<BoundWitnessDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
-export class MongoDBBoundWitnessDiviner<TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements BoundWitnessDiviner
-{
-  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+export class MongoDBBoundWitnessDiviner<
+  TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams,
+> extends AbstractDiviner<TParams> {
+  static override configSchema = BoundWitnessDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
-    const query = payloads?.find<BoundWitnessQueryPayload>(isBoundWitnessQueryPayload)
+    const query = payloads?.find<BoundWitnessDivinerQueryPayload>(isBoundWitnessDivinerQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

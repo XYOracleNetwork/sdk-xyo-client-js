@@ -1,13 +1,13 @@
 import { Container } from 'inversify'
 
 import { addArchivistConfigModuleFactories } from './Archivist'
-import { DivinerContainerModule } from './Diviner'
+import { addDivinerConfigModuleFactories } from './Diviner'
 import { JobQueueContainerModule } from './JobQueue'
-import { SdkContainerModule } from './Mongo'
+import { initializeDatabase } from './Mongo'
 
-export const addMongo = async (container: Container) => {
-  await container.loadAsync(SdkContainerModule)
+export const addMongoModules = async (container: Container) => {
+  await initializeDatabase()
   addArchivistConfigModuleFactories(container)
-  container.load(DivinerContainerModule)
+  addDivinerConfigModuleFactories(container)
   container.load(JobQueueContainerModule)
 }

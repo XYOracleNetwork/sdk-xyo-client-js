@@ -1,15 +1,14 @@
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { ArchivistWrapper, DivinerWrapper } from '@xyo-network/modules'
 import {
   BoundWitnessDiviner,
-  BoundWitnessQueryPayload,
-  BoundWitnessQuerySchema,
-  PayloadArchivist,
+  BoundWitnessDivinerQueryPayload,
+  BoundWitnessDivinerQuerySchema,
   PayloadDiviner,
-  PayloadQueryPayload,
-  PayloadQuerySchema,
-  PayloadSearchCriteria,
-} from '@xyo-network/node-core-model'
+  PayloadDivinerQueryPayload,
+  PayloadDivinerQuerySchema,
+} from '@xyo-network/diviner'
+import { ArchivistWrapper, DivinerWrapper } from '@xyo-network/modules'
+import { PayloadArchivist, PayloadSearchCriteria } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -27,14 +26,21 @@ declare global {
 const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
   const { addresses, direction, schemas, timestamp } = searchCriteria
   const order = direction === 'asc' ? 'asc' : 'desc'
-  const query: BoundWitnessQueryPayload = { addresses, limit, order, payload_schemas: schemas, schema: BoundWitnessQuerySchema, timestamp }
+  const query: BoundWitnessDivinerQueryPayload = {
+    addresses,
+    limit,
+    order,
+    payload_schemas: schemas,
+    schema: BoundWitnessDivinerQuerySchema,
+    timestamp,
+  }
   return [query]
 }
 
 const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
   const { direction, schemas, timestamp } = searchCriteria
   const order = direction === 'asc' ? 'asc' : 'desc'
-  const query: PayloadQueryPayload = { limit, order, schema: PayloadQuerySchema, schemas, timestamp }
+  const query: PayloadDivinerQueryPayload = { limit, order, schema: PayloadDivinerQuerySchema, schemas, timestamp }
   return [query]
 }
 

@@ -1,15 +1,14 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { AddressSpaceDiviner } from '@xyo-network/diviner'
 import {
-  BoundWitnessStatsQueryPayload,
-  BoundWitnessStatsQuerySchema,
-  BoundWitnessStatsSchema,
+  BoundWitnessStatsDivinerQueryPayload,
+  BoundWitnessStatsDivinerQuerySchema,
+  BoundWitnessStatsDivinerSchema,
   BoundWitnessWithMeta,
 } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { mock, MockProxy } from 'jest-mock-extended'
+import { mock } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfigSchema } from '../MongoDBBoundWitnessStatsDiviner'
@@ -18,7 +17,6 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
   const phrase = 'temp'
   const account = new Account({ phrase })
   const address = account.addressValue.hex
-  const addressSpaceDiviner: MockProxy<AddressSpaceDiviner> = mock<AddressSpaceDiviner>()
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
@@ -27,7 +25,6 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
   let sut: MongoDBBoundWitnessStatsDiviner
   beforeAll(async () => {
     sut = (await MongoDBBoundWitnessStatsDiviner.create({
-      addressSpaceDiviner,
       boundWitnessSdk,
       config: { schema: MongoDBBoundWitnessStatsDivinerConfigSchema },
       logger,
@@ -40,23 +37,23 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
   describe('divine', () => {
     describe('with address supplied in query', () => {
       it('divines results for the address', async () => {
-        const query: BoundWitnessStatsQueryPayload = { address, schema: BoundWitnessStatsQuerySchema }
+        const query: BoundWitnessStatsDivinerQueryPayload = { address, schema: BoundWitnessStatsDivinerQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(BoundWitnessStatsSchema)
+        expect(actual.schema).toBe(BoundWitnessStatsDivinerSchema)
         expect(actual.count).toBeNumber()
       })
     })
     describe('with no address supplied in query', () => {
       it('divines results for all addresses', async () => {
-        const query: BoundWitnessStatsQueryPayload = { schema: BoundWitnessStatsQuerySchema }
+        const query: BoundWitnessStatsDivinerQueryPayload = { schema: BoundWitnessStatsDivinerQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(BoundWitnessStatsSchema)
+        expect(actual.schema).toBe(BoundWitnessStatsDivinerSchema)
         expect(actual.count).toBeNumber()
       })
     })

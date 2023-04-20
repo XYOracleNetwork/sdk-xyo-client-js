@@ -1,4 +1,4 @@
-import { SortDirection } from '../../sortDirection'
+import { SortDirection } from '@xyo-network/diviner'
 
 export interface PayloadSearchCriteria {
   addresses: string[]

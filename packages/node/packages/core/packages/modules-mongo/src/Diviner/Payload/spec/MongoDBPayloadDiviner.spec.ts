@@ -1,5 +1,5 @@
 import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
-import { BoundWitnessWithPartialMeta, PayloadQueryPayload, PayloadQuerySchema, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithPartialMeta, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
@@ -27,7 +27,7 @@ describe('MongoDBPayloadDiviner', () => {
   describe('divine', () => {
     describe('with valid query', () => {
       it('divines', async () => {
-        const query: PayloadQueryPayload = { limit: 1, schema: PayloadQuerySchema }
+        const query: PayloadDivinerQueryPayload = { limit: 1, schema: PayloadDivinerQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0] as BoundWitnessWithPartialMeta

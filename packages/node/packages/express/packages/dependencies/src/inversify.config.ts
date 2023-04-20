@@ -4,15 +4,16 @@ import { assertEx } from '@xylabs/assert'
 import { getLogger, Logger, LoggerVerbosity } from '@xylabs/sdk-api-express-ecs'
 import { MemoryNode } from '@xyo-network/modules'
 import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
-import { addMongo } from '@xyo-network/node-core-modules-mongo'
+import { addMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { TYPES } from '@xyo-network/node-core-types'
 import { config } from 'dotenv'
 import { Container } from 'inversify'
 
-import { addMemoryNode } from './addMemoryNode'
+import { configureMemoryNode } from './configureMemoryNode'
+import { addMemoryModules } from './Module'
 import { tryGetServiceName } from './Util'
-import { WitnessContainerModule } from './Witness'
 config()
+
 export const container = new Container({
   autoBindInjectable: true,
   // Set to true to prevent warning when child constructor has less
@@ -45,7 +46,7 @@ export const configureDependencies = async (node?: MemoryNode) => {
     // const config = { defaultMeta }
     return service ? logger : logger
   })
-  await addMongo(container)
-  container.load(WitnessContainerModule)
-  await addMemoryNode(container, node)
+  await addMemoryModules(container)
+  await addMongoModules(container)
+  await configureMemoryNode(container, node)
 }

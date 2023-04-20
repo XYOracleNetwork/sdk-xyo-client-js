@@ -42,7 +42,7 @@ export const getApp = async (node?: MemoryNode): Promise<Express> => {
   await configureEnvironment()
   await configureDependencies(node)
   const transport = new ExpressPayloadTransport(node)
-  await initializeJobs()
+  // await initializeJobs()
   return transport.app
 }
 

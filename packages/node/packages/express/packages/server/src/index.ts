@@ -12,7 +12,7 @@ import { addDependencies } from './addDependencies'
 import { addErrorHandlers } from './addErrorHandlers'
 import { addMiddleware } from './addMiddleware'
 import { configureEnvironment } from './configureEnvironment'
-import { initializeJobs } from './initializeJobs'
+import { startJobQueue } from './startJobQueue'
 
 export abstract class PayloadTransport {
   constructor(protected readonly node: AbstractNode) {}
@@ -42,13 +42,13 @@ export const getApp = async (node?: MemoryNode): Promise<Express> => {
   await configureEnvironment()
   await configureDependencies(node)
   const transport = new ExpressPayloadTransport(node)
-  // await initializeJobs()
   return transport.app
 }
 
 export const getServer = async (port = 80, node?: MemoryNode) => {
   node = node ?? (await MemoryNode.create())
   const app = await getApp(node)
+  await startJobQueue()
   const logger = container.get<Logger>(TYPES.Logger)
   const host = process.env.PUBLIC_ORIGIN || `http://localhost:${port}`
   await configureDoc(app, { host })

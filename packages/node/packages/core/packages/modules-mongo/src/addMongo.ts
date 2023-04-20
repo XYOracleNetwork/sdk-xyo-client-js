@@ -1,5 +1,3 @@
-import { JobQueue } from '@xyo-network/node-core-model'
-import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
 import { addArchivistConfigModuleFactories } from './Archivist'
@@ -12,6 +10,4 @@ export const addMongoModules = async (container: Container) => {
   container.load(JobQueueContainerModule)
   addArchivistConfigModuleFactories(container)
   addDivinerConfigModuleFactories(container)
-  const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
-  await jobQueue.start()
 }

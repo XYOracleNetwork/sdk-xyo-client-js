@@ -5,7 +5,7 @@ import {
   PayloadDivinerConfigSchema,
   PayloadStatsDivinerConfigSchema,
   SchemaListDivinerConfigSchema,
-  SchemaStatsConfigSchema,
+  SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AddressSpaceDivinerConfigSchema, AnyConfigSchema, ArchivistConfigSchema, MemoryNode, ModuleConfig } from '@xyo-network/modules'
 import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
@@ -28,7 +28,7 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: PayloadDivinerConfigSchema }, true],
   [{ schema: PayloadStatsDivinerConfigSchema }, true],
   [{ schema: SchemaListDivinerConfigSchema }, true],
-  [{ schema: SchemaStatsConfigSchema }, true],
+  [{ schema: SchemaStatsDivinerConfigSchema }, true],
 ]
 const witnesses: ModuleConfigWithVisibility[] = [[{ schema: PrometheusNodeWitnessConfigSchema }, true]] // TODO: If we set this to false the visible modules stop resolving
 

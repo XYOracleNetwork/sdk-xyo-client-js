@@ -24,6 +24,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
+import { defineJobs, scheduleJobs } from '../../JobQueue'
 import { SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
@@ -102,7 +103,8 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   override async start() {
     await super.start()
     await this.registerWithChangeStream()
-    await Promise.all(this.jobs.map(async (job) => await this.params.jobQueue.every(job.schedule, job.name)))
+    defineJobs(this.params.jobQueue, this.jobs)
+    this.params.jobQueue.on('start', async () => await scheduleJobs(this.params.jobQueue, this.jobs))
   }
 
   protected override async stop(): Promise<this> {

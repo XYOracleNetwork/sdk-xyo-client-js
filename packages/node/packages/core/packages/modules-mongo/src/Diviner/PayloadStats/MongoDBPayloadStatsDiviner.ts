@@ -2,14 +2,14 @@ import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { WithAdditional } from '@xyo-network/core'
 import {
   AbstractDiviner,
-  DivinerConfig,
   DivinerParams,
   DivinerWrapper,
   isPayloadStatsQueryPayload,
   PayloadStatsDiviner,
+  PayloadStatsDivinerConfig,
+  PayloadStatsDivinerConfigSchema,
   PayloadStatsDivinerSchema,
   PayloadStatsPayload,
   PayloadStatsQueryPayload,
@@ -36,20 +36,8 @@ interface Stats {
   }
 }
 
-export type MongoDBPayloadStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.payload'
-export const MongoDBPayloadStatsDivinerConfigSchema: MongoDBPayloadStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.payload'
-
-export type MongoDBPayloadStatsDivinerConfig<T extends Payload = Payload> = DivinerConfig<
-  WithAdditional<
-    Payload,
-    T & {
-      schema: MongoDBPayloadStatsDivinerConfigSchema
-    }
-  >
->
-
-export type MongoDBPayloadStatsDivinerParams<T extends Payload = Payload> = DivinerParams<
-  AnyConfigSchema<MongoDBPayloadStatsDivinerConfig<T>>,
+export type MongoDBPayloadStatsDivinerParams = DivinerParams<
+  AnyConfigSchema<PayloadStatsDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
     payloadSdk: BaseMongoSdk<PayloadWithMeta>
@@ -62,7 +50,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   extends AbstractDiviner<TParams>
   implements PayloadStatsDiviner, JobProvider
 {
-  static override configSchema = MongoDBPayloadStatsDivinerConfigSchema
+  static override configSchema = PayloadStatsDivinerConfigSchema
 
   /**
    * Iterates over know addresses obtained from AddressDiviner

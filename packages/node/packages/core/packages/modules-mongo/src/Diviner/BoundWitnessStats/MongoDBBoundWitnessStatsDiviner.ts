@@ -2,15 +2,14 @@ import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { WithAdditional } from '@xyo-network/core'
 import {
   AbstractDiviner,
   BoundWitnessStatsDiviner,
+  BoundWitnessStatsDivinerConfig,
   BoundWitnessStatsDivinerConfigSchema,
   BoundWitnessStatsDivinerPayload,
   BoundWitnessStatsDivinerQueryPayload,
   BoundWitnessStatsDivinerSchema,
-  DivinerConfig,
   DivinerWrapper,
   isBoundWitnessStatsDivinerQueryPayload,
 } from '@xyo-network/diviner'
@@ -36,20 +35,8 @@ interface Stats {
   }
 }
 
-export type MongoDBBoundWitnessStatsDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.boundwitness'
-export const MongoDBBoundWitnessStatsDivinerConfigSchema: MongoDBBoundWitnessStatsDivinerConfigSchema =
-  'network.xyo.module.config.diviner.stats.boundwitness'
-
-export type MongoDBBoundWitnessStatsDivinerConfig<T extends Payload = Payload> = DivinerConfig<
-  WithAdditional<
-    Payload,
-    T & {
-      schema: MongoDBBoundWitnessStatsDivinerConfigSchema
-    }
-  >
->
-export type MongoDBBoundWitnessStatsDivinerParams<T extends Payload = Payload> = ModuleParams<
-  AnyConfigSchema<MongoDBBoundWitnessStatsDivinerConfig<T>>,
+export type MongoDBBoundWitnessStatsDivinerParams = ModuleParams<
+  AnyConfigSchema<BoundWitnessStatsDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }

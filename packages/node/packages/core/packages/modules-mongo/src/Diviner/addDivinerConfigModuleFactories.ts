@@ -5,12 +5,13 @@ import {
   AddressSpaceDivinerConfig,
   BoundWitnessDivinerConfig,
   BoundWitnessStatsDivinerConfig,
+  LocationCertaintyDivinerConfig,
   PayloadStatsDivinerConfig,
   SchemaStatsDivinerConfig,
   XyoArchivistPayloadDivinerConfig,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, LocationCertaintyDivinerConfig, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'

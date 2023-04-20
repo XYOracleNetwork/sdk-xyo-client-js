@@ -1,11 +1,11 @@
-import { WithAdditional } from '@xyo-network/core'
 import {
   AbstractDiviner,
-  DivinerConfig,
   DivinerModule,
   DivinerParams,
   isSchemaListDivinerQueryPayload,
   SchemaListDiviner,
+  SchemaListDivinerConfig,
+  SchemaListDivinerConfigSchema,
   SchemaListDivinerQueryPayload,
   SchemaListDivinerSchema,
   SchemaListPayload,
@@ -16,20 +16,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
-export type MongoDBSchemaListDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
-export const MongoDBSchemaListDivinerConfigSchema: MongoDBSchemaListDivinerConfigSchema = 'network.xyo.module.config.diviner.stats.schema'
-
-export type MongoDBSchemaListDivinerConfig<T extends Payload = Payload> = DivinerConfig<
-  WithAdditional<
-    Payload,
-    T & {
-      schema: MongoDBSchemaListDivinerConfigSchema
-    }
-  >
->
-
-export type MongoDBSchemaListDivinerParams<T extends Payload = Payload> = DivinerParams<
-  AnyConfigSchema<MongoDBSchemaListDivinerConfig<T>>,
+export type MongoDBSchemaListDivinerParams = DivinerParams<
+  AnyConfigSchema<SchemaListDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
@@ -39,7 +27,7 @@ export class MongoDBSchemaListDiviner<TParams extends MongoDBSchemaListDivinerPa
   extends AbstractDiviner<TParams>
   implements SchemaListDiviner, DivinerModule
 {
-  static override configSchema = MongoDBSchemaListDivinerConfigSchema
+  static override configSchema = SchemaListDivinerConfigSchema
 
   /**
    * The amount of time to allow the aggregate query to execute

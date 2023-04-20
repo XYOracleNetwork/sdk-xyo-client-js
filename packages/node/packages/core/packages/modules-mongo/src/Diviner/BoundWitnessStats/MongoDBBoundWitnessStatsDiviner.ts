@@ -103,8 +103,9 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   override async start() {
     await super.start()
     await this.registerWithChangeStream()
-    defineJobs(this.params.jobQueue, this.jobs)
-    this.params.jobQueue.on('start', async () => await scheduleJobs(this.params.jobQueue, this.jobs))
+    const { jobQueue } = this.params
+    defineJobs(jobQueue, this.jobs)
+    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
   }
 
   protected override async stop(): Promise<this> {

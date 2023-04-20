@@ -14,7 +14,6 @@ import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
 describe('MongoDBAddressSpaceDiviner', () => {
   const phrase = 'temp'
   const account = new Account({ phrase })
-  const address = account.addressValue.hex
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,

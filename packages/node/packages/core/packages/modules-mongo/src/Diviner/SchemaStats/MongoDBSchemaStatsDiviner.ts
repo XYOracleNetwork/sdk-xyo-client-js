@@ -16,7 +16,7 @@ import {
   SchemaStatsQueryPayload,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -46,6 +46,7 @@ export type MongoDBSchemaStatsDivinerParams = DivinerParams<
   AnyConfigSchema<SchemaStatsDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
+    jobQueue: JobQueue
   }
 >
 
@@ -132,6 +133,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   override async start() {
     await super.start()
     await this.registerWithChangeStream()
+    await Promise.all(this.jobs.map(async (job) => await this.params.jobQueue.every(job.schedule, job.name)))
   }
 
   protected override async stop(): Promise<this> {

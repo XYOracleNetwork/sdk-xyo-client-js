@@ -19,7 +19,7 @@ import {
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -80,11 +80,13 @@ const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitnessStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
+  const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const factory = (config: AnyConfigSchema<BoundWitnessStatsDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,
       config: { ...config, name: TYPES.BoundWitnessStatsDiviner.description },
+      jobQueue,
     }
     return MongoDBBoundWitnessStatsDiviner.create(params)
   }
@@ -108,12 +110,14 @@ const getMongoDBPayloadStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.PayloadStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
+  const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
   const factory = (config: AnyConfigSchema<PayloadStatsDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,
       config: { ...config, name: TYPES.PayloadStatsDiviner.description },
+      jobQueue,
       payloadSdk,
     }
     return MongoDBPayloadStatsDiviner.create(params)
@@ -138,11 +142,13 @@ const getMongoDBSchemaStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
+  const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const factory = (config: AnyConfigSchema<SchemaStatsDivinerConfig>) => {
     const params = {
       account,
       boundWitnessSdk,
       config: { ...config, name: TYPES.SchemaStatsDiviner.description, schema: MongoDBSchemaStatsDiviner.configSchema },
+      jobQueue,
     }
     return MongoDBSchemaStatsDiviner.create(params)
   }

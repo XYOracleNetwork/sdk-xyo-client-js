@@ -1,17 +1,18 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
+  BoundWitnessStatsDivinerConfigSchema,
   BoundWitnessStatsDivinerQueryPayload,
   BoundWitnessStatsDivinerQuerySchema,
   BoundWitnessStatsDivinerSchema,
-  BoundWitnessWithMeta,
-} from '@xyo-network/node-core-model'
+} from '@xyo-network/diviner'
+import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { mock } from 'jest-mock-extended'
+import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
-import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerConfigSchema } from '../MongoDBBoundWitnessStatsDiviner'
+import { MongoDBBoundWitnessStatsDiviner } from '../MongoDBBoundWitnessStatsDiviner'
 
 describe('MongoDBBoundWitnessStatsDiviner', () => {
   const phrase = 'temp'
@@ -22,11 +23,13 @@ describe('MongoDBBoundWitnessStatsDiviner', () => {
     collection: COLLECTIONS.BoundWitnesses,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
+  const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
   let sut: MongoDBBoundWitnessStatsDiviner
   beforeAll(async () => {
     sut = (await MongoDBBoundWitnessStatsDiviner.create({
       boundWitnessSdk,
-      config: { schema: MongoDBBoundWitnessStatsDivinerConfigSchema },
+      config: { schema: BoundWitnessStatsDivinerConfigSchema },
+      jobQueue,
       logger,
     })) as MongoDBBoundWitnessStatsDiviner
     // TODO: Insert via archivist

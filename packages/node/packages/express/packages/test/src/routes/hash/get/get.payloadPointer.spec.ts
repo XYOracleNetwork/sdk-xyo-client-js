@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { SortDirection } from '@xyo-network/diviner'
 import {
   PayloadAddressRule,
   PayloadPointerPayload,
@@ -7,7 +8,6 @@ import {
   PayloadRule,
   PayloadSchemaRule,
   PayloadTimestampDirectionRule,
-  SortDirection,
 } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'

@@ -1,8 +1,8 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner'
-import { BoundWitnessQueryPayload, BoundWitnessQuerySchema, BoundWitnessWithMeta, BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessDivinerConfigSchema, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner'
+import { BoundWitnessWithMeta, BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
@@ -34,7 +34,7 @@ describe('MongoDBBoundWitnessDiviner', () => {
   describe('divine', () => {
     describe('with valid query', () => {
       it('divines', async () => {
-        const query: BoundWitnessQueryPayload = { limit: 1, schema: BoundWitnessQuerySchema }
+        const query: BoundWitnessDivinerQueryPayload = { limit: 1, schema: BoundWitnessDivinerQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0] as BoundWitnessWithPartialMeta

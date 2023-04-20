@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { AddressSpaceQueryPayload, AddressSpaceQuerySchema, DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
+import { DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
 
 import { getDivinerByName, getNewPayload, insertPayload, validateDiscoverResponse } from '../../testUtil'
 
@@ -29,8 +29,7 @@ describe(`/${divinerName}`, () => {
       }
     })
     it('returns addresses in use', async () => {
-      const query: AddressSpaceQueryPayload = { schema: AddressSpaceQuerySchema }
-      const response = await sut.divine([query])
+      const response = await sut.divine([])
       expect(response).toBeArray()
       expect(response.length).toBeGreaterThan(0)
       const addressPayloads = response.filter((p): p is AddressPayload => p.schema === AddressSchema)

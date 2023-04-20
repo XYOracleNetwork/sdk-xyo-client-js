@@ -1,17 +1,12 @@
 import { Account } from '@xyo-network/account'
-import {
-  BoundWitnessWithMeta,
-  PayloadWithMeta,
-  SchemaStatsQueryPayload,
-  SchemaStatsQuerySchema,
-  SchemaStatsSchema,
-} from '@xyo-network/node-core-model'
+import { SchemaStatsDivinerConfigSchema, SchemaStatsDivinerSchema, SchemaStatsQueryPayload, SchemaStatsQuerySchema } from '@xyo-network/diviner'
+import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { mock } from 'jest-mock-extended'
+import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
-import { MongoDBSchemaStatsDiviner, MongoDBSchemaStatsDivinerConfigSchema } from '../MongoDBSchemaStatsDiviner'
+import { MongoDBSchemaStatsDiviner } from '../MongoDBSchemaStatsDiviner'
 
 describe('MongoDBSchemaStatsDiviner', () => {
   const phrase = 'temp'
@@ -25,11 +20,13 @@ describe('MongoDBSchemaStatsDiviner', () => {
     collection: COLLECTIONS.Payloads,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
+  const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
   let sut: MongoDBSchemaStatsDiviner
   beforeAll(async () => {
     sut = await MongoDBSchemaStatsDiviner.create({
       boundWitnessSdk,
-      config: { schema: MongoDBSchemaStatsDivinerConfigSchema },
+      config: { schema: SchemaStatsDivinerConfigSchema },
+      jobQueue,
       logger,
     })
     // TODO: Insert via archivist
@@ -44,7 +41,7 @@ describe('MongoDBSchemaStatsDiviner', () => {
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(SchemaStatsSchema)
+        expect(actual.schema).toBe(SchemaStatsDivinerSchema)
         expect(actual.count).toBeObject()
         Object.entries(actual.count).map((entry) => {
           expect(entry[0]).toBeString()

@@ -1,8 +1,8 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner'
 import { DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
-import { BoundWitnessQueryPayload, BoundWitnessQuerySchema } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import {
@@ -16,7 +16,7 @@ import {
   validateDiscoverResponse,
 } from '../../testUtil'
 
-const schema = BoundWitnessQuerySchema
+const schema = BoundWitnessDivinerQuerySchema
 
 const moduleName = 'BoundWitnessDiviner'
 describe(`/${moduleName}`, () => {
@@ -58,7 +58,7 @@ describe(`/${moduleName}`, () => {
     describe('address', () => {
       describe.each(cases)('with %s', (_title, addresses, expected) => {
         it('divines BoundWitnesses by address', async () => {
-          const query: BoundWitnessQueryPayload = { addresses, schema }
+          const query: BoundWitnessDivinerQueryPayload = { addresses, schema }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(expected.length)
           const responseHashes = response.map((p) => PayloadWrapper.hash(p))
@@ -71,7 +71,7 @@ describe(`/${moduleName}`, () => {
       beforeAll(async () => await archivist.insert([boundWitness.payload]))
       it('divines BoundWitnesses by hash', async () => {
         const hash = boundWitness.hash
-        const query: BoundWitnessQueryPayload = { hash, schema }
+        const query: BoundWitnessDivinerQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
         expect(response).toBeArrayOfSize(1)
         const responseHashes = response.map((p) => PayloadWrapper.hash(p))
@@ -79,7 +79,7 @@ describe(`/${moduleName}`, () => {
       })
       it('returns empty array for non-existent hash', async () => {
         const hash = nonExistentHash
-        const query: BoundWitnessQueryPayload = { hash, schema }
+        const query: BoundWitnessDivinerQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
         expect(response).toBeArrayOfSize(0)
       })
@@ -88,7 +88,7 @@ describe(`/${moduleName}`, () => {
       const boundWitnesses = [getNewBoundWitness()[0], getNewBoundWitness()[0]]
       beforeAll(async () => await archivist.insert(boundWitnesses))
       it.each([1, 2])('returns the specified number of BoundWitnesses', async (limit) => {
-        const query: BoundWitnessQueryPayload = { limit, schema }
+        const query: BoundWitnessDivinerQueryPayload = { limit, schema }
         const response = await diviner.divine([query])
         expect(response).toBeArrayOfSize(limit)
       })
@@ -128,7 +128,7 @@ describe(`/${moduleName}`, () => {
       ]
       describe.each(cases)('with %s', (_title, payload_schemas, expected) => {
         it('divines BoundWitnesses that contain any of the supplied schemas in payload_schemas', async () => {
-          const query: BoundWitnessQueryPayload = { payload_schemas, schema }
+          const query: BoundWitnessDivinerQueryPayload = { payload_schemas, schema }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(expected.length)
           const responseHashes = response.map((p) => PayloadWrapper.hash(p))

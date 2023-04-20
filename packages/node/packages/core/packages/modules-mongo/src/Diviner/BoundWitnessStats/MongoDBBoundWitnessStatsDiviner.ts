@@ -14,7 +14,7 @@ import {
   isBoundWitnessStatsDivinerQueryPayload,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
-import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -24,6 +24,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
+import { defineJobs, scheduleJobs } from '../../JobQueue'
 import { SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
@@ -39,6 +40,7 @@ export type MongoDBBoundWitnessStatsDivinerParams = ModuleParams<
   AnyConfigSchema<BoundWitnessStatsDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
+    jobQueue: JobQueue
   }
 >
 
@@ -101,6 +103,9 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   override async start() {
     await super.start()
     await this.registerWithChangeStream()
+    const { jobQueue } = this.params
+    defineJobs(jobQueue, this.jobs)
+    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
   }
 
   protected override async stop(): Promise<this> {

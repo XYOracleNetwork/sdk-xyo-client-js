@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { AddressSpaceDivinerConfigSchema, AddressSpaceQueryPayload, AddressSpaceQuerySchema } from '@xyo-network/diviner'
+import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -36,8 +36,7 @@ describe('MongoDBAddressSpaceDiviner', () => {
   describe('divine', () => {
     describe('with valid query', () => {
       it('divines', async () => {
-        const query: AddressSpaceQueryPayload = { address, limit: 1, schema: AddressSpaceQuerySchema }
-        const result = await sut.divine([query])
+        const result = await sut.divine([])
         expect(result).toBeArray()
         expect(result.length).toBeGreaterThan(0)
         result.map((address) => {

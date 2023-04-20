@@ -1,16 +1,11 @@
 import { Account } from '@xyo-network/account'
-import {
-  BoundWitnessWithMeta,
-  PayloadStatsQueryPayload,
-  PayloadStatsQuerySchema,
-  PayloadStatsSchema,
-  PayloadWithMeta,
-} from '@xyo-network/node-core-model'
+import { PayloadStatsDivinerConfigSchema, PayloadStatsDivinerSchema, PayloadStatsQueryPayload, PayloadStatsQuerySchema } from '@xyo-network/diviner'
+import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { mock } from 'jest-mock-extended'
+import { mock, MockProxy } from 'jest-mock-extended'
 
 import { COLLECTIONS } from '../../../collections'
-import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerConfigSchema } from '../MongoDBPayloadStatsDiviner'
+import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
 
 describe('MongoDBPayloadStatsDiviner', () => {
   const phrase = 'temp'
@@ -24,12 +19,13 @@ describe('MongoDBPayloadStatsDiviner', () => {
     collection: COLLECTIONS.Payloads,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
-
+  const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
   let sut: MongoDBPayloadStatsDiviner
   beforeAll(async () => {
     sut = await MongoDBPayloadStatsDiviner.create({
       boundWitnessSdk,
-      config: { schema: MongoDBPayloadStatsDivinerConfigSchema },
+      config: { schema: PayloadStatsDivinerConfigSchema },
+      jobQueue,
       logger,
       payloadSdk,
     })
@@ -42,7 +38,7 @@ describe('MongoDBPayloadStatsDiviner', () => {
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(PayloadStatsSchema)
+        expect(actual.schema).toBe(PayloadStatsDivinerSchema)
         expect(actual.count).toBeNumber()
       })
     })
@@ -53,7 +49,7 @@ describe('MongoDBPayloadStatsDiviner', () => {
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
         expect(actual).toBeObject()
-        expect(actual.schema).toBe(PayloadStatsSchema)
+        expect(actual.schema).toBe(PayloadStatsDivinerSchema)
         expect(actual.count).toBeNumber()
       })
     })

@@ -7,7 +7,7 @@ import { initializeDatabase } from './Mongo'
 
 export const addMongoModules = async (container: Container) => {
   await initializeDatabase()
+  container.load(JobQueueContainerModule)
   addArchivistConfigModuleFactories(container)
   addDivinerConfigModuleFactories(container)
-  container.load(JobQueueContainerModule)
 }

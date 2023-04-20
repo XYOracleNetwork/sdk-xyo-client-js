@@ -15,7 +15,7 @@ import {
   PayloadStatsQueryPayload,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module'
-import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -25,6 +25,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
+import { defineJobs, scheduleJobs } from '../../JobQueue'
 import { SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
@@ -40,6 +41,7 @@ export type MongoDBPayloadStatsDivinerParams = DivinerParams<
   AnyConfigSchema<PayloadStatsDivinerConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
+    jobQueue: JobQueue
     payloadSdk: BaseMongoSdk<PayloadWithMeta>
   }
 >
@@ -117,6 +119,9 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   override async start() {
     await super.start()
     await this.registerWithChangeStream()
+    const { jobQueue } = this.params
+    defineJobs(jobQueue, this.jobs)
+    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
   }
 
   protected override async stop(): Promise<this> {

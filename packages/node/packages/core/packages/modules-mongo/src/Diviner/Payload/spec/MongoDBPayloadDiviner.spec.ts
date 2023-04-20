@@ -1,5 +1,5 @@
-import { XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
-import { BoundWitnessWithPartialMeta, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { PayloadDivinerConfigSchema, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner'
+import { BoundWitnessWithPartialMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
@@ -16,7 +16,7 @@ describe('MongoDBPayloadDiviner', () => {
   let sut: MongoDBPayloadDiviner
   beforeAll(async () => {
     sut = await MongoDBPayloadDiviner.create({
-      config: { schema: XyoArchivistPayloadDivinerConfigSchema },
+      config: { schema: PayloadDivinerConfigSchema },
       logger,
       payloadSdk,
     })

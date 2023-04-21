@@ -1,16 +1,15 @@
 import { ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner'
-import { XyoPayload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ARIMA } from 'arima'
 
-export const arimaForecasting: ForecastingMethod = (payloads: XyoPayload[], transformer: PayloadValueTransformer) => {
-  // Input array of 10 data points
-  const dataPoints: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-  // Create an ARIMA model with a differencing order of 1
-  const arima = new ARIMA({ d: 1, data: dataPoints, p: 1, q: 1 })
-
-  // Forecast the next value
-  const nextValue = arima.predict(1)
-
-  return []
+export const arimaForecasting: ForecastingMethod = (payloads: Payload[], transformers: PayloadValueTransformer[]) => {
+  const values = payloads.map((payload) => transformers.map((transformer) => transformer(payload)))
+  if (!values.length) return []
+  const models = values.map((dataPoints) => {
+    // Create an ARIMA model with a differencing order of 1
+    return new ARIMA({ d: 1, data: dataPoints, p: 1, q: 1 })
+  })
+  const predictions = models.map((model) => model.predict(1))
+  return predictions.map((prediction) => PayloadWrapper.parse({ data: prediction, schema: 'network.xyo.test' }))
 }

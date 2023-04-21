@@ -124,9 +124,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-secrets-manager@npm:^3.316.0":
-  version: 3.316.0
-  resolution: "@aws-sdk/client-secrets-manager@npm:3.316.0"
+"@aws-sdk/client-secrets-manager@npm:^3.317.0":
+  version: 3.317.0
+  resolution: "@aws-sdk/client-secrets-manager@npm:3.317.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
@@ -164,7 +164,7 @@ __metadata:
     "@aws-sdk/util-utf8": 3.310.0
     tslib: ^2.5.0
     uuid: ^8.3.2
-  checksum: 71dadf994b3637f13fd119747708f642e35205228aeee85c3ce8b68fc5df780f93164fe6349ea78e3ae863c62bda008b7642f2f648accac7c6c007cabfe45f51
+  checksum: 138d86d6345e948ca147c7bca788e0df1db947b89f49e2a2fd351267bc52432f9f7de1f15fa76beca9374c58f01328d1053500458466cdd90ff723543678db63
   languageName: node
   linkType: hard
 
@@ -3889,10 +3889,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.15.12, @types/node@npm:~18.15.11":
-  version: 18.15.12
-  resolution: "@types/node@npm:18.15.12"
-  checksum: dff7596db8d0a18bcd8da542dc62ed4377cba39546ff53baaa06d106f1482bc3e4e5e03644f5d1e3cef0904ffbe8ebbc244b2b0851f8025ab2a3959ee0ace58f
+"@types/node@npm:*, @types/node@npm:^18.15.13, @types/node@npm:~18.15.11":
+  version: 18.15.13
+  resolution: "@types/node@npm:18.15.13"
+  checksum: 79cc5a2b5f98e8973061a4260a781425efd39161a0e117a69cd089603964816c1a14025e1387b4590c8e82d05133b7b4154fa53a7dffb3877890a66145e76515
   languageName: node
   linkType: hard
 
@@ -4849,7 +4849,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/automation-witness-server@workspace:packages/automation-witness-server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.316.0
+    "@aws-sdk/client-secrets-manager": ^3.317.0
     "@ethersproject/address": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
     "@ethersproject/networks": ^5.7.1
@@ -5149,7 +5149,7 @@ __metadata:
   resolution: "@xyo-network/cli@workspace:packages/cli"
   dependencies:
     "@types/lodash": ^4.14.194
-    "@types/node": ^18.15.12
+    "@types/node": ^18.15.13
     "@types/tail": ^2.2.1
     "@types/terminal-kit": ^2.5.1
     "@xylabs/assert": ^2.7.6
@@ -5768,7 +5768,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-dependencies@workspace:packages/node/packages/express/packages/dependencies"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.316.0
+    "@aws-sdk/client-secrets-manager": ^3.317.0
     "@xylabs/assert": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.5
@@ -5800,7 +5800,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-lib@workspace:packages/node/packages/express/packages/lib"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.316.0
+    "@aws-sdk/client-secrets-manager": ^3.317.0
     "@types/express": 4.17.17
     "@xylabs/assert": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
@@ -5825,7 +5825,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/packages/middleware"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.316.0
+    "@aws-sdk/client-secrets-manager": ^3.317.0
     "@types/express": 4.17.17
     "@types/express-mung": ^0.5.2
     "@types/swagger-ui-express": ^4.1.3
@@ -5853,7 +5853,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-routes@workspace:packages/node/packages/express/packages/routes"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.316.0
+    "@aws-sdk/client-secrets-manager": ^3.317.0
     "@types/express": 4.17.17
     "@xylabs/assert": ^2.7.6
     "@xylabs/exists": ^2.7.6
@@ -5892,7 +5892,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/packages/server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.316.0
+    "@aws-sdk/client-secrets-manager": ^3.317.0
     "@types/compression": ^1.7.2
     "@types/cors": ^2.8.13
     "@types/express": 4.17.17
@@ -6439,7 +6439,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/packages/app"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.316.0
+    "@aws-sdk/client-secrets-manager": ^3.317.0
     "@xylabs/assert": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.5
@@ -8344,9 +8344,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001449":
-  version: 1.0.30001480
-  resolution: "caniuse-lite@npm:1.0.30001480"
-  checksum: c0b40f02f45ee99c73f732a3118028b2ab1544962d473d84f2afcb898a5e3099bd4c45f316ebc466fb1dbda904e86b72695578ca531a0bfa9d6337e7aad1ee2a
+  version: 1.0.30001481
+  resolution: "caniuse-lite@npm:1.0.30001481"
+  checksum: 8200a043c191b4fd4fe0beda37a58fd61869c895ab93f87bdd0420e5927453f48434d716ce9da8552ff6c3ecc4dcd1366354cda3a134f3cc844af741574a7cab
   languageName: node
   linkType: hard
 
@@ -14744,8 +14744,8 @@ __metadata:
   linkType: hard
 
 "npm-check-updates@npm:^16.10.2":
-  version: 16.10.8
-  resolution: "npm-check-updates@npm:16.10.8"
+  version: 16.10.9
+  resolution: "npm-check-updates@npm:16.10.9"
   dependencies:
     chalk: ^5.2.0
     cli-table3: ^0.6.3
@@ -14780,7 +14780,7 @@ __metadata:
   bin:
     ncu: build/src/bin/cli.js
     npm-check-updates: build/src/bin/cli.js
-  checksum: 8da4f82fb1b3cd60426bb23cdb98c1e9299676180996d066901d09527781ee9a8129efe1c49363306e27648542023632f396018fa6aad21bb9e3746a61ff7c81
+  checksum: cffcce7a7b7846b6edbac75da259a74cd882d9a1eeffad29d31e5c70b77850cc9189c17fabf95181e5e371e2f21b0e85cf202f60fa2e15ab8f51b8615da4319a
   languageName: node
   linkType: hard
 
@@ -18041,15 +18041,15 @@ __metadata:
   linkType: hard
 
 "sigstore@npm:^1.0.0":
-  version: 1.3.0
-  resolution: "sigstore@npm:1.3.0"
+  version: 1.3.2
+  resolution: "sigstore@npm:1.3.2"
   dependencies:
     "@sigstore/protobuf-specs": ^0.1.0
     make-fetch-happen: ^11.0.1
     tuf-js: ^1.1.3
   bin:
     sigstore: bin/sigstore.js
-  checksum: 93c78211c2c7245d7d860589ec37fbd822203674c4065a6970fe0740904fac4c7c44d9870016e923865ef2a897b3d56f91ca6162117c4ea3a1153dac1b4b8402
+  checksum: db919d985f86b5f26f5c33c41f9f11be89c26c08e13f0a0a5d469fd050da9640573c49b0c83d1508235135e2a9225e522f1334bb033de0f2f0ff5c8860385213
   languageName: node
   linkType: hard
 

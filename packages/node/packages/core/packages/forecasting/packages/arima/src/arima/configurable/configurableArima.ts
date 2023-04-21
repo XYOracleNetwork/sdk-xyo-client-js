@@ -20,8 +20,8 @@ export const configurableArima = (opts: ARIMAOptions = commonOpts, predictionSte
     // Use the trained model to predict the next N values
     const predictions = model.predict(predictionSteps)
     // Convert the predictions into payloads
-    return predictions.map((prediction) => {
-      const [value, error] = prediction
+    return predictions[0].map((value, index) => {
+      const error = predictions[1][index]
       return PayloadWrapper.parse({ error, schema, value }).payload
     })
   }

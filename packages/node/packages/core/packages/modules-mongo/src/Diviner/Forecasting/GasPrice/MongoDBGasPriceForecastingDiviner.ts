@@ -1,6 +1,8 @@
+import { assertEx } from '@xylabs/assert'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { AbstractForecastingDiviner, ForecastingDivinerConfigSchema } from '@xyo-network/diviner'
+import { XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 import { Job, JobProvider } from '@xyo-network/shared'
 
 import { defineJobs, scheduleJobs } from '../../../JobQueue'
@@ -25,8 +27,20 @@ export class MongoDBGasPriceForecastingDiviner<TParams extends MongoDBForecastin
     }
   }
 
-  protected override getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promisable<Payload[]> {
-    throw new Error('')
+  protected override async getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promise<Payload[]> {
+    const payload_schemas = XyoEthereumGasSchema
+    // TODO: Get in batches based on window windowSize
+    // TODO: Filter by address injected into config
+    const bws = await (await this.params.boundWitnessSdk.find({ payload_schemas, timestamp: { $gte: startTimestamp, $lte: stopTimestamp } }))
+      .sort({ timestamp: -1 })
+      .limit(this.params.config.windowSize)
+      .toArray()
+    if (bws.length === 0) return []
+    const hashes = bws.map((bw) => bw.payload_hashes[bw.payload_schemas.findIndex((s) => s === XyoEthereumGasSchema)])
+    const mod = assertEx((await this.upResolver.resolve(this.params.config.archivist)).pop(), 'Unable to resolve archivist')
+    const archivist = ArchivistWrapper.wrap(mod)
+    const payloads = await archivist.get(hashes)
+    return payloads
   }
 
   protected override async stop(): Promise<this> {

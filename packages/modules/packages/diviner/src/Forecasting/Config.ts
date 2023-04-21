@@ -9,7 +9,7 @@ export const ForecastingDivinerConfigSchema: ForecastingDivinerConfigSchema = `$
 
 export type ForecastingDivinerConfig = DivinerConfig<
   {
-    archivist: ModuleFilter
+    archivist?: ModuleFilter
     schema: ForecastingDivinerConfigSchema
   } & WindowSettings
 >

@@ -1,1 +1,1 @@
-export * from './ForecastingMethod'
+export * from './arima'

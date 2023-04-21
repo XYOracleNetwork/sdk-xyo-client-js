@@ -19,13 +19,17 @@ export abstract class MongoDBForecastingDiviner<TParams extends MongoDBForecasti
 {
   static override configSchema = ForecastingDivinerConfigSchema
 
-  abstract get jobs(): Job[]
+  get jobs(): Job[] {
+    return []
+  }
 
   override async start() {
     await super.start()
-    const { jobQueue } = this.params
-    defineJobs(jobQueue, this.jobs)
-    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
+    if (this.jobs.length > 0) {
+      const { jobQueue } = this.params
+      defineJobs(jobQueue, this.jobs)
+      jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
+    }
   }
 
   protected override async stop(): Promise<this> {

@@ -6,13 +6,15 @@ import { Promisable } from '@xyo-network/promise'
 import { AbstractDiviner } from '../AbstractDiviner'
 import { ForecastingDivinerConfig, ForecastingDivinerConfigSchema } from './Config'
 import { ForecastingMethod } from './ForecastingMethod'
+import { PayloadValuesTransformer, PayloadValueTransformer } from './PayloadValueTransformer'
 import { ForecastingDivinerQueryPayload, isForecastingDivinerQueryPayload } from './Query'
 import { WindowSettings } from './WindowSettings'
 
 export type ForecastingDivinerParams = DivinerParams<
   AnyConfigSchema<ForecastingDivinerConfig>,
   {
-    forecast: ForecastingMethod
+    forecastingMethod: ForecastingMethod
+    transformer: PayloadValueTransformer | PayloadValuesTransformer
   }
 >
 
@@ -25,7 +27,8 @@ export abstract class AbstractForecastingDiviner<P extends ForecastingDivinerPar
     const stopTimestamp = query.timestamp || Date.now()
     const startTimestamp = stopTimestamp - windowSettings.windowSize
     const data = await this.getPayloadsInWindow(startTimestamp, stopTimestamp)
-    return this.params.forecast(data)
+    const { forecastingMethod, transformer } = this.params
+    return forecastingMethod(data, transformer)
   }
   protected abstract getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promisable<Payload[]>
 }

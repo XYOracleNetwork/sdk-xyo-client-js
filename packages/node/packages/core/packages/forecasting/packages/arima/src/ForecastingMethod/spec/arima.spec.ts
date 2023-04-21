@@ -12,7 +12,7 @@ describe('arimaForecasting', () => {
     const payloads = dataPoints.map((data) => {
       return { data, schema: 'network.xyo.test' }
     })
-    const result = arimaForecasting(payloads, transformer)
+    const result = arimaForecasting(payloads, [transformer])
     expect(result).toBeTruthy()
   })
 })

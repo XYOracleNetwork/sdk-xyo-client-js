@@ -1,1 +1,1 @@
-import { forecastingMethod } from '../arima'
+import { forecastingMethod } from '../arimaForecasting'

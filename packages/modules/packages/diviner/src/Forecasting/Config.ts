@@ -1,4 +1,5 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
+import { ModuleFilter } from '@xyo-network/module-model'
 
 import { ForecastingDivinerSchema } from './Schema'
 import { WindowSettings } from './WindowSettings'
@@ -8,6 +9,7 @@ export const ForecastingDivinerConfigSchema: ForecastingDivinerConfigSchema = `$
 
 export type ForecastingDivinerConfig = DivinerConfig<
   {
+    archivist: ModuleFilter
     schema: ForecastingDivinerConfigSchema
   } & WindowSettings
 >

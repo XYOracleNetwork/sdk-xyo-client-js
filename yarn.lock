@@ -5435,9 +5435,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-forecasting-method-autoregressive-integrated-moving-average@workspace:packages/node/packages/core/packages/forecasting/packages/arima":
+"@xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-forecasting-method-autoregressive-integrated-moving-average@workspace:packages/node/packages/core/packages/forecasting/packages/arima"
+  resolution: "@xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima"
   dependencies:
     "@types/source-map-support": 0.5.6
     "@xylabs/ts-scripts-yarn3": ^2.16.5

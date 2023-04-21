@@ -14,7 +14,7 @@ export type ForecastingDivinerParams = DivinerParams<
   AnyConfigSchema<ForecastingDivinerConfig>,
   {
     forecastingMethod: ForecastingMethod
-    transformer: PayloadValueTransformer
+    transformers: PayloadValueTransformer[]
   }
 >
 
@@ -28,8 +28,8 @@ export abstract class AbstractForecastingDiviner<P extends ForecastingDivinerPar
     const stopTimestamp = query.timestamp || Date.now()
     const startTimestamp = stopTimestamp - windowSettings.windowSize
     const data = await this.getPayloadsInWindow(startTimestamp, stopTimestamp)
-    const { forecastingMethod, transformer } = this.params
-    return forecastingMethod(data, transformer)
+    const { forecastingMethod, transformers } = this.params
+    return forecastingMethod(data, transformers)
   }
 
   protected abstract getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promisable<Payload[]>

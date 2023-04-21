@@ -6097,7 +6097,7 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
     lodash: ^4.17.21
-    lru-cache: ^8.0.5
+    lru-cache: ^9.1.0
     typescript: ^4.9.5
     url-parse: ^1.5.10
   languageName: unknown
@@ -6259,7 +6259,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
-    lru-cache: ^8.0.5
+    lru-cache: ^9.1.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6797,7 +6797,7 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/pentair-payload-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    node-screenlogic: ^1.10.1
+    node-screenlogic: ^2.0.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6905,7 +6905,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
     ajv: ^8.12.0
-    lru-cache: ^8.0.5
+    lru-cache: ^9.1.0
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6986,7 +6986,7 @@ __metadata:
     supertest: ^6.3.3
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
-    typedoc: ^0.23.28
+    typedoc: ^0.24.4
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -13332,14 +13332,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^8.0.5":
-  version: 8.0.5
-  resolution: "lru-cache@npm:8.0.5"
-  checksum: 87d72196d8f46e8299c4ab576ed2ec8a07e3cbef517dc9874399c0b2470bd9bf62aacec3b67f84ed6d74aaa1ef31636d048edf996f76248fd17db72bfb631609
-  languageName: node
-  linkType: hard
-
-"lru-cache@npm:^9.0.0":
+"lru-cache@npm:^9.0.0, lru-cache@npm:^9.1.0":
   version: 9.1.0
   resolution: "lru-cache@npm:9.1.0"
   checksum: 97b46faa2e8195b75b1c48a5515f8e458b8f6a0d0933c0484a4e45b6aa67406dcc5f6c8774fef206fd918dce6a4b4a6f627541fbdf74f8e6b3c71f688f43041e
@@ -13530,7 +13523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.2.12":
+"marked@npm:^4.2.12, marked@npm:^4.3.0":
   version: 4.3.0
   resolution: "marked@npm:4.3.0"
   bin:
@@ -14107,6 +14100,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minimatch@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "minimatch@npm:9.0.0"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: 7bd57899edd1d1b0560f50b5b2d1ea4ad2a366c5a2c8e0a943372cf2f200b64c256bae45a87a80915adbce27fa36526264296ace0da57b600481fe5ea3e372e5
+  languageName: node
+  linkType: hard
+
 "minimist-options@npm:4.1.0":
   version: 4.1.0
   resolution: "minimist-options@npm:4.1.0"
@@ -14606,16 +14608,6 @@ __metadata:
   version: 2.0.10
   resolution: "node-releases@npm:2.0.10"
   checksum: d784ecde25696a15d449c4433077f5cce620ed30a1656c4abf31282bfc691a70d9618bae6868d247a67914d1be5cc4fde22f65a05f4398cdfb92e0fc83cadfbc
-  languageName: node
-  linkType: hard
-
-"node-screenlogic@npm:^1.10.1":
-  version: 1.10.1
-  resolution: "node-screenlogic@npm:1.10.1"
-  dependencies:
-    debug: ^4.3.2
-    smart-buffer: ^4.2.0
-  checksum: 82e1601adf0e8cf60818077eef20b95ae4bf2d6efea2a3ab8c1e1595b870820c9a2131231f33c84498c083adf13cafc1faf20c83f7aac420173f68ec7d0df88c
   languageName: node
   linkType: hard
 
@@ -19349,6 +19341,22 @@ __metadata:
   bin:
     typedoc: bin/typedoc
   checksum: 40eb4e207aac1b734e09400cf03f543642cc7b11000895198dd5a0d3166315759ccf4ac30a2915153597c5c186101c72bac2f1fc12b428184a9274d3a0e44c5e
+  languageName: node
+  linkType: hard
+
+"typedoc@npm:^0.24.4":
+  version: 0.24.4
+  resolution: "typedoc@npm:0.24.4"
+  dependencies:
+    lunr: ^2.3.9
+    marked: ^4.3.0
+    minimatch: ^9.0.0
+    shiki: ^0.14.1
+  peerDependencies:
+    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x
+  bin:
+    typedoc: bin/typedoc
+  checksum: c6762aff2b40eb574fc348c82921471fa1c1dc8a83adc284457aab30ea61768770be469f424340ab646944472653290578fd8e6308d55ec2e611577472067dae
   languageName: node
   linkType: hard
 

@@ -23,7 +23,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
-import LruCache from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 import Url from 'url-parse'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
@@ -42,7 +42,7 @@ export class HttpBridge<
   static override configSchema = HttpBridgeConfigSchema
 
   private _axios?: AxiosJson
-  private _discoverCache?: LruCache<string, Payload[]>
+  private _discoverCache?: LRUCache<string, Payload[]>
   private _rootAddress?: string
   private _targetConfigs: Record<string, ModuleConfig> = {}
   private _targetQueries: Record<string, string[]> = {}
@@ -54,11 +54,11 @@ export class HttpBridge<
 
   get discoverCache() {
     const config = this.discoverCacheConfig
-    this._discoverCache = this._discoverCache ?? new LruCache<string, Payload[]>({ ttlAutopurge: true, ...config })
+    this._discoverCache = this._discoverCache ?? new LRUCache<string, Payload[]>({ ttlAutopurge: true, ...config })
     return this._discoverCache
   }
 
-  get discoverCacheConfig(): LruCache.Options<string, Payload[], unknown> {
+  get discoverCacheConfig(): LRUCache.Options<string, Payload[], unknown> {
     const discoverCacheConfig: CacheConfig | undefined = this.config.discoverCache === true ? {} : this.config.discoverCache
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }

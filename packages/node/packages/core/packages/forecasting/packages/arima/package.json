@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/package.json",
-  "name": "@xyo-network/diviner-forecasting-method-autoregressive-integrated-moving-average",
+  "name": "@xyo-network/diviner-forecasting-method-arima",
   "publishConfig": {
     "access": "public"
   },

@@ -5439,18 +5439,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima"
   dependencies:
-    "@types/source-map-support": 0.5.6
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/boundwitness-model": "workspace:^"
-    "@xyo-network/node-core-model": "workspace:^"
+    "@xyo-network/diviner": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/schema-cache": "workspace:^"
-    "@xyo-network/schema-payload-plugin": "workspace:^"
-    ajv: ^8.12.0
     arima: ^0.2.5
-    source-map-support: ^0.5.21
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

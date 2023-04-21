@@ -1,8 +1,8 @@
-import { ForecastingMethod } from '@xyo-network/diviner'
+import { ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner'
 import { XyoPayload } from '@xyo-network/payload-model'
 import { ARIMA } from 'arima'
 
-export const forecastingMethod: ForecastingMethod = (payloads: XyoPayload[]) => {
+export const forecastingMethod: ForecastingMethod = (payloads: XyoPayload[], transformer: PayloadValueTransformer) => {
   // Input array of 10 data points
   const dataPoints: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 

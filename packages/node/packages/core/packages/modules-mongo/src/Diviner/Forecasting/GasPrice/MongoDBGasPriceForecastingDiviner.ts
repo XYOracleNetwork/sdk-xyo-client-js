@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { AbstractForecastingDiviner, ForecastingDivinerConfigSchema } from '@xyo-network/diviner'
-import { XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Job, JobProvider } from '@xyo-network/shared'
@@ -21,9 +20,6 @@ export class MongoDBGasPriceForecastingDiviner<TParams extends MongoDBForecastin
    * The max number of records to search during the batch query
    */
   protected readonly batchLimit = 1_000
-
-  protected readonly forecastingDataAddress = 'TODO'
-  protected readonly forecastingDataSchema = XyoEthereumGasSchema
 
   get jobs(): Job[] {
     return []
@@ -48,20 +44,26 @@ export class MongoDBGasPriceForecastingDiviner<TParams extends MongoDBForecastin
     let skip = 0
     let more = true
 
-    // Loop until there are no more BWs to process or we've got enough to satisfy the training window
+    // Loop until there are no more BWs to process or we've got enough payloads to satisfy the training window
     while (more || payloads.length < this.config.windowSize) {
       const filter: Filter<BoundWitnessWithMeta> = { addresses, payload_schemas, timestamp: { $gte: startTimestamp, $lte: stopTimestamp } }
       // TODO: Use bw diviner instead
-      const bws = await (await this.params.boundWitnessSdk.find(filter)).sort({ timestamp: -1 }).skip(skip).limit(this.batchLimit).toArray()
+      const boundWitnesses = await (await this.params.boundWitnessSdk.find(filter))
+        .sort({ timestamp: -1 })
+        .skip(skip)
+        .limit(this.batchLimit)
+        .toArray()
 
       // Update the skip value for the next batch
       skip += this.batchLimit
 
       // Set the more flag to false if there are fewer documents returned than the batch size
-      more = bws.length === this.batchLimit
+      more = boundWitnesses.length === this.batchLimit
 
       // Get the payloads from the BWs
-      const hashes = bws.map((bw) => bw.payload_hashes[bw.payload_schemas.findIndex((s) => s === this.forecastingDataSchema)]).filter(exists)
+      const hashes = boundWitnesses
+        .map((bw) => bw.payload_hashes[bw.payload_schemas.findIndex((s) => s === this.config.witnessSchema)])
+        .filter(exists)
 
       // Get the payloads corresponding to the BW hashes from the archivist
       if (hashes.length === 0) {

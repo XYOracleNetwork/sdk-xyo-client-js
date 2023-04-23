@@ -40,20 +40,13 @@ export class MongoDBGasPriceForecastingDiviner<TParams extends MongoDBForecastin
 
   // TODO: Start/stop ambiguity (which is first/last, recent/past)
   protected override async getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promise<Payload[]> {
-    const addresses = this.forecastingDataAddress
-    const payload_schemas = this.forecastingDataSchema
-    // TODO: Filter by address injected into config
-    // TODO: Filter by payload_schema injected into config
-
-    // Set the initial skip value to 0
-    let skip = 0
-
-    // Flag to indicate whether or not there are more BWs to process
-    let more = true
-
+    const addresses = this.config.witnessAddresses
+    const payload_schemas = this.config.witnessSchema
     const payloads: Payload[] = []
     const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
+    let skip = 0
+    let more = true
 
     // Loop until there are no more BWs to process or we've got enough to satisfy the training window
     while (more || payloads.length < this.config.windowSize) {

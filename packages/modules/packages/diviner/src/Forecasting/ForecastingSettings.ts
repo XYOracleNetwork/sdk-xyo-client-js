@@ -1,6 +1,6 @@
 export interface ForecastingSettings {
   forecastingSteps?: number
-  windowSize: number
-  witnessAddresses: string[]
-  witnessSchema: string
+  windowSize?: number
+  witnessAddresses?: string[]
+  witnessSchema?: string
 }

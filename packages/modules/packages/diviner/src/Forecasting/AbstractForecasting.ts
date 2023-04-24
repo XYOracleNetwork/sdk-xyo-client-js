@@ -13,8 +13,8 @@ import { ForecastingDivinerQueryPayload, isForecastingDivinerQueryPayload } from
 export type ForecastingDivinerParams = DivinerParams<
   AnyConfigSchema<ForecastingDivinerConfig>,
   {
-    forecastingMethod: ForecastingMethod
-    transformer: PayloadValueTransformer
+    forecastingMethod?: ForecastingMethod
+    transformer?: PayloadValueTransformer
   }
 >
 
@@ -26,10 +26,13 @@ export abstract class AbstractForecastingDiviner<P extends ForecastingDivinerPar
     if (!query) return []
     const windowSettings: ForecastingSettings = { ...this.config, ...this.query }
     const stopTimestamp = query.timestamp || Date.now()
-    const startTimestamp = stopTimestamp - windowSettings.windowSize
+    const startTimestamp = windowSettings.windowSize ? stopTimestamp - windowSettings.windowSize : 0
     const data = await this.getPayloadsInWindow(startTimestamp, stopTimestamp)
-    const { forecastingMethod, transformer: transformers } = this.params
-    return forecastingMethod(data, transformers)
+    const { forecastingMethod, transformer } = this.params
+    if (forecastingMethod && transformer) {
+      return forecastingMethod(data, transformer)
+    }
+    throw new Error('Unsupported forecasting method/transformer')
   }
 
   protected abstract getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promisable<Payload[]>

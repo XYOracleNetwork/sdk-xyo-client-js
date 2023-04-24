@@ -23,7 +23,7 @@ import {
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, ConfigModuleFactory, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -106,7 +106,8 @@ const getMongoDBForecastingDiviner = (container: Container) => {
   // TODO: Make string injection in config instead of params
   let forecastingMethod: ForecastingMethod
   let transformer: PayloadValueTransformer
-  const factory = (config: AnyConfigSchema<ForecastingDivinerConfig>) => {
+  const factory: ConfigModuleFactory = (config: AnyConfigSchema<ForecastingDivinerConfig>) => {
+    const typedConfig = config as AnyConfigSchema<ForecastingDivinerConfig>
     const params = {
       account,
       boundWitnessSdk,

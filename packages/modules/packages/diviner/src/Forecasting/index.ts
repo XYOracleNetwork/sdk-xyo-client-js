@@ -1,6 +1,6 @@
 export * from './AbstractForecasting'
 export * from './Config'
 export * from './ForecastingMethod'
+export * from './ForecastingSettings'
 export * from './PayloadValueTransformer'
 export * from './Schema'
-export * from './WindowSettings'

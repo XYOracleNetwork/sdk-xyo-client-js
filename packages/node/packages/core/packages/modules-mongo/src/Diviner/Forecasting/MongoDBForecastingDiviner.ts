@@ -78,8 +78,4 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
     }
     return payloads
   }
-
-  protected override async stop(): Promise<this> {
-    return await super.stop()
-  }
 }

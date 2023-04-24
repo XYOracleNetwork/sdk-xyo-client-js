@@ -1,7 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { AbstractForecastingDiviner, ForecastingDivinerConfigSchema, ForecastingDivinerParams } from '@xyo-network/diviner'
+import {
+  AbstractForecastingDiviner,
+  ForecastingDivinerConfigSchema,
+  ForecastingDivinerParams,
+  ForecastingMethod,
+  PayloadValueTransformer,
+} from '@xyo-network/diviner'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -27,8 +33,18 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
    */
   protected readonly batchLimit = 1_000
 
+  // TODO: Inject via config
+  protected readonly maxTrainingLength = 10_000
+
   get jobs(): Job[] {
     return []
+  }
+
+  protected override get forecastingMethod(): ForecastingMethod {
+    throw new Error('Method not implemented.')
+  }
+  protected override get transformer(): PayloadValueTransformer {
+    throw new Error('Method not implemented.')
   }
 
   override async start() {
@@ -46,11 +62,13 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
     const payloads: Payload[] = []
     const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
+
     let skip = 0
     let more = true
 
+    // TODO: Window size vs sample size
     // Loop until there are no more BWs to process or we've got enough payloads to satisfy the training window
-    while (more || payloads.length < this.config.windowSize) {
+    while (more || payloads.length < this.maxTrainingLength) {
       const filter: Filter<BoundWitnessWithMeta> = { addresses, payload_schemas, timestamp: { $gte: startTimestamp, $lte: stopTimestamp } }
       // TODO: Use bw diviner instead
       const boundWitnesses = await (await this.params.boundWitnessSdk.find(filter))

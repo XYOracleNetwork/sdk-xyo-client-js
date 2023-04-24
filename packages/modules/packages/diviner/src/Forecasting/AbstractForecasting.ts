@@ -5,21 +5,22 @@ import { Promisable } from '@xyo-network/promise'
 
 import { AbstractDiviner } from '../AbstractDiviner'
 import { ForecastingDivinerConfig, ForecastingDivinerConfigSchema } from './Config'
+import { ForecastingDiviner } from './Diviner'
 import { ForecastingMethod } from './ForecastingMethod'
 import { ForecastingSettings } from './ForecastingSettings'
 import { PayloadValueTransformer } from './PayloadValueTransformer'
 import { ForecastingDivinerQueryPayload, isForecastingDivinerQueryPayload } from './Query'
 
-export type ForecastingDivinerParams = DivinerParams<
-  AnyConfigSchema<ForecastingDivinerConfig>,
-  {
-    forecastingMethod?: ForecastingMethod
-    transformer?: PayloadValueTransformer
-  }
->
+export type ForecastingDivinerParams = DivinerParams<AnyConfigSchema<ForecastingDivinerConfig>>
 
-export abstract class AbstractForecastingDiviner<P extends ForecastingDivinerParams = ForecastingDivinerParams> extends AbstractDiviner<P> {
+export abstract class AbstractForecastingDiviner<P extends ForecastingDivinerParams = ForecastingDivinerParams>
+  extends AbstractDiviner<P>
+  implements ForecastingDiviner
+{
   static override configSchema = ForecastingDivinerConfigSchema
+
+  protected abstract get forecastingMethod(): ForecastingMethod
+  protected abstract get transformer(): PayloadValueTransformer
 
   async divine(payloads?: Payload[] | undefined): Promise<Payload[]> {
     const query = payloads?.find<ForecastingDivinerQueryPayload>(isForecastingDivinerQueryPayload)
@@ -28,11 +29,7 @@ export abstract class AbstractForecastingDiviner<P extends ForecastingDivinerPar
     const stopTimestamp = query.timestamp || Date.now()
     const startTimestamp = windowSettings.windowSize ? stopTimestamp - windowSettings.windowSize : 0
     const data = await this.getPayloadsInWindow(startTimestamp, stopTimestamp)
-    const { forecastingMethod, transformer } = this.params
-    if (forecastingMethod && transformer) {
-      return forecastingMethod(data, transformer)
-    }
-    throw new Error('Unsupported forecasting method/transformer')
+    return this.forecastingMethod(data, this.transformer)
   }
 
   protected abstract getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promisable<Payload[]>

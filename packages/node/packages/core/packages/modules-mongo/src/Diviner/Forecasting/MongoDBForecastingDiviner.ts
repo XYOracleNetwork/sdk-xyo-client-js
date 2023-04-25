@@ -23,12 +23,6 @@ export type MongoDBForecastingDivinerParams = ForecastingDivinerParams & {
   payloadSdk: BaseMongoSdk<PayloadWithMeta>
 }
 
-const jsonPathTransformer: PayloadValueTransformer = (x: Payload): number => {
-  const ret = value(x, '')
-  if (typeof ret === 'number') return ret
-  throw new Error('Parsed invalid payload value')
-}
-
 const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
   const transformer = (x: Payload): number => {
     const ret = value(x, pathExpression)
@@ -60,7 +54,8 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
     throw new Error('Method not implemented.')
   }
   protected override get transformer(): PayloadValueTransformer {
-    throw new Error('Method not implemented.')
+    const pathExpression = assertEx(this.config.jsonPathExpression, 'Missing jsonPathExpression in config')
+    return getJsonPathTransformer(pathExpression)
   }
 
   override async start() {

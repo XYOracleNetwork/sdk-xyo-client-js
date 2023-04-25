@@ -4,10 +4,9 @@ import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { AbstractDiviner } from '../AbstractDiviner'
-import { ForecastingDivinerConfig, ForecastingDivinerConfigSchema } from './Config'
+import { ForecastingDivinerConfig, ForecastingDivinerConfigSchema, ForecastingSettings } from './Config'
 import { ForecastingDiviner } from './Diviner'
 import { ForecastingMethod } from './ForecastingMethod'
-import { ForecastingSettings } from './ForecastingSettings'
 import { PayloadValueTransformer } from './PayloadValueTransformer'
 import { ForecastingDivinerQueryPayload, isForecastingDivinerQueryPayload } from './Query'
 

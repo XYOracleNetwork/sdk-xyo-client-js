@@ -12,6 +12,7 @@ import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/no
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
+import { value } from 'jsonpath'
 import { Filter } from 'mongodb'
 
 import { defineJobs, scheduleJobs } from '../../JobQueue'
@@ -20,6 +21,21 @@ export type MongoDBForecastingDivinerParams = ForecastingDivinerParams & {
   boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   jobQueue: JobQueue
   payloadSdk: BaseMongoSdk<PayloadWithMeta>
+}
+
+const jsonPathTransformer: PayloadValueTransformer = (x: Payload): number => {
+  const ret = value(x, '')
+  if (typeof ret === 'number') return ret
+  throw new Error('Parsed invalid payload value')
+}
+
+const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
+  const transformer = (x: Payload): number => {
+    const ret = value(x, pathExpression)
+    if (typeof ret === 'number') return ret
+    throw new Error('Parsed invalid payload value')
+  }
+  return transformer
 }
 
 export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDivinerParams = MongoDBForecastingDivinerParams>

@@ -38,6 +38,8 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
 {
   static override configSchema = ForecastingDivinerConfigSchema
 
+  protected static readonly forecastingMethodDict: Record<string, ForecastingMethod> = {}
+
   /**
    * The max number of records to search during the batch query
    */
@@ -51,7 +53,10 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
   }
 
   protected override get forecastingMethod(): ForecastingMethod {
-    throw new Error('Method not implemented.')
+    const forecastingMethodName = assertEx(this.config.forecastingMethod, 'Missing forecastingMethod in config')
+    const forecastingMethod = MongoDBForecastingDiviner.forecastingMethodDict[forecastingMethodName]
+    if (forecastingMethod) return forecastingMethod
+    throw new Error(`Unsupported forecasting method: ${forecastingMethodName}`)
   }
   protected override get transformer(): PayloadValueTransformer {
     const pathExpression = assertEx(this.config.jsonPathExpression, 'Missing jsonPathExpression in config')

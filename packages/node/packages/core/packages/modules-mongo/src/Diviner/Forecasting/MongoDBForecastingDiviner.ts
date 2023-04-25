@@ -1,9 +1,25 @@
-import { AbstractForecastingDiviner, ForecastingDivinerConfigSchema, ForecastingDivinerParams } from '@xyo-network/diviner'
+import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import {
+  AbstractForecastingDiviner,
+  ForecastingDivinerConfigSchema,
+  ForecastingDivinerParams,
+  ForecastingMethod,
+  PayloadValueTransformer,
+} from '@xyo-network/diviner'
+import {
+  arimaForecastingMethod,
+  arimaForecastingName,
+  seasonalArimaForecastingMethod,
+  seasonalArimaForecastingName,
+} from '@xyo-network/diviner-forecasting-method-arima'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
+import { value } from 'jsonpath'
+import { Filter } from 'mongodb'
 
 import { defineJobs, scheduleJobs } from '../../JobQueue'
 
@@ -13,14 +29,49 @@ export type MongoDBForecastingDivinerParams = ForecastingDivinerParams & {
   payloadSdk: BaseMongoSdk<PayloadWithMeta>
 }
 
-export abstract class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDivinerParams = MongoDBForecastingDivinerParams>
+type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
+
+const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
+  const transformer = (x: Payload): number => {
+    const ret = value(x, pathExpression)
+    if (typeof ret === 'number') return ret
+    throw new Error('Parsed invalid payload value')
+  }
+  return transformer
+}
+
+export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDivinerParams = MongoDBForecastingDivinerParams>
   extends AbstractForecastingDiviner<TParams>
   implements JobProvider
 {
   static override configSchema = ForecastingDivinerConfigSchema
 
+  protected static readonly forecastingMethodDict: Record<SupportedForecastingType, ForecastingMethod> = {
+    arimaForecasting: arimaForecastingMethod,
+    seasonalArimaForecasting: seasonalArimaForecastingMethod,
+  }
+
+  /**
+   * The max number of records to search during the batch query
+   */
+  protected readonly batchLimit = 1_000
+
+  // TODO: Inject via config
+  protected readonly maxTrainingLength = 10_000
+
   get jobs(): Job[] {
     return []
+  }
+
+  protected override get forecastingMethod(): ForecastingMethod {
+    const forecastingMethodName = assertEx(this.config.forecastingMethod, 'Missing forecastingMethod in config') as SupportedForecastingType
+    const forecastingMethod = MongoDBForecastingDiviner.forecastingMethodDict[forecastingMethodName]
+    if (forecastingMethod) return forecastingMethod
+    throw new Error(`Unsupported forecasting method: ${forecastingMethodName}`)
+  }
+  protected override get transformer(): PayloadValueTransformer {
+    const pathExpression = assertEx(this.config.jsonPathExpression, 'Missing jsonPathExpression in config')
+    return getJsonPathTransformer(pathExpression)
   }
 
   override async start() {
@@ -32,9 +83,44 @@ export abstract class MongoDBForecastingDiviner<TParams extends MongoDBForecasti
     }
   }
 
-  protected override async stop(): Promise<this> {
-    return await super.stop()
-  }
+  protected override async getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promise<Payload[]> {
+    const addresses = this.config.witnessAddresses
+    const payload_schemas = this.config.witnessSchema
+    const payloads: Payload[] = []
+    const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
+    const archivist = ArchivistWrapper.wrap(archivistMod)
 
-  protected abstract override getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promisable<Payload[]>
+    let skip = 0
+    let more = true
+
+    // TODO: Window size vs sample size
+    // Loop until there are no more BWs to process or we've got enough payloads to satisfy the training window
+    while (more || payloads.length < this.maxTrainingLength) {
+      const filter: Filter<BoundWitnessWithMeta> = { addresses, payload_schemas, timestamp: { $gte: startTimestamp, $lte: stopTimestamp } }
+      // TODO: Use bw diviner instead
+      const boundWitnesses = await (await this.params.boundWitnessSdk.find(filter))
+        .sort({ timestamp: -1 })
+        .skip(skip)
+        .limit(this.batchLimit)
+        .toArray()
+
+      // Update the skip value for the next batch
+      skip += this.batchLimit
+
+      // Set the more flag to false if there are fewer documents returned than the batch size
+      more = boundWitnesses.length === this.batchLimit
+
+      // Get the payloads from the BWs
+      const hashes = boundWitnesses
+        .map((bw) => bw.payload_hashes[bw.payload_schemas.findIndex((s) => s === this.config.witnessSchema)])
+        .filter(exists)
+
+      // Get the payloads corresponding to the BW hashes from the archivist
+      if (hashes.length === 0) {
+        const batchPayloads = (await archivist.get(hashes))[1]
+        payloads.push(batchPayloads)
+      }
+    }
+    return payloads
+  }
 }

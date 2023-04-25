@@ -28,6 +28,7 @@ export const WALLET_PATHS = {
     PayloadStats: `${ModulePath.Diviner}/7'` as const,
     SchemaStats: `${ModulePath.Diviner}/8'` as const,
     LocationCertainty: `${ModulePath.Diviner}/9'` as const,
+    Forecasting: `${ModulePath.Diviner}/10'` as const,
   } as const,
   Witnesses: {
     Witness: `${ModulePath.Witness}/0'` as const,

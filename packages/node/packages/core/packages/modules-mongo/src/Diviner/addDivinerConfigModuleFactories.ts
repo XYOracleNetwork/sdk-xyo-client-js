@@ -9,17 +9,21 @@ import {
   BoundWitnessDivinerConfigSchema,
   BoundWitnessStatsDivinerConfig,
   BoundWitnessStatsDivinerConfigSchema,
+  ForecastingDivinerConfig,
+  ForecastingDivinerConfigSchema,
+  ForecastingMethod,
   PayloadDivinerConfig,
   PayloadDivinerConfigSchema,
   PayloadStatsDivinerConfig,
   PayloadStatsDivinerConfigSchema,
+  PayloadValueTransformer,
   SchemaListDivinerConfig,
   SchemaListDivinerConfigSchema,
   SchemaStatsDivinerConfig,
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, ConfigModuleFactory, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -29,6 +33,7 @@ import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
+import { MongoDBForecastingDiviner } from './Forecasting'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBPayloadStatsDiviner } from './PayloadStats'
 import { MongoDBSchemaListDiviner } from './SchemaList'
@@ -89,6 +94,29 @@ const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
       jobQueue,
     }
     return MongoDBBoundWitnessStatsDiviner.create(params)
+  }
+  return factory
+}
+const getMongoDBForecastingDiviner = (container: Container) => {
+  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
+  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.Forecasting)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
+  const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
+  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
+  // TODO: Make string injection in config instead of params
+  let forecastingMethod: ForecastingMethod
+  let transformer: PayloadValueTransformer
+  const factory: ConfigModuleFactory = (config: AnyConfigSchema<ForecastingDivinerConfig>) => {
+    const params = {
+      account,
+      boundWitnessSdk,
+      config: { ...config, name: TYPES.ForecastingDiviner.description },
+      forecastingMethod,
+      jobQueue,
+      payloadSdk,
+      transformer,
+    }
+    return MongoDBForecastingDiviner.create(params)
   }
   return factory
 }
@@ -161,12 +189,9 @@ export const addDivinerConfigModuleFactories = (container: Container) => {
   dictionary[AddressSpaceDivinerConfigSchema] = getMongoDBAddressSpaceDiviner(container)
   dictionary[BoundWitnessDivinerConfigSchema] = getMongoDBBoundWitnessDiviner(container)
   dictionary[BoundWitnessStatsDivinerConfigSchema] = getMongoDBBoundWitnessStatsDiviner(container)
+  dictionary[ForecastingDivinerConfigSchema] = getMongoDBForecastingDiviner(container)
   dictionary[PayloadDivinerConfigSchema] = getMongoDBPayloadDiviner(container)
   dictionary[PayloadStatsDivinerConfigSchema] = getMongoDBPayloadStatsDiviner(container)
   dictionary[SchemaListDivinerConfigSchema] = getMongoDBSchemaListDiviner(container)
   dictionary[SchemaStatsDivinerConfigSchema] = getMongoDBSchemaStatsDiviner(container)
-
-  // bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBBoundWitnessStatsDiviner).inSingletonScope()
-  // bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBPayloadStatsDiviner).inSingletonScope()
-  // bind<JobProvider>(TYPES.JobProvider).toDynamicValue(getMongoDBSchemaStatsDiviner).inSingletonScope()
 }

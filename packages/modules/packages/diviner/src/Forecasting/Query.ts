@@ -1,7 +1,7 @@
 import { Query } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ForecastingSettings } from './ForecastingSettings'
+import { ForecastingSettings } from './Config'
 import { ForecastingDivinerSchema } from './Schema'
 
 export type ForecastingDivinerQuerySchema = `${ForecastingDivinerSchema}.query`

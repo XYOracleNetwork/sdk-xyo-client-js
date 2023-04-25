@@ -1,4 +1,5 @@
 import { exists } from '@xylabs/exists'
+import { Hasher } from '@xyo-network/core'
 import {
   AddressHistoryDivinerConfigSchema,
   BoundWitnessDivinerConfigSchema,
@@ -51,16 +52,17 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Mem
   if (configHashes) {
     const hashes = configHashes.split(',').filter(exists)
     if (hashes.length) {
+      const configPayloads: Record<string, ModuleConfig> = {}
       const mods = await node.downResolver.resolve({ query: [[ArchivistInsertQuerySchema]] })
-      const mod = mods.pop()
-      if (mod) {
+      for (const mod of mods) {
         const archivist = ArchivistWrapper.wrap(mod)
-        const configPayloads = await archivist.get(hashes)
-        if (configPayloads.length) {
-          const additionalConfigs = configPayloads.map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
-          await addModulesToNodeByConfig(container, node, additionalConfigs)
+        const payloads = await archivist.get(hashes)
+        for (const payload of payloads) {
+          configPayloads[Hasher.hash(payload)] = payload as ModuleConfig
         }
       }
+      const additionalConfigs = Object.values(configPayloads).map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
+      await addModulesToNodeByConfig(container, node, additionalConfigs)
     }
   }
 }

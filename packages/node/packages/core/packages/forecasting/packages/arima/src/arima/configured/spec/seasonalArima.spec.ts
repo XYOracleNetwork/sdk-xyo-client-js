@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { seasonalArimaForecasting } from '../seasonalArima'
+import { seasonalArimaForecastingMethod } from '../seasonalArima'
 
 const twoPi = 2 * Math.PI
 
@@ -13,7 +13,7 @@ describe('seasonalArimaForecasting', () => {
     const payloads = actual.map((data) => {
       return { data, schema: 'network.xyo.test' }
     })
-    const result = await seasonalArimaForecasting(payloads, transformer)
+    const result = await seasonalArimaForecastingMethod(payloads, transformer)
     expect(result).toBeArray()
   })
 })

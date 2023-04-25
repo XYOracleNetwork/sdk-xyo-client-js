@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { arimaForecasting } from '../arima'
+import { arimaForecastingMethod } from '../arima'
 
 const transformer = (payload: Payload) => (payload as Payload<{ data: number }>)?.data || NaN
 
@@ -11,7 +11,7 @@ describe('arimaForecasting', () => {
     const payloads = actual.map((data) => {
       return { data, schema: 'network.xyo.test' }
     })
-    const result = await arimaForecasting(payloads, transformer)
+    const result = await arimaForecastingMethod(payloads, transformer)
     expect(result).toBeTruthy()
     result.map((payload, index) => {
       expect((payload as { schema: string; value: number }).value).toBeCloseTo(expected[index])

@@ -39,7 +39,7 @@ export class MongoDBBoundWitnessDiviner<
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
     const filter: Filter<BoundWitnessWithMeta> = {}
     if (timestamp) {
-      filter.timestamp = parsedOrder === 'desc' ? { $lt: timestamp } : { $gt: timestamp }
+      filter.timestamp = parsedOrder === 'desc' ? { $exists: true, $lt: timestamp } : { $exists: true, $gt: timestamp }
     }
     if (hash) filter._hash = hash
     // NOTE: Defaulting to $all since it makes the most sense when singing addresses are supplied

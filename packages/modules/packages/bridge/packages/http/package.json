@@ -24,7 +24,7 @@
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "lodash": "^4.17.21",
-    "lru-cache": "^9.1.0",
+    "lru-cache": "^9.1.1",
     "url-parse": "^1.5.10"
   },
   "devDependencies": {

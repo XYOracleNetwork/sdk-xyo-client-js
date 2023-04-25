@@ -5442,7 +5442,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima":
+"@xyo-network/diviner-forecasting-method-arima@workspace:^, @xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima"
   dependencies:
@@ -6528,6 +6528,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/diviner-forecasting-method-arima": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"

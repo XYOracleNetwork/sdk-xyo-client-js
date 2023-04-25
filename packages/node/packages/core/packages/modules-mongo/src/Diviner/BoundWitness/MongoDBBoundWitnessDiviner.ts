@@ -39,6 +39,7 @@ export class MongoDBBoundWitnessDiviner<
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
     const filter: Filter<BoundWitnessWithMeta> = {}
     if (timestamp) {
+      // TODO: Should we sort by timestamp instead of _timestamp here as well?
       filter.timestamp = parsedOrder === 'desc' ? { $exists: true, $lt: timestamp } : { $exists: true, $gt: timestamp }
     }
     if (hash) filter._hash = hash

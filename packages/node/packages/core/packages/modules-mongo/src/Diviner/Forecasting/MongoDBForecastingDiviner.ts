@@ -1,8 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AbstractForecastingDiviner,
+  BoundWitnessDivinerQueryPayload,
+  BoundWitnessDivinerQuerySchema,
+  DivinerWrapper,
   ForecastingDivinerConfigSchema,
   ForecastingDivinerParams,
   ForecastingMethod,
@@ -19,7 +23,6 @@ import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { value } from 'jsonpath'
-import { Filter } from 'mongodb'
 
 import { defineJobs, scheduleJobs } from '../../JobQueue'
 
@@ -85,40 +88,43 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
 
   protected override async getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promise<Payload[]> {
     const addresses = this.config.witnessAddresses
-    const payload_schemas = this.config.witnessSchema
+    const payload_schemas = [assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
     const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
-
-    let skip = 0
+    const bwDivinerMod = assertEx((await this.upResolver.resolve(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner')
+    const bwDiviner = DivinerWrapper.wrap(bwDivinerMod)
+    const limit = this.batchLimit
+    const witnessSchema = assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')
+    let timestamp = stopTimestamp
     let more = true
 
     // TODO: Window size vs sample size
     // Loop until there are no more BWs to process or we've got enough payloads to satisfy the training window
     while (more || payloads.length < this.maxTrainingLength) {
-      const filter: Filter<BoundWitnessWithMeta> = { addresses, payload_schemas, timestamp: { $gte: startTimestamp, $lte: stopTimestamp } }
-      // TODO: Use bw diviner instead
-      const boundWitnesses = await (await this.params.boundWitnessSdk.find(filter))
-        .sort({ timestamp: -1 })
-        .skip(skip)
-        .limit(this.batchLimit)
-        .toArray()
+      const query: BoundWitnessDivinerQueryPayload = { addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema, timestamp }
+      const boundWitnesses = ((await bwDiviner.divine([query])) as BoundWitness[]).filter(
+        (bw) => bw.timestamp && bw.timestamp >= startTimestamp && bw.timestamp <= stopTimestamp,
+      )
+      if (boundWitnesses.length === 0) break
 
-      // Update the skip value for the next batch
-      skip += this.batchLimit
+      // Update the timestamp value for the next batch
+      timestamp = boundWitnesses
+        .map((bw) => bw.timestamp)
+        .filter(exists)
+        .reduce((a, b) => Math.min(a, b), Number.MAX_SAFE_INTEGER)
+      if (timestamp === Number.MAX_SAFE_INTEGER) break
 
       // Set the more flag to false if there are fewer documents returned than the batch size
-      more = boundWitnesses.length === this.batchLimit
+      more = boundWitnesses.length === limit
 
-      // Get the payloads from the BWs
-      const hashes = boundWitnesses
-        .map((bw) => bw.payload_hashes[bw.payload_schemas.findIndex((s) => s === this.config.witnessSchema)])
-        .filter(exists)
+      // Get the corresponding payload hashes from the BWs
+      const hashes = boundWitnesses.map((bw) => bw.payload_hashes[bw.payload_schemas.findIndex((s) => s === witnessSchema)]).filter(exists)
 
       // Get the payloads corresponding to the BW hashes from the archivist
       if (hashes.length === 0) {
-        const batchPayloads = (await archivist.get(hashes))[1]
-        payloads.push(batchPayloads)
+        const batchPayloads = await archivist.get(hashes)
+        payloads.push(...batchPayloads)
       }
     }
     return payloads

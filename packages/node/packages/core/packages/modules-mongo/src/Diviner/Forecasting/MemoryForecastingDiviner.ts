@@ -7,6 +7,7 @@ import {
   BoundWitnessDivinerQueryPayload,
   BoundWitnessDivinerQuerySchema,
   DivinerWrapper,
+  ForecastingDiviner,
   ForecastingDivinerConfigSchema,
   ForecastingDivinerParams,
   ForecastingMethod,
@@ -26,7 +27,7 @@ import { value } from 'jsonpath'
 
 import { defineJobs, scheduleJobs } from '../../JobQueue'
 
-export type MongoDBForecastingDivinerParams = ForecastingDivinerParams & {
+export type MemoryForecastingDivinerParams = ForecastingDivinerParams & {
   boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   jobQueue: JobQueue
   payloadSdk: BaseMongoSdk<PayloadWithMeta>
@@ -43,9 +44,9 @@ const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer
   return transformer
 }
 
-export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDivinerParams = MongoDBForecastingDivinerParams>
+export class MemoryForecastingDiviner<TParams extends MemoryForecastingDivinerParams = MemoryForecastingDivinerParams>
   extends AbstractForecastingDiviner<TParams>
-  implements JobProvider
+  implements ForecastingDiviner, JobProvider
 {
   static override configSchema = ForecastingDivinerConfigSchema
 
@@ -68,7 +69,7 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
 
   protected override get forecastingMethod(): ForecastingMethod {
     const forecastingMethodName = assertEx(this.config.forecastingMethod, 'Missing forecastingMethod in config') as SupportedForecastingType
-    const forecastingMethod = MongoDBForecastingDiviner.forecastingMethodDict[forecastingMethodName]
+    const forecastingMethod = MemoryForecastingDiviner.forecastingMethodDict[forecastingMethodName]
     if (forecastingMethod) return forecastingMethod
     throw new Error(`Unsupported forecasting method: ${forecastingMethodName}`)
   }

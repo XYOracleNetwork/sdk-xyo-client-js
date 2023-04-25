@@ -1,1 +1,1 @@
-export * from './MongoDBForecastingDiviner'
+export * from './MemoryForecastingDiviner'

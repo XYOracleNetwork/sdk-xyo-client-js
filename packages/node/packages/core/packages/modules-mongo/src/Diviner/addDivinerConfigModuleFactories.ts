@@ -107,7 +107,6 @@ const getMongoDBForecastingDiviner = (container: Container) => {
   let forecastingMethod: ForecastingMethod
   let transformer: PayloadValueTransformer
   const factory: ConfigModuleFactory = (config: AnyConfigSchema<ForecastingDivinerConfig>) => {
-    const typedConfig = config as AnyConfigSchema<ForecastingDivinerConfig>
     const params = {
       account,
       boundWitnessSdk,

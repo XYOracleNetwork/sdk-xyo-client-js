@@ -1,5 +1,5 @@
 export interface ForecastingSettings {
-  forecastingMethod: string
+  forecastingMethod?: string
   forecastingSteps?: number
   windowSize?: number
   witnessAddresses?: string[]

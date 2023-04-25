@@ -5784,10 +5784,12 @@ __metadata:
   dependencies:
     "@aws-sdk/client-secrets-manager": ^3.319.0
     "@xylabs/assert": ^2.7.6
+    "@xylabs/exists": ^2.7.6
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"

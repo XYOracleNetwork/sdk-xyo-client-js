@@ -8,6 +8,12 @@ import {
   ForecastingMethod,
   PayloadValueTransformer,
 } from '@xyo-network/diviner'
+import {
+  arimaForecastingMethod,
+  arimaForecastingName,
+  seasonalArimaForecastingMethod,
+  seasonalArimaForecastingName,
+} from '@xyo-network/diviner-forecasting-method-arima'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -22,6 +28,8 @@ export type MongoDBForecastingDivinerParams = ForecastingDivinerParams & {
   jobQueue: JobQueue
   payloadSdk: BaseMongoSdk<PayloadWithMeta>
 }
+
+type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
 
 const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
   const transformer = (x: Payload): number => {
@@ -38,7 +46,10 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
 {
   static override configSchema = ForecastingDivinerConfigSchema
 
-  protected static readonly forecastingMethodDict: Record<string, ForecastingMethod> = {}
+  protected static readonly forecastingMethodDict: Record<SupportedForecastingType, ForecastingMethod> = {
+    arimaForecasting: arimaForecastingMethod,
+    seasonalArimaForecasting: seasonalArimaForecastingMethod,
+  }
 
   /**
    * The max number of records to search during the batch query
@@ -53,7 +64,7 @@ export class MongoDBForecastingDiviner<TParams extends MongoDBForecastingDiviner
   }
 
   protected override get forecastingMethod(): ForecastingMethod {
-    const forecastingMethodName = assertEx(this.config.forecastingMethod, 'Missing forecastingMethod in config')
+    const forecastingMethodName = assertEx(this.config.forecastingMethod, 'Missing forecastingMethod in config') as SupportedForecastingType
     const forecastingMethod = MongoDBForecastingDiviner.forecastingMethodDict[forecastingMethodName]
     if (forecastingMethod) return forecastingMethod
     throw new Error(`Unsupported forecasting method: ${forecastingMethodName}`)

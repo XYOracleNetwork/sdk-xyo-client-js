@@ -1,4 +1,4 @@
-export * from './AbstractForecasting'
+export * from '../../abstract/src/AbstractForecasting'
 export * from './Config'
 export * from './Diviner'
 export * from './ForecastingMethod'

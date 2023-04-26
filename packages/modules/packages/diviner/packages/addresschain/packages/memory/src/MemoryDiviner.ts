@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { AddressChainDivinerConfig, AddressChainDivinerConfigSchema } from '@xyo-network/addresschain-diviner-model'
 import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -8,7 +9,6 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 
 import { AbstractDiviner } from '../AbstractDiviner'
-import { AddressChainDivinerConfig, AddressChainDivinerConfigSchema } from './Config'
 import { AddressChainDiviner } from './Diviner'
 
 // This diviner returns the most recent boundwitness signed by the address that can be found

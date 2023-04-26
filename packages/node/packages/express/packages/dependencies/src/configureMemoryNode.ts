@@ -1,10 +1,9 @@
 import { exists } from '@xylabs/exists'
+import { BoundWitnessDivinerConfigSchema } from '@xyo-network/boundwitness-diviner-model'
 import { Hasher } from '@xyo-network/core'
 import {
   AddressHistoryDivinerConfigSchema,
-  BoundWitnessDivinerConfigSchema,
   BoundWitnessStatsDivinerConfigSchema,
-  PayloadDivinerConfigSchema,
   PayloadStatsDivinerConfigSchema,
   SchemaListDivinerConfigSchema,
   SchemaStatsDivinerConfigSchema,
@@ -21,6 +20,7 @@ import {
 import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
+import { PayloadDivinerConfigSchema } from '@xyo-network/payload-diviner-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'
 

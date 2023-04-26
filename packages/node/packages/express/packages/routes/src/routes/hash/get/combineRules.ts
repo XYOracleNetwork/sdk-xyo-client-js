@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { SortDirection } from '@xyo-network/diviner'
 import {
   isPayloadAddressRule,
   isPayloadSchemaRule,
@@ -8,6 +7,7 @@ import {
   PayloadRule,
   PayloadSearchCriteria,
 } from '@xyo-network/node-core-model'
+import { SortDirection } from '@xyo-network/payload-diviner-model'
 
 // TODO: Could make it so that composability is such that we:
 // • AND first dimension of array

@@ -1,6 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import { AddressChainDiviner } from '@xyo-network/abstract-addresschain-diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressChainDivinerConfig, AddressChainDivinerConfigSchema } from '@xyo-network/addresschain-diviner-model'
-import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
+import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -8,15 +10,11 @@ import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 
-import { AbstractDiviner } from '../AbstractDiviner'
-import { AddressChainDiviner } from './Diviner'
-
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
-
 export type MemoryAddressChainDivinerParams = DivinerParams<AnyConfigSchema<AddressChainDivinerConfig>>
 
-export class MemoryAddressChainDiviner<TParams extends MemoryAddressChainDivinerParams>
+export class MemoryAddressChainDiviner<TParams extends MemoryAddressChainDivinerParams = MemoryAddressChainDivinerParams>
   extends AbstractDiviner<TParams>
   implements AddressChainDiviner
 {
@@ -30,9 +28,7 @@ export class MemoryAddressChainDiviner<TParams extends MemoryAddressChainDiviner
     const result: Payload[] = []
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
     const archivists =
-      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map(
-        (archivist) => new ArchivistWrapper({ account: this.account, module: archivist as ArchivistModule }),
-      ) ?? []
+      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => ArchivistWrapper.wrap(archivist, this.account)) ?? []
     let currentHash: string | null = assertEx(this.config.startHash, 'Missing startHash')
     while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
       const bwPayload: BoundWitness | undefined = await this.archivistFindHash(archivists, currentHash)

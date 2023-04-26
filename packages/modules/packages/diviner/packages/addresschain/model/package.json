@@ -1,0 +1,58 @@
+{
+  "name": "@xyo-network/addresschain-diviner-model",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xyo-network/abstract-diviner": "workspace:^",
+    "@xyo-network/core": "workspace:^",
+    "@xyo-network/diviner-model": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^"
+  },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.16.5",
+    "@xylabs/tsconfig": "^2.16.5",
+    "typescript": "^4.9.5"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "browser": "dist/esm/index.js",
+  "docs": "dist/docs.json",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "types": "dist/types/index.d.ts",
+  "version": "2.55.5"
+}

@@ -15,13 +15,13 @@ import {
   SchemaStatsDivinerConfig,
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
-import { MemoryForecastingDiviner } from '@xyo-network/forecasting-diviner'
 import {
   ForecastingDivinerConfig,
   ForecastingDivinerConfigSchema,
   ForecastingMethod,
+  MemoryForecastingDiviner,
   PayloadValueTransformer,
-} from '@xyo-network/forecasting-diviner-model'
+} from '@xyo-network/forecasting-diviner'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, ConfigModuleFactory, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'

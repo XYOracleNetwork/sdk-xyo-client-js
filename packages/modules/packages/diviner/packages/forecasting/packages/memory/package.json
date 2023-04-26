@@ -1,0 +1,66 @@
+{
+  "name": "@xyo-network/memory-forecasting-diviner",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@types/jsonpath": "^0.2.0",
+    "@xylabs/assert": "^2.7.6",
+    "@xylabs/exists": "^2.7.6",
+    "@xyo-network/abstract-forecasting-diviner": "workspace:^",
+    "@xyo-network/archivist-wrapper": "workspace:^",
+    "@xyo-network/boundwitness-diviner-model": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/diviner-forecasting-method-arima": "workspace:^",
+    "@xyo-network/diviner-wrapper": "workspace:^",
+    "@xyo-network/forecasting-diviner-model": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/shared": "workspace:^",
+    "jsonpath": "^1.1.1"
+  },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^2.16.5",
+    "@xylabs/tsconfig": "^2.16.5",
+    "typescript": "^4.9.5"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "browser": "dist/esm/index.js",
+  "docs": "dist/docs.json",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "types": "dist/types/index.d.ts",
+  "version": "2.55.4"
+}

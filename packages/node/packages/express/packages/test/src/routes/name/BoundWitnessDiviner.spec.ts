@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -94,9 +95,18 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('offset', () => {
-      it.skip('divines BoundWitnesses from offset', async () => {
-        await Promise.resolve()
-        throw new Error('Not Implemented')
+      const boundWitnesses: BoundWitnessWrapper[] = [getNewBoundWitness()[0], getNewBoundWitness()[0]].map((bw) => BoundWitnessWrapper.parse(bw))
+      beforeAll(async () => await archivist.insert(boundWitnesses.map((b) => b.payload)))
+      describe('with timestamp', () => {
+        it('divines BoundWitnesses from offset', async () => {
+          const timestamp = assertEx(boundWitnesses[boundWitnesses.length].boundwitness.timestamp, 'Missing timestamp in test BW') + 1
+          const limit = boundWitnesses.length
+          const query: BoundWitnessDivinerQueryPayload = { limit, schema, timestamp }
+          const response = await diviner.divine([query])
+          expect(response).toBeArrayOfSize(boundWitnesses.length)
+          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+          expect(responseHashes).toContainAllValues(boundWitnesses.map((p) => p.hash))
+        })
       })
     })
     describe('order', () => {

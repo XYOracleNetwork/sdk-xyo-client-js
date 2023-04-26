@@ -1,14 +1,13 @@
+import { AbstractDiviner } from '@xyo-network/diviner'
+import { DivinerParams } from '@xyo-network/diviner-model'
+import { AnyConfigSchema } from '@xyo-network/module'
+import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import {
-  AbstractDiviner,
-  DivinerParams,
   isPayloadDivinerQueryPayload,
-  PayloadDiviner,
   PayloadDivinerConfig,
   PayloadDivinerConfigSchema,
   PayloadDivinerQueryPayload,
-} from '@xyo-network/diviner'
-import { AnyConfigSchema } from '@xyo-network/module'
-import { PayloadWithMeta } from '@xyo-network/node-core-model'
+} from '@xyo-network/payload-diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
@@ -23,10 +22,7 @@ export type MongoDBPayloadDivinerParams = DivinerParams<
   }
 >
 
-export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements PayloadDiviner
-{
+export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchema = PayloadDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload[]> {

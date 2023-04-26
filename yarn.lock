@@ -5527,6 +5527,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-models@workspace:packages/modules/packages/diviner/packages/models":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-models@workspace:packages/modules/packages/diviner/packages/models"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/boundwitness-diviner-model": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/forecasting-diviner-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-wrapper@workspace:^, @xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper"

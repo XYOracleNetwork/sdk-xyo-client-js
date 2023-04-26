@@ -62,6 +62,7 @@ export class MemoryForecastingDiviner<TParams extends ForecastingDivinerParams =
     if (forecastingMethod) return forecastingMethod
     throw new Error(`Unsupported forecasting method: ${forecastingMethodName}`)
   }
+
   protected override get transformer(): PayloadValueTransformer {
     const pathExpression = assertEx(this.config.jsonPathExpression, 'Missing jsonPathExpression in config')
     return getJsonPathTransformer(pathExpression)
@@ -103,7 +104,7 @@ export class MemoryForecastingDiviner<TParams extends ForecastingDivinerParams =
       const hashes = boundWitnesses.map((bw) => bw.payload_hashes[bw.payload_schemas.findIndex((s) => s === witnessSchema)]).filter(exists)
 
       // Get the payloads corresponding to the BW hashes from the archivist
-      if (hashes.length === 0) {
+      if (hashes.length !== 0) {
         const batchPayloads = await archivist.get(hashes)
         payloads.push(...batchPayloads)
       }

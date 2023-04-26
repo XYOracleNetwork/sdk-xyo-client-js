@@ -1,9 +1,6 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { AddressChainSchema } from './Diviner'
-
-export type AddressChainDivinerConfigSchema = `${AddressChainSchema}.config`
-export const AddressChainDivinerConfigSchema: AddressChainDivinerConfigSchema = `${AddressChainSchema}.config`
+import { AddressChainDivinerConfigSchema } from './Schema'
 
 export type AddressChainDivinerConfig = DivinerConfig<{
   address?: string

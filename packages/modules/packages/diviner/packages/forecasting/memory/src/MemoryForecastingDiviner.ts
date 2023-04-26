@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/abstract-forecasting-diviner'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/boundwitness-diviner-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -11,10 +12,8 @@ import {
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
-  AbstractForecastingDiviner,
   ForecastingDiviner,
   ForecastingDivinerConfigSchema,
-  ForecastingDivinerParams,
   ForecastingMethod,
   PayloadValueTransformer,
 } from '@xyo-network/forecasting-diviner-model'

@@ -4736,7 +4736,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/abstract-forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting/abstract":
+"@xyo-network/abstract-forecasting-diviner@workspace:^, @xyo-network/abstract-forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting/abstract":
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting/abstract"
   dependencies:
@@ -6355,6 +6355,7 @@ __metadata:
     "@xylabs/exists": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/abstract-forecasting-diviner": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-diviner-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"

@@ -13,6 +13,7 @@
     "@types/jsonpath": "^0.2.0",
     "@xylabs/assert": "^2.7.6",
     "@xylabs/exists": "^2.7.6",
+    "@xyo-network/abstract-forecasting-diviner": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-diviner-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

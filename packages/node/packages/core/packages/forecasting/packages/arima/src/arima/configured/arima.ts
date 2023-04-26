@@ -1,4 +1,4 @@
-import { ForecastingMethod } from '@xyo-network/diviner'
+import { ForecastingMethod } from '@xyo-network/forecasting-diviner-model'
 
 import { configurableArima } from '../configurable'
 

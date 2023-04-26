@@ -1,30 +1,31 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
+import { BoundWitnessDivinerConfig, BoundWitnessDivinerConfigSchema } from '@xyo-network/boundwitness-diviner-model'
 import {
   AddressHistoryDivinerConfig,
   AddressHistoryDivinerConfigSchema,
   AddressSpaceDivinerConfig,
   AddressSpaceDivinerConfigSchema,
-  BoundWitnessDivinerConfig,
-  BoundWitnessDivinerConfigSchema,
   BoundWitnessStatsDivinerConfig,
   BoundWitnessStatsDivinerConfigSchema,
-  ForecastingDivinerConfig,
-  ForecastingDivinerConfigSchema,
-  ForecastingMethod,
-  PayloadDivinerConfig,
-  PayloadDivinerConfigSchema,
   PayloadStatsDivinerConfig,
   PayloadStatsDivinerConfigSchema,
-  PayloadValueTransformer,
   SchemaListDivinerConfig,
   SchemaListDivinerConfigSchema,
   SchemaStatsDivinerConfig,
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
+import { MemoryForecastingDiviner } from '@xyo-network/forecasting-diviner'
+import {
+  ForecastingDivinerConfig,
+  ForecastingDivinerConfigSchema,
+  ForecastingMethod,
+  PayloadValueTransformer,
+} from '@xyo-network/forecasting-diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, ConfigModuleFactory, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
+import { PayloadDivinerConfig, PayloadDivinerConfigSchema } from '@xyo-network/payload-diviner-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
 
@@ -33,7 +34,6 @@ import { MongoDBAddressHistoryDiviner } from './AddressHistory'
 import { MongoDBAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
-import { MemoryForecastingDiviner } from './Forecasting'
 import { MongoDBPayloadDiviner } from './Payload'
 import { MongoDBPayloadStatsDiviner } from './PayloadStats'
 import { MongoDBSchemaListDiviner } from './SchemaList'

@@ -1,4 +1,4 @@
-import { ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner'
+import { ForecastingMethod, PayloadValueTransformer } from '@xyo-network/forecasting-diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import ARIMA, { ARIMAOptions } from 'arima'

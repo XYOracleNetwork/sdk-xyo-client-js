@@ -12,7 +12,8 @@
   "dependencies": {
     "@xyo-network/boundwitness-diviner-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/forecasting-diviner-model": "workspace:^"
+    "@xyo-network/forecasting-diviner-model": "workspace:^",
+    "@xyo-network/payload-diviner-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.5",

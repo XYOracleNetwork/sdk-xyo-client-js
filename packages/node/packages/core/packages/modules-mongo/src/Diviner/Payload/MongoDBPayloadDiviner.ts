@@ -4,7 +4,6 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import {
   isPayloadDivinerQueryPayload,
-  PayloadDiviner,
   PayloadDivinerConfig,
   PayloadDivinerConfigSchema,
   PayloadDivinerQueryPayload,
@@ -23,10 +22,7 @@ export type MongoDBPayloadDivinerParams = DivinerParams<
   }
 >
 
-export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements PayloadDiviner
-{
+export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchema = PayloadDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload[]> {

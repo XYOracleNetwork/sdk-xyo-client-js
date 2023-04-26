@@ -29,7 +29,6 @@
   "dependencies": {
     "@xyo-network/forecasting-diviner-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
     "arima": "^0.2.5"
   },
   "devDependencies": {

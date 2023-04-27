@@ -1,14 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AddressHistoryDiviner,
   AddressHistoryDivinerConfig,
   AddressHistoryDivinerConfigSchema,
   AddressHistoryQueryPayload,
   isAddressHistoryQueryPayload,
-} from '@xyo-network/addresshistory-diviner'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+} from '@xyo-network/diviner-address-history'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'

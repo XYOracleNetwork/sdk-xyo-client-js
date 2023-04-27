@@ -1,3 +1,3 @@
-export * from '@xyo-network/abstract-addresshistory-diviner'
-export * from '@xyo-network/addresshistory-diviner-model'
-export * from '@xyo-network/memory-addresshistory-diviner'
+export * from '@xyo-network/diviner-address-history-abstract'
+export * from '@xyo-network/diviner-address-history-memory'
+export * from '@xyo-network/diviner-address-history-model'

@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/assert'
-import { AddressHistoryDiviner } from '@xyo-network/abstract-addresshistory-diviner'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/addresshistory-diviner-model'
 import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { AddressHistoryDiviner } from '@xyo-network/diviner-address-history-abstract'
+import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 

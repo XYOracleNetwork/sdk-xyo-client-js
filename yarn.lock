@@ -4683,22 +4683,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/abstract-addresshistory-diviner@workspace:^, @xyo-network/abstract-addresshistory-diviner@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/abstract":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/abstract-addresshistory-diviner@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/abstract"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.16.5
-    "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/abstract-diviner": "workspace:^"
-    "@xyo-network/addresshistory-diviner-model": "workspace:^"
-    "@xyo-network/core": "workspace:^"
-    "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/abstract-archivist@workspace:^, @xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract":
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract"
@@ -4810,34 +4794,6 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.5
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/addresshistory-diviner-model@workspace:^, @xyo-network/addresshistory-diviner-model@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/model":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/addresshistory-diviner-model@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/model"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.16.5
-    "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/abstract-diviner": "workspace:^"
-    "@xyo-network/core": "workspace:^"
-    "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/addresshistory-diviner@workspace:^, @xyo-network/addresshistory-diviner@workspace:packages/modules/packages/diviner/packages/addresshistory":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/addresshistory-diviner@workspace:packages/modules/packages/diviner/packages/addresshistory"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.16.5
-    "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/abstract-addresshistory-diviner": "workspace:^"
-    "@xyo-network/addresshistory-diviner-model": "workspace:^"
-    "@xyo-network/memory-addresshistory-diviner": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -5601,6 +5557,68 @@ __metadata:
     "@xyo-network/diviner-address-chain-abstract": "workspace:^"
     "@xyo-network/diviner-address-chain-memory": "workspace:^"
     "@xyo-network/diviner-address-chain-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-address-history-abstract@workspace:^, @xyo-network/diviner-address-history-abstract@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/abstract":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-address-history-abstract@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/abstract"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/abstract-diviner": "workspace:^"
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/diviner-address-history-model": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-address-history-memory@workspace:^, @xyo-network/diviner-address-history-memory@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/memory":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-address-history-memory@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/memory"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/abstract-diviner": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/diviner-address-history-abstract": "workspace:^"
+    "@xyo-network/diviner-address-history-model": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-address-history-model@workspace:^, @xyo-network/diviner-address-history-model@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-address-history-model@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/abstract-diviner": "workspace:^"
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-address-history@workspace:^, @xyo-network/diviner-address-history@workspace:packages/modules/packages/diviner/packages/addresshistory":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-address-history@workspace:packages/modules/packages/diviner/packages/addresshistory"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/diviner-address-history-abstract": "workspace:^"
+    "@xyo-network/diviner-address-history-memory": "workspace:^"
+    "@xyo-network/diviner-address-history-model": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6458,24 +6476,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/memory-addresshistory-diviner@workspace:^, @xyo-network/memory-addresshistory-diviner@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/memory":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/memory-addresshistory-diviner@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/memory"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.16.5
-    "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/abstract-addresshistory-diviner": "workspace:^"
-    "@xyo-network/abstract-diviner": "workspace:^"
-    "@xyo-network/addresshistory-diviner-model": "workspace:^"
-    "@xyo-network/archivist-model": "workspace:^"
-    "@xyo-network/core": "workspace:^"
-    "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/memory-archivist@workspace:^, @xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory":
   version: 0.0.0-use.local
   resolution: "@xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory"
@@ -6772,12 +6772,12 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.5
     "@xyo-network/account": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"
-    "@xyo-network/addresshistory-diviner": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness-diviner-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/diviner": "workspace:^"
+    "@xyo-network/diviner-address-history": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/forecasting-diviner": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"

@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/memory-addresshistory-diviner",
+  "name": "@xyo-network/diviner-address-history-memory",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,11 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/abstract-addresshistory-diviner": "workspace:^",
     "@xyo-network/abstract-diviner": "workspace:^",
-    "@xyo-network/addresshistory-diviner-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/diviner-address-history-abstract": "workspace:^",
+    "@xyo-network/diviner-address-history-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"

@@ -6,7 +6,7 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDiviner } from '@xyo-network/diviner-address-chain-abstract'
 import { AddressChainDivinerConfig, AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 // This diviner returns the most recent boundwitness signed by the address that can be found

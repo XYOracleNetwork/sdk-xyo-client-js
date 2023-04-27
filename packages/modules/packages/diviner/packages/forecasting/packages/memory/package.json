@@ -21,7 +21,6 @@
     "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/diviner-wrapper": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/shared": "workspace:^",
     "jsonpath": "^1.1.1"
   },
   "devDependencies": {

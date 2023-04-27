@@ -1,5 +1,4 @@
 export * from './Config'
-export * from './Diviner'
 export * from './ForecastingMethod'
 export * from './Payload'
 export * from './PayloadValueTransformer'

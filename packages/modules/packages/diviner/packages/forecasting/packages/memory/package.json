@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/memory-forecasting-diviner",
+  "name": "@xyo-network/diviner-forecasting-memory",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -13,15 +13,14 @@
     "@types/jsonpath": "^0.2.0",
     "@xylabs/assert": "^2.7.6",
     "@xylabs/exists": "^2.7.6",
-    "@xyo-network/abstract-forecasting-diviner": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
-    "@xyo-network/boundwitness-diviner-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/diviner-boundwitness-model": "workspace:^",
+    "@xyo-network/diviner-forecasting-abstract": "workspace:^",
     "@xyo-network/diviner-forecasting-method-arima": "workspace:^",
+    "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/diviner-wrapper": "workspace:^",
-    "@xyo-network/forecasting-diviner-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/shared": "workspace:^",
     "jsonpath": "^1.1.1"
   },
   "devDependencies": {

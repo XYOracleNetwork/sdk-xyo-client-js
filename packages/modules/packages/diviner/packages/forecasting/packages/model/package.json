@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/forecasting-diviner-model",
+  "name": "@xyo-network/diviner-forecasting-model",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,7 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/abstract-diviner": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",

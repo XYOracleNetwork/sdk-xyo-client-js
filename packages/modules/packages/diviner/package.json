@@ -12,12 +12,11 @@
   "dependencies": {
     "@xylabs/assert": "^2.7.6",
     "@xylabs/promise": "^2.7.6",
-    "@xyo-network/account": "workspace:^",
+    "@xyo-network/abstract-diviner": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/archivist": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-wrapper": "workspace:^",
     "@xyo-network/huri": "workspace:^",

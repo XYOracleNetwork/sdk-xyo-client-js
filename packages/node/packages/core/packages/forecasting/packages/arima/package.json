@@ -27,7 +27,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xyo-network/forecasting-diviner-model": "workspace:^",
+    "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "arima": "^0.2.5"
   },

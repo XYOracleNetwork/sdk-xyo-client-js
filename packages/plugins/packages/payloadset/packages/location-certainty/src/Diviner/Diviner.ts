@@ -1,4 +1,5 @@
-import { AbstractDiviner, DivinerModule, DivinerParams } from '@xyo-network/diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
 import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/elevation-plugin'
 import { LocationCertaintyHeuristic, LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'

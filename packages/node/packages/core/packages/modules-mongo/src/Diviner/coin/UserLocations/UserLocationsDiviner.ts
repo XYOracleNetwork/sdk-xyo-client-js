@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import {
-  AbstractDiviner,
   CoinUserLocationsDiviner,
   DivinerParams,
   XyoArchivistPayloadDivinerConfig,

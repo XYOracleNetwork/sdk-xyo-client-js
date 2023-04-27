@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/forecasting-diviner",
+  "name": "@xyo-network/diviner-forecasting",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/abstract-forecasting-diviner": "workspace:^",
-    "@xyo-network/forecasting-diviner-model": "workspace:^",
-    "@xyo-network/memory-forecasting-diviner": "workspace:^"
+    "@xyo-network/diviner-forecasting-abstract": "workspace:^",
+    "@xyo-network/diviner-forecasting-memory": "workspace:^",
+    "@xyo-network/diviner-forecasting-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.5",

@@ -1,12 +1,13 @@
 import { exists } from '@xylabs/exists'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   BoundWitnessDivinerConfig,
   BoundWitnessDivinerConfigSchema,
   BoundWitnessDivinerQueryPayload,
   isBoundWitnessDivinerQueryPayload,
-} from '@xyo-network/boundwitness-diviner-model'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractDiviner, DivinerParams } from '@xyo-network/diviner'
+} from '@xyo-network/diviner-boundwitness-model'
+import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'

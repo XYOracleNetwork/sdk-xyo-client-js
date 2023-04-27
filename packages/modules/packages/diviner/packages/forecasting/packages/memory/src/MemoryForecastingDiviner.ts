@@ -1,24 +1,18 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/abstract-forecasting-diviner'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/boundwitness-diviner-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/diviner-forecasting-abstract'
 import {
   arimaForecastingMethod,
   arimaForecastingName,
   seasonalArimaForecastingMethod,
   seasonalArimaForecastingName,
 } from '@xyo-network/diviner-forecasting-method-arima'
+import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import {
-  ForecastingDiviner,
-  ForecastingDivinerConfigSchema,
-  ForecastingMethod,
-  PayloadValueTransformer,
-} from '@xyo-network/forecasting-diviner-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Job, JobProvider } from '@xyo-network/shared'
 import { value } from 'jsonpath'
 
 type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
@@ -32,10 +26,9 @@ const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer
   return transformer
 }
 
-export class MemoryForecastingDiviner<TParams extends ForecastingDivinerParams = ForecastingDivinerParams>
-  extends AbstractForecastingDiviner<TParams>
-  implements ForecastingDiviner, JobProvider
-{
+export class MemoryForecastingDiviner<
+  TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
+> extends AbstractForecastingDiviner<TParams> {
   static override configSchema = ForecastingDivinerConfigSchema
 
   protected static readonly forecastingMethodDict: Record<SupportedForecastingType, ForecastingMethod> = {
@@ -50,10 +43,6 @@ export class MemoryForecastingDiviner<TParams extends ForecastingDivinerParams =
 
   // TODO: Inject via config
   protected readonly maxTrainingLength = 10_000
-
-  get jobs(): Job[] {
-    return []
-  }
 
   protected override get forecastingMethod(): ForecastingMethod {
     const forecastingMethodName = assertEx(this.config.forecastingMethod, 'Missing forecastingMethod in config') as SupportedForecastingType

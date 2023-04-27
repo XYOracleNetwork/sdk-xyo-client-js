@@ -36,6 +36,7 @@
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-boundwitness-abstract": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
+    "@xyo-network/diviner-payload-abstract": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/express-node-lib": "workspace:^",

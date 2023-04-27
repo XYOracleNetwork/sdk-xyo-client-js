@@ -1,3 +1,3 @@
-export * from '@xyo-network/abstract-forecasting-diviner'
-export * from '@xyo-network/forecasting-diviner-model'
-export * from '@xyo-network/memory-forecasting-diviner'
+export * from '@xyo-network/diviner-forecasting-abstract'
+export * from '@xyo-network/diviner-forecasting-memory'
+export * from '@xyo-network/diviner-forecasting-model'

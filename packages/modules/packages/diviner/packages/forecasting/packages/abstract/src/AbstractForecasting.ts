@@ -1,6 +1,5 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { Hasher } from '@xyo-network/core'
-import { DivinerParams } from '@xyo-network/diviner-model'
 import {
   ForecastingDiviner,
   ForecastingDivinerConfig,
@@ -12,7 +11,8 @@ import {
   ForecastPayloadSchema,
   isForecastingDivinerQueryPayload,
   PayloadValueTransformer,
-} from '@xyo-network/forecasting-diviner-model'
+} from '@xyo-network/diviner-forecasting-model'
+import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'

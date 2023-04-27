@@ -1,22 +1,22 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/abstract-forecasting-diviner'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/diviner-forecasting-abstract'
 import {
   arimaForecastingMethod,
   arimaForecastingName,
   seasonalArimaForecastingMethod,
   seasonalArimaForecastingName,
 } from '@xyo-network/diviner-forecasting-method-arima'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
   ForecastingDiviner,
   ForecastingDivinerConfigSchema,
   ForecastingMethod,
   PayloadValueTransformer,
-} from '@xyo-network/forecasting-diviner-model'
+} from '@xyo-network/diviner-forecasting-model'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { value } from 'jsonpath'

@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
+    "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/forecasting-diviner-model": "workspace:^",
     "@xyo-network/payload-diviner-model": "workspace:^"
   },
   "devDependencies": {

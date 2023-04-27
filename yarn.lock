@@ -4736,23 +4736,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/abstract-forecasting-diviner@workspace:^, @xyo-network/abstract-forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/abstract-forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.16.5
-    "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/abstract-diviner": "workspace:^"
-    "@xyo-network/core": "workspace:^"
-    "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/forecasting-diviner-model": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/account-model@workspace:^, @xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model"
@@ -5623,15 +5606,70 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-forecasting-abstract@workspace:^, @xyo-network/diviner-forecasting-abstract@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-forecasting-abstract@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/abstract-diviner": "workspace:^"
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/diviner-forecasting-model": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-forecasting-memory@workspace:^, @xyo-network/diviner-forecasting-memory@workspace:packages/modules/packages/diviner/packages/forecasting/packages/memory":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-forecasting-memory@workspace:packages/modules/packages/diviner/packages/forecasting/packages/memory"
+  dependencies:
+    "@types/jsonpath": ^0.2.0
+    "@xylabs/assert": ^2.7.6
+    "@xylabs/exists": ^2.7.6
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/archivist-wrapper": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/diviner-boundwitness-model": "workspace:^"
+    "@xyo-network/diviner-forecasting-abstract": "workspace:^"
+    "@xyo-network/diviner-forecasting-method-arima": "workspace:^"
+    "@xyo-network/diviner-forecasting-model": "workspace:^"
+    "@xyo-network/diviner-wrapper": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/shared": "workspace:^"
+    jsonpath: ^1.1.1
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-forecasting-method-arima@workspace:^, @xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/forecasting-diviner-model": "workspace:^"
+    "@xyo-network/diviner-forecasting-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     arima: ^0.2.5
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-forecasting-model@workspace:^, @xyo-network/diviner-forecasting-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-forecasting-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/abstract-diviner": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -5658,8 +5696,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
     "@xyo-network/diviner-boundwitness-model": "workspace:^"
+    "@xyo-network/diviner-forecasting-model": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/forecasting-diviner-model": "workspace:^"
     "@xyo-network/payload-diviner-model": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
@@ -6201,30 +6239,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/forecasting-diviner-model@workspace:^, @xyo-network/forecasting-diviner-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/forecasting-diviner-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.16.5
-    "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/abstract-diviner": "workspace:^"
-    "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/forecasting-diviner@workspace:^, @xyo-network/forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting":
   version: 0.0.0-use.local
   resolution: "@xyo-network/forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/abstract-forecasting-diviner": "workspace:^"
-    "@xyo-network/forecasting-diviner-model": "workspace:^"
-    "@xyo-network/memory-forecasting-diviner": "workspace:^"
+    "@xyo-network/diviner-forecasting-abstract": "workspace:^"
+    "@xyo-network/diviner-forecasting-memory": "workspace:^"
+    "@xyo-network/diviner-forecasting-model": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -6493,29 +6516,6 @@ __metadata:
     "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
     lru-cache: ^9.1.1
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/memory-forecasting-diviner@workspace:^, @xyo-network/memory-forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting/packages/memory":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/memory-forecasting-diviner@workspace:packages/modules/packages/diviner/packages/forecasting/packages/memory"
-  dependencies:
-    "@types/jsonpath": ^0.2.0
-    "@xylabs/assert": ^2.7.6
-    "@xylabs/exists": ^2.7.6
-    "@xylabs/ts-scripts-yarn3": ^2.16.5
-    "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/abstract-forecasting-diviner": "workspace:^"
-    "@xyo-network/archivist-wrapper": "workspace:^"
-    "@xyo-network/boundwitness-model": "workspace:^"
-    "@xyo-network/diviner-boundwitness-model": "workspace:^"
-    "@xyo-network/diviner-forecasting-method-arima": "workspace:^"
-    "@xyo-network/diviner-wrapper": "workspace:^"
-    "@xyo-network/forecasting-diviner-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/shared": "workspace:^"
-    jsonpath: ^1.1.1
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

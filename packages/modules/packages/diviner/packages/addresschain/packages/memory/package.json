@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/abstract-addresschain-diviner": "workspace:^",
+    "@xyo-network/diviner-address-chain-abstract": "workspace:^",
     "@xyo-network/abstract-diviner": "workspace:^",
     "@xyo-network/addresschain-diviner-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",

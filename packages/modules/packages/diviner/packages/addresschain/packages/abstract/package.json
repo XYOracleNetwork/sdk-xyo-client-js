@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/abstract-addresschain-diviner",
+  "name": "@xyo-network/diviner-address-chain-abstract",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",

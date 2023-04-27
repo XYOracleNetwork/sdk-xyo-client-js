@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/diviner": "workspace:^",
+    "@xyo-network/abstract-diviner": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/elevation-payload-plugin": "workspace:^",
     "@xyo-network/elevation-plugin": "workspace:^",

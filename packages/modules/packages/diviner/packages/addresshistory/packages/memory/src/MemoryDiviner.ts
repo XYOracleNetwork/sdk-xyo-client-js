@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
+import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -25,9 +25,7 @@ export class MemoryAddressHistoryDiviner<TParams extends AddressHistoryDivinerPa
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
     const archivists =
-      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map(
-        (archivist) => new ArchivistWrapper({ account: this.account, module: archivist as ArchivistModule }),
-      ) ?? []
+      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => ArchivistWrapper.wrap(archivist, this.account)) ?? []
     assertEx(archivists.length > 0, 'Did not find any archivists')
     const bwLists = (
       await Promise.all(

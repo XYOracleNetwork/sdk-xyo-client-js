@@ -5691,12 +5691,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-models@workspace:packages/modules/packages/diviner/packages/models":
+"@xyo-network/diviner-models@workspace:^, @xyo-network/diviner-models@workspace:packages/modules/packages/diviner/packages/models":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-models@workspace:packages/modules/packages/diviner/packages/models"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/diviner-address-chain-model": "workspace:^"
+    "@xyo-network/diviner-address-history-model": "workspace:^"
     "@xyo-network/diviner-boundwitness-model": "workspace:^"
     "@xyo-network/diviner-forecasting-model": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
@@ -6030,9 +6032,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.5
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/diviner": "workspace:^"
-    "@xyo-network/diviner-boundwitness-model": "workspace:^"
-    "@xyo-network/diviner-payload-model": "workspace:^"
+    "@xyo-network/diviner-models": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-modules-mongo": "workspace:^"

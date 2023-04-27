@@ -1,3 +1,5 @@
+export * from '@xyo-network/diviner-address-chain-model'
+export * from '@xyo-network/diviner-address-history-model'
 export * from '@xyo-network/diviner-boundwitness-model'
 export * from '@xyo-network/diviner-forecasting-model'
 export * from '@xyo-network/diviner-model'

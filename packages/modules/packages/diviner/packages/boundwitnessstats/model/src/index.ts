@@ -1,5 +1,5 @@
 export * from './Config'
-export * from './Diviner'
+export * from './Params'
 export * from './Payload'
 export * from './Query'
 export * from './Schema'

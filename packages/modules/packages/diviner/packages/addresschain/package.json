@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/diviner-address-chain-abstract": "workspace:^",
-    "@xyo-network/addresschain-diviner-model": "workspace:^",
+    "@xyo-network/diviner-address-chain-model": "workspace:^",
     "@xyo-network/diviner-address-chain-memory": "workspace:^"
   },
   "devDependencies": {

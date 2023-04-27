@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
-import { AddressChainDivinerConfigSchema } from '@xyo-network/addresschain-diviner-model'
 import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

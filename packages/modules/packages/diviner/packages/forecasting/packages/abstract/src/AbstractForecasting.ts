@@ -1,7 +1,6 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { Hasher } from '@xyo-network/core'
 import {
-  ForecastingDiviner,
   ForecastingDivinerConfig,
   ForecastingDivinerConfigSchema,
   ForecastingDivinerQueryPayload,
@@ -19,10 +18,9 @@ import { Promisable } from '@xyo-network/promise'
 
 export type ForecastingDivinerParams = DivinerParams<AnyConfigSchema<ForecastingDivinerConfig>>
 
-export abstract class AbstractForecastingDiviner<P extends ForecastingDivinerParams = ForecastingDivinerParams>
-  extends AbstractDiviner<P>
-  implements ForecastingDiviner
-{
+export abstract class AbstractForecastingDiviner<
+  TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
+> extends AbstractDiviner<TParams> {
   static override configSchema = ForecastingDivinerConfigSchema
 
   protected abstract get forecastingMethod(): ForecastingMethod

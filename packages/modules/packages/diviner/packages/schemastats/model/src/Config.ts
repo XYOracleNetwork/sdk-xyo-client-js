@@ -6,8 +6,8 @@ import { SchemaStatsDivinerSchema } from './Schema'
 export type SchemaStatsDivinerConfigSchema = `${SchemaStatsDivinerSchema}.config`
 export const SchemaStatsDivinerConfigSchema: SchemaStatsDivinerConfigSchema = `${SchemaStatsDivinerSchema}.config`
 
-export type SchemaStatsDivinerConfig<S extends string = string, T extends Payload = Payload> = DivinerConfig<
+export type SchemaStatsDivinerConfig<T extends Payload = Payload> = DivinerConfig<
   T & {
-    schema: S
+    schema: SchemaStatsDivinerConfigSchema
   }
 >

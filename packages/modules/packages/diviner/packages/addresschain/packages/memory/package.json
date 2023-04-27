@@ -10,11 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/diviner-address-chain-abstract": "workspace:^",
     "@xyo-network/abstract-diviner": "workspace:^",
-    "@xyo-network/diviner-address-chain-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/diviner-address-chain-abstract": "workspace:^",
+    "@xyo-network/diviner-address-chain-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"

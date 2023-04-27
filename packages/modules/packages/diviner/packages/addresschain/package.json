@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@xyo-network/diviner-address-chain-abstract": "workspace:^",
-    "@xyo-network/diviner-address-chain-model": "workspace:^",
-    "@xyo-network/diviner-address-chain-memory": "workspace:^"
+    "@xyo-network/diviner-address-chain-memory": "workspace:^",
+    "@xyo-network/diviner-address-chain-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.5",

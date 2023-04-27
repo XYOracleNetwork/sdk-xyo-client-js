@@ -1,5 +1,4 @@
 export * from './Config'
-export * from './Diviner'
 export * from './Params'
 export * from './Predicate'
 export * from './Query'

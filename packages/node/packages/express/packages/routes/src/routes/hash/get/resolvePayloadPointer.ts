@@ -1,4 +1,4 @@
-import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-model'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
 import { PayloadArchivist, PayloadPointerPayload } from '@xyo-network/node-core-model'

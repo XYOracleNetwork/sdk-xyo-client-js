@@ -5473,11 +5473,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
     "@xyo-network/abstract-diviner": "workspace:^"
-    "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner-address-chain-model": "workspace:^"
-    "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
@@ -5754,12 +5750,11 @@ __metadata:
     "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
-    "@xyo-network/account": "workspace:^"
+    "@xyo-network/abstract-diviner": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
-    "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-wrapper": "workspace:^"
     "@xyo-network/huri": "workspace:^"

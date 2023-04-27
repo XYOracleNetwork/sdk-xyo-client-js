@@ -26,14 +26,14 @@
     "lodash": "^4.17.21",
     "tail": "^2.2.6",
     "terminal-kit": "^3.0.0",
-    "yargs": "^17.7.1"
+    "yargs": "^17.7.2"
   },
   "bin": {
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.194",
-    "@types/node": "^18.16.0",
+    "@types/node": "^18.16.2",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",
     "@xylabs/ts-scripts-yarn3": "^2.16.5",

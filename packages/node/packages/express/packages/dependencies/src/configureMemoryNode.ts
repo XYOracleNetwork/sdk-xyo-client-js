@@ -1,5 +1,4 @@
 import { exists } from '@xylabs/exists'
-import { BoundWitnessDivinerConfigSchema } from '@xyo-network/boundwitness-diviner-model'
 import { Hasher } from '@xyo-network/core'
 import {
   BoundWitnessStatsDivinerConfigSchema,
@@ -8,6 +7,7 @@ import {
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history-model'
+import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
 import {
   AddressSpaceDivinerConfigSchema,
   AnyConfigSchema,

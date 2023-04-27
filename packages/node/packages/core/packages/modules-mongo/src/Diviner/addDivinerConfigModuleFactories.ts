@@ -1,6 +1,5 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
-import { BoundWitnessDivinerConfig, BoundWitnessDivinerConfigSchema } from '@xyo-network/boundwitness-diviner-model'
 import {
   AddressSpaceDivinerConfig,
   AddressSpaceDivinerConfigSchema,
@@ -14,6 +13,7 @@ import {
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
 import { AddressHistoryDivinerConfig, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
+import { BoundWitnessDivinerConfig, BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
 import {
   ForecastingDivinerConfig,
   ForecastingDivinerConfigSchema,

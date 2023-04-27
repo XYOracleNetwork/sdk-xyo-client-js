@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { PayloadWithMeta } from '@xyo-network/node-core-model'

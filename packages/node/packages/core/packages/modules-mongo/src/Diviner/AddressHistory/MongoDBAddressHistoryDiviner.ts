@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
-  AbstractDiviner,
   AddressHistoryDiviner,
   AddressHistoryDivinerConfig,
   AddressHistoryDivinerConfigSchema,

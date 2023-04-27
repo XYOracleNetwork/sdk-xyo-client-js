@@ -1,3 +1,3 @@
-import { AbstractDiviner } from '../@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 
 export type CoinUserLocationsDiviner = AbstractDiviner

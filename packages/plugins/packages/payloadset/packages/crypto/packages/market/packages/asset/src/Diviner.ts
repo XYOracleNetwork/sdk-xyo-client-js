@@ -1,6 +1,7 @@
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { XyoCryptoMarketAssetPayload, XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
-import { AbstractDiviner, DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/diviner'
+import { DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/diviner'
 import { AnyConfigSchema, Module } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'

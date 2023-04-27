@@ -1,5 +1,5 @@
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import {
-  AbstractDiviner,
   DivinerModule,
   DivinerParams,
   isSchemaListDivinerQueryPayload,

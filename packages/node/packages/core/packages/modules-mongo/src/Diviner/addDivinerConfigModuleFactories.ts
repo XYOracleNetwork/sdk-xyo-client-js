@@ -21,10 +21,10 @@ import {
   MemoryForecastingDiviner,
   PayloadValueTransformer,
 } from '@xyo-network/diviner-forecasting'
+import { PayloadDivinerConfig, PayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, ConfigModuleFactory, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
-import { PayloadDivinerConfig, PayloadDivinerConfigSchema } from '@xyo-network/payload-diviner-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
 

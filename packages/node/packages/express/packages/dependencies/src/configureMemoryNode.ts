@@ -8,6 +8,7 @@ import {
 } from '@xyo-network/diviner'
 import { AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history-model'
 import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
+import { PayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-model'
 import {
   AddressSpaceDivinerConfigSchema,
   AnyConfigSchema,
@@ -20,7 +21,6 @@ import {
 import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
-import { PayloadDivinerConfigSchema } from '@xyo-network/payload-diviner-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'
 

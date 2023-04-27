@@ -1,13 +1,13 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module'
-import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import {
   isPayloadDivinerQueryPayload,
   PayloadDivinerConfig,
   PayloadDivinerConfigSchema,
   PayloadDivinerQueryPayload,
-} from '@xyo-network/payload-diviner-model'
+} from '@xyo-network/diviner-payload-model'
+import { AnyConfigSchema } from '@xyo-network/module'
+import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'

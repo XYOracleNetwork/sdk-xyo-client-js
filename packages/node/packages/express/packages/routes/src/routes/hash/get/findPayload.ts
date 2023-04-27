@@ -1,8 +1,8 @@
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessDiviner, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { PayloadDiviner, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { ArchivistWrapper, DivinerWrapper } from '@xyo-network/modules'
 import { PayloadArchivist, PayloadSearchCriteria } from '@xyo-network/node-core-model'
-import { PayloadDiviner, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/payload-diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 

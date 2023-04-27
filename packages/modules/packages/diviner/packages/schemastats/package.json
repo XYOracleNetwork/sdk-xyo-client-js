@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/diviner-models",
+  "name": "@xyo-network/diviner-schema-stats",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,15 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/diviner-address-chain-model": "workspace:^",
-    "@xyo-network/diviner-address-history-model": "workspace:^",
-    "@xyo-network/diviner-address-space-model": "workspace:^",
-    "@xyo-network/diviner-boundwitness-model": "workspace:^",
-    "@xyo-network/diviner-boundwitness-stats-model": "workspace:^",
-    "@xyo-network/diviner-forecasting-model": "workspace:^",
-    "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/diviner-payload-model": "workspace:^",
-    "@xyo-network/diviner-payload-stats-model": "workspace:^",
+    "@xyo-network/diviner-schema-stats-abstract": "workspace:^",
     "@xyo-network/diviner-schema-stats-model": "workspace:^"
   },
   "devDependencies": {

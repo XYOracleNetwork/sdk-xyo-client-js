@@ -5857,6 +5857,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-payload-abstract@workspace:^, @xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/abstract":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/abstract"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/abstract-diviner": "workspace:^"
+    "@xyo-network/diviner-payload-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-payload-model@workspace:^, @xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/model"
@@ -5905,6 +5917,18 @@ __metadata:
     "@xylabs/tsconfig": ^2.16.5
     "@xyo-network/diviner-payload-stats-abstract": "workspace:^"
     "@xyo-network/diviner-payload-stats-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/diviner-payload-abstract": "workspace:^"
+    "@xyo-network/diviner-payload-model": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft

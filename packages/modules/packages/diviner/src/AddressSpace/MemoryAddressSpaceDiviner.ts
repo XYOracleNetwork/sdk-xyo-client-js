@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
@@ -8,7 +9,6 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
-import { AbstractDiviner } from '../AbstractDiviner'
 import { AddressSpaceDiviner } from './Diviner'
 import { AddressSpaceSchema } from './Schema'
 

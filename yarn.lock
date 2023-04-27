@@ -5810,6 +5810,7 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-payload-model": "workspace:^"
     "@xyo-network/diviner-payload-stats-model": "workspace:^"
+    "@xyo-network/diviner-schema-list-model": "workspace:^"
     "@xyo-network/diviner-schema-stats-model": "workspace:^"
     typescript: ^4.9.5
   languageName: unknown

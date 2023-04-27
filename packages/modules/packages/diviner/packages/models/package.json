@@ -19,6 +19,7 @@
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/diviner-payload-stats-model": "workspace:^",
+    "@xyo-network/diviner-schema-list-model": "workspace:^",
     "@xyo-network/diviner-schema-stats-model": "workspace:^"
   },
   "devDependencies": {

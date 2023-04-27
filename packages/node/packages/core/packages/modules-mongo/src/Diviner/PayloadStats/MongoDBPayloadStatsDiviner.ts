@@ -3,17 +3,17 @@ import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { DivinerParams } from '@xyo-network/diviner-model'
+import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract'
 import {
-  DivinerParams,
-  DivinerWrapper,
   isPayloadStatsQueryPayload,
-  PayloadStatsDiviner,
   PayloadStatsDivinerConfig,
   PayloadStatsDivinerConfigSchema,
   PayloadStatsDivinerSchema,
   PayloadStatsPayload,
   PayloadStatsQueryPayload,
-} from '@xyo-network/diviner'
+} from '@xyo-network/diviner-payload-stats-model'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'

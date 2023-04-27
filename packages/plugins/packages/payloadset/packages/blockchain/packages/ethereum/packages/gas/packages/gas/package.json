@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/exists": "^2.7.6",
+    "@xyo-network/abstract-diviner": "workspace:^",
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/diviner": "workspace:^",
     "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:^",

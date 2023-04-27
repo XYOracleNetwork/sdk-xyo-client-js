@@ -1,15 +1,5 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
-import {
-  BoundWitnessStatsDivinerConfig,
-  BoundWitnessStatsDivinerConfigSchema,
-  PayloadStatsDivinerConfig,
-  PayloadStatsDivinerConfigSchema,
-  SchemaListDivinerConfig,
-  SchemaListDivinerConfigSchema,
-  SchemaStatsDivinerConfig,
-  SchemaStatsDivinerConfigSchema,
-} from '@xyo-network/diviner'
 import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
 import {
   AddressHistoryDivinerConfig,
@@ -18,12 +8,20 @@ import {
   AddressSpaceDivinerConfigSchema,
   BoundWitnessDivinerConfig,
   BoundWitnessDivinerConfigSchema,
+  BoundWitnessStatsDivinerConfig,
+  BoundWitnessStatsDivinerConfigSchema,
   ForecastingDivinerConfig,
   ForecastingDivinerConfigSchema,
   ForecastingMethod,
   PayloadDivinerConfig,
   PayloadDivinerConfigSchema,
+  PayloadStatsDivinerConfig,
+  PayloadStatsDivinerConfigSchema,
   PayloadValueTransformer,
+  SchemaListDivinerConfig,
+  SchemaListDivinerConfigSchema,
+  SchemaStatsDivinerConfig,
+  SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, ConfigModuleFactory, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'

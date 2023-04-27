@@ -1,15 +1,13 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { DivinerParams } from '@xyo-network/diviner-model'
+import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import {
-  DivinerModule,
-  DivinerParams,
-  isSchemaListDivinerQueryPayload,
-  SchemaListDiviner,
+  isSchemaListQueryPayload,
   SchemaListDivinerConfig,
   SchemaListDivinerConfigSchema,
-  SchemaListDivinerQueryPayload,
   SchemaListDivinerSchema,
   SchemaListPayload,
-} from '@xyo-network/diviner'
+  SchemaListQueryPayload,
+} from '@xyo-network/diviner-schema-list-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -23,10 +21,9 @@ export type MongoDBSchemaListDivinerParams = DivinerParams<
   }
 >
 
-export class MongoDBSchemaListDiviner<TParams extends MongoDBSchemaListDivinerParams = MongoDBSchemaListDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements SchemaListDiviner, DivinerModule
-{
+export class MongoDBSchemaListDiviner<
+  TParams extends MongoDBSchemaListDivinerParams = MongoDBSchemaListDivinerParams,
+> extends SchemaListDiviner<TParams> {
   static override configSchema = SchemaListDivinerConfigSchema
 
   /**
@@ -35,7 +32,7 @@ export class MongoDBSchemaListDiviner<TParams extends MongoDBSchemaListDivinerPa
   protected readonly aggregateTimeoutMs = 10_000
 
   override async divine(payloads?: Payload[]): Promise<Payload<SchemaListPayload>[]> {
-    const query = payloads?.find<SchemaListDivinerQueryPayload>(isSchemaListDivinerQueryPayload)
+    const query = payloads?.find<SchemaListQueryPayload>(isSchemaListQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
     return counts.map((schemas) => new PayloadBuilder<SchemaListPayload>({ schema: SchemaListDivinerSchema }).fields({ schemas }).build())

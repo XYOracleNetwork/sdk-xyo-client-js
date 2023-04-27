@@ -1,16 +1,14 @@
 import { exists } from '@xylabs/exists'
 import { Hasher } from '@xyo-network/core'
 import {
-  BoundWitnessStatsDivinerConfigSchema,
-  PayloadStatsDivinerConfigSchema,
-  SchemaListDivinerConfigSchema,
-  SchemaStatsDivinerConfigSchema,
-} from '@xyo-network/diviner'
-import {
   AddressHistoryDivinerConfigSchema,
   AddressSpaceDivinerConfigSchema,
   BoundWitnessDivinerConfigSchema,
+  BoundWitnessStatsDivinerConfigSchema,
   PayloadDivinerConfigSchema,
+  PayloadStatsDivinerConfigSchema,
+  SchemaListDivinerConfigSchema,
+  SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
 import { AnyConfigSchema, ArchivistConfigSchema, ArchivistInsertQuerySchema, ArchivistWrapper, MemoryNode, ModuleConfig } from '@xyo-network/modules'
 import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'

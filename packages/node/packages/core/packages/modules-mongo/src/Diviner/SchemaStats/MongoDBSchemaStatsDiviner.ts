@@ -1,20 +1,18 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { DivinerParams } from '@xyo-network/diviner-model'
+import { SchemaStatsDiviner } from '@xyo-network/diviner-schema-stats-abstract'
 import {
-  DivinerModule,
-  DivinerParams,
-  DivinerWrapper,
   isSchemaStatsQueryPayload,
-  SchemaStatsDiviner,
   SchemaStatsDivinerConfig,
   SchemaStatsDivinerConfigSchema,
   SchemaStatsDivinerSchema,
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
-} from '@xyo-network/diviner'
+} from '@xyo-network/diviner-schema-stats-model'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
@@ -54,8 +52,8 @@ export type MongoDBSchemaStatsDivinerParams = DivinerParams<
 const moduleName = 'MongoDBSchemaStatsDiviner'
 
 export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDivinerParams = MongoDBSchemaStatsDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements SchemaStatsDiviner, JobProvider, DivinerModule
+  extends SchemaStatsDiviner<TParams>
+  implements JobProvider
 {
   static override configSchema = SchemaStatsDivinerConfigSchema
 

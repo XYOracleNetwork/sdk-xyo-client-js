@@ -1,13 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistGetQuerySchema, ArchivistModule, ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import { AddressSpaceSchema } from '@xyo-network/diviner-address-space-model'
 import { DivinerConfig, DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -59,8 +58,8 @@ export class MemoryAddressSpaceDiviner<TParams extends MemoryAddressSpaceDiviner
       return await this.resolve<ArchivistModule>({ address: this.config.archivists })
     } else {
       //get all reachable archivists
-      return (await this.resolve<ArchivistModule>({ query: [[ArchivistGetQuerySchema]] })).map(
-        (archivist) => new ArchivistWrapper({ account: this.account, module: archivist }),
+      return (await this.resolve<ArchivistModule>({ query: [[ArchivistGetQuerySchema]] })).map((archivist) =>
+        ArchivistWrapper.wrap(archivist, this.account),
       )
     }
   }

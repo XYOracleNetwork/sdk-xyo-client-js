@@ -14,9 +14,13 @@
     "@xyo-network/diviner-address-history-model": "workspace:^",
     "@xyo-network/diviner-address-space-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
+    "@xyo-network/diviner-boundwitness-stats-model": "workspace:^",
     "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/diviner-payload-model": "workspace:^"
+    "@xyo-network/diviner-payload-model": "workspace:^",
+    "@xyo-network/diviner-payload-stats-model": "workspace:^",
+    "@xyo-network/diviner-schema-list-model": "workspace:^",
+    "@xyo-network/diviner-schema-stats-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.16.5",

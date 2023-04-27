@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/diviner-address-chain-model": "workspace:^",
     "@xyo-network/diviner-address-history-model": "workspace:^",
+    "@xyo-network/diviner-address-space-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-forecasting-model": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

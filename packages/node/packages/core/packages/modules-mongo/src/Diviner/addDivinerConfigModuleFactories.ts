@@ -1,8 +1,6 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
 import {
-  AddressSpaceDivinerConfig,
-  AddressSpaceDivinerConfigSchema,
   BoundWitnessStatsDivinerConfig,
   BoundWitnessStatsDivinerConfigSchema,
   PayloadStatsDivinerConfig,
@@ -12,16 +10,21 @@ import {
   SchemaStatsDivinerConfig,
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner'
-import { AddressHistoryDivinerConfig, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
-import { BoundWitnessDivinerConfig, BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
+import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
 import {
+  AddressHistoryDivinerConfig,
+  AddressHistoryDivinerConfigSchema,
+  AddressSpaceDivinerConfig,
+  AddressSpaceDivinerConfigSchema,
+  BoundWitnessDivinerConfig,
+  BoundWitnessDivinerConfigSchema,
   ForecastingDivinerConfig,
   ForecastingDivinerConfigSchema,
   ForecastingMethod,
-  MemoryForecastingDiviner,
+  PayloadDivinerConfig,
+  PayloadDivinerConfigSchema,
   PayloadValueTransformer,
-} from '@xyo-network/diviner-forecasting'
-import { PayloadDivinerConfig, PayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-model'
+} from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, ConfigModuleFactory, ConfigModuleFactoryDictionary, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'

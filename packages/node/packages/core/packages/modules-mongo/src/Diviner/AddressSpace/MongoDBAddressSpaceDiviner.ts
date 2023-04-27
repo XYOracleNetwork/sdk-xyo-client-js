@@ -1,7 +1,7 @@
 import { exists } from '@xylabs/exists'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { AddressSpaceDiviner, AddressSpaceDivinerConfig, AddressSpaceDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner'
+import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
+import { AddressSpaceDivinerConfig, AddressSpaceDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -18,10 +18,9 @@ export type MongoDBAddressSpaceDivinerParams<TConfig extends AddressSpaceDiviner
   }
 >
 
-export class MongoDBAddressSpaceDiviner<TParams extends MongoDBAddressSpaceDivinerParams = MongoDBAddressSpaceDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements AddressSpaceDiviner
-{
+export class MongoDBAddressSpaceDiviner<
+  TParams extends MongoDBAddressSpaceDivinerParams = MongoDBAddressSpaceDivinerParams,
+> extends AddressSpaceDiviner<TParams> {
   static override configSchema = AddressSpaceDivinerConfigSchema
 
   override async divine(_payloads?: Payload[]): Promise<Payload[]> {

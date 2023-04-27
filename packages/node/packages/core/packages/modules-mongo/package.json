@@ -41,6 +41,7 @@
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-forecasting": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
+    "@xyo-network/diviner-models": "workspace:^",
     "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/location-payload-plugin": "workspace:^",
     "@xyo-network/module": "workspace:^",

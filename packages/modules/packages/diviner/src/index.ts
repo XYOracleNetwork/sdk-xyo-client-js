@@ -1,4 +1,3 @@
-export * from './AddressSpace'
 export * from './BoundWitnessStats'
 export * from './Coin'
 export * from './IdentityDiviner'

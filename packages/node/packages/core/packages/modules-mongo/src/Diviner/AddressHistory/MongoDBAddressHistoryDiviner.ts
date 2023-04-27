@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AddressHistoryDiviner,
@@ -26,10 +25,9 @@ export type MongoDBAddressHistoryDivinerParams = DivinerParams<
   }
 >
 
-export class MongoDBAddressHistoryDiviner<TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements AddressHistoryDiviner
-{
+export class MongoDBAddressHistoryDiviner<
+  TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams,
+> extends AddressHistoryDiviner<TParams> {
   static override configSchema = AddressHistoryDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {

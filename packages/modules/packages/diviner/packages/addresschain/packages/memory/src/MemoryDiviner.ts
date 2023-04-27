@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -14,10 +13,9 @@ import { Payload } from '@xyo-network/payload-model'
 // if multiple broken chains are found, all the heads are returned
 export type MemoryAddressChainDivinerParams = DivinerParams<AnyConfigSchema<AddressChainDivinerConfig>>
 
-export class MemoryAddressChainDiviner<TParams extends MemoryAddressChainDivinerParams = MemoryAddressChainDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements AddressChainDiviner
-{
+export class MemoryAddressChainDiviner<
+  TParams extends MemoryAddressChainDivinerParams = MemoryAddressChainDivinerParams,
+> extends AddressChainDiviner<TParams> {
   static override configSchema = AddressChainDivinerConfigSchema
 
   get queryAddress() {

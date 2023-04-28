@@ -4970,7 +4970,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.16.5
     "@xylabs/tsconfig": ^2.16.5
     "@xyo-network/shared": "workspace:^"
-    axios: ^1.3.6
+    axios: ^1.4.0
     pako: ^2.1.0
     typescript: ^4.9.5
   languageName: unknown
@@ -8309,14 +8309,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.3.6":
-  version: 1.3.6
-  resolution: "axios@npm:1.3.6"
+"axios@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "axios@npm:1.4.0"
   dependencies:
     follow-redirects: ^1.15.0
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: c90497ebf738723654a6e80147dc294186ad9d7b08f95f5a22fd48f826c7e06a576229b8dff3137195ca627349a4312e00fa78e4f1c499250b9860596adef44a
+  checksum: 7fb6a4313bae7f45e89d62c70a800913c303df653f19eafec88e56cea2e3821066b8409bc68be1930ecca80e861c52aa787659df0ffec6ad4d451c7816b9386b
   languageName: node
   linkType: hard
 
@@ -9991,9 +9991,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.375
-  resolution: "electron-to-chromium@npm:1.4.375"
-  checksum: 3e0081cc18b8104460d634fbd00bcf3463a27eb8436b42519212e3fcbb2886ed2f4982537a8c1831d5d099065953129612f28c5c591fdaec8d594a3f5f278f08
+  version: 1.4.376
+  resolution: "electron-to-chromium@npm:1.4.376"
+  checksum: 881351d25e0e983432c10844540bb664ee4c54f781b81b7247c36d6e617dc85305fd87ffb5de6d9630c6a54f4432afd8e97565a11c62bb77b63051e43cb8a942
   languageName: node
   linkType: hard
 

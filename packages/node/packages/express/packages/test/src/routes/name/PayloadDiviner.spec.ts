@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 

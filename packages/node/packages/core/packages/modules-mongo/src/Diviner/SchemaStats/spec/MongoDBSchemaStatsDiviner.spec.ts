@@ -1,5 +1,10 @@
 import { Account } from '@xyo-network/account'
-import { SchemaStatsDivinerConfigSchema, SchemaStatsDivinerSchema, SchemaStatsQueryPayload, SchemaStatsQuerySchema } from '@xyo-network/diviner'
+import {
+  SchemaStatsDivinerConfigSchema,
+  SchemaStatsDivinerSchema,
+  SchemaStatsQueryPayload,
+  SchemaStatsQuerySchema,
+} from '@xyo-network/diviner-schema-stats-model'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'

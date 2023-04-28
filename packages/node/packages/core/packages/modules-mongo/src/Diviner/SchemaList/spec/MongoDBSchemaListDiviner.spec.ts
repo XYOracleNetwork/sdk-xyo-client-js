@@ -2,10 +2,10 @@ import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   SchemaListDivinerConfigSchema,
-  SchemaListDivinerQueryPayload,
-  SchemaListDivinerQuerySchema,
   SchemaListDivinerSchema,
-} from '@xyo-network/diviner'
+  SchemaListQueryPayload,
+  SchemaListQuerySchema,
+} from '@xyo-network/diviner-schema-list-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -38,7 +38,7 @@ describe('MongoDBSchemaListDiviner', () => {
   describe('divine', () => {
     describe('with address supplied in query', () => {
       it('divines results for the address', async () => {
-        const query: SchemaListDivinerQueryPayload = { address, schema: SchemaListDivinerQuerySchema }
+        const query: SchemaListQueryPayload = { address, schema: SchemaListQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]
@@ -52,7 +52,7 @@ describe('MongoDBSchemaListDiviner', () => {
     })
     describe('with no address supplied in query', () => {
       it('divines results for all addresses', async () => {
-        const query: SchemaListDivinerQueryPayload = { schema: SchemaListDivinerQuerySchema }
+        const query: SchemaListQueryPayload = { schema: SchemaListQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0]

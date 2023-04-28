@@ -10,8 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/diviner-address-history-abstract": "workspace:^",
-    "@xyo-network/diviner-address-history-memory": "workspace:^",
     "@xyo-network/diviner-address-history-model": "workspace:^"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { SortDirection } from '@xyo-network/diviner'
+import { SortDirection } from '@xyo-network/diviner-payload-model'
 import {
   PayloadAddressRule,
   PayloadPointerPayload,

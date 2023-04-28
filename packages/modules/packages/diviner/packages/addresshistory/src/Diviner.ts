@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { AddressHistoryDiviner } from '@xyo-network/diviner-address-history-abstract'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -11,9 +11,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
 
-export class MemoryAddressHistoryDiviner<
-  TParams extends AddressHistoryDivinerParams = AddressHistoryDivinerParams,
-> extends AddressHistoryDiviner<TParams> {
+export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams = AddressHistoryDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchema = AddressHistoryDivinerConfigSchema
 
   get queryAddress() {

@@ -1,7 +1,11 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerConfigSchema, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner'
+import {
+  BoundWitnessDivinerConfigSchema,
+  BoundWitnessDivinerQueryPayload,
+  BoundWitnessDivinerQuerySchema,
+} from '@xyo-network/diviner-boundwitness-model'
 import { BoundWitnessWithMeta, BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'

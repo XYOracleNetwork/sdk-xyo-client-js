@@ -1,11 +1,6 @@
 import { Account } from '@xyo-network/account'
-import {
-  AddressHistoryQueryPayload,
-  AddressHistoryQuerySchema,
-  ArchivistWrapper,
-  DivinerDivineQuerySchema,
-  DivinerWrapper,
-} from '@xyo-network/modules'
+import { AddressHistoryQueryPayload, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
+import { ArchivistWrapper, DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { getArchivist, getDivinerByName, getNewBoundWitnesses, validateDiscoverResponse } from '../../testUtil'

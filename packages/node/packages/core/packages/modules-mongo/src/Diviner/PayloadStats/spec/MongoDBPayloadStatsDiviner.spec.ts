@@ -1,5 +1,10 @@
 import { Account } from '@xyo-network/account'
-import { PayloadStatsDivinerConfigSchema, PayloadStatsDivinerSchema, PayloadStatsQueryPayload, PayloadStatsQuerySchema } from '@xyo-network/diviner'
+import {
+  PayloadStatsDivinerConfigSchema,
+  PayloadStatsDivinerSchema,
+  PayloadStatsQueryPayload,
+  PayloadStatsQuerySchema,
+} from '@xyo-network/diviner-payload-stats-model'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'

@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner'
+import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

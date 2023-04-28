@@ -1,4 +1,3 @@
-export * from './Coin'
 export * from './IdentityDiviner'
 export * from './Payload'
 export * from '@xyo-network/diviner-model'

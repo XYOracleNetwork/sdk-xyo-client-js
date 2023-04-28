@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:^",
-    "@xyo-network/diviner-coin-user-locations-memory": "workspace:^",
     "@xyo-network/diviner-coin-user-locations-model": "workspace:^"
   },
   "devDependencies": {

@@ -5741,6 +5741,54 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-coin-user-locations-abstract@workspace:^, @xyo-network/diviner-coin-user-locations-abstract@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations/packages/abstract":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-coin-user-locations-abstract@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations/packages/abstract"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/abstract-diviner": "workspace:^"
+    "@xyo-network/diviner-coin-user-locations-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-coin-user-locations-model@workspace:^, @xyo-network/diviner-coin-user-locations-model@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations/packages/model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-coin-user-locations-model@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations/packages/model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-coin-user-locations@workspace:^, @xyo-network/diviner-coin-user-locations@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-coin-user-locations@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/diviner-coin-user-locations-abstract": "workspace:^"
+    "@xyo-network/diviner-coin-user-locations-model": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-coin@workspace:packages/modules/packages/diviner/packages/coin":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-coin@workspace:packages/modules/packages/diviner/packages/coin"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.16.5
+    "@xylabs/tsconfig": ^2.16.5
+    "@xyo-network/diviner-coin-user-locations": "workspace:^"
+    typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-forecasting-abstract@workspace:^, @xyo-network/diviner-forecasting-abstract@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-abstract@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract"
@@ -7067,6 +7115,7 @@ __metadata:
     "@xyo-network/diviner-address-space-abstract": "workspace:^"
     "@xyo-network/diviner-boundwitness-model": "workspace:^"
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:^"
+    "@xyo-network/diviner-coin-user-locations-abstract": "workspace:^"
     "@xyo-network/diviner-forecasting": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-models": "workspace:^"

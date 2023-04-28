@@ -1,13 +1,9 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import {
-  CoinUserLocationsDiviner,
-  DivinerParams,
-  XyoArchivistPayloadDivinerConfig,
-  XyoArchivistPayloadDivinerConfigSchema,
-} from '@xyo-network/diviner'
+import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { CoinUserLocationsDiviner } from '@xyo-network/diviner-coin-user-locations-abstract'
+import { DivinerParams } from '@xyo-network/diviner-model'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessesArchivist, PayloadArchivist } from '@xyo-network/node-core-model'
@@ -50,10 +46,9 @@ export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = Divine
   }
 >
 
-export class MemoryCoinUserLocationsDiviner<TParams extends CoinUserLocationsDivinerParams = CoinUserLocationsDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements CoinUserLocationsDiviner
-{
+export class MemoryCoinUserLocationsDiviner<
+  TParams extends CoinUserLocationsDivinerParams = CoinUserLocationsDivinerParams,
+> extends CoinUserLocationsDiviner<TParams> {
   static override configSchema = XyoArchivistPayloadDivinerConfigSchema
 
   async divine(payloads?: Payload[]): Promise<Payload<LocationPayload>[]> {

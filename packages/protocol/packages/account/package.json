@@ -26,7 +26,7 @@
     "@types/sha.js": "^2.4.0",
     "@xylabs/ts-scripts-yarn3": "^2.17.3",
     "@xylabs/tsconfig": "^2.17.3",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.4"
   },
   "browser": "dist/esm/index.js",
   "main": "dist/cjs/index.js",

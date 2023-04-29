@@ -17,8 +17,8 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/pako": "^2.0.0",
-    "@xylabs/ts-scripts-yarn3": "^2.16.5",
-    "@xylabs/tsconfig": "^2.16.5",
+    "@xylabs/ts-scripts-yarn3": "^2.17.2",
+    "@xylabs/tsconfig": "^2.17.2",
     "typescript": "^4.9.5"
   },
   "browser": "dist/esm/index.js",

@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "@types/source-map-support": "0.5.6",
-    "@xylabs/ts-scripts-yarn3": "^2.16.5",
-    "@xylabs/tsconfig": "^2.16.5",
+    "@xylabs/ts-scripts-yarn3": "^2.17.2",
+    "@xylabs/tsconfig": "^2.17.2",
     "typescript": "^4.9.5"
   },
   "types": "dist/types/index.d.ts"

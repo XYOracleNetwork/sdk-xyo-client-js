@@ -15,7 +15,7 @@ import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
 
-export type MongoDBMerkleAddressSpaceDivinerParams<TConfig extends AddressSpaceDivinerConfig = AddressSpaceDivinerConfig> = DivinerParams<
+export type MongoDBBatchAddressSpaceDivinerParams<TConfig extends AddressSpaceDivinerConfig = AddressSpaceDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
@@ -32,8 +32,8 @@ export type CollectionPointerPayload = Payload<{
 
 const moduleName = 'MongoDBSchemaStatsDiviner'
 
-export class MongoDBMerkleAddressSpaceDiviner<
-  TParams extends MongoDBMerkleAddressSpaceDivinerParams = MongoDBMerkleAddressSpaceDivinerParams,
+export class MongoDBBatchAddressSpaceDiviner<
+  TParams extends MongoDBBatchAddressSpaceDivinerParams = MongoDBBatchAddressSpaceDivinerParams,
 > extends MemoryAddressSpaceDiviner<TParams> {
   // TODO: Get via config or default
   protected readonly batchSize = 10

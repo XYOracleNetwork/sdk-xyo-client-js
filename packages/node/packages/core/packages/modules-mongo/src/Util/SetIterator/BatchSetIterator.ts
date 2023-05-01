@@ -1,4 +1,4 @@
-import { difference, intersection, union } from './SetOperations'
+import { difference, intersection, union } from '../Set'
 
 export class BatchSetIterator<T> implements Iterator<T[]> {
   private batchSize: number

@@ -1,4 +1,4 @@
-import { difference, intersection, union } from './SetOperations'
+import { difference, intersection, union } from '../Set'
 
 export class SetIterator<T> implements Iterator<T> {
   private done: Set<T>

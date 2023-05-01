@@ -74,11 +74,14 @@ export class MongoDBBatchAddressSpaceDiviner<
       // Filter addresses we've seen before
       const newAddresses = difference(addresses, this.witnessedAddresses)
       if (newAddresses.size === 0) return
+      const mod = (await this.archivists()).pop()
+      if (!mod) {
+        this.logger?.error(`${moduleName}.BackgroundDivine: No archivists found`)
+        return
+      }
       const toStore = [...newAddresses].map((address) => {
         return { address, schema: AddressSchema }
       })
-      const mod = (await this.archivists()).pop()
-      if (!mod) return
       const archivist = ArchivistWrapper.wrap(mod, this.paginationAccount)
       for (let i = 0; i < toStore.length; i += this.batchSize) {
         const batch = toStore.slice(i, i + this.batchSize)

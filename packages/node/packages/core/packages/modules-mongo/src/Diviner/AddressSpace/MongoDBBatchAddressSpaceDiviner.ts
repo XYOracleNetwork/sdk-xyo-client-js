@@ -14,6 +14,7 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
+import { difference } from '../../Util'
 
 export type MongoDBBatchAddressSpaceDivinerParams<TConfig extends AddressSpaceDivinerConfig = AddressSpaceDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
@@ -39,6 +40,8 @@ export class MongoDBBatchAddressSpaceDiviner<
   protected readonly batchSize = 10
   protected currentlyRunning = false
   protected readonly paginationAccount: AccountInstance = new Account()
+  protected readonly witnessedAddresses: Set<string> = new Set<string>()
+
   override divine(_payloads?: Payload[]): Promise<Payload[]> {
     void this.backgroundDivine()
     const response = new PayloadBuilder<CollectionPointerPayload>({ schema: CollectionPointerSchema })
@@ -68,17 +71,18 @@ export class MongoDBBatchAddressSpaceDiviner<
       })
       // Ensure uniqueness on case
       const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()).filter(exists))
-      const toStore = [...addresses].map((address) => {
+      // Filter addresses we've seen before
+      const newAddresses = difference(addresses, this.witnessedAddresses)
+      if (newAddresses.size === 0) return
+      const toStore = [...newAddresses].map((address) => {
         return { address, schema: AddressSchema }
       })
-      // TODO: Filter addresses we've seen before
-      const newAddresses = toStore
-      if (newAddresses.length === 0) return
-      const mods = await this.archivists()
-      const archivists = mods.map((mod) => ArchivistWrapper.wrap(mod, this.paginationAccount))
-      for (let i = 0; i < newAddresses.length; i += this.batchSize) {
-        const batch = newAddresses.slice(i, i + this.batchSize)
-        await Promise.all(archivists.map((archivist) => archivist.insert(batch)))
+      const mod = (await this.archivists()).pop()
+      if (!mod) return
+      const archivist = ArchivistWrapper.wrap(mod, this.paginationAccount)
+      for (let i = 0; i < toStore.length; i += this.batchSize) {
+        const batch = toStore.slice(i, i + this.batchSize)
+        await archivist.insert(batch)
       }
     } catch (error) {
       this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)

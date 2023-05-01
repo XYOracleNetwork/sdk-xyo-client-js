@@ -5,7 +5,7 @@ import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import { AddressSpaceDivinerConfig, AddressSpaceDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, PayloadRule } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -21,6 +21,14 @@ export type MongoDBMerkleAddressSpaceDivinerParams<TConfig extends AddressSpaceD
   }
 >
 
+type CollectionPointerSchema = 'network.xyo.collection.pointer'
+const CollectionPointerSchema: CollectionPointerSchema = 'network.xyo.collection.pointer'
+
+export type CollectionPointerPayload = Payload<{
+  reference: PayloadRule[][]
+  schema: CollectionPointerSchema
+}>
+
 export class MongoDBMerkleAddressSpaceDiviner<
   TParams extends MongoDBMerkleAddressSpaceDivinerParams = MongoDBMerkleAddressSpaceDivinerParams,
 > extends AddressSpaceDiviner<TParams> {
@@ -29,10 +37,9 @@ export class MongoDBMerkleAddressSpaceDiviner<
   protected paginationAccount: AccountInstance = new Account()
 
   override divine(_payloads?: Payload[]): Payload[] {
-    const response = new PayloadBuilder({ schema: 'network.xyo.collection.pointer' })
+    const response = new PayloadBuilder<CollectionPointerPayload>({ schema: CollectionPointerSchema })
       .fields({
-        collectionAddresses: this.paginationAccount.addressValue.hex,
-        collectionSchema: AddressSchema,
+        reference: [[{ address: this.paginationAccount.addressValue.hex }], [{ schema: AddressSchema }]],
       })
       .build()
     return [response]

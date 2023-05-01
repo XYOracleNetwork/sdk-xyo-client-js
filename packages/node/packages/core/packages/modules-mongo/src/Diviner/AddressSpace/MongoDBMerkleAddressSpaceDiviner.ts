@@ -2,7 +2,7 @@ import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
+import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space-memory'
 import { AddressSpaceDivinerConfig, AddressSpaceDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta, PayloadRule } from '@xyo-network/node-core-model'
@@ -33,20 +33,23 @@ const moduleName = 'MongoDBSchemaStatsDiviner'
 
 export class MongoDBMerkleAddressSpaceDiviner<
   TParams extends MongoDBMerkleAddressSpaceDivinerParams = MongoDBMerkleAddressSpaceDivinerParams,
-> extends AddressSpaceDiviner<TParams> {
-  static override configSchema = AddressSpaceDivinerConfigSchema
-
+> extends MemoryAddressSpaceDiviner<TParams> {
   protected currentlyRunning = false
   protected paginationAccount: AccountInstance = new Account()
 
-  override divine(_payloads?: Payload[]): Payload[] {
+  override divine(_payloads?: Payload[]): Promise<Payload[]> {
     void this.backgroundDivine()
     const response = new PayloadBuilder<CollectionPointerPayload>({ schema: CollectionPointerSchema })
       .fields({
         reference: [[{ address: this.paginationAccount.addressValue.hex }], [{ schema: AddressSchema }]],
       })
       .build()
-    return [response]
+    return Promise.resolve([response])
+  }
+
+  override async start() {
+    void this.backgroundDivine()
+    await super.start()
   }
 
   protected async backgroundDivine(): Promise<void> {
@@ -67,6 +70,9 @@ export class MongoDBMerkleAddressSpaceDiviner<
       const toStore = [...addresses].map((address) => {
         return { address, schema: AddressSchema }
       })
+      // TODO: Filter addresses we've seen before
+      const newAddresses = toStore
+      const archivists = await this.archivists()
     } catch (error) {
       this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
     } finally {

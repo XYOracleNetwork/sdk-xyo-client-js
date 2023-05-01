@@ -53,7 +53,7 @@ export class MemoryAddressSpaceDiviner<TParams extends MemoryAddressSpaceDiviner
     return [...addresses].map((address) => new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
   }
 
-  private async archivists(): Promise<ArchivistModule[]> {
+  protected async archivists(): Promise<ArchivistModule[]> {
     if (this.config.archivists) {
       return await this.resolve<ArchivistModule>({ address: this.config.archivists })
     } else {

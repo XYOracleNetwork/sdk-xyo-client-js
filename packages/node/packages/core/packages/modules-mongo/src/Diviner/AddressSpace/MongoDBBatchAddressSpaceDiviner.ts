@@ -37,7 +37,7 @@ export class MongoDBBatchAddressSpaceDiviner<
   TParams extends MongoDBBatchAddressSpaceDivinerParams = MongoDBBatchAddressSpaceDivinerParams,
 > extends MemoryAddressSpaceDiviner<TParams> {
   // TODO: Get via config or default
-  protected readonly batchSize = 10
+  protected readonly batchSize = 50
   protected currentlyRunning = false
   protected readonly paginationAccount: AccountInstance = new Account()
   protected readonly witnessedAddresses: Set<string> = new Set<string>()

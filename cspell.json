@@ -39,6 +39,7 @@
     "jsdom",
     "keccak",
     "keypair",
+    "Merkle",
     "microether",
     "milliether",
     "pako",

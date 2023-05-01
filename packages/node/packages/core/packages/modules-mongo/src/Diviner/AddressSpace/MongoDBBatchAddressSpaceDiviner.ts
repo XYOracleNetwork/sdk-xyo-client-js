@@ -31,7 +31,7 @@ export type CollectionPointerPayload = Payload<{
   schema: CollectionPointerSchema
 }>
 
-const moduleName = 'MongoDBSchemaStatsDiviner'
+const moduleName = 'MongoDBBatchAddressSpaceDiviner'
 
 export class MongoDBBatchAddressSpaceDiviner<
   TParams extends MongoDBBatchAddressSpaceDivinerParams = MongoDBBatchAddressSpaceDivinerParams,

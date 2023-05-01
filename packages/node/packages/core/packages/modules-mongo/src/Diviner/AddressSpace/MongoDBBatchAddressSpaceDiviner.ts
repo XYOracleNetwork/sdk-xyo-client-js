@@ -74,6 +74,8 @@ export class MongoDBBatchAddressSpaceDiviner<
       // Filter addresses we've seen before
       const newAddresses = difference(addresses, this.witnessedAddresses)
       if (newAddresses.size === 0) return
+      // NOTE: If we do multiple archivists we'll need to maintain
+      // different pagination accounts so we maintain address consistency
       const mod = (await this.archivists()).pop()
       if (!mod) {
         this.logger?.error(`${moduleName}.BackgroundDivine: No archivists found`)

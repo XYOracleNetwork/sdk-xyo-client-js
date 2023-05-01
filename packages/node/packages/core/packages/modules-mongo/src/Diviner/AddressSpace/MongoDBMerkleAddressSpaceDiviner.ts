@@ -29,14 +29,18 @@ export type CollectionPointerPayload = Payload<{
   schema: CollectionPointerSchema
 }>
 
+const moduleName = 'MongoDBSchemaStatsDiviner'
+
 export class MongoDBMerkleAddressSpaceDiviner<
   TParams extends MongoDBMerkleAddressSpaceDivinerParams = MongoDBMerkleAddressSpaceDivinerParams,
 > extends AddressSpaceDiviner<TParams> {
   static override configSchema = AddressSpaceDivinerConfigSchema
 
+  protected currentlyRunning = false
   protected paginationAccount: AccountInstance = new Account()
 
   override divine(_payloads?: Payload[]): Payload[] {
+    void this.backgroundDivine()
     const response = new PayloadBuilder<CollectionPointerPayload>({ schema: CollectionPointerSchema })
       .fields({
         reference: [[{ address: this.paginationAccount.addressValue.hex }], [{ schema: AddressSchema }]],
@@ -46,20 +50,27 @@ export class MongoDBMerkleAddressSpaceDiviner<
   }
 
   protected async backgroundDivine(): Promise<void> {
-    const result = await this.params.boundWitnessSdk.useMongo((db) => {
-      return db.db(DATABASES.Archivist).command(
-        {
-          distinct: COLLECTIONS.BoundWitnesses,
-          key: 'addresses',
-        },
-        { maxTimeMS: DefaultMaxTimeMS },
-      )
-    })
-    // Ensure uniqueness on case
-    const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()).filter(exists))
-    const toStore = [...addresses].map((address) => {
-      return { address, schema: AddressSchema }
-    })
-    // TODO: Store in archivist
+    if (this.currentlyRunning) return
+    try {
+      const result = await this.params.boundWitnessSdk.useMongo((db) => {
+        return db.db(DATABASES.Archivist).command(
+          {
+            distinct: COLLECTIONS.BoundWitnesses,
+            key: 'addresses',
+          },
+          { maxTimeMS: DefaultMaxTimeMS },
+        )
+      })
+      // Ensure uniqueness on case
+      const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()).filter(exists))
+      // TODO: Store in archivist
+      const toStore = [...addresses].map((address) => {
+        return { address, schema: AddressSchema }
+      })
+    } catch (error) {
+      this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
+    } finally {
+      this.currentlyRunning = false
+    }
   }
 }

@@ -14,7 +14,7 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
-import { difference } from '../../Util'
+import { difference, union } from '../../Util'
 
 export type MongoDBBatchAddressSpaceDivinerParams<TConfig extends AddressSpaceDivinerConfig = AddressSpaceDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
@@ -40,7 +40,7 @@ export class MongoDBBatchAddressSpaceDiviner<
   protected readonly batchSize = 50
   protected currentlyRunning = false
   protected readonly paginationAccount: AccountInstance = new Account()
-  protected readonly witnessedAddresses: Set<string> = new Set<string>()
+  protected witnessedAddresses: Set<string> = new Set<string>()
 
   override divine(_payloads?: Payload[]): Promise<Payload[]> {
     void this.backgroundDivine()
@@ -89,6 +89,7 @@ export class MongoDBBatchAddressSpaceDiviner<
         const batch = toStore.slice(i, i + this.batchSize)
         await archivist.insert(batch)
       }
+      this.witnessedAddresses = union(this.witnessedAddresses, newAddresses)
     } catch (error) {
       this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
     } finally {

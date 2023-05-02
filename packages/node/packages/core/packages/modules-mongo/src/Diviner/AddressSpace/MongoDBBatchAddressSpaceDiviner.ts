@@ -6,7 +6,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space-memory'
 import { AddressSpaceDivinerConfig, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessWithMeta, PayloadRule } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, CollectionPointerPayload, CollectionPointerSchema } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -22,14 +22,6 @@ export type MongoDBBatchAddressSpaceDivinerParams<TConfig extends AddressSpaceDi
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
-
-type CollectionPointerSchema = 'network.xyo.collection.pointer'
-const CollectionPointerSchema: CollectionPointerSchema = 'network.xyo.collection.pointer'
-
-export type CollectionPointerPayload = Payload<{
-  reference: PayloadRule[][]
-  schema: CollectionPointerSchema
-}>
 
 const moduleName = 'MongoDBBatchAddressSpaceDiviner'
 

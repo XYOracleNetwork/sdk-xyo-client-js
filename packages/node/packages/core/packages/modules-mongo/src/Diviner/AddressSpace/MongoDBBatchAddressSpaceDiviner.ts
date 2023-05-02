@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -31,20 +32,32 @@ export class MongoDBBatchAddressSpaceDiviner<
   // TODO: Get via config or default
   protected readonly batchSize = 50
   protected currentlyRunning = false
-  protected readonly paginationAccount: AccountInstance = new Account()
+  protected readonly paginationAccount: AccountInstance[] = []
+  protected readonly responses: CollectionPointerPayload[] = []
   protected witnessedAddresses: Set<string> = new Set<string>()
 
   override divine(_payloads?: Payload[]): Promise<Payload[]> {
     void this.backgroundDivine()
-    const response = new PayloadBuilder<CollectionPointerPayload>({ schema: CollectionPointerSchema })
-      .fields({
-        reference: [[{ address: this.paginationAccount.addressValue.hex }], [{ schema: AddressSchema }]],
-      })
-      .build()
-    return Promise.resolve([response])
+    return Promise.resolve(this.responses)
   }
 
   override async start() {
+    // Create a paginationAccount per archivist
+    const archivists = await this.archivists()
+    assertEx(archivists.length > 0, `${moduleName}.Start: No archivists found`)
+    this.paginationAccount.push(...archivists.map(() => new Account()))
+    // Pre-mint response payloads for dereferencing later
+    const responses = this.paginationAccount.map((account) => {
+      return new PayloadBuilder<CollectionPointerPayload>({ schema: CollectionPointerSchema })
+        .fields({ reference: [[{ address: account.addressValue.hex }], [{ schema: AddressSchema }]] })
+        .build()
+    })
+    // Save the appropriate collection pointer response to the respective archivist
+    for (let i = 0; i < archivists.length; i++) {
+      const archivist = ArchivistWrapper.wrap(archivists[i])
+      await archivist.insert([responses[i]])
+    }
+    this.responses.push(...responses)
     void this.backgroundDivine()
     await super.start()
   }
@@ -66,20 +79,17 @@ export class MongoDBBatchAddressSpaceDiviner<
       // Filter addresses we've seen before
       const newAddresses = difference(addresses, this.witnessedAddresses)
       if (newAddresses.size === 0) return
-      // NOTE: If we do multiple archivists we'll need to maintain
-      // different pagination accounts so we maintain address consistency
-      const mod = (await this.archivists()).pop()
-      if (!mod) {
-        this.logger?.error(`${moduleName}.BackgroundDivine: No archivists found`)
-        return
-      }
       const toStore = [...newAddresses].map((address) => {
         return { address, schema: AddressSchema }
       })
-      const archivist = ArchivistWrapper.wrap(mod, this.paginationAccount)
-      for (let i = 0; i < toStore.length; i += this.batchSize) {
-        const batch = toStore.slice(i, i + this.batchSize)
-        await archivist.insert(batch)
+      const archivists = await this.archivists()
+      // Save the appropriate paginated address response to the respective archivist
+      for (let i = 0; i < archivists.length; i++) {
+        const archivist = ArchivistWrapper.wrap(archivists[i], this.paginationAccount[i])
+        for (let j = 0; j < toStore.length; j += this.batchSize) {
+          const batch = toStore.slice(j, j + this.batchSize)
+          await archivist.insert(batch)
+        }
       }
       this.witnessedAddresses = union(this.witnessedAddresses, newAddresses)
     } catch (error) {

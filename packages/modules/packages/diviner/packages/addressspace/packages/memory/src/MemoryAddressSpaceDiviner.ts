@@ -4,33 +4,18 @@ import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistGetQuerySchema, ArchivistModule, ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
-import { AddressSpaceSchema } from '@xyo-network/diviner-address-space-model'
-import { DivinerConfig, DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import { AddressSpaceDivinerConfigSchema, AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-
-export type MemoryAddressSpaceDivinerConfigSchema = `${AddressSpaceSchema}.memory.config`
-export const MemoryAddressSpaceDivinerConfigSchema: MemoryAddressSpaceDivinerConfigSchema = `${AddressSpaceSchema}.memory.config`
-
-export type MemoryAddressSpaceDivinerConfig = DivinerConfig<{
-  address?: string
-  archivists?: string[]
-  schema: MemoryAddressSpaceDivinerConfigSchema
-}>
-
-export type MemoryAddressSpaceDivinerParams<
-  TConfig extends AnyConfigSchema<MemoryAddressSpaceDivinerConfig> = AnyConfigSchema<MemoryAddressSpaceDivinerConfig>,
-> = DivinerParams<TConfig>
 
 /**
  * This Diviner returns the list of all addresses encountered for the reachable archivists
  */
-export class MemoryAddressSpaceDiviner<TParams extends MemoryAddressSpaceDivinerParams>
+export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams = AddressSpaceDivinerParams>
   extends AbstractDiviner<TParams>
   implements AddressSpaceDiviner
 {
-  static override configSchema = MemoryAddressSpaceDivinerConfigSchema
+  static override configSchema = AddressSpaceDivinerConfigSchema
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')

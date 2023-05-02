@@ -1,5 +1,5 @@
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { PayloadPointerPayload, PayloadPointerSchema } from '@xyo-network/node-core-model'
+import { isPayloadPointer } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Request } from 'express'
 
@@ -16,7 +16,9 @@ export const getBlockForRequest = async (req: Request, hash: string): Promise<Pa
   }
   const block = (await archivist.get([hash])).pop()
   if (block) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return block.schema === PayloadPointerSchema ? await resolvePayloadPointer(req, block as any as PayloadPointerPayload) : block
+    if (isPayloadPointer(block)) {
+      return await resolvePayloadPointer(req, block)
+    }
+    return block
   }
 }

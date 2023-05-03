@@ -16,7 +16,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import { getHash, getNewBoundWitness, getNewPayload, getTestSchemaName, insertBlock, insertPayload } from '../../../testUtil'
 
-const createPayloadPointer = async (
+const createPointer = async (
   addresses: string[][] = [],
   schemas: string[][] = [],
   timestamp = Date.now(),
@@ -77,7 +77,7 @@ describe('/:hash', () => {
     })
     it('a single payload matching the pointer criteria', async () => {
       const expected = payloads[0]
-      const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expected.schema]])
+      const pointerHash = await createPointer([[account.addressValue.hex]], [[expected.schema]])
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
@@ -115,7 +115,7 @@ describe('/:hash', () => {
           [accountA, payloadsA[0]],
           [accountB, payloadsB[0]],
         ])('returns payload signed by address', async (account, expected) => {
-          const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expected.schema]])
+          const pointerHash = await createPointer([[account.addressValue.hex]], [[expected.schema]])
           const result = await getHash(pointerHash)
           expect(result).toEqual(expected)
         })
@@ -124,7 +124,7 @@ describe('/:hash', () => {
         describe('combined serially', () => {
           it('returns payload signed by both addresses', async () => {
             const expected = payloadsE[0]
-            const pointerHash = await createPayloadPointer([[accountC.addressValue.hex], [accountD.addressValue.hex]], [[expected.schema]])
+            const pointerHash = await createPointer([[accountC.addressValue.hex], [accountD.addressValue.hex]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
           })
@@ -132,14 +132,14 @@ describe('/:hash', () => {
         describe('combined in parallel', () => {
           it('returns payload signed by both address', async () => {
             const expected = payloadsE[0]
-            const pointerHash = await createPayloadPointer([[accountC.addressValue.hex, accountD.addressValue.hex]], [[expected.schema]])
+            const pointerHash = await createPointer([[accountC.addressValue.hex, accountD.addressValue.hex]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
           })
         })
       })
       it('no matching address', async () => {
-        const pointerHash = await createPayloadPointer([[Account.random().addressValue.hex]], [[payloads[0].schema]])
+        const pointerHash = await createPointer([[Account.random().addressValue.hex]], [[payloads[0].schema]])
         const result = await getHash(pointerHash)
         expectHashNotFoundError(result)
       })
@@ -164,7 +164,7 @@ describe('/:hash', () => {
           [schemaA, payloadA.payload],
           [schemaB, payloadB.payload],
         ])('returns payload of schema type', async (schema, expected) => {
-          const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[schema]])
+          const pointerHash = await createPointer([[account.addressValue.hex]], [[schema]])
           const result = await getHash(pointerHash)
           expect(result).toEqual(expected)
         })
@@ -172,21 +172,21 @@ describe('/:hash', () => {
       describe('multiple schema rules', () => {
         describe('combined serially', () => {
           it('returns payload of either schema', async () => {
-            const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[payloadA.schema, payloadB.schema]])
+            const pointerHash = await createPointer([[account.addressValue.hex]], [[payloadA.schema, payloadB.schema]])
             const result = await getHash(pointerHash)
             expect(schemas).toContain(result.schema)
           })
         })
         describe('combined in parallel', () => {
           it('returns payload of either schema', async () => {
-            const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[payloadA.schema], [payloadB.schema]])
+            const pointerHash = await createPointer([[account.addressValue.hex]], [[payloadA.schema], [payloadB.schema]])
             const result = await getHash(pointerHash)
             expect(schemas).toContain(result.schema)
           })
         })
       })
       it('no matching schema', async () => {
-        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [['network.xyo.test']])
+        const pointerHash = await createPointer([[account.addressValue.hex]], [['network.xyo.test']])
         const result = await getHash(pointerHash)
         expectHashNotFoundError(result)
       })
@@ -207,18 +207,18 @@ describe('/:hash', () => {
       })
       it('ascending', async () => {
         const expected = assertEx(payloads.at(0))
-        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expectedSchema]], 0, 'asc')
+        const pointerHash = await createPointer([[account.addressValue.hex]], [[expectedSchema]], 0, 'asc')
         const result = await getHash(pointerHash)
         expect(result).toEqual(expected)
       })
       it('descending', async () => {
         const expected = assertEx(payloads.at(-1))
-        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[expectedSchema]], Date.now(), 'desc')
+        const pointerHash = await createPointer([[account.addressValue.hex]], [[expectedSchema]], Date.now(), 'desc')
         const result = await getHash(pointerHash)
         expect(result).toEqual(expected)
       })
       it('no matching timestamp', async () => {
-        const pointerHash = await createPayloadPointer([[account.addressValue.hex]], [[payloadsA[0].schema]], Date.now(), 'asc')
+        const pointerHash = await createPointer([[account.addressValue.hex]], [[payloadsA[0].schema]], Date.now(), 'asc')
         const result = await getHash(pointerHash)
         expectHashNotFoundError(result)
       })
@@ -226,7 +226,7 @@ describe('/:hash', () => {
   })
   describe('with no rules', () => {
     it('returns error ', async () => {
-      const pointerHash = await createPayloadPointer([], [])
+      const pointerHash = await createPointer([], [])
       const result = await getHash(pointerHash)
       expectSchemaNotSuppliedError(result)
     })

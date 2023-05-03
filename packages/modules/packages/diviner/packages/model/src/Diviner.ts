@@ -7,7 +7,6 @@ import { Promisable } from '@xyo-network/promise'
 import { DivinerConfig } from './Config'
 
 export interface Diviner {
-  /* context is the hash of the payload that defines the divining */
   divine: (payloads?: Payload[]) => Promisable<Payload[]>
 }
 

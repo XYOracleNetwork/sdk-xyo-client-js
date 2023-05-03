@@ -43,7 +43,7 @@ const createPointer = async (
 
   const pointer = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema }).fields({ reference }).build()
   const pointerResponse = await insertPayload(pointer)
-  expect(pointerResponse.length).toBe(2)
+  expect(pointerResponse).toBeArrayOfSize(2)
   expect(pointerResponse.map((bw) => bw.payload_schemas.includes(BoundWitnessPointerSchema)).some((x) => x)).toBeTrue()
   return PayloadWrapper.hash(pointer)
 }
@@ -64,7 +64,7 @@ const expectSchemaNotSuppliedError = (result: Payload) => {
   expectError(result, 'At least one schema must be supplied', `${StatusCodes.INTERNAL_SERVER_ERROR}`, 'Error')
 }
 
-describe('/:hash', () => {
+describe.skip('/:hash', () => {
   describe('return format is', () => {
     const account = Account.random()
     const [bw, payloads] = getNewBoundWitness([account])

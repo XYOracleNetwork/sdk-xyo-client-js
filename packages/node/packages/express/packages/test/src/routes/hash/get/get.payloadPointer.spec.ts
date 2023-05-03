@@ -43,7 +43,7 @@ const createPointer = async (
 
   const pointer = new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields({ reference }).build()
   const pointerResponse = await insertPayload(pointer)
-  expect(pointerResponse.length).toBe(2)
+  expect(pointerResponse).toBeArrayOfSize(2)
   expect(pointerResponse.map((bw) => bw.payload_schemas.includes(PayloadPointerSchema)).some((x) => x)).toBeTrue()
   return PayloadWrapper.hash(pointer)
 }

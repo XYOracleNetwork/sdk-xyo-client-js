@@ -4,9 +4,11 @@ import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from 
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { ArchivistWrapper, DivinerWrapper } from '@xyo-network/modules'
-import { PayloadArchivist, PayloadSearchCriteria } from '@xyo-network/node-core-model'
+import { isBoundWitnessPointer, PayloadArchivist, PayloadSearchCriteria, PointerPayload } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+
+import { combineRules } from './combineRules'
 
 const limit = 1
 
@@ -35,17 +37,19 @@ export const findPayload = async (
   archivist: PayloadArchivist,
   boundWitnessDiviner: BoundWitnessDiviner,
   payloadDiviner: PayloadDiviner,
-  searchCriteria: PayloadSearchCriteria,
+  pointer: PointerPayload,
 ): Promise<Payload | undefined> => {
-  let response: Payload | undefined
-  // Find witnessed payload
+  const searchCriteria = combineRules(pointer.reference)
   const { addresses } = searchCriteria
-  if (addresses?.length) {
+  const findWitnessedPayload = addresses?.length
+  const findBoundWitness = isBoundWitnessPointer(pointer) || addresses?.length
+  if (findBoundWitness || findWitnessedPayload) {
     const filter = createBoundWitnessFilterFromSearchCriteria(searchCriteria)
     const boundWitnesses = DivinerWrapper.wrap(boundWitnessDiviner)
     const result = await boundWitnesses.divine(filter)
     const bw = result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined
     if (bw) {
+      if (findBoundWitness) return BoundWitnessWrapper.parse(bw).boundwitness
       const { schemas, direction } = searchCriteria
       let payloadIndex = direction === 'asc' ? 0 : bw.payloadHashes.length - 1
       if (schemas) {
@@ -56,7 +60,7 @@ export const findPayload = async (
       const hash = bw.payloadHashes[payloadIndex]
       const payloads = ArchivistWrapper.wrap(archivist)
       const result = await payloads.get([hash])
-      response = result?.[0]
+      return result?.[0] ? PayloadWrapper.parse(result?.[0]).body : undefined
     }
   }
   // Find payload
@@ -64,7 +68,6 @@ export const findPayload = async (
     const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
     const payloads = DivinerWrapper.wrap(payloadDiviner)
     const result = await payloads.divine(filter)
-    response = result?.[0]
+    return result?.[0] ? PayloadWrapper.parse(result?.[0]).body : undefined
   }
-  return response ? PayloadWrapper.parse(response).body : undefined
 }

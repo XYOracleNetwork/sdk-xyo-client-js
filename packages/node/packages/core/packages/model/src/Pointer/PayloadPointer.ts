@@ -1,9 +1,9 @@
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 
 import { PointerPayload } from './Pointer'
 
-export type PayloadPointerSchema = 'network.xyo.payload.pointer'
-export const PayloadPointerSchema: PayloadPointerSchema = 'network.xyo.payload.pointer'
+export type PayloadPointerSchema = `${PayloadSchema}.pointer`
+export const PayloadPointerSchema: PayloadPointerSchema = `${PayloadSchema}.pointer`
 
 export type PayloadPointerPayload = PointerPayload & {
   schema: PayloadPointerSchema

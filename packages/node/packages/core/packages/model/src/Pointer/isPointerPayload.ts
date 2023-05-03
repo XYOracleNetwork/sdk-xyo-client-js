@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { CollectionPointerSchema } from './CollectionPointer'
+import { BoundWitnessPointerSchema } from './BoundWitnessPointer'
 import { PayloadPointerSchema } from './PayloadPointer'
 import { PointerPayload } from './Pointer'
 

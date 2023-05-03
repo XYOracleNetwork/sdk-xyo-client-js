@@ -64,7 +64,7 @@ const expectSchemaNotSuppliedError = (result: Payload) => {
   expectError(result, 'At least one schema must be supplied', `${StatusCodes.INTERNAL_SERVER_ERROR}`, 'Error')
 }
 
-describe.skip('/:hash', () => {
+describe('/:hash', () => {
   describe('return format is', () => {
     const account = Account.random()
     const [bw, payloads] = getNewBoundWitness([account])

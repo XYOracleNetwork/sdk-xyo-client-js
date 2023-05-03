@@ -7,7 +7,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space-memory'
 import { AddressSpaceDivinerConfig, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessWithMeta, CollectionPointerPayload, CollectionPointerSchema } from '@xyo-network/node-core-model'
+import { BoundWitnessPointerPayload, BoundWitnessPointerSchema, BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -33,7 +33,7 @@ export class MongoDBBatchAddressSpaceDiviner<
   protected readonly batchSize = 50
   protected currentlyRunning = false
   protected readonly paginationAccount: AccountInstance[] = []
-  protected readonly responses: CollectionPointerPayload[] = []
+  protected readonly responses: BoundWitnessPointerPayload[] = []
   protected witnessedAddresses: Set<string> = new Set<string>()
 
   override divine(_payloads?: Payload[]): Promise<Payload[]> {
@@ -48,7 +48,7 @@ export class MongoDBBatchAddressSpaceDiviner<
     this.paginationAccount.push(...archivists.map(() => new Account()))
     // Pre-mint response payloads for dereferencing later
     const responses = this.paginationAccount.map((account) => {
-      return new PayloadBuilder<CollectionPointerPayload>({ schema: CollectionPointerSchema })
+      return new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema })
         .fields({ reference: [[{ address: account.addressValue.hex }], [{ schema: AddressSchema }]] })
         .build()
     })

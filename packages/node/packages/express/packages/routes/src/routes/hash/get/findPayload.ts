@@ -42,14 +42,14 @@ export const findPayload = async (
   const searchCriteria = combineRules(pointer.reference)
   const { addresses } = searchCriteria
   const findWitnessedPayload = addresses?.length
-  const findBoundWitness = isBoundWitnessPointer(pointer) || addresses?.length
-  if (findBoundWitness || findWitnessedPayload) {
+  const returnBoundWitness = isBoundWitnessPointer(pointer)
+  if (returnBoundWitness || findWitnessedPayload) {
     const filter = createBoundWitnessFilterFromSearchCriteria(searchCriteria)
     const boundWitnesses = DivinerWrapper.wrap(boundWitnessDiviner)
     const result = await boundWitnesses.divine(filter)
     const bw = result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined
     if (bw) {
-      if (findBoundWitness) return BoundWitnessWrapper.parse(bw).boundwitness
+      if (returnBoundWitness) return BoundWitnessWrapper.parse(bw).boundwitness
       const { schemas, direction } = searchCriteria
       let payloadIndex = direction === 'asc' ? 0 : bw.payloadHashes.length - 1
       if (schemas) {

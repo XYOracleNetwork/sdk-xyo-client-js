@@ -9,7 +9,7 @@ import { Request } from 'express'
 import { combineRules } from './combineRules'
 import { findPayload } from './findPayload'
 
-export const resolvePayloadPointer = async (req: Request, pointer: PayloadPointerPayload): Promise<Payload | undefined> => {
+export const resolvePointer = async (req: Request, pointer: PayloadPointerPayload): Promise<Payload | undefined> => {
   const { node } = req.app
   const searchCriteria = combineRules(pointer.reference)
   const archivist = await resolveBySymbol<PayloadArchivist>(node, TYPES.Archivist)

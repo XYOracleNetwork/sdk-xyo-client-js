@@ -10,17 +10,9 @@ export const validByType = (results: [BoundWitnessWrapper[], PayloadWrapper[]] =
   if (payload.valid) {
     const p = payload.payload
     if (isBoundWitness(p)) {
-      // const wrapper = isQueryBoundWitness(p) ? QueryBoundWitnessWrapper : BoundWitnessWrapper
-      if (isQueryBoundWitness(p)) {
-        // TODO: Validate errors
-        const bw = QueryBoundWitnessWrapper.parse(p)
-        results[0].push(bw)
-      } else {
-        const bw = BoundWitnessWrapper.parse(p)
-        if (bw.valid) {
-          results[0].push(bw)
-        }
-      }
+      const wrapper = isQueryBoundWitness(p) ? QueryBoundWitnessWrapper : BoundWitnessWrapper
+      const bw = wrapper.parse(p)
+      if (bw.valid) results[0].push(bw)
     } else {
       results[1].push(payload)
     }

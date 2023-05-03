@@ -20,3 +20,5 @@ export type BoundWitness<T extends Payload | void = void> = Payload<
 >
 
 export type XyoBoundWitness<T extends Payload | void = void> = BoundWitness<T>
+
+export const isBoundWitness = (x?: Payload | null): x is BoundWitness => x?.schema === BoundWitnessSchema

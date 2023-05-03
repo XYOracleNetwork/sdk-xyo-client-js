@@ -27,12 +27,12 @@ describe('validByType', () => {
     const result = values.reduce(validByType, [[], []])
     it('extracts the BoundWitnesses', () => {
       expect(result).toBeArray()
-      expect(result[0]).toBeArray()
-      expect(result[0].length).toBe(3)
+      expect(result?.[0]).toBeArray()
+      expect(result?.[0].length).toBe(3)
     })
     it('extracts the Payloads', () => {
-      expect(result[1]).toBeArray()
-      expect(result[1].length).toBe(2)
+      expect(result?.[1]).toBeArray()
+      expect(result?.[1].length).toBe(2)
     })
   })
   describe('BoundWitness with Payloads & nested BoundWitnesses', () => {
@@ -44,12 +44,12 @@ describe('validByType', () => {
     const result = values.reduce(validByType, [[], []])
     it('extracts the BoundWitnesses', () => {
       expect(result).toBeArray()
-      expect(result[0]).toBeArray()
-      expect(result[0].length).toBe(2)
+      expect(result?.[0]).toBeArray()
+      expect(result?.[0].length).toBe(2)
     })
     it('extracts the Payloads', () => {
-      expect(result[1]).toBeArray()
-      expect(result[1].length).toBe(2)
+      expect(result?.[1]).toBeArray()
+      expect(result?.[1].length).toBe(2)
     })
   })
   describe('BoundWitness with Payloads', () => {
@@ -60,12 +60,12 @@ describe('validByType', () => {
     const result = values.reduce(validByType, [[], []])
     it('extracts the BoundWitnesses', () => {
       expect(result).toBeArray()
-      expect(result[0]).toBeArray()
-      expect(result[0].length).toBe(1)
+      expect(result?.[0]).toBeArray()
+      expect(result?.[0].length).toBe(1)
     })
     it('extracts the Payloads', () => {
-      expect(result[1]).toBeArray()
-      expect(result[1].length).toBe(2)
+      expect(result?.[1]).toBeArray()
+      expect(result?.[1].length).toBe(2)
     })
   })
   describe('BoundWitness without Payloads', () => {
@@ -74,12 +74,12 @@ describe('validByType', () => {
     const result = values.reduce(validByType, [[], []])
     it('extracts the BoundWitnesses', () => {
       expect(result).toBeArray()
-      expect(result[0]).toBeArray()
-      expect(result[0].length).toBe(1)
+      expect(result?.[0]).toBeArray()
+      expect(result?.[0].length).toBe(1)
     })
     it('extracts the Payloads', () => {
-      expect(result[1]).toBeArray()
-      expect(result[1].length).toBe(0)
+      expect(result?.[1]).toBeArray()
+      expect(result?.[1].length).toBe(0)
     })
   })
 })

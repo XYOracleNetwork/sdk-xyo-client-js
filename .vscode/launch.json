@@ -81,7 +81,7 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/modules/packages/node/src/spec/MemoryNode.spec.ts"
+        "packages/plugins/packages/payloadset/packages/pentair/src/spec/Witness.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

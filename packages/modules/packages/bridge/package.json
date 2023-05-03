@@ -17,8 +17,8 @@
     "@xyo-network/http-bridge": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.17.3",
-    "@xylabs/tsconfig": "^2.17.3",
+    "@xylabs/ts-scripts-yarn3": "^2.17.6",
+    "@xylabs/tsconfig": "^2.17.6",
     "typescript": "^5.0.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

@@ -1,10 +1,14 @@
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { Payload } from '@xyo-network/payload-model'
 
-export type QueryBoundWitnessSchema = 'network.xyo.boundwitness'
-export const QueryBoundWitnessSchema: QueryBoundWitnessSchema = 'network.xyo.boundwitness'
+export type QueryBoundWitnessSchema = BoundWitnessSchema
+export const QueryBoundWitnessSchema: QueryBoundWitnessSchema = BoundWitnessSchema
 
 export type QueryBoundWitness = BoundWitness<{
   query: string
   resultSet?: string
-  schema: QueryBoundWitnessSchema
+  schema: BoundWitnessSchema
 }>
+
+export const isQueryBoundWitness = (x?: Payload | null): x is QueryBoundWitness =>
+  x?.schema === QueryBoundWitnessSchema && (x as QueryBoundWitness)?.query !== undefined

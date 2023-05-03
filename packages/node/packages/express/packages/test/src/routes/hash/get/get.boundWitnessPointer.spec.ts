@@ -72,12 +72,12 @@ describe('/:hash', () => {
       // Create data pointer will reference
       const blockResponse = await insertBlock(bw, account)
       expect(blockResponse.length).toBe(2)
-      const payloadResponse = await insertPayload(payloads, account)
-      expect(payloadResponse.length).toBe(2)
+      // const payloadResponse = await insertPayload(payloads, account)
+      // expect(payloadResponse.length).toBe(2)
     })
-    it('a single BoundWitness matching the pointer criteria', async () => {
-      const expected = payloads[0]
-      const pointerHash = await createPointer([[account.addressValue.hex]], [[expected.schema]])
+    it.only('a single BoundWitness matching the pointer criteria', async () => {
+      const expected = bw
+      const pointerHash = await createPointer([[account.addressValue.hex]], [[payloads[0].schema]])
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)

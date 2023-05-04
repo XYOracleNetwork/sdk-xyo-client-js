@@ -36,8 +36,6 @@
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/diviner-address-history-model": "workspace:^",
-    "@xyo-network/diviner-payload-model": "workspace:^",
     "@xyo-network/domain-payload-plugin": "workspace:^",
     "@xyo-network/express-node-server": "workspace:^",
     "@xyo-network/http-bridge": "workspace:^",

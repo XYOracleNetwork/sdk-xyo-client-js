@@ -17,8 +17,6 @@
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-address-space-abstract": "workspace:^",
     "@xyo-network/diviner-address-space-model": "workspace:^",
-    "@xyo-network/diviner-model": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^"
   },

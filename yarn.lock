@@ -5611,8 +5611,6 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/diviner-address-space-abstract": "workspace:^"
     "@xyo-network/diviner-address-space-model": "workspace:^"
-    "@xyo-network/diviner-model": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: ^5.0.4
@@ -6509,8 +6507,6 @@ __metadata:
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
-    "@xyo-network/diviner-address-history-model": "workspace:^"
-    "@xyo-network/diviner-payload-model": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/express-node-server": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"

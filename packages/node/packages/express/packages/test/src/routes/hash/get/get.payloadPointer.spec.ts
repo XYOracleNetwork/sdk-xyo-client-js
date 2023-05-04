@@ -200,8 +200,10 @@ describe('/:hash', () => {
       const boundWitnesses = [bwA, bwB, bwC]
       const expectedSchema = payloadsA[0].schema
       beforeAll(async () => {
-        const blockResponse = await insertBlock(boundWitnesses)
-        expect(blockResponse.length).toBe(2)
+        for (const bw of boundWitnesses) {
+          const blockResponse = await insertBlock(bw, account)
+          expect(blockResponse.length).toBe(2)
+        }
         const payloadResponse = await insertPayload(payloads)
         expect(payloadResponse.length).toBe(2)
       })

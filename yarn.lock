@@ -5571,9 +5571,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-history@workspace:packages/modules/packages/diviner/packages/addresshistory"
   dependencies:
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.17.6
     "@xylabs/tsconfig": ^2.17.6
+    "@xyo-network/abstract-diviner": "workspace:^"
+    "@xyo-network/archivist-model": "workspace:^"
+    "@xyo-network/archivist-wrapper": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/diviner-address-history-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft
@@ -7083,6 +7091,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.6
     "@xyo-network/abstract-diviner": "workspace:^"
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/archivist": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -7090,6 +7099,7 @@ __metadata:
     "@xyo-network/diviner": "workspace:^"
     "@xyo-network/diviner-address-history": "workspace:^"
     "@xyo-network/diviner-address-space-abstract": "workspace:^"
+    "@xyo-network/diviner-address-space-memory": "workspace:^"
     "@xyo-network/diviner-boundwitness-model": "workspace:^"
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:^"
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:^"
@@ -7375,6 +7385,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/pentair-plugin@workspace:packages/plugins/packages/payloadset/packages/pentair"
   dependencies:
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.17.6
     "@xylabs/tsconfig": ^2.17.6
     "@xyo-network/module": "workspace:^"

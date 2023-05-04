@@ -199,8 +199,10 @@ describe('/:hash', () => {
       const boundWitnesses = [bwA, bwB, bwC]
       const expectedSchema = payloadsA[0].schema
       beforeAll(async () => {
-        const blockResponse = await insertBlock(boundWitnesses)
-        expect(blockResponse.length).toBe(2)
+        for (const bw of boundWitnesses) {
+          const blockResponse = await insertBlock(bw, account)
+          expect(blockResponse.length).toBe(2)
+        }
       })
       it('ascending', async () => {
         const expected = BoundWitnessWrapper.parse(assertEx(boundWitnesses.at(0))).body

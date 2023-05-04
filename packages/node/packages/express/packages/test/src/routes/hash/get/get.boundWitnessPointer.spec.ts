@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { SortDirection } from '@xyo-network/diviner-payload-model'
 import {
   BoundWitnessPointerPayload,
@@ -69,14 +70,11 @@ describe('/:hash', () => {
     const account = Account.random()
     const [bw, payloads] = getNewBoundWitness([account])
     beforeAll(async () => {
-      // Create data pointer will reference
       const blockResponse = await insertBlock(bw, account)
       expect(blockResponse.length).toBe(2)
-      // const payloadResponse = await insertPayload(payloads, account)
-      // expect(payloadResponse.length).toBe(2)
     })
-    it.only('a single BoundWitness matching the pointer criteria', async () => {
-      const expected = bw
+    it('a single BoundWitness matching the pointer criteria', async () => {
+      const expected = BoundWitnessWrapper.parse(bw).body
       const pointerHash = await createPointer([[account.addressValue.hex]], [[payloads[0].schema]])
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()

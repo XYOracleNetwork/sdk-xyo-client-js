@@ -81,7 +81,8 @@
       "args": [
         "--forceExit",
         "--runInBand",
-        "packages/plugins/packages/payloadset/packages/pentair/src/spec/Witness.spec.ts"
+        "--testTimeout=120000",
+        "packages/node/packages/express/packages/test/src/routes/hash/get/get.boundWitnessPointer.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

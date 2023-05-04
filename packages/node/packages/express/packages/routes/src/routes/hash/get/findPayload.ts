@@ -49,7 +49,7 @@ export const findPayload = async (
     const result = await boundWitnesses.divine(filter)
     const bw = result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined
     if (bw) {
-      if (returnBoundWitness) return BoundWitnessWrapper.parse(bw).boundwitness
+      if (returnBoundWitness) return bw.body
       const { schemas, direction } = searchCriteria
       let payloadIndex = direction === 'asc' ? 0 : bw.payloadHashes.length - 1
       if (schemas) {

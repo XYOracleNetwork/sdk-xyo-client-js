@@ -105,15 +105,13 @@ describe('/:hash', () => {
       beforeAll(async () => {
         const blockResponse = await insertBlock(boundWitnesses)
         expect(blockResponse.length).toBe(2)
-        const payloadResponse = await insertPayload(payloads)
-        expect(payloadResponse.length).toBe(2)
       })
       describe('single address', () => {
         it.each([
-          [accountA, payloadsA[0]],
-          [accountB, payloadsB[0]],
+          [accountA, BoundWitnessWrapper.parse(bwA).body],
+          [accountB, BoundWitnessWrapper.parse(bwB).body],
         ])('returns BoundWitness signed by address', async (account, expected) => {
-          const pointerHash = await createPointer([[account.addressValue.hex]], [[expected.schema]])
+          const pointerHash = await createPointer([[account.addressValue.hex]], [[payloads[0].schema]])
           const result = await getHash(pointerHash)
           expect(result).toEqual(expected)
         })
@@ -121,16 +119,16 @@ describe('/:hash', () => {
       describe('multiple address rules', () => {
         describe('combined serially', () => {
           it('returns BoundWitness signed by both addresses', async () => {
-            const expected = payloadsE[0]
-            const pointerHash = await createPointer([[accountC.addressValue.hex], [accountD.addressValue.hex]], [[expected.schema]])
+            const expected = BoundWitnessWrapper.parse(bwE).body
+            const pointerHash = await createPointer([[accountC.addressValue.hex], [accountD.addressValue.hex]], [[payloads[0].schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
           })
         })
         describe('combined in parallel', () => {
           it('returns BoundWitness signed by both address', async () => {
-            const expected = payloadsE[0]
-            const pointerHash = await createPointer([[accountC.addressValue.hex, accountD.addressValue.hex]], [[expected.schema]])
+            const expected = BoundWitnessWrapper.parse(bwE).body
+            const pointerHash = await createPointer([[accountC.addressValue.hex, accountD.addressValue.hex]], [[payloads[0].schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
           })

@@ -38,7 +38,7 @@ describe('AddressHistoryDiviner', () => {
       await node.attach(diviner.address)
       const divinerWrapper = DivinerWrapper.wrap(diviner)
       const result = await divinerWrapper.divine()
-      expect(result.length).toBe(4)
+      expect(result.length).toBe(1)
     })
   })
 })

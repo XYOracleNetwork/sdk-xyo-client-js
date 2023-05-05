@@ -82,7 +82,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/node/packages/express/packages/test/src/routes/hash/get/get.boundWitnessPointer.spec.ts"
+        "packages/manifest/src/spec/Manifest.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -12,8 +12,12 @@
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "dependencies": {
+    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/http-bridge": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/node-model": "workspace:^"
+    "@xyo-network/node": "workspace:^",
+    "@xyo-network/node-model": "workspace:^",
+    "@xyo-network/sentinel": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.17.6",

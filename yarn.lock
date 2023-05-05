@@ -6812,14 +6812,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/manifest@workspace:packages/sdk/packages/manifest":
+"@xyo-network/manifest@workspace:packages/manifest":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/manifest@workspace:packages/sdk/packages/manifest"
+  resolution: "@xyo-network/manifest@workspace:packages/manifest"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.6
     "@xylabs/tsconfig": ^2.17.6
+    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/http-bridge": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/node": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
+    "@xyo-network/sentinel": "workspace:^"
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft

@@ -3,9 +3,9 @@ import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { ModuleConfig } from './Config'
+import { AnyConfigSchema, ModuleConfig } from './Config'
 import { ModuleFilter } from './ModuleFilter'
-import { AnyConfigSchema, ModuleParams } from './ModuleParams'
+import { ModuleParams } from './ModuleParams'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { QueryBoundWitness } from './Query'
 

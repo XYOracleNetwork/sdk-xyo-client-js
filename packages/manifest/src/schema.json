@@ -175,6 +175,9 @@
     "$schema": {
       "type": "string"
     },
+    "schema": {
+      "type": "string"
+    },
     "dapps": {
       "description": "The list of dApps that are defined in the manifest",
       "$ref": "#/definitions/dapps"
@@ -184,7 +187,10 @@
     },
     "modules": {
       "description": "The list of global modules that are defined in the manifest",
-      "$ref": "#/definitions/modules"
+      "additionalProperties": {
+        "$ref": "#/definitions/module"
+      },
+      "type": "object"
     }
   },
   "required": []

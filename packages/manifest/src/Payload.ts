@@ -6,8 +6,8 @@ export const ManifestPayloadSchema: ManifestPayloadSchema = 'network.xyo.manifes
 
 export interface Manifest {
   description?: string
-  id: string
-  name: string
+  id?: string
+  name?: string
 }
 
 export interface DappManifest extends Manifest {
@@ -27,7 +27,7 @@ export interface ModuleManifest extends Manifest {
 export type ManifestPayload = Payload<
   {
     dapps: DappManifest[]
-    modules: ModuleManifest[]
+    modules: Record<string, ModuleManifest>
   },
   ManifestPayloadSchema
 >

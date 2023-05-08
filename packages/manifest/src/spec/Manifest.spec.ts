@@ -1,3 +1,4 @@
+import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeWrapper } from '@xyo-network/node'
 
 import { ManifestWrapper } from '../ManifestWrapper'
@@ -12,30 +13,9 @@ describe('Manifest', () => {
       expect(node).toBeDefined()
       const wrapper = NodeWrapper.wrap(node)
       const discover = await wrapper.discover()
-      console.log(`Node: ${node.address}`)
-      console.log(`Discover: ${JSON.stringify(discover, null, 2)}`)
-      console.log(
-        `Down: ${JSON.stringify(
-          (await node.downResolver.resolve()).map((module) => `${module.config.schema} [${module.address}]`),
-          null,
-          2,
-        )}`,
-      )
-      console.log(
-        `Up: ${JSON.stringify(
-          (await node.upResolver.resolve()).map((module) => `${module.config.schema} [${module.address}]`),
-          null,
-          2,
-        )}`,
-      )
-      console.log(
-        `Resolve: ${JSON.stringify(
-          (await wrapper.resolve()).map((module) => `${module.config.schema} [${module.address}]`),
-          null,
-          2,
-        )}`,
-      )
-      expect(discover).toBeDefined()
+      const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
+      expect(discoveredAddresses).toBeArrayOfSize(4)
+      expect(await node.downResolver.resolve()).toBeArrayOfSize(3)
     })
   })
 })

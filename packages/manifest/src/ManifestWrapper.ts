@@ -19,7 +19,6 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     // Load Private Modules
     await Promise.all(
       manifest.modules.private?.map(async (manifest) => {
-        console.log(`Attempting to load private ${manifest.id}`)
         await this.loadModule(nodeWrapper, this.resolveModuleManifest(manifest), false, additionalCreatableModules)
       }) ?? [() => null],
     )
@@ -27,7 +26,6 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     // Load Public Modules
     await Promise.all(
       manifest.modules.public?.map(async (manifest) => {
-        console.log(`Attempting to load public ${manifest.id}`)
         await this.loadModule(nodeWrapper, this.resolveModuleManifest(manifest), true, additionalCreatableModules)
       }) ?? [() => null],
     )
@@ -46,21 +44,15 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     )
   }
 
-  async loadModule(
-    node: NodeWrapper<MemoryNode>,
-    manifest: ModuleManifest,
-    internal = false,
-    additionalCreatableModules?: CreatableModuleDictionary,
-  ) {
-    console.log(`Attempting to load module ${manifest.id}`)
+  async loadModule(node: NodeWrapper<MemoryNode>, manifest: ModuleManifest, external = true, additionalCreatableModules?: CreatableModuleDictionary) {
     const creatableModules = { ...standardCreatableModules, ...additionalCreatableModules }
     const nodeWrapper = NodeWrapper.wrap(node)
-    if (!manifest.name || (await (internal ? nodeWrapper.downResolver : nodeWrapper.upResolver).resolve({ name: [manifest.name] })).length === 0) {
+    if (!manifest.name || (await (external ? nodeWrapper.downResolver : nodeWrapper.upResolver).resolve({ name: [manifest.name] })).length === 0) {
       if (manifest.language && manifest.language === 'javascript') {
         const id = manifest.id
         assertEx(
-          (manifest.name && (await node.attach(manifest.name, false))) ??
-            (id ? await node.attach((await this.registerModule(node, manifest, creatableModules)).address, false) : undefined),
+          (manifest.name && (await node.attach(manifest.name, external))) ??
+            (id ? await node.attach((await this.registerModule(node, manifest, creatableModules)).address, external) : undefined),
           `No module named [${manifest.name}] registered`,
         )
       }
@@ -68,7 +60,6 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   }
 
   async registerModule(node: NodeWrapper<MemoryNode>, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary) {
-    console.log(`Attempting to register module ${manifest.id}`)
     const module = assertEx(
       await creatableModules?.[assertEx(manifest.id, 'Attempting to create a module without an id')]?.create(
         manifest.config ? { config: manifest.config } : undefined,

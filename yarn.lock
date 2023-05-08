@@ -6816,13 +6816,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest@workspace:packages/manifest"
   dependencies:
+    "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.17.6
     "@xylabs/tsconfig": ^2.17.6
-    "@xyo-network/archivist": "workspace:^"
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"
+    "@xyo-network/memory-archivist": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/node": "workspace:^"
-    "@xyo-network/node-model": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/sentinel": "workspace:^"
     typescript: ^5.0.4
   languageName: unknown

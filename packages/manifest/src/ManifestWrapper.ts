@@ -1,8 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { CreatableModuleDictionary } from '@xyo-network/module'
 import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { CreatableModuleDictionary, standardCreatableModules } from './ModuleFactory'
+import { standardCreatableModules } from './ModuleFactory'
 import { DappManifest, ManifestPayload, ModuleManifest } from './Payload'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {

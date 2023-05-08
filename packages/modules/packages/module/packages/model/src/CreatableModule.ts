@@ -7,6 +7,7 @@ export interface CreatableModule<T extends Module = Module> {
   defaultLogger?: Logger
   new (params: T['params']): T
   create<T extends Module>(this: CreatableModule<T>, params?: T['params']): Promise<T>
+  factory<T extends Module>(this: CreatableModule<T>, params?: T['params']): CreatableModuleFactory<T>
 }
 
 export type CreatableModuleFactory<T extends Module = Module> = Omit<Omit<CreatableModule<T>, 'new'>, 'create'> & {

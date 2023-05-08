@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { CreatableModuleDictionary, standardCreatableModules } from './CreatableModules'
+import { CreatableModuleDictionary, standardCreatableModules } from './ModuleFactory'
 import { DappManifest, ManifestPayload, ModuleManifest } from './Payload'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
@@ -70,12 +70,12 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   }
 
   async registerModule(node: NodeWrapper<MemoryNode>, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary) {
-    const module = assertEx(
-      await creatableModules?.[assertEx(manifest.id, 'Attempting to create a module without an id')]?.create(
-        manifest.config ? { config: manifest.config } : undefined,
-      ),
+    const creatableModule = assertEx(
+      creatableModules?.[assertEx(manifest.id, 'Attempting to create a module without an id')],
       `No module with [${manifest.id}] id available for registration`,
     )
+
+    const module = await creatableModule.create(manifest.config ? { config: manifest.config } : undefined)
     await node.module.register(module)
     return module
   }

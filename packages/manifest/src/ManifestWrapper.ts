@@ -18,15 +18,25 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     const nodeWrapper = NodeWrapper.wrap<NodeWrapper<MemoryNode>>(node)
     // Load Private Modules
     await Promise.all(
-      manifest.modules.private?.map(async (manifest) => {
-        await this.loadModule(nodeWrapper, this.resolveModuleManifest(manifest), false, additionalCreatableModules)
+      manifest.modules?.private?.map(async (moduleManifest) => {
+        await this.loadModule(
+          nodeWrapper,
+          assertEx(this.resolveModuleManifest(moduleManifest), 'Unable to resolve module manifest'),
+          false,
+          additionalCreatableModules,
+        )
       }) ?? [() => null],
     )
 
     // Load Public Modules
     await Promise.all(
-      manifest.modules.public?.map(async (manifest) => {
-        await this.loadModule(nodeWrapper, this.resolveModuleManifest(manifest), true, additionalCreatableModules)
+      manifest.modules?.public?.map(async (moduleManifest) => {
+        await this.loadModule(
+          nodeWrapper,
+          assertEx(this.resolveModuleManifest(moduleManifest), 'Unable to resolve module manifest'),
+          true,
+          additionalCreatableModules,
+        )
       }) ?? [() => null],
     )
 
@@ -70,9 +80,9 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     return module
   }
 
-  resolveModuleManifest(manifest: ModuleManifest) {
-    if (manifest.name && !manifest.id) {
-      return this.payload.modules[manifest.name]
+  resolveModuleManifest(manifest?: ModuleManifest) {
+    if (manifest?.name && !manifest.id) {
+      return this.payload.modules?.[manifest.name]
     }
     return manifest
   }

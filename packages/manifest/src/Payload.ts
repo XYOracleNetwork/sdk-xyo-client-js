@@ -11,7 +11,7 @@ export interface Manifest {
 }
 
 export interface DappManifest extends Manifest {
-  modules: {
+  modules?: {
     private?: ModuleManifest[]
     public?: ModuleManifest[]
   }
@@ -27,7 +27,7 @@ export interface ModuleManifest extends Manifest {
 export type ManifestPayload = Payload<
   {
     dapps: DappManifest[]
-    modules: Record<string, ModuleManifest>
+    modules?: Record<string, ModuleManifest>
   },
   ManifestPayloadSchema
 >

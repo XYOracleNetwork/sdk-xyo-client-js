@@ -1,0 +1,38 @@
+{
+  "$schema": "../schema.json",
+  "schema": "network.xyo.manifest",
+  "dapps": [
+    {
+      "name": "SimpleMemoryDapp",
+      "modules": {
+        "private": [
+          {
+            "name": "ScratchArchivist"
+          }
+        ],
+        "public": [
+          {
+            "name": "SimpleArchivist"
+          },
+          {
+            "name": "SimpleSentinel"
+          }
+        ]
+      }
+    }
+  ],
+  "modules": {
+    "SimpleArchivist": {
+      "language": "javascript",
+      "id": "network.xyo.archivist"
+    },
+    "SimpleSentinel": {
+      "language": "javascript",
+      "id": "network.xyo.sentinel"
+    },
+    "ScratchArchivist": {
+      "language": "javascript",
+      "id": "network.xyo.archivist"
+    }
+  }
+}

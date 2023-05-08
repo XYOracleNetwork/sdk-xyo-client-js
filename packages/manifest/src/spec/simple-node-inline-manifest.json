@@ -14,27 +14,17 @@
         ],
         "public": [
           {
-            "name": "SimpleArchivist"
+            "name": "SimpleArchivist",
+            "language": "javascript",
+            "id": "network.xyo.archivist"
           },
           {
-            "name": "SimpleSentinel"
+            "name": "SimpleSentinel",
+            "language": "javascript",
+            "id": "network.xyo.sentinel"
           }
         ]
       }
     }
-  ],
-  "modules": {
-    "SimpleArchivist": {
-      "language": "javascript",
-      "id": "network.xyo.archivist"
-    },
-    "SimpleSentinel": {
-      "language": "javascript",
-      "id": "network.xyo.sentinel"
-    },
-    "SimpleHttpBridge": {
-      "language": "javascript",
-      "id": "network.xyo.bridge.http"
-    }
-  }
+  ]
 }

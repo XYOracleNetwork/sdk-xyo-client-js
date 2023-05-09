@@ -184,7 +184,7 @@ export class MongoDBDeterministicArchivist<
       if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
         throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
     }
-    const result = await this.bindResult([wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)])
+    const result = await this.bindQueryResult(typedQuery, [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)])
     return [result[0]]
   }
 
@@ -221,6 +221,6 @@ export class MongoDBDeterministicArchivist<
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return this.bindResult(resultPayloads, queryAccount)
+    return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 }

@@ -134,7 +134,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return this.bindResult(resultPayloads, queryAccount)
+    return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

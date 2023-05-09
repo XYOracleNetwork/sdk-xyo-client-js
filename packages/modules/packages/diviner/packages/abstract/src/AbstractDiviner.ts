@@ -53,7 +53,7 @@ export abstract class AbstractDiviner<
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return await this.bindResult(resultPayloads, queryAccount)
+    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   abstract divine(payloads?: Payload[]): Promisable<Payload[]>

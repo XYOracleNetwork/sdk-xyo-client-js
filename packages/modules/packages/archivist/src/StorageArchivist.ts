@@ -146,9 +146,7 @@ export class StorageArchivist<
   }
 
   async insert(payloads: Payload[]): Promise<BoundWitness[]> {
-    //this.logger?.log(`payloads.length: ${payloads.length}`)
-
-    const storedPayloads = payloads.map((payload) => {
+    const resultPayloads = payloads.map((payload) => {
       const wrapper = new PayloadWrapper(payload)
       const hash = wrapper.hash
       const value = JSON.stringify(wrapper.payload)
@@ -156,12 +154,12 @@ export class StorageArchivist<
       this.storage.set(hash, wrapper.payload)
       return wrapper.payload
     })
-    const [storageBoundWitness] = await this.bindResult([...storedPayloads])
+    const [storageBoundWitness] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
     const parentBoundWitnesses: BoundWitness[] = []
     const parents = await this.parents()
     if (Object.entries(parents.write ?? {}).length) {
       //we store the child bw also
-      const [parentBoundWitness] = await this.writeToParents([storageBoundWitness, ...storedPayloads])
+      const [parentBoundWitness] = await this.writeToParents([storageBoundWitness, ...resultPayloads])
       parentBoundWitnesses.push(parentBoundWitness)
     }
     const boundWitnesses = [storageBoundWitness, ...parentBoundWitnesses]

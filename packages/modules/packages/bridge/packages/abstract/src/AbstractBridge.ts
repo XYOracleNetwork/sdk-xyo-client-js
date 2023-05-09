@@ -74,7 +74,7 @@ export abstract class AbstractBridge<
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return await this.bindResult(resultPayloads, queryAccount)
+    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

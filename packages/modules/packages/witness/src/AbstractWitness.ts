@@ -49,7 +49,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
           await this.emit('reportStart', { inPayloads: payloads, module: this })
           const resultPayloads = await this.observe(filteredObservation)
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
-          return this.bindResult(resultPayloads, queryAccount)
+          return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
         }
         default: {
           return super.queryHandler(query, payloads)
@@ -57,7 +57,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindResult([new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build()], queryAccount)
+      return this.bindQueryResult(typedQuery, [new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build()], [queryAccount])
     }
   }
 }

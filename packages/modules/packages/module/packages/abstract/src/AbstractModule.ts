@@ -258,7 +258,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     return result
   }
 
-  protected bindQueryResult<T extends ModuleQueryBase | PayloadWrapper<ModuleQueryBase>>(
+  protected bindQueryResult<T extends Query | PayloadWrapper<Query>>(
     query: T,
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
@@ -315,7 +315,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return await this.bindResult(resultPayloads, queryAccount)
+    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

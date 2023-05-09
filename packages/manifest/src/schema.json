@@ -1,52 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "XYO Manifest",
-  "description": "Describes an XYO Package which is a collection of XYO Modules",
   "additionalProperties": false,
   "definitions": {
-    "module": {
-      "additionalProperties": false,
-      "description": "Module Definition",
-      "properties": {
-        "name": {
-          "description": "The friendly name for this module",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "features": {
-          "items": {
-            "$ref": "#/definitions/feature"
-          },
-          "type": "array"
-        },
-        "language": {
-          "$ref": "#/definitions/language"
-        },
-        "config": {
-          "description": "The default config for the module",
-          "type": "object"
-        },
-        "os": {
-          "$ref": "#/definitions/os"
-        },
-        "id": {
-          "description": "The canonical id that tells the loader how to find the correct registered module implementation",
-          "type": "string"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "modules": {
-      "description": "List of Modules",
-      "items": {
-        "$ref": "#/definitions/module"
-      },
-      "nullable": true,
-      "type": "array"
-    },
     "dapp": {
       "additionalProperties": false,
       "description": "dApp Definition - Generally loaded into an existing or new Node Module",
@@ -54,9 +9,6 @@
         "type": "string"
       },
       "properties": {
-        "name": {
-          "type": "string"
-        },
         "description": {
           "type": "string"
         },
@@ -73,6 +25,9 @@
           },
           "required": [],
           "type": "object"
+        },
+        "name": {
+          "type": "string"
         }
       },
       "required": [],
@@ -85,26 +40,6 @@
       },
       "nullable": true,
       "type": "array"
-    },
-    "os": {
-      "description": "Operating System",
-      "enum": [
-        "aix",
-        "android",
-        "darwin",
-        "dragonfly",
-        "freebsd",
-        "illumos",
-        "ios",
-        "linux",
-        "netbsd",
-        "openbsd",
-        "osx",
-        "plan9",
-        "solaris",
-        "windows"
-      ],
-      "type": "string"
     },
     "feature": {
       "description": "Framework",
@@ -150,48 +85,113 @@
       ],
       "type": "string"
     },
-    "architecture": {
-      "description": "Architecture",
+    "module": {
+      "additionalProperties": false,
+      "description": "Module Definition",
+      "properties": {
+        "architecture": {
+          "description": "Architecture",
+          "enum": [
+            "386",
+            "amd64",
+            "arm",
+            "arm64",
+            "loong64",
+            "mips",
+            "mipsle",
+            "mips64",
+            "mips64le",
+            "ppc64",
+            "ppc64le",
+            "riscv64",
+            "s390x",
+            "wasm"
+          ],
+          "type": "string"
+        },
+        "config": {
+          "description": "The default config for the module",
+          "type": "object"
+        },
+        "description": {
+          "type": "string"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/definitions/feature"
+          },
+          "type": "array"
+        },
+        "id": {
+          "description": "The canonical id that tells the loader how to find the correct registered module implementation",
+          "type": "string"
+        },
+        "language": {
+          "$ref": "#/definitions/language"
+        },
+        "name": {
+          "description": "The friendly name for this module",
+          "type": "string"
+        },
+        "os": {
+          "$ref": "#/definitions/os"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "modules": {
+      "description": "List of Modules",
+      "items": {
+        "$ref": "#/definitions/module"
+      },
+      "nullable": true,
+      "type": "array"
+    },
+    "os": {
+      "description": "Operating System",
       "enum": [
-        "386",
-        "amd64",
-        "arm",
-        "arm64",
-        "loong64",
-        "mips",
-        "mipsle",
-        "mips64",
-        "mips64le",
-        "ppc64",
-        "ppc64le",
-        "riscv64",
-        "s390x",
-        "wasm"
+        "aix",
+        "android",
+        "darwin",
+        "dragonfly",
+        "freebsd",
+        "illumos",
+        "ios",
+        "linux",
+        "netbsd",
+        "openbsd",
+        "osx",
+        "plan9",
+        "solaris",
+        "windows"
       ],
       "type": "string"
     }
   },
+  "description": "Describes an XYO Package which is a collection of XYO Modules",
   "properties": {
     "$schema": {
       "type": "string"
     },
-    "schema": {
-      "type": "string"
-    },
     "dapps": {
-      "description": "The list of dApps that are defined in the manifest",
-      "$ref": "#/definitions/dapps"
+      "$ref": "#/definitions/dapps",
+      "description": "The list of dApps that are defined in the manifest"
     },
     "description": {
       "type": "string"
     },
     "modules": {
-      "description": "The list of global modules that are defined in the manifest",
       "additionalProperties": {
         "$ref": "#/definitions/module"
       },
+      "description": "The list of global modules that are defined in the manifest",
       "type": "object"
+    },
+    "schema": {
+      "type": "string"
     }
   },
-  "required": []
+  "required": [],
+  "title": "XYO Manifest"
 }

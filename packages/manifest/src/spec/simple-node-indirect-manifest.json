@@ -1,9 +1,7 @@
 {
   "$schema": "../schema.json",
-  "schema": "network.xyo.manifest",
   "dapps": [
     {
-      "name": "SimpleMemoryDapp",
       "modules": {
         "private": [
           {
@@ -18,21 +16,23 @@
             "name": "SimpleSentinel"
           }
         ]
-      }
+      },
+      "name": "SimpleMemoryDapp"
     }
   ],
   "modules": {
+    "ScratchArchivist": {
+      "id": "network.xyo.archivist",
+      "language": "javascript"
+    },
     "SimpleArchivist": {
-      "language": "javascript",
-      "id": "network.xyo.archivist"
+      "id": "network.xyo.archivist",
+      "language": "javascript"
     },
     "SimpleSentinel": {
-      "language": "javascript",
-      "id": "network.xyo.sentinel"
-    },
-    "ScratchArchivist": {
-      "language": "javascript",
-      "id": "network.xyo.archivist"
+      "id": "network.xyo.sentinel",
+      "language": "javascript"
     }
-  }
+  },
+  "schema": "network.xyo.manifest"
 }

@@ -2,12 +2,9 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AnyObject, BaseParams, WithAdditional } from '@xyo-network/core'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { ModuleConfig } from './Config'
+import { AnyConfigSchema, ModuleConfig } from './Config'
 
-export type BasicModuleParams<
-  TConfig extends AnyConfigSchema<ModuleConfig>,
-  TAdditionalParams extends AnyObject | undefined = undefined,
-> = WithAdditional<
+export type BasicModuleParams<TConfig extends AnyConfigSchema, TAdditionalParams extends AnyObject | undefined = undefined> = WithAdditional<
   BaseParams<{
     config: TConfig
   }>,
@@ -45,14 +42,3 @@ export type ModuleParams<
   TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>,
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = AccountModuleParams<TConfig, TAdditionalParams> | WalletModuleParams<TConfig, TAdditionalParams> | BasicModuleParams<TConfig, TAdditionalParams>
-
-export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string }> = ModuleConfig<
-  WithAdditional<
-    Omit<TConfig, 'schema'>,
-    {
-      schema: string
-    }
-  >
->
-
-export type OptionalConfigSchema<TConfig extends AnyConfigSchema<ModuleConfig>> = Omit<TConfig, 'schema'> & { schema?: TConfig['schema'] }

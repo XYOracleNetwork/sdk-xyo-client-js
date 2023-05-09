@@ -39,3 +39,19 @@ export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = 
 >
 
 export type ModuleConfig<TConfig extends Payload | undefined = undefined> = ModuleConfigBase<TConfig>
+
+export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string } = Omit<ModuleConfig, 'schema'> & { schema: string }> =
+  ModuleConfig<
+    WithAdditional<
+      Omit<TConfig, 'schema'>,
+      {
+        schema: string
+      }
+    >
+  >
+
+export type OptionalConfigSchema<TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = Omit<TConfig, 'schema'> & {
+  schema?: TConfig['schema']
+}
+
+export type AnyModuleConfig = AnyConfigSchema<ModuleConfig>

@@ -1,0 +1,197 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "dapp": {
+      "additionalProperties": false,
+      "description": "dApp Definition - Generally loaded into an existing or new Node Module",
+      "id": {
+        "type": "string"
+      },
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "modules": {
+          "additionalProperties": false,
+          "description": "dApp Modules",
+          "properties": {
+            "private": {
+              "$ref": "#/definitions/modules"
+            },
+            "public": {
+              "$ref": "#/definitions/modules"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "dapps": {
+      "description": "List of dApps",
+      "items": {
+        "$ref": "#/definitions/dapp"
+      },
+      "nullable": true,
+      "type": "array"
+    },
+    "feature": {
+      "description": "Framework",
+      "enum": [
+        "angular",
+        "asp.net",
+        "browser",
+        "cryengine",
+        "corona",
+        "django",
+        "flutter",
+        "ionic",
+        "jquery",
+        "nodejs",
+        "phonegap",
+        "react",
+        "react-native",
+        "spring",
+        "unity",
+        "unreal",
+        "vue",
+        "xamarin"
+      ],
+      "type": "string"
+    },
+    "language": {
+      "description": "Language",
+      "enum": [
+        "c",
+        "c++",
+        "c#",
+        "go",
+        "java",
+        "javascript",
+        "kotlin",
+        "lua",
+        "python",
+        "ruby",
+        "rust",
+        "scala",
+        "solidity",
+        "swift"
+      ],
+      "type": "string"
+    },
+    "module": {
+      "additionalProperties": false,
+      "description": "Module Definition",
+      "properties": {
+        "architecture": {
+          "description": "Architecture",
+          "enum": [
+            "386",
+            "amd64",
+            "arm",
+            "arm64",
+            "loong64",
+            "mips",
+            "mipsle",
+            "mips64",
+            "mips64le",
+            "ppc64",
+            "ppc64le",
+            "riscv64",
+            "s390x",
+            "wasm"
+          ],
+          "type": "string"
+        },
+        "config": {
+          "description": "The default config for the module",
+          "type": "object"
+        },
+        "description": {
+          "type": "string"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/definitions/feature"
+          },
+          "type": "array"
+        },
+        "id": {
+          "description": "The canonical id that tells the loader how to find the correct registered module implementation",
+          "type": "string"
+        },
+        "language": {
+          "$ref": "#/definitions/language"
+        },
+        "name": {
+          "description": "The friendly name for this module",
+          "type": "string"
+        },
+        "os": {
+          "$ref": "#/definitions/os"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "modules": {
+      "description": "List of Modules",
+      "items": {
+        "$ref": "#/definitions/module"
+      },
+      "nullable": true,
+      "type": "array"
+    },
+    "os": {
+      "description": "Operating System",
+      "enum": [
+        "aix",
+        "android",
+        "darwin",
+        "dragonfly",
+        "freebsd",
+        "illumos",
+        "ios",
+        "linux",
+        "netbsd",
+        "openbsd",
+        "osx",
+        "plan9",
+        "solaris",
+        "windows"
+      ],
+      "type": "string"
+    }
+  },
+  "description": "Describes an XYO Package which is a collection of XYO Modules",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "dapps": {
+      "$ref": "#/definitions/dapps",
+      "description": "The list of dApps that are defined in the manifest"
+    },
+    "description": {
+      "type": "string"
+    },
+    "modules": {
+      "additionalProperties": {
+        "$ref": "#/definitions/module"
+      },
+      "description": "The list of global modules that are defined in the manifest",
+      "type": "object"
+    },
+    "schema": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "title": "XYO Manifest"
+}

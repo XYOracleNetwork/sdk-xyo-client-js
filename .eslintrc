@@ -8,7 +8,8 @@
     "**/node_modules",
     "coverage",
     "docker",
-    "swagger.json"
+    "swagger.json",
+    ".yarn"
   ],
   "rules": {
     "@typescript-eslint/explicit-member-accessibility": ["warn", { "accessibility": "no-public" }],

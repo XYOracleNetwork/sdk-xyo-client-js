@@ -9,6 +9,7 @@ import {
   AccountModuleParams,
   CreatableModule,
   creatableModule,
+  CreatableModuleFactory,
   Module,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
@@ -36,6 +37,7 @@ import compact from 'lodash/compact'
 import { BaseEmitter } from './BaseEmitter'
 import { ModuleErrorBuilder } from './Error'
 import { duplicateModules, serializableField } from './lib'
+import { ModuleFactory } from './ModuleFactory'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
@@ -111,6 +113,10 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     const newModule = new this(mutatedParams)
     await newModule.start?.()
     return newModule
+  }
+
+  static factory<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']): CreatableModuleFactory<TModule> {
+    return ModuleFactory.withParams(this, params)
   }
 
   discover(): Promisable<Payload[]> {

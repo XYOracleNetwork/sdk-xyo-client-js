@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema.json",
+  "dapps": [
+    {
+      "modules": {
+        "private": [
+          {
+            "id": "network.xyo.archivist",
+            "language": "javascript",
+            "name": "ScratchArchivist"
+          }
+        ],
+        "public": [
+          {
+            "id": "network.xyo.archivist",
+            "language": "javascript",
+            "name": "SimpleArchivist"
+          },
+          {
+            "id": "network.xyo.sentinel",
+            "language": "javascript",
+            "name": "SimpleSentinel"
+          }
+        ]
+      },
+      "name": "SimpleMemoryDapp"
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

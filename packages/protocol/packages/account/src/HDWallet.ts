@@ -1,14 +1,12 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { staticImplements } from '@xylabs/static-implements'
 import { AccountInstance } from '@xyo-network/account-model'
-import { Mnemonic, WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
+import { Mnemonic, WalletStatic } from '@xyo-network/wallet-model'
 
 import { HDAccount } from './HDAccount'
 
 @staticImplements<WalletStatic<HDWallet>>()
-export class HDWallet implements WalletInstance {
-  protected constructor(protected readonly node: HDNode) {}
-
+export class HDWallet extends HDAccount implements AccountInstance {
   get address(): string {
     return this.node.address
   }
@@ -69,7 +67,7 @@ export class HDWallet implements WalletInstance {
   }
 
   deriveAccount: (path: string) => AccountInstance = (path: string) => {
-    return new HDAccount(this.node.derivePath(path))
+    return this.derivePath(path)
   }
 
   derivePath: (path: string) => HDWallet = (path: string) => {

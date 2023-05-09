@@ -18,8 +18,8 @@
     "systeminformation": "^5.17.12"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.17.6",
-    "@xylabs/tsconfig": "^2.17.6",
+    "@xylabs/ts-scripts-yarn3": "^2.17.12",
+    "@xylabs/tsconfig": "^2.17.12",
     "typescript": "^5.0.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

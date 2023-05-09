@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -254,23 +255,23 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   ): [QueryBoundWitness, Payload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     const result = (account ? builder.witness(account) : builder).build()
-    //this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
 
-  protected bindResult(payloads: Payload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
-    const promise = new PromiseEx<ModuleQueryResult, AccountInstance>((resolve) => {
-      const result = this.bindResultInternal(payloads, account)
+  protected bindQueryResult<T extends ModuleQueryBase | PayloadWrapper<ModuleQueryBase>>(
+    query: T,
+    payloads: Payload[],
+    additionalWitnesses: AccountInstance[] = [],
+  ): PromiseEx<ModuleQueryResult, AccountInstance[]> {
+    const builder = new BoundWitnessBuilder().payloads(payloads)
+    const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
+    const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
+    builder.witnesses(witnesses)
+    const result: ModuleQueryResult = [builder.build()[0], payloads]
+    return new PromiseEx<ModuleQueryResult, AccountInstance[]>((resolve) => {
       resolve?.(result)
       return result
-    }, account)
-    return promise
-  }
-
-  protected bindResultInternal(payloads: Payload[], account?: AccountInstance): ModuleQueryResult {
-    const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
-    const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
-    return result
+    }, witnesses)
   }
 
   protected loadAccount(account?: AccountInstance): AccountInstance {

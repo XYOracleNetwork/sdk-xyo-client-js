@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -61,6 +61,11 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     'network.xyo.query.module.discover': '/2',
     'network.xyo.query.module.subscribe': '/3',
   }
+  protected readonly queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
+    'network.xyo.query.module.account.hash.previous': undefined,
+    'network.xyo.query.module.discover': undefined,
+    'network.xyo.query.module.subscribe': undefined,
+  }
   protected readonly supportedQueryValidator: Queryable
 
   constructor(params: TParams) {
@@ -81,6 +86,16 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
     this.account = this.loadAccount(account)
+    for (const key in this.queryAccountPaths) {
+      if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
+        const query = key as keyof typeof this.queryAccountPaths
+        const queryAccountPath = this.queryAccountPaths[query]
+        const wallet = this.account as unknown as HDWallet
+        if (wallet?.derivePath) {
+          this.queryAccounts[query] = wallet.derivePath(queryAccountPath)
+        }
+      }
+    }
     this.downResolver.add(this as Module)
     this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable

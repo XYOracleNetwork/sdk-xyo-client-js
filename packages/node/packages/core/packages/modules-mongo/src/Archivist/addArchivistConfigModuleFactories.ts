@@ -1,4 +1,4 @@
-import { Account } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { ArchivistConfig } from '@xyo-network/archivist'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, PayloadWithMeta } from '@xyo-network/node-core-model'
@@ -11,7 +11,7 @@ import { MongoDBDeterministicArchivist } from './Deterministic'
 
 const getMongoDBArchivistFactory = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Archivists.Archivist)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Archivists.Archivist)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
   const factory = async (config: AnyConfigSchema<ArchivistConfig>) =>

@@ -6,15 +6,13 @@
       "type": "node",
       "request": "launch",
       "name": "MemoryNode",
+      "runtimeExecutable": "yarn",
       "program": "${workspaceFolder}/packages/node/packages/core/packages/app/src/app.ts",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],
       "runtimeArgs": [
-        // "--inspect",
-        "--max-old-space-size=8192",
-        "--experimental-specifier-resolution=node",
-        "--loader=ts-node/esm"
+        "ts-node-script",
       ],
       "envFile": "${workspaceFolder}/.env",
       "sourceMaps": true,

@@ -57,9 +57,9 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   protected readonly account: AccountInstance
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly queryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
-    'network.xyo.query.module.account.hash.previous': '/1',
-    'network.xyo.query.module.discover': '/2',
-    'network.xyo.query.module.subscribe': '/3',
+    'network.xyo.query.module.account.hash.previous': '1',
+    'network.xyo.query.module.discover': '2',
+    'network.xyo.query.module.subscribe': '3',
   }
   protected readonly queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
     'network.xyo.query.module.account.hash.previous': undefined,
@@ -86,12 +86,12 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
     this.account = this.loadAccount(account)
-    for (const key in this.queryAccountPaths) {
-      if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
-        const query = key as keyof typeof this.queryAccountPaths
-        const queryAccountPath = this.queryAccountPaths[query]
-        const wallet = this.account as unknown as HDWallet
-        if (wallet?.derivePath) {
+    const wallet = this.account as unknown as HDWallet
+    if (wallet?.derivePath) {
+      for (const key in this.queryAccountPaths) {
+        if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
+          const query = key as keyof typeof this.queryAccountPaths
+          const queryAccountPath = this.queryAccountPaths[query]
           this.queryAccounts[query] = wallet.derivePath(queryAccountPath)
         }
       }

@@ -19,6 +19,7 @@ import {
   ModulePreviousHashQuerySchema,
   ModuleQueriedEventArgs,
   ModuleQuery,
+  ModuleQueryBase,
   ModuleQueryResult,
   ModuleSubscribeQuerySchema,
   Query,
@@ -55,7 +56,11 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   protected _started = false
   protected readonly account: AccountInstance
   protected readonly moduleConfigQueryValidator: Queryable
-
+  protected readonly queryAccounts: Record<ModuleQueryBase['schema'], string> = {
+    'network.xyo.query.module.account.hash.previous': '/1',
+    'network.xyo.query.module.discover': '/2',
+    'network.xyo.query.module.subscribe': '/3',
+  }
   protected readonly supportedQueryValidator: Queryable
 
   constructor(params: TParams) {

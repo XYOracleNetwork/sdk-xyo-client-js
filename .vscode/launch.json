@@ -23,6 +23,24 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "MemoryNode (Yarn)",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "start"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**"
+      ],
+      "pauseForSourceMap": true,
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "CLI",
       "program": "${workspaceFolder}/packages/cli/src/xyo.ts",
       "outFiles": [

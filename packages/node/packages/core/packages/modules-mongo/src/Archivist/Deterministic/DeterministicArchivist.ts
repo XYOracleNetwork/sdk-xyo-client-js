@@ -169,7 +169,7 @@ export class MongoDBDeterministicArchivist<
     return succeeded.filter(exists).map(toReturnValue)
   }
 
-  protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, _typedQuery: ArchivistInsertQuery): Promise<BoundWitness[]> {
+  protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistInsertQuery): Promise<BoundWitness[]> {
     const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)]
     const [bw, p] = toStore.reduce(validByType, [[], []])
     const boundWitnesses = bw.map((x) => toBoundWitnessWithMeta(x))

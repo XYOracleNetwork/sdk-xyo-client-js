@@ -46,7 +46,7 @@ export abstract class AbstractArchivist<
   extends AbstractModule<TParams, TEventData>
   implements ArchivistModule<TParams>
 {
-  protected override readonly queryAccounts: Record<SupportedQuery, string> = {
+  protected override readonly queryAccountPaths: Record<SupportedQuery, string> = {
     'network.xyo.query.archivist.all': '/1/1',
     'network.xyo.query.archivist.clear': '/1/2',
     'network.xyo.query.archivist.commit': '/1/3',
@@ -54,7 +54,7 @@ export abstract class AbstractArchivist<
     'network.xyo.query.archivist.find': '/1/5',
     'network.xyo.query.archivist.get': '/1/6',
     'network.xyo.query.archivist.insert': '/1/7',
-    ...super.queryAccounts,
+    ...super.queryAccountPaths,
   }
 
   private _parents?: XyoArchivistParentWrappers

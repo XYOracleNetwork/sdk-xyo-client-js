@@ -96,13 +96,14 @@ export abstract class AbstractSentinel<
     const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
+    const resultPayloads: Payload[] = []
     try {
       switch (typedQuery.schema) {
         case SentinelReportQuerySchema: {
           await this.emit('reportStart', { inPayloads: payloads, module: this })
-          const resultPayloads = await this.report(payloads)
+          resultPayloads.push(...(await this.report(payloads)))
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
-          return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
+          break
         }
         default: {
           return super.queryHandler(query, payloads)
@@ -112,6 +113,7 @@ export abstract class AbstractSentinel<
       const error = ex as Error
       return this.bindQueryResult(typedQuery, [new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build()], [queryAccount])
     }
+    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   abstract report(payloads?: Payload[]): Promise<Payload[]>

@@ -12,6 +12,15 @@ import { combineRules } from './combineRules'
 
 const limit = 1
 
+// // TODO: Remove once we upgrade to TypeScript 5.0 as this definition is included natively
+// // https://github.com/microsoft/TypeScript/issues/48829
+// declare global {
+//   interface Array<T> {
+//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     findLastIndex(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): number
+//   }
+// }
+
 const createBoundWitnessFilterFromSearchCriteria = (searchCriteria: PayloadSearchCriteria): Payload[] => {
   const { addresses, direction, schemas, timestamp } = searchCriteria
   const order = direction === 'asc' ? 'asc' : 'desc'

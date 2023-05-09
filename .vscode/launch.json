@@ -6,14 +6,13 @@
       "type": "node",
       "request": "launch",
       "name": "MemoryNode",
-      "runtimeExecutable": "yarn",
       "program": "${workspaceFolder}/packages/node/packages/core/packages/app/src/app.ts",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],
-      "runtimeArgs": [
-        "ts-node-script",
-      ],
+      "env": {
+        "NODE_OPTIONS": "-r ts-node/register --loader ts-node/esm"
+      },
       "envFile": "${workspaceFolder}/.env",
       "sourceMaps": true,
       "resolveSourceMapLocations": [

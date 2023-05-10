@@ -8,7 +8,6 @@ import {
   AnyConfigSchema,
   ModuleConfig,
   ModuleErrorBuilder,
-  ModuleQueryBase,
   ModuleQueryResult,
   QueryBoundWitness,
   QueryBoundWitnessWrapper,
@@ -18,10 +17,8 @@ import { WitnessWrapper } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
-import { SentinelQueryBase, SentinelReportQuerySchema } from './Queries'
+import { SentinelModuleQueries, SentinelQueryBase, SentinelReportQuerySchema } from './Queries'
 import { SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
-
-type SupportedQuery = ModuleQueryBase['schema'] | SentinelQueryBase['schema']
 
 export abstract class AbstractSentinel<
     TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<SentinelConfig>,
@@ -33,7 +30,7 @@ export abstract class AbstractSentinel<
   static override configSchema: string = SentinelConfigSchema
 
   history: BoundWitness[] = []
-  protected override readonly queryAccountPaths: Record<SupportedQuery, string> = {
+  protected override readonly queryAccountPaths: Record<SentinelModuleQueries['schema'], string> = {
     'network.xyo.query.sentinel.report': '1/1',
     ...super.queryAccountPaths,
   }

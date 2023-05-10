@@ -9,7 +9,6 @@ import {
   ModuleConfig,
   ModuleErrorBuilder,
   ModuleFilter,
-  ModuleQueryBase,
   ModuleQueryResult,
   QueryBoundWitness,
   QueryBoundWitnessWrapper,
@@ -22,14 +21,13 @@ import {
   XyoNodeAttachedQuerySchema,
   XyoNodeAttachQuerySchema,
   XyoNodeDetachQuerySchema,
+  XyoNodeModuleQueries,
   XyoNodeQuery,
   XyoNodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-
-type SupportedQuery = ModuleQueryBase['schema'] | XyoNodeQuery['schema']
 
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractModule<TParams, TEventData>
@@ -39,7 +37,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   protected readonly privateResolver = new CompositeModuleResolver()
 
-  protected override readonly queryAccountPaths: Record<SupportedQuery, string> = {
+  protected override readonly queryAccountPaths: Record<XyoNodeModuleQueries['schema'], string> = {
     'network.xyo.query.node.attach': '1/1',
     'network.xyo.query.node.attached': '1/2',
     'network.xyo.query.node.detach': '1/3',

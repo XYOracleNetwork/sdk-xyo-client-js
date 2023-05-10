@@ -66,6 +66,9 @@ export class HDWallet extends HDAccount implements AccountInstance {
     return new HDWallet(node)
   }
 
+  /**
+   * @deprecated Use derivePath instead as HDWallet now implements AccountInstance
+   */
   deriveAccount: (path: string) => AccountInstance = (path: string) => {
     return this.derivePath(path)
   }

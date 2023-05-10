@@ -87,16 +87,6 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
     this.account = this.loadAccount(account)
-    const wallet = this.account as unknown as HDWallet
-    if (wallet?.derivePath) {
-      for (const key in this.queryAccountPaths) {
-        if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
-          const query = key as keyof typeof this.queryAccountPaths
-          const queryAccountPath = this.queryAccountPaths[query]
-          this.queryAccounts[query] = wallet.derivePath(queryAccountPath)
-        }
-      }
-    }
     this.downResolver.add(this as Module)
     this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
@@ -164,7 +154,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
         const previousHash = account.previousHash?.hex
         return { address, name, previousHash, schema: AddressSchema }
       })
-    const moduleAccountPreviousHash = new PayloadBuilder<AddressPayload & { previousHash?: string }>({ schema: AddressSchema })
+    const moduleAccountPreviousHash = new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
       .fields({
         address: this.address,
         name: this.config.name,
@@ -205,6 +195,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
 
   start(_timeout?: number): Promisable<void> {
     this.validateConfig()
+    this.initializeQueryAccounts()
     this._started = true
   }
 
@@ -286,6 +277,19 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
       resolve?.(result)
       return result
     }, witnesses)
+  }
+
+  protected initializeQueryAccounts() {
+    const wallet = this.account as unknown as HDWallet
+    if (wallet?.derivePath) {
+      for (const key in this.queryAccountPaths) {
+        if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
+          const query = key as keyof typeof this.queryAccountPaths
+          const queryAccountPath = this.queryAccountPaths[query]
+          this.queryAccounts[query] = wallet.derivePath(queryAccountPath)
+        }
+      }
+    }
   }
 
   protected loadAccount(account?: AccountInstance): AccountInstance {

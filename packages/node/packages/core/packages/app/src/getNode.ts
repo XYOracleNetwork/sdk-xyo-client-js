@@ -1,4 +1,4 @@
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { MemoryNode, MemoryNodeParams } from '@xyo-network/node'
 import { WALLET_PATHS } from '@xyo-network/node-core-types'

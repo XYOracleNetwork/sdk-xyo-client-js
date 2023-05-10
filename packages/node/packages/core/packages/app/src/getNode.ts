@@ -1,4 +1,4 @@
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { MemoryNode, MemoryNodeParams } from '@xyo-network/node'
 import { WALLET_PATHS } from '@xyo-network/node-core-types'
@@ -16,7 +16,7 @@ export const getNode = async (account?: AccountInstance): Promise<MemoryNode> =>
   if (!account) {
     const mnemonic = process.env.MNEMONIC || ''
     const path = WALLET_PATHS.Nodes.Node
-    account = Account.fromMnemonic(mnemonic, path)
+    account = HDWallet.fromMnemonic(mnemonic).derivePath(path)
   }
   PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new XyoSchemaNameValidator(schema))
   const params: MemoryNodeParams = { account, config }

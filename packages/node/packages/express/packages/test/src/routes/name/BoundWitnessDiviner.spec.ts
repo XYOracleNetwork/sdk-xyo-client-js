@@ -99,7 +99,7 @@ describe(`/${moduleName}`, () => {
       beforeAll(async () => await archivist.insert(boundWitnesses.map((b) => b.payload)))
       describe('with timestamp', () => {
         it('divines BoundWitnesses from offset', async () => {
-          const timestamp = assertEx(boundWitnesses[boundWitnesses.length].boundwitness.timestamp, 'Missing timestamp in test BW') + 1
+          const timestamp = assertEx(boundWitnesses[boundWitnesses.length - 1].boundwitness.timestamp, 'Missing timestamp in test BW') + 1
           const limit = boundWitnesses.length
           const query: BoundWitnessDivinerQueryPayload = { limit, schema, timestamp }
           const response = await diviner.divine([query])

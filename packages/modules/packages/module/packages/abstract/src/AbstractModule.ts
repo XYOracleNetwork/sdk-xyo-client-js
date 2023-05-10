@@ -9,7 +9,6 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AccountModuleParams,
   CreatableModule,
-  creatableModule,
   CreatableModuleFactory,
   Module,
   ModuleConfig,

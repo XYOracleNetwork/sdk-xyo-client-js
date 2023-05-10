@@ -1,23 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import {
-  AbstractModule,
-  ModuleConfig,
-  ModuleErrorBuilder,
-  ModuleQueryBase,
-  ModuleQueryResult,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
-} from '@xyo-network/module'
+import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
 import { WitnessConfigSchema } from './Config'
-import { WitnessObserveQuerySchema, WitnessQuery } from './Queries'
+import { WitnessModuleQueries, WitnessObserveQuerySchema, WitnessQuery } from './Queries'
 import { WitnessModule, WitnessModuleEventData, WitnessParams } from './Witness'
-
-type SupportedQuery = ModuleQueryBase['schema'] | WitnessQuery['schema']
 
 export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData>
   extends AbstractModule<TParams, TEventData>
@@ -25,7 +15,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
 {
   static override configSchema: string = WitnessConfigSchema
 
-  protected override readonly queryAccountPaths: Record<SupportedQuery, string> = {
+  protected override readonly queryAccountPaths: Record<WitnessModuleQueries['schema'], string> = {
     'network.xyo.query.witness.observe': '1/1',
     ...super.queryAccountPaths,
   }
@@ -43,7 +33,6 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     const payloadList = assertEx(payloads, 'Trying to witness nothing')
     assertEx(payloadList.length > 0, 'Trying to witness empty list')
     payloadList?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
-    //this.logger?.debug(`result: ${JSON.stringify(payloadList, null, 2)}`)
     return payloadList
   }
 

@@ -14,9 +14,12 @@ import { addMiddleware } from './addMiddleware'
 import { configureEnvironment } from './configureEnvironment'
 import { startJobQueue } from './startJobQueue'
 
+const hostname = '::'
+
 export abstract class PayloadTransport {
   constructor(protected readonly node: AbstractNode) {}
 }
+
 export class ExpressPayloadTransport extends PayloadTransport {
   private _app: Express = express()
   constructor(node: AbstractNode) {
@@ -50,11 +53,9 @@ export const getServer = async (port = 80, node?: MemoryNode) => {
   const app = await getApp(node)
   await startJobQueue()
   const logger = container.get<Logger>(TYPES.Logger)
-  const host = process.env.PUBLIC_ORIGIN || `http://localhost:${port}`
+  const host = process.env.PUBLIC_ORIGIN || `http://${hostname}:${port}`
   await configureDoc(app, { host })
-  const server = app.listen(port, '0.0.0.0', () => {
-    logger.log(`Server listening at http://localhost:${port}`)
-  })
+  const server = app.listen(port, hostname, () => logger.log(`Server listening at http://${hostname}:${port}`))
   server.setTimeout(3000)
   return server
 }

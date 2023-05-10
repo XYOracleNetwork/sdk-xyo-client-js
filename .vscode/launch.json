@@ -52,8 +52,10 @@
         "--loader=ts-node/esm"
       ],
       "args": [
-        "config",
-        "show",
+        "--network",
+        "local",
+        "node",
+        "discover",
       ],
       "envFile": "${workspaceFolder}/.env",
       "sourceMaps": true,

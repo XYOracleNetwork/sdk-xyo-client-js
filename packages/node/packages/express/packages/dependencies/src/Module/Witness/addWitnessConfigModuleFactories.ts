@@ -1,4 +1,4 @@
-import { Account } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { AnyConfigSchema } from '@xyo-network/modules'
 import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
@@ -7,7 +7,7 @@ import { Container } from 'inversify'
 
 const getPrometheusNodeWitness = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Witnesses.Prometheus)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Witnesses.Prometheus)
   const factory = (config: AnyConfigSchema<PrometheusNodeWitnessConfig>) => {
     return PrometheusNodeWitness.create({
       account,

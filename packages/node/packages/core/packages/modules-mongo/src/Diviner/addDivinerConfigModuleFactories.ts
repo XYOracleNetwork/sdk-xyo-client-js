@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
 import {
   AddressHistoryDivinerConfig,

@@ -16,7 +16,7 @@ import { ArchivistFindQuery } from './Find'
 import { ArchivistGetQuery } from './Get'
 import { ArchivistInsertQuery } from './Insert'
 
-export type ArchivistQueryRoot =
+export type ArchivistQueryBase =
   | ArchivistAllQuery
   | ArchivistClearQuery
   | ArchivistCommitQuery
@@ -25,5 +25,11 @@ export type ArchivistQueryRoot =
   | ArchivistGetQuery
   | ArchivistInsertQuery
 
-export type ArchivistModuleQueries = ModuleQueryBase | ArchivistQueryRoot
-export type ArchivistQuery<TQuery extends Query | void = void> = ModuleQuery<TQuery extends Query ? ArchivistQueryRoot | TQuery : ArchivistQueryRoot>
+/**
+ * @deprecated Use ArchivistQueryBase instead to
+ * match naming convention
+ */
+export type ArchivistQueryRoot = ArchivistQueryBase
+
+export type ArchivistModuleQueries = ModuleQueryBase | ArchivistQueryBase
+export type ArchivistQuery<TQuery extends Query | void = void> = ModuleQuery<TQuery extends Query ? ArchivistQueryBase | TQuery : ArchivistQueryBase>

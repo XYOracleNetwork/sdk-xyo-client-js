@@ -11,5 +11,5 @@ export * from './Detach'
 export * from './Registered'
 
 export type XyoNodeQueryBase = XyoNodeAttachQuery | XyoNodeDetachQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery
-export type NodeModuleQueries = ModuleQueryBase | XyoNodeQueryBase
+export type XyoNodeModuleQueries = ModuleQueryBase | XyoNodeQueryBase
 export type XyoNodeQuery<T extends Query | void = void> = ModuleQuery<T extends Query ? XyoNodeQueryBase | T : XyoNodeQueryBase>

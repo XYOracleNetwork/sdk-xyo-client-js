@@ -293,6 +293,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const paths = Object.values(this.queryAccountPaths).filter(exists)
     const distinctPaths = new Set<string>(paths)
     assertEx(distinctPaths.size === paths.length, `${this.config?.name ? this.config.name + ': ' : ''}Duplicate query account paths`)
+    // Create an account for query this module supports
     const wallet = this.account as unknown as HDWallet
     if (wallet?.derivePath) {
       for (const key in this.queryAccountPaths) {

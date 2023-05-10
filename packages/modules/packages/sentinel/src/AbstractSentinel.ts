@@ -17,7 +17,7 @@ import { WitnessWrapper } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
-import { SentinelModuleQueries, SentinelQueryBase, SentinelReportQuerySchema } from './Queries'
+import { SentinelQueryBase, SentinelReportQuerySchema } from './Queries'
 import { SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
 
 export abstract class AbstractSentinel<
@@ -30,15 +30,18 @@ export abstract class AbstractSentinel<
   static override configSchema: string = SentinelConfigSchema
 
   history: BoundWitness[] = []
-  protected override readonly queryAccountPaths: Record<SentinelModuleQueries['schema'], string> = {
-    'network.xyo.query.sentinel.report': '1/1',
-    ...super.queryAccountPaths,
-  }
+
   private _archivists: ArchivistWrapper[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 
   override get queries(): string[] {
     return [SentinelReportQuerySchema, ...super.queries]
+  }
+
+  protected override get _queryAccountPaths(): Record<SentinelQueryBase['schema'], string> {
+    return {
+      'network.xyo.query.sentinel.report': '1/1',
+    }
   }
 
   addArchivist(address: string[]) {

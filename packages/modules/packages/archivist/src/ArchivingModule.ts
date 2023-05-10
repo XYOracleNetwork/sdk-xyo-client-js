@@ -2,7 +2,17 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AbstractModule, creatableModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult, Query } from '@xyo-network/module'
+import {
+  AbstractModule,
+  creatableModule,
+  Module,
+  ModuleConfig,
+  ModuleEventData,
+  ModuleParams,
+  ModuleQueryBase,
+  ModuleQueryResult,
+  Query,
+} from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromiseEx } from '@xyo-network/promise'
@@ -14,8 +24,8 @@ export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfi
     schema: string
   } & T
 >
-@creatableModule()
-export class ArchivingModule<
+// @creatableModule()
+export abstract class ArchivingModule<
     TParams extends ModuleParams<ArchivingModuleConfig> = ModuleParams<ArchivingModuleConfig>,
     TEventData extends ModuleEventData = ModuleEventData,
   >

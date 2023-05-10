@@ -6,7 +6,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
 import { WitnessConfigSchema } from './Config'
-import { WitnessModuleQueries, WitnessObserveQuerySchema, WitnessQuery } from './Queries'
+import { WitnessObserveQuerySchema, WitnessQuery, WitnessQueryBase } from './Queries'
 import { WitnessModule, WitnessModuleEventData, WitnessParams } from './Witness'
 
 export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData>
@@ -15,17 +15,18 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
 {
   static override configSchema: string = WitnessConfigSchema
 
-  protected override readonly queryAccountPaths: Record<WitnessModuleQueries['schema'], string> = {
-    'network.xyo.query.witness.observe': '1/1',
-    ...super.queryAccountPaths,
-  }
-
   override get queries(): string[] {
     return [WitnessObserveQuerySchema, ...super.queries]
   }
 
   get targetSet() {
     return this.config?.targetSet
+  }
+
+  protected override get _queryAccountPaths(): Record<WitnessQueryBase['schema'], string> {
+    return {
+      'network.xyo.query.witness.observe': '1/1',
+    }
   }
 
   observe(payloads?: Payload[]): Promisable<Payload[]> {

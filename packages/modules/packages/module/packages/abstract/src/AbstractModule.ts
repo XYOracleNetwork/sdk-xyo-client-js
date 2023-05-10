@@ -195,16 +195,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
 
   start(_timeout?: number): Promisable<void> {
     this.validateConfig()
-    const wallet = this.account as unknown as HDWallet
-    if (wallet?.derivePath) {
-      for (const key in this.queryAccountPaths) {
-        if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
-          const query = key as keyof typeof this.queryAccountPaths
-          const queryAccountPath = this.queryAccountPaths[query]
-          this.queryAccounts[query] = wallet.derivePath(queryAccountPath)
-        }
-      }
-    }
+    this.initializeQueryAccounts()
     this._started = true
   }
 
@@ -286,6 +277,19 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
       resolve?.(result)
       return result
     }, witnesses)
+  }
+
+  protected initializeQueryAccounts() {
+    const wallet = this.account as unknown as HDWallet
+    if (wallet?.derivePath) {
+      for (const key in this.queryAccountPaths) {
+        if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
+          const query = key as keyof typeof this.queryAccountPaths
+          const queryAccountPath = this.queryAccountPaths[query]
+          this.queryAccounts[query] = wallet.derivePath(queryAccountPath)
+        }
+      }
+    }
   }
 
   protected loadAccount(account?: AccountInstance): AccountInstance {

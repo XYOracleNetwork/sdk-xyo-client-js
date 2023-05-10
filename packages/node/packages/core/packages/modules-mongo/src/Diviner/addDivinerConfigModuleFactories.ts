@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
 import {
   AddressHistoryDivinerConfig,
@@ -41,7 +41,7 @@ import { MongoDBSchemaStatsDiviner } from './SchemaStats'
 
 const getMongoDBAddressHistoryDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.AddressHistory)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.AddressHistory)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const factory = (config: AnyConfigSchema<AddressHistoryDivinerConfig>) => {
     const params = {
@@ -55,7 +55,7 @@ const getMongoDBAddressHistoryDiviner = (container: Container) => {
 }
 const getMongoDBAddressSpaceDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.AddressSpace)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.AddressSpace)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const factory = (config: AnyConfigSchema<AddressSpaceDivinerConfig>) => {
     const params = {
@@ -69,7 +69,7 @@ const getMongoDBAddressSpaceDiviner = (container: Container) => {
 }
 const getMongoDBBoundWitnessDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitness)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.BoundWitness)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const factory = (config: AnyConfigSchema<BoundWitnessDivinerConfig>) => {
     const params = {
@@ -83,7 +83,7 @@ const getMongoDBBoundWitnessDiviner = (container: Container) => {
 }
 const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.BoundWitnessStats)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.BoundWitnessStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const factory = (config: AnyConfigSchema<BoundWitnessStatsDivinerConfig>) => {
@@ -99,7 +99,7 @@ const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
 }
 const getMemoryForecastingDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.Forecasting)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.Forecasting)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
@@ -122,7 +122,7 @@ const getMemoryForecastingDiviner = (container: Container) => {
 }
 const getMongoDBPayloadDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.Payload)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.Payload)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
   const factory = (config: AnyConfigSchema<PayloadDivinerConfig>) => {
     const params = {
@@ -136,7 +136,7 @@ const getMongoDBPayloadDiviner = (container: Container) => {
 }
 const getMongoDBPayloadStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.PayloadStats)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.PayloadStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
@@ -154,7 +154,7 @@ const getMongoDBPayloadStatsDiviner = (container: Container) => {
 }
 const getMongoDBSchemaListDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaList)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.SchemaList)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const factory = (config: AnyConfigSchema<SchemaListDivinerConfig>) => {
     const params = {
@@ -168,7 +168,7 @@ const getMongoDBSchemaListDiviner = (container: Container) => {
 }
 const getMongoDBSchemaStatsDiviner = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = Account.fromMnemonic(mnemonic, WALLET_PATHS.Diviners.SchemaStats)
+  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.SchemaStats)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const factory = (config: AnyConfigSchema<SchemaStatsDivinerConfig>) => {

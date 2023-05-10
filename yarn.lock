@@ -6826,7 +6826,6 @@ __metadata:
     "@xylabs/assert": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.17.12
     "@xylabs/tsconfig": ^2.17.12
-    "@xyo-network/core": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"
     "@xyo-network/memory-archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -6877,6 +6876,7 @@ __metadata:
   resolution: "@xyo-network/module-abstract@workspace:packages/modules/packages/module/packages/abstract"
   dependencies:
     "@xylabs/assert": ^2.7.6
+    "@xylabs/exists": ^2.7.6
     "@xylabs/promise": ^2.7.6
     "@xylabs/ts-scripts-yarn3": ^2.17.12
     "@xylabs/tsconfig": ^2.17.12

@@ -13,7 +13,6 @@
   "docs": "dist/docs.json",
   "dependencies": {
     "@xylabs/assert": "^2.7.6",
-    "@xyo-network/core": "workspace:^",
     "@xyo-network/http-bridge": "workspace:^",
     "@xyo-network/memory-archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",

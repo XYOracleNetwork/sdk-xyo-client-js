@@ -148,7 +148,7 @@ export class CookieArchivist<
 
   async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     try {
-      const storedPayloads: Payload[] = payloads.map((payload) => {
+      const resultPayloads: Payload[] = payloads.map((payload) => {
         const wrapper = new PayloadWrapper(payload)
         const key = this.keyFromHash(wrapper.hash)
         const value = JSON.stringify(wrapper.payload)
@@ -156,12 +156,12 @@ export class CookieArchivist<
         Cookies.set(key, JSON.stringify(wrapper.payload))
         return wrapper.payload
       })
-      const result = await this.bindResult([...storedPayloads])
+      const result = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
       const parentBoundWitnesses: BoundWitness[] = []
       const parents = await this.parents()
       if (Object.entries(parents.write ?? {}).length) {
         //we store the child bw also
-        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...storedPayloads])))
+        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...resultPayloads])))
       }
       const boundWitnesses = [result[0], ...parentBoundWitnesses]
       await this.emit('inserted', { boundWitnesses, module: this })

@@ -8,10 +8,20 @@ import {
   DivinerParams,
   DivinerQuery,
 } from '@xyo-network/diviner-model'
-import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
+import {
+  AbstractModule,
+  ModuleConfig,
+  ModuleErrorBuilder,
+  ModuleQueryBase,
+  ModuleQueryResult,
+  QueryBoundWitness,
+  QueryBoundWitnessWrapper,
+} from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
+
+type SupportedQuery = ModuleQueryBase['schema'] | DivinerQuery['schema']
 
 export abstract class AbstractDiviner<
     TParams extends DivinerParams = DivinerParams,
@@ -22,6 +32,11 @@ export abstract class AbstractDiviner<
 {
   static override configSchema: string = DivinerConfigSchema
   static targetSchema: string
+
+  protected override readonly queryAccountPaths: Record<SupportedQuery, string> = {
+    'network.xyo.query.diviner.divine': '1/1',
+    ...super.queryAccountPaths,
+  }
 
   override get queries(): string[] {
     return [DivinerDivineQuerySchema, ...super.queries]
@@ -53,7 +68,7 @@ export abstract class AbstractDiviner<
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return await this.bindResult(resultPayloads, queryAccount)
+    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   abstract divine(payloads?: Payload[]): Promisable<Payload[]>

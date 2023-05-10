@@ -13,10 +13,19 @@ import {
   ArchivistModuleEventData,
   ArchivistParams,
   ArchivistQuery,
+  ArchivistQueryRoot,
 } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
+import {
+  AbstractModule,
+  ModuleConfig,
+  ModuleErrorBuilder,
+  ModuleQueryBase,
+  ModuleQueryResult,
+  QueryBoundWitness,
+  QueryBoundWitnessWrapper,
+} from '@xyo-network/module'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
@@ -27,6 +36,9 @@ export interface XyoArchivistParentWrappers {
   read?: Record<string, ArchivistWrapper>
   write?: Record<string, ArchivistWrapper>
 }
+
+type SupportedQuery = ModuleQueryBase['schema'] | ArchivistQueryRoot['schema']
+
 export abstract class AbstractArchivist<
     TParams extends ArchivistParams = ArchivistParams,
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
@@ -34,6 +46,17 @@ export abstract class AbstractArchivist<
   extends AbstractModule<TParams, TEventData>
   implements ArchivistModule<TParams>
 {
+  protected override readonly queryAccountPaths: Record<SupportedQuery, string> = {
+    'network.xyo.query.archivist.all': '1/1',
+    'network.xyo.query.archivist.clear': '1/2',
+    'network.xyo.query.archivist.commit': '1/3',
+    'network.xyo.query.archivist.delete': '1/4',
+    'network.xyo.query.archivist.find': '1/5',
+    'network.xyo.query.archivist.get': '1/6',
+    'network.xyo.query.archivist.insert': '1/7',
+    ...super.queryAccountPaths,
+  }
+
   private _parents?: XyoArchivistParentWrappers
 
   override get queries(): string[] {
@@ -162,7 +185,7 @@ export abstract class AbstractArchivist<
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return this.bindResult(resultPayloads, queryAccount)
+    return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {

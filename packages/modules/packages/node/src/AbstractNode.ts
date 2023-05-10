@@ -9,6 +9,7 @@ import {
   ModuleConfig,
   ModuleErrorBuilder,
   ModuleFilter,
+  ModuleQueryBase,
   ModuleQueryResult,
   QueryBoundWitness,
   QueryBoundWitnessWrapper,
@@ -28,6 +29,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
+type SupportedQuery = ModuleQueryBase['schema'] | XyoNodeQuery['schema']
+
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractModule<TParams, TEventData>
   implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
@@ -35,6 +38,14 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
   static override readonly configSchema = NodeConfigSchema
 
   protected readonly privateResolver = new CompositeModuleResolver()
+
+  protected override readonly queryAccountPaths: Record<SupportedQuery, string> = {
+    'network.xyo.query.node.attach': '1/1',
+    'network.xyo.query.node.attached': '1/2',
+    'network.xyo.query.node.detach': '1/3',
+    'network.xyo.query.node.registered': '1/4',
+    ...super.queryAccountPaths,
+  }
 
   private readonly isNode = true
 
@@ -134,7 +145,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return this.bindResult(resultPayloads, queryAccount)
+    return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

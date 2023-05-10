@@ -10,11 +10,26 @@
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],
+      "env": {
+        "NODE_OPTIONS": "-r ts-node/register --loader ts-node/esm --max-old-space-size=8192"
+      },
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**"
+      ],
+      "pauseForSourceMap": true,
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "MemoryNode (Yarn)",
+      "runtimeExecutable": "yarn",
       "runtimeArgs": [
-        // "--inspect",
-        "--max-old-space-size=8192",
-        "--experimental-specifier-resolution=node",
-        "--loader=ts-node/esm"
+        "start"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
       ],
       "envFile": "${workspaceFolder}/.env",
       "sourceMaps": true,

@@ -17,6 +17,7 @@ import {
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
+  ModuleQueryBase,
   ModuleQueryResult,
   Query,
   QueryBoundWitness,
@@ -24,6 +25,8 @@ import {
 } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
+
+type SupportedQuery = ModuleQueryBase['schema'] | BridgeQuery['schema']
 
 export abstract class AbstractBridge<
     TParams extends BridgeParams = BridgeParams,
@@ -36,6 +39,12 @@ export abstract class AbstractBridge<
   static override configSchema: string = BridgeConfigSchema
 
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
+
+  protected override readonly queryAccountPaths: Record<SupportedQuery, string> = {
+    'network.xyo.query.bridge.connect': '1/1',
+    'network.xyo.query.bridge.disconnect': '1/2',
+    ...super.queryAccountPaths,
+  }
 
   override get queries(): string[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, ...super.queries]
@@ -74,7 +83,7 @@ export abstract class AbstractBridge<
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return await this.bindResult(resultPayloads, queryAccount)
+    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

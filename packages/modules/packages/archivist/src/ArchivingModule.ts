@@ -2,8 +2,9 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AbstractModule, creatableModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
+import { AbstractModule, creatableModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult, Query } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromiseEx } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
@@ -21,11 +22,15 @@ export class ArchivingModule<
   extends AbstractModule<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
-  protected override bindResult(payloads: Payload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
-    const promise = new PromiseEx<ModuleQueryResult, AccountInstance>(async (resolve, reject) => {
+  protected override bindQueryResult<T extends Query | PayloadWrapper<Query>>(
+    query: T,
+    payloads: Payload[],
+    additionalWitnesses: AccountInstance[] = [],
+  ): PromiseEx<ModuleQueryResult, AccountInstance[]> {
+    const promise = new PromiseEx<ModuleQueryResult, AccountInstance[]>(async (resolve, reject) => {
       let result: ModuleQueryResult | undefined = undefined
       try {
-        result = this.bindResultInternal(payloads, account)
+        result = await super.bindQueryResult(query, payloads, additionalWitnesses)
         await this.storeToArchivists([result[0], ...result[1]])
       } catch (ex) {
         //Todo: We need to update PromiseEx to not require a result for reject
@@ -33,7 +38,7 @@ export class ArchivingModule<
         return
       }
       resolve?.(result)
-    }, account)
+    }, additionalWitnesses)
     return promise
   }
 

@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { exists } from '@xylabs/exists'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -19,6 +20,7 @@ import {
   ModulePreviousHashQuerySchema,
   ModuleQueriedEventArgs,
   ModuleQuery,
+  ModuleQueryBase,
   ModuleQueryResult,
   ModuleSubscribeQuerySchema,
   Query,
@@ -55,7 +57,16 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   protected _started = false
   protected readonly account: AccountInstance
   protected readonly moduleConfigQueryValidator: Queryable
-
+  protected readonly queryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
+    'network.xyo.query.module.account.hash.previous': '1',
+    'network.xyo.query.module.discover': '2',
+    'network.xyo.query.module.subscribe': '3',
+  }
+  protected readonly queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
+    'network.xyo.query.module.account.hash.previous': undefined,
+    'network.xyo.query.module.discover': undefined,
+    'network.xyo.query.module.subscribe': undefined,
+  }
   protected readonly supportedQueryValidator: Queryable
 
   constructor(params: TParams) {
@@ -76,6 +87,16 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
     this.account = this.loadAccount(account)
+    const wallet = this.account as unknown as HDWallet
+    if (wallet?.derivePath) {
+      for (const key in this.queryAccountPaths) {
+        if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
+          const query = key as keyof typeof this.queryAccountPaths
+          const queryAccountPath = this.queryAccountPaths[query]
+          this.queryAccounts[query] = wallet.derivePath(queryAccountPath)
+        }
+      }
+    }
     this.downResolver.add(this as Module)
     this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
@@ -234,23 +255,23 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   ): [QueryBoundWitness, Payload[]] {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     const result = (account ? builder.witness(account) : builder).build()
-    //this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
 
-  protected bindResult(payloads: Payload[], account?: AccountInstance): PromiseEx<ModuleQueryResult, AccountInstance> {
-    const promise = new PromiseEx<ModuleQueryResult, AccountInstance>((resolve) => {
-      const result = this.bindResultInternal(payloads, account)
+  protected bindQueryResult<T extends Query | PayloadWrapper<Query>>(
+    query: T,
+    payloads: Payload[],
+    additionalWitnesses: AccountInstance[] = [],
+  ): PromiseEx<ModuleQueryResult, AccountInstance[]> {
+    const builder = new BoundWitnessBuilder().payloads(payloads)
+    const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
+    const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
+    builder.witnesses(witnesses)
+    const result: ModuleQueryResult = [builder.build()[0], payloads]
+    return new PromiseEx<ModuleQueryResult, AccountInstance[]>((resolve) => {
       resolve?.(result)
       return result
-    }, account)
-    return promise
-  }
-
-  protected bindResultInternal(payloads: Payload[], account?: AccountInstance): ModuleQueryResult {
-    const builder = new BoundWitnessBuilder().payloads(payloads).witness(this.account)
-    const result: ModuleQueryResult = [(account ? builder.witness(account) : builder).build()[0], payloads]
-    return result
+    }, witnesses)
   }
 
   protected loadAccount(account?: AccountInstance): AccountInstance {
@@ -294,7 +315,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return await this.bindResult(resultPayloads, queryAccount)
+    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

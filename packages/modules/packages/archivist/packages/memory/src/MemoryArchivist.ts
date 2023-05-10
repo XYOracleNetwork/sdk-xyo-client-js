@@ -119,11 +119,11 @@ export class MemoryArchivist<
       return payloadWithMeta
     })
 
-    const result = await this.bindResult([...payloads])
+    const result = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
     const parentBoundWitnesses: BoundWitness[] = []
     const parents = await this.parents()
     if (Object.entries(parents.write ?? {}).length) {
-      //we store the child bw also
+      // We store the child bw also
       parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
     }
     const boundWitnesses = [result[0], ...parentBoundWitnesses]

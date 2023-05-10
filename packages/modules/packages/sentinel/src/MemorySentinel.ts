@@ -35,20 +35,20 @@ export class MemorySentinel<
     const errors: Error[] = []
     await this.emit('reportStart', { inPayloads: payloads, module: this as SentinelModule })
     const allWitnesses = [...(await this.getWitnesses())]
-    const allPayloads: Payload[] = []
+    const resultPayloads: Payload[] = []
 
     try {
       const generatedPayloads = compact(await this.generatePayloads(allWitnesses))
       const combinedPayloads = [...generatedPayloads, ...payloads]
-      allPayloads.push(...combinedPayloads)
+      resultPayloads.push(...combinedPayloads)
     } catch (e) {
       errors.push(e as Error)
     }
 
-    const [boundWitness] = await this.bindResult(allPayloads)
+    const [boundWitness] = await this.bindQueryResult({ schema: SentinelReportQuerySchema }, resultPayloads)
     this.history.push(assertEx(boundWitness))
-    await this.emit('reportEnd', { boundWitness, errors, inPayloads: payloads, module: this as SentinelModule, outPayloads: allPayloads })
-    return [boundWitness, ...allPayloads]
+    await this.emit('reportEnd', { boundWitness, errors, inPayloads: payloads, module: this as SentinelModule, outPayloads: resultPayloads })
+    return [boundWitness, ...resultPayloads]
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -57,12 +57,12 @@ export class MemorySentinel<
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQuery>(query, payloads)
-    const typedQuery = wrapper.query
+    const typedQuery = wrapper.query.payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: Payload[] = []
     try {
-      switch (typedQuery.schemaName) {
+      switch (typedQuery.schema) {
         case SentinelReportQuerySchema: {
           resultPayloads.push(...(await this.report(payloads)))
           break
@@ -74,7 +74,7 @@ export class MemorySentinel<
       const error = ex as Error
       resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
     }
-    return await this.bindResult(resultPayloads, queryAccount)
+    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
   private async generatePayloads(witnesses: WitnessWrapper[]): Promise<Payload[]> {

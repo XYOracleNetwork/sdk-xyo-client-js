@@ -4,9 +4,9 @@ import {
   BridgeConnectQuerySchema,
   BridgeDisconnectQuerySchema,
   BridgeModule,
-  BridgeModuleQueries,
   BridgeParams,
   BridgeQuery,
+  BridgeQueryBase,
 } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import {
@@ -38,14 +38,15 @@ export abstract class AbstractBridge<
 
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
 
-  protected override readonly queryAccountPaths: Record<BridgeModuleQueries['schema'], string> = {
-    'network.xyo.query.bridge.connect': '1/1',
-    'network.xyo.query.bridge.disconnect': '1/2',
-    ...super.queryAccountPaths,
-  }
-
   override get queries(): string[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, ...super.queries]
+  }
+
+  protected override get _queryAccountPaths(): Record<BridgeQueryBase['schema'], string> {
+    return {
+      'network.xyo.query.bridge.connect': '1/1',
+      'network.xyo.query.bridge.disconnect': '1/2',
+    }
   }
 
   targetDownResolver(address?: string): BridgeModuleResolver {

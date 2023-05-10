@@ -5,9 +5,9 @@ import {
   DivinerDivineQuerySchema,
   DivinerModule,
   DivinerModuleEventData,
-  DivinerModuleQueries,
   DivinerParams,
   DivinerQuery,
+  DivinerQueryBase,
 } from '@xyo-network/diviner-model'
 import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
@@ -24,13 +24,14 @@ export abstract class AbstractDiviner<
   static override configSchema: string = DivinerConfigSchema
   static targetSchema: string
 
-  protected override readonly queryAccountPaths: Record<DivinerModuleQueries['schema'], string> = {
-    'network.xyo.query.diviner.divine': '1/1',
-    ...super.queryAccountPaths,
-  }
-
   override get queries(): string[] {
     return [DivinerDivineQuerySchema, ...super.queries]
+  }
+
+  protected override get _queryAccountPaths(): Record<DivinerQueryBase['schema'], string> {
+    return {
+      'network.xyo.query.diviner.divine': '1/1',
+    }
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

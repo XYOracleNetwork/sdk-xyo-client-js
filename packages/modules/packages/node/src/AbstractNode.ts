@@ -21,8 +21,8 @@ import {
   XyoNodeAttachedQuerySchema,
   XyoNodeAttachQuerySchema,
   XyoNodeDetachQuerySchema,
-  XyoNodeModuleQueries,
   XyoNodeQuery,
+  XyoNodeQueryBase,
   XyoNodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -37,14 +37,6 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   protected readonly privateResolver = new CompositeModuleResolver()
 
-  protected override readonly queryAccountPaths: Record<XyoNodeModuleQueries['schema'], string> = {
-    'network.xyo.query.node.attach': '1/1',
-    'network.xyo.query.node.attached': '1/2',
-    'network.xyo.query.node.detach': '1/3',
-    'network.xyo.query.node.registered': '1/4',
-    ...super.queryAccountPaths,
-  }
-
   private readonly isNode = true
 
   get isModuleResolver(): boolean {
@@ -53,6 +45,15 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   override get queries(): string[] {
     return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
+  }
+
+  protected override get _queryAccountPaths(): Record<XyoNodeQueryBase['schema'], string> {
+    return {
+      'network.xyo.query.node.attach': '1/1',
+      'network.xyo.query.node.attached': '1/2',
+      'network.xyo.query.node.detach': '1/3',
+      'network.xyo.query.node.registered': '1/4',
+    }
   }
 
   static isNode(module: unknown) {

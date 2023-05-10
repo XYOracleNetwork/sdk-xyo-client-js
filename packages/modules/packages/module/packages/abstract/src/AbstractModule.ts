@@ -9,7 +9,6 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AccountModuleParams,
   CreatableModule,
-  creatableModule,
   CreatableModuleFactory,
   Module,
   ModuleConfig,
@@ -44,8 +43,8 @@ import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
-@creatableModule()
-export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+// @creatableModule()
+export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
@@ -54,19 +53,19 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   readonly downResolver = new CompositeModuleResolver()
   readonly upResolver = new CompositeModuleResolver()
 
-  protected _started = false
-  protected readonly account: AccountInstance
-  protected readonly moduleConfigQueryValidator: Queryable
-  protected readonly queryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
+  protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
     'network.xyo.query.module.account.hash.previous': '1',
     'network.xyo.query.module.discover': '2',
     'network.xyo.query.module.subscribe': '3',
   }
-  protected readonly queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
+  protected readonly _queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
     'network.xyo.query.module.account.hash.previous': undefined,
     'network.xyo.query.module.discover': undefined,
     'network.xyo.query.module.subscribe': undefined,
   }
+  protected _started = false
+  protected readonly account: AccountInstance
+  protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
 
   constructor(params: TParams) {
@@ -107,6 +106,16 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   get queries(): string[] {
     return [ModuleDiscoverQuerySchema, ModulePreviousHashQuerySchema, ModuleSubscribeQuerySchema]
   }
+
+  get queryAccountPaths(): Readonly<Record<Query['schema'], string | undefined>> {
+    return { ...this._baseModuleQueryAccountPaths, ...this._queryAccountPaths }
+  }
+
+  get queryAccounts(): Readonly<Record<Query['schema'], AccountInstance | undefined>> {
+    return this._queryAccounts
+  }
+
+  protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
   static async create<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']) {
     if (!this.configSchema) {
@@ -280,13 +289,20 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   }
 
   protected initializeQueryAccounts() {
+    // Ensure distinct/unique wallet paths
+    const paths = Object.values(this.queryAccountPaths).filter(exists)
+    const distinctPaths = new Set<string>(paths)
+    assertEx(distinctPaths.size === paths.length, `${this.config?.name ? this.config.name + ': ' : ''}Duplicate query account paths`)
+    // Create an account for query this module supports
     const wallet = this.account as unknown as HDWallet
     if (wallet?.derivePath) {
       for (const key in this.queryAccountPaths) {
         if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
-          const query = key as keyof typeof this.queryAccountPaths
+          const query = key as ModuleQueryBase['schema']
           const queryAccountPath = this.queryAccountPaths[query]
-          this.queryAccounts[query] = wallet.derivePath(queryAccountPath)
+          if (queryAccountPath) {
+            this._queryAccounts[query] = wallet.derivePath(queryAccountPath)
+          }
         }
       }
     }

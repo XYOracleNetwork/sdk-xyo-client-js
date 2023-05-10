@@ -154,11 +154,25 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
   }
 
   previousHash(): Promisable<Payload[]> {
-    const previous = {
-      huri: [this.account.previousHash?.hex],
-      schema: 'network.xyo.huri',
-    }
-    return [previous]
+    // Return array of all addresses and their previous hash
+    const queryAccountPreviousHashes = Object.entries(this.queryAccounts)
+      .filter((value): value is [string, AccountInstance] => {
+        return exists(value[1])
+      })
+      .map(([name, account]) => {
+        const address = account.addressValue.hex
+        const previousHash = account.previousHash?.hex
+        return { address, name, previousHash, schema: AddressSchema }
+      })
+    const moduleAccountPreviousHash = new PayloadBuilder<AddressPayload & { previousHash?: string }>({ schema: AddressSchema })
+      .fields({
+        address: this.address,
+        name: this.config.name,
+        previousHash: this.account.previousHash?.hex,
+        schema: AddressSchema,
+      })
+      .build()
+    return [moduleAccountPreviousHash, ...queryAccountPreviousHashes]
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

@@ -154,7 +154,7 @@ export class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventD
         const previousHash = account.previousHash?.hex
         return { address, name, previousHash, schema: AddressSchema }
       })
-    const moduleAccountPreviousHash = new PayloadBuilder<AddressPayload & { previousHash?: string }>({ schema: AddressSchema })
+    const moduleAccountPreviousHash = new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
       .fields({
         address: this.address,
         name: this.config.name,

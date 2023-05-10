@@ -6,7 +6,7 @@ import { BaseArguments } from '../../BaseArguments'
 import { getNode } from '../../util'
 
 export const aliases: ReadonlyArray<string> = []
-export const builder: CommandBuilder = (yargs: Argv) => yargs.usage('Usage: $0 node discover')
+export const builder: CommandBuilder = (yargs: Argv) => yargs.usage('Usage: $0 node previousHash')
 export const command = 'previousHash'
 export const deprecated = false
 export const describe = 'Issue a PreviousHash Query against the XYO Node'

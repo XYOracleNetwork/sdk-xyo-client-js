@@ -110,6 +110,14 @@ test('Archivist Parent Write Through', async () => {
 
   expect(fromStorage).toBeArrayOfSize(1)
   expect(fromMemory).toBeArrayOfSize(1)
+
+  storage.on('cleared', async ({ module }) => {
+    const all = await module.all?.()
+    expect(all).toBeEmpty()
+    console.log('Cleared Storage Archivist')
+  })
+
+  await storage.clear()
 })
 
 test('Archivist Parent Reads', async () => {

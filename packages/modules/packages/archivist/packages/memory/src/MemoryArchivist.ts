@@ -66,6 +66,7 @@ export class MemoryArchivist<
 
   override clear(): void | Promise<void> {
     this.cache.clear()
+    return this.emit('cleared', { module: this })
   }
 
   override async commit(): Promise<BoundWitness[]> {

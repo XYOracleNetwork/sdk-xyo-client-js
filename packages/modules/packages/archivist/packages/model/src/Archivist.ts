@@ -6,6 +6,7 @@ import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-netwo
 
 import { ArchivistConfig } from './Config'
 import { DeletedEventData, InsertedEventData } from './Events'
+import { ClearedEventData } from './Events/Cleared'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
   all?(): PromisableArray<TReadResponse>
@@ -43,7 +44,7 @@ export interface Archivist<
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
     StashArchivist<TWriteResponse> {}
 
-export interface ArchivistModuleEventData extends InsertedEventData, DeletedEventData, ModuleEventData {}
+export interface ArchivistModuleEventData extends InsertedEventData, DeletedEventData, ClearedEventData, ModuleEventData {}
 
 export type ArchivistModule<
   TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,

@@ -25,5 +25,5 @@ export type ArchivistQueryRoot =
   | ArchivistGetQuery
   | ArchivistInsertQuery
 
-export type ArchivistQueries = ModuleQueryBase | ArchivistQueryRoot
+export type ArchivistModuleQueries = ModuleQueryBase | ArchivistQueryRoot
 export type ArchivistQuery<TQuery extends Query | void = void> = ModuleQuery<TQuery extends Query ? ArchivistQueryRoot | TQuery : ArchivistQueryRoot>

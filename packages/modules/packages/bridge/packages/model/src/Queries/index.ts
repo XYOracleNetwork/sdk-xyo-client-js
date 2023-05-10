@@ -7,5 +7,5 @@ export * from './Connect'
 export * from './Disconnect'
 
 export type BridgeQueryBase = BridgeConnectQuery | BridgeDisconnectQuery
-export type BridgeQueries = ModuleQueryBase | BridgeQueryBase
+export type BridgeModuleQueries = ModuleQueryBase | BridgeQueryBase
 export type BridgeQuery<T extends Query | void = void> = ModuleQuery<T extends Query ? BridgeQueryBase | T : BridgeQueryBase>

@@ -1,6 +1,6 @@
 {
-  "entryPoints": ["**/packages/*"],
   "entryPointStrategy": "packages",
+  "entryPoints": ["**/packages/*"],
   "includeVersion": true,
   "name": "XYO Platform Client",
   "tsconfig": "./tsconfig.typedoc.json"

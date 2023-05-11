@@ -104,7 +104,7 @@
   "version": "2.57.4",
   "packageManager": "yarn@3.5.1",
   "volta": {
-    "node": "20.1.0",
+    "node": "18.13.0",
     "yarn": "1.22.19"
   }
 }

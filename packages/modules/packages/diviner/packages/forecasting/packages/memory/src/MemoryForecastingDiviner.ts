@@ -15,7 +15,7 @@ import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import { value } from 'jsonpath'
 
-type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
+export type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
 
 const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
   const transformer = (x: Payload): number => {

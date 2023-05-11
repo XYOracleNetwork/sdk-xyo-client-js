@@ -12,19 +12,19 @@ import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
 export type ElevationWitnessConfigSchema = 'network.xyo.elevation.config'
 export const ElevationWitnessConfigSchema: ElevationWitnessConfigSchema = 'network.xyo.elevation.config'
 
-interface TiffImages {
+export interface TiffImages {
   northEast?: Promise<GeoTIFFImage>
   southEast?: Promise<GeoTIFFImage>
   west?: Promise<GeoTIFFImage>
 }
 
-interface Tiffs {
+export interface Tiffs {
   northEast?: Promise<GeoTIFF>
   southEast?: Promise<GeoTIFF>
   west?: Promise<GeoTIFF>
 }
 
-interface TiffImageInfo {
+export interface TiffImageInfo {
   bbox: number[]
   height: number
   origin: number[]
@@ -35,7 +35,7 @@ interface TiffImageInfo {
   width: number
 }
 
-interface TiffImageInfos {
+export interface TiffImageInfos {
   northEast?: Promise<TiffImageInfo>
   southEast?: Promise<TiffImageInfo>
   west?: Promise<TiffImageInfo>
@@ -54,7 +54,7 @@ export type ElevationWitnessConfig = WitnessConfig<{
   zoom?: number
 }>
 
-const locationToQuadkey = (location: Location, zoom = 16) => {
+export const locationToQuadkey = (location: Location, zoom = 16) => {
   return assertEx(
     (location as QuadkeyLocation).quadkey
       ? Quadkey.fromString(zoom, (location as QuadkeyLocation).quadkey)

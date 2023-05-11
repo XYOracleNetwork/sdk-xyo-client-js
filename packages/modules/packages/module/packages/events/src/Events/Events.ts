@@ -13,7 +13,7 @@ See API for more information on how debugging works.
 */
 export type DebugLogger = (type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => void
 
-type EventListenerInfo<TEventArgs extends EventArgs = EventArgs> = {
+export type EventListenerInfo<TEventArgs extends EventArgs = EventArgs> = {
   filter?: TEventArgs
   listener: EventListener<TEventArgs>
 }

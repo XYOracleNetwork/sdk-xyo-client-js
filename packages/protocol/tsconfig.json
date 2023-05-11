@@ -2,6 +2,7 @@
   "compilerOptions": {
     "composite": true,
     "declarationDir": "./dist/types",
+    "experimentalDecorators": true,
     "typeRoots": []
   },
 

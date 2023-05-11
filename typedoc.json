@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["**/packages/*"],
+  "name": "XYO Platform Client",
+  "entryPointStrategy": "packages",
+  "includeVersion": true,
+  "tsconfig": "./tsconfig.typedoc.json"
+
+  // Potentially useful for debugging
+  // "logLevel": "Verbose"
+}

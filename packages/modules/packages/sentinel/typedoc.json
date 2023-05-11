@@ -1,5 +1,5 @@
 {
-  "intentionallyNotExported": [
-  
-  ]
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "tsconfig": "./tsconfig.typedoc.json"
 }

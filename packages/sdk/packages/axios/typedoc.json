@@ -1,9 +1,5 @@
 {
-  "intentionallyNotExported": [
-    "XyoFetchedPayload",
-    "XyoSchemaPayload",
-    "PayloadFull",
-    "XyoDomainPayload",
-    "Payload"
-  ]
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "tsconfig": "./tsconfig.typedoc.json"
 }

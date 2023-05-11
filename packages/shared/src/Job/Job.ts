@@ -1,7 +1,7 @@
 import { Task } from './Task'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type VoidFunction = (...args: any[]) => void
+export type VoidFunction = (...args: any[]) => void
 
 export interface Job {
   name: string

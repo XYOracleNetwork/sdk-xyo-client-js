@@ -45,6 +45,7 @@
   "[markdown]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
     "Autobuild",

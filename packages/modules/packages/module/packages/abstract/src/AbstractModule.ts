@@ -54,12 +54,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   readonly upResolver = new CompositeModuleResolver()
 
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
-    'network.xyo.query.module.account.hash.previous': '1',
+    'network.xyo.query.module.account': '1',
     'network.xyo.query.module.discover': '2',
     'network.xyo.query.module.subscribe': '3',
   }
   protected readonly _queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
-    'network.xyo.query.module.account.hash.previous': undefined,
+    'network.xyo.query.module.account': undefined,
     'network.xyo.query.module.discover': undefined,
     'network.xyo.query.module.subscribe': undefined,
   }
@@ -152,7 +152,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
-  previousHash(): Promisable<Payload[]> {
+  moduleAccountQuery(): Promisable<Payload[]> {
     // Return array of all addresses and their previous hash
     const queryAccountPreviousHashes = Object.entries(this.queryAccounts)
       .filter((value): value is [string, AccountInstance] => {
@@ -335,7 +335,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           break
         }
         case ModuleAccountQuerySchema: {
-          resultPayloads.push(...(await this.previousHash()))
+          resultPayloads.push(...(await this.moduleAccountQuery()))
           break
         }
         case ModuleSubscribeQuerySchema: {

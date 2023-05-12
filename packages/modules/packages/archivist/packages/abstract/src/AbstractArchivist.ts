@@ -82,6 +82,10 @@ export abstract class AbstractArchivist<
     )
   }
 
+  head(): Promisable<Payload | undefined> {
+    return
+  }
+
   protected async getFromParents(hash: string) {
     const parents = await this.parents()
     if (Object.entries(parents.read ?? {}).length > 0) {
@@ -142,7 +146,12 @@ export abstract class AbstractArchivist<
           await this.delete(typedQuery.hashes)
           break
         case ArchivistGetQuerySchema:
-          resultPayloads.push(...(await this.get(typedQuery.hashes)))
+          if (typedQuery?.hashes?.length) {
+            resultPayloads.push(...(await this.get(typedQuery.hashes)))
+          } else {
+            const head = await this.head()
+            if (head) resultPayloads.push(head)
+          }
           break
         case ArchivistInsertQuerySchema: {
           const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []

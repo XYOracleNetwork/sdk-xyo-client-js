@@ -25,11 +25,9 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   extends ModuleWrapper<TWrappedModule>
   implements ArchivistModule
 {
-  start?: (() => Promisable<void>) | undefined
-  find(filter?: PayloadFindFilter | undefined): PromisableArray<SchemaFields & PayloadFields & { schema: string }> {
-    throw new Error('Method not implemented.')
-  }
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
+
+  start?: (() => Promisable<void>) | undefined
 
   async all(): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })
@@ -54,6 +52,10 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)
     return result[0].payload_hashes.map(() => true)
+  }
+
+  find(_filter?: PayloadFindFilter | undefined): PromisableArray<SchemaFields & PayloadFields & { schema: string }> {
+    throw new Error('Method not implemented.')
   }
 
   async get(hashes: string[]): Promise<Payload[]> {

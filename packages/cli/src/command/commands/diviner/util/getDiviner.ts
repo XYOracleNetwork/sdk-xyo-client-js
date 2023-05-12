@@ -2,12 +2,12 @@ import { DivinerWrapper } from '@xyo-network/modules'
 
 import { printError } from '../../../../lib'
 import { ModuleArguments } from '../../ModuleArguments'
-import { getModuleByAddress } from '../../util'
+import { getModuleFromArgs } from '../../util'
 
 export const getDiviner = async (args: ModuleArguments): Promise<DivinerWrapper> => {
   const { verbose } = args
   try {
-    const module = await getModuleByAddress(args)
+    const module = await getModuleFromArgs(args)
     const diviner = DivinerWrapper.wrap(module)
     return diviner
   } catch (error) {

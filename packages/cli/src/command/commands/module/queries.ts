@@ -3,7 +3,7 @@ import { Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../lib'
 import { ModuleArguments } from '../ModuleArguments'
-import { getModuleByAddress } from '../util'
+import { getModuleFromArgs } from '../util'
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
@@ -14,7 +14,7 @@ export const describe = 'Issue a queries query against the XYO Module'
 export const handler = async (argv: ModuleArguments) => {
   const { verbose } = argv
   try {
-    const mod = await getModuleByAddress(argv)
+    const mod = await getModuleFromArgs(argv)
     const result = mod.queries
     printLine(JSON.stringify(result))
   } catch (error) {

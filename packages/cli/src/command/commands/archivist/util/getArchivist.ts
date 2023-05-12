@@ -1,13 +1,14 @@
 import { ArchivistWrapper } from '@xyo-network/modules'
 
 import { printError } from '../../../../lib'
-import { ModuleArguments } from '../../ModuleArguments'
-import { getModuleByAddress } from '../../util'
+import { BaseArguments } from '../../../BaseArguments'
+import { isModuleArguments, ModuleArguments } from '../../ModuleArguments'
+import { getModuleByName, getModuleFromArgs } from '../../util'
 
-export const getArchivist = async (args: ModuleArguments): Promise<ArchivistWrapper> => {
+export const getArchivist = async (args: BaseArguments | ModuleArguments): Promise<ArchivistWrapper> => {
   const { verbose } = args
   try {
-    const module = await getModuleByAddress(args)
+    const module = isModuleArguments(args) ? await getModuleFromArgs(args) : await getModuleByName(args, 'Archivist')
     const archivist = ArchivistWrapper.wrap(module)
     return archivist
   } catch (error) {

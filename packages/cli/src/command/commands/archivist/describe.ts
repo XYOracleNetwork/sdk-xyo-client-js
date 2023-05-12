@@ -3,7 +3,7 @@ import { Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../lib'
 import { ModuleArguments } from '../ModuleArguments'
-import { getModuleByAddress } from '../util'
+import { getModuleFromArgs } from '../util'
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) => yargs.usage('Usage: $0 archivist describe')
@@ -13,7 +13,7 @@ export const describe = 'Issue a describe query against the default XYO Archivis
 export const handler = async (argv: ModuleArguments) => {
   const { verbose } = argv
   try {
-    const mod = await getModuleByAddress(argv)
+    const mod = await getModuleFromArgs(argv)
     const result = await mod.describe()
     printLine(JSON.stringify(result))
   } catch (error) {

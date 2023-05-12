@@ -9,7 +9,7 @@ export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) => yargs.usage('Usage: $0 archivist describe')
 export const command = 'describe'
 export const deprecated = false
-export const describe = 'Issue a describe query against the default XYO Archivist Module'
+export const describe = 'Describe the XYO Archivist Module'
 export const handler = async (argv: ModuleArguments) => {
   const { verbose } = argv
   try {
@@ -18,7 +18,7 @@ export const handler = async (argv: ModuleArguments) => {
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))
-    throw new Error('Error Querying Module')
+    throw new Error('Error Querying Archivist')
   }
 }
 

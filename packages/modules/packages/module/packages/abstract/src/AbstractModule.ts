@@ -170,11 +170,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           { address, previousHash, schema: ModuleAccountPreviousHashSchema },
         ]
       })
-    const moduleAccount = [
-      { address: this.account.addressValue.hex, name: this.config.name, schema: ModuleAccountSchema },
-      { address: this.address, previousHash: this.account.previousHash?.hex, schema: ModuleAccountPreviousHashSchema },
-    ]
-    return [moduleAccount, ...queryAccounts].flat()
+    const address = this.account.addressValue.hex
+    const name = this.config.name
+    const previousHash = this.account.previousHash?.hex
+    const moduleAccount = name ? { address, name, schema: ModuleAccountSchema } : { address, schema: ModuleAccountSchema }
+    const moduleAccountPreviousHash = previousHash
+      ? { address, previousHash, schema: ModuleAccountPreviousHashSchema }
+      : { address, schema: ModuleAccountPreviousHashSchema }
+    return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

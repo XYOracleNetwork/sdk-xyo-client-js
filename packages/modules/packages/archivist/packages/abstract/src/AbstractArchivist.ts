@@ -5,7 +5,6 @@ import {
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuerySchema,
-  ArchivistFindQuerySchema,
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
@@ -18,7 +17,7 @@ import {
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
-import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -48,9 +47,8 @@ export abstract class AbstractArchivist<
       'network.xyo.query.archivist.clear': '1/2',
       'network.xyo.query.archivist.commit': '1/3',
       'network.xyo.query.archivist.delete': '1/4',
-      'network.xyo.query.archivist.find': '1/5',
-      'network.xyo.query.archivist.get': '1/6',
-      'network.xyo.query.archivist.insert': '1/7',
+      'network.xyo.query.archivist.get': '1/5',
+      'network.xyo.query.archivist.insert': '1/6',
     }
   }
 
@@ -72,17 +70,6 @@ export abstract class AbstractArchivist<
 
   delete(_hashes: string[]): PromisableArray<boolean> {
     throw Error('Not implemented')
-  }
-
-  /** @deprecated use Diviners instead */
-  async find(filter?: PayloadFindFilter): Promise<Payload[]> {
-    try {
-      const filterSchemaList = filter?.schema ? (Array.isArray(filter.schema) ? filter.schema : [filter.schema]) : []
-      return (await this.all()).filter((payload) => filterSchemaList.includes(payload.schema))
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
   }
 
   async get(hashes: string[]): Promise<Payload[]> {
@@ -153,10 +140,6 @@ export abstract class AbstractArchivist<
           break
         case ArchivistDeleteQuerySchema:
           await this.delete(typedQuery.hashes)
-          break
-        case ArchivistFindQuerySchema:
-          // eslint-disable-next-line deprecation/deprecation
-          resultPayloads.push(...(await this.find(typedQuery.filter)))
           break
         case ArchivistGetQuerySchema:
           resultPayloads.push(...(await this.get(typedQuery.hashes)))

@@ -73,20 +73,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected readonly supportedQueryValidator: Queryable
 
   constructor(params: TParams) {
-    //we copy this to prevent mutation of the incoming object
+    // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
-    //TODO: change wallet to use accountDerivationPath
-    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config']>).wallet
-      ? Account.fromPrivateKey(
-          (mutatedParams as WalletModuleParams<TParams['config']>).wallet.derivePath(
-            (mutatedParams as WalletModuleParams<TParams['config']>).accountDerivationPath,
-          ).privateKey,
-        )
-      : (mutatedParams as AccountModuleParams<TParams['config']>).account
-      ? (mutatedParams as AccountModuleParams<TParams['config']>).account
-      : undefined
-
+    let { account } = mutatedParams as AccountModuleParams<TParams['config']>
+    const { wallet, accountDerivationPath } = mutatedParams as WalletModuleParams<TParams['config']>
+    if (wallet) {
+      account = accountDerivationPath ? wallet.derivePath(accountDerivationPath) : wallet
+    }
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
     this.account = this.loadAccount(account)

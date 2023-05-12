@@ -8,14 +8,12 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AccountModuleParams,
+  AddressPreviousHashPayload,
+  AddressPreviousHashSchema,
   CreatableModule,
   CreatableModuleFactory,
   Module,
-  ModuleAccountPayload,
-  ModuleAccountPreviousHashPayload,
-  ModuleAccountPreviousHashSchema,
   ModuleAccountQuerySchema,
-  ModuleAccountSchema,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
@@ -150,7 +148,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
-  moduleAccountQuery(): Promisable<(AddressPayload | ModuleAccountPreviousHashPayload)[]> {
+  moduleAccountQuery(): Promisable<(AddressPayload | AddressPreviousHashPayload)[]> {
     // Return array of all addresses and their previous hash
     const queryAccounts = Object.entries(this.queryAccounts)
       .filter((value): value is [string, AccountInstance] => {
@@ -161,7 +159,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         const previousHash = account.previousHash?.hex
         return [
           { address, name, schema: AddressSchema },
-          { address, previousHash, schema: ModuleAccountPreviousHashSchema },
+          { address, previousHash, schema: AddressPreviousHashSchema },
         ]
       })
     const address = this.account.addressValue.hex
@@ -169,8 +167,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const previousHash = this.account.previousHash?.hex
     const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
     const moduleAccountPreviousHash = previousHash
-      ? { address, previousHash, schema: ModuleAccountPreviousHashSchema }
-      : { address, schema: ModuleAccountPreviousHashSchema }
+      ? { address, previousHash, schema: AddressPreviousHashSchema }
+      : { address, schema: AddressPreviousHashSchema }
     return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
   }
 

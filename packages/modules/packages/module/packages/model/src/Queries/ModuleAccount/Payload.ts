@@ -1,13 +1,11 @@
+import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 
-export const ModuleAccountSchema = 'network.xyo.module.account'
-export type ModuleAccountSchema = typeof ModuleAccountSchema
+export const AddressPreviousHashSchema = `${AddressSchema}.hash.previous`
+export type AddressPreviousHashSchema = typeof AddressPreviousHashSchema
 
-export const ModuleAccountPreviousHashSchema = `${ModuleAccountSchema}.hash.previous`
-export type ModuleAccountPreviousHashSchema = typeof ModuleAccountPreviousHashSchema
-
-export type ModuleAccountPreviousHashPayload = Payload<{
+export type AddressPreviousHashPayload = Payload<{
   address: string
   previousHash?: string
-  schema: ModuleAccountPreviousHashSchema
+  schema: AddressPreviousHashSchema
 }>

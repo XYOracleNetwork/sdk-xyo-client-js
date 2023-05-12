@@ -150,7 +150,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
-  moduleAccountQuery(): Promisable<(ModuleAccountPayload | ModuleAccountPreviousHashPayload)[]> {
+  moduleAccountQuery(): Promisable<(AddressPayload | ModuleAccountPreviousHashPayload)[]> {
     // Return array of all addresses and their previous hash
     const queryAccounts = Object.entries(this.queryAccounts)
       .filter((value): value is [string, AccountInstance] => {
@@ -160,14 +160,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         const address = account.addressValue.hex
         const previousHash = account.previousHash?.hex
         return [
-          { address, name, schema: ModuleAccountSchema },
+          { address, name, schema: AddressSchema },
           { address, previousHash, schema: ModuleAccountPreviousHashSchema },
         ]
       })
     const address = this.account.addressValue.hex
     const name = this.config.name
     const previousHash = this.account.previousHash?.hex
-    const moduleAccount = name ? { address, name, schema: ModuleAccountSchema } : { address, schema: ModuleAccountSchema }
+    const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
     const moduleAccountPreviousHash = previousHash
       ? { address, previousHash, schema: ModuleAccountPreviousHashSchema }
       : { address, schema: ModuleAccountPreviousHashSchema }

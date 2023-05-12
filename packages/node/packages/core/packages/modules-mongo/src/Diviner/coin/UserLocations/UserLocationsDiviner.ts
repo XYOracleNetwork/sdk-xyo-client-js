@@ -1,12 +1,15 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { ArchivistModule } from '@xyo-network/archivist'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { DivinerWrapper, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
+import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { CoinUserLocationsDiviner } from '@xyo-network/diviner-coin-user-locations-abstract'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { BoundWitnessesArchivist, PayloadArchivist } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
@@ -41,8 +44,8 @@ export const isLocationPayload = (x?: Payload | null): x is LocationPayload => x
 export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = DivinerParams<
   AnyConfigSchema<XyoArchivistPayloadDivinerConfig<T>>,
   {
-    bws: BoundWitnessesArchivist
-    payloads: PayloadArchivist
+    bws: BoundWitnessDiviner
+    payloads: ArchivistModule
   }
 >
 
@@ -61,7 +64,9 @@ export class MemoryCoinUserLocationsDiviner<
       // TODO: Extract relevant query values here
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processing query')
       // Simulating work
-      const bwList = (await this.params.bws.find({ payload_hashes: [wrapper.hash] })) ?? []
+      const diviner = DivinerWrapper.wrap(this.params.bws, this.account)
+      const filter = { payload_hashes: [wrapper.hash], schema: BoundWitnessDivinerQuerySchema }
+      const bwList = ((await diviner.divine([filter])) as BoundWitness[]) || []
       const locationHashes = bwList
         .map((bw) => {
           const locations: string[] = []

@@ -1,7 +1,7 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
-import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
 
 import { ArchivistConfig } from './Config'
@@ -18,10 +18,6 @@ export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, T
   insert(item: TWrite[]): PromisableArray<TWriteResponse>
 }
 
-export interface FindArchivist<TReadResponse, TFindResponse = TReadResponse, TFindFilter = unknown> {
-  find(filter?: TFindFilter): PromisableArray<TFindResponse>
-}
-
 export interface StashArchivist<TWriteResponse> {
   commit?(): Promisable<TWriteResponse[]>
 }
@@ -31,15 +27,8 @@ export type ArchivistParams<
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = ModuleParams<TConfig, TAdditionalParams>
 
-export interface Archivist<
-  TReadResponse = Payload,
-  TWriteResponse = BoundWitness,
-  TWrite = TReadResponse,
-  TFindResponse = TReadResponse,
-  TFindFilter = PayloadFindFilter,
-  TId = string,
-> extends ReadArchivist<TReadResponse, TId>,
-    FindArchivist<TReadResponse, TFindResponse, TFindFilter>,
+export interface Archivist<TReadResponse = Payload, TWriteResponse = BoundWitness, TWrite = TReadResponse, TId = string>
+  extends ReadArchivist<TReadResponse, TId>,
     WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
     StashArchivist<TWriteResponse> {}
 
@@ -48,7 +37,4 @@ export interface ArchivistModuleEventData extends InsertedEventData, DeletedEven
 export type ArchivistModule<
   TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> = Module<TParams, TEventData> & Archivist<Payload, Payload, Payload, Payload, PayloadFindFilter, string>
-
-/** @deprecated use ArchivistModule instead */
-export type PayloadArchivist = ArchivistModule
+> = Module<TParams, TEventData> & Archivist<Payload, Payload, Payload, string>

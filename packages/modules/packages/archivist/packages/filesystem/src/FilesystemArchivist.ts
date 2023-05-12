@@ -2,14 +2,7 @@ import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
-import {
-  ArchivistAllQuerySchema,
-  ArchivistCommitQuerySchema,
-  ArchivistConfig,
-  ArchivistFindQuerySchema,
-  ArchivistModule,
-  ArchivistParams,
-} from '@xyo-network/archivist-model'
+import { ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ArchivistConfig, ArchivistModule, ArchivistParams } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
@@ -48,7 +41,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   }
 
   override get queries() {
-    return [ArchivistAllQuerySchema, ArchivistFindQuerySchema, ArchivistCommitQuerySchema, ...super.queries]
+    return [ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ...super.queries]
   }
 
   private get memoryArchivist() {

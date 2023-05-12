@@ -7,8 +7,6 @@ import {
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuery,
   ArchivistDeleteQuerySchema,
-  ArchivistFindQuery,
-  ArchivistFindQuerySchema,
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuery,
@@ -51,12 +49,6 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     const result = await this.module.query(query[0], query[1])
     this.throwErrors(query, result)
     return result[0].payload_hashes.map(() => true)
-  }
-
-  async find<R extends Payload = Payload>(filter?: PayloadFindFilter): Promise<R[]> {
-    const queryPayload = PayloadWrapper.parse<ArchivistFindQuery>({ filter, schema: ArchivistFindQuerySchema })
-    const result = await this.sendQuery(queryPayload)
-    return compact(result) as R[]
   }
 
   async get(hashes: string[]): Promise<Payload[]> {

@@ -5,7 +5,7 @@ Date.now = jest.fn(() => timestamp)
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -125,67 +125,6 @@ describe('DeterministicArchivist', () => {
         expect(resultHashes).toInclude(p.hash)
       })
       expect(results).toMatchSnapshot()
-    })
-  })
-  describe.skip('find', () => {
-    describe('with schema for BoundWitness', () => {
-      const schema = BoundWitnessSchema
-      it.each([
-        ['finds single boundwitness', [boundWitnessWrapper1]],
-        ['finds multiple boundwitness', [boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3]],
-      ])('%s', async (_title, boundWitnesses) => {
-        const offset = boundWitnesses.at(-1)?.hash
-        const limit = boundWitnesses.length
-        const results = await archivist.find({ limit, offset, schema })
-        expect(results).toBeTruthy()
-        expect(results).toBeArrayOfSize(boundWitnesses.length)
-        const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
-        const resultHashes = resultPayloads.map((p) => p.hash)
-        boundWitnesses.map((p) => {
-          expect(resultHashes).toInclude(p.hash)
-        })
-        expect(results).toMatchSnapshot()
-      })
-    })
-    describe('with schema for Payload', () => {
-      const schema = 'network.xyo.debug'
-      it.each([
-        ['finds single payload', [payloadWrapper1]],
-        ['finds multiple payloads', [payloadWrapper1, payloadWrapper3]],
-      ])('%s', async (_title, payloads) => {
-        const limit = payloads.length
-        const results = await archivist.find({ limit, schema })
-        expect(results).toBeTruthy()
-        expect(results).toBeArrayOfSize(payloads.length)
-        const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
-        resultPayloads.map((p) => {
-          expect(p.schema).toBe(schema)
-        })
-        expect(results).toMatchSnapshot()
-      })
-    })
-    describe('with no schema', () => {
-      it('finds address history', async () => {
-        const insertedPayloads = [
-          boundWitnessWrapper3,
-          payloadWrapper3,
-          payloadWrapper4,
-          boundWitnessWrapper2,
-          payloadWrapper2,
-          boundWitnessWrapper1,
-          payloadWrapper1,
-        ]
-        const limit = insertResults.length * 2 + insertedPayloads.length
-        const results = await archivist.find({ limit })
-        expect(results).toBeTruthy()
-        expect(results).toBeArrayOfSize(limit)
-        const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
-        const resultHashes = resultPayloads.map((p) => p.hash)
-        insertedPayloads.map((p) => {
-          expect(resultHashes).toInclude(p.hash)
-        })
-        expect(results).toMatchSnapshot()
-      })
     })
   })
 })

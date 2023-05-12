@@ -77,6 +77,11 @@ export class MongoDBDeterministicArchivist<
     throw new Error('get method must be called via query')
   }
 
+  override async head(): Promise<Payload | undefined> {
+    const head = await (await this.payloads.find({})).sort({ _timestamp: -1 }).limit(1).toArray()
+    return head[0] ? PayloadWrapper.parse(head[0]).body : undefined
+  }
+
   insert(_items: Payload[]): Promise<BoundWitness[]> {
     throw new Error('insert method must be called via query')
   }

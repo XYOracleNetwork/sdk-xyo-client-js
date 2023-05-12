@@ -35,6 +35,7 @@ export abstract class AbstractArchivist<
   extends AbstractModule<TParams, TEventData>
   implements ArchivistModule<TParams>
 {
+  private _lastInsertedPayload: Payload | undefined
   private _parents?: XyoArchivistParentWrappers
 
   override get queries(): string[] {
@@ -80,6 +81,10 @@ export abstract class AbstractArchivist<
         }),
       ),
     )
+  }
+
+  head(): Promisable<Payload | undefined> {
+    return this._lastInsertedPayload
   }
 
   protected async getFromParents(hash: string) {
@@ -142,7 +147,12 @@ export abstract class AbstractArchivist<
           await this.delete(typedQuery.hashes)
           break
         case ArchivistGetQuerySchema:
-          resultPayloads.push(...(await this.get(typedQuery.hashes)))
+          if (typedQuery?.hashes?.length) {
+            resultPayloads.push(...(await this.get(typedQuery.hashes)))
+          } else {
+            const head = await this.head()
+            if (head) resultPayloads.push(head)
+          }
           break
         case ArchivistInsertQuerySchema: {
           const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []
@@ -150,6 +160,10 @@ export abstract class AbstractArchivist<
           const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
           assertEx(resolvedWrappers.length === typedQuery.payloads.length, 'Could not find some passed hashes')
           resultPayloads.push(...(await this.insert(resolvedWrappers.map((wrapper) => wrapper.payload))))
+          // NOTE: There isn't an exact equivalence between what we get and what we store. Once
+          // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
+          // can grab the actual last one
+          this._lastInsertedPayload = resolvedWrappers[resolvedWrappers.length - 1]
           break
         }
         default:

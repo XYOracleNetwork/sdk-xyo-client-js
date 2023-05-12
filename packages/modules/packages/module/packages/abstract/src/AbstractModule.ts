@@ -11,7 +11,11 @@ import {
   CreatableModule,
   CreatableModuleFactory,
   Module,
+  ModuleAccountPayload,
+  ModuleAccountPreviousHashPayload,
+  ModuleAccountPreviousHashSchema,
   ModuleAccountQuerySchema,
+  ModuleAccountSchema,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
@@ -152,26 +156,25 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
-  moduleAccountQuery(): Promisable<Payload[]> {
+  moduleAccountQuery(): Promisable<(ModuleAccountPayload | ModuleAccountPreviousHashPayload)[]> {
     // Return array of all addresses and their previous hash
-    const queryAccountPreviousHashes = Object.entries(this.queryAccounts)
+    const queryAccounts = Object.entries(this.queryAccounts)
       .filter((value): value is [string, AccountInstance] => {
         return exists(value[1])
       })
       .map(([name, account]) => {
         const address = account.addressValue.hex
         const previousHash = account.previousHash?.hex
-        return { address, name, previousHash, schema: AddressSchema }
+        return [
+          { address, name, schema: ModuleAccountSchema },
+          { address, previousHash, schema: ModuleAccountPreviousHashSchema },
+        ]
       })
-    const moduleAccountPreviousHash = new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
-      .fields({
-        address: this.address,
-        name: this.config.name,
-        previousHash: this.account.previousHash?.hex,
-        schema: AddressSchema,
-      })
-      .build()
-    return [moduleAccountPreviousHash, ...queryAccountPreviousHashes]
+    const moduleAccount = [
+      { address: this.account.addressValue.hex, name: this.config.name, schema: ModuleAccountSchema },
+      { address: this.address, previousHash: this.account.previousHash?.hex, schema: ModuleAccountPreviousHashSchema },
+    ]
+    return [moduleAccount, ...queryAccounts].flat()
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

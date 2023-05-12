@@ -15,9 +15,9 @@ import {
 } from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
-import { Payload, PayloadFields, PayloadFindFilter, SchemaFields } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Promisable, PromisableArray } from '@xyo-network/promise'
+import { Promisable } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
 constructableModuleWrapper()
@@ -25,11 +25,9 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   extends ModuleWrapper<TWrappedModule>
   implements ArchivistModule
 {
-  start?: (() => Promisable<void>) | undefined
-  find(filter?: PayloadFindFilter | undefined): PromisableArray<SchemaFields & PayloadFields & { schema: string }> {
-    throw new Error('Method not implemented.')
-  }
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
+
+  start?: (() => Promisable<void>) | undefined
 
   async all(): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })

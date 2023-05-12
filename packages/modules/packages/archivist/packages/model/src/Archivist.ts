@@ -38,6 +38,3 @@ export type ArchivistModule<
   TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > = Module<TParams, TEventData> & Archivist<Payload, Payload, Payload, string>
-
-/** @deprecated use ArchivistModule instead */
-export type PayloadArchivist = ArchivistModule

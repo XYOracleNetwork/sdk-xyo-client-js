@@ -6,8 +6,6 @@ import {
   AbstractArchivist,
   ArchivistConfig,
   ArchivistConfigSchema,
-  ArchivistFindQuery,
-  ArchivistFindQuerySchema,
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuery,
@@ -15,7 +13,7 @@ import {
   ArchivistParams,
   ArchivistQuery,
 } from '@xyo-network/archivist'
-import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AnyConfigSchema,
@@ -26,21 +24,13 @@ import {
   QueryBoundWitnessWrapper,
 } from '@xyo-network/module'
 import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
-import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { SortDirection } from 'mongodb'
 
 import { DefaultMaxTimeMS } from '../../defaults'
-import {
-  BoundWitnessesFilter,
-  getFilter,
-  getLimit,
-  getPayloadSchemas,
-  PayloadsFilter,
-  shouldFindBoundWitnesses,
-  shouldFindPayloads,
-} from './QueryHelpers'
+import { BoundWitnessesFilter } from './QueryHelpers'
 import { validByType } from './validByType'
 
 export type MongoDBDeterministicArchivistParams = ArchivistParams<
@@ -69,8 +59,6 @@ const toPayloadWithMeta = (wrapper: PayloadWrapper): PayloadWithMeta => {
   return { ...wrapper.payload, _hash: wrapper.hash, _timestamp: Date.now() }
 }
 
-const searchDepthLimit = 50
-
 export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
 > extends AbstractArchivist<TParams> {
@@ -85,11 +73,7 @@ export class MongoDBDeterministicArchivist<
   }
 
   override get queries(): string[] {
-    return [ArchivistFindQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
-  }
-
-  override find(_filter?: PayloadFindFilter): Promise<Payload[]> {
-    throw new Error('find method must be called via query')
+    return [ArchivistInsertQuerySchema, ...super.queries]
   }
 
   override get(_items: string[]): Promise<Payload[]> {
@@ -105,59 +89,6 @@ export class MongoDBDeterministicArchivist<
     sort: { [key: string]: SortDirection } = { _timestamp: -1 },
   ): Promise<BoundWitnessWithMeta | undefined> {
     return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
-  }
-
-  protected async findInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistFindQuery): Promise<Payload[]> {
-    const limit = getLimit(typedQuery)
-    const [bwFilter, payloadFilter] = getFilter(wrapper, typedQuery)
-    const resultPayloads: (BoundWitnessWithMeta | PayloadWithMeta)[] = []
-    const findBWs = shouldFindBoundWitnesses(typedQuery)
-    const findPayloads = shouldFindPayloads(typedQuery)
-    const payloadSchemas = getPayloadSchemas(typedQuery)
-    let currentBw: BoundWitnessWithMeta | undefined
-    let nextHash: string | null | undefined = undefined
-    for (let searchDepth = 0; searchDepth < searchDepthLimit; searchDepth++) {
-      if (resultPayloads.length >= limit) break
-      currentBw = await this.findBoundWitness(bwFilter)
-      if (!currentBw) break
-      if (findBWs) resultPayloads.push(currentBw)
-      if (findPayloads) {
-        const payloadHashes = payloadSchemas.length
-          ? currentBw?.payload_schemas.reduce((schemas, schema, idx) => {
-              if (payloadSchemas.includes(schema) && currentBw?.payload_hashes[idx]) schemas.push(currentBw.payload_hashes[idx])
-              return schemas
-            }, [] as string[])
-          : currentBw.payload_hashes
-        const payloads = (
-          await Promise.all(
-            payloadHashes.map((_hash) => {
-              const schema = currentBw?.payload_schemas[currentBw.payload_hashes.indexOf(_hash)]
-              return schema?.startsWith(BoundWitnessSchema) ? this.findBoundWitness({ _hash }) : this.findPayload({ ...payloadFilter, _hash })
-            }),
-          )
-        ).filter(exists)
-        for (let p = 0; p < payloads.length; p++) {
-          if (resultPayloads.length >= limit) break
-          resultPayloads.push(payloads[p])
-        }
-      }
-      nextHash = currentBw?.previous_hashes?.at(-1)
-      if (!nextHash) break
-      bwFilter._hash = nextHash
-    }
-    return resultPayloads.map(toReturnValue)
-  }
-
-  protected async findPayload(filter: PayloadsFilter): Promise<PayloadWithMeta | undefined> {
-    const { order, offset, schema, _hash } = filter as PayloadFindFilter & PayloadsFilter
-    const sort: { [key: string]: SortDirection } = { _timestamp: order === 'asc' ? 1 : -1 }
-    const parsedTimestamp = offset ? parseInt(`${offset}`) : order === 'asc' ? 0 : Date.now()
-    const _timestamp = order === 'asc' ? { $gte: parsedTimestamp } : { $lte: parsedTimestamp }
-    const find: PayloadsFilter = { _timestamp }
-    if (schema) find.schema = schema
-    if (_hash) find._hash = _hash
-    const result = await (await this.payloads.find(find)).limit(1).sort(sort).maxTimeMS(DefaultMaxTimeMS).toArray()
-    return result.pop()
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<Payload[]> {
@@ -202,10 +133,6 @@ export class MongoDBDeterministicArchivist<
     // const queryAccount = new Account()
     try {
       switch (typedQuery.schema) {
-        case ArchivistFindQuerySchema: {
-          resultPayloads.push(...(await this.findInternal(wrapper, typedQuery)))
-          break
-        }
         case ArchivistGetQuerySchema: {
           resultPayloads.push(...(await this.getInternal(wrapper, typedQuery)))
           break

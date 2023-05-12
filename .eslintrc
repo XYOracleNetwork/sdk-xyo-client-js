@@ -6,6 +6,7 @@
   "ignorePatterns": [
     "**/dist",
     "**/node_modules",
+    "**/docs",
     "coverage",
     "docker",
     "swagger.json",

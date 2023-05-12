@@ -27,10 +27,7 @@ import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-import { SortDirection } from 'mongodb'
 
-import { DefaultMaxTimeMS } from '../../defaults'
-import { BoundWitnessesFilter } from './QueryHelpers'
 import { validByType } from './validByType'
 
 export type MongoDBDeterministicArchivistParams = ArchivistParams<
@@ -82,13 +79,6 @@ export class MongoDBDeterministicArchivist<
 
   insert(_items: Payload[]): Promise<BoundWitness[]> {
     throw new Error('insert method must be called via query')
-  }
-
-  protected async findBoundWitness(
-    filter: BoundWitnessesFilter,
-    sort: { [key: string]: SortDirection } = { _timestamp: -1 },
-  ): Promise<BoundWitnessWithMeta | undefined> {
-    return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
   }
 
   protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<Payload[]> {

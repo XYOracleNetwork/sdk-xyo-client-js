@@ -54,10 +54,6 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return result[0].payload_hashes.map(() => true)
   }
 
-  find(_filter?: PayloadFindFilter | undefined): PromisableArray<SchemaFields & PayloadFields & { schema: string }> {
-    throw new Error('Method not implemented.')
-  }
-
   async get(hashes: string[]): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
     const result = await this.sendQuery(queryPayload)

@@ -1,12 +1,13 @@
-import { ArchivistModule } from '@xyo-network/archivist-model'
+import { AbstractArchivist } from '@xyo-network/archivist'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
+import { DivinerModule } from '@xyo-network/diviner-model'
 import { mock } from 'jest-mock-extended'
 
 import { CoinCurrentUserWitnessPayload, CoinCurrentUserWitnessSchema, MemoryCoinUserLocationsDiviner } from '../UserLocationsDiviner'
 
 describe('MemoryCoinUserLocationsDiviner', () => {
-  const payloads = mock<ArchivistModule>()
-  const bws = mock<BoundWitnessDiviner>()
+  const payloads = mock<AbstractArchivist>()
+  const bws = mock<DivinerModule & BoundWitnessDiviner>()
   const logger = mock<Console>()
   let sut: MemoryCoinUserLocationsDiviner
   beforeAll(async () => {

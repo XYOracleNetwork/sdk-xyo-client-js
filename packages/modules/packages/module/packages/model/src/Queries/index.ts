@@ -1,10 +1,10 @@
 import { Query } from '../Query'
 import { ModuleDiscoverQuery } from './Discover'
-import { ModuleAccountQuery } from './PreviousHash'
+import { ModuleAccountQuery } from './ModuleAccount'
 import { ModuleSubscribeQuery } from './Subscribe'
 
 export * from './Discover'
-export * from './PreviousHash'
+export * from './ModuleAccount'
 export * from './Subscribe'
 
 export type ModuleQueryBase = ModuleDiscoverQuery | ModuleAccountQuery | ModuleSubscribeQuery

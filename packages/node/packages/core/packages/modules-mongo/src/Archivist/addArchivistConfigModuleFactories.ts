@@ -11,15 +11,17 @@ import { MongoDBDeterministicArchivist } from './Deterministic'
 
 const getMongoDBArchivistFactory = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Archivists.Archivist)
+  const wallet = HDWallet.fromMnemonic(mnemonic)
+  const accountDerivationPath = WALLET_PATHS.Archivists.Archivist
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
   const factory = async (config: AnyConfigSchema<ArchivistConfig>) =>
     await MongoDBDeterministicArchivist.create({
-      account,
+      accountDerivationPath,
       boundWitnessSdk,
       config: { ...config, name: TYPES.Archivist.description, schema: MongoDBDeterministicArchivist.configSchema },
       payloadSdk,
+      wallet,
     })
   return factory
 }

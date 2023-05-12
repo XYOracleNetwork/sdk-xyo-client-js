@@ -1,10 +1,11 @@
+import { AccountInstance } from '@xyo-network/account-model'
 export interface Mnemonic {
   readonly locale: string
   readonly path: string
   readonly phrase: string
 }
 
-export interface WalletInstance {
+export interface WalletInstance extends AccountInstance {
   readonly address: string
   readonly chainCode: string
   readonly depth: number

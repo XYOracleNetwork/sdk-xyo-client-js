@@ -8,15 +8,17 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AccountModuleParams,
+  AddressPreviousHashPayload,
+  AddressPreviousHashSchema,
   CreatableModule,
   CreatableModuleFactory,
   Module,
+  ModuleAccountQuerySchema,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
-  ModulePreviousHashQuerySchema,
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryBase,
@@ -54,12 +56,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   readonly upResolver = new CompositeModuleResolver()
 
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
-    'network.xyo.query.module.account.hash.previous': '1',
+    'network.xyo.query.module.account': '1',
     'network.xyo.query.module.discover': '2',
     'network.xyo.query.module.subscribe': '3',
   }
   protected readonly _queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
-    'network.xyo.query.module.account.hash.previous': undefined,
+    'network.xyo.query.module.account': undefined,
     'network.xyo.query.module.discover': undefined,
     'network.xyo.query.module.subscribe': undefined,
   }
@@ -69,20 +71,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected readonly supportedQueryValidator: Queryable
 
   constructor(params: TParams) {
-    //we copy this to prevent mutation of the incoming object
+    // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     const activeLogger = params.logger ?? AbstractModule.defaultLogger
-    //TODO: change wallet to use accountDerivationPath
-    const account: AccountInstance | undefined = (mutatedParams as WalletModuleParams<TParams['config']>).wallet
-      ? Account.fromPrivateKey(
-          (mutatedParams as WalletModuleParams<TParams['config']>).wallet.derivePath(
-            (mutatedParams as WalletModuleParams<TParams['config']>).accountDerivationPath,
-          ).privateKey,
-        )
-      : (mutatedParams as AccountModuleParams<TParams['config']>).account
-      ? (mutatedParams as AccountModuleParams<TParams['config']>).account
-      : undefined
-
+    let { account } = mutatedParams as AccountModuleParams<TParams['config']>
+    const { wallet, accountDerivationPath } = mutatedParams as WalletModuleParams<TParams['config']>
+    if (wallet) {
+      account = accountDerivationPath ? wallet.derivePath(accountDerivationPath) : wallet
+    }
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
     this.account = this.loadAccount(account)
@@ -104,7 +100,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get queries(): string[] {
-    return [ModuleDiscoverQuerySchema, ModulePreviousHashQuerySchema, ModuleSubscribeQuerySchema]
+    return [ModuleDiscoverQuerySchema, ModuleAccountQuerySchema, ModuleSubscribeQuerySchema]
   }
 
   get queryAccountPaths(): Readonly<Record<Query['schema'], string | undefined>> {
@@ -152,26 +148,28 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
-  previousHash(): Promisable<Payload[]> {
+  moduleAccountQuery(): Promisable<(AddressPayload | AddressPreviousHashPayload)[]> {
     // Return array of all addresses and their previous hash
-    const queryAccountPreviousHashes = Object.entries(this.queryAccounts)
+    const queryAccounts = Object.entries(this.queryAccounts)
       .filter((value): value is [string, AccountInstance] => {
         return exists(value[1])
       })
       .map(([name, account]) => {
         const address = account.addressValue.hex
         const previousHash = account.previousHash?.hex
-        return { address, name, previousHash, schema: AddressSchema }
+        return [
+          { address, name, schema: AddressSchema },
+          { address, previousHash, schema: AddressPreviousHashSchema },
+        ]
       })
-    const moduleAccountPreviousHash = new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
-      .fields({
-        address: this.address,
-        name: this.config.name,
-        previousHash: this.account.previousHash?.hex,
-        schema: AddressSchema,
-      })
-      .build()
-    return [moduleAccountPreviousHash, ...queryAccountPreviousHashes]
+    const address = this.account.addressValue.hex
+    const name = this.config.name
+    const previousHash = this.account.previousHash?.hex
+    const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
+    const moduleAccountPreviousHash = previousHash
+      ? { address, previousHash, schema: AddressPreviousHashSchema }
+      : { address, schema: AddressPreviousHashSchema }
+    return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -334,8 +332,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           resultPayloads.push(...(await this.discover()))
           break
         }
-        case ModulePreviousHashQuerySchema: {
-          resultPayloads.push(...(await this.previousHash()))
+        case ModuleAccountQuerySchema: {
+          resultPayloads.push(...(await this.moduleAccountQuery()))
           break
         }
         case ModuleSubscribeQuerySchema: {

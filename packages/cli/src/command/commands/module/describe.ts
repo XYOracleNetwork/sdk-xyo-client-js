@@ -3,18 +3,18 @@ import { Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../lib'
 import { ModuleArguments } from '../ModuleArguments'
-import { getModule } from '../util'
+import { getModuleFromArgs } from '../util'
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
   yargs.usage('Usage: $0 module describe <address>').positional('address', { demandOption: true, type: 'string' })
 export const command = 'describe <address>'
 export const deprecated = false
-export const describe = 'Issue a describe query against the XYO Module'
+export const describe = 'Describe the XYO Module'
 export const handler = async (argv: ModuleArguments) => {
   const { verbose } = argv
   try {
-    const mod = await getModule(argv)
+    const mod = await getModuleFromArgs(argv)
     const result = await mod.describe()
     printLine(JSON.stringify(result))
   } catch (error) {

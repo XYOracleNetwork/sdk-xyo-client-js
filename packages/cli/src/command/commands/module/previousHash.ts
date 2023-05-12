@@ -3,7 +3,7 @@ import { Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../lib'
 import { ModuleArguments } from '../ModuleArguments'
-import { getModule } from '../util'
+import { getModuleFromArgs } from '../util'
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
@@ -14,7 +14,7 @@ export const describe = 'Issue a PreviousHash Query against the XYO Module'
 export const handler = async (argv: ModuleArguments) => {
   const { verbose } = argv
   try {
-    const mod = await getModule(argv)
+    const mod = await getModuleFromArgs(argv)
     const result = await mod.previousHash()
     printLine(JSON.stringify(result))
   } catch (error) {

@@ -5,7 +5,7 @@ import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 import { printError, printLine } from '../../lib'
 import { opts } from '../requireDirectoryOptions'
 import { ModuleArguments } from './ModuleArguments'
-import { getModule } from './util'
+import { getModuleFromArgs } from './util'
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
@@ -16,7 +16,7 @@ export const describe = 'Issue queries against an XYO Module'
 export const handler = async (argv: ArgumentsCamelCase<ModuleArguments>) => {
   const { verbose } = argv
   try {
-    const module = await getModule(argv)
+    const module = await getModuleFromArgs(argv)
     const result = (await module.describe()) ?? {}
     printLine(JSON.stringify(result))
   } catch (error) {

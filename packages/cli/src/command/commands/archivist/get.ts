@@ -11,12 +11,9 @@ type Arguments = ModuleArguments & {
 
 export const aliases: ReadonlyArray<string> = []
 export const builder: CommandBuilder = (yargs: Argv) =>
-  yargs
-    .usage('Usage: $0 archivist get <address> <hashes..>')
-    .positional('address', { demandOption: true, type: 'string' })
-    .positional('hashes', { array: true, demandOption: true, type: 'string' })
+  yargs.usage('Usage: $0 archivist get <hashes..>').positional('hashes', { array: true, demandOption: false, type: 'string' })
 
-export const command = 'get <address> <hashes..>'
+export const command = 'get <hashes..>'
 export const deprecated = false
 export const describe = 'Get payload(s) from the Archivist by hash'
 export const handler = async (argv: ArgumentsCamelCase<Arguments>) => {
@@ -27,7 +24,7 @@ export const handler = async (argv: ArgumentsCamelCase<Arguments>) => {
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))
-    throw new Error('Error querying archivist')
+    throw new Error('Error querying Archivist')
   }
 }
 

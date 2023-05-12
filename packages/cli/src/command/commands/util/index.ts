@@ -1,2 +1,5 @@
-export * from './getModule'
+export * from './getModuleByAddress'
+export * from './getModuleByName'
+export * from './getModuleFromArgs'
+export * from './getModuleFromModuleFilter'
 export * from './getModuleQueries'

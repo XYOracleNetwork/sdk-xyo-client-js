@@ -3,23 +3,22 @@ import { Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../lib'
 import { ModuleArguments } from '../ModuleArguments'
-import { getModuleFromArgs } from '../util'
+import { getArchivist } from './util'
 
 export const aliases: ReadonlyArray<string> = []
-export const builder: CommandBuilder = (yargs: Argv) =>
-  yargs.usage('Usage: $0 module queries <address>').positional('address', { demandOption: true, type: 'string' })
-export const command = 'queries <address>'
+export const builder: CommandBuilder = (yargs: Argv) => yargs.usage('Usage: $0 archivist describe')
+export const command = 'describe'
 export const deprecated = false
-export const describe = 'Issue a queries query against the XYO Module'
+export const describe = 'Describe the XYO Archivist Module'
 export const handler = async (argv: ModuleArguments) => {
   const { verbose } = argv
   try {
-    const mod = await getModuleFromArgs(argv)
-    const result = mod.queries
+    const mod = await getArchivist(argv)
+    const result = await mod.describe()
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))
-    throw new Error('Error Querying Module')
+    throw new Error('Error Querying Archivist')
   }
 }
 

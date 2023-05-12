@@ -6955,6 +6955,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.17.12
     "@xylabs/tsconfig": ^2.17.12
     "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/module-events": "workspace:^"
@@ -7841,6 +7842,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.12
     "@xylabs/tsconfig": ^2.17.12
+    "@xyo-network/account-model": "workspace:^"
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft

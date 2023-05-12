@@ -6,7 +6,7 @@ import { printError } from '../../../lib'
 import { getBridgeConfig } from '../../util'
 import { ModuleArguments } from '../ModuleArguments'
 
-export const getModule = async (args: ModuleArguments): Promise<ModuleWrapper> => {
+export const getModuleByAddress = async (args: ModuleArguments): Promise<ModuleWrapper> => {
   const { address, verbose } = args
   try {
     const config = await getBridgeConfig(args)

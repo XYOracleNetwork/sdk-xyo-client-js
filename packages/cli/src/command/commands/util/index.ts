@@ -1,2 +1,2 @@
-export * from './getModule'
+export * from './getModuleByAddress'
 export * from './getModuleQueries'

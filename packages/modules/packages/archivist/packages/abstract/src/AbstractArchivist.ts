@@ -160,6 +160,9 @@ export abstract class AbstractArchivist<
           const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
           assertEx(resolvedWrappers.length === typedQuery.payloads.length, 'Could not find some passed hashes')
           resultPayloads.push(...(await this.insert(resolvedWrappers.map((wrapper) => wrapper.payload))))
+          // NOTE: There isn't an exact equivalence between what we get and what we store. Once
+          // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
+          // can grab the actual last one
           this._lastInsertedPayload = resolvedWrappers[resolvedWrappers.length - 1]
           break
         }

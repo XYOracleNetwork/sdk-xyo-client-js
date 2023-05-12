@@ -8,12 +8,12 @@ import { duplicateModules, ModuleError, ModuleErrorSchema, QueryBoundWitnessBuil
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   Module,
+  ModuleAccountQuery,
+  ModuleAccountQuerySchema,
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
-  ModulePreviousHashQuery,
-  ModulePreviousHashQuerySchema,
   ModuleQueryResult,
   Query,
   QueryBoundWitness,
@@ -214,7 +214,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   previousHash(): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse<ModulePreviousHashQuery>({ schema: ModulePreviousHashQuerySchema })
+    const queryPayload = PayloadWrapper.parse<ModuleAccountQuery>({ schema: ModuleAccountQuerySchema })
     return this.sendQuery(queryPayload)
   }
 

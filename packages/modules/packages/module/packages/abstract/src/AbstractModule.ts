@@ -11,12 +11,12 @@ import {
   CreatableModule,
   CreatableModuleFactory,
   Module,
+  ModuleAccountQuerySchema,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
-  ModulePreviousHashQuerySchema,
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryBase,
@@ -104,7 +104,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get queries(): string[] {
-    return [ModuleDiscoverQuerySchema, ModulePreviousHashQuerySchema, ModuleSubscribeQuerySchema]
+    return [ModuleDiscoverQuerySchema, ModuleAccountQuerySchema, ModuleSubscribeQuerySchema]
   }
 
   get queryAccountPaths(): Readonly<Record<Query['schema'], string | undefined>> {
@@ -334,7 +334,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           resultPayloads.push(...(await this.discover()))
           break
         }
-        case ModulePreviousHashQuerySchema: {
+        case ModuleAccountQuerySchema: {
           resultPayloads.push(...(await this.previousHash()))
           break
         }

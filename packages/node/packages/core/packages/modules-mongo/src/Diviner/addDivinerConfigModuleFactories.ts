@@ -39,67 +39,71 @@ import { MongoDBPayloadStatsDiviner } from './PayloadStats'
 import { MongoDBSchemaListDiviner } from './SchemaList'
 import { MongoDBSchemaStatsDiviner } from './SchemaStats'
 
-const getMongoDBAddressHistoryDiviner = (container: Container) => {
+const getWallet = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.AddressHistory)
+  return HDWallet.fromMnemonic(mnemonic)
+}
+
+const getMongoDBAddressHistoryDiviner = (container: Container) => {
+  const wallet = getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const factory = (config: AnyConfigSchema<AddressHistoryDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
       boundWitnessSdk,
       config: { ...config, name: TYPES.AddressHistoryDiviner.description },
+      wallet,
     }
     return MongoDBAddressHistoryDiviner.create(params)
   }
   return factory
 }
 const getMongoDBAddressSpaceDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.AddressSpace)
+  const wallet = getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const factory = (config: AnyConfigSchema<AddressSpaceDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace,
       boundWitnessSdk,
       config: { ...config, name: TYPES.AddressSpaceDiviner.description },
+      wallet,
     }
     return MongoDBAddressSpaceDiviner.create(params)
   }
   return factory
 }
 const getMongoDBBoundWitnessDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.BoundWitness)
+  const wallet = getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const factory = (config: AnyConfigSchema<BoundWitnessDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness,
       boundWitnessSdk,
       config: { ...config, name: TYPES.BoundWitnessDiviner.description },
+      wallet,
     }
     return MongoDBBoundWitnessDiviner.create(params)
   }
   return factory
 }
 const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.BoundWitnessStats)
+  const wallet = getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const factory = (config: AnyConfigSchema<BoundWitnessStatsDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.BoundWitnessStats,
       boundWitnessSdk,
       config: { ...config, name: TYPES.BoundWitnessStatsDiviner.description },
       jobQueue,
+      wallet,
     }
     return MongoDBBoundWitnessStatsDiviner.create(params)
   }
   return factory
 }
 const getMemoryForecastingDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.Forecasting)
+  const wallet = getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
@@ -108,75 +112,76 @@ const getMemoryForecastingDiviner = (container: Container) => {
   let transformer: PayloadValueTransformer
   const factory: ConfigModuleFactory = (config: AnyConfigSchema<ForecastingDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.Forecasting,
       boundWitnessSdk,
       config: { ...config, name: TYPES.ForecastingDiviner.description },
       forecastingMethod,
       jobQueue,
       payloadSdk,
       transformer,
+      wallet,
     }
     return MemoryForecastingDiviner.create(params)
   }
   return factory
 }
 const getMongoDBPayloadDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.Payload)
+  const wallet = getWallet(container)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
   const factory = (config: AnyConfigSchema<PayloadDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.Payload,
       config: { ...config, name: TYPES.PayloadDiviner.description },
       payloadSdk,
+      wallet,
     }
     return MongoDBPayloadDiviner.create(params)
   }
   return factory
 }
 const getMongoDBPayloadStatsDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.PayloadStats)
+  const wallet = getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
   const factory = (config: AnyConfigSchema<PayloadStatsDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.PayloadStats,
       boundWitnessSdk,
       config: { ...config, name: TYPES.PayloadStatsDiviner.description },
       jobQueue,
       payloadSdk,
+      wallet,
     }
     return MongoDBPayloadStatsDiviner.create(params)
   }
   return factory
 }
 const getMongoDBSchemaListDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.SchemaList)
+  const wallet = getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const factory = (config: AnyConfigSchema<SchemaListDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.SchemaList,
       boundWitnessSdk,
       config: { ...config, name: TYPES.SchemaListDiviner.description },
+      wallet,
     }
     return MongoDBSchemaListDiviner.create(params)
   }
   return factory
 }
 const getMongoDBSchemaStatsDiviner = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = HDWallet.fromMnemonic(mnemonic).derivePath(WALLET_PATHS.Diviners.SchemaStats)
+  const wallet = getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const factory = (config: AnyConfigSchema<SchemaStatsDivinerConfig>) => {
     const params = {
-      account,
+      accountDerivationPath: WALLET_PATHS.Diviners.SchemaStats,
       boundWitnessSdk,
       config: { ...config, name: TYPES.SchemaStatsDiviner.description, schema: MongoDBSchemaStatsDiviner.configSchema },
       jobQueue,
+      wallet,
     }
     return MongoDBSchemaStatsDiviner.create(params)
   }

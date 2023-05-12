@@ -35,6 +35,7 @@ export abstract class AbstractArchivist<
   extends AbstractModule<TParams, TEventData>
   implements ArchivistModule<TParams>
 {
+  private _lastInsertedPayload: Payload | undefined
   private _parents?: XyoArchivistParentWrappers
 
   override get queries(): string[] {
@@ -83,7 +84,7 @@ export abstract class AbstractArchivist<
   }
 
   head(): Promisable<Payload | undefined> {
-    return
+    return this._lastInsertedPayload
   }
 
   protected async getFromParents(hash: string) {
@@ -159,6 +160,7 @@ export abstract class AbstractArchivist<
           const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
           assertEx(resolvedWrappers.length === typedQuery.payloads.length, 'Could not find some passed hashes')
           resultPayloads.push(...(await this.insert(resolvedWrappers.map((wrapper) => wrapper.payload))))
+          this._lastInsertedPayload = resolvedWrappers[resolvedWrappers.length - 1]
           break
         }
         default:

@@ -54,8 +54,8 @@
     "@types/cors": "^2.8.13",
     "@types/express": "4.17.17",
     "@types/nconf": "^0.10.3",
-    "@xylabs/ts-scripts-yarn3": "^2.17.12",
-    "@xylabs/tsconfig": "^2.17.12",
+    "@xylabs/ts-scripts-yarn3": "^2.17.13",
+    "@xylabs/tsconfig": "^2.17.13",
     "typescript": "^5.0.4"
   },
   "types": "dist/types/index.d.ts"

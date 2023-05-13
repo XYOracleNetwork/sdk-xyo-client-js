@@ -13,8 +13,8 @@
     "@xyo-network/diviner-coin-user-locations": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.17.12",
-    "@xylabs/tsconfig": "^2.17.12",
+    "@xylabs/ts-scripts-yarn3": "^2.17.13",
+    "@xylabs/tsconfig": "^2.17.13",
     "typescript": "^5.0.4"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

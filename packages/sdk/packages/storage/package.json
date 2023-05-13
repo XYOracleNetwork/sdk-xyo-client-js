@@ -20,9 +20,9 @@
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.7.6",
-    "@xylabs/ts-scripts-yarn3": "^2.17.12",
-    "@xylabs/tsconfig": "^2.17.12",
-    "@xylabs/tsconfig-jest": "^2.17.12",
+    "@xylabs/ts-scripts-yarn3": "^2.17.13",
+    "@xylabs/tsconfig": "^2.17.13",
+    "@xylabs/tsconfig-jest": "^2.17.13",
     "jest": "^29.5.0",
     "typescript": "^5.0.4"
   },

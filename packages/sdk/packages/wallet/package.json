@@ -19,8 +19,8 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/sha.js": "^2.4.0",
-    "@xylabs/ts-scripts-yarn3": "^2.17.12",
-    "@xylabs/tsconfig-dom": "^2.17.12",
+    "@xylabs/ts-scripts-yarn3": "^2.17.13",
+    "@xylabs/tsconfig-dom": "^2.17.13",
     "typescript": "^5.0.4"
   },
   "browser": "dist/esm/browserIndex.js",

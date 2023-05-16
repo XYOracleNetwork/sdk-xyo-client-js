@@ -41,11 +41,9 @@ const getAddressSpaceDiviner = (container: Container) => {
 // }
 // const getBoundWitnessStatsDiviner = (container: Container) => {
 //   const wallet = getWallet(container)
-//   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
 //   const params = {
 //     accountDerivationPath: WALLET_PATHS.Diviners.BoundWitnessStats,
 //     config: { name: TYPES.BoundWitnessStatsDiviner.description, schema: BoundWitnessStatsDiviner.configSchema },
-//     jobQueue,
 //     wallet,
 //   }
 //   return new ModuleFactory(BoundWitnessStatsDiviner, params)
@@ -88,10 +86,8 @@ const getMemoryForecastingDiviner = (container: Container) => {
 // }
 // const getSchemaListDiviner = (container: Container) => {
 //   const wallet = getWallet(container)
-//   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
 //   const params = {
 //     accountDerivationPath: WALLET_PATHS.Diviners.SchemaList,
-//     boundWitnessSdk,
 //     config: { name: TYPES.SchemaListDiviner.description, schema: SchemaListDiviner.configSchema },
 //     wallet,
 //   }

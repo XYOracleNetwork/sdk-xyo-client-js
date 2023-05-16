@@ -1,5 +1,6 @@
 import { Logger } from '@xyo-network/core'
 import { CreatableModule, CreatableModuleFactory, Module } from '@xyo-network/module-model'
+import merge from 'lodash/merge'
 
 export interface CreatableModuleDictionary {
   [key: string]: CreatableModuleFactory
@@ -26,7 +27,8 @@ export class ModuleFactory<TModule extends Module> implements CreatableModuleFac
 
   create<T extends Module>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {
     const factory = this as ModuleFactory<T>
-    return factory.creatableModule.create<T>(factory.defaultParams ? { ...factory.defaultParams, ...params } : params)
+    const mergedParams = merge(factory.defaultParams ?? {}, params)
+    return factory.creatableModule.create<T>(mergedParams)
   }
 
   factory<T extends Module>(this: CreatableModule<T>, _params?: T['params'] | undefined): CreatableModuleFactory<T> {

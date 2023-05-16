@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
+import { ArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { AbstractModule } from '@xyo-network/module'
@@ -22,13 +22,13 @@ describe('MultiNodeConfiguration', () => {
 
   beforeAll(async () => {
     primaryNode = await MemoryNode.create({ config: { name: 'primaryNode', schema: NodeConfigSchema } })
-    primaryArchivist = await MemoryArchivist.create({ config: { name: 'primaryArchivist', schema: MemoryArchivistConfigSchema } })
+    primaryArchivist = await MemoryArchivist.create({ config: { name: 'primaryArchivist', schema: MemoryArchivist.configSchema } })
     await primaryNode.register(primaryArchivist)
     await primaryNode.attach(primaryArchivist.address, true)
 
     rightNode = await MemoryNode.create({ config: { name: 'rightNode', schema: NodeConfigSchema } })
-    rightInternalArchivist = await MemoryArchivist.create({ config: { name: 'rightInternalArchivist', schema: MemoryArchivistConfigSchema } })
-    rightExternalArchivist = await MemoryArchivist.create({ config: { name: 'archivist', schema: MemoryArchivistConfigSchema } })
+    rightInternalArchivist = await MemoryArchivist.create({ config: { name: 'rightInternalArchivist', schema: MemoryArchivist.configSchema } })
+    rightExternalArchivist = await MemoryArchivist.create({ config: { name: 'archivist', schema: MemoryArchivist.configSchema } })
     rightWitness = await IdWitness.create({ config: { name: 'rightWitness', salt: 'test', schema: IdWitnessConfigSchema } })
     await rightNode.register(rightInternalArchivist)
     await rightNode.attach(rightInternalArchivist.address)
@@ -38,9 +38,9 @@ describe('MultiNodeConfiguration', () => {
     await rightNode.attach(rightWitness.address, true)
 
     leftNode = await MemoryNode.create({ config: { name: 'leftNode', schema: NodeConfigSchema } })
-    leftInternalArchivist = await MemoryArchivist.create({ config: { name: 'leftInternalArchivist', schema: MemoryArchivistConfigSchema } })
-    leftInternalArchivist2 = await MemoryArchivist.create({ config: { name: 'leftInternalArchivist2', schema: MemoryArchivistConfigSchema } })
-    leftExternalArchivist = await MemoryArchivist.create({ config: { name: 'archivist', schema: MemoryArchivistConfigSchema } })
+    leftInternalArchivist = await MemoryArchivist.create({ config: { name: 'leftInternalArchivist', schema: MemoryArchivist.configSchema } })
+    leftInternalArchivist2 = await MemoryArchivist.create({ config: { name: 'leftInternalArchivist2', schema: MemoryArchivist.configSchema } })
+    leftExternalArchivist = await MemoryArchivist.create({ config: { name: 'archivist', schema: MemoryArchivist.configSchema } })
     leftDiviner = await AddressHistoryDiviner.create({
       config: { address: leftNode.address, name: 'leftDiviner', schema: AddressHistoryDivinerConfigSchema },
     })

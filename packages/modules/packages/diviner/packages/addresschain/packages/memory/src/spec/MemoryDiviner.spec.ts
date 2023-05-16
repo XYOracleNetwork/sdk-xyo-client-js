@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { ArchivistWrapper, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
+import { ArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
@@ -14,7 +14,7 @@ describe('MemoryAddressHistoryDiviner', () => {
       const node = await MemoryNode.create()
       const account = Account.random()
       const archivist = ArchivistWrapper.wrap(
-        await MemoryArchivist.create({ config: { schema: MemoryArchivistConfigSchema, storeQueries: true } }),
+        await MemoryArchivist.create({ config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
         account,
       )
 

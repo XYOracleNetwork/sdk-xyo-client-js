@@ -23,7 +23,7 @@ const getMongoDBArchivistFactory = (container: Container) => {
   })
 }
 
-export const addArchivistConfigModuleFactories = (container: Container) => {
+export const addArchivistModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[MongoDBDeterministicArchivist.configSchema] = getMongoDBArchivistFactory(container)
 }

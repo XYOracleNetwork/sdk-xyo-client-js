@@ -155,7 +155,7 @@ const getMongoDBSchemaStatsDiviner = (container: Container) => {
   return new ModuleFactory(MongoDBSchemaStatsDiviner, params)
 }
 
-export const addDivinerConfigModuleFactories = (container: Container) => {
+export const addDivinerModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[AddressHistoryDivinerConfigSchema] = getMongoDBAddressHistoryDiviner(container)
   dictionary[AddressSpaceDivinerConfigSchema] = getMongoDBAddressSpaceDiviner(container)

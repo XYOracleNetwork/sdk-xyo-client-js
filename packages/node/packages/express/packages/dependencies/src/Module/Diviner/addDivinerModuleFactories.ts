@@ -3,7 +3,7 @@ import { HDWallet } from '@xyo-network/account'
 import { AddressHistoryDiviner } from '@xyo-network/diviner-address-history'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space'
 import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
-import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
+import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/modules'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 

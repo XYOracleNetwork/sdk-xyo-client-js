@@ -2,7 +2,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 
-import { UrlWitness, UrlWitnessConfigSchema } from '../Witness'
+import { UrlWitness, UrlWitnessConfigSchema } from '../Witness/Witness'
 
 describe('UrlWitness', () => {
   describe('observe', () => {

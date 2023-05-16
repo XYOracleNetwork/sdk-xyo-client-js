@@ -1,19 +1,10 @@
-import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
-import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
+import { AbstractWitness } from '@xyo-network/witness'
 
-import { hashUrl } from './util'
-
-export const UrlWitnessConfigSchema = `${UrlSchema}.witness.config` as const
-export type UrlWitnessConfigSchema = typeof UrlWitnessConfigSchema
-
-export type UrlWitnessConfig = WitnessConfig<{
-  schema: UrlWitnessConfigSchema
-  url?: string
-}>
-
-export type UrlWitnessParams = WitnessParams<AnyConfigSchema<UrlWitnessConfig>>
+import { hashUrl } from '../util'
+import { UrlWitnessConfigSchema } from './Config'
+import { UrlWitnessParams } from './Params'
 
 export class UrlWitness<TParams extends UrlWitnessParams = UrlWitnessParams> extends AbstractWitness<TParams> {
   static override configSchema = UrlWitnessConfigSchema

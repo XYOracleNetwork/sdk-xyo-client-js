@@ -14,6 +14,7 @@
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

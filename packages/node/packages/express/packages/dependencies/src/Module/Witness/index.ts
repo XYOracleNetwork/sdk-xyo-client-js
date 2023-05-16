@@ -1,1 +1,1 @@
-export * from './addWitnessConfigModuleFactories'
+export * from './addWitnessModuleFactories'

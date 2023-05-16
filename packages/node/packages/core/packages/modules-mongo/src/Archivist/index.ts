@@ -1,1 +1,1 @@
-export * from './addArchivistConfigModuleFactories'
+export * from './addArchivistModuleFactories'

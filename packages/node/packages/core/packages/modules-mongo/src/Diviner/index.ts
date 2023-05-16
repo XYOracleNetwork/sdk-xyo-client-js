@@ -1,1 +1,1 @@
-export * from './addDivinerConfigModuleFactories'
+export * from './addDivinerModuleFactories'

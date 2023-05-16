@@ -4874,6 +4874,7 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
     typescript: ^5.0.4
   languageName: unknown
@@ -6347,7 +6348,6 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner-models": "workspace:^"
     "@xyo-network/modules": "workspace:^"
-    "@xyo-network/node-core-model": "workspace:^"
     "@xyo-network/node-core-modules-mongo": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
@@ -7125,6 +7125,7 @@ __metadata:
     "@xyo-network/diviner-address-history": "workspace:^"
     "@xyo-network/diviner-address-space-abstract": "workspace:^"
     "@xyo-network/diviner-address-space-memory": "workspace:^"
+    "@xyo-network/diviner-boundwitness-abstract": "workspace:^"
     "@xyo-network/diviner-boundwitness-model": "workspace:^"
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:^"
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:^"
@@ -7609,7 +7610,6 @@ __metadata:
     jest-sorted: ^1.0.14
     nodemon: ^2.0.22
     reflect-metadata: ^0.1.13
-    rimraf: ^5.0.0
     supertest: ^6.3.3
     ts-jest: ^29.1.0
     ts-node: ^10.9.1

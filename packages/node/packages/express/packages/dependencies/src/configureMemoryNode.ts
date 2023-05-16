@@ -10,8 +10,15 @@ import {
   SchemaListDivinerConfigSchema,
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
-import { AnyConfigSchema, ArchivistConfigSchema, ArchivistInsertQuerySchema, ArchivistWrapper, MemoryNode, ModuleConfig } from '@xyo-network/modules'
-import { ConfigModuleFactoryDictionary } from '@xyo-network/node-core-model'
+import {
+  AnyConfigSchema,
+  ArchivistConfigSchema,
+  ArchivistInsertQuerySchema,
+  ArchivistWrapper,
+  CreatableModuleDictionary,
+  MemoryNode,
+  ModuleConfig,
+} from '@xyo-network/modules'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
@@ -61,21 +68,19 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Mem
 }
 
 const addModulesToNodeByConfig = async (container: Container, node: MemoryNode, configs: ModuleConfigWithVisibility[]) => {
-  const configModuleFactoryDictionary = container.get<ConfigModuleFactoryDictionary>(TYPES.ConfigModuleFactoryDictionary)
-  await Promise.all(
-    configs.map(async ([config, visibility]) => await addModuleToNodeFromConfig(configModuleFactoryDictionary, node, config, visibility)),
-  )
+  const creatableModuleDictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
+  await Promise.all(configs.map(async ([config, visibility]) => await addModuleToNodeFromConfig(creatableModuleDictionary, node, config, visibility)))
 }
 
 const addModuleToNodeFromConfig = async (
-  configModuleFactoryDictionary: ConfigModuleFactoryDictionary,
+  creatableModuleDictionary: CreatableModuleDictionary,
   node: MemoryNode,
   config: AnyConfigSchema<ModuleConfig>,
   visibility = true,
 ) => {
-  const configModuleFactory = configModuleFactoryDictionary[config.schema]
+  const configModuleFactory = creatableModuleDictionary[config.schema]
   if (configModuleFactory) {
-    const mod = await configModuleFactory(config)
+    const mod = await configModuleFactory.create({ config })
     const { address } = mod
     await node.register(mod)
     await node.attach(address, visibility)

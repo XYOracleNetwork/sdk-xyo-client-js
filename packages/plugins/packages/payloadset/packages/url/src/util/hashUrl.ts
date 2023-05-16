@@ -10,6 +10,6 @@ export const hashUrl = (url: string): Promise<string> => {
     case 'https':
       return hashHttpUrl(url)
     default:
-      throw new Error(`Unsupported scheme: ${scheme}`)
+      throw new Error(`Unsupported URL scheme: ${scheme}`)
   }
 }

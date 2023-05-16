@@ -35,7 +35,6 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner-models": "workspace:^",
     "@xyo-network/modules": "workspace:^",
-    "@xyo-network/node-core-model": "workspace:^",
     "@xyo-network/node-core-modules-mongo": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
     "@xyo-network/node-model": "workspace:^",

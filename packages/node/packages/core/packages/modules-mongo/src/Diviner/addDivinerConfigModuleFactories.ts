@@ -1,7 +1,6 @@
 /* eslint-disable max-statements */
 import { HDWallet } from '@xyo-network/account'
 import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
-import {} from '@xyo-network/diviner-forecasting-method-arima'
 import {
   AddressHistoryDivinerConfigSchema,
   AddressSpaceDivinerConfigSchema,

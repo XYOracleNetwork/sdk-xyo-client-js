@@ -42,6 +42,7 @@
     "@xyo-network/diviner-address-history": "workspace:^",
     "@xyo-network/diviner-address-space-abstract": "workspace:^",
     "@xyo-network/diviner-address-space-memory": "workspace:^",
+    "@xyo-network/diviner-boundwitness-abstract": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:^",
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:^",

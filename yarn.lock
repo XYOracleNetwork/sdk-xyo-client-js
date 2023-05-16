@@ -7839,6 +7839,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xyo-network/url-payload-plugin@workspace:^, @xyo-network/url-payload-plugin@workspace:packages/plugins/packages/payload/packages/url":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/url-payload-plugin@workspace:packages/plugins/packages/payload/packages/url"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.17.13
+    "@xylabs/tsconfig": ^2.17.13
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^"
+    typescript: ^5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/url-plugin@workspace:packages/plugins/packages/payloadset/packages/url":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/url-plugin@workspace:packages/plugins/packages/payloadset/packages/url"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.17.13
+    "@xylabs/tsconfig": ^2.17.13
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payloadset-plugin": "workspace:^"
+    "@xyo-network/url-payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
+    typescript: ^5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/wallet-model@workspace:^, @xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model"

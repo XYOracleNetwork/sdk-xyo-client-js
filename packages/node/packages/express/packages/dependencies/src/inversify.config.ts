@@ -36,7 +36,7 @@ export const configureDependencies = async (node?: MemoryNode) => {
   const logger = getLogger(verbosity)
 
   container.bind<string>(TYPES.AccountMnemonic).toConstantValue(mnemonic)
-  container.bind<CreatableModuleDictionary>(TYPES.ConfigModuleFactoryDictionary).toConstantValue({})
+  container.bind<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary).toConstantValue({})
 
   container.bind<Logger>(TYPES.Logger).toDynamicValue((context) => {
     const service = tryGetServiceName(context)

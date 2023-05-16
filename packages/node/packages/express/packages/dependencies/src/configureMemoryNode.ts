@@ -68,19 +68,17 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Mem
 }
 
 const addModulesToNodeByConfig = async (container: Container, node: MemoryNode, configs: ModuleConfigWithVisibility[]) => {
-  const configModuleFactoryDictionary = container.get<CreatableModuleDictionary>(TYPES.ConfigModuleFactoryDictionary)
-  await Promise.all(
-    configs.map(async ([config, visibility]) => await addModuleToNodeFromConfig(configModuleFactoryDictionary, node, config, visibility)),
-  )
+  const creatableModuleDictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
+  await Promise.all(configs.map(async ([config, visibility]) => await addModuleToNodeFromConfig(creatableModuleDictionary, node, config, visibility)))
 }
 
 const addModuleToNodeFromConfig = async (
-  configModuleFactoryDictionary: CreatableModuleDictionary,
+  creatableModuleDictionary: CreatableModuleDictionary,
   node: MemoryNode,
   config: AnyConfigSchema<ModuleConfig>,
   visibility = true,
 ) => {
-  const configModuleFactory = configModuleFactoryDictionary[config.schema]
+  const configModuleFactory = creatableModuleDictionary[config.schema]
   if (configModuleFactory) {
     const mod = await configModuleFactory.create({ config })
     const { address } = mod

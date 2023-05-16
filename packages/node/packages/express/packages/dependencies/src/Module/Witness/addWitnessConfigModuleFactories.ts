@@ -14,6 +14,6 @@ const getPrometheusNodeWitness = (container: Container) => {
 }
 
 export const addWitnessConfigModuleFactories = (container: Container) => {
-  const dictionary = container.get<CreatableModuleDictionary>(TYPES.ConfigModuleFactoryDictionary)
+  const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[PrometheusNodeWitness.configSchema] = getPrometheusNodeWitness(container)
 }

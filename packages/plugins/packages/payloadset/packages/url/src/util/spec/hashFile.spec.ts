@@ -13,4 +13,9 @@ describe('hashFile', () => {
       expect(actual).toEqual(expected)
     })
   })
+  describe('with existing file', () => {
+    it('throws for non-existent file', () => {
+      expect(() => hashFile('missing.txt')).rejects.toThrow()
+    })
+  })
 })

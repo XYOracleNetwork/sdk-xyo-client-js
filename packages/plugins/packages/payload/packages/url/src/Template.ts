@@ -1,7 +1,7 @@
 import { UrlPayload } from './Payload'
 import { UrlSchema } from './Schema'
 
-export const idPayloadTemplate = (): UrlPayload => ({
+export const urlPayloadTemplate = (): UrlPayload => ({
   schema: UrlSchema,
   url: '',
 })

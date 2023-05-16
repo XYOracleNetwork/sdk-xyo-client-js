@@ -13,7 +13,6 @@ export const TYPES = {
   AccountMnemonic: Symbol('AccountMnemonic'),
   CreatableModuleDictionary: Symbol('CreatableModuleDictionary'),
   Logger: Symbol('Logger'),
-  SchemaToQueryProcessorRegistry: Symbol('SchemaToQueryProcessorRegistry'),
 }
 
 export * from './Wallet'

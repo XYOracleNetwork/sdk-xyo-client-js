@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { assertEx } from '@xylabs/assert'
 import { getLogger, Logger, LoggerVerbosity } from '@xylabs/sdk-api-express-ecs'
 import { CreatableModuleDictionary, MemoryNode } from '@xyo-network/modules'
-import { addMongoModules } from '@xyo-network/node-core-modules-mongo'
+import { addMongoModules, canAddMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { TYPES } from '@xyo-network/node-core-types'
 import { config } from 'dotenv'
 import { Container } from 'inversify'
@@ -46,6 +46,6 @@ export const configureDependencies = async (node?: MemoryNode) => {
     return service ? logger : logger
   })
   await addMemoryModules(container)
-  await addMongoModules(container)
+  if (canAddMongoModules()) await addMongoModules(container)
   await configureMemoryNode(container, node)
 }

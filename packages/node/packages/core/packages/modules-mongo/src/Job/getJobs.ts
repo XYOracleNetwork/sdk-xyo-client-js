@@ -6,6 +6,7 @@ import { Container } from 'inversify'
 // TODO: This is no longer Mongo-specific and can be
 // exposed in a non-DB module
 export const getJobs = (container: Container): Job[] => {
+  if (!container.isBound(TYPES.JobQueue)) return []
   return container
     .getAll<JobProvider>(TYPES.JobProvider)
     .flatMap((provider) => provider?.jobs)

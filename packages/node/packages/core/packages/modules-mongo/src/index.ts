@@ -1,1 +1,2 @@
-export * from './addMongo'
+export * from './addMongoModules'
+export * from './canAddMongoModules'

@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
   ArchivistPayloadDiviner,
@@ -23,7 +23,7 @@ describe('MemoryNode', () => {
   const testAccount2 = new Account({ phrase: 'testPhrase2' })
   const testAccount3 = new Account({ phrase: 'testPhrase3' })
   const testAccount4 = new Account({ phrase: 'testPhrase4' })
-  const archivistConfig = { schema: MemoryArchivistConfigSchema }
+  const archivistConfig = { schema: MemoryArchivist.configSchema }
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeAll(() => {
@@ -338,7 +338,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('discover', () => {
-    const archivistConfig = { schema: MemoryArchivistConfigSchema }
+    const archivistConfig = { schema: MemoryArchivist.configSchema }
     const validateDiscoveryResponse = (mod: Module, response: Payload[]) => {
       expect(response).toBeArray()
       const address = response.find((p) => p.schema === AddressSchema) as AddressPayload

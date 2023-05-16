@@ -1,5 +1,3 @@
-import { exists } from '@xylabs/exists'
-
 export type MongoDbConnectionStringEnvVar = 'MONGO_CONNECTION_STRING'
 export type MongoDbEnvVars = 'MONGO_DATABASE' | 'MONGO_DOMAIN' | 'MONGO_PASSWORD' | 'MONGO_USERNAME'
 
@@ -17,10 +15,4 @@ export const getMongoDBConfig = (): MongoEnv => {
     env.MONGO_USERNAME = process.env.MONGO_USERNAME
   }
   return env
-}
-
-export const hasMongoDBConfig = (): boolean => {
-  const env = getMongoDBConfig()
-  const requiredValues = [env.MONGO_CONNECTION_STRING, env.MONGO_DATABASE, env.MONGO_DOMAIN, env.MONGO_PASSWORD, env.MONGO_USERNAME]
-  return requiredValues.every(exists)
 }

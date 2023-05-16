@@ -1,7 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
-import { ArchivistConfig } from '@xyo-network/archivist'
-import { AnyConfigSchema } from '@xyo-network/module'
-import { BoundWitnessWithMeta, ConfigModuleFactoryDictionary, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -15,18 +14,16 @@ const getMongoDBArchivistFactory = (container: Container) => {
   const accountDerivationPath = WALLET_PATHS.Archivists.Archivist
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
-  const factory = async (config: AnyConfigSchema<ArchivistConfig>) =>
-    await MongoDBDeterministicArchivist.create({
-      accountDerivationPath,
-      boundWitnessSdk,
-      config: { ...config, name: TYPES.Archivist.description, schema: MongoDBDeterministicArchivist.configSchema },
-      payloadSdk,
-      wallet,
-    })
-  return factory
+  return new ModuleFactory(MongoDBDeterministicArchivist, {
+    accountDerivationPath,
+    boundWitnessSdk,
+    config: { name: TYPES.Archivist.description, schema: MongoDBDeterministicArchivist.configSchema },
+    payloadSdk,
+    wallet,
+  })
 }
 
 export const addArchivistConfigModuleFactories = (container: Container) => {
-  const dictionary = container.get<ConfigModuleFactoryDictionary>(TYPES.ConfigModuleFactoryDictionary)
+  const dictionary = container.get<CreatableModuleDictionary>(TYPES.ConfigModuleFactoryDictionary)
   dictionary[MongoDBDeterministicArchivist.configSchema] = getMongoDBArchivistFactory(container)
 }

@@ -1,17 +1,5 @@
 /* eslint-disable max-statements */
 import { HDWallet } from '@xyo-network/account'
-import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
-import {
-  AddressHistoryDivinerConfigSchema,
-  AddressSpaceDivinerConfigSchema,
-  BoundWitnessDivinerConfigSchema,
-  BoundWitnessStatsDivinerConfigSchema,
-  ForecastingDivinerConfigSchema,
-  PayloadDivinerConfigSchema,
-  PayloadStatsDivinerConfigSchema,
-  SchemaListDivinerConfigSchema,
-  SchemaStatsDivinerConfigSchema,
-} from '@xyo-network/diviner-models'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
@@ -79,31 +67,6 @@ const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
   }
   return new ModuleFactory(MongoDBBoundWitnessStatsDiviner, params)
 }
-const getMemoryForecastingDiviner = (container: Container) => {
-  const wallet = getWallet(container)
-  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
-  const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
-  const forecastingMethod = 'arimaForecasting'
-  const jsonPathExpression = '$.feePerGas.medium'
-  const witnessSchema = 'network.xyo.blockchain.ethereum.gas'
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.Forecasting,
-    boundWitnessSdk,
-    config: {
-      forecastingMethod,
-      jsonPathExpression,
-      name: TYPES.ForecastingDiviner.description,
-      schema: MemoryForecastingDiviner.configSchema,
-      witnessSchema,
-    },
-    forecastingMethod,
-    jobQueue,
-    payloadSdk,
-    wallet,
-  }
-  return new ModuleFactory(MemoryForecastingDiviner, params)
-}
 const getMongoDBPayloadDiviner = (container: Container) => {
   const wallet = getWallet(container)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
@@ -157,13 +120,12 @@ const getMongoDBSchemaStatsDiviner = (container: Container) => {
 
 export const addDivinerModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  dictionary[AddressHistoryDivinerConfigSchema] = getMongoDBAddressHistoryDiviner(container)
-  dictionary[AddressSpaceDivinerConfigSchema] = getMongoDBAddressSpaceDiviner(container)
-  dictionary[BoundWitnessDivinerConfigSchema] = getMongoDBBoundWitnessDiviner(container)
-  dictionary[BoundWitnessStatsDivinerConfigSchema] = getMongoDBBoundWitnessStatsDiviner(container)
-  dictionary[ForecastingDivinerConfigSchema] = getMemoryForecastingDiviner(container)
-  dictionary[PayloadDivinerConfigSchema] = getMongoDBPayloadDiviner(container)
-  dictionary[PayloadStatsDivinerConfigSchema] = getMongoDBPayloadStatsDiviner(container)
-  dictionary[SchemaListDivinerConfigSchema] = getMongoDBSchemaListDiviner(container)
-  dictionary[SchemaStatsDivinerConfigSchema] = getMongoDBSchemaStatsDiviner(container)
+  dictionary[MongoDBAddressHistoryDiviner.configSchema] = getMongoDBAddressHistoryDiviner(container)
+  dictionary[MongoDBAddressSpaceDiviner.configSchema] = getMongoDBAddressSpaceDiviner(container)
+  dictionary[MongoDBBoundWitnessDiviner.configSchema] = getMongoDBBoundWitnessDiviner(container)
+  dictionary[MongoDBBoundWitnessStatsDiviner.configSchema] = getMongoDBBoundWitnessStatsDiviner(container)
+  dictionary[MongoDBPayloadDiviner.configSchema] = getMongoDBPayloadDiviner(container)
+  dictionary[MongoDBPayloadStatsDiviner.configSchema] = getMongoDBPayloadStatsDiviner(container)
+  dictionary[MongoDBSchemaListDiviner.configSchema] = getMongoDBSchemaListDiviner(container)
+  dictionary[MongoDBSchemaStatsDiviner.configSchema] = getMongoDBSchemaStatsDiviner(container)
 }

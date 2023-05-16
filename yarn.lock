@@ -5638,7 +5638,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace":
+"@xyo-network/diviner-address-space@workspace:^, @xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace"
   dependencies:
@@ -6346,6 +6346,9 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/diviner-address-history": "workspace:^"
+    "@xyo-network/diviner-address-space": "workspace:^"
+    "@xyo-network/diviner-forecasting": "workspace:^"
     "@xyo-network/diviner-models": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-modules-mongo": "workspace:^"
@@ -7129,7 +7132,6 @@ __metadata:
     "@xyo-network/diviner-boundwitness-model": "workspace:^"
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:^"
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:^"
-    "@xyo-network/diviner-forecasting": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-models": "workspace:^"
     "@xyo-network/diviner-payload-model": "workspace:^"

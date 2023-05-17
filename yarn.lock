@@ -5676,10 +5676,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-memory@workspace:packages/modules/packages/diviner/packages/boundwitness/packages/memory"
   dependencies:
-    "@types/jsonpath": ^0.2.0
     "@xylabs/array": ^2.8.1
     "@xylabs/assert": ^2.8.1
-    "@xylabs/exists": ^2.8.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -5687,9 +5685,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner-boundwitness-abstract": "workspace:^"
     "@xyo-network/diviner-boundwitness-model": "workspace:^"
-    "@xyo-network/diviner-wrapper": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
-    jsonpath: ^1.1.1
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft

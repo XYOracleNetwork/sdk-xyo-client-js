@@ -2,7 +2,7 @@ import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 
-import { UrlWitness } from './Witness/Witness'
+import { UrlWitness } from './Witness'
 
 export const UrlPlugin = () =>
   createPayloadSetWitnessPlugin<UrlWitness>(

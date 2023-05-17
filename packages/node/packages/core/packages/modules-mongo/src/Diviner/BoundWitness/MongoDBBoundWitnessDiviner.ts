@@ -1,5 +1,4 @@
 import { flatten } from '@xylabs/array'
-import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { normalizeAddress } from '@xyo-network/core'
@@ -55,13 +54,4 @@ export class MongoDBBoundWitnessDiviner<
     if (payload_schemas?.length) filter.payload_schemas = { $in: payload_schemas }
     return (await (await this.params.boundWitnessSdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
   }
-}
-
-const concatArrays = (a: string | string[] | undefined, b: string | string[] | undefined): string[] => {
-  return ([] as (string | undefined)[])
-    .concat(a)
-    .concat(b)
-    .filter(exists)
-    .map((x) => x.toLowerCase())
-    .map((x) => (x.startsWith('0x') ? x.substring(2) : x))
 }

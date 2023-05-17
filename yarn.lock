@@ -5678,9 +5678,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-boundwitness-stats-abstract@workspace:^, @xyo-network/diviner-boundwitness-stats-abstract@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/abstract":
+"@xyo-network/diviner-boundwitness-stats-abstract@workspace:^, @xyo-network/diviner-boundwitness-stats-abstract@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/abstract":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-boundwitness-stats-abstract@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/abstract"
+  resolution: "@xyo-network/diviner-boundwitness-stats-abstract@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/abstract"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -5690,9 +5690,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-boundwitness-stats-model@workspace:^, @xyo-network/diviner-boundwitness-stats-model@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/model":
+"@xyo-network/diviner-boundwitness-stats-model@workspace:^, @xyo-network/diviner-boundwitness-stats-model@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-boundwitness-stats-model@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/model"
+  resolution: "@xyo-network/diviner-boundwitness-stats-model@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/model"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -5890,9 +5890,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-payload-abstract@workspace:^, @xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/abstract":
+"@xyo-network/diviner-payload-abstract@workspace:^, @xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/packages/abstract":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/abstract"
+  resolution: "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/packages/abstract"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -5902,9 +5902,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-payload-model@workspace:^, @xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/model":
+"@xyo-network/diviner-payload-model@workspace:^, @xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/packages/model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/model"
+  resolution: "@xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/packages/model"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -5916,9 +5916,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-payload-stats-abstract@workspace:^, @xyo-network/diviner-payload-stats-abstract@workspace:packages/modules/packages/diviner/packages/payloadstats/abstract":
+"@xyo-network/diviner-payload-stats-abstract@workspace:^, @xyo-network/diviner-payload-stats-abstract@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/abstract":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-payload-stats-abstract@workspace:packages/modules/packages/diviner/packages/payloadstats/abstract"
+  resolution: "@xyo-network/diviner-payload-stats-abstract@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/abstract"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -5928,9 +5928,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-payload-stats-model@workspace:^, @xyo-network/diviner-payload-stats-model@workspace:packages/modules/packages/diviner/packages/payloadstats/model":
+"@xyo-network/diviner-payload-stats-model@workspace:^, @xyo-network/diviner-payload-stats-model@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-payload-stats-model@workspace:packages/modules/packages/diviner/packages/payloadstats/model"
+  resolution: "@xyo-network/diviner-payload-stats-model@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/model"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -5965,9 +5965,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-schema-list-abstract@workspace:^, @xyo-network/diviner-schema-list-abstract@workspace:packages/modules/packages/diviner/packages/schemalist/abstract":
+"@xyo-network/diviner-schema-list-abstract@workspace:^, @xyo-network/diviner-schema-list-abstract@workspace:packages/modules/packages/diviner/packages/schemalist/packages/abstract":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-schema-list-abstract@workspace:packages/modules/packages/diviner/packages/schemalist/abstract"
+  resolution: "@xyo-network/diviner-schema-list-abstract@workspace:packages/modules/packages/diviner/packages/schemalist/packages/abstract"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -5977,9 +5977,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-schema-list-model@workspace:^, @xyo-network/diviner-schema-list-model@workspace:packages/modules/packages/diviner/packages/schemalist/model":
+"@xyo-network/diviner-schema-list-model@workspace:^, @xyo-network/diviner-schema-list-model@workspace:packages/modules/packages/diviner/packages/schemalist/packages/model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-schema-list-model@workspace:packages/modules/packages/diviner/packages/schemalist/model"
+  resolution: "@xyo-network/diviner-schema-list-model@workspace:packages/modules/packages/diviner/packages/schemalist/packages/model"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -6002,9 +6002,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-schema-stats-abstract@workspace:^, @xyo-network/diviner-schema-stats-abstract@workspace:packages/modules/packages/diviner/packages/schemastats/abstract":
+"@xyo-network/diviner-schema-stats-abstract@workspace:^, @xyo-network/diviner-schema-stats-abstract@workspace:packages/modules/packages/diviner/packages/schemastats/packages/abstract":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-schema-stats-abstract@workspace:packages/modules/packages/diviner/packages/schemastats/abstract"
+  resolution: "@xyo-network/diviner-schema-stats-abstract@workspace:packages/modules/packages/diviner/packages/schemastats/packages/abstract"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -6014,9 +6014,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-schema-stats-model@workspace:^, @xyo-network/diviner-schema-stats-model@workspace:packages/modules/packages/diviner/packages/schemastats/model":
+"@xyo-network/diviner-schema-stats-model@workspace:^, @xyo-network/diviner-schema-stats-model@workspace:packages/modules/packages/diviner/packages/schemastats/packages/model":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-schema-stats-model@workspace:packages/modules/packages/diviner/packages/schemastats/model"
+  resolution: "@xyo-network/diviner-schema-stats-model@workspace:packages/modules/packages/diviner/packages/schemastats/packages/model"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13

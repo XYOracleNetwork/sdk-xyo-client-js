@@ -28,7 +28,11 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
     const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
     const all = await archivist.all()
-    return all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address)).length
+    return all
+      .filter(isBoundWitness)
+      .filter((bw) => bw.addresses.includes(address))
+      .map((bw) => bw.payload_hashes.length)
+      .reduce((total, count) => total + count, 0)
   }
 
   protected async divineAllAddresses(): Promise<number> {

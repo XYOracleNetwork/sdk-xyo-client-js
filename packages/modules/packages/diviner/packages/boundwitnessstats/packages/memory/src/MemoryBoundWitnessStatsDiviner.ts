@@ -37,6 +37,6 @@ export class MemoryBoundWitnessStatsDiviner<
     const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
     const all = await archivist.all()
-    return all.length
+    return all.filter(isBoundWitness).length
   }
 }

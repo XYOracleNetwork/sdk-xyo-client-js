@@ -5721,14 +5721,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats-memory@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/memory"
   dependencies:
-    "@xylabs/array": ^2.8.1
     "@xylabs/assert": ^2.8.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/archivist-wrapper": "workspace:^"
-    "@xyo-network/core": "workspace:^"
-    "@xyo-network/diviner-payload-abstract": "workspace:^"
-    "@xyo-network/diviner-payload-model": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:^"
+    "@xyo-network/diviner-boundwitness-stats-model": "workspace:^"
+    "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     typescript: ^5.0.4
   languageName: unknown
@@ -5951,12 +5951,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-memory@workspace:packages/modules/packages/diviner/packages/payload/packages/memory"
   dependencies:
-    "@xylabs/array": ^2.8.1
     "@xylabs/assert": ^2.8.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/archivist-wrapper": "workspace:^"
-    "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner-payload-abstract": "workspace:^"
     "@xyo-network/diviner-payload-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"

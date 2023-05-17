@@ -1,27 +1,29 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract'
+import { BoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats-abstract'
 import {
-  isPayloadStatsQueryPayload,
-  PayloadStatsDivinerConfigSchema,
-  PayloadStatsDivinerParams,
-  PayloadStatsDivinerSchema,
-  PayloadStatsPayload,
-  PayloadStatsQueryPayload,
-} from '@xyo-network/diviner-payload-stats-model'
+  BoundWitnessStatsDivinerConfigSchema,
+  BoundWitnessStatsDivinerParams,
+  BoundWitnessStatsDivinerSchema,
+  BoundWitnessStatsPayload,
+  BoundWitnessStatsQueryPayload,
+  isBoundWitnessStatsQueryPayload,
+} from '@xyo-network/diviner-boundwitness-stats-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
-export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams = PayloadStatsDivinerParams> extends PayloadStatsDiviner<TParams> {
-  static override configSchema = PayloadStatsDivinerConfigSchema
+export class MemoryBoundWitnessStatsDiviner<
+  TParams extends BoundWitnessStatsDivinerParams = BoundWitnessStatsDivinerParams,
+> extends BoundWitnessStatsDiviner<TParams> {
+  static override configSchema = BoundWitnessStatsDivinerConfigSchema
 
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
-    const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
+    const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
     if (!query) return []
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build())
+    return counts.map((count) => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsDivinerSchema }).fields({ count }).build())
   }
 
   protected async divineAddress(address: string): Promise<number> {

@@ -1,2 +1,2 @@
-export * from './normalize'
-export * from './trim'
+export * from './normalizeAddress'
+export * from './trimAddressPrefix'

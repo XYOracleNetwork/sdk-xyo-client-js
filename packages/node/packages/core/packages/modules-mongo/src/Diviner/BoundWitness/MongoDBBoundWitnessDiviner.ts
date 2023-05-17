@@ -33,8 +33,9 @@ export class MongoDBBoundWitnessDiviner<
     const query = payloads?.find<BoundWitnessDivinerQueryPayload>(isBoundWitnessDivinerQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { address, addresses, hash, limit, order, payload_hashes, payload_schemas, schema, timestamp, ...props } = query
+    // NOTE: We're supporting address (which is deprecated) until we can ensure that all
+    // clients are using addresses
+    const { address, addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp } = query
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }

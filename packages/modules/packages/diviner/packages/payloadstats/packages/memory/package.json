@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/diviner-payload-stats",
+  "name": "@xyo-network/diviner-payload-stats-memory",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,9 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/assert": "^2.8.1",
+    "@xyo-network/archivist-wrapper": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-payload-stats-abstract": "workspace:^",
-    "@xyo-network/diviner-payload-stats-memory": "workspace:^",
-    "@xyo-network/diviner-payload-stats-model": "workspace:^"
+    "@xyo-network/diviner-payload-stats-model": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.17.13",

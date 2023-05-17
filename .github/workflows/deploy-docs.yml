@@ -1,0 +1,38 @@
+name: Deploy typedoc to github
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: npm auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      - name: install
+        run: yarn install
+      - name: compile
+        run: yarn xy compile
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
+      - name: typedoc build
+        run: yarn typedoc .
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+            folder: docs # The folder the action should deploy.

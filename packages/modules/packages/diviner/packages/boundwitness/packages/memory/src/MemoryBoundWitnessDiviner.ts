@@ -1,7 +1,8 @@
+import { containsAll, flatten } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { normalizeAddress } from '@xyo-network/core'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {
   BoundWitnessDivinerConfigSchema,
@@ -22,28 +23,12 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     const all = await archivist.all()
     let bws = all.filter(isBoundWitness)
     if (order === 'desc') bws = bws.reverse()
-    const allAddresses = concatAddressArrays(address, addresses)
-    if (allAddresses?.length) {
-      bws = bws.filter((bw) => arrayContainsAll(bw.addresses, allAddresses))
-    }
-    if (payload_hashes?.length) {
-      bws = bws.filter((bw) => arrayContainsAll(bw.payload_hashes, payload_hashes))
-    }
-    if (payload_schemas?.length) {
-      bws = bws.filter((bw) => arrayContainsAll(bw.payload_schemas, payload_schemas))
-    }
+    const allAddresses = flatten(address, addresses).map(normalizeAddress)
+    if (allAddresses?.length) bws = bws.filter((bw) => containsAll(bw.addresses, allAddresses))
+    if (payload_hashes?.length) bws = bws.filter((bw) => containsAll(bw.payload_hashes, payload_hashes))
+    if (payload_schemas?.length) bws = bws.filter((bw) => containsAll(bw.payload_schemas, payload_schemas))
     const parsedLimit = limit || bws.length
     const parsedOffset = offset || 0
     return bws.slice(parsedOffset, parsedLimit)
   }
-}
-const arrayContainsAll = (source: string[], target: string[]) => target.every((i) => source.includes(i))
-
-const concatAddressArrays = (a: string | string[] | undefined, b: string | string[] | undefined): string[] => {
-  return ([] as (string | undefined)[])
-    .concat(a)
-    .concat(b)
-    .filter(exists)
-    .map((x) => x.toLowerCase())
-    .map((x) => (x.startsWith('0x') ? x.substring(2) : x))
 }

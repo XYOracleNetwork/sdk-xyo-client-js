@@ -1,4 +1,5 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
+import { ModuleFilter } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessDivinerSchema } from './Schema'
@@ -8,7 +9,7 @@ export const BoundWitnessDivinerConfigSchema: BoundWitnessDivinerConfigSchema = 
 
 export type BoundWitnessDivinerConfig<T extends Payload = Payload> = DivinerConfig<
   T & {
-    archivist?: string
+    archivist?: ModuleFilter
     schema: BoundWitnessDivinerConfigSchema
   }
 >

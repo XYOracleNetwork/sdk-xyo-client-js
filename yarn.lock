@@ -7826,27 +7826,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/storage@workspace:packages/sdk/packages/storage":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/storage@workspace:packages/sdk/packages/storage"
-  dependencies:
-    "@xylabs/assert": ^2.8.1
-    "@xylabs/jest-helpers": ^2.8.1
-    "@xylabs/ts-scripts-yarn3": ^2.17.13
-    "@xylabs/tsconfig": ^2.17.13
-    "@xylabs/tsconfig-jest": ^2.17.13
-    "@xyo-network/boundwitness-model": "workspace:^"
-    "@xyo-network/boundwitness-wrapper": "workspace:^"
-    "@xyo-network/core": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
-    jest: ^29.5.0
-    mongodb: ^5.5.0
-    typescript: ^5.0.4
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system":
   version: 0.0.0-use.local
   resolution: "@xyo-network/system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system"

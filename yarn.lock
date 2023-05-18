@@ -7775,7 +7775,6 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/schema-cache": "workspace:^"
     "@xyo-network/schema-name-validator": "workspace:^"
-    "@xyo-network/storage": "workspace:^"
     "@xyo-network/wallet": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     typescript: ^5.0.4
@@ -7827,7 +7826,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/storage@workspace:^, @xyo-network/storage@workspace:packages/sdk/packages/storage":
+"@xyo-network/storage@workspace:packages/sdk/packages/storage":
   version: 0.0.0-use.local
   resolution: "@xyo-network/storage@workspace:packages/sdk/packages/storage"
   dependencies:

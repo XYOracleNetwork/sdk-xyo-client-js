@@ -15,7 +15,6 @@ describe('XyoCoingeckoCryptoMarketWitness', () => {
       },
     })
     const [actual] = await sut.observe()
-
     expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
     const answerWrapper = new PayloadWrapper(actual) as PayloadWrapper<XyoCoingeckoCryptoMarketPayload>
     expect(answerWrapper.valid).toBe(true)
@@ -28,13 +27,12 @@ describe('XyoCoingeckoCryptoMarketWitness', () => {
   test('returns observation [no config]', async () => {
     const sut = await XyoCoingeckoCryptoMarketWitness.create()
     const [actual] = await sut.observe()
-
     expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
     const answerWrapper = new PayloadWrapper(actual) as PayloadWrapper<XyoCoingeckoCryptoMarketPayload>
     expect(answerWrapper.valid).toBe(true)
     expect(answerWrapper.body.assets).toBeObject()
     const assets = Object.keys(answerWrapper.body.assets)
     expect(assets).toBeArray()
-    expect(assets.length).toBeGreaterThan(0)
+    expect(assets.length).toBe(0)
   })
 })

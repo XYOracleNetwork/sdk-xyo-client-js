@@ -22,3 +22,7 @@ const getProviderOptions = (): ProviderOptions => {
   const pocket = canUsePocketProvider() ? getPocketProviderConfig() : providerOmitted
   return { alchemy, etherscan, infura, pocket }
 }
+
+export const hasNonDefaultProvider = (): boolean => {
+  return canUseAlchemyProvider() || canUseEtherscanProvider() || canUseInfuraProvider() || canUsePocketProvider()
+}

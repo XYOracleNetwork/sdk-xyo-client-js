@@ -4,6 +4,7 @@ config()
 import { Account } from '@xyo-network/account'
 import { getApp } from '@xyo-network/express-node-server'
 import { MemoryNode, MemoryNodeParams } from '@xyo-network/modules'
+import { canAddMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
@@ -66,6 +67,6 @@ const setupNode = async () => {
 module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
   console.log('')
   PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new XyoSchemaNameValidator(schema))
-  await setupMongo()
+  if (canAddMongoModules()) await setupMongo()
   await setupNode()
 }

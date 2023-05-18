@@ -2,6 +2,7 @@
 let timestamp = 123456789000
 Date.now = jest.fn(() => timestamp)
 
+import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -11,10 +12,11 @@ import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-mo
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
+import { canAddMongoModules } from '../../../canAddMongoModules'
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBDeterministicArchivist } from '../DeterministicArchivist'
 
-describe('DeterministicArchivist', () => {
+describeIf(canAddMongoModules())('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
   const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
   const archiveAccount: Account = new Account({ phrase: 'temp' })

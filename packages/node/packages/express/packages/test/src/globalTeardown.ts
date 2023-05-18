@@ -1,5 +1,6 @@
 import { config } from 'dotenv'
 config()
+import { canAddMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { Config } from 'jest'
 
 /**
@@ -7,5 +8,5 @@ import { Config } from 'jest'
  * https://jestjs.io/docs/configuration#globalteardown-string
  */
 module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
-  await globalThis.mongo.stop()
+  if (canAddMongoModules()) await globalThis.mongo.stop()
 }

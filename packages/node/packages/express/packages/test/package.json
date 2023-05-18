@@ -42,6 +42,7 @@
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/node-core-model": "workspace:^",
+    "@xyo-network/node-core-modules-mongo": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",

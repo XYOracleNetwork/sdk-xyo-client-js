@@ -1,3 +1,4 @@
+import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import {
   PayloadStatsDivinerConfigSchema,
@@ -9,10 +10,11 @@ import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/no
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
+import { canAddMongoModules } from '../../../canAddMongoModules'
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
 
-describe('MongoDBPayloadStatsDiviner', () => {
+describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {
   const phrase = 'temp'
   const address = new Account({ phrase }).addressValue.hex
   const logger = mock<Console>()

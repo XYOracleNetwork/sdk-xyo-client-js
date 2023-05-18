@@ -1,6 +1,5 @@
 ignores:
   [
     "jest-mock-extended",
-    "jest",
-    "mongodb-memory-server"
+    "jest"
   ]

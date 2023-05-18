@@ -4938,6 +4938,7 @@ __metadata:
     "@uniswap/sdk-core": ^3.2.2
     "@uniswap/v3-sdk": ^3.9.0
     "@xylabs/assert": ^2.8.1
+    "@xylabs/jest-helpers": ^2.8.1
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -6647,6 +6648,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/modules": "workspace:^"
     "@xyo-network/node-core-model": "workspace:^"
+    "@xyo-network/node-core-modules-mongo": "workspace:^"
     "@xyo-network/node-core-types": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -7283,7 +7285,6 @@ __metadata:
     jest-mock-extended: ^3.0.4
     lodash: ^4.17.21
     mongodb: ^5.5.0
-    mongodb-memory-server: ^8.12.2
     reflect-metadata: ^0.1.13
     typescript: ^5.0.4
   languageName: unknown
@@ -7775,7 +7776,6 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/schema-cache": "workspace:^"
     "@xyo-network/schema-name-validator": "workspace:^"
-    "@xyo-network/storage": "workspace:^"
     "@xyo-network/wallet": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     typescript: ^5.0.4
@@ -7826,27 +7826,6 @@ __metadata:
   checksum: 962d97a48490bd08a05ad594468a75514aebf989cc6529be8d6af4793403964790389ca09767121449a465e53f4dee90f0d24c42bf1e09290b76562df026fc20
   languageName: node
   linkType: hard
-
-"@xyo-network/storage@workspace:^, @xyo-network/storage@workspace:packages/sdk/packages/storage":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/storage@workspace:packages/sdk/packages/storage"
-  dependencies:
-    "@xylabs/assert": ^2.8.1
-    "@xylabs/jest-helpers": ^2.8.1
-    "@xylabs/ts-scripts-yarn3": ^2.17.13
-    "@xylabs/tsconfig": ^2.17.13
-    "@xylabs/tsconfig-jest": ^2.17.13
-    "@xyo-network/boundwitness-model": "workspace:^"
-    "@xyo-network/boundwitness-wrapper": "workspace:^"
-    "@xyo-network/core": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
-    jest: ^29.5.0
-    mongodb: ^5.5.0
-    typescript: ^5.0.4
-  languageName: unknown
-  linkType: soft
 
 "@xyo-network/system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system":
   version: 0.0.0-use.local

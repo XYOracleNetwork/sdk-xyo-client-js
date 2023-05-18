@@ -1,7 +1,8 @@
+import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
-import { SchemaListDiviner } from '@xyo-network/diviner-schema-stats-abstract'
+import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import {
   isSchemaListQueryPayload,
   SchemaListDivinerConfigSchema,
@@ -9,7 +10,7 @@ import {
   SchemaListDivinerSchema,
   SchemaListPayload,
   SchemaListQueryPayload,
-} from '@xyo-network/diviner-schema-stats-model'
+} from '@xyo-network/diviner-schema-list-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -24,26 +25,21 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
     return counts.map((count) => new PayloadBuilder<SchemaListPayload>({ schema: SchemaListDivinerSchema }).fields({ count }).build())
   }
 
-  protected async divineAddress(address: string): Promise<Record<string, number>> {
+  protected async divineAddress(address: string): Promise<string[]> {
     const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
     const all = await archivist.all()
     const filtered = all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address))
-    const counts: Record<string, number> = filtered.reduce((acc, payload) => {
-      acc[payload.schema] = acc[payload.schema] ? acc[payload.schema] + 1 : 1
-      return acc
-    }, {} as Record<string, number>)
-    return counts
+    return filtered
+      .map((bw) => bw.payload_schemas)
+      .flat()
+      .filter(distinct)
   }
 
-  protected async divineAllAddresses(): Promise<Record<string, number>> {
+  protected async divineAllAddresses(): Promise<string[]> {
     const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
     const all = await archivist.all()
-    const counts: Record<string, number> = all.reduce((acc, payload) => {
-      acc[payload.schema] = acc[payload.schema] ? acc[payload.schema] + 1 : 1
-      return acc
-    }, {} as Record<string, number>)
-    return counts
+    return all.map((payload) => payload.schema).filter(distinct)
   }
 }

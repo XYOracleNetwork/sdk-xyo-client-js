@@ -21,8 +21,8 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
     const query = payloads?.find<SchemaListQueryPayload>(isSchemaListQueryPayload)
     if (!query) return []
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
-    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<SchemaListPayload>({ schema: SchemaListDivinerSchema }).fields({ count }).build())
+    const results = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    return results.map((schemas) => new PayloadBuilder<SchemaListPayload>({ schema: SchemaListDivinerSchema }).fields({ schemas }).build())
   }
 
   protected async divineAddress(address: string): Promise<string[]> {

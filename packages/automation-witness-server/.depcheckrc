@@ -2,5 +2,5 @@ ignores:
   [
     "jest-mock-extended",
     "jest",
-    "@xyo-network/automation-witness-server"
+    "@xylabs/jest-helpers"
   ]

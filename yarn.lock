@@ -7283,7 +7283,6 @@ __metadata:
     jest-mock-extended: ^3.0.4
     lodash: ^4.17.21
     mongodb: ^5.5.0
-    mongodb-memory-server: ^8.12.2
     reflect-metadata: ^0.1.13
     typescript: ^5.0.4
   languageName: unknown

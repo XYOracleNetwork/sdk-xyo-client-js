@@ -2,7 +2,13 @@
 import { HDWallet } from '@xyo-network/account'
 import { AddressHistoryDiviner } from '@xyo-network/diviner-address-history'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space'
+import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness'
+import { MemoryBoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats'
 import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
+import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload'
+import { MemoryPayloadStatsDiviner } from '@xyo-network/diviner-payload-stats'
+import { MemorySchemaListDiviner } from '@xyo-network/diviner-schema-list'
+import { MemorySchemaStatsDiviner } from '@xyo-network/diviner-schema-stats'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/modules'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
@@ -30,24 +36,24 @@ const getAddressSpaceDiviner = (container: Container) => {
   }
   return new ModuleFactory(MemoryAddressSpaceDiviner, params)
 }
-// const getBoundWitnessDiviner = (container: Container) => {
-//   const wallet = getWallet(container)
-//   const params = {
-//     accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness,
-//     config: { name: TYPES.BoundWitnessDiviner.description, schema: MemoryBoundWitnessDiviner.configSchema },
-//     wallet,
-//   }
-//   return new ModuleFactory(MemoryBoundWitnessDiviner, params)
-// }
-// const getBoundWitnessStatsDiviner = (container: Container) => {
-//   const wallet = getWallet(container)
-//   const params = {
-//     accountDerivationPath: WALLET_PATHS.Diviners.BoundWitnessStats,
-//     config: { name: TYPES.BoundWitnessStatsDiviner.description, schema: BoundWitnessStatsDiviner.configSchema },
-//     wallet,
-//   }
-//   return new ModuleFactory(BoundWitnessStatsDiviner, params)
-// }
+const getBoundWitnessDiviner = (container: Container) => {
+  const wallet = getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness,
+    config: { name: TYPES.BoundWitnessDiviner.description, schema: MemoryBoundWitnessDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MemoryBoundWitnessDiviner, params)
+}
+const getBoundWitnessStatsDiviner = (container: Container) => {
+  const wallet = getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.BoundWitnessStats,
+    config: { name: TYPES.BoundWitnessStatsDiviner.description, schema: MemoryBoundWitnessStatsDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MemoryBoundWitnessStatsDiviner, params)
+}
 const getMemoryForecastingDiviner = (container: Container) => {
   const wallet = getWallet(container)
   const forecastingMethod = 'arimaForecasting'
@@ -66,52 +72,52 @@ const getMemoryForecastingDiviner = (container: Container) => {
   }
   return new ModuleFactory(MemoryForecastingDiviner, params)
 }
-// const getPayloadDiviner = (container: Container) => {
-//   const wallet = getWallet(container)
-//   const params = {
-//     accountDerivationPath: WALLET_PATHS.Diviners.Payload,
-//     config: { name: TYPES.PayloadDiviner.description, schema: PayloadDiviner.configSchema },
-//     wallet,
-//   }
-//   return new ModuleFactory(PayloadDiviner, params)
-// }
-// const getPayloadStatsDiviner = (container: Container) => {
-//   const wallet = getWallet(container)
-//   const params = {
-//     accountDerivationPath: WALLET_PATHS.Diviners.PayloadStats,
-//     config: { name: TYPES.PayloadStatsDiviner.description, schema: PayloadStatsDiviner.configSchema },
-//     wallet,
-//   }
-//   return new ModuleFactory(PayloadStatsDiviner, params)
-// }
-// const getSchemaListDiviner = (container: Container) => {
-//   const wallet = getWallet(container)
-//   const params = {
-//     accountDerivationPath: WALLET_PATHS.Diviners.SchemaList,
-//     config: { name: TYPES.SchemaListDiviner.description, schema: SchemaListDiviner.configSchema },
-//     wallet,
-//   }
-//   return new ModuleFactory(SchemaListDiviner, params)
-// }
-// const getSchemaStatsDiviner = (container: Container) => {
-//   const wallet = getWallet(container)
-//   const params = {
-//     accountDerivationPath: WALLET_PATHS.Diviners.SchemaStats,
-//     config: { name: TYPES.SchemaStatsDiviner.description, schema: SchemaStatsDiviner.configSchema },
-//     wallet,
-//   }
-//   return new ModuleFactory(SchemaStatsDiviner, params)
-// }
+const getPayloadDiviner = (container: Container) => {
+  const wallet = getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.Payload,
+    config: { name: TYPES.PayloadDiviner.description, schema: MemoryPayloadDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MemoryPayloadDiviner, params)
+}
+const getPayloadStatsDiviner = (container: Container) => {
+  const wallet = getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.PayloadStats,
+    config: { name: TYPES.PayloadStatsDiviner.description, schema: MemoryPayloadStatsDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MemoryPayloadStatsDiviner, params)
+}
+const getSchemaListDiviner = (container: Container) => {
+  const wallet = getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.SchemaList,
+    config: { name: TYPES.SchemaListDiviner.description, schema: MemorySchemaListDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MemorySchemaListDiviner, params)
+}
+const getSchemaStatsDiviner = (container: Container) => {
+  const wallet = getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.SchemaStats,
+    config: { name: TYPES.SchemaStatsDiviner.description, schema: MemorySchemaStatsDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MemorySchemaStatsDiviner, params)
+}
 
 export const addDivinerModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[AddressHistoryDiviner.configSchema] = getAddressHistoryDiviner(container)
   dictionary[MemoryAddressSpaceDiviner.configSchema] = getAddressSpaceDiviner(container)
-  // dictionary[BoundWitnessDiviner.configSchema] = getBoundWitnessDiviner(container)
-  // dictionary[BoundWitnessStatsDiviner.configSchema] = getBoundWitnessStatsDiviner(container)
+  dictionary[MemoryBoundWitnessDiviner.configSchema] = getBoundWitnessDiviner(container)
+  dictionary[MemoryBoundWitnessStatsDiviner.configSchema] = getBoundWitnessStatsDiviner(container)
   dictionary[MemoryForecastingDiviner.configSchema] = getMemoryForecastingDiviner(container)
-  // dictionary[PayloadDiviner.configSchema] = getPayloadDiviner(container)
-  // dictionary[PayloadStatsDiviner.configSchema] = getPayloadStatsDiviner(container)
-  // dictionary[SchemaListDiviner.configSchema] = getSchemaListDiviner(container)
-  // dictionary[SchemaStatsDiviner.configSchema] = getSchemaStatsDiviner(container)
+  dictionary[MemoryPayloadDiviner.configSchema] = getPayloadDiviner(container)
+  dictionary[MemoryPayloadStatsDiviner.configSchema] = getPayloadStatsDiviner(container)
+  dictionary[MemorySchemaListDiviner.configSchema] = getSchemaListDiviner(container)
+  dictionary[MemorySchemaStatsDiviner.configSchema] = getSchemaStatsDiviner(container)
 }

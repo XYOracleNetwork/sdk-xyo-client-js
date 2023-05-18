@@ -1,3 +1,4 @@
+import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import {
   SchemaStatsDivinerConfigSchema,
@@ -10,10 +11,11 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
+import { canAddMongoModules } from '../../../canAddMongoModules'
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBSchemaStatsDiviner } from '../MongoDBSchemaStatsDiviner'
 
-describe('MongoDBSchemaStatsDiviner', () => {
+describeIf(canAddMongoModules())('MongoDBSchemaStatsDiviner', () => {
   const phrase = 'temp'
   const address = new Account({ phrase }).addressValue.hex
   const logger = mock<Console>()

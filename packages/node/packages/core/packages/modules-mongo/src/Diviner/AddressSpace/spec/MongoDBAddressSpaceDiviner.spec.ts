@@ -1,3 +1,4 @@
+import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -8,10 +9,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
+import { canAddMongoModules } from '../../../canAddMongoModules'
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
 
-describe('MongoDBAddressSpaceDiviner', () => {
+describeIf(canAddMongoModules())('MongoDBAddressSpaceDiviner', () => {
   const phrase = 'temp'
   const account = new Account({ phrase })
   const logger = mock<Console>()

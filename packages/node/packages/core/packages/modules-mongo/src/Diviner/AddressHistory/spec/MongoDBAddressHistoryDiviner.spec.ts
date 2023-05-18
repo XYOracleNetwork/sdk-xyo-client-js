@@ -1,3 +1,4 @@
+import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
@@ -7,10 +8,11 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
+import { canAddMongoModules } from '../../../canAddMongoModules'
 import { COLLECTIONS } from '../../../collections'
 import { MongoDBAddressHistoryDiviner } from '../MongoDBAddressHistoryDiviner'
 
-describe('MongoDBAddressHistoryDiviner', () => {
+describeIf(canAddMongoModules())('MongoDBAddressHistoryDiviner', () => {
   const phrase = 'temp'
   const account = new Account({ phrase })
   const address = account.addressValue.hex

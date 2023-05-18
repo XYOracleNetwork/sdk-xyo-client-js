@@ -1,5 +1,6 @@
 ignores:
   [
     "jest-mock-extended",
-    "jest"
+    "jest",
+    "@xyo-network/automation-witness-server"
   ]

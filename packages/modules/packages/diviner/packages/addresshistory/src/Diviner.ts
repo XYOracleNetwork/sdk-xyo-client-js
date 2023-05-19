@@ -31,12 +31,10 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
         }),
       )
     ).flat()
-
     const bwRecords = this.buildWrapperRecords(bwLists)
-
     const chains = Object.values(this.buildAddressChains(this.queryAddress, bwRecords))
 
-    //return the heads of each chain (get the last bw on each chain)
+    // Return the heads of each chain (get the last bw on each chain)
     return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
   }
 

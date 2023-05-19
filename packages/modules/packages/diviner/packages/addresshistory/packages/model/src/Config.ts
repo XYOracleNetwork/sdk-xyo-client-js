@@ -1,4 +1,5 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
+import { ModuleFilter } from '@xyo-network/module-model'
 
 import { AddressHistorySchema } from './Diviner'
 
@@ -7,5 +8,6 @@ export const AddressHistoryDivinerConfigSchema: AddressHistoryDivinerConfigSchem
 
 export type AddressHistoryDivinerConfig = DivinerConfig<{
   address?: string
+  archivist?: ModuleFilter
   schema: AddressHistoryDivinerConfigSchema
 }>

@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { CreatableModuleDictionary, MemoryArchivist, ModuleFactory } from '@xyo-network/modules'
+import { ArchivistConfigSchema, CreatableModuleDictionary, MemoryArchivist, ModuleFactory } from '@xyo-network/modules'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
@@ -16,5 +16,6 @@ const getMongoDBArchivistFactory = (container: Container) => {
 
 export const addArchivistModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
+  dictionary[ArchivistConfigSchema] = getMongoDBArchivistFactory(container)
   dictionary[MemoryArchivist.configSchema] = getMongoDBArchivistFactory(container)
 }

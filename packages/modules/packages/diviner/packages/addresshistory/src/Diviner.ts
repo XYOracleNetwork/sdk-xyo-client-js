@@ -4,12 +4,7 @@ import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import {
-  AddressHistoryDivinerConfigSchema,
-  AddressHistoryDivinerParams,
-  AddressHistoryQueryPayload,
-  isAddressHistoryQueryPayload,
-} from '@xyo-network/diviner-address-history-model'
+import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -24,7 +19,6 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
   }
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
-    const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
     const archivists =
       (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => ArchivistWrapper.wrap(archivist, this.account)) ?? []
@@ -42,23 +36,6 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
 
     // Return the heads of each chain (get the last bw on each chain)
     return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
-  }
-
-  protected async divineAddress(address: string): Promise<string[]> {
-    const archivist = await this.getArchivist()
-    const all = await archivist.all()
-    throw new Error('Not implemented')
-  }
-
-  protected async divineAllAddresses(): Promise<string[]> {
-    const archivist = await this.getArchivist()
-    const all = await archivist.all()
-    throw new Error('Not implemented')
-  }
-
-  protected async getArchivist(): Promise<ArchivistWrapper> {
-    const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
-    return ArchivistWrapper.wrap(archivistMod)
   }
 
   private buildAddressChains(address: string, bwRecords: Record<string, BoundWitnessWrapper>): Record<string, BoundWitnessWrapper[]> {

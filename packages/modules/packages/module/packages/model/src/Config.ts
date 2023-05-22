@@ -30,44 +30,44 @@ export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = 
        * Friendly name of module (not collision resistent). Can be used to resolve module
        * when registered/attached to Node.
        */
-      name?: string
+      readonly name?: string
 
       /**
        * paging settings for queries
        */
-      paging?: Record<string, { size?: number }>
+      readonly paging?: Record<string, { size?: number }>
 
       /**
        * The config schema for the module
        */
-      schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
+      readonly schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
 
       /**
        * The query schemas and allowed/disallowed addresses which are allowed to issue them
        * against the module. If both allowed and disallowed is specified, then disallowed
        * takes priority
        */
-      security?: {
+      readonly security?: {
         /**
          * Will the module process queries that have unsigned BoundWitness in query tuples
          */
-        allowAnonymous?: boolean
+        readonly allowAnonymous?: boolean
 
         /**
          * If schema in record, then only these address sets can access query
          */
-        allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
+        readonly allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
 
         /**
          * If schema in record, then anyone except these addresses can access query
          */
-        disallowed?: Record<SchemaString, AddressString[]>
+        readonly disallowed?: Record<SchemaString, AddressString[]>
       }
 
       /**
        * Store the queries made to the module in an archivist if possible
        */
-      storeQueries?: boolean
+      readonly storeQueries?: boolean
     },
     Omit<TConfig, 'schema'>
   >

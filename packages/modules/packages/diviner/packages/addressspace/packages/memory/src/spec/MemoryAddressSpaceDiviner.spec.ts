@@ -1,7 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
@@ -33,7 +32,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       await node.register(archivist)
       await node.attach(archivist.address)
       const diviner = await MemoryAddressSpaceDiviner.create({
-        config: { address: account.addressValue.hex, archivist: archivist.address, schema: AddressSpaceDivinerConfigSchema },
+        config: { archivist: archivist.address, schema: AddressSpaceDivinerConfigSchema },
       })
       await node.register(diviner)
       await node.attach(diviner.address)
@@ -43,7 +42,7 @@ describe('MemoryAddressSpaceDiviner', () => {
         expect(payload.schema).toBe(AddressSchema)
       })
       const addresses = results.map((payload) => PayloadWrapper.parse<AddressPayload>(payload)).map((payload) => payload.payload.address)
-      expect(addresses).toIncludeAllMembers([diviner.address])
+      expect(addresses).toEqual([account.addressValue.hex, diviner.address])
     })
   })
 })

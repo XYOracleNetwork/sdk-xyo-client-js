@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistGetQuerySchema, ArchivistModule, ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistModule } from '@xyo-network/archivist'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import { AddressSpaceDivinerConfigSchema, AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
@@ -39,13 +39,7 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
   }
 
   protected async archivists(): Promise<ArchivistModule[]> {
-    if (this.config.archivists) {
-      return await this.resolve<ArchivistModule>({ address: this.config.archivists })
-    } else {
-      //get all reachable archivists
-      return (await this.resolve<ArchivistModule>({ query: [[ArchivistGetQuerySchema]] })).map((archivist) =>
-        ArchivistWrapper.wrap(archivist, this.account),
-      )
-    }
+    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    return [archivistMod]
   }
 }

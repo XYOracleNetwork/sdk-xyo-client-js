@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -25,8 +24,8 @@ export class MemoryAddressChainDiviner<
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     const result: Payload[] = []
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
-    const archivists =
-      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => ArchivistWrapper.wrap(archivist, this.account)) ?? []
+    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivists = [ArchivistWrapper.wrap(archivistMod, this.account)]
     let currentHash: string | null = assertEx(this.config.startHash, 'Missing startHash')
     while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
       const bwPayload: BoundWitness | undefined = await this.archivistFindHash(archivists, currentHash)

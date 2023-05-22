@@ -8,11 +8,27 @@ export type AddressString = string
 export type CosigningAddressSet = string[]
 export type SchemaString = string
 
+export type NameOrAddress = string
+
+export interface IndividualArchivistConfig {
+  readonly commit?: NameOrAddress
+  readonly read?: NameOrAddress
+  readonly write?: NameOrAddress
+}
+
+export type ArchivistModuleConfig = NameOrAddress | IndividualArchivistConfig
+
 export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = Payload<
   WithAdditional<
     {
       /**
-       * Friendly name of module (not collision resistent)
+       * The name/address of the Archivist to use for this module
+       */
+      readonly archivist?: ArchivistModuleConfig
+
+      /**
+       * Friendly name of module (not collision resistent). Can be used to resolve module
+       * when registered/attached to Node.
        */
       name?: string
 

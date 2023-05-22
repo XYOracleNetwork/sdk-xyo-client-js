@@ -14,6 +14,7 @@ export interface ModuleResolver {
   isModuleResolver: boolean
   removeResolver: (resolver: ModuleResolver) => this
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
+  resolveOne<T extends Module = Module>(filter: string): Promisable<T | undefined>
 }
 
 export type ModuleEventArgs<TModule extends Module = Module, TArgs extends EventArgs | undefined = undefined> = TArgs extends EventArgs

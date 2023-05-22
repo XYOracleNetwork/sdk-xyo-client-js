@@ -11,27 +11,46 @@ export type SchemaString = string
 export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = Payload<
   WithAdditional<
     {
-      //friendly name of module (not collision resistent)
+      /**
+       * Friendly name of module (not collision resistent)
+       */
       name?: string
 
-      //paging settings for queries
+      /**
+       * paging settings for queries
+       */
       paging?: Record<string, { size?: number }>
 
+      /**
+       * The config schema for the module
+       */
       schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
 
-      //if both allowed and disallowed is specified, then disallowed takes priority
+      /**
+       * The query schemas and allowed/disallowed addresses which are allowed to issue them
+       * against the module. If both allowed and disallowed is specified, then disallowed
+       * takes priority
+       */
       security?: {
-        //will process queries that have unsigned boundwitness in tuples
+        /**
+         * Will the module process queries that have unsigned BoundWitness in query tuples
+         */
         allowAnonymous?: boolean
 
-        //if schema in record, then only these address sets can access query
+        /**
+         * If schema in record, then only these address sets can access query
+         */
         allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
 
-        //if schema in record, then anyone except these addresses can access query
+        /**
+         * If schema in record, then anyone except these addresses can access query
+         */
         disallowed?: Record<SchemaString, AddressString[]>
       }
 
-      //store the queries made to the module in an archivist if possible
+      /**
+       * Store the queries made to the module in an archivist if possible
+       */
       storeQueries?: boolean
     },
     Omit<TConfig, 'schema'>

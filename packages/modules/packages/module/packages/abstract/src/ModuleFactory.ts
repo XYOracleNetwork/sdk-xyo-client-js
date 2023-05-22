@@ -27,8 +27,8 @@ export class ModuleFactory<TModule extends Module> implements CreatableModuleFac
 
   create<T extends Module>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {
     const factory = this as ModuleFactory<T>
-    const config: CreatableModuleFactory<TModule>['configSchema'] = factory.creatableModule.configSchema
-    const mergedParams: TModule['params'] = merge(factory.defaultParams ?? {}, params, { config })
+    const schema: CreatableModuleFactory<TModule>['configSchema'] = factory.creatableModule.configSchema
+    const mergedParams: TModule['params'] = merge(factory.defaultParams ?? {}, params, { config: { schema } })
     return factory.creatableModule.create<T>(mergedParams)
   }
 

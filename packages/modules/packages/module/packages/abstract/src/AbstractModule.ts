@@ -3,6 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { ArchivistModule } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
@@ -350,6 +351,26 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
+  protected async readArchivist(): Promise<ArchivistModule | undefined> {
+    if (!this.config.archivist) return undefined
+    if (typeof this.config.archivist === 'string' || this.config.archivist instanceof String) {
+      const nameOrAddress = this.config.archivist as string
+      const resolvedByName = await this.upResolver.resolve({ name: [nameOrAddress] })
+      if (resolvedByName.length > 0) return resolvedByName[0] as ArchivistModule
+      const resolvedByAddress = await this.upResolver.resolve({ address: [nameOrAddress] })
+      if (resolvedByAddress.length > 0) return resolvedByAddress[0] as ArchivistModule
+    } else {
+      if (this.config?.archivist?.read) {
+        const nameOrAddress = this.config?.archivist?.read as string
+        const resolvedByName = await this.upResolver.resolve({ name: [nameOrAddress] })
+        if (resolvedByName.length > 0) return resolvedByName[0] as ArchivistModule
+        const resolvedByAddress = await this.upResolver.resolve({ address: [nameOrAddress] })
+        if (resolvedByAddress.length > 0) return resolvedByAddress[0] as ArchivistModule
+      }
+    }
+    return undefined
+  }
+
   protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
     return [...(await this.upResolver.resolve<TModule>(filter)), ...(await this.downResolver.resolve<TModule>(filter))].filter(duplicateModules)
   }
@@ -384,5 +405,25 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           return valid
       }
     }, true)
+  }
+
+  protected async writeArchivist(): Promise<ArchivistModule | undefined> {
+    if (!this.config.archivist) return undefined
+    if (typeof this.config.archivist === 'string' || this.config.archivist instanceof String) {
+      const nameOrAddress = this.config.archivist as string
+      const resolvedByName = await this.upResolver.resolve({ name: [nameOrAddress] })
+      if (resolvedByName.length > 0) return resolvedByName[0] as ArchivistModule
+      const resolvedByAddress = await this.upResolver.resolve({ address: [nameOrAddress] })
+      if (resolvedByAddress.length > 0) return resolvedByAddress[0] as ArchivistModule
+    } else {
+      if (this.config?.archivist?.read) {
+        const nameOrAddress = this.config?.archivist?.write as string
+        const resolvedByName = await this.upResolver.resolve({ name: [nameOrAddress] })
+        if (resolvedByName.length > 0) return resolvedByName[0] as ArchivistModule
+        const resolvedByAddress = await this.upResolver.resolve({ address: [nameOrAddress] })
+        if (resolvedByAddress.length > 0) return resolvedByAddress[0] as ArchivistModule
+      }
+    }
+    return undefined
   }
 }

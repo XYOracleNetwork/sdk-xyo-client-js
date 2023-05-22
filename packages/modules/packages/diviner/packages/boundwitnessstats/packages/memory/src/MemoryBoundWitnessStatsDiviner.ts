@@ -27,14 +27,14 @@ export class MemoryBoundWitnessStatsDiviner<
   }
 
   protected async divineAddress(address: string): Promise<number> {
-    const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
+    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
     const all = await archivist.all()
     return all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address)).length
   }
 
   protected async divineAllAddresses(): Promise<number> {
-    const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
+    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
     const all = await archivist.all()
     return all.filter(isBoundWitness).length

@@ -7,6 +7,5 @@ export const AddressSpaceDivinerConfigSchema: AddressSpaceDivinerConfigSchema = 
 
 export type AddressSpaceDivinerConfig = DivinerConfig<{
   address?: string
-  archivists?: string[]
   schema: AddressSpaceDivinerConfigSchema
 }>

@@ -17,7 +17,7 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
-    const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
+    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
     const { addresses, payload_hashes, payload_schemas, limit, offset, order } = filter
     const all = await archivist.all()

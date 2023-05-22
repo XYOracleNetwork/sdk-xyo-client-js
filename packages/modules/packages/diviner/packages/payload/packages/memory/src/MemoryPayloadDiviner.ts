@@ -10,7 +10,7 @@ export class MemoryPayloadDiviner<TParams extends PayloadDivinerParams = Payload
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
-    const archivistMod = assertEx((await this.upResolver.resolve(this.config.archivist)).pop(), 'Unable to resolve archivist')
+    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod)
     const { schemas, limit, offset, order } = filter
     let all = await archivist.all()

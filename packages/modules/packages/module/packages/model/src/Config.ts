@@ -8,31 +8,66 @@ export type AddressString = string
 export type CosigningAddressSet = string[]
 export type SchemaString = string
 
+export type NameOrAddress = string
+
+export interface IndividualArchivistConfig {
+  readonly commit?: NameOrAddress
+  readonly read?: NameOrAddress
+  readonly write?: NameOrAddress
+}
+
+export type ArchivistModuleConfig = NameOrAddress | IndividualArchivistConfig
+
 export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = Payload<
   WithAdditional<
     {
-      //friendly name of module (not collision resistent)
-      name?: string
+      /**
+       * The name/address of the Archivist to use for this module
+       */
+      readonly archivist?: ArchivistModuleConfig
 
-      //paging settings for queries
-      paging?: Record<string, { size?: number }>
+      /**
+       * Friendly name of module (not collision resistent). Can be used to resolve module
+       * when registered/attached to Node.
+       */
+      readonly name?: string
 
-      schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
+      /**
+       * paging settings for queries
+       */
+      readonly paging?: Record<string, { size?: number }>
 
-      //if both allowed and disallowed is specified, then disallowed takes priority
-      security?: {
-        //will process queries that have unsigned boundwitness in tuples
-        allowAnonymous?: boolean
+      /**
+       * The config schema for the module
+       */
+      readonly schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
 
-        //if schema in record, then only these address sets can access query
-        allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
+      /**
+       * The query schemas and allowed/disallowed addresses which are allowed to issue them
+       * against the module. If both allowed and disallowed is specified, then disallowed
+       * takes priority
+       */
+      readonly security?: {
+        /**
+         * Will the module process queries that have unsigned BoundWitness in query tuples
+         */
+        readonly allowAnonymous?: boolean
 
-        //if schema in record, then anyone except these addresses can access query
-        disallowed?: Record<SchemaString, AddressString[]>
+        /**
+         * If schema in record, then only these address sets can access query
+         */
+        readonly allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
+
+        /**
+         * If schema in record, then anyone except these addresses can access query
+         */
+        readonly disallowed?: Record<SchemaString, AddressString[]>
       }
 
-      //store the queries made to the module in an archivist if possible
-      storeQueries?: boolean
+      /**
+       * Store the queries made to the module in an archivist if possible
+       */
+      readonly storeQueries?: boolean
     },
     Omit<TConfig, 'schema'>
   >

@@ -33,7 +33,12 @@ describe('MemoryAddressHistoryDiviner', () => {
       await node.register(archivist)
       await node.attach(archivist.address)
       const diviner = await MemoryAddressChainDiviner.create({
-        config: { address: account.addressValue.hex, schema: AddressChainDivinerConfigSchema, startHash: BoundWitnessWrapper.parse(all[6]).hash },
+        config: {
+          address: account.addressValue.hex,
+          archivist: archivist.address,
+          schema: AddressChainDivinerConfigSchema,
+          startHash: BoundWitnessWrapper.parse(all[6]).hash,
+        },
       })
       await node.register(diviner)
       await node.attach(diviner.address)

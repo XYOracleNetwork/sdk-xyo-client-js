@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistModule } from '@xyo-network/archivist'
+import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import { AddressSpaceDivinerConfigSchema, AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
@@ -19,16 +19,10 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
-    const archivists = await this.archivists()
-    assertEx(archivists.length > 0, 'Did not find any archivists')
-    const bwLists = (
-      await Promise.all(
-        archivists.map(async (archivist) => {
-          const all = await archivist.all?.()
-          return (all?.filter((payload) => payload.schema === BoundWitnessSchema) as BoundWitness[]) ?? []
-        }),
-      )
-    ).flat()
+    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
+    const all = await archivist.all?.()
+    const bwLists = (all?.filter((payload) => payload.schema === BoundWitnessSchema) as BoundWitness[]) ?? []
     const addresses = new Set<string>(
       bwLists
         .map((bw) => bw.addresses)
@@ -36,10 +30,5 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
         .map((address) => address.toLowerCase()),
     )
     return [...addresses].map((address) => new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
-  }
-
-  protected async archivists(): Promise<ArchivistModule[]> {
-    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    return [archivistMod]
   }
 }

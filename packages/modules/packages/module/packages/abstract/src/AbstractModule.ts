@@ -406,4 +406,24 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       }
     }, true)
   }
+
+  protected async writeArchivist(): Promise<ArchivistModule | undefined> {
+    if (!this.config.archivist) return undefined
+    if (typeof this.config.archivist === 'string' || this.config.archivist instanceof String) {
+      const nameOrAddress = this.config.archivist as string
+      const resolvedByName = await this.upResolver.resolve({ name: [nameOrAddress] })
+      if (resolvedByName.length > 0) return resolvedByName[0] as ArchivistModule
+      const resolvedByAddress = await this.upResolver.resolve({ address: [nameOrAddress] })
+      if (resolvedByAddress.length > 0) return resolvedByAddress[0] as ArchivistModule
+    } else {
+      if (this.config?.archivist?.read) {
+        const nameOrAddress = this.config?.archivist?.write as string
+        const resolvedByName = await this.upResolver.resolve({ name: [nameOrAddress] })
+        if (resolvedByName.length > 0) return resolvedByName[0] as ArchivistModule
+        const resolvedByAddress = await this.upResolver.resolve({ address: [nameOrAddress] })
+        if (resolvedByAddress.length > 0) return resolvedByAddress[0] as ArchivistModule
+      }
+    }
+    return undefined
+  }
 }

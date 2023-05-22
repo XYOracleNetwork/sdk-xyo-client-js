@@ -5558,7 +5558,6 @@ __metadata:
     "@xylabs/assert": ^2.8.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
-    "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"

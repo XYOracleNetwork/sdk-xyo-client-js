@@ -18,7 +18,7 @@ const getWallet = (container: Container) => {
   return HDWallet.fromMnemonic(mnemonic)
 }
 
-const archivist = { name: ['Archivist'] }
+const archivist = 'Archivist'
 
 const getAddressHistoryDiviner = (container: Container) => {
   const wallet = getWallet(container)

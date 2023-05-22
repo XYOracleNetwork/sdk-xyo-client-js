@@ -62,6 +62,15 @@ export class SimpleModuleResolver implements ModuleRepository {
     return filteredByQuery
   }
 
+  resolveOne<T extends Module = Module>(filter: string): Promisable<T | undefined> {
+    const allModules = Object.values(this.modules) as T[]
+    for (const resolutionMethod of [this.resolveByAddress<T>, this.resolveByName<T>]) {
+      const filtered: T[] = resolutionMethod(allModules, [filter])
+      if (filtered.length === 1) return filtered[0]
+    }
+    return undefined
+  }
+
   private addSingleModule(module?: Module) {
     if (module) {
       this.modules[module.address] = module

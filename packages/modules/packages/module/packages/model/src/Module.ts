@@ -13,7 +13,17 @@ export interface ModuleResolver {
   addResolver: (resolver: ModuleResolver) => this
   isModuleResolver: boolean
   removeResolver: (resolver: ModuleResolver) => this
+  /**
+   * Resolves all modules matching the supplied filter. If no filter
+   * is supplied, all modules are returned
+   * @param filter Filter criteria for the desired modules
+   */
   resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
+  /**
+   * Resolves a single module, or undefined if no modules matched the filter.
+   * @param filter The desired Module's Address or Name
+   */
+  resolveOne<T extends Module = Module>(filter: string): Promisable<T | undefined>
 }
 
 export type ModuleEventArgs<TModule extends Module = Module, TArgs extends EventArgs | undefined = undefined> = TArgs extends EventArgs

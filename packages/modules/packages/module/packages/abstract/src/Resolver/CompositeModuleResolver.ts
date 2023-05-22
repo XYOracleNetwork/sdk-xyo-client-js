@@ -61,6 +61,15 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return result as T[]
   }
 
+  async resolveOne<T extends Module = Module>(filter: string): Promise<T | undefined> {
+    for (let i = 0; i < this.resolvers.length; i++) {
+      const resolver = this.resolvers[i]
+      const result = await resolver.resolveOne<T>(filter)
+      if (result) return result
+    }
+    return undefined
+  }
+
   private addSingleModule(module?: Module) {
     if (module) {
       this.localResolver.add(module)

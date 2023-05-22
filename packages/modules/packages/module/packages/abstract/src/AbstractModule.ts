@@ -13,6 +13,7 @@ import {
   AddressPreviousHashSchema,
   CreatableModule,
   CreatableModuleFactory,
+  IndividualArchivistConfig,
   Module,
   ModuleAccountQuerySchema,
   ModuleConfig,
@@ -287,6 +288,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }, witnesses)
   }
 
+  protected commitArchivist = () => this.getArchivist('commit')
+
   protected initializeQueryAccounts() {
     // Ensure distinct/unique wallet paths
     const paths = Object.values(this.queryAccountPaths).filter(exists)
@@ -351,15 +354,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }
 
-  protected async readArchivist(): Promise<ArchivistModule | undefined> {
-    if (!this.config.archivist) return undefined
-    const filter =
-      typeof this.config.archivist === 'string' || this.config.archivist instanceof String
-        ? (this.config.archivist as string)
-        : (this.config?.archivist?.read as string)
-    const resolved = await this.upResolver.resolveOne(filter)
-    return resolved ? (resolved as ArchivistModule) : undefined
-  }
+  protected readArchivist = () => this.getArchivist('read')
 
   protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
     return [...(await this.upResolver.resolve<TModule>(filter)), ...(await this.downResolver.resolve<TModule>(filter))].filter(duplicateModules)
@@ -397,12 +392,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }, true)
   }
 
-  protected async writeArchivist(): Promise<ArchivistModule | undefined> {
+  protected writeArchivist = () => this.getArchivist('write')
+
+  private async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistModule | undefined> {
     if (!this.config.archivist) return undefined
     const filter =
       typeof this.config.archivist === 'string' || this.config.archivist instanceof String
         ? (this.config.archivist as string)
-        : (this.config?.archivist?.write as string)
+        : (this.config?.archivist?.[kind] as string)
     const resolved = await this.upResolver.resolveOne(filter)
     return resolved ? (resolved as ArchivistModule) : undefined
   }

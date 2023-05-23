@@ -5347,10 +5347,10 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/typeof": "workspace:^"
+    hash-wasm: ^4.9.0
     keccak256: ^1.0.6
     lodash: ^4.17.21
     sha.js: ^2.4.11
-    sha256-wasm: ^2.2.2
     typescript: ^5.0.4
     uuid: ^9.0.0
   languageName: unknown
@@ -8564,13 +8564,6 @@ __metadata:
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
   checksum: 7fb6a4313bae7f45e89d62c70a800913c303df653f19eafec88e56cea2e3821066b8409bc68be1930ecca80e861c52aa787659df0ffec6ad4d451c7816b9386b
-  languageName: node
-  linkType: hard
-
-"b4a@npm:^1.0.1":
-  version: 1.6.4
-  resolution: "b4a@npm:1.6.4"
-  checksum: 81b086f9af1f8845fbef4476307236bda3d660c158c201db976f19cdce05f41f93110ab6b12fd7a2696602a490cc43d5410ee36a56d6eef93afb0d6ca69ac3b2
   languageName: node
   linkType: hard
 
@@ -12211,6 +12204,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hash-wasm@npm:^4.9.0":
+  version: 4.9.0
+  resolution: "hash-wasm@npm:4.9.0"
+  checksum: b8734247fb7f69941f6564179dd891b7de21aa5877b9e32a5c6d777c2ab45cf5a6b021ade2b0156ec780ac41188486d571d9d526ef8206dda1ad306c81112a8a
+  languageName: node
+  linkType: hard
+
 "hash.js@npm:1.1.7, hash.js@npm:^1.0.0, hash.js@npm:^1.0.3":
   version: 1.1.7
   resolution: "hash.js@npm:1.1.7"
@@ -15397,13 +15397,6 @@ __metadata:
   version: 0.0.8
   resolution: "mute-stream@npm:0.0.8"
   checksum: ff48d251fc3f827e5b1206cda0ffdaec885e56057ee86a3155e1951bc940fd5f33531774b1cc8414d7668c10a8907f863f6561875ee6e8768931a62121a531a1
-  languageName: node
-  linkType: hard
-
-"nanoassert@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "nanoassert@npm:2.0.0"
-  checksum: b1d366f9524405f3337192d32dda6ac0b02374e4d0550c9aad33480caf2eb3c84c06f18f41f4c5404c14f6fc1ae6b84692b4375166dcb9f2d04a2ea9b9bccba0
   languageName: node
   linkType: hard
 
@@ -18997,16 +18990,6 @@ __metadata:
   bin:
     sha.js: ./bin.js
   checksum: ebd3f59d4b799000699097dadb831c8e3da3eb579144fd7eb7a19484cbcbb7aca3c68ba2bb362242eb09e33217de3b4ea56e4678184c334323eca24a58e3ad07
-  languageName: node
-  linkType: hard
-
-"sha256-wasm@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "sha256-wasm@npm:2.2.2"
-  dependencies:
-    b4a: ^1.0.1
-    nanoassert: ^2.0.0
-  checksum: 1226f18ba0df4fecc9f358a72837ec88fbf13249242992062db6c4011388a44eed6edd3ad3e13fca53d7258f181a8c18449d9b2c5dfff2d0859e63cae58c5d49
   languageName: node
   linkType: hard
 

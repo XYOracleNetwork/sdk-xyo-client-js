@@ -8,7 +8,7 @@ import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
 
 export class Hasher<T extends AnyObject = AnyObject> extends ObjectWrapper<T> {
-  static allowWasm = true
+  static allowWasm = false
   private static initialized = false
 
   get hash() {

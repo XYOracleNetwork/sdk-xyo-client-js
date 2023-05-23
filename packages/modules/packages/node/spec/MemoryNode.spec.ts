@@ -1,4 +1,5 @@
 /* eslint-disable max-statements */
+import { delay } from '@xylabs/delay'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
@@ -15,7 +16,7 @@ import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-mod
 import { NodeWrapper } from '@xyo-network/node-wrapper'
 import { Account, Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from '@xyo-network/protocol'
 
-import { MemoryNode } from '../MemoryNode'
+import { MemoryNode } from '../src'
 
 describe('MemoryNode', () => {
   const testAccount0 = new Account({ phrase: 'testPhrase0' })
@@ -156,7 +157,6 @@ describe('MemoryNode', () => {
       await node.attach(module.address, true)
     })
     it('emits event on module attach', async () => {
-      let attachDone = false
       let eventDone = false
       return await new Promise<void>((resolve, reject) => {
         node.on('moduleAttached', (args) => {
@@ -165,17 +165,21 @@ describe('MemoryNode', () => {
           expect(module.address).toBe(module.address)
           expect(module).toBe(module)
           eventDone = true
-          if (attachDone) {
-            resolve()
-          }
         })
         node
           .attach(module.address, true)
-          .then(() => {
-            attachDone = true
-            if (eventDone) {
-              resolve()
+          .then(async () => {
+            //wait for up to 5 seconds
+            let waitFrames = 50
+            while (waitFrames) {
+              if (eventDone) {
+                resolve()
+                return
+              }
+              await delay(100)
+              waitFrames--
             }
+            reject('Event not fired [within 5 seconds]')
           })
           .catch(() => {
             reject('Attach failed')

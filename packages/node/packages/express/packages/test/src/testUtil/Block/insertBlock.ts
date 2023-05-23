@@ -6,9 +6,10 @@ import { getArchivist } from '../Archivist'
 import { getNewBlock } from './getNewBlock'
 
 export const insertBlock = async (
-  boundWitnesses: BoundWitness | BoundWitness[] = getNewBlock(),
+  boundWitnesses?: BoundWitness | BoundWitness[],
   account: AccountInstance = unitTestSigningAccount,
 ): Promise<BoundWitness[]> => {
+  boundWitnesses = boundWitnesses ?? (await getNewBlock())
   const archivist = await getArchivist(account)
   const data = Array.isArray(boundWitnesses) ? boundWitnesses : [boundWitnesses]
   return archivist.insert(data)

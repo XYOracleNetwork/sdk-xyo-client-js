@@ -42,12 +42,12 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     )
   }
 
-  build(meta = false): [TBoundWitness, TPayload[]] {
+  async build(meta = false): Promise<[TBoundWitness, TPayload[]]> {
     const hashableFields = this.hashableFields()
     const _hash = BoundWitnessWrapper.hash(hashableFields)
     const ret: TBoundWitness = {
       ...hashableFields,
-      _signatures: this.signatures(_hash),
+      _signatures: await this.signatures(_hash),
     }
     if (meta ?? this.config?.meta) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -126,8 +126,8 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  protected signatures(_hash: string) {
-    return this._accounts.map((account) => Buffer.from(account.sign(Buffer.from(_hash, 'hex'))).toString('hex'))
+  protected async signatures(_hash: string) {
+    return await Promise.all(this._accounts.map(async (account) => Buffer.from(await account.sign(Buffer.from(_hash, 'hex'))).toString('hex')))
   }
 
   private inlinePayloads() {

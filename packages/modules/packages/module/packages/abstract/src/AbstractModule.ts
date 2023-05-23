@@ -272,17 +272,17 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return result
   }
 
-  protected async bindQueryResult<T extends Query | PayloadWrapper<Query>>(
+  protected bindQueryResult<T extends Query | PayloadWrapper<Query>>(
     query: T,
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
-  ): Promise<PromiseEx<ModuleQueryResult, AccountInstance[]>> {
+  ): PromiseEx<ModuleQueryResult, AccountInstance[]> {
     const builder = new BoundWitnessBuilder().payloads(payloads)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
-    const result: ModuleQueryResult = [(await builder.build())[0], payloads]
-    return new PromiseEx<ModuleQueryResult, AccountInstance[]>((resolve) => {
+    return new PromiseEx<ModuleQueryResult, AccountInstance[]>(async (resolve) => {
+      const result: ModuleQueryResult = [(await builder.build())[0], payloads]
       resolve?.(result)
       return result
     }, witnesses)

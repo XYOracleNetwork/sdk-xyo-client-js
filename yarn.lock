@@ -4041,6 +4041,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/sha256-wasm@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@types/sha256-wasm@npm:2.2.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: 175760c6aefa012f7c66a6bdae96041e8a62140d0af8e05b1cc40af42e2d422f85b83ce6a5f52864b9d16c4e6d208549726e3c2e8c215ce75d22d9f7b92882fc
+  languageName: node
+  linkType: hard
+
 "@types/source-map-support@npm:0.5.6":
   version: 0.5.6
   resolution: "@types/source-map-support@npm:0.5.6"
@@ -5331,6 +5340,7 @@ __metadata:
     "@scure/base": ^1.1.1
     "@types/lodash": ^4.14.194
     "@types/sha.js": ^2.4.0
+    "@types/sha256-wasm": ^2.2.0
     "@types/uuid": ^9.0.1
     "@xylabs/assert": ^2.8.1
     "@xylabs/bignumber": ^2.8.1
@@ -5338,6 +5348,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/typeof": "workspace:^"
+    hash-wasm: ^4.9.0
     keccak256: ^1.0.6
     lodash: ^4.17.21
     sha.js: ^2.4.11
@@ -12191,6 +12202,13 @@ __metadata:
   dependencies:
     function-bind: ^1.1.1
   checksum: b9ad53d53be4af90ce5d1c38331e712522417d017d5ef1ebd0507e07c2fbad8686fffb8e12ddecd4c39ca9b9b47431afbb975b8abf7f3c3b82c98e9aad052792
+  languageName: node
+  linkType: hard
+
+"hash-wasm@npm:^4.9.0":
+  version: 4.9.0
+  resolution: "hash-wasm@npm:4.9.0"
+  checksum: b8734247fb7f69941f6564179dd891b7de21aa5877b9e32a5c6d777c2ab45cf5a6b021ade2b0156ec780ac41188486d571d9d526ef8206dda1ad306c81112a8a
   languageName: node
   linkType: hard
 

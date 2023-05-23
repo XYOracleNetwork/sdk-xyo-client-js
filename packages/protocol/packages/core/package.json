@@ -15,6 +15,7 @@
     "@xylabs/bignumber": "^2.8.1",
     "@xylabs/buffer": "^2.8.1",
     "@xyo-network/typeof": "workspace:^",
+    "hash-wasm": "^4.9.0",
     "keccak256": "^1.0.6",
     "lodash": "^4.17.21",
     "sha.js": "^2.4.11",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.194",
     "@types/sha.js": "^2.4.0",
+    "@types/sha256-wasm": "^2.2.0",
     "@types/uuid": "^9.0.1",
     "@xylabs/ts-scripts-yarn3": "^2.17.13",
     "@xylabs/tsconfig": "^2.17.13",

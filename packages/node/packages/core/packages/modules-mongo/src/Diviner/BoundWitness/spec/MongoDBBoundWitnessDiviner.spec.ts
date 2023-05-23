@@ -34,7 +34,7 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessDiviner', () => {
     })
     // TODO: Insert via archivist
     const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
-    const bw = new BoundWitnessBuilder().payload(payload).witness(account).build()[0]
+    const bw = (await new BoundWitnessBuilder().payload(payload).witness(account).build())[0]
     await boundWitnessSdk.insertOne(bw as unknown as BoundWitnessWithMeta)
   })
   describe('divine', () => {

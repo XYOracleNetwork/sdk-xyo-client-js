@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SortDirection } from '@xyo-network/diviner-payload-model'
 import {
   PayloadAddressRule,
@@ -67,9 +68,11 @@ const expectSchemaNotSuppliedError = (result: Payload) => {
 describe('/:hash', () => {
   describe('return format is', () => {
     const account = Account.random()
-    const [bw, payloads] = getNewBoundWitness([account])
+    let bw: BoundWitness
+    let payloads: Payload[]
     beforeAll(async () => {
       // Create data pointer will reference
+      ;[bw, payloads] = await getNewBoundWitness([account])
       const blockResponse = await insertBlock(bw, account)
       expect(blockResponse.length).toBe(2)
       const payloadResponse = await insertPayload(payloads, account)
@@ -95,16 +98,31 @@ describe('/:hash', () => {
       const accountB = Account.random()
       const accountC = Account.random()
       const accountD = Account.random()
-      const [bwA, payloadsA] = getNewBoundWitness([accountA])
-      const [bwB, payloadsB] = getNewBoundWitness([accountB])
-      const [bwC, payloadsC] = getNewBoundWitness([accountC])
-      const [bwD, payloadsD] = getNewBoundWitness([accountD])
-      const [bwE, payloadsE] = getNewBoundWitness([accountC, accountD])
-      const [bwF, payloadsF] = getNewBoundWitness([accountC])
-      const [bwG, payloadsG] = getNewBoundWitness([accountD])
-      const payloads = [...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG]
-      const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
+      let bwA: BoundWitness
+      let bwB: BoundWitness
+      let bwC: BoundWitness
+      let bwD: BoundWitness
+      let bwE: BoundWitness
+      let bwF: BoundWitness
+      let bwG: BoundWitness
+      let payloadsA: Payload[]
+      let payloadsB: Payload[]
+      let payloadsC: Payload[]
+      let payloadsD: Payload[]
+      let payloadsE: Payload[]
+      let payloadsF: Payload[]
+      let payloadsG: Payload[]
+      let payloads: Payload[]
       beforeAll(async () => {
+        ;[bwA, payloadsA] = await getNewBoundWitness([accountA])
+        ;[bwB, payloadsB] = await getNewBoundWitness([accountB])
+        ;[bwC, payloadsC] = await getNewBoundWitness([accountC])
+        ;[bwD, payloadsD] = await getNewBoundWitness([accountD])
+        ;[bwE, payloadsE] = await getNewBoundWitness([accountC, accountD])
+        ;[bwF, payloadsF] = await getNewBoundWitness([accountC])
+        ;[bwG, payloadsG] = await getNewBoundWitness([accountD])
+        payloads = [...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG]
+        const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
         const blockResponse = await insertBlock(boundWitnesses)
         expect(blockResponse.length).toBe(2)
         const payloadResponse = await insertPayload(payloads)
@@ -193,13 +211,15 @@ describe('/:hash', () => {
     })
     describe('timestamp direction', () => {
       const account = Account.random()
-      const [bwA, payloadsA] = getNewBoundWitness([account])
-      const [bwB, payloadsB] = getNewBoundWitness([account])
-      const [bwC, payloadsC] = getNewBoundWitness([account])
-      const payloads = [...payloadsA, ...payloadsB, ...payloadsC]
-      const boundWitnesses = [bwA, bwB, bwC]
-      const expectedSchema = payloadsA[0].schema
+      let payloads: Payload[]
+      let expectedSchema: string
       beforeAll(async () => {
+        const [bwA, payloadsA] = await getNewBoundWitness([account])
+        const [bwB, payloadsB] = await getNewBoundWitness([account])
+        const [bwC, payloadsC] = await getNewBoundWitness([account])
+        payloads = [...payloadsA, ...payloadsB, ...payloadsC]
+        const boundWitnesses = [bwA, bwB, bwC]
+        expectedSchema = payloadsA[0].schema
         for (const bw of boundWitnesses) {
           const blockResponse = await insertBlock(bw, account)
           expect(blockResponse.length).toBe(2)
@@ -220,7 +240,7 @@ describe('/:hash', () => {
         expect(result).toEqual(expected)
       })
       it('no matching timestamp', async () => {
-        const pointerHash = await createPointer([[account.addressValue.hex]], [[payloadsA[0].schema]], Date.now(), 'asc')
+        const pointerHash = await createPointer([[account.addressValue.hex]], [[expectedSchema]], Date.now(), 'asc')
         const result = await getHash(pointerHash)
         expectHashNotFoundError(result)
       })

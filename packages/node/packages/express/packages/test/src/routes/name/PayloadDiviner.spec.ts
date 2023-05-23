@@ -39,7 +39,7 @@ describe(`/${moduleName}`, () => {
     describe.skip('address', () => {
       it('divines Payloads by address', async () => {
         const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness([accountA], [payload])[0])
+        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA], [payload]))[0])
         await archivist.insert([boundWitness.payload, payload.payload])
 
         const address = accountA.addressValue.hex
@@ -51,7 +51,7 @@ describe(`/${moduleName}`, () => {
       })
       it.skip('divines Payloads by addresses', async () => {
         const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse(getNewBoundWitness([accountA, accountB], [payload])[0])
+        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA, accountB], [payload]))[0])
         await archivist.insert([boundWitness.payload, payload.payload])
         const address = [accountA.addressValue.hex, accountB.addressValue.hex] as unknown as (string | string[]) & (string | [string])
         const query: PayloadDivinerQueryPayload = { address: address, schema }

@@ -34,15 +34,9 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
   const payloadWrapper2 = PayloadWrapper.parse(payload2)
   const payloadWrapper3 = PayloadWrapper.parse(payload3)
   const payloadWrapper4 = PayloadWrapper.parse(payload4)
-  const boundWitness1 = new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(userAccount).build()[0]
-  const boundWitness2 = new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(userAccount).build()[0]
-  const boundWitness3 = new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()[0]
-  const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1)
-  boundWitnessWrapper1.payloads = [payload1]
-  const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2)
-  boundWitnessWrapper2.payloads = [payload2]
-  const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3)
-  boundWitnessWrapper3.payloads = [payload3, payload4]
+  let boundWitnessWrapper1: BoundWitnessWrapper
+  let boundWitnessWrapper2: BoundWitnessWrapper
+  let boundWitnessWrapper3: BoundWitnessWrapper
 
   let archivist: ArchivistWrapper
   let insertResult1: BoundWitness[]
@@ -62,6 +56,17 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       payloadSdk: payloads,
     })
     archivist = ArchivistWrapper.wrap(module, archiveAccount)
+    const boundWitness1 = (await new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(userAccount).build())[0]
+    const boundWitness2 = (await new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(userAccount).build())[0]
+    const boundWitness3 = (
+      await new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()
+    )[0]
+    boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1)
+    boundWitnessWrapper1.payloads = [payload1]
+    boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2)
+    boundWitnessWrapper2.payloads = [payload2]
+    boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3)
+    boundWitnessWrapper3.payloads = [payload3, payload4]
     const insertions = [
       // TODO: Try simple cases of [payload, BW, mixed BW & Payload]
       [boundWitness1, payload1],

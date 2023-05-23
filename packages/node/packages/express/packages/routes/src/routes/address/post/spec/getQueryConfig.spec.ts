@@ -23,7 +23,7 @@ describe('getQueryConfig', () => {
       queries,
     })
     it('generates query config for current query', async () => {
-      const query = new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
+      const query = await new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
       const config = await getQueryConfig(mod, req, query[0], query[1])
       expect(config?.security?.allowed).toContainKey(ModuleDiscoverQuerySchema)
       expect(config?.security?.allowed?.[ModuleDiscoverQuerySchema]).toBeArrayOfSize(1)
@@ -44,18 +44,22 @@ describe('getQueryConfig', () => {
         // canAccess = true
       })
       it('generates config for single-signer requests', async () => {
-        const query = new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
+        const query = await new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
         const config = await getQueryConfig(mod, req, query[0], query[1])
         expect(config).toMatchSnapshot()
       })
       it('generates config for multi-signer requests', async () => {
-        const query = new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).witness(testAccount2).build()
+        const query = await new QueryBoundWitnessBuilder()
+          .query({ schema: ModuleDiscoverQuerySchema })
+          .witness(testAccount1)
+          .witness(testAccount2)
+          .build()
         const config = await getQueryConfig(mod, req, query[0], query[1])
         expect(config).toMatchSnapshot()
       })
       it('generates config for nested-signed requests', async () => {
-        const bw = new BoundWitnessBuilder().witness(testAccount3).witness(testAccount4).build()
-        const query = new QueryBoundWitnessBuilder()
+        const bw = await new BoundWitnessBuilder().witness(testAccount3).witness(testAccount4).build()
+        const query = await new QueryBoundWitnessBuilder()
           .query({ schema: ModuleDiscoverQuerySchema })
           .witness(testAccount1)
           .witness(testAccount2)
@@ -65,9 +69,9 @@ describe('getQueryConfig', () => {
         expect(config).toMatchSnapshot()
       })
       it('generates config for nested-signed multi-signer requests', async () => {
-        const bw1 = new BoundWitnessBuilder().witness(testAccount3).build()
-        const bw2 = new BoundWitnessBuilder().witness(testAccount4).build()
-        const query = new QueryBoundWitnessBuilder()
+        const bw1 = await new BoundWitnessBuilder().witness(testAccount3).build()
+        const bw2 = await new BoundWitnessBuilder().witness(testAccount4).build()
+        const query = await new QueryBoundWitnessBuilder()
           .query({ schema: ModuleDiscoverQuerySchema })
           .witness(testAccount1)
           .witness(testAccount2)
@@ -78,7 +82,7 @@ describe('getQueryConfig', () => {
         expect(config).toMatchSnapshot()
       })
       it('generates config for unsigned requests', async () => {
-        const query = new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).build()
+        const query = await new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).build()
         const config = await getQueryConfig(mod, req, query[0], query[1])
         expect(config).toMatchSnapshot()
       })
@@ -88,7 +92,7 @@ describe('getQueryConfig', () => {
         // canAccess = false
       })
       it('returns undefined', async () => {
-        const query = new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
+        const query = await new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
         const config = await getQueryConfig(mod, req, query[0], query[1])
         expect(config).toBeUndefined()
       })

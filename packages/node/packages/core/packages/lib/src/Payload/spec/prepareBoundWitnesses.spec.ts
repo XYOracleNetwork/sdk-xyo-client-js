@@ -39,10 +39,12 @@ const getPayloads = (numPayloads: number): Payload[] => {
 const getNewBlockWithBoundWitnessesWithPayloads = (
   numBoundWitnesses = 1,
   numPayloads = 1,
-): Array<BoundWitnessWithPartialMeta & PayloadWithPartialMeta> => {
-  return new Array(numBoundWitnesses).fill(0).map(() => {
-    return new BoundWitnessBuilder({ inlinePayloads: true }).payloads(getPayloads(numPayloads)).build(true)[0]
-  })
+): Promise<Array<BoundWitnessWithPartialMeta & PayloadWithPartialMeta>> => {
+  return Promise.all(
+    new Array(numBoundWitnesses).fill(0).map(async () => {
+      return (await new BoundWitnessBuilder({ inlinePayloads: true }).payloads(getPayloads(numPayloads)).build(true))[0]
+    }),
+  )
 }
 
 const validateBeforeSanitization = (boundWitnesses: Array<BoundWitnessWithPartialMeta & PayloadWithPartialMeta>) => {
@@ -101,8 +103,8 @@ const validateAfterSanitization = (actual: PrepareBoundWitnessesResult) => {
 describe('prepareBoundWitnesses', () => {
   describe.each([0, 1, 2])('with %d boundWitnesses', (numBoundWitnesses: number) => {
     describe.each([0, 1, 2])('with %d payloads', (numPayloadVersions: number) => {
-      it('prepares the boundWitness/payloads', () => {
-        const boundWitnesses = getNewBlockWithBoundWitnessesWithPayloads(numBoundWitnesses, numPayloadVersions)
+      it('prepares the boundWitness/payloads', async () => {
+        const boundWitnesses = await getNewBlockWithBoundWitnessesWithPayloads(numBoundWitnesses, numPayloadVersions)
         validateBeforeSanitization(boundWitnesses)
         const actual = prepareBoundWitnesses(boundWitnesses, boundWitnessMeta, payloadMeta)
         validateAfterSanitization(actual)

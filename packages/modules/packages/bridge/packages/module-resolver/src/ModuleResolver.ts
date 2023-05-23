@@ -69,7 +69,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
 
     //check if it is even there
     if (!remoteAddresses.find((address) => address === targetAddress)) {
-      this.logger?.log(`Not in RA: ${targetAddress}`)
+      //this.logger?.log(`Not in RA: ${targetAddress}`)
       return undefined
     }
 

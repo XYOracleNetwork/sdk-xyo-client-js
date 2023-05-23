@@ -286,21 +286,21 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
   ): PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance> {
-    const promise = new PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance>((resolve) => {
-      const result = this.bindQueryInternal(query, payloads, account)
+    const promise = new PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance>(async (resolve) => {
+      const result = await this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
     }, account)
     return promise
   }
 
-  protected bindQueryInternal<T extends Query | PayloadWrapper<Query>>(
+  protected async bindQueryInternal<T extends Query | PayloadWrapper<Query>>(
     query: T,
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
-  ): [QueryBoundWitness, Payload[]] {
+  ): Promise<[QueryBoundWitness, Payload[]]> {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
-    const result = (account ? builder.witness(account) : builder).build()
+    const result = await (account ? builder.witness(account) : builder).build()
     return result
   }
 

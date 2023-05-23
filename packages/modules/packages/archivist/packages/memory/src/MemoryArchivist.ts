@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
@@ -24,7 +23,6 @@ export type MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.m
 export const MemoryArchivistConfigSchema: MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
 
 export type MemoryArchivistConfig = ArchivistConfig<{
-  insertDelay?: number
   max?: number
   schema: MemoryArchivistConfigSchema
 }>
@@ -43,10 +41,6 @@ export class MemoryArchivist<
   get cache() {
     this._cache = this._cache ?? new LRUCache<string, Payload>({ max: this.max })
     return this._cache
-  }
-
-  get insertDelay() {
-    return this.config?.insertDelay ?? 0
   }
 
   get max() {
@@ -117,9 +111,11 @@ export class MemoryArchivist<
   }
 
   async insert(payloads: Payload[]): Promise<BoundWitness[]> {
-    payloads.map((payload) => {
-      return this.insertPayloadIntoCacheWithDelay(payload)
-    })
+    await Promise.all(
+      payloads.map((payload) => {
+        return this.insertPayloadIntoCache(payload)
+      }),
+    )
 
     const result = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
     const parentBoundWitnesses: BoundWitness[] = []
@@ -133,14 +129,10 @@ export class MemoryArchivist<
     return boundWitnesses
   }
 
-  private async insertPayloadIntoCacheWithDelay(payload: Payload): Promise<Payload> {
+  private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {
     const wrapper = new PayloadWrapper(payload)
-    const payloadWithMeta = { ...payload, _hash: wrapper.hash, _timestamp: Date.now() }
+    const payloadWithMeta = { ...payload, _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
     this.cache.set(payloadWithMeta._hash, payloadWithMeta)
-
-    //we 'delay' here to prevent hogging
-    await delay(this.insertDelay)
-
     return payloadWithMeta
   }
 }

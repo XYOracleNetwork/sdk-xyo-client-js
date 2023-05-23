@@ -62,7 +62,65 @@ describe('Hasher', () => {
     expect(wasmHashDuration).toBeDefined()
     expect(jsHashDuration).toBeDefined()
 
-    console.log(`Wasm is ${jsHashDuration - wasmHashDuration}ms faster`)
+    console.log(
+      `Wasm is ${jsHashDuration - wasmHashDuration}ms (${((1 - wasmHashDuration / jsHashDuration) * 100).toPrecision(
+        2,
+      )}%) faster [${wasmHashDuration}ms vs ${jsHashDuration}ms ]`,
+    )
+  })
+
+  test('wasm vs js (performance-big-obj)', async () => {
+    const subObject = {
+      testArray: [1, 2, 3],
+      testBoolean: true,
+      testNull: null,
+      testNullObject: { t: null, x: undefined },
+      testNumber: 5,
+      testObject: { t: 1 },
+      testSomeNullObject: { s: 1, t: null, x: undefined },
+      testString: 'hello there.  this is a pretty long string.  what do you think?',
+      testUndefined: undefined,
+    }
+
+    const testObject = {
+      testArray: [1, 2, 3],
+      testBoolean: true,
+      testNull: null,
+      testNullObject: { t: null, x: undefined },
+      testNumber: 5,
+      testObjArray: [subObject, subObject, subObject, subObject, subObject, subObject, subObject, subObject, subObject],
+      testObject: { t: 1 },
+      testSomeNullObject: { s: 1, t: null, x: undefined },
+      testString: 'hello there.  this is a pretty long string.  what do you think?',
+      testUndefined: undefined,
+    }
+
+    await Hasher.initialize()
+
+    Hasher.allowWasm = false
+
+    const jsHashStart = Date.now()
+    for (let x = 0; x < 10000; x++) {
+      new Hasher({ ...testObject, nonce: x }).hash
+    }
+    const jsHashDuration = Date.now() - jsHashStart
+
+    Hasher.allowWasm = true
+
+    const wasmHashStart = Date.now()
+    for (let x = 0; x < 10000; x++) {
+      new Hasher({ ...testObject, nonce: x }).hash
+    }
+    const wasmHashDuration = Date.now() - wasmHashStart
+
+    expect(wasmHashDuration).toBeDefined()
+    expect(jsHashDuration).toBeDefined()
+
+    console.log(
+      `Wasm is ${jsHashDuration - wasmHashDuration}ms (${((1 - wasmHashDuration / jsHashDuration) * 100).toPrecision(
+        2,
+      )}%) faster [${wasmHashDuration}ms vs ${jsHashDuration}ms ]`,
+    )
   })
 
   test('wasm vs js (performance-parallel)', async () => {
@@ -107,6 +165,10 @@ describe('Hasher', () => {
     expect(wasmHashDuration).toBeDefined()
     expect(jsHashDuration).toBeDefined()
 
-    console.log(`Wasm is ${jsHashDuration - wasmHashDuration}ms faster`)
+    console.log(
+      `Wasm is ${jsHashDuration - wasmHashDuration}ms (${((1 - wasmHashDuration / jsHashDuration) * 100).toPrecision(
+        2,
+      )}%) faster [${wasmHashDuration}ms vs ${jsHashDuration}ms ]`,
+    )
   })
 })

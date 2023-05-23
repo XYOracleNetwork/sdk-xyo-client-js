@@ -242,9 +242,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return promise
   }
 
-  protected bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): BoundWitness {
+  protected async bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
-    const result = (account ? builder.witness(account) : builder).build()[0]
+    const result = (await (account ? builder.witness(account) : builder).build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
@@ -254,34 +254,34 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     account?: AccountInstance,
   ): PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance> {
-    const promise = new PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance>((resolve) => {
-      const result = this.bindQueryInternal(query, payloads, account)
+    const promise = new PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance>(async (resolve) => {
+      const result = await this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
     }, account)
     return promise
   }
 
-  protected bindQueryInternal<T extends Query | PayloadWrapper<Query>>(
+  protected async bindQueryInternal<T extends Query | PayloadWrapper<Query>>(
     query: T,
     payloads?: Payload[],
     account?: AccountInstance,
-  ): [QueryBoundWitness, Payload[]] {
+  ): Promise<[QueryBoundWitness, Payload[]]> {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
-    const result = (account ? builder.witness(account) : builder).build()
+    const result = await (account ? builder.witness(account) : builder).build()
     return result
   }
 
-  protected bindQueryResult<T extends Query | PayloadWrapper<Query>>(
+  protected async bindQueryResult<T extends Query | PayloadWrapper<Query>>(
     query: T,
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
-  ): PromiseEx<ModuleQueryResult, AccountInstance[]> {
+  ): Promise<PromiseEx<ModuleQueryResult, AccountInstance[]>> {
     const builder = new BoundWitnessBuilder().payloads(payloads)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
-    const result: ModuleQueryResult = [builder.build()[0], payloads]
+    const result: ModuleQueryResult = [(await builder.build())[0], payloads]
     return new PromiseEx<ModuleQueryResult, AccountInstance[]>((resolve) => {
       resolve?.(result)
       return result

@@ -69,14 +69,10 @@ const expectSchemaNotSuppliedError = (result: Payload) => {
 describe('/:hash', () => {
   describe('return format is', () => {
     const account = Account.random()
-    let bw: BoundWitness
-    let payloads: Payload[]
-    beforeAll(async () => {
-      ;[bw, payloads] = await getNewBoundWitness([account])
+    it('a single BoundWitness matching the pointer criteria', async () => {
+      const [bw, payloads] = await getNewBoundWitness([account])
       const blockResponse = await insertBlock(bw, account)
       expect(blockResponse.length).toBe(2)
-    })
-    it('a single BoundWitness matching the pointer criteria', async () => {
       const expected = BoundWitnessWrapper.parse(bw).body
       const pointerHash = await createPointer([[account.addressValue.hex]], [[payloads[0].schema]])
       const response = await getHash(pointerHash)
@@ -96,39 +92,27 @@ describe('/:hash', () => {
       const accountB = Account.random()
       const accountC = Account.random()
       const accountD = Account.random()
-      let bwA: BoundWitness
-      let bwB: BoundWitness
-      let bwC: BoundWitness
-      let bwD: BoundWitness
-      let bwE: BoundWitness
-      let bwF: BoundWitness
-      let bwG: BoundWitness
-      let payloadsA: Payload[]
-      let payloadsB: Payload[]
-      let payloadsC: Payload[]
-      let payloadsD: Payload[]
-      let payloadsE: Payload[]
-      let payloadsF: Payload[]
-      let payloadsG: Payload[]
-      let payloads: Payload[]
+      const payloads: Payload[] = []
+      const bws: BoundWitness[] = []
       beforeAll(async () => {
-        ;[bwA, payloadsA] = await getNewBoundWitness([accountA])
-        ;[bwB, payloadsB] = await getNewBoundWitness([accountB])
-        ;[bwC, payloadsC] = await getNewBoundWitness([accountC])
-        ;[bwD, payloadsD] = await getNewBoundWitness([accountD])
-        ;[bwE, payloadsE] = await getNewBoundWitness([accountC, accountD])
-        ;[bwF, payloadsF] = await getNewBoundWitness([accountC])
-        ;[bwG, payloadsG] = await getNewBoundWitness([accountD])
-        payloads = [...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG]
-        const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
-        const blockResponse = await insertBlock(boundWitnesses)
+        const [bwA, payloadsA] = await getNewBoundWitness([accountA])
+        const [bwB, payloadsB] = await getNewBoundWitness([accountB])
+        const [bwC, payloadsC] = await getNewBoundWitness([accountC])
+        const [bwD, payloadsD] = await getNewBoundWitness([accountD])
+        const [bwE, payloadsE] = await getNewBoundWitness([accountC, accountD])
+        const [bwF, payloadsF] = await getNewBoundWitness([accountC])
+        const [bwG, payloadsG] = await getNewBoundWitness([accountD])
+        payloads.push(...[...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG])
+        bws.push(...[bwA, bwB, bwC, bwD, bwE, bwF, bwG])
+        const blockResponse = await insertBlock(bws)
         expect(blockResponse.length).toBe(2)
       })
       describe('single address', () => {
         it.each([
-          [accountA, BoundWitnessWrapper.parse(bwA).body],
-          [accountB, BoundWitnessWrapper.parse(bwB).body],
-        ])('returns BoundWitness signed by address', async (account, expected) => {
+          [accountA, () => BoundWitnessWrapper.parse(bws[0]).body],
+          [accountB, () => BoundWitnessWrapper.parse(bws[1]).body],
+        ])('returns BoundWitness signed by address', async (account, data) => {
+          const expected = data()
           const pointerHash = await createPointer([[account.addressValue.hex]], [[payloads[0].schema]])
           const result = await getHash(pointerHash)
           expect(result).toEqual(expected)
@@ -137,7 +121,7 @@ describe('/:hash', () => {
       describe('multiple address rules', () => {
         describe('combined serially', () => {
           it('returns BoundWitness signed by both addresses', async () => {
-            const expected = BoundWitnessWrapper.parse(bwE).body
+            const expected = BoundWitnessWrapper.parse(bws[4]).body
             const pointerHash = await createPointer([[accountC.addressValue.hex], [accountD.addressValue.hex]], [[payloads[0].schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
@@ -145,7 +129,7 @@ describe('/:hash', () => {
         })
         describe('combined in parallel', () => {
           it('returns BoundWitness signed by both address', async () => {
-            const expected = BoundWitnessWrapper.parse(bwE).body
+            const expected = BoundWitnessWrapper.parse(bws[4]).body
             const pointerHash = await createPointer([[accountC.addressValue.hex, accountD.addressValue.hex]], [[payloads[0].schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
@@ -169,20 +153,20 @@ describe('/:hash', () => {
       payloadBaseB.schema = schemaB
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
       const schemas = [schemaA, schemaB]
-      let bwA: BoundWitness
-      let bwB: BoundWitness
+      const boundWitnesses: BoundWitness[] = []
       beforeAll(async () => {
-        ;[bwA] = await getNewBoundWitness([account], [payloadA.payload])
-        ;[bwB] = await getNewBoundWitness([account], [payloadB.payload])
-        const boundWitnesses = [bwA, bwB]
+        const [bwA] = await getNewBoundWitness([account], [payloadA.payload])
+        const [bwB] = await getNewBoundWitness([account], [payloadB.payload])
+        boundWitnesses.push(...[bwA, bwB])
         const payloadResponse = await insertBlock(boundWitnesses, account)
         expect(payloadResponse.length).toBe(2)
       })
       describe('single schema', () => {
         it.each([
-          [schemaA, BoundWitnessWrapper.parse(bwA).body],
-          [schemaB, BoundWitnessWrapper.parse(bwB).body],
-        ])('returns BoundWitness of schema type', async (schema, expected) => {
+          [schemaA, () => BoundWitnessWrapper.parse(boundWitnesses[0]).body],
+          [schemaB, () => BoundWitnessWrapper.parse(boundWitnesses[1]).body],
+        ])('returns BoundWitness of schema type', async (schema, data) => {
+          const expected = data()
           const pointerHash = await createPointer([[account.addressValue.hex]], [[schema]])
           const result = await getHash(pointerHash)
           expect(result).toEqual(expected)

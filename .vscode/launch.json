@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/manifest/src/spec/Manifest.spec.ts"
+        "packages/protocol/packages/account/src/spec/PrivateKey.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

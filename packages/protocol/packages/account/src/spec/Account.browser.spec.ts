@@ -57,15 +57,15 @@ describe('XyoAccount', () => {
 
   test('Sign-fromPrivateKey', async () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
-    const signature = await wallet.sign('1234567890abcdef')
-    const valid = wallet.verify('1234567890abcdef', signature)
+    const signature = await wallet.sign(testVectorHash)
+    const valid = wallet.verify(testVectorHash, signature)
     expect(valid).toBeTruthy()
   })
 
   test('Sign-fromPhrase', async () => {
     const wallet = Account.fromPhrase('test')
-    const signature = await wallet.sign('1234567890abcdef')
-    const valid = wallet.verify('1234567890abcdef', signature)
+    const signature = await wallet.sign(testVectorHash)
+    const valid = wallet.verify(testVectorHash, signature)
     expect(valid).toBeTruthy()
   })
 
@@ -89,13 +89,13 @@ describe('XyoAccount', () => {
 
   test('Sign-random-string', async () => {
     const wallet = Account.random()
-    const signature = await wallet.sign('1234567890abcdef')
+    const signature = await wallet.sign(testVectorHash)
     const signaturePrime = toUint8Array(signature)
     expect(signature.length).toBe(signaturePrime.length)
     for (let i = 0; i < signature.length; i++) {
       expect(signature[i]).toBe(signaturePrime[i])
     }
-    const valid = wallet.verify('1234567890abcdef', signature)
+    const valid = wallet.verify(testVectorHash, signature)
     expect(valid).toBeTruthy()
     expect(wallet.private.bytes.length === 32)
   })

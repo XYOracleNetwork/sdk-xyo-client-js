@@ -55,16 +55,16 @@ describe('XyoAccount', () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.public).toBeDefined()
     expect(wallet.addressValue.hex).toBeDefined()
-    const signature = await wallet.sign('1234567890abcdef')
-    const valid = wallet.verify('1234567890abcdef', signature)
-    expect(valid).toBeTruthy()
+    const signature = await wallet.sign(testVectorHash)
+    const valid = wallet.verify(testVectorHash, signature)
+    expect(valid).toBeTrue()
   })
 
   test('Sign-fromPhrase', async () => {
     const wallet = Account.fromPhrase('test')
-    const signature = await wallet.sign('1234567890abcdef')
-    const valid = wallet.verify('1234567890abcdef', signature)
-    expect(valid).toBeTruthy()
+    const signature = await wallet.sign(testVectorHash)
+    const valid = wallet.verify(testVectorHash, signature)
+    expect(valid).toBeTrue()
   })
 
   test('Sign-testVectors', async () => {
@@ -75,7 +75,7 @@ describe('XyoAccount', () => {
     expect(signature).toEqual(expectedSignature)
     expect(signature.length).toEqual(128)
     const valid = wallet.verify(testVectorHash, signature)
-    expect(valid).toBeTruthy()
+    expect(valid).toBeTrue()
   })
 
   test('Constructor', () => {
@@ -87,14 +87,14 @@ describe('XyoAccount', () => {
 
   test('Sign-random-string', async () => {
     const wallet = Account.random()
-    const signature = await wallet.sign('1234567890abcdef')
+    const signature = await wallet.sign(testVectorHash)
     const signaturePrime = toUint8Array(signature)
     expect(signature.length).toBe(signaturePrime.length)
     for (let i = 0; i < signature.length; i++) {
       expect(signature[i]).toBe(signaturePrime[i])
     }
-    const valid = wallet.verify('1234567890abcdef', signature)
-    expect(valid).toBeTruthy()
+    const valid = wallet.verify(testVectorHash, signature)
+    expect(valid).toBeTrue()
   })
 
   describe('fromMnemonic', () => {

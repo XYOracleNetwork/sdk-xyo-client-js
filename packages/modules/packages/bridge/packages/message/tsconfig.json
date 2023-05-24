@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declarationDir": "./dist/types",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNEXT"
+    ],
+    "typeRoots": []
+  },
+
+  "extends": "@xylabs/tsconfig"
+}

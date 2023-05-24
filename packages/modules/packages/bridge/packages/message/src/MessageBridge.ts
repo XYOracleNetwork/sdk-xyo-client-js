@@ -1,7 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { XyoApiEnvelope } from '@xyo-network/api-models'
-import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
@@ -24,36 +22,43 @@ import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
-import Url from 'url-parse'
 
-import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
+import { MessageBridgeConfig, MessageBridgeConfigSchema } from './MessageBridgeConfig'
 
-export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<TConfig>
+export type MessageBridgeParams<TConfig extends AnyConfigSchema<MessageBridgeConfig> = AnyConfigSchema<MessageBridgeConfig>> = ModuleParams<
+  TConfig,
+  {
+    port?: MessagePort
+  }
+>
 
-/** @deprecated use HttpBridgeParams instead */
-export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = HttpBridgeParams<TConfig>
+export interface MessageQueryData {
+  address: string
+  msgId?: string
+  payloads?: Payload[]
+  query: QueryBoundWitness
+}
+
+export interface MessageResultData {
+  address: string
+  msgId?: string
+  result: ModuleQueryResult
+}
 
 @creatableModule()
-export class HttpBridge<
-    TParams extends HttpBridgeParams = HttpBridgeParams,
+export class MessageBridge<
+    TParams extends MessageBridgeParams = MessageBridgeParams,
     TEventData extends ModuleEventData = ModuleEventData,
     TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
   >
   extends AbstractBridge<TParams, TEventData, TModule>
   implements BridgeModule<TParams, TEventData, TModule>
 {
-  static override configSchema = HttpBridgeConfigSchema
+  static override configSchema = MessageBridgeConfigSchema
 
-  private _axios?: AxiosJson
   private _discoverCache?: LRUCache<string, Payload[]>
-  private _rootAddress?: string
   private _targetConfigs: Record<string, ModuleConfig> = {}
   private _targetQueries: Record<string, string[]> = {}
-
-  get axios() {
-    this._axios = this._axios ?? new AxiosJson()
-    return this._axios
-  }
 
   get discoverCache() {
     const config = this.discoverCacheConfig
@@ -66,15 +71,8 @@ export class HttpBridge<
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
 
-  get nodeUrl() {
-    return new Url(this.config?.nodeUrl ?? '/')
-  }
-
-  get rootAddress() {
-    if (this._rootAddress) {
-      return this._rootAddress
-    }
-    throw Error('rootAddress not set')
+  get port(): MessagePort {
+    return assertEx(this.params.port, 'No port set')
   }
 
   connect(): Promisable<boolean> {
@@ -85,15 +83,10 @@ export class HttpBridge<
     return true
   }
 
-  moduleUrl(address: string) {
-    return new URL(address, this.nodeUrl.toString())
-  }
-
   override async start() {
     await super.start()
     this.downResolver.addResolver(this.targetDownResolver())
-    const rootAddress = await this.initRootAddress()
-    await this.targetDiscover(rootAddress)
+    await this.targetDiscover()
 
     const childAddresses = await this.targetDownResolver().getRemoteAddresses()
 
@@ -124,7 +117,7 @@ export class HttpBridge<
     if (cachedResult) {
       return cachedResult
     }
-    const addressToDiscover = address ?? this.rootAddress
+    const addressToDiscover = address ?? ''
     const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
     const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
@@ -161,34 +154,30 @@ export class HttpBridge<
   }
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {
-    try {
-      const moduleUrlString = this.moduleUrl(address).toString()
-      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
-      if (result.status === 404) {
-        return undefined
+    const msgId = await PayloadWrapper.hashAsync(query)
+    return new Promise((resolve, reject) => {
+      try {
+        const message: MessageQueryData = {
+          address,
+          msgId,
+          payloads,
+          query,
+        }
+
+        this.port.addEventListener('message', (message) => {
+          if (message.data.msgId === msgId) {
+            resolve((message.data as MessageResultData).result)
+          }
+        })
+
+        this.port.postMessage(message)
+      } catch (ex) {
+        reject(ex)
       }
-      if (result.status >= 400) {
-        this.logger?.error(`targetQuery failed [${moduleUrlString}]`)
-        throw `targetQuery failed [${moduleUrlString}] [${result.status}]`
-      }
-      return result.data.data
-    } catch (ex) {
-      const error = ex as AxiosError
-      this.logger?.error(`Error Status: ${error.status}`)
-      this.logger?.error(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
-      throw error
-    }
+    })
   }
 
   targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
     return true
-  }
-
-  private async initRootAddress() {
-    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
-    const boundQuery = await this.bindQuery(queryPayload)
-    const response = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
-    this._rootAddress = AxiosJson.finalPath(response)
-    return this._rootAddress
   }
 }

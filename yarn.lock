@@ -5252,6 +5252,7 @@ __metadata:
     "@xyo-network/bridge-module-resolver": "workspace:^"
     "@xyo-network/bridge-wrapper": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"
+    "@xyo-network/message-bridge": "workspace:^"
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft
@@ -7019,6 +7020,33 @@ __metadata:
     lodash: ^4.17.21
     lru-cache: ^9.1.1
     typescript: ^5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/message-bridge@workspace:^, @xyo-network/message-bridge@workspace:packages/modules/packages/bridge/packages/message":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/message-bridge@workspace:packages/modules/packages/bridge/packages/message"
+  dependencies:
+    "@types/url-parse": ^1.4.8
+    "@xylabs/assert": ^2.8.1
+    "@xylabs/ts-scripts-yarn3": ^2.17.13
+    "@xylabs/tsconfig": ^2.17.13
+    "@xyo-network/abstract-bridge": "workspace:^"
+    "@xyo-network/api-models": "workspace:^"
+    "@xyo-network/axios": "workspace:^"
+    "@xyo-network/bridge-model": "workspace:^"
+    "@xyo-network/config-payload-plugin": "workspace:^"
+    "@xyo-network/core": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/node": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/query-payload-plugin": "workspace:^"
+    lodash: ^4.17.21
+    lru-cache: ^9.1.1
+    typescript: ^5.0.4
+    url-parse: ^1.5.10
   languageName: unknown
   linkType: soft
 

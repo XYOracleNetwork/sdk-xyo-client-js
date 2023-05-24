@@ -8,10 +8,16 @@ import { PrivateKey } from './PrivateKey'
 @staticImplements<PrivateKeyStatic>()
 export class WASMPrivateKey extends PrivateKey {
   private _privateKeyBytes: Uint8Array
+  private _secp256k1Instance: Promise<Secp256k1>
 
   constructor(value?: DataLike) {
     super(value)
     this._privateKeyBytes = toUint8Array(this._keyPair.getPrivate('hex'))
+    this._secp256k1Instance = instantiateSecp256k1()
+  }
+
+  get isInitialized(): Promise<boolean> {
+    return this._secp256k1Instance.then(() => true)
   }
 
   protected get privateKeyBytes(): Uint8Array {
@@ -19,7 +25,7 @@ export class WASMPrivateKey extends PrivateKey {
   }
 
   override async sign(hash: DataLike) {
-    const { malleateSignatureCompact, signMessageHashCompact } = await instantiateSecp256k1()
+    const { malleateSignatureCompact, signMessageHashCompact } = await this._secp256k1Instance
     return malleateSignatureCompact(signMessageHashCompact(this.privateKeyBytes, toUint8Array(hash)))
   }
 }

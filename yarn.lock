@@ -4821,7 +4821,6 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/core": "workspace:^"
     "@xyo-network/key-model": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
     typescript: ^5.0.4
   languageName: unknown
   linkType: soft

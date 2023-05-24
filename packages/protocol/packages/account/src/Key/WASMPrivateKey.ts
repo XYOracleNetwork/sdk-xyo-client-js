@@ -18,22 +18,13 @@ export class WASMPrivateKey extends PrivateKey {
     this._secp256k1Instance = instantiateSecp256k1()
   }
 
-  get isInitialized(): Promise<boolean> {
-    return this._secp256k1Instance.then(() => true)
-  }
-
-  protected get privateKeyBytes(): Uint8Array {
-    return this._privateKeyBytes
-  }
-
-  // TODO: Remove underscore and add override once we update interface to be async
-  async _verify(msg: Uint8Array | string, signature: Uint8Array | string) {
-    const { verifySignatureCompact } = await this._secp256k1Instance
-    return verifySignatureCompact(toUint8Array(signature), this._publicKeyBytes, toUint8Array(msg))
-  }
-
   override async sign(hash: DataLike) {
     const { malleateSignatureCompact, signMessageHashCompact } = await this._secp256k1Instance
-    return malleateSignatureCompact(signMessageHashCompact(this.privateKeyBytes, toUint8Array(hash)))
+    return malleateSignatureCompact(signMessageHashCompact(this._privateKeyBytes, toUint8Array(hash)))
+  }
+
+  override async verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+    const { verifySignatureCompact } = await this._secp256k1Instance
+    return verifySignatureCompact(toUint8Array(signature), this._publicKeyBytes, toUint8Array(msg))
   }
 }

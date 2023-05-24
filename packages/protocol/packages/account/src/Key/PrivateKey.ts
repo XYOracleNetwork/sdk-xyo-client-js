@@ -46,7 +46,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
     return toUint8Array(signature.r.toString('hex', 64) + signature.s.toString('hex', 64))
   }
 
-  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean> {
     return this.public.address.verify(msg, signature)
   }
 }

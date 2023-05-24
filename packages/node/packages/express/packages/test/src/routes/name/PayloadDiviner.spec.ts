@@ -49,7 +49,7 @@ describe(`/${moduleName}`, () => {
         expect(response).toBeArray()
         expect(response.length).toBeGreaterThan(0)
       })
-      it.skip('divines Payloads by addresses', async () => {
+      it('divines Payloads by addresses', async () => {
         const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
         const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA, accountB], [payload]))[0])
         await archivist.insert([boundWitness.payload, payload.payload])

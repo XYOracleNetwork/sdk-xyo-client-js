@@ -87,15 +87,5 @@ describe('getQueryConfig', () => {
         expect(config).toMatchSnapshot()
       })
     })
-    describe.skip('when request cannot access archive', () => {
-      beforeAll(() => {
-        // canAccess = false
-      })
-      it('returns undefined', async () => {
-        const query = await new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
-        const config = await getQueryConfig(mod, req, query[0], query[1])
-        expect(config).toBeUndefined()
-      })
-    })
   })
 })

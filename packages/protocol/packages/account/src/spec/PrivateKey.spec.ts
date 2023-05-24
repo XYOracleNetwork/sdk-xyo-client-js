@@ -38,8 +38,8 @@ describe('PrivateKey', () => {
       const wasmSignature = await wasmPrivateKey.sign(data)
       expect(jsPrivateKey.verify(data, jsSignature)).toBeTrue()
       expect(jsPrivateKey.verify(data, wasmSignature)).toBeTrue()
-      expect(wasmPrivateKey._verify(data, jsSignature)).resolves.toBeTrue()
-      expect(wasmPrivateKey._verify(data, wasmSignature)).resolves.toBeTrue()
+      expect(wasmPrivateKey.verify(data, jsSignature)).resolves.toBeTrue()
+      expect(wasmPrivateKey.verify(data, wasmSignature)).resolves.toBeTrue()
     })
     // TODO: Negative verification testing
     test('wasm vs js (performance-serial)', async () => {
@@ -47,12 +47,12 @@ describe('PrivateKey', () => {
       const wasmSignature = await wasmPrivateKey.sign(data)
       const jsStart = Date.now()
       for (let x = 0; x < testIterations; x++) {
-        jsPrivateKey.verify(data, jsSignature)
+        await jsPrivateKey.verify(data, jsSignature)
       }
       const jsDuration = Date.now() - jsStart
       const wasmStart = Date.now()
       for (let x = 0; x < testIterations; x++) {
-        await wasmPrivateKey._verify(data, wasmSignature)
+        await wasmPrivateKey.verify(data, wasmSignature)
       }
       const wasmDuration = Date.now() - wasmStart
       logPerformanceResults(jsDuration, wasmDuration)

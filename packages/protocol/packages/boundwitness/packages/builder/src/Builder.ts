@@ -127,7 +127,8 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   protected async signatures(_hash: string) {
-    return await Promise.all(this._accounts.map(async (account) => Buffer.from(await account.sign(Buffer.from(_hash, 'hex'))).toString('hex')))
+    const hash = Buffer.from(_hash, 'hex')
+    return await Promise.all(this._accounts.map(async (account) => Buffer.from(await account.sign(hash)).toString('hex')))
   }
 
   private inlinePayloads() {

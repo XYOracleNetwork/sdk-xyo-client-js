@@ -41,6 +41,7 @@
     "keccak",
     "keypair",
     "libauth",
+    "malleate",
     "Merkle",
     "microether",
     "milliether",

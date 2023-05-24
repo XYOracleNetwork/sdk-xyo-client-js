@@ -98,30 +98,16 @@ describe('/:hash', () => {
       const accountB = Account.random()
       const accountC = Account.random()
       const accountD = Account.random()
-      let bwA: BoundWitness
-      let bwB: BoundWitness
-      let bwC: BoundWitness
-      let bwD: BoundWitness
-      let bwE: BoundWitness
-      let bwF: BoundWitness
-      let bwG: BoundWitness
-      let payloadsA: Payload[]
-      let payloadsB: Payload[]
-      let payloadsC: Payload[]
-      let payloadsD: Payload[]
-      let payloadsE: Payload[]
-      let payloadsF: Payload[]
-      let payloadsG: Payload[]
-      let payloads: Payload[]
+      const payloads: Payload[] = []
       beforeAll(async () => {
-        ;[bwA, payloadsA] = await getNewBoundWitness([accountA])
-        ;[bwB, payloadsB] = await getNewBoundWitness([accountB])
-        ;[bwC, payloadsC] = await getNewBoundWitness([accountC])
-        ;[bwD, payloadsD] = await getNewBoundWitness([accountD])
-        ;[bwE, payloadsE] = await getNewBoundWitness([accountC, accountD])
-        ;[bwF, payloadsF] = await getNewBoundWitness([accountC])
-        ;[bwG, payloadsG] = await getNewBoundWitness([accountD])
-        payloads = [...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG]
+        const [bwA, payloadsA] = await getNewBoundWitness([accountA])
+        const [bwB, payloadsB] = await getNewBoundWitness([accountB])
+        const [bwC, payloadsC] = await getNewBoundWitness([accountC])
+        const [bwD, payloadsD] = await getNewBoundWitness([accountD])
+        const [bwE, payloadsE] = await getNewBoundWitness([accountC, accountD])
+        const [bwF, payloadsF] = await getNewBoundWitness([accountC])
+        const [bwG, payloadsG] = await getNewBoundWitness([accountD])
+        payloads.push(...[...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG])
         const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
         const blockResponse = await insertBlock(boundWitnesses)
         expect(blockResponse.length).toBe(2)
@@ -130,9 +116,10 @@ describe('/:hash', () => {
       })
       describe('single address', () => {
         it.each([
-          [accountA, payloadsA[0]],
-          [accountB, payloadsB[0]],
-        ])('returns Payload signed by address', async (account, expected) => {
+          [accountA, () => payloads[0]],
+          [accountB, () => payloads[1]],
+        ])('returns Payload signed by address', async (account, getData) => {
+          const expected = getData()
           const pointerHash = await createPointer([[account.addressValue.hex]], [[expected.schema]])
           const result = await getHash(pointerHash)
           expect(result).toEqual(expected)
@@ -141,7 +128,7 @@ describe('/:hash', () => {
       describe('multiple address rules', () => {
         describe('combined serially', () => {
           it('returns Payload signed by both addresses', async () => {
-            const expected = payloadsE[0]
+            const expected = payloads[5]
             const pointerHash = await createPointer([[accountC.addressValue.hex], [accountD.addressValue.hex]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
@@ -149,7 +136,7 @@ describe('/:hash', () => {
         })
         describe('combined in parallel', () => {
           it('returns Payload signed by both address', async () => {
-            const expected = payloadsE[0]
+            const expected = payloads[5]
             const pointerHash = await createPointer([[accountC.addressValue.hex, accountD.addressValue.hex]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)

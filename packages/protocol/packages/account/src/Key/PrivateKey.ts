@@ -49,23 +49,6 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   verify(msg: Uint8Array | string, signature: Uint8Array | string) {
     return this.public.address.verify(msg, signature)
   }
-
-  /*
-  public signKeccakMessage(message: string) {
-    const prefixBuffer = Buffer.from(messagePrefix)
-    const messageLengthBuffer = Buffer.from([0x20])
-    const messageBuffer = Buffer.from(message)
-    const signingBuffer = keccak256(
-      Buffer.concat([
-        prefixBuffer,
-        messageLengthBuffer,
-        keccak256(Buffer.concat([messageBuffer, Buffer.from(toUint8Array(this.address))])),
-      ])
-    )
-    const signature = this._key.sign(signingBuffer)
-    return signature.toDER('hex').substring(2)
-  }
-  */
 }
 
 export class XyoPrivateKey extends PrivateKey {}

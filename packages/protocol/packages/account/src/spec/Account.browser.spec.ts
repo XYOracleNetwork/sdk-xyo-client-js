@@ -55,23 +55,23 @@ describe('XyoAccount', () => {
     expect(wallet.addressValue.hex).toEqual(testVectorAddress)
   })
 
-  test('Sign-fromPrivateKey', () => {
+  test('Sign-fromPrivateKey', async () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
-    const signature = wallet.sign('1234567890abcdef')
+    const signature = await wallet.sign('1234567890abcdef')
     const valid = wallet.verify('1234567890abcdef', signature)
     expect(valid).toBeTruthy()
   })
 
-  test('Sign-fromPhrase', () => {
+  test('Sign-fromPhrase', async () => {
     const wallet = Account.fromPhrase('test')
-    const signature = wallet.sign('1234567890abcdef')
+    const signature = await wallet.sign('1234567890abcdef')
     const valid = wallet.verify('1234567890abcdef', signature)
     expect(valid).toBeTruthy()
   })
 
-  test('Sign-testVectors', () => {
+  test('Sign-testVectors', async () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
-    const signature = Buffer.from(wallet.sign(toUint8Array(testVectorHash))).toString('hex')
+    const signature = Buffer.from(await wallet.sign(toUint8Array(testVectorHash))).toString('hex')
     const expectedSignature = testVectorSignature
 
     expect(signature).toEqual(expectedSignature)
@@ -87,9 +87,9 @@ describe('XyoAccount', () => {
     expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
   })
 
-  test('Sign-random-string', () => {
+  test('Sign-random-string', async () => {
     const wallet = Account.random()
-    const signature = wallet.sign('1234567890abcdef')
+    const signature = await wallet.sign('1234567890abcdef')
     const signaturePrime = toUint8Array(signature)
     expect(signature.length).toBe(signaturePrime.length)
     for (let i = 0; i < signature.length; i++) {

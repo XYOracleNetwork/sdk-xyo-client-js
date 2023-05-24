@@ -51,25 +51,25 @@ describe('XyoAccount', () => {
     expect(wallet.addressValue.hex).toEqual(testVectorAddress)
   })
 
-  test('Sign-fromPrivateKey', () => {
+  test('Sign-fromPrivateKey', async () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.public).toBeDefined()
     expect(wallet.addressValue.hex).toBeDefined()
-    const signature = wallet.sign('1234567890abcdef')
+    const signature = await wallet.sign('1234567890abcdef')
     const valid = wallet.verify('1234567890abcdef', signature)
     expect(valid).toBeTruthy()
   })
 
-  test('Sign-fromPhrase', () => {
+  test('Sign-fromPhrase', async () => {
     const wallet = Account.fromPhrase('test')
-    const signature = wallet.sign('1234567890abcdef')
+    const signature = await wallet.sign('1234567890abcdef')
     const valid = wallet.verify('1234567890abcdef', signature)
     expect(valid).toBeTruthy()
   })
 
-  test('Sign-testVectors', () => {
+  test('Sign-testVectors', async () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
-    const signature = Buffer.from(wallet.sign(toUint8Array(testVectorHash))).toString('hex')
+    const signature = Buffer.from(await wallet.sign(toUint8Array(testVectorHash))).toString('hex')
     const expectedSignature = testVectorSignature
 
     expect(signature).toEqual(expectedSignature)
@@ -85,9 +85,9 @@ describe('XyoAccount', () => {
     expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
   })
 
-  test('Sign-random-string', () => {
+  test('Sign-random-string', async () => {
     const wallet = Account.random()
-    const signature = wallet.sign('1234567890abcdef')
+    const signature = await wallet.sign('1234567890abcdef')
     const signaturePrime = toUint8Array(signature)
     expect(signature.length).toBe(signaturePrime.length)
     for (let i = 0; i < signature.length; i++) {
@@ -119,9 +119,9 @@ describe('XyoAccount', () => {
   })
   describe('previousHash', () => {
     const hash = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
-    it('returns last signed hash', () => {
+    it('returns last signed hash', async () => {
       const account = Account.random()
-      account.sign(hash)
+      await account.sign(hash)
       expect(account.previousHash?.hex).toEqual(account.previousHash?.hex)
     })
     it('returns undefined if no previous signings', () => {
@@ -129,9 +129,9 @@ describe('XyoAccount', () => {
       expect(account.previousHash).toBeUndefined()
       expect(account.previousHash?.hex).toBeUndefined()
     })
-    it('allows setting value via constructor', () => {
+    it('allows setting value via constructor', async () => {
       const accountA = Account.random()
-      accountA.sign(hash)
+      await accountA.sign(hash)
       const privateKey = accountA.private.hex
       const previousHash = accountA.previousHash?.hex
       const accountB = new Account({ privateKey, previousHash })

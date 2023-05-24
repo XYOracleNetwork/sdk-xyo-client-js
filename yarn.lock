@@ -2242,6 +2242,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bitauth/libauth@npm:^1.19.1":
+  version: 1.19.1
+  resolution: "@bitauth/libauth@npm:1.19.1"
+  checksum: d6f1ed0aaa36014529eb7e095a96644f8d06ec5f80f223b74d30414a19e2516a194d165d90fee09a96ed51d3bff6d80406b3ecaff194489579dbea4ae1c9f93c
+  languageName: node
+  linkType: hard
+
 "@colors/colors@npm:1.5.0":
   version: 1.5.0
   resolution: "@colors/colors@npm:1.5.0"
@@ -4820,6 +4827,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account"
   dependencies:
+    "@bitauth/libauth": ^1.19.1
     "@ethersproject/hdnode": ^5.7.0
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
@@ -7927,6 +7935,7 @@ __metadata:
     "@xylabs/assert": ^2.8.1
     "@xylabs/bignumber": ^2.8.1
     "@xylabs/delay": ^2.8.1
+    "@xylabs/jest-helpers": ^2.8.1
     "@xylabs/promise": ^2.8.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
@@ -7938,6 +7947,7 @@ __metadata:
     "@xyo-network/uniswap-typechain": ^2.1.6
     "@xyo-network/witness": "workspace:^"
     ethers: ^5.7.2
+    jest: ^29.5.0
     typescript: ^5.0.4
   peerDependencies:
     "@uniswap/sdk": ^3.0.3

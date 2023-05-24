@@ -6983,7 +6983,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/manifest@workspace:packages/manifest":
+"@xyo-network/manifest@^2.57.5, @xyo-network/manifest@workspace:packages/manifest":
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest@workspace:packages/manifest"
   dependencies:
@@ -7037,6 +7037,7 @@ __metadata:
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/config-payload-plugin": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/manifest": ^2.57.5
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"

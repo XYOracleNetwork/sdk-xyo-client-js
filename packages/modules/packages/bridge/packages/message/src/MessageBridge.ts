@@ -28,7 +28,7 @@ import { MessageBridgeConfig, MessageBridgeConfigSchema } from './MessageBridgeC
 export type MessageBridgeParams<TConfig extends AnyConfigSchema<MessageBridgeConfig> = AnyConfigSchema<MessageBridgeConfig>> = ModuleParams<
   TConfig,
   {
-    port?: MessagePort
+    channel?: MessageChannel
   }
 >
 
@@ -36,6 +36,7 @@ export interface MessageQueryData {
   address: string
   msgId?: string
   payloads?: Payload[]
+  port: MessagePort
   query: QueryBoundWitness
 }
 
@@ -71,8 +72,12 @@ export class MessageBridge<
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
 
-  get port(): MessagePort {
-    return assertEx(this.params.port, 'No port set')
+  get receivePort(): MessagePort {
+    return assertEx(this.params.channel?.port2, 'No channel set')
+  }
+
+  get sendPort(): MessagePort {
+    return assertEx(this.params.channel?.port1, 'No channel set')
   }
 
   connect(): Promisable<boolean> {
@@ -161,16 +166,20 @@ export class MessageBridge<
           address,
           msgId,
           payloads,
+          port: this.receivePort,
           query,
         }
 
-        this.port.addEventListener('message', (message) => {
+        const receiveFunc = (message: MessageEvent) => {
           if (message.data.msgId === msgId) {
+            this.receivePort.removeEventListener('message', receiveFunc)
             resolve((message.data as MessageResultData).result)
           }
-        })
+        }
 
-        this.port.postMessage(message)
+        this.receivePort.addEventListener('message', receiveFunc)
+
+        this.sendPort.postMessage(message)
       } catch (ex) {
         reject(ex)
       }

@@ -5,7 +5,7 @@ import { PrivateKeyStatic } from '@xyo-network/key-model'
 
 import { PrivateKey } from './PrivateKey'
 
-// @staticImplements<PrivateKeyStatic>()
+@staticImplements<PrivateKeyStatic>()
 export class WASMPrivateKey extends PrivateKey {
   private _privateKeyBytes: Uint8Array
 

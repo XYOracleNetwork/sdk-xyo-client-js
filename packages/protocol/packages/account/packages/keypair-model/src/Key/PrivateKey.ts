@@ -6,7 +6,7 @@ import { XyoPublicKeyModel } from './PublicKey'
 export interface PrivateKeyInstance extends EllipticKeyInstance {
   get public(): XyoPublicKeyModel
   sign(hash: DataLike): Uint8Array | Promise<Uint8Array>
-  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
+  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean>
 }
 
 export interface PrivateKeyStatic {

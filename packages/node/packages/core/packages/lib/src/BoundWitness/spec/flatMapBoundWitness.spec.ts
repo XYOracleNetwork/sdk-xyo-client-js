@@ -1,18 +1,24 @@
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
-import { flatMapBoundWitness } from '../flatMapBoundWitness'
+import { BoundWitnessMapResult, flatMapBoundWitness } from '../flatMapBoundWitness'
 
 const config: BoundWitnessBuilderConfig = { inlinePayloads: true }
 
 describe('flatMapBoundWitness', () => {
+  const payload1: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
+  const payload2: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
   describe('BoundWitness with Payloads & nested BoundWitnesses', () => {
-    const payload1: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
-    const payload2: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
-    const inner = new BoundWitnessBuilder(config).payload(payload2).build()
-    const outer = new BoundWitnessBuilder(config).payloads([payload1, inner[0]]).build()
-    const result = flatMapBoundWitness(outer[0])
+    let inner: [BoundWitness, Payload[]]
+    let outer: [BoundWitness, Payload[]]
+    let result: BoundWitnessMapResult
+    beforeAll(async () => {
+      inner = await new BoundWitnessBuilder(config).payload(payload2).build()
+      outer = await new BoundWitnessBuilder(config).payloads([payload1, inner[0]]).build()
+      result = flatMapBoundWitness(outer[0])
+    })
     it('extracts the BoundWitnesses', () => {
       expect(result).toBeArray()
       expect(result[0]).toBeArray()
@@ -26,10 +32,12 @@ describe('flatMapBoundWitness', () => {
     })
   })
   describe('BoundWitness with Payloads', () => {
-    const payload1: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
-    const payload2: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
-    const outer = new BoundWitnessBuilder(config).payloads([payload1, payload2]).build()
-    const result = flatMapBoundWitness(outer[0])
+    let outer: [BoundWitness, Payload[]]
+    let result: BoundWitnessMapResult
+    beforeAll(async () => {
+      outer = await new BoundWitnessBuilder(config).payloads([payload1, payload2]).build()
+      result = flatMapBoundWitness(outer[0])
+    })
     it('extracts the BoundWitnesses', () => {
       expect(result).toBeArray()
       expect(result[0]).toBeArray()
@@ -43,8 +51,12 @@ describe('flatMapBoundWitness', () => {
     })
   })
   describe('BoundWitness without Payloads', () => {
-    const outer = new BoundWitnessBuilder(config).build()
-    const result = flatMapBoundWitness(outer[0])
+    let outer: [BoundWitness, Payload[]]
+    let result: BoundWitnessMapResult
+    beforeAll(async () => {
+      outer = await new BoundWitnessBuilder(config).build()
+      result = flatMapBoundWitness(outer[0])
+    })
     it('extracts the BoundWitnesses', () => {
       expect(result).toBeArray()
       expect(result[0]).toBeArray()

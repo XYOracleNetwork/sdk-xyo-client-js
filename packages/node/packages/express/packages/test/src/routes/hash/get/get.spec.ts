@@ -1,26 +1,30 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases } from 'http-status-codes'
 
-import { getHash, getNewBlocksWithPayloads, getNewBlockWithPayloads, insertBlock, insertPayload } from '../../../testUtil'
+import { getHash, getNewBlocksWithPayloads, insertBlock, insertPayload } from '../../../testUtil'
 
 describe('/:hash', () => {
   const account = Account.random()
   describe('return format is', () => {
-    const block = getNewBlocksWithPayloads(2, 2)
-    expect(block).toBeTruthy()
-    const boundWitness = block[0]
-    expect(boundWitness).toBeTruthy()
-    const boundWitnessHash = new PayloadWrapper(boundWitness).hash
-    expect(boundWitnessHash).toBeTruthy()
-    const payload = boundWitness?._payloads?.[0]
-    expect(payload).toBeTruthy()
-    const payloadHash = boundWitness?.payload_hashes?.[0]
-    expect(payloadHash).toBeTruthy()
+    let boundWitness: BoundWitnessWithPartialMeta
+    let payload: Payload
+    let boundWitnessHash: string
+    let payloadHash: string
     beforeAll(async () => {
+      const block = await getNewBlocksWithPayloads(2, 2)
+      expect(block).toBeTruthy()
+      boundWitness = block[0]
+      expect(boundWitness).toBeTruthy()
+      boundWitnessHash = new PayloadWrapper(boundWitness).hash
+      expect(boundWitnessHash).toBeTruthy()
+      payload = boundWitness?._payloads?.[0] as Payload
+      expect(payload).toBeTruthy()
+      payloadHash = boundWitness?.payload_hashes?.[0]
+      expect(payloadHash).toBeTruthy()
       const blockResponse = await insertBlock(block, account)
       expect(blockResponse.length).toBe(2)
       const payloadResponse = await insertPayload(payload, account)
@@ -42,71 +46,6 @@ describe('/:hash', () => {
       expect(Array.isArray(response)).toBe(false)
       const actual = response as Payload
       expect(actual.schema).toEqual(payload?.schema)
-    })
-  })
-  describe('with public archive', () => {
-    const boundWitness = getNewBlockWithPayloads(1)
-    expect(boundWitness).toBeTruthy()
-    const boundWitnessHash = BoundWitnessWrapper.parse(boundWitness).hash
-    expect(boundWitnessHash).toBeTruthy()
-    const payload = boundWitness._payloads?.[0]
-    expect(payload).toBeTruthy()
-    const payloadHash = boundWitness.payload_hashes?.[0]
-    expect(payloadHash).toBeTruthy()
-    beforeAll(async () => {
-      const blockResponse = await insertBlock(boundWitness, account)
-      expect(blockResponse.length).toBe(2)
-    })
-    describe.each([
-      ['bound witness', boundWitnessHash],
-      ['payload', payloadHash],
-    ])('with %s hash', (hashKind, hash) => {
-      it(`with anonymous user returns the ${hashKind}`, async () => {
-        await getHash(hash)
-      })
-      it(`with non-archive owner returns the ${hashKind}`, async () => {
-        await getHash(hash)
-      })
-      it(`with archive owner returns the ${hashKind}`, async () => {
-        const result = await getHash(hash)
-        expect(result).toBeTruthy()
-      })
-    })
-  })
-  describe('with private archive', () => {
-    const boundWitness = getNewBlockWithPayloads(1)
-    expect(boundWitness).toBeTruthy()
-    const boundWitnessHash = BoundWitnessWrapper.parse(boundWitness).hash
-    expect(boundWitnessHash).toBeTruthy()
-    const payload = boundWitness._payloads?.[0]
-    expect(payload).toBeTruthy()
-    const payloadHash = boundWitness.payload_hashes?.[0]
-    expect(payloadHash).toBeTruthy()
-    beforeAll(async () => {
-      const blockResponse = await insertBlock(boundWitness, account)
-      expect(blockResponse.length).toBe(2)
-    })
-    describe.each([
-      ['bound witness', boundWitnessHash],
-      ['payload', payloadHash],
-    ])('with %s hash', (hashKind, hash) => {
-      beforeAll(() => {
-        jest.spyOn(console, 'error').mockImplementation(() => {
-          // Stop expected errors from being logged
-        })
-      })
-      describe(`returns ${ReasonPhrases.OK}`, () => {
-        it('with anonymous user', async () => {
-          await getHash(hash)
-        })
-        it('with non-archive owner', async () => {
-          await getHash(hash)
-        })
-      })
-      it(`with archive owner returns the ${hashKind}`, async () => {
-        const result = await getHash(hash)
-        expect(result).toBeTruthy()
-      })
     })
   })
   describe('with nonexistent hash', () => {

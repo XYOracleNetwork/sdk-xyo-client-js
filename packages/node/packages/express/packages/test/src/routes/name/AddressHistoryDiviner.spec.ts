@@ -27,11 +27,13 @@ describe(`/${divinerName}`, () => {
   describe('XyoDivinerDivineQuerySchema', () => {
     const limit = 10
     const account = Account.random()
-    const data = getNewBoundWitnesses([account], limit, 1)
+    let dataHashes: string[]
     beforeAll(async () => {
+      const data = await getNewBoundWitnesses([account], limit, 1)
       for (const [bw, payloads] of data) {
         await archivist.insert([bw, ...payloads])
       }
+      dataHashes = data.map((d) => PayloadWrapper.hash(d[0]))
     })
     it('issues query', async () => {
       const address = account.addressValue.hex
@@ -39,7 +41,6 @@ describe(`/${divinerName}`, () => {
       const response = await sut.divine([query])
       expect(response).toBeArrayOfSize(limit)
       const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-      const dataHashes = data.map((d) => PayloadWrapper.hash(d[0]))
       expect(responseHashes).toIncludeAllMembers(dataHashes)
     })
   })

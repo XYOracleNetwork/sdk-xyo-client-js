@@ -9,7 +9,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { canAddMongoModules } from '../../../canAddMongoModules'
@@ -26,24 +26,9 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
   const moduleAccount: Account = new Account({ privateKey: '9c9637dc07ce9956190c028677f5195a8fb425e9927bf2e48fe39a1c55cf050a' })
   // 0xace
   const randomAccount: Account = new Account({ privateKey: '3c17e038c8daeed7dfab9b9653321523d5f1a68eadfc5e4bd501075a5e43bbcc' })
-  const payload1 = { nonce: 1, schema: 'network.xyo.debug' }
-  const payload2 = { nonce: 2, schema: 'network.xyo.test' }
-  const payload3 = { nonce: 3, schema: 'network.xyo.debug' }
-  const payload4 = { nonce: 4, schema: 'network.xyo.test' }
-  const payloadWrapper1 = PayloadWrapper.parse(payload1)
-  const payloadWrapper2 = PayloadWrapper.parse(payload2)
-  const payloadWrapper3 = PayloadWrapper.parse(payload3)
-  const payloadWrapper4 = PayloadWrapper.parse(payload4)
-  const boundWitness1 = new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(userAccount).build()[0]
-  const boundWitness2 = new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(userAccount).build()[0]
-  const boundWitness3 = new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()[0]
-  const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1)
-  boundWitnessWrapper1.payloads = [payload1]
-  const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2)
-  boundWitnessWrapper2.payloads = [payload2]
-  const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3)
-  boundWitnessWrapper3.payloads = [payload3, payload4]
 
+  const payloadWrappers: PayloadWrapper[] = []
+  const boundWitnessWrappers: BoundWitnessWrapper[] = []
   let archivist: ArchivistWrapper
   let insertResult1: BoundWitness[]
   // let insertResult2: BoundWitness[]
@@ -62,6 +47,27 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       payloadSdk: payloads,
     })
     archivist = ArchivistWrapper.wrap(module, archiveAccount)
+    const payload1 = { nonce: 1, schema: 'network.xyo.debug' }
+    const payload2 = { nonce: 2, schema: 'network.xyo.test' }
+    const payload3 = { nonce: 3, schema: 'network.xyo.debug' }
+    const payload4 = { nonce: 4, schema: 'network.xyo.test' }
+    const payloadWrapper1 = PayloadWrapper.parse(payload1)
+    const payloadWrapper2 = PayloadWrapper.parse(payload2)
+    const payloadWrapper3 = PayloadWrapper.parse(payload3)
+    const payloadWrapper4 = PayloadWrapper.parse(payload4)
+    payloadWrappers.push(payloadWrapper1, payloadWrapper2, payloadWrapper3, payloadWrapper4)
+    const boundWitness1 = (await new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(userAccount).build())[0]
+    const boundWitness2 = (await new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(userAccount).build())[0]
+    const boundWitness3 = (
+      await new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()
+    )[0]
+    const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1)
+    const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2)
+    const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3)
+    boundWitnessWrapper1.payloads = [payload1]
+    boundWitnessWrapper2.payloads = [payload2]
+    boundWitnessWrapper3.payloads = [payload3, payload4]
+    boundWitnessWrappers.push(boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3)
     const insertions = [
       // TODO: Try simple cases of [payload, BW, mixed BW & Payload]
       [boundWitness1, payload1],
@@ -92,8 +98,9 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       const [boundResult, transactionResults] = insertResult1
       expect(boundResult.addresses).toContain(archivist.address)
       expect(transactionResults.addresses).toContain(moduleAccount.public.address.hex)
-      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper1.payloadsArray.length + 3)
-      boundWitnessWrapper1.payloadsArray.forEach((p) => {
+      const boundWitnessWrapper = boundWitnessWrappers[0]
+      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloadsArray.length + 3)
+      boundWitnessWrapper.payloadsArray.forEach((p) => {
         expect(transactionResults.payload_hashes).toInclude(p.hash)
       })
       expect(insertResult1.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
@@ -104,20 +111,24 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       const [boundResult, transactionResults] = insertResult3
       expect(boundResult.addresses).toContain(archivist.address)
       expect(transactionResults.addresses).toContain(moduleAccount.public.address.hex)
-      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper3.payloadsArray.length + 3)
-      boundWitnessWrapper3.payloadsArray.forEach((p) => {
+      const boundWitnessWrapper = boundWitnessWrappers[2]
+      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloadsArray.length + 3)
+      boundWitnessWrapper.payloadsArray.forEach((p) => {
         expect(transactionResults.payload_hashes).toInclude(p.hash)
       })
       expect(insertResult3.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
     })
   })
   describe('get', () => {
-    it.each([
-      ['gets single payload', [payloadWrapper1]],
-      ['gets multiple payloads', [payloadWrapper1, payloadWrapper2, payloadWrapper3]],
-      ['gets single boundwitness', [boundWitnessWrapper1]],
-      ['gets multiple boundwitness', [boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3]],
-    ])('%s', async (_title, payloads) => {
+    type TestDataGetter<T> = () => T
+    const cases: [string, TestDataGetter<PayloadWrapperBase[]>][] = [
+      ['gets single payload', () => [payloadWrappers[0]]],
+      ['gets multiple payloads', () => [payloadWrappers[0], payloadWrappers[1], payloadWrappers[2]]],
+      ['gets single boundwitness', () => [boundWitnessWrappers[0]]],
+      ['gets multiple boundwitness', () => [boundWitnessWrappers[0], boundWitnessWrappers[1], boundWitnessWrappers[2]]],
+    ]
+    it.each(cases)('%s', async (_title, getData) => {
+      const payloads = getData()
       const results = await archivist.get(payloads.map((p) => p.hash))
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(payloads.length)

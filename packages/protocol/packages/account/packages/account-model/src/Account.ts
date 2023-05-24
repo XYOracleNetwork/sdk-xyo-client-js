@@ -24,7 +24,7 @@ export type AccountConfig = InitializationConfig & AccountOptions
 export interface AccountInstance extends KeyPairInstance {
   get addressValue(): AddressValueInstance
   get previousHash(): XyoData | undefined
-  sign(hash: Uint8Array | string): Uint8Array
+  sign(hash: Uint8Array | string): Uint8Array | Promise<Uint8Array>
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
 }
 

@@ -8,9 +8,9 @@ import { XyoPublicKey } from './PublicKey'
 
 @staticImplements<PrivateKeyStatic>()
 export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
-  private _isXyoPrivateKey = true
-  private _keyPair: EC.ec.KeyPair
-  private _public?: XyoPublicKey
+  protected _isXyoPrivateKey = true
+  protected _keyPair: EC.ec.KeyPair
+  protected _public?: XyoPublicKey
 
   constructor(value?: DataLike) {
     super(32)
@@ -40,7 +40,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
     return (value as XyoPrivateKey)._isXyoPrivateKey
   }
 
-  sign(hash: DataLike) {
+  sign(hash: DataLike): Uint8Array | Promise<Uint8Array> {
     const arrayHash = toUint8Array(hash)
     const signature = this._keyPair.sign(arrayHash)
     return toUint8Array(signature.r.toString('hex', 64) + signature.s.toString('hex', 64))

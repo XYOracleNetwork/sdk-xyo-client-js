@@ -12,6 +12,3 @@ export interface PublicKeyStatic {
   new (bytes: DataLike): PublicKeyInstance
   isXyoPublicKey(value: unknown): boolean
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface XyoPublicKeyModel extends PublicKeyInstance {}

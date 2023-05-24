@@ -25,7 +25,6 @@
   "devDependencies": {
     "@types/lodash": "^4.14.194",
     "@types/sha.js": "^2.4.0",
-    "@types/sha256-wasm": "^2.2.0",
     "@types/uuid": "^9.0.1",
     "@xylabs/ts-scripts-yarn3": "^2.17.13",
     "@xylabs/tsconfig": "^2.17.13",

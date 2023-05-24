@@ -4041,15 +4041,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sha256-wasm@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@types/sha256-wasm@npm:2.2.0"
-  dependencies:
-    "@types/node": "*"
-  checksum: 175760c6aefa012f7c66a6bdae96041e8a62140d0af8e05b1cc40af42e2d422f85b83ce6a5f52864b9d16c4e6d208549726e3c2e8c215ce75d22d9f7b92882fc
-  languageName: node
-  linkType: hard
-
 "@types/source-map-support@npm:0.5.6":
   version: 0.5.6
   resolution: "@types/source-map-support@npm:0.5.6"
@@ -5339,7 +5330,6 @@ __metadata:
     "@scure/base": ^1.1.1
     "@types/lodash": ^4.14.194
     "@types/sha.js": ^2.4.0
-    "@types/sha256-wasm": ^2.2.0
     "@types/uuid": ^9.0.1
     "@xylabs/assert": ^2.8.1
     "@xylabs/bignumber": ^2.8.1

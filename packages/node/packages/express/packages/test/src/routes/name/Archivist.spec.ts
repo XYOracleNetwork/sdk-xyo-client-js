@@ -6,43 +6,41 @@ import { getArchivist, getNewBoundWitness, getNewPayload, nonExistentHash, unitT
 
 const moduleName = 'Archivist'
 
-describe.skip(`/${moduleName}`, () => {
+describe(`/${moduleName}`, () => {
   const account = unitTestSigningAccount
-  const payloadA = PayloadWrapper.parse(getNewPayload())
-  const payloadB = PayloadWrapper.parse(getNewPayload())
-  const payloadC = PayloadWrapper.parse(getNewPayload())
-  const payloadD = PayloadWrapper.parse(getNewPayload())
-  const payloadE = PayloadWrapper.parse(getNewPayload())
-  let boundWitnessA: BoundWitnessWrapper
-  let boundWitnessB: BoundWitnessWrapper
-  let boundWitnessC: BoundWitnessWrapper
-  let boundWitnessD: BoundWitnessWrapper
-  let boundWitnessE: BoundWitnessWrapper
+
+  const boundWitnessWrappers: BoundWitnessWrapper[] = []
+  const payloadWrappers: PayloadWrapper[] = []
   let archivist: ArchivistWrapper
-  let cases: [string, PayloadWrapperBase[]][] = []
+  const cases: [string, PayloadWrapperBase[]][] = [
+    ['Payload', []],
+    ['BoundWitness', []],
+    ['Payloads', []],
+    ['BoundWitnesses', []],
+    ['Payloads & BoundWitnesses', []],
+  ]
   beforeAll(async () => {
     archivist = await getArchivist()
-    boundWitnessA = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadA.payload]))[0])
-    boundWitnessB = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadB.payload]))[0])
-    boundWitnessC = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadC.payload]))[0])
-    boundWitnessD = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadD.payload]))[0])
-    boundWitnessE = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadE.payload]))[0])
-    const bws = [
-      boundWitnessA.boundwitness,
-      boundWitnessB.boundwitness,
-      boundWitnessC.boundwitness,
-      boundWitnessD.boundwitness,
-      boundWitnessE.boundwitness,
-    ]
-    const payloads = [payloadA.payload, payloadB.payload, payloadC.payload, payloadD.payload, payloadE.payload]
-    await archivist.insert([...bws, ...payloads])
-    cases = [
-      ['Payload', [payloadA]],
-      ['BoundWitness', [boundWitnessA]],
-      ['Payloads', [payloadB, payloadC]],
-      ['BoundWitnesses', [boundWitnessB, boundWitnessC]],
-      ['Payloads & BoundWitnesses', [boundWitnessD, payloadD, boundWitnessE, payloadE]],
-    ]
+    const payloadWrapperA = PayloadWrapper.parse(getNewPayload())
+    const payloadWrapperB = PayloadWrapper.parse(getNewPayload())
+    const payloadWrapperC = PayloadWrapper.parse(getNewPayload())
+    const payloadWrapperD = PayloadWrapper.parse(getNewPayload())
+    const payloadWrapperE = PayloadWrapper.parse(getNewPayload())
+    payloadWrappers.push(payloadWrapperA, payloadWrapperB, payloadWrapperC, payloadWrapperD, payloadWrapperE)
+    const boundWitnessWrapperA = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperA.payload]))[0])
+    const boundWitnessWrapperB = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperB.payload]))[0])
+    const boundWitnessWrapperC = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperC.payload]))[0])
+    const boundWitnessWrapperD = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperD.payload]))[0])
+    const boundWitnessWrapperE = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperE.payload]))[0])
+    boundWitnessWrappers.push(boundWitnessWrapperA, boundWitnessWrapperB, boundWitnessWrapperC, boundWitnessWrapperD, boundWitnessWrapperE)
+    const boundWitnesses = boundWitnessWrappers.map((bw) => bw.boundwitness)
+    const payloads = payloadWrappers.map((p) => p.payload)
+    await archivist.insert([...boundWitnesses, ...payloads])
+    cases[0][1].push(payloadWrapperA)
+    cases[1][1].push(boundWitnessWrapperA)
+    cases[2][1].push(payloadWrapperB, payloadWrapperC)
+    cases[3][1].push(boundWitnessWrapperB, boundWitnessWrapperC)
+    cases[4][1].push(boundWitnessWrapperD, payloadWrapperD, boundWitnessWrapperE, payloadWrapperE)
   })
   describe('ModuleDiscoverQuerySchema', () => {
     it('discovers', async () => {

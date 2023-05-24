@@ -15,13 +15,13 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   constructor(value?: DataLike) {
     super(32)
     if (value) {
-      this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate(toUint8Array(value), 'array')
+      this._keyPair = PrivateKey.ecContext.keyFromPrivate(toUint8Array(value), 'array')
     } else {
       try {
-        this._keyPair = XyoPrivateKey.ecContext.genKeyPair()
+        this._keyPair = PrivateKey.ecContext.genKeyPair()
       } catch {
         //this catch is for the few browsers that do not have crypto random
-        this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999999999999).toString())
+        this._keyPair = PrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999999999999).toString())
         console.warn('XyoAccount created without browser crypto')
       }
     }
@@ -37,7 +37,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   }
 
   static isXyoPrivateKey(value: unknown) {
-    return (value as XyoPrivateKey)._isXyoPrivateKey
+    return (value as PrivateKey)._isXyoPrivateKey
   }
 
   sign(hash: DataLike): Uint8Array | Promise<Uint8Array> {
@@ -50,5 +50,3 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
     return this.public.address.verify(msg, signature)
   }
 }
-
-export class XyoPrivateKey extends PrivateKey {}

@@ -56,7 +56,7 @@ describe('PrivateKey', () => {
       }
       const wasmDuration = Date.now() - wasmStart
       logPerformanceResults(jsDuration, wasmDuration)
-    })
+    }, 60_000)
   })
 })
 

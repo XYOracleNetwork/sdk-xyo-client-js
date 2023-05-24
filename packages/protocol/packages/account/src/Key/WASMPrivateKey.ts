@@ -26,6 +26,7 @@ export class WASMPrivateKey extends PrivateKey {
     return this._privateKeyBytes
   }
 
+  // TODO: Remove underscore and add override once we update interface to be async
   async _verify(msg: Uint8Array | string, signature: Uint8Array | string) {
     const { verifySignatureCompact } = await this._secp256k1Instance
     return verifySignatureCompact(toUint8Array(signature), this._publicKeyBytes, toUint8Array(msg))

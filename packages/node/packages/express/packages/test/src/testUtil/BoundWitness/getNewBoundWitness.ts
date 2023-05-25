@@ -15,10 +15,14 @@ export const getNewBoundWitness = (
   return new BoundWitnessBuilder(config).payloads(payloads).witnesses(signers).build()
 }
 
-export const getNewBoundWitnesses = (
+export const getNewBoundWitnesses = async (
   signers: AccountInstance[] = [unitTestSigningAccount],
   numBoundWitnesses = 1,
   numPayloads = 1,
 ): Promise<[BoundWitness, Payload[]][]> => {
-  return Promise.all(new Array(numBoundWitnesses).fill(0).map(() => getNewBoundWitness(signers, getNewPayloads(numPayloads))))
+  const response: [BoundWitness, Payload[]][] = []
+  for (let i = 0; i < numBoundWitnesses; i++) {
+    response.push(await getNewBoundWitness(signers, getNewPayloads(numPayloads)))
+  }
+  return response
 }

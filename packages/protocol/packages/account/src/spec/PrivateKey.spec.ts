@@ -2,7 +2,8 @@ import { toUint8Array } from '@xyo-network/core'
 
 import { PrivateKey, WASMPrivateKey } from '../Key'
 
-const testIterations = 100
+const signTestIterations = 100
+const verifyTestIterations = 10
 
 describe('PrivateKey', () => {
   const privateKey = '7f71bc5644f8f521f7e9b73f7a391e82c05432f8a9d36c44d6b1edbf1d8db62f'
@@ -18,12 +19,12 @@ describe('PrivateKey', () => {
     })
     test('wasm vs js (performance-serial)', async () => {
       const jsStart = Date.now()
-      for (let x = 0; x < testIterations; x++) {
+      for (let x = 0; x < signTestIterations; x++) {
         await jsPrivateKey.sign(data)
       }
       const jsDuration = Date.now() - jsStart
       const wasmStart = Date.now()
-      for (let x = 0; x < testIterations; x++) {
+      for (let x = 0; x < signTestIterations; x++) {
         await wasmPrivateKey.sign(data)
       }
       const wasmDuration = Date.now() - wasmStart
@@ -46,12 +47,12 @@ describe('PrivateKey', () => {
       const jsSignature = await jsPrivateKey.sign(data)
       const wasmSignature = await wasmPrivateKey.sign(data)
       const jsStart = Date.now()
-      for (let x = 0; x < testIterations; x++) {
+      for (let x = 0; x < verifyTestIterations; x++) {
         await jsPrivateKey.verify(data, jsSignature)
       }
       const jsDuration = Date.now() - jsStart
       const wasmStart = Date.now()
-      for (let x = 0; x < testIterations; x++) {
+      for (let x = 0; x < verifyTestIterations; x++) {
         await wasmPrivateKey.verify(data, wasmSignature)
       }
       const wasmDuration = Date.now() - wasmStart

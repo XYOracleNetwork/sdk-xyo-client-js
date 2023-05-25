@@ -4,13 +4,13 @@ import { PrivateKeyInstance, PrivateKeyStatic } from '@xyo-network/key-model'
 import EC from 'elliptic'
 
 import { EllipticKey } from './EllipticKey'
-import { XyoPublicKey } from './PublicKey'
+import { PublicKey } from './PublicKey'
 
 @staticImplements<PrivateKeyStatic>()
 export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   protected _isXyoPrivateKey = true
   protected _keyPair: EC.ec.KeyPair
-  protected _public?: XyoPublicKey
+  protected _public?: PublicKey
 
   constructor(value?: DataLike) {
     super(32)
@@ -32,7 +32,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   }
 
   get public() {
-    this._public = this._public ?? new XyoPublicKey(this._keyPair.getPublic('hex').slice(2))
+    if (!this._public) this._public = new PublicKey(this._keyPair.getPublic('hex').slice(2))
     return this._public
   }
 

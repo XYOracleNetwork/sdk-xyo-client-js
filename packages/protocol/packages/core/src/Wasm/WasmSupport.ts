@@ -45,7 +45,7 @@ export class WasmSupport {
   private _isInitialized = false
   private _isWasmFeatureSetSupported = false
 
-  protected constructor(protected desiredFeatures: WasmFeature[]) {}
+  constructor(protected desiredFeatures: WasmFeature[]) {}
 
   /**
    * Is Wasm allowed
@@ -65,7 +65,14 @@ export class WasmSupport {
    * feature set, initialization state, or force-use settings
    */
   get canUseWasm(): boolean {
-    return this._forceWasm || (this._allowWasm && (this._isInitialized || this._isWasmFeatureSetSupported))
+    return (
+      // Just force WASM
+      this._forceWasm ||
+      // Or if we haven't checked be optimistic
+      (this._allowWasm && !this._isInitialized) ||
+      // Or if we have checked and WASM is not supported, be realistic
+      (this._allowWasm && this._isInitialized && this._isWasmFeatureSetSupported)
+    )
   }
 
   get featureSupport(): Readonly<Partial<Record<WasmFeature, boolean>>> {

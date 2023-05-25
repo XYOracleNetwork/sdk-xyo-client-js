@@ -23,7 +23,7 @@ exports[`DeterministicArchivist get gets multiple boundwitness 1`] = `
   },
   {
     "_signatures": [
-      "1810b9f9c6623adf38d0093ea6f3c2125570ed1ee757dbe9e9221b4ffb3920ecf4eee8a0200381f4011a27bb061bc3809491b0e9dd962c87532801da95e9c7b4",
+      "1810b9f9c6623adf38d0093ea6f3c2125570ed1ee757dbe9e9221b4ffb3920ec0b11175fdffc7e0bfee5d844f9e43c7e261d2bfcd1b273b46caa5cb23a4c798d",
     ],
     "addresses": [
       "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
@@ -119,7 +119,7 @@ exports[`DeterministicArchivist insert inserts multiple payloads 1`] = `
   {
     "_signatures": [
       "f96585b002a44de673000dac2db724da31f1ff95b300495e5b22b1d3c94871a12c8df1681d5feccf7ca914cd9180592f8c1be113fbb4d51998942fad4a60555b",
-      "ead2a867b47de7367eb338edc69bbbc405f700de3dc14cd95a7a5690bb803670b947e7f69df776cc3cbc774389a3bdc9c9cf4d83c59cfabb4d435810ef6a7980",
+      "ead2a867b47de7367eb338edc69bbbc405f700de3dc14cd95a7a5690bb80367046b8180962088933c34388bc765c4234f0df8f62e9aba580728f067be0cbc7c1",
     ],
     "addresses": [
       "daddab0e0468c920bd5aff4b14fd94c20a598055",
@@ -173,7 +173,7 @@ exports[`DeterministicArchivist insert inserts single payload 1`] = `
   {
     "_signatures": [
       "6eee91bc03e08d49f2bc17c8247212172148fa614970e3358b5d682dc6492a1344d9e0adfa50538d620709f6a30ef9907f1906735899e351b195614ea207583b",
-      "4b7195c2ab88cb296369aec412e720e507cda35df8d34deb9b27c6734fae1795aac8cc10905e5b2f216b74c86b1c29077c9876cb2909092375a81138bfecfd85",
+      "4b7195c2ab88cb296369aec412e720e507cda35df8d34deb9b27c6734fae1795553733ef6fa1a4d0de948b3794e3d6f73e16661b863f97184a2a4d54104943bc",
     ],
     "addresses": [
       "daddab0e0468c920bd5aff4b14fd94c20a598055",

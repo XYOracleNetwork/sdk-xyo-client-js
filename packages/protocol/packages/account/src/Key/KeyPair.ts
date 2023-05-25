@@ -7,7 +7,7 @@ import { WASMPrivateKey } from './WASMPrivateKey'
 
 @staticImplements<KeyPairStatic>()
 export class KeyPair implements KeyPairInstance {
-  static allowWasm = false
+  static allowWasm = true
   static wasmSupported = true
 
   private _isXyoKeyPair = true

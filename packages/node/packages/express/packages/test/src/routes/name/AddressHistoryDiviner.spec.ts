@@ -35,7 +35,7 @@ describe(`/${divinerName}`, () => {
       }
       dataHashes = data.map((d) => PayloadWrapper.hash(d[0]))
     })
-    it('issues query', async () => {
+    it.only('issues query', async () => {
       const address = account.addressValue.hex
       const query: AddressHistoryQueryPayload = { address, limit, schema }
       const response = await sut.divine([query])

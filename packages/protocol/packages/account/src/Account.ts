@@ -31,9 +31,9 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
 
 @staticImplements<AccountStatic>()
 export class Account extends KeyPair implements AccountInstance {
+  protected _node: HDNode | undefined = undefined
+  protected _previousHash?: XyoData
   private _isXyoWallet = true
-  private _node: HDNode | undefined = undefined
-  private _previousHash?: XyoData
   private readonly _signingLock = new Lock()
 
   constructor(opts?: AccountConfig) {

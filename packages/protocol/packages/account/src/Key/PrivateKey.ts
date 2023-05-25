@@ -1,43 +1,45 @@
 import { staticImplements } from '@xylabs/static-implements'
 import { DataLike, toUint8Array } from '@xyo-network/core'
-import { PrivateKeyInstance, PrivateKeyStatic } from '@xyo-network/key-model'
+import { PrivateKeyInstance, PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'
 import EC from 'elliptic'
 
 import { EllipticKey } from './EllipticKey'
-import { XyoPublicKey } from './PublicKey'
+import { PublicKey } from './PublicKey'
 
 @staticImplements<PrivateKeyStatic>()
 export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   protected _isXyoPrivateKey = true
   protected _keyPair: EC.ec.KeyPair
-  protected _public?: XyoPublicKey
+  protected _privateKeyBytes: Uint8Array
+  protected _public?: PublicKeyInstance
 
   constructor(value?: DataLike) {
     super(32)
     if (value) {
-      this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate(toUint8Array(value), 'array')
+      this._keyPair = PrivateKey.ecContext.keyFromPrivate(toUint8Array(value), 'array')
     } else {
       try {
-        this._keyPair = XyoPrivateKey.ecContext.genKeyPair()
+        this._keyPair = PrivateKey.ecContext.genKeyPair()
       } catch {
         //this catch is for the few browsers that do not have crypto random
-        this._keyPair = XyoPrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999999999999).toString())
+        this._keyPair = PrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999999999999).toString())
         console.warn('XyoAccount created without browser crypto')
       }
     }
+    this._privateKeyBytes = toUint8Array(this._keyPair.getPrivate('hex'))
   }
 
   override get bytes() {
-    return toUint8Array(this._keyPair?.getPrivate('hex'))
+    return this._privateKeyBytes
   }
 
-  get public() {
-    this._public = this._public ?? new XyoPublicKey(this._keyPair.getPublic('hex').slice(2))
+  get public(): PublicKeyInstance {
+    if (!this._public) this._public = new PublicKey(this._keyPair.getPublic('hex').slice(2))
     return this._public
   }
 
   static isXyoPrivateKey(value: unknown) {
-    return (value as XyoPrivateKey)._isXyoPrivateKey
+    return (value as PrivateKey)._isXyoPrivateKey
   }
 
   sign(hash: DataLike): Uint8Array | Promise<Uint8Array> {
@@ -46,9 +48,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
     return toUint8Array(signature.r.toString('hex', 64) + signature.s.toString('hex', 64))
   }
 
-  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean> {
     return this.public.address.verify(msg, signature)
   }
 }
-
-export class XyoPrivateKey extends PrivateKey {}

@@ -7,22 +7,22 @@ import { EllipticKey } from './EllipticKey'
 
 @staticImplements<PublicKeyStatic>()
 export class PublicKey extends EllipticKey implements PublicKeyInstance {
+  private _address?: AddressValue
   private _isXyoPublicKey = true
   constructor(bytes: DataLike) {
     super(64, bytes)
   }
 
   get address() {
-    return new AddressValue(this.keccak256.slice(12).toString('hex').padStart(40, '0'))
+    if (!this._address) this._address = new AddressValue(this.keccak256.slice(12).toString('hex').padStart(40, '0'))
+    return this._address
   }
 
   static isXyoPublicKey(value: unknown) {
-    return (value as XyoPublicKey)._isXyoPublicKey
+    return (value as PublicKey)._isXyoPublicKey
   }
 
-  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean> {
     return this.address.verify(msg, signature)
   }
 }
-
-export class XyoPublicKey extends PublicKey {}

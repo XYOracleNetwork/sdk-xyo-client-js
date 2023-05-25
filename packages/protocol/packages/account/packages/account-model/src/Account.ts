@@ -25,7 +25,7 @@ export interface AccountInstance extends KeyPairInstance {
   get addressValue(): AddressValueInstance
   get previousHash(): XyoData | undefined
   sign(hash: Uint8Array | string): Uint8Array | Promise<Uint8Array>
-  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
+  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean>
 }
 
 export interface AccountStatic {

@@ -1,11 +1,11 @@
 import { DataLike } from '@xyo-network/core'
 
-import { XyoPrivateKeyModel } from './PrivateKey'
-import { XyoPublicKeyModel } from './PublicKey'
+import { PrivateKeyInstance } from './PrivateKey'
+import { PublicKeyInstance } from './PublicKey'
 
 export interface KeyPairInstance {
-  get private(): XyoPrivateKeyModel
-  get public(): XyoPublicKeyModel
+  get private(): PrivateKeyInstance
+  get public(): PublicKeyInstance
 }
 
 export interface KeyPairStatic {

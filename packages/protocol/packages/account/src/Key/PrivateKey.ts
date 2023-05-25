@@ -1,6 +1,6 @@
 import { staticImplements } from '@xylabs/static-implements'
 import { DataLike, toUint8Array } from '@xyo-network/core'
-import { PrivateKeyInstance, PrivateKeyStatic } from '@xyo-network/key-model'
+import { PrivateKeyInstance, PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'
 import EC from 'elliptic'
 
 import { EllipticKey } from './EllipticKey'
@@ -10,7 +10,8 @@ import { PublicKey } from './PublicKey'
 export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   protected _isXyoPrivateKey = true
   protected _keyPair: EC.ec.KeyPair
-  protected _public?: PublicKey
+  protected _privateKeyBytes: Uint8Array
+  protected _public?: PublicKeyInstance
 
   constructor(value?: DataLike) {
     super(32)
@@ -25,13 +26,14 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
         console.warn('XyoAccount created without browser crypto')
       }
     }
+    this._privateKeyBytes = toUint8Array(this._keyPair.getPrivate('hex'))
   }
 
   override get bytes() {
-    return toUint8Array(this._keyPair?.getPrivate('hex'))
+    return this._privateKeyBytes
   }
 
-  get public() {
+  get public(): PublicKeyInstance {
     if (!this._public) this._public = new PublicKey(this._keyPair.getPublic('hex').slice(2))
     return this._public
   }

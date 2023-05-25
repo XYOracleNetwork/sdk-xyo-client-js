@@ -15,13 +15,10 @@ describe('PrivateKey', () => {
 
     // These hashes are equivalent with malleation
     // 'fb5b56041517511af81784631220865c68e87496be45ae3c89e1098c4e161552',
-    // '20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c',
-    // '0f007b7de928e168afd3cd93feb1602325183e89875d1c3c00e3b54d3e91f066',
-    // 'd4e1e49d63ae106da5554c826a47e5073710eea3c457033f4a294ba3c9bdfa8e',
     // 'e2acaf9e7ee743da8be0ec70717ac1814f18f19aa1fda213185790bed5dd2074',
     // 'cb3c59cd01d32271512287200a63d69e7c49936ec4a6b9c1e12c34faf2e2909a',
   ]
-  const hash = 'fb5b56041517511af81784631220865c68e87496be45ae3c89e1098c4e161552'
+  const hash = hashes[0]
   const data = toUint8Array(hash)
   const jsPrivateKey = new PrivateKey(privateKey)
   const wasmPrivateKey = new WASMPrivateKey(privateKey)

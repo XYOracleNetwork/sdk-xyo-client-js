@@ -1,6 +1,6 @@
 import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
 import { staticImplements } from '@xylabs/static-implements'
-import { DataLike, toUint8Array } from '@xyo-network/core'
+import { DataLike, toUint8Array, WasmFeature } from '@xyo-network/core'
 import { PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'
 
 import { PrivateKey } from './PrivateKey'
@@ -8,6 +8,8 @@ import { WASMPublicKey } from './WASMPublicKey'
 
 @staticImplements<PrivateKeyStatic>()
 export class WASMPrivateKey extends PrivateKey {
+  static readonly wasmFeatures: WasmFeature[] = ['bigInt', 'mutableGlobals', 'referenceTypes', 'saturatedFloatToInt', 'signExtensions', 'simd']
+
   private _publicKeyBytes: Uint8Array
   private _secp256k1Instance: Promise<Secp256k1>
 

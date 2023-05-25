@@ -39,7 +39,7 @@ export class Account extends KeyPair implements AccountInstance {
     let node: HDNode | undefined = undefined
     if (opts) {
       if (nameOf<PhraseInitializationConfig>('phrase') in opts) {
-        privateKeyToUse = toUint8Array(shajs('sha256').update(opts.phrase).digest('hex').padStart(64, '0'))
+        privateKeyToUse = toUint8Array(getPrivateKeyFromPhrase(opts.phrase))
       } else if (nameOf<PrivateKeyInitializationConfig>('privateKey') in opts) {
         privateKeyToUse = toUint8Array(opts.privateKey)
       } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {

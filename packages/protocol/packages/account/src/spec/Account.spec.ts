@@ -56,14 +56,14 @@ describe('XyoAccount', () => {
     expect(wallet.public).toBeDefined()
     expect(wallet.addressValue.hex).toBeDefined()
     const signature = await wallet.sign(testVectorHash)
-    const valid = wallet.verify(testVectorHash, signature)
+    const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 
   test('Sign-fromPhrase', async () => {
     const wallet = Account.fromPhrase('test')
     const signature = await wallet.sign(testVectorHash)
-    const valid = wallet.verify(testVectorHash, signature)
+    const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 
@@ -74,7 +74,7 @@ describe('XyoAccount', () => {
 
     expect(signature).toEqual(expectedSignature)
     expect(signature.length).toEqual(128)
-    const valid = wallet.verify(testVectorHash, signature)
+    const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 
@@ -93,7 +93,7 @@ describe('XyoAccount', () => {
     for (let i = 0; i < signature.length; i++) {
       expect(signature[i]).toBe(signaturePrime[i])
     }
-    const valid = wallet.verify(testVectorHash, signature)
+    const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 

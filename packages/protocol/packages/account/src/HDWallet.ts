@@ -56,7 +56,7 @@ export class HDWallet extends HDAccount implements AccountInstance {
     return new HDWallet(node)
   }
 
-  static fromMnemonic(mnemonic: string) {
+  static override fromMnemonic(mnemonic: string) {
     const node = HDNode.fromMnemonic(mnemonic)
     return new HDWallet(node)
   }

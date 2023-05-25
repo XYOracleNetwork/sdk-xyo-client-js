@@ -10,6 +10,7 @@ import {
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
 import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
+import { Lock } from 'semaphore-async-await'
 import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
@@ -30,9 +31,10 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
 
 @staticImplements<AccountStatic>()
 export class Account extends KeyPair implements AccountInstance {
+  protected _node: HDNode | undefined = undefined
+  protected _previousHash?: XyoData
   private _isXyoWallet = true
-  private _node: HDNode | undefined = undefined
-  private _previousHash?: XyoData
+  private readonly _signingLock = new Lock()
 
   constructor(opts?: AccountConfig) {
     let privateKeyToUse: DataLike | undefined = undefined
@@ -88,8 +90,14 @@ export class Account extends KeyPair implements AccountInstance {
 
   async sign(hash: Uint8Array | string): Promise<Uint8Array> {
     await KeyPair.wasmInitialized
-    this._previousHash = new XyoData(32, hash)
-    return this.private.sign(hash)
+    await this._signingLock.acquire()
+    try {
+      const signature = this.private.sign(hash)
+      this._previousHash = new XyoData(32, hash)
+      return signature
+    } finally {
+      this._signingLock.release()
+    }
   }
 
   async verify(msg: Uint8Array | string, signature: Uint8Array | string): Promise<boolean> {

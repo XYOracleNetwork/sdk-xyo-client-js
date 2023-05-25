@@ -41,9 +41,9 @@ export type WasmFeature = keyof typeof WasmFeatureDetectors
 export class WasmSupport {
   private _allowWasm = true
   private _featureSupport: Partial<Record<WasmFeature, boolean>> = {}
-  private _forceWasm = true
+  private _forceWasm = false
   private _isInitialized = false
-  private _isWasmFeatureSetSupported = true
+  private _isWasmFeatureSetSupported = false
 
   protected constructor(protected desiredFeatures: WasmFeature[]) {}
 
@@ -60,8 +60,16 @@ export class WasmSupport {
     this._allowWasm = v
   }
 
-  get featureSupport(): Partial<Record<WasmFeature, boolean>> {
-    return this._featureSupport
+  /**
+   * Whether or not Wasm should be used based on the desired
+   * feature set, initialization state, or force-use settings
+   */
+  get canUseWasm(): boolean {
+    return this._forceWasm || (this._allowWasm && (this._isInitialized || this._isWasmFeatureSetSupported))
+  }
+
+  get featureSupport(): Readonly<Partial<Record<WasmFeature, boolean>>> {
+    return { ...this._featureSupport }
   }
 
   /**
@@ -106,18 +114,21 @@ export class WasmSupport {
 
   async initialize(): Promise<void> {
     if (this._isInitialized) return
+    await this.detectDesiredFeatures()
+    this._isInitialized = true
+    return
+  }
+
+  protected async detectDesiredFeatures(): Promise<void> {
     for (let feature = 0; feature < this.desiredFeatures.length; feature++) {
       const desiredFeature = this.desiredFeatures[feature]
       const detector = WasmFeatureDetectors[desiredFeature]
-      this._isWasmFeatureSetSupported = true
       if (!(await detector())) {
-        this._isWasmFeatureSetSupported = false
         this._featureSupport[desiredFeature] = false
       } else {
         this._featureSupport[desiredFeature] = true
       }
     }
-    this._isInitialized = true
-    return
+    this._isWasmFeatureSetSupported = Object.values(this._featureSupport).every((v) => v)
   }
 }

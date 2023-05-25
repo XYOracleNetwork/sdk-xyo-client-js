@@ -22,7 +22,7 @@ export class PublicKey extends EllipticKey implements PublicKeyInstance {
     return (value as PublicKey)._isXyoPublicKey
   }
 
-  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean> {
     return this.address.verify(msg, signature)
   }
 }

@@ -7,12 +7,27 @@ const verifyTestIterations = 10
 
 describe('PrivateKey', () => {
   const privateKey = '7f71bc5644f8f521f7e9b73f7a391e82c05432f8a9d36c44d6b1edbf1d8db62f'
+  const hashes = [
+    // These hashes are equivalent without malleation
+    'a8830c30b02d8b96e6737ae2d785b4474e603ff477f84f5fbf36b24ce01450d9',
+    '51477030d1afe852c37585d4604387ae67878a14c9db4408eba383fe4f70c937',
+    'a6e03a62583bb512739f9f1be158dde355406134d7b94fdc35de63d252021be3',
+
+    // These hashes are equivalent with malleation
+    // 'fb5b56041517511af81784631220865c68e87496be45ae3c89e1098c4e161552',
+    // '20e14207f952a09f767ff614a648546c037fe524ace0bfe55db31f818aff1f1c',
+    // '0f007b7de928e168afd3cd93feb1602325183e89875d1c3c00e3b54d3e91f066',
+    // 'd4e1e49d63ae106da5554c826a47e5073710eea3c457033f4a294ba3c9bdfa8e',
+    // 'e2acaf9e7ee743da8be0ec70717ac1814f18f19aa1fda213185790bed5dd2074',
+    // 'cb3c59cd01d32271512287200a63d69e7c49936ec4a6b9c1e12c34faf2e2909a',
+  ]
   const hash = 'fb5b56041517511af81784631220865c68e87496be45ae3c89e1098c4e161552'
   const data = toUint8Array(hash)
   const jsPrivateKey = new PrivateKey(privateKey)
   const wasmPrivateKey = new WASMPrivateKey(privateKey)
   describe('sign', () => {
-    it('Signatures are consistent', async () => {
+    it.each(hashes)('Signatures are consistent', async (hash) => {
+      const data = toUint8Array(hash)
       const jsSignature = await jsPrivateKey.sign(data)
       const wasmSignature = await wasmPrivateKey.sign(data)
       expect(jsSignature).toEqual(wasmSignature)
@@ -34,7 +49,8 @@ describe('PrivateKey', () => {
     })
   })
   describe('verify', () => {
-    it('Verification is consistent', async () => {
+    it.each(hashes)('Verification is consistent', async (hash) => {
+      const data = toUint8Array(hash)
       const jsSignature = await jsPrivateKey.sign(data)
       const wasmSignature = await wasmPrivateKey.sign(data)
       expect(jsPrivateKey.verify(data, jsSignature)).toBeTrue()

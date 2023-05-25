@@ -25,7 +25,8 @@ export class WASMPrivateKey extends PrivateKey {
 
   override async sign(hash: DataLike) {
     const { malleateSignatureCompact, signMessageHashCompact } = await this._secp256k1Instance
-    return malleateSignatureCompact(signMessageHashCompact(this.bytes, toUint8Array(hash)))
+    return signMessageHashCompact(this.bytes, toUint8Array(hash))
+    // return malleateSignatureCompact(signMessageHashCompact(this.bytes, toUint8Array(hash)))
   }
 
   override async verify(msg: Uint8Array | string, signature: Uint8Array | string) {

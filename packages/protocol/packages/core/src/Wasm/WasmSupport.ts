@@ -45,6 +45,14 @@ export class WasmSupport {
   private _isInitialized = false
   private _isWasmFeatureSetSupported = false
 
+  /**
+   * Instance constructor for use where async instantiation
+   * is not possible. Where possible, prefer the static
+   * create method over use of this constructor directly
+   * as no initialization (feature detection) is able to
+   * be done here
+   * @param desiredFeatures The desired feature set
+   */
   constructor(protected desiredFeatures: WasmFeature[]) {}
 
   /**
@@ -75,6 +83,10 @@ export class WasmSupport {
     )
   }
 
+  /**
+   * Returns a object containing a property for each desired wasm feature
+   * with a boolean value indicating whether or not the feature is supported
+   */
   get featureSupport(): Readonly<Partial<Record<WasmFeature, boolean>>> {
     return { ...this._featureSupport }
   }
@@ -108,17 +120,32 @@ export class WasmSupport {
     return this._isInitialized
   }
 
+  /**
+   * Static creation & async initialization for use where
+   * async instantiation is possible
+   * @param desiredFeatures The desired feature set
+   * @returns An initialized instance of the class with detection
+   * for the desired feature set
+   */
   static async create(desiredFeatures: WasmFeature[]): Promise<WasmSupport> {
     const instance = new WasmSupport(desiredFeatures)
     await instance.initialize()
     return Promise.resolve(instance)
   }
 
+  /**
+   * Checks for specific wasm features
+   * @param features The list of features to check for
+   * @returns True if all the features are supported, false otherwise
+   */
   async featureCheck(features: WasmFeature[]): Promise<boolean> {
     const results = await Promise.all(features.map((feature) => WasmFeatureDetectors[feature]).map(async (detector) => await detector()))
     return results.every((result) => result)
   }
 
+  /**
+   * Does feature detection for the desired feature set
+   */
   async initialize(): Promise<void> {
     if (this._isInitialized) return
     await this.detectDesiredFeatures()

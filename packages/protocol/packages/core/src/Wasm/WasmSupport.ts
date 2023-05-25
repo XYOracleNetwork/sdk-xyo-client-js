@@ -78,6 +78,14 @@ export class WasmSupport {
   }
 
   /**
+   * Whether or not Wasm is supported based
+   * on the desired feature set
+   */
+  get isDesiredFeatureSetSupported(): boolean {
+    return this._isWasmFeatureSetSupported
+  }
+
+  /**
    * Whether or not Wasm detection has been run
    * for the desired feature set
    */
@@ -85,18 +93,15 @@ export class WasmSupport {
     return this._isInitialized
   }
 
-  /**
-   * Whether or not Wasm is supported based
-   * on the desired feature set
-   */
-  get isWasmFeatureSetSupported(): boolean {
-    return this._isWasmFeatureSetSupported
-  }
-
   static async create(desiredFeatures: WasmFeature[]): Promise<WasmSupport> {
     const instance = new WasmSupport(desiredFeatures)
     await instance.initialize()
     return Promise.resolve(instance)
+  }
+
+  async featureCheck(features: WasmFeature[]): Promise<boolean> {
+    const results = await Promise.all(features.map((feature) => WasmFeatureDetectors[feature]).map(async (detector) => await detector()))
+    return results.every((result) => result)
   }
 
   async initialize(): Promise<void> {

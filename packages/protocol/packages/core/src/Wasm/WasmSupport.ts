@@ -1,14 +1,51 @@
-import { simd } from 'wasm-feature-detect'
+import {
+  bigInt,
+  bulkMemory,
+  exceptions,
+  extendedConst,
+  gc,
+  memory64,
+  multiValue,
+  mutableGlobals,
+  referenceTypes,
+  relaxedSimd,
+  saturatedFloatToInt,
+  signExtensions,
+  simd,
+  streamingCompilation,
+  tailCall,
+  threads,
+} from 'wasm-feature-detect'
 
-export type WasmFeaturesSet = Record<string, boolean>
+const WasmFeatureDetectors = {
+  bigInt: bigInt,
+  bulkMemory: bulkMemory,
+  exceptions: exceptions,
+  extendedConst: extendedConst,
+  gc: gc,
+  memory64: memory64,
+  multiValue: multiValue,
+  mutableGlobals: mutableGlobals,
+  referenceTypes: referenceTypes,
+  relaxedSimd: relaxedSimd,
+  saturatedFloatToInt: saturatedFloatToInt,
+  signExtensions: signExtensions,
+  simd: simd,
+  streamingCompilation: streamingCompilation,
+  tailCall: tailCall,
+  threads: threads,
+} as const
+
+export type WasmFeature = keyof typeof WasmFeatureDetectors
 
 export class WasmSupport {
   private _allowWasm = true
+  private _featureSupport: Partial<Record<WasmFeature, boolean>> = {}
   private _forceWasm = true
   private _isInitialized = false
-  private _isWasmSupported = true
+  private _isWasmFeatureSetSupported = true
 
-  protected constructor(protected desiredFeatures: WasmFeaturesSet) {}
+  protected constructor(protected desiredFeatures: WasmFeature[]) {}
 
   /**
    * Is Wasm allowed
@@ -21,6 +58,10 @@ export class WasmSupport {
    */
   set allowWasm(v: boolean) {
     this._allowWasm = v
+  }
+
+  get featureSupport(): Partial<Record<WasmFeature, boolean>> {
+    return this._featureSupport
   }
 
   /**
@@ -48,22 +89,28 @@ export class WasmSupport {
    * Whether or not Wasm is supported based
    * on the desired feature set
    */
-  get isWasmSupported(): boolean {
-    return this._isWasmSupported
+  get isWasmFeatureSetSupported(): boolean {
+    return this._isWasmFeatureSetSupported
   }
 
-  static async create(desiredFeatures: WasmFeaturesSet): Promise<WasmSupport> {
+  static async create(desiredFeatures: WasmFeature[]): Promise<WasmSupport> {
     const instance = new WasmSupport(desiredFeatures)
     await instance.initialize()
     return Promise.resolve(instance)
   }
 
   async initialize(): Promise<void> {
-    await Promise.resolve()
-    if (await simd()) {
-      this._isWasmSupported = true
-    } else {
-      this._isWasmSupported = false
+    if (this._isInitialized) return
+    for (let feature = 0; feature < this.desiredFeatures.length; feature++) {
+      const desiredFeature = this.desiredFeatures[feature]
+      const detector = WasmFeatureDetectors[desiredFeature]
+      this._isWasmFeatureSetSupported = true
+      if (!(await detector())) {
+        this._isWasmFeatureSetSupported = false
+        this._featureSupport[desiredFeature] = false
+      } else {
+        this._featureSupport[desiredFeature] = true
+      }
     }
     this._isInitialized = true
     return

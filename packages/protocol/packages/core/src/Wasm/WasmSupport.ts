@@ -1,3 +1,5 @@
+import { simd } from 'wasm-feature-detect'
+
 export type WasmFeaturesSet = Record<string, boolean>
 
 export class WasmSupport {
@@ -50,13 +52,20 @@ export class WasmSupport {
     return this._isWasmSupported
   }
 
-  static async initialize(desiredFeatures: WasmFeaturesSet): Promise<WasmSupport> {
+  static async create(desiredFeatures: WasmFeaturesSet): Promise<WasmSupport> {
     const instance = new WasmSupport(desiredFeatures)
-    await instance.detectSupport()
+    await instance.initialize()
     return Promise.resolve(instance)
   }
 
-  async detectSupport(): Promise<void> {
+  async initialize(): Promise<void> {
     await Promise.resolve()
+    if (await simd()) {
+      this._isWasmSupported = true
+    } else {
+      this._isWasmSupported = false
+    }
+    this._isInitialized = true
+    return
   }
 }

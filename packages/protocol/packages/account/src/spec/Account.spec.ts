@@ -14,7 +14,7 @@ const testVectorPublicKey =
 const testVectorAddress = '5e7a847447e7fec41011ae7d32d768f86605ba03'
 const testVectorHash = '4b688df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a'
 const testVectorSignature =
-  'b61dad551e910e2793b4f9f880125b5799086510ce102fad0222c1b093c60a6bc755ca10a9068079ac8d9617416a7cd41077093061c1e9bcb2f81812086ae603'
+  'b61dad551e910e2793b4f9f880125b5799086510ce102fad0222c1b093c60a6b38aa35ef56f97f86537269e8be95832aaa37d3b64d86b67f0cda467ac7cb5b3e'
 
 const testPrivateKey = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
 const testPublicKey =
@@ -56,14 +56,14 @@ describe('XyoAccount', () => {
     expect(wallet.public).toBeDefined()
     expect(wallet.addressValue.hex).toBeDefined()
     const signature = await wallet.sign(testVectorHash)
-    const valid = wallet.verify(testVectorHash, signature)
+    const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 
   test('Sign-fromPhrase', async () => {
     const wallet = Account.fromPhrase('test')
     const signature = await wallet.sign(testVectorHash)
-    const valid = wallet.verify(testVectorHash, signature)
+    const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 
@@ -74,7 +74,7 @@ describe('XyoAccount', () => {
 
     expect(signature).toEqual(expectedSignature)
     expect(signature.length).toEqual(128)
-    const valid = wallet.verify(testVectorHash, signature)
+    const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 
@@ -93,7 +93,7 @@ describe('XyoAccount', () => {
     for (let i = 0; i < signature.length; i++) {
       expect(signature[i]).toBe(signaturePrime[i])
     }
-    const valid = wallet.verify(testVectorHash, signature)
+    const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 

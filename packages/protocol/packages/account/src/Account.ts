@@ -39,7 +39,7 @@ export class Account extends KeyPair implements AccountInstance {
     let node: HDNode | undefined = undefined
     if (opts) {
       if (nameOf<PhraseInitializationConfig>('phrase') in opts) {
-        privateKeyToUse = toUint8Array(shajs('sha256').update(opts.phrase).digest('hex').padStart(64, '0'))
+        privateKeyToUse = toUint8Array(getPrivateKeyFromPhrase(opts.phrase))
       } else if (nameOf<PrivateKeyInitializationConfig>('privateKey') in opts) {
         privateKeyToUse = toUint8Array(opts.privateKey)
       } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
@@ -86,12 +86,14 @@ export class Account extends KeyPair implements AccountInstance {
     return new Account()
   }
 
-  sign(hash: Uint8Array | string): Uint8Array | Promise<Uint8Array> {
+  async sign(hash: Uint8Array | string): Promise<Uint8Array> {
+    await KeyPair.wasmInitialized
     this._previousHash = new XyoData(32, hash)
     return this.private.sign(hash)
   }
 
-  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean> {
+  async verify(msg: Uint8Array | string, signature: Uint8Array | string): Promise<boolean> {
+    await KeyPair.wasmInitialized
     return this.public.address.verify(msg, signature)
   }
 }

@@ -2,13 +2,16 @@ import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
 import { AnyObject, ObjectWrapper } from '../lib'
+import { WasmSupport } from '../Wasm'
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
 
+const wasmSupportStatic = new WasmSupport(['bigInt'])
+
 export class Hasher<T extends AnyObject = AnyObject> extends ObjectWrapper<T> {
-  static allowWasm = true
-  static wasmSupported = true
+  static readonly wasmInitialized = wasmSupportStatic.initialize()
+  static readonly wasmSupport = wasmSupportStatic
 
   get hash() {
     return Hasher.hash(this.obj)
@@ -27,11 +30,12 @@ export class Hasher<T extends AnyObject = AnyObject> extends ObjectWrapper<T> {
   }
 
   static async hashAsync<T extends AnyObject>(obj: T): Promise<string> {
-    if (this.allowWasm && this.wasmSupported) {
+    await Hasher.wasmInitialized
+    if (Hasher.wasmSupport.canUseWasm) {
       try {
         return await sha256(this.stringify(obj))
       } catch (ex) {
-        this.wasmSupported = false
+        Hasher.wasmSupport.allowWasm = false
       }
     }
     return this.hash(obj)

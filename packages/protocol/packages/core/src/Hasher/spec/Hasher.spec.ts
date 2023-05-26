@@ -24,30 +24,33 @@ describe('Hasher', () => {
     testString: 'hello there.  this is a pretty long string.  what do you think?',
     testUndefined: undefined,
   }
+  beforeAll(async () => {
+    await Hasher.wasmInitialized
+  })
   test('wasm vs js (compatibility-sync)', () => {
-    Hasher.allowWasm = false
+    Hasher.wasmSupport.allowWasm = false
     const jsHash = new Hasher(testObject).hash
-    Hasher.allowWasm = true
+    Hasher.wasmSupport.allowWasm = true
     const wasmHash = new Hasher(testObject).hash
     expect(jsHash).toEqual(wasmHash)
   })
 
   test('wasm vs js (compatibility-async)', async () => {
-    Hasher.allowWasm = false
+    Hasher.wasmSupport.allowWasm = false
     const jsHash = await new Hasher(testObject).hashAsync()
-    Hasher.allowWasm = true
+    Hasher.wasmSupport.allowWasm = true
     const wasmHash = await new Hasher(testObject).hashAsync()
     expect(jsHash).toEqual(wasmHash)
   })
 
   test('wasm vs js (performance-serial)', async () => {
-    Hasher.allowWasm = false
+    Hasher.wasmSupport.allowWasm = false
     const jsHashStart = Date.now()
     for (let x = 0; x < 10000; x++) {
       await new Hasher({ ...testObject, nonce: x }).hashAsync()
     }
     const jsHashDuration = Date.now() - jsHashStart
-    Hasher.allowWasm = true
+    Hasher.wasmSupport.allowWasm = true
     const wasmHashStart = Date.now()
     for (let x = 0; x < 10000; x++) {
       await new Hasher({ ...testObject, nonce: x }).hashAsync()
@@ -63,13 +66,13 @@ describe('Hasher', () => {
   })
 
   test('wasm vs js (performance-big-obj)', async () => {
-    Hasher.allowWasm = false
+    Hasher.wasmSupport.allowWasm = false
     const jsHashStart = Date.now()
     for (let x = 0; x < 10000; x++) {
       await new Hasher({ ...bigObject, nonce: x }).hashAsync()
     }
     const jsHashDuration = Date.now() - jsHashStart
-    Hasher.allowWasm = true
+    Hasher.wasmSupport.allowWasm = true
     const wasmHashStart = Date.now()
     for (let x = 0; x < 10000; x++) {
       await new Hasher({ ...bigObject, nonce: x }).hashAsync()
@@ -85,7 +88,7 @@ describe('Hasher', () => {
   })
 
   test('wasm vs js (performance-parallel)', async () => {
-    Hasher.allowWasm = false
+    Hasher.wasmSupport.allowWasm = false
     const jsTestObjects: Hasher[] = []
     for (let x = 0; x < 10000; x++) {
       jsTestObjects.push(new Hasher({ ...testObject, nonce: x }))
@@ -93,7 +96,7 @@ describe('Hasher', () => {
     const jsHashStart = Date.now()
     await Promise.all(jsTestObjects.map((obj) => obj.hashAsync()))
     const jsHashDuration = Date.now() - jsHashStart
-    Hasher.allowWasm = true
+    Hasher.wasmSupport.allowWasm = true
     const wasmTestObjects: Hasher[] = []
     for (let x = 0; x < 10000; x++) {
       wasmTestObjects.push(new Hasher({ ...testObject, nonce: x }))

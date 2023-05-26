@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Collection, Document, Filter, FindCursor, MongoClient, OptionalUnlessRequiredId, WithId } from 'mongodb'
+import { Collection, DeleteResult, Document, Filter, FindCursor, MongoClient, OptionalUnlessRequiredId, UpdateFilter, WithId } from 'mongodb'
 
 import { BaseMongoSdkConfig } from './Config'
 import { MongoClientWrapper } from './Wrapper'
@@ -16,6 +16,12 @@ export class BaseMongoSdk<T extends Document> {
       this.config.dbConnectionString ??
       `mongodb+srv://${this.config.dbUserName}:${this.config.dbPassword}@${this.config.dbDomain}.mongodb.net/${this.config.dbName}?retryWrites=true&w=majority`
     )
+  }
+
+  async deleteOne(filter: Filter<T>) {
+    return await this.useCollection<DeleteResult>(async (collection: Collection<T>) => {
+      return await collection.deleteOne(filter)
+    })
   }
 
   async find(filter: Filter<T>) {
@@ -42,14 +48,13 @@ export class BaseMongoSdk<T extends Document> {
     })
   }
 
-  async updateOne(filter: Filter<T>, fields: Partial<T>) {
+  async updateOne(filter: Filter<T>, fields: UpdateFilter<T>) {
     return await this.useCollection(async (collection: Collection<T>) => {
       return await collection.updateOne(filter, fields, { upsert: false })
     })
   }
 
-  async upsertOne(filter: Filter<T>, item: Partial<T>) {
-    const { ...fields } = item
+  async upsertOne(filter: Filter<T>, fields: UpdateFilter<T>) {
     return await this.useCollection(async (collection: Collection<T>) => {
       return await collection.updateOne(filter, fields, { upsert: true })
     })

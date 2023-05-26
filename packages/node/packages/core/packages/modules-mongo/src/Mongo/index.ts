@@ -1,3 +1,4 @@
+export * from './AddressInfo'
 export * from './getSdk'
 export * from './hasMongoDBConfig'
 export * from './initializeDatabase'

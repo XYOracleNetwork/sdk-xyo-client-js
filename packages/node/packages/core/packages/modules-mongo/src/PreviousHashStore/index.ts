@@ -1,1 +1,1 @@
-export * from './MongoDBPreviousHashStore'
+export * from './addPreviousHashStore'

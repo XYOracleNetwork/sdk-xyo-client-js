@@ -14,6 +14,7 @@ import { Lock } from 'semaphore-async-await'
 import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
+import { PreviousHashStore } from './PreviousHashStore'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
@@ -31,6 +32,7 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
 
 @staticImplements<AccountStatic>()
 export class Account extends KeyPair implements AccountInstance {
+  static previousHashStore: PreviousHashStore | undefined = undefined
   protected _node: HDNode | undefined = undefined
   protected _previousHash?: XyoData
   private _isXyoWallet = true
@@ -94,6 +96,9 @@ export class Account extends KeyPair implements AccountInstance {
     try {
       const signature = this.private.sign(hash)
       this._previousHash = new XyoData(32, hash)
+      if (Account.previousHashStore) {
+        await Account.previousHashStore.setItem(this.addressValue.hex, this._previousHash.hex)
+      }
       return signature
     } finally {
       this._signingLock.release()

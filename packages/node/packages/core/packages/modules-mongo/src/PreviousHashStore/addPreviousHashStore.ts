@@ -4,7 +4,9 @@ import { getAddressSdk } from '../Mongo'
 import { MongoDBPreviousHashStore } from './MongoDBPreviousHashStore'
 
 export const addPreviousHashStore = () => {
-  const sdk = getAddressSdk()
-  const store = new MongoDBPreviousHashStore(sdk)
-  Account.previousHashStore = store
+  if (process.env.STORE_PREVIOUS_HASH) {
+    const sdk = getAddressSdk()
+    const store = new MongoDBPreviousHashStore(sdk)
+    Account.previousHashStore = store
+  }
 }

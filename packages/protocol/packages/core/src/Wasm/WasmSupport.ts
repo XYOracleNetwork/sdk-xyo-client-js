@@ -17,7 +17,7 @@ import {
   threads,
 } from 'wasm-feature-detect'
 
-const WasmFeatureDetectors = {
+export const WasmFeatureDetectors = {
   bigInt: bigInt,
   bulkMemory: bulkMemory,
   exceptions: exceptions,

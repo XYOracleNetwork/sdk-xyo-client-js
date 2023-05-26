@@ -14,6 +14,7 @@ import { Lock } from 'semaphore-async-await'
 import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
+import { PreviousHashStore } from './PreviousHashStore'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
@@ -27,12 +28,6 @@ const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
 
 const getPrivateKeyFromPhrase = (phrase: string) => {
   return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
-}
-
-interface PreviousHashStore {
-  getItem(key: string): string | null | Promise<string | null>
-  removeItem(key: string): void | Promise<void>
-  setItem(key: string, value: string): void | Promise<void>
 }
 
 @staticImplements<AccountStatic>()

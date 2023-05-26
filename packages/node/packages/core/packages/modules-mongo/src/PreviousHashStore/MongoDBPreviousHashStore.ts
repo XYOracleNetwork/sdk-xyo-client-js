@@ -19,7 +19,7 @@ export class MongoDBPreviousHashStore implements PreviousHashStore {
   }
   async setItem(key: string, previousHash: string): Promise<void> {
     const address = this.getKeyName(key)
-    await this.addressInfoSdk.insertOne({ address, previousHash })
+    await this.addressInfoSdk.upsertOne({ address }, { address, previousHash })
   }
   protected getKeyName(key: string) {
     return this.keyPrefix ? `${this.keyPrefix}${key}` : key

@@ -41,7 +41,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
       - name: typedoc build
-        run: yarn typedoc .
+        run: yarn build-typedoc-site
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
       - name: Setup Pages

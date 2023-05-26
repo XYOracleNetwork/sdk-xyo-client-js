@@ -96,7 +96,8 @@
     "xyo": "node ./packages/cli/dist/cjs/index.js",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts",
     "free-8080": "kill -9 $(lsof -t -i :8080)",
-    "free-3033": "kill -9 $(lsof -t -i :3033)"
+    "free-3033": "kill -9 $(lsof -t -i :3033)",
+    "build-typedoc-site": "typedoc --options typedoc.site.json"
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",

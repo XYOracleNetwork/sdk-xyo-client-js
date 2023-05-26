@@ -8,11 +8,11 @@ import { getNewPayloads } from '../Payload'
 
 const config: BoundWitnessBuilderConfig = { inlinePayloads: false, timestamp: true }
 
-export const getNewBoundWitness = (
+export const getNewBoundWitness = async (
   signers: AccountInstance[] = [unitTestSigningAccount],
   payloads: Payload[] = getNewPayloads(1),
 ): Promise<[BoundWitness, Payload[]]> => {
-  return new BoundWitnessBuilder(config).payloads(payloads).witnesses(signers).build()
+  return await new BoundWitnessBuilder(config).payloads(payloads).witnesses(signers).build()
 }
 
 export const getNewBoundWitnesses = async (

@@ -29,8 +29,15 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
   return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
 }
 
+interface PreviousHashStore {
+  getItem(key: string): string | null | Promise<string | null>
+  removeItem(key: string): void | Promise<void>
+  setItem(key: string, value: string): void | Promise<void>
+}
+
 @staticImplements<AccountStatic>()
 export class Account extends KeyPair implements AccountInstance {
+  static previousHashStore: PreviousHashStore | undefined = undefined
   protected _node: HDNode | undefined = undefined
   protected _previousHash?: XyoData
   private _isXyoWallet = true
@@ -94,6 +101,9 @@ export class Account extends KeyPair implements AccountInstance {
     try {
       const signature = this.private.sign(hash)
       this._previousHash = new XyoData(32, hash)
+      if (Account.previousHashStore) {
+        await Account.previousHashStore.setItem(this.addressValue.hex, this._previousHash.hex)
+      }
       return signature
     } finally {
       this._signingLock.release()

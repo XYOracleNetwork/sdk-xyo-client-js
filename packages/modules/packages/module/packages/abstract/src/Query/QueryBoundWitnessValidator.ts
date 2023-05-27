@@ -16,19 +16,19 @@ export class QueryBoundWitnessValidator<T extends Query = Query> extends BoundWi
     return (obj as QueryBoundWitnessValidator)?.constructor === QueryBoundWitnessValidator
   }
 
-  override validate() {
+  override async validate() {
     return [
-      ...super.validate(),
+      ...(await super.validate()),
       // ...this.validateResultSet()
     ]
   }
 
-  validateResultSet() {
+  async validateResultSet() {
     const errors: Error[] = []
     try {
       const resultSetHash = assertEx(this.obj.resultSet, 'Missing ResultSet')
       const wrapper = BoundWitnessWrapper.parse(this.obj)
-      const resultSet = PayloadWrapper.parse<PayloadSetPayload>(wrapper.payloads[resultSetHash] as PayloadSetPayload)
+      const resultSet = PayloadWrapper.parse<PayloadSetPayload>((await wrapper.payloadMap())[resultSetHash] as PayloadSetPayload)
       const required = resultSet?.payload.required
       if (required) {
         Object.entries(required).forEach(([key, value]) => {

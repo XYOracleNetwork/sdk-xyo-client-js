@@ -8,16 +8,18 @@ import {
 } from '@xyo-network/node-core-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-export const augmentWithMetadata = <T extends PayloadWithPartialMeta[] | BoundWitnessWithPartialMeta[]>(
+export const augmentWithMetadata = async <T extends PayloadWithPartialMeta[] | BoundWitnessWithPartialMeta[]>(
   payloads: T,
   meta: T extends PayloadWithPartialMeta[] ? PayloadMeta : BoundWitnessMeta,
-): T extends PayloadWithPartialMeta ? PayloadWithMeta[] : BoundWitnessWithMeta[] => {
-  return payloads.map((payload) => {
-    const wrapper = new PayloadWrapper(payload)
-    return {
-      ...payload,
-      ...meta,
-      _hash: wrapper.hash,
-    } as T extends PayloadWithPartialMeta ? PayloadWithMeta : BoundWitnessWithMeta
-  })
+): Promise<T extends PayloadWithPartialMeta ? PayloadWithMeta[] : BoundWitnessWithMeta[]> => {
+  return await Promise.all(
+    payloads.map(async (payload) => {
+      const wrapper = new PayloadWrapper(payload)
+      return {
+        ...payload,
+        ...meta,
+        _hash: await wrapper.hashAsync(),
+      } as T extends PayloadWithPartialMeta ? PayloadWithMeta : BoundWitnessWithMeta
+    }),
+  )
 }

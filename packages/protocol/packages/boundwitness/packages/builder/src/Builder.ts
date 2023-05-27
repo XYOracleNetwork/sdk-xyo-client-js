@@ -24,15 +24,6 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
 
   constructor(readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
 
-  private get _payload_hashes(): string[] {
-    return (
-      this._payloadHashes ??
-      this._payloads.map((payload) => {
-        return assertEx(Hasher.hash(payload))
-      })
-    )
-  }
-
   private get _payload_schemas(): string[] {
     return (
       this._payloadSchemas ??
@@ -44,9 +35,9 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
 
   async build(meta = false): Promise<[TBoundWitness, TPayload[]]> {
     const hashableFields = this.hashableFields()
-    const _hash = BoundWitnessWrapper.hash(hashableFields)
+    const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
     const ret: TBoundWitness = {
-      ...hashableFields,
+      ...(await hashableFields),
       _signatures: await this.signatures(_hash),
     }
     if (meta ?? this.config?.meta) {
@@ -65,10 +56,10 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return [ret, this._payloads]
   }
 
-  hashableFields(): TBoundWitness {
+  async hashableFields(): Promise<TBoundWitness> {
     const addresses = this._accounts.map((account) => account.addressValue.hex)
     const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
-    const payload_hashes = assertEx(this._payload_hashes, 'Missing payload_hashes')
+    const payload_hashes = assertEx(await this.getPayloadHashes(), 'Missing payload_hashes')
     const payload_schemas = assertEx(this._payload_schemas, 'Missing payload_schemas')
     const result: TBoundWitness = {
       addresses: assertEx(addresses, 'Missing addresses'),
@@ -129,6 +120,17 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   protected async signatures(_hash: string) {
     const hash = Buffer.from(_hash, 'hex')
     return await Promise.all(this._accounts.map(async (account) => Buffer.from(await account.sign(hash)).toString('hex')))
+  }
+
+  private async getPayloadHashes(): Promise<string[]> {
+    return (
+      this._payloadHashes ??
+      (await Promise.all(
+        this._payloads.map(async (payload) => {
+          return assertEx(await Hasher.hashAsync(payload))
+        }),
+      ))
+    )
   }
 
   private inlinePayloads() {

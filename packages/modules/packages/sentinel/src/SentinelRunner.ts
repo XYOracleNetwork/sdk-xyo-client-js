@@ -33,7 +33,7 @@ export class SentinelRunner {
   }
 
   async add(automation: SentinelAutomationPayload, restart = true) {
-    const hash = new PayloadWrapper(automation).hash
+    const hash = await PayloadWrapper.hashAsync(automation)
     this._automations[hash] = automation
     if (restart) await this.restart()
     return hash
@@ -93,7 +93,7 @@ export class SentinelRunner {
 
   private async trigger(automation: SentinelIntervalAutomationPayload) {
     const wrapper = new SentinelIntervalAutomationWrapper(automation)
-    await this.remove(wrapper.hash, false)
+    await this.remove(await wrapper.hashAsync(), false)
     wrapper.next()
     await this.add(wrapper.payload, false)
     const triggerResult = await this.sentinel.report()

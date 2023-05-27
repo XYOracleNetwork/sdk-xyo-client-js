@@ -19,7 +19,7 @@ describe('/:hash', () => {
       expect(block).toBeTruthy()
       boundWitness = block[0]
       expect(boundWitness).toBeTruthy()
-      boundWitnessHash = new PayloadWrapper(boundWitness).hash
+      boundWitnessHash = await PayloadWrapper.hashAsync(boundWitness)
       expect(boundWitnessHash).toBeTruthy()
       payload = boundWitness?._payloads?.[0] as Payload
       expect(payload).toBeTruthy()

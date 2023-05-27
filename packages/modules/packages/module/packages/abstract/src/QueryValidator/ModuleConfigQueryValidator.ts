@@ -30,12 +30,12 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
     this.hasRules = this.hasAllowedRules || this.hasDisallowedRules
   }
 
-  queryable: Queryable = (query, payloads) => {
+  queryable: Queryable = async (query, payloads) => {
     if (!this.hasRules) return true
     const addresses = query.addresses
     if (!addresses.length) return false
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
-    const schema = wrapper.query.schema
+    const schema = (await wrapper.getQuery()).schema
     return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }
 

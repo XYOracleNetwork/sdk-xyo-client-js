@@ -46,7 +46,7 @@ const createPointer = async (
   const pointerResponse = await insertPayload(pointer)
   expect(pointerResponse).toBeArrayOfSize(2)
   expect(pointerResponse.map((bw) => bw.payload_schemas.includes(PayloadPointerSchema)).some((x) => x)).toBeTrue()
-  return PayloadWrapper.hash(pointer)
+  return await PayloadWrapper.hashAsync(pointer)
 }
 
 const expectError = (result: Payload, detail: string, status: string, title?: string) => {
@@ -84,7 +84,7 @@ describe('/:hash', () => {
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
-      expect(PayloadWrapper.parse(response).valid).toBeTrue()
+      expect(await PayloadWrapper.parse(response).getValid()).toBeTrue()
       expect(response).toEqual(expected)
     })
     it(`${ReasonPhrases.NOT_FOUND} if no Payloads match the criteria`, async () => {

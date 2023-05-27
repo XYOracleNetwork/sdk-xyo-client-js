@@ -13,10 +13,10 @@ const testBoundWitness: BoundWitness = {
   schema: BoundWitnessSchema,
 }
 
-test('all', () => {
+test('all', async () => {
   BoundWitnessValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
   const validator = new BoundWitnessValidator(testBoundWitness)
-  const errors = validator.validate()
+  const errors = await validator.validate()
   dumpErrors(errors)
   expect(errors.length).toBe(0)
 })

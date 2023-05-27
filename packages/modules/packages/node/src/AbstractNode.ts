@@ -99,7 +99,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
+    const typedQuery = (await wrapper.getQuery()).payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: Payload[] = []
@@ -142,7 +142,12 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
+      resultPayloads.push(
+        new ModuleErrorBuilder()
+          .sources([await wrapper.hashAsync()])
+          .message(error.message)
+          .build(),
+      )
     }
     return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }

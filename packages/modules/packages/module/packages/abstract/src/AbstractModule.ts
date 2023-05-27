@@ -326,7 +326,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
       }
     }
-    const typedQuery = wrapper.query.payload
+    const typedQuery = (await wrapper.getQuery()).payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     const queryAccount = new Account()
@@ -349,7 +349,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
+      resultPayloads.push(
+        new ModuleErrorBuilder()
+          .sources([await wrapper.hashAsync()])
+          .message(error.message)
+          .build(),
+      )
     }
     return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }

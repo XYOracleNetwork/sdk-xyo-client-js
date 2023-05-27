@@ -64,12 +64,12 @@ describe(`/${moduleName}`, () => {
       const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
       beforeAll(async () => await archivist.insert([payload.payload]))
       it('divines Payloads by hash', async () => {
-        const hash = payload.hash
+        const hash = await payload.hashAsync()
         const query: PayloadDivinerQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
         expect(response).toBeArrayOfSize(1)
-        const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-        expect(responseHashes).toContainAllValues([payload.hash])
+        const responseHashes = await Promise.all(response.map((p) => PayloadWrapper.hashAsync(p)))
+        expect(responseHashes).toContainAllValues([await payload.hashAsync()])
       })
       it('returns empty array for non-existent hash', async () => {
         const hash = nonExistentHash
@@ -134,7 +134,7 @@ describe(`/${moduleName}`, () => {
           const query: PayloadDivinerQueryPayload = { schema, schemas }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(payloads.length)
-          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+          const responseHashes = await Promise.all(response.map((p) => PayloadWrapper.hashAsync(p)))
           expect(responseHashes).toContainAllValues(payloads.map((p) => p.hash))
         })
       })

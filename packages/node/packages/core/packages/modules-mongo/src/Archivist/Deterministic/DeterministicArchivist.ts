@@ -38,9 +38,9 @@ export type MongoDBDeterministicArchivistParams = ArchivistParams<
   }
 >
 
-const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper): BoundWitnessWithMeta => {
+const toBoundWitnessWithMeta = async (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper): Promise<BoundWitnessWithMeta> => {
   const bw = wrapper.boundwitness as BoundWitness
-  return { ...bw, _hash: wrapper.hash, _timestamp: Date.now() }
+  return { ...bw, _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
 }
 
 const toReturnValue = (value: Payload | BoundWitness): Payload => {
@@ -52,8 +52,8 @@ const toReturnValue = (value: Payload | BoundWitness): Payload => {
   }
 }
 
-const toPayloadWithMeta = (wrapper: PayloadWrapper): PayloadWithMeta => {
-  return { ...wrapper.payload, _hash: wrapper.hash, _timestamp: Date.now() }
+const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMeta> => {
+  return { ...wrapper.payload, _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
 }
 
 export class MongoDBDeterministicArchivist<
@@ -97,9 +97,9 @@ export class MongoDBDeterministicArchivist<
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistInsertQuery): Promise<BoundWitness[]> {
     const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)]
-    const [bw, p] = toStore.reduce(validByType, [[], []])
-    const boundWitnesses = bw.map((x) => toBoundWitnessWithMeta(x))
-    const payloads = p.map((x) => toPayloadWithMeta(x))
+    const [bw, p] = await validByType(toStore)
+    const boundWitnesses = await Promise.all(bw.map((x) => toBoundWitnessWithMeta(x)))
+    const payloads = await Promise.all(p.map((x) => toPayloadWithMeta(x)))
     if (boundWitnesses.length) {
       const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
       if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)
@@ -141,7 +141,12 @@ export class MongoDBDeterministicArchivist<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
+      resultPayloads.push(
+        new ModuleErrorBuilder()
+          .sources([await wrapper.hashAsync()])
+          .message(error.message)
+          .build(),
+      )
     }
     return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }

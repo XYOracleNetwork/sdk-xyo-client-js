@@ -57,9 +57,11 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Mem
       for (const mod of mods) {
         const archivist = ArchivistWrapper.wrap(mod)
         const payloads = await archivist.get(hashes)
-        for (const payload of payloads) {
-          configPayloads[Hasher.hash(payload)] = payload as ModuleConfig
-        }
+        await Promise.all(
+          payloads.map(async (payload) => {
+            configPayloads[await Hasher.hashAsync(payload)] = payload as ModuleConfig
+          }),
+        )
       }
       const additionalConfigs = Object.values(configPayloads).map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
       await addModulesToNodeByConfig(container, node, additionalConfigs)

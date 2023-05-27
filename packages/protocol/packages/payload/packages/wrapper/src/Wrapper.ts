@@ -14,11 +14,6 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     return deepOmitUnderscoreFields<TPayload>(this.obj)
   }
 
-  get errors() {
-    this._errors = this._errors ?? this.validate()
-    return this._errors
-  }
-
   get payload() {
     return assertEx(this.obj, 'Missing payload object')
   }
@@ -30,10 +25,6 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
   //intentionally not naming this 'schema' so that the wrapper is not confused for a Payload
   get schemaName() {
     return assertEx(this.payload.schema, 'Missing payload schema')
-  }
-
-  get valid() {
-    return this.errors.length === 0
   }
 
   static load(_address: DataLike): Promisable<PayloadWrapperBase | null> {
@@ -75,7 +66,16 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     return payload as TPayload
   }
 
-  abstract validate(): Error[]
+  async getErrors() {
+    this._errors = this._errors ?? (await this.validate())
+    return this._errors
+  }
+
+  async getValid() {
+    return (await this.getErrors()).length === 0
+  }
+
+  abstract validate(): Promisable<Error[]>
 }
 
 export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadWrapperBase<TPayload> {
@@ -113,7 +113,17 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     this.loaderFactory = factory
   }
 
-  override validate(): Error[] {
-    return new PayloadValidator(this.payload).validate()
+  static async toWrappedMap<T extends Payload>(payloads: (T | PayloadWrapper<T>)[]): Promise<Record<string, PayloadWrapper<T>>> {
+    const result: Record<string, PayloadWrapper<T>> = {}
+    await Promise.all(
+      payloads.map(async (payload) => {
+        result[await PayloadWrapper.hashAsync(payload)] = PayloadWrapper.parse(payload)
+      }),
+    )
+    return result
+  }
+
+  override async validate(): Promise<Error[]> {
+    return await new PayloadValidator(this.payload).validate()
   }
 }

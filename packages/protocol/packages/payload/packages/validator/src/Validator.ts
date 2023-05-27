@@ -1,5 +1,6 @@
 import { Validator, XyoValidatorBase } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
+import { Promisable } from '@xyo-network/promise'
 import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 export type AllValidator = {
@@ -43,7 +44,7 @@ export class PayloadValidator<T extends Payload = Payload> extends XyoValidatorB
     return errors
   }
 
-  validate() {
+  validate(): Promisable<Error[]> {
     const errors: Error[] = []
     errors.push(...this.schemaName())
     return errors

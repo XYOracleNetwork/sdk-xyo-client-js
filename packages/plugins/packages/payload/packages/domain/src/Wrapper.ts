@@ -1,9 +1,9 @@
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { axios, AxiosError } from '@xyo-network/axios'
-import { isBrowser } from '@xyo-network/core'
+import { Hasher, isBrowser } from '@xyo-network/core'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'
 import { FetchedPayload, Huri, HuriOptions } from '@xyo-network/huri'
-import { XyoNetworkPayload, XyoNetworkPayloadWrapper } from '@xyo-network/network'
+import { XyoNetworkPayload } from '@xyo-network/network'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import reverse from 'lodash/reverse'
 
@@ -71,7 +71,7 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     //set it to null to signify fetch ran
     this.aliases = null
 
-    const archivistUri = this.findArchivistUri(networkSlug)
+    const archivistUri = await this.findArchivistUri(networkSlug)
     if (this.payload.aliases) {
       const fetchedAliases = await Promise.all(
         Object.entries(this.payload.aliases ?? {}).map(([, alias]) => {
@@ -89,11 +89,11 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     return payload ? { alias, huri, payload: payload } : null
   }
 
-  private findArchivistUri(hash?: string): string | undefined {
-    return this.getNetwork(hash)?.nodes?.find((payload) => (payload.type === 'archivist' ? payload : undefined))?.uri
+  private async findArchivistUri(hash?: string): Promise<string | undefined> {
+    return (await this.getNetwork(hash))?.nodes?.find((payload) => (payload.type === 'archivist' ? payload : undefined))?.uri
   }
 
-  private getNetwork(hash?: string): XyoNetworkPayload | undefined {
-    return hash ? this.payload.networks?.find((value) => new XyoNetworkPayloadWrapper(value).hash === hash) : this.payload.networks?.[0]
+  private async getNetwork(hash?: string): Promise<XyoNetworkPayload | undefined> {
+    return hash ? await Hasher.find(this.payload.networks, hash) : this.payload.networks?.[0]
   }
 }

@@ -41,17 +41,17 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  register<TModule extends WitnessModule | DivinerModule>(plugin: PayloadSetPlugin<TModule>, params?: TModule['params']) {
-    const setHash = Hasher.hash(plugin.set)
+  async register<TModule extends WitnessModule | DivinerModule>(plugin: PayloadSetPlugin<TModule>, params?: TModule['params']) {
+    const setHash = await Hasher.hashAsync(plugin.set)
     this._plugins[setHash] = plugin
     this.params[setHash] = params
     return this
   }
 
-  resolve(set?: PayloadSetPayload): PayloadSetPlugin | undefined
-  resolve(set?: string): PayloadSetPlugin | undefined
-  resolve(set?: string | PayloadSetPayload): PayloadSetPlugin | undefined {
-    const setHash = typeof set === 'string' ? set : set ? Hasher.hash(set) : undefined
+  async resolve(set?: PayloadSetPayload): Promise<PayloadSetPlugin | undefined>
+  async resolve(set?: string): Promise<PayloadSetPlugin | undefined>
+  async resolve(set?: string | PayloadSetPayload): Promise<PayloadSetPlugin | undefined> {
+    const setHash = typeof set === 'string' ? set : set ? await Hasher.hashAsync(set) : undefined
     return setHash ? this._plugins[setHash] ?? undefined : undefined
   }
 
@@ -63,14 +63,14 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  validate(boundwitness: QueryBoundWitness): Validator<QueryBoundWitness> | undefined {
-    return this.resolve(boundwitness.resultSet)?.validate?.(boundwitness)
+  async validate(boundwitness: QueryBoundWitness): Promise<Validator<QueryBoundWitness> | undefined> {
+    return (await this.resolve(boundwitness.resultSet))?.validate?.(boundwitness)
   }
 
   async witness(set: PayloadSetPayload): Promise<WitnessModule | undefined>
   async witness(set: string): Promise<WitnessModule | undefined>
   async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
-    const setHash = typeof set === 'string' ? set : Hasher.hash(set)
+    const setHash = typeof set === 'string' ? set : await Hasher.hashAsync(set)
     return await isPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash] as WitnessParams)
   }
 
@@ -85,7 +85,7 @@ export class PayloadSetPluginResolver {
     return result
   }
 
-  wrap(boundwitness: QueryBoundWitness): QueryBoundWitnessWrapper | undefined {
-    return this.resolve(boundwitness.resultSet)?.wrap?.(boundwitness)
+  async wrap(boundwitness: QueryBoundWitness): Promise<QueryBoundWitnessWrapper | undefined> {
+    return (await this.resolve(boundwitness.resultSet))?.wrap?.(boundwitness)
   }
 }

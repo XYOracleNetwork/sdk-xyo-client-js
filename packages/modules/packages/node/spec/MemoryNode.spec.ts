@@ -67,7 +67,7 @@ describe('MemoryNode', () => {
       expect(payloads?.length).toBe(1)
 
       if (payloads && payloads[0]) {
-        const huri = new PayloadWrapper(payloads[0]).hash
+        const huri = await PayloadWrapper.hashAsync(payloads[0])
         const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
         const module = (await NodeWrapper.wrap(node, testAccount0).resolve(diviner.address)) as DivinerModule | undefined
         const foundDiviner = module ? DivinerWrapper.wrap(module) : null
@@ -78,7 +78,7 @@ describe('MemoryNode', () => {
           expect(payloads?.length).toBe(1)
           expect(payloads[0]).toBeDefined()
           if (payloads?.length === 1 && payloads[0]) {
-            expect(new PayloadWrapper(payloads[0]).hash).toBe(huri)
+            expect(await PayloadWrapper.hashAsync(payloads[0])).toBe(huri)
           }
         }
       }

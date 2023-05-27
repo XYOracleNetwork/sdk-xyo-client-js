@@ -10,10 +10,6 @@ const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array l
 }
 
 export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = BoundWitness> extends PayloadValidator<T> {
-  get hash() {
-    return new Hasher(this.obj).hash
-  }
-
   protected get expectedSchema(): string {
     return BoundWitnessSchema
   }
@@ -73,25 +69,30 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
     return errors
   }
 
-  signatures(): Error[] {
+  async signatures(): Promise<Error[]> {
     return [
       ...validateArraysSameLength(this.obj._signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
-      ...this.obj.addresses.reduce<Error[]>((errors, address, index) => {
-        errors.push(...BoundWitnessValidator.validateSignature(this.hash, address, this.obj._signatures?.[index]))
-        return errors
-      }, []),
+      ...(
+        await Promise.all(
+          this.obj.addresses.map<Promise<Error[]>>(
+            async (address, index) =>
+              BoundWitnessValidator.validateSignature(await Hasher.hashAsync(this.payload), address, this.obj._signatures?.[index]),
+            [],
+          ),
+        )
+      ).flat(),
     ]
   }
 
-  override validate() {
+  override async validate() {
     return [
-      ...this.signatures(),
+      ...(await this.signatures()),
       ...this.addresses(),
       ...this.validateArrayLengths(),
       ...this.schemas(),
       ...this.previousHashes(),
       ...this.schema(),
-      ...super.validate(),
+      ...(await super.validate()),
     ]
   }
 

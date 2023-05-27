@@ -4,7 +4,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BoundWitnessWrapper } from '../Wrapper'
 
 describe('BoundWitnessWrapper', () => {
-  describe('payloads', () => {
+  describe('payloads', async () => {
     const included1 = PayloadWrapper.parse({ schema: 'network.xyo.test.1' })
     const included2 = PayloadWrapper.parse({ schema: 'network.xyo.test.2' })
     const excluded1 = PayloadWrapper.parse({ schema: 'network.xyo.test.3' })
@@ -12,7 +12,7 @@ describe('BoundWitnessWrapper', () => {
     const bw: BoundWitness = {
       _signatures: [],
       addresses: [],
-      payload_hashes: payloads.map((p) => p.hash),
+      payload_hashes: await Promise.all(payloads.map((p) => p.hashAsync())),
       payload_schemas: payloads.map((p) => p.schema),
       previous_hashes: [],
       schema: BoundWitnessSchema,
@@ -25,29 +25,29 @@ describe('BoundWitnessWrapper', () => {
         })
       })
       describe('when payloads set via ctor', () => {
-        it('returns payloads', () => {
+        it('returns payloads', async () => {
           const sut = new BoundWitnessWrapper(bw, payloads)
-          expect(sut.payloads).toContainAllKeys(payloads.map((p) => p.hash))
-          expect(sut.payloads[included1.hash]).toBeDefined()
-          expect(sut.payloads[included2.hash]).toBeDefined()
+          expect(await sut.payloadMap()).toContainAllKeys(await Promise.all(payloads.map((p) => p.hashAsync())))
+          expect((await sut.payloadMap())[await included1.hashAsync()]).toBeDefined()
+          expect((await sut.payloadMap())[await included2.hashAsync()]).toBeDefined()
         })
       })
     })
     describe('set', () => {
-      it('sets payloads', () => {
+      it('sets payloads', async () => {
         const sut = BoundWitnessWrapper.parse(bw)
         sut.payloads = [included1, included2]
-        expect(sut.payloads).toContainAllKeys(payloads.map((p) => p.hash))
-        expect(sut.payloads[included1.hash]).toBeDefined()
-        expect(sut.payloads[included2.hash]).toBeDefined()
+        expect(await sut.payloadMap()).toContainAllKeys(await Promise.all(payloads.map((p) => p.hashAsync())))
+        expect((await sut.payloadMap())[await included1.hashAsync()]).toBeDefined()
+        expect((await sut.payloadMap())[await included2.hashAsync()]).toBeDefined()
       })
-      it('filters payloads not included in payload_hashes', () => {
+      it('filters payloads not included in payload_hashes', async () => {
         const sut = BoundWitnessWrapper.parse(bw)
         sut.payloads = [...payloads, excluded1]
-        expect(sut.payloads).not.toContainKey(excluded1.hash)
-        expect(sut.payloads[included1.hash]).toBeDefined()
-        expect(sut.payloads[included2.hash]).toBeDefined()
-        expect(sut.payloads[excluded1.hash]).toBeUndefined()
+        expect(await sut.payloadMap()).not.toContainKey(await excluded1.hashAsync())
+        expect((await sut.payloadMap())[await included1.hashAsync()]).toBeDefined()
+        expect((await sut.payloadMap())[await included2.hashAsync()]).toBeDefined()
+        expect((await sut.payloadMap())[await excluded1.hashAsync()]).toBeUndefined()
       })
     })
   })

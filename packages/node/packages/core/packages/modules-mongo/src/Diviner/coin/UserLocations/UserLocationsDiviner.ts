@@ -65,7 +65,7 @@ export class MemoryCoinUserLocationsDiviner<
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processing query')
       // Simulating work
       const diviner = DivinerWrapper.wrap(this.params.bws, this.account)
-      const filter = { payload_hashes: [wrapper.hash], schema: BoundWitnessDivinerQuerySchema }
+      const filter = { payload_hashes: [await wrapper.hashAsync()], schema: BoundWitnessDivinerQuerySchema }
       const bwList = ((await diviner.divine([filter])) as BoundWitness[]) || []
       const locationHashes = bwList
         .map((bw) => {

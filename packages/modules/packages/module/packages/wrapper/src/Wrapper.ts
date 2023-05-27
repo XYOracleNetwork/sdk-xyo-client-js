@@ -304,14 +304,16 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return result
   }
 
-  protected filterErrors(query: [QueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined): (ModuleError | null)[] {
-    return (result?.[1]?.filter((payload) => {
-      if (payload?.schema === ModuleErrorSchema) {
-        const wrapper = new QueryBoundWitnessWrapper(query[0])
-        return payload.sources?.includes(wrapper.hash)
-      }
-      return false
-    }) ?? []) as ModuleError[]
+  protected async filterErrors(query: [QueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined): Promise<(ModuleError | null)[]> {
+    return (await Promise.all(
+      result?.[1]?.filter(async (payload) => {
+        if (payload?.schema === ModuleErrorSchema) {
+          const wrapper = new QueryBoundWitnessWrapper(query[0])
+          return payload.sources?.includes(await wrapper.hashAsync())
+        }
+        return false
+      }) ?? [],
+    )) as ModuleError[]
   }
 
   protected async sendQuery<T extends Query | PayloadWrapper<Query>>(queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {
@@ -325,12 +327,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     // Send them off
     const result = await this.module.query(query[0], query[1])
 
-    this.throwErrors(query, result)
+    await this.throwErrors(query, result)
     return result[1]
   }
 
-  protected throwErrors(query: [QueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined) {
-    const errors = this.filterErrors(query, result)
+  protected async throwErrors(query: [QueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined) {
+    const errors = await this.filterErrors(query, result)
     if (errors?.length > 0) {
       const error: WrapperError = {
         errors,

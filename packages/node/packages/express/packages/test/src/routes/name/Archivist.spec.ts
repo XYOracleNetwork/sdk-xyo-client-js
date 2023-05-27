@@ -1,4 +1,5 @@
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { Hasher } from '@xyo-network/core'
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
@@ -66,7 +67,7 @@ describe(`/${moduleName}`, () => {
         const response = await archivist.get(hashes)
         expect(response).toBeArray()
         expect(response).toBeArrayOfSize(wrapped.length)
-        const responseHashes = response.map((p) => PayloadWrapper.hash(p))
+        const responseHashes = await Hasher.hashes(response)
         expect(responseHashes).toContainValues(hashes)
       })
     })

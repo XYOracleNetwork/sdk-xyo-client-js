@@ -97,8 +97,8 @@ export abstract class AbstractArchivist<
             const query = await this.bindQuery(queryPayload)
             const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
             const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
-            if (wrapper && wrapper.hash !== hash) {
-              console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hash}]`)
+            if (wrapper && (await wrapper.hashAsync()) !== hash) {
+              console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hashAsync()}]`)
               return null
             }
             return wrapper?.payload
@@ -124,8 +124,8 @@ export abstract class AbstractArchivist<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
+    const wrappedQuery = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
+    const typedQuery = (await wrappedQuery.getQuery()).payload
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     const queryAccount = new Account()
@@ -157,7 +157,7 @@ export abstract class AbstractArchivist<
         case ArchivistInsertQuerySchema: {
           const wrappers = payloads?.map((payload) => PayloadWrapper.parse(payload)) ?? []
           assertEx(typedQuery.payloads, `Missing payloads: ${JSON.stringify(typedQuery, null, 2)}`)
-          const resolvedWrappers = wrappers.filter((wrapper) => typedQuery.payloads.includes(wrapper.hash))
+          const resolvedWrappers = await PayloadWrapper.filterExclude(wrappers, await wrappedQuery.hashAsync())
           assertEx(resolvedWrappers.length === typedQuery.payloads.length, 'Could not find some passed hashes')
           resultPayloads.push(...(await this.insert(resolvedWrappers.map((wrapper) => wrapper.payload))))
           // NOTE: There isn't an exact equivalence between what we get and what we store. Once
@@ -171,7 +171,12 @@ export abstract class AbstractArchivist<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
+      resultPayloads.push(
+        new ModuleErrorBuilder()
+          .sources([await wrappedQuery.hashAsync()])
+          .message(error.message)
+          .build(),
+      )
     }
     return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }

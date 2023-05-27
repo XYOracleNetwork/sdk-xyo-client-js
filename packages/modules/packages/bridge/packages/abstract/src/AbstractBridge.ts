@@ -62,7 +62,7 @@ export abstract class AbstractBridge<
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
+    const typedQuery = (await wrapper.getQuery()).payload
     const queryAccount = new Account()
     const resultPayloads: Payload[] = []
     try {
@@ -80,7 +80,12 @@ export abstract class AbstractBridge<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
+      resultPayloads.push(
+        new ModuleErrorBuilder()
+          .sources([await wrapper.hashAsync()])
+          .message(error.message)
+          .build(),
+      )
     }
     return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }

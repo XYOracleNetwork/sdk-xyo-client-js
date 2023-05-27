@@ -111,7 +111,16 @@ export abstract class AbstractSentinel<
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindQueryResult(typedQuery, [new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build()], [queryAccount])
+      return this.bindQueryResult(
+        typedQuery,
+        [
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .message(error.message)
+            .build(),
+        ],
+        [queryAccount],
+      )
     }
     return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
   }

@@ -70,4 +70,9 @@ describe('AddressValue', () => {
       expect(AddressValue.verify(message, signature, address)).toBeTrue()
     })
   })
+  describe('verifyAsync', () => {
+    it.each(valid)('Verifies a signature', (message, signature, address) => {
+      expect(AddressValue.verifyAsync(message, signature, address)).resolves.toBeTrue()
+    })
+  })
 })

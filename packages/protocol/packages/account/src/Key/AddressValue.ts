@@ -1,13 +1,20 @@
 import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
 import { staticImplements } from '@xylabs/static-implements'
-import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
+import { DataLike, toUint8Array, WasmSupport, XyoData } from '@xyo-network/core'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
 
 import { EllipticKey } from './EllipticKey'
 
+const wasmSupportStatic = new WasmSupport(['bigInt'])
+
 @staticImplements<AddressValueStatic>()
 export class AddressValue extends EllipticKey implements AddressValueInstance {
-  protected static readonly secp256k1: Promise<Secp256k1> = instantiateSecp256k1()
+  static readonly wasmSupport = wasmSupportStatic
+  protected static readonly secp256k1: Promise<Secp256k1 | null> = wasmSupportStatic
+    .initialize()
+    .then(() => instantiateSecp256k1())
+    .catch(() => null)
+
   private _isXyoAddress = true
   constructor(address: DataLike) {
     super(20, AddressValue.addressFromAddressOrPublicKey(address))
@@ -53,7 +60,11 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
 
   static async verifyAsync(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
     const verifier = await AddressValue.secp256k1
-    return verifier.verifySignatureCompact(toUint8Array(signature), toUint8Array(address), toUint8Array(msg))
+    if (verifier && AddressValue.wasmSupport.canUseWasm) {
+      return verifier.verifySignatureCompact(toUint8Array(signature), toUint8Array(address), toUint8Array(msg))
+    } else {
+      return AddressValue.verify(msg, signature, address)
+    }
   }
 
   verify(msg: Uint8Array | string, signature: Uint8Array | string) {

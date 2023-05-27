@@ -6,6 +6,7 @@ import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model
 import { EllipticKey } from './EllipticKey'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
+const offset = [0, 1, 2, 3]
 
 @staticImplements<AddressValueStatic>()
 export class AddressValue extends EllipticKey implements AddressValueInstance {
@@ -42,8 +43,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
     const s = sigArray.slice(32, 64)
 
     const expectedAddress = new AddressValue(address).hex
-
-    for (let i = 0; i < 4; i++) {
+    for (const i of offset) {
       try {
         const publicKey = AddressValue.ecContext
           .keyFromPublic(AddressValue.ecContext.recoverPubKey(toUint8Array(msg), { r, s }, i))
@@ -51,6 +51,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
           .slice(2)
         const recoveredAddress = AddressValue.addressFromPublicKey(publicKey)
         valid = valid || recoveredAddress === expectedAddress
+        if (valid) break
       } catch (ex) {
         null
       }

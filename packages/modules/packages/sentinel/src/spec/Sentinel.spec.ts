@@ -85,8 +85,8 @@ describe('XyoPanel', () => {
     expect(report2.hash !== report1.hash).toBe(true)
     expect(report2.prev(panel.address)).toBeDefined()
     //expect(report2.prev(panel.address)).toBe(report1.hash)
-    expect(report1.valid).toBe(true)
-    expect(report2.valid).toBe(true)
+    expect(await report1.getValid()).toBe(true)
+    expect(await report2.getValid()).toBe(true)
   })
   describe('report', () => {
     describe('reports witnesses when supplied in', () => {

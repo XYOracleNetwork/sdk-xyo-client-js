@@ -12,7 +12,11 @@ export class QueryBoundWitnessBuilder<
   private _resultSet: PayloadWrapper<PayloadSetPayload> | undefined
 
   override async hashableFields(): Promise<TBoundWitness> {
-    return { ...super.hashableFields(), query: assertEx(await this._query?.hashAsync(), 'No Query Specified'), schema: QueryBoundWitnessSchema }
+    return {
+      ...(await super.hashableFields()),
+      query: assertEx(await this._query?.hashAsync(), 'No Query Specified'),
+      schema: QueryBoundWitnessSchema,
+    }
   }
 
   query<T extends TQuery | PayloadWrapper<TQuery>>(query: T) {

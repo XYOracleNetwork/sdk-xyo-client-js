@@ -47,7 +47,7 @@ describe('AddressHistoryDiviner', () => {
     describe('with no query payloads', () => {
       it('returns divined result for all addresses', async () => {
         const result = await divinerWrapper.divine()
-        expect(result.length).toBe(1)
+        expect(result.length).toBe(2)
       })
     })
   })

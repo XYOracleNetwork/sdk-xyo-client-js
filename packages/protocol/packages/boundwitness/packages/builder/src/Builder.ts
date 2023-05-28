@@ -34,10 +34,10 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   async build(meta = false): Promise<[TBoundWitness, TPayload[]]> {
-    const hashableFields = this.hashableFields()
+    const hashableFields = await this.hashableFields()
     const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
     const ret: TBoundWitness = {
-      ...(await hashableFields),
+      ...hashableFields,
       _signatures: await this.signatures(_hash),
     }
     if (meta ?? this.config?.meta) {
@@ -123,14 +123,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   private async getPayloadHashes(): Promise<string[]> {
-    return (
-      this._payloadHashes ??
-      (await Promise.all(
-        this._payloads.map(async (payload) => {
-          return assertEx(await Hasher.hashAsync(payload))
-        }),
-      ))
-    )
+    return this._payloadHashes ?? (await Promise.all(this._payloads.map((payload) => Hasher.hashAsync(payload))))
   }
 
   private inlinePayloads() {

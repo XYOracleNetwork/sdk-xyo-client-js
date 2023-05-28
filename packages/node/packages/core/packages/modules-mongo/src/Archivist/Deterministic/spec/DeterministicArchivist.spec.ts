@@ -61,12 +61,10 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     const boundWitness3 = (
       await new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()
     )[0]
-    const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1)
-    const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2)
-    const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3)
-    boundWitnessWrapper1.payloads = [payload1]
-    boundWitnessWrapper2.payloads = [payload2]
-    boundWitnessWrapper3.payloads = [payload3, payload4]
+    const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1, [payload1])
+    const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2, [payload2])
+    const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3, [payload3, payload4])
+
     boundWitnessWrappers.push(boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3)
     const insertions = [
       // TODO: Try simple cases of [payload, BW, mixed BW & Payload]

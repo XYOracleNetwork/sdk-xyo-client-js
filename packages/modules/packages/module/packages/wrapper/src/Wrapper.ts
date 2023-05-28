@@ -4,7 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Base } from '@xyo-network/core'
-import { duplicateModules, ModuleError, ModuleErrorSchema, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/module-abstract'
+import { duplicateModules, ModuleError, ModuleErrorSchema, QueryBoundWitnessBuilder } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   Module,
@@ -304,22 +304,17 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return result
   }
 
-  protected async filterErrors(query: [QueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined): Promise<(ModuleError | null)[]> {
-    return (await Promise.all(
-      result?.[1]?.filter(async (payload) => {
-        if (payload?.schema === ModuleErrorSchema) {
-          const wrapper = new QueryBoundWitnessWrapper(query[0])
-          return payload.sources?.includes(await wrapper.hashAsync())
-        }
-        return false
-      }) ?? [],
-    )) as ModuleError[]
+  protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
+    const wrapper = new BoundWitnessWrapper(result[0], result[1])
+    return await wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
   }
 
   protected async sendQuery<T extends Query | PayloadWrapper<Query>>(queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {
     //make sure we did not get wrapped payloads
-    const unwrappedPayloads = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload'))
-    const unwrappedQueryPayload = assertEx(BoundWitnessWrapper.unwrap<QueryBoundWitness>(queryPayload), 'Unable to parse queryPayload')
+    const unwrappedPayloads: Payload[] = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload')) ?? []
+    const unwrappedQueryPayload: Query = assertEx(PayloadWrapper.unwrap<T>(queryPayload), 'Unable to parse queryPayload')
+
+    console.log(`unwrappedQueryPayload: ${JSON.stringify(unwrappedQueryPayload, null, 2)}`)
 
     // Bind them
     const query = await this.bindQuery(unwrappedQueryPayload, unwrappedPayloads)
@@ -327,13 +322,18 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     // Send them off
     const result = await this.module.query(query[0], query[1])
 
-    await this.throwErrors(query, result)
+    /* Removed this for now.  Problem is:
+      a) the function does not work and
+      b) it could be valid to return a payload with an error schema in a archivist get query
+    */
+    //await this.throwErrors(query, result)
     return result[1]
   }
 
-  protected async throwErrors(query: [QueryBoundWitness, Payload[]], result: ModuleQueryResult | undefined) {
-    const errors = await this.filterErrors(query, result)
+  protected async throwErrors(query: [QueryBoundWitness, Payload[]], result?: ModuleQueryResult) {
+    const errors = result ? await this.filterErrors(result) : []
     if (errors?.length > 0) {
+      console.log(`Errors: ${JSON.stringify(errors, null, 2)}`)
       const error: WrapperError = {
         errors,
         message: errors.reduce((message, error) => `${message}${message.length > 0 ? '|' : ''}${error?.message}`, ''),

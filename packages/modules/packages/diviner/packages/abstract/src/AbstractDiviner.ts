@@ -42,12 +42,12 @@ export abstract class AbstractDiviner<
     const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
     //remove the query payload
     const cleanPayloads = await Hasher.filterExclude(payloads, query.query)
-    const typedQuery = await wrapper.getQuery()
+    const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: Payload[] = []
     try {
-      switch (typedQuery.schemaName) {
+      switch (queryPayload.schema) {
         case DivinerDivineQuerySchema:
           await this.emit('reportStart', { inPayloads: payloads, module: this })
           resultPayloads.push(...(await this.divine(cleanPayloads)))
@@ -65,7 +65,7 @@ export abstract class AbstractDiviner<
           .build(),
       )
     }
-    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
+    return await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
   }
 
   abstract divine(payloads?: Payload[]): Promisable<Payload[]>

@@ -94,6 +94,7 @@ export class MemoryArchivist<
   }
 
   override async get(hashes: string[]): Promise<Payload[]> {
+    console.log(`get: ${JSON.stringify(hashes, null, 2)}`)
     return compact(
       await Promise.all(
         hashes.map(async (hash) => {

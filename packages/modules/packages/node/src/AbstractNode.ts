@@ -99,14 +99,14 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
-    const typedQuery = (await wrapper.getQuery()).payload
+    const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: Payload[] = []
     try {
-      switch (typedQuery.schema) {
+      switch (queryPayload.schema) {
         case XyoNodeAttachQuerySchema: {
-          const address = await this.attach(typedQuery.nameOrAddress, typedQuery.external)
+          const address = await this.attach(queryPayload.nameOrAddress, queryPayload.external)
           if (address) {
             const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
             resultPayloads.push(payload)
@@ -114,7 +114,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
           break
         }
         case XyoNodeDetachQuerySchema: {
-          const address = await this.detach(typedQuery.nameOrAddress)
+          const address = await this.detach(queryPayload.nameOrAddress)
           if (address) {
             const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
             resultPayloads.push(payload)
@@ -149,7 +149,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
           .build(),
       )
     }
-    return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
+    return this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

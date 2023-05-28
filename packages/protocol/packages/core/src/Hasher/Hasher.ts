@@ -49,8 +49,9 @@ export class Hasher<T extends AnyObject = AnyObject> extends ObjectWrapper<T> {
   static async hashAsync<T extends AnyObject>(obj: T): Promise<string> {
     await Hasher.wasmInitialized
     if (Hasher.wasmSupport.canUseWasm) {
+      const stringToHash = this.stringify(obj)
       try {
-        return await sha256(this.stringify(obj))
+        return await sha256(stringToHash)
       } catch (ex) {
         Hasher.wasmSupport.allowWasm = false
       }

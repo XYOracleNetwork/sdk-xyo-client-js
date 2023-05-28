@@ -36,6 +36,7 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
   }
 
   static tryParse(obj: unknown) {
+    if (obj === undefined) return undefined
     try {
       return this.parse(obj)
     } catch (ex) {
@@ -43,9 +44,11 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     }
   }
 
-  static unwrap<TPayload extends Payload = Payload>(payload?: Payload): TPayload | undefined
-  static unwrap<TPayload extends Payload = Payload>(payload?: Payload[]): (TPayload | undefined)[]
-  static unwrap<TPayload extends Payload = Payload>(payload?: Payload | Payload[]): TPayload | (TPayload | undefined)[] | undefined {
+  static unwrap<TPayload extends Payload = Payload>(payload?: TPayload | PayloadWrapper<TPayload>): TPayload | undefined
+  static unwrap<TPayload extends Payload = Payload>(payload?: (TPayload | PayloadWrapper<TPayload>)[]): (TPayload | undefined)[]
+  static unwrap<TPayload extends Payload = Payload>(
+    payload?: TPayload | PayloadWrapper<TPayload> | (TPayload | PayloadWrapper<TPayload>)[],
+  ): TPayload | (TPayload | undefined)[] | undefined {
     if (Array.isArray(payload)) {
       return payload.map((payload) => this.unwrapSinglePayload<TPayload>(payload))
     } else {
@@ -53,15 +56,15 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     }
   }
 
-  private static unwrapSinglePayload<TPayload extends Payload = Payload>(payload?: Payload) {
+  private static unwrapSinglePayload<TPayload extends Payload = Payload>(payload?: TPayload | PayloadWrapper<TPayload>) {
     if (payload === undefined) {
       return undefined
     }
     if (payload instanceof PayloadWrapperBase) {
       return payload.payload as TPayload
     }
-    if (!(payload instanceof Object)) {
-      throw 'Can not unwrap class that is not extended from PayloadWrapperBase'
+    if (!(typeof payload === 'object')) {
+      throw 'Can not unwrap class that is not extended from object'
     }
     return payload as TPayload
   }

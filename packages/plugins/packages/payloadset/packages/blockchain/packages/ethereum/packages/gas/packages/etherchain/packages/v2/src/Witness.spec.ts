@@ -17,7 +17,7 @@ describe('XyoEtherchainEthereumGasWitnessV2', () => {
     expect(actual.schema).toBe(XyoEthereumGasEtherchainV2Schema)
 
     const answerWrapper = new PayloadWrapper(actual)
-    expect(answerWrapper.valid).toBe(true)
+    expect(await answerWrapper.getValid()).toBe(true)
   })
   test('returns observation [no config]', async () => {
     const sut = await XyoEtherchainEthereumGasWitnessV2.create()
@@ -29,6 +29,6 @@ describe('XyoEtherchainEthereumGasWitnessV2', () => {
     expect(actual.schema).toBe(XyoEthereumGasEtherchainV2Schema)
 
     const answerWrapper = new PayloadWrapper(actual)
-    expect(answerWrapper.valid).toBe(true)
+    expect(await answerWrapper.getValid()).toBe(true)
   })
 })

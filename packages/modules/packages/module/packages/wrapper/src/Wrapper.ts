@@ -314,8 +314,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     const unwrappedPayloads: Payload[] = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload')) ?? []
     const unwrappedQueryPayload: Query = assertEx(PayloadWrapper.unwrap<T>(queryPayload), 'Unable to parse queryPayload')
 
-    console.log(`unwrappedQueryPayload: ${JSON.stringify(unwrappedQueryPayload, null, 2)}`)
-
     // Bind them
     const query = await this.bindQuery(unwrappedQueryPayload, unwrappedPayloads)
 

@@ -94,20 +94,22 @@ describe('XyoPanel', () => {
       let archivistB: AbstractArchivist
       let witnessA: AbstractWitness
       let witnessB: AbstractWitness
-      const assertPanelReport = (panelReport: Payload[]) => {
+      const assertPanelReport = async (panelReport: Payload[]) => {
         expect(panelReport).toBeArrayOfSize(3)
         const [bw, ...payloads] = panelReport
-        expect(new BoundWitnessValidator(bw as BoundWitness).validate()).toBeArrayOfSize(0)
+        expect(await new BoundWitnessValidator(bw as BoundWitness).validate()).toBeArrayOfSize(0)
         expect(payloads).toBeArrayOfSize(2)
       }
       const assertArchivistStateMatchesPanelReport = async (payloads: Payload[], archivists: Archivist[]) => {
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
           expect(archivistPayloads).toBeArrayOfSize(payloads.length)
-          const panelPayloads = payloads.map((payload) => {
-            const wrapped = new PayloadWrapper(payload)
-            return { ...payload, _hash: wrapped.hash, _timestamp: expect.toBeNumber() }
-          })
+          const panelPayloads = await Promise.all(
+            payloads.map(async (payload) => {
+              const wrapped = new PayloadWrapper(payload)
+              return { ...payload, _hash: await wrapped.hashAsync(), _timestamp: expect.toBeNumber() }
+            }),
+          )
           expect(archivistPayloads).toContainValues(panelPayloads)
         }
       }
@@ -156,7 +158,7 @@ describe('XyoPanel', () => {
         await node.register(sentinel)
         await node.attach(sentinel.address)
         const result = await sentinel.report()
-        assertPanelReport(result)
+        await assertPanelReport(result)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {

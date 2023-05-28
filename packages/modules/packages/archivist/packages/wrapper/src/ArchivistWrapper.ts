@@ -56,7 +56,6 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   }
 
   async get(hashes: string[]): Promise<Payload[]> {
-    console.log(`get-wrapper: ${JSON.stringify(hashes, null, 2)}`)
     const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return result

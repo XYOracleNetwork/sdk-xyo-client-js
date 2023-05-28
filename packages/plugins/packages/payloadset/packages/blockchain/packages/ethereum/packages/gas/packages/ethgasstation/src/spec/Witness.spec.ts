@@ -18,6 +18,6 @@ describe('XyoEthereumGasEthgasstationWitness', () => {
     expect(actual.schema).toBe(XyoEthereumGasEthgasstationSchema)
 
     const answerWrapper = new PayloadWrapper(actual)
-    expect(answerWrapper.valid).toBe(true)
+    expect(await answerWrapper.getValid()).toBe(true)
   })
 })

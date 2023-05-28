@@ -5,9 +5,9 @@ import { XyoEthereumGasBlocknativePlugin } from '../Plugin'
 import { XyoEthereumGasBlocknativeWitness } from '../Witness'
 
 describe('XyoEthereumGasBlocknativePlugin', () => {
-  test('Add to Resolver', () => {
+  test('Add to Resolver', async () => {
     const plugin = XyoEthereumGasBlocknativePlugin()
-    const resolver = new PayloadSetPluginResolver().register(plugin, {
+    const resolver = await new PayloadSetPluginResolver().register(plugin, {
       config: { schema: XyoEthereumGasBlocknativeWitness.configSchema },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()

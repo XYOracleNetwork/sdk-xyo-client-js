@@ -15,6 +15,6 @@ describe('XyoEthereumGasBlocknativeWitness', () => {
     expect(actual.timestamp).toBeNumber()
     expect(actual.schema).toBe(XyoEthereumGasBlocknativeSchema)
     const answerWrapper = new PayloadWrapper(actual)
-    expect(answerWrapper.valid).toBe(true)
+    expect(await answerWrapper.getValid()).toBe(true)
   })
 })

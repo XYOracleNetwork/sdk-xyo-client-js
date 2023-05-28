@@ -106,7 +106,7 @@ describe('prepareBoundWitnesses', () => {
       it('prepares the boundWitness/payloads', async () => {
         const boundWitnesses = await getNewBlockWithBoundWitnessesWithPayloads(numBoundWitnesses, numPayloadVersions)
         validateBeforeSanitization(boundWitnesses)
-        const actual = prepareBoundWitnesses(boundWitnesses, await boundWitnessMeta(), await payloadMeta())
+        const actual = await prepareBoundWitnesses(boundWitnesses, await boundWitnessMeta(), await payloadMeta())
         validateAfterSanitization(actual)
       })
     })

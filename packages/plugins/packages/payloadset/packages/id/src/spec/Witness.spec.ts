@@ -18,14 +18,14 @@ describe('IdWitness', () => {
         it('without salt uses config salt', async () => {
           const witness = await IdWitness.create({ config })
           const observations = (await witness.observe()) as IdPayload[]
-          validateObservationShape(observations)
+          await validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(witness.config.salt)
         })
         it('with salt uses payload salt', async () => {
           const witness = await IdWitness.create({ config })
           const observations = (await witness.observe([{ salt: payloadSalt, schema: IdSchema }] as IdPayload[])) as IdPayload[]
-          validateObservationShape(observations)
+          await validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(payloadSalt)
         })
@@ -34,7 +34,7 @@ describe('IdWitness', () => {
         it('uses config salt', async () => {
           const witness = await IdWitness.create({ config })
           const observations = (await witness.observe()) as IdPayload[]
-          validateObservationShape(observations)
+          await validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(witness.config.salt)
         })
@@ -45,14 +45,14 @@ describe('IdWitness', () => {
         it('without salt uses random numeric string', async () => {
           const witness = await IdWitness.create()
           const observations = (await witness.observe()) as IdPayload[]
-          validateObservationShape(observations)
+          await validateObservationShape(observations)
           const [observation] = observations
           expect(parseInt(observation.salt)).toBeInteger()
         })
         it('with salt uses payload salt', async () => {
           const witness = await IdWitness.create()
           const observations = (await witness.observe([{ salt: payloadSalt, schema: IdSchema } as Payload])) as IdPayload[]
-          validateObservationShape(observations)
+          await validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(payloadSalt)
         })
@@ -61,7 +61,7 @@ describe('IdWitness', () => {
         it('uses random numeric string', async () => {
           const witness = await IdWitness.create()
           const observations = (await witness.observe()) as IdPayload[]
-          validateObservationShape(observations)
+          await validateObservationShape(observations)
           const [observation] = observations
           expect(parseInt(observation.salt)).toBeInteger()
         })
@@ -70,10 +70,10 @@ describe('IdWitness', () => {
   })
 })
 
-const validateObservationShape = (observations: IdPayload[]) => {
+const validateObservationShape = async (observations: IdPayload[]) => {
   expect(observations).toBeArrayOfSize(1)
   const [observation] = observations
   expect(observation.salt).toBeString()
   expect(observation.schema).toBe(IdSchema)
-  expect(new PayloadWrapper(observation).valid).toBe(true)
+  expect(await new PayloadWrapper(observation).getValid()).toBe(true)
 }

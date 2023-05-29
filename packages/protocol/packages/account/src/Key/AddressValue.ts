@@ -1,11 +1,21 @@
+import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
 import { staticImplements } from '@xylabs/static-implements'
-import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
+import { DataLike, toUint8Array, WasmSupport, XyoData } from '@xyo-network/core'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
 
 import { EllipticKey } from './EllipticKey'
 
+const wasmSupportStatic = new WasmSupport(['bigInt'])
+const recoveryIds = [0, 1, 2, 3]
+
 @staticImplements<AddressValueStatic>()
 export class AddressValue extends EllipticKey implements AddressValueInstance {
+  static readonly wasmSupport = wasmSupportStatic
+  protected static readonly secp256k1: Promise<Secp256k1 | null> = wasmSupportStatic
+    .initialize()
+    .then(() => instantiateSecp256k1())
+    .catch(() => null)
+
   private _isXyoAddress = true
   constructor(address: DataLike) {
     super(20, AddressValue.addressFromAddressOrPublicKey(address))
@@ -33,20 +43,29 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
     const s = sigArray.slice(32, 64)
 
     const expectedAddress = new AddressValue(address).hex
-
-    for (let i = 0; i < 4; i++) {
+    for (const recoveryId of recoveryIds) {
       try {
         const publicKey = AddressValue.ecContext
-          .keyFromPublic(AddressValue.ecContext.recoverPubKey(toUint8Array(msg), { r, s }, i))
+          .keyFromPublic(AddressValue.ecContext.recoverPubKey(toUint8Array(msg), { r, s }, recoveryId))
           .getPublic('hex')
           .slice(2)
         const recoveredAddress = AddressValue.addressFromPublicKey(publicKey)
         valid = valid || recoveredAddress === expectedAddress
+        if (valid) break
       } catch (ex) {
-        null
+        continue
       }
     }
     return valid
+  }
+
+  static async verifyAsync(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
+    const verifier = await AddressValue.secp256k1
+    if (verifier && AddressValue.wasmSupport.canUseWasm) {
+      return verifier.verifySignatureCompact(toUint8Array(signature), toUint8Array(address), toUint8Array(msg))
+    } else {
+      return AddressValue.verify(msg, signature, address)
+    }
   }
 
   verify(msg: Uint8Array | string, signature: Uint8Array | string) {

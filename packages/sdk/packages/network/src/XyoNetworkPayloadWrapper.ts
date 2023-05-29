@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { knownNetworks } from './knownNetworks'
@@ -22,12 +21,8 @@ export class XyoNetworkPayloadWrapper extends PayloadWrapper<XyoNetworkPayload> 
     return this.filterNodesByType('sentinel')
   }
 
-  static known(hash: string) {
-    const payload = assertEx(
-      knownNetworks().find((payload) => new XyoNetworkPayloadWrapper(payload).hash === hash),
-      'Unknown network',
-    )
-    return new XyoNetworkPayloadWrapper(payload)
+  static async known(hash: string): Promise<XyoNetworkPayload | undefined> {
+    return await XyoNetworkPayloadWrapper.find(await knownNetworks(), hash)
   }
 
   filterNodesByType(type: XyoNetworkNodeType) {

@@ -4,9 +4,9 @@ import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 import { XyoEthereumGasEtherchainV2Plugin } from '../Plugin'
 
 describe('XyoEthereumGasEtherchainV2Plugin', () => {
-  test('Add to Resolver', () => {
+  test('Add to Resolver', async () => {
     const plugin = XyoEthereumGasEtherchainV2Plugin()
-    const resolver = new PayloadSetPluginResolver().register(plugin)
+    const resolver = await new PayloadSetPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoEthereumGasEtherchainV2Schema)).toBeObject()
   })

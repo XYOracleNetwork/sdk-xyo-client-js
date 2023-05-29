@@ -5,9 +5,9 @@ import { XyoPentairScreenlogicPlugin } from '../Plugin'
 import { XyoPentairScreenlogicWitnessConfigSchema } from '../Witness'
 
 describe('XyoPentairScreenlogicPlugin', () => {
-  test('Add to Resolver', () => {
+  test('Add to Resolver', async () => {
     const plugin = XyoPentairScreenlogicPlugin()
-    const resolver = new PayloadSetPluginResolver().register(plugin, {
+    const resolver = await new PayloadSetPluginResolver().register(plugin, {
       config: {
         schema: XyoPentairScreenlogicWitnessConfigSchema,
       },

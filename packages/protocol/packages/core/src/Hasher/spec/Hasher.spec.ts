@@ -27,19 +27,19 @@ describe('Hasher', () => {
   beforeAll(async () => {
     await Hasher.wasmInitialized
   })
-  test('wasm vs js (compatibility-sync)', () => {
+  test('wasm vs js (compatibility-sync)', async () => {
     Hasher.wasmSupport.allowWasm = false
-    const jsHash = new Hasher(testObject).hash
+    const jsHash = await Hasher.hashAsync(testObject)
     Hasher.wasmSupport.allowWasm = true
-    const wasmHash = new Hasher(testObject).hash
+    const wasmHash = await Hasher.hashAsync(testObject)
     expect(jsHash).toEqual(wasmHash)
   })
 
   test('wasm vs js (compatibility-async)', async () => {
     Hasher.wasmSupport.allowWasm = false
-    const jsHash = await new Hasher(testObject).hashAsync()
+    const jsHash = await Hasher.hashAsync(testObject)
     Hasher.wasmSupport.allowWasm = true
-    const wasmHash = await new Hasher(testObject).hashAsync()
+    const wasmHash = await Hasher.hashAsync(testObject)
     expect(jsHash).toEqual(wasmHash)
   })
 
@@ -47,13 +47,13 @@ describe('Hasher', () => {
     Hasher.wasmSupport.allowWasm = false
     const jsHashStart = Date.now()
     for (let x = 0; x < 10000; x++) {
-      await new Hasher({ ...testObject, nonce: x }).hashAsync()
+      await Hasher.hashAsync({ ...testObject, nonce: x })
     }
     const jsHashDuration = Date.now() - jsHashStart
     Hasher.wasmSupport.allowWasm = true
     const wasmHashStart = Date.now()
     for (let x = 0; x < 10000; x++) {
-      await new Hasher({ ...testObject, nonce: x }).hashAsync()
+      await Hasher.hashAsync({ ...testObject, nonce: x })
     }
     const wasmHashDuration = Date.now() - wasmHashStart
     expect(wasmHashDuration).toBeDefined()

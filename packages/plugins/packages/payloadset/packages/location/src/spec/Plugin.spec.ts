@@ -9,9 +9,9 @@ import { CurrentLocationWitnessConfigSchema } from '../Config'
 import { LocationPlugin } from '../Plugin'
 
 describe('LocationPlugin', () => {
-  test('Add to Resolver', () => {
+  test('Add to Resolver', async () => {
     const plugin = LocationPlugin()
-    const resolver = new PayloadSetPluginResolver().register(plugin, {
+    const resolver = await new PayloadSetPluginResolver().register(plugin, {
       config: {
         schema: CurrentLocationWitnessConfigSchema,
       },

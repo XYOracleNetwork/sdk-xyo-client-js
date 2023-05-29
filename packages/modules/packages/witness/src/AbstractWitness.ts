@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { Hasher } from '@xyo-network/core'
 import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
 import { WitnessConfigSchema } from './Config'
@@ -43,18 +43,18 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<WitnessQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
+    const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     // Remove the query payload from the arguments passed to us so we don't observe it
-    const filteredObservation = payloads?.filter((p) => new PayloadWrapper(p).hash !== query.query) || []
+    const filteredObservation = await Hasher.filterExclude(payloads, query.query)
     const queryAccount = new Account()
     try {
-      switch (typedQuery.schema) {
+      switch (queryPayload.schema) {
         case WitnessObserveQuerySchema: {
           await this.emit('reportStart', { inPayloads: payloads, module: this })
           const resultPayloads = await this.observe(filteredObservation)
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
-          return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
+          return this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
         }
         default: {
           return super.queryHandler(query, payloads)
@@ -62,7 +62,16 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindQueryResult(typedQuery, [new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build()], [queryAccount])
+      return this.bindQueryResult(
+        queryPayload,
+        [
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .message(error.message)
+            .build(),
+        ],
+        [queryAccount],
+      )
     }
   }
 }

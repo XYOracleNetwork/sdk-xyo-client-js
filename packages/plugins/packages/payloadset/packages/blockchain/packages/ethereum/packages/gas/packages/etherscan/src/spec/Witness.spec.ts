@@ -28,7 +28,7 @@ describe('XyoEthereumGasEtherscanWitness', () => {
     expect(actual.schema).toBe(XyoEthereumGasEtherscanSchema)
 
     const answerWrapper = new PayloadWrapper(actual)
-    expect(answerWrapper.valid).toBe(true)
+    expect(await answerWrapper.getValid()).toBe(true)
   })
 
   /*describe('create', () => {

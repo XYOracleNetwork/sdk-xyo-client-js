@@ -39,7 +39,7 @@ describe.skip('Generation of automation payload pointers', () => {
     const fields = { reference: [[addressRule], [schemaRule]], schema: PayloadPointerSchema }
     const payload = new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields(fields).build()
     await archivist.insert([payload])
-    const hash = PayloadWrapper.hash(payload)
+    const hash = await PayloadWrapper.hashAsync(payload)
     const url = `${nodeUrl}/${hash}`
     console.log(`Dapp: ${schema} Pointer: ${url}`)
   })

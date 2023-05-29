@@ -61,12 +61,10 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     const boundWitness3 = (
       await new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()
     )[0]
-    const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1)
-    const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2)
-    const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3)
-    boundWitnessWrapper1.payloads = [payload1]
-    boundWitnessWrapper2.payloads = [payload2]
-    boundWitnessWrapper3.payloads = [payload3, payload4]
+    const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1, [payload1])
+    const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2, [payload2])
+    const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3, [payload3, payload4])
+
     boundWitnessWrappers.push(boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3)
     const insertions = [
       // TODO: Try simple cases of [payload, BW, mixed BW & Payload]
@@ -92,7 +90,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     })
   })
   describe('insert', () => {
-    it('inserts single payload', () => {
+    it('inserts single payload', async () => {
       expect(insertResult1).toBeTruthy()
       expect(insertResult1).toBeArrayOfSize(2)
       const [boundResult, transactionResults] = insertResult1
@@ -100,12 +98,14 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       expect(transactionResults.addresses).toContain(moduleAccount.public.address.hex)
       const boundWitnessWrapper = boundWitnessWrappers[0]
       expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloadsArray.length + 3)
-      boundWitnessWrapper.payloadsArray.forEach((p) => {
-        expect(transactionResults.payload_hashes).toInclude(p.hash)
-      })
+      await Promise.all(
+        boundWitnessWrapper.payloadsArray.map(async (p) => {
+          expect(transactionResults.payload_hashes).toInclude(await p.hashAsync())
+        }),
+      )
       expect(insertResult1.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
     })
-    it('inserts multiple payloads', () => {
+    it('inserts multiple payloads', async () => {
       expect(insertResult3).toBeTruthy()
       expect(insertResult3).toBeArrayOfSize(2)
       const [boundResult, transactionResults] = insertResult3
@@ -113,9 +113,11 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       expect(transactionResults.addresses).toContain(moduleAccount.public.address.hex)
       const boundWitnessWrapper = boundWitnessWrappers[2]
       expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloadsArray.length + 3)
-      boundWitnessWrapper.payloadsArray.forEach((p) => {
-        expect(transactionResults.payload_hashes).toInclude(p.hash)
-      })
+      await Promise.all(
+        boundWitnessWrapper.payloadsArray.map(async (p) => {
+          expect(transactionResults.payload_hashes).toInclude(await p.hashAsync())
+        }),
+      )
       expect(insertResult3.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
     })
   })
@@ -133,7 +135,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(payloads.length)
       const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
-      const resultHashes = resultPayloads.map((p) => p.hash)
+      const resultHashes = await Promise.all(resultPayloads.map((p) => p.hashAsync()))
       payloads.map((p) => {
         expect(resultHashes).toInclude(p.hash)
       })

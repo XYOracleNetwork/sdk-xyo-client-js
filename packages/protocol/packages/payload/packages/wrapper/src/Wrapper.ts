@@ -14,11 +14,6 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     return deepOmitUnderscoreFields<TPayload>(this.obj)
   }
 
-  get errors() {
-    this._errors = this._errors ?? this.validate()
-    return this._errors
-  }
-
   get payload() {
     return assertEx(this.obj, 'Missing payload object')
   }
@@ -32,10 +27,6 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     return assertEx(this.payload.schema, 'Missing payload schema')
   }
 
-  get valid() {
-    return this.errors.length === 0
-  }
-
   static load(_address: DataLike): Promisable<PayloadWrapperBase | null> {
     throw Error('Not implemented')
   }
@@ -45,6 +36,7 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
   }
 
   static tryParse(obj: unknown) {
+    if (obj === undefined) return undefined
     try {
       return this.parse(obj)
     } catch (ex) {
@@ -52,9 +44,11 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     }
   }
 
-  static unwrap<TPayload extends Payload = Payload>(payload?: Payload): TPayload | undefined
-  static unwrap<TPayload extends Payload = Payload>(payload?: Payload[]): (TPayload | undefined)[]
-  static unwrap<TPayload extends Payload = Payload>(payload?: Payload | Payload[]): TPayload | (TPayload | undefined)[] | undefined {
+  static unwrap<TPayload extends Payload = Payload>(payload?: TPayload | PayloadWrapper<TPayload>): TPayload | undefined
+  static unwrap<TPayload extends Payload = Payload>(payload?: (TPayload | PayloadWrapper<TPayload>)[]): (TPayload | undefined)[]
+  static unwrap<TPayload extends Payload = Payload>(
+    payload?: TPayload | PayloadWrapper<TPayload> | (TPayload | PayloadWrapper<TPayload>)[],
+  ): TPayload | (TPayload | undefined)[] | undefined {
     if (Array.isArray(payload)) {
       return payload.map((payload) => this.unwrapSinglePayload<TPayload>(payload))
     } else {
@@ -62,20 +56,29 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     }
   }
 
-  private static unwrapSinglePayload<TPayload extends Payload = Payload>(payload?: Payload) {
+  private static unwrapSinglePayload<TPayload extends Payload = Payload>(payload?: TPayload | PayloadWrapper<TPayload>) {
     if (payload === undefined) {
       return undefined
     }
     if (payload instanceof PayloadWrapperBase) {
       return payload.payload as TPayload
     }
-    if (!(payload instanceof Object)) {
-      throw 'Can not unwrap class that is not extended from PayloadWrapperBase'
+    if (!(typeof payload === 'object')) {
+      throw 'Can not unwrap class that is not extended from object'
     }
     return payload as TPayload
   }
 
-  abstract validate(): Error[]
+  async getErrors() {
+    this._errors = this._errors ?? (await this.validate())
+    return this._errors
+  }
+
+  async getValid() {
+    return (await this.getErrors()).length === 0
+  }
+
+  abstract validate(): Promisable<Error[]>
 }
 
 export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadWrapperBase<TPayload> {
@@ -113,7 +116,17 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     this.loaderFactory = factory
   }
 
-  override validate(): Error[] {
-    return new PayloadValidator(this.payload).validate()
+  static async toWrappedMap<T extends Payload>(payloads: (T | PayloadWrapper<T>)[]): Promise<Record<string, PayloadWrapper<T>>> {
+    const result: Record<string, PayloadWrapper<T>> = {}
+    await Promise.all(
+      payloads.map(async (payload) => {
+        result[await PayloadWrapper.hashAsync(payload)] = PayloadWrapper.parse(payload)
+      }),
+    )
+    return result
+  }
+
+  override async validate(): Promise<Error[]> {
+    return await new PayloadValidator(this.payload).validate()
   }
 }

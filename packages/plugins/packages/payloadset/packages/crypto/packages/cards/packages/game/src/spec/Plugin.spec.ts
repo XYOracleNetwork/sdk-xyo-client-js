@@ -4,9 +4,9 @@ import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 import { XyoCryptoCardsGamePlugin } from '../Plugin'
 
 describe('XyoCryptoCardsGamePlugin', () => {
-  test('Add to Resolver', () => {
+  test('Add to Resolver', async () => {
     const plugin = XyoCryptoCardsGamePlugin()
-    const resolver = new PayloadSetPluginResolver().register(plugin)
+    const resolver = await new PayloadSetPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.set)).toBeObject()
     expect(resolver.witness(XyoCryptoCardsGameSchema)).toBeObject()
   })

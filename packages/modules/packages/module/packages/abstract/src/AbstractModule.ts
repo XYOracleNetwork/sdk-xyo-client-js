@@ -180,7 +180,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    const result = await this.queryHandler(query, payloads, queryConfig)
+    const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
 
     const args: ModuleQueriedEventArgs = { module: this as Module, payloads, query, result }
     await this.emit('moduleQueried', args)
@@ -326,12 +326,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
       }
     }
-    const typedQuery = wrapper.query.payload
+    const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     const queryAccount = new Account()
     try {
-      switch (typedQuery.schema) {
+      switch (queryPayload.schema) {
         case ModuleDiscoverQuerySchema: {
           resultPayloads.push(...(await this.discover()))
           break
@@ -345,13 +345,18 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           break
         }
         default:
-          console.error(`Unsupported Query [${query.schema}]`)
+          console.error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
+      resultPayloads.push(
+        new ModuleErrorBuilder()
+          .sources([await wrapper.hashAsync()])
+          .message(error.message)
+          .build(),
+      )
     }
-    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
+    return await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
   }
 
   protected readArchivist = () => this.getArchivist('read')

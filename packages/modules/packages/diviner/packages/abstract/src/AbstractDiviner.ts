@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { Hasher } from '@xyo-network/core'
 import {
   DivinerConfigSchema,
   DivinerDivineQuerySchema,
@@ -11,7 +12,6 @@ import {
 } from '@xyo-network/diviner-model'
 import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractDiviner<
@@ -41,13 +41,13 @@ export abstract class AbstractDiviner<
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
     //remove the query payload
-    const cleanPayloads = payloads?.filter((payload) => PayloadWrapper.hash(payload) !== query.query)
-    const typedQuery = wrapper.query
+    const cleanPayloads = await Hasher.filterExclude(payloads, query.query)
+    const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: Payload[] = []
     try {
-      switch (typedQuery.schemaName) {
+      switch (queryPayload.schema) {
         case DivinerDivineQuerySchema:
           await this.emit('reportStart', { inPayloads: payloads, module: this })
           resultPayloads.push(...(await this.divine(cleanPayloads)))
@@ -58,9 +58,14 @@ export abstract class AbstractDiviner<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
+      resultPayloads.push(
+        new ModuleErrorBuilder()
+          .sources([await wrapper.hashAsync()])
+          .message(error.message)
+          .build(),
+      )
     }
-    return await this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
+    return await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
   }
 
   abstract divine(payloads?: Payload[]): Promisable<Payload[]>

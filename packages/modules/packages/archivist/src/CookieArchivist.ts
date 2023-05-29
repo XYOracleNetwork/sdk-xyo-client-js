@@ -13,6 +13,7 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { Hasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -100,7 +101,7 @@ export class CookieArchivist<
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
             const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
-              payloads: payloads.map((payload) => PayloadWrapper.hash(payload)),
+              payloads: Hasher.hashes(payloads),
               schema: ArchivistInsertQuerySchema,
             })
             const query = await this.bindQuery(queryPayload, payloads)
@@ -146,14 +147,16 @@ export class CookieArchivist<
 
   async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     try {
-      const resultPayloads: Payload[] = payloads.map((payload) => {
-        const wrapper = new PayloadWrapper(payload)
-        const key = this.keyFromHash(wrapper.hash)
-        const value = JSON.stringify(wrapper.payload)
-        assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hash}, ${value.length}]`)
-        Cookies.set(key, JSON.stringify(wrapper.payload))
-        return wrapper.payload
-      })
+      const resultPayloads: Payload[] = await Promise.all(
+        payloads.map(async (payload) => {
+          const wrapper = new PayloadWrapper(payload)
+          const key = this.keyFromHash(await wrapper.hashAsync())
+          const value = JSON.stringify(wrapper.payload)
+          assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hashAsync()}, ${value.length}]`)
+          Cookies.set(key, JSON.stringify(wrapper.payload))
+          return wrapper.payload
+        }),
+      )
       const result = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
       const parentBoundWitnesses: BoundWitness[] = []
       const parents = await this.parents()

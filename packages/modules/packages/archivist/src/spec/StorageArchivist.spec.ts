@@ -93,10 +93,10 @@ test('Archivist Parent Write Through', async () => {
     expect(boundWitnesses.length).toBeGreaterThan(0)
   })
 
-  storage.on('moduleQueried', ({ query, payloads }) => {
+  storage.on('moduleQueried', async ({ query, payloads }) => {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
-    expect(wrapper.query).toBeDefined()
-    console.log(`Queried: ${wrapper.query.schema}`)
+    expect(await wrapper.getQuery()).toBeDefined()
+    console.log(`Queried: ${(await wrapper.getQuery()).schema}`)
   })
 
   const storageWrapper = ArchivistWrapper.wrap(storage)
@@ -105,8 +105,8 @@ test('Archivist Parent Write Through', async () => {
 
   expect(inserted).toBeArrayOfSize(3)
 
-  const fromStorage = await storage.get([wrapper.hash])
-  const fromMemory = await memory.get([wrapper.hash])
+  const fromStorage = await storage.get([await wrapper.hashAsync()])
+  const fromMemory = await memory.get([await wrapper.hashAsync()])
 
   expect(fromStorage).toBeArrayOfSize(1)
   expect(fromMemory).toBeArrayOfSize(1)
@@ -147,7 +147,7 @@ test('Archivist Parent Reads', async () => {
 
   expect(inserted).toBeArrayOfSize(1)
 
-  const fromStorage = await storage.get([wrapper.hash])
+  const fromStorage = await storage.get([await wrapper.hashAsync()])
 
   expect(fromStorage).toBeArrayOfSize(1)
 })

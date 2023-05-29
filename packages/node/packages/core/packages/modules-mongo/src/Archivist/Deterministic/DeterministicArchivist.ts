@@ -38,9 +38,9 @@ export type MongoDBDeterministicArchivistParams = ArchivistParams<
   }
 >
 
-const toBoundWitnessWithMeta = (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper): BoundWitnessWithMeta => {
+const toBoundWitnessWithMeta = async (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper): Promise<BoundWitnessWithMeta> => {
   const bw = wrapper.boundwitness as BoundWitness
-  return { ...bw, _hash: wrapper.hash, _timestamp: Date.now() }
+  return { ...bw, _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
 }
 
 const toReturnValue = (value: Payload | BoundWitness): Payload => {
@@ -52,8 +52,8 @@ const toReturnValue = (value: Payload | BoundWitness): Payload => {
   }
 }
 
-const toPayloadWithMeta = (wrapper: PayloadWrapper): PayloadWithMeta => {
-  return { ...wrapper.payload, _hash: wrapper.hash, _timestamp: Date.now() }
+const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMeta> => {
+  return { ...wrapper.payload, _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
 }
 
 export class MongoDBDeterministicArchivist<
@@ -86,8 +86,8 @@ export class MongoDBDeterministicArchivist<
     throw new Error('insert method must be called via query')
   }
 
-  protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistGetQuery): Promise<Payload[]> {
-    const hashes = typedQuery.hashes
+  protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, queryPayload: ArchivistGetQuery): Promise<Payload[]> {
+    const hashes = queryPayload.hashes
     const payloads = hashes.map((_hash) => this.payloads.findOne({ _hash }))
     const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
     const gets = await Promise.allSettled([payloads, bws].flat())
@@ -95,11 +95,11 @@ export class MongoDBDeterministicArchivist<
     return succeeded.filter(exists).map(toReturnValue)
   }
 
-  protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, typedQuery: ArchivistInsertQuery): Promise<BoundWitness[]> {
+  protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, queryPayload: ArchivistInsertQuery): Promise<BoundWitness[]> {
     const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)]
-    const [bw, p] = toStore.reduce(validByType, [[], []])
-    const boundWitnesses = bw.map((x) => toBoundWitnessWithMeta(x))
-    const payloads = p.map((x) => toPayloadWithMeta(x))
+    const [bw, p] = await validByType(toStore)
+    const boundWitnesses = await Promise.all(bw.map((x) => toBoundWitnessWithMeta(x)))
+    const payloads = await Promise.all(p.map((x) => toPayloadWithMeta(x)))
     if (boundWitnesses.length) {
       const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
       if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)
@@ -110,7 +110,7 @@ export class MongoDBDeterministicArchivist<
       if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
         throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
     }
-    const result = await this.bindQueryResult(typedQuery, [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)])
+    const result = await this.bindQueryResult(queryPayload, [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload)])
     return [result[0]]
   }
 
@@ -120,20 +120,20 @@ export class MongoDBDeterministicArchivist<
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
-    const typedQuery = wrapper.query.payload
+    const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     // TODO: Use new Account once we mock Account.new in Jest
     const queryAccount = Account.random()
     // const queryAccount = new Account()
     try {
-      switch (typedQuery.schema) {
+      switch (queryPayload.schema) {
         case ArchivistGetQuerySchema: {
-          resultPayloads.push(...(await this.getInternal(wrapper, typedQuery)))
+          resultPayloads.push(...(await this.getInternal(wrapper, queryPayload)))
           break
         }
         case ArchivistInsertQuerySchema: {
-          resultPayloads.push(...(await this.insertInternal(wrapper, typedQuery)))
+          resultPayloads.push(...(await this.insertInternal(wrapper, queryPayload)))
           break
         }
         default:
@@ -141,8 +141,13 @@ export class MongoDBDeterministicArchivist<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(new ModuleErrorBuilder().sources([wrapper.hash]).message(error.message).build())
+      resultPayloads.push(
+        new ModuleErrorBuilder()
+          .sources([await wrapper.hashAsync()])
+          .message(error.message)
+          .build(),
+      )
     }
-    return this.bindQueryResult(typedQuery, resultPayloads, [queryAccount])
+    return this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
   }
 }

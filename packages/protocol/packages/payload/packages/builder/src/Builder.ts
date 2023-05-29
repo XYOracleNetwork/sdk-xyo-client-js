@@ -16,7 +16,7 @@ export class PayloadBuilder<T extends Payload = Payload<Record<string, unknown>>
   }
 
   get meta() {
-    const _hash = new Hasher(this.hashableFields).hash
+    const _hash = Hasher.hashAsync(this.hashableFields)
     return { _client: this._client, _hash, _timestamp: this._timestamp, schema: this._schema }
   }
 

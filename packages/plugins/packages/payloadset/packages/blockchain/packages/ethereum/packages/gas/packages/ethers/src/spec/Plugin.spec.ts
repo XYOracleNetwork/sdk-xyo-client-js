@@ -10,10 +10,10 @@ const projectId = process.env.INFURA_PROJECT_ID || ''
 const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
 
 describe('XyoEthereumGasEthersPlugin', () => {
-  testIf(projectId && projectSecret)('Add to Resolver', () => {
+  testIf(projectId && projectSecret)('Add to Resolver', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
     const plugin = XyoEthereumGasEthersPlugin()
-    const resolver = new PayloadSetPluginResolver().register(plugin, {
+    const resolver = await new PayloadSetPluginResolver().register(plugin, {
       config: { schema: XyoEthereumGasEthersWitness.configSchema },
       provider,
     })

@@ -29,7 +29,7 @@ export class MemoryAddressChainDiviner<
     let currentHash: string | null = assertEx(this.config.startHash, 'Missing startHash')
     while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
       const bwPayload: BoundWitness | undefined = await this.archivistFindHash(archivists, currentHash)
-      const bw: BoundWitnessWrapper | undefined = BoundWitnessWrapper.parse(bwPayload)
+      const bw: BoundWitnessWrapper | undefined = BoundWitnessWrapper.tryParse(bwPayload)
       if (bw) {
         result.push(bw)
         currentHash = bw.prev(this.queryAddress)

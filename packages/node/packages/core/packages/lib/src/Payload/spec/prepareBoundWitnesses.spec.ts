@@ -1,6 +1,6 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { BoundWitnessMeta, BoundWitnessWithPartialMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessMeta, BoundWitnessWithPartialMeta, PayloadMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -13,24 +13,24 @@ const _observeDuration = 10
 const _source_ip = '192.168.1.20'
 const _timestamp = 1655137984429
 const _user_agent = 'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36'
-const _hash = new PayloadWrapper({ schema: 'network.xyo.test' }).hash
+const _hash = () => new PayloadWrapper({ schema: 'network.xyo.test' }).hashAsync()
 
-const boundWitnessMeta: BoundWitnessMeta = {
+const boundWitnessMeta = async (): Promise<BoundWitnessMeta> => ({
   _client,
-  _hash,
+  _hash: await _hash(),
   _observeDuration,
   _source_ip,
   _timestamp,
   _user_agent,
-}
-const payloadMeta = {
+})
+
+const payloadMeta = async (): Promise<PayloadMeta> => ({
   _client,
-  _hash,
+  _hash: await _hash(),
   _observeDuration,
-  _source_ip,
   _timestamp,
   _user_agent,
-}
+})
 
 const getPayloads = (numPayloads: number): Payload[] => {
   return new Array(numPayloads).fill(0).map(() => new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ ...payloadMeta, uid: v4() }).build())
@@ -106,7 +106,7 @@ describe('prepareBoundWitnesses', () => {
       it('prepares the boundWitness/payloads', async () => {
         const boundWitnesses = await getNewBlockWithBoundWitnessesWithPayloads(numBoundWitnesses, numPayloadVersions)
         validateBeforeSanitization(boundWitnesses)
-        const actual = prepareBoundWitnesses(boundWitnesses, boundWitnessMeta, payloadMeta)
+        const actual = await prepareBoundWitnesses(boundWitnesses, await boundWitnessMeta(), await payloadMeta())
         validateAfterSanitization(actual)
       })
     })

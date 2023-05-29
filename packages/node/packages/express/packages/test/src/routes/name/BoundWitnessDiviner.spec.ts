@@ -69,8 +69,8 @@ describe(`/${moduleName}`, () => {
           const query: BoundWitnessDivinerQueryPayload = { addresses, schema }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(expected.length)
-          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-          expect(responseHashes).toContainAllValues(expected.map((p) => p.hash))
+          const responseHashes = await Promise.all(response.map((p) => PayloadWrapper.hashAsync(p)))
+          expect(responseHashes).toContainAllValues(await Promise.all(expected.map((p) => p.hashAsync())))
         })
       })
     })
@@ -81,12 +81,12 @@ describe(`/${moduleName}`, () => {
         await archivist.insert([boundWitness.payload])
       })
       it('divines BoundWitnesses by hash', async () => {
-        const hash = boundWitness.hash
+        const hash = await boundWitness.hashAsync()
         const query: BoundWitnessDivinerQueryPayload = { hash, schema }
         const response = await diviner.divine([query])
         expect(response).toBeArrayOfSize(1)
-        const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-        expect(responseHashes).toContainAllValues([boundWitness.hash])
+        const responseHashes = await Promise.all(response.map((p) => PayloadWrapper.hashAsync(p)))
+        expect(responseHashes).toContainAllValues([await boundWitness.hashAsync()])
       })
       it('returns empty array for non-existent hash', async () => {
         const hash = nonExistentHash
@@ -120,8 +120,8 @@ describe(`/${moduleName}`, () => {
           const query: BoundWitnessDivinerQueryPayload = { limit, schema, timestamp }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(boundWitnesses.length)
-          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-          expect(responseHashes).toContainAllValues(boundWitnesses.map((p) => p.hash))
+          const responseHashes = await Promise.all(response.map((p) => PayloadWrapper.hashAsync(p)))
+          expect(responseHashes).toContainAllValues(await Promise.all(boundWitnesses.map((p) => p.hashAsync())))
         })
       })
     })
@@ -159,8 +159,8 @@ describe(`/${moduleName}`, () => {
           const query: BoundWitnessDivinerQueryPayload = { payload_schemas, schema }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(expected.length)
-          const responseHashes = response.map((p) => PayloadWrapper.hash(p))
-          expect(responseHashes).toContainAllValues(expected.map((p) => p.hash))
+          const responseHashes = await Promise.all(response.map((p) => PayloadWrapper.hashAsync(p)))
+          expect(responseHashes).toContainAllValues(await Promise.all(expected.map((p) => p.hashAsync())))
         })
       })
     })

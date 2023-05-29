@@ -8,7 +8,7 @@ import { DappManifest, ManifestPayload, ModuleManifest } from './Payload'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   dAppManifest(id: string) {
-    return this.payload.dapps?.find((dapp) => dapp.id === id)
+    return this.payload().dapps?.find((dapp) => dapp.id === id)
   }
 
   async loadDappFromId(node: MemoryNode, id: string, additionalCreatableModules?: CreatableModuleDictionary) {
@@ -46,7 +46,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
 
   async loadDapps(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary) {
     return await Promise.all(
-      this.payload.dapps?.map(async (dappManifest) => {
+      this.payload().dapps?.map(async (dappManifest) => {
         const subNode = await MemoryNode.create()
         await node?.register(subNode)
         await this.loadDappFromManifest(subNode, dappManifest, additionalCreatableModules)
@@ -83,7 +83,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
 
   resolveModuleManifest(manifest?: ModuleManifest) {
     if (manifest?.name && !manifest.id) {
-      return this.payload.modules?.[manifest.name]
+      return this.payload().modules?.[manifest.name]
     }
     return manifest
   }

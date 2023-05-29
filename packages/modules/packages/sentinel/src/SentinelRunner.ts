@@ -95,7 +95,7 @@ export class SentinelRunner {
     const wrapper = new SentinelIntervalAutomationWrapper(automation)
     await this.remove(await wrapper.hashAsync(), false)
     wrapper.next()
-    await this.add(wrapper.payload, false)
+    await this.add(wrapper.payload(), false)
     const triggerResult = await this.sentinel.report()
     this.onTriggerResult?.(triggerResult)
     await this.start()

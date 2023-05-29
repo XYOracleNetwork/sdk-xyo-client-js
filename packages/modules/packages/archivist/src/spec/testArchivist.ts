@@ -6,7 +6,7 @@ import { delay } from '@xylabs/delay'
 import { ArchivistModule } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { IdSchema } from '@xyo-network/plugins'
@@ -26,7 +26,7 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, n
     const insertResultPayload = insertResultWrappers.pop() as BoundWitnessWrapper
     expect(insertResultPayload).toBeDefined()
 
-    expect(Hasher.find(insertResultPayload.payloadHashes, await payloadWrapper.hashAsync())).toBeDefined()
+    expect(PayloadHasher.find(insertResultPayload.payloadHashes, await payloadWrapper.hashAsync())).toBeDefined()
     const getResult = await archivistWrapper.get([await payloadWrapper.hashAsync()])
     expect(getResult).toBeDefined()
     expect(getResult.length).toBe(1)

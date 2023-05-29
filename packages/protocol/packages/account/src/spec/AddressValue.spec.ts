@@ -59,7 +59,7 @@ describe('AddressValue', () => {
   //     const account = Account.random()
   //     const payload = { data: Math.random(), schema: 'network.xyo.test' }
   //     const boundWitness = await new BoundWitnessBuilder().payload(payload).witness(account).build()
-  //     const message = Hasher.hash(boundWitness[0])
+  //     const message = PayloadHasher.hash(boundWitness[0])
   //     const signature = boundWitness[0]._signatures[0]
   //     const address = boundWitness[0].addresses[0]
   //     valid.push([message, signature, address])

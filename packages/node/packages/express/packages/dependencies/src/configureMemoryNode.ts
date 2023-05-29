@@ -1,5 +1,5 @@
 import { exists } from '@xylabs/exists'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import {
   AddressHistoryDivinerConfigSchema,
   AddressSpaceDivinerConfigSchema,
@@ -59,7 +59,7 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Mem
         const payloads = await archivist.get(hashes)
         await Promise.all(
           payloads.map(async (payload) => {
-            configPayloads[await Hasher.hashAsync(payload)] = payload as ModuleConfig
+            configPayloads[await PayloadHasher.hashAsync(payload)] = payload as ModuleConfig
           }),
         )
       }

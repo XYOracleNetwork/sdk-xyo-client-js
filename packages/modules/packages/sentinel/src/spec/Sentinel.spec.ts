@@ -5,7 +5,7 @@ import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/arch
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node'
 import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
@@ -77,10 +77,10 @@ describe('XyoPanel', () => {
 
     const report1Result = await panel.report(adhocObserved)
     const report1 = BoundWitnessWrapper.parse(report1Result[0])
-    expect(report1.schemaName).toBe(BoundWitnessSchema)
+    expect(report1.schema()).toBe(BoundWitnessSchema)
     expect(report1.payloadHashes).toBeArrayOfSize(3)
     const report2 = BoundWitnessWrapper.parse((await panel.report())[0])
-    expect(report2.schemaName).toBeDefined()
+    expect(report2.schema()).toBeDefined()
     expect(report2.payloadHashes).toBeArrayOfSize(2)
     expect(report2.hash !== report1.hash).toBe(true)
     expect(report2.prev(panel.address)).toBeDefined()
@@ -220,10 +220,10 @@ describe('XyoPanel', () => {
         expect(observedB).toBeArrayOfSize(1)
         const result = await panel.report([...observedA, ...observedB])
         await assertPanelReport(result)
-        expect((await archivistA.get([Hasher.hash(observedA[0])])).length).toBe(1)
-        expect((await archivistA.get([Hasher.hash(observedB[0])])).length).toBe(1)
-        expect((await archivistB.get([Hasher.hash(observedA[0])])).length).toBe(1)
-        expect((await archivistB.get([Hasher.hash(observedB[0])])).length).toBe(1)
+        expect((await archivistA.get([PayloadHasher.hash(observedA[0])])).length).toBe(1)
+        expect((await archivistA.get([PayloadHasher.hash(observedB[0])])).length).toBe(1)
+        expect((await archivistB.get([PayloadHasher.hash(observedA[0])])).length).toBe(1)
+        expect((await archivistB.get([PayloadHasher.hash(observedB[0])])).length).toBe(1)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('reports errors', async () => {

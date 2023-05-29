@@ -3,7 +3,7 @@ import { Buffer } from '@xylabs/buffer'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Hasher, sortFields } from '@xyo-network/core'
+import { PayloadHasher, sortFields } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Payload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
@@ -123,7 +123,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   private async getPayloadHashes(): Promise<string[]> {
-    return this._payloadHashes ?? (await Promise.all(this._payloads.map((payload) => Hasher.hashAsync(payload))))
+    return this._payloadHashes ?? (await Promise.all(this._payloads.map((payload) => PayloadHasher.hashAsync(payload))))
   }
 
   private inlinePayloads() {

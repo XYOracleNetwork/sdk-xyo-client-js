@@ -26,6 +26,6 @@ export class XyoNetworkPayloadWrapper extends PayloadWrapper<XyoNetworkPayload> 
   }
 
   filterNodesByType(type: XyoNetworkNodeType) {
-    return this.payload.nodes?.filter((node) => node.type === type)
+    return this.payload().nodes?.filter((node) => node.type === type)
   }
 }

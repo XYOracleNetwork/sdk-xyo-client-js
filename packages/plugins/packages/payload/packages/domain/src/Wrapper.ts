@@ -1,6 +1,6 @@
 import { XyoApiEnvelope } from '@xyo-network/api-models'
 import { axios, AxiosError } from '@xyo-network/axios'
-import { Hasher, isBrowser } from '@xyo-network/core'
+import { isBrowser, PayloadHasher } from '@xyo-network/core'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'
 import { FetchedPayload, Huri, HuriOptions } from '@xyo-network/huri'
 import { XyoNetworkPayload } from '@xyo-network/network'
@@ -72,9 +72,9 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     this.aliases = null
 
     const archivistUri = await this.findArchivistUri(networkSlug)
-    if (this.payload.aliases) {
+    if (this.payload().aliases) {
       const fetchedAliases = await Promise.all(
-        Object.entries(this.payload.aliases ?? {}).map(([, alias]) => {
+        Object.entries(this.payload().aliases ?? {}).map(([, alias]) => {
           return this.fetchAlias(alias, { archivistUri })
         }),
       )
@@ -94,6 +94,6 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
   }
 
   private async getNetwork(hash?: string): Promise<XyoNetworkPayload | undefined> {
-    return hash ? await Hasher.find(this.payload.networks, hash) : this.payload.networks?.[0]
+    return hash ? await PayloadHasher.find(this.payload().networks, hash) : this.payload().networks?.[0]
   }
 }

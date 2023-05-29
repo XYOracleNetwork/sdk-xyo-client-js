@@ -101,7 +101,7 @@ test('Archivist Parent Write Through', async () => {
 
   const storageWrapper = ArchivistWrapper.wrap(storage)
 
-  const inserted = await storageWrapper.insert([wrapper.payload])
+  const inserted = await storageWrapper.insert([wrapper.payload()])
 
   expect(inserted).toBeArrayOfSize(3)
 
@@ -143,7 +143,7 @@ test('Archivist Parent Reads', async () => {
 
   expect(wrapper).toBeDefined()
 
-  const inserted = await parent.insert([wrapper.payload])
+  const inserted = await parent.insert([wrapper.payload()])
 
   expect(inserted).toBeArrayOfSize(1)
 

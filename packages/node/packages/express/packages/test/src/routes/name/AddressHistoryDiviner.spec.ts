@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
 import { ArchivistWrapper, DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
 
@@ -33,14 +33,14 @@ describe(`/${divinerName}`, () => {
       for (const [bw, payloads] of data) {
         await archivist.insert([bw, ...payloads])
       }
-      dataHashes = await Hasher.hashes(data.map((d) => d[0]))
+      dataHashes = await PayloadHasher.hashes(data.map((d) => d[0]))
     })
     it.only('issues query', async () => {
       const address = account.addressValue.hex
       const query: AddressHistoryQueryPayload = { address, limit, schema }
       const response = await sut.divine([query])
       expect(response).toBeArrayOfSize(limit)
-      const responseHashes = await Hasher.hashes(response)
+      const responseHashes = await PayloadHasher.hashes(response)
       expect(responseHashes).toIncludeAllMembers(dataHashes)
     })
   })

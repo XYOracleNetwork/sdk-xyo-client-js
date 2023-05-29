@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import {
   DivinerConfigSchema,
   DivinerDivineQuerySchema,
@@ -41,7 +41,7 @@ export abstract class AbstractDiviner<
   ): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
     //remove the query payload
-    const cleanPayloads = await Hasher.filterExclude(payloads, query.query)
+    const cleanPayloads = await PayloadHasher.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()

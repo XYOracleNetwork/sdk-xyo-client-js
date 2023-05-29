@@ -22,9 +22,9 @@ describe('MemoryAddressHistoryDiviner', () => {
       const payload2 = PayloadWrapper.parse({ index: 2, schema: 'network.xyo.test' })
       const payload3 = PayloadWrapper.parse({ index: 3, schema: 'network.xyo.test' })
 
-      await archivist.insert([payload1.payload])
-      await archivist.insert([payload2.payload])
-      await archivist.insert([payload3.payload])
+      await archivist.insert([payload1.payload()])
+      await archivist.insert([payload2.payload()])
+      await archivist.insert([payload3.payload()])
 
       const all = await archivist.all()
 

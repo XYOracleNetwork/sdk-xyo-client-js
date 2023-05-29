@@ -14,7 +14,7 @@ import {
   ArchivistModule,
 } from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -63,11 +63,11 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
 
   async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
-      payloads: Hasher.hashes(payloads),
+      payloads: await PayloadHasher.hashes(payloads),
       schema: ArchivistInsertQuerySchema,
     })
     const query = await this.bindQuery(queryPayload, payloads)
-    const result = await this.module.query(query[0], [queryPayload.payload, ...payloads])
+    const result = await this.module.query(query[0], [queryPayload.payload(), ...payloads])
     const innerBoundWitnesses = result[1]?.filter<BoundWitness>((payload): payload is BoundWitness => payload?.schema === BoundWitnessSchema) ?? []
     await this.throwErrors(query, result)
     return [result[0], ...innerBoundWitnesses]

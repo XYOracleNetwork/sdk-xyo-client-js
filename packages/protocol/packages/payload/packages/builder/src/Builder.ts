@@ -1,4 +1,4 @@
-import { deepOmitUnderscoreFields, Hasher, removeEmptyFields } from '@xyo-network/core'
+import { deepOmitUnderscoreFields, PayloadHasher, removeEmptyFields } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 
 export interface PayloadBuilderOptions {
@@ -16,7 +16,7 @@ export class PayloadBuilder<T extends Payload = Payload<Record<string, unknown>>
   }
 
   get meta() {
-    const _hash = Hasher.hashAsync(this.hashableFields)
+    const _hash = PayloadHasher.hashAsync(this.hashableFields)
     return { _client: this._client, _hash, _timestamp: this._timestamp, schema: this._schema }
   }
 

@@ -18,8 +18,8 @@ describe('XyoCoingeckoCryptoMarketWitness', () => {
     expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
     const answerWrapper = new PayloadWrapper(actual) as PayloadWrapper<XyoCoingeckoCryptoMarketPayload>
     expect(await answerWrapper.getValid()).toBe(true)
-    expect(answerWrapper.body.assets).toBeObject()
-    const assets = Object.keys(answerWrapper.body.assets)
+    expect(answerWrapper.body().assets).toBeObject()
+    const assets = Object.keys(answerWrapper.body().assets)
     expect(assets).toBeArray()
     expect(assets.length).toBeGreaterThan(0)
   })
@@ -30,8 +30,8 @@ describe('XyoCoingeckoCryptoMarketWitness', () => {
     expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
     const answerWrapper = new PayloadWrapper(actual) as PayloadWrapper<XyoCoingeckoCryptoMarketPayload>
     expect(await answerWrapper.getValid()).toBe(true)
-    expect(answerWrapper.body.assets).toBeObject()
-    const assets = Object.keys(answerWrapper.body.assets)
+    expect(answerWrapper.body().assets).toBeObject()
+    const assets = Object.keys(answerWrapper.body().assets)
     expect(assets).toBeArray()
     expect(assets.length).toBe(0)
   })

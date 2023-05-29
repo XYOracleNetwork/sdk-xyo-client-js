@@ -161,13 +161,13 @@ describe('/:hash', () => {
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
       const schemas = [schemaA, schemaB]
       beforeAll(async () => {
-        const payloadResponse = await insertPayload([payloadA.payload, payloadB.payload], account)
+        const payloadResponse = await insertPayload([payloadA.payload(), payloadB.payload()], account)
         expect(payloadResponse.length).toBe(2)
       })
       describe('single schema', () => {
         it.each([
-          [schemaA, payloadA.payload],
-          [schemaB, payloadB.payload],
+          [schemaA, payloadA.payload()],
+          [schemaB, payloadB.payload()],
         ])('returns Payload of schema type', async (schema, expected) => {
           const pointerHash = await createPointer([[account.addressValue.hex]], [[schema]])
           const result = await getHash(pointerHash)
@@ -177,14 +177,14 @@ describe('/:hash', () => {
       describe('multiple schema rules', () => {
         describe('combined serially', () => {
           it('returns Payload of either schema', async () => {
-            const pointerHash = await createPointer([[account.addressValue.hex]], [[payloadA.schema, payloadB.schema]])
+            const pointerHash = await createPointer([[account.addressValue.hex]], [[payloadA.schema(), payloadB.schema()]])
             const result = await getHash(pointerHash)
             expect(schemas).toContain(result.schema)
           })
         })
         describe('combined in parallel', () => {
           it('returns Payload of either schema', async () => {
-            const pointerHash = await createPointer([[account.addressValue.hex]], [[payloadA.schema], [payloadB.schema]])
+            const pointerHash = await createPointer([[account.addressValue.hex]], [[payloadA.schema()], [payloadB.schema()]])
             const result = await getHash(pointerHash)
             expect(schemas).toContain(result.schema)
           })

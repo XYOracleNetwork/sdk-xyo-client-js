@@ -15,7 +15,7 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -108,7 +108,7 @@ export class StorageArchivist<
       compact(
         Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
           const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
-            payloads: await Hasher.hashes(payloads),
+            payloads: await PayloadHasher.hashes(payloads),
             schema: ArchivistInsertQuerySchema,
           })
           const query = await this.bindQuery(queryPayload, payloads)
@@ -150,10 +150,10 @@ export class StorageArchivist<
       payloads.map(async (payload) => {
         const wrapper = new PayloadWrapper(payload)
         const hash = await wrapper.hashAsync()
-        const value = JSON.stringify(wrapper.payload)
+        const value = JSON.stringify(wrapper.payload())
         assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hashAsync()}, ${value.length}]`)
-        this.storage.set(hash, wrapper.payload)
-        return wrapper.payload
+        this.storage.set(hash, wrapper.payload())
+        return wrapper.payload()
       }),
     )
     const [storageBoundWitness] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)

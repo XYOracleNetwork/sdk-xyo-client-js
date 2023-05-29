@@ -6,40 +6,42 @@ export class SentinelIntervalAutomationWrapper<
   T extends SentinelIntervalAutomationPayload = SentinelIntervalAutomationPayload,
 > extends PayloadWrapper<T> {
   protected get frequencyMillis() {
-    if (this.payload.frequency === undefined) return Infinity
-    switch (this.payload.frequencyUnits ?? 'hour') {
+    const frequency = this.payload().frequency
+    if (frequency === undefined) return Infinity
+    switch (this.payload().frequencyUnits ?? 'hour') {
       case 'minute':
-        return this.payload.frequency * 60 * 1000
+        return frequency * 60 * 1000
       case 'hour':
-        return this.payload.frequency * 60 * 60 * 1000
+        return frequency * 60 * 60 * 1000
       case 'day':
-        return this.payload.frequency * 24 * 60 * 60 * 1000
+        return frequency * 24 * 60 * 60 * 1000
     }
   }
 
   protected get remaining() {
     //if remaining is not defined, we assume Infinity
-    return this.payload.remaining ?? Infinity
+    return this.payload().remaining ?? Infinity
   }
 
   next() {
-    this.payload.start = this.payload.start + this.frequencyMillis
+    this.payload().start = this.payload().start + this.frequencyMillis
     this.consumeRemaining()
     this.checkEnd()
     return this
   }
 
   protected checkEnd() {
-    if (this.payload.start > (this.payload.end ?? Infinity)) {
-      this.payload.start = Infinity
+    if (this.payload().start > (this.payload().end ?? Infinity)) {
+      this.payload().start = Infinity
     }
   }
 
   protected consumeRemaining(count = 1) {
-    this.payload.remaining = this.remaining - count
+    const remaining = this.remaining - count
+    this.payload().remaining = remaining
 
-    if (this.payload.remaining <= 0) {
-      this.payload.start = Infinity
+    if (remaining <= 0) {
+      this.payload().start = Infinity
     }
   }
 }

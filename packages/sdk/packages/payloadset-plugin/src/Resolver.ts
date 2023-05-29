@@ -1,4 +1,4 @@
-import { Hasher, Validator } from '@xyo-network/core'
+import { PayloadHasher, Validator } from '@xyo-network/core'
 import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
@@ -42,7 +42,7 @@ export class PayloadSetPluginResolver {
   }
 
   async register<TModule extends WitnessModule | DivinerModule>(plugin: PayloadSetPlugin<TModule>, params?: TModule['params']) {
-    const setHash = await Hasher.hashAsync(plugin.set)
+    const setHash = await PayloadHasher.hashAsync(plugin.set)
     this._plugins[setHash] = plugin
     this.params[setHash] = params
     return this
@@ -51,7 +51,7 @@ export class PayloadSetPluginResolver {
   async resolve(set?: PayloadSetPayload): Promise<PayloadSetPlugin | undefined>
   async resolve(set?: string): Promise<PayloadSetPlugin | undefined>
   async resolve(set?: string | PayloadSetPayload): Promise<PayloadSetPlugin | undefined> {
-    const setHash = typeof set === 'string' ? set : set ? await Hasher.hashAsync(set) : undefined
+    const setHash = typeof set === 'string' ? set : set ? await PayloadHasher.hashAsync(set) : undefined
     return setHash ? this._plugins[setHash] ?? undefined : undefined
   }
 
@@ -70,7 +70,7 @@ export class PayloadSetPluginResolver {
   async witness(set: PayloadSetPayload): Promise<WitnessModule | undefined>
   async witness(set: string): Promise<WitnessModule | undefined>
   async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
-    const setHash = typeof set === 'string' ? set : await Hasher.hashAsync(set)
+    const setHash = typeof set === 'string' ? set : await PayloadHasher.hashAsync(set)
     return await isPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash] as WitnessParams)
   }
 

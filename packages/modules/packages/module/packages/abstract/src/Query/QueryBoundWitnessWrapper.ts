@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import { Query, QueryBoundWitness } from '@xyo-network/module-model'
 import { Payload, PayloadSetPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -11,7 +11,7 @@ import { QueryBoundWitnessValidator } from './QueryBoundWitnessValidator'
 export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitnessWrapper<QueryBoundWitness> {
   private _payloadsWithoutQuery: PayloadWrapper<Payload>[] | undefined
   private _query: T | undefined
-  private _resultSet: PayloadWrapper<PayloadSetPayload> | undefined
+  private _resultSet: PayloadSetPayload | undefined
 
   private isQueryBoundWitnessWrapper = true
 
@@ -44,8 +44,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
     const resultSetHash = this.boundwitness.resultSet
     const payloadMap = await this.payloadMap()
     return assertEx(
-      (this._resultSet =
-        this._resultSet ?? (resultSetHash ? (payloadMap[resultSetHash] as PayloadWrapper<PayloadSetPayload> | undefined) : undefined)),
+      (this._resultSet = this._resultSet ?? (resultSetHash ? (payloadMap[resultSetHash] as PayloadSetPayload | undefined) : undefined)),
       `Missing resultSet [${resultSetHash}]`,
     )
   }
@@ -55,9 +54,9 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
       this._payloadsWithoutQuery ??
       compact(
         (
-          await Hasher.filterExclude(
-            (await super.getWrappedPayloads()).map((wrapper) => wrapper.payload),
-            this.payload.query,
+          await PayloadHasher.filterExclude(
+            (await super.getWrappedPayloads()).map((wrapper) => wrapper.payload()),
+            this.payload().query,
           )
         ).map((payload) => PayloadWrapper.parse(payload)),
       )

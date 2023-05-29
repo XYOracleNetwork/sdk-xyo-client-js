@@ -56,10 +56,10 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     const payloadWrapper3 = PayloadWrapper.parse(payload3)
     const payloadWrapper4 = PayloadWrapper.parse(payload4)
     payloadWrappers.push(payloadWrapper1, payloadWrapper2, payloadWrapper3, payloadWrapper4)
-    const boundWitness1 = (await new BoundWitnessBuilder().payload(payloadWrapper1.payload).witness(userAccount).build())[0]
-    const boundWitness2 = (await new BoundWitnessBuilder().payload(payloadWrapper2.payload).witness(userAccount).build())[0]
+    const boundWitness1 = (await new BoundWitnessBuilder().payload(payloadWrapper1.payload()).witness(userAccount).build())[0]
+    const boundWitness2 = (await new BoundWitnessBuilder().payload(payloadWrapper2.payload()).witness(userAccount).build())[0]
     const boundWitness3 = (
-      await new BoundWitnessBuilder().payloads([payloadWrapper3.payload, payloadWrapper4.payload]).witness(userAccount).build()
+      await new BoundWitnessBuilder().payloads([payloadWrapper3.payload(), payloadWrapper4.payload()]).witness(userAccount).build()
     )[0]
     const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1, [payload1])
     const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2, [payload2])

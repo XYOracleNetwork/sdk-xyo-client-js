@@ -58,7 +58,7 @@ export const findPayload = async (
     const result = await boundWitnesses.divine(filter)
     const bw = result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined
     if (bw) {
-      if (returnBoundWitness) return bw.body
+      if (returnBoundWitness) return bw.body()
       const { schemas, direction } = searchCriteria
       let payloadIndex = direction === 'asc' ? 0 : bw.payloadHashes.length - 1
       if (schemas) {
@@ -69,7 +69,7 @@ export const findPayload = async (
       const hash = bw.payloadHashes[payloadIndex]
       const payloads = ArchivistWrapper.wrap(archivist)
       const result = await payloads.get([hash])
-      return result?.[0] ? PayloadWrapper.parse(result?.[0]).body : undefined
+      return result?.[0] ? PayloadWrapper.parse(result?.[0]).body() : undefined
     }
   }
   // Find payload
@@ -77,6 +77,6 @@ export const findPayload = async (
     const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
     const payloads = DivinerWrapper.wrap(payloadDiviner)
     const result = await payloads.divine(filter)
-    return result?.[0] ? PayloadWrapper.parse(result?.[0]).body : undefined
+    return result?.[0] ? PayloadWrapper.parse(result?.[0]).body() : undefined
   }
 }

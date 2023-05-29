@@ -1,6 +1,6 @@
 import { AddressValue } from '@xyo-network/account'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { validateType } from '@xyo-network/typeof'
 import uniq from 'lodash/uniq'
@@ -76,7 +76,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
         await Promise.all(
           this.obj.addresses.map<Promise<Error[]>>(
             async (address, index) =>
-              BoundWitnessValidator.validateSignature(await Hasher.hashAsync(this.payload), address, this.obj._signatures?.[index]),
+              BoundWitnessValidator.validateSignature(await PayloadHasher.hashAsync(this.payload), address, this.obj._signatures?.[index]),
             [],
           ),
         )

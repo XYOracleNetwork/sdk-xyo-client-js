@@ -9,14 +9,15 @@ describe('BoundWitnessWrapper', () => {
     const included2 = PayloadWrapper.parse({ schema: 'network.xyo.test.2' })
     //const excluded1 = PayloadWrapper.parse({ schema: 'network.xyo.test.3' })
     const payloads = [included1, included2]
-    const bw: () => Promise<BoundWitness> = async () => ({
-      _signatures: [],
-      addresses: [],
-      payload_hashes: await Promise.all(payloads.map((p) => p.hashAsync())),
-      payload_schemas: payloads.map((p) => p.schema),
-      previous_hashes: [],
-      schema: BoundWitnessSchema,
-    })
+    const bw: () => Promise<BoundWitness> = async () =>
+      BoundWitnessWrapper.parse({
+        _signatures: [],
+        addresses: [],
+        payload_hashes: await Promise.all(payloads.map((p) => p.hashAsync())),
+        payload_schemas: payloads.map((p) => p.schema),
+        previous_hashes: [],
+        schema: BoundWitnessSchema,
+      }).payload()
     describe('get', () => {
       describe('when no payloads set', () => {
         it('returns an empty object', async () => {

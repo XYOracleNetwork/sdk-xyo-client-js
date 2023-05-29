@@ -1,5 +1,5 @@
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Hasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
@@ -28,11 +28,11 @@ describe(`/${moduleName}`, () => {
     const payloadWrapperD = PayloadWrapper.parse(getNewPayload())
     const payloadWrapperE = PayloadWrapper.parse(getNewPayload())
     payloadWrappers.push(payloadWrapperA, payloadWrapperB, payloadWrapperC, payloadWrapperD, payloadWrapperE)
-    const boundWitnessWrapperA = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperA.payload]))[0])
-    const boundWitnessWrapperB = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperB.payload]))[0])
-    const boundWitnessWrapperC = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperC.payload]))[0])
-    const boundWitnessWrapperD = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperD.payload]))[0])
-    const boundWitnessWrapperE = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperE.payload]))[0])
+    const boundWitnessWrapperA = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperA.payload()]))[0])
+    const boundWitnessWrapperB = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperB.payload()]))[0])
+    const boundWitnessWrapperC = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperC.payload()]))[0])
+    const boundWitnessWrapperD = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperD.payload()]))[0])
+    const boundWitnessWrapperE = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperE.payload()]))[0])
     boundWitnessWrappers.push(boundWitnessWrapperA, boundWitnessWrapperB, boundWitnessWrapperC, boundWitnessWrapperD, boundWitnessWrapperE)
     cases[0][1].push(payloadWrapperA)
     cases[1][1].push(boundWitnessWrapperA)
@@ -49,7 +49,7 @@ describe(`/${moduleName}`, () => {
   })
   describe('ArchivistInsertQuerySchema', () => {
     it.each(cases)('inserts %s', async (_, wrapped) => {
-      const payloads = wrapped.map((w) => w.payload)
+      const payloads = wrapped.map((w) => w.payload())
       const hashes = wrapped.map((w) => w.hash)
       const response = await archivist.insert(payloads)
       expect(response).toBeArray()
@@ -67,7 +67,7 @@ describe(`/${moduleName}`, () => {
         const response = await archivist.get(hashes)
         expect(response).toBeArray()
         expect(response).toBeArrayOfSize(wrapped.length)
-        const responseHashes = await Hasher.hashes(response)
+        const responseHashes = await PayloadHasher.hashes(response)
         expect(responseHashes).toContainValues(hashes)
       })
     })

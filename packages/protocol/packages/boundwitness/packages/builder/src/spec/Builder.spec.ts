@@ -2,7 +2,7 @@
 /* eslint-disable sort-keys */
 
 import { Account, AddressValue } from '@xyo-network/account'
-import { Hasher, StringKeyObject } from '@xyo-network/core'
+import { PayloadHasher, StringKeyObject } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessBuilder } from '../Builder'
@@ -34,7 +34,7 @@ const payloadHash = '3c817871cbf24708703e907dbc344b1b2aefcc3603d14d59c3a35a5c446
 describe('BoundWitnessBuilder', () => {
   describe('hash', () => {
     it.each(payloads)('consistently hashes equivalent payload independent of the order of the keys', async (payload) => {
-      const hash = await Hasher.hashAsync(payload)
+      const hash = await PayloadHasher.hashAsync(payload)
       expect(hash).toEqual(payloadHash)
     })
   })
@@ -50,11 +50,11 @@ describe('BoundWitnessBuilder', () => {
         expect(builder).toBeDefined()
         const [actual] = await builder.build()
         expect(actual).toBeDefined()
-        expect(await Hasher.hashAsync(actual)).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')
+        expect(await PayloadHasher.hashAsync(actual)).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')
         if (actual._signatures) {
           const addr = new AddressValue(actual.addresses[0])
           expect(addr.hex).toBe(actual.addresses[0])
-          const verify = new AddressValue(actual.addresses[0]).verify(await Hasher.hashAsync(actual), actual._signatures[0])
+          const verify = new AddressValue(actual.addresses[0]).verify(await PayloadHasher.hashAsync(actual), actual._signatures[0])
           expect(verify).toBe(true)
         }
       })

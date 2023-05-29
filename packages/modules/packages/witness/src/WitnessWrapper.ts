@@ -11,7 +11,7 @@ export class WitnessWrapper extends ModuleWrapper implements Witness {
 
   observe(payloads?: Payload[]): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.parse<WitnessObserveQuery>({ schema: WitnessObserveQuerySchema })
-    return this.sendQuery(queryPayload, [queryPayload.payload, ...(payloads ?? [])])
+    return this.sendQuery(queryPayload, [queryPayload.payload(), ...(payloads ?? [])])
   }
 }
 

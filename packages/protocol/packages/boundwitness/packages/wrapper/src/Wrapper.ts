@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
-import { DataLike, Hasher } from '@xyo-network/core'
+import { DataLike, PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -16,7 +16,7 @@ export class BoundWitnessWrapper<
   private _payloads: PayloadWrapper<TPayload>[]
   private isBoundWitnessWrapper = true
 
-  constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | null)[]) {
+  constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[]) {
     super(boundwitness)
     this._payloads = payloads ? compact(payloads.map((payload) => PayloadWrapper.parse<TPayload>(payload))) : []
   }
@@ -46,7 +46,8 @@ export class BoundWitnessWrapper<
   }
 
   static override async load(address: DataLike) {
-    const payload = await PayloadWrapper.load(address)
+    const wrapper = await PayloadWrapper.load(address)
+    const payload = wrapper?.payload()
     assertEx(payload && isBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
 
     const boundWitness: BoundWitness | undefined = payload && isBoundWitnessPayload(payload) ? payload : undefined
@@ -58,7 +59,7 @@ export class BoundWitnessWrapper<
       await Promise.all(
         payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
           const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
-          return [unwrapped, await Hasher.hashAsync(unwrapped)]
+          return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
         }),
       )
     ).reduce((map, [payload, payloadHash]) => {
@@ -74,7 +75,7 @@ export class BoundWitnessWrapper<
       await Promise.all(
         payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
           const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
-          return [unwrapped, await Hasher.hashAsync(unwrapped)]
+          return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
         }),
       )
     ).reduce((map, [payload, payloadHash]) => {
@@ -132,8 +133,8 @@ export class BoundWitnessWrapper<
       const innerBoundwitnessPayload = (await BoundWitnessWrapper.mapWrappedPayloads(await this.getPayloads()))[innerBoundwitnessHash]
       const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined = innerBoundwitnessPayload
         ? new BoundWitnessWrapper<TBoundWitness>(
-            innerBoundwitnessPayload.body as unknown as TBoundWitness,
-            (await Hasher.filterExclude(this.payloadsArray, innerBoundwitnessHash)).map((item) => item.body as unknown as TBoundWitness),
+            innerBoundwitnessPayload.body() as unknown as TBoundWitness,
+            (await PayloadHasher.filterExclude(this.payloadsArray, innerBoundwitnessHash)).map((item) => item.body() as unknown as TBoundWitness),
           )
         : undefined
       if (innerBoundwitness) {
@@ -145,7 +146,7 @@ export class BoundWitnessWrapper<
   }
 
   async getAllPayloads(): Promise<TPayload[]> {
-    return (await this.getAllWrappedPayloads()).map((payload) => payload.payload)
+    return (await this.getAllWrappedPayloads()).map((wrapper) => wrapper.payload())
   }
 
   getAllWrappedPayloads(): Promisable<PayloadWrapper<TPayload>[]> {
@@ -158,7 +159,7 @@ export class BoundWitnessWrapper<
   }
 
   async getPayloads(): Promise<TPayload[]> {
-    return (await this.getWrappedPayloads()).map((payload) => payload.payload)
+    return (await this.getWrappedPayloads()).map((wrapper) => wrapper.payload())
   }
 
   getWrappedPayloads(): Promisable<PayloadWrapper<TPayload>[]> {
@@ -200,7 +201,7 @@ export class BoundWitnessWrapper<
   */
 
   toResult() {
-    return [this.boundwitness, this.payloadsArray.map((payload) => payload.body)]
+    return [this.boundwitness, this.payloadsArray.map((payload) => payload.body())]
   }
 
   override async validate(): Promise<Error[]> {

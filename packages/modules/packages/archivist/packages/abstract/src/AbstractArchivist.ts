@@ -101,7 +101,7 @@ export abstract class AbstractArchivist<
               console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hashAsync()}]`)
               return null
             }
-            return wrapper?.payload
+            return wrapper?.payload()
           }),
         ),
       )
@@ -156,7 +156,7 @@ export abstract class AbstractArchivist<
           break
         case ArchivistInsertQuerySchema: {
           const payloads = await wrappedQuery.getPayloads()
-          assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload, null, 2)}`)
+          assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
           const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.hashAsync())
           assertEx(
             resolvedPayloads.length === payloads.length,

@@ -42,7 +42,6 @@ export class MemoryAddressChainDiviner<
     let index = 0
     if (archivists[index]) {
       const result = (await archivists[index].get([hash])).pop() as BoundWitness
-      console.log(`result: [${hash}, ${JSON.stringify(result, null, 2)}]`)
       if (result) {
         return result
       }

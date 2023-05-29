@@ -28,8 +28,6 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       const all = await archivist.all()
 
-      console.log(`all: ${JSON.stringify(all, null, 2)}`)
-
       expect(all).toBeArrayOfSize(7)
 
       await node.register(archivist)
@@ -47,7 +45,6 @@ describe('MemoryAddressHistoryDiviner', () => {
       const divinerWrapper = DivinerWrapper.wrap(diviner)
 
       const result = await divinerWrapper.divine()
-      console.log(`divine: ${JSON.stringify(result, null, 2)}`)
       expect(result.length).toBe(4)
     })
   })

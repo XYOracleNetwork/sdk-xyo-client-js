@@ -188,7 +188,7 @@ describe('XyoPanel', () => {
         const observed = await witnessB.observe()
         expect(observed).toBeArrayOfSize(1)
         const result = await panel.report(observed)
-        assertPanelReport(result)
+        await assertPanelReport(result)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('inline', async () => {
@@ -219,7 +219,7 @@ describe('XyoPanel', () => {
         const observedB = await witnessB.observe()
         expect(observedB).toBeArrayOfSize(1)
         const result = await panel.report([...observedA, ...observedB])
-        assertPanelReport(result)
+        await assertPanelReport(result)
         expect((await archivistA.get([Hasher.hash(observedA[0])])).length).toBe(1)
         expect((await archivistA.get([Hasher.hash(observedB[0])])).length).toBe(1)
         expect((await archivistB.get([Hasher.hash(observedA[0])])).length).toBe(1)

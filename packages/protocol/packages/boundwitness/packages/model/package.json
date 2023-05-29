@@ -16,7 +16,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@xyo-network/payload-model": "^2.60.0-rc.1"
+    "@xyo-network/payload-model": "^2.60.0-rc.2"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -50,6 +50,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.60.0-rc.1",
+  "version": "2.60.0-rc.2",
   "stableVersion": "2.59.0"
 }

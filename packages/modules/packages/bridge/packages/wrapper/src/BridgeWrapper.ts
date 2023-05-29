@@ -67,7 +67,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
   ): Promise<Payload[] | undefined> {
     const query = await this.bindQuery(queryPayload, payloads)
     const result = await this.module.targetQuery(address, query[0], query[1])
-    this.throwErrors(query, result)
+    await this.throwErrors(query, result)
     return result?.[1]
   }
 }

@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^"
   },
   "devDependencies": {

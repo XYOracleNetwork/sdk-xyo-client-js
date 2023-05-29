@@ -5610,6 +5610,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
@@ -5842,6 +5843,7 @@ __metadata:
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
     typescript: ^5.0.4
   languageName: unknown
@@ -6042,6 +6044,7 @@ __metadata:
     "@xylabs/buffer": ^2.8.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
+    "@xyo-network/promise": "workspace:^"
     "@xyo-network/typeof": "workspace:^"
     hash-wasm: ^4.9.0
     keccak256: ^1.0.6
@@ -7889,6 +7892,7 @@ __metadata:
     "@xylabs/assert": ^2.8.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
+    "@xyo-network/core": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     typescript: ^5.0.4
@@ -8181,6 +8185,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/core": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     "@xyo-network/schema-name-validator": "workspace:^"
     typescript: ^5.0.4
   languageName: unknown

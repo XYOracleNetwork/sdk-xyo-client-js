@@ -16,6 +16,7 @@
     "@xyo-network/core": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

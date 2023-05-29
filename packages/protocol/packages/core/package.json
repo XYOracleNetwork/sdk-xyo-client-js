@@ -14,6 +14,7 @@
     "@xylabs/assert": "^2.8.1",
     "@xylabs/bignumber": "^2.8.1",
     "@xylabs/buffer": "^2.8.1",
+    "@xyo-network/promise": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "hash-wasm": "^4.9.0",
     "keccak256": "^1.0.6",

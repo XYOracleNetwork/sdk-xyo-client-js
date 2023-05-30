@@ -46,7 +46,7 @@ describe(`/${moduleName}`, () => {
       const boundWitnessB = BoundWitnessWrapper.parse((await getNewBoundWitness([accountB], [getNewPayload()]))[0])
       const boundWitnessC = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA, accountB], [getNewPayload(), getNewPayload()]))[0])
       boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
-      await archivist.insert(boundWitnesses.map((b) => b.payload()))
+      await archivist.insert(boundWitnesses.map((b) => b.boundwitness))
     })
     describe('address', () => {
       const cases: [title: string, addresses: string[], expected: () => BoundWitnessWrapper[]][] = [
@@ -108,20 +108,25 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('offset', () => {
+      const account = Account.random()
+      const address = account.addressValue.hex
       let boundWitnesses: BoundWitnessWrapper[]
       beforeAll(async () => {
-        boundWitnesses = [(await getNewBoundWitness())[0], (await getNewBoundWitness())[0]].map((bw) => BoundWitnessWrapper.parse(bw))
-        await archivist.insert(boundWitnesses.map((b) => b.payload()))
+        boundWitnesses = [(await getNewBoundWitness([account]))[0], (await getNewBoundWitness([account]))[0]].map((bw) =>
+          BoundWitnessWrapper.parse(bw),
+        )
+        await archivist.insert(boundWitnesses.map((b) => b.boundwitness))
       })
       describe('with timestamp', () => {
         it('divines BoundWitnesses from offset', async () => {
           const timestamp = assertEx(boundWitnesses[boundWitnesses.length - 1].boundwitness.timestamp, 'Missing timestamp in test BW') + 1
           const limit = boundWitnesses.length
-          const query: BoundWitnessDivinerQueryPayload = { limit, schema, timestamp }
+          const query: BoundWitnessDivinerQueryPayload = { address, limit, schema, timestamp }
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(boundWitnesses.length)
-          const responseHashes = await Promise.all(response.map((p) => PayloadWrapper.hashAsync(p)))
-          expect(responseHashes).toContainAllValues(await Promise.all(boundWitnesses.map((p) => p.hashAsync())))
+          const responseHashes = await Promise.all(response.map((p) => BoundWitnessWrapper.hashAsync(p)))
+          const expected = await Promise.all(boundWitnesses.map((p) => p.hashAsync()))
+          expect(responseHashes).toContainAllValues(expected)
         })
       })
     })

@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.60.0-rc.2",
+  "version": "2.60.0",
   "description": "XYO Express Node Routes",
   "sideeffects": false,
   "engines": {
@@ -67,6 +67,5 @@
     "jest-mock-extended": "^3.0.4",
     "typescript": "^5.0.4"
   },
-  "types": "dist/types/index.d.ts",
-  "stableVersion": "2.59.0"
+  "types": "dist/types/index.d.ts"
 }

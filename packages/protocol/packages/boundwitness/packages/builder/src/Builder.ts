@@ -15,11 +15,11 @@ export interface BoundWitnessBuilderConfig {
   readonly timestamp?: boolean
 }
 
-export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness, TPayload extends Payload = Payload> {
+export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness> {
   private _accounts: AccountInstance[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
-  private _payloads: TPayload[] = []
+  private _payloads: Payload[] = []
   private _timestamp = Date.now()
 
   constructor(readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
@@ -33,7 +33,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     )
   }
 
-  async build(meta = false): Promise<[TBoundWitness, TPayload[]]> {
+  async build(meta = false): Promise<[TBoundWitness, Payload[]]> {
     const hashableFields = await this.hashableFields()
     const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
     const ret: TBoundWitness = {
@@ -89,16 +89,16 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  payload(payload?: TPayload) {
-    const unwrappedPayload = PayloadWrapper.unwrap<TPayload>(payload)
+  payload(payload?: Payload) {
+    const unwrappedPayload: Payload | undefined = PayloadWrapper.tryUnwrap(payload)
     assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
     if (unwrappedPayload) {
-      this._payloads.push(assertEx(sortFields<TPayload>(unwrappedPayload)))
+      this._payloads.push(assertEx(sortFields(unwrappedPayload)))
     }
     return this
   }
 
-  payloads(payloads?: (TPayload | null)[]) {
+  payloads(payloads?: (Payload | null)[]) {
     payloads?.forEach((payload) => {
       if (payload !== null) {
         this.payload(payload)
@@ -127,7 +127,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   private inlinePayloads() {
-    return this._payloads.map<TPayload>((payload, index) => {
+    return this._payloads.map<Payload>((payload, index) => {
       return {
         ...payload,
         schema: this._payload_schemas[index],

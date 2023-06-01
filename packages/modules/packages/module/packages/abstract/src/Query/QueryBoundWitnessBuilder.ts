@@ -20,7 +20,7 @@ export class QueryBoundWitnessBuilder<
   }
 
   query<T extends TQuery | PayloadWrapper<TQuery>>(query: T) {
-    this._query = PayloadWrapper.parse(query)
+    this._query = PayloadWrapper.unwrap(query)
     this.payload(this._query.payload())
     return this
   }

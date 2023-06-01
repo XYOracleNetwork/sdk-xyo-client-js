@@ -3,7 +3,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { Wrapper } from './Wrapper'
 
 export interface CreatableWrapper<T extends Payload = Payload, W extends Wrapper<T> = Wrapper<T>> {
-  new (payload: W['obj']): W
+  new (payload: T): W
   create<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, obj?: W['obj']): W
 
   is(obj: unknown): boolean
@@ -12,17 +12,17 @@ export interface CreatableWrapper<T extends Payload = Payload, W extends Wrapper
 
   tryParse<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, obj?: unknown): W | undefined
 
-  tryUnwrap<T extends Payload, W extends Wrapper<T>>(payload?: W['obj'] | W): W['obj'] | undefined
-  tryUnwrapMany<T extends Payload, W extends Wrapper<T>>(payload?: (W['obj'] | W | undefined)[]): (W['obj'] | undefined)[]
+  tryUnwrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload?: T | W): T | undefined
+  tryUnwrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload?: (T | W | undefined)[]): (T | undefined)[]
 
-  unwrap<T extends Payload, W extends Wrapper<T>>(payload: W['obj'] | W): W['obj']
+  unwrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: T | W): T
 
-  unwrapMany<T extends Payload, W extends Wrapper<T>>(payload: (W['obj'] | W)[]): W['obj'][]
+  unwrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: (T | W)[]): T[]
 
-  wrap<T extends Payload, W extends Wrapper<T>>(payload: W['obj'] | W): W
-  wrapMany<T extends Payload, W extends Wrapper<T>>(payloads: (W['obj'] | W)[]): W[]
+  wrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: T | W): W
+  wrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads: (T | W)[]): W[]
 
-  wrappedMap<T extends Payload, W extends Wrapper<T>>(payloads: (W['obj'] | W)[]): Promise<Record<string, W>>
+  wrappedMap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads: (T | W)[]): Promise<Record<string, W>>
 }
 
 /**

@@ -5,6 +5,7 @@ import { PayloadValidator } from '@xyo-network/payload-validator'
 
 import { CreatableWrapper, creatableWrapper } from './CreatableWrapper'
 import { Wrapper } from './Wrapper'
+import { Query } from '@xyo-network/modules'
 
 export type PayloadLoader = (address: DataLike) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
@@ -19,7 +20,7 @@ export class PayloadWrapper<T extends Payload = Payload> extends PayloadHasher<T
     super(payload)
   }
 
-  static create<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, obj: W['obj']): W {
+  static create<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, obj: T): W {
     return new this(obj)
   }
 
@@ -27,28 +28,28 @@ export class PayloadWrapper<T extends Payload = Payload> extends PayloadHasher<T
     return obj instanceof PayloadWrapper
   }
 
-  static async mapPayloads<W extends Wrapper>(payloads: (W['obj'] | W)[]): Promise<Record<string, W['obj']>> {
+  static async mapPayloads<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads: (T | W)[]): Promise<Record<string, T>> {
     return (
       await Promise.all(
-        payloads?.map<Promise<[W['obj'], string]>>(async (payload) => {
-          const unwrapped: W['obj'] = assertEx(this.unwrap(payload))
+        payloads?.map<Promise<[T, string]>>(async (payload) => {
+          const unwrapped: T = assertEx(this.unwrap(payload))
           return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
         }),
       )
     ).reduce((map, [payload, payloadHash]) => {
       map[payloadHash] = payload
       return map
-    }, {} as Record<string, W['obj']>)
+    }, {} as Record<string, T>)
   }
 
   static async mapWrappedPayloads<T extends Payload, W extends Wrapper<T> = Wrapper<T>>(
     this: CreatableWrapper<T, W>,
-    payloads: (W['obj'] | W)[],
+    payloads: (T | W)[],
   ): Promise<Record<string, W>> {
     return (
       await Promise.all(
         payloads?.map<Promise<[W, string]>>(async (payload) => {
-          const unwrapped: W['obj'] = assertEx(this.unwrap(payload))
+          const unwrapped: T = assertEx(this.unwrap(payload))
           return [this.wrap(unwrapped), await PayloadHasher.hashAsync(unwrapped)]
         }),
       )
@@ -64,7 +65,7 @@ export class PayloadWrapper<T extends Payload = Payload> extends PayloadHasher<T
 
     switch (typeof hydratedObj) {
       case 'object': {
-        return this.wrap(hydratedObj as W['obj'])
+        return this.wrap(hydratedObj as T)
       }
       default:
         throw Error(`Can only parse objects [${typeof hydratedObj}]`)
@@ -80,41 +81,46 @@ export class PayloadWrapper<T extends Payload = Payload> extends PayloadHasher<T
     }
   }
 
-  static tryUnwrap<W extends Wrapper>(payload: W['obj'] | W | undefined): W['obj'] | undefined {
+  static tryUnwrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: T | W | undefined): T | undefined {
     if (payload === undefined) return undefined
+    try {
+      return this.unwrap<T, W>(payload)
+    } catch(_ex) {
+      return undefined
+    }
   }
 
-  static tryUnwrapMany<W extends Wrapper>(payloads: (W['obj'] | W | undefined)[] = []): (W['obj'] | undefined)[] {
+  static tryUnwrapMany<T extends Payload>(this: CreatableWrapper<T>, payloads: (T | Wrapper<T> | undefined)[] = []): (T | undefined)[] {
     return payloads.map((payload) => this.tryUnwrap(payload))
   }
 
-  static unwrap<W extends Wrapper>(payload: W['obj'] | W): W['obj'] {
+  static unwrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: T | Wrapper<T>): T {
     if (payload instanceof PayloadWrapper) {
-      return payload.payload()
+      return (payload).payload()
     }
-    return payload as W['obj']
+    return payload as T
   }
 
-  static unwrapMany<W extends Wrapper>(payloads: (W['obj'] | W)[]) {
+  static unwrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads: (T | W)[]) {
     return payloads.map((payload) => this.unwrap(payload))
   }
 
-  static wrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: W['obj'] | W): W {
+  static wrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: T | W): W {
     assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
-        return assertEx(this.create(PayloadWrapper.unwrap(payload)), 'Unable to parse payload object')
+        return assertEx(this.create(this.unwrap(payload)), 'Unable to parse payload object')
       }
       default:
         throw Error(`Can only parse objects [${typeof payload}]`)
     }
   }
 
-  static wrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads?: (W['obj'] | W)[]): W[] {
+  static wrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads?: (T | W)[]): W[] {
     return payloads?.map((payload) => this.wrap(payload)) ?? []
   }
 
-  static async wrappedMap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads: W['obj'][]): Promise<Record<string, W>> {
+  static async wrappedMap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads: T[]): Promise<Record<string, W>> {
     const pairs: [string, W][] = await Promise.all(
       payloads.map(async (payload) => {
         return [await PayloadWrapper.hashAsync(payload), this.wrap(payload)]
@@ -153,4 +159,9 @@ export class PayloadWrapper<T extends Payload = Payload> extends PayloadHasher<T
   }
 }
 
-const x = PayloadWrapper.parse({ schema: 'test' })
+const x: Query = PayloadWrapper.parse({ schema: 'test' } as Query).payload()
+const y = PayloadWrapper.wrap({ schema: 'test' })
+const z1 = PayloadWrapper.unwrap({ schema: 'test' })
+const z2 = PayloadWrapper.unwrap(y)
+const z3: Payload | undefined = PayloadWrapper.tryUnwrap({ schema: 'test' })
+const z4: Payload | undefined = PayloadWrapper.tryUnwrap(y)

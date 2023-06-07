@@ -21,7 +21,7 @@
     "@types/lodash": "^4.14.195",
     "@xylabs/ts-scripts-yarn3": "^2.17.13",
     "@xylabs/tsconfig": "^2.17.13",
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.3"
   },
   "description": "Contains the information about a module instance",
   "browser": "dist/esm/index.js",
@@ -56,6 +56,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.60.0-rc.2",
-  "stableVersion": "2.59.0"
+  "version": "2.60.2"
 }

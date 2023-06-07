@@ -323,11 +323,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     // Send them off
     const result = await this.module.query(query[0], query[1])
 
-    /* Removed this for now.  Problem is:
+    /* TODO: Needs investigation. Problem is:
       a) the function does not work and
       b) it could be valid to return a payload with an error schema in a archivist get query
     */
-    //await this.throwErrors(query, result)
+    await this.throwErrors(query, result)
     return result[1]
   }
 

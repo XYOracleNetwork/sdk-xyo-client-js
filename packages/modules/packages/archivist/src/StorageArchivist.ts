@@ -51,7 +51,7 @@ export class StorageArchivist<
   }
 
   get maxEntrySize() {
-    return this.config?.maxEntries ?? 16000
+    return this.config?.maxEntrySize ?? 16000
   }
 
   get namespace() {
@@ -151,7 +151,7 @@ export class StorageArchivist<
         const wrapper = new PayloadWrapper(payload)
         const hash = await wrapper.hashAsync()
         const value = JSON.stringify(wrapper.payload())
-        assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hashAsync()}, ${value.length}]`)
+        assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
         this.storage.set(hash, wrapper.payload())
         return wrapper.payload()
       }),

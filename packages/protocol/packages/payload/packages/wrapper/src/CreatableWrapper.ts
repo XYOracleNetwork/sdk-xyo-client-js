@@ -1,28 +1,28 @@
-import { Payload } from '@xyo-network/payload-model'
-
 import { Wrapper } from './Wrapper'
 
-export interface CreatableWrapper<T extends Payload = Payload, W extends Wrapper<T> = Wrapper<T>> {
-  new (payload: T): W
-  create<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, obj?: W['obj']): W
+export interface CreatableWrapper<T extends Wrapper = Wrapper> {
+  new (payload: T['obj']): T
+  create(this: CreatableWrapper<T>, obj: T['obj']): T
 
   is(obj: unknown): boolean
 
-  parse<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, obj?: unknown): W
+  parse(this: CreatableWrapper<T>, obj?: unknown): T
 
-  tryParse<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, obj?: unknown): W | undefined
+  tryParse(this: CreatableWrapper<T>, obj?: unknown): T | undefined
 
-  tryUnwrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload?: T | W): T | undefined
-  tryUnwrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload?: (T | W | undefined)[]): (T | undefined)[]
+  tryUnwrap(this: CreatableWrapper<T>, payload?: T['obj'] | T): T['obj'] | undefined
 
-  unwrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: T | W): T
+  tryUnwrapMany(this: CreatableWrapper<T>, payloads?: (T['obj'] | T | undefined)[]): (T['obj'] | undefined)[]
 
-  unwrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: (T | W)[]): T[]
+  unwrap(this: CreatableWrapper<T>, payload: T['obj'] | T): T['obj']
 
-  wrap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payload: T | W): W
-  wrapMany<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads: (T | W)[]): W[]
+  unwrapMany(this: CreatableWrapper<T>, payload: (T['obj'] | T)[]): T['obj'][]
 
-  wrappedMap<T extends Payload, W extends Wrapper<T>>(this: CreatableWrapper<T, W>, payloads: (T | W)[]): Promise<Record<string, W>>
+  wrap(this: CreatableWrapper<T>, payload: T | T['obj']): T
+
+  wrapMany(this: CreatableWrapper<T>, payloads: (T | T['obj'])[]): T[]
+
+  wrappedMap(this: CreatableWrapper<T>, payloads: (T | T['obj'])[]): Promise<Record<string, T>>
 }
 
 /**
@@ -31,8 +31,8 @@ export interface CreatableWrapper<T extends Payload = Payload, W extends Wrapper
  * @returns The decorated Module requiring it implement the members
  * of the CreatableModule as statics properties/methods
  */
-export function creatableWrapper<T extends Payload, W extends Wrapper<T>>() {
-  return <U extends CreatableWrapper<T, W>>(constructor: U) => {
+export function creatableWrapper<T extends Wrapper>() {
+  return <U extends CreatableWrapper<T>>(constructor: U) => {
     constructor
   }
 }

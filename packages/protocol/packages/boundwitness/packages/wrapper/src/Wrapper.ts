@@ -2,10 +2,13 @@ import { assertEx } from '@xylabs/assert'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { Payload } from '@xyo-network/payload-model'
-import { creatableWrapper, PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { creatableWrapper, PayloadWrapper, Wrapper } from '@xyo-network/payload-wrapper'
 
 creatableWrapper()
-export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitness> extends PayloadWrapper<TBoundWitness> {
+export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitness>
+  extends PayloadWrapper<TBoundWitness>
+  implements Wrapper<TBoundWitness>
+{
   private payloads: Payload[] = []
 
   get addresses() {
@@ -108,3 +111,21 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitne
     return await new BoundWitnessValidator(this.boundwitness).validate()
   }
 }
+
+const bw: BoundWitness = {
+  _signatures: [],
+  addresses: [],
+  payload_hashes: [],
+  payload_schemas: [],
+  previous_hashes: [],
+  schema: 'network.xyo.boundwitness',
+}
+
+const b = new BoundWitnessWrapper(bw)
+const a = BoundWitnessWrapper.create(bw)
+const x = BoundWitnessWrapper.parse(bw).payload()
+const y = BoundWitnessWrapper.wrap(bw)
+const z1 = BoundWitnessWrapper.unwrap(bw)
+const z2 = BoundWitnessWrapper.unwrap(y)
+const z3: Payload | undefined = BoundWitnessWrapper.tryUnwrap(bw)
+const z4: Payload | undefined = BoundWitnessWrapper.tryUnwrap(y)

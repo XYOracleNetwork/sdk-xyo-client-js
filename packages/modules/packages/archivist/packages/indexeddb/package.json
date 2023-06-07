@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/archivist-indexeddb",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,32 +10,24 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.8.1",
-    "@xylabs/promise": "^2.8.1",
     "@xyo-network/abstract-archivist": "workspace:^",
-    "@xyo-network/account": "workspace:^",
-    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/memory-archivist": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/promise": "workspace:^",
-    "js-cookie": "^3.0.5",
-    "lodash": "^4.17.21",
-    "store2": "^2.14.2"
+    "idb-keyval": "^6.2.1"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.3",
-    "@types/lodash": "^4.14.195",
     "@xylabs/delay": "^2.8.1",
     "@xylabs/ts-scripts-yarn3": "^2.17.13",
     "@xylabs/tsconfig": "^2.17.13",
+    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
+    "fake-indexeddb": "^4.0.1",
     "typescript": "^5.1.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -61,7 +54,6 @@
   "module": "dist/esm/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
-  "name": "@xyo-network/archivist",
   "publishConfig": {
     "access": "public"
   },

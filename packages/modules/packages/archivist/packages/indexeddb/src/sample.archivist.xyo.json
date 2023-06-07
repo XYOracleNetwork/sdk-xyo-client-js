@@ -1,0 +1,16 @@
+{
+  "payloads": [
+    {
+      "schema": "network.xyo.test.1"
+    },
+    {
+      "schema": "network.xyo.test.2"
+    },
+    {
+      "schema": "network.xyo.test.3"
+    },
+    {
+      "schema": "network.xyo.test.4"
+    }
+  ]
+}

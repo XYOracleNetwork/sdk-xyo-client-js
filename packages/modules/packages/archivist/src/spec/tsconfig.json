@@ -1,6 +1,3 @@
 {
-  "compilerOptions": {
-    "lib": ["dom"]
-  },
   "extends": "@xylabs/tsconfig-jest"
 }

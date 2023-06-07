@@ -1,10 +1,17 @@
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
-import { ArchivistConfig, ArchivistInsertQuerySchema, ArchivistModuleEventData, ArchivistParams } from '@xyo-network/archivist-model'
+import {
+  ArchivistAllQuerySchema,
+  ArchivistConfig,
+  ArchivistDeleteQuerySchema,
+  ArchivistInsertQuerySchema,
+  ArchivistModuleEventData,
+  ArchivistParams,
+} from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { entries, getMany, setMany, UseStore } from 'idb-keyval'
+import { delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
 
 export type IndexedDbArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
 export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
@@ -30,9 +37,18 @@ export class IndexedDbArchivist<
 > extends AbstractArchivist<TParams, TEventData> {
   static override configSchema = IndexedDbArchivistConfigSchema
 
+  override get queries() {
+    return [ArchivistAllQuerySchema, ArchivistDeleteQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
+  }
+
   override async all(): Promise<Payload[]> {
     const result = await entries<string, Payload>(this.params.indexedDB ?? undefined)
     return result.map<Payload>(([_hash, payload]) => payload)
+  }
+
+  override async delete(hashes: string[]): Promise<boolean[]> {
+    await delMany(hashes, this.params.indexedDB ?? undefined)
+    return hashes.map((_) => true)
   }
 
   override async get(hashes: string[]): Promise<Payload[]> {

@@ -71,8 +71,9 @@ describe('AddressValue', () => {
     })
   })
   describe('verifyAsync', () => {
-    it.each(valid)('Verifies a signature', (message, signature, address) => {
-      expect(AddressValue.verifyAsync(message, signature, address)).resolves.toBeTrue()
+    it.each(valid)('Verifies a signature', async (message, signature, address) => {
+      const result = await AddressValue.verifyAsync(message, signature, address)
+      expect(result).toBeTrue()
     })
   })
 })

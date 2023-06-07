@@ -13,17 +13,16 @@ window.indexedDB = indexedDB
 describe('IndexedDbArchivist', () => {
   describe('Using injected IndexedDB instance', () => {
     const store: UseStore = createStore('foo', 'bar')
+    const name = 'IndexedDB (injected)'
     testArchivistRoundTrip(
       IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema }, indexedDB: store }),
-      'IndexedDB (injected)',
+      name,
     )
-    testArchivistAll(
-      IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema }, indexedDB: store }),
-      'IndexedDB (injected)',
-    )
+    testArchivistAll(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema }, indexedDB: store }), name)
   })
   describe('Using IndexedDB from window', () => {
-    testArchivistRoundTrip(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema } }), 'IndexedDB (window)')
-    testArchivistAll(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema } }), 'IndexedDB (window)')
+    const name = 'IndexedDB (window)'
+    testArchivistRoundTrip(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema } }), name)
+    testArchivistAll(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema } }), name)
   })
 })

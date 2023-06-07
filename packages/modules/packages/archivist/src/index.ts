@@ -1,5 +1,6 @@
 export * from './ArchivingModule'
 export * from './CookieArchivist'
+export * from './IndexedDbArchivist'
 export * from './StorageArchivist'
 export * from '@xyo-network/abstract-archivist'
 export * from '@xyo-network/archivist-model'

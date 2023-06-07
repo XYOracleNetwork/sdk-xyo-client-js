@@ -6,7 +6,7 @@ import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model
 import { EllipticKey } from './EllipticKey'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
-const recoveryIds = [0, 1, 2, 3]
+const recoveryIds = [0, 1, 2, 3] as const
 
 @staticImplements<AddressValueStatic>()
 export class AddressValue extends EllipticKey implements AddressValueInstance {
@@ -62,10 +62,19 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
   static async verifyAsync(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
     const verifier = await AddressValue.secp256k1
     if (verifier && AddressValue.wasmSupport.canUseWasm) {
-      return verifier.verifySignatureCompact(toUint8Array(signature), toUint8Array(address), toUint8Array(msg))
-    } else {
-      return AddressValue.verify(msg, signature, address)
+      let publicKey: Uint8Array | null = null
+      for (const recoveryId of recoveryIds) {
+        try {
+          publicKey = verifier.recoverPublicKeyCompressed(toUint8Array(signature), recoveryId, toUint8Array(msg))
+          if (verifier.validatePublicKey(publicKey)) break
+        } catch (ex) {
+          continue
+        }
+      }
+      if (publicKey) return verifier.verifySignatureCompact(toUint8Array(signature), publicKey, toUint8Array(msg))
     }
+    // In all failure modes default to the JS implementation
+    return AddressValue.verify(msg, signature, address)
   }
 
   verify(msg: Uint8Array | string, signature: Uint8Array | string) {

@@ -19,7 +19,7 @@ export type IndexedDbArchivistConfig = ArchivistConfig<{
 export type IndexedDbArchivistParams = ArchivistParams<
   AnyConfigSchema<IndexedDbArchivistConfig>,
   {
-    IndexedDb?: UseStore
+    indexedDB?: UseStore
   }
 >
 
@@ -31,12 +31,12 @@ export class IndexedDbArchivist<
   static override configSchema = IndexedDbArchivistConfigSchema
 
   override async all(): Promise<Payload[]> {
-    const result = await entries<string, Payload>(this.params.IndexedDb ?? undefined)
+    const result = await entries<string, Payload>(this.params.indexedDB ?? undefined)
     return result.map<Payload>(([_hash, payload]) => payload)
   }
 
   override async get(hashes: string[]): Promise<Payload[]> {
-    const result = await getMany<Payload>(hashes, this.params.IndexedDb ?? undefined)
+    const result = await getMany<Payload>(hashes, this.params.indexedDB ?? undefined)
     return result
   }
 
@@ -47,7 +47,7 @@ export class IndexedDbArchivist<
         return [hash, payload]
       }),
     )
-    await setMany(entries, this.params.IndexedDb ?? undefined)
+    await setMany(entries, this.params.indexedDB ?? undefined)
     const result = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
     return [result[0]]
   }

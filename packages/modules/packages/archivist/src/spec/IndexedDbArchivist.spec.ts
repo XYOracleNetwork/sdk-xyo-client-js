@@ -3,13 +3,27 @@
  */
 
 import { indexedDB } from 'fake-indexeddb'
+import { createStore, UseStore } from 'idb-keyval'
 
 import { IndexedDbArchivist, IndexedDbArchivistConfigSchema } from '../IndexedDbArchivist'
 import { testArchivistAll, testArchivistRoundTrip } from './testArchivist'
 
-const name = 'IndexedDB'
-
 window.indexedDB = indexedDB
 
-testArchivistRoundTrip(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema } }), name)
-testArchivistAll(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema } }), name)
+describe('IndexedDbArchivist', () => {
+  describe('Using injected IndexedDB instance', () => {
+    const store: UseStore = createStore('foo', 'bar')
+    testArchivistRoundTrip(
+      IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema }, indexedDB: store }),
+      'IndexedDB (injected)',
+    )
+    testArchivistAll(
+      IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema }, indexedDB: store }),
+      'IndexedDB (injected)',
+    )
+  })
+  describe('Using IndexedDB from window', () => {
+    testArchivistRoundTrip(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema } }), 'IndexedDB (window)')
+    testArchivistAll(IndexedDbArchivist.create({ config: { namespace: 'test', schema: IndexedDbArchivistConfigSchema } }), 'IndexedDB (window)')
+  })
+})

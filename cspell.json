@@ -33,6 +33,7 @@
     "hdnode",
     "healthz",
     "huri",
+    "indexeddb",
     "Initializable",
     "initializables",
     "interoperably",

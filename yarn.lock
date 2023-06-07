@@ -4989,9 +4989,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexedDb":
+"@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexed-db":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexedDb"
+  resolution: "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexed-db"
   dependencies:
     "@xylabs/delay": ^2.8.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13

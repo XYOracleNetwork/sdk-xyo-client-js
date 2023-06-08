@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
@@ -40,8 +41,15 @@ export class IndexedDbArchivist<
 
   private _db: UseStore | undefined
 
+  /**
+   * The database name. If not supplied via config, it defaults
+   * to the module name (not guaranteed to be unique) and if module
+   * name is not supplied, it defaults to `archivist`. This behavior
+   * biases towards a single, isolated DB per archivist which seems to
+   * make the most sense for 99% of use cases.
+   */
   get dbName() {
-    return this.config?.dbName ?? 'xyo-archivist'
+    return this.config?.dbName ?? this.config?.name ?? 'archivist'
   }
 
   override get queries() {
@@ -49,12 +57,11 @@ export class IndexedDbArchivist<
   }
 
   get storeName() {
-    return this.config?.storeName ?? this.config?.name ?? 'xyo-archivist'
+    return this.config?.storeName ?? 'payloads'
   }
 
   private get db(): UseStore {
-    this._db = this._db ?? createStore(this.dbName, this.storeName)
-    return this._db
+    return assertEx(this._db, 'DB not initialized')
   }
 
   override async all(): Promise<Payload[]> {
@@ -90,6 +97,8 @@ export class IndexedDbArchivist<
 
   override async start(): Promise<void> {
     await super.start()
+    // NOTE: We could defer this creation to first access but we
+    // want to fail fast here in case something is wrong
     this._db = createStore(this.dbName, this.storeName)
   }
 }

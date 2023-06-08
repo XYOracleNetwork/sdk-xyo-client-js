@@ -38,6 +38,8 @@ export class IndexedDbArchivist<
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
   static override configSchema = IndexedDbArchivistConfigSchema
+  static defaultDbName = 'archivist'
+  static defaultStoreName = 'payloads'
 
   private _db: UseStore | undefined
 
@@ -49,7 +51,7 @@ export class IndexedDbArchivist<
    * make the most sense for 99% of use cases.
    */
   get dbName() {
-    return this.config?.dbName ?? this.config?.name ?? 'archivist'
+    return this.config?.dbName ?? this.config?.name ?? IndexedDbArchivist.defaultDbName
   }
 
   override get queries() {
@@ -66,7 +68,7 @@ export class IndexedDbArchivist<
    * https://www.npmjs.com/package/idb
    */
   get storeName() {
-    return this.config?.storeName ?? 'payloads'
+    return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
   }
 
   private get db(): UseStore {

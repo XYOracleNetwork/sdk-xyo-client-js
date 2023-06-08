@@ -2,14 +2,14 @@ import { assertEx } from '@xylabs/assert'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { Payload } from '@xyo-network/payload-model'
-import { creatableWrapper, PayloadWrapper, Wrapper } from '@xyo-network/payload-wrapper'
+import { creatableWrapper, PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { Promisable } from '@xyo-network/promise'
 
 creatableWrapper()
-export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitness>
-  extends PayloadWrapper<TBoundWitness>
-  implements Wrapper<TBoundWitness>
-{
-  private payloads: Payload[] = []
+export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitness> extends PayloadWrapper<TBoundWitness> {
+  constructor(bw: TBoundWitness, protected payloads: Payload[] = []) {
+    super(bw)
+  }
 
   get addresses() {
     return this.boundwitness.addresses
@@ -61,7 +61,11 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitne
     return this.payloadHashes.filter((hash) => !payloadMap[hash])
   }
 
-  getWrappedPayloads(): PayloadWrapper[] {
+  getPayloads(): Payload[] {
+    return this.payloads
+  }
+
+  getWrappedPayloads(): Promisable<PayloadWrapper[]> {
     return PayloadWrapper.wrapMany(Object.values(this.payloads))
   }
 
@@ -103,8 +107,8 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitne
   }
   */
 
-  toResult() {
-    return [this.boundwitness, this.getWrappedPayloads().map((payload) => payload.body())]
+  async toResult() {
+    return [this.boundwitness, (await this.getWrappedPayloads()).map((payload) => payload.body())]
   }
 
   override async validate(): Promise<Error[]> {

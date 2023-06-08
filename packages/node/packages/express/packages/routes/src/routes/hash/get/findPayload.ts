@@ -1,3 +1,4 @@
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
@@ -56,7 +57,7 @@ export const findPayload = async (
     const filter = createBoundWitnessFilterFromSearchCriteria(searchCriteria)
     const boundWitnesses = DivinerWrapper.wrap(boundWitnessDiviner)
     const result = await boundWitnesses.divine(filter)
-    const bw = result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined
+    const bw = result?.[0] ? BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(result[0]) : undefined
     if (bw) {
       if (returnBoundWitness) return bw.body()
       const { schemas, direction } = searchCriteria

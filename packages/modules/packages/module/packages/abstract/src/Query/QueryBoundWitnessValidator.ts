@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Query, QueryBoundWitness, QueryBoundWitnessSchema } from '@xyo-network/module-model'
@@ -27,8 +28,8 @@ export class QueryBoundWitnessValidator<T extends Query = Query> extends BoundWi
     const errors: Error[] = []
     try {
       const resultSetHash = assertEx(this.obj.resultSet, 'Missing ResultSet')
-      const wrapper = BoundWitnessWrapper.parse(this.obj)
-      const resultSet = PayloadWrapper.wrap<PayloadSetPayload>((await wrapper.payloadMap())[resultSetHash] as PayloadSetPayload)
+      const wrapper: BoundWitnessWrapper = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(this.obj)
+      const resultSet = PayloadWrapper.wrap<PayloadSetPayload>((await wrapper.payloadMap())[resultSetHash] as unknown as PayloadSetPayload)
       const required = resultSet?.payload().required
       if (required) {
         Object.entries(required).forEach(([key, value]) => {

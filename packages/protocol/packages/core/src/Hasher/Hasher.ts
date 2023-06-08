@@ -1,4 +1,3 @@
-import { Payload } from '@xyo-network/payload'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
@@ -10,7 +9,7 @@ import { sortFields } from './sortFields'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
-export class PayloadHasher<T extends Payload = Payload> extends ObjectWrapper<T> {
+export class PayloadHasher<T extends object> extends ObjectWrapper<T> {
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic
 
@@ -93,4 +92,4 @@ export class PayloadHasher<T extends Payload = Payload> extends ObjectWrapper<T>
 }
 
 /** @deprecated use PayloadHasher instead */
-export class Hasher<T extends Payload = Payload> extends PayloadHasher<T> {}
+export class Hasher<T extends object> extends PayloadHasher<T> {}

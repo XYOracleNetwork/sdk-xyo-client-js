@@ -304,9 +304,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return result
   }
 
-  protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
+  protected filterErrors(result: ModuleQueryResult): ModuleError[] {
     const wrapper = new BoundWitnessWrapper(result[0], result[1])
-    return await wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
+    return wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
   }
 
   protected async sendQuery<T extends Query, W extends PayloadWrapper<T> = PayloadWrapper<T>>(
@@ -315,7 +315,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   ): Promise<Payload[]> {
     //make sure we did not get wrapped payloads
     const unwrappedPayloads: Payload[] = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload')) ?? []
-    const unwrappedQueryPayload: Query = assertEx(PayloadWrapper.unwrap<T, W>(queryPayload), 'Unable to parse queryPayload')
+    const unwrappedQueryPayload: Query = assertEx(PayloadWrapper.unwrap(queryPayload), 'Unable to parse queryPayload')
 
     // Bind them
     const query = await this.bindQuery(unwrappedQueryPayload, unwrappedPayloads)

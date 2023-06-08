@@ -1,28 +1,29 @@
-import { Wrapper } from './Wrapper'
+import { ObjectWrapper } from '@xyo-network/core'
+import { Payload } from '@xyo-network/payload-model'
 
-export interface CreatableWrapper<T extends Wrapper = Wrapper> {
-  new (payload: T['obj']): T
-  create(this: CreatableWrapper<T>, obj: T['obj']): T
+export interface CreatableWrapper<T extends Payload, W extends ObjectWrapper<T>> {
+  new (payload: T): W
+  create(this: CreatableWrapper<T, W>, obj: T): W
 
   is(obj: unknown): boolean
 
-  parse(this: CreatableWrapper<T>, obj?: unknown): T
+  parse(this: CreatableWrapper<T, W>, obj?: unknown): W
 
-  tryParse(this: CreatableWrapper<T>, obj?: unknown): T | undefined
+  tryParse(this: CreatableWrapper<T, W>, obj?: unknown): W | undefined
 
-  tryUnwrap(this: CreatableWrapper<T>, payload?: T['obj'] | T): T['obj'] | undefined
+  tryUnwrap(this: CreatableWrapper<T, W>, payload?: W | T): T | undefined
 
-  tryUnwrapMany(this: CreatableWrapper<T>, payloads?: (T['obj'] | T | undefined)[]): (T['obj'] | undefined)[]
+  tryUnwrapMany(this: CreatableWrapper<T, W>, payloads?: (W | T | undefined)[]): (T | undefined)[]
 
-  unwrap(this: CreatableWrapper<T>, payload: T['obj'] | T): T['obj']
+  unwrap(this: CreatableWrapper<T, W>, payload: W | T): T
 
-  unwrapMany(this: CreatableWrapper<T>, payload: (T['obj'] | T)[]): T['obj'][]
+  unwrapMany(this: CreatableWrapper<T, W>, payload: (W | T)[]): T[]
 
-  wrap(this: CreatableWrapper<T>, payload: T | T['obj']): T
+  wrap(this: CreatableWrapper<T, W>, payload: T | W): W
 
-  wrapMany(this: CreatableWrapper<T>, payloads: (T | T['obj'])[]): T[]
+  wrapMany(this: CreatableWrapper<T, W>, payloads: (T | W)[]): W[]
 
-  wrappedMap(this: CreatableWrapper<T>, payloads: (T | T['obj'])[]): Promise<Record<string, T>>
+  wrappedMap(this: CreatableWrapper<T, W>, payloads: (T | W)[]): Promise<Record<string, W>>
 }
 
 /**
@@ -31,8 +32,8 @@ export interface CreatableWrapper<T extends Wrapper = Wrapper> {
  * @returns The decorated Module requiring it implement the members
  * of the CreatableModule as statics properties/methods
  */
-export function creatableWrapper<T extends Wrapper>() {
-  return <U extends CreatableWrapper<T>>(constructor: U) => {
+export function creatableWrapper<T extends Payload, W extends ObjectWrapper<T>>() {
+  return <U extends CreatableWrapper<T, W>>(constructor: U) => {
     constructor
   }
 }

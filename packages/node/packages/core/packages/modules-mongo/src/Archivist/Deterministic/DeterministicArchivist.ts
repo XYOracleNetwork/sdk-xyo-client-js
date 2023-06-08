@@ -96,7 +96,7 @@ export class MongoDBDeterministicArchivist<
   }
 
   protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, queryPayload: ArchivistInsertQuery): Promise<BoundWitness[]> {
-    const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload())]
+    const toStore = [wrapper.boundwitness, ...wrapper.getPayloads()]
     const [bw, p] = await validByType(toStore)
     const boundWitnesses = await Promise.all(bw.map((x) => toBoundWitnessWithMeta(x)))
     const payloads = await Promise.all(p.map((x) => toPayloadWithMeta(x)))
@@ -110,7 +110,7 @@ export class MongoDBDeterministicArchivist<
       if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
         throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
     }
-    const result = await this.bindQueryResult(queryPayload, [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload())])
+    const result = await this.bindQueryResult(queryPayload, [wrapper.boundwitness, ...wrapper.getPayloads()])
     return [result[0]]
   }
 

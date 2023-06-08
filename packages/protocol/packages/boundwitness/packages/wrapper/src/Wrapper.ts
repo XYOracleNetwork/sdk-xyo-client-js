@@ -1,14 +1,18 @@
 import { assertEx } from '@xylabs/assert'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
+import { PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { creatableWrapper, PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
 creatableWrapper()
 export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitness> extends PayloadWrapper<TBoundWitness> {
-  constructor(bw: TBoundWitness, protected payloads: Payload[] = []) {
+  protected payloads: Payload[]
+
+  constructor(bw: TBoundWitness, payloads: (Payload | PayloadWrapper)[] = []) {
     super(bw)
+    this.payloads = PayloadWrapper.unwrapMany(payloads)
   }
 
   get addresses() {
@@ -35,17 +39,17 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitne
     return obj instanceof BoundWitnessWrapper
   }
 
-  /*async dig(depth?: number): Promise<BoundWitnessWrapper<TBoundWitness>> {
+  async dig(depth?: number): Promise<BoundWitnessWrapper<TBoundWitness>> {
     if (depth === 0) return this
 
     const innerBoundwitnessIndex: number = this.payloadSchemas.findIndex((item) => item === BoundWitnessSchema)
     if (innerBoundwitnessIndex > -1) {
       const innerBoundwitnessHash: string = this.payloadHashes[innerBoundwitnessIndex]
-      const innerBoundwitnessPayload = (await BoundWitnessWrapper.mapWrappedPayloads(await this.getPayloads()))[innerBoundwitnessHash]
+      const innerBoundwitnessPayload = (await this.payloadMap())[innerBoundwitnessHash]
       const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined = innerBoundwitnessPayload
         ? new BoundWitnessWrapper<TBoundWitness>(
             innerBoundwitnessPayload.body() as unknown as TBoundWitness,
-            (await PayloadHasher.filterExclude(this.payloadsArray, innerBoundwitnessHash)).map((item) => item.body() as unknown as TBoundWitness),
+            await PayloadHasher.filterExclude(this.payloads, innerBoundwitnessHash),
           )
         : undefined
       if (innerBoundwitness) {
@@ -54,7 +58,7 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitne
     }
     assertEx(!depth, `Dig failed [Remaining Depth: ${depth}]`)
     return this
-  }*/
+  }
 
   async getMissingPayloads() {
     const payloadMap = await PayloadWrapper.mapPayloads(this.payloads)
@@ -116,6 +120,7 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness = BoundWitne
   }
 }
 
+/*
 const bw: BoundWitness = {
   _signatures: [],
   addresses: [],
@@ -125,6 +130,7 @@ const bw: BoundWitness = {
   schema: 'network.xyo.boundwitness',
 }
 
+
 const b = new BoundWitnessWrapper(bw)
 const a = BoundWitnessWrapper.create(bw)
 const x = BoundWitnessWrapper.parse(bw).payload()
@@ -133,3 +139,4 @@ const z1 = BoundWitnessWrapper.unwrap(bw)
 const z2 = BoundWitnessWrapper.unwrap(y)
 const z3: Payload | undefined = BoundWitnessWrapper.tryUnwrap(bw)
 const z4: Payload | undefined = BoundWitnessWrapper.tryUnwrap(y)
+*/

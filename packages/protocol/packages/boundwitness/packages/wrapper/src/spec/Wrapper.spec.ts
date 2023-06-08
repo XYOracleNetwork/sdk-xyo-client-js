@@ -21,7 +21,7 @@ describe('BoundWitnessWrapper', () => {
     describe('get', () => {
       describe('when no payloads set', () => {
         it('returns an empty object', async () => {
-          const sut = BoundWitnessWrapper.parse(await bw())
+          const sut = new BoundWitnessWrapper(await bw())
           expect(await sut.payloadMap()).toEqual({})
         })
       })

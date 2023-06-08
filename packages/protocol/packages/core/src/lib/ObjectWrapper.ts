@@ -1,7 +1,7 @@
 import { AnyObject } from './AnyObject'
 import { StringKeyObject } from './StringKeyObject'
 
-export abstract class ObjectWrapper<T extends AnyObject> {
+export abstract class ObjectWrapper<T extends AnyObject = AnyObject> {
   constructor(readonly obj: T) {}
   protected get stringKeyObj() {
     return this.obj as StringKeyObject

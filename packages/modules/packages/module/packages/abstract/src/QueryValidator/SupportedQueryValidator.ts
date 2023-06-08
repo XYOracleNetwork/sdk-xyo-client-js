@@ -9,7 +9,7 @@ export const isQuerySupportedByModule = async <T extends QueryBoundWitness = Que
   query: T,
   payloads?: Payload[],
 ): Promise<boolean> => {
-  const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+  const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
   const schema = (await wrapper.getQuery()).schema
   return mod.queries.includes(schema)
 }

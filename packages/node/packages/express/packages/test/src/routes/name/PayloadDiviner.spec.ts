@@ -1,5 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { ArchivistWrapper } from '@xyo-network/archivist'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
@@ -39,7 +40,9 @@ describe(`/${moduleName}`, () => {
     describe.skip('address', () => {
       it('divines Payloads by address', async () => {
         const wrapper: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA], [wrapper.payload()]))[0])
+        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(
+          (await getNewBoundWitness([accountA], [wrapper.payload()]))[0],
+        )
         await archivist.insert([boundWitness.payload(), wrapper.payload()])
 
         const address = accountA.addressValue.hex
@@ -51,7 +54,9 @@ describe(`/${moduleName}`, () => {
       })
       it('divines Payloads by addresses', async () => {
         const wrapper: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
-        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA, accountB], [wrapper.payload()]))[0])
+        const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(
+          (await getNewBoundWitness([accountA, accountB], [wrapper.payload()]))[0],
+        )
         await archivist.insert([boundWitness.payload(), wrapper.payload()])
         const address = [accountA.addressValue.hex, accountB.addressValue.hex] as unknown as (string | string[]) & (string | [string])
         const query: PayloadDivinerQueryPayload = { address: address, schema }

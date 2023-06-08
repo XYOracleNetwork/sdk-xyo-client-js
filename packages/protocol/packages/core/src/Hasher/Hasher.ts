@@ -9,7 +9,7 @@ import { sortFields } from './sortFields'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
-export class PayloadHasher<T extends object> extends ObjectWrapper<T> {
+export class PayloadHasher<T extends object = object> extends ObjectWrapper<T> {
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic
 

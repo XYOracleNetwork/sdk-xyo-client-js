@@ -22,24 +22,24 @@ export class PayloadWrapper<T extends Payload = Payload> extends PayloadHasher<T
 
   static async mapPayloads<T extends Payload, W extends PayloadWrapper<T>>(
     this: CreatableWrapper<T, W>,
-    payloads: (W['obj'] | W)[],
-  ): Promise<Record<string, W['obj']>> {
+    payloads: (T | W)[],
+  ): Promise<Record<string, T>> {
     return (
       await Promise.all(
-        payloads?.map<Promise<[W['obj'], string]>>(async (payload) => {
-          const unwrapped: W['obj'] = assertEx(this.unwrap(payload))
+        payloads?.map<Promise<[T, string]>>(async (payload) => {
+          const unwrapped: T = assertEx(this.unwrap(payload))
           return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
         }),
       )
     ).reduce((map, [payload, payloadHash]) => {
       map[payloadHash] = payload
       return map
-    }, {} as Record<string, W['obj']>)
+    }, {} as Record<string, T>)
   }
 
   static async mapWrappedPayloads<T extends Payload, W extends PayloadWrapper<T> = PayloadWrapper<T>>(
     this: CreatableWrapper<T, W>,
-    payloads: (W['obj'] | W)[],
+    payloads: (T | W)[],
   ): Promise<Record<string, W>> {
     return (
       await Promise.all(

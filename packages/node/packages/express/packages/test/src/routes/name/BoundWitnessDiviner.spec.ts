@@ -42,9 +42,15 @@ describe(`/${moduleName}`, () => {
     const accountB = Account.random()
     const boundWitnesses: BoundWitnessWrapper[] = []
     beforeAll(async () => {
-      const boundWitnessA = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA], [getNewPayload()]))[0])
-      const boundWitnessB = BoundWitnessWrapper.parse((await getNewBoundWitness([accountB], [getNewPayload()]))[0])
-      const boundWitnessC = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA, accountB], [getNewPayload(), getNewPayload()]))[0])
+      const boundWitnessA = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(
+        (await getNewBoundWitness([accountA], [getNewPayload()]))[0],
+      )
+      const boundWitnessB = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(
+        (await getNewBoundWitness([accountB], [getNewPayload()]))[0],
+      )
+      const boundWitnessC = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(
+        (await getNewBoundWitness([accountA, accountB], [getNewPayload(), getNewPayload()]))[0],
+      )
       boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
       await archivist.insert(boundWitnesses.map((b) => b.boundwitness))
     })
@@ -77,7 +83,7 @@ describe(`/${moduleName}`, () => {
     describe('hash', () => {
       let boundWitness: BoundWitnessWrapper
       beforeAll(async () => {
-        boundWitness = BoundWitnessWrapper.parse((await getNewBoundWitness([account]))[0])
+        boundWitness = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>((await getNewBoundWitness([account]))[0])
         await archivist.insert([boundWitness.payload()])
       })
       it('divines BoundWitnesses by hash', async () => {
@@ -113,7 +119,7 @@ describe(`/${moduleName}`, () => {
       let boundWitnesses: BoundWitnessWrapper[]
       beforeAll(async () => {
         boundWitnesses = [(await getNewBoundWitness([account]))[0], (await getNewBoundWitness([account]))[0]].map((bw) =>
-          BoundWitnessWrapper.parse(bw),
+          BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(bw),
         )
         await archivist.insert(boundWitnesses.map((b) => b.boundwitness))
       })
@@ -147,9 +153,15 @@ describe(`/${moduleName}`, () => {
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
       const boundWitnesses: BoundWitnessWrapper[] = []
       beforeAll(async () => {
-        const boundWitnessA = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadA.payload()]))[0])
-        const boundWitnessB = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadB.payload()]))[0])
-        const boundWitnessC = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadA.payload(), payloadB.payload()]))[0])
+        const boundWitnessA = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(
+          (await getNewBoundWitness([account], [payloadA.payload()]))[0],
+        )
+        const boundWitnessB = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(
+          (await getNewBoundWitness([account], [payloadB.payload()]))[0],
+        )
+        const boundWitnessC = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(
+          (await getNewBoundWitness([account], [payloadA.payload(), payloadB.payload()]))[0],
+        )
         boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
         await archivist.insert(boundWitnesses.map((b) => b.payload()))
       })

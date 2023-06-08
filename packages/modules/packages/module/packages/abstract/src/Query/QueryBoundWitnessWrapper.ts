@@ -11,17 +11,20 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
   private _query: T | undefined
   private _resultSet: PayloadSetPayload | undefined
 
-  private isQueryBoundWitnessWrapper = true
+  static override is(obj: unknown) {
+    return obj instanceof QueryBoundWitnessWrapper
+  }
 
-  static parseQuery<T extends Query = Query>(obj: unknown, payloads?: Payload[]): QueryBoundWitnessWrapper<T> {
+  static async parseQuery<T extends Query = Query>(obj: unknown, payloads?: Payload[]): Promise<QueryBoundWitnessWrapper<T>> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to QueryBoundWitnessWrapper')
     switch (typeof obj) {
       case 'object': {
-        const castWrapper = obj as QueryBoundWitnessWrapper<T>
-        const wrapper = castWrapper?.isQueryBoundWitnessWrapper ? castWrapper : new QueryBoundWitnessWrapper<T>(obj as QueryBoundWitness, payloads)
-        /*if (!wrapper.valid) {
-          console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify(wrapper.errors.map((error) => error.message))}`)
-        }*/
+        const wrapper = QueryBoundWitnessWrapper.is(obj)
+          ? (obj as QueryBoundWitnessWrapper<T>)
+          : new QueryBoundWitnessWrapper<T>(obj as QueryBoundWitness, payloads)
+        if (!(await wrapper.getValid())) {
+          console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify((await wrapper.getErrors()).map((error) => error.message))}`)
+        }
         return wrapper
       }
     }

@@ -76,10 +76,10 @@ describe('XyoPanel', () => {
     const adhocObserved = await adhocWitness.observe(adhocWitness.config.payload ? [adhocWitness.config.payload] : [])
 
     const report1Result = await panel.report(adhocObserved)
-    const report1 = BoundWitnessWrapper.parse(report1Result[0])
+    const report1 = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>(report1Result[0])
     expect(report1.schema()).toBe(BoundWitnessSchema)
     expect(report1.payloadHashes).toBeArrayOfSize(3)
-    const report2 = BoundWitnessWrapper.parse((await panel.report())[0])
+    const report2 = BoundWitnessWrapper.parse<BoundWitness, BoundWitnessWrapper<BoundWitness>>((await panel.report())[0])
     expect(report2.schema()).toBeDefined()
     expect(report2.payloadHashes).toBeArrayOfSize(2)
     expect(report2.hash !== report1.hash).toBe(true)

@@ -320,7 +320,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     if (!this.allowAnonymous) {
       if (query.addresses.length === 0) {
         console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)

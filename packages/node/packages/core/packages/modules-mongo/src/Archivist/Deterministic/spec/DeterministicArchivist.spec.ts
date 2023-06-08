@@ -9,7 +9,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
-import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { canAddMongoModules } from '../../../canAddMongoModules'
@@ -61,9 +61,9 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     const boundWitness3 = (
       await new BoundWitnessBuilder().payloads([payloadWrapper3.payload(), payloadWrapper4.payload()]).witness(userAccount).build()
     )[0]
-    const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1, [payload1])
-    const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2, [payload2])
-    const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3, [payload3, payload4])
+    const boundWitnessWrapper1 = new BoundWitnessWrapper(boundWitness1, [payload1])
+    const boundWitnessWrapper2 = new BoundWitnessWrapper(boundWitness2, [payload2])
+    const boundWitnessWrapper3 = new BoundWitnessWrapper(boundWitness3, [payload3, payload4])
 
     boundWitnessWrappers.push(boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3)
     const insertions = [
@@ -97,13 +97,16 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       expect(boundResult.addresses).toContain(archivist.address)
       expect(transactionResults.addresses).toContain(moduleAccount.public.address.hex)
       const boundWitnessWrapper = boundWitnessWrappers[0]
-      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloadsArray.length + 3)
+      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.getPayloads().length + 3)
       await Promise.all(
-        boundWitnessWrapper.payloadsArray.map(async (p) => {
+        (
+          await boundWitnessWrapper.getWrappedPayloads()
+        ).map(async (p) => {
           expect(transactionResults.payload_hashes).toInclude(await p.hashAsync())
         }),
       )
-      expect(insertResult1.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
+      const snap = insertResult1.map((bw) => new BoundWitnessWrapper(bw).boundwitness)
+      expect(snap).toMatchSnapshot()
     })
     it('inserts multiple payloads', async () => {
       expect(insertResult3).toBeTruthy()
@@ -112,18 +115,20 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       expect(boundResult.addresses).toContain(archivist.address)
       expect(transactionResults.addresses).toContain(moduleAccount.public.address.hex)
       const boundWitnessWrapper = boundWitnessWrappers[2]
-      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloadsArray.length + 3)
+      expect(transactionResults.payload_hashes).toBeArrayOfSize((await boundWitnessWrapper.getWrappedPayloads()).length + 3)
       await Promise.all(
-        boundWitnessWrapper.payloadsArray.map(async (p) => {
+        (
+          await boundWitnessWrapper.getWrappedPayloads()
+        ).map(async (p) => {
           expect(transactionResults.payload_hashes).toInclude(await p.hashAsync())
         }),
       )
-      expect(insertResult3.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
+      expect(insertResult3.map((bw) => new BoundWitnessWrapper(bw).boundwitness)).toMatchSnapshot()
     })
   })
   describe('get', () => {
     type TestDataGetter<T> = () => T
-    const cases: [string, TestDataGetter<PayloadWrapperBase[]>][] = [
+    const cases: [string, TestDataGetter<PayloadWrapper[]>][] = [
       ['gets single payload', () => [payloadWrappers[0]]],
       ['gets multiple payloads', () => [payloadWrappers[0], payloadWrappers[1], payloadWrappers[2]]],
       ['gets single boundwitness', () => [boundWitnessWrappers[0]]],

@@ -14,8 +14,8 @@ import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
 
-export type IndexedDbArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
-export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
+export type IndexedDbArchivistConfigSchema = 'network.xyo.module.config.archivist.indexeddb'
+export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.module.config.archivist.indexeddb'
 
 export type IndexedDbArchivistConfig = ArchivistConfig<{
   /**
@@ -49,11 +49,11 @@ export class IndexedDbArchivist<
   }
 
   get storeName() {
-    return this.config?.storeName ?? 'xyo-archivist'
+    return this.config?.storeName ?? this.config?.name ?? 'xyo-archivist'
   }
 
   private get db(): UseStore {
-    this._db = this._db ?? createStore('db3', 'keyval')
+    this._db = this._db ?? createStore(this.dbName, this.storeName)
     return this._db
   }
 
@@ -83,8 +83,13 @@ export class IndexedDbArchivist<
         return [hash, payload]
       }),
     )
-    await setMany(entries, this.params.indexedDB ?? undefined)
+    await setMany(entries, this.db)
     const result = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
     return [result[0]]
+  }
+
+  override async start(): Promise<void> {
+    await super.start()
+    this._db = createStore(this.dbName, this.storeName)
   }
 }

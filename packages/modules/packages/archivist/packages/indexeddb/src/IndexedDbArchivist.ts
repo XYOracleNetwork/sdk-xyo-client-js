@@ -55,7 +55,16 @@ export class IndexedDbArchivist<
   override get queries() {
     return [ArchivistAllQuerySchema, ArchivistClearQuerySchema, ArchivistDeleteQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }
-
+  /**
+   * The name of the object store. If not supplied via config, it defaults
+   * to `payloads`. The limitation of the current IndexedDB wrapper we're
+   * using is that it only supports a single object store per DB. See here:
+   * https://github.com/jakearchibald/idb-keyval/blob/main/custom-stores.md#defining-a-custom-database--store-name
+   * If this becomes a problem or we need migrations/transactions, we can
+   * move to this more-flexible library, which they recommend (and who
+   * recommends them for our simple use case of key-value storage):
+   * https://www.npmjs.com/package/idb
+   */
   get storeName() {
     return this.config?.storeName ?? 'payloads'
   }

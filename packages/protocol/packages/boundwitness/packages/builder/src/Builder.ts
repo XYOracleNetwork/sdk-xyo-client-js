@@ -90,7 +90,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   payload(payload?: TPayload) {
-    const unwrappedPayload = PayloadWrapper.unwrap<TPayload>(payload)
+    const unwrappedPayload = PayloadWrapper.unwrap(payload) as TPayload
     assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
     if (unwrappedPayload) {
       this._payloads.push(assertEx(sortFields<TPayload>(unwrappedPayload)))

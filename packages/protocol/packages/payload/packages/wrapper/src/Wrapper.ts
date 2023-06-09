@@ -2,23 +2,48 @@ import { assertEx } from '@xylabs/assert'
 import { DataLike, deepOmitUnderscoreFields, PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
-import { Promisable } from '@xyo-network/promise'
+
+import { CreatableWrapper, Wrapper } from './CreatableWrapper'
 
 export type PayloadLoader = (address: DataLike) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
 
-export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> extends PayloadHasher<TPayload> {
+export type CreatablePayloadWrapper<T extends Payload, W extends PayloadWrapper<T>> = CreatableWrapper<T, W>
+
+export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadHasher<TPayload> implements Wrapper<TPayload> {
+  private static loaderFactory: PayloadLoaderFactory | null = null
   private _errors?: Error[]
 
-  static load(_address: DataLike): Promisable<PayloadWrapperBase | null> {
-    throw Error('Not implemented')
+  static is(obj: unknown) {
+    return obj instanceof PayloadWrapper
   }
 
-  static parse(_obj: unknown): PayloadWrapperBase {
-    throw Error('Not implemented')
+  static async load(address: DataLike) {
+    if (this.loaderFactory === null) {
+      console.warn('No loader factory set')
+      return null
+    } else {
+      const payload = await this.loaderFactory()(address)
+      return payload ? new PayloadWrapper(payload) : null
+    }
   }
 
-  static tryParse(obj: unknown) {
+  static parse<T extends Payload, W extends PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, payload?: unknown) {
+    assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
+    switch (typeof payload) {
+      case 'object': {
+        return this.wrap(payload as T)
+      }
+      default:
+        throw Error(`Can only parse objects [${typeof payload}]`)
+    }
+  }
+
+  static setLoaderFactory(factory: PayloadLoaderFactory | null) {
+    this.loaderFactory = factory
+  }
+
+  static tryParse<T extends Payload, W extends PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, obj: unknown) {
     if (obj === undefined) return undefined
     try {
       return this.parse(obj)
@@ -27,35 +52,47 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     }
   }
 
-  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapper<TPayload>>(
-    payload?: TPayload | TWrapper,
-  ): TPayload | undefined
-  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapper<TPayload>>(
-    payload?: (TPayload | TWrapper)[],
-  ): (TPayload | undefined)[]
-  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapper<TPayload>>(
-    payload?: TPayload | TWrapper | (TPayload | TWrapper)[],
-  ): TPayload | (TPayload | undefined)[] | undefined {
-    if (Array.isArray(payload)) {
-      return payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
-    } else {
-      return this.unwrapSinglePayload<TPayload, TWrapper>(payload)
-    }
-  }
-
-  private static unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapper<TPayload>>(
-    payload?: TPayload | TWrapper,
-  ) {
-    if (payload === undefined) {
-      return undefined
-    }
-    if (payload instanceof PayloadWrapperBase) {
-      return payload.payload() as TPayload
+  static unwrap<T extends Payload, W extends PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, payload?: T | W): T {
+    if (payload instanceof PayloadWrapper) {
+      return payload.payload() as T
     }
     if (!(typeof payload === 'object')) {
       throw 'Can not unwrap class that is not extended from object'
     }
-    return payload as TPayload
+    return payload as T
+  }
+
+  static unwrapMany<T extends Payload, W extends PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, payloads?: (T | W)[]): (T | undefined)[] {
+    return payloads?.map((payload) => this.unwrap(payload)) ?? []
+  }
+
+  static wrap<T extends Payload, W extends PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, payload?: T | W) {
+    switch (typeof payload) {
+      case 'object': {
+        const castWrapper = payload as W
+        const typedPayload = payload as T
+        return assertEx(
+          PayloadWrapper.is(castWrapper) ? castWrapper : typedPayload.schema ? new this(typedPayload) : null,
+          'Unable to parse payload object',
+        )
+      }
+      default:
+        throw Error(`Can only parse objects [${typeof payload}]`)
+    }
+  }
+
+  static async wrappedMap<T extends Payload, W extends PayloadWrapper<T>>(
+    this: CreatablePayloadWrapper<T, W>,
+    payloads: (T | W)[],
+  ): Promise<Record<string, W>> {
+    const result: Record<string, W> = {}
+    await Promise.all(
+      payloads.map(async (payload) => {
+        const hash = await PayloadWrapper.hashAsync(payload)
+        result[hash] = this.wrap(payload)
+      }),
+    )
+    return result
   }
 
   body() {
@@ -80,56 +117,7 @@ export abstract class PayloadWrapperBase<TPayload extends Payload = Payload> ext
     return assertEx(this.payload()?.schema, 'Missing payload schema')
   }
 
-  abstract validate(): Promisable<Error[]>
-}
-
-export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadWrapperBase<TPayload> {
-  private static loaderFactory: PayloadLoaderFactory | null = null
-
-  private isPayloadWrapper = true
-
-  static override async load(address: DataLike) {
-    if (this.loaderFactory === null) {
-      console.warn('No loader factory set')
-      return null
-    } else {
-      const payload = await this.loaderFactory()(address)
-      return payload ? new PayloadWrapper(payload) : null
-    }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  static override parse<T extends Payload>(payload?: T | PayloadWrapper<T>): PayloadWrapper<T> {
-    assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
-    switch (typeof payload) {
-      case 'object': {
-        const castWrapper = payload as PayloadWrapper<T>
-        const typedPayload = payload as T
-        return assertEx(
-          castWrapper?.isPayloadWrapper ? castWrapper : typedPayload.schema ? new PayloadWrapper(typedPayload) : null,
-          'Unable to parse payload object',
-        )
-      }
-      default:
-        throw Error(`Can only parse objects [${typeof payload}]`)
-    }
-  }
-
-  static setLoaderFactory(factory: PayloadLoaderFactory | null) {
-    this.loaderFactory = factory
-  }
-
-  static async toWrappedMap<T extends Payload>(payloads: (T | PayloadWrapper<T>)[]): Promise<Record<string, PayloadWrapper<T>>> {
-    const result: Record<string, PayloadWrapper<T>> = {}
-    await Promise.all(
-      payloads.map(async (payload) => {
-        result[await PayloadWrapper.hashAsync(payload)] = PayloadWrapper.parse(payload)
-      }),
-    )
-    return result
-  }
-
-  override async validate(): Promise<Error[]> {
+  async validate(): Promise<Error[]> {
     const payload = this.payload()
     return payload ? await new PayloadValidator<TPayload>(payload).validate() : []
   }

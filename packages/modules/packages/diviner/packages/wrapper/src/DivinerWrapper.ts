@@ -8,7 +8,7 @@ export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule
   static override requiredQueries = [DivinerDivineQuerySchema, ...super.requiredQueries]
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse<DivinerDivineQuery>({ schema: DivinerDivineQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ schema: DivinerDivineQuerySchema }) as PayloadWrapper<DivinerDivineQuery>
     const result = await this.sendQuery(queryPayload, payloads)
     return result
   }

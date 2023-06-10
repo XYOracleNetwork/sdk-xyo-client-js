@@ -103,12 +103,10 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness<{ schema: st
     }, [])
   }
 
-  /*
   async payloadMap(): Promise<Record<string, Payload>> {
-    this._payloadMap = this._payloadMap ?? (await BoundWitnessWrapper.mapPayloads(await this.payloads()))
+    this._payloadMap = this._payloadMap ?? (await PayloadWrapper.toMap(this.payloads()))
     return this._payloadMap
   }
-  */
 
   payloadWrappers(): PayloadWrapper[] {
     return Object.values(this._payloads ?? {})

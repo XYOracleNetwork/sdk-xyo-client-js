@@ -1,10 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { PayloadHasher } from '@xyo-network/core'
 import { Query, QueryBoundWitness } from '@xyo-network/module-model'
 import { Payload, PayloadSetPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import compact from 'lodash/compact'
 
 import { QueryBoundWitnessValidator } from './QueryBoundWitnessValidator'
 
@@ -35,7 +33,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
   }
 
   async getQuery(): Promise<T> {
-    const payloadMap = await this.allPayloadMap()
+    const payloadMap = await this.payloadMap()
     this._query = this._query ?? (payloadMap[this.boundwitness.query] as T | undefined)
     return assertEx(this._query, `Missing Query [${this.boundwitness}]`)
   }
@@ -47,19 +45,5 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
       (this._resultSet = this._resultSet ?? (resultSetHash ? (payloadMap[resultSetHash] as PayloadSetPayload | undefined) : undefined)),
       `Missing resultSet [${resultSetHash}]`,
     )
-  }
-
-  override async getWrappedPayloads(): Promise<PayloadWrapper<Payload>[]> {
-    this._payloadsWithoutQuery =
-      this._payloadsWithoutQuery ??
-      compact(
-        (
-          await PayloadHasher.filterExclude(
-            (await super.getWrappedPayloads()).map((wrapper) => wrapper.payload()),
-            this.payload().query,
-          )
-        ).map((payload) => PayloadWrapper.parse(payload)),
-      )
-    return this._payloadsWithoutQuery
   }
 }

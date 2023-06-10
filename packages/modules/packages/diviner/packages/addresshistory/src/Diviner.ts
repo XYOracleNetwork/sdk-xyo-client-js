@@ -31,7 +31,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
         }),
       )
     ).flat()
-    const bwRecords = await BoundWitnessWrapper.toWrappedMap(bwLists)
+    const bwRecords = (await BoundWitnessWrapper.wrappedMap(bwLists)) as Record<string, BoundWitnessWrapper>
     const chains = Object.values(this.buildAddressChains(this.queryAddress, bwRecords))
 
     // Return the heads of each chain (get the last bw on each chain)

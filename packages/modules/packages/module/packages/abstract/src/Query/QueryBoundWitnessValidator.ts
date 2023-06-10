@@ -27,8 +27,8 @@ export class QueryBoundWitnessValidator<T extends Query = Query> extends BoundWi
     const errors: Error[] = []
     try {
       const resultSetHash = assertEx(this.obj.resultSet, 'Missing ResultSet')
-      const wrapper = BoundWitnessWrapper.parse(this.obj)
-      const resultSet = PayloadWrapper.parse<PayloadSetPayload>((await wrapper.payloadMap())[resultSetHash] as PayloadSetPayload)
+      const wrapper = BoundWitnessWrapper.wrap(this.obj) as BoundWitnessWrapper
+      const resultSet = PayloadWrapper.wrap((await wrapper.payloadMap())[resultSetHash] as PayloadSetPayload) as PayloadWrapper<PayloadSetPayload>
       const required = resultSet?.payload().required
       if (required) {
         Object.entries(required).forEach(([key, value]) => {

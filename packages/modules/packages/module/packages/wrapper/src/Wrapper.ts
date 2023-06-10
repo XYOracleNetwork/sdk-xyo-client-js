@@ -171,7 +171,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   discover(): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ schema: ModuleDiscoverQuerySchema }) as PayloadWrapper<ModuleDiscoverQuery>
     return this.sendQuery(queryPayload)
   }
 
@@ -214,7 +214,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   previousHash(): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse<ModuleAccountQuery>({ schema: ModuleAccountQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ schema: ModuleAccountQuerySchema }) as PayloadWrapper<ModuleAccountQuery>
     return this.sendQuery(queryPayload)
   }
 
@@ -315,7 +315,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   ): Promise<Payload[]> {
     //make sure we did not get wrapped payloads
     const unwrappedPayloads: Payload[] = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload')) ?? []
-    const unwrappedQueryPayload: Query = assertEx(PayloadWrapper.unwrap<T, W>(queryPayload), 'Unable to parse queryPayload')
+    const unwrappedQueryPayload: Query = assertEx(PayloadWrapper.unwrap(queryPayload), 'Unable to parse queryPayload')
 
     // Bind them
     const query = await this.bindQuery(unwrappedQueryPayload, unwrappedPayloads)

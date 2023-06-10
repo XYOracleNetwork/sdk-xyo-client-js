@@ -122,7 +122,7 @@ export class HttpBridge<
       return cachedResult
     }
     const addressToDiscover = address ?? this.rootAddress
-    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ schema: ModuleDiscoverQuerySchema }) as PayloadWrapper<ModuleDiscoverQuery>
     const boundQuery = await this.bindQuery(queryPayload)
     const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
 
@@ -182,7 +182,7 @@ export class HttpBridge<
   }
 
   private async initRootAddress() {
-    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ schema: ModuleDiscoverQuerySchema }) as PayloadWrapper<ModuleDiscoverQuery>
     const boundQuery = await this.bindQuery(queryPayload)
     const response = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
     this._rootAddress = AxiosJson.finalPath(response)

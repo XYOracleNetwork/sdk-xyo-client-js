@@ -24,25 +24,25 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
   }
 
   async attach(nameOrAddress: string, external?: boolean): Promise<string | undefined> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ external, nameOrAddress, schema: XyoNodeAttachQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ external, nameOrAddress, schema: XyoNodeAttachQuerySchema }) as PayloadWrapper<XyoNodeAttachQuery>
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
   }
 
   async attached(): Promise<string[]> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachedQuery>({ schema: XyoNodeAttachedQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ schema: XyoNodeAttachedQuerySchema }) as PayloadWrapper<XyoNodeAttachedQuery>
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
   }
 
   async detach(nameOrAddress: string): Promise<string | undefined> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ nameOrAddress, schema: XyoNodeDetachQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ nameOrAddress, schema: XyoNodeDetachQuerySchema }) as PayloadWrapper<XyoNodeDetachQuery>
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
   }
 
   async registered(): Promise<string[]> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
+    const queryPayload = PayloadWrapper.parse({ schema: XyoNodeRegisteredQuerySchema }) as PayloadWrapper<XyoNodeRegisteredQuery>
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
   }

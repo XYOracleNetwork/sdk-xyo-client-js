@@ -93,7 +93,7 @@ export abstract class AbstractArchivist<
       const results = compact(
         await Promise.all(
           Object.values(parents.read ?? {}).map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
+            const queryPayload = PayloadWrapper.parse({ hashes: [hash], schema: ArchivistGetQuerySchema }) as PayloadWrapper<ArchivistGetQuery>
             const query = await this.bindQuery(queryPayload)
             const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
             const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
@@ -155,8 +155,8 @@ export abstract class AbstractArchivist<
           }
           break
         case ArchivistInsertQuerySchema: {
-          const payloads = await wrappedQuery.getPayloads()
-          assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
+          const payloads = await wrappedQuery.payloads()
+          assertEx(await wrappedQuery.payloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
           const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.hashAsync())
           assertEx(
             resolvedPayloads.length === payloads.length,

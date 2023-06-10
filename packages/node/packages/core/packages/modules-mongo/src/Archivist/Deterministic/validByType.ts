@@ -10,10 +10,11 @@ export const validByType = async (payloads: Payload[] = []) => {
   await Promise.all(
     payloads.map(async (payload) => {
       if (isBoundWitness(payload)) {
-        const wrapper = isQueryBoundWitness(payload) ? QueryBoundWitnessWrapper : BoundWitnessWrapper
-        const bw = wrapper.parse(payload)
-        if (await bw.getValid()) {
-          results[0].push(bw)
+        const wrapper = (
+          isQueryBoundWitness(payload) ? QueryBoundWitnessWrapper.parse(payload) : BoundWitnessWrapper.parse(payload)
+        ) as BoundWitnessWrapper
+        if (await wrapper.getValid()) {
+          results[0].push(wrapper)
         }
       } else {
         const payloadWrapper = PayloadWrapper.parse(payload)

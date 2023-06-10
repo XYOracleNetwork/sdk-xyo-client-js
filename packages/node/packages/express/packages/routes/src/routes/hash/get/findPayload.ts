@@ -56,7 +56,7 @@ export const findPayload = async (
     const filter = createBoundWitnessFilterFromSearchCriteria(searchCriteria)
     const boundWitnesses = DivinerWrapper.wrap(boundWitnessDiviner)
     const result = await boundWitnesses.divine(filter)
-    const bw = result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined
+    const bw = (result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined) as BoundWitnessWrapper | undefined
     if (bw) {
       if (returnBoundWitness) return bw.body()
       const { schemas, direction } = searchCriteria

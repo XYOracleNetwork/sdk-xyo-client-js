@@ -9,7 +9,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
-import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { canAddMongoModules } from '../../../canAddMongoModules'
@@ -99,7 +99,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       const boundWitnessWrapper = boundWitnessWrappers[0]
       expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloads().length + 3)
       await Promise.all(
-        boundWitnessWrapper.payloads().map(async (p) => {
+        boundWitnessWrapper.wrappedPayloads().map(async (p) => {
           expect(transactionResults.payload_hashes).toInclude(await p.hashAsync())
         }),
       )

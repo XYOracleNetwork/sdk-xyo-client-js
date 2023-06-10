@@ -20,13 +20,13 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
   }
 
   async connect(uri?: string): Promise<boolean> {
-    const queryPayload = PayloadWrapper.parse({ schema: BridgeConnectQuerySchema, uri }) as PayloadWrapper<BridgeQuery>
+    const queryPayload = PayloadWrapper.parse<BridgeQuery>({ schema: BridgeConnectQuerySchema, uri })
     await this.sendQuery(queryPayload)
     return true
   }
 
   async disconnect(uri?: string): Promise<boolean> {
-    const queryPayload = PayloadWrapper.parse({ schema: BridgeDisconnectQuerySchema, uri }) as PayloadWrapper<BridgeQuery>
+    const queryPayload = PayloadWrapper.parse<BridgeQuery>({ schema: BridgeDisconnectQuerySchema, uri })
     await this.sendQuery(queryPayload)
     return true
   }
@@ -36,7 +36,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
   }
 
   async targetDiscover(address: string): Promise<Payload[] | undefined> {
-    const queryPayload = PayloadWrapper.parse({ schema: ModuleDiscoverQuerySchema }) as PayloadWrapper<ModuleDiscoverQuery>
+    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return await this.sendTargetQuery(address, queryPayload)
   }
 

@@ -14,9 +14,9 @@ export type BoundWitnessFields = {
 
 export type XyoBoundWitnessFields = BoundWitnessFields
 
-export type BoundWitness<T extends Payload | void = void> = Payload<
+export type BoundWitness<T extends Payload | void = void, S extends string | null = null> = Payload<
   T extends Payload ? BoundWitnessFields & T : BoundWitnessFields,
-  T extends Payload ? T['schema'] : BoundWitnessSchema
+  T extends Payload ? T['schema'] : S extends string ? S : BoundWitnessSchema
 >
 
 export type XyoBoundWitness<T extends Payload | void = void> = BoundWitness<T>

@@ -10,7 +10,7 @@ export class WitnessWrapper extends ModuleWrapper implements Witness {
   static override requiredQueries = [WitnessObserveQuerySchema, ...super.requiredQueries]
 
   observe(payloads?: Payload[]): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse({ schema: WitnessObserveQuerySchema }) as PayloadWrapper<WitnessObserveQuery>
+    const queryPayload = PayloadWrapper.parse<WitnessObserveQuery>({ schema: WitnessObserveQuerySchema })
     return this.sendQuery(queryPayload, [queryPayload.payload(), ...(payloads ?? [])])
   }
 }

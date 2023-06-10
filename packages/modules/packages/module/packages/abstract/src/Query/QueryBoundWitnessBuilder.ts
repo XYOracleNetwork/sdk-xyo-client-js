@@ -20,13 +20,13 @@ export class QueryBoundWitnessBuilder<
   }
 
   query<T extends TQuery | PayloadWrapper<TQuery>>(query: T) {
-    this._query = PayloadWrapper.wrap(query) as PayloadWrapper<TQuery>
+    this._query = PayloadWrapper.wrap<TQuery>(query)
     this.payload(this._query.payload())
     return this
   }
 
   resultSet<T extends PayloadSetPayload | PayloadWrapper<PayloadSetPayload>>(payloadSet: T) {
-    this._resultSet = PayloadWrapper.wrap(payloadSet) as PayloadWrapper<PayloadSetPayload>
+    this._resultSet = PayloadWrapper.wrap<PayloadSetPayload>(payloadSet)
     this.payload(this._resultSet.payload())
     return this
   }

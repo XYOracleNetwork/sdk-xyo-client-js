@@ -90,10 +90,6 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness<{ schema: st
   }
   */
 
-  getWrappedPayloads(): PayloadWrapper<Payload>[] {
-    return this._payloads
-  }
-
   hashesBySchema(schema: string) {
     return this.payloadSchemas.reduce<string[]>((prev, payloadSchema, index) => {
       if (payloadSchema === schema) {
@@ -108,12 +104,8 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness<{ schema: st
     return this._payloadMap
   }
 
-  payloadWrappers(): PayloadWrapper[] {
-    return Object.values(this._payloads ?? {})
-  }
-
   payloads(): Payload[] {
-    return this.getWrappedPayloads().map((wrapper) => wrapper.payload())
+    return this.wrappedPayloads().map((wrapper) => wrapper.payload())
   }
 
   /*
@@ -139,10 +131,14 @@ export class BoundWitnessWrapper<TBoundWitness extends BoundWitness<{ schema: st
   */
 
   toResult() {
-    return [this.boundwitness, this.payloadWrappers().map((payload) => payload.body())]
+    return [this.boundwitness, this.wrappedPayloads().map((payload) => payload.body())]
   }
 
   override async validate(): Promise<Error[]> {
     return await new BoundWitnessValidator(this.boundwitness).validate()
+  }
+
+  wrappedPayloads(): PayloadWrapper<Payload>[] {
+    return this._payloads
   }
 }

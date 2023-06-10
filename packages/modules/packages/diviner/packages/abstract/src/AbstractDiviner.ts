@@ -39,7 +39,7 @@ export abstract class AbstractDiviner<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
     //remove the query payload
     const cleanPayloads = await PayloadHasher.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()

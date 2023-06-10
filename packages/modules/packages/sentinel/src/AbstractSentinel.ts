@@ -92,7 +92,7 @@ export abstract class AbstractSentinel<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()

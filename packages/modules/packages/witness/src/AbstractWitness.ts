@@ -42,7 +42,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<WitnessQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<WitnessQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     // Remove the query payload from the arguments passed to us so we don't observe it

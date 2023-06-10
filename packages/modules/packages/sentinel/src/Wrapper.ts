@@ -10,7 +10,7 @@ export class SentinelWrapper<TModule extends SentinelModule = SentinelModule> ex
   static override requiredQueries = [SentinelReportQuerySchema, ...super.requiredQueries]
 
   async report(payloads?: Payload[]): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse({ schema: SentinelReportQuerySchema }) as PayloadWrapper<SentinelReportQuery>
+    const queryPayload = PayloadWrapper.parse<SentinelReportQuery>({ schema: SentinelReportQuerySchema })
     const result = await this.sendQuery(queryPayload, payloads)
     return result
   }

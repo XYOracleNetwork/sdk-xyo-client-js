@@ -171,7 +171,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   discover(): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse({ schema: ModuleDiscoverQuerySchema }) as PayloadWrapper<ModuleDiscoverQuery>
+    const queryPayload = PayloadWrapper.parse<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return this.sendQuery(queryPayload)
   }
 
@@ -214,7 +214,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   previousHash(): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse({ schema: ModuleAccountQuerySchema }) as PayloadWrapper<ModuleAccountQuery>
+    const queryPayload = PayloadWrapper.parse<ModuleAccountQuery>({ schema: ModuleAccountQuerySchema })
     return this.sendQuery(queryPayload)
   }
 

@@ -26,7 +26,7 @@ export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerPara
     const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
     const activeArchivist = await this.archivist()
     if (activeArchivist) {
-      const queryPayload = PayloadWrapper.parse({ hashes, schema: ArchivistGetQuerySchema }) as PayloadWrapper<ArchivistGetQuery>
+      const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
       const query = await this.bindQuery(queryPayload)
       return (await activeArchivist.query(query[0], query[1]))[1]
     }

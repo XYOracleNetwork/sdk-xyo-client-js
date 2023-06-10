@@ -119,7 +119,7 @@ export class MongoDBDeterministicArchivist<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []

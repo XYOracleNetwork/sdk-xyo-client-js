@@ -38,7 +38,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
   }
 
   static async find<T extends AnyObject>(objs: T[] = [], hash: string): Promise<T | undefined> {
-    return (await this.hashPairs(objs)).find(([_, objHash]) => objHash === hash)?.[0]
+    return (await this.hashPairs(objs)).find(([_, objHash]) => objHash === hash)?.[0] as T
   }
 
   /** @deprecated use hashSync or hashAsync instead */

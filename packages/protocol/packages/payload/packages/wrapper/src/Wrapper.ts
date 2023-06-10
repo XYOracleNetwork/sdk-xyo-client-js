@@ -28,7 +28,7 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadH
     }
   }
 
-  static parse<T extends Payload, W extends PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, payload?: unknown) {
+  static parse<T extends Payload, W extends PayloadWrapper<T> = PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, payload?: unknown) {
     assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
@@ -66,7 +66,7 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadH
     return payloads?.map((payload) => this.unwrap(payload)) ?? []
   }
 
-  static wrap<T extends Payload, W extends PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, payload?: T | W) {
+  static wrap<T extends Payload, W extends PayloadWrapper<T> = PayloadWrapper<T>>(this: CreatablePayloadWrapper<T, W>, payload?: T | W): W {
     switch (typeof payload) {
       case 'object': {
         const castWrapper = payload as W
@@ -122,3 +122,9 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadH
     return payload ? await new PayloadValidator<TPayload>(payload).validate() : []
   }
 }
+
+/*
+type TestPayload = Payload<{ value: number }, 'network.xyo.test'>
+
+const x: PayloadWrapper<TestPayload> = PayloadWrapper.wrap<TestPayload>({ schema: 'network.xyo.test', value: 1 } as TestPayload)
+*/

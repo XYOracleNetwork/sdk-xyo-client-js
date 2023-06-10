@@ -61,9 +61,9 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     const boundWitness3 = (
       await new BoundWitnessBuilder().payloads([payloadWrapper3.payload(), payloadWrapper4.payload()]).witness(userAccount).build()
     )[0]
-    const boundWitnessWrapper1 = BoundWitnessWrapper.parse(boundWitness1, [payload1])
-    const boundWitnessWrapper2 = BoundWitnessWrapper.parse(boundWitness2, [payload2])
-    const boundWitnessWrapper3 = BoundWitnessWrapper.parse(boundWitness3, [payload3, payload4])
+    const boundWitnessWrapper1 = new BoundWitnessWrapper(boundWitness1, [payload1])
+    const boundWitnessWrapper2 = new BoundWitnessWrapper(boundWitness2, [payload2])
+    const boundWitnessWrapper3 = new BoundWitnessWrapper(boundWitness3, [payload3, payload4])
 
     boundWitnessWrappers.push(boundWitnessWrapper1, boundWitnessWrapper2, boundWitnessWrapper3)
     const insertions = [
@@ -97,9 +97,9 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       expect(boundResult.addresses).toContain(archivist.address)
       expect(transactionResults.addresses).toContain(moduleAccount.public.address.hex)
       const boundWitnessWrapper = boundWitnessWrappers[0]
-      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloadsArray.length + 3)
+      expect(transactionResults.payload_hashes).toBeArrayOfSize(boundWitnessWrapper.payloads().length + 3)
       await Promise.all(
-        boundWitnessWrapper.payloadsArray.map(async (p) => {
+        boundWitnessWrapper.payloads().map(async (p) => {
           expect(transactionResults.payload_hashes).toInclude(await p.hashAsync())
         }),
       )

@@ -41,7 +41,7 @@ describeIf(canAddMongoModules())('MongoDBAddressSpaceDiviner', () => {
         expect(result).toBeArray()
         expect(result.length).toBeGreaterThan(0)
         result.map((address) => {
-          const payload = PayloadWrapper.parse<AddressPayload>(address as AddressPayload)
+          const payload = PayloadWrapper.parse(address as AddressPayload) as PayloadWrapper<AddressPayload>
           expect(payload.schema()).toBe(AddressSchema)
           expect(payload.payload().address).toBeString()
         })

@@ -1,7 +1,7 @@
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
 import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
-import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { getArchivist, getNewBoundWitness, getNewPayload, nonExistentHash, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
 
@@ -13,7 +13,7 @@ describe(`/${moduleName}`, () => {
   const boundWitnessWrappers: BoundWitnessWrapper[] = []
   const payloadWrappers: PayloadWrapper[] = []
   let archivist: ArchivistWrapper
-  const cases: [string, PayloadWrapperBase[]][] = [
+  const cases: [string, PayloadWrapper[]][] = [
     ['Payload', []],
     ['BoundWitness', []],
     ['Payloads', []],
@@ -28,11 +28,21 @@ describe(`/${moduleName}`, () => {
     const payloadWrapperD = PayloadWrapper.parse(getNewPayload())
     const payloadWrapperE = PayloadWrapper.parse(getNewPayload())
     payloadWrappers.push(payloadWrapperA, payloadWrapperB, payloadWrapperC, payloadWrapperD, payloadWrapperE)
-    const boundWitnessWrapperA = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperA.payload()]))[0])
-    const boundWitnessWrapperB = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperB.payload()]))[0])
-    const boundWitnessWrapperC = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperC.payload()]))[0])
-    const boundWitnessWrapperD = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperD.payload()]))[0])
-    const boundWitnessWrapperE = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperE.payload()]))[0])
+    const boundWitnessWrapperA = BoundWitnessWrapper.parse(
+      (await getNewBoundWitness([account], [payloadWrapperA.payload()]))[0],
+    ) as BoundWitnessWrapper
+    const boundWitnessWrapperB = BoundWitnessWrapper.parse(
+      (await getNewBoundWitness([account], [payloadWrapperB.payload()]))[0],
+    ) as BoundWitnessWrapper
+    const boundWitnessWrapperC = BoundWitnessWrapper.parse(
+      (await getNewBoundWitness([account], [payloadWrapperC.payload()]))[0],
+    ) as BoundWitnessWrapper
+    const boundWitnessWrapperD = BoundWitnessWrapper.parse(
+      (await getNewBoundWitness([account], [payloadWrapperD.payload()]))[0],
+    ) as BoundWitnessWrapper
+    const boundWitnessWrapperE = BoundWitnessWrapper.parse(
+      (await getNewBoundWitness([account], [payloadWrapperE.payload()]))[0],
+    ) as BoundWitnessWrapper
     boundWitnessWrappers.push(boundWitnessWrapperA, boundWitnessWrapperB, boundWitnessWrapperC, boundWitnessWrapperD, boundWitnessWrapperE)
     cases[0][1].push(payloadWrapperA)
     cases[1][1].push(boundWitnessWrapperA)

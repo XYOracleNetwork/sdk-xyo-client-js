@@ -186,7 +186,7 @@ export class BoundWitnessWrapper<
   }
 
   async payloadsBySchema<T extends TPayload>(schema: string): Promise<T[]> {
-    return (await this.getPayloads()).filter((payload) => payload.schema === schema) as T[]
+    return (await this.getPayloads()).filter((payload) => payload?.schema === schema) as T[]
   }
 
   prev(address: string) {

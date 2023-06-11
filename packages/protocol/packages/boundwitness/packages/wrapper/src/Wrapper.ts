@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { DataLike, PayloadHasher } from '@xyo-network/core'
@@ -18,7 +19,7 @@ export class BoundWitnessWrapper<
 
   constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[]) {
     super(boundwitness)
-    this._payloads = payloads ? compact(payloads.map((payload) => PayloadWrapper.parse<TPayload>(payload))) : []
+    this._payloads = payloads ? compact(payloads.filter(exists).map((payload) => PayloadWrapper.parse<TPayload>(payload))) : []
   }
 
   get addresses() {

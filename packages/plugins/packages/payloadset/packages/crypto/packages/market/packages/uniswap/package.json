@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "@uniswap/sdk": "^3.0.3",
-    "@uniswap/sdk-core": "^3.1.0",
+    "@uniswap/sdk-core": "^3.2.3",
     "@uniswap/v3-sdk": "^3.9.0"
   },
   "devDependencies": {

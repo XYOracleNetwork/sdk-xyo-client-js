@@ -17,6 +17,7 @@ describe('BoundWitnessWrapper', () => {
         schema: BoundWitnessSchema,
       }).boundwitness
       const wrapper = new BoundWitnessWrapper(bw, [null as unknown as Payload])
+      expect(wrapper).toBeTruthy()
     })
   })
   describe('payloads', () => {

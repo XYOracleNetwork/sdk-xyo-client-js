@@ -10,8 +10,8 @@ import {
   PayloadSetDivinerPlugin,
   PayloadSetPlugin,
   PayloadSetWitnessPlugin,
-  tryCastPayloadSetDivinerPlugin,
-  tryCastPayloadSetWitnessPlugin,
+  tryAsPayloadSetDivinerPlugin,
+  tryAsPayloadSetWitnessPlugin,
 } from './Plugin'
 
 export class PayloadSetPluginResolver {
@@ -27,7 +27,7 @@ export class PayloadSetPluginResolver {
   }
 
   async diviner(set: string): Promise<DivinerModule | undefined> {
-    return await tryCastPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this.params[set] as DivinerParams)
+    return await tryAsPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this.params[set] as DivinerParams)
   }
 
   diviners(): PayloadSetDivinerPlugin[] {
@@ -72,7 +72,7 @@ export class PayloadSetPluginResolver {
   async witness(set: string): Promise<WitnessModule | undefined>
   async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
     const setHash = typeof set === 'string' ? set : await PayloadHasher.hashAsync(set)
-    return await tryCastPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash] as WitnessParams)
+    return await tryAsPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash] as WitnessParams)
   }
 
   witnesses(): PayloadSetWitnessPlugin[] {

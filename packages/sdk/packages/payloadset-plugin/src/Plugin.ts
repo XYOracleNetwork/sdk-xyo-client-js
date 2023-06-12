@@ -38,22 +38,14 @@ export const isPayloadSetWitnessPlugin = (plugin: PayloadSetPlugin): plugin is P
   return (plugin as PayloadSetWitnessPlugin)?.witness !== undefined
 }
 
-export const tryCastPayloadSetWitnessPlugin = <T extends PayloadSetWitnessPlugin>(payloadSetPlugin: PayloadSetPlugin) => {
-  return ((payloadSetPlugin: PayloadSetPlugin): payloadSetPlugin is T => (payloadSetPlugin as PayloadSetWitnessPlugin)?.witness !== undefined)(
-    payloadSetPlugin,
-  )
-    ? payloadSetPlugin
-    : undefined
+export const tryAsPayloadSetWitnessPlugin = (payloadSetPlugin: PayloadSetPlugin): PayloadSetWitnessPlugin | undefined => {
+  return isPayloadSetWitnessPlugin(payloadSetPlugin) ? payloadSetPlugin : undefined
 }
 
 export const isPayloadSetDivinerPlugin = (plugin: PayloadSetPlugin): plugin is PayloadSetDivinerPlugin => {
   return (plugin as PayloadSetDivinerPlugin)?.diviner !== undefined
 }
 
-export const tryCastPayloadSetDivinerPlugin = <T extends PayloadSetDivinerPlugin>(payloadSetPlugin: PayloadSetPlugin) => {
-  return ((payloadSetPlugin: PayloadSetPlugin): payloadSetPlugin is T => (payloadSetPlugin as PayloadSetDivinerPlugin)?.diviner !== undefined)(
-    payloadSetPlugin,
-  )
-    ? payloadSetPlugin
-    : undefined
+export const tryAsPayloadSetDivinerPlugin = (payloadSetPlugin: PayloadSetPlugin): PayloadSetDivinerPlugin | undefined => {
+  return isPayloadSetDivinerPlugin(payloadSetPlugin) ? payloadSetPlugin : undefined
 }

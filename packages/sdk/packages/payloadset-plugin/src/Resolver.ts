@@ -26,8 +26,11 @@ export class PayloadSetPluginResolver {
     plugins?.forEach((plugin) => this.register(plugin as any))
   }
 
-  async diviner(set: string): Promise<DivinerModule | undefined> {
-    return await tryAsPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this._params[set] as DivinerParams)
+  async diviner(set: PayloadSetPayload): Promise<DivinerModule | undefined>
+  async diviner(set: string): Promise<DivinerModule | undefined>
+  async diviner(set: string | PayloadSetPayload): Promise<DivinerModule | undefined> {
+    const setHash = typeof set === 'string' ? set : await PayloadHasher.hashAsync(set)
+    return await tryAsPayloadSetDivinerPlugin(this._plugins[setHash])?.diviner?.(this._params[setHash] as DivinerParams)
   }
 
   diviners(): PayloadSetDivinerPlugin[] {

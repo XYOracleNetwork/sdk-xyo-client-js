@@ -57,11 +57,7 @@ export class PayloadSetPluginResolver {
   }
 
   sets(): PayloadSetPayload[] {
-    const result: PayloadSetPayload[] = []
-    Object.values(this._plugins).forEach((value) => {
-      result.push(value.set)
-    })
-    return result
+    return Object.values(this._plugins).map((value) => value.set)
   }
 
   async validate(boundwitness: QueryBoundWitness): Promise<Validator<QueryBoundWitness> | undefined> {

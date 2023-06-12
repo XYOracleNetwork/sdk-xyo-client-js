@@ -34,12 +34,12 @@ export class PayloadSetPluginResolver {
     return Object.values(this._plugins).filter(isPayloadSetDivinerPlugin)
   }
 
+  params(): (PayloadSetPlugin['params'] | undefined)[] {
+    return Object.values(this._params)
+  }
+
   plugins(): PayloadSetPlugin[] {
-    const result: PayloadSetPlugin[] = []
-    Object.values(this._plugins).forEach((value) => {
-      result.push(value)
-    })
-    return result
+    return Object.values(this._plugins)
   }
 
   async register<TModule extends WitnessModule | DivinerModule>(plugin: PayloadSetPlugin<TModule>, params?: TModule['params']) {

@@ -15,8 +15,8 @@ import {
 } from './Plugin'
 
 export class PayloadSetPluginResolver {
+  protected _params: Record<string, PayloadSetPlugin['params'] | undefined> = {}
   protected _plugins: Record<string, PayloadSetPlugin> = {}
-  protected params: Record<string, PayloadSetPlugin['params'] | undefined> = {}
 
   constructor(
     /** @param plugins The initial set of plugins */
@@ -27,7 +27,7 @@ export class PayloadSetPluginResolver {
   }
 
   async diviner(set: string): Promise<DivinerModule | undefined> {
-    return await tryAsPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this.params[set] as DivinerParams)
+    return await tryAsPayloadSetDivinerPlugin(this._plugins[set])?.diviner?.(this._params[set] as DivinerParams)
   }
 
   diviners(): PayloadSetDivinerPlugin[] {
@@ -45,7 +45,7 @@ export class PayloadSetPluginResolver {
   async register<TModule extends WitnessModule | DivinerModule>(plugin: PayloadSetPlugin<TModule>, params?: TModule['params']) {
     const setHash = await PayloadHasher.hashAsync(plugin.set)
     this._plugins[setHash] = plugin
-    this.params[setHash] = params
+    this._params[setHash] = params
     return this
   }
 
@@ -68,7 +68,7 @@ export class PayloadSetPluginResolver {
   async witness(set: string): Promise<WitnessModule | undefined>
   async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
     const setHash = typeof set === 'string' ? set : await PayloadHasher.hashAsync(set)
-    return await tryAsPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this.params[setHash] as WitnessParams)
+    return await tryAsPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this._params[setHash] as WitnessParams)
   }
 
   witnesses(): PayloadSetWitnessPlugin[] {

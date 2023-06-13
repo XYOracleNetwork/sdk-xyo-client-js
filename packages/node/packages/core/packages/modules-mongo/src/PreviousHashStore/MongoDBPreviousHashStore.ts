@@ -1,4 +1,4 @@
-import { PreviousHashStore } from '@xyo-network/account'
+import { PreviousHashStore } from '@xyo-network/account-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { AddressInfo } from '../Mongo'

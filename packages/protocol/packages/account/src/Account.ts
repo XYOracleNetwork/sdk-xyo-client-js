@@ -7,6 +7,7 @@ import {
   AccountStatic,
   MnemonicInitializationConfig,
   PhraseInitializationConfig,
+  PreviousHashStore,
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
 import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
@@ -14,7 +15,6 @@ import { Lock } from 'semaphore-async-await'
 import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
-import { PreviousHashStore } from './PreviousHashStore'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 

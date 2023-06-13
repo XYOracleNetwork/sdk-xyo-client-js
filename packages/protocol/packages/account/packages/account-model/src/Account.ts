@@ -1,6 +1,8 @@
 import { DataLike, XyoData } from '@xyo-network/core'
 import { AddressValueInstance, KeyPairInstance } from '@xyo-network/key-model'
 
+import { PreviousHashStore } from './PreviousHashStore'
+
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
 export interface PhraseInitializationConfig {
@@ -29,6 +31,7 @@ export interface AccountInstance extends KeyPairInstance {
 }
 
 export interface AccountStatic {
+  previousHashStore?: PreviousHashStore
   new (opts?: AccountConfig): AccountInstance
   fromMnemonic(mnemonic: string, path?: string): AccountInstance
   fromPhrase(phrase: string): AccountInstance

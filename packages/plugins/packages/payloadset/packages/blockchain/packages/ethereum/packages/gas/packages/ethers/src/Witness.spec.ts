@@ -22,7 +22,7 @@ describe('XyoEthereumGasEthersWitness', () => {
     const [actual] = await sut.observe()
     expect(actual.timestamp).toBeNumber()
     expect(actual.schema).toBe(XyoEthereumGasEthersSchema)
-    const answerWrapper = new PayloadWrapper(actual)
+    const answerWrapper = PayloadWrapper.wrap(actual)
     expect(await answerWrapper.getValid()).toBe(true)
   })
 })

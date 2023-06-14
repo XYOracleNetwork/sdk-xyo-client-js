@@ -14,7 +14,7 @@ export const augmentWithMetadata = async <T extends PayloadWithPartialMeta[] | B
 ): Promise<T extends PayloadWithPartialMeta ? PayloadWithMeta[] : BoundWitnessWithMeta[]> => {
   return await Promise.all(
     payloads.map(async (payload) => {
-      const wrapper = new PayloadWrapper(payload)
+      const wrapper = PayloadWrapper.wrap(payload)
       return {
         ...payload,
         ...meta,

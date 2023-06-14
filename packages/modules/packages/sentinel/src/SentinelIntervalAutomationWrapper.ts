@@ -5,6 +5,10 @@ import { SentinelIntervalAutomationPayload } from './Automation'
 export class SentinelIntervalAutomationWrapper<
   T extends SentinelIntervalAutomationPayload = SentinelIntervalAutomationPayload,
 > extends PayloadWrapper<T> {
+  constructor(payload: T) {
+    super(payload)
+  }
+
   protected get frequencyMillis() {
     const frequency = this.payload().frequency
     if (frequency === undefined) return Infinity

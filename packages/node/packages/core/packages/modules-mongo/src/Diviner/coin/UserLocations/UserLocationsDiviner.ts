@@ -60,7 +60,7 @@ export class MemoryCoinUserLocationsDiviner<
     )
     // If this is a query we support
     if (user) {
-      const wrapper = new PayloadWrapper(user)
+      const wrapper = PayloadWrapper.wrap(user)
       // TODO: Extract relevant query values here
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processing query')
       // Simulating work

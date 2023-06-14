@@ -149,7 +149,7 @@ export class CookieArchivist<
     try {
       const resultPayloads: Payload[] = await Promise.all(
         payloads.map(async (payload) => {
-          const wrapper = new PayloadWrapper(payload)
+          const wrapper = PayloadWrapper.wrap(payload)
           const key = this.keyFromHash(await wrapper.hashAsync())
           const value = JSON.stringify(wrapper.payload())
           assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hashAsync()}, ${value.length}]`)

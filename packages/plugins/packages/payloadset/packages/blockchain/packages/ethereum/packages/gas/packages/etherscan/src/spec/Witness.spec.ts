@@ -27,7 +27,7 @@ describe('XyoEthereumGasEtherscanWitness', () => {
     expect(actual.timestamp).toBeNumber()
     expect(actual.schema).toBe(XyoEthereumGasEtherscanSchema)
 
-    const answerWrapper = new PayloadWrapper(actual)
+    const answerWrapper = PayloadWrapper.wrap(actual)
     expect(await answerWrapper.getValid()).toBe(true)
   })
 

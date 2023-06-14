@@ -16,7 +16,7 @@ describe('XyoEtherchainEthereumGasWitnessV2', () => {
     expect(actual.timestamp).toBeNumber()
     expect(actual.schema).toBe(XyoEthereumGasEtherchainV2Schema)
 
-    const answerWrapper = new PayloadWrapper(actual)
+    const answerWrapper = PayloadWrapper.wrap(actual)
     expect(await answerWrapper.getValid()).toBe(true)
   })
   test('returns observation [no config]', async () => {
@@ -28,7 +28,7 @@ describe('XyoEtherchainEthereumGasWitnessV2', () => {
     expect(actual.timestamp).toBeNumber()
     expect(actual.schema).toBe(XyoEthereumGasEtherchainV2Schema)
 
-    const answerWrapper = new PayloadWrapper(actual)
+    const answerWrapper = PayloadWrapper.wrap(actual)
     expect(await answerWrapper.getValid()).toBe(true)
   })
 })

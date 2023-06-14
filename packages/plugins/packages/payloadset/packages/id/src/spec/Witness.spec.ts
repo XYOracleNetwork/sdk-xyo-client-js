@@ -75,5 +75,5 @@ const validateObservationShape = async (observations: IdPayload[]) => {
   const [observation] = observations
   expect(observation.salt).toBeString()
   expect(observation.schema).toBe(IdSchema)
-  expect(await new PayloadWrapper(observation).getValid()).toBe(true)
+  expect(await PayloadWrapper.wrap(observation).getValid()).toBe(true)
 }

@@ -96,7 +96,7 @@ export abstract class AbstractArchivist<
             const queryPayload = PayloadWrapper.wrap<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
             const query = await this.bindQuery(queryPayload)
             const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
-            const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined
+            const wrapper = payloads?.[0] ? PayloadWrapper.wrap(payloads?.[0]) : undefined
             if (wrapper && (await wrapper.hashAsync()) !== hash) {
               console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hashAsync()}]`)
               return null

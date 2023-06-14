@@ -13,7 +13,7 @@ const _observeDuration = 10
 const _source_ip = '192.168.1.20'
 const _timestamp = 1655137984429
 const _user_agent = 'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36'
-const _hash = () => new PayloadWrapper({ schema: 'network.xyo.test' }).hashAsync()
+const _hash = () => PayloadWrapper.wrap({ schema: 'network.xyo.test' }).hashAsync()
 
 const boundWitnessMeta = async (): Promise<BoundWitnessMeta> => ({
   _client,

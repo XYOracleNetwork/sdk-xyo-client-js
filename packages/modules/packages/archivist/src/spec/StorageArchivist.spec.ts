@@ -85,7 +85,7 @@ test('Archivist Parent Write Through', async () => {
   await node.register(storage)
   await node.attach(storage.address)
 
-  const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })
+  const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
 
   expect(wrapper).toBeDefined()
 
@@ -139,7 +139,7 @@ test('Archivist Parent Reads', async () => {
   await memoryNode.register(storage)
   await memoryNode.attach(storage.address, true)
 
-  const wrapper = new PayloadWrapper({ schema: 'network.xyo.test' })
+  const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
 
   expect(wrapper).toBeDefined()
 

@@ -18,11 +18,11 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, n
       salt: Date.now().toString(),
       schema: IdSchema,
     }
-    const payloadWrapper = new PayloadWrapper(idPayload)
+    const payloadWrapper = PayloadWrapper.wrap(idPayload)
 
     const archivistWrapper = ArchivistWrapper.wrap(await archivist)
     const insertResult = await archivistWrapper.insert([idPayload])
-    const insertResultWrappers = insertResult.map((bw) => new BoundWitnessWrapper(bw))
+    const insertResultWrappers = insertResult.map((bw) => BoundWitnessWrapper.wrap(bw))
     const insertResultPayload = insertResultWrappers.pop() as BoundWitnessWrapper
     expect(insertResultPayload).toBeDefined()
 
@@ -32,7 +32,7 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, n
     expect(getResult.length).toBe(1)
     const gottenPayload = getResult[0]
     if (gottenPayload) {
-      const gottenPayloadWrapper = new PayloadWrapper(gottenPayload)
+      const gottenPayloadWrapper = PayloadWrapper.wrap(gottenPayload)
       expect(await gottenPayloadWrapper.hashAsync()).toBe(await payloadWrapper.hashAsync())
     }
   })

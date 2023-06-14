@@ -106,7 +106,7 @@ describe('XyoPanel', () => {
           expect(archivistPayloads).toBeArrayOfSize(payloads.length)
           const panelPayloads = await Promise.all(
             payloads.map(async (payload) => {
-              const wrapped = new PayloadWrapper(payload)
+              const wrapped = PayloadWrapper.wrap(payload)
               return { ...payload, _hash: await wrapped.hashAsync(), _timestamp: expect.toBeNumber() }
             }),
           )

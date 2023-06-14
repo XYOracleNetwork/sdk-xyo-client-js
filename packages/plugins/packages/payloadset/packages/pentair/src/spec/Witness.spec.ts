@@ -7,6 +7,6 @@ describe('XyoPentairScreenLogicWitness', () => {
   testIf(process.env.TEST_PENTAIR)('Witnessing [no config]', async () => {
     const witness = await XyoPentairScreenlogicWitness.create()
     const [observation] = await witness.observe()
-    expect(await new PayloadWrapper(observation).getValid()).toBe(true)
+    expect(await PayloadWrapper.wrap(observation).getValid()).toBe(true)
   })
 })

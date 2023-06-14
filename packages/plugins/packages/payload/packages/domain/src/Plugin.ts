@@ -10,5 +10,5 @@ export const DomainPayloadPlugin = () =>
   createPayloadPlugin<XyoDomainPayload>({
     schema: XyoDomainSchema,
     template: domainConfigTemplate,
-    wrap: (payload: Payload) => new XyoDomainPayloadWrapper(payload as XyoDomainPayload),
+    wrap: (payload: Payload) => XyoDomainPayloadWrapper.wrap(payload as XyoDomainPayload),
   })

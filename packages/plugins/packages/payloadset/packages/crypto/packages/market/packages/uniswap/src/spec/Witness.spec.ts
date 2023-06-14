@@ -23,7 +23,7 @@ describe('XyoUniswapCryptoMarketWitness', () => {
     expect(observation.pairs.length).toBeGreaterThan(1)
     expect(observation.timestamp).toBe(+now)
 
-    const answerWrapper = new PayloadWrapper(observation)
+    const answerWrapper = PayloadWrapper.wrap(observation)
     expect(await answerWrapper.getValid()).toBe(true)
   })
   test('observe [no config]', async () => {
@@ -39,7 +39,7 @@ describe('XyoUniswapCryptoMarketWitness', () => {
     expect(observation.pairs.length).toBeGreaterThan(1)
     expect(observation.timestamp).toBe(+now)
 
-    const answerWrapper = new PayloadWrapper(observation)
+    const answerWrapper = PayloadWrapper.wrap(observation)
     expect(await answerWrapper.getValid()).toBe(true)
   })
   test('observe [no params]', async () => {

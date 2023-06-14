@@ -148,7 +148,7 @@ export class StorageArchivist<
   async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     const resultPayloads = await Promise.all(
       payloads.map(async (payload) => {
-        const wrapper = new PayloadWrapper(payload)
+        const wrapper = PayloadWrapper.wrap(payload)
         const hash = await wrapper.hashAsync()
         const value = JSON.stringify(wrapper.payload())
         assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)

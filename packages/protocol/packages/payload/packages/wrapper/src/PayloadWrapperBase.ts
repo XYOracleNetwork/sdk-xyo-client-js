@@ -9,6 +9,10 @@ export type PayloadLoaderFactory = () => PayloadLoader
 export class PayloadWrapperBase<TPayload extends Payload = Payload> extends PayloadHasher<TPayload> {
   private _errors?: Error[]
 
+  protected constructor(payload: TPayload) {
+    super(payload)
+  }
+
   static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload?: TPayload | TWrapper,
   ): TPayload | undefined

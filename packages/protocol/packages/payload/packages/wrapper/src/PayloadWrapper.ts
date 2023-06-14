@@ -8,6 +8,10 @@ import { PayloadLoaderFactory, PayloadWrapperBase } from './PayloadWrapperBase'
 export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadWrapperBase<TPayload> {
   private static loaderFactory: PayloadLoaderFactory | null = null
 
+  protected constructor(payload: TPayload) {
+    super(payload)
+  }
+
   static as<T extends Payload = Payload>(value: unknown) {
     return value instanceof PayloadWrapper ? (value as PayloadWrapper<T>) : null
   }
@@ -22,13 +26,9 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     }
   }
 
-  static parse<T extends Payload>(payload?: unknown): PayloadWrapper<T> | null {
+  static parse<T extends Payload>(payload?: unknown): PayloadWrapper<T> | undefined {
     const hydratedObj = typeof payload === 'string' ? JSON.parse(payload) : payload
-    try {
-      return this.wrap(hydratedObj as PayloadWrapper<T> | T)
-    } catch (ex) {
-      return null
-    }
+    return this.wrap(hydratedObj as PayloadWrapper<T> | T)
   }
 
   static setLoaderFactory(factory: PayloadLoaderFactory | null) {

@@ -17,7 +17,7 @@ export class BoundWitnessWrapper<
   private _payloads: PayloadWrapper<TPayload>[]
   private isBoundWitnessWrapper = true
 
-  constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[]) {
+  protected constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[]) {
     super(boundwitness)
     this._payloads = payloads ? compact(payloads.filter(exists).map((payload) => PayloadWrapper.wrap<TPayload>(payload))) : []
   }
@@ -56,7 +56,7 @@ export class BoundWitnessWrapper<
     assertEx(payload && isBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
 
     const boundWitness: BoundWitness | undefined = payload && isBoundWitnessPayload(payload) ? payload : undefined
-    return boundWitness ? new BoundWitnessWrapper(boundWitness) : null
+    return boundWitness ? BoundWitnessWrapper.wrap(boundWitness) : null
   }
 
   static async mapPayloads<TPayload extends Payload>(payloads: (TPayload | PayloadWrapper<TPayload>)[]): Promise<Record<string, TPayload>> {
@@ -114,10 +114,13 @@ export class BoundWitnessWrapper<
     }
   }
 
-  static wrap<T extends BoundWitness, P extends Payload>(obj: PayloadWrapperBase<T> | T, payloads?: P[]): BoundWitnessWrapper<T, P> {
+  static wrap<T extends BoundWitness, P extends Payload>(
+    obj: PayloadWrapperBase<T> | T,
+    payloads?: (PayloadWrapper<P> | P)[],
+  ): BoundWitnessWrapper<T, P> {
     switch (typeof obj) {
       case 'object': {
-        const newWrapper = new BoundWitnessWrapper(assertEx(PayloadWrapperBase.unwrap<T>(obj)), payloads)
+        const newWrapper = new BoundWitnessWrapper<T, P>(assertEx(BoundWitnessWrapper.unwrap<T>(obj)), payloads)
         /*if (!newWrapper.getValid()) {
           console.warn('Wrapped invalid BoundWitness')
         }*/

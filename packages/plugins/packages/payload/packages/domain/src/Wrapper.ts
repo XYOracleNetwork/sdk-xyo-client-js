@@ -13,7 +13,7 @@ export interface XyoFetchedAlias extends FetchedPayload {
   alias: XyoAlias
 }
 
-export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPayload> extends PayloadWrapper<T> {
+export class DomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPayload> extends PayloadWrapper<T> {
   aliases?: XyoFetchedAlias[] | null
 
   static async discover(reverseDomainName: string, proxy?: string) {
@@ -97,3 +97,6 @@ export class XyoDomainPayloadWrapper<T extends XyoDomainPayload = XyoDomainPaylo
     return hash ? await PayloadHasher.find(this.payload().networks, hash) : this.payload().networks?.[0]
   }
 }
+
+/** @deprecated use DomainPayloadWrapper instead */
+export class XyoDomainPayloadWrapper extends DomainPayloadWrapper {}

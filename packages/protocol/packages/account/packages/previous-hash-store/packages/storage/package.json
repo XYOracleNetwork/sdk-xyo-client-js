@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/account-model",
+  "name": "@xyo-network/previous-hash-store-storage",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -9,12 +9,11 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "dependencies": {
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/key-model": "workspace:^",
-    "@xyo-network/previous-hash-store-model": "workspace:^"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
+  "dependencies": {
+    "@xyo-network/previous-hash-store-model": "workspace:^",
+    "store2": "^2.14.2"
+  },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.17.13",
     "@xylabs/tsconfig": "^2.17.13",

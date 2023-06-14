@@ -12,7 +12,7 @@ export type NarrowPayload<T extends Payload = Payload> = ((x: Payload) => x is T
  * Used to map known schemas (byt their string name) to the validators which assert their types
  */
 export interface SchemaNameToValidatorMap {
-  [PayloadSchema]: NarrowPayload<Payload>
   [DomainSchema]: NarrowPayload<DomainPayload>
+  [PayloadSchema]: NarrowPayload<Payload>
   [SchemaSchema]: NarrowPayload<SchemaPayload>
 }

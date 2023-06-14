@@ -1,2 +1,1 @@
-export * from './Account'
-export * from './PreviousHashStore'
+export * from '@xyo-network/previous-hash-store-model'

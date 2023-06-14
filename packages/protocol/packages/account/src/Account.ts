@@ -7,10 +7,10 @@ import {
   AccountStatic,
   MnemonicInitializationConfig,
   PhraseInitializationConfig,
-  PreviousHashStore,
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
 import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
+import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Lock } from 'semaphore-async-await'
 import shajs from 'sha.js'
 
